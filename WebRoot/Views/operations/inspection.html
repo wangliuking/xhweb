@@ -63,7 +63,7 @@
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label for="filename">巡检值班记录</label>
+										<label for="filename">文件名称</label>
 										<div>
 											<input type="text" class="form-control" id="filename"
 												width="20px">
@@ -119,16 +119,14 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>序号</th>
-										<th>巡检表、值班记录</th>
+										<th>文件名称</th>
 										<th>联系人</th>
 										<th>联系方式</th>
-										<th>备注信息</th>
-										<th>状态</th>
 										<th>上传者</th>
 										<th>接收者</th>
-										<th>上传时间</th>
 										<th>操作</th>
 										<th>附件</th>
+										<th>状态</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -140,20 +138,18 @@
 										<td>{{x.filename}}</td>
 										<td>{{x.contact}}</td>
 										<td>{{x.tel}}</td>
-										<td>{{x.note}}</td>
-										<td ng-if="x.status==0"
-											style="background-color:#FF6347;color:white;">未签收</td>
-										<td ng-if="x.status==1"
-											style="background-color:#008B45;color:white;">签收</td>
 										<td>{{x.uploaduser}}</td>
 										<td>{{x.recvuser}}</td>
-										<td>{{x.createtime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"> <i
 												class="fa fa-edit text-success"></i>&nbsp;显示详情
 										</a></td>
 										<td ng-if="x.filepath=='null'">无附件</td>
 										<td ng-if="x.filepath!='null'"><a href="../../inspection/download?path={{x.filepath}}">{{x.filepath | limitTo:100:27}}</a></td>
+										<td ng-if="x.status==0"
+											style="background-color:#FF6347;color:white;">未签收</td>
+										<td ng-if="x.status==1"
+											style="background-color:#008B45;color:white;">签收</td>
 									</tr>
 								</tbody>
 							</table>

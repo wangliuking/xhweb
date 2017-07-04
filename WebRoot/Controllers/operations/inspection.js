@@ -143,6 +143,7 @@ xh.add = function() {
 				//将监听的隐藏input框重置（该功能用于检测是否上传成功再同意添加操作）
 				$('#listener').attr("value", "");
 				$('#listenerIO').attr("value", "");
+				$('#filepath').attr("value", "");
 			} else {
 				swal({
 					title : "提示",

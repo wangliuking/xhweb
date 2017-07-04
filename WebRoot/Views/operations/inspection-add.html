@@ -55,7 +55,7 @@
 							<div class="form-group col-md-12">
 								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
 								<textarea
-									style="width:560px;height:200px;max-width:560px;max-height:260px;"
+									style="width:560px;height:150px;max-width:560px;max-height:260px;"
 									name="note"></textarea>
 							</div>
 							<input type="hidden" name="filepath" id="filepath"/>
@@ -110,12 +110,14 @@
 			url : '../../inspection/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
 			fileElementId : 'pathName', //文件上传域的ID
-			dataType : 'json', //返回值类型 一般设置为json
+			dataType : 'HTML', //返回值类型 一般设置为json
 			success : function(data, status) //服务器成功响应处理函数
 			{
 				if (data == "0") {
 					alert("已存在同名文件，请重新操作！");
-				} else if (data == "1") {
+				} else{
+					//进行添加操作之前，获取另一个表单的部分信息
+					$('#filepath').val(data);
 					$('#listener').attr("value", "1");
 					$('#listenerIO').attr("value", "");
 					alert("上传成功！");
@@ -186,8 +188,6 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		//进行添加操作之前，获取另一个表单的部分信息
-		$('#filepath').val($('#pathName').val());
 		xh.add();
 	});
 </script>

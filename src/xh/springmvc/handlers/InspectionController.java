@@ -89,7 +89,7 @@ public class InspectionController {
 	@ResponseBody
 	public String fileUpload(@RequestParam("pathName") MultipartFile file,
 			HttpSession session, HttpServletRequest request) throws IOException {
-		String name = request.getParameter("pathName");
+		String name = file.getOriginalFilename();
 		String temp = null;
 		String dateNowStr = null;
 		try {
@@ -120,7 +120,7 @@ public class InspectionController {
 		}
 		String fileName = imgsUpload(file, session, "/Resources/data/"
 				+ dateNowStr);
-		return "1";
+		return name;
 	}
 
 	/**
@@ -202,7 +202,6 @@ public class InspectionController {
 			if(name.length()==0){
 				record.setFilepath("null");
 			}else{
-				name=name.substring(12, record.getFilepath().length());
 				record.setFilepath("/Resources/data/" + dateNowStr + "/" + name);
 			}		
 		}else if(name==null || name==""){
