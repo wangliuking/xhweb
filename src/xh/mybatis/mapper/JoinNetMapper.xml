@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.JoinNetMapper">
+    <!--查询入网申请所有记录-->
+    <select id="selectAll" parameterType="map" resultType="java.util.HashMap" useCache="true">
+     select u.*
+     ,DATE_FORMAT(u.netTime,'%Y-%m-%d') as nettime
+     ,DATE_FORMAT(u.signTime,'%Y-%m-%d') as signtime
+     ,DATE_FORMAT(u.serviceTime,'%Y-%m-%d') as servicetime
+     from xhgmnet_business_net as u  order by id desc  limit #{start},#{limit}
+    </select> 
+    <!--查询入网申请所有记录总数-->
+    <select id="dataCount"  resultType="int" useCache="true">
+     select count(id) from xhgmnet_business_net
+    </select>     
+     <!--入网申请-->
+    <insert id="insertNet" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.JoinNetBean">
+      insert into xhgmnet_business_net(unitName,unitNature,unitType,serviceType,netBasis,netTime,pactName,
+      signTime,serviceTime,unitPerson,tel,department,virtualnetName,userName)
+      values(#{unitName},#{unitNature},#{unitType},#{serviceType},#{netBasis},#{netTime},#{pactName},
+      #{signTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{virtualnetName},#{userName})
+    </insert> 
+
+</mapper>

@@ -1,0 +1,112 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">查看调度用户业务详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<table class="table-bordered table-hover table-striped" style="width:100%;">
+				<thead>
+				<tr>
+				<th>名称</th>
+				<th>参数</th>
+				<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td>调度用户业务属性唯一标识</td><td>{{editData.id}}</td><td></td></tr>
+				<tr><td>调度用户业务属性名称</td><td>{{editData.name}}</td><td></td></tr>
+				<tr><td>打开监控</td><td>{{editData.monitoron}}</td><td></td></tr>
+				<tr><td>允许呼叫预占</td><td>{{editData.pcpreempt}}</td><td></td></tr>
+				<tr><td>呼叫优先级</td><td>{{editData.callpriority}}</td><td></td></tr>
+				<tr><td>允许全静音</td><td>{{editData.allmute}}</td><td></td></tr>
+				<tr><td>全静音超时</td><td>{{editData.allmutetimeout}}</td><td></td></tr>
+				<tr><td>PTT发射优先级</td><td>{{editData.pttpriority}}</td><td></td></tr>
+				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
+				<tr><td>userGroup</td><td>{{editData.usergroup}}</td><td></td></tr>
+				<tr><td>emergIndCallEnabled</td><td>{{editData.emergindcallenabled}}</td><td></td></tr>
+				<tr><td>emergGroupCallEnabled</td><td>{{editData.emerggroupcallenabled}}</td><td></td></tr>
+				<tr><td>允许通话禁止音</td><td>{{editData.prohibittone}}</td><td></td></tr>
+				<tr><td>允许侧音</td><td>{{editData.sidetone}}</td><td></td></tr>
+				<tr><td>派接组数目</td><td>{{editData.patchgroupnum}}</td><td></td></tr>
+				<tr><td>多选组数目</td><td>{{editData.msgroupnum}}</td><td></td></tr>
+				<tr><td>APB传输数目</td><td>{{editData.apbnum}}</td><td></td></tr>
+				<tr><td>被叫用户预占</td><td>{{editData.calledpreempt}}</td><td></td></tr>
+				<tr><td>电话呼入</td><td>{{editData.inboundcall}}</td><td></td></tr>
+				<tr><td>PTT呼入</td><td>{{editData.inboundptt}}</td><td></td></tr>
+				<tr><td>瞬时传输</td><td>{{editData.instanttransmit}}</td><td></td></tr>
+				<tr><td>派接私密呼叫</td><td>{{editData.patchpc}}</td><td></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

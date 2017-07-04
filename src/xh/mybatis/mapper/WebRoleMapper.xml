@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.WebRoleMapper">
+<!-- 自定义返回结果集 -->
+   <resultMap id="role" type="xh.mybatis.bean.WebRoleBean">
+        <id property="roleId" column="roleId" javaType="java.lang.Integer"></id>
+        <result property="role" column="role" javaType="java.lang.String"></result>
+        <result property="createTime" column="createTime" javaType="java.lang.String"></result>
+   </resultMap>
+   <!--根据用户查询角色role-->
+    <select id="roleByUser" parameterType="String" resultType="String" useCache="true">
+     select role from xhgmnet_web_role where roleId=(select roleId from xhgmnet_web_role_user where 
+      userId=(select userId from xhgmnet_web_user where user=#{user}))
+    </select>
+   <!--根据角色判断角色是否存在-->
+    <select id="roleIsExists" parameterType="xh.mybatis.bean.WebRoleBean" resultType="int" useCache="true">
+     select count(*) from xhgmnet_web_role where role=#{role} or roleId=#{roleId}
+    </select>
+   <!--根据用户查询角色roleId-->
+    <select id="roleIdByUser" parameterType="String" resultType="int" useCache="true">
+     select roleId from xhgmnet_web_role where roleId=(select roleId from xhgmnet_web_role_user where 
+      userId=(select userId from xhgmnet_web_user where user=#{user}))
+    </select>
+   <!--查询所有角色role-->
+    <select id="roleByAll"  resultType="xh.mybatis.bean.WebRoleBean" useCache="true">
+     select * from xhgmnet_web_role order by roleId asc
+    </select> 
+    <!--添加角色-->    
+    <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="xh.mybatis.bean.WebRoleBean">
+      insert into xhgmnet_web_role(roleId,role,createTime)
+      values(#{roleId},#{role},#{createTime})
+    </insert> 
+    <!--更新角色-->
+    <update id="updateByroleId" parameterType="xh.mybatis.bean.WebRoleBean">
+      update xhgmnet_web_role set role=#{role} where roleId=#{roleId}    
+    </update>          
+   <!--根据角色ID删除角色-->
+    <delete id="deleteByRoleId" parameterType="java.util.List">
+     delete from xhgmnet_web_role where roleId in(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+     ) 
+    </delete>   
+
+</mapper>

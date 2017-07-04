@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>机房环境监控</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="emh"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'../top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'../menu/monitor-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>数据统计</span></li>
+							<li class="active"><span>全网录音 </span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-3">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="called">基站列表</label>
+								<div>
+									<select id="bsId" class="form-control" multiple="multiple"
+										style="height:500px">
+										<option ng-repeat="x in bsData" value="{{x.bsId}}">
+											基站ID:{{x.bsId}}-{{x.name}}</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<!-- <div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+											class="closebox"><i class="fa fa-times"></i></a>
+									</div>
+									开关量
+								</div>
+								<div class="panel-body"> -->
+					<div class="row">
+						<div class="col-md-3">
+							<div
+								ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[smoky]">
+								<div class="panel-body">
+									<div class="text-center">
+										<p>烟感</p>
+										<p class="text-small font-light">
+											<span ng-if="smoky==true"> 正常 </span> <span
+												ng-if="smoky==true"> 异常 </span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div
+								ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[door]">
+								<div class="panel-body">
+									<div class="text-center">
+										<p>门磁</p>
+										<p class="text-small font-light">
+											<span ng-if="door==true"> 关闭</span> <span ng-if="door==false">
+												打开</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div
+								ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[fire]">
+								<div class="panel-body">
+									<div class="text-center">
+										<p>消防</p>
+										<p class="text-small font-light">
+											<span ng-if="fire==true"> 正常 </span> <span
+												ng-if="fire==false"> 异常 </span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div
+								ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[water]">
+								<div class="panel-body">
+									<div class="text-center">
+										<p>漏水</p>
+										<p class="text-small font-light">
+											<span ng-if="water==true"> 正常 </span> <span
+												ng-if="water==false"> 异常 </span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- </div>
+							</div>
+						</div>
+					</div> -->
+					<!-- row-end -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+											class="closebox"><i class="fa fa-times"></i></a>
+									</div>
+									电量
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-3">
+											<div id="acv-div" style="height:200px; width:100%;"></div>
+											<div class="text-center">AC电压:{{acv}}V</div>
+										</div>
+										<!-- col-md-3/end -->
+										<div class="col-md-3">
+											<div id="aci-div" style="height:200px; width:100%"></div>
+											<div class="text-center">AC电流:{{aci}}I</div>
+										</div>
+										<!-- col-md-3/end -->
+										<div class="col-md-3">
+											<div id="dcv-div" style="height:200px; width:100%"></div>
+											<div class="text-center">DC电压:{{dcv}}V</div>
+										</div>
+										<!-- col-md-3/end -->
+										<div class="col-md-3">
+											<div id="dci-div" style="height:200px; width:100%"></div>
+											<div class="text-center">DC电流:{{dci}}I</div>
+										</div>
+										<!-- col-md-3/end -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row--end -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+											class="closebox"><i class="fa fa-times"></i></a>
+									</div>温湿度
+								</div>
+								<div class="panel-body">
+									<div id="temp-div" style="height:50px; width:100%"></div>
+									<div>温度：{{emhData[6].sig_value}}
+										湿度：{{emhData[7].sig_value}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row/ -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+											class="closebox"><i class="fa fa-times"></i></a>
+									</div>UPS
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>输入电压</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>输出电压</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>输出电流</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>电池电压</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>输出频率</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>UPS供电</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>整流器故障</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>逆变器故障</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>旁路输入异常</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>电池异常</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group col-md-12">
+												<label>负载</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										
+									</div>
+									<!-- row-end -->
+								</div>
+							</div>
+						</div>
+						<!-- row/ -->
+						<div class="row">
+							<div class="col-md-6">
+								<div class="hpanel">
+									<div class="panel-heading hbuilt">
+										<div class="panel-tools">
+											<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+												class="closebox"><i class="fa fa-times"></i></a>
+										</div>空调1
+									</div>
+									<div class="panel-body">
+										<div class="row">
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>开关机</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>设置温度</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>模式</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>回风温度</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>压缩机启停</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>故障</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										
+									</div>
+									<!-- row-end -->
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="hpanel">
+									<div class="panel-heading hbuilt">
+										<div class="panel-tools">
+											<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+												class="closebox"><i class="fa fa-times"></i></a>
+										</div>空调2
+									</div>
+									<div class="panel-body">
+										<div class="row">
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>开关机</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>设置温度</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>模式</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>回风温度</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>压缩机启停</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group col-md-12">
+												<label>故障</label>
+												<input type="text" value="" class="form-control" ng-model="ups_v">
+											</div>
+										</div>
+										
+									</div>
+									<!-- row-end -->
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- row/ -->
+					</div>
+					<!-- row/ -->
+				</div>
+			</div>
+			<!-- 中间内容体 /-->
+			<!-- 底部内容体 -->
+			<div ng-include="'../footer.html'"></div>
+			<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+				<i class="fa fa-chevron-circle-up fa-3x"></i>
+			</div>
+			<script type="text/javascript"
+				src="../../Resources/js/xhbootstrap-js.js"></script>
+			<script type="text/javascript"
+				src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+			<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+			<script type="text/javascript" src="../../Controllers/monitor/emh.js"></script>
+			<script type="text/javascript">
+				xh.initialize();
+			</script>
+</body>
+</html>

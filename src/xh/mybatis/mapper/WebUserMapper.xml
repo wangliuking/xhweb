@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.WebUserMapper">
+<!-- 自定义返回结果集 -->
+   <resultMap id="webUserMap" type="xh.mybatis.bean.WebUserBean">
+        <id property="userId" column="userId" javaType="java.lang.Integer"></id>
+        <result property="user" column="user" javaType="java.lang.String"></result>
+        <result property="userPass" column="userPass" javaType="java.lang.String"></result>
+        <result property="userName" column="userName" javaType="java.lang.String"></result>
+        <result property="sex" column="sex" javaType="java.lang.String"></result>
+        <result property="tel" column="tel" javaType="java.lang.String"></result>
+        <result property="createTime" column="createTime" javaType="java.lang.String"></result> 
+        
+        <result property="roleId" column="roleId" javaType="java.lang.Integer"></result>
+        <result property="role" column="role" javaType="java.lang.String"></result>
+    </resultMap>
+    <!--根据登录用户名,密码查找登录用户-->
+    <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean" resultMap="webUserMap">
+     select * from xhgmnet_web_user where user=#{user} and userPass=#{userPass}
+    </select>
+        <!--根据登录用户名查找登录用户-->
+    <select id="selectUserByUser" parameterType="String" resultMap="webUserMap">
+     select a.*,b.roleId from xhgmnet_web_user as a left join xhgmnet_web_role_user as b on
+     a.userId=b.userId where user=#{user}
+    </select>
+    <!--根据用户名查找用户是否存在-->
+    <select id="userIsExists" parameterType="String" resultType="int">
+     select count(*) from xhgmnet_web_user where user=#{user}
+    </select>  
+    <!--根据用户名查找用户ID-->
+    <select id="userIdByUser" parameterType="String" resultType="int" useCache="true">
+     select userId from xhgmnet_web_user where user=#{user}
+    </select>   
+    <!--添加用户-->    
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="xh.mybatis.bean.WebUserBean">
+      insert into xhgmnet_web_user(user,userPass,userName,sex,tel,createTime)
+      values(#{user},#{userPass},#{userName},#{sex},#{tel},#{createTime})
+    </insert>
+    <!--添加用户ID到角色关系表-->    
+    <insert id="addUserToRole" useGeneratedKeys="true" keyProperty="userId" parameterType="xh.mybatis.bean.WebUserBean">
+      insert into xhgmnet_web_user(user,userPass,userName,sex,tel,createTime)
+      values(#{user},#{userPass},#{userName},#{sex},#{tel},#{createTime})
+    </insert>
+    <!--用户列表-->
+    <select id="userList" parameterType="map" resultMap="webUserMap" useCache="true">
+     select a.*,b.roleId,c.role from xhgmnet_web_user as a left join xhgmnet_web_role_user as b on
+     a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
+     order by b.roleId asc limit #{start},#{limit}
+    </select>
+    <!--用户记录总数-->
+    <select id="userAllCount" resultType="int" useCache="true">
+     select count(*) from xhgmnet_web_user
+    </select>
+   <!--根据用户ID删除用户-->
+    <delete id="deleteByUserId" parameterType="java.util.List">
+     delete from xhgmnet_web_user where userId in(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+     ) 
+    </delete>
+    <!--更新用户-->
+    <update id="updateByUser" parameterType="xh.mybatis.bean.WebUserBean">
+     <choose>
+       <when test="userPass!='' and userPass!=null">
+            update xhgmnet_web_user set userPass=#{userPass},userName=#{userName},sex=#{sex},
+               tel=#{tel},createTime=#{createTime} where user=#{user}
+       </when>
+       <otherwise>
+             update xhgmnet_web_user set userName=#{userName},sex=#{sex},
+               tel=#{tel},createTime=#{createTime} where user=#{user}
+       </otherwise>
+     </choose>     
+    </update>    
+     
+    
+    
+</mapper>

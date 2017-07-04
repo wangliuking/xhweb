@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>通话组/通播组互联属性</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<link rel="stylesheet" href="../../Resources/css/My.css">
+<link rel="stylesheet" href="../../lib/metisMenu/dist/metisMenu.min.css" />
+<link rel="stylesheet"
+	href="../../lib/bootstrap-3.3.6/css/bootstrap.css" />
+<link rel="stylesheet" href="../../lib/sweetalert/lib/sweet-alert.css" />
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="talkgroupia"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'../top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'../menu/business-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li><span>用户数据管理</span></li>
+							<li><span>组</span></li>
+							<li class="active"><span>通话组/通播组互联属性</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<!-- row -->
+			<div class="row">
+				<!-- 左侧菜单 -->
+				<div class="col-md-2">
+					<div class="hpanel">
+						<div class="panel-body">
+
+							<ul class="mailbox-list">
+								<li><a href="../../Views/business/talkgroup.html"><i class="fa fa-user"></i>
+										通话组</a></li>
+								<li><a href="../../Views/business/multigroup.html"><i
+										class="fa fa-paper-plane text-warning"></i> 通播组</a></li>
+							</ul>
+							<hr>
+							<ul class="mailbox-list">
+								<li><a href="../../Views/business/talkgroupbusiness.html"><i class="fa fa-plane text-danger"></i>
+										业务属性</a></li>
+								<li class="active"><a href="#"><i class="fa fa-bar-chart text-warning"></i>
+										互联属性</a></li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-10">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button class="btn btn-warning btn-sm" ng-click="refresh()">
+												<i class="fa fa-refresh"></i>&nbsp;刷新
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th>通话组/通播组互连属性名</th>
+										<th>优先级</th>
+										<th>时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="4" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td>{{x.name}}</td>
+										<td>{{x.prioritylevel}}</td>
+										<td>{{x.time}}</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	<div ng-include="'../footer.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script src="../../Resources/js/jquery-2.2.3.min.js"></script>
+	<script src="../../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	<script src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script src="../../lib/sweetalert/lib/sweet-alert.min.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/talkgroupia.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+
+</body>
+</html>

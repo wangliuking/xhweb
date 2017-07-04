@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.AssetInfoMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="assetInfoMap" type="xh.mybatis.bean.AssetInfoBean">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="type" column="type" javaType="java.lang.Integer"></result>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="model" column="model" javaType="java.lang.String"></result>
+		<result property="serialNumber" column="serialNumber" javaType="java.lang.String"></result>
+		<result property="price" column="price" javaType="java.lang.String"></result>
+		<result property="number" column="number" javaType="java.lang.Integer"></result>
+		<result property="from" column="from" javaType="java.lang.Integer"></result>
+		<result property="status" column="status" javaType="java.lang.Integer"></result>
+		<result property="note" column="note" javaType="java.lang.String"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+
+		<result property="statusCount" column="statusCount" javaType="java.lang.Integer"></result>
+	</resultMap>
+	<!--查询资产记录statusCount -->
+	<select id="assetInfo" parameterType="map" resultMap="assetInfoMap"
+		useCache="true">
+		select * from xhgmnet_business_assetinfo where 1=1
+		<if test="type !=0">
+			and type=#{type}
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat(#{name},'%')
+		</if>
+		<if test="model !=null and model!=''">
+			and model like concat(#{model},'%')
+		</if>
+		<if test="serialNumber !=null and serialNumber!=''">
+			and serialNumber like concat(#{serialNumber},'%')
+		</if>
+		<if test="from !=0">
+			and `from`=#{from}
+		</if>
+		<if test="status !=0">
+			and status=#{status}
+		</if>
+		order by createTime desc limit #{start},#{limit}
+	</select>
+	<!--查询资产记录总数 -->
+	<select id="assetInfoCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_business_assetinfo where 1=1
+		<if test="type !=0">
+			and type=#{type}
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat(#{name},'%')
+		</if>
+		<if test="model !=null and model!=''">
+			and model like concat(#{model},'%')
+		</if>
+		<if test="serialNumber !=null and serialNumber!=''">
+			and serialNumber like concat(#{serialNumber},'%')
+		</if>
+		<if test="from !=0">
+			and `from`=#{from}
+		</if>
+		<if test="status !=0">
+			and status=#{status}
+		</if>
+	</select>
+	<!--增加资产 -->
+	<insert id="insertAsset" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.AssetInfoBean">
+		insert into
+		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note)
+		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},#{note})
+	</insert>
+	<!--更新资产记录 -->
+	<update id="updateAsset" parameterType="xh.mybatis.bean.AssetInfoBean">
+		update
+		xhgmnet_business_assetinfo set type=#{type},
+		name=#{name},model=#{model},
+		serialNumber=#{serialNumber},price=#{price},number=#{number},`from`=#{from},
+		status=#{status},note=#{note} where id=#{id}
+	</update>
+	<!--删除资产 -->
+	<delete id="deleteAsset" parameterType="java.util.List">
+		delete from xhgmnet_business_assetinfo where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+
+
+
+</mapper>

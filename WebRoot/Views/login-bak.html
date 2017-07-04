@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache"> 
+<meta http-equiv="Expires" content="-1">
+<title>综合应用与管理平台--登录系统</title>
+<link href="../lib/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../lib/sweetalert/lib/sweet-alert.css" />
+<link rel="stylesheet" type="text/css" href="../lib/toastr/build/toastr.min.css" />
+
+
+<script type="text/javascript">
+if (top.location !== self.location) { top.location.href = location.href;
+} 
+function changeUrl() {
+    var url = $("#codevalidate").prop('src');
+    url = url.substr(0,url.lastIndexOf('/')+1);
+    url = url + Math.random().toFixed(4);
+    $("#codevalidate").prop('src',url);
+}
+</script>
+</head>
+<body>
+
+<div class="videozz"></div>
+	<div class="box">
+		<div class="box-a">
+			<div class="m-2">
+				<div class="m-2-1">
+					<form action="#" id="loginForm" onSubmit="return false">
+						<div class="m-2-2">
+							<input type="text" name="username" placeholder="请输入账号" />
+						</div>
+						<div class="m-2-2">
+							<input type="password" name="password" placeholder="请输入密码" />
+						</div>
+						<div class="m-2-2-1">
+							<input type="text" name="code" placeholder="请输入验证码" /> <img id="codevalidate"
+								src="../code/0.3479" onclick="changeUrl()" alt="点击刷新验证码" />
+						</div>
+						<div class="m-2-2">
+							<input type="submit" id="login-btn" value="登陆"/>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="m-5">
+				<div id="m-5-id-1">
+					<div id="m-5-2">
+						<div id="m-5-id-2"></div>
+						<div id="m-5-id-3"></div>
+					</div>
+				</div>
+			</div>
+			<div class="m-10"></div>
+			<div class="m-xz7"></div>
+			<div class="m-xz8 xzleft"></div>
+			<div class="m-xz9"></div>
+			<div class="m-xz9-1"></div>
+			<!-- <div class="m-x10"></div>
+    <div class="m-x11"></div>
+    <div class="m-x12 xzleft"></div>
+    <div class="m-x13"></div>
+    <div class="m-x14 xzleft"></div>
+    <div class="m-x15"></div>
+    <div class="m-x16 xzleft"></div>-->
+			<div class="m-x17 xzleft"></div>
+			<div class="m-x18"></div>
+			<div class="m-x19 xzleft"></div>
+			<div class="m-x20"></div>
+			<div class="m-8"></div>
+			<div class="m-9">
+				<div class="masked1" id="sx8">综合应用与管理平台</div>
+			</div>
+			<div class="m-11">
+				<div class="m-k-1">
+					<div class="t1"></div>
+				</div>
+				<div class="m-k-2">
+					<div class="t2"></div>
+				</div>
+				<div class="m-k-3">
+					<div class="t3"></div>
+				</div>
+				<div class="m-k-4">
+					<div class="t4"></div>
+				</div>
+				<div class="m-k-5">
+					<div class="t5"></div>
+				</div>
+				<div class="m-k-6">
+					<div class="t6"></div>
+				</div>
+				<div class="m-k-7">
+					<div class="t7"></div>
+				</div>
+			</div>
+			<div class="m-14">
+				<div class="ss"></div>
+			</div>
+			<div class="m-15-a">
+				<div class="m-15-k">
+					<div class="m-15xz1">
+						<div class="m-15-dd2"></div>
+					</div>
+				</div>
+			</div>
+			<div class="m-16"></div>
+			<div class="m-17"></div>
+			<div class="m-18 xzleft"></div>
+			<div class="m-19"></div>
+			<div class="m-20 xzleft"></div>
+			<div class="m-21"></div>
+			<div class="m-22"></div>
+			<div class="m-23 xzleft"></div>
+			<div class="m-24" id="localtime">#</div>
+		</div>
+	</div>
+<script type="text/javascript" src="../lib/assets/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../lib/sweetalert/lib/sweet-alert.js"></script>
+<script type="text/javascript" src="../lib/toastr/build/toastr.min.js"></script>
+<script type="text/javascript" src="../Controllers/web/login.js"></script>
+<script type="text/javascript">
+$("#loginForm").submit(function(){
+	if($("input[name='username']").val()==""){
+		alert("用户名不能为空");
+		return ;
+	}
+	if($("input[name='password']").val()==""){
+		alert("密码不能为空");
+		return ;
+	}
+	xh.login();
+});
+</script>
+</body>
+</html>

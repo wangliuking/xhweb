@@ -1,0 +1,79 @@
+<!--修改基站 -->
+<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="edit" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>发件人</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control"
+									required="required" ng-model="editData.sendUser">
+							</div>
+						</div>
+						
+					</div>
+					<div class="row">
+						
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>标题</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control"
+									required="required" ng-model="editData.title">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>内容</label>
+								<textarea rows="5" cols="20" class="form-control" ng-model="editData.content">
+								</textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

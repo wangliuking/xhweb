@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+<web>
+    <cookie_prefix>xhgmnet_</cookie_prefix>
+    <session_prefix>xhgmnet_</session_prefix>
+</web>
+<emh>
+    <ip>127.0.0.1</ip>
+    <port>12002</port>
+</emh>
+
+</config>

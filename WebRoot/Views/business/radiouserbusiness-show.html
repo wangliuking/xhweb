@@ -1,0 +1,106 @@
+<!-- 	添加基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">查看业务详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<table class="table-bordered table-hover table-striped" style="width:100%;">
+				<thead>
+				<tr>
+				<th>名称</th>
+				<th>参数</th>
+				<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td>无线用户业务属性标识</td><td>{{editData.id}}</td><td></td></tr>
+				<tr><td>无线用户业务属性名称</td><td>{{editData.name}}</td><td></td></tr>
+				<tr><td>状态集标识</td><td>{{editData.ssid}}</td><td></td></tr>
+				<tr><td>状态集名称</td><td>{{editData.ssname}}</td><td></td></tr>
+				<tr><td>呼叫优先级</td><td>{{editData.dispatchpriority}}</td><td></td></tr>
+				<tr><td>允许私密呼叫</td><td>{{editData.pceenabled}}</td><td></td></tr>
+				<tr><td>允许组呼叫</td><td>{{editData.tgenabled}}</td><td></td></tr>
+				<tr><td>允许通播组呼叫</td><td>{{editData.mgenabled}}</td><td></td></tr>
+				<tr><td>允许通播组紧急呼叫</td><td>{{editData.mgemergencyenabled}}</td><td></td></tr>
+				<tr><td>允许调度呼叫预占</td><td>{{editData.dispatchpreempt}}</td><td></td></tr>
+				<tr><td>全部站点许可</td><td>{{editData.allsitesallowed}}</td><td></td></tr>
+				<tr><td>允许呼叫预占</td><td>{{editData.calledpreempt}}</td><td></td></tr>
+				<tr><td>用户组</td><td>{{editData.usergroup}}</td><td></td></tr>
+				<tr><td>紧急单呼许可范围</td><td>{{editData.emergindcallenabled}}</td><td></td></tr>
+				<tr><td>紧急组呼许可范围</td><td>{{editData.emerggroupcallenabled}}</td><td></td></tr>
+				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

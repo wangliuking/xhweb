@@ -1,0 +1,104 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">查看通话组/通播组业务信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<table class="table-bordered table-hover table-striped" style="width:100%;">
+				<thead>
+				<tr>
+				<th>名称</th>
+				<th>参数</th>
+				<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td>名称</td><td>{{editData.name}}</td><td></td></tr>
+				<tr><td>通讯或传输模式</td><td>{{editData.messagetransmission}}</td><td></td></tr>
+				<tr><td>忙覆盖</td><td>{{editData.busyoverride}}</td><td></td></tr>
+				<tr><td>TGEnabled</td><td>{{editData.tgenabled}}</td><td></td></tr>
+				<tr><td>紧急呼叫许可</td><td>{{editData.emergencycall}}</td><td></td></tr>
+				<tr><td>无效站点紧急通话</td><td>{{editData.emergencyatnvs}}</td><td></td></tr>
+				<tr><td>呼叫优先级</td><td>{{editData.dispatchpriority}}</td><td></td></tr>
+				<tr><td>优先级监听使能</td><td>{{editData.prioritymonitor}}</td><td></td></tr>
+				<tr><td>通话组非活跃时间</td><td>{{editData.inactivitytime}}</td><td></td></tr>
+				<tr><td>无MGEG资源可呼叫</td><td>{{editData.callswithoutmgeg}}</td><td></td></tr>
+				<tr><td>语音中断模式</td><td>{{editData.audiointerrupt}}</td><td></td></tr>
+				<tr><td>允许通话组数据预占</td><td>{{editData.tgdatapreempt}}</td><td></td></tr>
+				<tr><td>用户组</td><td>{{editData.usergroup}}</td><td></td></tr>
+				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

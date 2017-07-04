@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.RadioUserBusiness_EMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.RadioUserBusiness_E" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ssId" property="ssid" jdbcType="INTEGER" />
+    <result column="ssName" property="ssname" jdbcType="VARCHAR" />
+    <result column="dispatchPriority" property="dispatchpriority" jdbcType="INTEGER" />
+    <result column="PCEEnabled" property="pceenabled" jdbcType="INTEGER" />
+    <result column="TGEnabled" property="tgenabled" jdbcType="INTEGER" />
+    <result column="MGEnabled" property="mgenabled" jdbcType="INTEGER" />
+    <result column="MGEmergencyEnabled" property="mgemergencyenabled" jdbcType="INTEGER" />
+    <result column="dispatchPreempt" property="dispatchpreempt" jdbcType="INTEGER" />
+    <result column="allSitesAllowed" property="allsitesallowed" jdbcType="INTEGER" />
+    <result column="calledPreempt" property="calledpreempt" jdbcType="INTEGER" />
+    <result column="userGroup" property="usergroup" jdbcType="INTEGER" />
+    <result column="emergIndCallEnabled" property="emergindcallenabled" jdbcType="INTEGER" />
+    <result column="emergGroupCallEnabled" property="emerggroupcallenabled" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+	<select id="ById" parameterType="map" resultMap="BaseResultMap"
+		useCache="true">
+		select * from xhgmnet_radiouser_e_businessattribute where 1=1
+		<if test="id !=null and id !='' and id !=0">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser_e_businessattribute where 1=1
+		<if test="id!=null and id!=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name!=null and name!=''">
+			and name like concat('%',#{name},'%')
+		</if>
+	</select>
+  <sql id="Base_Column_List" >
+    id, name, ssId, ssName, dispatchPriority, PCEEnabled, TGEnabled, MGEnabled, MGEmergencyEnabled, 
+    dispatchPreempt, allSitesAllowed, calledPreempt, userGroup, emergIndCallEnabled, 
+    emergGroupCallEnabled, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xhgmnet_radiouser_e_businessattribute
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xhgmnet_radiouser_e_businessattribute
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xh.mybatis.bean.RadioUserBusiness_E" >
+    insert into xhgmnet_radiouser_e_businessattribute (id, name, ssId, 
+      ssName, dispatchPriority, PCEEnabled, 
+      TGEnabled, MGEnabled, MGEmergencyEnabled, 
+      dispatchPreempt, allSitesAllowed, calledPreempt, 
+      userGroup, emergIndCallEnabled, emergGroupCallEnabled, 
+      time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ssid,jdbcType=INTEGER}, 
+      #{ssname,jdbcType=VARCHAR}, #{dispatchpriority,jdbcType=INTEGER}, #{pceenabled,jdbcType=INTEGER}, 
+      #{tgenabled,jdbcType=INTEGER}, #{mgenabled,jdbcType=INTEGER}, #{mgemergencyenabled,jdbcType=INTEGER}, 
+      #{dispatchpreempt,jdbcType=INTEGER}, #{allsitesallowed,jdbcType=INTEGER}, #{calledpreempt,jdbcType=INTEGER}, 
+      #{usergroup,jdbcType=INTEGER}, #{emergindcallenabled,jdbcType=INTEGER}, #{emerggroupcallenabled,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="xh.mybatis.bean.RadioUserBusiness_E" >
+    insert into xhgmnet_radiouser_e_businessattribute
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="ssid != null" >
+        ssId,
+      </if>
+      <if test="ssname != null" >
+        ssName,
+      </if>
+      <if test="dispatchpriority != null" >
+        dispatchPriority,
+      </if>
+      <if test="pceenabled != null" >
+        PCEEnabled,
+      </if>
+      <if test="tgenabled != null" >
+        TGEnabled,
+      </if>
+      <if test="mgenabled != null" >
+        MGEnabled,
+      </if>
+      <if test="mgemergencyenabled != null" >
+        MGEmergencyEnabled,
+      </if>
+      <if test="dispatchpreempt != null" >
+        dispatchPreempt,
+      </if>
+      <if test="allsitesallowed != null" >
+        allSitesAllowed,
+      </if>
+      <if test="calledpreempt != null" >
+        calledPreempt,
+      </if>
+      <if test="usergroup != null" >
+        userGroup,
+      </if>
+      <if test="emergindcallenabled != null" >
+        emergIndCallEnabled,
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        emergGroupCallEnabled,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ssid != null" >
+        #{ssid,jdbcType=INTEGER},
+      </if>
+      <if test="ssname != null" >
+        #{ssname,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchpriority != null" >
+        #{dispatchpriority,jdbcType=INTEGER},
+      </if>
+      <if test="pceenabled != null" >
+        #{pceenabled,jdbcType=INTEGER},
+      </if>
+      <if test="tgenabled != null" >
+        #{tgenabled,jdbcType=INTEGER},
+      </if>
+      <if test="mgenabled != null" >
+        #{mgenabled,jdbcType=INTEGER},
+      </if>
+      <if test="mgemergencyenabled != null" >
+        #{mgemergencyenabled,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchpreempt != null" >
+        #{dispatchpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="allsitesallowed != null" >
+        #{allsitesallowed,jdbcType=INTEGER},
+      </if>
+      <if test="calledpreempt != null" >
+        #{calledpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="usergroup != null" >
+        #{usergroup,jdbcType=INTEGER},
+      </if>
+      <if test="emergindcallenabled != null" >
+        #{emergindcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        #{emerggroupcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.RadioUserBusiness_E" >
+    update xhgmnet_radiouser_e_businessattribute
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ssid != null" >
+        ssId = #{ssid,jdbcType=INTEGER},
+      </if>
+      <if test="ssname != null" >
+        ssName = #{ssname,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchpriority != null" >
+        dispatchPriority = #{dispatchpriority,jdbcType=INTEGER},
+      </if>
+      <if test="pceenabled != null" >
+        PCEEnabled = #{pceenabled,jdbcType=INTEGER},
+      </if>
+      <if test="tgenabled != null" >
+        TGEnabled = #{tgenabled,jdbcType=INTEGER},
+      </if>
+      <if test="mgenabled != null" >
+        MGEnabled = #{mgenabled,jdbcType=INTEGER},
+      </if>
+      <if test="mgemergencyenabled != null" >
+        MGEmergencyEnabled = #{mgemergencyenabled,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchpreempt != null" >
+        dispatchPreempt = #{dispatchpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="allsitesallowed != null" >
+        allSitesAllowed = #{allsitesallowed,jdbcType=INTEGER},
+      </if>
+      <if test="calledpreempt != null" >
+        calledPreempt = #{calledpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="usergroup != null" >
+        userGroup = #{usergroup,jdbcType=INTEGER},
+      </if>
+      <if test="emergindcallenabled != null" >
+        emergIndCallEnabled = #{emergindcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        emergGroupCallEnabled = #{emerggroupcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.RadioUserBusiness_E" >
+    update xhgmnet_radiouser_e_businessattribute
+    set name = #{name,jdbcType=VARCHAR},
+      ssId = #{ssid,jdbcType=INTEGER},
+      ssName = #{ssname,jdbcType=VARCHAR},
+      dispatchPriority = #{dispatchpriority,jdbcType=INTEGER},
+      PCEEnabled = #{pceenabled,jdbcType=INTEGER},
+      TGEnabled = #{tgenabled,jdbcType=INTEGER},
+      MGEnabled = #{mgenabled,jdbcType=INTEGER},
+      MGEmergencyEnabled = #{mgemergencyenabled,jdbcType=INTEGER},
+      dispatchPreempt = #{dispatchpreempt,jdbcType=INTEGER},
+      allSitesAllowed = #{allsitesallowed,jdbcType=INTEGER},
+      calledPreempt = #{calledpreempt,jdbcType=INTEGER},
+      userGroup = #{usergroup,jdbcType=INTEGER},
+      emergIndCallEnabled = #{emergindcallenabled,jdbcType=INTEGER},
+      emergGroupCallEnabled = #{emerggroupcallenabled,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
