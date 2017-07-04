@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.BsStatusMapper">
+
+
+<!-- 自定义返回结果集 -->
+   <resultMap id="BsStatusMap" type="xh.mybatis.bean.BsStatusBean">
+        <id property="bsId" column="bsId" javaType="java.lang.Integer"></id>
+        <result property="status" column="status" javaType="java.lang.Integer"></result>
+        <result property="groupNum" column="groupNum" javaType="java.lang.Integer"></result>
+        <result property="mscNum" column="mscNum" javaType="java.lang.Integer"></result>
+        <result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+    </resultMap>
+ 
+
+   
+    <!--查询所有-->
+    <select id="selectAllBsStatus" resultType="java.util.HashMap" useCache="true">
+     select name,a.status,updateTime from xhgmnet_bs_status as a,xhgmnet_bs_station as b where a.bsId=b.bsId
+    </select>
+
+    
+    
+</mapper>

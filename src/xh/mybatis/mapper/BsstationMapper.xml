@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.BsstationMapper">
+	<!-- 自定义返回结果集 -->
+	<resultMap id="bsInfoMap" type="xh.mybatis.bean.BsstationBean">
+		<result property="bsId" column="bsId" javaType="java.lang.Integer"></result>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="type" column="level" javaType="java.lang.Integer"></result>
+		<result property="level" column="level" javaType="java.lang.Integer"></result>
+		<result property="status" column="status" javaType="java.lang.Integer"></result>
+		<result property="lat" column="lat" javaType="java.lang.String"></result>
+		<result property="lng" column="lng" javaType="java.lang.String"></result>
+		<result property="height" column="height" javaType="java.lang.Float"></result>
+		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
+
+	</resultMap>
+	<!--查询所有基站 -->
+	<select id="allBsInfo" resultType="java.util.HashMap"
+		useCache="true">
+		select * from xhgmnet_bs_station order by bsId asc
+	</select>
+	<!--根据基站ID，名称查找基站记录 -->
+	<select id="bsInfo" parameterType="map" resultType="xh.mybatis.bean.BsstationBean"
+		useCache="true">
+		select * from xhgmnet_bs_station where 1=1
+		<if test="bsId !=null and bsId !='' and bsId !=0">
+			and bsId like concat(#{bsId},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat(#{name},'%')
+		</if>
+		order by bsId asc limit #{start},#{limit}
+	</select>
+	<!--根据基站ID，名称查找基站记录总数 -->
+	<select id="bsCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_station where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId like concat(#{bsId},'%')
+		</if>
+		<if test="name!=null and name!=''">
+			and name like concat(#{name},'%')
+		</if>
+	</select>
+
+	<!--根据基站ID,查找基站信息 -->
+	<select id="selectByBsId" parameterType="int" resultType="int"
+		useCache="true">
+		select
+		count(*) from xhgmnet_bs_station where bsId=#{bsId}
+	</select>
+
+	<!--增加基站 -->
+	<insert id="insertBs" keyProperty="bsId"
+		parameterType="xh.mybatis.bean.BsstationBean">
+		insert into
+		xhgmnet_bs_station(bsId,name,type,level,lat,lng,chnumber,gpsLineNum,power,carrier,
+		carrierName,carrierLink,lineHeight,address,contact,tel,ip,height,openen)
+		values(#{bsId},#{name},#{type},#{level},#{lat},#{lng},#{chnumber},#{gpsLineNum},
+		#{power},#{carrier},#{carrierName},#{carrierLink},#{lineHeight},#{address},
+		#{contact},#{tel},#{ip},#{height},#{openen})
+	</insert>
+
+	<!--更新基站 -->
+	<update id="updateByBsId" parameterType="xh.mybatis.bean.BsstationBean">
+		update
+		xhgmnet_bs_station set name=#{name},type=#{type},level=#{level},
+		lat=#{lat},lng=#{lng},chnumber=#{chnumber},gpsLineNum=#{gpsLineNum} ,power=#{power} 
+		,carrier=#{carrier} ,carrierName=#{carrierName} ,carrierLink=#{carrierLink} ,
+		lineHeight=#{lineHeight} ,address=#{address} ,contact=#{contact} ,tel=#{tel} ,
+		ip=#{ip} ,height=#{height},openen=#{openen}  where bsId=#{bsId}
+	</update>
+
+	<!--删除基站 -->
+	<delete id="deleteBsByBsId" parameterType="java.util.List">
+		delete from xhgmnet_bs_station where bsId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+    <!--查询所有 wlk-->
+    <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
+     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId
+    </select>
+	
+	<!-- 根据id查询对应基站信息 wlk -->
+	<select id="selectBsStationById" resultType="java.util.HashMap" useCache="true">
+	 select * from xhgmnet_bs_station where bsId=#{bsId}
+	</select>
+	
+	<!-- 根据基站id查询对应动环信息 wlk -->
+	<select id="selectAllEMHById" resultType="java.util.HashMap" useCache="true">
+	 select * from emh_server as a,emh_sensor as b where a.id = b.sid and a.code=#{bsId} order by b.dev_name
+	</select>
+
+
+</mapper>

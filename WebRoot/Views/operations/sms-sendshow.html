@@ -1,0 +1,79 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>短信源ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="srcId" ng-model="editData.srcId" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>目标ID</label>&nbsp;<span class="text-danger">[*]</span><input
+									type="text" value="" class="form-control" name="dstId" ng-model="editData.dstId" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>写入时间</label>&nbsp;<span class="text-warning">[*]</span><input
+									type="text" value="" class="form-control" name="writeTime" ng-model="editData.writeTime" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>参考号</label>&nbsp;<span class="text-warning">[*]</span> <input
+									type="text" value="" class="form-control" name="refNum" ng-model="editData.refNum" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12" ng-model="editData.status">
+								<label>发送状态</label>&nbsp;<span class="text-info">[*]</span>
+								<input type="text" ng-value="editData.status | sendstatus" class="form-control" name="status" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>发送类型</label>&nbsp;<span class="text-info">[*]</span>
+								<input type="text" ng-value="editData.IG | sendtype" class="form-control" name="IG" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>短信内容</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea style="width:560px;height:260px;max-width:560px;max-height:260px;" ng-model="editData.content" name="content"
+								readonly="readonly"></textarea>
+							</div>
+						</div>
+					</div>
+						
+					
+					
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

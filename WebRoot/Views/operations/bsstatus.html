@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>终端状态123</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="userstatus"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'../top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'../menu/monitor-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>实时监测</span></li>
+							<li class="active"><span>基站状态</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel" data-child="hpanel"
+			data-effect="fadeInDown">
+			<div class="alert alert-success">
+				<i class="fa fa-close text-white pull-right" id="alert-close"></i> <img
+					src="../../Resources/images/img/tower_on.png" width="20"
+					height="20" style="background:#fff"> &nbsp;&nbsp;<span
+					style="color:#fff">代表基站连接正常</span> &nbsp;&nbsp; <img
+					src="../../Resources/images/img/tower_off.png" width="20"
+					height="20" style="background:#fff"> &nbsp;&nbsp;<span
+					style="color:#fff">代表基站连接中断</span> &nbsp;&nbsp; <img
+					src="../../Resources/images/img/tower_stop.png" width="20"
+					height="20" style="background:#fff"> &nbsp;&nbsp;<span
+					style="color:#fff">代表基站没有启用</span> &nbsp;&nbsp;
+			</div>
+			<!-- <div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body"></div>
+					</div>
+				</div>
+			</div> -->
+			<!-- row---end -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel bs-box" ng-repeat="x in data"
+						bsId-value="{{x.bsId}}" status-value="{{x.status}}">
+						<div class="panel-heading">ID->{{x.bsId}}</div>
+						<div class="panel-body">
+							<div ng-if="x.status==0 && x.openen==1">
+								<img alt="" src="../../Resources/images/img/tower_off.png">
+							</div>
+							<div ng-if="x.status==1 && x.openen==1">
+								<img alt="" src="../../Resources/images/img/tower_on.png">
+							</div>
+							<div ng-if="x.openen==0">
+								<img alt="" src="../../Resources/images/img/tower_stop.png">
+							</div>
+						</div>
+						<!-- panel-body--end -->
+						<div class="panel-footer" id="f-o">{{x.name}}</div>
+						<!-- hpanel --end-->
+					</div>
+				</div>
+			</div>
+			<!-- row-end -->
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+	<aside id="bs-status-right" class="animated fadeInRight">
+		<!-- <div class="color-line"></div> -->
+		<div class="headering">
+			<div class="pull-left">
+				<a href="#" class="closePanel btn btn-xs btn-danger"> <i
+					class="fa fa-angle-double-right fa-2x" style="color:#fff"></i>
+				</a>
+			</div>
+		</div>
+		<div class="bodying">
+			<ul id="xh-tabs" class="nav nav-tabs">
+				<li class="active"><a href="#emh" data-toggle="tab"> 环监 </a></li>
+				<li><a href="#group" data-toggle="tab"> 注册组 </a></li>
+				<li><a href="#radio" data-toggle="tab"> 注册终端 </a></li>
+				<li><a href="#other" data-toggle="tab"> 其他 </a></li>
+			</ul>
+			<div class="tab-content" style="padding:20px">
+				<div class="tab-pane fade in active text-danger" id="emh">
+				    <div class="row">
+				    
+				    </div>
+					<div class="row">
+						<div class="col-md-3">
+							<ul id="sm-tabs" class="nav nav-tabs" style="width:90px">
+								<li class="active"><a href="#door" data-toggle="tab">
+										室内环境 </a></li>
+								<li><a href="#d" data-toggle="tab"> 电量 </a></li>
+								<li><a href="#w" data-toggle="tab"> 温湿度</a></li>
+								<li><a href="#ups" data-toggle="tab">ups</a></li>
+								<li><a href="#k1" data-toggle="tab"> 空调1</a></li>
+								<li><a href="#k2" data-toggle="tab"> 空调2</a></li>
+							</ul>
+						</div>
+						<div class="col-md-9">
+						<div class="tab-content" style="">
+							<div class="tab-pane fade in active text-danger" id="door">
+								<div class="row">
+									<div class="col-md-3">
+										<div
+											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[smoky]">
+											<div class="panel-body">
+												<div class="text-center">
+													<p style="background:#fff;color:black;">
+														<img class="pull-left"
+															src="../../Resources/images/img/xiaofang.png" />烟感
+													</p>
+													<div class="text-small font-light">
+														<span ng-if="smoky==true"> 正常 </span> <span
+															ng-if="smoky==false"> 异常 </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div
+											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[door]">
+											<div class="panel-body">
+												<div class="text-center">
+													<p style="background:#fff;color:black;">
+														<img class="pull-left"
+															src="../../Resources/images/img/door.png" />门磁
+													</p>
+													<div class="text-small font-light">
+														<span ng-if="door==true"> 关闭</span> <span
+															ng-if="door==false"> 打开</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div
+											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[fire]">
+											<div class="panel-body">
+												<div class="text-center">
+													<p style="background:#fff;color:black;">
+														<img class="pull-left"
+															src="../../Resources/images/img/fire.png" />消防
+													</p>
+													<div class="text-small font-light">
+														<span ng-if="fire==true"> 正常 </span> <span
+															ng-if="fire==false"> 异常 </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div
+											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[water]">
+											<div class="panel-body">
+												<div class="text-center">
+													<p style="background:#fff;color:black;">
+														<img class="pull-left"
+															src="../../Resources/images/img/water.png" />漏水
+													</p>
+													<div class="text-small font-light">
+														<span ng-if="water==true"> 正常 </span> <span
+															ng-if="water==false"> 异常 </span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row--end -->
+							</div>
+							<!--   door -->
+							<div class="tab-pane fade text-danger" id="d">
+								<div id="acv-div" style="height:200px;background:green; width:200px;"></div> 
+								<div id="aci-div" style="height:200px;background:blue; width:200px"></div>
+								<div id="dcv-div" style="height:200px;background:green; width:200px"></div>
+								<div id="dci-div" style="height:200px;background:yellow; width:200px"></div>								
+							</div>
+							<!-- d -->
+							<div class="tab-pane fade text-danger" id="w">123</div>
+							<!-- d -->
+							<div class="tab-pane fade text-danger" id="ups">123</div>
+							<!-- d -->
+							<div class="tab-pane fade text-danger" id="k1">123</div>
+							<!-- d -->
+							<div class="tab-pane fade text-danger" id="k2">123</div>
+							<!-- d -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade text-danger" id="group">
+					<p>group</p>
+				</div>
+				<div class="tab-pane fade text-danger" id="radio">
+					<p>radio</p>
+				</div>
+				<div class="tab-pane fade text-danger" id="other">
+					<p>other</p>
+				</div>
+			</div>
+		</div>
+	</aside>
+	<!-- 底部内容体 -->
+	<div ng-include="'../footer.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加用户 -->
+	<!-- <div ng-include="'user-add.html'"></div> -->
+	<!-- 编辑基用户-->
+	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsstatus.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		$(".closePanel").click(function() {
+			$("#bs-status-right").fadeToggle("fast");
+
+		});
+		$("body").delegate(".bs-box", "click", function() {
+			$("#bs-status-right").fadeIn("fast");
+			console.log($(this).attr("status-value"))
+			// TODO
+		});
+	</script>
+</body>
+</html>

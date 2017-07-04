@@ -1,0 +1,99 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache"> 
+<meta http-equiv="Expires" content="-1">
+<title>登录系统</title>
+<script type="text/javascript"
+	src="../Resources/js/xhbootstrap-css.js"></script>
+<script type="text/javascript">
+if (top.location !== self.location) { top.location.href = location.href;
+} 
+function changeUrl() {
+    var url = $("#codevalidate").prop('src');
+    url = url.substr(0,url.lastIndexOf('/')+1);
+    url = url + Math.random().toFixed(4);
+    $("#codevalidate").prop('src',url);
+}
+
+</script>
+<style type="text/css">
+html,body{height: 100%;width: 100%;margin:0;padding:0;}
+body{
+	background:url("../Resources/images/img/bk.png")no-repeat;
+    width:100%;
+    height:100%;
+    background-size:100% 100%;
+    position:absolute;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../Resources/images/img/bk.png',sizingMethod='scale');
+}
+
+</style>
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center m-b-md">
+					<h3>综合应用与管理平台</h3>
+					<small>欢迎登录 ！</small>
+				</div>
+				<div class="hpanel">
+					<div class="panel-body">
+					<!-- class="form-inline" -->
+						<form form action="#" id="loginForm" onSubmit="return false" >
+							<div class="form-group">
+								<!-- <label class="control-label" for="username">用户名</label>  --><input
+									type="text" placeholder="用户名"
+									title="Please enter you username" required="" value=""
+									name="username" id="username" class="form-control"> <!-- <span
+									class="help-block small">Your unique username to system</span> -->
+							</div>
+							<div class="form-group">
+								<!-- <label class="control-label" for="password">密&nbsp;&nbsp;码</label>  --><input
+									type="password" title="Please enter your password"
+									placeholder="******" required="" value="" name="password"
+									id="password" class="form-control"> <!-- <span
+									class="help-block small">Yur strong password</span> -->
+							</div>
+							<!-- <div class="form-group">
+								<label class="control-label" for="password">验证码</label>
+								<input type="text" name="code" class="form-control" placeholder="请输入验证码" /><img id="codevalidate"
+								src="../code/0.3479" onclick="changeUrl()" alt="点击刷新验证码" style="margin-top:5px;" />
+							</div> -->
+							
+							<button class="btn  btn-success btn-block" id="login-btn">登录</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-center" style="color:#000;">
+				<strong>powered by</strong> 成都亚光电子股份有限公司 
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript"
+		src="../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript" src="../Controllers/web/login.js"></script>
+<script type="text/javascript">
+$("#loginForm").submit(function(){
+	if($("input[name='username']").val()==""){
+		alert("用户名不能为空");
+		return ;
+	}
+	if($("input[name='password']").val()==""){
+		alert("密码不能为空");
+		return ;
+	}
+	xh.login();
+});
+</script>
+</body>
+</html>

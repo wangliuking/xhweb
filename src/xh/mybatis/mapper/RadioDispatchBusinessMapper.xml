@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.RadioDispatchBusinessMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.RadioDispatchBusiness" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="monitorOn" property="monitoron" jdbcType="INTEGER" />
+    <result column="PCPreempt" property="pcpreempt" jdbcType="INTEGER" />
+    <result column="callPriority" property="callpriority" jdbcType="INTEGER" />
+    <result column="allMute" property="allmute" jdbcType="INTEGER" />
+    <result column="allMuteTimeout" property="allmutetimeout" jdbcType="INTEGER" />
+    <result column="pttPriority" property="pttpriority" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="userGroup" property="usergroup" jdbcType="INTEGER" />
+    <result column="emergIndCallEnabled" property="emergindcallenabled" jdbcType="INTEGER" />
+    <result column="emergGroupCallEnabled" property="emerggroupcallenabled" jdbcType="INTEGER" />
+    <result column="prohibitTone" property="prohibittone" jdbcType="INTEGER" />
+    <result column="sideTone" property="sidetone" jdbcType="INTEGER" />
+    <result column="patchGroupNum" property="patchgroupnum" jdbcType="INTEGER" />
+    <result column="MSGroupNum" property="msgroupnum" jdbcType="INTEGER" />
+    <result column="APBNum" property="apbnum" jdbcType="INTEGER" />
+    <result column="calledPreempt" property="calledpreempt" jdbcType="INTEGER" />
+    <result column="inboundCall" property="inboundcall" jdbcType="INTEGER" />
+    <result column="inboundPTT" property="inboundptt" jdbcType="INTEGER" />
+    <result column="instantTransmit" property="instanttransmit" jdbcType="INTEGER" />
+    <result column="patchPC" property="patchpc" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="ById" parameterType="map" resultMap="BaseResultMap"
+		useCache="true">
+		select * from xhgmnet_dispatchuser_ia where 1=1
+		<if test="id !=null and id !='' and id !=0">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_dispatchuser_ia where 1=1
+		<if test="id!=null and id!=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name!=null and name!=''">
+			and name like concat('%',#{name},'%')
+		</if>
+	</select>
+  
+  <sql id="Base_Column_List" >
+    id, name, monitorOn, PCPreempt, callPriority, allMute, allMuteTimeout, pttPriority, 
+    time, userGroup, emergIndCallEnabled, emergGroupCallEnabled, prohibitTone, sideTone, 
+    patchGroupNum, MSGroupNum, APBNum, calledPreempt, inboundCall, inboundPTT, instantTransmit, 
+    patchPC
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xhgmnet_dispatchuser_ia
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xhgmnet_dispatchuser_ia
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xh.mybatis.bean.RadioDispatchBusiness" >
+    insert into xhgmnet_dispatchuser_ia (id, name, monitorOn, 
+      PCPreempt, callPriority, allMute, 
+      allMuteTimeout, pttPriority, time, 
+      userGroup, emergIndCallEnabled, emergGroupCallEnabled, 
+      prohibitTone, sideTone, patchGroupNum, 
+      MSGroupNum, APBNum, calledPreempt, 
+      inboundCall, inboundPTT, instantTransmit, 
+      patchPC)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{monitoron,jdbcType=INTEGER}, 
+      #{pcpreempt,jdbcType=INTEGER}, #{callpriority,jdbcType=INTEGER}, #{allmute,jdbcType=INTEGER}, 
+      #{allmutetimeout,jdbcType=INTEGER}, #{pttpriority,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{usergroup,jdbcType=INTEGER}, #{emergindcallenabled,jdbcType=INTEGER}, #{emerggroupcallenabled,jdbcType=INTEGER}, 
+      #{prohibittone,jdbcType=INTEGER}, #{sidetone,jdbcType=INTEGER}, #{patchgroupnum,jdbcType=INTEGER}, 
+      #{msgroupnum,jdbcType=INTEGER}, #{apbnum,jdbcType=INTEGER}, #{calledpreempt,jdbcType=INTEGER}, 
+      #{inboundcall,jdbcType=INTEGER}, #{inboundptt,jdbcType=INTEGER}, #{instanttransmit,jdbcType=INTEGER}, 
+      #{patchpc,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="xh.mybatis.bean.RadioDispatchBusiness" >
+    insert into xhgmnet_dispatchuser_ia
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="monitoron != null" >
+        monitorOn,
+      </if>
+      <if test="pcpreempt != null" >
+        PCPreempt,
+      </if>
+      <if test="callpriority != null" >
+        callPriority,
+      </if>
+      <if test="allmute != null" >
+        allMute,
+      </if>
+      <if test="allmutetimeout != null" >
+        allMuteTimeout,
+      </if>
+      <if test="pttpriority != null" >
+        pttPriority,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="usergroup != null" >
+        userGroup,
+      </if>
+      <if test="emergindcallenabled != null" >
+        emergIndCallEnabled,
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        emergGroupCallEnabled,
+      </if>
+      <if test="prohibittone != null" >
+        prohibitTone,
+      </if>
+      <if test="sidetone != null" >
+        sideTone,
+      </if>
+      <if test="patchgroupnum != null" >
+        patchGroupNum,
+      </if>
+      <if test="msgroupnum != null" >
+        MSGroupNum,
+      </if>
+      <if test="apbnum != null" >
+        APBNum,
+      </if>
+      <if test="calledpreempt != null" >
+        calledPreempt,
+      </if>
+      <if test="inboundcall != null" >
+        inboundCall,
+      </if>
+      <if test="inboundptt != null" >
+        inboundPTT,
+      </if>
+      <if test="instanttransmit != null" >
+        instantTransmit,
+      </if>
+      <if test="patchpc != null" >
+        patchPC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="monitoron != null" >
+        #{monitoron,jdbcType=INTEGER},
+      </if>
+      <if test="pcpreempt != null" >
+        #{pcpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="callpriority != null" >
+        #{callpriority,jdbcType=INTEGER},
+      </if>
+      <if test="allmute != null" >
+        #{allmute,jdbcType=INTEGER},
+      </if>
+      <if test="allmutetimeout != null" >
+        #{allmutetimeout,jdbcType=INTEGER},
+      </if>
+      <if test="pttpriority != null" >
+        #{pttpriority,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usergroup != null" >
+        #{usergroup,jdbcType=INTEGER},
+      </if>
+      <if test="emergindcallenabled != null" >
+        #{emergindcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        #{emerggroupcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="prohibittone != null" >
+        #{prohibittone,jdbcType=INTEGER},
+      </if>
+      <if test="sidetone != null" >
+        #{sidetone,jdbcType=INTEGER},
+      </if>
+      <if test="patchgroupnum != null" >
+        #{patchgroupnum,jdbcType=INTEGER},
+      </if>
+      <if test="msgroupnum != null" >
+        #{msgroupnum,jdbcType=INTEGER},
+      </if>
+      <if test="apbnum != null" >
+        #{apbnum,jdbcType=INTEGER},
+      </if>
+      <if test="calledpreempt != null" >
+        #{calledpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="inboundcall != null" >
+        #{inboundcall,jdbcType=INTEGER},
+      </if>
+      <if test="inboundptt != null" >
+        #{inboundptt,jdbcType=INTEGER},
+      </if>
+      <if test="instanttransmit != null" >
+        #{instanttransmit,jdbcType=INTEGER},
+      </if>
+      <if test="patchpc != null" >
+        #{patchpc,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.RadioDispatchBusiness" >
+    update xhgmnet_dispatchuser_ia
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="monitoron != null" >
+        monitorOn = #{monitoron,jdbcType=INTEGER},
+      </if>
+      <if test="pcpreempt != null" >
+        PCPreempt = #{pcpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="callpriority != null" >
+        callPriority = #{callpriority,jdbcType=INTEGER},
+      </if>
+      <if test="allmute != null" >
+        allMute = #{allmute,jdbcType=INTEGER},
+      </if>
+      <if test="allmutetimeout != null" >
+        allMuteTimeout = #{allmutetimeout,jdbcType=INTEGER},
+      </if>
+      <if test="pttpriority != null" >
+        pttPriority = #{pttpriority,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usergroup != null" >
+        userGroup = #{usergroup,jdbcType=INTEGER},
+      </if>
+      <if test="emergindcallenabled != null" >
+        emergIndCallEnabled = #{emergindcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="emerggroupcallenabled != null" >
+        emergGroupCallEnabled = #{emerggroupcallenabled,jdbcType=INTEGER},
+      </if>
+      <if test="prohibittone != null" >
+        prohibitTone = #{prohibittone,jdbcType=INTEGER},
+      </if>
+      <if test="sidetone != null" >
+        sideTone = #{sidetone,jdbcType=INTEGER},
+      </if>
+      <if test="patchgroupnum != null" >
+        patchGroupNum = #{patchgroupnum,jdbcType=INTEGER},
+      </if>
+      <if test="msgroupnum != null" >
+        MSGroupNum = #{msgroupnum,jdbcType=INTEGER},
+      </if>
+      <if test="apbnum != null" >
+        APBNum = #{apbnum,jdbcType=INTEGER},
+      </if>
+      <if test="calledpreempt != null" >
+        calledPreempt = #{calledpreempt,jdbcType=INTEGER},
+      </if>
+      <if test="inboundcall != null" >
+        inboundCall = #{inboundcall,jdbcType=INTEGER},
+      </if>
+      <if test="inboundptt != null" >
+        inboundPTT = #{inboundptt,jdbcType=INTEGER},
+      </if>
+      <if test="instanttransmit != null" >
+        instantTransmit = #{instanttransmit,jdbcType=INTEGER},
+      </if>
+      <if test="patchpc != null" >
+        patchPC = #{patchpc,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.RadioDispatchBusiness" >
+    update xhgmnet_dispatchuser_ia
+    set name = #{name,jdbcType=VARCHAR},
+      monitorOn = #{monitoron,jdbcType=INTEGER},
+      PCPreempt = #{pcpreempt,jdbcType=INTEGER},
+      callPriority = #{callpriority,jdbcType=INTEGER},
+      allMute = #{allmute,jdbcType=INTEGER},
+      allMuteTimeout = #{allmutetimeout,jdbcType=INTEGER},
+      pttPriority = #{pttpriority,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      userGroup = #{usergroup,jdbcType=INTEGER},
+      emergIndCallEnabled = #{emergindcallenabled,jdbcType=INTEGER},
+      emergGroupCallEnabled = #{emerggroupcallenabled,jdbcType=INTEGER},
+      prohibitTone = #{prohibittone,jdbcType=INTEGER},
+      sideTone = #{sidetone,jdbcType=INTEGER},
+      patchGroupNum = #{patchgroupnum,jdbcType=INTEGER},
+      MSGroupNum = #{msgroupnum,jdbcType=INTEGER},
+      APBNum = #{apbnum,jdbcType=INTEGER},
+      calledPreempt = #{calledpreempt,jdbcType=INTEGER},
+      inboundCall = #{inboundcall,jdbcType=INTEGER},
+      inboundPTT = #{inboundptt,jdbcType=INTEGER},
+      instantTransmit = #{instanttransmit,jdbcType=INTEGER},
+      patchPC = #{patchpc,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

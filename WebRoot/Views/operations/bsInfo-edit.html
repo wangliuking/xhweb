@@ -1,0 +1,197 @@
+<!--修改基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">修改基站</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>基站ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="number" value="" class="form-control" name="bsId"
+									required="required" readonly="readonly" ng-model="editData.bsId">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>基站名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="name"
+									required="required" ng-model="editData.name">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>基站类型</label>&nbsp;<span class="text-danger">[*]</span><select
+									name="type" class="form-control" ng-model="type">
+									<option value="1" selected="selected">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="level" class="form-control" ng-model="level">
+									<option value="1" selected="selected">一级</option>
+									<option value="2">二级</option>
+									<option value="3">三级</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>经度</label> <input type="text" value=""
+									class="form-control" name="lng" ng-model="editData.lng">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>纬度</label> <input type="text" value=""
+									class="form-control" name="lat" ng-model="editData.lat">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>载波数</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="number" value="4" class="form-control" name="chnumber"
+									required="required" ng-model="editData.chnumber">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>gps天线数量</label> <input type="number" value="2"
+									class="form-control" name="gpsLineNum" ng-model="editData.gpsLineNum">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>额定功率</label> <input type="text" value=""
+									class="form-control" name="power" ng-model="editData.power">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>运营商/社会</label> <input type="text" value=""
+									class="form-control" name="carrier" ng-model="editData.carrier">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>运营商站名</label> <input type="text" value=""
+									class="form-control" name="carrierName" ng-model="editData.carrierName">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>运行商传输</label> <input type="text" value=""
+									class="form-control" name="carrierLink" ng-model="editData.carrierLink">
+							</div>
+						</div>
+					</div>
+					<!-- row-end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>机房海拔</label> <input type="text" value=""
+									class="form-control" name="height" ng-model="editData.height">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>天线高度</label> <input type="text" value=""
+									class="form-control" name="lineHeight" ng-model="editData.lineHeight">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>地址</label> <input type="text" value=""
+									class="form-control" name="address" ng-model="editData.address">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>联系人</label> <input type="text" value=""
+									class="form-control" name="contact" ng-model="editData.contact">
+							</div>
+						</div>
+					</div>
+					<!-- row-end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>电话</label> <input type="text" value=""
+									class="form-control" name="tel" ng-model="editData.tel">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>IP</label> <input type="text" value=""
+									class="form-control" name="ip" ng-model="editData.ip">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12" style="margin-top:30px;">
+			
+							<input id="ck11" class="magic-checkbox" type="checkbox"
+									name="openen" value="1" checked ng-model="editData.openen"
+									> <label for="ck11"><span>是否启用</span></label>
+							</div>
+						</div>
+						
+					</div>
+					<!-- row-end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;更新
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

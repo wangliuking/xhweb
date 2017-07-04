@@ -1,0 +1,88 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>巡检表、值班记录</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="filename" ng-model="editData.filename" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>状态</label>&nbsp;<span class="text-danger">[*]</span><input
+									type="text" value="" class="form-control" name="status" ng-value="editData.status | inspectionstatus" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>上传者</label>&nbsp;<span class="text-warning">[*]</span> <input
+									type="text" value="" class="form-control" name="uploaduser" ng-model="editData.uploaduser" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>接收者</label>&nbsp;<span class="text-warning">[*]</span><input
+									type="text" value="" class="form-control" name="recvuser" ng-model="editData.recvuser" readonly="readonly">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span><input
+									type="text" value="" class="form-control" name="contact" ng-model="editData.contact" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="tel" ng-model="editData.tel" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
+								<textarea style="width:560px;height:200px;max-width:560px;max-height:260px;" ng-model="editData.note" name="note"
+								readonly="readonly"></textarea>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>上传时间</label>&nbsp;<span class="text-info">[*]</span>
+								<input class="form-control" type="text" name="createtime" id="createtime" ng-model="editData.createtime" readonly="readonly"/>
+							</div>
+						</div>
+					</div>
+						
+					
+					
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

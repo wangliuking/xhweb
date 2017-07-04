@@ -1,0 +1,127 @@
+<!--修改基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">修改资产记录</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div class="row">
+					     <div class="col-md-4" ng-hide="true">
+							<div class="form-group col-md-12">
+								<label>ID</label>
+								<input type="text" value="" class="form-control" name="id"
+									required="required" hidden="hidden" ng-model="editData.id">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>资产类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="type" name="type" class="form-control" ng-model="type">
+									<option value="1">手台</option>
+									<option value="2">附件</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>名称</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="name" required="required" ng-model="editData.name">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>型号</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="model" required="required" ng-model="editData.model">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>序列号</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="serialNumber" required="required" ng-model="editData.serialNumber">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>来源</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="from" class="form-control" name="from" ng-model="from">
+									<option value="1" selected="selected">采购</option>
+									<option value="2">赠送</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="price" required="required" ng-model="editData.price">
+							</div>
+						</div>
+						
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+					
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>备注</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="note" ng-model="editData.note">
+								
+							</div>
+						</div>
+						
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;更新
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					},
+					regexp: {
+                        regexp: /^[0-9.]+$/,
+                        message: '只能输入整数和小数'
+                    }
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

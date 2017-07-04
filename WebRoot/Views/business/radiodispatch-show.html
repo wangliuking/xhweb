@@ -1,0 +1,111 @@
+<!-- 	添加基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">查看调度用户详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<table class="table-bordered table-hover table-striped" style="width:100%;">
+				<thead>
+				<tr>
+				<th>名称</th>
+				<th>参数</th>
+				<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td>调度用户唯一标识</td><td>{{editData.id}}</td><td></td></tr>
+				<tr><td>调度用户名称</td><td>{{editData.name}}</td><td></td></tr>
+				<tr><td>用户别名</td><td>{{editData.alias}}</td><td></td></tr>
+				<tr><td>交换中心唯一标识</td><td>{{editData.mscid}}</td><td></td></tr>
+				<tr><td>虚拟专网唯一标识</td><td>{{editData.vpnid}}</td><td></td></tr>
+				<tr><td>调度用户类型</td><td>{{editData.usertype}}</td><td></td></tr>
+				<tr><td>用户密码</td><td>{{editData.password}}</td><td></td></tr>
+				<tr><td>用户虚拟专网属性标识</td><td>{{editData.vaid}}</td><td></td></tr>
+				<tr><td>调度用户业务属性唯一标识</td><td>{{editData.said}}</td><td></td></tr>
+				<tr><td>隶属配置用户标识</td><td>{{editData.masterid}}</td><td></td></tr>
+				<tr><td>允许全双工</td><td>{{editData.fullduple}}</td><td></td></tr>
+				<tr><td>允许环境监听初始化</td><td>{{editData.ambienceinitiation}}</td><td></td></tr>
+				<tr><td>主叫号码显示限制</td><td>{{editData.clir}}</td><td></td></tr>
+				<tr><td>主叫号码显示限制覆盖</td><td>{{editData.cliroverride}}</td><td></td></tr>
+				<tr><td>调度用户业务属性名</td><td>{{editData.saname}}</td><td></td></tr>
+				<tr><td>监视状态</td><td>{{editData.supervisorstatus}}</td><td></td></tr>
+				<tr><td>调度类型</td><td>{{editData.dispatchertype}}</td><td></td></tr>
+				<tr><td>code</td><td>{{editData.code}}</td><td></td></tr>
+				<tr><td>dispatchNum</td><td>{{editData.dispatchnum}}</td><td></td></tr>
+				<tr><td>直播号码</td><td>{{editData.dialstring}}</td><td></td></tr>
+				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

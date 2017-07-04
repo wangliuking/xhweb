@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.CallListMapper">
+<!-- 自定义返回结果集 -->
+   <resultMap id="callMap" type="xh.mybatis.bean.CallListBean">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="Call_Time" column="Call_Time" javaType="java.lang.String"></result>
+        <result property="Call_id" column="Call_id" javaType="java.lang.String"></result>
+        <result property="Call_sys_id" column="Call_sys_id" javaType="java.lang.String"></result>
+        <result property="Use_Time" column="Use_Time" javaType="java.lang.Integer"></result>
+        <result property="Caller" column="Caller" javaType="java.lang.String"></result>
+        <result property="Called" column="Called" javaType="java.lang.String"></result>
+        <result property="Call_Type" column="Call_Type" javaType="java.lang.String"></result>
+        <result property="Call_TS_Id" column="Call_TS_Id" javaType="java.lang.String"></result>
+        <result property="Call_BS_BS" column="Call_BS_BS" javaType="java.lang.String"></result>
+        <result property="Call_RSSI" column="Call_RSSI" javaType="java.lang.String"></result>
+        <result property="Call_Result" column="Call_Result" javaType="java.lang.String"></result>
+        <result property="Call_Path" column="Call_Path" javaType="java.lang.String"></result>
+    </resultMap>
+    <!--查询呼叫记录name like concat(#{name},'%')-->
+    <select id="selectCallList" parameterType="map" resultMap="callMap">
+     select * from xhgmnet_calllist05 where 1=1 
+        <if test="caller != null and caller !=''">
+            and Caller like concat(#{Caller},'%')
+        </if>
+        <if test="called!=null and called !=''">
+            and Called like concat(#{Called},'%')
+        </if>
+        <if test="starttime!=null and starttime!=''">
+            and Call_Time &gt;=#{starttime,jdbcType=DATE}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and Call_Time &lt;=#{endtime,jdbcType=DATE}
+        </if>
+        order by Call_Time desc limit #{start},#{limit}
+    </select>
+    <!--查询呼叫记录总数-->
+    <select id="CallListCount" parameterType="xh.mybatis.bean.CallListBean" resultType="int">
+     select count(*) from xhgmnet_calllist05 where 1=1
+      <if test="caller != null and caller !=''">
+            and Caller like concat(#{Caller},'%')
+        </if>
+        <if test="called!=null and called !=''">
+            and Called like concat(#{Called},'%')
+        </if>
+        <if test="starttime!=null and starttime!=''">
+            and Call_Time &gt;=#{starttime,jdbcType=DATE}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and Call_Time &lt;=#{endtime,jdbcType=DATE}
+        </if>
+    </select>
+    
+
+    
+
+    
+    
+</mapper>

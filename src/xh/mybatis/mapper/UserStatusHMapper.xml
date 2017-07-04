@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.UserStatusHMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.UserStatusH" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="bsId" property="bsid" jdbcType="INTEGER" />
+    <result column="iaList" property="ialist" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="regStatus" property="regstatus" jdbcType="INTEGER" />
+    <result column="callStatus" property="callstatus" jdbcType="INTEGER" />
+    <result column="TGid" property="tgid" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="ById" parameterType="map" resultMap="BaseResultMap"
+		useCache="true">
+		select * from xhgmnet_operations_userstatus_h where 1=1
+		<if test="userid !=null and userid !='' and userid !=0">
+			and userid like concat('%',#{userid},'%')
+		</if>
+		<if test="regstatus !=null and regstatus !='' and regstatus !=2">
+			and regstatus=#{regstatus}
+		</if>
+		<if test="starttime !=null and starttime !=''">
+			and time &gt; #{starttime}
+		</if>
+		<if test="endtime !=null and endtime !=''">
+			and time &lt; #{endtime}
+		</if>
+		<if test="starttime !=null and starttime !='' and endtime!=null and endtime !=''">
+			and time &gt; #{starttime} and time &lt; #{endtime}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_userstatus_h where 1=1
+		<if test="userid !=null and userid !='' and userid !=0">
+			and userid like concat('%',#{userid},'%')
+		</if>
+		<if test="regstatus !=null and regstatus !='' and regstatus !=2">
+			and regstatus=#{regstatus}
+		</if>
+		<if test="starttime !=null and starttime !=''">
+			and time &gt; #{starttime}
+		</if>
+		<if test="endtime !=null and endtime !=''">
+			and time &lt; #{endtime}
+		</if>
+		<if test="starttime !=null and starttime !='' and endtime!=null and endtime !=''">
+			and time &gt; #{starttime} and time &lt; #{endtime}
+		</if>
+	</select>
+  
+  <sql id="Base_Column_List" >
+    id, userId, bsId, iaList, time, regStatus, callStatus, TGid, flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xhgmnet_operations_userstatus_h
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xhgmnet_operations_userstatus_h
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xh.mybatis.bean.UserStatusH" >
+    insert into xhgmnet_operations_userstatus_h (id, userId, bsId, 
+      iaList, time, regStatus, 
+      callStatus, TGid, flag
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{bsid,jdbcType=INTEGER}, 
+      #{ialist,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{regstatus,jdbcType=INTEGER}, 
+      #{callstatus,jdbcType=INTEGER}, #{tgid,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="xh.mybatis.bean.UserStatusH" >
+    insert into xhgmnet_operations_userstatus_h
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="bsid != null" >
+        bsId,
+      </if>
+      <if test="ialist != null" >
+        iaList,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="regstatus != null" >
+        regStatus,
+      </if>
+      <if test="callstatus != null" >
+        callStatus,
+      </if>
+      <if test="tgid != null" >
+        TGid,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="bsid != null" >
+        #{bsid,jdbcType=INTEGER},
+      </if>
+      <if test="ialist != null" >
+        #{ialist,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regstatus != null" >
+        #{regstatus,jdbcType=INTEGER},
+      </if>
+      <if test="callstatus != null" >
+        #{callstatus,jdbcType=INTEGER},
+      </if>
+      <if test="tgid != null" >
+        #{tgid,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.UserStatusH" >
+    update xhgmnet_operations_userstatus_h
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="bsid != null" >
+        bsId = #{bsid,jdbcType=INTEGER},
+      </if>
+      <if test="ialist != null" >
+        iaList = #{ialist,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regstatus != null" >
+        regStatus = #{regstatus,jdbcType=INTEGER},
+      </if>
+      <if test="callstatus != null" >
+        callStatus = #{callstatus,jdbcType=INTEGER},
+      </if>
+      <if test="tgid != null" >
+        TGid = #{tgid,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.UserStatusH" >
+    update xhgmnet_operations_userstatus_h
+    set userId = #{userid,jdbcType=INTEGER},
+      bsId = #{bsid,jdbcType=INTEGER},
+      iaList = #{ialist,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      regStatus = #{regstatus,jdbcType=INTEGER},
+      callStatus = #{callstatus,jdbcType=INTEGER},
+      TGid = #{tgid,jdbcType=INTEGER},
+      flag = #{flag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

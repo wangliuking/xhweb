@@ -1,0 +1,106 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">查看通播组详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<table class="table-bordered table-hover table-striped" style="width:100%;">
+				<thead>
+				<tr>
+				<th>名称</th>
+				<th>参数</th>
+				<th>备注</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr><td>通播组ID</td><td>{{editData.cMultigroupid}}</td><td></td></tr>
+				<tr><td>名称</td><td>{{editData.eName}}</td><td></td></tr>
+				<tr><td>别名</td><td>{{editData.eAlias}}</td><td></td></tr>
+				<tr><td>交换中心ID</td><td>{{editData.eMscid}}</td><td></td></tr>
+				<tr><td>VPN标示</td><td>{{editData.eVpnid}}</td><td></td></tr>
+				<tr><td>通话组/通播组业务属性标识</td><td>{{editData.eSaid}}</td><td></td></tr>
+				<tr><td>通话组/通播组互联属性标识</td><td>{{editData.eIaid}}</td><td></td></tr>
+				<tr><td>虚拟专网属性标示</td><td>{{editData.eVaid}}</td><td></td></tr>
+				<tr><td>预占使能</td><td>{{editData.ePreempt}}</td><td></td></tr>
+				<tr><td>用户组类型</td><td>{{editData.eRadiotype}}</td><td></td></tr>
+				<tr><td>组使能</td><td>{{editData.eEnabled}}</td><td></td></tr>
+				<tr><td>直播号码</td><td>{{editData.eDirectdial}}</td><td></td></tr>
+				<tr><td>interruptWait</td><td>{{editData.interruptwait}}</td><td></td></tr>
+				<tr><td>pdtType</td><td>{{editData.pdttype}}</td><td></td></tr>
+				<tr><td>npType</td><td>{{editData.nptype}}</td><td></td></tr>
+				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

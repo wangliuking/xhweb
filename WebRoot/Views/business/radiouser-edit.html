@@ -1,0 +1,484 @@
+<!-- 	添加基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加或编辑无线用户</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div class="text-center m-b-md" id="wizardControl_edit">
+
+						<a class="btn btn-primary" href="#step_1" data-toggle="tab">第一步</a>
+						<a class="btn btn-default" href="#step_2" data-toggle="tab">第二步</a>
+						<a class="btn btn-default" href="#step_3" data-toggle="tab">第三步</a>
+						<a class="btn btn-default" href="#step_4" data-toggle="tab">第四步</a>
+						<a class="btn btn-default" href="#step_5" data-toggle="tab">第五步</a>
+					</div>
+
+					<div class="tab-content">
+						<div id="step_1" class="p-m tab-pane active">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户ID</label> 
+										<input type="hidden" name="id" ng-value="editData.id"/>
+										<input type="number" value=""
+											class="form-control" name="C_ID" id="C_ID" ng-model="editData.C_ID" readonly="readonly" 
+											oninput="if(value.length>20)value=value.slice(0,20)"
+											required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户名称</label> <input type="text" value=""
+										oninput="if(value.length>16)value=value.slice(0,16)"
+											class="form-control" name="E_name" id="E_name" ng-model="editData.E_name" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>用户别名</label> <input type="text" value=""
+										oninput="if(value.length>8)value=value.slice(0,8)"
+											class="form-control" name="E_alias" id="E_alias" ng-model="editData.E_alias" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>交换中心唯一标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_mscId" id="E_mscId" ng-model="editData.E_mscId" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>虚拟专网唯一标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_vpnId" id="E_vpnId" ng-model="editData.E_vpnId" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>警员编号</label> <input type="text" value=""
+										oninput="if(value.length>32)value=value.slice(0,32)"
+											class="form-control" name="E_sn" id="E_sn" ng-model="editData.E_sn" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>用户所在单位</label> <input type="text" value=""
+										oninput="if(value.length>32)value=value.slice(0,32)"
+											class="form-control" name="E_company" id="E_company" ng-model="editData.E_company" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>警察种类</label> <input type="text" value=""
+										oninput="if(value.length>16)value=value.slice(0,16)"
+											class="form-control" name="E_type" id="E_type" ng-model="editData.E_type" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>用户使能</label> <input type="number" value=""
+											class="form-control" name="E_enabled" id="E_enabled" ng-model="editData.E_enabled" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许短数据</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_shortData" id="E_shortData" 
+										ng-model="editData.E_shortData" ng-checked="editData.E_shortData==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_shortData" id="E_shortData"
+										ng-model="editData.E_shortData" ng-checked="editData.E_shortData==0">否
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right m-t-xs">
+								<a class="btn btn-default next" href="#">下一步</a>
+							</div>
+
+						</div>
+						<div id="step_2" class="p-m tab-pane">
+						<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许全双工</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_fullDuple" id="E_fullDuple" 
+										ng-model="editData.E_fullDuple" ng-checked="editData.E_fullDuple==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_fullDuple" id="E_fullDuple"
+										ng-model="editData.E_fullDuple" ng-checked="editData.E_fullDuple==0">否
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户类型</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_radioType" id="E_radioType" ng-model="editData.E_radioType" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许跨组呼叫</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_anycall" id="E_anycall" 
+										ng-model="editData.E_anycall" ng-checked="editData.E_anycall==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_anycall" id="E_anycall"
+										ng-model="editData.E_anycall" ng-checked="editData.E_anycall==0">否
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户业务属性标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_saId" id="E_saId" ng-model="editData.E_saId" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户互连属性标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_iaId" id="E_iaId" ng-model="editData.E_iaId" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>用户虚拟专网属性标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_vaId" id="E_vaId" ng-model="editData.E_vaId" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>通话组列表标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_rutgId" id="E_rutgId" ng-model="editData.E_rutgId" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>IP地址</label> <input type="text" value=""
+										oninput="if(value.length>20)value=value.slice(0,20)"
+											class="form-control" name="E_ip" id="E_ip" ng-model="editData.E_ip" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>主通话组标识</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_PrimaryTGId" id="E_PrimaryTGId" ng-model="editData.E_PrimaryTGId" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许环境监听</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_ambienceMonitoring" id="E_ambienceMonitoring" 
+										ng-model="editData.E_ambienceMonitoring" ng-checked="editData.E_ambienceMonitoring==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_ambienceMonitoring" id="E_ambienceMonitoring"
+										ng-model="editData.E_ambienceMonitoring" ng-checked="editData.E_ambienceMonitoring==0">否
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right m-t-xs">
+								<a class="btn btn-default prev" href="#">上一步</a> <a
+									class="btn btn-default next" href="#">下一步</a>
+							</div>
+
+						</div>
+						<div id="step_3" class="p-m tab-pane">
+						<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许分组数据</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_packetData" id="E_packetData" 
+										ng-model="editData.E_packetData" ng-checked="editData.E_packetData==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_packetData" id="E_packetData"
+										ng-model="editData.E_packetData" ng-checked="editData.E_packetData==0">否
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许环境监听初始化</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_ambienceInitiation" id="E_ambienceInitiation" 
+										ng-model="editData.E_ambienceInitiation" ng-checked="editData.E_ambienceInitiation==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_ambienceInitiation" id="E_ambienceInitiation"
+										ng-model="editData.E_ambienceInitiation" ng-checked="editData.E_ambienceInitiation==0">否
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>直拨号码</label> <input type="text" value=""
+										oninput="if(value.length>16)value=value.slice(0,16)"
+											class="form-control" name="E_directDial" id="E_directDial" ng-model="editData.E_directDial" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许PSTN接入</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_PSTNAccess" id="E_PSTNAccess" 
+										ng-model="editData.E_PSTNAccess" ng-checked="editData.E_PSTNAccess==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_PSTNAccess" id="E_PSTNAccess"
+										ng-model="editData.E_PSTNAccess" ng-checked="editData.E_PSTNAccess==0">否
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>是否允许PABX接入</label>
+										<br/>
+										<input style="width:35px;height:35px;" type="radio" value="1" class="radio-inline" name="E_pabxAccess" id="E_pabxAccess" 
+										ng-model="editData.E_pabxAccess" ng-checked="editData.E_pabxAccess==1">是
+										<input style="width:35px;height:35px;margin:4px 0px 0px 15px;" type="radio" value="0" class="radio-inline" name="E_pabxAccess" id="E_pabxAccess"
+										ng-model="editData.E_pabxAccess" ng-checked="editData.E_pabxAccess==0">否
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>主叫号码显示限制</label> <input type="number" value=""
+											class="form-control" name="E_clir" id="E_clir" ng-model="editData.E_clir" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>主叫号码显示限制覆盖</label> <input type="number" value=""
+											class="form-control" name="E_clirOverride" id="E_clirOverride" ng-model="editData.E_clirOverride" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>遥启遥毙</label> <input type="number" value=""
+											class="form-control" name="E_killed" id="E_killed" ng-model="editData.E_killed" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>MS类型</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="E_msType" id="E_msType" ng-model="editData.E_msType" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>状态</label> <input type="number" value=""
+											class="form-control" name="E_status" id="E_status" ng-model="editData.E_status" required="required">
+									</div>
+								</div>
+							</div>
+						
+
+							<div class="text-right m-t-xs">
+								<a class="btn btn-default prev" href="#">上一步</a> <a
+									class="btn btn-default next" href="#">下一步</a>
+							</div>
+
+						</div>
+						<div id="step_4" class="p-m tab-pane">
+						<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户业务属性名</label> <input type="text" value=""
+										oninput="if(value.length>64)value=value.slice(0,64)"
+											class="form-control" name="saName" id="saName" ng-model="editData.saName" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>无线用户互连属性名</label> <input type="text" value=""
+										oninput="if(value.length>64)value=value.slice(0,64)"
+											class="form-control" name="iaName" id="iaName" ng-model="editData.iaName" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>pdtType(0或581)</label> <input type=number value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="pdtType" id="pdtType" ng-model="editData.pdtType" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>npType(0-1000)</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="npType" id="npType" ng-model="editData.npType" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>esn</label> <input type="text" value=""
+										oninput="if(value.length>20)value=value.slice(0,20)"
+											class="form-control" name="esn" id="esn" ng-model="editData.esn" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>用户类别0-65535</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="subscriberClass" id="subscriberClass" ng-model="editData.subscriberClass" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>桥接中心使能12</label> <input type="number" value=""
+											class="form-control" name="brdgFrdEnabled" id="brdgFrdEnabled" ng-model="editData.brdgFrdEnabled" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>鉴权要求</label> <input type="number" value=""
+											class="form-control" name="authRequired" id="authRequired" ng-model="editData.authRequired" required="required">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>发射优先级</label> <input type="number" value=""
+										oninput="if(value.length>11)value=value.slice(0,11)"
+											class="form-control" name="txPriority" id="txPriority" ng-model="editData.txPriority" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>S/N</label> <input type="text" value=""
+										oninput="if(value.length>15)value=value.slice(0,15)"
+											class="form-control" name="serialNum" id="serialNum" ng-model="editData.serialNum" required="required">
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right m-t-xs">
+								<a class="btn btn-default prev" href="#">上一步</a> <a
+									class="btn btn-default next" href="#">下一步</a>
+							</div>
+
+						</div>
+						<div id="step_5" class="p-m tab-pane">
+						<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>tei</label> <input type="text" value=""
+										oninput="if(value.length>15)value=value.slice(0,15)"
+											class="form-control" name="tei" id="tei" ng-model="editData.tei" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>时间</label>
+											<input type="text" class="form-control" name="time" id="time" ng-model="editData.time" placeholder="时间"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" required="required">
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right m-t-xs">
+								<a class="btn btn-default prev" href="#">上一步</a> 
+								<button type="button" ng-disabled="form.$invalid" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-plus"></i>&nbsp;更新
+				</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+//控制步骤
+$(function() {
+	
+		/* $('#edit').on("hidden.bs.modal", function() {
+			var app = angular.module("app", []);
+			app.controller("radiouser",function($scope){
+				$scope.editData=[];
+			});
+		}); */
+
+	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
+		$('#edit a[data-toggle="tab"]').addClass('btn-default');
+		$(this).removeClass('btn-default');
+		$(this).addClass('btn-primary');
+	});
+
+	$('#edit .next').click(function() {
+		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
+		$('#edit a[href="#'+nextId+'"]').tab('show');
+	});
+
+	$('#edit .prev').click(function() {
+		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
+		$('#edit a[href="#' + prevId + '"]').tab('show');
+	});
+
+});
+
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '无线用户ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>
