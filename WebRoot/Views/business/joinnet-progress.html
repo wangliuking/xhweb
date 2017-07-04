@@ -1,141 +1,157 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>入网申请进度</title>
-<meta name="keywords" content="keyword1,keyword2,keyword3">
-<meta name="description" content="this is my page">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Cache-Control" content="no-cache">
-<meta http-equiv="Expires" content="-1">
-<script type="text/javascript"
-	src="../../Resources/js/xhbootstrap-css.js"></script>
-<!--[if lte IE 9]>
-<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
-<script src="../../Resources/js/respond.min.js"></script>
-<script src="../../Resources/js/html5shiv.js"></script>
-<![endif]-->
-</head>
-<body ng-app="app" ng-controller="xhcontroller"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
-	<!-- splash screen-->
-	<div class="splash">
-		<div class="color-line"></div>
-		<div class="splash-title">
-			<h1>系统正在努力加载中，请耐心等待</h1>
-			<div class="spinner">
-				<div class="rect1"></div>
-				<div class="rect2"></div>
-				<div class="rect3"></div>
-				<div class="rect4"></div>
-				<div class="rect5"></div>
+
+<div class="modal fade" id="progress" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small> -->
 			</div>
-		</div>
-	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
-	<!-- 中间内容体 -->
-	<div id="wrapper">
-		<div class="small-header transition animated fadeIn">
-			<div class="title-panel">
-				<div class="panel-body">
-					<div id="hbreadcrumb" class="pull-left">
-						<ol class="hbreadcrumb breadcrumb">
-							<li><span>当前位置：</span></li>
-							<li><span>业务管理</span></li>
-							<li><span>入网申请</span></li>
-							<li class="active"><span>入网申请进度</span></li>
-						</ol>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<ul id="xh-tabs" class="nav nav-tabs">
+					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
+					<li><a href="#group" data-toggle="tab">申请进度</a></li>
+				</ul>
+				<div class="tab-content" style="padding:20px">
+					<div class="tab-pane fade in active text-danger" id="info">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>用户单位</label><input type="text" ng-model="editData.unitName"
+										class="form-control" name="unitName" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>单位性质</label> <input type="text" ng-model="editData.unitNature"
+										class="form-control" name="unitNature" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>单位类型</label> <input type="text" ng-model="editData.unitType"
+										class="form-control" name="unitType" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>入网依据</label> <input type="text" ng-model="editData.netBasis"
+										class="form-control" name="netBasis" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>入网时间</label> <input type="text" ng-model="editData.netTime"
+										class="form-control" name="netTime" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>合同名称</label> <input type="text" ng-model="editData.pactName"
+										class="form-control" name="pactName" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>合同签署日期</label> <input type="text" ng-model="editData.signtime"
+										class="form-control" name="signtime" required="required"
+										required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>服务期限</label><input type="text" ng-model="editData.servicetime"
+										class="form-control" name="servicetime" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>单位负责人</label><input type="text" ng-model="editData.unitPerson"
+										class="form-control" name="unitPerson" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系电话</label> <input type="text" ng-model="editData.tel"
+										class="form-control" name="tel" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系部门</label><input type="text" ng-model="editData.department"
+										class="form-control" name="department" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>虚拟专网名称</label> <input type="text" ng-model="editData.virtualnetName"
+										class="form-control" name="virtualnetName" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>服务类型</label> <input type="text" ng-model="editData.serviceType"
+										class="form-control" name="serviceType" required="required">
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="content animate-panel">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-heading">
-							<div class="panel-tools">
-								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
-									class="closebox"><i class="fa fa-times"></i></a>
-							</div>
-							用户申请信息
-						</div>
-						<div class="panel-body body-span" ng-model="x">
-							<span>用户单位：<span style="color:red">{{x.unitName}}</span></span> <span>单位性质：<span
-								style="color:red">{{x.unitNature}}</span></span> <span>单位类型：<span
-								style="color:red">{{x.unitType}}</span></span> <span>入网依据：<span
-								style="color:red">{{x.netBasis}}</span></span> <span>入网时间：<span
-								style="color:red">{{x.nettime}}</span></span> <span>合同名称：<span
-								style="color:red">{{x.pactName}}</span></span> <span>合同签署日期：<span
-								style="color:red">{{x.signtime}}</span></span> <span>服务期限：<span
-								style="color:red">{{x.servicetime}}</span></span> <span>单位负责人：<span
-								style="color:red">{{x.unitPerson}}</span>
-							</span> <span>联系电话：<span style="color:red">{{x.tel}}</span>
-							</span> <span>联系部门：<span style="color:red">{{x.department}}</span>
-							</span> <span>虚拟专网名称：<span style="color:red">{{x.virtualnetName}}</span></span>
-							<span>服务类型：<span style="color:red">{{x.serviceType}}</span></span>
-						</div>
-					</div>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
 			</div>
-			<!-- row   end-->
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<div class="v-timeline vertical-container animate-panel"
-						data-child="vertical-timeline-block" data-delay="1">
-						<div class="vertical-timeline-block">
-							<div class="vertical-timeline-icon badge badge-success">
-								主管部门</div>
-							<div class="vertical-timeline-content">
-								123333</br>123333</br>123333</br>123333</br>
-							</div>
-						</div>
-						<!-- vertical-timeline-block -->
-						
-						<div class="vertical-timeline-block">
-							<div class="vertical-timeline-icon  badge badge-gray">软中领导
-							</div>
-							<div class="vertical-timeline-content">
-								123333</br>123333</br>123333</br>123333</br>
-							</div>
-						</div>
-						<!-- vertical-timeline-block -->
-						<div class="vertical-timeline-block">
-							<div class="vertical-timeline-icon  badge badge-gray">经办人</div>
-							<div class="vertical-timeline-content">
-								123333</br>123333</br>123333</br>123333</br>
-							</div>
-						</div>
-						<!-- vertical-timeline-block -->
-						
-					</div>
-					<!-- v-timeline -->
-				</div>
-			</div>
-			<!-- row/ -->
 		</div>
 	</div>
-	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
-	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
-		<i class="fa fa-chevron-circle-up fa-3x"></i>
-	</div>
-	<script type="text/javascript"
-		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript"
-		src="../../Controllers/business/joinnet-progress.js"></script>
-	<script type="text/javascript">
-		xh.load();
-	</script>
-</body>
-</html>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
+	});
+
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		/* price : {
+			validators : {
+				notEmpty : {
+					message : '类型不能为空'
+				},
+				regexp : {
+					regexp : /^[0-9.]+$/,
+					message : '只能输入整数和小数'
+				}
+			}
+		} */
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>
+<script>
+	$(function() {
+		$("[data-toggle='tooltip']").tooltip();
+	});
+</script>
