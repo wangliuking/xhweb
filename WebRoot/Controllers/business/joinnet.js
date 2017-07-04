@@ -59,11 +59,7 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
-			/*$location.path('joinnet-progress.html').search({key:123});*/
-			/*$location.path('joinnet-progress.html').search({key:123});
-			$location.replace();*/
-			
-	        window.location.href="joinnet-progress.html?data="+angular.toJson($scope.editData);
+			$("#progress").modal('show');
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
