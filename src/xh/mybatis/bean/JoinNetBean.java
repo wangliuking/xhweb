@@ -19,6 +19,16 @@ public class JoinNetBean {
 	private int checked;
 	private String result;
 	private String userName;
+	private String time;
+	private String user1;
+	private String user2;
+	private String user3;
+	private String time1;
+	private String time2;
+	private String time3;
+	private String note1;
+	private String note2;
+	private String note3;
 	public int getId() {
 		return id;
 	}
@@ -127,6 +137,67 @@ public class JoinNetBean {
 	}
 	public void setServiceType(String serviceType) {
 		this.serviceType = serviceType;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	public String getUser1() {
+		return user1;
+	}
+	public void setUser1(String user1) {
+		this.user1 = user1;
+	}
+	public String getUser2() {
+		return user2;
+	}
+	public void setUser2(String user2) {
+		this.user2 = user2;
+	}
+	public String getUser3() {
+		return user3;
+	}
+	public void setUser3(String user3) {
+		this.user3 = user3;
+	}
+	public String getTime1() {
+		return time1;
+	}
+	public void setTime1(String time1) {
+		this.time1 = time1;
+	}
+	public String getTime2() {
+		return time2;
+	}
+	public void setTime2(String time2) {
+		this.time2 = time2;
+	}
+	public String getTime3() {
+		return time3;
+	}
+	public void setTime3(String time3) {
+		this.time3 = time3;
+	}
+	public String getNote1() {
+		return note1;
+	}
+	public void setNote1(String note1) {
+		this.note1 = note1;
+	}
+	public String getNote2() {
+		return note2;
+	}
+	public void setNote2(String note2) {
+		this.note2 = note2;
+	}
+	public String getNote3() {
+		return note3;
+	}
+	public void setNote3(String note3) {
+		this.note3 = note3;
 	}
 	@Override
 	public String toString() {

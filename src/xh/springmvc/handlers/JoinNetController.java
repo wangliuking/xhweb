@@ -100,6 +100,94 @@ public class JoinNetController {
 		}
 
 	}
+	/**
+	 * 管理方审核
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedOne", method = RequestMethod.POST)
+	public void checkedOne(HttpServletRequest request,HttpServletResponse response) {
+		this.success = true;
+		int id=funUtil.StringToInt(request.getParameter("id"));
+		int checked=funUtil.StringToInt(request.getParameter("checked"));
+		String note1=request.getParameter("note1");
+		JoinNetBean bean=new JoinNetBean();
+		bean.setId(id);
+		bean.setChecked(checked);
+		bean.setUser1(funUtil.loginUser(request));
+		bean.setTime1(funUtil.nowDate());
+		bean.setNote1(note1);
+		log.info("data==>"+bean.toString());
+		
+		int rst=JoinNetService.checkedOne(bean);
+		if (rst==1) {
+			this.message="审核提交成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("审核入网申请，data="+bean.toString());
+			WebLogService.writeLog(webLogBean);
+		}else {
+			this.message="审核提交失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result",rst);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 主管部门审核
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedTwo", method = RequestMethod.POST)
+	public void checkedTwo(HttpServletRequest request,HttpServletResponse response) {
+		this.success = true;
+		int id=funUtil.StringToInt(request.getParameter("id"));
+		String note2=request.getParameter("note2");
+		JoinNetBean bean=new JoinNetBean();
+		bean.setId(id);
+		bean.setChecked(2);
+		bean.setUser2(funUtil.loginUser(request));
+		bean.setTime2(funUtil.nowDate());
+		bean.setNote2(note2);
+		
+		int rst=JoinNetService.insertNet(bean);
+		if (rst==1) {
+			this.message="通知经办人处理成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(入网申请)，data="+bean.toString());
+			WebLogService.writeLog(webLogBean);
+		}else {
+			this.message="通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result",rst);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 
 }

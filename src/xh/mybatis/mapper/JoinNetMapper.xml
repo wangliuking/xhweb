@@ -20,5 +20,13 @@
       values(#{unitName},#{unitNature},#{unitType},#{serviceType},#{netBasis},#{netTime},#{pactName},
       #{signTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{virtualnetName},#{userName})
     </insert> 
+    <!--主管部门审核-->
+    <update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
+      update xhgmnet_business_net set user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where id=#{id}
+    </update> 
+    <!--管理方审核-->
+    <update id="checkedTwo" parameterType="xh.mybatis.bean.JoinNetBean">
+      update xhgmnet_business_net set user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+    </update>          
 
 </mapper>

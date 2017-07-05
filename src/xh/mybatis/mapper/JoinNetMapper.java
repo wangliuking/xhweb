@@ -26,5 +26,19 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int insertNet(JoinNetBean bean)throws Exception;
+	/**
+	 * 管理方审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedOne(JoinNetBean bean)throws Exception;
+	/**
+	 * 主管部门审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedTwo(JoinNetBean bean)throws Exception;
 
 }

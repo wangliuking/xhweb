@@ -5,68 +5,44 @@
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
-				<!-- <button type="button" class="close" data-dismiss="modal"
+				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold"></small> -->
+				<small class="font-bold"></small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
-					<li><a href="#group" data-toggle="tab">申请进度</a></li>
+					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
 				</ul>
 				<div class="tab-content" style="padding:20px">
 					<div class="tab-pane fade in active text-danger" id="info">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>用户单位</label><input type="text" ng-model="editData.unitName"
-										class="form-control" name="unitName" required="required">
+									<label>用户单位</label><input type="text"
+										ng-model="editData.unitName" class="form-control"
+										name="unitName" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>单位性质</label> <input type="text" ng-model="editData.unitNature"
-										class="form-control" name="unitNature" required="required">
+									<label>单位性质</label> <input type="text"
+										ng-model="editData.unitNature" class="form-control"
+										name="unitNature" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>单位类型</label> <input type="text" ng-model="editData.unitType"
-										class="form-control" name="unitType" required="required">
+									<label>单位类型</label> <input type="text"
+										ng-model="editData.unitType" class="form-control"
+										name="unitType" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>入网依据</label> <input type="text" ng-model="editData.netBasis"
-										class="form-control" name="netBasis" required="required">
-								</div>
-							</div>
-						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>入网时间</label> <input type="text" ng-model="editData.netTime"
-										class="form-control" name="netTime" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>合同名称</label> <input type="text" ng-model="editData.pactName"
-										class="form-control" name="pactName" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>合同签署日期</label> <input type="text" ng-model="editData.signtime"
-										class="form-control" name="signtime" required="required"
-										required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>服务期限</label><input type="text" ng-model="editData.servicetime"
-										class="form-control" name="servicetime" required="required">
+									<label>入网依据</label> <input type="text"
+										ng-model="editData.netBasis" class="form-control"
+										name="netBasis" required="required">
 								</div>
 							</div>
 						</div>
@@ -74,8 +50,40 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>单位负责人</label><input type="text" ng-model="editData.unitPerson"
-										class="form-control" name="unitPerson" required="required">
+									<label>入网时间</label> <input type="text"
+										ng-model="editData.nettime" class="form-control"
+										name="netTime" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>合同名称</label> <input type="text"
+										ng-model="editData.pactName" class="form-control"
+										name="pactName" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>合同签署日期</label> <input type="text"
+										ng-model="editData.signtime" class="form-control"
+										name="signtime" required="required" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>服务期限</label><input type="text"
+										ng-model="editData.servicetime" class="form-control"
+										name="servicetime" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>单位负责人</label><input type="text"
+										ng-model="editData.unitPerson" class="form-control"
+										name="unitPerson" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -86,14 +94,16 @@
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>联系部门</label><input type="text" ng-model="editData.department"
-										class="form-control" name="department" required="required">
+									<label>联系部门</label><input type="text"
+										ng-model="editData.department" class="form-control"
+										name="department" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>虚拟专网名称</label> <input type="text" ng-model="editData.virtualnetName"
-										class="form-control" name="virtualnetName" required="required">
+									<label>虚拟专网名称</label> <input type="text"
+										ng-model="editData.virtualnetName" class="form-control"
+										name="virtualnetName" required="required">
 								</div>
 							</div>
 						</div>
@@ -101,21 +111,69 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>服务类型</label> <input type="text" ng-model="editData.serviceType"
-										class="form-control" name="serviceType" required="required">
+									<label>服务类型</label> <input type="text"
+										ng-model="editData.serviceType" class="form-control"
+										name="serviceType" required="required">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- tab-pane--end -->
+					<div class="tab-pane fade text-danger" id="p-timeline"
+						style="background:#e9f0f5;margin:0;">
+						<div id="cd-timeline" class="cd-container">
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-green">提交</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-green"></div>
+								<div class="cd-timeline-content">
+									<h2>主管部门审核</h2>
+									<p>
+										<span>备注：</span><span>备注内容</span>
+									</p>
+									<span class="cd-date text-success">已经审核; 审核时间：2015-01-06</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-red"></div>
+								<div class="cd-timeline-content">
+									<h2>软件产业发展中心领导审核</h2>
+									<p>
+										<span>备注：</span><span>备注内容</span>
+									</p>
+									<span class="cd-date">等待审核！</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-red"></div>
+								<div class="cd-timeline-content">
+									<h2>经办人处理</h2>
+									<p>
+										<span>备注：</span><span>备注内容</span>
+									</p>
+									<span class="cd-date">等待处理！</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-red">结束</div>
+								<div class="cd-timeline-content">
+									<p>
+										<span>备注：</span><span>备注内容</span>
+									</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger btn-sm"
-					data-dismiss="modal">
-					<i class="fa fa-remove"></i>&nbsp;关闭
-				</button>
-			</div>
 		</div>
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div> -->
 	</div>
 </div>
 <script type="text/javascript">

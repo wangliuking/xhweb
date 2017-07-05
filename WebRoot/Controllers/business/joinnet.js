@@ -61,6 +61,11 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$("#progress").modal('show');
 	    };
+		/*显示审核窗口*/
+		$scope.checkWin = function (id) {
+			$scope.checkData = $scope.data[id];
+			$("#checkWin1").modal('show');
+	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -213,6 +218,52 @@ xh.add = function() {
 		}
 	});
 };
+/*主管部门审核*/
+xh.check1 = function() {
+	$.ajax({
+		url : '../../net/checkedOne',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkWin").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*管理方审核*/
+xh.check2 = function() {
+	$.ajax({
+		url : '../../net/checkedOne',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkWin2").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin2').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 修改 */
 xh.update = function() {
 	$.ajax({
@@ -237,43 +288,6 @@ xh.update = function() {
 		}
 	});
 };
-/* 批量删除基站 */
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../business/deleteAsset',
-		type : 'post',
-		dataType : "json",
-		data : {
-			deleteIds : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				xh.refresh();
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
