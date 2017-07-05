@@ -9,16 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -27,19 +23,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.Inspection;
-import xh.mybatis.service.InspectionService;
+import xh.mybatis.bean.Quality;
+import xh.mybatis.service.QualityService;
 
 @Controller
-@RequestMapping(value = "/inspection")
-public class InspectionController {
+@RequestMapping(value = "/quality")
+public class QualityController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil = new FunUtil();
-	protected final Log log = LogFactory.getLog(InspectionController.class);
+	protected final Log log = LogFactory.getLog(QualityController.class);
 	private FlexJSON json = new FlexJSON();
 
 	/**
@@ -64,8 +59,8 @@ public class InspectionController {
 		map.put("limit", limit);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals", InspectionService.Count(map));
-		result.put("items", InspectionService.radioUserBusinessInfo(map));
+		result.put("totals", QualityService.Count(map));
+		result.put("items", QualityService.radioUserBusinessInfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -190,7 +185,7 @@ public class InspectionController {
 	 * @param response
 	 */
 	@RequestMapping("/add")
-	public void insertRadioUser(Inspection record, HttpServletRequest request,
+	public void insertRadioUser(Quality record, HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
 		// 获取当前时间
@@ -208,7 +203,7 @@ public class InspectionController {
 			record.setFilepath("null");
 		}
 		record.setStatus(0);
-		int count = InspectionService.insert(record);
+		int count = QualityService.insert(record);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", count);

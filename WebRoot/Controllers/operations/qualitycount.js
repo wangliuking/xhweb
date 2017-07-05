@@ -26,7 +26,7 @@ xh.load = function() {
 	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();
 	
-	app.filter('inspectionstatus', function() { //可以注入依赖
+	app.filter('qualitycountstatus', function() { //可以注入依赖
 	    return function(text) {
 	        if(text==0){
 	        	return "未签收";
@@ -36,11 +36,11 @@ xh.load = function() {
 	    };
 	});
 
-	app.controller("inspection", function($scope, $http) {
+	app.controller("qualitycount", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
-		$http.get("../../inspection/list?filename="+filename+"&contact="+contact+"&status="+status+"&start=0&limit="+pageSize).
+		$http.get("../../qualitycount/list?filename="+filename+"&contact="+contact+"&status="+status+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -76,7 +76,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../inspection/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+limit).
+			$http.get("../../qualitycount/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -98,7 +98,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../inspection/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+pageSize).
+			$http.get("../../qualitycount/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -120,10 +120,10 @@ xh.load = function() {
 };
 /* 添加 */
 xh.add = function() {
-	var appElement = document.querySelector('[ng-controller=inspection]');
+	var appElement = document.querySelector('[ng-controller=qualitycount]');
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../inspection/add',
+		url : '../../qualitycount/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -158,11 +158,10 @@ xh.add = function() {
 };
 // 刷新数据
 xh.refresh = function() {
-	var appElement = document.querySelector('[ng-controller=inspection]');
+	var appElement = document.querySelector('[ng-controller=qualitycount]');
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
-
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
