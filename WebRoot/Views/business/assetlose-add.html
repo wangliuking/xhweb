@@ -1,0 +1,109 @@
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加遗失设备</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form>
+
+						<input type="hidden" name="typelose" id="typelose" value="0"/>
+						<input type="hidden" name="fromlose" id="fromlose" value="0"/>
+						<input type="hidden" name="statuslose" id="statuslose" value="0"/>
+						<input type="hidden" name="namelose" id="namelose" />
+						<input type="hidden" name="modellose" id="modellose" />
+							
+					<div class="row">
+						<div class="col-md-6" style="padding-right:0px;">
+							<div class="form-group col-md-12" style="padding-right:0px;">
+								<label>序列号</label>&nbsp;<span class="text-warning">[*]</span> <input
+									type="text" class="form-control" name="serialNumberlose" id="serialNumberlose" placeholder="请输入序列号" required="required">
+							</div>
+						</div>
+						<div class="col-md-6" style="padding-left:0px;">
+							<div class="form-group col-md-12" style="padding-left:0px;">
+								<button type="submit" class="btn btn-sm btn-info" style="margin-top:23px;"
+									onclick="xh.refreshlose()">
+									<i class="fa fa-search"></i>&nbsp;&nbsp;搜索
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;width:580px;">
+				<!-- row -->
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>序列号</th>
+							<th>资产类别</th>
+							<th>名称</th>
+							<th>型号</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="totalslose==0">
+							<td colspan="6" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in datatolose">
+							<td>{{x.serialNumber}}</td>
+							<td>{{x.type}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.model}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
+	});
+
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			price : {
+				validators : {
+					notEmpty : {
+						message : '类型不能为空'
+					},
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>
+<!-- 添加设备---end -->

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>设备遗失</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="businesslose"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'../top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'../menu/business-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li class="active"><span>设备遗失</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label for="type">资产类型</label>
+										<div>
+											<select id="type" class="form-control">
+												<option value="0" selected="selected">=不限制=</option>
+												<option value="1">手台</option>
+												<option value="2">附件</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="name">名称</label>
+										<div>
+											<input type="text" class="form-control" id="name"
+												placeholder="名称">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="model">型号</label>
+										<div>
+											<input type="text" class="form-control" id="model"
+												placeholder="型号">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="serialNumber">序列号</label>
+										<div>
+											<input type="text" class="form-control" id="serialNumber"
+												placeholder="序列号">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												onclick="xh.refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-12">
+									<div class="btn-group" style="padding-top:10px;">
+										<button class="btn btn-success btn-sm" data-toggle="modal"
+											data-target="#add" ng-disabled="">
+											<i class="fa fa-plus-circle"></i>&nbsp;添加遗失设备
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showEditModel()">
+											<i class="fa fa-edit"></i>&nbsp;修改遗失设备
+										</button>
+										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+											ng-disabled="">
+											<i class="fa fa-trash"></i>&nbsp;批量删除
+										</button>
+										<button class="btn btn-warning btn-sm" ng-click="refresh()">
+											<i class="fa fa-refresh"></i>&nbsp;刷新
+										</button>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th>
+										<th>资产类别</th>
+										<th>名称</th>
+										<th>型号</th>
+										<th>序列号</th>
+										<th>备注</th>
+										<th width="180px">记录时间</th>
+										<th width="130px">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="8" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td>
+										<td>{{x.type}}</td>
+										<td>{{x.name}}</td>
+										<td>{{x.model}}</td>
+										<td>{{x.serialNumber}}</td>
+										<td>{{x.note}}</td>
+										<td>{{x.createTime}}</td>
+										<td style="width:20px;text-align:center"><a href="#"
+											ng-click="editModel($index)" data-toggle="modal"
+											data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改
+										</a>| <a href="#" ng-click="delBs(x.id)"><i
+												class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	<div ng-include="'../footer.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加 -->
+	<div ng-include="'assetlose-add.html'"></div>
+	<!-- 编辑-->
+	<div ng-include="'assetlose-edit.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/assetlose.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>
