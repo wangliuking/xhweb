@@ -6,6 +6,13 @@ import java.util.Map;
 import xh.mybatis.bean.WebUserBean;
 
 public interface WebUserMapper {
+	
+	/**
+	 * 软件产业中心用户列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> userlist10001()throws Exception;
 	/**
 	 * 根据登录用户名,密码查找登录用户
 	 * @param name

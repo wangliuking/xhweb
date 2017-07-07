@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="add" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg ">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -31,12 +31,10 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>单位类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <select
 									name="unitType" class="form-control">
-									<option value="协议入网用户（合同）" selected="selected">协议入网用户（合同）</option>
-									<option value="非协议入网用户">非协议入网用户</option>
-									<option value="测试用户">测试用户</option>
-									<option value="应急处置临时入网用户">应急处置临时入网用户</option>
+									<option value="协议入网用户" selected="selected">协议入网用户</option>
+									<option value="临时用户">临时用户</option>
 								</select>
 							</div>
 						</div>
@@ -182,18 +180,6 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			/* price : {
-				validators : {
-					notEmpty : {
-						message : '类型不能为空'
-					},
-					regexp : {
-						regexp : /^[0-9.]+$/,
-						message : '只能输入整数和小数'
-					}
-				}
-			} */
-
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();

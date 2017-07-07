@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,15 +31,33 @@ public class JoinNetService {
 		return list;
 	}
 	/**
+	 * 申请进度查询
+	 * @param id
+	 * @return
+	 */
+	public static Map<String,Object> applyProgress(int id){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		Map<String,Object> map=new HashMap<String,Object>();
+		try {
+			map = mapper.applyProgress(id);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
 	 * 总数
 	 * @return
 	 */
-	public static int dataCount(){
+	public static int dataCount(Map<String, Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
 		int count=0;
 		try {
-			count=mapper.dataCount();
+			count=mapper.dataCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -93,6 +112,60 @@ public class JoinNetService {
 		int result=0;
 		try {
 			result=mapper.checkedTwo(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传编组方案
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFile(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 审核编组方案
+	 * @param bean
+	 * @return
+	 */
+	public static int checkFile(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 用户确认编组方案
+	 * @param bean
+	 * @return
+	 */
+	public static int sureFile(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.sureFile(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

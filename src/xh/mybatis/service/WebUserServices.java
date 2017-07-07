@@ -13,6 +13,23 @@ import xh.mybatis.tools.MoreDbTools;
 
 public class WebUserServices {
 	/**
+	 * 软件产业中心用户列表
+	 * @return
+	 */
+	public static List<Map<String,Object>>userlist10001(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.userlist10001();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;	
+	}
+	/**
 	 * 根据登录用户名，密码查找登录用户
 	 * @param root
 	 * @return

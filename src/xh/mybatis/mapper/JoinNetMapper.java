@@ -13,12 +13,20 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public List<JoinNetBean> selectAll(Map<String, Object> map)throws Exception;
+	
+	/**
+	 * 申请进度查询
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String,Object> applyProgress(int id)throws Exception;
 	/**
 	 * 总数
 	 * @return
 	 * @throws Exception
 	 */
-	public int dataCount()throws Exception;
+	public int dataCount(Map<String, Object> map)throws Exception;
 	/**
 	 * 入网申请
 	 * @param bean
@@ -40,5 +48,28 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int checkedTwo(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 上传编组方案
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFile(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 审核编组方案
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkFile(JoinNetBean bean)throws Exception;
+	/**
+	 * 用户确认编组方案
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int sureFile(JoinNetBean bean)throws Exception;
 
 }

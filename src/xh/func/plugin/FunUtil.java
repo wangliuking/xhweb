@@ -147,6 +147,12 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
+	public String nowDateOnly() {
+		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
+		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		String date = dd.format(new Date());
+		return date;
+	}
 	// 获取当前时间
 	public String nowDateNoTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd 00:00:00");

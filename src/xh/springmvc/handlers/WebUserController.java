@@ -39,6 +39,30 @@ public class WebUserController {
 	private WebLogBean webLogBean=new WebLogBean();
 	WebUserBean userBean=new WebUserBean();
 	
+	
+	/**
+	 * 软件产业中心用户列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/user/userlist10001")
+	public void userlist10001(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",WebUserServices.userlist10001().size());
+		result.put("items", WebUserServices.userlist10001());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	/**
 	 * 用户列表
 	 * @param request

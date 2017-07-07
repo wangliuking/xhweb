@@ -74,6 +74,12 @@ xh.org.listeners.SingLoginListener
     <error-code>500</error-code>
     <location>/Views/500.html</location>
     </error-page>
+    
+    <!-- 未捕获的错误，同样可指定其它异常类，或自定义异常类 -->
+<!-- <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/exception</location>
+</error-page> -->
   
  <session-config>
       <session-timeout>864000</session-timeout>

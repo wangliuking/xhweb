@@ -46,7 +46,7 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span>业务管理</span></li>
+							<li><span><a href="joinnet.html">业务管理</a></span></li>
 							<li class="active"><span>入网申请</span></li>
 						</ol>
 					</div>
@@ -93,37 +93,55 @@
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
-							<table id="tb-info" class="xh-table table-hover">
+							<table id="tb-info" class="xh-table table-hover"
+								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										
 										<th>用户单位</th>
 										<th width="150px">单位性质</th>
 										<th width="100px">服务类型</th>
 										<th width="100px">入网依据</th>
 										<th width="180px">入网时间</th>
-										<th width="100px">审核状态</th>
+										<th width="200px">审核状态</th>
 										<th width="200px">操作详情</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
 										<td colspan="10" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										
 										<td>{{x.unitName}}</td>
 										<td>{{x.unitNature}}</td>
 										<td>{{x.serviceType}}</td>
 										<td>{{x.netBasis}}</td>
 										<td>{{x.nettime}}</td>
-										<td ng-if="x.checked!=1" class="td-primary">等待审核</td>
-										<td ng-if="x.checked==1" class="td-success">已通过审核</td>
-										<td style="text-align:center"><a href="#"
+										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
+										<td ng-if="x.checked==1" class="td-danger">正在审核中</td>
+										<td ng-if="x.checked==2" class="td-danger">等待经办人提交编组方案</td>
+										<td ng-if="x.checked==3" class="td-danger">正在审核编组方案编组方案</td>
+										<td ng-if="x.checked==4" class="td-danger">请用户确认编组方案</td>
+										<td ng-if="x.checked==5" class="td-success">审核通过</td>
+										
+										<td style="text-align:center">										
+										
+										<a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>| 
-												<a href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-success"></i>&nbsp;审核</a></td>
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
+												
+										<a ng-if="loginUserRoleId==10001 && x.checked==0 || 		
+										loginUserRoleId==10002 && x.checked==1 || 
+										loginUserRoleId==10002 && loginUser==x.user3 && x.checked==2 ||
+										loginUserRoleId==10002 && loginUser==x.user4 && x.checked==3"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
+													
+											
+												
+										<a class="text-danger"
+											ng-if="loginUser==x.userName && loginUserRoleId==10000 && x.checked==4"
+											href="#" ng-click="sureFile (x.id)">|<i
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -173,6 +191,8 @@
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/joinnet.js"></script>
 	<script type="text/javascript">
