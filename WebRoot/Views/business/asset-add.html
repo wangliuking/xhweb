@@ -23,14 +23,16 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>名称</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="name" required="required">
+								<label>名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="name"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>型号</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="model" required="required">
+								<label>型号</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="model"
+									required="required">
 							</div>
 						</div>
 					</div>
@@ -38,8 +40,9 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>序列号</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="serialNumber" required="required">
+								<label>序列号</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="serialNumber"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -53,22 +56,23 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input type="number" value=""
-									class="form-control" name="price" required="required">
+								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="number" value="" class="form-control" name="price"
+									required="required">
 							</div>
 						</div>
-						
+
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-					
+
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>备注</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="note">
+								<label>备注</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="note">
 							</div>
 						</div>
-						
+
 					</div>
 					<!-- row-------end -->
 				</form>
@@ -90,7 +94,7 @@
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
 	});
-	
+
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
@@ -99,20 +103,20 @@
 	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
-		 fields : {
+		fields : {
 			price : {
 				validators : {
 					notEmpty : {
 						message : '类型不能为空'
 					},
-					regexp: {
-                        regexp: /^[0-9.]+$/,
-                        message: '只能输入整数和小数'
-                    }
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
+					}
 				}
 			}
 
-		} 
+		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.add();

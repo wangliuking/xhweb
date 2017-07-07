@@ -39,6 +39,20 @@ public interface AssetInfoMapper {
 	 * @throws Exception
 	 */
 	public int deleteAsset(List<String> list)throws Exception;
-
+	/**
+	 * 根据序列号查询是否存在
+	 * wlk
+	 */
+	public int count(String serialNumber)throws Exception;
+	/**
+	 * 根据序列号查询详细信息
+	 * wlk
+	 */
+	public AssetInfoBean selectbynum(String serialNumber)throws Exception;
+	/**
+	 * 根据序列号更新记录表中的状态
+	 * wlk
+	 */
+	public int updateStatusByNum(Map<String,Object> map)throws Exception;
 
 }

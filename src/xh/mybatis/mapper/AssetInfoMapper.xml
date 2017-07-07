@@ -88,7 +88,19 @@
 		)
 	</delete>
 
-
-
+	<!-- 根据序列号查询是否存在 wlk-->
+	<select id="count" parameterType="java.lang.String" resultType="int">
+		select count(*) from xhgmnet_business_assetinfo where serialNumber=#{serialNumber}
+	</select>
+	
+	<!-- 根据序列号查询 wlk-->
+	<select id="selectbynum" parameterType="java.lang.String" resultMap="assetInfoMap">
+		select * from xhgmnet_business_assetinfo where serialNumber=#{serialNumber}
+	</select>
+	
+	<!-- 根据序列号更新资产记录的状态  wlk-->
+	<update id="updateStatusByNum" parameterType="java.util.Map">
+		update xhgmnet_business_assetinfo set status=#{status} where serialNumber=#{serialNumber}
+	</update>
 
 </mapper>

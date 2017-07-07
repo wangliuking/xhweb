@@ -1,0 +1,88 @@
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加维护设备</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">			
+					<div class="row">
+						<div class="col-md-6" style="padding-right:0px;">
+							<div class="form-group col-md-12" style="padding-right:0px;">
+								<label>序列号</label>&nbsp;<span class="text-warning">[*]</span> <input
+									type="text" class="form-control" name="serialNumberrepairs" id="serialNumberrepairs" placeholder="请输入序列号" required="required">
+							</div>
+						</div>
+						<div class="col-md-6" style="padding-left:0px;">
+							<div class="form-group col-md-12" style="padding-left:0px;">
+								<button type="submit" class="btn btn-sm btn-info" style="margin-top:23px;"
+									onclick="xh.refreshrepairs()">
+									<i class="fa fa-search"></i>&nbsp;&nbsp;搜索
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
+								<textarea
+									style="width:560px;height:150px;max-width:560px;max-height:260px;"
+									name="note" id="note"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;width:580px;">
+				<!-- row -->
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>序列号</th>
+							<th>资产类别</th>
+							<th>名称</th>
+							<th>型号</th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr ng-if="datatorepairs==null">
+					<td colspan="4" class="text-center">无任何结果</td>
+					</tr>
+						<tr ng-if="datatorepairs!=null">
+							<td>{{datatorepairs.serialNumber}}</td>
+							<td>{{datatorepairs.type}}</td>
+							<td>{{datatorepairs.name}}</td>
+							<td>{{datatorepairs.model}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		if($('#serialNumberrepairs').val()==""){
+			alert("请输入需要添加的序列号并点击搜索");
+			return false;
+		}
+		xh.add(1);
+	});
+</script>
+<!-- 添加设备---end -->

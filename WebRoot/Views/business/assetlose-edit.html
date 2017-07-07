@@ -1,0 +1,73 @@
+<!--修改基站 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">修改遗失记录</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
+								<textarea
+									style="width:560px;height:150px;max-width:560px;max-height:260px;"
+									name="note" id="notelose" ng-model="editDataLose.note"></textarea>
+									<input type="hidden" id="serialNumbertemp" name="serialNumbertemp" ng-value="editDataLose.serialNumber" />
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;更新
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--修改基站---end -->
+<script type="text/javascript">
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					},
+					regexp: {
+                        regexp: /^[0-9.]+$/,
+                        message: '只能输入整数和小数'
+                    }
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

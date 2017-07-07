@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -21,24 +19,23 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetInfoBean;
-import xh.mybatis.bean.BsstationBean;
+import xh.mybatis.bean.Lose;
 import xh.mybatis.bean.WebLogBean;
-import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.BusinessLoseService;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.WebLogService;
-import xh.org.listeners.SingLoginListener;
 
 @Controller
-@RequestMapping("/business")
-public class BusinessController {
+@RequestMapping("/businesslose")
+public class BusinessLoseController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(BusinessController.class);
+	protected final Log log = LogFactory.getLog(BusinessLoseController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	/**
-	 * 查询资产记录
+	 * 查询
 	 * @param request
 	 * @param response
 	 */
@@ -49,8 +46,6 @@ public class BusinessController {
 		String name=request.getParameter("name");
 		String model=request.getParameter("model");
 		String serialNumber=request.getParameter("serialNumber");
-		int from=funUtil.StringToInt(request.getParameter("from"));
-		int status=funUtil.StringToInt(request.getParameter("status"));
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -58,14 +53,12 @@ public class BusinessController {
 		map.put("name", name);
 		map.put("model",model );
 		map.put("serialNumber",serialNumber );
-		map.put("from",from );
-		map.put("status",status );
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",BusinessService.assetInfoCount(map));
-		result.put("items", BusinessService.assetInfo(map));
+		result.put("totals",BusinessLoseService.assetInfoCount(map));
+		result.put("items", BusinessLoseService.assetInfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -76,66 +69,57 @@ public class BusinessController {
 		}
 	}
 	/**
-	 * 添加资产
+	 * 添加
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping(value="/insertAsset",method = RequestMethod.POST)
 	public void insertAsset(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		String jsonData=request.getParameter("formData");
-        AssetInfoBean bean=GsonUtil.json2Object(jsonData, AssetInfoBean.class);
-		log.info("data==>"+bean.toString());
-		int rlt=BusinessService.insertAsset(bean);
-		if (rlt==1) {
-			this.message="添加资产成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("新增资产，data="+bean.toString());
-			WebLogService.writeLog(webLogBean);
-		}else {
-			this.message="添加资产失败";
-		}
-
 		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("message",message);
-		result.put("result",rlt);
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String serialNumber = request.getParameter("serialNumber");
+		String note = request.getParameter("note");
+		if(BusinessService.count(serialNumber)==0 || BusinessService.count(serialNumber)>1){
+			result.put("result",0);
+		}else if(BusinessLoseService.countByNum(serialNumber)>0){
+			result.put("result",2);
+		}else{
+			AssetInfoBean bean = BusinessService.selectbynum(serialNumber);
+			bean.setNote(note);
+			int rlt=BusinessLoseService.insertAsset(bean);
+			//添加成功后修改记录表设备属性
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("serialNumber", serialNumber);
+			map.put("status", 7);
+			BusinessService.updateStatusByNum(map);
+			result.put("success", success);
+			result.put("message",message);
+			result.put("result",rlt);
 		}
-		
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 	}
 	/**
-	 * 修改资产记录
+	 * 修改
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping(value="/updateAsset",method = RequestMethod.POST)
 	public void updateAsset(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		String jsonData=request.getParameter("formData");
-        AssetInfoBean bean=GsonUtil.json2Object(jsonData, AssetInfoBean.class);
-		log.info("data==>"+bean.toString());
-		int rlt=BusinessService.updateAsset(bean);
-		if (rlt==1) {
-			this.message="修改资产记录成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(2);
-			webLogBean.setContent("修改资产记录，data="+bean.toString());
-			WebLogService.writeLog(webLogBean);
-			
-		}else {
-			this.message="修改资产记录失败";
-		}
-
+		String notelose=request.getParameter("notelose");
+		String serialNumbertemp=request.getParameter("serialNumbertemp");
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("notelose", notelose);
+		map.put("serialNumbertemp", serialNumbertemp);
+		int rlt=BusinessLoseService.updateByNum(map);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);
@@ -151,7 +135,7 @@ public class BusinessController {
 		
 	}
 	/**
-	 * 删除资产记录
+	 * 删除
 	 * @param request
 	 * @param response
 	 */
@@ -165,17 +149,16 @@ public class BusinessController {
 			list.add(str);
 		}
 		//log.info("data==>"+bean.toString());
-		int rlt=BusinessService.deleteAsset(list);
+		int rlt=BusinessLoseService.deleteAsset(list);
 		if (rlt==1) {
-			this.message="删除资产记录成功";
-			this.message="添加资产成功";
+			this.message="删除遗失信息成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(3);
-			webLogBean.setContent("删除资产记录，data="+id);
+			webLogBean.setContent("删除遗失信息，data="+id);
 			WebLogService.writeLog(webLogBean);
 		}else {
-			this.message="删除资产记录失败";
+			this.message="删除遗失信息失败";
 		}
 
 		HashMap result = new HashMap();
@@ -192,26 +175,6 @@ public class BusinessController {
 		}
 		
 	}
-	
-	/**
-	 * 根据序列号查询详细信息
-	 * wlk
-	 */
-	@RequestMapping(value="/selectbynum",method = RequestMethod.POST)
-	public void selectbynum(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
-		String serialNumber=request.getParameter("serialNumber");
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("items", BusinessService.selectbynum(serialNumber));
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 
 }
