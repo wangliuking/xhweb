@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>设备遗失</title>
+<title>设备维护</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,7 +18,7 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="businesslose"
+<body ng-app="app" ng-controller="businessrepairs"
 	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
 	<!-- splash screen-->
 	<div class="splash">
@@ -47,7 +47,7 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>业务管理</span></li>
-							<li class="active"><span>设备遗失</span></li>
+							<li class="active"><span>设备维护</span></li>
 						</ol>
 					</div>
 				</div>
@@ -108,11 +108,11 @@
 									<div class="btn-group" style="padding-top:10px;">
 										<button class="btn btn-success btn-sm" data-toggle="modal"
 											data-target="#add" ng-disabled="">
-											<i class="fa fa-plus-circle"></i>&nbsp;添加遗失设备
+											<i class="fa fa-plus-circle"></i>&nbsp;添加维护设备
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
 											ng-click="showEditModel()">
-											<i class="fa fa-edit"></i>&nbsp;修改遗失备注
+											<i class="fa fa-edit"></i>&nbsp;修改维护备注
 										</button>
 										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
 											ng-disabled="">
@@ -189,9 +189,9 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加 -->
-	<div ng-include="'assetlose-add.html'"></div>
+	<div ng-include="'assetrepairs-add.html'"></div>
 	<!-- 编辑-->
-	<div ng-include="'assetlose-edit.html'"></div>
+	<div ng-include="'assetrepairs-edit.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -200,7 +200,7 @@
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
-		src="../../Controllers/business/assetlose.js"></script>
+		src="../../Controllers/business/assetrepairs.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

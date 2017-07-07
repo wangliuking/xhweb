@@ -3,7 +3,10 @@ package xh.mybatis.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
+import xh.mybatis.bean.AssetInfoBean;
 import xh.mybatis.bean.Lose;
 import xh.mybatis.mapper.LoseMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -53,7 +56,7 @@ public class BusinessLoseService {
 	 * @param bean
 	 * @return
 	 */
-	public static int insertAsset(Lose bean){
+	public static int insertAsset(AssetInfoBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		LoseMapper mapper=sqlSession.getMapper(LoseMapper.class);
 		int result=0;
@@ -89,6 +92,25 @@ public class BusinessLoseService {
 		return  result;
 	}
 	/**
+	 * 根据序列号修改备注信息
+	 */
+	public static int updateByNum(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		LoseMapper mapper=sqlSession.getMapper(LoseMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateByNum(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	
+	/**
 	 * 删除
 	 * @param list
 	 * @return
@@ -107,6 +129,23 @@ public class BusinessLoseService {
 			e.printStackTrace();
 		}
 		return  result;
+	}
+	
+	/**
+	 * 根据序列号查询是否存在此信息
+	 */
+	public static int countByNum(String serialNumber){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		LoseMapper mapper=sqlSession.getMapper(LoseMapper.class);
+		int count=0;
+		try {
+			count=mapper.countByNum(serialNumber);
+			sqlSession.close();	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  count;
 	}
 
 }

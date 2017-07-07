@@ -6,7 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
-var appElement = document.querySelector('[ng-controller=businesslose]');
+var appElement = document.querySelector('[ng-controller=businessrepairs]');
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
@@ -31,12 +31,12 @@ xh.load = function() {
 	var serialNumber = $("#serialNumber").val();
 	var pageSize = $("#page-limit").val();
 
-	app.controller("businesslose", function($scope, $http) {
+	app.controller("businessrepairs", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
 		$scope.businessMenu = true; // 菜单变色
 		$http.get(
-				"../../businesslose/assetList?type=" + type + "&name=" + name
+				"../../businessrepairs/assetList?type=" + type + "&name=" + name
 						+ "" + "&model=" + model + "&serialNumber="
 						+ serialNumber + "&start=0&limit=" + pageSize).success(
 				function(response) {
@@ -52,7 +52,7 @@ xh.load = function() {
 		};
 		/* 显示修改model */
 		$scope.editModel = function(id) {
-			$scope.editDataLose = $scope.data[id];
+			$scope.editDataRepairs = $scope.data[id];
 		};
 		/* 显示修改model */
 		$scope.showEditModel = function() {
@@ -70,7 +70,7 @@ xh.load = function() {
 				return;
 			}
 			$("#edit").modal('show');
-			$scope.editDataLose = $scope.data[parseInt(checkVal[0])];
+			$scope.editDataRepairs = $scope.data[parseInt(checkVal[0])];
 		};
 		/* 删除 */
 		$scope.delBs = function(id) {
@@ -88,7 +88,7 @@ xh.load = function() {
 			}, function(isConfirm) {
 				if (isConfirm) {
 					$.ajax({
-						url : '../../businesslose/deleteAsset',
+						url : '../../businessrepairs/deleteAsset',
 						type : 'post',
 						dataType : "json",
 						data : {
@@ -130,7 +130,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../businesslose/assetList?type=" + type + "&name="
+					"../../businessrepairs/assetList?type=" + type + "&name="
 							+ name + "" + "&model=" + model + "&serialNumber="
 							+ serialNumber + "&start=0&limit=" + pageSize)
 					.success(function(response) {
@@ -141,10 +141,10 @@ xh.load = function() {
 					});
 		};
 		/* add页面查询数据 */
-		$scope.searchlose = function() {
-			var serialNumber = $("#serialNumberlose").val();
+		$scope.searchrepairs = function() {
+			var serialNumber = $("#serialNumberrepairs").val();
 			$http.post("../../business/selectbynum?serialNumber="+serialNumber).success(function(response) {
-						$scope.datatolose = response.items;
+						$scope.datatorepairs = response.items;
 					});
 		};
 		// 分页点击
@@ -163,7 +163,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../businesslose/assetList?type=" + type + "&name="
+					"../../businessrepairs/assetList?type=" + type + "&name="
 							+ name + "" + "&model=" + model + "&serialNumber="
 							+ serialNumber + "&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
@@ -187,10 +187,10 @@ xh.load = function() {
 };
 /* 添加设备 */
 xh.add = function(page) {
-	var serialNumber = $("#serialNumberlose").val();
+	var serialNumber = $("#serialNumberrepairs").val();
 	var note = $("#note").val();
 	$.ajax({
-		url : '../../businesslose/insertAsset',
+		url : '../../businessrepairs/insertAsset',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -216,15 +216,15 @@ xh.add = function(page) {
 };
 /* 修改 */
 xh.update = function() {
-	var notelose=$('#notelose').val();
+	var noterepairs=$('#noterepairs').val();
 	var serialNumbertemp=$('#serialNumbertemp').val();
 	$.ajax({
-		url : '../../businesslose/updateAsset',
+		url : '../../businessrepairs/updateAsset',
 		type : 'POST',
 		dataType : "json",
 		async : false,
 		data : {
-			notelose : notelose,serialNumbertemp:serialNumbertemp
+			noterepairs : noterepairs,serialNumbertemp:serialNumbertemp
 		},
 		success : function(data) {
 			if (data.result === 1) {
@@ -257,7 +257,7 @@ xh.delMore = function() {
 		return;
 	}
 	$.ajax({
-		url : '../../businesslose/deleteAsset',
+		url : '../../businessrepairs/deleteAsset',
 		type : 'post',
 		dataType : "json",
 		data : {
@@ -285,14 +285,14 @@ xh.refresh = function() {
 
 };
 // add页面搜索数据
-xh.refreshlose = function() {
+xh.refreshrepairs = function() {
 	var $scope = angular.element(appElement).scope();
 	// 检查是否输入了搜索信息
-	if ($('#serialNumberlose').val() == "") {
+	if ($('#serialNumberrepairs').val() == "") {
 		return false;
 	}
 	// 调用$scope中的方法
-	$scope.searchlose();
+	$scope.searchrepairs();
 
 };
 /* 数据分页 */

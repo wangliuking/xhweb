@@ -162,7 +162,7 @@
 										<th>单价</th>
 										<th>来源</th>
 										<th>状态</th>
-										<th>备注</th>
+										<th width="180px">备注</th>
 										<th width="180px">记录时间</th>
 										<th width="130px">操作</th>
 									</tr>
@@ -180,7 +180,8 @@
 										<td>{{x.serialNumber}}</td>
 										<td>{{x.price}}</td>
 										<td>{{x.from}}</td>
-										<td>{{x.status}}</td>
+										<td ng-if="x.status==3">维修</td>
+										<td ng-if="x.status==7">遗失</td>
 										<td>{{x.note}}</td>
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"

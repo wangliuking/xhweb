@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.AssetInfoBean;
-import xh.mybatis.bean.Lose;
+import xh.mybatis.bean.Repairs;
 
-public interface LoseMapper {
+public interface RepairsMapper {
 	/**
 	 * 查询
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Lose> assetInfo(Map<String,Object> map)throws Exception;
+	public List<Repairs> assetInfo(Map<String,Object> map)throws Exception;
 	/**
 	 * 总数
 	 * @return
@@ -32,7 +32,7 @@ public interface LoseMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateAsset(Lose bean)throws Exception;
+	public int updateAsset(Repairs bean)throws Exception;
 	/**
 	 * 删除
 	 * @param list

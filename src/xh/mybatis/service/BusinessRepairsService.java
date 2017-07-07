@@ -7,20 +7,20 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.AssetInfoBean;
-import xh.mybatis.mapper.AssetInfoMapper;
-import xh.mybatis.tools.DbTools;
+import xh.mybatis.bean.Repairs;
+import xh.mybatis.mapper.RepairsMapper;
 import xh.mybatis.tools.MoreDbTools;
 
-public class BusinessService {
+public class BusinessRepairsService {
 	/**
-	 * 查询资产记录
+	 * 查询
 	 * @param root
 	 * @return
 	 */
-	public static List<AssetInfoBean> assetInfo(Map<String,Object> map){
+	public static List<Repairs> assetInfo(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
-		List<AssetInfoBean> list=new ArrayList<AssetInfoBean>();
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
+		List<Repairs> list=new ArrayList<Repairs>();
 		try {
 			list=mapper.assetInfo(map);
 			sqlSession.close();
@@ -32,14 +32,14 @@ public class BusinessService {
 		return  list;
 	}
 	/**
-	 * 查询资产记录总数
+	 * 总数
 	 * @param root
 	 * @return
 	 */
 	public static int assetInfoCount(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
-		List<AssetInfoBean> list=new ArrayList<AssetInfoBean>();
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
+		List<Repairs> list=new ArrayList<Repairs>();
 		int count=0;
 		try {
 			count=mapper.assetInfoCount(map);
@@ -52,13 +52,13 @@ public class BusinessService {
 		return  count;
 	}
 	/**
-	 * 添加资产
+	 * 添加
 	 * @param bean
 	 * @return
 	 */
 	public static int insertAsset(AssetInfoBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
 		int result=0;
 		try {
 			result=mapper.insertAsset(bean);
@@ -72,13 +72,13 @@ public class BusinessService {
 		return  result;
 	}
 	/**
-	 * 修改资产记录
+	 * 修改
 	 * @param bean
 	 * @return
 	 */
-	public static int updateAsset(AssetInfoBean bean){
+	public static int updateAsset(Repairs bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
 		int result=0;
 		try {
 			result=mapper.updateAsset(bean);
@@ -92,13 +92,32 @@ public class BusinessService {
 		return  result;
 	}
 	/**
-	 * 删除资产记录
+	 * 根据序列号修改备注信息
+	 */
+	public static int updateByNum(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateByNum(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	
+	/**
+	 * 删除
 	 * @param list
 	 * @return
 	 */
 	public static int deleteAsset(List<String> list){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
 		int result=0;
 		try {
 			result=mapper.deleteAsset(list);
@@ -113,60 +132,20 @@ public class BusinessService {
 	}
 	
 	/**
-	 * 根据序列号查询是否存在
-	 * wlk
+	 * 根据序列号查询是否存在此信息
 	 */
-	public static int count(String serialNumber){
+	public static int countByNum(String serialNumber){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
-		int result=0;
+		RepairsMapper mapper=sqlSession.getMapper(RepairsMapper.class);
+		int count=0;
 		try {
-			result = mapper.count(serialNumber);
-			sqlSession.commit();
-			sqlSession.close();
+			count=mapper.countByNum(serialNumber);
+			sqlSession.close();	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
-	}
-	
-	/**
-	 * 根据序列号查询详细信息
-	 * wlk
-	 */
-	public static AssetInfoBean selectbynum(String serialNumber){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
-		AssetInfoBean bean = null;
-		try {
-			bean = mapper.selectbynum(serialNumber);
-			sqlSession.commit();
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return bean;
-	}
-	
-	/**
-	 * 根据序列号修改记录表的状态
-	 * wlk
-	 */
-	public static int updateStatusByNum(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
-		int count = 0;
-		try {
-			count = mapper.updateStatusByNum(map);
-			sqlSession.commit();
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return count;
+		return  count;
 	}
 
 }

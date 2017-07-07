@@ -7,20 +7,20 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">添加遗失设备</small>
+				<small class="font-bold">添加维护设备</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">			
 					<div class="row">
 						<div class="col-md-6" style="padding-right:0px;">
 							<div class="form-group col-md-12" style="padding-right:0px;">
 								<label>序列号</label>&nbsp;<span class="text-warning">[*]</span> <input
-									type="text" class="form-control" name="serialNumberlose" id="serialNumberlose" placeholder="请输入序列号" required="required">
+									type="text" class="form-control" name="serialNumberrepairs" id="serialNumberrepairs" placeholder="请输入序列号" required="required">
 							</div>
 						</div>
 						<div class="col-md-6" style="padding-left:0px;">
 							<div class="form-group col-md-12" style="padding-left:0px;">
 								<button type="submit" class="btn btn-sm btn-info" style="margin-top:23px;"
-									onclick="xh.refreshlose()">
+									onclick="xh.refreshrepairs()">
 									<i class="fa fa-search"></i>&nbsp;&nbsp;搜索
 								</button>
 							</div>
@@ -51,14 +51,14 @@
 						</tr>
 					</thead>
 					<tbody>
-					<tr ng-if="datatolose==null">
+					<tr ng-if="datatorepairs==null">
 					<td colspan="4" class="text-center">无任何结果</td>
 					</tr>
-						<tr ng-if="datatolose!=null">
-							<td>{{datatolose.serialNumber}}</td>
-							<td>{{datatolose.type}}</td>
-							<td>{{datatolose.name}}</td>
-							<td>{{datatolose.model}}</td>
+						<tr ng-if="datatorepairs!=null">
+							<td>{{datatorepairs.serialNumber}}</td>
+							<td>{{datatorepairs.type}}</td>
+							<td>{{datatorepairs.name}}</td>
+							<td>{{datatorepairs.model}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -78,7 +78,7 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
-		if($('#serialNumberlose').val()==""){
+		if($('#serialNumberrepairs').val()==""){
 			alert("请输入需要添加的序列号并点击搜索");
 			return false;
 		}

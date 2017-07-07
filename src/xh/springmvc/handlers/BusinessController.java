@@ -192,6 +192,26 @@ public class BusinessController {
 		}
 		
 	}
-
+	
+	/**
+	 * 根据序列号查询详细信息
+	 * wlk
+	 */
+	@RequestMapping(value="/selectbynum",method = RequestMethod.POST)
+	public void selectbynum(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String serialNumber=request.getParameter("serialNumber");
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", BusinessService.selectbynum(serialNumber));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

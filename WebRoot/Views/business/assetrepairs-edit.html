@@ -1,4 +1,4 @@
-<!--修改基站 -->
+
 <div class="modal fade" id="edit" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
@@ -7,7 +7,7 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">修改遗失记录</small>
+				<small class="font-bold">修改维护记录</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="updateForm" onSubmit="return false">
@@ -17,8 +17,8 @@
 								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
 								<textarea
 									style="width:560px;height:150px;max-width:560px;max-height:260px;"
-									name="note" id="notelose" ng-model="editDataLose.note"></textarea>
-									<input type="hidden" id="serialNumbertemp" name="serialNumbertemp" ng-value="editDataLose.serialNumber" />
+									name="note" id="noterepairs" ng-model="editDataRepairs.note"></textarea>
+									<input type="hidden" id="serialNumbertemp" name="serialNumbertemp" ng-value="editDataRepairs.serialNumber" />
 							</div>
 						</div>
 					</div>

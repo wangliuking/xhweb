@@ -19,19 +19,19 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetInfoBean;
-import xh.mybatis.bean.Lose;
+import xh.mybatis.bean.Repairs;
 import xh.mybatis.bean.WebLogBean;
-import xh.mybatis.service.BusinessLoseService;
+import xh.mybatis.service.BusinessRepairsService;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.WebLogService;
 
 @Controller
-@RequestMapping("/businesslose")
-public class BusinessLoseController {
+@RequestMapping("/businessrepairs")
+public class BusinessRepairsController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(BusinessLoseController.class);
+	protected final Log log = LogFactory.getLog(BusinessRepairsController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	/**
@@ -57,8 +57,8 @@ public class BusinessLoseController {
 		map.put("limit", limit);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",BusinessLoseService.assetInfoCount(map));
-		result.put("items", BusinessLoseService.assetInfo(map));
+		result.put("totals",BusinessRepairsService.assetInfoCount(map));
+		result.put("items", BusinessRepairsService.assetInfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -81,16 +81,16 @@ public class BusinessLoseController {
 		String note = request.getParameter("note");
 		if(BusinessService.count(serialNumber)==0 || BusinessService.count(serialNumber)>1){
 			result.put("result",0);
-		}else if(BusinessLoseService.countByNum(serialNumber)>0){
+		}else if(BusinessRepairsService.countByNum(serialNumber)>0){
 			result.put("result",2);
 		}else{
 			AssetInfoBean bean = BusinessService.selectbynum(serialNumber);
 			bean.setNote(note);
-			int rlt=BusinessLoseService.insertAsset(bean);
+			int rlt=BusinessRepairsService.insertAsset(bean);
 			//添加成功后修改记录表设备属性
 			HashMap<String,Object> map = new HashMap<String, Object>();
 			map.put("serialNumber", serialNumber);
-			map.put("status", 7);
+			map.put("status", 3);
 			BusinessService.updateStatusByNum(map);
 			result.put("success", success);
 			result.put("message",message);
@@ -114,12 +114,12 @@ public class BusinessLoseController {
 	@RequestMapping(value="/updateAsset",method = RequestMethod.POST)
 	public void updateAsset(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		String notelose=request.getParameter("notelose");
+		String noterepairs=request.getParameter("noterepairs");
 		String serialNumbertemp=request.getParameter("serialNumbertemp");
 		HashMap<String,Object> map = new HashMap<String, Object>();
-		map.put("notelose", notelose);
+		map.put("noterepairs", noterepairs);
 		map.put("serialNumbertemp", serialNumbertemp);
-		int rlt=BusinessLoseService.updateByNum(map);
+		int rlt=BusinessRepairsService.updateByNum(map);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);
@@ -149,7 +149,7 @@ public class BusinessLoseController {
 			list.add(str);
 		}
 		//log.info("data==>"+bean.toString());
-		int rlt=BusinessLoseService.deleteAsset(list);
+		int rlt=BusinessRepairsService.deleteAsset(list);
 		if (rlt==1) {
 			this.message="删除遗失信息成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
