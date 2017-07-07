@@ -85,6 +85,8 @@
 	</nav>
 </div>
 <script type="text/javascript">
+var user="";
+var roleId=0;
 	$.ajax({
 		url : '../../web/loginUserInfo',
 		type : 'post',
@@ -93,6 +95,7 @@
 		async : false,
 		success : function(data) {
 			if (data.success) {
+				user=data.user;roleId=data.roleId;
 				var html = data.user + "&nbsp;&nbsp;角色[" + data.role + "]";
 				$("#login-user").html(
 						"<span style='color:blue'>" + html + "</span>");

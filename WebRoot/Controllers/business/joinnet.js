@@ -44,6 +44,16 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
+		
+		//获取登录用户
+		$http.get("../../web/loginUserInfo").
+		success(function(response){
+			xh.maskHide();
+			$scope.loginUser = response.user;
+			$scope.loginUserRoleId = response.roleId;	
+		});
+		
+		/*获取申请记录表*/
 		$http.get("../../net/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
@@ -51,6 +61,8 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
+		
+		
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -59,12 +71,58 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
+			$http.get("../../net/applyProgress?id="+$scope.editData.id).
+			success(function(response){
+				$scope.progressData = response.items;
+				
+			});
 			$("#progress").modal('show');
 	    };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
-			$("#checkWin1").modal('show');
+			$http.get("../../web/user/userlist10001").
+			success(function(response){
+				$scope.userData = response.items;
+				$scope.userTotals = response.totals;
+				if($scope.userTotals>0){
+					$scope.user=$scope.userData[0].user;
+				}
+			});
+			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
+				$("#checkWin1").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+				$("#checkWin2").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user3 && $scope.checkData.checked==2){
+				$("#checkWin3").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user4 && $scope.checkData.checked==3){
+				$("#checkWin4").modal('show');
+			}
+			
+	    };
+	    /* 用户确认编组方案 */
+	    $scope.sureFile = function(id) {
+	    	$.ajax({
+	    		url : '../../net/sureFile',
+	    		type : 'POST',
+	    		dataType : "json",
+	    		async : false,
+	    		data:{id:id},
+	    		success : function(data) {
+	    			if (data.result === 1) {
+	    				toastr.success(data.message, '提示');
+	    				xh.refresh();
+
+	    			} else {
+	    				toastr.error(data.message, '提示');
+	    			}
+	    		},
+	    		error : function(){
+	    		}
+	    	});
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
@@ -225,11 +283,11 @@ xh.check1 = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkWin").serializeArray(),
+		data:$("#checkForm1").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin').modal('hide');
+				$('#checkWin1').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -244,11 +302,11 @@ xh.check1 = function() {
 /*管理方审核*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../net/checkedOne',
+		url : '../../net/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkWin2").serializeArray(),
+		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
@@ -264,30 +322,98 @@ xh.check2 = function() {
 		}
 	});
 };
-/* 修改 */
-xh.update = function() {
+/*上传编组方案*/
+xh.check3 = function() {
+	if(parseInt($("input[name='result']").val())!==1){
+		toastr.error("你还没有上传编组方案不能提交", '提示');
+		return;
+	}
 	$.ajax({
-		url : '../../business/updateAsset',
+		url : '../../net/uploadFile',
 		type : 'POST',
 		dataType : "json",
-		async : false,
-		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		async : true,
+		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
-			if (data.result === 1) {
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
+
+			if (data.result ==1) {
+				$('#checkWin3').modal('hide');
 				xh.refresh();
+				toastr.success(data.message, '提示');
 
 			} else {
 				toastr.error(data.message, '提示');
 			}
 		},
-		error : function(){
+		error : function() {
 		}
 	});
 };
+/*审核编组方案*/
+xh.check4 = function() {
+	$.ajax({
+		url : '../../net/checkFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm4").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin4').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*上传文件*/
+xh.upload = function() {
+	if($("input[type='file']").val()==""){
+		toastr.error("你还没选择文件", '提示');
+		return;
+	}
+	xh.maskShow();
+	$.ajaxFileUpload({
+		url : '../../net/upload', //用于文件上传的服务器端请求地址
+		secureuri : false, //是否需要安全协议，一般设置为false
+		fileElementId : 'filePath', //文件上传域的ID
+		dataType : 'json', //返回值类型 一般设置为json
+		type:'POST',
+		success : function(data, status) //服务器成功响应处理函数
+		{
+			//var result=jQuery.parseJSON(data);  
+			console.log(data.filePath)
+			xh.maskHide();
+			if(data.success){
+				$("#uploadResult").html(data.message);
+				$("input[name='result']").val(1);
+				$("input[name='fileName']").val(data.fileName);
+				$("input[name='path']").val(data.filePath);
+			}else{
+				$("#uploadResult").html(data.message);
+			}
+			
+		},
+		error : function(data, status, e)//服务器响应失败处理函数
+		{
+			alert(e);
+		}
+	});
+};
+xh.download=function(){
+	var $scope = angular.element(appElement).scope();
+	var filename=$scope.checkData.fileName;
+	console.log("filename=>"+filename);
+	var downUrl="../../net/download?fileName="+filename;
+	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+};
+
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();

@@ -99,14 +99,17 @@ public class LoginController {
 	@ResponseBody
 	public void LoginUser(HttpServletRequest request, HttpServletResponse response){
 		String user="",role="";
+		int roleId=0;
 		if (SingLoginListener.isOnline(request.getSession())) {
 			user=funUtil.loginUser(request);
 			role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("role").toString();
+			roleId=WebUserServices.selectUserByUser(user).getRoleId();
 		}
 		HashMap result = new HashMap();
 		result.put("success", true);
 		result.put("user",user);
 		result.put("role",role);
+		result.put("roleId",roleId);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

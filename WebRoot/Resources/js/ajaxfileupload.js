@@ -211,7 +211,9 @@ jQuery.extend({
         // Get the JavaScript object, ifJSON is used.
         if( type == "json" )
         {
-            eval( "data = " + data );
+          // eval( "data = " + data );
+        //data = data.replace("<pre>","").replace("</pre>",""); 
+        	data=jQuery.parseJSON(jQuery(data).text());
         }
 
         // evaluate scripts within html

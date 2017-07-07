@@ -33,8 +33,11 @@
         <!-- 内存中的最大值 -->  
         <property name="maxInMemorySize" value="40960" />    
     	</bean>
+    	
+    	<!-- <bean class="xh.springmvc.handlers.UncaughtExceptionController"/> -->
+    	
         <!-- 总错误处理-->  
-      <!--   <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+        <!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
             <property name="defaultErrorView">     
                <value>/Views/error</value>  
             </property>  
@@ -44,6 +47,6 @@
             <property name="warnLogCategory">     
                <value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value>  
             </property>      
-       </bean> --> 
+       </bean> -->
        <!-- -->   
 </beans>

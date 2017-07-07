@@ -120,48 +120,116 @@
 					</div>
 					<!-- tab-pane--end -->
 					<div class="tab-pane fade text-danger" id="p-timeline"
-						style="background:#e9f0f5;margin:0;">
+						style="background:#e9f0f5;margin:0;" ng-model="progressData">
 						<div id="cd-timeline" class="cd-container">
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img-first cd-green">提交</div>
+								<div class="cd-timeline-img-first cd-green">开始</div>
+								<div class="cd-timeline-content">
+									<h2>用户提交审核信息</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note}}</span>
+									</p>
+								<span class="cd-date text-success font-bold text-x">
+										提交时间：{{progressData.time}}</span>
+								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-green"></div>
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked==0"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>0"></div>
 								<div class="cd-timeline-content">
 									<h2>主管部门审核</h2>
 									<p>
-										<span>备注：</span><span>备注内容</span>
+										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
-									<span class="cd-date text-success">已经审核; 审核时间：2015-01-06</span>
+									<span ng-if="progressData.checked==0"
+										class="cd-date text-danger">等待审核！</span> <span
+										ng-if="progressData.checked>0"
+										class="cd-date text-success font-bold text-x">已经审核;
+										审核时间：{{progressData.time1}}</span>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-red"></div>
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<1"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>软件产业发展中心领导审核</h2>
 									<p>
-										<span>备注：</span><span>备注内容</span>
+										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
-									<span class="cd-date">等待审核！</span>
+									<span ng-if="progressData.checked<1"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.checked>=1"
+										class="cd-date text-success font-bold">已经安排专人进行编组方案拟定;
+										时间：{{progressData.time2}}</span>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-red"></div>
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<2"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>经办人处理</h2>
+									<h2>经办人处理，制定编组方案提交领导审核</h2>
 									<p>
 										<span>备注：</span><span>备注内容</span>
 									</p>
-									<span class="cd-date">等待处理！</span>
+									<span ng-if="progressData.checked<2"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.checked>=2"
+										class="cd-date text-success font-bold">编组方案提交至领导处审核;
+										时间：{{progressData.time2}}</span>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img-first cd-red">结束</div>
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<3"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
+									<h2>管理方领导审核编组方案</h2>
 									<p>
 										<span>备注：</span><span>备注内容</span>
 									</p>
+									<span ng-if="progressData.checked<3"
+										class="cd-date text-danger">等待管理方领导审核编组方案！</span> <span
+										ng-if="progressData.checked>=3"
+										class="cd-date text-success font-bold">编组方案已审核完成，等待用户确认;
+										时间：{{progressData.time2}}</span>
 								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>用户确认编组方案是否可行</h2>
+									<p>
+										<span>备注：</span><span>备注内容</span>
+									</p>
+									<span ng-if="progressData.checked<4"
+										class="cd-date text-danger">等待确认编组方案</span> <span
+										ng-if="progressData.checked>=4"
+										class="cd-date text-success font-bold">编组方案已经确认;
+										时间：{{progressData.time2}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+							
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.checked<5">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.checked>=5">结束</div>
 							</div>
 						</div>
 					</div>
@@ -175,41 +243,3 @@
 			</button>
 		</div> -->
 	</div>
-</div>
-<script type="text/javascript">
-	$("#add_btn").click(function() {
-		$('#addForm').submit();
-	});
-
-	var faIcon = {
-		valid : 'fa fa-check-circle fa-lg text-success',
-		invalid : 'fa fa-times-circle fa-lg',
-		validating : 'fa fa-refresh'
-	};
-	$('#addForm').bootstrapValidator({
-		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
-		fields : {
-		/* price : {
-			validators : {
-				notEmpty : {
-					message : '类型不能为空'
-				},
-				regexp : {
-					regexp : /^[0-9.]+$/,
-					message : '只能输入整数和小数'
-				}
-			}
-		} */
-
-		}
-	}).on('success.form.bv', function(e, data) {
-		e.preventDefault();
-		xh.add();
-	});
-</script>
-<script>
-	$(function() {
-		$("[data-toggle='tooltip']").tooltip();
-	});
-</script>

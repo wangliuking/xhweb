@@ -346,20 +346,6 @@ xh.maskShow = function() {
 xh.maskHide = function() {
 	$(".xh-mask").fadeOut(300);
 }
-/* 退出登录 */
-xh.LoginOut = function() {
-	$.ajax({
-		url : '/RTU/user/loginout.action',
-		type : 'post',
-		dataType : "json",
-		async : false,
-		success : function(response) {
-			window.location.href = "/RTU/view/login.html";
-		},
-		failure : function(response) {
-		}
-	});
-}
 
 /* 获取cookie */
 xh.getcookie = function(name) {

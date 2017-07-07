@@ -23,12 +23,19 @@ public class JoinNetBean {
 	private String user1;
 	private String user2;
 	private String user3;
+	private String user4;
+	
 	private String time1;
 	private String time2;
 	private String time3;
+	private String time4;
+	private String time5;
 	private String note1;
 	private String note2;
 	private String note3;
+	private String note4;
+	private String fileName;
+	private String filePath;
 	public int getId() {
 		return id;
 	}
@@ -199,30 +206,62 @@ public class JoinNetBean {
 	public void setNote3(String note3) {
 		this.note3 = note3;
 	}
+	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	
+	public String getUser4() {
+		return user4;
+	}
+	public void setUser4(String user4) {
+		this.user4 = user4;
+	}
+	public String getTime4() {
+		return time4;
+	}
+	public void setTime4(String time4) {
+		this.time4 = time4;
+	}
+	public String getNote4() {
+		return note4;
+	}
+	public void setNote4(String note4) {
+		this.note4 = note4;
+	}
+	
+	public String getTime5() {
+		return time5;
+	}
+	public void setTime5(String time5) {
+		this.time5 = time5;
+	}
 	@Override
 	public String toString() {
 		return "JoinNetBean [id=" + id + ", unitName=" + unitName
 				+ ", unitNature=" + unitNature + ", unitType=" + unitType
 				+ ", netBasis=" + netBasis + ", netTime=" + netTime
 				+ ", pactName=" + pactName + ", signTime=" + signTime
-				+ ", serviceTime=" + serviceTime + ", unitPerson=" + unitPerson
-				+ ", tel=" + tel + ", department=" + department
-				+ ", softPerson=" + softPerson + ", virtualnetName="
-				+ virtualnetName + ", checked=" + checked + ", result="
-				+ result + ", userName=" + userName + ", getId()=" + getId()
-				+ ", getUnitName()=" + getUnitName() + ", getUnitNature()="
-				+ getUnitNature() + ", getUnitType()=" + getUnitType()
-				+ ", getNetBasis()=" + getNetBasis() + ", getNetTime()="
-				+ getNetTime() + ", getPactName()=" + getPactName()
-				+ ", getSignTime()=" + getSignTime() + ", getServiceTime()="
-				+ getServiceTime() + ", getUnitPerson()=" + getUnitPerson()
-				+ ", getTel()=" + getTel() + ", getDepartment()="
-				+ getDepartment() + ", getSoftPerson()=" + getSoftPerson()
-				+ ", getVirtualnetName()=" + getVirtualnetName()
-				+ ", getChecked()=" + getChecked() + ", getResult()="
-				+ getResult() + ", getUserName()=" + getUserName()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", serviceType=" + serviceType + ", serviceTime="
+				+ serviceTime + ", unitPerson=" + unitPerson + ", tel=" + tel
+				+ ", department=" + department + ", softPerson=" + softPerson
+				+ ", virtualnetName=" + virtualnetName + ", checked=" + checked
+				+ ", result=" + result + ", userName=" + userName + ", time="
+				+ time + ", user1=" + user1 + ", user2=" + user2 + ", user3="
+				+ user3 + ", user4=" + user4 + ", time1=" + time1 + ", time2="
+				+ time2 + ", time3=" + time3 + ", time4=" + time4 + ", time5="
+				+ time5 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
+				+ note3 + ", note4=" + note4 + ", fileName=" + fileName
+				+ ", filePath=" + filePath + "]";
 	}
 	
 	

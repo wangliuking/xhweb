@@ -77,6 +77,7 @@
 												<option value="1">添加数据操作</option>
 												<option value="2">修改数据操作</option>
 												<option value="3">删除数据操作</option>
+												<option value="5">审核信息</option>
 												<option value="4">其他操作</option>
 											</select>
 										</div>
@@ -108,16 +109,16 @@
 								</form>
 							</div>
 							<!-- row -->
-							<table id="tb-info" class="xh-table table-hover">
+							<table id="tb-info" class="xh-table table-hover" style="table-layout:fixed">
 								<thead>
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
 										<th width="180px">时间</th>
 										<th width="150px">日志类型</th>
-										<th width="130px">操作员</th>
-										<th width="100px">操作IP</th>
-										<th>操作详情</th>
+										<th width="160px">操作员</th>
+										<th width="150px">操作IP</th>
+										<th  >操作详情</th>
 										<!-- <th width="150px">操作</th> -->
 									</tr>
 								</thead>
@@ -130,19 +131,11 @@
 											value="{{x.id}}" index="{{$index}}" /></td>
 										<td>{{x.createTime}}</td>
 										<!-- <td>{{x.style}}</td> -->
-										<td ng-if="x.style==1"><span
-											class="label  label-sm label-success"><i
-												class="fa fa-plus"></i>添加数据</span></td>
-										<td ng-if="x.style==2"><span
-											class="label  label-sm label-info"><i
-												class="fa fa-edit"></i>修改数据</span></td>
-										<td ng-if="x.style==3"><span
-											class="label  label-sm label-danger"><i
-												class="fa fa-trash"></i>删除数据</span></td>
-										<td ng-if="x.style==4"><span
-											class="label  label-sm label-default"> <i
-												class="fa fa-star"></i>其他操作
-										</span></td>
+										<td ng-if="x.style==1"><span>添加数据</span></td>
+										<td ng-if="x.style==2"><span>修改数据</span></td>
+										<td ng-if="x.style==3"><span>删除数据</span></td>
+										<td ng-if="x.style==4"><span>其他操作</span></td>
+										<td ng-if="x.style==5"><span>审核信息</span></td>
 										<td>{{x.operator}}</td>
 										<td>{{x.operatorIp}}</td>
 										<td >{{x.content}}</td>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.QualityCountMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.QualityCount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fileName" property="filename" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="filePath" property="filepath" jdbcType="VARCHAR" />
+    <result column="uploadUser" property="uploaduser" jdbcType="VARCHAR" />
+    <result column="recvUser" property="recvuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="ById" parameterType="map" resultMap="BaseResultMap"
+		useCache="true">
+		select * from xhgmnet_operations_qualitycount where 1=1
+		<if test="filename !=null and filename !=''">
+			and filename like concat('%',#{filename},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_qualitycount where 1=1
+		<if test="filename !=null and filename !=''">
+			and filename like concat('%',#{filename},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+	</select>
+  
+  <sql id="Base_Column_List" >
+    id, fileName, contact, tel, note, status, filePath, uploadUser, recvUser, createtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xhgmnet_operations_qualitycount
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xhgmnet_operations_qualitycount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xh.mybatis.bean.QualityCount" >
+    insert into xhgmnet_operations_qualitycount (id, fileName, contact, 
+      tel, note, status, filePath, 
+      uploadUser, recvUser, createtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{filepath,jdbcType=VARCHAR}, 
+      #{uploaduser,jdbcType=VARCHAR}, #{recvuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="xh.mybatis.bean.QualityCount" >
+    insert into xhgmnet_operations_qualitycount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="filename != null" >
+        fileName,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="filepath != null" >
+        filePath,
+      </if>
+      <if test="uploaduser != null" >
+        uploadUser,
+      </if>
+      <if test="recvuser != null" >
+        recvUser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="filepath != null" >
+        #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaduser != null" >
+        #{uploaduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recvuser != null" >
+        #{recvuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.QualityCount" >
+    update xhgmnet_operations_qualitycount
+    <set >
+      <if test="filename != null" >
+        fileName = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="filepath != null" >
+        filePath = #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaduser != null" >
+        uploadUser = #{uploaduser,jdbcType=VARCHAR},
+      </if>
+      <if test="recvuser != null" >
+        recvUser = #{recvuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.QualityCount" >
+    update xhgmnet_operations_qualitycount
+    set fileName = #{filename,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      filePath = #{filepath,jdbcType=VARCHAR},
+      uploadUser = #{uploaduser,jdbcType=VARCHAR},
+      recvUser = #{recvuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
