@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body ng-app="app" ng-controller="asset"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header ">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="color-line"></div>
@@ -180,8 +180,7 @@
 										<td>{{x.serialNumber}}</td>
 										<td>{{x.price}}</td>
 										<td>{{x.from}}</td>
-										<td ng-if="x.status==3">维修</td>
-										<td ng-if="x.status==7">遗失</td>
+										<td>{{x.status}}</td>
 										<td>{{x.note}}</td>
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"

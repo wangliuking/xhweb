@@ -11,7 +11,7 @@
 	-webkit-animation-delay: -1s;
 	animation-delay: -1s;
 }
-/* 网页头部 */
+/* 网页头部 #428bca*/
 #header {
 	background-color: #428bca;
 	display: block;
@@ -21,6 +21,10 @@
 	position: relative;
 	border-bottom: 1px solid #e4e5e7;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2)
+}
+.header-style{
+	background-color:#fff;
+	color:#000;
 }
 
 #nav-top {
@@ -72,7 +76,7 @@
 
 #logo .small-logo {
 	padding-top: 5px;
-	padding-left: 3px;
+	padding-left: 0px;
 	margin-left: 0;
 	margin-top: 0;
 	line-height: 30px;
@@ -265,7 +269,7 @@ iframe {
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 190px;
-	top: 80px;
+	top: 82px;
 }
 
 .fixed-small-header .small-header {
@@ -311,6 +315,28 @@ iframe {
 	z-index: 1001;
 	bottom: 0;
 	left: 190px;
+	right: 0;
+}
+.hide-menu #menu{
+	display: none;
+}
+.hide-menu #wrapper {
+	top: 80px;
+	margin-left:0px;
+}
+.hide-menu .small-header {
+	position: fixed;
+	top: 80px;
+	left: 2px;;
+	right: 0;
+	margin-left: 0px;
+	z-index: 100;
+}
+.hide-menu .footer {
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 0px;
 	right: 0;
 }
 /* 地图容器 */

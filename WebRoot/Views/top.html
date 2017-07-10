@@ -1,10 +1,11 @@
 <!-- 系统头部 -->
-<div id="header" role="navigation">
+<div id="header" role="navigation" class="header-style">
 	<div id="logo">
 		<ul class="small-logo">
-			<li><img alt="" src="../../Resources/images/img/logo.png"
+			<li><img alt="" src="../../Resources/images/img/log.png"
 				height="40px" width="40px"></li>
 			<li class="title"><span>综合应用与管理平台</span></li>
+			<!-- <li style="margin-top:10px;color:#fff;cursor: pointer;" class="menu-hide"><i class="fa fa-bars fa-2x"></i></li> -->
 		</ul>
 	</div>
 	<nav role="navigation">
@@ -63,16 +64,16 @@
 				<a href="../other/charts.html"><i class="fa fa-line-chart"></i>&nbsp;|图形化监控</a>
 			</li> -->
 			<li ng-class="{true: 'header-active', false: 'inactive'}[systemMenu]"><a
-				href=""><i class="fa fa-sitemap"></i>&nbsp;|系统状态</a></li>
+				href="" target="_self"><i class="fa fa-sitemap"></i>&nbsp;|系统状态</a></li>
 			<li
 				ng-class="{true: 'header-active', false: 'inactive'}[operationMenu]"><a
-				href="../operations/bsInfo.html"><i class="fa fa-wrench"></i>&nbsp;|运维管理</a></li>
+				href="../operations/bsInfo.html" target="_self"><i class="fa fa-wrench"></i>&nbsp;|运维管理</a></li>
 			<li
 				ng-class="{true: 'header-active', false: 'inactive'}[businessMenu]"><a
-				href="../business/asset-info.html"><i class="fa fa-suitcase"></i>&nbsp;|业务管理</a></li>
+				href="../business/asset-info.html" target="_self"><i class="fa fa-suitcase"></i>&nbsp;|业务管理</a></li>
 			<li
 				ng-class="{true: 'header-active', false: 'inactive'}[securityMenu]"><a
-				href="../web/user.html"><i class="fa fa-lock"></i>&nbsp;|平台管理</a></li>
+				href="../web/user.html" target="_self"><i class="fa fa-lock"></i>&nbsp;|平台管理</a></li>
 		</ul>
 		<ul class="navbar-bottom-right">
 			<li style="color:#d15b47"><span>欢迎你!</span>&nbsp;&nbsp;<span
