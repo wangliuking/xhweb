@@ -68,10 +68,101 @@
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-							<ul id="treeDemo" class="ztree" style="height:100px;">
+							<ul id="treeDemo" class="ztree" style="height:500px;">
 
 							</ul>
 							<hr>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-10">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label for="bsId">无线用户ID</label>
+										<div>
+											<input type="text" class="form-control" id="C_ID"
+												placeholder="无线用户ID号" width="20px">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="name">无线用户名称</label>
+										<div>
+											<input type="text" class="form-control" id="E_name"
+												placeholder="无线用户名称">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="search(1)">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button class="btn btn-warning btn-sm" ng-click="refresh()">
+										<i class="fa fa-refresh"></i>&nbsp;刷新
+									</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th>
+										<th>无线用户ID</th>
+										<th>无线用户名称</th>
+										<th>交换中心唯一标识</th>
+										<th>虚拟专网唯一标识</th>
+										<th>警员编号</th>
+										<th>用户所在单位</th>
+										<th>警察种类</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="9" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td>
+										<td>{{x.C_ID}}</td>
+										<td>{{x.E_name}}</td>
+										<td>{{x.E_mscId}}</td>
+										<td>{{x.E_vpnId}}</td>
+										<td>{{x.E_sn}}</td>
+										<td>{{x.E_company}}</td>
+										<td>{{x.E_type}}</td>
+										<td style="width:20px;text-align:center"><a href="#"
+											ng-click="editModel($index)" data-toggle="modal"> <i
+												class="fa fa-edit text-success"></i>&nbsp;查看详情
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -95,18 +186,26 @@
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/vpn.js"></script>
-	<script type="text/javascript">
-		xh.load();
-	</script>
 	<script type="text/javascript"
 		src="../../lib/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/vpn.js"></script>
 	<script type="text/javascript">
-		//js方法  
-		function test(event, treeId, treeNode) {
-			alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);
-		}
-
+	xh.load = function() {
+		var dataForTree;
+		var app = angular.module("app", []);
+		app.controller("vpn", function($scope, $http) {
+			$scope.count = "20";// 每页数据显示默认值
+			$scope.systemMenu = true; // 菜单变色
+			$http.get("../../vpn/list").success(
+					function(response) {
+						dataForTree = response.items;
+						start(dataForTree);
+					});
+		});
+	};
+		
+	var start = function(dataForTree){
 		// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）  
 		var setting = {
 			check : {
@@ -115,24 +214,28 @@
 				chkStyle : "checkbox"
 			},
 			callback : {
-				onCheck : test
+				onClick: zTreeOnClick
 			}
 		};
 		// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）  
 		var zNodes = [ {
-			name : "虚拟专网",
+			name : "组织名称",
 			open : true,
 			"checked" : "true",
-			children : [ {
-				name : "test1_1",
-			}, {
-				name : "test1_2"
-			} ]
+			children : dataForTree
 		}];
 		$(document).ready(function() {
 			//页面加载成功后,开始加载树形结构  
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		});
+		//为每个节点添加点击事件
+		function zTreeOnClick(event, treeId, treeNode) {
+		    xh.select(treeNode.vpnId);
+		};
+	};
+	</script>
+	<script type="text/javascript">
+		xh.load();
 	</script>
 </body>
 </html>

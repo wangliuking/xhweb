@@ -1,14 +1,11 @@
-/**
- * 无线用户配置
- */
 if (!("xh" in window)) {
 	window.xh = {};
 };
 /*
  * test
  */
-$(function(){
-	
+$(function() {
+
 });
 var frist = 0;
 toastr.options = {
@@ -27,7 +24,7 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
-xh.load = function() {
+xh.select = function(vpnId) {
 	var app = angular.module("app", []);
 	var C_ID = $("#C_ID").val();
 	var E_name = $("#E_name").val();
@@ -35,12 +32,10 @@ xh.load = function() {
 
 	app.controller("vpn", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "20";// 每页数据显示默认值
-		$scope.systemMenu = true; // 菜单变色
 		$http.get(
-				"../../vpn/list?C_ID=" + C_ID + "&E_name=" + E_name
-						+ "&start=0&limit=" + pageSize).success(
-				function(response) {
+				"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
+						+ "&vpnId=" + vpnId + "&start=0&limit=" + pageSize)
+				.success(function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
 					$scope.totals = response.totals;
@@ -52,82 +47,7 @@ xh.load = function() {
 			$("#E_name").val("");
 			$scope.search(1);
 		};
-		/*显示添加基站model*/
-		$scope.addModel = function(){
-			/*清除添加框之前的数据*/
-			$('#add input[type!="radio"]').val('');
-			/*进入模态框默认选中第一步*/
-			$('#add a[href="#step1"]').tab('show');
-			$('#add').modal('show');
-		};
-		/* 显示修改基站model */
-		$scope.editModel = function(id) {
-			/*进入模态框默认选中第一步*/
-			$('#edit a[href="#step_1"]').tab('show');
-			$('#edit').modal('show');
-			$scope.editData = $scope.data[id];
-		};
-		/* 显示修改基站model */
-		$scope.showEditModel = function() {
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				toastr.error("只能选择一条数据", '提示');
-				return;
-			}
-			console.log("edit=" + checkVal[0]);
-			/* $scope.edit(parseInt(checkVal[0])); */
-			/*进入模态框默认选中第一步*/
-			$('#edit a[href="#step_1"]').tab('show');
-			$("#edit").modal('show');
-			$scope.editData = $scope.data[parseInt(checkVal[0])];
-		};
-		/* 删除基站 */
-		$scope.delBs = function(id) {
-			swal({
-				title : "提示",
-				text : "确定要删除该无线用户信息吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../vpn/del',
-						type : 'post',
-						dataType : "json",
-						data : {
-							id : id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success("删除无线用户成功", '提示');
-								$scope.refresh();
-							} else {
-								swal({
-									title : "提示",
-									text : "删除无限用户失败",
-									type : "error"
-								});
-							}
-						},
-						error : function() {
-							$scope.refresh();
-						}
-					});
-				}
-			});
-		};
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -145,14 +65,14 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../vpn/list?C_ID=" + C_ID + "&E_name=" + E_name + "&start="
-							+ start + "&limit=" + limit).success(
-					function(response) {
-						xh.maskHide();
-						$scope.data = response.items;
-						$scope.totals = response.totals;
-						xh.pagging(page, parseInt($scope.totals), $scope);
-					});
+					"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
+							+ "&vpnId=" + vpnId + "&start=" + start + "&limit="
+							+ limit).success(function(response) {
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(page, parseInt($scope.totals), $scope);
+			});
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -168,29 +88,27 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../vpn/list?C_ID=" + C_ID + "&E_name=" + E_name + "&start="
-							+ start + "&limit=" + pageSize).success(
-					function(response) {
-						xh.maskHide();
-						$scope.start = (page - 1) * pageSize + 1;
-						$scope.lastIndex = page * pageSize;
-						if (page == totalPages) {
-							if (totals > 0) {
-								$scope.lastIndex = totals;
-							} else {
-								$scope.start = 0;
-								$scope.lastIndex = 0;
-							}
-						}
-						$scope.data = response.items;
-						$scope.totals = response.totals;
-					});
+					"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
+							+ "&vpnId=" + vpnId + "&start=" + start + "&limit="
+							+ pageSize).success(function(response) {
+				xh.maskHide();
+				$scope.start = (page - 1) * pageSize + 1;
+				$scope.lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.lastIndex = totals;
+					} else {
+						$scope.start = 0;
+						$scope.lastIndex = 0;
+					}
+				}
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+			});
 
 		};
 	});
 };
-
-
 // 刷新数据
 xh.refresh = function() {
 	var appElement = document.querySelector('[ng-controller=vpn]');

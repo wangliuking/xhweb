@@ -48,7 +48,15 @@ public interface RadioUserMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap>allRadioUser()throws Exception;
-
+	/**
+	 * 根据vpnId查询用户
+	 * 
+	 */
+	public List<HashMap<String,String>> allByVpnId(Map<String,Object> map)throws Exception;
+	/**
+	 * 根据vpnId查询总数
+	 */
+	public int CountByVpnId(Map<String,Object> map)throws Exception;
 
 	
 }

@@ -149,6 +149,40 @@ public class RadioUserController {
 		}
 		
 	}
+	
+	/**
+	 * 根据vpnId查询无线用户信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/vpnid",method = RequestMethod.GET)
+	public void allByVpnId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String vpnId=request.getParameter("vpnId");
+		String C_ID=request.getParameter("C_ID");
+		String E_name=request.getParameter("E_name");
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("C_ID", C_ID);
+		map.put("E_name", E_name);
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("vpnId", vpnId);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",RadioUserService.CountByVpnId(map));
+		result.put("items", RadioUserService.allByVpnId(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 
 }

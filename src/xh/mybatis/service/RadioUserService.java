@@ -130,6 +130,47 @@ public class RadioUserService {
 		}
 		return list;
 	}
+	
+	/**
+	 * 根据vpnId查询用户
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> allByVpnId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.allByVpnId(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
+	 * 根据vpnId查询总数
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int CountByVpnId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
+		int count = 0;
+		try {
+			count = mapper.CountByVpnId(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 
 }
