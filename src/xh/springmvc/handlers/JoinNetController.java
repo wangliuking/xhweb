@@ -67,7 +67,6 @@ public class JoinNetController {
 		result.put("totals", JoinNetService.dataCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {

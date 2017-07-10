@@ -35,9 +35,7 @@ public class RedisUtil {
     private static  ShardedJedis shardedJedis;//切片额客户端连接
     private static  ShardedJedisPool shardedJedisPool;//切片连接池
     
-    protected final Log log4j = LogFactory.getLog(RedisUtil.class);
-    
-    protected final Log log=LogFactory.getLog(RedisUtil.class);
+    protected final static Log log4j = LogFactory.getLog(RedisUtil.class);
     
     
     /**
@@ -89,7 +87,7 @@ public class RedisUtil {
             }
         } catch (JedisConnectionException e) {
         	
-           System.out.println("error:"+e.fillInStackTrace());
+        	log4j.info("error:Could not get a resource from the pool");
            
             return null;
         }
@@ -104,4 +102,14 @@ public class RedisUtil {
             jedisPool.returnResource(jedis);
         }
     }
+
+	public static JedisPool getJedisPool() {
+		return jedisPool;
+	}
+
+	public static void setJedisPool(JedisPool jedisPool) {
+		RedisUtil.jedisPool = jedisPool;
+	}
+    
+    
 }
