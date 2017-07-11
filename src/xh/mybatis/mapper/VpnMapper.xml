@@ -10,4 +10,16 @@
   	select * from xhgmnet_business_vpn
   </select>
   
+  <delete id="deleteByVpnId" parameterType="java.lang.String">
+  	delete from xhgmnet_business_vpn where vpnId=#{vpnId}
+  </delete>
+  
+  <update id="updateByVpnId" parameterType="java.lang.String">
+  	update xhgmnet_business_vpn set name=#{name} where vpnId=#{vpnId}
+  </update>
+  
+  <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
+  	insert into xhgmnet_business_vpn(vpnId,name) values(#{vpnId},#{name})
+  </insert>
+  
 </mapper>

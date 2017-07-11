@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,51 @@ public class BusinessVpnController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 删除
+	 */
+	@RequestMapping("/deleteByVpnId")
+	public void deleteByVpnId(HttpServletRequest request, HttpServletResponse response){
+		String vpnId = request.getParameter("vpnId");
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", BusinessVpnService.deleteByVpnId(vpnId));
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 更新
+	 */
+	@RequestMapping("/updateByVpnId")
+	public void updateByVpnId(HttpServletRequest request, HttpServletResponse response){
+		try {
+			request.setCharacterEncoding("utf-8");
+			String vpnId = request.getParameter("vpnId");
+			String name = request.getParameter("name");
+			this.success=true;
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("items", BusinessVpnService.updateByVpnId(vpnId, name));
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 	

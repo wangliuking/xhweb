@@ -37,5 +37,40 @@ public class BusinessVpnService {
 	public static void assetInfoCount(Map<String,Object> map){
 		
 	}
+	/**
+	 * 删除
+	 */
+	public static int deleteByVpnId(String vpnId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		int count = 0;
+		try {
+			count = mapper.deleteByVpnId(vpnId);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * 更新
+	 */
+	public static int updateByVpnId(String vpnId,String name){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		int count = 0;
+		try {
+			count = mapper.updateByVpnId(vpnId, name);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 }
