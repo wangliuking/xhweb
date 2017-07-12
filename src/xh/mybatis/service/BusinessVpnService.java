@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.VpnBean;
 import xh.mybatis.mapper.VpnMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -61,9 +62,12 @@ public class BusinessVpnService {
 	public static int updateByVpnId(String vpnId,String name){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		HashMap<String,String> map = new HashMap<String, String>();
+		map.put("vpnId", vpnId);
+		map.put("name", name);
 		int count = 0;
 		try {
-			count = mapper.updateByVpnId(vpnId, name);
+			count = mapper.updateByVpnId(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -72,5 +76,37 @@ public class BusinessVpnService {
 		}
 		return count;
 	}
+	
+	/**
+	 * 添加
+	 */
+	public static int insertByVpnId(VpnBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		String vpnId = bean.getVpnId();
+		int count = 0;
+		int temp = 0;
+		try {
+			temp = mapper.countByVpnId(vpnId);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(temp>0){
+			return 0;
+		}else{
+			try {
+				count = mapper.insertByVpnId(bean);
+				sqlSession.commit();
+				sqlSession.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return count;
+	}
+	
+	
 	
 }

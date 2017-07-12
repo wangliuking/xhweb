@@ -3,13 +3,14 @@ package xh.mybatis.bean;
 import java.io.Serializable;
 
 public class VpnBean implements Serializable{
-	String id;
+	String vpnId;
 	String name;
-	public String getId() {
-		return id;
+	
+	public String getVpnId() {
+		return vpnId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setVpnId(String vpnId) {
+		this.vpnId = vpnId;
 	}
 	public String getName() {
 		return name;
@@ -19,7 +20,7 @@ public class VpnBean implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "VpnBean [id=" + id + ", name=" + name + "]";
+		return "VpnBean [vpnId=" + vpnId + ", name=" + name + "]";
 	}
 	
 }

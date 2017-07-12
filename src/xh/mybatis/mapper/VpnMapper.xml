@@ -14,12 +14,17 @@
   	delete from xhgmnet_business_vpn where vpnId=#{vpnId}
   </delete>
   
-  <update id="updateByVpnId" parameterType="java.lang.String">
+  <update id="updateByVpnId" parameterType="map">
   	update xhgmnet_business_vpn set name=#{name} where vpnId=#{vpnId}
   </update>
   
   <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
   	insert into xhgmnet_business_vpn(vpnId,name) values(#{vpnId},#{name})
   </insert>
+  
+  <!-- 添加之前查询vpnId是否重复 -->
+  <select id="countByVpnId" resultType="int" parameterType="java.lang.String">
+  	select count(*) from xhgmnet_business_vpn where vpnId=#{vpnId}
+  </select>
   
 </mapper>

@@ -177,7 +177,7 @@ var start = function(dataForTree) {
             data: {},
             dataType: "json",
             success: function(data){
-                       alert("删除成功");
+                       
                      }
         });
 	}
@@ -200,14 +200,13 @@ var start = function(dataForTree) {
 	function onRename(e, treeId, treeNode) {
 		showLog("[ " + getTime() + " onRename ]&nbsp;&nbsp;&nbsp;&nbsp; "
 				+ treeNode.name);
-		alert(tempnewName);
 		$.ajax({
             type: "POST",
             url: "../../vpn/updateByVpnId?vpnId="+treeNode.vpnId+"&name="+tempnewName,
             data: {},
             dataType: "json",
             success: function(data){
-                       alert("更新成功");
+                       
                      }
         });
 	}
@@ -283,6 +282,27 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 
+};
+
+xh.add = function() {
+	$.ajax({
+		url : '../../vpn/add',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#addForm").serializeArray(),
+		success : function(data) {
+			if (data.items != 0) {
+				$('#add').modal('hide');
+				xh.load();
+				toastr.success("添加成功", '提示');			
+			} else {
+				toastr.error("添加失败,已存在相同vpnId", '提示');
+			}
+		},
+		error : function() {
+		}
+	});
 };
 /*
  * $http({ method : "POST", url : "../../bs/list", data : { bsId : bsId, name :

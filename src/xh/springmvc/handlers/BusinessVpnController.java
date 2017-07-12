@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.VpnBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BusinessVpnService;
 
@@ -78,9 +79,10 @@ public class BusinessVpnController {
 	@RequestMapping("/updateByVpnId")
 	public void updateByVpnId(HttpServletRequest request, HttpServletResponse response){
 		try {
-			request.setCharacterEncoding("utf-8");
 			String vpnId = request.getParameter("vpnId");
-			String name = request.getParameter("name");
+			String nametemp = request.getParameter("name");
+			byte[] b=nametemp.getBytes("ISO-8859-1");
+			String name=new String(b,"utf-8");
 			this.success=true;
 			HashMap result = new HashMap();
 			result.put("success", success);
@@ -96,6 +98,25 @@ public class BusinessVpnController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 新增
+	 */
+	@RequestMapping("/add")
+	public void insertByVpnId(HttpServletRequest request, HttpServletResponse response,VpnBean bean){	
+			this.success=true;
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("items", BusinessVpnService.insertByVpnId(bean));
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 	
 
