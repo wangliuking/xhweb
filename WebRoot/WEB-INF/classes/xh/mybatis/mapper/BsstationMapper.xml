@@ -81,7 +81,7 @@
 	</delete>
     <!--查询所有 wlk-->
     <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId
+     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId group by a.bsId
     </select>
 	
 	<!-- 根据id查询对应基站信息 wlk -->

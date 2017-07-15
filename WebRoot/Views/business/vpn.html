@@ -68,10 +68,14 @@
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-							<ul id="treeDemo" class="ztree" style="height:500px;">
+							<ul id="treeDemo" class="ztree" style="height:500px;width:100%;overflow:auto;">
 
 							</ul>
-							<hr>
+<!-- 							<button class="btn btn-xs btn-info" style="width:40px;float:right;overflow:hidden;" data-toggle="modal"
+											data-target="#add" ng-disabled="">新增</button> -->
+						</div>
+						
+						<div class="panel-footer">
 						</div>
 					</div>
 				</div>
@@ -125,12 +129,11 @@
 										<th>警员编号</th>
 										<th>用户所在单位</th>
 										<th>警察种类</th>
-										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
@@ -142,10 +145,6 @@
 										<td>{{x.E_sn}}</td>
 										<td>{{x.E_company}}</td>
 										<td>{{x.E_type}}</td>
-										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i
-												class="fa fa-edit text-success"></i>&nbsp;查看详情
-										</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -178,6 +177,7 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
+	<div ng-include="'vpn-add.html'"></div>
 	<script src="../../Resources/js/jquery-2.2.3.min.js"></script>
 	<script src="../../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
 	<script src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
@@ -187,53 +187,9 @@
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
-		src="../../lib/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+		src="../../lib/zTree_v3/js/jquery.ztree.all-3.5.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/vpn.js"></script>
-	<script type="text/javascript">
-	xh.load = function() {
-		var dataForTree;
-		var app = angular.module("app", []);
-		app.controller("vpn", function($scope, $http) {
-			$scope.count = "20";// 每页数据显示默认值
-			$scope.systemMenu = true; // 菜单变色
-			$http.get("../../vpn/list").success(
-					function(response) {
-						dataForTree = response.items;
-						start(dataForTree);
-					});
-		});
-	};
-		
-	var start = function(dataForTree){
-		// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）  
-		var setting = {
-			check : {
-				enable : true,
-				autoCheckTrigger : true,
-				chkStyle : "checkbox"
-			},
-			callback : {
-				onClick: zTreeOnClick
-			}
-		};
-		// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）  
-		var zNodes = [ {
-			name : "组织名称",
-			open : true,
-			"checked" : "true",
-			children : dataForTree
-		}];
-		$(document).ready(function() {
-			//页面加载成功后,开始加载树形结构  
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		});
-		//为每个节点添加点击事件
-		function zTreeOnClick(event, treeId, treeNode) {
-		    xh.select(treeNode.vpnId);
-		};
-	};
-	</script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

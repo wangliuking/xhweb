@@ -24,91 +24,221 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
-xh.select = function(vpnId) {
-	var app = angular.module("app", []);
-	var C_ID = $("#C_ID").val();
-	var E_name = $("#E_name").val();
-	var pageSize = $("#page-limit").val();
-
+var app = angular.module("app", []);
+xh.load = function() {
+	var dataForTree;
 	app.controller("vpn", function($scope, $http) {
-		xh.maskShow();
-		$http.get(
-				"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
-						+ "&vpnId=" + vpnId + "&start=0&limit=" + pageSize)
-				.success(function(response) {
-					xh.maskHide();
-					$scope.data = response.items;
-					$scope.totals = response.totals;
-					xh.pagging(1, parseInt($scope.totals), $scope);
-				});
-		/* 刷新数据 */
-		$scope.refresh = function() {
-			$("#C_ID").val("");
-			$("#E_name").val("");
-			$scope.search(1);
-		};
+		$scope.count = "20";// 每页数据显示默认值
+		$scope.systemMenu = true; // 菜单变色
+		$http.get("../../vpn/list").success(function(response) {
+			dataForTree = response.items;
+			start(dataForTree);
+		});
 
-		/* 查询数据 */
-		$scope.search = function(page) {
-			var pageSize = $("#page-limit").val();
+		xh.select = function(vpnId) {
 			var C_ID = $("#C_ID").val();
 			var E_name = $("#E_name").val();
-			var start = 1, limit = pageSize;
-			frist = 0;
-			page = parseInt(page);
-			if (page <= 1) {
-				start = 0;
-
-			} else {
-				start = (page - 1) * pageSize;
-			}
-			console.log("limit=" + limit);
+			var pageSize = $("#page-limit").val();
 			xh.maskShow();
 			$http.get(
 					"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
-							+ "&vpnId=" + vpnId + "&start=" + start + "&limit="
-							+ limit).success(function(response) {
-				xh.maskHide();
-				$scope.data = response.items;
-				$scope.totals = response.totals;
-				xh.pagging(page, parseInt($scope.totals), $scope);
-			});
-		};
-		// 分页点击
-		$scope.pageClick = function(page, totals, totalPages) {
-			var pageSize = $("#page-limit").val();
-			var C_ID = $("#C_ID").val();
-			var E_name = $("#E_name").val();
-			var start = 1, limit = pageSize;
-			page = parseInt(page);
-			if (page <= 1) {
-				start = 0;
-			} else {
-				start = (page - 1) * pageSize;
-			}
-			xh.maskShow();
-			$http.get(
-					"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name=" + E_name
-							+ "&vpnId=" + vpnId + "&start=" + start + "&limit="
-							+ pageSize).success(function(response) {
-				xh.maskHide();
-				$scope.start = (page - 1) * pageSize + 1;
-				$scope.lastIndex = page * pageSize;
-				if (page == totalPages) {
-					if (totals > 0) {
-						$scope.lastIndex = totals;
-					} else {
-						$scope.start = 0;
-						$scope.lastIndex = 0;
-					}
+							+ "&vpnId=" + vpnId + "&start=0&limit=" + pageSize)
+					.success(function(response) {
+						xh.maskHide();
+						$scope.data = response.items;
+						$scope.totals = response.totals;
+						xh.pagging(1, parseInt($scope.totals), $scope);
+					});
+			/* 刷新数据 */
+			$scope.refresh = function() {
+				$("#C_ID").val("");
+				$("#E_name").val("");
+				$scope.search(1);
+			};
+
+			/* 查询数据 */
+			$scope.search = function(page) {
+				var pageSize = $("#page-limit").val();
+				var C_ID = $("#C_ID").val();
+				var E_name = $("#E_name").val();
+				var start = 1, limit = pageSize;
+				frist = 0;
+				page = parseInt(page);
+				if (page <= 1) {
+					start = 0;
+
+				} else {
+					start = (page - 1) * pageSize;
 				}
-				$scope.data = response.items;
-				$scope.totals = response.totals;
-			});
+				console.log("limit=" + limit);
+				xh.maskShow();
+				$http.get(
+						"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name="
+								+ E_name + "&vpnId=" + vpnId + "&start="
+								+ start + "&limit=" + limit).success(
+						function(response) {
+							xh.maskHide();
+							$scope.data = response.items;
+							$scope.totals = response.totals;
+							xh.pagging(page, parseInt($scope.totals), $scope);
+						});
+			};
+			// 分页点击
+			$scope.pageClick = function(page, totals, totalPages) {
+				var pageSize = $("#page-limit").val();
+				var C_ID = $("#C_ID").val();
+				var E_name = $("#E_name").val();
+				var start = 1, limit = pageSize;
+				page = parseInt(page);
+				if (page <= 1) {
+					start = 0;
+				} else {
+					start = (page - 1) * pageSize;
+				}
+				xh.maskShow();
+				$http.get(
+						"../../radiouser/vpnid?C_ID=" + C_ID + "&E_name="
+								+ E_name + "&vpnId=" + vpnId + "&start="
+								+ start + "&limit=" + pageSize).success(
+						function(response) {
+							xh.maskHide();
+							$scope.start = (page - 1) * pageSize + 1;
+							$scope.lastIndex = page * pageSize;
+							if (page == totalPages) {
+								if (totals > 0) {
+									$scope.lastIndex = totals;
+								} else {
+									$scope.start = 0;
+									$scope.lastIndex = 0;
+								}
+							}
+							$scope.data = response.items;
+							$scope.totals = response.totals;
+						});
+
+			};
 
 		};
+
 	});
+
 };
+
+var start = function(dataForTree) {
+	// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+	var setting = {
+		view : {
+
+		},
+		edit : {
+			enable : true
+		// 单独设置为true时，可加载修改、删除图标
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		},
+		callback : {
+			onClick : zTreeOnClick,// 单击事件
+			beforeDrag: beforeDrag,
+			beforeRemove: beforeRemove,
+			beforeRename: beforeRename,
+			onRemove: onRemove,
+			onRename: onRename
+		}
+	};
+	// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+	var zNodes = [ {
+		name : "组织名称",
+		open : true,
+		"checked" : "true",
+		children : dataForTree
+	} ];
+
+	var log,className = "dark";
+	function beforeDrag(treeId, treeNodes) {
+		return false;
+	}
+	function beforeRemove(treeId, treeNode) {
+		className = (className === "dark" ? "" : "dark");
+		showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; "
+				+ treeNode.name);
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+		zTree.selectNode(treeNode);
+		return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+	}
+	function onRemove(e, treeId, treeNode) {
+		showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; "
+				+ treeNode.name);
+		$.ajax({
+            type: "POST",
+            url: "../../vpn/deleteByVpnId?vpnId="+treeNode.vpnId,
+            data: {},
+            dataType: "json",
+            success: function(data){
+                       
+                     }
+        });
+	}
+	var tempnewName;
+	function beforeRename(treeId, treeNode, newName) {
+		tempnewName=newName;
+		className = (className === "dark" ? "" : "dark");
+		showLog("[ " + getTime() + " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; "
+				+ treeNode.name);
+		if (newName.length == 0) {
+			alert("节点名称不能为空.");
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			setTimeout(function() {
+				zTree.editName(treeNode);
+			}, 10);
+			return false;
+		}
+		return true;
+	}
+	function onRename(e, treeId, treeNode) {
+		showLog("[ " + getTime() + " onRename ]&nbsp;&nbsp;&nbsp;&nbsp; "
+				+ treeNode.name);
+		$.ajax({
+            type: "POST",
+            url: "../../vpn/updateByVpnId?vpnId="+treeNode.vpnId+"&name="+tempnewName,
+            data: {},
+            dataType: "json",
+            success: function(data){
+                       
+                     }
+        });
+	}
+	function showLog(str) {
+		if (!log)
+			log = $("#log");
+		log.append("<li class='" + className + "'>" + str + "</li>");
+		if (log.children("li").length > 8) {
+			log.get(0).removeChild(log.children("li")[0]);
+		}
+	}
+	function getTime() {
+		var now = new Date(), h = now.getHours(), m = now.getMinutes(), s = now
+				.getSeconds(), ms = now.getMilliseconds();
+		return (h + ":" + m + ":" + s + " " + ms);
+	}
+
+	$(document).ready(function() {
+		// 页面加载成功后,开始加载树形结构
+		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+	});
+	// 为每个节点添加点击事件
+	function zTreeOnClick(event, treeId, treeNode) {
+		xh.select(treeNode.vpnId);
+	}
+	;
+};
+
+function removeHoverDom(treeId, treeNode) {
+	$("#addBtn_" + treeNode.tId).unbind().remove();
+};
+
 // 刷新数据
 xh.refresh = function() {
 	var appElement = document.querySelector('[ng-controller=vpn]');
@@ -152,6 +282,27 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 
+};
+
+xh.add = function() {
+	$.ajax({
+		url : '../../vpn/add',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#addForm").serializeArray(),
+		success : function(data) {
+			if (data.items != 0) {
+				$('#add').modal('hide');
+				xh.load();
+				toastr.success("添加成功", '提示');			
+			} else {
+				toastr.error("添加失败,已存在相同vpnId", '提示');
+			}
+		},
+		error : function() {
+		}
+	});
 };
 /*
  * $http({ method : "POST", url : "../../bs/list", data : { bsId : bsId, name :
