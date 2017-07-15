@@ -71,17 +71,19 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
-			$http.get("../../net/applyProgress?id="+$scope.editData.id).
+			$scope.checkData=$scope.editData;
+			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
 			success(function(response){
 				$scope.progressData = response.items;
 				
-			});
+			});*/
+			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
 	    };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
-			$http.get("../../web/user/userlist10001").
+			$http.get("../../web/user/userlist10002").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;

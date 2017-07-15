@@ -129,7 +129,7 @@
 									<p>
 										<span>备注：</span><span>{{progressData.note}}</span>
 									</p>
-								<span class="cd-date text-success font-bold text-x">
+									<span class="cd-date text-success font-bold text-x">
 										提交时间：{{progressData.time}}</span>
 								</div>
 							</div>
@@ -213,6 +213,8 @@
 									ng-if="progressData.checked>=4"></div>
 								<div class="cd-timeline-content">
 									<h2>用户确认编组方案是否可行</h2>
+									<a ng-if="progressData.checked>=4" href="#" title="点击下载文件" onclick="xh.download()" 
+									style="color:red">{{progressData.fileName}}</a>
 									<p>
 										<span>备注：</span><span>备注内容</span>
 									</p>
@@ -225,7 +227,6 @@
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-							
 								<div class="cd-timeline-img-first cd-gray"
 									ng-if="progressData.checked<5">结束</div>
 								<div class="cd-timeline-img-first cd-green"
@@ -243,3 +244,4 @@
 			</button>
 		</div> -->
 	</div>
+</div>

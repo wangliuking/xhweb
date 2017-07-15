@@ -15,7 +15,7 @@
         <result property="role" column="role" javaType="java.lang.String"></result>
     </resultMap>
     <!--软件产业中心用户列表-->
-    <select id="userlist10001"  resultType="map" useCache="true">
+    <select id="userlist10002"  resultType="map" useCache="true">
      select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
      xhgmnet_web_role_user where roleId=10002)
     </select>     
