@@ -216,7 +216,7 @@ public class BsstationController {
 	@RequestMapping(value="/map/data",method=RequestMethod.GET)
 	@ResponseBody
 	public void selectAllBsStation(HttpServletRequest request, HttpServletResponse response){
-		HashMap<String,List<HashMap<String, String>>> map = new HashMap<String,List<HashMap<String, String>>>();
+		HashMap map = new HashMap();
 		BsstationService bsStationService = new BsstationService();
 		try {
 			List<HashMap<String, String>> listMap = bsStationService.selectAllBsStation();
