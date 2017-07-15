@@ -12,7 +12,7 @@ public interface WebUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> userlist10001()throws Exception;
+	public List<Map<String,Object>> userlist10002()throws Exception;
 	/**
 	 * 根据登录用户名,密码查找登录用户
 	 * @param name

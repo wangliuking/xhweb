@@ -706,11 +706,28 @@ li.divider {
 	font-weight: 600;
 	padding: 10px 4px;
 	transition: all .3s;
+	min-height:40px;
 	border: 1px solid transparent;
 }
 
 .hpanel .hbuilt.panel-heading {
 	border-bottom: none;
+}
+.panel-heading.head-green{
+	background:#5cb45b;
+	color:#fff;
+}
+.panel-heading.head-red{
+	background:#d15b47;
+	color:#fff;
+}
+.panel-heading.head-blue{
+	background:#4f99c6;
+	color:#fff;
+}
+.panel-heading.head-gray{
+	background:#ccc;
+	color:#fff;
 }
 
 .hpanel>.panel-footer,.hpanel>.panel-section {
@@ -775,6 +792,12 @@ li.divider {
 .panel-tools a {
 	margin-left: 5px;
 	color: #9d9fa2;
+	cursor: pointer;
+}
+.panel-tools.tool-blue a {
+	margin-left: 5px;
+	color: #3498db;
+	font-weight:400;
 	cursor: pointer;
 }
 
@@ -2361,4 +2384,8 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
   /* background: #f7f9fa; */
   padding:5px;
   height:45px;
-} 
+}
+.modal-xlg{
+	width:90%;
+	min-height:200px;
+}

@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -280,5 +281,10 @@ public class FunUtil {
 		}
 		return result;
 	}
+	//判断是否为数字字符串
+	public boolean isInteger(String str) {  
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  
+        return pattern.matcher(str).matches();  
+  }
 
 }

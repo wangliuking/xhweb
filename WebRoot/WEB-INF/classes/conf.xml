@@ -7,7 +7,15 @@
 </web>
 <emh>
     <ip>127.0.0.1</ip>
-    <port>12002</port>
+    <port>10025</port>
 </emh>
+<gis>
+    <ip>127.0.0.1</ip>
+    <port>10025</port>
+</gis>
+<emhLogin>
+    <account>user1</account>
+    <password>123456</password>
+</emhLogin>
 
 </config>

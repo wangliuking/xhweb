@@ -45,13 +45,13 @@ public class WebUserController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/user/userlist10001")
+	@RequestMapping("/user/userlist10002")
 	public void userlist10001(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WebUserServices.userlist10001().size());
-		result.put("items", WebUserServices.userlist10001());
+		result.put("totals",WebUserServices.userlist10002().size());
+		result.put("items", WebUserServices.userlist10002());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

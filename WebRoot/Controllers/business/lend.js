@@ -25,22 +25,9 @@ toastr.options = {
 };
 xh.load = function() {
 	var app = angular.module("app", []);
-/*	var type = $("#type").val();
-	var name = $("#name").val();
-	var model = $("#model").val();
-	var serialNumber = $("#serialNumber").val();
-	var from = $("#from").val();
-	var status = $("#status").val();
-	var pageSize = $("#page-limit").val();*/
 	
 	var pageSize = $("#page-limit").val();
-    app.config(['$locationProvider', function ($locationProvider) {
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });
-    }]);
-	app.controller("xhcontroller", function($scope,$http,$location) {
+	app.controller("xhcontroller", function($scope,$http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
@@ -54,7 +41,7 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../net/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../business/lend/list?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -69,35 +56,42 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 		/*跳转到申请进度页面*/
-		$scope.toProgress = function (id) {
+		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
-			$scope.checkData=$scope.editData;
-			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
-			success(function(response){
-				$scope.progressData = response.items;
-				
-			});*/
-			$scope.progressData=$scope.editData;
+			window.location.href="lend-deal.html?data_id="+$scope.editData.id;
+	    };
+		/*跳转到申请进度页面*/
+		$scope.toProgress = function (id) {
+			$scope.progressData = $scope.data[id];
 			$("#progress").modal('show');
+	    };
+	    $scope.checkedChange=function(issure){
+	    	$scope.issure=issure==1?true:false;
+	    	console.log($scope.issure);
 	    };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
-			$http.get("../../web/user/userlist10002").
-			success(function(response){
-				$scope.userData = response.items;
-				$scope.userTotals = response.totals;
-				if($scope.userTotals>0){
-					$scope.user=$scope.userData[0].user;
-				}
-			});
-			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
+			$scope.ch="1";
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
+				$http.get("../../web/user/userlist10002").
+				success(function(response){
+					$scope.userData = response.items;
+					$scope.userTotals = response.totals;
+					if($scope.userTotals>0){
+						$scope.user=$scope.userData[0].user;
+					}
+				});
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
-				$("#checkWin2").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user3 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
+				//设备清单列表
+				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
+				success(function(response){
+					xh.maskHide();
+					$scope.dataLend = response.items;
+					$scope.lendTotals = response.totals;
+				});
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user4 && $scope.checkData.checked==3){
@@ -213,7 +207,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../net/selectAll?start=0&limit=" + limit).
+			$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -232,7 +226,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../net/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -253,10 +247,14 @@ xh.load = function() {
 	});
 	
 };
-/*申请入网*/
+xh.checkedChange=function(){
+	var $scope = angular.element(appElement).scope();
+    $scope.checkedChange($("#checkForm1").find("select[name='checked']").val());
+};
+/*申请租借设备*/
 xh.add = function() {
 	$.ajax({
-		url : '../../net/insertNet',
+		url : '../../business/lend/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -281,11 +279,13 @@ xh.add = function() {
 /*主管部门审核*/
 xh.check1 = function() {
 	$.ajax({
-		url : '../../net/checkedOne',
+		url : '../../business/lend/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkForm1").serializeArray(),
+		data:{
+			formData:xh.serializeJson($("#checkForm1").serializeArray()) //将表单序列化为JSON对象
+		},
 		success : function(data) {
 
 			if (data.result ==1) {
@@ -301,41 +301,21 @@ xh.check1 = function() {
 		}
 	});
 };
-/*管理方审核*/
-xh.check2 = function() {
+
+/*管理部门领导审核租借清单*/
+
+xh.check3 = function(checked) {
+	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../net/checkedTwo',
+		url : '../../business/lend/checkedOrder',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkForm2").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin2').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
+		data:{
+			lendId:$scope.checkData.id,
+			checked:checked,
+			note2:$("checkForm3").find("input[name='note2']").val()
 		},
-		error : function() {
-		}
-	});
-};
-/*上传编组方案*/
-xh.check3 = function() {
-	if(parseInt($("input[name='result']").val())!==1){
-		toastr.error("你还没有上传编组方案不能提交", '提示');
-		return;
-	}
-	$.ajax({
-		url : '../../net/uploadFile',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
@@ -351,29 +331,7 @@ xh.check3 = function() {
 		}
 	});
 };
-/*审核编组方案*/
-xh.check4 = function() {
-	$.ajax({
-		url : '../../net/checkFile',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm4").serializeArray(),
-		success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin4').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 /*上传文件*/
 xh.upload = function() {
 	if($("input[type='file']").val()==""){

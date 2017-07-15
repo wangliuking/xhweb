@@ -17,120 +17,76 @@
 				<div class="tab-content" style="padding:20px">
 					<div class="tab-pane fade in active text-danger" id="info">
 						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>用户单位</label><input type="text"
-										ng-model="editData.unitName" class="form-control"
-										name="unitName" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>单位性质</label> <input type="text"
-										ng-model="editData.unitNature" class="form-control"
-										name="unitNature" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>单位类型</label> <input type="text"
-										ng-model="editData.unitType" class="form-control"
-										name="unitType" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>入网依据</label> <input type="text"
-										ng-model="editData.netBasis" class="form-control"
-										name="netBasis" required="required">
-								</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" ng-model="editData.unit"
+									required="required">
 							</div>
 						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>入网时间</label> <input type="text"
-										ng-model="editData.nettime" class="form-control"
-										name="netTime" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>合同名称</label> <input type="text"
-										ng-model="editData.pactName" class="form-control"
-										name="pactName" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>合同签署日期</label> <input type="text"
-										ng-model="editData.signtime" class="form-control"
-										name="signtime" required="required" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>服务期限</label><input type="text"
-										ng-model="editData.servicetime" class="form-control"
-										name="servicetime" required="required">
-								</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" ng-model="editData.name"
+									required="required">
 							</div>
 						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>单位负责人</label><input type="text"
-										ng-model="editData.unitPerson" class="form-control"
-										name="unitPerson" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>联系电话</label> <input type="text" ng-model="editData.tel"
-										class="form-control" name="tel" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>联系部门</label><input type="text"
-										ng-model="editData.department" class="form-control"
-										name="department" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>虚拟专网名称</label> <input type="text"
-										ng-model="editData.virtualnetName" class="form-control"
-										name="virtualnetName" required="required">
-								</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" ng-model="editData.tel"
+									required="required">
 							</div>
 						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>服务类型</label> <input type="text"
-										ng-model="editData.serviceType" class="form-control"
-										name="serviceType" required="required">
-								</div>
+						
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" ng-model="editData.backTime"
+									required="required" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="form-group col-md-12">
+								<label>使用区域</label><input
+									type="text" value="" class="form-control" ng-model="editData.zone">
 							</div>
 						</div>
 					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>租借原因</label>
+								<textarea rows="3" cols="6" class="form-control" ng-model="editData.reason"></textarea>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea rows="3" cols="6" class="form-control" ng-model="editData.note"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->									
+					
+					</div>
 					<!-- tab-pane--end -->
 					<div class="tab-pane fade text-danger" id="p-timeline"
-						style="background:#e9f0f5;margin:0;" ng-model="progressData">
+						style="background:#e9f0f5;margin:0;">
 						<div id="cd-timeline" class="cd-container">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
-									<h2>用户提交审核信息</h2>
+									<h2>用户提交租借申请信息</h2>
 									<p>
-										<span>备注：</span><span>{{progressData.note}}</span>
+										<span>备注：</span><span>{{editData.note}}</span>
 									</p>
 									<span class="cd-date text-success font-bold text-x">
-										提交时间：{{progressData.time}}</span>
+										提交时间：{{editData.time}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -140,15 +96,15 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>0"></div>
 								<div class="cd-timeline-content">
-									<h2>主管部门审核</h2>
+									<h2>管理部门审核</h2>
 									<p>
-										<span>备注：</span><span>{{progressData.note1}}</span>
+										<span>备注：</span><span>{{editData.note1}}</span>
 									</p>
 									<span ng-if="progressData.checked==0"
 										class="cd-date text-danger">等待审核！</span> <span
 										ng-if="progressData.checked>0"
 										class="cd-date text-success font-bold text-x">已经审核;
-										审核时间：{{progressData.time1}}</span>
+										审核时间：{{editData.time1}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -158,15 +114,15 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
-									<h2>软件产业发展中心领导审核</h2>
+									<h2>经办人出示设备清单</h2>
 									<p>
-										<span>备注：</span><span>{{progressData.note2}}</span>
+										<span>备注：</span><span>{{editData.note2}}</span>
 									</p>
 									<span ng-if="progressData.checked<1"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=1"
-										class="cd-date text-success font-bold">已经安排专人进行编组方案拟定;
-										时间：{{progressData.time2}}</span>
+										class="cd-date text-success font-bold">租借清单已经整理，等待管理部门领导审核;
+										时间：{{editData.time2}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
