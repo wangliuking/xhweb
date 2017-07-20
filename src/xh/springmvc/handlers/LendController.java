@@ -240,7 +240,7 @@ public class LendController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
-			webLogBean.setContent("删除清单中的记录，data=" +map.toString());
+			webLogBean.setContent("删除清单中的记录，data=" +lendId);
 			WebLogService.writeLog(webLogBean);
 		}else{
 			this.message = "删除失败";
@@ -280,7 +280,7 @@ public class LendController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("提交至领导审核租借清单，data=" + bean.toString());
+			webLogBean.setContent("提交至领导审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 		} else {
 			this.message = "提交至领导审核租借清单失败";
@@ -324,10 +324,52 @@ public class LendController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("审核租借清单，data=" + bean.toString());
+			webLogBean.setContent("审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 		} else {
 			this.message = "审核租借清单失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 用户确认租借清单
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/lend/sureOrder", method = RequestMethod.POST)
+	public void sureOrder(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("lendId"));
+		int checked = 4;
+		LendBean bean=new LendBean();
+		bean.setId(id);
+		bean.setChecked(checked);
+		bean.setTime4(funUtil.nowDate());
+
+		int rst = LendService.sureOrder(bean);
+		if (rst == 1) {
+			this.message = "确认租借清单完成";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认租借清单，data=" + id);
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "确认租借清单失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);

@@ -53,14 +53,16 @@ public class MoreDbTools {
     }  
       
     /**
-     * 配置到Configuration.xml文件中的数据源的environment的枚举描述  
+     * 配置到mybatis.cfg.xml文件中的数据源的environment的枚举描述  
      * @author muwei
      *
      */
     public static enum DataSourceEnvironment {  
         master,  
         slave,
-        emh,
+        gps_voice_master,
+        gps_voice_slave,
+        emh,       
         mysqlDb;  
     } 
     /**

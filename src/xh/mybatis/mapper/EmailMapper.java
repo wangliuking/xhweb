@@ -29,6 +29,13 @@ public interface EmailMapper {
 	 */
 	public int emailCount()throws Exception;
 	/**
+	 * 未读邮件总数
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int noReadEmailCount()throws Exception;
+	/**
 	 * 标记已读
 	 * @param list
 	 * @return

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户权限分配</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="user"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'../top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'../menu/security-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>安全管理</span></li>
+							<li><a href="user.html" target="_self"><span>用户管理</span></a></li>
+							<li class="active"><span>权限分配</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="alert alert-danger">
+				<i class="fa fa-close text-white pull-right" id="alert-close"></i>
+				用户：{{user}} 权限分配
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel hgreen">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							运维管理模块权限
+						</div>
+						<div class="panel-body"></div>
+					</div>
+				</div>
+			</div>
+			<!--  row----end -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							业务管理模块权限
+						</div>
+						<div class="panel-body"></div>
+					</div>
+				</div>
+			</div>
+			<!--  row----end -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							平台管理模块权限
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="addUser" class="toggle-switch" type="checkbox"
+															ng-checked="addUser"> <label for="addUser"></label>
+													</div>
+													添加用户
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="updateUser" class="toggle-switch"
+															type="checkbox" ng-checked="updateUser"> <label
+															for="updateUser"></label>
+													</div>
+													修改用户
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="delUser" class="toggle-switch" type="checkbox"
+															ng-checked="delUser"> <label for="delUser"></label>
+													</div>
+													删除用户
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="lockUser" class="toggle-switch" type="checkbox"
+															ng-checked="lockUser"> <label for="lockUser"></label>
+													</div>
+													给用户加锁
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="addGroup" class="toggle-switch" type="checkbox"
+															ng-checked="addGroup"> <label for="addGroup"></label>
+													</div>
+													添加用户组
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="updateGroup" class="toggle-switch"
+															type="checkbox" ng-checked="updateGroup"> <label
+															for="updateGroup"></label>
+													</div>
+													修改用户组
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="delGroup" class="toggle-switch" type="checkbox"
+															ng-checked="delGroup"> <label for="delGroup"></label>
+													</div>
+													删除用户组
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="editPower" class="toggle-switch"
+															type="checkbox" ng-checked="editPower"> <label
+															for="editPower"></label>
+													</div>
+													编辑权限
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- row-end -->
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="addSite" class="toggle-switch" type="checkbox"
+															ng-checked="addSite"> <label for="addSite"></label>
+													</div>
+													添加站点
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="updateSite" class="toggle-switch"
+															type="checkbox" ng-checked="updateSite"> <label
+															for="updateSite"></label>
+													</div>
+													修改站点
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="delSite" class="toggle-switch" type="checkbox"
+															ng-checked="delSite"> <label for="delSite"></label>
+													</div>
+													删除站点
+												</div>
+											</div>
+											<div class="form-group col-lg-3">
+												<div class="list-group-item">
+													<div class="pull-right">
+														<input id="delLog" class="toggle-switch" type="checkbox"
+															ng-checked="delLog"> <label for="delLog"></label>
+													</div>
+													删除日志
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- row-end -->
+									<!-- <div class="row">
+													<div class="col-lg12">
+														
+													</div>
+												</div> -->
+									<!-- row-end -->
+								</div>
+							</div>
+						</div>
+						<!-- panel-body -->
+					</div>
+					<!-- panel -->
+				</div>
+				<!-- col-md-12 -->
+			</div>
+			<!-- row -->
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	<div ng-include="'../footer.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加用户 -->
+	<div ng-include="'user-add.html'"></div>
+	<!-- 编辑基用户-->
+	<div ng-include="'user-edit.html'"></div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/web/user-power.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

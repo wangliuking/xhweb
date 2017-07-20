@@ -45,6 +45,11 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+		/*跳转到权限分配页面*/
+		$scope.power = function(id) {
+			$scope.editData = $scope.data[id];
+			window.location.href="user-power.html?user_id="+$scope.editData.userId+"&user="+$scope.editData.user;
+	    };
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];

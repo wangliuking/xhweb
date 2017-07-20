@@ -427,6 +427,7 @@ public class JoinNetController {
 		String path = request.getSession().getServletContext().getRealPath("/Resources/upload");
 		String fileName=request.getParameter("fileName");
 		String downPath=path+"/"+fileName;
+		log.info(downPath);
 		 File file = new File(downPath);
 		 if(!file.exists()){
 			 this.success=false;

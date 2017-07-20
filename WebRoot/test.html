@@ -77,7 +77,7 @@
 					temp = "bluesky/unuse_small.png";
 				}
 				
-				var symbol = new esri.symbol.PictureMarkerSymbol(temp, 32, 32);
+				var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
 				var pt = new esri.geometry.Point(data[i].lng, data[i].lat);//创建点对象
 				var attr = {
 					"Xcoord" : data[i].lng,

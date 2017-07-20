@@ -25,7 +25,6 @@ public class WebLogService {
 	public static void writeLog(WebLogBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		WebLogMapper mapper=sqlSession.getMapper(WebLogMapper.class);
-		log.debug("writeLog ==> "+bean.toString());
 	
 		try{
 			if (bean.getOperator()!=null && bean.getOperator()!="") {

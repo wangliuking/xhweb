@@ -20,7 +20,7 @@
      xhgmnet_web_role_user where roleId=10002)
     </select>     
     <!--根据登录用户名,密码查找登录用户-->
-    <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean" useCache="true" resultMap="webUserMap">
+    <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean"  resultMap="webUserMap">
      select * from xhgmnet_web_user where user=#{user} and userPass=#{userPass}
     </select>
         <!--根据登录用户名查找登录用户-->

@@ -48,6 +48,13 @@ public interface LendMapper {
 	 */
 	public int checkedOrder(LendBean bean)throws Exception;
 	/**
+	 * 用户确认租借清单
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int sureOrder(LendBean bean)throws Exception;
+	/**
 	 * 判断设备清单中是否存在该条记录
 	 * @param map
 	 * @return

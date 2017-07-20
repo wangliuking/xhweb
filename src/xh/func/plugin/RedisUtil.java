@@ -87,7 +87,8 @@ public class RedisUtil {
             }
         } catch (JedisConnectionException e) {
         	
-        	log4j.info("error:Could not get a resource from the pool");
+        	/*log4j.info("error:Could not get a resource from the pool");*/
+        	log4j.error(e.getMessage(), e);
            
             return null;
         }

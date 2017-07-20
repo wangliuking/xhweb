@@ -17,5 +17,8 @@
     <account>user1</account>
     <password>123456</password>
 </emhLogin>
+<wav>
+  <path>D:/wav</path>
+</wav>
 
 </config>

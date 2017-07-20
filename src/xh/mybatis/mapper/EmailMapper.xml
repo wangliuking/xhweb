@@ -14,6 +14,10 @@
     <!--邮件总数-->
     <select id="emailCount"  resultType="int" useCache="true">
      select count(*) from xhgmnet_notify
+    </select>
+    <!--未读邮件总数-->
+    <select id="noReadEmailCount"  resultType="int" useCache="true">
+     select count(*) from xhgmnet_notify where status=0
     </select> 
     <!--标记为已读-->
     <update id="updateById" parameterType="java.util.List">

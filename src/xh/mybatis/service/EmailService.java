@@ -72,6 +72,24 @@ public class EmailService {
 		}
 		return count;
 	}
+	/**
+	 * 未读邮件总数
+	 * @param map
+	 * @return
+	 */
+	public static int noReadEmailCount(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
+		int count=0;
+		try{
+			count=mapper.noReadEmailCount();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static int updateById(List<String> list){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);

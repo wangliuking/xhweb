@@ -55,7 +55,7 @@ xh.load = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
-		/*跳转到申请进度页面*/
+		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
 			window.location.href="lend-deal.html?data_id="+$scope.editData.id;
@@ -63,6 +63,12 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
+			$http.get("../../business/lend/lendInfoList?lendId="+$scope.progressData.id).
+			success(function(response){
+				xh.maskHide();
+				$scope.dataLend = response.items;
+				$scope.lendTotals = response.totals;
+			});
 			$("#progress").modal('show');
 	    };
 	    $scope.checkedChange=function(issure){
@@ -94,8 +100,8 @@ xh.load = function() {
 				});
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user4 && $scope.checkData.checked==3){
-				$("#checkWin4").modal('show');
+			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==3){
+				xh.check4();
 			}
 			
 	    };
@@ -314,12 +320,37 @@ xh.check3 = function(checked) {
 		data:{
 			lendId:$scope.checkData.id,
 			checked:checked,
-			note2:$("checkForm3").find("input[name='note2']").val()
+			note2:$("#checkForm3").find("input[name='note2']").val()
 		},
 		success : function(data) {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*用户确认租借清单*/
+xh.check4 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../business/lend/sureOrder',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			lendId:$scope.checkData.id
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

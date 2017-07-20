@@ -32,6 +32,11 @@
 		update xhgmnet_business_lend set
 		time3=#{time3},checked=#{checked} where id=#{id}
 	</update>
+	<!--用户确认租借清单--> 	
+	<update id="sureOrder" parameterType="xh.mybatis.bean.LendBean">
+		update xhgmnet_business_lend set
+		time4=#{time4},checked=#{checked} where id=#{id}
+	</update>
 	<!--判断设备清单是否存在该设备-->
 	<select id="isExtisSerialNumberInfo"  resultType="int" parameterType="map"
 		useCache="true">

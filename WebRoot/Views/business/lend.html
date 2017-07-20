@@ -66,10 +66,10 @@
 										data-target="#add" ng-disabled="">
 										<i class="fa fa-plus-circle"></i>&nbsp;租借设备
 									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal"
+									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
 										data-target="#add" ng-disabled="">
 										<i class="fa fa-plus-circle"></i>&nbsp;归还设备
-									</button>
+									</button> -->
 									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
 										ng-click="showEditModel()">
 										<i class="fa fa-edit"></i>&nbsp;修改设备记录
@@ -124,14 +124,13 @@
 										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
 										<td ng-if="x.checked==1" class="td-danger">正在审核中</td>
 										<td ng-if="x.checked==2" class="td-danger">等待审核租借清单</td>
-										<td ng-if="x.checked==3" class="td-danger">正在审核编组方案</td>
-										<td ng-if="x.checked==4" class="td-danger">请用户确认编组方案</td>
-										<td ng-if="x.checked==5" class="td-success">审核通过</td>
+										<td ng-if="x.checked==3" class="td-danger">等待用户确认租借清单</td>
+										<td ng-if="x.checked==4" class="td-success">审核通过</td>
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a> <a
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a> <!-- <a
 											href="#" ng-click="toDeal($index)"><i
-												class="fa fa-file-text-o text-success"> </i>| &nbsp;归还</a> <a
+												class="fa fa-file-text-o text-success"> </i>| &nbsp;归还</a> --> <a
 											ng-if="		
 										loginUserRoleId==10002 && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
@@ -144,6 +143,16 @@
 										loginUserRoleId==10002 && loginUser==x.user1 && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核租借清单</a>
+												<a
+											ng-if="		
+										loginUser==x.user && x.checked==3"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认租借清单</a>
+												<a
+											ng-if="		
+										loginUser==x.user && x.checked==4"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;归还设备</a>
 										</td>
 									</tr>
 								</tbody>

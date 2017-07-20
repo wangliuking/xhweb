@@ -64,6 +64,41 @@
 				<property name="password" value="${xh.slave.password}" />
 			</dataSource>
 		</environment>
+		
+		<!-- gps语音主数据库 -->
+		<environment id="gps_voice_master">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.gps_voice_master.driver}" />
+				<property name="url" value="${xh.gps_voice_master.url}" />
+				<property name="username" value="${xh.gps_voice_master.username}" />
+				<property name="password" value="${xh.gps_voice_master.password}" />
+			</dataSource>
+		</environment>
+		
+		<!-- gps语音从数据库 -->
+		<environment id="gps_voice_slave">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.gps_voice_slave.driver}" />
+				<property name="url" value="${xh.gps_voice_slave.url}" />
+				<property name="username" value="${xh.gps_voice_slave.username}" />
+				<property name="password" value="${xh.gps_voice_slave.password}" />
+			</dataSource>
+		</environment>
+		
 		<!-- 动环监控 -->
 		<environment id="emh">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->

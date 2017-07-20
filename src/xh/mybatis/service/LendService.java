@@ -124,6 +124,25 @@ public class LendService {
 		return result;
 	}
 	/**
+	 * 用户租借清单
+	 * @param bean
+	 * @return
+	 */
+	public static int sureOrder(LendBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.sureOrder(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 判断租借清单中是否存在该条记录
 	 * @param map
 	 * @return

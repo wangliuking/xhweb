@@ -19,7 +19,7 @@ public class CallListServices {
 	 * @return
 	 */
 	public static ArrayList<CallListBean> selectCallList(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		CallListMapper mapper=sqlSession.getMapper(CallListMapper.class);
 		CallListBean bean=new CallListBean();
 		ArrayList<CallListBean> list=new ArrayList<CallListBean>();
@@ -39,7 +39,7 @@ public class CallListServices {
 	 * @throws Exception
 	 */
 	public static int CallListCount(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		CallListMapper mapper=sqlSession.getMapper(CallListMapper.class);
 		int count=0;
 		try {

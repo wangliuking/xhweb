@@ -17,6 +17,7 @@ public class LendBean {
 	private String 	time1;
 	private String 	time2;
 	private String 	time3;
+	private String 	time4;
 	private String 	note1;
 	private String 	note2;
 	public int getId() {
@@ -128,6 +129,13 @@ public class LendBean {
 	public void setNote2(String note2) {
 		this.note2 = note2;
 	}
+	
+	public String getTime4() {
+		return time4;
+	}
+	public void setTime4(String time4) {
+		this.time4 = time4;
+	}
 	@Override
 	public String toString() {
 		return "LendBean [id=" + id + ", checked=" + checked + ", unit=" + unit
@@ -135,8 +143,8 @@ public class LendBean {
 				+ ", reason=" + reason + ", note=" + note + ", user=" + user
 				+ ", time=" + time + ", backTime=" + backTime + ", user1="
 				+ user1 + ", user2=" + user2 + ", time1=" + time1 + ", time2="
-				+ time2 + ", time3=" + time3 + ", note1=" + note1 + ", note2="
-				+ note2 + "]";
+				+ time2 + ", time3=" + time3 + ", time4=" + time4 + ", note1="
+				+ note1 + ", note2=" + note2 + "]";
 	}
 	
 	

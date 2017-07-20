@@ -42,6 +42,7 @@ public class LoginController {
 	private WebLogBean webLogBean=new WebLogBean();
 	
 	@RequestMapping(value="/web/login",method=RequestMethod.POST)
+	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws UnsupportedEncodingException{
 		this.username=request.getParameter("username");
 		this.password=request.getParameter("password");

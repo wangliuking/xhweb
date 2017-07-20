@@ -62,6 +62,23 @@ public class MemberCenterController {
 		}
 		
 	}
+	@RequestMapping(value="/email/noReadEmailCount",method = RequestMethod.GET)
+	@ResponseBody
+	public void noReadEmailCount(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",EmailService.noReadEmailCount());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 标记已读
 	 * @param request
