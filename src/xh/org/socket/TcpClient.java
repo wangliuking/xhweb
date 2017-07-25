@@ -153,40 +153,57 @@ public class TcpClient extends Thread {
 
 	@SuppressWarnings("unchecked")
 	public void handler(String str) {
-		try {
+		log.info("DS<--EMH:" + socket.getInetAddress() + ":" + str);
+		String[] recvStrs=str.split("\n");
+		Map<String, Object> recvMap = new HashMap<String, Object>();
+		Map<String, Object> mcdMap = new HashMap<String, Object>();
+		for (String string : recvStrs) {
+			if(string.contains("{") || string.contains("}")){
+				if(isPackageFull(string)==0){
+					recvMap=GsonUtil.json2Object(string,Map.class);
+					if(recvMap.get("type")!=null){
+						int type=funUtil.StringToInt(recvMap.get("type").toString());
+						switch (type) {
+						case 2://登录认证
+							LoginResponse(recvMap);
+							break;
+						case 5://实时数据表
+							LoginResponse(recvMap);
+							break;
+						case 6://实时告警表
+							LoginResponse(recvMap);
+							break;
+						case 15://测点配置表
+							LoginResponse(recvMap);
+							break;
+						case 31://状态
+							LoginResponse(recvMap);
+							break;
+						case 58://实时统计
+							LoginResponse(recvMap);
+							break;
 
-			String recvch = "";
-			Map<String, Object> recvMap = new HashMap<String, Object>();
-			Map<String, Object> mcdMap = new HashMap<String, Object>();
-			if (str.indexOf("\n") > 0) {
-				recvch = str.substring(0, str.indexOf("\n"));
-			}
-			log.info("DS<--EMH:" + socket.getInetAddress() + ":" + str);
-
-			if (recvch.length()==8) {
-				sendAuth(str);
-			}else if(recvch.contains("{")){
-				recvMap=GsonUtil.json2Object(recvch,Map.class);
-				if(recvMap.get("mcd")!=null){
-					mcdMap=(Map<String, Object>) recvMap.get("mcd");
-				}
-				if(recvMap.get("account")!=null){
-					if(mcdMap.get("optResult").toString().equals("true")){
-						if (heartTimer == null) {
-							heartTimer = new Timer();
-							try {
-								heartTimer.schedule(new HeartBeat(socket), 10000,
-										10000);
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+						default:
+							break;
 						}
 					}
+					
+				}else{
+					recvStr=string;
 				}
 			}else{
-				
+				if(string.length()==8){
+					sendAuth(string);
+				}else if(string.contains("IMCP")){
+					log.info("DS<--EMH:Heart:" + socket.getInetAddress() + ":" + string);
+				}else{
+					
+				}
 			}
+		}
+		
+		try {
+
 			
 		} catch (NullPointerException e) {
 			// TODO: handle exception
@@ -207,6 +224,78 @@ public class TcpClient extends Thread {
 			// TODO: handle exception
 			log.error(e.getMessage(), e);
 		}
+	}
+	//登录认证
+	public void LoginResponse(Map<String, Object> recvMap){
+		@SuppressWarnings("unchecked")
+		Map<String, Object> mcdMap = (Map<String, Object>) recvMap.get("mcd");	
+		if(mcdMap.get("optResult").toString().equals("true")){
+			log.info("DS<--EMH:LoginResponse:登录认证通过");
+			if (heartTimer == null) {
+				heartTimer = new Timer();
+				try {
+					heartTimer.schedule(new HeartBeat(socket), 10000,
+							10000);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}else{
+			log.info("DS<--EMH:LoginResponse:登录认证失败!"+mcdMap.get("errMsg"));
+		}
+		
+		
+		
+	}
+	//测点配置表
+	public void icmpConfigResponse(Map<String, Object> recvMap){
+		@SuppressWarnings("unchecked")
+		Map<String, Object> mcdMap = (Map<String, Object>) recvMap.get("mcd");	
+		Map<String, Object> agents = (Map<String, Object>) recvMap.get("agents");
+		/*"name": "空调-佳力图 M816-9#1.1",
+		"uuid": "5cbb7006-61cb-425c-bf7b-52a3e392ca38",
+		"status":true,
+		"state_alarm":6*/
+		if(mcdMap.get("optResult").toString().equals("true")){
+			log.info("DS<--EMH:LoginResponse:登录认证通过");
+			
+		}else{
+			log.info("DS<--EMH:LoginResponse:登录认证失败!"+mcdMap.get("errMsg"));
+		}
+		
+	}
+	
+	//完整包判断
+	public static int isPackageFull(String str) {
+		int lastPos = 0;
+		int a = 0;
+		StringBuffer astr = new StringBuffer();
+		if (str.length() == 0) {
+			return -1;
+		}
+		if (!str.startsWith("{")) {
+			return -1;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if (String.valueOf(str.charAt(i)).equals("{")) {
+				a++;
+			} else if (String.valueOf(str.charAt(i)).equals("}")) {
+				a--;
+				if (a == 0) {
+					/*astr.append(str.substring(lastPos, i + 1) + ";");*/
+					lastPos = i + 1;
+				}
+			} else {
+
+			}
+
+		}
+		if (lastPos < str.length()) {
+			/*astr.append(str.substring(lastPos, str.length()));*/
+		}
+		/*System.out.println("a===>"+a);*/
+		return a;
 	}
 
 	// 握手认证
@@ -274,22 +363,17 @@ public class TcpClient extends Thread {
 	/*	{"type":15,"mcd":{"account":"","errMsg":"",
 			"msgsequence":0,"operate":0,"optResult":false,
 			"projectId":"","range":"0"},"devices":[]}\n
-
-		{"type":5,"noHandleEvent":0,
-				"mcd":{"account":"",
-				"errMsg":"","msgsequence":0,
-				"operate":2,"optResult":false,"projectId":"","range":"0"},
-				"rtstatus":[],"rtdata":[],"rtevent":[],"rtstatistics":[]}\n*/
+*/
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> mcdMap = new HashMap<String, Object>();
 		map.put("type", 15);
-		map.put("devices","[]");
-		mcdMap.put("account","");
+		/*map.put("devices","[]");*/
+		/*mcdMap.put("account","");*/
 		mcdMap.put("errMsg","");
-		mcdMap.put("msgsequence", 0);
-		mcdMap.put("operate", 0);
-		mcdMap.put("optResult", false);
-		mcdMap.put("projectId","");
+		/*mcdMap.put("msgsequence", 0);*/
+		mcdMap.put("operate", 2);
+		/*mcdMap.put("optResult", false);
+		mcdMap.put("projectId","");*/
 		mcdMap.put("range", 0);
 		map.put("mcd", mcdMap);
 		String jsonstr = json.Encode(map);
