@@ -278,7 +278,7 @@ iframe {
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
-	z-index: 100;
+	z-index: 10;
 }
 
 .fixed-sidebar #menu::-webkit-scrollbar {
@@ -302,7 +302,7 @@ iframe {
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;
-	z-index: 100;
+	z-index: 10;
 }
 
 /* 
