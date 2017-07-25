@@ -55,14 +55,14 @@ public class TcpClient extends Thread {
 			try {
 				connect();
 				InputStream is = socket.getInputStream();
-				byte b[] = new byte[1024];
+				byte b[] = new byte[10240];
 				while (connected) {
 					int len = is.read(b);
 
 					if (len > 0) {
 						byte c[] = new byte[len];
 						System.arraycopy(b, 0, c, 0, len);
-						recvStr = new String(c, "UTF-8");
+						recvStr +=new String(c, "UTF-8");
 						handler(recvStr);
 
 					} else {
@@ -166,7 +166,7 @@ public class TcpClient extends Thread {
 			if (recvch.length()==8) {
 				sendAuth(str);
 			}else if(recvch.contains("{")){
-				/*recvMap=GsonUtil.json2Object(recvch,Map.class);
+				recvMap=GsonUtil.json2Object(recvch,Map.class);
 				if(recvMap.get("mcd")!=null){
 					mcdMap=(Map<String, Object>) recvMap.get("mcd");
 				}
@@ -183,7 +183,7 @@ public class TcpClient extends Thread {
 							}
 						}
 					}
-				}*/
+				}
 			}else{
 				
 			}
