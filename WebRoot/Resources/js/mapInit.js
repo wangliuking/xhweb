@@ -1,3 +1,7 @@
+var app = angular.module("app", []);
+app.controller("map", function($scope, $http) {
+	
+});
 /**
  * 本示例使用arcgis api for javascript 技术显示地图。 相关官方API文档地址为:
  * https://developers.arcgis.com/javascript/jsapi/ 所有示例代码访问地址为：
@@ -31,8 +35,6 @@ function floor(data) {
 	gLayermiddle.hide();
 	myMap.addLayer(gLayerbig);
 	gLayerbig.hide();
-	console.log(myMap.getLayer("layer0").attr("id","test1"));
-	
 	myMap.setInfoWindowOnClick(true);
 	// 创建点的显示样式对象
 	/*
@@ -47,20 +49,20 @@ function floor(data) {
 		var temp = 0;
 		// 判断基站是连接还是断开
 		if (data[i].status == 0) {
-			temp = "bluesky/break_small.png";
+			temp = "../bluesky/break_small.png";
 		} else if (data[i].status == 1) {
 			// 判断基站告警的级别
 			if (typeof (data[i].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_small.png";
+				temp = "../bluesky/contact_small.png";
 			} else if (data[i].alarmLevel == 1) {
-				temp = "bluesky/normal_small.gif";
+				temp = "../bluesky/normal_small.gif";
 			} else if (data[i].alarmLevel == 2) {
-				temp = "bluesky/warning_small.gif";
+				temp = "../bluesky/warning_small.gif";
 			} else if (data[i].alarmLevel == 3) {
-				temp = "bluesky/urgent_small.gif";
+				temp = "../bluesky/urgent_small.gif";
 			}
 		} else if (data[i].status == 2) {
-			temp = "bluesky/unuse_small.png";
+			temp = "../bluesky/unuse_small.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, 32, 32);
@@ -82,20 +84,20 @@ function floor(data) {
 		var temp = 0;
 		// 判断基站是连接还是断开
 		if (data[j].status == 0) {
-			temp = "bluesky/break_middle.png";
+			temp = "../bluesky/break_middle.png";
 		} else if (data[j].status == 1) {
 			// 判断基站告警的级别
 			if (typeof (data[j].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_middle.png";
+				temp = "../bluesky/contact_middle.png";
 			} else if (data[j].alarmLevel == 1) {
-				temp = "bluesky/normal_middle.gif";
+				temp = "../bluesky/normal_middle.gif";
 			} else if (data[j].alarmLevel == 2) {
-				temp = "bluesky/warning_middle.gif";
+				temp = "../bluesky/warning_middle.gif";
 			} else if (data[j].alarmLevel == 3) {
-				temp = "bluesky/urgent_middle.gif";
+				temp = "../bluesky/urgent_middle.gif";
 			}
 		} else if (data[j].status == 2) {
-			temp = "bluesky/unuse_middle.png";
+			temp = "../bluesky/unuse_middle.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, 48, 48);
@@ -117,20 +119,20 @@ function floor(data) {
 		var temp = 0;
 		// 判断基站是连接还是断开
 		if (data[x].status == 0) {
-			temp = "bluesky/break_big.png";
+			temp = "../bluesky/break_big.png";
 		} else if (data[x].status == 1) {
 			// 判断基站告警的级别
 			if (typeof (data[x].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_big.png";
+				temp = "../bluesky/contact_big.png";
 			} else if (data[x].alarmLevel == 1) {
-				temp = "bluesky/normal_big.gif";
+				temp = "../bluesky/normal_big.gif";
 			} else if (data[x].alarmLevel == 2) {
-				temp = "bluesky/warning_big.gif";
+				temp = "../bluesky/warning_big.gif";
 			} else if (data[x].alarmLevel == 3) {
-				temp = "bluesky/urgent_big.gif";
+				temp = "../bluesky/urgent_big.gif";
 			}
 		} else if (data[x].status == 2) {
-			temp = "bluesky/unuse_big.png";
+			temp = "../bluesky/unuse_big.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, 64, 64);
@@ -423,7 +425,7 @@ function getData() {
 	// 使用ajax获取后台所有基站数据
 	$.ajax({
 		type : "GET",
-		url : "bs/map/data",
+		url : "../bs/map/data",
 		dataType : "json",
 		success : function(dataMap) {
 			var data = dataMap.items;

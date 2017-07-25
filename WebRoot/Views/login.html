@@ -72,7 +72,7 @@ body {
 							</div>
 							<div class="form-group">
 								<select type="password" title="请选择数字证书" placeholder="请选择数字证书"
-									required="" name="ca" id="CertList" class="form-control">
+									 name="ca" id="CertList" class="form-control">
 
 								</select>
 							</div>
@@ -100,10 +100,10 @@ body {
 	<script type="text/javascript" src="../Resources/ca/clientConf.js"></script>
 	<script type="text/javascript" src="../Controllers/web/login.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
+		/* $(document).ready(function() {
 			if (TopESAConfig())
 				initCertList();
-		});
+		}); */
 		function initCertList() {
 			try {
 				var certs = CertStore.listAllCerts().forSign(); //过滤签名证书
