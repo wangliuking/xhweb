@@ -37409,7 +37409,7 @@
             // 进入对象优先~
             var target = event.toElement || event.relatedTarget || event.srcElement || event.target;
 
-            return target && target.className.match(config.elementClassName)
+            return target
         };
 
         var domHandlers = {
