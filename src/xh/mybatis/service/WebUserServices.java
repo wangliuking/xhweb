@@ -195,5 +195,24 @@ public class WebUserServices {
 		}
 		return result;
 	}
+	/**
+	 * 启用，禁用账号
+	 * @param map
+	 * @return
+	 */
+	public static int lockUser(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.lockUser(map);
+			sqlSession.commit();		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

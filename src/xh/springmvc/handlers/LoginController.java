@@ -51,16 +51,22 @@ public class LoginController {
 		log.debug("password="+password);
 		log.debug("list="+list.size());
 		if (list.size()>0) {
-			this.success=true;
-			this.message="登录系统成功";
-			SingLoginListener.isLogin(session, username);
-			WebUserBean bean=list.get(0);
+			if(list.get(0).getStatus()==1){
+				this.success=true;
+				this.message="登录系统成功";
+				SingLoginListener.isLogin(session, username);
+				WebUserBean bean=list.get(0);
+				
+	            webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(4);
+				webLogBean.setContent("登录系统");
+				WebLogService.writeLog(webLogBean);
+			}else{
+				this.message="该账号已经被禁用，请联系管理员";
+				this.success=false;
+			}
 			
-            webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(4);
-			webLogBean.setContent("登录系统");
-			WebLogService.writeLog(webLogBean);
 		}else {
 			this.success=false;
 			this.message="用户名或者密码错误!";
@@ -69,7 +75,9 @@ public class LoginController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
+		
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {

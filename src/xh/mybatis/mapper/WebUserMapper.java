@@ -76,5 +76,13 @@ public interface WebUserMapper {
 	 * @throws Exception
 	 */
 	public int updateByUser(WebUserBean bean)throws Exception;
+	
+	/**
+	 * 启用，禁用账号
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int lockUser(Map<String,Object> map)throws Exception;
 
 }

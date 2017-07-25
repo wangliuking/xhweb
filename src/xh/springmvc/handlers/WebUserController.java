@@ -257,5 +257,48 @@ public class WebUserController {
 		}
 		
 	}
+	/**
+	 *  启用，禁用账号
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/user/lock",method = RequestMethod.POST)
+	public void lockUser(HttpServletRequest request, HttpServletResponse response){
+		String userId=request.getParameter("userId");
+		int lock=funUtil.StringToInt(request.getParameter("lock"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("id", userId);map.put("lock", lock);
+		int rslt=WebUserServices.lockUser(map);
+		
+		if(rslt==1){
+			try {
+				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(3);
+				webLogBean.setContent("更新账号状态，userId="+userId+",lock="+lock);
+				webLogBean.setCreateTime(funUtil.nowDate());
+				WebLogService.writeLog(webLogBean);
+				message="更新用户状态成功";
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			message="更新用户状态失败";
+		}
+		HashMap result = new HashMap();
+		this.success=true;
+		result.put("message", message);
+		result.put("result", rslt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

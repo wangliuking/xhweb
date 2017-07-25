@@ -9,6 +9,7 @@
         <result property="userName" column="userName" javaType="java.lang.String"></result>
         <result property="sex" column="sex" javaType="java.lang.String"></result>
         <result property="tel" column="tel" javaType="java.lang.String"></result>
+         <result property="status" column="status" javaType="java.lang.Integer"></result>
         <result property="createTime" column="createTime" javaType="java.lang.String"></result> 
         
         <result property="roleId" column="roleId" javaType="java.lang.Integer"></result>
@@ -76,7 +77,11 @@
                tel=#{tel} where user=#{user}
        </otherwise>
      </choose>     
-    </update>    
+    </update>
+  <!--给用户加锁-->
+    <update id="lockUser" parameterType="map">
+      update xhgmnet_web_user set status=#{lock} where userId=#{id}  
+    </update>         
      
     
     

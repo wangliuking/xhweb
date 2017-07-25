@@ -22,7 +22,7 @@ import java.util.Map;
 public class LoginStruct {
 	private String account;
 	private Map<String,Object> mcd;
-	/*private String name;*/
+	private String name;
 	private String password;
 	private int type=2;
 	private int usertype=2;
@@ -65,6 +65,14 @@ public class LoginStruct {
 
 	public void setUsertype(int usertype) {
 		this.usertype = usertype;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

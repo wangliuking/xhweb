@@ -64,7 +64,7 @@ public class LoginFilter extends HttpServlet implements Filter {
 			e.printStackTrace();
 		}
 		try {
-			if (SingLoginListener.isOnline(session)) {
+			if (SingLoginListener.isOnline(session) && isLock(servletRequest)==1) {
 				//log.info("已经登录系统，可以正常使用");
 				chain.doFilter(request, response);
 			}else {
@@ -79,6 +79,10 @@ public class LoginFilter extends HttpServlet implements Filter {
 
 		}
 
+	}
+	public int isLock(HttpServletRequest request){
+		WebUserBean bean=WebUserServices.selectUserByUser(funUtil.loginUser(request));
+		return bean.getStatus();
 	}
 
 	@Override

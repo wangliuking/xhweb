@@ -378,8 +378,6 @@ xh.upload = function() {
 		type:'POST',
 		success : function(data, status) //服务器成功响应处理函数
 		{
-			//var result=jQuery.parseJSON(data);  
-			console.log(data.filePath)
 			xh.maskHide();
 			if(data.success){
 				$("#uploadResult").html(data.message);

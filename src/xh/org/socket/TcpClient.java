@@ -8,10 +8,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,19 +23,21 @@ import org.apache.commons.logging.LogFactory;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.JoinNetBean;
 
 public class TcpClient extends Thread {
 	protected final Log log = LogFactory.getLog(TcpClient.class);
 	private String ip;
 	private int port;
 	private static Socket socket;
-	private static int timeout = 10000;
+	private static int timeout = 90000;
 	private static String recvStr = "";
 	private boolean connected = false;
 	private static OutputStream outStr = null;
 
 	private static InputStream inStr = null;
 	private static Timer heartTimer = null;
+	private static String endStr="";
 
 	private FunUtil funUtil = new FunUtil();
 	private FlexJSON json = new FlexJSON();
@@ -72,7 +78,7 @@ public class TcpClient extends Thread {
 				if (socket.isConnected() || socket != null) {
 					try {
 						socket.close();
-						
+
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -83,7 +89,7 @@ public class TcpClient extends Thread {
 			} catch (UnknownHostException e) {
 				System.out.println("UnknownHostException");
 			} catch (IOException e) {
-				log.info("recvData timeout 60s,emh socket is closed and reconnecting!");
+				log.info("recvData timeout 90s,emh socket is closed and reconnecting!");
 				try {
 					socket.close();
 					connected = false;
@@ -118,11 +124,7 @@ public class TcpClient extends Thread {
 				socket.setKeepAlive(true);
 				connected = true;
 				log.info("emh socket Connected success!!");
-				if(heartTimer==null){
-					heartTimer=new Timer();
-					heartTimer.schedule(new HeartBeat(socket), 2000, 10000);
-				}
-								
+
 			} catch (IOException e) {
 
 			} catch (Exception e) {
@@ -149,14 +151,61 @@ public class TcpClient extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void handler(String str) {
-		String recvch = "";
-		if (str.indexOf("\n") > 0) {
-			recvch = str.substring(0, str.indexOf("\n"));
-		}
-		log.info("<--" + socket.getInetAddress() + ":" + str);
-		if (funUtil.isInteger(recvch)) {
-			sendAuth(str);
+		try {
+
+			String recvch = "";
+			Map<String, Object> recvMap = new HashMap<String, Object>();
+			Map<String, Object> mcdMap = new HashMap<String, Object>();
+			if (str.indexOf("\n") > 0) {
+				recvch = str.substring(0, str.indexOf("\n"));
+			}
+			log.info("DS<--EMH:" + socket.getInetAddress() + ":" + str);
+
+			if (recvch.length()==8) {
+				sendAuth(str);
+			}else if(recvch.contains("{")){
+				/*recvMap=GsonUtil.json2Object(recvch,Map.class);
+				if(recvMap.get("mcd")!=null){
+					mcdMap=(Map<String, Object>) recvMap.get("mcd");
+				}
+				if(recvMap.get("account")!=null){
+					if(mcdMap.get("optResult").toString().equals("true")){
+						if (heartTimer == null) {
+							heartTimer = new Timer();
+							try {
+								heartTimer.schedule(new HeartBeat(socket), 10000,
+										10000);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}*/
+			}else{
+				
+			}
+			
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+		} catch (NumberFormatException e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+		} catch (StringIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+		} catch (ConcurrentModificationException e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage(), e);
 		}
 	}
 
@@ -166,17 +215,15 @@ public class TcpClient extends Thread {
 			PrintWriter out;
 			try {
 				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
-				out.println("ITHIRD/" + str);
-				out.flush();
-				log.info("sendAuth-->" + socket.getInetAddress() + ":ITHIRD/"
+				log.info("DS-->EMH:sendAuth:" + socket.getInetAddress() + ":ITHIRD/"
 						+ str);
-				sleep(2000);
+				out.print("ITHIRD/"+str);
+				out.flush();
+				
 				sendRegister();
+				//TestData();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 		} else {
@@ -184,6 +231,7 @@ public class TcpClient extends Thread {
 		}
 	}
 
+	// 發送註冊請求
 	public void sendRegister() {
 		/*
 		 * "account":"dev3", "mcd": { “operate”：1 }, "name":null,
@@ -194,31 +242,24 @@ public class TcpClient extends Thread {
 		map.put("operate", 1);
 		login.setAccount(funUtil.readXml("emhLogin", "account"));
 		login.setPassword(funUtil.readXml("emhLogin", "password"));
-		login.setMcd(map);
+		/*login.setMcd(map);*/
 		Map<String, Object> loginMap = new HashMap<String, Object>();
 		loginMap.put("account", login.getAccount());
 		loginMap.put("mcd", login.getMcd());
+		loginMap.put("name", login.getName());
 		loginMap.put("password", login.getPassword());
 		loginMap.put("type", login.getType());
 		loginMap.put("usertype", login.getUsertype());
 		// 封装json数据json.Encode(list)
 		String jsonstr = json.Encode(loginMap);
-		log.info("Login-->" + socket.getInetAddress() + ":" + jsonstr);
+		log.info("DS-->EMH:Register:" + socket.getInetAddress() + ":" + jsonstr+"\n");
 		if (socket.isConnected()) {
 			PrintWriter out;
 			try {
 				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
-				out.println(jsonstr + "\n");
+				out.print(jsonstr+"\n");
 				out.flush();
 				TestData();
-				timer = new Timer();
-				try {
-					timer.schedule(new HeartBeat(socket), 2000, 30 * 1000);
-				} catch (IOException e) {
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 			}
@@ -230,18 +271,34 @@ public class TcpClient extends Thread {
 
 	// 测点表数据
 	public void TestData() {
+	/*	{"type":15,"mcd":{"account":"","errMsg":"",
+			"msgsequence":0,"operate":0,"optResult":false,
+			"projectId":"","range":"0"},"devices":[]}\n
+
+		{"type":5,"noHandleEvent":0,
+				"mcd":{"account":"",
+				"errMsg":"","msgsequence":0,
+				"operate":2,"optResult":false,"projectId":"","range":"0"},
+				"rtstatus":[],"rtdata":[],"rtevent":[],"rtstatistics":[]}\n*/
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> mcdMap = new HashMap<String, Object>();
-		map.put("type", 5);
+		map.put("type", 15);
+		map.put("devices","[]");
+		mcdMap.put("account","");
+		mcdMap.put("errMsg","");
+		mcdMap.put("msgsequence", 0);
+		mcdMap.put("operate", 0);
+		mcdMap.put("optResult", false);
+		mcdMap.put("projectId","");
 		mcdMap.put("range", 0);
-		mcdMap.put("operate", 2);
 		map.put("mcd", mcdMap);
 		String jsonstr = json.Encode(map);
 		if (socket.isConnected()) {
 			PrintWriter out;
 			try {
 				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
-				out.println(jsonstr + "\n");
+				log.info("DS-->EMH:TestData:" + socket.getInetAddress() + ":" + jsonstr+"\\n");
+				out.print(jsonstr+"\n");
 				out.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -252,6 +309,7 @@ public class TcpClient extends Thread {
 		}
 
 	}
+
 	public static Socket getSocket() {
 		return socket;
 	}
@@ -266,6 +324,14 @@ public class TcpClient extends Thread {
 
 	public static void setTimeout(int timeout) {
 		TcpClient.timeout = timeout;
+	}
+
+	public static String getEndStr() {
+		return endStr;
+	}
+
+	public static void setEndStr(String endStr) {
+		TcpClient.endStr = endStr;
 	}
 }
 
@@ -288,9 +354,9 @@ class HeartBeat extends TimerTask {
 				if (TcpClient.getSocket() != null) {
 					out = new PrintWriter(TcpClient.getSocket()
 							.getOutputStream());
-					out.println("~IMCP iCore Connection Pulse~\n");
+					out.print("~IMCP iCore Connection Pulse~\n");
 					out.flush();
-					log.info("KeepThread->~IMCP iCore Connection Pulse~");
+					log.info("DS->EMH:Heart:~IMCP iCore Connection Pulse~");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
