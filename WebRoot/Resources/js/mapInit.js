@@ -23,7 +23,7 @@ function floor(data) {
 	var myTiledMapServiceLayer = new
 	// esri.layers.ArcGISDynamicMapServiceLayer("动态服务地址");//动态服务
 	esri.layers.ArcGISTiledMapServiceLayer(
-			"http://125.70.9.194:6080/common/rest/services/NEWMAP/MapServer");// 切片服务
+			"http://125.70.9.194:801/services/MapServer/map2d");// 切片服务
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
 	gLayermiddle = new esri.layers.GraphicsLayer({id:"中图标"});// 创建中图标图层
