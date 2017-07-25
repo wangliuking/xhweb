@@ -29,7 +29,7 @@ xh.login = function() {
 		async : false,
 		success : function(data) {
 			if (data.success) {
-				window.location.href = "operations/userstatus.html";
+				window.location.href = "../index.html";
 			} else {
 				toastr.error(data.message, '提示');
 				/*swal({
