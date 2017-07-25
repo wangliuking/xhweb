@@ -47,9 +47,6 @@ public class LoginController {
 		this.username=request.getParameter("username");
 		this.password=request.getParameter("password");
 		ArrayList<WebUserBean> list=WebUserServices.selectUserByRootAndPass(username, funUtil.MD5(password));
-		log.debug("username="+username);
-		log.debug("password="+password);
-		log.debug("list="+list.size());
 		if (list.size()>0) {
 			if(list.get(0).getStatus()==1){
 				this.success=true;
