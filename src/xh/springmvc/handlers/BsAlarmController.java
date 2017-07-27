@@ -3,6 +3,7 @@ package xh.springmvc.handlers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmBean;
+import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BsAlarmService;
+import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.WebLogService;
 
 
 @Controller
@@ -30,6 +34,7 @@ public class BsAlarmController {
 	private FunUtil funUtil=new FunUtil();
 	protected final Log log = LogFactory.getLog(WebLogController.class);
 	private FlexJSON json=new FlexJSON();
+	private WebLogBean webLogBean=new WebLogBean();
 	
 	/**
 	 * 查询Tetra告警
@@ -166,5 +171,37 @@ public class BsAlarmController {
 			e.printStackTrace();
 		}
 
+	}
+	/**
+	 * 确认告警信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/identifyBsA", method = RequestMethod.POST)
+	public void identifyBsAlarm(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("bsId");
+//		List<String> list = new ArrayList<String>();
+//		String[] ids=bsId.split(",");
+//		for (String str : ids) {
+//			list.add(str);
+//		}
+		
+		BsAlarmService.identifyBsAlarmById(id);
+		webLogBean.setOperator(funUtil.loginUser(request));
+		webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+		webLogBean.setStyle(3);
+		webLogBean.setContent("确认基站Tetra告警信息，bsId="+id);
+		WebLogService.writeLog(webLogBean);
+		HashMap result = new HashMap();
+		this.success=true;
+		System.out.println("---_-_----");
+		result.put("success", success);
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -11,7 +11,7 @@ require.config({
 });
 var background="#fff";
 var frist = 0;
-var appElement = document.querySelector('[ng-controller=bs]');
+var appElement = document.querySelector('[ng-controller=bsAlarm]');
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
@@ -33,10 +33,10 @@ xh.load = function() {
 	var bsId = $("#bsId").val();
 	var bsName = $("#name").val();
 	var pageSize = $("#page-limit").val();
-	app.controller("user", function($scope, $http) {
+	app.controller("bsAlarm", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
-		$scope.securityMenu = true; // 菜单变色
+		$scope.operationMenu = true; // 菜单变色
 
 		//加载故障等级统计图
 		xh.loadbsAlarmLevelPie();
@@ -57,6 +57,11 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
+		};
+		/* 显示警告详情 */
+		$scope.showDetails = function(id){
+			$("#bsAlarmDetails").modal('show');
+			$scope.bsAlarmData=$scope.data[id];
 		};
 		/* 查询历史告警数据 */
 		$scope.search = function(page) {
@@ -82,6 +87,48 @@ xh.load = function() {
 						$scope.totals = response.totals;
 						xh.pagging(page, parseInt($scope.totals), $scope);
 					});
+		};
+		/* 确认故障 */
+		$scope.identifyBsAlarm = function(id){
+			swal({
+				title : "确认告警",
+				text : "确认该告警吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#82AF6F",
+				confirmButtonText : "确认",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bsAlarm/identifyBsA',
+						type : 'post',
+						dataType : "json",
+						data : {
+							bsId : id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success("已确认", '提示');
+								$scope.refresh();
+							} else {
+								swal({
+									title : "提示",
+									text : "告警确认失败",
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							$scope.refresh();
+						}
+					});
+				}
+			});
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -120,7 +167,7 @@ xh.load = function() {
 };
 // 刷新数据
 xh.refresh = function() {
-	var appElement = document.querySelector('[ng-controller=user]');
+	var appElement = document.querySelector('[ng-controller=bsAlarm]');
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
@@ -178,7 +225,7 @@ xh.loadbsAlarmLevelPie = function(){
 					normal : {
 						color : function(params) {
 							// build a color map as your need.
-							var colorList = [ '#EC706B', '#DC3C37', '#852422' ];
+							var colorList = [ '#86BEC4', '#576874', '#DB5F5B' ];
 							return colorList[params.dataIndex];
 						},
 						label : {
@@ -269,7 +316,7 @@ xh.loadbsAlarmTypePie = function(){
 					normal : {
 						color : function(params) {
 							// build a color map as your need.
-							var colorList = [ '#86BEC4', '#576874', '#DB5F5B' ];
+							var colorList = [ '#EC706B', '#DC3C37', '#852422' ];
 							return colorList[params.dataIndex];
 						},
 						label : {

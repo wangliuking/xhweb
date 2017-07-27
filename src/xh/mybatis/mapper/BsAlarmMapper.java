@@ -33,4 +33,10 @@ public interface BsAlarmMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap> bsAlarmTypeChart() throws Exception;
+
+	/**
+	 * 确认告警信息
+	 * @return
+	 */
+	public void identifyBsAlarmById(String id);
 }

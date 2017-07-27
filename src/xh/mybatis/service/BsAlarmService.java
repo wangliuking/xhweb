@@ -80,4 +80,22 @@ public class BsAlarmService {
 		return list;
 	}
 
+	/**
+	 * 确认告警信息
+	 * @param map
+	 */
+	public static void identifyBsAlarmById(String id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		try {
+			mapper.identifyBsAlarmById(id);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
