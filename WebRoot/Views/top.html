@@ -15,26 +15,22 @@
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;">
 				<a href="../../Views/operations/email.html" target="_self"><i
 						class="fa fa-envelope-o fa-x font-white"></i> <span
-						class="badge badge-header badge-danger" id="emailcount"></span>
+						class="badge badge-header badge-danger" id="emailcount">0</span>
 				</a>
 					
 				</li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
 					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
 						class="fa fa-bell-o fa-x font-white"></i> <span
-						class="badge badge-header badge-warning"> 10</span>
+						class="badge badge-header badge-warning" id="alarmcount"> 0</span>
 				</a> <!-- animated flipInX -->
-					<ul class="dropdown-menu hdropdown notification">
-                        <li>
-                            <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
+				
+					<ul class="dropdown-menu hdropdown notification animated flipInX" id="ul-alarm">
+                        
+                        <li class="summary">
+                        <a href="#" onclick="stopMap3()" ><i class="fa fa-bell-slash-o"></i>解除声音</a>
                         </li>
-                        <li>
-                            <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
-                        </li>
-                        <li>
-                           <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
-                        </li>
-                        <li class="summary"><a href="#" class="btn btn-danger btn-sm">解除声音告警提示</a></li>
+                        
                     </ul>
 
 				<li class="member-center">
@@ -99,6 +95,10 @@
 		</ul>
 	</nav>
 </div>
+<audio id="bgMusic" loop="loop">
+    <source  src="../../Resources/sound/alarm.mp3" type="audio/mp3">
+    <source  src="../../Resources/sound/alarm.ogg" type="audio/ogg">
+</audio>
 <script type="text/javascript">
 	var user = "";
 	var roleId = 0;
@@ -150,10 +150,29 @@
 		async : false,
 		success : function(data) {
 			if (data.success) {
-				//$("#emailcount").html(data.totals);
+				$("#alarmcount").html(data.totals);
+				var list=data.items;
+				for(var i=0;i<data.totals;i++){
+					
+					$("#ul-alarm").prepend("<li><span class='label label-danger' style='color:#fff;font-size:5pt'>new</span><span>["+list[i].bsId+"号]"+list[i].name+"链路中断</span></li>");
+				
+				}
+				
 			}
 		},
 		error : function() {
 		}
 	});
+function playMap3(){
+	var audio = document.getElementById("bgMusic");
+	//重新播放
+	audio.currentTime = 0;
+	audio.play();
+}
+function stopMap3(){
+	var audio = document.getElementById("bgMusic");
+	//停止
+	audio.pause();
+	audio.currentTime = 0;
+}
 </script>
