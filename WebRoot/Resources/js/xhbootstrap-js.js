@@ -13,6 +13,8 @@
 	document.write('<script type="text/javascript" src="'+path+'lib/toastr/build/toastr.min.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'Resources/js/paging.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'lib/My97DatePicker/WdatePicker.js"></script>');	
+	document.write('<script type="text/javascript" src="'+path+'Resources/ca/TopESA3.1.0.4.20242.js"></script>');
+	document.write('<script type="text/javascript" src="'+path+'Resources/ca/clientConf.js"></script>');	
 })()
 function rootPath(){
 	 var scripts = document.getElementsByTagName('script'),

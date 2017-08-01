@@ -38,7 +38,7 @@ xh.load = function() {
 		/* 终端状态统计图 */
 		/*xh.loadUserStatusPie();*/
 		/*获取日志信息*/
-		$http.get("../../emh/bsEmhNowStatus?start=0&limit="+pageSize).
+		$http.get("../../emh/bsEmhOldStatus?start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -92,7 +92,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emh/bsEmhNowStatus?start="+start+"&limit="+pageSize).
+			$http.get("../../emh/bsEmhOldStatus?start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -113,7 +113,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emh/bsEmhNowStatus?start="+start+"&limit="+pageSize).
+			$http.get("../../emh/bsEmhOldStatus?start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				

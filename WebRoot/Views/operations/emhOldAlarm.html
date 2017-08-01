@@ -49,7 +49,7 @@
 							<li><span>运维管理</span></li>
 							<li><span>实时监测</span></li>
 							<li><span>环控告警</span></li>
-							<li class="active"><span>当前告警记录</span></li>
+							<li class="active"><span>历史告警记录</span></li>
 						</ol>
 					</div>
 				</div>
@@ -62,10 +62,10 @@
 					<div class="hpanel">
 						<div class="panel-body">
 							<ul class="mailbox-list" style="height:200px;">
-								<li class="active" style="margin-bottom:10px;"><a href="emhAlarm.html" target="_self"><i
+								<li style="margin-bottom:10px;"><a href="emhAlarm.html" target="_self"><i
 										class="fa fa-envelope text-warning"></i>当前告警记录</a></li>
 
-								<li><a href="emhOldAlarm.html" target="_self"><i
+								<li class="active"><a href="emhOldAlarm.html" target="_self"><i
 										class="fa fa-paper-plane text-danger"></i>历史告警记录</a></li>
 
 							</ul>
@@ -221,17 +221,13 @@
 		<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 			<i class="fa fa-chevron-circle-up fa-3x"></i>
 		</div>
-		<!-- 添加用户 -->
-		<!-- <div ng-include="'user-add.html'"></div> -->
-		<!-- 编辑基用户-->
-		<!-- <div ng-include="'user-edit.html'"></div> -->
 		<script type="text/javascript"
 			src="../../Resources/js/xhbootstrap-js.js"></script>
 		<script type="text/javascript"
 			src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 		<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
 		<script type="text/javascript"
-			src="../../Controllers/operations/emhAlarm.js"></script>
+			src="../../Controllers/operations/emhOldAlarm.js"></script>
 		<script type="text/javascript">
 			xh.load();
 		</script>

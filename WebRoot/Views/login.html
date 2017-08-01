@@ -71,10 +71,17 @@ body {
 									class="help-block small">Yur strong password</span> -->
 							</div>
 							<div class="form-group">
-								<select type="password" title="请选择数字证书" placeholder="请选择数字证书"
-									 name="ca" id="CertList" class="form-control">
+								<select title="请选择数字证书" name="CertList"
+									id="CertList" class="form-control">
 
-								</select>
+								</select> 
+								<span
+									class="help-block small">数字证书</span>
+								<input id="ToSign" name="ToSign" type="hidden"
+									value=1501489194199>
+								<!-- 出于安全考虑，必须使用随机字符串 -->
+								<input name="Signature" type="hidden" id="Signature">
+
 							</div>
 							<!-- <div class="form-group">
 								<label class="control-label" for="password">验证码</label>
@@ -95,15 +102,12 @@ body {
 		</div>
 	</div>
 	<script type="text/javascript" src="../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../Resources/ca/TopESA3.1.0.4.20242.js"></script>
-	<script type="text/javascript" src="../Resources/ca/clientConf.js"></script>
 	<script type="text/javascript" src="../Controllers/web/login.js"></script>
 	<script type="text/javascript">
-		 $(document).ready(function() {
+		$(document).ready(function() {
 			if (TopESAConfig())
 				initCertList();
-		}); 
+		});
 		function initCertList() {
 			try {
 				var certs = CertStore.listAllCerts().forSign(); //过滤签名证书
@@ -157,7 +161,7 @@ body {
 		function getSelectedCert() {
 			try {
 				var certs = CertStore.listAllCerts();
-				var selectedCertSN = $("[id=CertList]").attr("value");
+				var selectedCertSN = $("[id=CertList]").val();
 				var r = certs.bySerialnumber(selectedCertSN);
 				return r.get(0);
 			} catch (e) {
@@ -171,7 +175,7 @@ body {
 		//签名方法
 		function sign() {
 			try {
-				var toSign = 1500865121043;
+				var toSign = 1501489194199;
 				var cert = getSelectedCert();
 				var P7 = cert.signLogondata(toSign);
 				$("#Signature").val(P7);
@@ -196,6 +200,7 @@ body {
 				alert("密码不能为空");
 				return;
 			}
+			sign();
 			xh.login();
 		});
 	</script>

@@ -1,5 +1,6 @@
 <!-- 系统头部 -->
 <div id="header" role="navigation" class="header-style">
+<div class="color-line"></div>
 	<div id="logo">
 		<ul class="small-logo">
 			<li><img alt="" src="../../Resources/images/img/log.png"
@@ -19,11 +20,23 @@
 					
 				</li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					data-toggle="dropdown" href="#"> <i
+					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
 						class="fa fa-bell-o fa-x font-white"></i> <span
 						class="badge badge-header badge-warning"> 10</span>
-				</a>
-					<div class="dropdown-menu animated bounceInUp">123</div></li>
+				</a> <!-- animated flipInX -->
+					<ul class="dropdown-menu hdropdown notification">
+                        <li>
+                            <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
+                        </li>
+                        <li>
+                            <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
+                        </li>
+                        <li>
+                           <span class="label label-danger" style="color:#fff;">NEW</span><span>1号基站链路中断</span>
+                        </li>
+                        <li class="summary"><a href="#" class="btn btn-danger btn-sm">解除声音告警提示</a></li>
+                    </ul>
+
 				<li class="member-center">
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
@@ -113,7 +126,7 @@
 		error : function() {
 		}
 	});
-/* 	邮件 */
+    /* 	邮件 */
 	$.ajax({
 		url : '../../center/email/noReadEmailCount',
 		type : 'GET',
@@ -123,6 +136,21 @@
 		success : function(data) {
 			if (data.success) {
 				$("#emailcount").html(data.totals);
+			}
+		},
+		error : function() {
+		}
+	});
+	 /*基站告警信息*/
+	$.ajax({
+		url : '../../bs/alarmList',
+		type : 'GET',
+		dataType : "json",
+		data : {},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				//$("#emailcount").html(data.totals);
 			}
 		},
 		error : function() {

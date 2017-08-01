@@ -1,5 +1,6 @@
 package xh.mybatis.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public interface WebUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public WebUserBean selectUserByUserAndPass(WebUserBean bean)throws Exception;
+	public HashMap<String,Object> selectUserByUserAndPass(Map<String,Object> map)throws Exception;
 	/**
 	 * 根据登录用户名查找登录用户
 	 * @param user
