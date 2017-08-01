@@ -150,6 +150,7 @@
 											style="color: #fff">{{x.type}}</span></td>
 										<td ng-if="x.type=='非常紧急'" bgcolor="#852422"><span
 											style="color: #fff">{{x.type}}</span></td>
+										<td ng-if="x.type==''">未注明</td>
 										<td>{{x.reason}}</td>
 										<td ng-if="x.status==1"><a href="#"
 											ng-click="showDetails($index)"><i
@@ -201,7 +202,7 @@
 					</div>
 					<div class="hpanel">
 						<div class="panel-title title-primary">
-							<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级分析</span>
+							<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障类型（程度）分析</span>
 						</div>
 						<div class="panel-body">
 							<div id="bsAlarm-type-pie"></div>
