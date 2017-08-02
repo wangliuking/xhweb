@@ -110,7 +110,7 @@
 								<thead>
 									<tr class="tr-gray">
 										<th width="50px">#</th>
-										<th width="100px">故障处理情况</th>
+										
 										<th width="100px">基站ID</th>
 										<th>基站名称</th>
 										<th>基站等级</th>
@@ -118,7 +118,9 @@
 										<th>故障等级</th>
 										<th>故障类别</th>
 										<th>故障原因</th>
-										<th>用户处理状态</th>
+										<th width="100px">故障处理情况</th>
+										<th>确认</th>
+										<th>详情</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -129,12 +131,7 @@
 										<td>{{$index+1}}</td>
 
 										<!-- <td>{{x.dealEn}}</td> -->
-										<td ng-if="x.dealEn==1"><span
-											class="label  label-sm label-success"><i
-												class="fa fa-plus"></i>已恢复</span></td>
-										<td ng-if="x.dealEn==0"><span
-											class="label  label-sm label-danger"><i
-												class="fa fa-close (alias)"></i>未恢复</span></td>
+										
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.bsLevel}}</td>
@@ -152,22 +149,23 @@
 											style="color: #fff">{{x.type}}</span></td>
 										<td ng-if="x.type==''">未注明</td>
 										<td>{{x.reason}}</td>
-										<td ng-if="x.status==1"><a href="#"
-											ng-click="showDetails($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;&nbsp;|&nbsp;</a>
+										<td ng-if="x.dealEn==1"><span
+											class="label  label-sm label-success"><i
+												class="fa fa-plus"></i>已恢复</span></td>
+										<td ng-if="x.dealEn==0"><span
+											class="label  label-sm label-danger"><i
+												class="fa fa-close (alias)"></i>未恢复</span></td>
+										<td ng-if="x.status==1">
 											<span class="label  label-sm label-success"><i
 												class="fa fa-check"></i>已确认</span></td>
-										<td ng-if="x.status==0"><a href="#"
-											ng-click="showDetails($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;&nbsp;|&nbsp;</a>
+										<td ng-if="x.status==0"></a>
 											<span class="label  label-sm label-wrong"><i
 												class="fa fa-circle-thin"></i><a href="#"
 												ng-click="identifyBsAlarm(x.id)"> </i>确认
 											</a></span></td>
-										<!-- 										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="" data-toggle="modal"
-											data-target=""> <i class="fa fa-edit text-success"></i>&nbsp;确认</a> -->
-										</td>
+										<td><a href="#"
+											ng-click="showDetails($index)"><i
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a></td>
 									</tr>
 								</tbody>
 							</table>

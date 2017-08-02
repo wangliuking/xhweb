@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>终端状态123</title>
+<title>终端状态</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -83,7 +83,7 @@
 				<div class="col-md-12">
 					<div class="hpanel bs-box" ng-repeat="x in data"
 						bsId-value="{{x.bsId}}" status-value="{{x.status}}">
-						<div class="panel-heading">ID->{{x.bsId}}</div>
+						<div class="panel-heading">【{{x.bsId}}号】基站</div>
 						<div class="panel-body">
 							<div ng-if="x.status==0 && x.openen==1">
 								<img alt="" src="../../Resources/images/img/tower_off.png">
@@ -123,9 +123,7 @@
 			</ul>
 			<div class="tab-content" style="padding:20px">
 				<div class="tab-pane fade in active text-danger" id="emh">
-				    <div class="row">
-				    
-				    </div>
+					<div class="row"></div>
 					<div class="row">
 						<div class="col-md-3">
 							<ul id="sm-tabs" class="nav nav-tabs" style="width:90px">
@@ -139,109 +137,141 @@
 							</ul>
 						</div>
 						<div class="col-md-9">
-						<div class="tab-content" style="">
-							<div class="tab-pane fade in active text-danger" id="door">
-								<div class="row">
-									<div class="col-md-3">
-										<div
-											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[smoky]">
-											<div class="panel-body">
-												<div class="text-center">
-													<p style="background:#fff;color:black;">
-														<img class="pull-left"
-															src="../../Resources/images/img/xiaofang.png" />烟感
-													</p>
-													<div class="text-small font-light">
-														<span ng-if="smoky==true"> 正常 </span> <span
-															ng-if="smoky==false"> 异常 </span>
+							<div class="tab-content" style="">
+								<div class="tab-pane fade in active text-danger" id="door">
+									<div class="row">
+										<div class="col-md-3">
+											<div
+												ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[smoky]">
+												<div class="panel-body">
+													<div class="text-center">
+														<p style="background:#fff;color:black;">
+															<img class="pull-left"
+																src="../../Resources/images/img/xiaofang.png" />烟感
+														</p>
+														<div class="text-small font-light">
+															<span ng-if="smoky==true"> 正常 </span> <span
+																ng-if="smoky==false"> 异常 </span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div
+												ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[door]">
+												<div class="panel-body">
+													<div class="text-center">
+														<p style="background:#fff;color:black;">
+															<img class="pull-left"
+																src="../../Resources/images/img/door.png" />门磁
+														</p>
+														<div class="text-small font-light">
+															<span ng-if="door==true"> 关闭</span> <span
+																ng-if="door==false"> 打开</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div
+												ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[fire]">
+												<div class="panel-body">
+													<div class="text-center">
+														<p style="background:#fff;color:black;">
+															<img class="pull-left"
+																src="../../Resources/images/img/fire.png" />消防
+														</p>
+														<div class="text-small font-light">
+															<span ng-if="fire==true"> 正常 </span> <span
+																ng-if="fire==false"> 异常 </span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div
+												ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[water]">
+												<div class="panel-body">
+													<div class="text-center">
+														<p style="background:#fff;color:black;">
+															<img class="pull-left"
+																src="../../Resources/images/img/water.png" />漏水
+														</p>
+														<div class="text-small font-light">
+															<span ng-if="water==true"> 正常 </span> <span
+																ng-if="water==false"> 异常 </span>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="col-md-3">
-										<div
-											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[door]">
-											<div class="panel-body">
-												<div class="text-center">
-													<p style="background:#fff;color:black;">
-														<img class="pull-left"
-															src="../../Resources/images/img/door.png" />门磁
-													</p>
-													<div class="text-small font-light">
-														<span ng-if="door==true"> 关闭</span> <span
-															ng-if="door==false"> 打开</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div
-											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[fire]">
-											<div class="panel-body">
-												<div class="text-center">
-													<p style="background:#fff;color:black;">
-														<img class="pull-left"
-															src="../../Resources/images/img/fire.png" />消防
-													</p>
-													<div class="text-small font-light">
-														<span ng-if="fire==true"> 正常 </span> <span
-															ng-if="fire==false"> 异常 </span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-md-3">
-										<div
-											ng-class="{true: 'hpanel hbggreen', false: 'hpanel hbgred'}[water]">
-											<div class="panel-body">
-												<div class="text-center">
-													<p style="background:#fff;color:black;">
-														<img class="pull-left"
-															src="../../Resources/images/img/water.png" />漏水
-													</p>
-													<div class="text-small font-light">
-														<span ng-if="water==true"> 正常 </span> <span
-															ng-if="water==false"> 异常 </span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+									<!-- row--end -->
 								</div>
-								<!-- row--end -->
-							</div>
-							<!--   door -->
-							<div class="tab-pane fade text-danger" id="d">
-								<div id="acv-div" style="height:200px;background:green; width:200px;"></div> 
-								<div id="aci-div" style="height:200px;background:blue; width:200px"></div>
-								<div id="dcv-div" style="height:200px;background:green; width:200px"></div>
-								<div id="dci-div" style="height:200px;background:yellow; width:200px"></div>								
-							</div>
-							<!-- d -->
-							<div class="tab-pane fade text-danger" id="w">123</div>
-							<!-- d -->
-							<div class="tab-pane fade text-danger" id="ups">123</div>
-							<!-- d -->
-							<div class="tab-pane fade text-danger" id="k1">123</div>
-							<!-- d -->
-							<div class="tab-pane fade text-danger" id="k2">123</div>
-							<!-- d -->
+								<!--   door -->
+								<div class="tab-pane fade text-danger" id="d">
+									<div id="acv-div"
+										style="height:200px;background:green; width:200px;"></div>
+									<div id="aci-div"
+										style="height:200px;background:blue; width:200px"></div>
+									<div id="dcv-div"
+										style="height:200px;background:green; width:200px"></div>
+									<div id="dci-div"
+										style="height:200px;background:yellow; width:200px"></div>
+								</div>
+								<!-- d -->
+								<div class="tab-pane fade text-danger" id="w">123</div>
+								<!-- d -->
+								<div class="tab-pane fade text-danger" id="ups">123</div>
+								<!-- d -->
+								<div class="tab-pane fade text-danger" id="k1">123</div>
+								<!-- d -->
+								<div class="tab-pane fade text-danger" id="k2">123</div>
+								<!-- d -->
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade text-danger" id="group">
-					<p>group</p>
-				</div>
+				<div class="tab-pane fade text-danger" id="group"></div>
+				<!-- <p>group</p> -->
 				<div class="tab-pane fade text-danger" id="radio">
-					<p>radio</p>
+					<table id="tb-info" class="xh-table table-hover">
+						<thead>
+							<tr class="tr-gray">
+								<th width="50px">#</th>
+								<th>终端ID</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="radioTotals==0">
+								<td colspan="2" class="text-center">没有记录！</td>
+							</tr>
+							<tr ng-repeat="x in radioData">
+								<td>{{$index+1}}</td>
+								<td>{{x.userId}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="page">
+						<div class="page-info">
+							每页显示 <select id="page-limit" ng-change="refresh()"
+								ng-model="count">
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+							</select> 条, <span ng-model="index">显示{{start}}-</span><span
+								ng-model="lastIndex">{{lastIndex}}条,</span> <span
+								ng-model="totals">总计{{totals}}条</span>
+						</div>
+						<div class="page-paging"></div>
+					</div>
 				</div>
-				<div class="tab-pane fade text-danger" id="other">
-					<p>other</p>
-				</div>
+				<!-- <p>radio</p> -->
+				<div class="tab-pane fade text-danger" id="other"></div>
+				<!-- <p>other</p> -->
 			</div>
 		</div>
 	</aside>
@@ -269,7 +299,9 @@
 		});
 		$("body").delegate(".bs-box", "click", function() {
 			$("#bs-status-right").fadeIn("fast");
-			console.log($(this).attr("status-value"))
+			var bsId = $(this).attr("bsId-value");
+			xh.bsNature(bsId);
+
 			// TODO
 		});
 	</script>

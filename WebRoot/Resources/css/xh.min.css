@@ -712,7 +712,7 @@ li.divider {
 	font-weight: 600;
 	padding: 10px 4px;
 	transition: all .3s;
-	min-height:40px;
+	min-height:25px;
 	border: 1px solid transparent;
 }
 
@@ -2227,7 +2227,8 @@ ul.mailbox-list li:hover a,ul.h-list li:hover a {
 }
 
 .bs-box .panel-heading {
-	background: #428bca;
+	background: #000;
+	font-weight:normal;
 	padding: 2px;
 	color: #fff;
 	text-align: center;
@@ -2246,7 +2247,7 @@ ul.mailbox-list li:hover a,ul.h-list li:hover a {
 	border: 1px solid #e4e5e7;
 	/*  border-left: 1px solid #e4e5e7; */
 	color: #fff;
-	width: 600px;
+	width: 700px;
 	/* height: 500px;  */
 	position: fixed;
 	top: 113px;
