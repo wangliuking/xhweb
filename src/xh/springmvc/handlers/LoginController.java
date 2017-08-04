@@ -42,14 +42,14 @@ public class LoginController {
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
-	@RequestMapping(value = "/web/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws UnsupportedEncodingException {
 		this.username = request.getParameter("username");
 		this.password = request.getParameter("password");
-		String toSign = request.getParameter("ToSign");
-		String signedData = request.getParameter("Signature");
+		/*String toSign = request.getParameter("ToSign");
+		String signedData = request.getParameter("Signature");*/
 		Map<String,Object> map=new HashMap<String, Object>();
 		map = WebUserServices.selectUserByRootAndPass(username, funUtil.MD5(password));
 
@@ -60,19 +60,20 @@ public class LoginController {
 		String projectId = "test";
 		String opType = "系统登陆";
 		String reqId = "1";
-		SccaGwSDK.init("http://125.69.77.63:6080/sign-gw");
+		/*SccaGwSDK.init("http://125.69.77.63:6080/sign-gw");
         String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
 		int startPos = rs.indexOf("code");
 		int endPos = 0 ;
-		String code = rs.substring(startPos + 6 ,startPos + 9);
-		log.info("登陆签名验证返回数据如下:");
-		log.info(rs);
+		String code = rs.substring(startPos + 6 ,startPos + 9);*/
+		String code="200";
+		/*log.info("登陆签名验证返回数据如下:");
+		log.info(rs);*/
 		if ( code.equals("200") ) {
 			
-			startPos = rs.indexOf("subjectDN");
+			/*startPos = rs.indexOf("subjectDN");
 			endPos = rs.length();
 			String certCN = rs.substring(startPos + 12 ,endPos - 3);
-			log.info("主题项信息为:"+certCN);
+			log.info("主题项信息为:"+certCN);*/
 			
 			
 			if (map!=null) {
