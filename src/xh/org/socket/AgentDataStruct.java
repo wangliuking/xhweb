@@ -39,6 +39,13 @@ public class AgentDataStruct {
 	public void setDevices(Devices devices) {
 		this.devices = devices;
 	}
+	@Override
+	public String toString() {
+		return "AgentDataStruct [uuid=" + uuid + ", name=" + name + ", status="
+				+ status + ", state_alarm=" + state_alarm + ", devices="
+				+ devices + ", setStatus=" + setStatus + "]";
+	}
+	
 	
 
 }
@@ -81,6 +88,13 @@ class Devices{
 		this.state_alarm = state_alarm;
 	}
 	
+	@Override
+	public String toString() {
+		return "Devices [spots=" + spots + ", uuid=" + uuid + ", name=" + name
+				+ ", status=" + status + ", state_alarm=" + state_alarm + "]";
+	}
+	
+	
 	
 }
 /*Spot 数据格式：*/
@@ -106,6 +120,11 @@ class Spots{
 	}
 	public void setState_alarm(int state_alarm) {
 		this.state_alarm = state_alarm;
+	}
+	@Override
+	public String toString() {
+		return "Spots [uuid=" + uuid + ", name=" + name + ", state_alarm="
+				+ state_alarm + "]";
 	}
 	
 

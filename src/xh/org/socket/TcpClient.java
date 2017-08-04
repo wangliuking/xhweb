@@ -23,10 +23,15 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import xh.func.plugin.Base64Util;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.EmhAlarmBean;
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.SensorBean;
+import xh.mybatis.service.EmhService;
+import xh.org.listeners.TcpClientListenner;
 
 public class TcpClient extends Thread {
 	protected final Log log = LogFactory.getLog(TcpClient.class);
@@ -169,7 +174,10 @@ public class TcpClient extends Thread {
 
 	@SuppressWarnings("unchecked")
 	public void handler(String string) {
-		log.info("DS<--EMH:" + socket.getInetAddress() + ":" + string);
+		if(!string.contains("IMCP")){
+			log.info("DS<--EMH:" + socket.getInetAddress() + ":" + string);
+		}
+		
 		try {
 			Map<String, Object> recvMap = new HashMap<String, Object>();
 			if (string.contains("{") || string.contains("}")) {
@@ -208,8 +216,8 @@ public class TcpClient extends Thread {
 					sendAuth(string + "\n");
 				}
 				if (string.contains("IMCP")) {
-					log.info("DS<--EMH:Heart:" + socket.getInetAddress() + ":"
-							+ string);
+					/*log.info("DS<--EMH:Heart:" + socket.getInetAddress() + ":"
+							+ string);*/
 				}
 			}
 
@@ -251,6 +259,18 @@ public class TcpClient extends Thread {
 			}
 		} else {
 			log.info("DS<--EMH:LoginResponse:登录认证失败!" + mcdMap.get("errMsg"));
+			try {
+				socket.close();
+				connected = false;
+				sleep(5000);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 	}
@@ -258,8 +278,10 @@ public class TcpClient extends Thread {
 	// 实时数据
 	public void RealTimeData(Map<String, Object> recvMap) {
 		@SuppressWarnings({ "unchecked", "unused" })
+		
 		List<Map<String, Object>> rtDataList = (List<Map<String, Object>>) recvMap
 				.get("rtdata");
+		
 		for (Map<String, Object> map : rtDataList) {
 			RtDataStruct rtdata = new RtDataStruct();
 			rtdata.setUuid(map.get("uuid").toString());
@@ -273,6 +295,13 @@ public class TcpClient extends Thread {
 					.toString()));
 			rtdata.setSv(sv);
 			log.info("DS<--EMH:RealTimeData:" + rtdata.toString());
+			
+			SensorBean bean=new SensorBean();
+			bean.setDeviceId(rtdata.getUuid());
+			bean.setSingleName(sv.getValueTitle());
+			bean.setSingleValue(Base64Util.decode(sv.getValueData()));
+			EmhService.updateDeviceValue(bean);
+			
 
 		}
 	}
@@ -292,7 +321,18 @@ public class TcpClient extends Thread {
 					.StringToFloat(map.get("level").toString()));
 			rt.setState_alarm((int) funUtil.StringToFloat(map
 					.get("state_alarm").toString()));
+			rt.setCreateTime(funUtil.nowDate());
 			log.info("DS<--EMH:RealTimeAlarm:" + rt.toString());
+			
+			/*新增告警记录*/
+			EmhService.deviceAlarm(rt);
+			SensorBean bean=new SensorBean();
+			bean.setDeviceId(rt.getUuid());
+			bean.setState_alarm(rt.getState_alarm());
+			/*更新设备告警类型*/
+			EmhService.updateDeviceStateAlarm(bean);
+			
+			
 
 		}
 	}
@@ -310,6 +350,11 @@ public class TcpClient extends Thread {
 			rt.setStattype((int)funUtil.StringToFloat(map.get("stattype").toString()));
 			rt.setUuid(map.get("uuid").toString());
 			log.info("DS<--EMH:RealTimeStatus:" + rt.toString());
+			SensorBean bean=new SensorBean();
+   		    bean.setDeviceId(rt.getUuid());
+   		    bean.setStatus(rt.getState());
+   		    bean.setState_alarm(rt.getState_alarm());
+   		    EmhService.updateAgentDeviceState(bean);
 
 		}
 	}
@@ -326,13 +371,17 @@ public class TcpClient extends Thread {
 	// 测点配置表
 	public void RealTimeAgent(Map<String, Object> recvMap) {
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> agentsList = (List<Map<String, Object>>) recvMap.get("agentsagents");
+		List<Map<String, Object>> agentsList = (List<Map<String, Object>>) recvMap.get("agents");
+		
+		if(agentsList!=null){
+		
          for (Map<String, Object> map : agentsList) {
         	 AgentDataStruct agent=new AgentDataStruct();
         	 agent.setUuid(map.get("uuid").toString());
         	 agent.setName(map.get("name").toString());
         	 agent.setStatus((Boolean) map.get("status"));
         	 agent.setState_alarm((int)funUtil.StringToFloat(map.get("state_alarm").toString()));
+        	 EmhService.agent(agent);
         	 Devices device=new Devices();
         	 @SuppressWarnings("unchecked")
 			List<Map<String, Object>> devicesList = (List<Map<String, Object>>) map.get("devices");
@@ -345,6 +394,16 @@ public class TcpClient extends Thread {
 				List<Map<String, Object>> spotsList = (List<Map<String, Object>>) map2.get("spots");
             	 log.info("DS<--EMH:RealTimeAgent:agent:" + agent.toString());
         		 log.info("DS<--EMH:RealTimeAgent:device:" + device.toString());
+        		 
+        		 SensorBean bean=new SensorBean();
+        		 bean.setBsId(agent.getUuid());
+        		 bean.setDeviceId(device.getUuid());
+        		 bean.setDeviceName(device.getName());
+        		 bean.setStatus(device.isStatus()?1:0);
+        		 bean.setState_alarm(device.getState_alarm());
+        		 EmhService.agentDevice(bean);
+        		 
+        		 
             	 if(spotsList!=null){
             		 Spots spots=new Spots();
                 	 for (Map<String, Object> map3 : spotsList) {
@@ -358,7 +417,8 @@ public class TcpClient extends Thread {
             	
 			 }     
 
-            }
+            }	
+		}
 
 	}
 
@@ -418,10 +478,6 @@ public class TcpClient extends Thread {
 
 	// 發送註冊請求
 	public void sendRegister() {
-		/*
-		 * "account":"dev3", "mcd": { “operate”：1 }, "name":null,
-		 * "password":"abcd1234", "type":2, "usertype":2
-		 */
 		LoginStruct login = new LoginStruct();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("operate", 1);
@@ -445,7 +501,7 @@ public class TcpClient extends Thread {
 				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
 				out.print(jsonstr + "\n");
 				out.flush();
-				TestData();
+				deviceConfig();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 			}
@@ -455,24 +511,13 @@ public class TcpClient extends Thread {
 		}
 	}
 
-	// 测点表数据
-	public void TestData() {
-		/*
-		 * {"type":15,"mcd":{"account":"","errMsg":"",
-		 * "msgsequence":0,"operate":0,"optResult":false,
-		 * "projectId":"","range":"0"},"devices":[]}\n
-		 */
+	// 获取测点设备配置
+	public void deviceConfig() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> mcdMap = new HashMap<String, Object>();
 		map.put("type", 15);
-		/* map.put("devices","[]"); */
-		/* mcdMap.put("account",""); */
 		mcdMap.put("errMsg", "");
-		/* mcdMap.put("msgsequence", 0); */
 		mcdMap.put("operate", 2);
-		/*
-		 * mcdMap.put("optResult", false); mcdMap.put("projectId","");
-		 */
 		mcdMap.put("range", 0);
 		map.put("mcd", mcdMap);
 		String jsonstr = json.Encode(map);
@@ -480,7 +525,41 @@ public class TcpClient extends Thread {
 			PrintWriter out;
 			try {
 				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
-				log.info("DS-->EMH:TestData:" + socket.getInetAddress() + ":"
+				log.info("DS-->EMH:deviceConfig:" + socket.getInetAddress() + ":"
+						+ jsonstr + "\\n");
+				out.print(jsonstr + "\n");
+				out.flush();
+				
+				sleep(100000);
+				searchDeviceValue();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} else {
+			log.info(" socket error!");
+		}
+
+	}
+	/*查询测点设备的值*/
+	public void searchDeviceValue() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> mcdMap = new HashMap<String, Object>();
+		map.put("type", 5);
+		mcdMap.put("errMsg", "");
+		mcdMap.put("optResult", true);
+		mcdMap.put("operate", 2);
+		mcdMap.put("range", 0);
+		map.put("mcd", mcdMap);
+		String jsonstr = json.Encode(map);
+		if (socket.isConnected()) {
+			PrintWriter out;
+			try {
+				out = new PrintWriter(TcpClient.getSocket().getOutputStream());
+				log.info("DS-->EMH:searchDeviceValue:" + socket.getInetAddress() + ":"
 						+ jsonstr + "\\n");
 				out.print(jsonstr + "\n");
 				out.flush();
@@ -623,7 +702,7 @@ class HeartBeat extends TimerTask {
 							.getOutputStream());
 					out.print("~IMCP iCore Connection Pulse~\n");
 					out.flush();
-					log.info("DS->EMH:Heart:~IMCP iCore Connection Pulse~");
+					/*log.info("DS->EMH:Heart:~IMCP iCore Connection Pulse~");*/
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

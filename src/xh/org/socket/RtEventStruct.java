@@ -31,6 +31,7 @@ public class RtEventStruct {
 	private int level;
 	private int state_alarm;
 	private String uuid;
+	private String createTime;
 	public String getDescription() {
 		return description;
 	}
@@ -66,6 +67,13 @@ public class RtEventStruct {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	@Override
 	public String toString() {

@@ -37,22 +37,76 @@
 	<!--基站环境监控实时告警 -->
 	<select id="bsEmhNowStatus" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from xhgmnet_emh_sensor_status where warningStatus>0 limit #{start},#{limit}
+		select a.*,b.bsId,b.deviceName,b.singleName,c.name from xhgmnet_emh_sensor_alarm as a 
+		left join xhgmnet_emh_sensor_status as b on a.deviceId=b.deviceId 
+		left join xhgmnet_emh_bsstatus as c on b.bsId=c.uuid 
+		where a.state_alarm &gt;0 and a.state_alarm &lt;7 limit #{start},#{limit}
 	</select>
 	<!--基站环境监控实时告警条目 -->
 	<select id="bsEmhNowStatusCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_emh_sensor_status where warningStatus>0
+		select count(*) from xhgmnet_emh_sensor_alarm where state_alarm &gt;0 and state_alarm &lt;7
 	</select>
 	<!--基站环境监控历史告警 -->
 	<select id="bsEmhOldStatus" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from xhgmnet_emh_sensor_oldstatus  limit #{start},#{limit}
+		select a.*,b.deviceName,b.bsId,b.singleName,c.name from xhgmnet_emh_sensor_alarm as a 
+		left join xhgmnet_emh_sensor_status as b on a.deviceId=b.deviceId 
+		left join xhgmnet_emh_bsstatus as c on b.bsId=c.uuid 
+		where a.state_alarm &gt;6   limit #{start},#{limit}
 	</select>
 	<!--基站环境监控历史告警条目 -->
 	<select id="bsEmhOldStatusCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_emh_sensor_oldstatus
+		select count(*) from xhgmnet_emh_sensor_alarm where state_alarm &gt;6 
 	</select>
-
+	
+	
+	<!--新增测点 -->
+    <insert id="agent" useGeneratedKeys="true" keyProperty="id" parameterType="xh.org.socket.AgentDataStruct">
+      insert into xhgmnet_emh_bsstatus(uuid,name,state_alarm,status)
+      values(#{uuid},#{name},#{state_alarm},#{status})
+    </insert>
+    <!--更新测点 -->
+    <update id="updateAgent" parameterType="xh.org.socket.AgentDataStruct">
+      update xhgmnet_emh_bsstatus set status=#{status},state_alarm=#{state_alarm},name=#{name}
+       where uuid=#{uuid}  
+    </update>
+    <!--测点是否存在 -->
+	<select id="isagent" parameterType="String" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_bsstatus where uuid=#{uuid}
+	</select>
+	<!--新增测点设备 -->
+    <insert id="agentDevice" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.SensorBean">
+      insert into xhgmnet_emh_sensor_status(bsId,deviceId,deviceName,singleName,singleValue,status,state_alarm)
+      values(#{bsId},#{deviceId},#{deviceName},#{singleName},#{singleValue},#{status},#{state_alarm})
+    </insert>
+    <!--更新测点设备 -->
+   <update id="updateAgentDevice" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set deviceName=#{deviceName},status=#{status},state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+    <!--测点设备是否存在 -->
+	<select id="isagentDevice" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_sensor_status where bsId=#{bsId} and deviceId=#{deviceId}
+	</select>
+  <!--更新测点状态信息-->
+    <update id="updateAgentDeviceState" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set status=#{status},state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+  <!--设备实时告警-->
+    <insert id="deviceAlarm" useGeneratedKeys="true" keyProperty="id" parameterType="xh.org.socket.RtEventStruct">
+      insert into xhgmnet_emh_sensor_alarm(deviceid,et,level,state_alarm,description,createTime)
+      values(#{uuid},#{et},#{level},#{state_alarm},#{description},#{createTime})
+    </insert>
+    <!--更新测点设备告警状态 -->
+   <update id="updateDeviceStateAlarm" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+    <!--更新测点设备当前值 -->
+   <update id="updateDeviceValue" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set singleName=#{singleName},singleValue=#{singleValue} 
+      where deviceId=#{deviceId}  
+    </update>     
 </mapper>

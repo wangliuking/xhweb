@@ -165,10 +165,10 @@
 														<th width="50px">#</th>
 														<th width="120px">基站ID</th>
 														<th width="150px">基站名称</th>
+														<th>事件类型</th>
 														<th>告警位置</th>
 														<th>类型</th>
-														<th width="90px">告警值</th>
-														<th width="90px">描述</th>
+														<th width="90px">告警级别</th>
 														<th>更新时间</th>
 													</tr>
 												</thead>
@@ -178,12 +178,27 @@
 													</tr>
 													<tr ng-repeat="x in data">
 														<td>{{$index+1}}</td>
-														<td>{{x.bsId}}</td>
-														<td>123</td>
+														<td>{{123}}</td>
+														<td>{{x.name}}</td>
+														<td ng-if="x.et==1">系统</td>
+														<td ng-if="x.et==2">代理</td>
+														<td ng-if="x.et==3">设备</td>
+														<td ng-if="x.et==4">测点</td>
+														<td ng-if="x.et==5">设备状态变化</td>
+														<td ng-if="x.et==6">代理状态变化</td>
+														<td ng-if="x.et==7">操作日志</td>
 														<td>{{x.deviceName}}</td>
-														<td>{{x.singleName}}</td>
-														<td>{{x.singleValue}}</td>
-														<td>{{x.warningStatus}}</td>
+														<td ng-if="x.state_alarm==1">超上限</td>
+														<td ng-if="x.state_alarm==2">超下限</td>
+														<td ng-if="x.state_alarm==3">临近上限</td>
+														<td ng-if="x.state_alarm==4">临近下限</td>
+														<td ng-if="x.state_alarm==5">数据异常</td>
+														<td ng-if="x.state_alarm==6">测点状态变化</td>
+														<td ng-if="x.state_alarm==7">告警恢复</td>
+														<td ng-if="x.state_alarm==8">代理和设备联机 </td>
+														<td ng-if="x.state_alarm==9">代理和设备脱机 </td>
+														<td ng-if="x.state_alarm==10">文本报警</td>
+														<td>{{x.level}}</td>
 														<td>{{x.updateTime}}</td>
 													</tr>
 												</tbody>
