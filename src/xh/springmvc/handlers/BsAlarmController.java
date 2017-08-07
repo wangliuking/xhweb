@@ -48,12 +48,13 @@ public class BsAlarmController {
 	 * 			3：不限制
 	 * @param response
 	 */
-	@RequestMapping(value="/list",method=RequestMethod.GET)
+	@RequestMapping(value="/list")
 	@ResponseBody
 	public void selectAllBsAlarm(HttpServletRequest request, HttpServletResponse response){
 		HashMap result = new HashMap();
 		BsAlarmService bsAlarmService = new BsAlarmService();
 		try {
+			request.setCharacterEncoding("utf-8");
 			String bsId=request.getParameter("bsId");
 			String name=request.getParameter("name");
 			String dealEn=request.getParameter("dealEn");

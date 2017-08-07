@@ -2906,3 +2906,9 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .toggle-switch:disabled+label:before {
 	opacity: .3
 }
+.asset-box{
+	border:1px solid green;
+	height:60px; 
+	margin:10px; 
+	width:130px;
+}

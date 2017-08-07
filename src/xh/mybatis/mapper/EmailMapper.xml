@@ -3,12 +3,12 @@
 <mapper namespace="xh.mybatis.mapper.EmailMapper">
     <!--记录邮件-->    
     <insert id="insertEmail" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.EmailBean">
-      insert into xhgmnet_notify(title,content,recvUser,sendUser)
-      values(#{title},#{content},#{recvUser},#{sendUser})
+      insert into xhgmnet_notify(title,content,recvUser,sendUser,time)
+      values(#{title},#{content},#{recvUser},#{sendUser},#{time})
     </insert>
     <!--查询邮件-->
     <select id="emailInfo" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_notify
+     select * from xhgmnet_notify where recvUser=#{loginUser}
      order by time desc limit #{start},#{limit}
     </select>  
     <!--邮件总数-->
@@ -16,8 +16,8 @@
      select count(*) from xhgmnet_notify
     </select>
     <!--未读邮件总数-->
-    <select id="noReadEmailCount"  resultType="int" useCache="true">
-     select count(*) from xhgmnet_notify where status=0
+    <select id="noReadEmailCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_notify where status=0 and recvUser=#{loginUser}
     </select> 
     <!--标记为已读-->
     <update id="updateById" parameterType="java.util.List">
