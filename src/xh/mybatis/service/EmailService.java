@@ -77,12 +77,12 @@ public class EmailService {
 	 * @param map
 	 * @return
 	 */
-	public static int noReadEmailCount(){
+	public static int noReadEmailCount(Map<String, String> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
 		int count=0;
 		try{
-			count=mapper.noReadEmailCount();
+			count=mapper.noReadEmailCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

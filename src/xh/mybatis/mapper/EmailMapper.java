@@ -34,7 +34,7 @@ public interface EmailMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int noReadEmailCount()throws Exception;
+	public int noReadEmailCount(Map<String, String> map)throws Exception;
 	/**
 	 * 标记已读
 	 * @param list

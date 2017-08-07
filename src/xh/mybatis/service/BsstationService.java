@@ -34,6 +34,24 @@ public class BsstationService {
 		}
 		return list;
 	}
+	/**
+	 * 查询基站断站列表
+	 * @return
+	 */
+	public static List<HashMap<String,Object>>bsOfflineList() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+		try {
+			list = mapper.bsOfflineList();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	/**
 	 * 基站总数

@@ -1,11 +1,16 @@
 package xh.org.socket;
 
+import xh.func.plugin.Base64Util;
+import cn.com.scca.signgw.api.SccaGwSDK;
+
 public class test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("point->"
-				+ tt("{a:1,b:2,c:{ab:1,ac:2}}{a:1,b:2,c:{ab:1,ac:2}}{a:1"));
+		System.out.println(Base64Util.decode("MTIzM2RmZHNnc2Rnc2dzZ3NkZ2dzMjMy"));
+		
+		
 	}
+	
 
 	public static String tt(String str) {
 		int lastPos = 0;

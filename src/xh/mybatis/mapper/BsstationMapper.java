@@ -16,6 +16,13 @@ public interface BsstationMapper {
 	public List<BsstationBean> bsInfo(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 查询基站断站列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String,Object>> bsOfflineList() throws Exception;
+	
+	/**
 	 * 基站总数
 	 * @return
 	 * @throws Exception

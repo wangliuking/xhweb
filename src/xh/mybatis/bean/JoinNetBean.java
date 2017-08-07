@@ -36,6 +36,15 @@ public class JoinNetBean {
 	private String note4;
 	private String fileName;
 	private String filePath;
+	
+	//指定审核入网申请的主管部门领导
+	private String user_MainManager;
+	public String getUser_MainManager() {
+		return user_MainManager;
+	}
+	public void setUser_MainManager(String user_MainManager) {
+		this.user_MainManager = user_MainManager;
+	}
 	public int getId() {
 		return id;
 	}

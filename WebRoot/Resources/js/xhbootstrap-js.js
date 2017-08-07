@@ -12,7 +12,7 @@
 	document.write('<script type="text/javascript" src="'+path+'lib/sweetalert/lib/sweet-alert.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'lib/toastr/build/toastr.min.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'Resources/js/paging.js"></script>');
-	document.write('<script type="text/javascript" src="'+path+'lib/My97DatePicker/WdatePicker.js"></script>');	
+	document.write('<script type="text/javascript" src="'+path+'lib/My97DatePicker/WdatePicker.js"></script>');
 })()
 function rootPath(){
 	 var scripts = document.getElementsByTagName('script'),

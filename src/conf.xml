@@ -20,5 +20,9 @@
 <wav>
   <path>D:/wav</path>
 </wav>
+<ca>
+  <ip>125.69.77.63</ip>
+  <port>6080</port>
+</ca>
 
 </config>

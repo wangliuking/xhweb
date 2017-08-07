@@ -2,6 +2,7 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 $(document).ready(function() {
+	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
@@ -405,4 +406,20 @@ xh.tableColor=function(o,a,b,c,d){
 	  }
 	 }
 	}
-
+xh.initCertList=function(){
+	try {
+		var certs = CertStore.listAllCerts().forSign(); //过滤签名证书
+		if (certs.size() > 0) {
+			
+		} else {
+			alert("数字证书不存在");
+			/*window.location.href="../../web/loginOut";*/
+		}
+	} catch (e) {
+		if (e instanceof TCACErr) {
+			alert(e.toStr());
+		} else {
+			alert("Here is JS Error !!!");
+		}
+	}
+}

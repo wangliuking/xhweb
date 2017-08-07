@@ -41,6 +41,11 @@
 		</if>
 		order by createTime desc limit #{start},#{limit}
 	</select>
+	<!--按资产状态统计-->
+	<select id="allAssetStatus" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select status,count(status) as number from xhgmnet_business_assetinfo  group by status
+	</select>
 	<!--查询资产记录总数 -->
 	<select id="assetInfoCount" parameterType="map" resultType="int"
 		useCache="true">
