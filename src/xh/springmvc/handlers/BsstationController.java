@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,6 +210,110 @@ public class BsstationController {
 		
 	}
 	/**
+	 * 根据所选区域查询所有基站信息
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/bsByArea")
+	@ResponseBody
+	public void bsByArea(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			BsstationService bsStationService = new BsstationService();
+			String temp = request.getParameter("zone");			
+			byte[] b=temp.getBytes("ISO-8859-1");
+			String test=new String(b,"utf-8");
+			String[] zonetemp = test.split(",");
+			List<String> zone = Arrays.asList(zonetemp);
+			List<HashMap<String, String>> listMap = bsStationService.bsByArea(zone);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据所选级别查询所有基站信息
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/bsByLevel")
+	@ResponseBody
+	public void bsByLevel(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			BsstationService bsStationService = new BsstationService();
+			String temp = request.getParameter("level");
+			byte[] b=temp.getBytes("ISO-8859-1");
+			String level=new String(b,"utf-8");
+			List<HashMap<String, String>> listMap = bsStationService.bsByLevel(level);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询基站区域信息
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/area")
+	@ResponseBody
+	public void selectAllArea(HttpServletRequest request, HttpServletResponse response){
+		HashMap map = new HashMap();
+		BsstationService bsStationService = new BsstationService();
+		try {
+			List<HashMap<String, String>> listMap = bsStationService.selectAllArea();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询基站级别信息
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/level")
+	@ResponseBody
+	public void selectLevel(HttpServletRequest request, HttpServletResponse response){
+		HashMap map = new HashMap();
+		BsstationService bsStationService = new BsstationService();
+		try {
+			List<HashMap<String, String>> listMap = bsStationService.selectLevel();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * 查询所有基站信息，用于首页显示
 	 * @author wlk
 	 * @param request
@@ -262,6 +368,88 @@ public class BsstationController {
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.write(dataById);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询top5话务量
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/top5Calllist")
+	@ResponseBody
+	public void selectCalllist(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			Calendar cal = Calendar.getInstance();
+			int temp = cal.get(Calendar.MONTH)+1;
+			String currentMonth;
+			if(temp<10){
+				currentMonth="0"+temp;
+			}else{
+				currentMonth=Integer.toString(temp);
+			}
+			currentMonth="xhgmnet_calllist"+currentMonth;
+			HashMap map = new HashMap();
+			BsstationService bsStationService = new BsstationService();
+			List<HashMap<String, String>> listMap = bsStationService.selectCalllist(currentMonth);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询top5排队数
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/top5Channel")
+	@ResponseBody
+	public void selectChannel(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			BsstationService bsStationService = new BsstationService();
+			List<HashMap<String, String>> listMap = bsStationService.selectChannel();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	/**
+	 * 查询路测数据
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/roadtest")
+	@ResponseBody
+	public void selectRoadTest(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			BsstationService bsStationService = new BsstationService();
+			List<HashMap<String, String>> listMap = bsStationService.selectRoadTest();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
