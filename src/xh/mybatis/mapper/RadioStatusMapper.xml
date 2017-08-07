@@ -2,25 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.RadioStatusMapper">
 
-
-<!-- 自定义返回结果集 -->
-   <resultMap id="RadioStatusMap" type="xh.mybatis.bean.RadioStatusBean">
-        <id property="mscId" column="mscId" javaType="java.lang.Integer"></id>
-        <result property="bsId" column="bsId" javaType="java.lang.Integer"></result>
-        <result property="onlineStatus" column="onlineStatus" javaType="java.lang.Integer"></result>
-        <result property="talkStatus" column="talkStatus" javaType="java.lang.Integer"></result>
-        <result property="talkGroupId" column="talkGroupId" javaType="java.lang.Integer"></result>
-        <result property="sysTag" column="sysTag" javaType="java.lang.Integer"></result>
-        <result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
-    </resultMap>
- 
-
-   
-    <!--查询所有-->
-    <select id="selectAllRadioStatus" resultType="java.util.HashMap" useCache="true">
-     select mscId,onlineStatus,talkStatus,updateTime from xhgmnet_radio_status
+    <!--查询基站下的注册终端列表-->
+    <select id="oneBsRadio" parameterType="map" resultType="java.util.HashMap" useCache="true" >
+     select userId,bsId from xhgmnet_operations_userstatus where bsId=#{bsId} limit #{start},#{limit}
     </select>
-
-    
-    
+   <!--查询基站下的注册终端总数-->
+    <select id="oneBsRadioCount" parameterType="int" resultType="int" useCache="true" >
+     select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId}
+    </select> 
 </mapper>

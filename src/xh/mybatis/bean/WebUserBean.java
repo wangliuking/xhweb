@@ -9,6 +9,7 @@ public class WebUserBean {
 	private String userName;
 	private String sex;
 	private String tel;
+	private int status;
 	private String createTime;
 	
 	
@@ -77,6 +78,16 @@ public class WebUserBean {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	
 	
 	
 

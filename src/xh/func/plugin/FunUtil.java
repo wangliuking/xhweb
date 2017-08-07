@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -49,6 +50,7 @@ public class FunUtil {
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 			log.info("操作日志写入失败，系统未登录");
+			log.error(e.getMessage(),e);
 		}
 		return user;
 		
@@ -169,8 +171,8 @@ public class FunUtil {
 		try {
 			File f = new File(fileName);
 			if (!f.exists()) {
-				System.out.println("  Error : Config file doesn't exist!");
-				System.exit(1);
+				log.info("  Error : Config file doesn't exist!");
+				
 			}
 			SAXReader reader = new SAXReader();
 			Document doc;
@@ -217,9 +219,26 @@ public class FunUtil {
 		} catch (NumberFormatException e) {
 			// TODO: handle exception
 			log.info("数字字符串解析失败");
+			log.error(e.getMessage(),e);
 		}catch (NullPointerException e) {
 			// TODO: handle exception
 			log.info("数字字符串为空");
+			log.error(e.getMessage(),e);
+		}
+		return value;
+	}
+	public float StringToFloat(String str){
+		float value=-1;
+		try {
+			value= Float.parseFloat(str.trim());
+		} catch (NumberFormatException e) {
+			// TODO: handle exception
+			log.info("数字字符串解析失败");
+			log.error(e.getMessage(),e);
+		}catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("数字字符串为空");
+			log.error(e.getMessage(),e);
 		}
 		return value;
 	}
@@ -281,6 +300,7 @@ public class FunUtil {
 		}
 		return result;
 	}
+
 	//判断是否为数字字符串
 	public boolean isInteger(String str) {  
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  

@@ -1,5 +1,6 @@
 <!-- 系统头部 -->
 <div id="header" role="navigation" class="header-style">
+<div class="color-line"></div>
 	<div id="logo">
 		<ul class="small-logo">
 			<li><img alt="" src="../../Resources/images/img/log.png"
@@ -11,35 +12,27 @@
 	<nav role="navigation">
 		<div class="font-white">
 			<ul class="navbar-right">
-				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					data-toggle="dropdown" href="#"> <i
+				<li class="dropdown" style="padding: 10px 8px 1px 15px;">
+				<a href="../../Views/operations/email.html" target="_self"><i
 						class="fa fa-envelope-o fa-x font-white"></i> <span
-						class="badge badge-header badge-danger" id="emailcount"></span>
+						class="badge badge-header badge-danger" id="emailcount">0</span>
 				</a>
-					<div class="dropdown-menu animated bounceInUp border-top-white">
-						<span class="arrow-top"></span>
-						<div style="color:#000">wwwwfsdgdsgsdsvseeeeeed123</div>
-					</div></li>
+					
+				</li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					data-toggle="dropdown" href="#"> <i
+					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
 						class="fa fa-bell-o fa-x font-white"></i> <span
-						class="badge badge-header badge-warning"> 10</span>
-				</a>
-					<div class="dropdown-menu animated bounceInUp">123</div></li>
-				<!-- <li class="dropdown><i class=" fa fa-user fa-2x" aria-hidden="true"></i>
-					<a href="#" data-toggle="dropdown"> <i
-						class="fa fa-user fa-x font-white"></i><b class="caret font-white"></b>
-				</a>
-					<div class="dropdown-menu animated flipInX m-t-xs border-top-white">
-						<span class="arrow-top"></span>
-						<ul style="width:100%; margin:0;padding:0">
-							<li><i class="fa fa-user fa-x font-black"></i>&nbsp;<a
-								href="contacts.html">修改个人资料</a></li>
-							<li class="divider"></li>
-							<li><i class="fa fa-user fa-x font-black"></i>&nbsp; <a
-								href="login.html">退出系统</a></li>
-						</ul>
-					</div></li> -->
+						class="badge badge-header badge-warning" id="alarmcount"> 0</span>
+				</a> <!-- animated flipInX -->
+				
+					<ul class="dropdown-menu hdropdown notification animated flipInX" id="ul-alarm">
+                        
+                        <li class="summary">
+                        <a href="#" onclick="stopMap3()" ><i class="fa fa-bell-slash-o"></i>解除声音</a>
+                        </li>
+                        
+                    </ul>
+
 				<li class="member-center">
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
@@ -74,7 +67,7 @@
 					class="fa fa-sitemap"></i>&nbsp;|系统状态</a>
 				<div class="dropdown-menu animated flipInX" style="padding-left:20px;">
 					<p>
-						<a href="../../test.html" target="_self">GIS地图</a>
+						<a href="../../index.html" target="_self">GIS地图</a>
 					</p>
 					<p>
 						<a href="" target="_self">数据图形统计</a>
@@ -102,6 +95,10 @@
 		</ul>
 	</nav>
 </div>
+<audio id="bgMusic" loop="loop">
+    <source  src="../../Resources/sound/alarm.mp3" type="audio/mp3">
+    <source  src="../../Resources/sound/alarm.ogg" type="audio/ogg">
+</audio>
 <script type="text/javascript">
 	var user = "";
 	var roleId = 0;
@@ -129,7 +126,7 @@
 		error : function() {
 		}
 	});
-/* 	邮件 */
+    /* 	邮件 */
 	$.ajax({
 		url : '../../center/email/noReadEmailCount',
 		type : 'GET',
@@ -144,4 +141,38 @@
 		error : function() {
 		}
 	});
+	 /*基站告警信息*/
+	$.ajax({
+		url : '../../bs/alarmList',
+		type : 'GET',
+		dataType : "json",
+		data : {},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				$("#alarmcount").html(data.totals);
+				var list=data.items;
+				for(var i=0;i<data.totals;i++){
+					
+					$("#ul-alarm").prepend("<li><span class='label label-danger' style='color:#fff;font-size:5pt'>new</span><span>["+list[i].bsId+"号]"+list[i].name+"链路中断</span></li>");
+				
+				}
+				
+			}
+		},
+		error : function() {
+		}
+	});
+function playMap3(){
+	var audio = document.getElementById("bgMusic");
+	//重新播放
+	audio.currentTime = 0;
+	audio.play();
+}
+function stopMap3(){
+	var audio = document.getElementById("bgMusic");
+	//停止
+	audio.pause();
+	audio.currentTime = 0;
+}
 </script>

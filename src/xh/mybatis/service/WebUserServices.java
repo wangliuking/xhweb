@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,26 +35,23 @@ public class WebUserServices {
 	 * @param root
 	 * @return
 	 */
-	public static ArrayList<WebUserBean> selectUserByRootAndPass(String root,String userPass){
+	public static Map<String,Object>selectUserByRootAndPass(String root,String userPass){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
-		WebUserBean bean=new WebUserBean();
-		ArrayList<WebUserBean> list=new ArrayList<WebUserBean>();
-		bean.setUser(root);
-		bean.setUserPass(userPass);
+
+		Map<String,Object> map=new HashMap<String, Object>();
+		Map<String,Object> map2=new HashMap<String, Object>();
+		/*bean.setUser(root);
+		bean.setUserPass(userPass);*/
+		map.put("user", root);map.put("userPass", userPass);
 		try {
-			bean=mapper.selectUserByUserAndPass(bean);
-			//sqlSession.commit();
-			if (bean!=null) {
-				list.add(bean);
-			}
-			
+			map2=mapper.selectUserByUserAndPass(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return  list;
+		return  map2;
 		
 		
 	}
@@ -187,6 +185,25 @@ public class WebUserServices {
 		int result=-1;
 		try {
 			result=mapper.deleteByUserId(list);
+			sqlSession.commit();		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 启用，禁用账号
+	 * @param map
+	 * @return
+	 */
+	public static int lockUser(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.lockUser(map);
 			sqlSession.commit();		
 			sqlSession.close();
 		} catch (Exception e) {

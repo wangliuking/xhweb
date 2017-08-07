@@ -12,26 +12,26 @@ toastr.options = {
 		"hideDuration" : "1000",
 		/* 消失时间 */
 		"timeOut" : "1000",
-		"extendedTimeOut" : "1000",
+		"extendedTimeOut" : "2000",
 		"showMethod" : "fadeIn",
 		"hideMethod" : "fadeOut",
 		"progressBar" : true,
 };
 /* 登录系统 */
 xh.login = function() {
-	$("#login-btn").val("登录中。。。");
+	
 	$("#login-btn").toggleClass("disabled");
 	$.ajax({
 		url : '../web/login',
-		type : 'post',
+		type : 'GET',
 		dataType : "json",
 		data : $("#loginForm").serializeArray(),
 		async : false,
 		success : function(data) {
 			if (data.success) {
-				window.location.href = "operations/userstatus.html";
+				window.location.href = "../index.html";
 			} else {
-				toastr.error("用户名或者密码错误!", '提示');
+				toastr.error(data.message, '提示');
 				/*swal({
 					title : "提示",
 					text : "用户名或者密码错误!",
@@ -42,7 +42,7 @@ xh.login = function() {
 			}
 		},
 		error : function() {
-			toastr.error("用户名或者密码错误!", '提示');
+			toastr.error("登录超时", '提示');
 			$("#login-btn").val("登录");
 			$("#login-btn").toggleClass("disabled");
 

@@ -1,0 +1,102 @@
+
+<div class="modal fade" id="bsAlarmDetails" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">告警详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>基站ID</label><input type="text" value=""
+								class="form-control" name="bsId" ng-model="bsAlarmData.bsId"
+								readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>基站名称</label><input type="text" value=""
+								class="form-control" name="bsName" ng-value="bsAlarmData.name"
+								readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>基站等级</label><input type="text" value=""
+								class="form-control" name="bsLevel"
+								ng-value="bsAlarmData.bsLevel" readonly="readonly">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>故障来源</label><input type="text" value=""
+								class="form-control" name="source" ng-model="bsAlarmData.source"
+								readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>故障等级</label><input type="text" value=""
+								class="form-control" name="level" ng-model="bsAlarmData.level"
+								readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group col-md-12">
+							<label>故障类别</label><input type="text" value=""
+								class="form-control" name="type" ng-model="bsAlarmData.type"
+								readonly="readonly">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>故障原因</label>&nbsp;<span class="text-info"></span>
+							<textarea
+								style="width: 560px; height: 200px; max-width: 560px; max-height: 260px;"
+								ng-model="bsAlarmData.reason" name="note" readonly="readonly"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6" ng-if="bsAlarmData.status==1">
+						<div class="form-group col-md-12">
+							<label>故障确认时间</label>&nbsp;<span class="text-info">[*]</span> <input
+								class="form-control" type="text" name="writeTime" id="writeTime"
+								ng-model="bsAlarmData.writeTime" readonly="readonly" />
+						</div>
+					</div>
+					<div class="col-md-6" ng-if="bsAlarmData.dealEn==1">
+						<div class="form-group col-md-12">
+							<label>故障恢复时间</label>&nbsp;<span class="text-info">[*]</span> <input
+								class="form-control" type="text" name="recoveryTime"
+								id="recoveryTime" ng-model="bsAlarmData.recoveryTime"
+								readonly="readonly" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div>
+	</div>
+</div>
+</div>

@@ -13,7 +13,8 @@
 }
 /* 网页头部 #428bca*/
 #header {
-	background-color: #428bca;
+	
+	background-color: #1874CD;
 	display: block;
 	height: 50px;
 	margin: 0;
@@ -278,7 +279,7 @@ iframe {
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
-	z-index: 100;
+	z-index: 10;
 }
 
 .fixed-sidebar #menu::-webkit-scrollbar {
@@ -302,7 +303,7 @@ iframe {
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;
-	z-index: 100;
+	z-index: 10;
 }
 
 /* 
@@ -315,6 +316,13 @@ iframe {
 	z-index: 1001;
 	bottom: 0;
 	left: 190px;
+	right: 0;
+}
+.normal-footer .footer {
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 0;
 	right: 0;
 }
 .hide-menu #menu{

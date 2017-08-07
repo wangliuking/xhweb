@@ -6,7 +6,7 @@
     <session_prefix>xhgmnet_</session_prefix>
 </web>
 <emh>
-    <ip>127.0.0.1</ip>
+    <ip>192.168.1.7</ip>
     <port>10025</port>
 </emh>
 <gis>
@@ -20,5 +20,9 @@
 <wav>
   <path>D:/wav</path>
 </wav>
+<ca>
+  <ip>125.69.77.63</ip>
+  <port>6080</port>
+</ca>
 
 </config>

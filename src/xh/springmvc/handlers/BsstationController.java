@@ -72,6 +72,24 @@ public class BsstationController {
 		}
 		
 	}
+	@RequestMapping(value="/alarmList",method = RequestMethod.GET)
+	public void bsOfflineList(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		List<HashMap<String,Object>> list=BsstationService.bsOfflineList();
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 查询所有基站信息
 	 * @param request

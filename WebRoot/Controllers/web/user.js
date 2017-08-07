@@ -50,6 +50,7 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			window.location.href="user-power.html?user_id="+$scope.editData.userId+"&user="+$scope.editData.user;
 	    };
+	   
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -75,6 +76,56 @@ xh.load = function() {
 			$scope.editData = $scope.data[parseInt(checkVal[0])];
 			$scope.roleId = $scope.editData.roleId.toString();
 
+		};
+		 /*启用账号*/
+	    $scope.unLockUser = function(id) {
+			$scope.editData = $scope.data[id];
+			$.ajax({
+				url : '../../web/user/lock',
+				type : 'post',
+				dataType : "json",
+				data : {
+					userId :id,
+					lock:1
+				},
+				async : false,
+				success : function(data) {
+					if (data.result) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					$scope.refresh();
+				}
+			});
+		};
+		 /*禁用账号*/
+	    $scope.lockUser = function(id) {
+			$scope.editData = $scope.data[id];
+			$.ajax({
+				url : '../../web/user/lock',
+				type : 'post',
+				dataType : "json",
+				data : {
+					userId :id,
+					lock:0
+				},
+				async : false,
+				success : function(data) {
+					if (data.result) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					$scope.refresh();
+				}
+			});
 		};
 		/* 删除用户 */
 		$scope.del = function(id) {

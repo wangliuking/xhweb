@@ -94,12 +94,13 @@
 										<th>姓名</th>
 										<th>电话</th>
 										<th>注册时间</th>
+										<th>状态</th>
 										<th width="150px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="11" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input ng-if="x.roleId!=10000" type="checkbox" name="tb-check"
@@ -111,13 +112,20 @@
 										<td>{{x.userName}}</td>
 										<td>{{x.tel}}</td>
 										<td>{{x.createTime}}</td>
+										<td ng-if="x.status==0"><span class="label arrowed label-sm label-danger">禁用</span></td>
+										<td ng-if="x.status!=0"><span class="label arrowed-in label-sm label-success">启用</span></td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
 											data-target="#edit" ng-if="x.roleId!=10000"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a> <a href="#" ng-click="del(x.userId)" ng-if="x.roleId!=10000">|<i
 												class="fa fa-trash text-success"></i>&nbsp;删除</a>
 												<a href="#"  ng-click="power($index)" ng-if="x.roleId!=10000">|<i
-												class="fa fa-wrench text-success"></i>&nbsp;权限分配</a></td>
+												class="fa fa-wrench text-success"></i>&nbsp;权限分配</a>
+									  <a href="#" ng-if="x.roleId!=10000 && x.status==0" ng-click="unLockUser(x.userId)">|<i
+												class="fa fa-lock text-success"></i>&nbsp;启用</a>
+									<a href="#"  ng-click="lockUser(x.userId)" ng-if="x.roleId!=10000 && x.status==1">|<i
+												class="fa fa-unlock-alt text-success"></i>&nbsp;禁用</a>
+									</td>
 												
 												
 									</tr>

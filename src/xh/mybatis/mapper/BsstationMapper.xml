@@ -79,6 +79,12 @@
 		</foreach>
 		)
 	</delete>
+	<!-- 查询当前断站的基站 -->
+	<select id="bsOfflineList" resultType="java.util.HashMap" useCache="true">
+     select a.bsId,a.status,b.name from xhgmnet_bs_status as a left join xhgmnet_bs_station as b 
+     on a.bsId=b.bsId where a.status=0 order by a.updateTime desc;
+    </select>
+	
     <!--查询所有 wlk-->
     <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
      select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId group by a.bsId
