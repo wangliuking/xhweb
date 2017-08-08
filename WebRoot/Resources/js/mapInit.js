@@ -1,5 +1,5 @@
 var app = angular.module("app", []);
-app.controller("map", function($scope, $http) {
+app.controller("map", function($scope, $http) { 
 	$http.get("bs/map/area").success(
 			function(response) {
 				$scope.data = response.items;

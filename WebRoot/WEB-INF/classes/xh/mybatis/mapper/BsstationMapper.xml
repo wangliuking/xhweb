@@ -127,7 +127,7 @@
 	 select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a 
 	 left join xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id 
      order by num desc limit 0,5
-	</select>
+	</select> 
 	
 	<!-- 首页排队量查询 -->
 	<select id="selectChannel" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
