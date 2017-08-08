@@ -74,7 +74,6 @@ html,body {
 .info_right {
 	width: 380px;
 	height: 60px;
-	border: 1px solid black;
 	position: fixed;
 	top: 80px;
 	right: 0px;
@@ -123,14 +122,14 @@ html,body {
 	<div class="info_right">
 		<div class="info_three">
 			<table class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead id="fixedThead">
+				<thead>
 					<tr class="tr-gray">
-						<th>top</th>
+						<th style="border:1px solid gray;">top</th>
 					</tr>
 				</thead>
 			</table>
-			<table id="" class="xh-table table-hover" style="padding:0;margin:0;">
-				<tbody id="scrollTbody">
+			<table id="table0" class="xh-table table-hover" style="padding:0;margin:0;">
+				<tbody>
 					<tr>
 						<td>1</td>
 					</tr>
@@ -152,42 +151,37 @@ html,body {
 		</div>
 		<div class="info_one">
 			<table class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead id="fixedThead">
+				<thead>
 					<tr class="tr-gray">
-						<th>top</th>
+						<th style="width:70%;border:1px solid gray;">基站</th>
+						<th style="width:30%;border:1px solid gray;">话务量</th>
 					</tr>
 				</thead>
 			</table>
-			<table id="" class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead>
-					<tr class="tr-gray">
-						<th>基站</th>
-						<th>话务量</th>
-					</tr>
-				</thead>
+			<table id="table1" class="xh-table table-hover" style="padding:0;margin:0;">
 				<tbody>
 					<tr ng-repeat="x in top5Calllist">
-						<td><a href="#" ng-click="calllistChoose(x)">{{x.name}}</a></td>
-						<td>{{x.num}}</td>
+						<td style="width:70%;"><a href="#" ng-click="calllistChoose(x)">{{x.name}}</a></td>
+						<td style="width:30%;">{{x.num}}</td>
 					</tr>
+					
 				</tbody>
 			</table>
-			<!-- 	<ul class="nav nav-second-level" ng-repeat="x in top5Calllist">
-	<li>{{x.Call_TS_Id}} {{x.num}}条</li>
-	</ul> -->
 		</div>
 		<div class="info_two">
-			<table id="" class="xh-table table-hover" style="padding:0;margin:0;">
+			<table class="xh-table table-hover" style="padding:0;margin:0;">
 				<thead>
 					<tr class="tr-gray">
-						<th>基站</th>
-						<th>排队数</th>
+						<th style="width:70%;border:1px solid gray;">基站</th>
+						<th style="width:30%;border:1px solid gray;">排队数</th>
 					</tr>
 				</thead>
+			</table>
+			<table id="table2" class="xh-table table-hover" style="padding:0;margin:0;">
 				<tbody>
 					<tr ng-repeat="x in top5Channel">
-						<td><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
-						<td>{{x.sum}}</td>
+						<td style="width:70%;"><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
+						<td style="width:30%;">{{x.sum}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -451,22 +445,7 @@ html,body {
 				}, 300);
 			});
 		});
-
-		//先在table的最后增加一行，然后再把第一行中的数据填充到新增加的行中，最后再删除table的第一行
-		function change(table) {
-			var row = table.insertRow(table.rows.length);//在table的最后增加一行,table.rows.length是表格的总行数
-			for (j = 0; j < table.rows[0].cells.length; j++) {//循环第一行的所有单元格的数据，让其加到最后新加的一行数据中（注意下标是从0开始的）
-				var cell = row.insertCell(j);//给新插入的行中添加单元格
-				cell.height = "19px";//一个单元格的高度，跟css样式中的line-height高度一样
-				cell.innerHTML = table.rows[0].cells[j].innerHTML;//设置新单元格的内容，这个根据需要，自己设置
-			}
-			table.deleteRow(0);//删除table的第一行
-		};
-		function tableInterval() {
-			var table = document.getElementById("tb-info");//获得表格
-			change(table);//执行表格change函数，删除第一行，最后增加一行，类似行滚动
-		};
-		setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
+		
 	</script>
 
 </body>

@@ -81,7 +81,7 @@
 	</delete>
 	<!--根据区域信息查询所有基站wlk-->
     <select id="bsByArea" resultType="java.util.HashMap" parameterType="java.util.List" useCache="true">
-     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId where a.zone in (
+     select * from xhgmnet_bs_station as a where a.zone in (
      <foreach collection="list" item="z" separator=",">
 			#{z}
 		</foreach>
@@ -89,7 +89,7 @@
     </select>
     <!--根据级别信息查询所有基站wlk-->
     <select id="bsByLevel" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId where a.level=#{level} group by a.bsId 
+     select * from xhgmnet_bs_station as a where a.level=#{level} group by a.bsId 
     </select>
 	<!--查询所有 区域信息wlk-->
     <select id="selectAllArea" resultType="java.util.HashMap" useCache="true">
@@ -101,7 +101,7 @@
     </select>
     <!--查询所有 wlk-->
     <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId group by a.bsId
+     select * from xhgmnet_bs_station as a group by a.bsId
     </select>
 	
 	<!-- 根据id查询对应基站信息 wlk -->
