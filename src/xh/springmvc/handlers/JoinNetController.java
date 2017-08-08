@@ -382,6 +382,10 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("确认编组方案，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
+			
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
+			//----END
 		} else {
 			this.message = "确认编组方案失败";
 		}
