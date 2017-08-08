@@ -19,18 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonObject;
-
-import net.sf.json.JSONObject;
-import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
-import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.JoinNetBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
-import xh.mybatis.service.EmailService;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
@@ -112,8 +106,8 @@ public class JoinNetController {
 	public void insertNet(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
+
 		String jsonData = request.getParameter("formData");
-		
 		JoinNetBean bean = GsonUtil.json2Object(jsonData, JoinNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
@@ -127,10 +121,6 @@ public class JoinNetController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("入网申请信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
-			//----发送通知邮件
-			sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
-			//----END
 		} else {
 			this.message = "入网申请信息提交失败";
 		}
@@ -151,7 +141,7 @@ public class JoinNetController {
 	}
 
 	/**
-	 * 主管部门审核
+	 * 管理方审核
 	 * 
 	 * @param request
 	 * @param response
@@ -163,7 +153,6 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note1 = request.getParameter("note1");
-		String user = request.getParameter("user");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setChecked(checked);
@@ -180,10 +169,6 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核入网申请，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
-			//----发送通知邮件
-			sendNotify(user, "入网申请信息审核，请管理部门领导审核并移交经办人，上传编组方案。。。", request);
-			//----END
 		} else {
 			this.message = "审核提交失败";
 		}
@@ -204,7 +189,7 @@ public class JoinNetController {
 	}
 
 	/**
-	 * 管理方审核
+	 * 主管部门审核
 	 * 
 	 * @param request
 	 * @param response
@@ -232,10 +217,6 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("通知经办人处理(入网申请)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
-			//----发送通知邮件
-			sendNotify(user3, "入网申请信息审核，请上传编组方案。。。", request);
-			//----END
 		} else {
 			this.message = "通知经办人处理失败";
 		}
@@ -282,10 +263,6 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传编组方案，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
-			//----发送通知邮件
-			sendNotify(user4, "入网申请信息审核，编组方案已上传，内审资源配置技术方案。。。", request);
-			//----END
 		} else {
 			this.message = "上传编组方案失败";
 		}
@@ -316,13 +293,12 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note4 = request.getParameter("note4");
-		String applyUser = request.getParameter("applyUser");
 		JoinNetBean bean = new JoinNetBean();
 		
 		if(checked==1){
 			bean.setChecked(4);
 		}else{
-			bean.setChecked(2);
+			bean.setChecked(3);
 		}
 		bean.setId(id);
 		
@@ -337,10 +313,6 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核编组方案，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
-			//----发送通知邮件
-			sendNotify(applyUser, "入网申请信息审核，编组方案已审核，确认资源配置技术方案。。。", request);
-			//----END
 		} else {
 			this.message = "审核编组方案失败";
 		}
@@ -454,7 +426,6 @@ public class JoinNetController {
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String path = request.getSession().getServletContext().getRealPath("/Resources/upload");
 		String fileName=request.getParameter("fileName");
-		fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
 		 File file = new File(downPath);
@@ -465,7 +436,7 @@ public class JoinNetController {
 		    //设置响应头和客户端保存文件名
 		    response.setCharacterEncoding("utf-8");
 		    response.setContentType("multipart/form-data");
-		    response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), fileName));
+		    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 		    //用于记录以完成的下载的数据量，单位是byte
 		    long downloadedLength = 0l;
 		    try {
@@ -492,21 +463,227 @@ public class JoinNetController {
 	}
 	
 	/**
-	 * 发送邮件
-	 * @param recvUser	邮件接收者
-	 * @param content	邮件内容
+	 * 用户签署协议
 	 * @param request
+	 * @param response
 	 */
-	public void sendNotify(String recvUser,String content,HttpServletRequest request){
-		//----发送通知邮件
-		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("入网申请");
-		emailBean.setRecvUser(recvUser);
-		emailBean.setSendUser(funUtil.loginUser(request));
-		emailBean.setContent(content);
-		emailBean.setTime(funUtil.nowDate());
-		EmailService.insertEmail(emailBean);
-		//----END
+	@RequestMapping(value = "/signFile", method = RequestMethod.POST)
+	public void signFile(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		//String note4 = request.getParameter("note4");
+		JoinNetBean bean = new JoinNetBean();
+		
+		if(checked==5){
+			bean.setChecked(5);
+		}else{
+			//bean.setChecked(3);
+		}
+		bean.setId(id);
+		
+//		bean.setTime4(funUtil.nowDate());
+//		bean.setNote4(note4);
+
+		int rst = JoinNetService.signFile(bean);
+		if (rst == 1) {
+			this.message = "签署协议";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("签署协议，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "签署协议失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 经办人确认编组编组方案
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkFileTwo", method = RequestMethod.POST)
+	public void checkFileTwo(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		//bean.setTime5(funUtil.nowDate());
+		//bean.setChecked(5);
+		
+		int rst = JoinNetService.sureFile(bean);
+		if (rst == 1) {
+			this.message = "确认方案成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认编组方案，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "确认编组方案失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 经办人分发应用
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/application", method = RequestMethod.POST)
+	public void application(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		//bean.setTime5(funUtil.nowDate());
+		//bean.setChecked(5);
+		
+		int rst = JoinNetService.sureFile(bean);
+//		if (rst == 1) {
+//			this.message = "确认方案成功";
+//			webLogBean.setOperator(funUtil.loginUser(request));
+//			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+//			webLogBean.setStyle(5);
+//			webLogBean.setContent("确认编组方案，data=" + bean.toString());
+//			WebLogService.writeLog(webLogBean);
+//		} else {
+//			this.message = "确认编组方案失败";
+//		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 服务提供方实施应用接入
+	 */
+	@RequestMapping(value = "/getAppliaction", method = RequestMethod.POST)
+	public void getApplication(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		//bean.setTime5(funUtil.nowDate());
+		//bean.setChecked(5);
+		
+		int rst = JoinNetService.sureFile(bean);
+		if (rst == 1) {
+			this.message = "应用分配成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认应用分配，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "应用分配失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 经办人报备
+	 */
+	@RequestMapping(value = "/postNet", method = RequestMethod.POST)
+	public void postNet(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		int rst = JoinNetService.sureFile(bean);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 主管部门备案
+	 */
+	@RequestMapping(value = "/saveNet", method = RequestMethod.POST)
+	public void savaNet(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		int rst = JoinNetService.sureFile(bean);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
+
+
