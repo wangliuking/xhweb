@@ -116,12 +116,13 @@
 										<td>{{x.serviceType}}</td>
 										<td>{{x.netBasis}}</td>
 										<td>{{x.nettime}}</td>
+										<td ng-if="x.checked==-1" class="td-warning">审核被拒绝</td>
 										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
 										<td ng-if="x.checked==1" class="td-danger">正在审核中</td>
 										<td ng-if="x.checked==2" class="td-danger">等待经办人提交编组方案</td>
 										<td ng-if="x.checked==3" class="td-danger">正在审核编组方案</td>
 										<td ng-if="x.checked==4" class="td-danger">请用户确认编组方案</td>
-										<td ng-if="x.checked==5" class="td-success">审核通过</td>
+										<td ng-if="x.checked==5" class="td-warning">审核通过，等待经办人签署协议</td>
 										
 										<td style="text-align:center">										
 										
@@ -144,7 +145,7 @@
 
 										<a class="text-danger"
 											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==4"
-											href="#" ng-click="sureFile (x.id)">|<i
+											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a></td>
 									</tr>
 								</tbody>

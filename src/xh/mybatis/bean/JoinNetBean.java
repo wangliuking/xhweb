@@ -36,7 +36,15 @@ public class JoinNetBean {
 	private String note4;
 	private String fileName;
 	private String filePath;
-	private String signFile;
+	
+	//指定审核入网申请的主管部门领导
+	private String user_MainManager;
+	public String getUser_MainManager() {
+		return user_MainManager;
+	}
+	public void setUser_MainManager(String user_MainManager) {
+		this.user_MainManager = user_MainManager;
+	}
 	public int getId() {
 		return id;
 	}
@@ -246,12 +254,6 @@ public class JoinNetBean {
 	public void setTime5(String time5) {
 		this.time5 = time5;
 	}
-	public String getsignFile() {
-		return signFile;
-	}
-	public void setsignFile(String signFile) {
-		this.signFile = signFile;
-	}
 	@Override
 	public String toString() {
 		return "JoinNetBean [id=" + id + ", unitName=" + unitName
@@ -268,7 +270,7 @@ public class JoinNetBean {
 				+ time2 + ", time3=" + time3 + ", time4=" + time4 + ", time5="
 				+ time5 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
 				+ note3 + ", note4=" + note4 + ", fileName=" + fileName
-				+ ", filePath=" + filePath + ",signFile=" + signFile +",]";
+				+ ", filePath=" + filePath + "]";
 	}
 	
 	

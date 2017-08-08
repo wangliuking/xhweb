@@ -62,6 +62,15 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
+		/*获取主管部门领导列表*/
+		$http.get("../../web/user/getUserList?roleId=10001").
+		success(function(response){
+			$scope.userData_MainManager = response.items;
+			$scope.userTotals_MainManager = response.totals;
+			if($scope.userTotals_MainManager > 0){
+				$scope.user_M=$scope.userData_MainManager[0].user;
+			}
+		});
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -80,10 +89,16 @@ xh.load = function() {
 			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
 	    };
+	    /* 显示协议签署窗口  */
+	    $scope.checkSign = function (id) {
+	    	$("#registerForm").modal('show');
+	    };
+	    
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
-			$http.get("../../web/user/userlist10002").
+			//$http.get("../../web/user/userlist10002").
+			$http.get("../../web/user/getUserList?roleId=10002").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -103,30 +118,14 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user4 && $scope.checkData.checked==3){
 				$("#checkWin4").modal('show');
 			}
-			
-	    };
-	  	/*显示签售协议*/
-	    $scope.checkSign = function (id){
-	    	$scope.checkData = $scope.data[id];
-	    	$http.get("../../web/user/userlist10002").
-	    	success(function(response){
-	    		$scope.userData = response.items;
-	    		$scope.userTotals = response.totals;
-	    		if($scope.userTotals>0){
-	    			$scope.user=$scope.userData[0].user;
-	    		}
-	    	});
-			if($scope.loginUserRoleId = 10002 && $scope.checkData.checked==5){
-				$("#registerForm").modal('show');
+			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user4 && $scope.checkData.checked==3){
+				$("#checkWin4").modal('show');
 			}
-			if($scope.loginUserRoleId = 1000 && $scope.checkData.checked==5){
-				$("#registerForm").modal('show');
+			if($scope.loginUser==$scope.checkData.userName && $scope.loginUserRoleId==1000 && $scope.checkData.checked==4){
+				$("#checkWin5").modal('show');
 			}
-
 	    };
-	    /* 用户确认协议*/
-	    
-	    /* 用户确认编组方案 */
+	    /* 用户确认编组方案 
 	    $scope.sureFile = function(id) {
 	    	$.ajax({
 	    		url : '../../net/sureFile',
@@ -146,7 +145,7 @@ xh.load = function() {
 	    		error : function(){
 	    		}
 	    	});
-	    };
+	    };*/
 		/* 显示修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -395,52 +394,29 @@ xh.check4 = function() {
 		}
 	});
 };
-/*签署协议*/
-xh.sign1 = function(){
+/*用户审核编组方案*/
+xh.check5 = function() {
 	$.ajax({
-		url  : '../../net/signFile',
-		type : 'POST',
-		dataType: "json",
-		async : true,
-		data : $("checkForm1").serializeArray(),
-		success : function(data){
-			if(data.result == 1){
-				$('#checkSign1').modal('hide');
-				xh.refresh();
-				toastr.success(data.message,'提示');
-			}else{
-				toastr.error(data.message,'提示');
-			}
-		},
-		error: function(){
-
-		}
-	});
-}
-
-/*经办方签署协议*/
-xh.sign2 = function(){
-	$,ajax({
-		url  : '../../net/signFileTwo',
+		url : '../../net/sureFile',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data : $("checkForm2").serializeArray(),
-		success : function(data){
-			if(data.result == 1){
-				$('#checkSign1').modal('hide');
+		data:$("#checkForm5").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin5').modal('hide');
 				xh.refresh();
-				toastr.success(data.message,'提示');
-			}else{
-				toastr.error(data.message,'提示');
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
 			}
 		},
-		error: function(){
-
+		error : function() {
 		}
 	});
-}
-
+};
 /*上传文件*/
 xh.upload = function() {
 	if($("input[type='file']").val()==""){

@@ -76,7 +76,7 @@ public class BsAlarmController {
 			 */
 			System.out.println("--输入的状态值-->" + dealEn);
 			System.out.println("--输入的条件值-->" + name);
-			//System.out.println("--查询到的数据-->" + list.size());
+			System.out.println("--查询到的数据-->" + list.size());
 			/**
 			 * -------end----------
 			 */
