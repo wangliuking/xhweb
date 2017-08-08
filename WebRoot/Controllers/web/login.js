@@ -19,11 +19,11 @@ toastr.options = {
 };
 /* 登录系统 */
 xh.login = function() {
-	$("#login-btn").val("登录中。。。");
+	
 	$("#login-btn").toggleClass("disabled");
 	$.ajax({
 		url : '../web/login',
-		type : 'post',
+		type : 'GET',
 		dataType : "json",
 		data : $("#loginForm").serializeArray(),
 		async : false,

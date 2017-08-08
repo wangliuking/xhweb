@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>环监告警</title>
+<title>环控告警</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,7 +18,7 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="user"
+<body ng-app="app" ng-controller="xhcontroller"
 	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
 	<!-- splash screen-->
 	<div class="splash">
@@ -37,7 +37,7 @@
 	<!-- 头部文件 -->
 	<div ng-include="'../top.html'"></div>
 	<!-- 系统菜单 -->
-	<div ng-include="'../menu/security-menu.html'"></div>
+	<div ng-include="'../menu/monitor-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -47,153 +47,208 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li><span>故障管理</span></li>
-							<li class="active"><span>环监告警</span></li>
+							<li><span>实时监测</span></li>
+							<li><span>环控告警</span></li>
+							<li class="active"><span>当前告警记录</span></li>
 						</ol>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="content animate-panel">
-			<!-- row -->
+
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-							<!-- row -->
-							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label for="caller">操作用户</label>
-										<div>
-											<input type="text" class="form-control" id="user"
-												placeholder="登录用户" width="20px">
+							<ul class="mailbox-list" style="height:200px;">
+								<li class="active" style="margin-bottom:10px;"><a href="emhAlarm.html" target="_self"><i
+										class="fa fa-exclamation-circle text-danger"></i>当前告警记录</a></li>
+
+								<li><a href="emhOldAlarm.html" target="_self"><i
+										class="fa fa-exclamation-circle text-warning"></i>历史告警记录</a></li>
+
+							</ul>
+						</div>
+
+					</div>
+				</div>
+				<!-- col-md-3 -->
+				<div class="col-md-10">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="hpanel">
+										<!-- <div class="panel-title title-primary">
+							<i class="fa fa-filter text-danger"></i>&nbsp;<span>筛选</span>
+						</div> -->
+										<div class="panel-body">
+											<div id="search-div">
+												<form class="form-inline" role="form">
+
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="temp" class="toggle-switch" type="checkbox"
+																	ng-checked="true"> <label for="temp"></label>
+															</div>
+															温湿度
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="ups" class="toggle-switch" type="checkbox"
+																	ng-checked="true"> <label for="ups"></label>
+															</div>
+															UPS
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="i" class="toggle-switch" type="checkbox"
+																	ng-checked="true"> <label for="i"></label>
+															</div>
+															电流
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="v" class="toggle-switch" type="checkbox"
+																	ng-checked="true"> <label for="v"></label>
+															</div>
+															电压
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="airc" class="toggle-switch" type="checkbox"
+																	ng-checked="true"> <label for="airc"></label>
+															</div>
+															空调
+														</div>
+													</div>
+													<div class="form-group">
+														<div class="col-sm-offset-2" style="padding-top:5px">
+															<button type="submit" class="btn btn-sm btn-danger"
+																ng-click="refresh()">
+																<i class="fa fa-search"></i>&nbsp;&nbsp;筛选
+															</button>
+														</div>
+													</div>
+												</form>
+											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<label for="called">日志类型</label>
-										<div>
-											<select id="type" class="form-control">
-												<option value="0" selected="selected">=不限制操作=</option>
-												<option value="1">添加数据操作</option>
-												<option value="2">修改数据操作</option>
-												<option value="3">删除数据操作</option>
-												<option value="4">其他操作</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="starttime">起始时间</label>
-										<div>
-											<input type="text" class="form-control" id="starttime"
-												placeholder="起始时间" ng-model="starttime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="endtime">结束时间</label>
-										<div>
-											<input type="text" class="form-control" id="endtime"
-												placeholder="结束时间" ng-model="endtime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button type="submit" class="btn btn-sm btn-success"
-												ng-click="refresh()">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
-											</button>
-										</div>
-									</div>
-								</form>
-							</div>
-							<!-- row -->
-							<table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th>
-										<th width="180px">时间</th>
-										<th width="150px">日志类型</th>
-										<th width="130px">操作员</th>
-										<th width="100px">操作IP</th>
-										<th>操作详情</th>
-										<!-- <th width="150px">操作</th> -->
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td>
-										<td>{{x.createTime}}</td>
-										<!-- <td>{{x.style}}</td> -->
-										<td ng-if="x.style==1"><span
-											class="label  label-sm label-success"><i
-												class="fa fa-plus"></i>添加数据</span></td>
-										<td ng-if="x.style==2"><span
-											class="label  label-sm label-info"><i
-												class="fa fa-edit"></i>修改数据</span></td>
-										<td ng-if="x.style==3"><span
-											class="label  label-sm label-danger"><i
-												class="fa fa-trash"></i>删除数据</span></td>
-										<td ng-if="x.style==4"><span
-											class="label  label-sm label-default"> <i
-												class="fa fa-star"></i>其他操作
-										</span></td>
-										<td>{{x.operator}}</td>
-										<td>{{x.operatorIp}}</td>
-										<td >{{x.content}}</td>
-										<!-- <td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"
-											data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改
-										</a>| <a href="#" ng-click="del(x.userId)"><i
-												class="fa fa-trash text-success"></i>&nbsp;删除</a></td> -->
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="15">15</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
+
 								</div>
-								<div class="page-paging"></div>
 							</div>
+
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-12">
+									<div class="hpanel">
+										<!-- <div class="panel-title btn-success">
+							<span>终端状态统表格统计</span>
+						</div> -->
+										<div class="panel-body">
+											<!-- row -->
+
+											<!-- row -->
+											<table id="tb-info" class="xh-table table-hover">
+												<thead>
+													<tr class="tr-gray">
+														<th width="50px">#</th>
+														<th width="120px">基站ID</th>
+														<th width="150px">基站名称</th>
+														<th>事件类型</th>
+														<th>告警位置</th>
+														<th>类型</th>
+														<th width="90px">告警级别</th>
+														<th>更新时间</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-if="totals==0">
+														<td colspan="8" class="text-center">没有记录！</td>
+													</tr>
+													<tr ng-repeat="x in data">
+														<td>{{$index+1}}</td>
+														<td>{{123}}</td>
+														<td>{{x.name}}</td>
+														<td ng-if="x.et==1">系统</td>
+														<td ng-if="x.et==2">代理</td>
+														<td ng-if="x.et==3">设备</td>
+														<td ng-if="x.et==4">测点</td>
+														<td ng-if="x.et==5">设备状态变化</td>
+														<td ng-if="x.et==6">代理状态变化</td>
+														<td ng-if="x.et==7">操作日志</td>
+														<td>{{x.deviceName}}</td>
+														<td ng-if="x.state_alarm==1">超上限</td>
+														<td ng-if="x.state_alarm==2">超下限</td>
+														<td ng-if="x.state_alarm==3">临近上限</td>
+														<td ng-if="x.state_alarm==4">临近下限</td>
+														<td ng-if="x.state_alarm==5">数据异常</td>
+														<td ng-if="x.state_alarm==6">测点状态变化</td>
+														<td ng-if="x.state_alarm==7">告警恢复</td>
+														<td ng-if="x.state_alarm==8">代理和设备联机 </td>
+														<td ng-if="x.state_alarm==9">代理和设备脱机 </td>
+														<td ng-if="x.state_alarm==10">文本报警</td>
+														<td>{{x.level}}</td>
+														<td>{{x.updateTime}}</td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="page">
+												<div class="page-info">
+													每页显示 <select id="page-limit" ng-change="refresh()"
+														ng-model="count">
+														<option value="20">20</option>
+														<option value="30">30</option>
+														<option value="40">40</option>
+														<option value="50">50</option>
+													</select> 条, <span ng-model="index">显示{{start}}-</span><span
+														ng-model="lastIndex">{{lastIndex}}条,</span> <span
+														ng-model="totals">总计{{totals}}条</span>
+												</div>
+												<div class="page-paging"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- col-md-9 end-->
+							</div>
+							<!-- row/ -->
 						</div>
 					</div>
 				</div>
 			</div>
+			<!--   row--end -->
+
 		</div>
-		<!-- row/ -->
-	</div>
-	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
-	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
-		<i class="fa fa-chevron-circle-up fa-3x"></i>
-	</div>
-	<!-- 添加用户 -->
-	<div ng-include="'user-add.html'"></div>
-	<!-- 编辑基用户-->
-	<div ng-include="'user-edit.html'"></div>
-	<script type="text/javascript"
-		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../Controllers/operations/emhAlarm.js"></script>
-	<script type="text/javascript">
-		xh.load();
-	</script>
+		<!-- 中间内容体 /-->
+		<!-- 底部内容体 -->
+		<div ng-include="'../footer.html'"></div>
+		<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+			<i class="fa fa-chevron-circle-up fa-3x"></i>
+		</div>
+		<!-- 添加用户 -->
+		<!-- <div ng-include="'user-add.html'"></div> -->
+		<!-- 编辑基用户-->
+		<!-- <div ng-include="'user-edit.html'"></div> -->
+		<script type="text/javascript"
+			src="../../Resources/js/xhbootstrap-js.js"></script>
+		<script type="text/javascript"
+			src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+		<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+		<script type="text/javascript"
+			src="../../Controllers/operations/emhAlarm.js"></script>
+		<script type="text/javascript">
+			xh.load();
+		</script>
 </body>
 </html>

@@ -41,17 +41,19 @@ public class WebUserController {
 	
 	
 	/**
-	 * 软件产业中心用户列表
+	 * 根据传入的roleID得到用户列表
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/user/userlist10002")
-	public void userlist10001(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping("/user/getUserList")
+	public void userlist10002(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
+		System.out.println("---------传入的RoleID为：" + roleId);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WebUserServices.userlist10002().size());
-		result.put("items", WebUserServices.userlist10002());
+		result.put("totals",WebUserServices.userlistByRoleId(roleId).size());
+		result.put("items", WebUserServices.userlistByRoleId(roleId));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -62,6 +64,7 @@ public class WebUserController {
 		}
 		
 	}
+	
 	
 	/**
 	 * 用户列表

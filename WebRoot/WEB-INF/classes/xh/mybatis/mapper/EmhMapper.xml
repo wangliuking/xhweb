@@ -1,36 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.EmhMapper">
-<!-- 自定义返回结果集 -->
-   <resultMap id="emh_sensor" type="xh.mybatis.bean.EmhBean">
-        <id property="id" column="id" javaType="java.lang.Integer"></id>
-        <result property="dev_id" column="dev_id" javaType="java.lang.Integer"></result>
-        <result property="max_range_unitid" column="max_range_unitid" javaType="java.lang.Integer"></result>
-        <result property="status" column="status" javaType="java.lang.Integer"></result>
-        <result property="warning_status" column="warning_status" javaType="java.lang.Integer"></result>
-        <result property="is_on_off" column="is_on_off" javaType="java.lang.Integer"></result>
-        <result property="on_unitid" column="on_unitid" javaType="java.lang.Integer"></result>
-        <result property="off_unitid" column="off_unitid" javaType="java.lang.Integer"></result>
-        <result property="on_off_waring" column="on_off_waring" javaType="java.lang.Integer"></result>
-        <result property="is_write_old_monitor" column="is_write_old_monitor" javaType="java.lang.Integer"></result>
-        <result property="up_index" column="up_index" javaType="java.lang.Integer"></result>
-        <result property="deleted" column="deleted" javaType="java.lang.Integer"></result>
-        <result property="dev_name" column="dev_name" javaType="java.lang.String"></result>
-        <result property="sig_value" column="sig_value" javaType="java.lang.String"></result>
-        <result property="min_warning" column="min_warning" javaType="java.lang.String"></result>
-        <result property="warning" column="warning" javaType="java.lang.String"></result>
-        <result property="min_range" column="min_range" javaType="java.lang.String"></result>
-        <result property="max_range" column="max_range" javaType="java.lang.String"></result>
-        <result property="x_num" column="x_num" javaType="java.lang.String"></result>
-        <result property="add_num" column="add_num" javaType="java.lang.String"></result>
-        <result property="last_conn_time" column="last_conn_time" javaType="java.lang.String"></result>
-        <result property="createtime" column="createtime" javaType="java.lang.String"></result>
-        <result property="modifydate" column="modifydate" javaType="java.lang.String"></result>
-   </resultMap>
-    <!--查询基站环境监控实时状态-->
-    <select id="oneBsEmh" parameterType="String" resultMap="emh_sensor" useCache="true">
-     select * from emh_sensor where sid=(select id from emh_server where code=#{code})
-     order by dev_id asc
-    </select>  
-
+	<!-- 自定义返回结果集 -->
+	<resultMap id="emh_sensor" type="xh.mybatis.bean.EmhBean"> <id property="id" 
+		column="id" javaType="java.lang.Integer"></id> <result property="dev_id" 
+		column="dev_id" javaType="java.lang.Integer"></result> <result property="max_range_unitid" 
+		column="max_range_unitid" javaType="java.lang.Integer"></result> <result 
+		property="status" column="status" javaType="java.lang.Integer"></result> 
+		<result property="warning_status" column="warning_status" javaType="java.lang.Integer"></result> 
+		<result property="is_on_off" column="is_on_off" javaType="java.lang.Integer"></result> 
+		<result property="on_unitid" column="on_unitid" javaType="java.lang.Integer"></result> 
+		<result property="off_unitid" column="off_unitid" javaType="java.lang.Integer"></result> 
+		<result property="on_off_waring" column="on_off_waring" javaType="java.lang.Integer"></result> 
+		<result property="is_write_old_monitor" column="is_write_old_monitor" javaType="java.lang.Integer"></result> 
+		<result property="up_index" column="up_index" javaType="java.lang.Integer"></result> 
+		<result property="deleted" column="deleted" javaType="java.lang.Integer"></result> 
+		<result property="dev_name" column="dev_name" javaType="java.lang.String"></result> 
+		<result property="sig_value" column="sig_value" javaType="java.lang.String"></result> 
+		<result property="min_warning" column="min_warning" javaType="java.lang.String"></result> 
+		<result property="warning" column="warning" javaType="java.lang.String"></result> 
+		<result property="min_range" column="min_range" javaType="java.lang.String"></result> 
+		<result property="max_range" column="max_range" javaType="java.lang.String"></result> 
+		<result property="x_num" column="x_num" javaType="java.lang.String"></result> 
+		<result property="add_num" column="add_num" javaType="java.lang.String"></result> 
+		<result property="last_conn_time" column="last_conn_time" javaType="java.lang.String"></result> 
+		<result property="createtime" column="createtime" javaType="java.lang.String"></result> 
+		<result property="modifydate" column="modifydate" javaType="java.lang.String"></result> 
+		</resultMap>
+	<!--查询基站环境监控实时状态 -->
+	<select id="oneBsEmh" parameterType="String" resultMap="emh_sensor"
+		useCache="true">
+		select * from emh_sensor where sid=(select id from emh_server where
+		code=#{code})
+		order by dev_id asc
+	</select>
+	<!--基站环境监控实时告警 -->
+	<select id="bsEmhNowStatus" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select a.*,b.bsId,b.deviceName,b.singleName,c.name from xhgmnet_emh_sensor_alarm as a 
+		left join xhgmnet_emh_sensor_status as b on a.deviceId=b.deviceId 
+		left join xhgmnet_emh_bsstatus as c on b.bsId=c.uuid 
+		where a.state_alarm &gt;0 and a.state_alarm &lt;7 limit #{start},#{limit}
+	</select>
+	<!--基站环境监控实时告警条目 -->
+	<select id="bsEmhNowStatusCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_sensor_alarm where state_alarm &gt;0 and state_alarm &lt;7
+	</select>
+	<!--基站环境监控历史告警 -->
+	<select id="bsEmhOldStatus" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select a.*,b.deviceName,b.bsId,b.singleName,c.name from xhgmnet_emh_sensor_alarm as a 
+		left join xhgmnet_emh_sensor_status as b on a.deviceId=b.deviceId 
+		left join xhgmnet_emh_bsstatus as c on b.bsId=c.uuid 
+		where a.state_alarm &gt;6   limit #{start},#{limit}
+	</select>
+	<!--基站环境监控历史告警条目 -->
+	<select id="bsEmhOldStatusCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_sensor_alarm where state_alarm &gt;6 
+	</select>
+	
+	
+	<!--新增测点 -->
+    <insert id="agent" useGeneratedKeys="true" keyProperty="id" parameterType="xh.org.socket.AgentDataStruct">
+      insert into xhgmnet_emh_bsstatus(uuid,name,state_alarm,status)
+      values(#{uuid},#{name},#{state_alarm},#{status})
+    </insert>
+    <!--更新测点 -->
+    <update id="updateAgent" parameterType="xh.org.socket.AgentDataStruct">
+      update xhgmnet_emh_bsstatus set status=#{status},state_alarm=#{state_alarm},name=#{name}
+       where uuid=#{uuid}  
+    </update>
+    <!--测点是否存在 -->
+	<select id="isagent" parameterType="String" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_bsstatus where uuid=#{uuid}
+	</select>
+	<!--新增测点设备 -->
+    <insert id="agentDevice" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.SensorBean">
+      insert into xhgmnet_emh_sensor_status(bsId,deviceId,deviceName,singleName,singleValue,status,state_alarm)
+      values(#{bsId},#{deviceId},#{deviceName},#{singleName},#{singleValue},#{status},#{state_alarm})
+    </insert>
+    <!--更新测点设备 -->
+   <update id="updateAgentDevice" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set deviceName=#{deviceName},status=#{status},state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+    <!--测点设备是否存在 -->
+	<select id="isagentDevice" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_sensor_status where bsId=#{bsId} and deviceId=#{deviceId}
+	</select>
+  <!--更新测点状态信息-->
+    <update id="updateAgentDeviceState" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set status=#{status},state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+  <!--设备实时告警-->
+    <insert id="deviceAlarm" useGeneratedKeys="true" keyProperty="id" parameterType="xh.org.socket.RtEventStruct">
+      insert into xhgmnet_emh_sensor_alarm(deviceid,et,level,state_alarm,description,createTime)
+      values(#{uuid},#{et},#{level},#{state_alarm},#{description},#{createTime})
+    </insert>
+    <!--更新测点设备告警状态 -->
+   <update id="updateDeviceStateAlarm" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set state_alarm=#{state_alarm} where deviceId=#{deviceId}  
+    </update> 
+    <!--更新测点设备当前值 -->
+   <update id="updateDeviceValue" parameterType="xh.mybatis.bean.SensorBean">
+      update xhgmnet_emh_sensor_status set singleName=#{singleName},singleValue=#{singleValue} 
+      where deviceId=#{deviceId}  
+    </update>     
 </mapper>

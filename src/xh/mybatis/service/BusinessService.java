@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,24 @@ public class BusinessService {
 		List<AssetInfoBean> list=new ArrayList<AssetInfoBean>();
 		try {
 			list=mapper.assetInfo(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	/**
+	 * 按资产状态统计
+	 * @return
+	 */
+	public static List<HashMap<String,Integer>>allAssetStatus(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<HashMap<String,Integer>> list=new ArrayList<HashMap<String,Integer>>();
+		try {
+			list=mapper.allAssetStatus();
 			sqlSession.close();
 			
 		} catch (Exception e) {

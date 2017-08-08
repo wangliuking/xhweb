@@ -35,9 +35,10 @@ xh.load = function() {
 	        return text+"$$";
 	    };
 	});*/
+	
 	app.controller("userstatus", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "20";//每页数据显示默认值
+		$scope.count = "10";//每页数据显示默认值
 		$scope.operationMenu=true; //菜单变色
 		/*获取信息*/
 		$http.get("../../bs/allBsInfo").
@@ -46,6 +47,18 @@ xh.load = function() {
 			$scope.data = response.items;
 			$scope.totals = response.totals;
 		});
+		//基站下的注册终端
+		$scope.radioUser=function(bsId){
+			$scope.bsId=bsId;
+			var pageSize = $("#page-limit").val();
+			$http.get("../../radio/status/oneBsRadio?bsId="+bsId+"&start=0&limit="+pageSize).
+			success(function(response){
+				$scope.radioData = response.items;
+				$scope.radioTotals = response.totals;
+				xh.pagging(1, parseInt($scope.radioTotals),$scope);
+			});
+		};
+		
 		$http.get("../../emh/oneBsEmh?bsId=1").
 		success(function(response){
 			xh.maskHide();
@@ -68,35 +81,67 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+		/* 查询数据 */
+		$scope.search = function(page) {
+			var $scope = angular.element(appElement).scope();
+			var pageSize = $("#page-limit").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			xh.maskShow();
+			$http.get("../../radio/status/oneBsRadio?bsId="+$scope.bsId+"&start="+start+"&limit="+pageSize).
+			success(function(response){
+				xh.maskHide();
+				$scope.radioData = response.items;
+				$scope.radioTotals = response.totals;
+				xh.pagging(page, parseInt($scope.radioTotals),$scope);
+			});
+		};
+		//分页点击
+		$scope.pageClick = function(page,totals, totalPages) {
+			var pageSize = $("#page-limit").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			xh.maskShow();
+			$http.get("../../radio/status/oneBsRadio?bsId="+$scope.bsId+"&start="+start+"&limit="+pageSize ).
+			success(function(response){
+				xh.maskHide();
+				
+				$scope.start = (page - 1) * pageSize + 1;
+				$scope.lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.lastIndex = totals;
+					} else {
+						$scope.start = 0;
+						$scope.lastIndex = 0;
+					}
+				}
+				$scope.radioData = response.items;
+				$scope.radioTotals = response.totals;
+			});
+			
+		};
 		
 		
 	});
 };
-/* 添加用户*/
-xh.add = function() {
-	$.ajax({
-		url : '../../web/user/add',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : $("#addForm").serializeArray(),
-		success : function(data) {
-			if (data.success) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
+/* 基站属性*/
+xh.bsNature = function(bsId) {
+	var $scope = angular.element(appElement).scope();
+	$scope.radioUser(bsId);
 
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
 };
 // 刷新数据
 xh.refresh = function() {
@@ -466,4 +511,39 @@ xh.add = function() {
 		error : function() {
 		}
 	});
+};
+/* 数据分页 */
+xh.pagging = function(currentPage,totals, $scope) {
+	var pageSize = $("#page-limit").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.start = start;
+	$scope.lastIndex = end;
+	$scope.totals = totals;
+	if (totals > 0) {
+		$(".page-paging").html('<ul class="pagination"></ul>');
+		$('.pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 3,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
 };

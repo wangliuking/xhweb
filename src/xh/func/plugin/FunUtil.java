@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -226,6 +227,21 @@ public class FunUtil {
 		}
 		return value;
 	}
+	public float StringToFloat(String str){
+		float value=-1;
+		try {
+			value= Float.parseFloat(str.trim());
+		} catch (NumberFormatException e) {
+			// TODO: handle exception
+			log.info("数字字符串解析失败");
+			log.error(e.getMessage(),e);
+		}catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("数字字符串为空");
+			log.error(e.getMessage(),e);
+		}
+		return value;
+	}
 	public String getIpAddr(HttpServletRequest request) {
 		 String ip = request.getHeader("x-forwarded-for");
 		    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -284,6 +300,7 @@ public class FunUtil {
 		}
 		return result;
 	}
+
 	//判断是否为数字字符串
 	public boolean isInteger(String str) {  
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  
