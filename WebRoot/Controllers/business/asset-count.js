@@ -31,10 +31,17 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
 		
+		/*资产状态统计*/
 		$http.get("../../business/allAssetStatus").
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
+		});
+		/*资产类型统计*/
+		$http.get("../../business/allAssetType").
+		success(function(response){
+			xh.maskHide();
+			$scope.typeData = response.items;
 		});
 		/* 刷新数据 */
 		$scope.refresh = function() {

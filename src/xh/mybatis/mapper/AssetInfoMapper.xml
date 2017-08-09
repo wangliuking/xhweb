@@ -46,6 +46,18 @@
 		useCache="true">
 		select status,count(status) as number from xhgmnet_business_assetinfo  group by status
 	</select>
+	<!--按资产状类型统计 -->
+	<select id="allAssetType" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select sum(if(status=1 ,1,0 )) as status1,
+		       sum(if(status=2 ,1,0 )) as status2,
+		       sum(if(status=3 ,1,0 )) as status3,
+		       sum(if(status=4 ,1,0 )) as status4,
+		       sum(if(status=5 ,1,0 )) as status5,
+		       sum(if(status=6 ,1,0 )) as status6,
+		       sum(if(status=7 ,1,0 )) as status7,type
+		 from xhgmnet_business_assetinfo  group by type 
+	</select>
 	<!--查询资产记录总数 -->
 	<select id="assetInfoCount" parameterType="map" resultType="int"
 		useCache="true">
@@ -73,8 +85,8 @@
 	<insert id="insertAsset" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.AssetInfoBean">
 		insert into
-		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note)
-		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},#{note})
+		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note,createTime)
+		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},#{note},#{createTime})
 	</insert>
 	<!--更新资产记录 -->
 	<update id="updateAsset" parameterType="xh.mybatis.bean.AssetInfoBean">

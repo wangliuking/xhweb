@@ -13,7 +13,6 @@
 }
 /* 网页头部 #428bca*/
 #header {
-	
 	background-color: #1874CD;
 	display: block;
 	height: 50px;
@@ -23,9 +22,10 @@
 	border-bottom: 1px solid #e4e5e7;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2)
 }
-.header-style{
-	background-color:#fff;
-	color:#000;
+
+.header-style {
+	background-color: #fff;
+	color: #000;
 }
 
 #nav-top {
@@ -100,6 +100,42 @@
 	height: 100%;
 	overflow-y: auto;
 }
+
+.bg-green {
+	background: #62cb31;
+	color: #fff;
+	border: none;
+}
+.bg-blue {
+	background: #3498db;
+	color: #fff;
+	border: none;
+}
+.bg-red {
+	background: #e74c3c;
+	color: #fff;
+	border: none;
+}
+.bg-yellow {
+	background:#ffb606;
+	color: #fff;
+	border: none;
+}
+.bg-orange{
+	background:#e67e22;
+	color: #fff;
+	border: none;
+}
+.bg-navyblue {
+	background:#34495e;
+	color: #fff;
+	border: none;
+}
+.bg-reddeep{
+	background: #c0392b;
+	color: #fff;
+	border: none;
+}
 /* 网页中间无菜单内容体 nomenu-wrapper */
 #nomenu-wrapper {
 	/*  top: 80px;
@@ -113,7 +149,8 @@
   height:100%;
   overflow-y:auto; */
 	/*  margin-top: 80px; */
-	padding-top: 80px; background : #fafafa;
+	padding-top: 80px;
+	background: #fafafa;
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -178,34 +215,38 @@ iframe {
 }
 /* 登录框 */
 .login-container {
-  max-width: 420px;
-  height:400px;
-  margin: auto;
-  margin-top:10%;
-  padding:30px;
-  border:4px solid #f1f1f1;
-  background:#fff;
-  border-radius:5px;
-  /* padding-top: 6%; */
-  /* background: #272625; */
+	max-width: 420px;
+	height: 400px;
+	margin: auto;
+	margin-top: 10%;
+	padding: 30px;
+	border: 4px solid #f1f1f1;
+	background: #fff;
+	border-radius: 5px;
+	/* padding-top: 6%; */
+	/* background: #272625; */
 }
-.login-container h3{
-	color:#000;
-	font-weight:bold;
+
+.login-container h3 {
+	color: #000;
+	font-weight: bold;
 }
-.login-container input:VISITED{
-	background:#fff;
+
+.login-container input:VISITED {
+	background: #fff;
 }
-.login-container small,.login-container label{
-	color:#000;
+
+.login-container small,.login-container label {
+	color: #000;
 }
+
 .login-container .hpanel .panel-body {
-  padding:30px 10px 10px 10px;
- /*  background-color:rgba(0,0,0, .4); */
-  border:0px;
- /*  border-radius:10px;
+	padding: 30px 10px 10px 10px;
+	/*  background-color:rgba(0,0,0, .4); */
+	border: 0px;
+	/*  border-radius:10px;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2); */
-} 
+}
 
 .small-header {
 	position: fixed;
@@ -293,10 +334,12 @@ iframe {
 .fixed-navbar #wrapper {
 	top: 80px;
 }
+
 .fixed-wrapper #wrapper {
 	top: 80px;
-	margin-left:0px;
+	margin-left: 0px;
 }
+
 .fixed-wrapper .small-header {
 	position: fixed;
 	top: 80px;
@@ -310,7 +353,6 @@ iframe {
 .fixed-navbar #wrapper-iframe {
 	top: 80px;
 } */
-
 .fixed-footer .footer {
 	position: fixed;
 	z-index: 1001;
@@ -318,6 +360,7 @@ iframe {
 	left: 190px;
 	right: 0;
 }
+
 .normal-footer .footer {
 	position: fixed;
 	z-index: 1001;
@@ -325,13 +368,16 @@ iframe {
 	left: 0;
 	right: 0;
 }
-.hide-menu #menu{
+
+.hide-menu #menu {
 	display: none;
 }
+
 .hide-menu #wrapper {
 	top: 80px;
-	margin-left:0px;
+	margin-left: 0px;
 }
+
 .hide-menu .small-header {
 	position: fixed;
 	top: 80px;
@@ -340,6 +386,7 @@ iframe {
 	margin-left: 0px;
 	z-index: 100;
 }
+
 .hide-menu .footer {
 	position: fixed;
 	z-index: 1001;
