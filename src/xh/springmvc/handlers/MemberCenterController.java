@@ -67,7 +67,7 @@ public class MemberCenterController {
 	@ResponseBody
 	public void noReadEmailCount(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		Map<String,String> map = new HashMap<>();
+		Map<String,String> map = new HashMap<String,String>();
 		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);

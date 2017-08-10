@@ -53,9 +53,12 @@ xh.load = function() {
 		};
 		/* 显示修改model */
 		$scope.editModel = function(id) {
+			
 			$scope.editData = $scope.data[id];
-			$scope.type = $scope.editData.type.toString();
-			$scope.from = $scope.editData.from.toString();
+			$scope.editData.type = $scope.editData.type.toString();
+			$scope.editData.from = $scope.editData.from.toString();
+			$scope.editData.status = $scope.editData.status.toString();
+			
 		};
 		/* 显示修改model */
 		$scope.showEditModel = function() {
@@ -74,11 +77,13 @@ xh.load = function() {
 				toastr.error("只能选择一条数据", '提示');
 				return;
 			}
+		
 			$("#edit").modal('show');
 			$scope.editData = $scope.data[parseInt(checkVal[0])];
 			
 			$scope.type = $scope.editData.type.toString();
 			$scope.from = $scope.editData.from.toString();
+			$scope.status = $scope.editData.status.toString();
 		};
 		/* 删除 */
 		$scope.delBs = function(id) {
@@ -201,9 +206,11 @@ xh.add = function() {
 		success : function(data) {
 
 			if (data.result ==1) {
+				$('#addForm')[0].reset();
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
+				
 
 			} else {
 				toastr.error(data.message, '提示');
@@ -225,9 +232,11 @@ xh.update = function() {
 		},
 		success : function(data) {
 			if (data.result === 1) {
+				$('#updateForm')[0].reset();
 				$('#edit').modal('hide');
 				toastr.success(data.message, '提示');
 				xh.refresh();
+				
 
 			} else {
 				toastr.error(data.message, '提示');

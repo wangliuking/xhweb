@@ -75,6 +75,11 @@ public class BusinessController {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 按资产状态统计
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value="/allAssetStatus",method = RequestMethod.GET)
 	public void allAssetStatus(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
@@ -108,6 +113,43 @@ public class BusinessController {
 		}
 	}
 	/**
+	 * 按资产类型统计
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/allAssetType",method = RequestMethod.GET)
+	public void allAssetType(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+	/*	int type=funUtil.StringToInt(request.getParameter("type"));
+		String name=request.getParameter("name");
+		String model=request.getParameter("model");
+		String serialNumber=request.getParameter("serialNumber");
+		int from=funUtil.StringToInt(request.getParameter("from"));
+		int status=funUtil.StringToInt(request.getParameter("status"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));*/
+	/*	Map<String, Object> map=new HashMap<String, Object>();
+		map.put("type", type);
+		map.put("name", name);
+		map.put("model",model );
+		map.put("serialNumber",serialNumber );
+		map.put("from",from );
+		map.put("status",status );
+		map.put("start", start);
+		map.put("limit", limit);*/
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", BusinessService.allAssetType());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 添加资产
 	 * @param request
 	 * @param response
@@ -117,6 +159,7 @@ public class BusinessController {
 		this.success=true;
 		String jsonData=request.getParameter("formData");
         AssetInfoBean bean=GsonUtil.json2Object(jsonData, AssetInfoBean.class);
+        bean.setCreateTime(funUtil.nowDate());
 		log.info("data==>"+bean.toString());
 		int rlt=BusinessService.insertAsset(bean);
 		if (rlt==1) {
