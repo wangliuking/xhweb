@@ -24,10 +24,12 @@ import com.google.gson.JsonObject;
 import net.sf.json.JSONObject;
 import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
+import xh.func.plugin.FormToWord;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.JoinNet_registerFormBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.EmailService;
@@ -404,6 +406,47 @@ public class JoinNetController {
 		}
 
 	}
+	
+	/**
+	 * 填写入网登记表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/registNet", method = RequestMethod.POST)
+	public void registNet(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		String jsonData = request.getParameter("formData");
+		
+		JoinNet_registerFormBean bean = GsonUtil.json2Object(jsonData, JoinNet_registerFormBean.class);
+		bean.setDocNum("201708081001");
+		//System.out.println(bean);
+		FormToWord toWord = new FormToWord();
+		Boolean b = toWord.fillWord(bean, "register.ftl");
+		int rst = 0;
+		if(b){
+			this.message = "入网登记表填写成功";
+			rst = 1;
+		}else{
+			this.message = "入网登记表填写失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
 	/**
 	 * 上传文件
 	 * @param file
@@ -438,6 +481,96 @@ public class JoinNetController {
 		result.put("message", message);
 		result.put("fileName", fileName);
 		result.put("filePath", path+"/"+fileName);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 上传公函
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadGH", method = RequestMethod.POST)
+	public void uploadGH(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setFileNameGH(fileName);
+		bean.setFilePathGH(filePath);
+		bean.setFileNameNote("");
+		bean.setFilePathNote("");
+		System.out.println("保存公函:" + fileName);
+		
+		int rst = JoinNetService.uploadFileGhorNote(bean);
+		if (rst == 1) {
+			this.message = "上传公函成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传公函，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传公函失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 上传通知函
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadNote", method = RequestMethod.POST)
+	public void uploadNote(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setFileNameGH("");
+		bean.setFilePathGH("");
+		bean.setFileNameNote(fileName);
+		bean.setFilePathNote(filePath);
+		System.out.println("保存通知函:" + fileName);
+		
+		int rst = JoinNetService.uploadFileGhorNote(bean);
+		if (rst == 1) {
+			this.message = "上传通知函成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传公函，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传通知函失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);

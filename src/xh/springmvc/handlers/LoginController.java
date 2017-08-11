@@ -100,7 +100,7 @@ public class LoginController {
 			}
 		}else{
 			this.message = "证书登录验证失败";
-			this.success = false;
+			this.success = true;
 		}
 	
 		HashMap result = new HashMap();

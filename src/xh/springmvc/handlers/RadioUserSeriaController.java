@@ -24,7 +24,7 @@ public class RadioUserSeriaController {
 	private FlexJSON json=new FlexJSON();
 	
 	/**
-	 * 查询
+	 * 查询无线用户互联属性
 	 * @param request
 	 * @param response
 	 */

@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
 
 @Controller
@@ -53,5 +55,33 @@ public class TalkGroupController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * 添加组
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/add",method = RequestMethod.POST)
+	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap<String,Object> map = new HashMap<String,Object>();
+			Enumeration rnames=request.getParameterNames();
+			for (Enumeration e = rnames ; e.hasMoreElements() ;) {
+			         String thisName=e.nextElement().toString();
+			        String thisValue=request.getParameter(thisName);
+			        map.put(thisName, thisValue);
+			}
+			int count=TalkGroupService.insertTalkGroup(map);
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("result",count);
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 }
