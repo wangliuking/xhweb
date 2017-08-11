@@ -21,6 +21,12 @@ public interface AssetInfoMapper {
 	 */
 	public List<HashMap<String,Integer>>allAssetStatus()throws Exception;
 	/**
+	 * 按资产类型统计
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String,Integer>>allAssetType()throws Exception;
+	/**
 	 * 查询资产记录总数
 	 * @return
 	 * @throws Exception

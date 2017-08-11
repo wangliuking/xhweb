@@ -2912,3 +2912,59 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	margin:10px; 
 	width:130px;
 }
+.widget-panel {
+	/* width:200px;
+	height:80px; */
+  padding: 10px 5px 10px 35px;
+  border-radius: 4px;
+  color: #ffffff;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.widget-style-1 i {
+	/* edf0f0 */
+  position: absolute;
+  font-size: 6rem;
+  right: 5px;
+  bottom: 1rem;
+  color: #fff;
+}
+.widget-style-1 h2 {
+  font-weight: 600;
+  font-size: 32px;
+}
+.widget-style-1 div{
+  font-weight: 600;
+  font-size: 18px;
+}
+.widget-style-1:hover i {
+  -moz-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+}
+.widget-style-2 {
+  padding-left: 30px;
+}
+.widget-style-2 i {
+  font-size: 30px;
+  float: right;
+  padding: 30px;
+  margin-top: -40px;
+  margin-right: -20px;
+  color: #edf0f0;
+  background: rgba(255,255,255,0.2);
+}
+.widget-style-2 h2 {
+  font-weight: 600;
+  font-size: 32px;
+}
+.page-title {
+  padding: 10px 0px 13px 0px;
+  /* font-size: 32px; */
+}
+.page-title h3 {
+  margin: 0px;
+  font-size: 16px;
+}
