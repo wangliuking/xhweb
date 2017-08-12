@@ -4,7 +4,12 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
-
+require.config({
+	paths : {
+		echarts : '../../lib/echarts'
+	}
+});
+var background="#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
@@ -31,90 +36,30 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
 		
-		/*资产状态统计*/
+		/*资产状态统计
 		$http.get("../../business/allAssetStatus").
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
-		});
+		});*/
 		/*资产类型统计*/
 		$http.get("../../business/allAssetType").
 		success(function(response){
 			xh.maskHide();
 			$scope.typeData = response.items;
 		});
+		/*资产名称统计*/
+		$http.get("../../business/allAssetNameCount").
+		success(function(response){
+			xh.maskHide();
+			$scope.nameData = response.items;
+		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
-		/* 显示修改model */
-		$scope.editModel = function(id) {
-			$scope.editData = $scope.data[id];
-			$scope.type = $scope.editData.type.toString();
-			$scope.from = $scope.editData.from.toString();
-		};
-		/* 显示修改model */
-		$scope.showEditModel = function() {
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				/*swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});*/
-				toastr.error("只能选择一条数据", '提示');
-				return;
-			}
-			$("#edit").modal('show');
-			$scope.editData = $scope.data[parseInt(checkVal[0])];
-			
-			$scope.type = $scope.editData.type.toString();
-			$scope.from = $scope.editData.from.toString();
-		};
-		/* 删除 */
-		$scope.delBs = function(id) {
-			swal({
-				title : "提示",
-				text : "确定要删除该记录吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../business/deleteAsset',
-						type : 'post',
-						dataType : "json",
-						data : {
-							deleteIds : id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.refresh();
-							} else {
-								toastr.error(data.message, '提示');
-							}
-						},
-						error : function() {
-							$scope.refresh();
-						}
-					});
-				}
-			});
-		};
+		xh.statusPie();
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -185,92 +130,6 @@ xh.load = function() {
 		};
 	});
 };
-/* 添加设备 */
-xh.add = function() {
-	$.ajax({
-		url : '../../business/insertAsset',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 修改 */
-xh.update = function() {
-	$.ajax({
-		url : '../../business/updateAsset',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-			if (data.result === 1) {
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function(){
-		}
-	});
-};
-/* 批量删除基站 */
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../business/deleteAsset',
-		type : 'post',
-		dataType : "json",
-		data : {
-			deleteIds : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				xh.refresh();
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
@@ -314,29 +173,129 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-
-/*$http({
-method : "POST",
-url : "../../bs/list",
-data : {
-	bsId : bsId,
-	name : name,
-	start : start,
-	limit : pageSize
-},
-headers : {
-	'Content-Type' : 'application/x-www-form-urlencoded'
-},
-transformRequest : function(obj) {
-	var str = [];
-	for ( var p in obj) {
-		str.push(encodeURIComponent(p) + "="
-				+ encodeURIComponent(obj[p]));
+/* 资产状态统计图 */
+xh.statusPie = function() {
+	// 设置容器宽高
+	 var resizeBarContainer = function() {
+	  $("#pie").width(parseInt($("#pie").parent().width()));
+	  $("#pie").height(300);
+	  };
+	  resizeBarContainer();
+	 
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
 	}
-	return str.join("&");
+	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
+		chart = ec.init(document.getElementById('pie'));
+		chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});
+		var option = {
+			title : {
+				x : 'center',
+				text : '',
+				subtext : '',
+				textStyle : {
+					color : '#000'
+				}
+			},
+			tooltip : {
+				trigger : 'item',
+				formatter : "{a} <br/>{b} : {c} ({d}%)"
+			},
+		/*	legend : {
+				orient : 'vertical',
+				x : 'left',
+				textStyle : {
+					color : '#ccc'
+				},
+				data : [ '1', '2', '3', '4', '5', '6' ]
+			},*/
+			/*
+			 * toolbox : { show : true, feature : { dataView : { show : true,
+			 * readOnly : false }, restore : { show : true }, saveAsImage : {
+			 * show : true } } },
+			 */
+			calculable : false,
+			backgroundColor : background,
+			series : [ {
+				name : '数量',
+				type : 'pie',
+				radius : '55%',
+				center : [ '50%', '60%' ],
+				itemStyle : {
+					normal : {
+						color : function(params) {
+							// build a color map as your need.
+							var colorList = [ '#C1232B', 'green', '#FCCE10' ];
+							return colorList[params.dataIndex];
+						},
+						label : {
+							show : true,
+							position : 'top',
+							formatter : '{b}\n{c}'
+						}
+					}
+				},
+				data : []
+			} ]
+		};
+
+		$.ajax({
+			url : '../../business/allAssetStatus',
+			data : {},
+			type : 'get',
+			dataType : "json",
+			async : false,
+			success : function(response) {
+				var data = response.items;
+				// option.xAxis[0].data = xAxisData;
+				var total=0;
+				$.each(data,function(i,v){
+					total+=v.value;
+				});
+				
+				option.series[0].data = data;
+				option.title.text="设备总数量:"+total;
+				chart.hideLoading();
+				chart.setOption(option);
+
+			},
+			failure : function(response) {
+			}
+		});
+
+	});
+	// 用于使chart自适应高度和宽度
+	window.onresize = function() {
+		// 重置容器高宽
+		chart.resize();
+	};
+};
+xh.excelName=function(){
+	xh.maskShow();
+	$.ajax({
+		url : '../../business/excelName',
+		data : {},
+		type : 'post',
+		dataType : "json",
+		async : false,
+		success : function(response) {
+			xh.maskHide();
+			if(response.success){
+				toastr.success(response.message, '提示');
+				var downUrl="../../business/download?fileName=资产状况.xls";
+				window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error(response.message, '提示');
+			}
+			
+
+		},
+		failure : function(response) {
+		}
+	}); 
 }
-}).success(function(response) {
-xh.maskHide();
-$scope.data = response.items;
-$scope.totals = response.totals;
-});*/
