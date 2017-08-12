@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
+
+import xh.mybatis.mapper.RadioUserMapper;
 import xh.mybatis.mapper.TalkGroupMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -23,7 +25,6 @@ public class TalkGroupService {
 			sqlSession.close();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
@@ -41,6 +42,29 @@ public class TalkGroupService {
 		int count = 0;
 		try {
 			count = mapper.Count(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * 添加组
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int insertTalkGroup(HashMap<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		int count = 0;
+		try {
+			if (count == 0) {
+				mapper.insertTalkGroup(map);
+			}
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -51,7 +51,16 @@
 			and E_name like concat('%',#{eName},'%')
 		</if>
 	</select>
-  
+  <!-- 增加组 --><insert id="insertTalkGroup" useGeneratedKeys="true" keyProperty="id"
+		parameterType="java.util.Map">
+		insert into
+		xhgmnet_talkgroup(TalkgroupID,M_TalkgroupAlias,M_SecurityGroup,M_ConsoleTGMGCapabilityProfileAlias,M_TGMGCapabilityProfileAlias,M_TGMGValidSitesProfileAlias,
+		M_PreemptCapable,M_ExtendedBandchannelscanbeassigned,M_TalkgroupRegroupable,M_GroupEnable,
+		E_name,E_alias,E_mscId,E_vpnId,E_saId,E_iaId,E_vaId,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet)
+		values(#{TalkgroupID}, '', '', '', '', '', 0, 0, 0, 0,
+		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_saId},#{E_iaId},#{E_vaId},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
+		#{E_pdtType},#{E_npType},#{id_joinNet})
+	</insert>
   <sql id="Base_Column_List" >
     id, TalkgroupID, M_TalkgroupAlias, M_SecurityGroup, M_ConsoleTGMGCapabilityProfileAlias, 
     M_TGMGCapabilityProfileAlias, M_TGMGValidSitesProfileAlias, M_PreemptCapable, M_ExtendedBandchannelscanbeassigned, 

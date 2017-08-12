@@ -82,7 +82,7 @@ public class RadioUserController {
 			         String thisName=e.nextElement().toString();
 			        String thisValue=request.getParameter(thisName);
 			        map.put(thisName, thisValue);
-			}	
+			}
 			int count=RadioUserService.insertRadioUser(map);
 			HashMap result = new HashMap();
 			result.put("success", success);
