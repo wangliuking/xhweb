@@ -67,6 +67,12 @@
 		time3=#{time3},note3=#{note3},user4=#{user4},checked=#{checked} where
 		id=#{id}
 	</update>
+	<!--上传编组方案 -->
+	<update id="uploadFileGhorNote" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH},
+		fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote} where
+		id=#{id}
+	</update>
 	<!--审核编组方案 -->
 	<update id="checkFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set

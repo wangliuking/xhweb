@@ -40,6 +40,8 @@
 	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
+	<OBJECT classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2" height="0" id="WindowPrint" 
+name="WindowPrint" width="0"></OBJECT>
 		<div class="small-header transition animated fadeIn">
 			<div class="title-panel">
 				<div class="panel-body">
@@ -56,17 +58,19 @@
 		</div>
 		<div class="content animate-panel">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-4">
 					<div class="hpanel">
 						<div class="panel-body">
-							<div class="page-title">
+						<div id="pie"></div>
+							<!-- <div class="page-title">
 								<h3 class="title">资产状态统计</h3>
-							</div>
+							</div> -->
 							<!-- row -->
 							<!-- 1:外借;2:报废;3:维修;4:在库;5:在用;6:待报废;7:遗失 -->
-							<div class="row">
-								<div class="col-lg-2 col-sm-2 " ng-repeat="x in data">
-									<div class="widget-panel widget-style-1 bg-green">
+							<!-- <div class="row">
+							
+								<div class="col-lg-6 col-sm-6 " ng-repeat="x in data">
+									<div class="widget-panel widget-style-1 bg-red">
 										<i class="fa fa-pie-chart"></i>
 										<h2>{{x.number}}</h2>
 										<div ng-if="x.status==1">外借</div>
@@ -79,14 +83,12 @@
 									</div>
 								</div>
 
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- row/ -->
-			<div class="row">
-				<div class="col-md-12">
+				<!-- col-md-4 -->
+				<div class="col-md-8">
 					<div class="hpanel">
 						<div class="panel-body">
 							<div class="page-title">
@@ -96,6 +98,7 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>资产类型</th>
+										<th>总数量</th>
 										<th>外借</th>
 										<th>报废</th>
 										<th>维修</th>
@@ -107,7 +110,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
+										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<!-- 1:交换控制中心（MSO）设备;2:远端调度台设备;3:基站设备;
 									4:用户台设备;5:备件;6附件；7：其他 -->
@@ -120,13 +123,77 @@
 										<td ng-if="x.type==5">备件</td>
 										<td ng-if="x.type==6">附件</td>
 										<td ng-if="x.type==7">其他</td>
-										<td>{{x.status1}}</td>
-										<td>{{x.status2}}</td>
-										<td>{{x.status3}}</td>
-										<td>{{x.status4}}</td>
-										<td>{{x.status5}}</td>
-										<td>{{x.status6}}</td>
-										<td>{{x.status7}}</td>
+										<td>{{x.total}}</td>
+									    <td ng-class="{true: 'bg-red', false: ''}[x.status1>0]">{{x.status1}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status2>0]">{{x.status2}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status3>0]">{{x.status3}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status4>0]">{{x.status4}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status5>0]">{{x.status5}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status6>0]">{{x.status6}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status7>0]">{{x.status7}}</td>
+
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+			</div>
+			<!-- row/ -->
+			<div class="row">
+				
+			</div>
+			<!-- row--end -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="page-title">
+								<h3>资产种类统计</h3>
+							</div>
+							<button class="btn btn-sm btn-danger" onclick="xh.excelName()">
+							<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出到excel文档</button>
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th>类型</th>
+										<th>名称</th>
+										<th>总数量</th>
+										<th>外借</th>
+										<th>报废</th>
+										<th>维修</th>
+										<th>在库</th>
+										<th>在用</th>
+										<th>待报废</th>
+										<th>遗失</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="9" class="text-center">没有记录！</td>
+									</tr>
+									<!-- 1:交换控制中心（MSO）设备;2:远端调度台设备;3:基站设备;
+									4:用户台设备;5:备件;6附件；7：其他 -->
+									<tr ng-repeat="x in nameData">
+									
+										<td ng-if="x.type==1">交换控制中心（MSO）设备</td>
+										<td ng-if="x.type==2">远端调度台设备</td>
+										<td ng-if="x.type==3">基站设备</td>
+										<td ng-if="x.type==4">用户台设备</td>
+										<td ng-if="x.type==5">备件</td>
+										<td ng-if="x.type==6">附件</td>
+										<td ng-if="x.type==7">其他</td>
+										<td>{{x.name}}</td>
+										<td>{{x.total}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status1>0]">{{x.status1}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status2>0]">{{x.status2}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status3>0]">{{x.status3}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status4>0]">{{x.status4}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status5>0]">{{x.status5}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status6>0]">{{x.status6}}</td>
+										<td ng-class="{true: 'bg-red', false: ''}[x.status7>0]">{{x.status7}}</td>
 
 
 									</tr>
@@ -157,6 +224,7 @@
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>		
 	<script type="text/javascript"
 		src="../../Controllers/business/asset-count.js"></script>
 	<script type="text/javascript">

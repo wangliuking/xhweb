@@ -43,14 +43,20 @@
 	<insert id="insertRadioUser" useGeneratedKeys="true" keyProperty="id"
 		parameterType="java.util.Map">
 		insert into
-		xhgmnet_radiouser(C_ID,E_name,E_alias,E_mscId,E_vpnId,E_sn,E_company,E_type,E_enabled,E_shortData,E_fullDuple,
+		xhgmnet_radiouser(C_ID,M_RadioUserAlias,M_SecurityGroup,M_EmergencyAlarmComments,M_InterconnectEnabled,M_PacketDataEnabled,
+		M_ShortDataEnabled,M_FullDuplexEnabled,M_ExtendedBandchannelscanbeassigned,M_RadioUserCapabilityProfileAlias,
+		M_RadioUserValidSitesProfileAlias,M_RadioUserInterconnectProfileAlias,M_UserEnabled,M_LogonRequired,M_AssignedIPAddress,
+		M_AccessPointName,M_AssignedRAG,M_ReadyTimer,M_ICMPEnabled,M_NetworkIngressFilteringEnabled,M_MultislotPacketDataEnabled,M_TalkgroupAlias,
+		M_EnableAmbienceListeningMonitoring,M_EnableAmbienceListeningInitiation,M_DirectDialNumber,M_PABXAccessEnabled,M_PSTNAccessEnabled,
+		M_QAMDataEnabled,M_StoreandForwardEnabled,E_name,E_alias,E_mscId,E_vpnId,E_sn,E_company,E_type,E_enabled,E_shortData,E_fullDuple,
 		E_radioType,E_anycall,E_saId,E_iaId,E_vaId,E_rutgId,E_ip,E_PrimaryTGId,E_ambienceMonitoring,E_packetData,E_ambienceInitiation,
-		E_directDial,E_PSTNAccess,E_pabxAccess,E_clir,E_clirOverride,E_killed,E_msType,E_status,saName,iaName,pdtType,npType,
-		esn,subscriberClass,brdgFrdEnabled,authRequired,txPriority,serialNum,tei,time)
-		values(#{C_ID},#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_sn},#{E_company},#{E_type},#{E_enabled},#{E_shortData},#{E_fullDuple},
+		E_directDial,E_PSTNAccess,E_pabxAccess,E_clir,E_clirOverride,E_killed,E_msType,E_status,pdtType,npType,
+		esn,subscriberClass,brdgFrdEnabled,authRequired,txPriority,serialNum,tei,id_JoinNet)
+		values(#{C_ID}, '', '', '', 0, 0, 0, 0, 0, '', '', '', 0, 0, '', '', 0, 0, 0, 0, 0, '', 0, 0, '', 0, 0, 0, 0,
+		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_sn},#{E_company},#{E_type},#{E_enabled},#{E_shortData},#{E_fullDuple},
 		#{E_radioType},#{E_anycall},#{E_saId},#{E_iaId},#{E_vaId},#{E_rutgId},#{E_ip},#{E_PrimaryTGId},#{E_ambienceMonitoring},#{E_packetData},#{E_ambienceInitiation},
-		#{E_directDial},#{E_PSTNAccess},#{E_pabxAccess},#{E_clir},#{E_clirOverride},#{E_killed},#{E_msType},#{E_status},#{saName},#{iaName},#{pdtType},#{npType},
-		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{time})
+		#{E_directDial},#{E_PSTNAccess},#{E_pabxAccess},#{E_clir},#{E_clirOverride},#{E_killed},#{E_msType},#{E_status},#{pdtType},#{npType},
+		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{id_joinNet})
 	</insert>
 
 	<!--更新无线用户 -->
