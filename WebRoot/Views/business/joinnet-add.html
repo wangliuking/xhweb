@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="add" tabindex="-1" role="dialog"
+<div class="modal fade" id="addJoinNet" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg ">
 		<div class="modal-content">
@@ -9,7 +9,7 @@
 					aria-hidden="true">&times;</button>
 				<small class="font-bold"></small> -->
 			</div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
 						<div class="col-md-3">
@@ -84,19 +84,22 @@
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>单位负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="unitPerson" required="required">
+									type="text" value="" class="form-control" name="unitPerson"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>联系电话</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="tel" required="required">
+									type="text" value="" class="form-control" name="tel"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>联系部门</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="department" required="required">
+									type="text" value="" class="form-control" name="department"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -124,7 +127,7 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row" ng-show="false">
-						<div class="col-md-12" style="padding:0 40px 0 40px;">
+						<div class="col-md-12" style="padding: 0 40px 0 40px;">
 							<fieldset class="form-group">
 								<legend>申请终端</legend>
 								<div class="row">
@@ -151,9 +154,22 @@
 						</div>
 					</div>
 					<!--row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>入网申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
+								<select class="form-control" name="user_MainManager" ng-model="user_M">
+									<option ng-repeat="x in userData_MainManager"
+										value="{{x.user}}">{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!--row-------end -->
 				</form>
 			</div>
 			<div class="modal-footer">
+
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
@@ -179,11 +195,10 @@
 	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
-		fields : {
-		}
+		fields : {}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.add();
+		xh.addJoinNet();
 	});
 </script>
 <script>

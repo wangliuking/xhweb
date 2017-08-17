@@ -24,7 +24,7 @@ public class RadioUserBusiness_EController {
 	private FlexJSON json=new FlexJSON();
 	
 	/**
-	 * 查询
+	 * 查询无线用户业务属性
 	 * @param request
 	 * @param response
 	 */

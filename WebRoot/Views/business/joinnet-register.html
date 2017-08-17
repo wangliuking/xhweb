@@ -1,0 +1,299 @@
+
+<div class="modal fade" id="joinNet_register" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg ">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="registerForm" onSubmit="return false">
+					<p style="text-align: center">
+						<strong><span style="font-family: 仿宋; font-size: 19px"><span
+								style="font-family: 仿宋">成都市应急指挥调度无线通信网用户终端入网登记表</span></span></strong>
+					</p>
+					<table align="center" width=90% style="width: 90%;">
+						<tbody>
+							<tr style="height: 15px; page-break-inside: avoid"
+								class="firstRow">
+								<td width="115" valign="center"
+									style="padding: 0px 7px; border-width: 1px; border-color: windowtext;">
+									<p style="text-align: center">
+										入网单位名称
+									</p>
+								</td>
+								<td width="84" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										设备型号
+									</p>
+								</td>
+								<td width="150" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										终端写入通话组
+									</p>
+								</td>
+								<td width="123" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										个呼、短信设置
+									</p>
+								</td>
+								<td width="79" valign="center"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										ID
+									</p>
+								</td>
+								<td width="133" valign="center"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										SN
+									</p>
+								</td>
+								<td width="161" valign="center"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										TEI
+									</p>
+								</td>
+								<td width="85" valign="center"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										备注
+									</p>
+								</td>
+							</tr>
+							<tr style="height: 22px; page-break-inside: avoid">
+								<!-- 入网单位名称 -->
+								<!-- unitName -->
+								<td width="115" valign="center" rowspan="3"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p>
+										<input id="unitName1"
+											type="text" name="unitName" value="" onkeyup="copyob1toob2()"
+											style="text-align: left; width: 100px;"/>
+									</p>
+								</td>
+								<!-- 设备型号 -->
+								<!-- deviceType -->
+								<td width="84" valign="center" colspan="2" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											type="text" name="deviceType"
+											value="MTP3150" style="text-align: left; width: 60px;"/>
+									</p>
+								</td>
+								<!-- 终端写入通话组 -->
+								<!-- joinGroup -->
+								<td width="100" valign="center" colspan="2" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<span
+											title="groupName" name="joinGroup"><input
+												name="joinGroup" value="N1组" checked="" type="radio" />N1组&nbsp;<input
+												name="joinGroup" value="N2组" type="radio" />N2组&nbsp;<input
+												name="joinGroup" value="N3组" type="radio" />N3组&nbsp;</span>
+									</p>
+								</td>
+								<!-- 个呼、短信设置 -->
+								<!-- method -->
+								<td width="100" valign="center" colspan="2" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<select name="method"
+											title="type" size="1"
+											style="width: 50px;">
+												<option value="个呼">个呼</option>
+												<option value="短信">短信</option>
+										</select>
+									</p>
+								</td>
+								<!-- ID -->
+								<td width="79" valign="center" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											name="Did" type="text" value=""
+											style="text-align: left; width: 80px;" />
+									</p>
+								</td>
+								<!-- SN -->
+								<td width="133" valign="center" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											name="sn" type="text" value=""
+											style="text-align: left; width: 80px;" />
+									</p>
+								</td>
+								<!-- TEL -->
+								<td width="161" valign="center" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											name="tel" type="text" value="" 
+											style="text-align: left; width: 80px;"/>
+									</p>
+								</td>
+								<!-- 备注 -->
+								<!-- note1 -->
+								<td width="85" valign="center" rowspan="3"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											name="note1" type="text" title="note" value=""
+											style="text-align: left; width: 50px;" />
+									</p>
+								</td>
+							</tr>
+							<tr></tr>
+							<tr></tr>
+							<!-- 组号及组代字 -->
+							<!-- groupNum/groupName -->
+							<tr style="height: 15px; page-break-inside: avoid">
+								<td width="930" valign="center" colspan="11"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="padding-top: 10px;">
+										组号及组代字：
+											<input name="groupNum" type="text"
+											value="" style="text-align: left; width: 150px;" />：<input
+											name="groupName" type="text" value=""
+											style="text-align: left; width: 150px;" />
+									</p>
+								</td>
+							</tr>
+							<!-- 入网单位名称 -->
+							<!-- groupNum/groupName -->
+							<tr style="height: 15px; page-break-inside: avoid">
+								<td width="115" valign="center"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										入网单位名称
+									</p>
+								</td>
+								<td width="184" valign="center" colspan="3"
+									style="padding: 10px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input id="unitName2" type="text"
+											style="text-align: left; width: 100px;"/>
+									</p>
+								</td>
+								<!-- 登记日期 -->
+								<!-- signTime -->
+								<td width="81" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										登记日期
+									</p>
+								</td>
+								<td width="550" valign="center" colspan="5"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top-width: 1px; border-top-color: windowtext; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-indent: 29px; text-align: center">
+											<input type="text" value=""  name="signTime"
+												onfocus="WdatePicker()">
+									</p>
+								</td>
+							</tr>
+							<!-- 终端总数 -->
+							<!-- deviceNum -->
+							<tr style="height: 15px; page-break-inside: avoid">
+								<td width="115" valign="center"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										终端总数
+									</p>
+								</td>
+								<td width="184" valign="center" colspan="3"
+									style="padding: 10px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										<input
+											type="text" name="deviceNum" value="1"
+											style="text-align: left; width: 20px;"/>台
+									</p>
+								</td>
+								<td width="81" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										备注
+									</p>
+								</td>
+								<td width="550" valign="center" colspan="5"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<input name="note2" type="text" value=""
+										style="text-align: left; width: 150px;" />
+								</td>
+							</tr>
+							<tr style="height: 15px; page-break-inside: avoid">
+								<td width="139" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										用户单位联系人
+									</p>
+								</td>
+								<td width="791" valign="center" colspan="9"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="padding-top: 10px;">
+										移动电话:<span
+											style="text-decoration: underline;"><input
+												name="mobilePhone" type="text" value=""
+												style="text-align: left; width: 100px;" /></span>，固定电话:<input
+											name="telePhone" type="text" value=""
+											style="text-align: left; width: 100px;" />
+									</p>
+								</td>
+							</tr>
+							<tr style="height: 15px; page-break-inside: avoid">
+								<td width="139" valign="center" colspan="2"
+									style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p style="text-align: center">
+										网络管理单位联系人
+									</p>
+								</td>
+								<td width="791" valign="center" colspan="9"
+									style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: windowtext; border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
+									<p>
+										张振华：15928138426 / 85336899-856
+									</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="register_btn">
+					<i class="fa fa-plus"></i>&nbsp;发送
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#register_btn").click(function() {
+		$('#registerForm').submit();
+	});
+
+	$('#registerForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.regist();
+	});
+</script>
+<script>
+	$(function() {
+		$("[data-toggle='tooltip']").tooltip();
+	});
+	function copyob1toob2(){ 
+	    document.all["unitName2"].value=document.all["unitName1"].value 
+	}
+</script>

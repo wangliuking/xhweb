@@ -21,6 +21,13 @@ public interface TalkGroupMapper {
 	 */
 	public int  Count(Map<String,Object> map)throws Exception;
 	
+	/**
+	 * 增加组
+	 * @return
+	 * @throws Exception
+	 */
+	public int  insertTalkGroup(Map<String,Object> map)throws Exception;
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(TalkGroup record);

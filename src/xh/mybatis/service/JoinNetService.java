@@ -138,6 +138,24 @@ public class JoinNetService {
 		return result;
 	}
 	/**
+	 * 上传公函或通知函
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileGhorNote(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileGhorNote(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 审核编组方案
 	 * @param bean
 	 * @return
@@ -173,5 +191,41 @@ public class JoinNetService {
 		}
 		return result;
 	}
-
+	/**
+	 * 用户签署协议
+	 * @param bean
+	 * @return
+	 */
+	public static int signFile(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.signFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 经办人签署协议
+	 * @param bean
+	 * @return
+	 */
+	public static int signFileTwo(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.signFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

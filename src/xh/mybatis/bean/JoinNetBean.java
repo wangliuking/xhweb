@@ -36,6 +36,43 @@ public class JoinNetBean {
 	private String note4;
 	private String fileName;
 	private String filePath;
+	private String fileNameGH;
+	private String filePathGH;
+	private String fileNameNote;
+	private String filePathNote;
+	
+	public String getFileNameGH() {
+		return fileNameGH;
+	}
+	public void setFileNameGH(String fileNameGH) {
+		this.fileNameGH = fileNameGH;
+	}
+	public String getFilePathGH() {
+		return filePathGH;
+	}
+	public void setFilePathGH(String filePathGH) {
+		this.filePathGH = filePathGH;
+	}
+	public String getFileNameNote() {
+		return fileNameNote;
+	}
+	public void setFileNameNote(String fileNameNote) {
+		this.fileNameNote = fileNameNote;
+	}
+	public String getFilePathNote() {
+		return filePathNote;
+	}
+	public void setFilePathNote(String filePathNote) {
+		this.filePathNote = filePathNote;
+	}
+	//指定审核入网申请的主管部门领导
+	private String user_MainManager;
+	public String getUser_MainManager() {
+		return user_MainManager;
+	}
+	public void setUser_MainManager(String user_MainManager) {
+		this.user_MainManager = user_MainManager;
+	}
 	public int getId() {
 		return id;
 	}

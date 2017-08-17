@@ -17,12 +17,30 @@ public class WebUserServices {
 	 * 软件产业中心用户列表
 	 * @return
 	 */
-	public static List<Map<String,Object>>userlist10002(){
+//	public static List<Map<String,Object>> userlist10002(){
+//		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+//		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+//		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+//		try {
+//			list=mapper.userlist10002();
+//			sqlSession.close();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return  list;	
+//	}
+	
+	/**
+	 * 根据RoleID角色组用户列表
+	 * @return
+	 */
+	public static List<Map<String,Object>> userlistByRoleId(Integer roleId) {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
 		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
 		try {
-			list=mapper.userlist10002();
+			list=mapper.userlistByRoleId(roleId);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -212,5 +230,6 @@ public class WebUserServices {
 		}
 		return result;
 	}
+	
 
 }

@@ -16,10 +16,15 @@
         <result property="role" column="role" javaType="java.lang.String"></result>
     </resultMap>
     <!--软件产业中心用户列表-->
-    <select id="userlist10002"  resultType="map" useCache="true">
+    <!-- <select id="userlist10002"  resultType="map" useCache="true">
      select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
      xhgmnet_web_role_user where roleId=10002)
-    </select>     
+    </select> -->  
+    <!--根据RoleID角色组用户列表-->
+    <select id="userlistByRoleId" parameterType="java.lang.Integer" resultType="map" useCache="true">
+     select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
+     xhgmnet_web_role_user where roleId=#{roleId})
+    </select>    
    <!-- 
     <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean"  resultMap="webUserMap">
      select * from xhgmnet_web_user where user=#{user} and userPass=#{userPass}

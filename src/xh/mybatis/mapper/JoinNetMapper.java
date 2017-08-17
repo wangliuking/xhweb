@@ -58,6 +58,14 @@ public interface JoinNetMapper {
 	public int uploadFile(JoinNetBean bean)throws Exception;
 	
 	/**
+	 * 上传公函或通知函
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFileGhorNote(JoinNetBean bean)throws Exception;
+	
+	/**
 	 * 审核编组方案
 	 * @param bean
 	 * @return
@@ -71,5 +79,20 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int sureFile(JoinNetBean bean)throws Exception;
-
+	
+	/**
+	 * 用户签署协议
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int signFile(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 经办人签署协议
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int signFileTwo(JoinNetBean bean)throws Exception;
 }

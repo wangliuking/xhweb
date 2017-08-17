@@ -48,6 +48,7 @@ public class MemberCenterController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",EmailService.emailCount());
@@ -66,9 +67,11 @@ public class MemberCenterController {
 	@ResponseBody
 	public void noReadEmailCount(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",EmailService.noReadEmailCount());
+		result.put("totals",EmailService.noReadEmailCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

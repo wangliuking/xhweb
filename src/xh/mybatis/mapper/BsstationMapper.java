@@ -60,6 +60,26 @@ public interface BsstationMapper {
 	 */
 	public List<HashMap>allBsInfo()throws Exception;
 	/**
+	 * 根据所选区域查询所有基站
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> bsByArea(List<String> zone) throws Exception;
+	/**
+	 * 根据所选级别查询所有基站
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> bsByLevel(String level) throws Exception;
+	/**
+	 * 查询所有基站区域
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectAllArea() throws Exception;
+	/**
+	 * 查询所有基站级别
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectLevel() throws Exception;
+	/**
 	 * 查询所有基站位置信息
 	 * @author wlk
 	 */
@@ -74,6 +94,21 @@ public interface BsstationMapper {
 	 * @author wlk
 	 */
 	public List<HashMap<String,String>> selectAllEMHById(String bsId) throws Exception;
-
+	/**
+	 * 查询top5话务量
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectCalllist(String currentMonth) throws Exception;
+	/**
+	 * 查询top5排队数
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectChannel() throws Exception;
+	
+	/**
+	 * 路测数据查询
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectRoadTest() throws Exception;
 	
 }

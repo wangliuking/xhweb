@@ -16,8 +16,13 @@
 							<div class="form-group col-md-12">
 								<label>资产类型</label>&nbsp;<span class="text-danger">[*]</span> <select
 									id="type" name="type" class="form-control">
-									<option value="1" selected="selected">手台</option>
-									<option value="2">附件</option>
+									<option value="1" selected="selected">交换控制中心（MSO）设备</option>
+									<option value="2">远端调度台设备</option>
+									<option value="3">基站设备</option>
+									<option value="4">用户台设备</option>
+									<option value="5">备件</option>
+									<option value="6">附件</option>
+									<option value="7">其他</option>
 								</select>
 							</div>
 						</div>
@@ -65,7 +70,21 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-
+						<div class="col-md-4">
+						<!-- 1:外借;2:报废;3:维修;4:在库;5:在用;6:待报废;7:遗失 -->
+							<div class="form-group col-md-12">
+								<label>资产状态</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="status" class="form-control" name="status">
+									<option value="1">外借</option>
+									<option value="2">报废</option>
+									<option value="3">维修</option>
+									<option value="4" selected="selected">在库</option>
+									<option value="5">在用</option>
+									<option value="6">待报废</option>
+									<option value="7">遗失</option>
+								</select>
+							</div>
+						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>备注</label>&nbsp;<span class="text-danger">[*]</span> <input

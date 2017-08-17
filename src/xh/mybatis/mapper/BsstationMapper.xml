@@ -79,6 +79,28 @@
 		</foreach>
 		)
 	</delete>
+
+	<!--根据区域信息查询所有基站wlk-->
+    <select id="bsByArea" resultType="java.util.HashMap" parameterType="java.util.List" useCache="true">
+     select * from xhgmnet_bs_station as a where a.zone in (
+     <foreach collection="list" item="z" separator=",">
+			#{z}
+		</foreach>
+     ) group by a.bsId 
+    </select>
+    <!--根据级别信息查询所有基站wlk-->
+    <select id="bsByLevel" resultType="java.util.HashMap" useCache="true">
+     select * from xhgmnet_bs_station as a where a.level=#{level} group by a.bsId 
+    </select>
+	<!--查询所有 区域信息wlk-->
+    <select id="selectAllArea" resultType="java.util.HashMap" useCache="true">
+     select distinct zone from xhgmnet_bs_station where not isnull(zone) and zone != "" and zone != "null"
+    </select>
+    <!--查询所有 级别信息wlk-->
+    <select id="selectLevel" resultType="java.util.HashMap" useCache="true">
+     select distinct level from xhgmnet_bs_station where not isnull(zone) order by level
+    </select>
+
 	<!-- 查询当前断站的基站 -->
 	<select id="bsOfflineList" resultType="java.util.HashMap" useCache="true">
      select a.bsId,a.status,b.name from xhgmnet_bs_status as a left join xhgmnet_bs_station as b 
@@ -87,7 +109,7 @@
 	
     <!--查询所有 wlk-->
     <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a left join xhgmnet_bs_alarm as b on a.bsId=b.bsId group by a.bsId
+     select * from xhgmnet_bs_station as a group by a.bsId
     </select>
 	
 	<!-- 根据id查询对应基站信息 wlk -->
@@ -99,6 +121,24 @@
 	<select id="selectAllEMHById" resultType="java.util.HashMap" useCache="true">
 	 select * from emh_server as a,emh_sensor as b where a.id = b.sid and a.code=#{bsId} order by b.dev_name
 	</select>
-
+	
+	<!-- 首页话务量查询 -->
+	<select id="selectCalllist" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
+	 select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a 
+	 left join xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id 
+     order by num desc limit 0,5
+	</select> 
+	
+	<!-- 首页排队量查询 -->
+	<select id="selectChannel" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
+	 select name,sum(queuedAllocReq) as sum,lat,lng,a.bsId from xhgmnet_bs_channel_info as a 
+	 left join xhgmnet_bs_station as b on a.bsId=b.bsId group by name 
+     order by sum desc limit 0,5
+	</select>
+	
+	<!-- 首页路测数据查询 -->
+	<select id="selectRoadTest" resultType="java.util.HashMap" useCache="true">
+		select * from xhgmnet_road_test01
+	</select>
 
 </mapper>
