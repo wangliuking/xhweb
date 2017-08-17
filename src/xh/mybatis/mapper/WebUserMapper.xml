@@ -66,6 +66,28 @@
     <select id="userAllCount" resultType="int" useCache="true">
      select count(*) from xhgmnet_web_user
     </select>
+    <!--判断用户权限是否存在-->
+    <select id="existsUserPower" parameterType="int" resultType="int" useCache="true">
+     select count(userId) from xhgmnet_web_user_action where userId=#{userId}
+    </select>     
+    <!--获取用户权限-->
+    <select id="getUserPower" parameterType="int" resultType="java.util.HashMap" useCache="true">
+     select * from xhgmnet_web_user_action where userId=#{userId}
+    </select> 
+    <!--添加用户权限-->
+    <insert id="addUserPower"  useGeneratedKeys="true" parameterType="xh.mybatis.bean.UserPowerBean">
+     insert into xhgmnet_web_user_action
+     (p_add,p_update,p_delete,p_lock,b_add,b_update,b_delete,b_check)
+     values
+     (#{p_add},#{p_update},#{p_delete},#{p_lock},#{b_add},#{b_update},#{b_delete},#{b_check})
+    </insert>  
+    <!--修改用户权限--> 
+    <update id="updateUserPower" parameterType="xh.mybatis.bean.UserPowerBean">
+     update xhgmnet_web_user_action set
+     p_add=#{p_add},p_update=#{p_update},p_delete=#{p_delete},p_lock=#{p_lock},
+     b_add=#{b_add},b_update=#{b_update},b_delete=#{b_delete},b_check=#{b_check}
+     where userId=#{userId}
+    </update>     
    <!--根据用户ID删除用户-->
     <delete id="deleteByUserId" parameterType="java.util.List">
      delete from xhgmnet_web_user where userId in(
