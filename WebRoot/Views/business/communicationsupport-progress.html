@@ -1,0 +1,101 @@
+
+<div class="modal fade" id="progress" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<ul id="xh-tabs" class="nav nav-tabs">
+					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
+					<!-- <li><a href="#p-timeline" data-toggle="tab">申请进度</a></li> -->
+				</ul>
+				<div class="tab-content" style="padding: 20px">
+					<div class="tab-pane fade in active text-danger" id="info">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>申请单位</label><input type="text"
+										ng-model="editData.unit" class="form-control"
+										name="unit" required="required">
+								</div>
+							</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>申请时间</label> <input type="text"
+										ng-model="editData.time" class="form-control"
+										name="time" required="required">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>保障事由</label> <input type="text"
+										ng-model="editData.reason" class="form-control"
+										name="reason" required="required">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>保障区域</label> <input type="text"
+										ng-model="editData.area" class="form-control"
+										name="area" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>保障时间</label> <input type="text"
+										ng-model="editData.supportTime" class="form-control"
+										name="supportTime" required="required">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>保障需求</label> <input type="text"
+										ng-model="editData.need" class="form-control"
+										name="need" required="required">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系人</label> <input type="text"
+										ng-model="editData.person" class="form-control"
+										name="person" required="required" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系电话</label><input type="text"
+										ng-model="editData.tel" class="form-control"
+										name="tel" required="required">
+								</div>
+							</div>
+						</div>
+				
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div> -->
+	</div>
+</div>

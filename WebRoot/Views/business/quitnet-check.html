@@ -1,0 +1,157 @@
+<!-- 经信委 -->
+<div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm1" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="1" selected="selected">审核通过</option>
+									<option value="-1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="user" ng-model="user">
+								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn1">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 用户确认 -->
+<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm2" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="1" selected="selected">通过</option>
+									<option value="0">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note3" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn2">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#check_btn1").click(function() {
+		$('#checkForm1').submit();
+	});
+	$("#check_btn2").click(function() {
+		$('#checkForm2').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	//管理部门审核提交 rtest
+	$('#checkForm1').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check1();
+	});	
+	//用户确认
+	$('#checkForm2').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check1();
+	});	
+</script>
+<script>
+	$(function() {
+		$("[data-toggle='tooltip']").tooltip();
+	});
+</script>
