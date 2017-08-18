@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.mapper.WebUserMapper;
 import xh.mybatis.tools.DbTools;
@@ -223,6 +224,78 @@ public class WebUserServices {
 		try {
 			result=mapper.lockUser(map);
 			sqlSession.commit();		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 判断用户权限是否存在
+	 * @param  userId
+	 * @return
+	 */
+	public static int existsUserPower(int userId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=0;
+		try {
+			result=mapper.existsUserPower(userId);		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 获取用户权限
+	 * @param userId
+	 * @return
+	 */
+	public static HashMap<String,String> getUserPower(int userId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		HashMap<String,String> map=new HashMap<String, String>();
+		try {
+			map=mapper.getUserPower(userId);		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 *  添加用户权限
+	 * @param bean
+	 * @return
+	 */
+	public static int addUserPower(UserPowerBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.addUserPower(bean);		
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 修改用户权限
+	 * @param bean
+	 * @return
+	 */
+	public static int updateUserPower(UserPowerBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.updateUserPower(bean);		
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

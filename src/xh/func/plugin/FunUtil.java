@@ -55,6 +55,19 @@ public class FunUtil {
 		return user;
 		
 	}
+	//获取登录用户ID
+	public int loginUserId(HttpServletRequest request){
+		int userId=0;
+		try {
+			userId=StringToInt(SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("userId").toString());
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("获取数据异常");
+			log.error(e.getMessage(),e);
+		}
+		return userId;
+		
+	}
 	//设置cookie
 	public void addCookie(HttpServletResponse response,String name,String value) throws UnsupportedEncodingException{
 		Cookie cookie = new Cookie(name, URLEncoder.encode(value, "UTF-8"));

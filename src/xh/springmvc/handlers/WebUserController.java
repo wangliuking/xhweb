@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.BsstationBean;
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.bean.WebUserRoleBean;
@@ -289,6 +292,78 @@ public class WebUserController {
 		}else{
 			message="更新用户状态失败";
 		}
+		HashMap result = new HashMap();
+		this.success=true;
+		result.put("message", message);
+		result.put("result", rslt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	/**
+	 * 获取用户权限
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/user/getuserpower",method = RequestMethod.GET)
+	public void getuserpower(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int userId=funUtil.StringToInt(request.getParameter("userId"));
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", WebUserServices.getUserPower(userId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 设置用户权限
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/user/setuserpower",method = RequestMethod.POST)
+	public void setuserpower(HttpServletRequest request, HttpServletResponse response){
+		String jsonData=request.getParameter("formData");
+        UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
+        log.info(bean.toString());
+        
+        int rslt=0;
+        if(WebUserServices.existsUserPower(bean.getUserId())>0){
+        	rslt=WebUserServices.updateUserPower(bean);
+        	log.info("count1="+WebUserServices.existsUserPower(bean.getUserId()));
+        }else{
+        	rslt=WebUserServices.addUserPower(bean);
+        	log.info("count2="+WebUserServices.existsUserPower(bean.getUserId()));
+        }
+        if(rslt==1){
+			try {
+				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(4);
+				webLogBean.setContent("设置用户权限，userId="+bean.getUserId());
+				webLogBean.setCreateTime(funUtil.nowDate());
+				WebLogService.writeLog(webLogBean);
+				message="设置用户权限成功";
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			message="设置用户权限失败";
+		}		
 		HashMap result = new HashMap();
 		this.success=true;
 		result.put("message", message);

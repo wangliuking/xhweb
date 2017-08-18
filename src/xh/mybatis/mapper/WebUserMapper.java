@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebUserBean;
 
 public interface WebUserMapper {
@@ -91,5 +92,33 @@ public interface WebUserMapper {
 	 * @throws Exception
 	 */
 	public int lockUser(Map<String,Object> map)throws Exception;
+	/**
+	 * 判断用户权限是否存在
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public int existsUserPower(int userId)throws Exception;
+	/**
+	 * 获取用户权限
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap<String,String> getUserPower(int userId)throws Exception;
+	/**
+	 * 添加用户权限
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int addUserPower(UserPowerBean bean)throws Exception;
+	/**
+	 * 修改用户权限
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateUserPower(UserPowerBean bean)throws Exception;
 
 }

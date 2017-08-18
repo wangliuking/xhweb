@@ -1,6 +1,6 @@
 if (!("xh" in window)) {window.xh = {};};
 var frist=0;
-xh.audio=function(){
+xh.load=function(){
 	var app = angular.module("app", []);
 	var caller=$("#caller").val();
 	var called=$("#called").val();
@@ -23,7 +23,32 @@ xh.audio=function(){
 		//刷新数据
 	    $scope.refresh=function(){
 	    	xh.search(1);
+	    	
 	    };
+	  //查询数据
+	    $scope.search_1=function(page){
+	    	xh.search(page);
+	    	
+	    };
+	    /*下载文件*/
+	  $scope.download=function(){
+	  var filename=$("#download").val();
+	  console.log("filename=>"+filename);
+	  var downUrl="../../call/download?fileName="+filename;
+	  window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	  }
+	  /*播放录音*/
+	  $scope.play_click=function(sef){
+		  var playname=$("#play").val();
+		  var div = document.getElementById('div1');
+		  var url="http://localhost:8080/xhweb/WebRoot/Resources/data/"+playname;
+	    div.innerHTML ='<embed src="'+url+'" loop="0" autostart="true" hidden="true"></embed>';var emb = document.getElementsByTagName('EMBED')[0];if(emb){/* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
+	        div = document.getElementById('div2');
+	        div.innerHTML ='loading: '+emb.src;
+	        sef.disabled =true;
+	        setTimeout(function(){div.innerHTML='';},1000);}
+	    }
+	  
 	   //分页点击
 		$scope.pageClick = function(page) {
 			var pageSize=$("#page-limit").val();
@@ -50,6 +75,14 @@ xh.audio=function(){
 		};
 		
   });
+};
+
+xh.download=function(){
+	var $scope = angular.element(appElement).scope();
+	var filename=$scope.checkData.fileName;
+	console.log("filename=>"+filename);
+	var downUrl="../../call/download?fileName="+filename;
+	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
 };
 
 /*查询数据*/
