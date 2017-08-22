@@ -53,6 +53,17 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>通知管理部门领导</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="manager" ng-model="user">
+									<option ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>租借原因</label>

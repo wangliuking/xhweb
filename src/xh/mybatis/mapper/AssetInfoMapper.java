@@ -74,5 +74,10 @@ public interface AssetInfoMapper {
 	 * wlk
 	 */
 	public int updateStatusByNum(Map<String,Object> map)throws Exception;
+	/**
+	 * 根据序列号批量更新记录表中的状态
+	 * durant
+	 */
+	public int updateStatusByNumAsList(Map<String,Object> map)throws Exception;
 
 }

@@ -517,7 +517,6 @@ xh.upload = function(index) {
 			console.log(data.filePath)
 			xh.maskHide();
 			if (data.success) {
-				alert(data.success);
 				$("#"+note).html(data.message);
 				$("input[name='result']").val(1);
 				$("input[name='fileName']").val(data.fileName);
@@ -618,21 +617,16 @@ xh.download = function(id) {
 	var $scope = angular.element(appElement).scope();
 	$scope.checkData = $scope.data[id];
 	var filename = $scope.checkData.fileName;
-	alert($scope.loginUserRoleId);
 	if(id != -1){
 		if($scope.loginUserRoleId == 10001){
 			filename = $scope.checkData.fileName_GH;
-			alert("10001:" + filename);
 		}
 		else if($scope.loginUserRoleId == 10002 && $scope.checkData.checked==1){
 			filename = $scope.checkData.fileName_Note;
-			alert("10002:" + filename);
 		}
 	}
 	console.log("filename=>" + filename);
-	alert(filename);
 	var downUrl = "../../net/download?fileName=" + filename;
-	alert(downUrl);
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

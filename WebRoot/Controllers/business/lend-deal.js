@@ -43,6 +43,7 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
 		$scope.data_id=$location.search().data_id;
+		$scope.manager=$location.search().manager;
 		$http.get("../../business/assetList?type="+type+"&name="+name+"" +
 				"&model="+model+"&serialNumber="+serialNumber+"&from=0" +
 				"&status=0&start=0&limit="+pageSize).
@@ -223,12 +224,14 @@ xh.check2 = function() {
 		dataType : "json",
 		async : true,
 		data:{
-			lendId:$scope.data_id
+			lendId:$scope.data_id,
+			manager:$scope.manager
 		},
 		success : function(data) {
 
 			if (data.result ==1) {
 				toastr.success(data.message, '提示');
+				window.location.href="lend.html";
 
 			} else {
 				toastr.error(data.message, '提示');

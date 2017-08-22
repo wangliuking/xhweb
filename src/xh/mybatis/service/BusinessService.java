@@ -223,5 +223,23 @@ public class BusinessService {
 		}
 		return count;
 	}
+	/**
+	 * 根据序列号批量修改记录表的状态
+	 * durant
+	 */
+	public static int updateStatusByNumAsList(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int count = 0;
+		try {
+			count = mapper.updateStatusByNumAsList(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

@@ -40,6 +40,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;	
 		});
 		
+		
 		/*获取申请记录表*/
 		$http.get("../../business/lend/list?start=0&limit=" + pageSize).
 		success(function(response){
@@ -49,7 +50,6 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -58,7 +58,7 @@ xh.load = function() {
 		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
-			window.location.href="lend-deal.html?data_id="+$scope.editData.id;
+			window.location.href="lend-deal.html?data_id="+$scope.editData.id + "&manager=" + $scope.editData.user1;
 	    };
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
@@ -71,16 +71,56 @@ xh.load = function() {
 			});
 			$("#progress").modal('show');
 	    };
+	    
 	    $scope.checkedChange=function(issure){
 	    	$scope.issure=issure==1?true:false;
 	    	console.log($scope.issure);
 	    };
+	    /*审核归还通过*/
+		$scope.checkSuccess = function (id) {
+			$scope.checkedSerialNumber = $scope.dataLend[id].serialNumber;
+			$.ajax({
+				url : '../../business/lend/returnEquipment',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					lendId:$scope.dataLend[id].lendId,
+					checkId:$scope.checkedSerialNumber,
+					status:0
+				},
+				success : function(data) {
+
+					if (data.result ==1) {
+						$('#progress').modal('hide');
+						xh.refresh();
+						toastr.success(data.message, '提示');
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
+			if(id == -1){
+				$http.get("../../web/user/getUserList?roleId=10002").
+				success(function(response){
+					$scope.userData = response.items;
+					$scope.userTotals = response.totals;
+					if($scope.userTotals>0){
+						$scope.user=$scope.userData[0].user;
+					}
+				});
+				$("#add").modal('show');
+			}
 			$scope.checkData = $scope.data[id];
 			$scope.ch="1";
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
-				$http.get("../../web/user/userlist10002").
+				$http.get("../../web/user/getUserList?roleId=10002").
 				success(function(response){
 					$scope.userData = response.items;
 					$scope.userTotals = response.totals;
@@ -103,6 +143,26 @@ xh.load = function() {
 			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==3){
 				xh.check4();
 			}
+			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
+				//设备清单列表
+				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
+				success(function(response){
+					xh.maskHide();
+					$scope.dataLend = response.items;
+					$scope.lendTotals = response.totals;
+				});
+				$("#checkWin5").modal('show');
+			}
+			/*if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
+				//设备清单列表
+				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id + "status=2").
+				success(function(response){
+					xh.maskHide();
+					$scope.dataLend = response.items;
+					$scope.lendTotals = response.totals;
+				});
+				$("#checkWin6").modal('show');
+			}*/
 			
 	    };
 	    /* 用户确认编组方案 */
@@ -320,6 +380,7 @@ xh.check3 = function(checked) {
 		data:{
 			lendId:$scope.checkData.id,
 			checked:checked,
+			user:$scope.checkData.user,
 			note2:$("#checkForm3").find("input[name='note2']").val()
 		},
 		success : function(data) {
@@ -351,6 +412,35 @@ xh.check4 = function() {
 		success : function(data) {
 
 			if (data.result ==1) {
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*用户归还设备*/
+xh.check5 = function(checkIds) {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../business/lend/returnEquipment',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			lendId:$scope.checkData.id,
+			checkId:checkIds,
+			manager:$scope.checkData.user1,
+			status:2
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin5').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -446,29 +536,3 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-
-/*$http({
-method : "POST",
-url : "../../bs/list",
-data : {
-	bsId : bsId,
-	name : name,
-	start : start,
-	limit : pageSize
-},
-headers : {
-	'Content-Type' : 'application/x-www-form-urlencoded'
-},
-transformRequest : function(obj) {
-	var str = [];
-	for ( var p in obj) {
-		str.push(encodeURIComponent(p) + "="
-				+ encodeURIComponent(obj[p]));
-	}
-	return str.join("&");
-}
-}).success(function(response) {
-xh.maskHide();
-$scope.data = response.items;
-$scope.totals = response.totals;
-});*/

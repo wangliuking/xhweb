@@ -629,7 +629,7 @@ public class JoinNetController {
 	}
 	
 	/**
-	 * 发送邮件
+	 * 发送邮件--入网申请
 	 * @param recvUser	邮件接收者
 	 * @param content	邮件内容
 	 * @param request

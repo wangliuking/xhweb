@@ -5,7 +5,7 @@
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header"></div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="checkForm1" onSubmit="return false">
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
@@ -67,8 +67,10 @@
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header "></div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-			<div><span>用户租借设备清单</span></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div>
+					<span>用户租借设备清单</span>
+				</div>
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-gray">
@@ -91,7 +93,6 @@
 					</tbody>
 				</table>
 				<form action="#" id="checkForm3" onSubmit="return false">
-					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -122,7 +123,66 @@
 		</div>
 	</div>
 </div>
-
+/*归还设备清单*/
+<div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header "></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="checkForm5" onSubmit="return false">
+					<div>
+						<span>用户租借设备清单</span>
+					</div>
+					<table id="tb-info" class="xh-table table-hover">
+						<thead>
+							<tr class="tr-gray">
+								<th width="30px"><input type="checkbox" id="table-checkbox"
+									class="table-check" /></th>
+								<th>设备类别</th>
+								<th>名称</th>
+								<th>型号</th>
+								<th>序列号</th>
+								<th>状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="lendTotals==0">
+								<td colspan="5" class="text-center">租借清单为空，请前往添加</td>
+							</tr>
+							<tr ng-repeat="x in dataLend">
+								<td><input type="checkbox" name="tb-check"
+									value="{{x.serialNumber}}" index="{{$index}}" /></td>
+								<td>{{x.type}}</td>
+								<td>{{x.name}}</td>
+								<td>{{x.model}}</td>
+								<td>{{x.serialNumber}}</td>
+								<td ng-if="x.status==-1">已拒绝</td>
+								<td ng-if="x.status==0">已归还</td>
+								<td ng-if="x.status==1">在借</td>
+								<td ng-if="x.status==2">审核中</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" ng-disabled="form.$invalid"
+						class="btn btn-success btn-sm" id="check_btn5">
+						<i class="fa fa-plus"></i>&nbsp;归还设备
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
@@ -132,6 +192,14 @@
 	});
 	$("#check_btn3_no").click(function() {
 		xh.check3(1);
+	});
+	$("#check_btn5").click(function() {
+		var checkIds = '';
+		$("input[name='tb-check']:checked").each(function() {
+			checkIds += $(this).val() + ","
+		});
+		checkIds = checkIds.substring(0, checkIds.length - 1);
+		xh.check5(checkIds);
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
