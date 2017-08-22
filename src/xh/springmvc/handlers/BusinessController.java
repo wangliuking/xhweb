@@ -31,12 +31,10 @@ import jxl.write.WritableWorkbook;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
