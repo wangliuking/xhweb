@@ -88,7 +88,14 @@ public interface LendMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> lendInfoList(int lendId)throws Exception;
+	public List<Map<String,Object>> lendInfoList(Map<String,Object> map)throws Exception;
+	/**
+	 * 查询待审核 归还借设备清单 
+	 * @param lendId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> checkLendOrderCount()throws Exception;
 
 
 }

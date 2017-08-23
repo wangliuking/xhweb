@@ -9,13 +9,13 @@
 					aria-hidden="true">&times;</button>
 				<small class="font-bold"></small>
 			</div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
 					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
 					<li><a href="#order" data-toggle="tab">租借清单</a></li>
 				</ul>
-				<div class="tab-content" style="padding:20px">
+				<div class="tab-content" style="padding: 20px">
 					<div class="tab-pane fade in active text-danger" id="info">
 						<div class="row">
 							<div class="col-md-4">
@@ -78,7 +78,7 @@
 					</div>
 					<!-- tab-pane--end -->
 					<div class="tab-pane fade text-danger" id="p-timeline"
-						style="background:#e9f0f5;margin:0;">
+						style="background: #e9f0f5; margin: 0;">
 						<div id="cd-timeline" class="cd-container">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
@@ -117,7 +117,7 @@
 									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>经办人整理设备清单</h2>
-									
+
 									<span ng-if="progressData.checked<1"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=1"
@@ -151,7 +151,7 @@
 									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
 									<h2>用户确认租借清单</h2>
-									
+
 									<span ng-if="progressData.checked<3"
 										class="cd-date text-danger">等待确认</span> <span
 										ng-if="progressData.checked>=3"
@@ -160,7 +160,7 @@
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-						<!-- 	<div class="cd-timeline-block">
+							<!-- 	<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<4"></div>
 								<div class="cd-timeline-img cd-green"
@@ -189,31 +189,40 @@
 						</div>
 					</div>
 					<div class="tab-pane fade text-danger" id="order"
-						style="background:#e9f0f5;margin:0;">
-						
+						style="background: #e9f0f5; margin: 0;">
+
 						<table id="tb-info" class="xh-table table-hover">
-					<thead>
-						<tr class="tr-gray">
-							<th>设备类别</th>
-							<th>名称</th>
-							<th>型号</th>
-							<th>序列号</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="lendTotals==0">
-							<td colspan="4" class="text-center">租借清单为空，请前往添加</td>
-						</tr>
-						<tr ng-repeat="x in dataLend">
-							<td>{{x.type}}</td>
-							<td>{{x.name}}</td>
-							<td>{{x.model}}</td>
-							<td>{{x.serialNumber}}</td>
-						</tr>
-					</tbody>
-				</table>
-						
-						</div>
+							<thead>
+								<tr class="tr-gray">
+									<th>设备类别</th>
+									<th>名称</th>
+									<th>型号</th>
+									<th>序列号</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-if="lendTotals==0">
+									<td colspan="6" class="text-center">租借清单为空，请前往添加</td>
+								</tr>
+								<tr ng-repeat="x in dataLend">
+									<td>{{x.type}}</td>
+									<td>{{x.name}}</td>
+									<td>{{x.model}}</td>
+									<td>{{x.serialNumber}}</td>
+									<td ng-if="x.status==0">已归还</td>
+									<td ng-if="x.status==1">在借</td>
+									<td ng-if="x.status==2">审核中</td>
+									<td><a ng-if="x.status==2 && loginUser==progressData.user1" href="#"
+										ng-click="checkSuccess($index,progressData.user1)"><i
+											class="fa fa-check text-success"></i>审核通过
+									</a> </td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
 					<!-- tab-pane--end -->
 				</div>
 			</div>

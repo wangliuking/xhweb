@@ -222,12 +222,30 @@ public class LendService {
 	 * @param lendId
 	 * @return
 	 */
-	public static List<Map<String,Object>> lendInfoList(int lendId){
+	public static List<Map<String,Object>> lendInfoList(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		try {
-			list=mapper.lendInfoList(lendId);
+			list=mapper.lendInfoList(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 查询待审核 归还借设备清单 
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String,Object>> checkLendOrderCount(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.checkLendOrderCount();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

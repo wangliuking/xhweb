@@ -20,6 +20,13 @@ public class LendBean {
 	private String 	time4;
 	private String 	note1;
 	private String 	note2;
+	private String  manager;
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
 	public int getId() {
 		return id;
 	}
