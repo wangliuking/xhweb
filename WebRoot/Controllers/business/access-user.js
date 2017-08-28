@@ -146,6 +146,9 @@ xh.load = function() {
 	});
 };
 /* 入网用户 */
+xh.showAddWin=function(){
+	$('#addWin').modal('show');
+};
 xh.add = function() {
 	$.ajax({
 		url : '../../access/insert',
