@@ -37,8 +37,8 @@ import xh.org.listeners.SingLoginListener;
 
 
 public class FunUtil {
-	protected final Log log = LogFactory.getLog(FunUtil.class);
-	public String xmlPath() {
+	protected final static Log log = LogFactory.getLog(FunUtil.class);
+	public static String xmlPath() {
 		String str = FunUtil.class.getResource("/conf.xml").getPath();
 		return str;
 	}
@@ -225,7 +225,7 @@ public class FunUtil {
 		writer.flush();
 		writer.close();
 	}
-	public int StringToInt(String str){
+	public static int StringToInt(String str){
 		int value=-1;
 		try {
 			value= Integer.parseInt(str.trim());

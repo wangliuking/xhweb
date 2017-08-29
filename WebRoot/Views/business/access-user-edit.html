@@ -1,0 +1,399 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<!-- <div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">编辑入网用户</small>
+			</div> -->
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<ul id="xh-tab" class="nav nav-tabs">
+						<li class="active"><a href="#info-edit" data-toggle="tab">基本信息</a></li>
+						<li><a href="#power-edit" data-toggle="tab">接入权限分配</a></li>
+					</ul>
+
+					<div class="tab-content" style="padding: 10px 0 0 0">
+						<div class="tab-pane fade in active" id="info-edit">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>用户编号</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control" readOnly="true"
+											name="User_id" required="required" ng-model="editData.User_id">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>用户名称</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Name" required="required" ng-model="editData.User_Name">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Unit" required="required" ng-model="editData.User_Unit">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>用户IP</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Ip" required="required" ng-model="editData.User_Ip">
+									</div>
+								</div>
+							</div>
+							<!-- row--end -->
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>用户密码</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Pwd" required="required" ng-model="editData.User_Pwd">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>开户时间</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Reg_Time" required="required" ng-model="editData.User_Reg_Time" 
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>有效时间[单位:天]</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="User_Day_Range" required="required" ng-model="editData.User_Day_Range">
+									</div>
+								</div>
+
+							</div>
+							<!-- row--end -->
+						</div>
+						<div class="tab-pane fade " id="power-edit" style="padding:0px 12px 0 12px;">
+							<div class="row row-title" >
+								<div class="col-md-6 ">短信功能</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_SMSRx_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_SMSRx_EN==1" name="User_SMSRx_EN"> <label
+												for="User_SMSRx_EN-e"></label>
+										</div>
+										短信接收
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_SMSSingle_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_SMSSingle_EN==1" name="User_SMSSingle_EN"> <label
+												for="User_SMSSingle_EN-e"></label>
+										</div>
+										短信单发
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_SMSGroup_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_SMSGroup_EN==1" name="User_SMSGroup_EN"> <label
+												for="User_SMSGroup_EN-e"></label>
+										</div>
+										短信组发
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_SMSRecvSearch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_SMSRecvSearch_EN==1" name="User_SMSRecvSearch_EN"> <label
+												for="User_SMSRecvSearch_EN-e"></label>
+										</div>
+										短信接收查询
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_SMSSendSearch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_SMSSendSearch_EN" name="User_SMSSendSearch_EN"> <label
+												for="User_SMSSendSearch_EN-e"></label>
+										</div>
+										短信发送查询
+									</div>
+								</div>
+
+							</div>
+							<!-- row--end -->
+							<div class="row row-title" >
+								<div class="col-md-6 ">GPS功能</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSRx_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSRx_EN" name="User_GPSRx_EN"> <label
+												for="User_GPSRx_EN-e"></label>
+										</div>
+										GPS信息触发器设定
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSImmRequest_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSImmRequest_EN" name="User_GPSImmRequest_EN"> <label
+												for="User_GPSImmRequest_EN-e"></label>
+										</div>
+										GPS立即请求
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSTriggerRequest_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSTriggerRequest_EN" name="User_GPSTriggerRequest_EN"> <label
+												for="User_GPSTriggerRequest_EN-e"></label>
+										</div>
+										GPS触发器请求
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSOnOffRequest_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSOnOffRequest_EN" name="User_GPSOnOffRequest_EN"> <label
+												for="User_GPSOnOffRequest_EN-e"></label>
+										</div>
+										GPS启用禁用
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSInfoSearch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSInfoSearch_EN" name="User_GPSInfoSearch_EN"> <label
+												for="User_GPSInfoSearch_EN-e"></label>
+										</div>
+										GPS信息查询
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_GPSOperationSearch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_GPSOperationSearch_EN" name="User_GPSOperationSearch_EN"> <label
+												for="User_GPSOperationSearch_EN-e"></label>
+										</div>
+										GPS操作记录查询
+									</div>
+								</div>
+
+							</div>
+							<!-- row--end -->
+							<!-- row--end -->
+							<div class="row row-title" >
+								<div class="col-md-6 ">语音功能</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_CallRecordSearch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_CallRecordSearch_EN" name="User_CallRecordSearch_EN"> <label
+												for="User_CallRecordSearch_EN"></label>
+										</div>
+										通话记录查询
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_VideoDownload_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_VideoDownload_EN" name="User_VideoDownload_EN"> <label
+												for="User_VideoDownload_EN-e"></label>
+										</div>
+										录音下载
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchSingleCall_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchSingleCall_EN" name="User_DispatchSingleCall_EN"> <label
+												for="User_DispatchSingleCall_EN-e"></label>
+										</div>
+										单呼
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchGroupCall_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchGroupCall_EN" name="User_DispatchGroupCall_EN"> <label
+												for="User_DispatchGroupCall_EN-e"></label>
+										</div>
+										组呼
+									</div>
+								</div>
+									<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchPpc_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchPpc_EN" name="User_DispatchPpc_EN"> <label
+												for="User_DispatchPpc_EN-e"></label>
+										</div>
+										紧急呼叫
+									</div>
+								</div>
+								
+
+							</div>
+							<!-- row--end -->
+							<div class="row row-title" >
+								<div class="col-md-6 ">调度功能</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchDisableEnable_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchDisableEnable_EN" name="User_DispatchDisableEnable_EN"> <label
+												for="User_DispatchDisableEnable_EN-e"></label>
+										</div>
+										遥毙遥启
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchDGNA_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchDGNA_EN" name="User_DispatchDGNA_EN"> <label
+												for="User_DispatchDGNA_EN-e"></label>
+										</div>
+										动态重组
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchDiscreetListening_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchDiscreetListening_EN" name="User_DispatchDiscreetListening_EN"> <label
+												for="User_DispatchDiscreetListening_EN-e"></label>
+										</div>
+										慎密监听
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchAmbienceListening_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchAmbienceListening_EN" name="User_DispatchAmbienceListening_EN"> <label
+												for="User_DispatchAmbienceListening_EN-e"></label>
+										</div>
+										环境监听
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchPatch_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchPatch_EN" name="User_DispatchPatch_EN"> <label
+												for="User_DispatchPatch_EN-e"></label>
+										</div>
+										派接
+									</div>
+								</div>
+								<div class="form-group col-lg-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_DispatchMsel_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_DispatchMsel_EN" name="User_DispatchMsel_EN"> <label
+												for="User_DispatchMsel_EN-e"></label>
+										</div>
+										多选
+									</div>
+								</div>
+								
+
+							</div>
+							<!-- row--end -->
+								<div class="row row-title" >
+								<div class="col-md-6 ">终端状态功能</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-4">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_RadioStatusImmQuery_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_RadioStatusImmQuery_EN" name="User_RadioStatusImmQuery_EN"> <label
+												for="User_RadioStatusImmQuery_EN-e"></label>
+										</div>
+										终端用户状态即时查询
+									</div>
+								</div>
+								<div class="form-group col-lg-4">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="User_RadioStatusHistoryQuery_EN-e" class="toggle-switch" type="checkbox"
+												ng-checked="editData.User_RadioStatusHistoryQuery_EN" name="User_RadioStatusHistoryQuery_EN"> <label
+												for="User_RadioStatusHistoryQuery_EN-e"></label>
+										</div>
+										终端用户状态历史记录查询
+									</div>
+								</div>
+								
+								
+
+							</div>
+							<!-- row--end -->
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;保存
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#update_btn").click(function() {
+		$('#updateForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#updateForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update(); 
+	});
+</script>
