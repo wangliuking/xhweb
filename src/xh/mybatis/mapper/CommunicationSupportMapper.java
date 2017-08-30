@@ -33,7 +33,7 @@ public interface CommunicationSupportMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int insertNet(CommunicationSupportBean bean)throws Exception;
+	public int insertSupport(CommunicationSupportBean bean)throws Exception;
 	/**
 	 * 管理方审核
 	 * @param bean

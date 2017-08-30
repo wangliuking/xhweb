@@ -49,4 +49,11 @@ public interface FaultMapper {
 	 */
 	public int checkedTwo(FaultBean bean)throws Exception;
 	
+	/**
+	 * 用户确认
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int sureFile(FaultBean bean)throws Exception;
 }

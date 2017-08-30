@@ -28,12 +28,10 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.FaultBean;
-import xh.mybatis.bean.JoinNetBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.EmailService;
 import xh.mybatis.service.FaultService;
-import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 
@@ -115,7 +113,6 @@ public class FaultController {
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
-		
 		FaultBean bean = GsonUtil.json2Object(jsonData, FaultBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
@@ -163,13 +160,14 @@ public class FaultController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
-		//String note1 = request.getParameter("note1");
+		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
 		bean.setChecked(checked);
 		bean.setUser1(funUtil.loginUser(request));
-		bean.setTime1(funUtil.nowDate());;
+		bean.setTime1(funUtil.nowDate());
+		bean.setNote1(note1);
 		log.info("data==>" + bean.toString());
 		
 		int rst = FaultService.checkedOne(bean);
@@ -214,13 +212,14 @@ public class FaultController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		//String note2 = request.getParameter("note2");
-		String user3 = request.getParameter("user");
+		String note2 = request.getParameter("note2");
+		String user = request.getParameter("user");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
-		bean.setChecked(3);
+		bean.setChecked(2);
 		bean.setUser2(funUtil.loginUser(request));
 		bean.setTime2(funUtil.nowDate());
+		bean.setNote2(note2);
 		int rst = FaultService.checkedTwo(bean);
 		if (rst == 1) {
 			this.message = "通知经办人处理成功";
@@ -231,7 +230,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user3, "故障申请信息审核，请确认。。。", request);
+			sendNotify(user, "故障申请信息审核，请确认。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -261,12 +260,13 @@ public class FaultController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		JoinNetBean bean = new JoinNetBean();
+		String note = request.getParameter("note");
+		FaultBean bean = new FaultBean();
 		bean.setId(id);	
 		//bean.setTime5(funUtil.nowDate());
-		bean.setChecked(4);
-		
-		int rst = JoinNetService.sureFile(bean);
+		bean.setChecked(3);
+		bean.setNote(note);
+		int rst = FaultService.sureFile(bean);
 		if (rst == 1) {
 			this.message = "确认成功";
 			webLogBean.setOperator(funUtil.loginUser(request));

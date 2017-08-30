@@ -101,5 +101,23 @@ public class QuitNetService {
 		}
 		return result;
 	}
+	/**
+	 * 用户确认
+	 * @param bean
+	 * @return
+	 */
+	public static int sureFile(QuitNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.sureFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }

@@ -14,6 +14,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -26,12 +28,13 @@ public class FormToWord {
         configuration.setDefaultEncoding("UTF-8"); 
 	}
 	
-	public boolean fillWord(Object obj,String path){  
+	public boolean fillWord(Object obj,HttpServletRequest request,String templateName){  
         Map<String,Object> dataMap= getData(obj);
-        configuration.setClassForTemplateLoading(this.getClass(), "");//模板文件所在路径
+        //configuration.setClassForTemplateLoading(this.getClass(), request.getSession().getServletContext().getRealPath("/Resources/template"));//模板文件所在路径
+        configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/Resources/template");
         Template t=null;  
         try {  
-            t = configuration.getTemplate(path); //获取模板文件
+            t = configuration.getTemplate(templateName); //获取模板文件
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
