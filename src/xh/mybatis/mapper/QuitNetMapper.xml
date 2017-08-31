@@ -41,21 +41,20 @@
 	<insert id="quitNet" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.QuitNetBean">
 		insert into
-		xhgmnet_business_quitnet(quitName,quitType,quitTime,quitReason,
-		quitPerson,tel)
-		values(#{quitName},#{quitType},#{quitTime},#{quitReason},#{quitPerson},#{tel})
+		xhgmnet_business_quitnet(quitName,quitTime,quitType,quitReason,quitPerson,quitNumber,tel,userName)
+		values(#{quitName},#{quitTime},#{quitType},#{quitReason},#{quitPerson},#{quitNumber},#{tel},#{userName})
 	</insert>
-	
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_net set
-		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
+		quit=#{quit} where
 		id=#{id}
 	</update>
+	
 	<!--用户确认 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_quitnet set
-		checked=#{checked} where id=#{id}
+		quit=#{quit} where id=#{id}
 	</update>
 
 </mapper>

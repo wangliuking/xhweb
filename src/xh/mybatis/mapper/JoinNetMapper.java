@@ -95,4 +95,13 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int signFileTwo(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 退网
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int quitNet(JoinNetBean bean)throws Exception;
+	
 }

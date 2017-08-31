@@ -119,4 +119,23 @@ public class FaultService {
 		}
 		return result;
 	}
+	
+	/**
+	 * 用户确认
+	 * @param bean
+	 * @return
+	 */
+	public static int sureFile(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.sureFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

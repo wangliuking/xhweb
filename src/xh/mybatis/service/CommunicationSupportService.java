@@ -75,7 +75,7 @@ public class CommunicationSupportService{
 		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
 		int result=0;
 		try {
-			result=mapper.insertNet(bean);
+			result=mapper.insertSupport(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -102,7 +102,7 @@ public class CommunicationSupportService{
 		return result;
 	}
 	/**
-	 * 主管部门审核
+	 * 经办人审核
 	 * @param bean
 	 * @return
 	 */
@@ -112,42 +112,6 @@ public class CommunicationSupportService{
 		int result=0;
 		try {
 			result=mapper.checkedTwo(bean);
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
-	/**
-	 * 上传编组方案
-	 * @param bean
-	 * @return
-	 */
-	public static int uploadFile(CommunicationSupportBean bean){
-		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
-		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
-		int result=0;
-		try {
-			result=mapper.uploadFile(bean);
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
-	/**
-	 * 
-	 * @param bean
-	 * @return
-	 */
-	public static int checkFile(CommunicationSupportBean bean){
-		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
-		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
-		int result=0;
-		try {
-			result=mapper.checkFile(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -173,4 +137,5 @@ public class CommunicationSupportService{
 		}
 		return result;
 	}
+	
 }

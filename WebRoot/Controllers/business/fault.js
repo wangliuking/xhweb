@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10002").
+			$http.get("../../web/user/getUserList?roleId=10001").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -102,10 +102,15 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==1){
+			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+				$("#checkWin2").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==2){
+				$("#checkWin3").modal('show');
+			}
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
@@ -314,7 +319,7 @@ xh.check3 = function() {
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin5').modal('hide');
+				$('#checkWin3').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

@@ -114,10 +114,9 @@ public class QuitNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
-		
 		QuitNetBean bean = GsonUtil.json2Object(jsonData, QuitNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
-		//bean.setTime(funUtil.nowDate());
+		bean.setQuitTime(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
 		
 		int rst = QuitNetService.quitNet(bean);
@@ -164,12 +163,15 @@ public class QuitNetController {
 		//String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		QuitNetBean bean = new QuitNetBean();
+		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
 		bean.setQuit(quit);
+		bean2.setChecked(6);
 		log.info("data==>" + bean.toString());
 		
 		int rst = QuitNetService.checkedOne(bean);
 		if (rst == 1) {
+			JoinNetService.quitNet(bean2);
 			this.message = "审核提交成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -254,12 +256,11 @@ public class QuitNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		JoinNetBean bean = new JoinNetBean();
+		QuitNetBean bean = new QuitNetBean();
 		bean.setId(id);	
-		bean.setTime5(funUtil.nowDate());
-		bean.setChecked(3);
-
-		int rst = JoinNetService.sureFile(bean);
+		bean.setQuit(2);
+		
+		int rst = QuitNetService.sureFile(bean);
 		if (rst == 1) {
 			this.message = "确认成功";
 			webLogBean.setOperator(funUtil.loginUser(request));

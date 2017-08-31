@@ -42,8 +42,7 @@
 	<insert id="insertSupport" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		insert into
-		xhgmnet_business_communicationsupport(unit,time,reason,area,supportTime,need,person,
-		tel,userName)
+		xhgmnet_business_communicationsupport(unit,time,reason,area,supportTime,need,person,tel,userName)
 		values(#{unit},#{time},#{reason},#{area},#{supportTime},#{need},#{person},
 		#{tel},#{userName})
 	</insert>
@@ -51,19 +50,19 @@
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_CommunicationSupport set
-		user1=#{user1},time1=#{time1},checked=#{checked} where
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--管理方审核 -->
 	<update id="checkedTwo" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_CommunicationSupport set
-		user2=#{user2},time2=#{time2}, checked=#{checked} where 
+		user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where 
 		id=#{id}
 	</update>
 	<!--用户确认方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_CommunicationSupport set
-		checked=#{checked} where id=#{id}
+		note=#{note},checked=#{checked} where id=#{id}
 	</update>
 
 </mapper>

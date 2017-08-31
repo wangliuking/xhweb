@@ -84,4 +84,10 @@
 		time5=#{time5},checked=#{checked} where id=#{id}
 	</update>
 
+	<!--退网-->
+	<update id="quitNet" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		checked=#{checked} where id=#{id}
+	</update>
+
 </mapper>

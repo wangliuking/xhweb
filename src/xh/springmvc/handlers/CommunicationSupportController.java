@@ -41,7 +41,7 @@ public class CommunicationSupportController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil = new FunUtil();
-	protected final Log log = LogFactory.getLog(JoinNetController.class);
+	protected final Log log = LogFactory.getLog(CommunicationSupportController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
@@ -108,7 +108,7 @@ public class CommunicationSupportController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/insertNet", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertSupport", method = RequestMethod.POST)
 	public void insertNet(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
@@ -169,7 +169,7 @@ public class CommunicationSupportController {
 		bean.setChecked(checked);
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
-		//bean.setNote1(note1);
+		bean.setNote1(note1);
 		log.info("data==>" + bean.toString());
 
 		int rst = CommunicationSupportService.checkedOne(bean);
@@ -215,15 +215,14 @@ public class CommunicationSupportController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String note2 = request.getParameter("note2");
-		String user3 = request.getParameter("user");
+		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
-		bean.setChecked(3);
+		bean.setChecked(2);
 		bean.setUser2(funUtil.loginUser(request));
-		//bean.setUser3(user3);
 		bean.setTime2(funUtil.nowDate());
-		//bean.setNote2(note2);
-
+		bean.setNote2(note2);
+		
 		int rst = CommunicationSupportService.checkedTwo(bean);
 		if (rst == 1) {
 			this.message = "通知经办人处理成功";
@@ -234,7 +233,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user3, "保障申请信息审核。。。", request);
+			sendNotify(user, "保障申请信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -265,11 +264,12 @@ public class CommunicationSupportController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note = request.getParameter("note");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);	
 		//bean.setTime5(funUtil.nowDate());
-		bean.setChecked(4);
-
+		bean.setChecked(3);
+		bean.setNote(note);
 		int rst = CommunicationSupportService.sureFile(bean);
 		if (rst == 1) {
 			this.message = "确认成功";

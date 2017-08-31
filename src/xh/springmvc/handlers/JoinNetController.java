@@ -417,12 +417,11 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
-		
 		JoinNet_registerFormBean bean = GsonUtil.json2Object(jsonData, JoinNet_registerFormBean.class);
 		bean.setDocNum("201708081001");
-		//System.out.println(bean);
 		FormToWord toWord = new FormToWord();
-		Boolean b = toWord.fillWord(bean, "register.ftl");
+		Boolean b = toWord.fillWord(bean, request, "register.ftl");
+		//Boolean b = toWord.fillWord(bean, path);
 		int rst = 0;
 		if(b){
 			this.message = "入网登记表填写成功";
@@ -458,7 +457,7 @@ public class JoinNetController {
 		String path = request.getSession().getServletContext()
 				.getRealPath("")+"/Resources/upload";
 		String fileName = file.getOriginalFilename();
-		// String fileName = new Date().getTime()+".jpg";
+		//String fileName = new Date().getTime()+".jpg";
 		log.info("path==>"+path);
 		log.info("fileName==>"+fileName);
 		File targetFile = new File(path, fileName);

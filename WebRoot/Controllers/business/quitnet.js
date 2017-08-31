@@ -102,8 +102,11 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==1){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==0){
 				$("#checkWin1").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.quit==1){
+				$("#checkWin2").modal('show');
 			}
 	    };
 	    /* 用户确认编组方案 

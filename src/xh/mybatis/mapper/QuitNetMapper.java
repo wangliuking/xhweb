@@ -42,4 +42,12 @@ public interface QuitNetMapper {
 	 */
 	public int checkedOne(QuitNetBean bean)throws Exception;
 	
+	/**
+	 * 用户确认
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int sureFile(QuitNetBean bean)throws Exception;
+	
 }
