@@ -8,7 +8,9 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.AssetTransferBean;
 import xh.mybatis.mapper.AssetInfoMapper;
+import xh.mybatis.mapper.AssetTransferMapper;
 import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -241,5 +243,84 @@ public class BusinessService {
 		}
 		return count;
 	}
-
+	/**
+	 * 查询资产移交记录
+	 * @param root
+	 * @return
+	 */
+	public static List<AssetTransferBean> assetTransfer(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		List<AssetTransferBean> list=new ArrayList<AssetTransferBean>();
+		try {
+			list=mapper.assetTransfer(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	/**
+	 * 查询资产移交记录的总数
+	 * @param root
+	 * @return
+	 */
+	public static int assetTransferCount(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		List<AssetInfoBean> list=new ArrayList<AssetInfoBean>();
+		int count=0;
+		try {
+			count=mapper.assetTransferCount(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  count;
+	}
+	/**
+	 * 添加资产移交
+	 * @param bean
+	 * @return
+	 */
+	public static int insertAssetTransfer(AssetTransferBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertAssetTransfer(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**
+	 * 修改资产记录
+	 * @param bean
+	 * @return
+	 */
+	public static int updateAssetTransfer(AssetTransferBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateAssetTransfer(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	
 }
