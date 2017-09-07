@@ -82,25 +82,25 @@ public class FaultController {
 
 	}
 
-//	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
-//	public void applyProgress(HttpServletRequest request,
-//			HttpServletResponse response) {
-//		this.success = true;
-//		int id = funUtil.StringToInt(request.getParameter("id"));
-//		HashMap result = new HashMap();
-//		result.put("success", success);
-//		result.put("items", .applyProgress(id));
-//		response.setContentType("application/json;charset=utf-8");
-//		String jsonstr = json.Encode(result);
-//		log.debug(jsonstr);
-//		try {
-//			response.getWriter().write(jsonstr);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
+	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
+	public void applyProgress(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", FaultService.applyProgress(id));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
 	 * 故障申请
