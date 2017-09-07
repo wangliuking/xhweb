@@ -150,6 +150,9 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+xh.excelToBsstatus=function(){
+	window.location.href="../../bsstatus/ExcelToStationStatus";
+};
 /* AC电压*/
 xh.loadAcv = function() {
 	// 设置容器宽高
