@@ -19,7 +19,6 @@
 			<otherwise>
 			</otherwise>
 		</choose>
-
 		order by id desc limit #{start},#{limit}
 	</select>
 	<!--查询保障申请所有记录总数 -->
@@ -27,7 +26,6 @@
 		select count(id) from xhgmnet_business_communicationsupport where 1=1
 		<choose>
 			<when test="roleId &gt;10002 || roleId &lt;10000">
-				and u.userName=#{user}
 			</when>
 			<otherwise>
 			</otherwise>
