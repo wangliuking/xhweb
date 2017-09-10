@@ -322,5 +322,39 @@ public class BusinessService {
 		}
 		return  result;
 	}
-	
+	public static int updateAssetTransfer2(AssetTransferBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateAssetTransfer2(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**
+	 * 删除资产移交记录
+	 * @param list
+	 * @return
+	 */
+	public static int deleteAssetTransfer(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetTransferMapper mapper=sqlSession.getMapper(AssetTransferMapper.class);
+		int result=0;
+		try {
+			result=mapper.deleteAssetTransfer(list);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
 }

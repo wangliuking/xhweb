@@ -48,7 +48,73 @@ xh.load = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
+		/* 显示修改model */
+		$scope.editModel = function(id) {
+			
+			$scope.editData = $scope.data[id];
+			$scope.editData.type = $scope.editData.type.toString();
+			
+		};
+		/* 显示修改model */
+		$scope.showEditModel = function() {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				/*swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});*/
+				toastr.error("只能选择一条数据", '提示');
+				return;
+			}
 		
+			$("#edit").modal('show');
+			$scope.editData = $scope.data[parseInt(checkVal[0])];
+			
+			$scope.type = $scope.editData.type.toString();
+		};
+		$scope.delBs = function(id) {
+			swal({
+				title : "提示",
+				text : "确定要删除该记录吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../business/deleteAssetTransfer',
+						type : 'post',
+						dataType : "json",
+						data : {
+							deleteIds : id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							$scope.refresh();
+						}
+					});
+				}
+			});
+		};
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -144,7 +210,7 @@ xh.add = function() {
 /* 修改 */
 xh.update = function() {
 	$.ajax({
-		url : '../../business/updateAsset',
+		url : '../../business/updateAssetTransfer',
 		type : 'POST',
 		dataType : "json",
 		async : false,

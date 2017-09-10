@@ -39,9 +39,23 @@
 	<!--更新资产移交记录 -->
 	<update id="updateAssetTransfer" parameterType="xh.mybatis.bean.AssetTransferBean">
 		update
+		xhgmnet_business_transfer set type=#{type},
+		name=#{name},model=#{model},
+		serialNumber=#{serialNumber},price=#{price},user=#{user} where id=#{id}
+	</update>
+	<!--更新资产移交刷新资产记录 -->
+	<update id="updateAssetTransfer2" parameterType="xh.mybatis.bean.AssetTransferBean">
+		update
 		xhgmnet_business_assetinfo set type=#{type},
 		name=#{name},model=#{model},
-		serialNumber=#{serialNumber},price=#{price},number=#{number},`from`=#{from},
-		status=#{status},note=#{note} where id=#{id}
+		price=#{price},note=#{user} where serialNumber=#{serialNumber}
 	</update>
+		<!--删除资产记录 -->
+	<delete id="deleteAssetTransfer" parameterType="java.util.List">
+		delete from xhgmnet_business_transfer where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
 </mapper>
