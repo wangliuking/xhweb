@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -9,8 +10,6 @@
 <meta http-equiv="Expires" content="-1">
 <title>综合应用与管理平台</title>
 <link rel="stylesheet" href="lib/metisMenu/dist/metisMenu.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="lib/bootstrap-3.3.6/css/bootstrap.min.css">
 <link href="Resources/css/xh.min.css" rel="stylesheet" type="text/css" />
 <!-- <link rel="stylesheet" href= "http://10.190.230.168:2560/arcgis_js_api/library/3.15/3.15/dijit/themes/claro/claro.css"> -->
 <script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
@@ -111,6 +110,16 @@ html,body {
 	overflow-x: hidden;
 }
 
+/* 圈选按钮样式 */
+.dijitOffScreen {
+	position: absolute !important;
+	left: -10000px !important;
+	top: -10000px !important;
+}
+
+#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar {
+	display: none;
+}
 </style>
 </head>
 
@@ -128,7 +137,8 @@ html,body {
 					</tr>
 				</thead>
 			</table>
-			<table id="table0" class="xh-table table-hover" style="padding:0;margin:0;">
+			<table id="table0" class="xh-table table-hover"
+				style="padding:0;margin:0;">
 				<tbody>
 					<tr>
 						<td>1</td>
@@ -158,13 +168,15 @@ html,body {
 					</tr>
 				</thead>
 			</table>
-			<table id="table1" class="xh-table table-hover" style="padding:0;margin:0;">
+			<table id="table1" class="xh-table table-hover"
+				style="padding:0;margin:0;">
 				<tbody>
 					<tr ng-repeat="x in top5Calllist">
-						<td style="width:70%;"><a href="#" ng-click="calllistChoose(x)">{{x.name}}</a></td>
+						<td style="width:70%;"><a href="#"
+							ng-click="calllistChoose(x)">{{x.name}}</a></td>
 						<td style="width:30%;">{{x.num}}</td>
 					</tr>
-					
+
 				</tbody>
 			</table>
 		</div>
@@ -177,7 +189,8 @@ html,body {
 					</tr>
 				</thead>
 			</table>
-			<table id="table2" class="xh-table table-hover" style="padding:0;margin:0;">
+			<table id="table2" class="xh-table table-hover"
+				style="padding:0;margin:0;">
 				<tbody>
 					<tr ng-repeat="x in top5Channel">
 						<td style="width:70%;"><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
@@ -199,21 +212,20 @@ html,body {
 	</div> -->
 		<ul class="nav" id="side-menu"
 			style="height:auto;background: rgba(176,196,222, 0.7);">
-			<li><a href="#"> <i
-					class="fa fa-share-alt-square text-black"></i>&nbsp;&nbsp; <span
-					class="nav-label">基站级别</span> <span class="fa arrow"></span>
+			<li><a href="#"> <i class="fa fa-level-up text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in levelData">
 					<li><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
 				</ul></li>
-			<li><a href="#"> <i class="fa fa-cny text-black"></i>&nbsp;&nbsp;
+			<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in data">
 					<li style="padding-left:36px;"><label class="areaChoose"><input
 							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
 				</ul></li>
-			<li><a href="#"> <i class="fa fa-database text-black"></i>&nbsp;&nbsp;
+			<li><a href="#"> <i class="fa fa-location-arrow text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">图层选择</span><span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level">
@@ -222,12 +234,14 @@ html,body {
 					<li style="padding-left:36px;"><label><input
 							id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
 				</ul></li>
-
-
-
-
-
-
+			<li><a href="#"> <i class="fa fa-columns text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">区域圈选</span><span class="fa arrow"></span>
+			</a>
+				<ul class="nav nav-second-level">
+					<li style="padding-left:36px;"><label>
+							<button data-dojo-type="dijit/form/Button">点击选择</button>
+					</label></li>
+				</ul></li>
 
 		</ul>
 	</aside>
@@ -237,6 +251,85 @@ html,body {
       <button data-dojo-type="dijit/form/Button">Ellipse</button>
     </div> -->
 	<div id="mapDiv"></div>
+	<!-- 模态框（圈选） start-->
+	<div class="modal fade" id="rectangle" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="message_move">圈选查询</div>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#manage" data-toggle="tab">
+								已选{{totals}}个基站</a></li>
+						<li><a href="#param" data-toggle="tab">路测信息</a></li>
+						<li><a href="#moveController" data-toggle="tab">其他</a></li>
+						<li><a href="#movie" data-toggle="tab">视频</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="">
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th>基站ID</th>
+										<th>基站名称</th>
+										<th>基站级别</th>
+										<th>经度</th>
+										<th>纬度</th>
+										<th>高度</th>
+										<th>是否启用</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="7" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in dataRectangle">
+										<td>{{x.bsId}}</td>
+										<td>{{x.name}}</td>
+										<td>{{x.level}}</td>
+										<td>{{x.lng}}</td>
+										<td>{{x.lat}}</td>
+										<td>{{x.height}}</td>
+										<td ng-if="x.openen==1" class="td-success"><span
+											style="color:#fff">已经启用</span></td>
+										<td ng-if="x.openen==0" class="td-gray">未启用</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="search()"
+										ng-model="count">
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id=""></div>
+						<div class="tab-pane fade" id=""></div>
+						<div class="tab-pane fade" id=""></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm"
+						data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（圈选）end -->
+
+
 	<!-- 模态框（Modal） start-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -254,7 +347,7 @@ html,body {
 						<li><a href="#movie" data-toggle="tab">视频</a></li>
 					</ul>
 					<div class="tab-content">
-						<div class="tab-pane fade in active" id="manage"> 
+						<div class="tab-pane fade in active" id="manage">
 							<div>
 								<table width="100%" border="0" class="userCon_2">
 									<tr>
@@ -294,10 +387,16 @@ html,body {
 											id="ip" required="" aria-required="true" disabled /></td>
 									</tr>
 									<tr>
-										<th>联系人和电话：</th>
+										<th>联系人：</th>
 										<td><input value="" type="text" name="contact"
 											class="form-control" style="border-radius:3px; width:220px;"
 											id="contact" required="" aria-required="true" disabled />
+									</tr>
+									<tr>
+										<th>电话：</th>
+										<td><input value="" type="text" name="tel"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="tel" required="" aria-required="true" disabled />
 									</tr>
 								</table>
 							</div>
@@ -404,17 +503,16 @@ html,body {
 			parseOnLoad : true,
 			packages : [ {
 				"name" : "src",
-				"location" : location.pathname.replace(/\/[^/]+$/, '')
+				"location" : "/xhweb"
 			} ]
 		};
+		/* location.pathname.replace(/\/[^/]+$/, '') */
 	</script>
 
 	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="echarts.source.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
 	<script src="http://125.70.9.194:801/3.15/init.js"></script>
 	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
 	<!-- highcharts -->
@@ -445,7 +543,6 @@ html,body {
 				}, 300);
 			});
 		});
-		
 	</script>
 
 </body>

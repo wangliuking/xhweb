@@ -1,5 +1,7 @@
 var app = angular.module("app", []);
 app.controller("map", function($scope, $http) { 
+	//设置圈选的默认显示条数
+	$scope.count = "10";
 	$http.get("bs/map/area").success(
 			function(response) {
 				$scope.data = response.items;
@@ -33,7 +35,7 @@ app.controller("map", function($scope, $http) {
 					myMap.centerAndZoom(point,level[params].zoom*1);
 					layerCreate(tempData);
 					option.series[0].markPoint.data=baseMark(tempData);
-					option.series[1].markPoint.data=flashMark(tempData);
+					option.series[1].markPoint.data=[];
 					overlay.setOption(option);
 				});
 	} 
@@ -75,22 +77,34 @@ app.controller("map", function($scope, $http) {
 						option.series[0].markPoint.data=baseMark(tempData);
 						option.series[1].markPoint.data=flashMark(tempData);
 						overlay.setOption(option);
+						areaRingsData(params);
 					});
 		} else {
 			var t=[];
 			$(".areaChoose input:checked").each(function(i){
 				t.push($(this).val());
 			});
-			$http.get("bs/map/bsByArea?zone="+t).success(
-					function(response) {
-						var tempData = response.items;		
-						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
-						myMap.centerAndZoom(point,area[params].zoom*1);
-						layerCreate(tempData);	
-						option.series[0].markPoint.data=baseMark(tempData);
-						option.series[1].markPoint.data=flashMark(tempData);
-						overlay.setOption(option);
-					});
+			if(t.length==0){
+				$http.get("bs/map/data").success(
+						function(response) {
+							var tempData = response.items;		
+							layerCreate(tempData);	
+							option.series[0].markPoint.data=baseMark(tempData);
+							option.series[1].markPoint.data=[];
+							overlay.setOption(option);
+							areaRingsClear(params);
+						});
+			}else{
+				$http.get("bs/map/bsByArea?zone="+t).success(
+						function(response) {
+							var tempData = response.items;		
+							layerCreate(tempData);	
+							option.series[0].markPoint.data=baseMark(tempData);
+							option.series[1].markPoint.data=flashMark(tempData);
+							overlay.setOption(option);
+							areaRingsClear(params);
+						});
+			}
 		}
 		
 	} 
@@ -148,7 +162,93 @@ app.controller("map", function($scope, $http) {
 					overlay.setOption(option);
 				});	
 	}
+	
+	/*圈选数据查询*/
+	/* 查询数据 */
+	$scope.search = function(page,params) {
+		var pageSize = $("#page-limit").val();
+		var start = 1, limit = pageSize;
+		frist = 0;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+limit).
+		success(function(response){
+			$scope.dataRectangle = response.items;
+			$scope.totals = response.totals;
+			xh.pagging(page, parseInt($scope.totals), $scope,params);
+		});
+	};
+	//分页点击
+	$scope.pageClick = function(page, totals, totalPages, params) {
+		var pageSize = $("#page-limit").val();
+		var start = 1, limit = pageSize;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+pageSize).
+		success(function(response){
+			$scope.start = (page - 1) * pageSize + 1;
+			$scope.lastIndex = page * pageSize;
+			if (page == totalPages) {
+				if (totals > 0) {
+					$scope.lastIndex = totals;
+				} else {
+					$scope.start = 0;
+					$scope.lastIndex = 0;
+				}
+			}
+			$scope.dataRectangle = response.items;
+			$scope.totals = response.totals;
+		});
+		
+	};
+	
 });
+/* 数据分页 */
+xh.pagging = function(currentPage, totals, $scope, params) {
+	var pageSize = $("#page-limit").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.start = start;
+	$scope.lastIndex = end;
+	$scope.totals = totals;
+	if (totals > 0) {
+		$(".page-paging").html('<ul class="pagination"></ul>');
+		$('.pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.pageClick(page, totals, totalPages, params);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+
+};
+
 /**
  * 本示例使用arcgis api for javascript 技术显示地图。 相关官方API文档地址为:
  * https://developers.arcgis.com/javascript/jsapi/ 所有示例代码访问地址为：
@@ -163,6 +263,8 @@ var gLayermiddle;
 var gLayerbig;
 var levelLayer,areaLayer
 var roadtest;
+var areaRings;
+var rectangle;
 function floor(data) {
 	var options = {
 		logo : false
@@ -175,17 +277,25 @@ function floor(data) {
 	esri.layers.ArcGISTiledMapServiceLayer(
 			"http://125.70.9.194:801/services/MapServer/map2d");// 切片服务
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
+	
+	var test = new
+	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer");//动态服务
+	myMap.addLayer(test);// 将底图图层对象添加到地图中
+	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
 	gLayermiddle = new esri.layers.GraphicsLayer({id:"中图标"});// 创建中图标图层
 	gLayerbig = new esri.layers.GraphicsLayer({id:"大图标"});// 创建大图形显示图层
 	levelLayer = new esri.layers.GraphicsLayer({id:"基站级别"});
 	areaLayer = new esri.layers.GraphicsLayer({id:"基站区域"});
 	roadtest = new esri.layers.GraphicsLayer({id:"路测数据"});
+	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
+	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
 	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
 	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
 	myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
-
+	myMap.addLayer(areaRings);
+	myMap.addLayer(rectangle);
 	// 创建点的显示样式对象
 	/*
 	 * var pSymbol = new esri.symbols.SimpleMarkerSymbol(); pSymbol.style =
@@ -205,6 +315,7 @@ function floor(data) {
 			roadtestCreate(data);
 		}
 	});
+	
 	// 添加控件
 	// 比例尺
 	require([ "esri/dijit/Scalebar" ], function(Scalebar) {
@@ -224,12 +335,12 @@ function floor(data) {
 		    showLegend: false,
 		    showSubLayers: false,
 		    showOpacitySlider: false,
-		    layers: [roadtest]
+		    layers: [areaRings]
 		},"test");
 		layerList.startup();
 	});
 	//区域圈选
-	var map, toolbar, symbol, geomTask;
+	var toolbar, symbol, geomTask;
     require([
       "esri/map", 
       "esri/toolbars/draw",
@@ -244,46 +355,165 @@ function floor(data) {
       Map, Draw, Graphic,
       SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
       parser, registry
-    ) {
-      map = myMap;    
-      map.on("load", createToolbar);
+    ) {  
       // loop through all dijits, connect onClick event
       // listeners for buttons to activate drawing tools
       registry.forEach(function(d) {
-        // d is a reference to a dijit
-        // could be a layout container or a button
-        if ( d.declaredClass === "dijit.form.Button" ) {
-          d.on("click", activateTool);
-        }
-      });
-
+          // d is a reference to a dijit
+          // could be a layout container or a button
+          if ( d.declaredClass === "dijit.form.Button" ) {
+            d.on("click", activateTool);
+          }
+        });
+      var params;
       function activateTool() {
-        var tool = this.label.toUpperCase().replace(/ /g, "_");
-        toolbar = new Draw(map);
-        toolbar.activate(Draw[tool]);
-        map.hideZoomSlider();
-      }
-
-      function createToolbar(themap) {
-        toolbar = new Draw(map);
-        toolbar.on("draw-end", addToMap);
+    	  toolbar = new Draw(myMap);
+    	  //开启鼠标监听
+    	  params = mouseEvents();
+          toolbar.on("draw-end", addToMap);
+          var temp = "RECTANGLE";
+    	  var tool = temp.replace(/ /g, "_");
+          toolbar.activate(Draw[tool]);
+          myMap.hideZoomSlider();
       }
 
       function addToMap(evt) {
-        var symbol;
-        toolbar.deactivate();
-        map.showZoomSlider();
-        var graphic = new Graphic(evt.geometry, symbol);
-        map.graphics.add(graphic);
+    	  var symbol;
+          toolbar.deactivate();
+          myMap.showZoomSlider();
+          switch (evt.geometry.type) {
+            case "point":
+            case "multipoint":
+              symbol = new SimpleMarkerSymbol();
+              break;
+            case "polyline":
+              symbol = new SimpleLineSymbol();
+              break;
+            default:
+              symbol = new SimpleFillSymbol();
+              break;
+          }
+          var graphic = new Graphic(evt.geometry, symbol);
+          graphic.attributes=params;
+          rectangle.add(graphic);
+          $('#rectangle').modal();
+          var appElement = document.querySelector('[ng-controller=map]');
+      	  var $scope = angular.element(appElement).scope();
+      	  $scope.search(1,params);
       }
+      
     });
-	
+}
 
+//圈选模态框消失后清除图层
+$("#rectangle").on("hide.bs.modal",function(){
+	rectangle.clear();
+});
+
+function mouseEvents(){
+	var params=[];
 	// 鼠标获取经纬度
+    var mouseDown = myMap.on("mouse-down", function(e){
+    	params.push(e.mapPoint.x);
+    	params.push(e.mapPoint.y);
+    	console.log(e.mapPoint.x ,e.mapPoint.y);
+    	mouseDown.remove();
+  	  });
+    var mouseUp = myMap.on("mouse-up", function(e){
+    	params.push(e.mapPoint.x);
+    	params.push(e.mapPoint.y);
+    	console.log(e.mapPoint.x ,e.mapPoint.y);
+    	mouseUp.remove();
+  	  }); 
+    return params;
+}
 
-myMap.on("mouse-down", function(e){ console.log(e.mapPoint.x ,
- e.mapPoint.y); });
+var areaRef={	
+		"双流":{name:"双流区",color:"#000000"},
+		"都江堰":{name:"都江堰市",color:"#191970"},
+		"天府新区":{name:"天府新区",color:"#0000FF"},
+		"温江":{name:"温江区",color:"#458B00"},
+		"龙泉驿区":{name:"龙泉驿区",color:"#006400"},
+		"金堂":{name:"金堂县",color:"#228B22"},
+		"青白江":{name:"青白江区",color:"#8B7500"},
+		"新都":{name:"新都区",color:"#8B658B"},
+		"彭州":{name:"彭州市",color:"#A52A2A"},
+		"郫县":{name:"郫都区",color:"#FF0000"},
+		"崇州":{name:"崇州市",color:"#008B8B"},
+		"大邑":{name:"大邑县",color:"#8B008B"},
+		"邛崃":{name:"邛崃市",color:"#8B0000"},
+		"蒲江":{name:"蒲江县",color:"#F4A460"},
+		"新津":{name:"新津县",color:"#FF1493"},
+		"主城区":{name:"高新区",color:"#FF00FF"}
+}
+//区域边界图层数据 
+function areaRingsData(param){
+	var areaInfo=areaRef[param].name;
+	var color=areaRef[param].color;
+	var areaSearch="http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find?searchText="+areaInfo+"&contains=true&searchFields=&sr=&layers=0&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=pjson";
+	$.ajax({
+		type : "GET",
+		url : areaSearch,
+		dataType : "json",
+		success : function(dataMap) {
+			var data = dataMap.results[0].geometry.rings[0];
+			var temp=[];
+			var tempData=[];
+			var i;
+			for(i=0;i<data.length;i+=10){
+				temp.push(data[i]);
+			}
+			tempData.push(temp);
+			var params=[param,color];
+			areaRingsCreate(tempData,params);
+		}
+	});
+}
 
+//区域边界图层创建
+function areaRingsCreate(data,params){
+	require(["esri/Color"], function(Color) {	
+		/*var i;
+		for(i=0;i<data.length;i++){
+			var temp=[255,0,0];
+			var symbol = new esri.symbol.SimpleMarkerSymbol({
+				"color": temp,
+				  "size": 4,
+				  "type": "simplemarkersymbol"
+			});
+			var pt = new esri.geometry.Point(data[i][0]*1, data[i][1]*1);// 创建点对象
+			var attr = {
+					"db" : ""
+			};// 设置相关的属性信息对象
+			var infoTemplate = new esri.InfoTemplate("弹出窗口的标题",
+					"");// 创建弹出窗口内容显示模板
+			var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
+			areaRings.add(graphic);// 将图形对象添加到图形显示图层
+		}*/
+		var line = new esri.geometry.Polyline({
+			   "paths": data,
+			   "spatialReference": { "wkid": 4326 }
+			});
+		var lineSymbol = new esri.symbol.CartographicLineSymbol(
+			  esri.symbol.CartographicLineSymbol.STYLE_SOLID,
+			  new dojo.Color(params[1]), 3,
+			  esri.symbol.CartographicLineSymbol.CAP_ROUND,
+			  esri.symbol.CartographicLineSymbol.JOIN_MITER, 5
+			);
+		var polyline = new esri.Graphic(line, lineSymbol);
+		polyline.attributes=params[0];
+		areaRings.add(polyline);
+	});
+}
+
+// 区域边界图层删除
+function areaRingsClear(param){
+	var i;
+	for(i=0;i<areaRings.graphics.length;i++){
+		if(areaRings.graphics[i].attributes==param){
+			areaRings.remove(areaRings.graphics[i]);
+		}
+	}
 }
 //路测图层创建
 function roadtestCreate(data){
@@ -500,9 +730,10 @@ function init(data,markData) {
 					if (data.contact == '') {
 						$('#contact').val("暂无相关信息");
 					} else if (data.tel == 0) {
-						$('#contact').val(data.contact + " 暂无电话");
+						$('#tel').val(data.tel + " 暂无电话");
 					} else {
-						$('#contact').val(data.contact + " " + data.tel);
+						$('#contact').val(data.contact);
+						$('#tel').val(data.tel);
 					}
 					$('#chnumber').val(data.chnumber);
 					$('#gpsLineNum').val(data.gpsLineNum);
@@ -519,8 +750,16 @@ function init(data,markData) {
 					} else if (data.status == 2) {
 						$('#status').val("未启用");
 					}
+
+				}
+			});
+			$.ajax({
+				type : "GET",
+				url : "gonsuncn/oneBsEmh?bsId=" + params.value,
+				dataType : "json",
+				success : function(dataById) {
 					// 动环数据展示
-					var move = dataById.moveController;
+					console.log(dataById);
 
 				}
 			});
@@ -528,10 +767,40 @@ function init(data,markData) {
 		//地图加载时执行
 		option = {
 				color : [ 'gold', 'aqua', 'lime' ],
-				tooltip : {
-					trigger : 'item',
-					formatter : '{b}'
-				},
+				tooltip: {
+					formatter: function (params) {
+						$.ajax({
+							type : "GET",
+							url : "bs/map/data",
+							dataType : "json",
+							success : function(dataMap) {
+								
+							}
+						});
+                        var res;
+                        res = '基站ID：'+params["2"]+
+                        '<br/>'+'基站名称：'+params["1"]+
+                        '<br/>'+'信道占用率：'+
+                        '<br/>'+'注册组数：'+
+                        '<br/>'+'注册用户数：'+
+                        '<br/>'+'排队数：';
+                        return res;
+                    },
+                    show: true,
+                    trigger: 'item',
+                    //show: true,   //default true
+                    showDelay: 600,//显示延时，添加显示延时可以避免频繁切换
+                    hideDelay: 50,//隐藏延时
+                    transitionDuration: 0,//动画变换时长
+                    backgroundColor: 'rgba(0,0,0,0.7)',//背景颜色（此时为默认色）
+                    borderRadius: 8,//边框圆角
+                    padding: 10,    // [5, 10, 15, 20] 内边距
+                    position: function (p) {
+                        // 位置回调
+                        // console.log && console.log(p);
+                        return [p[0] + 10, p[1] - 10];
+                    }  
+                },
 				/*dataRange : {
 					min : 0,
 			        max : 500,
@@ -548,22 +817,7 @@ function init(data,markData) {
 					markPoint : {
 						symbol : 'image://',
 						symbolSize: 16,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
-		                itemStyle: {
-		                    normal: {
-		                        borderColor: '#87cefa',
-		                        borderWidth: 1,            // 标注边线线宽，单位px，默认为1
-		                        label: {
-		                            show: false
-		                        }
-		                    },
-		                    emphasis: {
-		                        borderColor: '#1e90ff',
-		                        borderWidth: 5,
-		                        label: {
-		                            show: false
-		                        }
-		                    }
-		                },
+		                
 		                data:objAll
 					}
 				}, {
@@ -703,6 +957,7 @@ function getData() {
 			init(data,markData);
 		}
 	});
+	
 }
 
 dojo.addOnLoad(getData);// 页面加载完毕后自动调用getData方法
@@ -826,16 +1081,16 @@ function change(table) {
 	table.deleteRow(0);//删除table的第一行 
 };
 function tableInterval() {
-	/* var table0 = document.getElementById("table0");//获得表格
+	var table0 = document.getElementById("table0");//获得表格
 	var table1 = document.getElementById("table1");
 	var table2 = document.getElementById("table2");
 	change(table0);//执行表格change函数，删除第一行，最后增加一行，类似行滚动
 	change(table1);
-	change(table2); */
-	var appElement = document.querySelector('[ng-controller=map]');
+	change(table2);
+	/*var appElement = document.querySelector('[ng-controller=map]');
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
-	$scope.test();
+	$scope.test();*/
 	
 };
-temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
+//temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样

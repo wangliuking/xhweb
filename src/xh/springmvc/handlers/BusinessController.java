@@ -39,6 +39,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.AssetTransferBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.WebLogService;
@@ -520,5 +521,164 @@ public class BusinessController {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 查询资产移交记录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/assetTransferList",method = RequestMethod.GET)
+	public void assetTransfer(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int type=funUtil.StringToInt(request.getParameter("type"));
+		String name=request.getParameter("name");
+		String model=request.getParameter("model");
+		String serialNumber=request.getParameter("serialNumber");
+		int from=funUtil.StringToInt(request.getParameter("from"));
+		int status=funUtil.StringToInt(request.getParameter("status"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("type", type);
+		map.put("name", name);
+		map.put("model",model );
+		map.put("serialNumber",serialNumber );
+		map.put("from",from );
+		map.put("status",status );
+		map.put("start", start);
+		map.put("limit", limit);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",BusinessService.assetTransferCount(map));
+//		System.out.println("<--------------->"+BusinessService.assetTransferCount(map));
+		result.put("items", BusinessService.assetTransfer(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 添加移交资产
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/insertAssetTransfer",method = RequestMethod.POST)
+	public void insertAssetTransfer(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String jsonData=request.getParameter("formData");
+        AssetTransferBean bean=GsonUtil.json2Object(jsonData, AssetTransferBean.class);
+        bean.setCreateTime(funUtil.nowDate());
+		log.info("data==>"+bean.toString());
+		int rlt=BusinessService.insertAssetTransfer(bean);
+		System.out.println("<---------------->"+bean.toString());
+		if (rlt==1) {
+			this.message="添加资产移交成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("新增资产，data="+bean.toString());
+			WebLogService.writeLog(webLogBean);
+		}else {
+			this.message="添加资产移交失败";
+		}
 
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		result.put("result",rlt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 修改资产记录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/updateAssetTransfer",method = RequestMethod.POST)
+	public void updateAssetTransfer(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String jsonData=request.getParameter("formData");
+        AssetTransferBean bean=GsonUtil.json2Object(jsonData, AssetTransferBean.class);
+		log.info("data==>"+bean.toString());
+		int rlt=BusinessService.updateAssetTransfer(bean);
+		int rlt_1=BusinessService.updateAssetTransfer2(bean);
+		if (rlt==1&&rlt_1==1) {
+			this.message="修改资产记录成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("修改资产记录，data="+bean.toString());
+			WebLogService.writeLog(webLogBean);
+			
+		}else {
+			this.message="修改资产记录失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		result.put("result",rlt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 删除资产移交记录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/deleteAssetTransfer",method = RequestMethod.POST)
+	public void deleteAssetTransfer(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("deleteIds");
+		List<String> list = new ArrayList<String>();
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			list.add(str);
+		}
+		//log.info("data==>"+bean.toString());
+		int rlt=BusinessService.deleteAssetTransfer(list);
+		if (rlt==1) {
+			this.message="删除资产记录成功";
+//			this.message="添加资产成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent("删除资产记录，data="+id);
+			WebLogService.writeLog(webLogBean);
+		}else {
+			this.message="删除资产记录失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		result.put("result",rlt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
+
+
