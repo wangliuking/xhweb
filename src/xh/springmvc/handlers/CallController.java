@@ -67,7 +67,7 @@ public class CallController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/Resources/data");
+		String path = request.getSession().getServletContext().getRealPath("/Resources/audio");
 		String fileName=request.getParameter("fileName");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
@@ -112,7 +112,7 @@ public class CallController {
 	 */
 	@RequestMapping(value = "/play", method = RequestMethod.GET)
 	public void playFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/Resources/data");
+		String path = request.getSession().getServletContext().getRealPath("/Resources/audio");
 		String fileName=request.getParameter("playName");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
