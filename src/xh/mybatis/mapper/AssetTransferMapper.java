@@ -95,11 +95,24 @@ public interface AssetTransferMapper {
 	 */
 	public int insertAssetTransfer(AssetTransferBean bean)throws Exception;
 	/**
-	 *修改资产记录 
+	 *修改资产移交记录 
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int updateAssetTransfer(AssetTransferBean bean)throws Exception;
-
+	/**
+	 *修改资产移交记录 更新资产记录
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAssetTransfer2(AssetTransferBean bean)throws Exception;
+	/**
+	 * 删除记录
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteAssetTransfer(List<String> list)throws Exception;
 }
