@@ -161,7 +161,7 @@
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
-											data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改
+											data-target="#edit-transfer"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a>| <a href="#" ng-click="delBs(x.id)"><i
 												class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 									</tr>
@@ -198,7 +198,7 @@
 	<!-- 添加 -->
 	<div ng-include="'asset-add-transfer.html'"></div>
 	<!-- 编辑-->
-	<div ng-include="'asset-edit.html'"></div>
+	<div ng-include="'asset-transfer-edit.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

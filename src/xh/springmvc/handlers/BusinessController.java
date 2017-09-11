@@ -611,7 +611,8 @@ public class BusinessController {
         AssetTransferBean bean=GsonUtil.json2Object(jsonData, AssetTransferBean.class);
 		log.info("data==>"+bean.toString());
 		int rlt=BusinessService.updateAssetTransfer(bean);
-		if (rlt==1) {
+		int rlt_1=BusinessService.updateAssetTransfer2(bean);
+		if (rlt==1&&rlt_1==1) {
 			this.message="修改资产记录成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -637,5 +638,47 @@ public class BusinessController {
 		}
 		
 	}
-	
+	/**
+	 * 删除资产移交记录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/deleteAssetTransfer",method = RequestMethod.POST)
+	public void deleteAssetTransfer(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("deleteIds");
+		List<String> list = new ArrayList<String>();
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			list.add(str);
+		}
+		//log.info("data==>"+bean.toString());
+		int rlt=BusinessService.deleteAssetTransfer(list);
+		if (rlt==1) {
+			this.message="删除资产记录成功";
+//			this.message="添加资产成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent("删除资产记录，data="+id);
+			WebLogService.writeLog(webLogBean);
+		}else {
+			this.message="删除资产记录失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		result.put("result",rlt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
+
+
