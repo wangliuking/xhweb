@@ -98,12 +98,12 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户单位</th>
-										<th width="150px">退网终端号码</th>
-										<th width="100px">退网类型</th>
-										<th width="100px">联系人</th>
-										<th width="180px">申请退网时间</th>
-										<th width="200px">审核状态</th>
-										<th width="200px">操作详情</th>
+										<th >退网终端号码</th>
+										<th >退网类型</th>
+										<th >联系人</th>
+										<th>申请退网时间</th>
+										<th>审核状态</th>
+										<th>操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
@@ -116,10 +116,10 @@
 										<td>{{x.quitType}}</td>
 										<td>{{x.quitPerson}}</td>
 										<td>{{x.quitTime}}</td>
-										<td ng-if="x.quit==-1" class="td-warning">退网错误</td>
-										<td ng-if="x.quit==0" class="td-danger">等待审核</td>
-										<td ng-if="x.quit==1" class="td-danger">等待用户确认</td>
-										<td ng-if="x.quit==2" class="td-warning">退网成功</td>
+										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
+										<td ng-if="x.quit==0" class="td-warning">等待审核</td>
+										<td ng-if="x.quit==1" class="td-warning">等待用户确认</td>
+										<td ng-if="x.quit==2" class="td-success">退网成功</td>
 										
 										<td style="text-align:center">
 										<a href="#"

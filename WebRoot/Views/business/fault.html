@@ -120,11 +120,11 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.information}}</td>
 										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-gray">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
-										<td ng-if="x.checked==1" class="td-danger">经办人处理中</td>
-										<td ng-if="x.checked==2" class="td-danger">等待用户确认</td>
-										<td ng-if="x.checked==3" class="td-warning">确认通过，故障处理完成</td>
+										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
+										<td ng-if="x.checked==0" class="td-warning">等待审核</td>
+										<td ng-if="x.checked==1" class="td-warning">经办人处理中</td>
+										<td ng-if="x.checked==2" class="td-warning">等待用户确认</td>
+										<td ng-if="x.checked==3" class="td-success">确认通过，故障处理完成</td>
 										<td style="text-align:center">
 
 										<a href="#"
