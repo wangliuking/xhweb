@@ -2,8 +2,10 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +47,16 @@ public class GosuncnController {
 	public void oneBsInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		String FSUID = "09201704160085";
-		List list = null;
+		List<Map<String,String>> list = null;
+		List<String> list1 = new ArrayList<String>();
+		list1.add("170100000000001");
+		list1.add("170200000000001");
+		list1.add("170300000000001");
+		list1.add("170400000000001");
+		list1.add("170500000000001");
+		list1.add("170700000000001");
 		try {
-			list = Test.getData(FSUID);
+			list = Test.getDataByList(FSUID,list1);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

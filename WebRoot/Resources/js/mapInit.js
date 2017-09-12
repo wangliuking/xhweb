@@ -265,6 +265,7 @@ var levelLayer,areaLayer
 var roadtest;
 var areaRings;
 var rectangle;
+var test;
 function floor(data) {
 	var options = {
 		logo : false
@@ -278,9 +279,9 @@ function floor(data) {
 			"http://125.70.9.194:801/services/MapServer/map2d");// 切片服务
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	
-	var test = new
+	test = new
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer");//动态服务
-	myMap.addLayer(test);// 将底图图层对象添加到地图中
+	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
 	gLayermiddle = new esri.layers.GraphicsLayer({id:"中图标"});// 创建中图标图层
@@ -400,6 +401,7 @@ function floor(data) {
           var appElement = document.querySelector('[ng-controller=map]');
       	  var $scope = angular.element(appElement).scope();
       	  $scope.search(1,params);
+      	  console.log(params);
       }
       
     });
@@ -759,7 +761,9 @@ function init(data,markData) {
 				dataType : "json",
 				success : function(dataById) {
 					// 动环数据展示
-					console.log(dataById);
+					var data = dataById.items;
+					console.log(data[0]["017001"]);
+					//$('#temp_0').val(data[0][]);
 
 				}
 			});
@@ -929,6 +933,15 @@ function init(data,markData) {
 					 
 				} else {
 					myMap.removeLayer(roadtest);
+				}
+			});
+			
+			$("#testService").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(test);
+					 
+				} else {
+					myMap.removeLayer(test);
 				}
 			});
 			

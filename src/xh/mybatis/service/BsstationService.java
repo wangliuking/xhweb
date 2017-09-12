@@ -304,5 +304,47 @@ public class BsstationService {
 	        session.close();
 	        return BsStation;   
 	}
+	
+	/**
+	 * 圈选基站查询
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<BsstationBean> rectangle(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<BsstationBean> list = new ArrayList<BsstationBean>();
+		try {
+			list = mapper.rectangle(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 圈选基站总数
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int rectangleCount(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.rectangleCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 
 }
