@@ -111,4 +111,18 @@ public interface BsstationMapper {
 	 */
 	public List<HashMap<String,String>> selectRoadTest() throws Exception;
 	
+	/**
+	 * 圈选基站查询
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BsstationBean> rectangle(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 圈选基站总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int  rectangleCount(Map<String,Object> map)throws Exception;
+	
 }

@@ -17,7 +17,7 @@ import org.dom4j.io.SAXReader;
 
 public class ParseXml {
 	/**
-	 * 请求监控点数据解析
+	 * 请求所有监控点数据解析
 	 * 
 	 * @param elem
 	 * @throws DocumentException 
@@ -37,6 +37,36 @@ public class ParseXml {
 		}
 		return l;
 	}
+	/**
+	 * 请求指定监控点数据解析
+	 * 
+	 * @param elem
+	 * @throws DocumentException 
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<Map<String,String>> getDataByList(String xml) throws DocumentException{	
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(getStringStream(xml));
+		Element root = document.getRootElement();
+		Element nameElem = root.element("Info").element("Values").element("DeviceList");
+		List<Element> list = nameElem.elements();		
+		List<Map<String,String>> l = new ArrayList<Map<String,String>>();
+		for(int i=0;i<list.size();i++){
+			Element temp = (Element)list.get(i);
+			List<Element> list1 = temp.elements();
+			Map<String,String> map = new HashMap<String, String>();
+			for(int j=0;j<list1.size();j++){
+				Element temp1 = (Element)list1.get(j);
+				String ID = temp1.attributeValue("ID");
+				String MeasuredVal = temp1.attributeValue("MeasuredVal");
+				map.put(ID, MeasuredVal);		
+			}
+			l.add(map);
+		}
+		System.out.println(l);
+		return l;
+	}
+	
 	/**
 	 * 请求动环设备配置数据解析
 	 * @param elem

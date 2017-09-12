@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.ExcelImportMapper">
+
+
+	<!--导入excel -->
+	<insert id="insertExcel" parameterType="java.util.List">
+		INSERT INTO
+		xhgmnet_road_test01(db,lng,lat,positionArea,nPositionArea,ndb)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb})
+		</foreach>
+	</insert>
+
+
+</mapper>
