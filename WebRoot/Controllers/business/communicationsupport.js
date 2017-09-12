@@ -1,6 +1,3 @@
-/**
- * 资产管理
- */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -63,7 +60,7 @@ xh.load = function() {
 		});
 		
 		/*获取管理房人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10002").
+		$http.get("../../web/user/getUserList?roleId=10001").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;

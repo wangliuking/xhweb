@@ -220,6 +220,7 @@ public class FaultController {
 		bean.setUser2(funUtil.loginUser(request));
 		bean.setTime2(funUtil.nowDate());
 		bean.setNote2(note2);
+		System.out.println("123123123123123123");
 		int rst = FaultService.checkedTwo(bean);
 		if (rst == 1) {
 			this.message = "通知经办人处理成功";

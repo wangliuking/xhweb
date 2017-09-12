@@ -116,18 +116,18 @@
 										<td>{{x.supportTime}}</td>
 										<td>{{x.area}}</td>
 										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-warning">审核被拒绝</td>
-										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
-										<td ng-if="x.checked==1" class="td-danger">经办人处理中</td>
-										<td ng-if="x.checked==2" class="td-danger">等待用户确认</td>
-										<td ng-if="x.checked==3" class="td-warning">确认通过，保障任务完成</td>
+										<td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td>
+										<td ng-if="x.checked==0" class="td-warning">等待审核</td>
+										<td ng-if="x.checked==1" class="td-warning">经办人处理中</td>
+										<td ng-if="x.checked==2" class="td-warning">等待用户确认</td>
+										<td ng-if="x.checked==3" class="td-success">确认通过，保障任务完成</td>
 										
 										<td style="text-align:center">										
 										
 										<a href="#"
 											ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
-												
+										
 										<a ng-if="loginUserRoleId==10001 && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
@@ -136,7 +136,7 @@
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 										<!-- 用户确认 -->
 
-										<!-- <a ng-if="loginUserRoleId==10002 && x.checked=="
+										<!-- <a ng-if="loginUserRoleId==10002 && x.checked==2"
 										href="#" ng-click="checkSign($index)"><i class="fa fa-hand-down text-danger"></i>| &nbsp;</a>			
 										 -->
 

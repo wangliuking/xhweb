@@ -70,6 +70,7 @@ public class CommunicationSupportController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", CommunicationSupportService.selectAll(map));
+		
 		result.put("totals", CommunicationSupportService.dataCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

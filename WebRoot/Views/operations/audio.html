@@ -122,6 +122,7 @@
 										<th>接入基站id</th>
 										<th>呼叫用时</th>
 										<th>音频地址</th>
+										<th>下载</th>
 										<th width="150px">查看</th>
 									</tr>
 								</thead>
@@ -139,9 +140,13 @@
 										<td>{{x.call_TS_Id}}</td>
 										<td>{{x.use_Time}}</td>
 										<td>{{x.call_Path}}</td>
+										<td><button id="download"
+											 data-toggle="modal" ng-if="x.call_Path!=null&&x.call_Path!=''" ng-click="download(this,x.call_Path)"> <i
+												class="fa fa-edit text-success"></i>&nbsp;下载
+										</button></td>
 										<td style="width:20px;text-align:center"><div id="div{{$index}}"></div><button id="play"
 											 data-toggle="modal" ng-if="x.call_Path!=null&&x.call_Path!=''" ng-click="play_click(this,x.call_Path,$index);"> <i
-												class="fa fa-edit text-success"></i>&nbsp;播放或下载
+												class="fa fa-edit text-success"></i>&nbsp;播放
 										</button>
 										</td>
 									</tr><div id="div2"></div>
@@ -175,6 +180,9 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
+	
+	<!-- 告警详情 -->
+	<div ng-include="'audio-play.html'"></div>
 
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
