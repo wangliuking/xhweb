@@ -41,7 +41,16 @@ public class Test {
 		String GET_FTP = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_FTP</Name></PK_Type><Info><FSUID>09201704160085</FSUID></Info></Request>";
 		// 获取FSU状态信息
 		String GET_FSUINFO = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_FSUINFO</Name></PK_Type><Info><FSUID>09201704160085</FSUID></Info></Request>";
-		getData("09201704160085");
+		//getData("09201704160085");
+		List<String> list = new ArrayList<String>();
+		list.add("170100000000001");
+		list.add("170200000000001");
+		list.add("170300000000001");
+		list.add("170400000000001");
+		list.add("170500000000001");
+		list.add("170700000000001");
+		
+		getDataByList("09201704160085",list);
 		//getThreshold("09201704160085");
 		//getLoginInfo("09201704160085");
 		//getDevConf("09201704160085");
@@ -50,7 +59,7 @@ public class Test {
 	}
 	
 	/**
-	 * 请求监控点数据
+	 * 请求所有监控点数据
 	 * @throws RemoteException 
 	 * 
 	 */
@@ -65,7 +74,7 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		System.out.println(resp);
+		System.out.println(response.getInvokeReturn());
 		try {
 			list = ParseXml.getData(resp.getString());
 					
@@ -75,6 +84,38 @@ public class Test {
 		}
 		return list;
 	}
+	/**
+	 * 请求指定监控点数据
+	 * @throws RemoteException 
+	 * 
+	 */
+	public static List<Map<String,String>> getDataByList(String FSUID,List list) throws RemoteException{
+		FSUServiceStub stub = new FSUServiceStub();
+		Invoke invoke = new Invoke();
+		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
+		List<Map<String,String>> list1 = null;
+		//遍历list查出id并封装成报文
+		String temp = "";
+		for(int i=0;i<list.size();i++){
+			temp = temp+"<Device ID=\""+list.get(i)+"\"></Device>";
+		}
+		String GET_DATA = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_DATA</Name></PK_Type><Info><FSUID>"+FSUID+"</FSUID><DeviceList>"+temp+"</DeviceList></Info></Request>";
+		enc.setString(GET_DATA);
+		invoke.setXmlData(enc);
+		InvokeResponse response = stub.invoke(invoke);
+		org.apache.axis2.databinding.types.soapencoding.String resp = response
+				.getInvokeReturn();
+		System.out.println(response.getInvokeReturn());
+		try {
+			list1 = ParseXml.getDataByList(resp.getString());
+					
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list1;
+	}
+	
 	/**
 	 * 请求动环设备配置数据
 	 * @throws RemoteException 
