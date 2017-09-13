@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
 <title>角色管理</title>
@@ -74,7 +74,7 @@ html,body {
 	position: fixed;
 	top: 100px;
 	right: 0px;
-	z-index: 1 !important;
+	z-index: 1!important;
 	background: rgba(176, 196, 222, 0.7);
 }
 
@@ -120,12 +120,12 @@ html,body {
 }
 </style>
 </head>
-<body ng-app="app" ng-controller="map"
+
+<body class="tundra" ng-app="app" ng-controller="map"
 	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
 	<!-- 头部文件 -->
 	<div ng-include="'Views/index-top.html'"></div>
-
-<!-- 右上角显示框 -->
+	<!-- 右上角显示框 -->
 	<div class="info_right">
 		<div class="info_three">
 			<table class="xh-table table-hover" style="padding:0;margin:0;">
@@ -349,6 +349,7 @@ html,body {
 	</div>
 	<!-- 模态框（圈选）end -->
 
+
 	<!-- 模态框（Modal） start-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -516,7 +517,8 @@ html,body {
 		<!-- /.modal -->
 	</div>
 	<!-- 模态框（Modal）end -->
-<script>
+
+	<script>
 		var dojoConfig = {
 			parseOnLoad : true,
 			packages : [ {
@@ -526,8 +528,6 @@ html,body {
 		};
 		/* location.pathname.replace(/\/[^/]+$/, '') */
 	</script>
-
-
 
 	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
@@ -564,6 +564,7 @@ html,body {
 			});
 		});
 	</script>
+
 </body>
 
 </html>
