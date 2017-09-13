@@ -22,12 +22,13 @@ app.controller("map", function($scope, $http) {
 			});
 	/* 级别选择 */
 	var level={
-			"0":{"lat":"30.664979585525476","lng":"104.05377994605959","zoom":"7"},
+			/*"4":{"lat":"30.664979585525476","lng":"104.05377994605959","zoom":"7"},*/
 			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"6"},
 			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
-			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"},
+			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
 	}
 	$scope.levelChoose=function(params){
+		console.log(params);
 		$http.get("bs/map/bsByLevel?level="+params).success(
 				function(response) {
 					var tempData = response.items;					
@@ -111,7 +112,6 @@ app.controller("map", function($scope, $http) {
 	
 	$scope.test=function(){
 		var t = $scope.top5Calllist;
-		console.log(t);
 		t[0]="";
 		$scope.top5Calllist=t;
 		/*var temp;
@@ -401,7 +401,6 @@ function floor(data) {
           var appElement = document.querySelector('[ng-controller=map]');
       	  var $scope = angular.element(appElement).scope();
       	  $scope.search(1,params);
-      	  console.log(params);
       }
       
     });
@@ -755,18 +754,18 @@ function init(data,markData) {
 
 				}
 			});
-			$.ajax({
+			/*$.ajax({
 				type : "GET",
 				url : "gonsuncn/oneBsEmh?bsId=" + params.value,
 				dataType : "json",
 				success : function(dataById) {
 					// 动环数据展示
 					var data = dataById.items;
-					console.log(data[0]["017001"]);
+					//console.log(data[0]["017001"]);
 					//$('#temp_0').val(data[0][]);
 
 				}
-			});
+			});*/
 		});
 		//地图加载时执行
 		option = {

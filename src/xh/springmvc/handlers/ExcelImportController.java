@@ -24,15 +24,17 @@ public class ExcelImportController {
 	      
 	    @RequestMapping(value="/upload",method = RequestMethod.POST)  
 	    @ResponseBody  
-	    public void upload(@RequestParam(value="file",required = false)MultipartFile file,HttpServletRequest request, HttpServletResponse response){  
-	        String result = excelService.readExcelFile(file);  
-	        response.setContentType("application/json;charset=utf-8");
+	    public String upload(@RequestParam(value="file",required = false)MultipartFile file,HttpServletRequest request, HttpServletResponse response){
+	    	String time = request.getParameter("time");
+	        String result = excelService.readExcelFile(file,time);
+	        /*response.setContentType("application/json;charset=utf-8");
 			String jsonstr = json.Encode(result);
 			try {
 				response.getWriter().write(jsonstr);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-	    }  
+			}*/
+	        return result;
+	    }
 }
