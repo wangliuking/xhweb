@@ -47,20 +47,18 @@
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
-		id=#{id}
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where id=#{id}
 	</update>
 	
 	<!--经办人确认 -->
 	<update id="checkedTwo" parameterType="xh.mybatis.bean.FaultBean">
-		update xhgmnet_business_fault
-		user2=#{user2},time2=#{time2},note2=#{note2},
-		checked=#{checked} where id=#{id}
+		update xhgmnet_business_fault set
+		user2=#{user2},time2=#{time2},note2=#{note2},checked=2 where id=#{id}
 	</update>
 	
 	<!--用户确认 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.FaultBean">
-		update xhgmnet_business_Fault set
-		note=#{note},checked=#{checked} where id=#{id}
+		update xhgmnet_business_fault set
+		note=#{note},checked=3 where id=#{id}
 	</update>
 </mapper>
