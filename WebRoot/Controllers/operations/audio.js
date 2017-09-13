@@ -35,10 +35,10 @@ xh.load = function() {
 
 		};
 		/* 下载文件 */
-		$scope.download = function() {
-			var filename = $("#download").val();
-			console.log("filename=>" + filename);
-			var downUrl = "../../call/download?fileName=" + filename;
+		$scope.download = function(sef, audioName) {
+			//var filename = $("#download").val();
+			console.log("下载音频文件名filename=>" + audioName);
+			var downUrl = "../../call/download?fileName=" + audioName;
 			window.open(downUrl, '_self',
 					'width=1,height=1,toolbar=no,menubar=no,location=no');
 		}
@@ -46,22 +46,27 @@ xh.load = function() {
 		$scope.play_click = function(sef, audioName, index) {
 			//这里因为本地数据录音路径名为ModelTest*.mp3 ，因此设置默认值为ModelTest1.mp3,
 			//正常使用是audioName传入录音文件名。（即数据库中call_Path字段）
-			audioName = "ModelTest1.mp3"
+			//audioName = "ModelTest1.mp3"
 			//测试默认值
-				
-			var div = document.getElementById('div' + index);
 			var url = "../../Resources/audio/" + audioName;
+				
+			$scope.audioName=audioName;	
+			$scope.playUrl=url;
+			$("#audioPlay").modal('show');	
+			
+			
+			/*var div = document.getElementById('div' + index);
 			div.innerHTML = '<embed src="' + url
 					+ '" loop="0" autostart="true" height="60"></embed>';
 			var emb = document.getElementsByTagName('EMBED')[0];
-			if (emb) {/* 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 */
+			if (emb) { 这里可以写成一个判断 wav 文件是否已加载完毕，以下采用setTimeout模拟一下 
 				div = document.getElementById('div2');
 				div.innerHTML = 'loading: ' + emb.src;
 				sef.disabled = true;
 				setTimeout(function() {
 					div.innerHTML = '';
 				}, 5000);
-			}
+			}*/
 		}
 
 		// 分页点击

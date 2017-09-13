@@ -13,9 +13,10 @@
 }
 /* 网页头部 #428bca*/
 #header {
+	background-image:url("../images/img/main3.jpg");
 	background-color: #1874CD;
 	display: block;
-	height: 50px;
+	height: 70px;
 	margin: 0;
 	padding: 0;
 	position: relative;
@@ -85,7 +86,8 @@
 
 #logo .small-logo .title {
 	padding-top: 5px;
-	font-size: 16pt;
+	font-weight:bold;
+	font-size: 23pt;
 	color: #ffffff;
 }
 /* 网页中间内容体 wrapper */
@@ -303,7 +305,7 @@ iframe {
 	width: 100%;
 	position: fixed;
 	z-index: 100;
-	top: 50px;
+	top: 71px;
 }
 
 .fixed-sidebar #menu {
@@ -311,12 +313,12 @@ iframe {
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 190px;
-	top: 82px;
+	top: 100px;
 }
 
 .fixed-small-header .small-header {
 	position: fixed;
-	top: 80px;
+	top: 100px;
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
@@ -332,17 +334,17 @@ iframe {
 }
 
 .fixed-navbar #wrapper {
-	top: 80px;
+	top: 100px;
 }
 
 .fixed-wrapper #wrapper {
-	top: 80px;
+	top: 100px;
 	margin-left: 0px;
 }
 
 .fixed-wrapper .small-header {
 	position: fixed;
-	top: 80px;
+	top: 100px;
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;

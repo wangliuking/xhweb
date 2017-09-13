@@ -1,10 +1,9 @@
 <!-- 系统头部 -->
 <div id="header" role="navigation" class="header-style">
-<div class="color-line"></div>
 	<div id="logo">
 		<ul class="small-logo">
 			<li><img alt="" src="../../Resources/images/img/log.png"
-				height="40px" width="40px"></li>
+				height="50px" width="50px"></li>
 			<li class="title"><span>综合应用与管理平台</span></li>
 			<!-- <li style="margin-top:10px;color:#fff;cursor: pointer;" class="menu-hide"><i class="fa fa-bars fa-2x"></i></li> -->
 		</ul>
@@ -14,14 +13,14 @@
 			<ul class="navbar-right">
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;">
 				<a href="../../Views/operations/email.html" target="_self"><i
-						class="fa fa-envelope-o fa-x font-white"></i> <span
+						class="fa fa-envelope-o fa-x font-white" style="font-size:15pt"></i> <span
 						class="badge badge-header badge-danger" id="emailcount">0</span>
 				</a>
 					
 				</li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
 					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
-						class="fa fa-bell-o fa-x font-white"></i> <span
+						class="fa fa-bell-o fa-x font-white" style="font-size:15pt"></i> <span
 						class="badge badge-header badge-warning" id="alarmcount"> 0</span>
 				</a> <!-- animated flipInX -->
 				
@@ -54,15 +53,12 @@
 		</div>
 	</nav>
 </div>
+<!-- <div class="color-line"></div> -->
 <div id="nav-top">
 	<nav role="navigation">
 		<ul class="navbar-left">
-			<!-- <li><a href="../../index.html"><i class="fa fa-map-marker"></i>&nbsp;|站点分布图</a></li>
-			<li ng-class="{true: 'header-active', false: 'inactive'}[chartMenu]">
-				<a href="../other/charts.html"><i class="fa fa-line-chart"></i>&nbsp;|图形化监控</a>
-			</li> -->
-			<li
-				ng-class="{true: 'dropdown header-active', false: 'dropdown inactive'}[systemMenu]"><a
+		<li class="hide-menu" style="margin-right:72px;">功能菜单&nbsp;<i class="fa fa-bars" ></i></li>
+			<li ng-class="{true: 'dropdown header-active', false: 'dropdown inactive'}[systemMenu]"><a
 				class="dropdown-toggle" href="#" data-toggle="dropdown"><i
 					class="fa fa-sitemap"></i>&nbsp;|系统状态</a>
 				<div class="dropdown-menu animated flipInX" style="padding-left:20px;">
@@ -95,6 +91,7 @@
 		</ul>
 	</nav>
 </div>
+
 <audio id="bgMusic" loop="loop">
     <source  src="../../Resources/sound/alarm.mp3" type="audio/mp3">
     <source  src="../../Resources/sound/alarm.ogg" type="audio/ogg">

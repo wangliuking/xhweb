@@ -47,19 +47,19 @@
 	
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.CommunicationSupportBean">
-		update xhgmnet_business_CommunicationSupport set
+		update xhgmnet_business_communicationsupport set
 		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--管理方审核 -->
 	<update id="checkedTwo" parameterType="xh.mybatis.bean.CommunicationSupportBean">
-		update xhgmnet_business_CommunicationSupport set
+		update xhgmnet_business_communicationsupport set
 		user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where 
 		id=#{id}
 	</update>
 	<!--用户确认方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.CommunicationSupportBean">
-		update xhgmnet_business_CommunicationSupport set
+		update xhgmnet_business_communicationsupport set
 		note=#{note},checked=#{checked} where id=#{id}
 	</update>
 
