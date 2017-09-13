@@ -171,12 +171,32 @@ html,body {
 			<table id="table1" class="xh-table table-hover"
 				style="padding:0;margin:0;">
 				<tbody>
-					<tr ng-repeat="x in top5Calllist">
+					<!-- <tr ng-repeat="x in top5Calllist">
 						<td style="width:70%;"><a href="#"
 							ng-click="calllistChoose(x)">{{x.name}}</a></td>
 						<td style="width:30%;">{{x.num}}</td>
+					</tr> -->
+					<tr>
+						<td style="width:70%;">武侯二办</td>
+						<td style="width:30%;">145</td>
 					</tr>
-
+					<tr>
+						<td style="width:70%;">双流城区1</td>
+						<td style="width:30%;">67</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">都江堰城区</td>
+						<td style="width:30%;">11</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">成都市公安局</td>
+						<td style="width:30%;">37</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">政府三办</td>
+						<td style="width:30%;">69</td>
+					</tr>
+					
 				</tbody>
 			</table>
 		</div>
@@ -216,7 +236,7 @@ html,body {
 					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+					<li ng-if="x.level!=4"><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
 				</ul></li>
 			<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
