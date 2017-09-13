@@ -42,7 +42,8 @@ var User = function(){
         }else if(uploadEventFile.lastIndexOf(".xls")<0){//可判断以.xls和.xlsx结尾的excel  
             alert("只能上传Excel文件");  
         }else{  
-            var url =  'excel/upload';  
+        	var time="2017-09-12 13:37:26"
+            var url =  'excel/upload?time='+time;  
             var formData = new FormData($('form')[0]);  
             user.sendAjaxRequest(url,'POST',formData);  
         }  
