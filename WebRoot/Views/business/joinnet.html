@@ -63,7 +63,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
+										data-target="#addJoinNet" ng-disabled="">
 										<i class="fa fa-plus-circle"></i>&nbsp;申请入网
 									</button>
 									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
@@ -123,30 +123,59 @@
 										<td ng-if="x.checked==3" class="td-danger">正在审核编组方案</td>
 										<td ng-if="x.checked==4" class="td-danger">请用户确认编组方案</td>
 										<td ng-if="x.checked==5" class="td-warning">审核通过，等待经办人签署协议</td>
-										<td ng-if="x.checked==6" class="td-warning">已退网</td>
+										<td ng-if="x.checked==6" class="td-success">经办人已签署协议，请用户打印协议</td>
 										<td style="text-align:center">										
 										
 										<a href="#"
 											ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
+										<!-- 上传公函 -->		
+										<a ng-if="loginUser==x.userName && x.checked==0 && (x.fileName_GH == '' || x.fileName_GH == null)"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-upload text-danger"></i>&nbsp;上传公函（可选）</a>
+										<!-- 查看公函 -->
+										<a ng-if="(loginUser==x.userName||loginUserRoleId==10001) && x.checked<=2 && (x.fileName_GH != '' && x.fileName_GH != null)"
+											href="#" ng-click="download($index,1)">| <i
+												class="fa fa-download text-danger"></i>&nbsp;查看公函</a>
+										<!-- 上传通知函 -->
+										<a ng-if="loginUser==x.user1 && x.checked==1 && (x.fileName_Note == '' || x.fileName_Note == null)"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-upload text-danger"></i>&nbsp;上传通知函（可选）</a>
+										<!-- 查看通知函 -->
+										<a ng-if="(loginUserRoleId==10001 || loginUserRoleId==10002) && x.checked<4 && (x.fileName_Note != '' && x.fileName_Note != null)"
+											href="#" ng-click="download($index,2)">| <i
+												class="fa fa-download text-danger"></i>&nbsp;查看通知函</a>
 												
 										<a ng-if="loginUserRoleId==10001 && x.checked==0 || 		
 										loginUserRoleId==10002 && x.checked==1 || 
 										loginUserRoleId==10002 && loginUser==x.user3 && x.checked==2 ||
 										loginUserRoleId==10002 && loginUser==x.user4 && x.checked==3"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核</a>
 
 										<!-- 签署协议 -->
-
 										<a ng-if="loginUserRoleId==10002 && x.checked==5"
-										href="#" ng-click="checkSign($index)"><i class="fa fa-hand-down text-danger"></i>| &nbsp;签署</a>			
-										
-
+										href="#" ng-click="checkSign($index)">| <i
+												class="fa fa-pencil-square-o text-warning"></i>&nbsp;签署</a>			
+										<!-- 下载签署协议 -->
+										<a ng-if="loginUser==x.userName && x.checked==6"
+										href="#" ng-click="download($index,3)">| <i
+												class="fa fa-download text-warning"></i>&nbsp;下载签署协议</a>
+										<!-- 确认编组方案 -->
 										<a class="text-danger"
 											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==4"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a></td>
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a>
+										<!-- 添加用户 -->
+										<a
+											ng-if="loginUserRoleId==10002 && x.checked>=5 && x.serviceType =='无线接入'"
+											href="#" ng-click="addUser($index)">|<i
+												class="fa fa-user text-success"></i>&nbsp;添加无线用户</a>
+										<!-- 确认编组方案 -->
+										<a
+											ng-if="loginUserRoleId==10002 && x.checked>=5 && x.serviceType =='无线接入'""
+											href="#" ng-click="addGroup($index)">|<i
+												class="fa fa-group text-success"></i>&nbsp;添加无线用户组</a>
 									</tr>
 								</tbody>
 							</table>
@@ -188,14 +217,16 @@
 	</div>
 	<!-- 添加 -->
 	<div ng-include="'joinnet-add.html'"></div>
+	<!-- 添加无线用户组 -->
+	<div ng-include="'talkgroup-add.html'"></div>
+	<!-- 添加无线用户 -->
+	<div ng-include="'radiouser-add.html'"></div>
 	<!-- 录入 -->
 	<div ng-include="'joinnet-register.html'"></div>
 	<!-- 进度-->
 	<div ng-include="'joinnet-progress.html'"></div>
 	<!-- 审核-->
 	<div ng-include="'joinnet-check.html'"></div>
-	
-	<div >
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>

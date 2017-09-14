@@ -40,7 +40,21 @@ public class JoinNetBean {
 	private String filePathGH;
 	private String fileNameNote;
 	private String filePathNote;
+	private String fileNameDoc;
+	private String filePathDoc;
 	
+	public String getFileNameDoc() {
+		return fileNameDoc;
+	}
+	public void setFileNameDoc(String fileNameDoc) {
+		this.fileNameDoc = fileNameDoc;
+	}
+	public String getFilePathDoc() {
+		return filePathDoc;
+	}
+	public void setFilePathDoc(String filePathDoc) {
+		this.filePathDoc = filePathDoc;
+	}
 	public String getFileNameGH() {
 		return fileNameGH;
 	}

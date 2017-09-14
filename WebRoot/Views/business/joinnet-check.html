@@ -21,7 +21,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									 class="form-control" name="checked">
+									 class="form-control" name="checked" id="selectZG">
 									<option value="1" selected="selected">审核通过</option>
 									<option value="-1">拒绝</option>
 								</select>
@@ -224,7 +224,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>编组方案下载链接</label>&nbsp;</span> 
-								<a href="#" title="点击下载文件" onclick="xh.download(-1)" style="color:red">{{checkData.fileName}}</a>
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color:red">{{checkData.fileName}}</a>
 							</div>
 							
 						</div>
@@ -289,7 +289,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>编组方案下载链接</label>&nbsp;</span> 
-								<a href="#" title="点击下载文件" onclick="xh.download()" style="color:red">{{checkData.fileName}}</a>
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color:red">{{checkData.fileName}}</a>
 							</div>
 							
 						</div>
@@ -330,7 +330,7 @@
 	</div>
 </div>
 <!-- 上传附件 -->
-<div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
@@ -364,7 +364,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- row-------end -->
+					row-------end
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -379,8 +379,7 @@
 			</div>
 		</div>
 	</div>
-</div>
-<!-- 软中经办人 -->
+</div> -->
 <div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
@@ -399,21 +398,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-8">
-								<label>编组方案</label>&nbsp;<span class="text-danger">[*]</span> 
-								<input type="file" name="filePath" id="filePathBZ" class="form-control"/> 
-							</div>
-							<div class="form-group col-md-4"style="margin-top:30px;" >
-							    <input type="hidden" name="result" class="form-control"/> 
-							    <input type="hidden" name="fileName"/> 
-							    <input type="hidden" name="path"/> 
-								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
-								<span id="uploadResultBZ" style="color:red"></span>
-							</div>
-						</div>
-					</div> -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
@@ -425,7 +409,7 @@
 							    <input type="hidden" name="fileName"/> 
 							    <input type="hidden" name="path"/> 
 								<a href="#" onclick="xh.upload(2)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
-								<span id="uploadResultGH" style="color:red"></span>
+								<span id="uploadResultGH" class="span_result_GH" style="color:red"></span>
 							</div>
 						</div>
 					</div>
@@ -439,7 +423,7 @@
 				<button type="button" ng-disabled="form.$invalid"
 					class="btn btn-success btn-sm" id="check_btn6">
 					<i class="fa fa-plus"></i>&nbsp;提交
-				</button>
+				</button> 
 			</div>
 		</div>
 	</div>
@@ -496,6 +480,11 @@
 	</div>
 </div>
 
+<!-- <script>
+$("#checkWin6").on('show.bs.modal', function (event) {
+	alert(213);
+}
+</script> -->
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
@@ -518,6 +507,9 @@
 	$("#check_btn7").click(function() {
 		$('#checkForm7').submit();
 	});
+	
+	
+	
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
@@ -544,7 +536,6 @@
 		xh.check2();
 	});
 	//上传编组方案
-
 	$('#checkForm3').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */

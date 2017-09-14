@@ -417,15 +417,24 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
-		JoinNet_registerFormBean bean = GsonUtil.json2Object(jsonData, JoinNet_registerFormBean.class);
-		bean.setDocNum("201708081001");
+		JoinNet_registerFormBean bean1 = GsonUtil.json2Object(jsonData, JoinNet_registerFormBean.class);
+		bean1.setDocNum("201708081001");
 		FormToWord toWord = new FormToWord();
-		Boolean b = toWord.fillWord(bean, request, "register.ftl");
-		//Boolean b = toWord.fillWord(bean, path);
+		String fileName = toWord.fillWord(bean1, request, "register.ftl");
+		String filePath = request.getSession().getServletContext()
+				.getRealPath("")+"/Resources/outputDoc/";
+		JoinNetBean bean2 = new JoinNetBean();
+		bean2.setId(bean1.getId());
+		bean2.setFileNameDoc(fileName);
+		bean2.setFilePathDoc(filePath);
+		System.out.println("ID :" + bean1.getId());
+		System.out.println("Name :" + fileName);
+		System.out.println("Path :" + filePath);
 		int rst = 0;
-		if(b){
+		if(fileName != "false"){
 			this.message = "入网登记表填写成功";
-			rst = 1;
+			//将生成的模板路径保存到数据库中
+			rst = JoinNetService.uploadFileDoc(bean2);
 		}else{
 			this.message = "入网登记表填写失败";
 		}
@@ -506,11 +515,9 @@ public class JoinNetController {
 		bean.setId(id);
 		bean.setFileNameGH(fileName);
 		bean.setFilePathGH(filePath);
-		bean.setFileNameNote("");
-		bean.setFilePathNote("");
 		System.out.println("保存公函:" + fileName);
 		
-		int rst = JoinNetService.uploadFileGhorNote(bean);
+		int rst = JoinNetService.uploadFileGh(bean);
 		if (rst == 1) {
 			this.message = "上传公函成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -549,13 +556,11 @@ public class JoinNetController {
 		String filePath = request.getParameter("path");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
-		bean.setFileNameGH("");
-		bean.setFilePathGH("");
 		bean.setFileNameNote(fileName);
 		bean.setFilePathNote(filePath);
 		System.out.println("保存通知函:" + fileName);
 		
-		int rst = JoinNetService.uploadFileGhorNote(bean);
+		int rst = JoinNetService.uploadFileNote(bean);
 		if (rst == 1) {
 			this.message = "上传通知函成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -588,11 +593,19 @@ public class JoinNetController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/Resources/upload");
+		int type = funUtil.StringToInt(request.getParameter("type"));
+		String path = "";
+		if(type == 3){
+			path = request.getSession().getServletContext().getRealPath("/Resources/outputDoc");
+		}
+		else{
+			path = request.getSession().getServletContext().getRealPath("/Resources/upload");
+		}
 		String fileName=request.getParameter("fileName");
 		fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
+		System.out.println(downPath);
 		 File file = new File(downPath);
 		 if(!file.exists()){
 			 this.success=false;
