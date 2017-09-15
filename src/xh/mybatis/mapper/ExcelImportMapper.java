@@ -13,9 +13,9 @@ public interface ExcelImportMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	//public int insertExcel(List<ImpExcelBean> list,String time)throws Exception;
+	public int insertExcel(List<ImpExcelBean> list)throws Exception;
 	
-	public int insertExcel(List<TempBean> list)throws Exception;
+	//public int insertExcel(List<TempBean> list)throws Exception;
 
 	
 }
