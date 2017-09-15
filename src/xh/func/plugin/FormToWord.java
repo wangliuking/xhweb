@@ -28,7 +28,7 @@ public class FormToWord {
         configuration.setDefaultEncoding("UTF-8"); 
 	}
 	
-	public boolean fillWord(Object obj,HttpServletRequest request,String templateName){  
+	public String fillWord(Object obj,HttpServletRequest request,String templateName){  
         Map<String,Object> dataMap= getData(obj);
         //configuration.setClassForTemplateLoading(this.getClass(), request.getSession().getServletContext().getRealPath("/Resources/template"));//模板文件所在路径
         configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/Resources/template");
@@ -38,7 +38,10 @@ public class FormToWord {
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
-        File outFile = new File("D:/outFile"+Math.random()*10000+".doc"); //导出文件
+        String outFilePath = request.getSession().getServletContext()
+				.getRealPath("")+"/Resources/outputDoc/";
+        String outputFileName = Math.random()*10000+".doc";
+        File outFile = new File(outFilePath + outputFileName); //导出文件
         Writer out = null;  
         try {  
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));  
@@ -49,13 +52,13 @@ public class FormToWord {
         try {
         	//将填充数据填入模板文件并输出到目标文件 
             t.process(dataMap, out); 
-            return true;
+            return outputFileName;
         } catch (TemplateException e) {  
             e.printStackTrace();  
         } catch (IOException e) {  
             e.printStackTrace();  
         }
-        return false;
+        return "false";
     }  
   
     private Map<String, Object> getData(Object obj) {  

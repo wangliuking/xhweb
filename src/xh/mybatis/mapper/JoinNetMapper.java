@@ -58,12 +58,28 @@ public interface JoinNetMapper {
 	public int uploadFile(JoinNetBean bean)throws Exception;
 	
 	/**
-	 * 上传公函或通知函
+	 * 上传公函
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
-	public int uploadFileGhorNote(JoinNetBean bean)throws Exception;
+	public int uploadFileGh(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 上传通知函
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFileNote(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 上传通知函
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFileDoc(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 审核编组方案
