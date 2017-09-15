@@ -36,39 +36,17 @@ xh.load = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
-		/*添加单个用户*/
-		$scope.addone=function(){
-			var groupId=$("#groupId").val();
-			var userId=$("#userId").val();
-			var store={
-					groupId:'',
-					userId:'',
-					status:0					
-			};
-			var record=[];
-			store.userId=userId;
-			store.groupId=groupId;
-			record.push(store);
-			$dgnaData=record;
-			
-		};
 		//添加一个用户
 		$scope.addOneUser=function(){
 			var userId=$("#userId").val();
-			var groupId=$("#groupId").val();
-			var record={userId:'',groupId:'',status:0};
+			var record={userId:'',status:0};
 			
 			if(userId==""){
 				toastr.error("用户ID不能为空", '提示');
 				return;
 			}
-			if(groupId==""){
-				toastr.error("组ID不能为空", '提示');
-				return;
-			}
-			
+			i
 			record.userId=userId;
-			record.groupId=groupId;
 			var flag=0;
 			for(var i=0;i<$scope.data.length;i++){
 				if($scope.data[0].userId==userId){
@@ -85,19 +63,12 @@ xh.load = function() {
 		$scope.addMore = function() {
 			var user1=parseInt($("#user1").val());
 			var user2=parseInt($("#user2").val());
-			var groupId=$("#groupId").val();
-			
-			
-			if(groupId==""){
-				toastr.error("组ID不能为空", '提示');
-				return;
-			}
 			if(user2-user1<0){
 				toastr.error("用户ID区间不正确", '提示');
 				return;
 			}
 			for(var i=0;i<=user2-user1;i++){
-				var record={userId:'',groupId:groupId,status:0};
+				var record={userId:'',status:0};
 				record.userId=user1+i;	
 				var flag=0;
 				for(var j=0;j<$scope.data.length;j++){
@@ -127,8 +98,8 @@ xh.load = function() {
 			$scope.data.splice(0,$scope.data.length);
 			$scope.totals=$scope.data.length;	
 		};
-		$scope.start=function(){
-			var opreation=$("input[name='operation']:checked").val();
+		//遥启
+		$scope.open=function(){
 			var data=[];
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
@@ -137,15 +108,23 @@ xh.load = function() {
 			$.each($scope.data,function(i,record){
 				data.push(record.userId);
 			});
+			swal({
+				title : "提示",
+				text : "确定要遥启下列手台吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			}, function(isConfirm) {
+			if (isConfirm) {
 			$.ajax({
-				url : '../../tools/dgna',
+				url : '../../tools/open',
 				type : 'POST',
 				dataType : "json",
 				traditional :true,  //注意这个参数是必须的
 				async : true,
 				data:{
-					operation:opreation,
-					groupId:$("#groupId").val(),
 					data:data.join(",")
 				},
 				success : function(data) {
@@ -159,6 +138,49 @@ xh.load = function() {
 				error : function() {
 				}
 			});
+			}});
+		};
+		//遥毙
+		$scope.kill=function(){
+			var data=[];
+			if($scope.data.length<1){
+				toastr.error("还没有操作数据", '提示');
+				return;
+			}
+			$.each($scope.data,function(i,record){
+				data.push(record.userId);
+			});
+			swal({
+				title : "提示",
+				text : "确定要遥启下列手台吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			}, function(isConfirm) {
+			if (isConfirm) {
+			$.ajax({
+				url : '../../tools/kill',
+				type : 'POST',
+				dataType : "json",
+				traditional :true,  //注意这个参数是必须的
+				async : true,
+				data:{
+					data:data.join(",")
+				},
+				success : function(data) {
+
+					if (data.result ==1) {
+						toastr.success(data.message, '提示');
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+			}});
 		};
 		
 		

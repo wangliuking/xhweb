@@ -12,8 +12,8 @@
      order by time desc limit #{start},#{limit}
     </select>  
     <!--邮件总数-->
-    <select id="emailCount"  resultType="int" useCache="true">
-     select count(*) from xhgmnet_notify
+    <select id="emailCount" parameterType="map"  resultType="int" useCache="true">
+     select count(*) from xhgmnet_notify where recvUser=#{loginUser}
     </select>
     <!--未读邮件总数-->
     <select id="noReadEmailCount" parameterType="map" resultType="int" useCache="true">
