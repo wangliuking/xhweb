@@ -51,7 +51,7 @@ public class MemberCenterController {
 		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",EmailService.emailCount());
+		result.put("totals",EmailService.emailCount(map));
 		result.put("items", EmailService.emailInfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
