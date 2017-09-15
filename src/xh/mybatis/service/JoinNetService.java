@@ -120,16 +120,52 @@ public class JoinNetService {
 		return result;
 	}
 	/**
-	 * 上传公函或通知函
+	 * 上传公函
 	 * @param bean
 	 * @return
 	 */
-	public static int uploadFileGhorNote(JoinNetBean bean){
+	public static int uploadFileGh(JoinNetBean bean){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
 		int result=0;
 		try {
-			result=mapper.uploadFileGhorNote(bean);
+			result=mapper.uploadFileGh(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传通知函
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileNote(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileNote(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传doc
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileDoc(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileDoc(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

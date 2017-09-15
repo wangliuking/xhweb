@@ -59,12 +59,12 @@ public class EmailService {
 	 * @param map
 	 * @return
 	 */
-	public static int emailCount(){
+	public static int emailCount(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
 		int count=0;
 		try{
-			count=mapper.emailCount();
+			count=mapper.emailCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

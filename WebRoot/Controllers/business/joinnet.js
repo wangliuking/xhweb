@@ -39,250 +39,215 @@ xh.load = function() {
 			requireBase : false
 		});
 	} ]);
-	app
-			.controller(
-					"xhcontroller",
-					function($scope, $http, $location) {
-						xh.maskShow();
-						$scope.count = "15";// 每页数据显示默认值
-						$scope.businessMenu = true; // 菜单变色
+	app.controller("xhcontroller",function($scope, $http, $location) {
+		xh.maskShow();
+		$scope.count = "15";// 每页数据显示默认值
+		$scope.businessMenu = true; // 菜单变色
 
-						// 获取登录用户
-						$http.get("../../web/loginUserInfo").success(
-								function(response) {
-									xh.maskHide();
-									$scope.loginUser = response.user;
-									$scope.loginUserRoleId = response.roleId;
-								});
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
+			xh.maskHide();
+			$scope.loginUser = response.user;
+			$scope.loginUserRoleId = response.roleId;
+		});
 
-						/* 获取申请记录表 */
-						$http
-								.get(
-										"../../net/selectAll?start=0&limit="
-												+ pageSize).success(
-										function(response) {
-											xh.maskHide();
-											$scope.data = response.items;
-											$scope.totals = response.totals;
-											xh.pagging(1,
-													parseInt($scope.totals),
-													$scope);
-										});
+		/* 获取申请记录表 */
+		$http.get("../../net/selectAll?start=0&limit="+ pageSize).success(function(response) {
+			xh.maskHide();
+			$scope.data = response.items;
+			$scope.totals = response.totals;
+			xh.pagging(1,
+					parseInt($scope.totals),
+					$scope);
+		});
 
-						/* 获取主管部门领导列表 */
-						$http
-								.get("../../web/user/getUserList?roleId=10001")
-								.success(
-										function(response) {
-											$scope.userData_MainManager = response.items;
-											$scope.userTotals_MainManager = response.totals;
-											if ($scope.userTotals_MainManager > 0) {
-												$scope.user_M = $scope.userData_MainManager[0].user;
-											}
-										});
-						/* 刷新数据 */
-						$scope.refresh = function() {
-							$scope.search(1);
-							$("#table-checkbox").prop("checked", false);
-						};
-						/* 跳转到申请进度页面 */
-						$scope.toProgress = function(id) {
-							$scope.editData = $scope.data[id];
-							$scope.checkData = $scope.editData;
-							/*
-							 * $http.get("../../net/applyProgress?id="+$scope.editData.id).
-							 * success(function(response){ $scope.progressData =
-							 * response.items;
-							 * 
-							 * });
-							 */
-							$scope.progressData = $scope.editData;
-							$("#progress").modal('show');
-						};
-						/* 显示协议签署窗口 */
-						$scope.checkSign = function(id) {
-							$("#joinNet_register").modal('show');
-						};
-						/* 显示添加用户窗口 */
-						$scope.addUser = function(id) {
-							$scope.joinNetProcessId = $scope.data[id].id;
-							// 获取无线用户业务属性
-							$http
-									.get(
-											"../../radiouserbusiness/list?start=0&limit="
-													+ pageSize)
-									.success(
-											function(response) {
-												$scope.userbusinessData = response.items;
-												$scope.userbusinessTotals = response.totals;
-												if ($scope.userbusinessTotals > 0) {
-													$scope.userbusinessName = $scope.userbusinessData[0].id;
-												}
-											});
-							// 获取无线用户互联属性
-							$http
-									.get(
-											"../../radiouserseria/list?start=0&limit="
-													+ pageSize)
-									.success(
-											function(response) {
-												$scope.userseriaData = response.items;
-												$scope.userseriaTotals = response.totals;
-												if ($scope.userseriaTotals > 0) {
-													$scope.userseriaName = $scope.userseriaData[0].name;
-												}
-											});
+		/* 获取主管部门领导列表 */
+		$http.get("../../web/user/getUserList?roleId=10001").success(
+			function(response) {
+				$scope.userData_MainManager = response.items;
+				$scope.userTotals_MainManager = response.totals;
+				if ($scope.userTotals_MainManager > 0) {
+					$scope.user_M = $scope.userData_MainManager[0].user;
+				}
+			});
+		/* 刷新数据 */
+		$scope.refresh = function() {
+			$scope.search(1);
+			$("#table-checkbox").prop("checked", false);
+		};
+		/* 跳转到申请进度页面 */
+		$scope.toProgress = function(id) {
+			$scope.editData = $scope.data[id];
+			$scope.checkData = $scope.editData;
+			/*
+			 * $http.get("../../net/applyProgress?id="+$scope.editData.id).
+			 * success(function(response){ $scope.progressData =
+			 * response.items;
+			 * 
+			 * });
+			 */
+			$scope.progressData = $scope.editData;
+			$("#progress").modal('show');
+		};
+		/* 显示协议签署窗口 */
+		$scope.checkSign = function(id) {
+			$scope.signData = $scope.data[id];
+			$("#joinNet_register").modal('show');
+		};
+		/* 显示添加用户窗口 */
+		$scope.addUser = function(id) {
+			$scope.joinNetProcessId = $scope.data[id].id;
+			// 获取无线用户业务属性
+			$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize).success(
+				function(response) {
+					$scope.userbusinessData = response.items;
+					$scope.userbusinessTotals = response.totals;
+					if ($scope.userbusinessTotals > 0) {
+						$scope.userbusinessName = $scope.userbusinessData[0].id;
+					}
+				});
+			// 获取无线用户互联属性
+			$http.get("../../radiouserseria/list?start=0&limit="+ pageSize).success(function(response) {
+				$scope.userseriaData = response.items;
+				$scope.userseriaTotals = response.totals;
+				if ($scope.userseriaTotals > 0) {
+					$scope.userseriaName = $scope.userseriaData[0].name;
+				}
+			});
 
-							$("#add").modal('show');
-						};
-						/* 显示添加组窗口 */
-						$scope.addGroup = function(id) {
-							$scope.joinNetProcessId = $scope.data[id].id;
-							// 获取无线用户业务属性
-							$http
-									.get(
-											"../../radiouserbusiness/list?start=0&limit="
-													+ pageSize)
-									.success(
-											function(response) {
-												$scope.userbusinessData = response.items;
-												$scope.userbusinessTotals = response.totals;
-												if ($scope.userbusinessTotals > 0) {
-													$scope.userbusinessName = $scope.userbusinessData[0].id;
-												}
-											});
-							// 获取无线用户互联属性
-							$http
-									.get(
-											"../../radiouserseria/list?start=0&limit="
-													+ pageSize)
-									.success(
-											function(response) {
-												$scope.userseriaData = response.items;
-												$scope.userseriaTotals = response.totals;
-												if ($scope.userseriaTotals > 0) {
-													$scope.userseriaName = $scope.userseriaData[0].name;
-												}
-											});
-							$("#addTalkGroup").modal('show');
-						};
-						$scope.download = function(id) {
-							xh.download(id);
+			$("#add").modal('show');
+		};
+		/* 显示添加组窗口 */
+		$scope.addGroup = function(id) {
+			$scope.joinNetProcessId = $scope.data[id].id;
+			// 获取无线用户业务属性
+			$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize)
+					.success(function(response) {
+						$scope.userbusinessData = response.items;
+						$scope.userbusinessTotals = response.totals;
+						if ($scope.userbusinessTotals > 0) {
+							$scope.userbusinessName = $scope.userbusinessData[0].id;
 						}
-						/* 显示审核窗口 */
-						$scope.checkWin = function(id) {
-							$scope.checkData = $scope.data[id];
-							// $http.get("../../web/user/userlist10002").
-							$http
-									.get(
-											"../../web/user/getUserList?roleId=10002")
-									.success(
-											function(response) {
-												$scope.userData = response.items;
-												$scope.userTotals = response.totals;
-												if ($scope.userTotals > 0) {
-													$scope.user = $scope.userData[0].user;
-												}
-											});
-							if ($scope.loginUserRoleId == 10001
-									&& $scope.checkData.checked == 0) {
-								$("#checkWin1").modal('show');
-							}
-							if ($scope.loginUserRoleId == 10002
-									&& $scope.checkData.checked == 1) {
-								$("#checkWin2").modal('show');
-							}
-							if ($scope.loginUserRoleId == 10002
-									&& $scope.loginUser == $scope.checkData.user3
-									&& $scope.checkData.checked == 2) {
-								$("#checkWin3").modal('show');
-							}
-							if ($scope.loginUserRoleId == 10002
-									&& $scope.loginUser == $scope.checkData.user4
-									&& $scope.checkData.checked == 3) {
-								$("#checkWin4").modal('show');
-							}
-							if ($scope.loginUserRoleId == 10002
-									&& $scope.loginUser == $scope.checkData.user4
-									&& $scope.checkData.checked == 3) {
-								$("#checkWin4").modal('show');
-							}
-							if ($scope.loginUser == $scope.checkData.userName
-									&& $scope.loginUserRoleId == 1000
-									&& $scope.checkData.checked == 4) {
-								$("#checkWin5").modal('show');
-							}
-							if ($scope.loginUserRoleId == 1000
-									&& $scope.checkData.checked == 0) {
-								$("#checkWin6").modal('show');
-							}
-							if ($scope.loginUserRoleId == 10001
-									&& $scope.checkData.checked == 1) {
-								$("#checkWin7").modal('show');
-							}
-						};
-						/* 查询数据 */
-						$scope.search = function(page) {
-							var pageSize = $("#page-limit").val();
-							var start = 1, limit = pageSize;
-							frist = 0;
-							page = parseInt(page);
-							if (page <= 1) {
-								start = 0;
-
-							} else {
-								start = (page - 1) * pageSize;
-							}
-							xh.maskShow();
-							$http
-									.get(
-											"../../net/selectAll?start=0&limit="
-													+ limit)
-									.success(
-											function(response) {
-												xh.maskHide();
-												$scope.data = response.items;
-												$scope.totals = response.totals;
-												xh
-														.pagging(
-																page,
-																parseInt($scope.totals),
-																$scope);
-											});
-						};
-						// 分页点击
-						$scope.pageClick = function(page, totals, totalPages) {
-							var pageSize = $("#page-limit").val();
-							var start = 1, limit = pageSize;
-							page = parseInt(page);
-							if (page <= 1) {
-								start = 0;
-							} else {
-								start = (page - 1) * pageSize;
-							}
-							xh.maskShow();
-							$http.get(
-									"../../net/selectAll?start=" + start
-											+ "&limit=" + limit).success(
-									function(response) {
-										xh.maskHide();
-										$scope.start = (page - 1) * pageSize
-												+ 1;
-										$scope.lastIndex = page * pageSize;
-										if (page == totalPages) {
-											if (totals > 0) {
-												$scope.lastIndex = totals;
-											} else {
-												$scope.start = 0;
-												$scope.lastIndex = 0;
-											}
-										}
-										$scope.data = response.items;
-										$scope.totals = response.totals;
-									});
-
-						};
 					});
+			// 获取无线用户互联属性
+			$http.get("../../radiouserseria/list?start=0&limit="+ pageSize)
+					.success(function(response) {
+							$scope.userseriaData = response.items;
+							$scope.userseriaTotals = response.totals;
+							if ($scope.userseriaTotals > 0) {
+								$scope.userseriaName = $scope.userseriaData[0].name;
+							}
+						});
+			$("#addTalkGroup").modal('show');
+		};
+		$scope.download = function(id,type) {
+			xh.download(id,type);
+		}
+		/* 显示审核窗口 */
+		$scope.checkWin = function(id) {
+			$scope.checkData = $scope.data[id];
+			// $http.get("../../web/user/userlist10002").
+			$http.get("../../web/user/getUserList?roleId=10002")
+					.success(function(response) {
+						$scope.userData = response.items;
+						$scope.userTotals = response.totals;
+						if ($scope.userTotals > 0) {
+							$scope.user = $scope.userData[0].user;
+						}
+					});
+			if ($scope.loginUserRoleId == 10001
+					&& $scope.checkData.checked == 0) {
+				$("#checkWin1").modal('show');
+			}
+			else if ($scope.loginUserRoleId == 10002
+					&& $scope.checkData.checked == 1) {
+				$("#checkWin2").modal('show');
+			}
+			else if ($scope.loginUserRoleId == 10002
+					&& $scope.loginUser == $scope.checkData.user3
+					&& $scope.checkData.checked == 2) {
+				$("#checkWin3").modal('show');
+			}
+			else if ($scope.loginUserRoleId == 10002
+					&& $scope.loginUser == $scope.checkData.user4
+					&& $scope.checkData.checked == 3) {
+				$("#checkWin4").modal('show');
+			}
+			else if ($scope.loginUserRoleId == 10002
+					&& $scope.loginUser == $scope.checkData.user4
+					&& $scope.checkData.checked == 3) {
+				$("#checkWin4").modal('show');
+			}
+			else if ($scope.loginUser == $scope.checkData.userName
+					&& $scope.loginUserRoleId == 1000
+					&& $scope.checkData.checked == 4) {
+				$("#checkWin5").modal('show');
+			}
+			else if ($scope.loginUser == $scope.checkData.userName
+					&& ($scope.checkData.fileName_GH == '' || $scope.checkData.fileName_GH == null)) {
+				$("#checkForm6 input").val('');
+				$(".span_result_GH").html('');
+				$("#checkWin6").modal('show');
+			}
+			else if ($scope.loginUserRoleId == 10001 && ($scope.checkData.fileName_Note == '' || $scope.checkData.fileName_Note == null)) {
+				$("#checkWin7").modal('show');
+			}
+		};
+		/* 查询数据 */
+		$scope.search = function(page) {
+			var pageSize = $("#page-limit").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			xh.maskShow();
+			$http.get("../../net/selectAll?start=0&limit="+ limit)
+					.success(function(response) {
+						xh.maskHide();
+						$scope.data = response.items;
+						$scope.totals = response.totals;
+						xh
+								.pagging(
+										page,
+										parseInt($scope.totals),
+										$scope);
+					});
+		};
+		// 分页点击
+		$scope.pageClick = function(page, totals, totalPages) {
+			var pageSize = $("#page-limit").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			xh.maskShow();
+			$http.get("../../net/selectAll?start=" + start+ "&limit=" + limit).success(function(response) {
+				xh.maskHide();
+				$scope.start = (page - 1) * pageSize
+						+ 1;
+				$scope.lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.lastIndex = totals;
+					} else {
+						$scope.start = 0;
+						$scope.lastIndex = 0;
+					}
+				}
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+			});
+
+		};
+	});
 
 };
 /* 申请入网 */
@@ -297,9 +262,8 @@ xh.addJoinNet = function() {
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
-
 			if (data.result == 1) {
-				$('#add').modal('hide');
+				$('#addJoinNet').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -595,10 +559,8 @@ xh.regist = function() {
 		async : true,
 		data : {
 			formData : xh.serializeJson($("#registerForm").serializeArray())
-		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
-
 			if (data.result == 1) {
 				$('#joinNet_register').modal('hide');
 				xh.refresh();
@@ -613,20 +575,32 @@ xh.regist = function() {
 	});
 };
 
-xh.download = function(id) {
+xh.download = function(id,type) {
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
-	var filename = $scope.checkData.fileName;
-	if(id != -1){
-		if($scope.loginUserRoleId == 10001){
+	var filename = null;
+	//如果ID为-1 表示 下载编组方案
+	if(type == 0){
+		filename = $scope.checkData.fileName;
+	} else{
+		//如果type为1 那么表示下载公函。
+		$scope.checkData = $scope.data[id];
+		if(type == 1 && $scope.checkData.fileName_GH != null && $scope.checkData.fileName_GH != ''){
+			alert(1);
 			filename = $scope.checkData.fileName_GH;
 		}
-		else if($scope.loginUserRoleId == 10002 && $scope.checkData.checked==1){
+		//如果type为2 那么表示下载通知函。
+		else if(type == 2 && $scope.checkData.fileName_Note != null && $scope.checkData.fileName_Note != ''){
+			alert(2);
 			filename = $scope.checkData.fileName_Note;
+		}
+		//如果type为3 那么表示下载签署协议。
+		else if(type == 3 && $scope.checkData.fileName_Doc != null && $scope.checkData.fileName_Doc != ''){
+			alert(3);
+			filename = $scope.checkData.fileName_Doc;
 		}
 	}
 	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + filename;
+	var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
