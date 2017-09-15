@@ -71,10 +71,10 @@ app.controller("map", function($scope, $http) {
 			});
 			$http.get("bs/map/bsByArea?zone="+t).success(
 					function(response) {
-						var tempData = response.items;					
+						var tempData = response.items;			
 						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
 						myMap.centerAndZoom(point,area[params].zoom*1);
-						layerCreate(tempData);	
+						layerCreate(tempData);
 						option.series[0].markPoint.data=baseMark(tempData);
 						option.series[1].markPoint.data=flashMark(tempData);
 						overlay.setOption(option);
@@ -88,8 +88,8 @@ app.controller("map", function($scope, $http) {
 			if(t.length==0){
 				$http.get("bs/map/data").success(
 						function(response) {
-							var tempData = response.items;		
-							layerCreate(tempData);	
+							var tempData = response.items;
+							layerCreate(tempData);
 							option.series[0].markPoint.data=baseMark(tempData);
 							option.series[1].markPoint.data=[];
 							overlay.setOption(option);
@@ -98,8 +98,8 @@ app.controller("map", function($scope, $http) {
 			}else{
 				$http.get("bs/map/bsByArea?zone="+t).success(
 						function(response) {
-							var tempData = response.items;		
-							layerCreate(tempData);	
+							var tempData = response.items;
+							layerCreate(tempData);
 							option.series[0].markPoint.data=baseMark(tempData);
 							option.series[1].markPoint.data=flashMark(tempData);
 							overlay.setOption(option);
@@ -1105,4 +1105,4 @@ function tableInterval() {
 	$scope.test();*/
 	
 };
-//temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
+temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样

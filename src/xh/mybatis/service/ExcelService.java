@@ -20,16 +20,19 @@ public class ExcelService {
     public String readExcelFile(MultipartFile file,String time){
     	String result ="";  
         //创建处理EXCEL的类  
-        //ReadExcel readExcel=new ReadExcel();  
-    	ReadExcel1 readExcel=new ReadExcel1();
+        ReadExcel readExcel=new ReadExcel();  
+    	//ReadExcel1 readExcel=new ReadExcel1();
         //解析excel，获取上传的事件单  
-        List<TempBean> excelList = readExcel.getExcelInfo(file);
-        System.out.println(excelList);
+        //List<TempBean> excelList = readExcel.getExcelInfo(file);
+        List<ImpExcelBean> excelList = readExcel.getExcelInfo(file);
+        for(int i=0;i<excelList.size();i++){
+        	excelList.get(i).setTime(time);
+        }
+        //System.out.println(excelList);
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作 
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         ExcelImportMapper mapper = sqlSession.getMapper(ExcelImportMapper.class);
 		try {
-			//mapper.insertExcel(excelList,time);
 			mapper.insertExcel(excelList);
 			sqlSession.commit();
 			sqlSession.close();

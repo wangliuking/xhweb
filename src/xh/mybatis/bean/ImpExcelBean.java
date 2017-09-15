@@ -7,6 +7,7 @@ public class ImpExcelBean {
 	private String positionArea;
 	private String nPositionArea;
 	private String ndb;
+	private String time;
 	public String getDb() {
 		return db;
 	}
@@ -43,11 +44,17 @@ public class ImpExcelBean {
 	public void setNdb(String ndb) {
 		this.ndb = ndb;
 	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	@Override
 	public String toString() {
 		return "ImpExcelBean [db=" + db + ", lng=" + lng + ", lat=" + lat
 				+ ", positionArea=" + positionArea + ", nPositionArea="
-				+ nPositionArea + ", ndb=" + ndb + "]";
+				+ nPositionArea + ", ndb=" + ndb + ", time=" + time + "]";
 	}
 	
 	
