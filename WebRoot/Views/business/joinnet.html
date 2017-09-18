@@ -163,7 +163,7 @@
 												class="fa fa-download text-warning"></i>&nbsp;下载签署协议</a>
 										<!-- 确认编组方案 -->
 										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==4"
+											ng-if="loginUser==x.userName && x.checked==4"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a>
 										<!-- 添加用户 -->
@@ -173,7 +173,7 @@
 												class="fa fa-user text-success"></i>&nbsp;添加无线用户</a>
 										<!-- 确认编组方案 -->
 										<a
-											ng-if="loginUserRoleId==10002 && x.checked>=5 && x.serviceType =='无线接入'""
+											ng-if="loginUserRoleId==10002 && x.checked>=5 && x.serviceType =='无线接入'"
 											href="#" ng-click="addGroup($index)">|<i
 												class="fa fa-group text-success"></i>&nbsp;添加无线用户组</a>
 									</tr>

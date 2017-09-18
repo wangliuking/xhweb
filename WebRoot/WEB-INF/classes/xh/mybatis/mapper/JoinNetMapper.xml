@@ -16,7 +16,7 @@
 		from xhgmnet_business_net as u where 1=1
 		<choose>
 			<when test="roleId &gt;10002 || roleId &lt;10000">
-				and u.userName=#{user} and checked!=6
+				and u.userName=#{user} and checked!=7
 			</when>
 			<otherwise>
 			</otherwise>
@@ -67,10 +67,19 @@
 		time3=#{time3},note3=#{note3},user4=#{user4},checked=#{checked} where
 		id=#{id}
 	</update>
-	<!--上传编组方案 -->
-	<update id="uploadFileGhorNote" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH},
-		fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote} where
+	<!--上传公函 -->
+	<update id="uploadFileGh" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH} where
+		id=#{id}
+	</update>
+	<!--上传通知函 -->
+	<update id="uploadFileNote" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote} where
+		id=#{id}
+	</update>
+	<!--生成模板 -->
+	<update id="uploadFileDoc" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_Doc=#{fileNameDoc},filePath_Doc=#{filePathDoc},checked=6 where
 		id=#{id}
 	</update>
 	<!--审核编组方案 -->
