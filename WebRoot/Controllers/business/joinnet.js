@@ -146,6 +146,7 @@ xh.load = function() {
 		/* 显示审核窗口 */
 		$scope.checkWin = function(id) {
 			$scope.checkData = $scope.data[id];
+			alert($scope.loginUser == $scope.checkData.userName);
 			// $http.get("../../web/user/userlist10002").
 			$http.get("../../web/user/getUserList?roleId=10002")
 					.success(function(response) {
@@ -163,35 +164,65 @@ xh.load = function() {
 					&& $scope.checkData.checked == 1) {
 				$("#checkWin2").modal('show');
 			}
+			//经办人上传编组方案
 			else if ($scope.loginUserRoleId == 10002
 					&& $scope.loginUser == $scope.checkData.user3
-					&& $scope.checkData.checked == 2) {
+					&& ($scope.checkData.checked == 2 || $scope.checkData.checked == -2)) {
 				$("#checkWin3").modal('show');
 			}
+			//经办人审核编组方案
 			else if ($scope.loginUserRoleId == 10002
 					&& $scope.loginUser == $scope.checkData.user4
 					&& $scope.checkData.checked == 3) {
 				$("#checkWin4").modal('show');
 			}
-			else if ($scope.loginUserRoleId == 10002
-					&& $scope.loginUser == $scope.checkData.user4
-					&& $scope.checkData.checked == 3) {
-				$("#checkWin4").modal('show');
-			}
+			//确认编组方案
 			else if ($scope.loginUser == $scope.checkData.userName
-					&& $scope.loginUserRoleId == 1000
 					&& $scope.checkData.checked == 4) {
 				$("#checkWin5").modal('show');
 			}
+			//上传公函
 			else if ($scope.loginUser == $scope.checkData.userName
-					&& ($scope.checkData.fileName_GH == '' || $scope.checkData.fileName_GH == null)) {
+					&& ($scope.checkData.fileName_GH == '' || $scope.checkData.fileName_GH == null) && $scope.checkData.checked == 0) {
 				$("#checkForm6 input").val('');
 				$(".span_result_GH").html('');
 				$("#checkWin6").modal('show');
 			}
+			//上传通知函
 			else if ($scope.loginUserRoleId == 10001 && ($scope.checkData.fileName_Note == '' || $scope.checkData.fileName_Note == null)) {
 				$("#checkWin7").modal('show');
 			}
+			//上传合同附件
+			else if ($scope.loginUser == $scope.checkData.userName && ($scope.checkData.checked == 5 || $scope.checkData.checked == -3)) {
+				$("#checkForm8 input").val('');
+				$(".span_result_HT").html('');
+				$("#checkWin8").modal('show');
+			}
+			//审核合同附件
+			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 6) {
+				$("#checkWin9").modal('show');
+			}
+			//上传采购设备信息
+			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 7) {
+				$("#checkWin10").modal('show');
+			}
+			//交付终端
+			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 8) {
+				xh.updateCheckById($scope.checkData.id, 9);
+			}
+			//终端接受确认
+			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 9) {
+				xh.updateCheckById($scope.checkData.id, 10);
+			}
+			//用户使用培训完成请求
+			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 10) {
+				xh.updateCheckById($scope.checkData.id, 11);
+			} 	
+			//培训确认
+			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 11) {
+				xh.updateCheckById($scope.checkData.id, 12);
+			}
+			
 		};
 		/* 查询数据 */
 		$scope.search = function(page) {
@@ -448,6 +479,109 @@ xh.check7 = function() {
 		}
 	});
 };
+/* 上传合同附件 */
+xh.check8 = function() {
+	if (parseInt($("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传合同不能提交", '提示');
+		return;
+	}
+	$.ajax({
+		url : '../../net/uploadHT',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm8").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin8').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+ 
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 审核样机入网送检申请（合同附件） */
+xh.check9 = function() {
+	$.ajax({
+		url : '../../net/sureHT',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm9").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin9').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 上传采购设备信息 */
+xh.check10 = function() {
+	if (parseInt($("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传采购设备信息不能提交", '提示');
+		return;
+	}
+	$.ajax({
+		url : '../../net/uploadCG',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm10").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin10').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 交付终端 */
+xh.updateCheckById = function(id,checkedNum) {
+	$.ajax({
+		url : '../../net/updateCheckById',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			id:id,
+			checkNum:checkedNum
+		},
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin2').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -461,6 +595,14 @@ xh.upload = function(index) {
 	if (index == 3) {
 		path = 'filePathNote';
 		note = 'uploadResultNote';
+	}
+	if (index == 4) {
+		path = 'filePathHT';
+		note = 'uploadResultHT';
+	}
+	if (index == 5) {
+		path = 'filePathCG';
+		note = 'uploadResultCG';
 	}
 	
 	if ($("#" + path).val() == "") {
@@ -578,25 +720,35 @@ xh.regist = function() {
 xh.download = function(id,type) {
 	var $scope = angular.element(appElement).scope();
 	var filename = null;
-	//如果ID为-1 表示 下载编组方案
+	//如果ID为0 表示 下载编组方案
 	if(type == 0){
 		filename = $scope.checkData.fileName;
-	} else{
+	}
+	//如果ID为-1 表示 下载编组方案
+	else if(type==-1){
+		filename = $scope.checkData.fileName_HT;
+	}
+	else{
 		//如果type为1 那么表示下载公函。
 		$scope.checkData = $scope.data[id];
 		if(type == 1 && $scope.checkData.fileName_GH != null && $scope.checkData.fileName_GH != ''){
-			alert(1);
 			filename = $scope.checkData.fileName_GH;
 		}
 		//如果type为2 那么表示下载通知函。
 		else if(type == 2 && $scope.checkData.fileName_Note != null && $scope.checkData.fileName_Note != ''){
-			alert(2);
 			filename = $scope.checkData.fileName_Note;
 		}
 		//如果type为3 那么表示下载签署协议。
 		else if(type == 3 && $scope.checkData.fileName_Doc != null && $scope.checkData.fileName_Doc != ''){
-			alert(3);
 			filename = $scope.checkData.fileName_Doc;
+		}
+		//如果type为4 那么表示下载合同。
+		else if(type == 4 && $scope.checkData.fileName_HT != null && $scope.checkData.fileName_HT != ''){
+			filename = $scope.checkData.fileName_HT;
+		}
+		//如果type为5 那么表示下载合同。
+		else if(type == 5 && $scope.checkData.fileName_CG != null && $scope.checkData.fileName_CG != ''){
+			filename = $scope.checkData.fileName_CG;
 		}
 	}
 	console.log("filename=>" + filename);
