@@ -173,7 +173,6 @@ public class JoinNetController {
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
 		log.info("data==>" + bean.toString());
-
 		int rst = JoinNetService.checkedOne(bean);
 		if (rst == 1) {
 			this.message = "审核提交成功";
@@ -371,14 +370,71 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("userBZ_checked"));
+		String note5 = request.getParameter("note5");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);	
 		bean.setTime5(funUtil.nowDate());
-		bean.setChecked(5);
-
+		bean.setNote5(note5);
+		if(checked == 1){
+			bean.setChecked(5);
+		} else{
+			bean.setChecked(-2);
+		}
 		int rst = JoinNetService.sureFile(bean);
 		if (rst == 1) {
 			this.message = "确认编组方案成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认编组方案，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+			
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认编组方案失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 审核样机入网送检申请（合同附件）
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/sureHT", method = RequestMethod.POST)
+	public void sureHT(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("userHT_checked"));
+		String note6 = request.getParameter("note6");
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);	
+		bean.setTime6(funUtil.nowDate());
+		bean.setNote6(note6);
+		if(checked == 1){
+			bean.setChecked(7);
+		} else{
+			bean.setChecked(-3);
+		}
+		int rst = JoinNetService.sureHT(bean);
+		if (rst == 1) {
+			this.message = "审核样机入网送检申请（合同附件）成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
@@ -425,6 +481,7 @@ public class JoinNetController {
 				.getRealPath("")+"/Resources/outputDoc/";
 		JoinNetBean bean2 = new JoinNetBean();
 		bean2.setId(bean1.getId());
+		bean2.setChecked(13);
 		bean2.setFileNameDoc(fileName);
 		bean2.setFilePathDoc(filePath);
 		System.out.println("ID :" + bean1.getId());
@@ -469,6 +526,7 @@ public class JoinNetController {
 		//String fileName = new Date().getTime()+".jpg";
 		log.info("path==>"+path);
 		log.info("fileName==>"+fileName);
+		System.out.println("fileName==>"+fileName);
 		File targetFile = new File(path, fileName);
 		if (!targetFile.exists()) {
 			targetFile.mkdirs();
@@ -570,6 +628,146 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 		} else {
 			this.message = "上传通知函失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 上传合同
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadHT", method = RequestMethod.POST)
+	public void uploadHT(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setFileNameHT(fileName);
+		bean.setFilePathHT(filePath);
+		bean.setChecked(6);
+		System.out.println("保存合同:" + fileName + filePath);
+		
+		int rst = JoinNetService.uploadFileHT(bean);
+		if (rst == 1) {
+			this.message = "上传合同成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传合同，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传合同失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 上传采购设备信息
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadCG", method = RequestMethod.POST)
+	public void uploadCG(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setFileNameCG(fileName);
+		bean.setFilePathCG(filePath);
+		bean.setChecked(8);
+		System.out.println("保存采购设备信息:" + fileName + filePath);
+		
+		int rst = JoinNetService.uploadFileCG(bean);
+		if (rst == 1) {
+			this.message = "上传采购设备信息成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传采购设备信息，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传采购设备信息失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 更新流程
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/updateCheckById", method = RequestMethod.POST)
+	public void deliveryTerminal(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checkNum = funUtil.StringToInt(request.getParameter("checkNum"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setChecked(checkNum);
+		System.out.println("------根据ID:" + id + "，将checked更新为：" + checkNum);
+		
+		int rst = JoinNetService.updateCheckById(bean);
+		if (rst == 1) {
+			if(checkNum == 9){
+				this.message = "终端交付成功";
+			}
+			else if(checkNum == 10){
+				this.message = "终端接受确认成功";
+			}
+			else if(checkNum == 11){
+				this.message = "用户使用培训完成";
+			}
+			else if(checkNum == 12){
+				this.message = "培训确认完成";
+			}
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent(this.message + "，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "信息更新失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);

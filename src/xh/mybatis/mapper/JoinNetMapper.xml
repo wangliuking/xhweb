@@ -16,7 +16,7 @@
 		from xhgmnet_business_net as u where 1=1
 		<choose>
 			<when test="roleId &gt;10002 || roleId &lt;10000">
-				and u.userName=#{user} and checked!=7
+				and u.userName=#{user} and checked!=99
 			</when>
 			<otherwise>
 			</otherwise>
@@ -77,6 +77,11 @@
 		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote} where
 		id=#{id}
 	</update>
+	<!--上传合同 -->
+	<update id="uploadFileHT" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_HT=#{fileNameHT},filePath_HT=#{filePathHT},checked=#{checked} where
+		id=#{id}
+	</update>
 	<!--生成模板 -->
 	<update id="uploadFileDoc" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set fileName_Doc=#{fileNameDoc},filePath_Doc=#{filePathDoc},checked=6 where
@@ -90,7 +95,21 @@
 	<!--用户确认编组方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		time5=#{time5},checked=#{checked} where id=#{id}
+		time5=#{time5},checked=#{checked},note5=#{note5} where id=#{id}
+	</update>
+	<!--审核样机入网送检申请（合同附件） -->
+	<update id="sureHT" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time6=#{time6},checked=#{checked},note6=#{note6} where id=#{id}
+	</update>
+	<!--上传采购设备信息 -->
+	<update id="uploadFileCG" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_CG=#{fileNameCG},filePath_CG=#{filePathCG},checked=8 where
+		id=#{id}
+	</update>
+	<!--更新流程 -->
+	<update id="updateCheckById" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked} where id=#{id}
 	</update>
 
 	<!--退网-->
