@@ -149,7 +149,7 @@ public class FaultController {
 	}
 
 	/**
-	 * 主管部门审核
+	 * 管理方审核
 	 * 
 	 * @param request
 	 * @param response
@@ -160,16 +160,22 @@ public class FaultController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		int faultType = funUtil.StringToInt(request.getParameter("faultType"));
 		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
-		bean.setChecked(checked);
+		if(faultType == 1 && checked ==1) {
+			bean.setChecked(1);
+		}else if(faultType == -1 && checked ==1){
+		 	bean.setChecked(5);
+		}else if(checked == 0){
+			bean.setChecked(-1);
+		}
+		bean.setFaultType(faultType);
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
-		log.info("data==>" + bean.toString());
-		
 		int rst = FaultService.checkedOne(bean);
 		if (rst == 1) {
 			this.message = "审核提交成功";
@@ -178,13 +184,13 @@ public class FaultController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核故障申请，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
+
 			//----发送通知邮件
-			sendNotify(user, "故障申请信息审核，请管理部门领导审核并移交经办人", request);
-			//----END
-		} else {
-			this.message = "审核提交失败";
+			sendNotify(user, "故障申请信息审核，请管理方人员审核并尽快处理故障", request);
+			//----EN
 		}
+		log.info("data==>" + bean.toString());
+
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", rst);
@@ -202,7 +208,7 @@ public class FaultController {
 	}
 
 	/**
-	 * 管理方审核
+	 * 服务提供方审核故障请求信息
 	 * 
 	 * @param request
 	 * @param response
@@ -212,16 +218,20 @@ public class FaultController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note2 = request.getParameter("note2");
 		String user = request.getParameter("user");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
-		bean.setChecked(2);
+		if(checked == 3){
+			bean.setChecked(3);
+		}else if(checked == 1){
+			bean.setChecked(1);
+		}
 		bean.setUser2(funUtil.loginUser(request));
 		bean.setTime2(funUtil.nowDate());
 		bean.setNote2(note2);
-		System.out.println("123123123123123123");
-		int rst = FaultService.checkedTwo(bean);
+		int rst = FaultService.checkedThree(bean);
 		if (rst == 1) {
 			this.message = "通知经办人处理成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -235,6 +245,109 @@ public class FaultController {
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 管理方审核
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
+	public void checkedThree(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note3 = request.getParameter("note3");
+		String user = request.getParameter("user");
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		FaultBean bean = new FaultBean();
+		bean.setId(id);
+		if(checked == 5){
+			bean.setChecked(5);
+		}else if(checked == 3) {
+			bean.setChecked(3);
+
+		}
+//		bean.setUser3(funUtil.loginUser(request));
+		bean.setTime3(funUtil.nowDate());
+		bean.setNote3(note3);
+		int rst = FaultService.checkedFive(bean);
+		if (rst == 1) {
+			this.message = "通知服务管理方处理成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知服务管理方处理(故障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "服务管理方请重新处理故障。。。", request);
+			//----END
+		} else {
+			this.message = "通知服务管理方处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 管理方入库
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
+	public void checkedFour(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note4 = request.getParameter("note4");
+		String user = request.getParameter("user");
+		FaultBean bean = new FaultBean();
+		bean.setId(id);
+		bean.setChecked(6);
+//		bean.setUser4(funUtil.loginUser(request));
+		bean.setTime4(funUtil.nowDate());
+		bean.setNote4(note4);
+		int rst = FaultService.checkedSix(bean);
+		if (rst == 1) {
+			this.message = "通知用户回访处理成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(故障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "故障完成信息审核，请确认。。。", request);
+			//----END
+		} else {
+			this.message = "通知用户回访处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -264,8 +377,8 @@ public class FaultController {
 		String note = request.getParameter("note");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);	
-		//bean.setTime5(funUtil.nowDate());
-		bean.setChecked(3);
+		bean.setTime(funUtil.nowDate());
+		bean.setChecked(7);
 		bean.setNote(note);
 		int rst = FaultService.sureFile(bean);
 		if (rst == 1) {
@@ -296,6 +409,186 @@ public class FaultController {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * 上传文件
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void upload(@RequestParam("filePath") MultipartFile file,
+					   HttpServletRequest request,HttpServletResponse response) {
+		String path = request.getSession().getServletContext()
+				.getRealPath("")+"/Resources/upload";
+		String fileName = file.getOriginalFilename();
+		//String fileName = new Date().getTime()+".jpg";
+		log.info("path==>"+path);
+		log.info("fileName==>"+fileName);
+		File targetFile = new File(path, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success=true;
+			this.message="文件上传成功";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.message="文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", fileName);
+		result.put("filePath", path+"/"+fileName);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 上传故障请求信息
+	 * @param
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadRequest", method = RequestMethod.POST)
+	public void uploadGH(HttpServletRequest request,
+						 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		FaultBean bean = new FaultBean();
+		bean.setId(id);
+		bean.setChecked(2);
+		bean.setFileName_Request(fileName);
+		bean.setFilePath_Request(filePath);
+		System.out.println("保存故障请求:" + fileName);
+
+		int rst = FaultService.checkedTwo(bean);
+		if (rst == 1) {
+			this.message = "上传故障请求信息成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传故障请求，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传故障请求失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 上传故障完成信息
+	 * @param
+	 * @param request
+	 */
+	@RequestMapping(value = "/uploadFinish", method = RequestMethod.POST)
+	public void uploadNote(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		FaultBean bean = new FaultBean();
+		bean.setId(id);
+		bean.setChecked(4);
+		bean.setFileName_Finish(fileName);
+		bean.setFilePath_Finish(path);
+		System.out.println("保存故障完成:" + fileName);
+
+		int rst = FaultService.checkedFour(bean);
+		if (rst == 1) {
+			this.message = "上传故障完成信息成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传故障完成，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+		} else {
+			this.message = "上传故障完成失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 下载文件
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String path = request.getSession().getServletContext().getRealPath("/Resources/upload");
+		String fileName=request.getParameter("fileName");
+		fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
+		String downPath=path+"/"+fileName;
+		log.info(downPath);
+		File file = new File(downPath);
+		if(!file.exists()){
+			this.success=false;
+			this.message="文件不存在";
+		}
+		//设置响应头和客户端保存文件名
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("multipart/form-data");
+		response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), fileName));
+		//用于记录以完成的下载的数据量，单位是byte
+		long downloadedLength = 0l;
+		try {
+			//打开本地文件流
+			InputStream inputStream = new FileInputStream(downPath);
+			//激活下载操作
+			OutputStream os = response.getOutputStream();
+
+			//循环写入输出流
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+				downloadedLength += b.length;
+			}
+
+			// 这里主要关闭。
+			os.close();
+			inputStream.close();
+		} catch (Exception e){
+			throw e;
+		}
+		//存储记录
 	}
 	/**
 	 * 发送邮件

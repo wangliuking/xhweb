@@ -35,22 +35,51 @@ public interface FaultMapper {
 	 */
 	public int insertFault(FaultBean bean)throws Exception;
 	/**
-	 * 主管部门审核
-	 * @param bean
+	 * 管理方审核
+	 * bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int checkedOne(FaultBean bean)throws Exception;
 	/**
-	 * 经办人确认
+	 *
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int checkedTwo(FaultBean bean)throws Exception;
-	
 	/**
-	 * 用户确认
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedThree(FaultBean bean)throws Exception;
+
+	/**
+	 * 服务方
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedFour(FaultBean bean)throws Exception;
+	/**
+	 * 管理方审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedFive(FaultBean bean)throws Exception;
+
+	/**
+	 * 管理方入库故障信息
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedSix(FaultBean bean)throws Exception;
+	/**
+	 * 用户回访评价
 	 * @param bean
 	 * @return
 	 * @throws Exception
