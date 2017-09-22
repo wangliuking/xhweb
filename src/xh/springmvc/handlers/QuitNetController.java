@@ -5,15 +5,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.opensymphony.xwork2.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,13 +46,13 @@ import xh.mybatis.service.WebUserServices;
 @Controller
 @RequestMapping(value = "/quitnet")
 public class QuitNetController {
+
 	private boolean success;
 	private String message;
 	private FunUtil funUtil = new FunUtil();
 	protected final Log log = LogFactory.getLog(QuitNetController.class);
 	private FlexJSON json = new FlexJSON();
-	private WebLogBean webLogBean = new WebLogBean();
-	
+
 	/**
 	 * 查询所有流程
 	 * 
@@ -82,7 +88,9 @@ public class QuitNetController {
 			e.printStackTrace();
 		}
 	}
-	
+
+
+
 	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
 	public void applyProgress(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -103,6 +111,31 @@ public class QuitNetController {
 
 	}
 
+	@RequestMapping(value = "/selectquitNumber", method = RequestMethod.GET)
+	public void selectquitNumber(HttpServletRequest request,
+							  HttpServletResponse response) {
+		this.success = true;
+		String userName = request.getParameter("userName");
+		List<Integer> ids =  new ArrayList<>();
+
+		ids = QuitNetService.selectquitNumber(userName);
+		String jsonstr = json.Encode(ids);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+//	@RequestMapping(value = "/demo", method = RequestMethod.GET)
+//	public List<Integer> selectquitNumber(@RequestBody UserFormBean userFormBean) {
+//		this.success = true;
+//		String userName = request.getParameter("userName");
+//		List<Integer> ids =  new ArrayList<>();
+//		return quitNetService.selectquitNumber(userName);
+//	}
+
 	/**
 	 * 退网申请
 	 * 
@@ -120,6 +153,7 @@ public class QuitNetController {
 		log.info("data==>" + bean.toString());
 		
 		int rst = QuitNetService.quitNet(bean);
+		WebLogBean webLogBean = new WebLogBean();
 		if (rst == 1) {
 			this.message = "退网申请信息已经成功提交";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -160,18 +194,25 @@ public class QuitNetController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int quit = funUtil.StringToInt(request.getParameter("quit"));
+		int quitNumber = funUtil.StringToInt(request.getParameter("quitNumber"));
+		String note1 = request.getParameter("note1");
 		//String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		QuitNetBean bean = new QuitNetBean();
 		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
 		bean.setQuit(quit);
+		bean.setNote1(note1);
+		bean2.setId(quitNumber);
+		System.out.println(quitNumber);
 		bean2.setChecked(6);
 		log.info("data==>" + bean.toString());
-		
+
+		WebLogBean webLogBean = new WebLogBean();
+
 		int rst = QuitNetService.checkedOne(bean);
-		if (rst == 1) {
-			JoinNetService.quitNet(bean2);
+		int rst1 = JoinNetService.quitNet(bean2);
+		if (rst == 1 && rst1 == 1){
 			this.message = "审核提交成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -185,6 +226,7 @@ public class QuitNetController {
 		} else {
 			this.message = "审核提交失败";
 		}
+
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", rst);
@@ -256,10 +298,13 @@ public class QuitNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note = request.getParameter("note");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setId(id);	
 		bean.setQuit(2);
-		
+		bean.setNote(note);
+		WebLogBean webLogBean = new WebLogBean();
+
 		int rst = QuitNetService.sureFile(bean);
 		if (rst == 1) {
 			this.message = "确认成功";

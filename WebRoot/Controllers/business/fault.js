@@ -62,8 +62,8 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		/*获取管理房人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10001").
+		/*获取管理方人员列表*/
+		$http.get("../../web/user/getUserList?roleId=10002").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;
@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10002").
+			$http.get("../../web/user/getUserList?roleId=10003").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -102,14 +102,26 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
+				$("#checkWin4").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
+				$("#checkWin5").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==5){
+				$("#checkWin6").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==6){
+				$("#checkWin7").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -206,6 +218,9 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
+		$scope.download = function(id) {
+			xh.download(id);
+		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
@@ -285,10 +300,10 @@ xh.check1 = function() {
 	});
 };
 
-/*经办人处理*/
+/*管理方上传*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../fault/checkedTwo',
+		url : '../../fault/uploadRequest',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -307,10 +322,10 @@ xh.check2 = function() {
 		}
 	});
 };
-/*用户确认*/
+/*服务方审核*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../fault/sureFile',
+		url : '../../fault/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -330,12 +345,156 @@ xh.check3 = function() {
 		}
 	});
 };
+/*服务方上传*/
+xh.check4 = function() {
+	$.ajax({
+		url : '../../fault/uploadFinish',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm4").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin4').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*管理方审核*/
+xh.check5 = function() {
+	$.ajax({
+		url : '../../fault/checkedThree',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm5").serializeArray(),
+		success : function(data) {
+			if (data.result ==1) {
+				$('#checkWin5').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*管理方记录*/
+xh.check6 = function() {
+	$.ajax({
+		url : '../../fault/checkedFour',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm6").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin6').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*用户确认*/
+xh.check7 = function() {
+	$.ajax({
+		url : '../../fault/sureFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm7").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin7').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 上传文件 */
+xh.upload = function(index) {
+	if (index == 1) {
+		path = 'filePath_Request';
+		note = 'uploadResult_Request';
+	}
+	if (index == 2) {
+		path = 'filePath_Finish';
+		note = 'uploadResult_Finish';
+	}
+	if ($("#" + path).val() == "") {
+		toastr.error("你还没选择文件", '提示');
+		return;
+	}
+	xh.maskShow();
+	$.ajaxFileUpload({
+		url : '../../fault/upload', // 用于文件上传的服务器端请求地址
+		secureuri : false, // 是否需要安全协议，一般设置为false
+		fileElementId : path, // 文件上传域的ID
+		dataType : 'json', // 返回值类型 一般设置为json
+		type : 'POST',
+		success : function(data, status) // 服务器成功响应处理函数
+		{
+			// var result=jQuery.parseJSON(data);
+			console.log(data.filePath)
+			xh.maskHide();
+			if (data.success) {
+				$("#"+note).html(data.message);
+				$("input[name='result']").val(1);
+				$("input[name='fileName']").val(data.fileName);
+				$("input[name='path']").val(data.filePath);
+			} else {
+				$("#"+note).html(data.message);
+			}
+
+		},
+		error : function(data, status, e)// 服务器响应失败处理函数
+		{
+			alert(e);
+		}
+	});
+};
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	var filename=$scope.checkData.fileName;
-	console.log("filename=>"+filename);
-	var downUrl="../../fault/download?fileName="+filename;
-	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	$scope.checkData = $scope.data[id];
+	var checked = $scope.checkData.checked;
+	var fileName = null;
+	if(checked != -1){
+		if(checked == 2 && $scope.checkData.fileName_Request !=null){
+			fileName = $scope.checkData.fileName_Request;
+		}
+		else if(checked == 4 && $scope.checkData.fileName_Finish !=null){
+			fileName = $scope.checkData.fileName_Finish;
+		}
+	}
+	console.log("filename=>" + filename);
+	var downUrl = "../../fault/download?fileName=" + filename;
+	window.open(downUrl, '_self',
+			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
 
 // 刷新数据

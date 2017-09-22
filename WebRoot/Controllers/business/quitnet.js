@@ -54,6 +54,13 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
+		$http.get("../../quitnet/loginUser").
+		success(function(response){
+			xh.maskHide();
+			$scope.quitNumber = response;
+		});
+
+		/*获取申请记录表*/
 		$http.get("../../quitnet/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
@@ -62,7 +69,7 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		/*获取管理房人员列表*/
+		/*获取管理方人员列表*/
 		$http.get("../../web/user/getUserList?roleId=10002").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
@@ -90,6 +97,7 @@ xh.load = function() {
 			$scope.progressData=$scope.editData;
 			$("#quitprogress").modal('show');
 	    };
+
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -197,6 +205,7 @@ xh.load = function() {
 				}
 			});
 		};
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();

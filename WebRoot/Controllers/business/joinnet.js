@@ -146,7 +146,6 @@ xh.load = function() {
 		/* 显示审核窗口 */
 		$scope.checkWin = function(id) {
 			$scope.checkData = $scope.data[id];
-			alert($scope.loginUser == $scope.checkData.userName);
 			// $http.get("../../web/user/userlist10002").
 			$http.get("../../web/user/getUserList?roleId=10002")
 					.success(function(response) {
@@ -221,6 +220,11 @@ xh.load = function() {
 			//培训确认
 			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 11) {
 				xh.updateCheckById($scope.checkData.id, 12);
+			}
+			
+			//有线接入
+			else if($scope.checkData.serviceType == '有线接入'){
+				
 			}
 			
 		};
