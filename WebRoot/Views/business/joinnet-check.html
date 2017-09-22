@@ -137,6 +137,8 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="0" name="type">
 							</div>
 						</div>
 					</div>
@@ -215,16 +217,17 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
-							</div>
-							
-						</div>
-					</div>
-					<div class="row" ng-show="false">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>申请人</label>&nbsp;<input
-									type="text" value="" class="form-control" name="applyUser"
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="0" name="type">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="backUser"
+									required="required" ng-model="checkData.user2">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="sendUser"
 									required="required" ng-model="checkData.userName">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="managerUser"
+									required="required" ng-model="checkData.user1">
 							</div>
 							
 						</div>
@@ -338,7 +341,8 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
+<!-- 上传通知函 -->
+<div class="modal fade" id="checkWin7" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -346,28 +350,33 @@
 			<div class="modal-header ">
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="checkForm6" onSubmit="return false" enctype="multipart/form-data" method="POST">
+				<form action="#" id="checkForm7" onSubmit="return false" enctype="multipart/form-data" method="POST">
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+								<label>ManagerID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="managerId"
+									required="required" ng-model="checkData.user1">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="0" name="type">
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>上传公函</label>
-								<input type="file" name="filePath" id="filePathGH" class="form-control"/> 
+								<label>上传通知函</label>
+								<input type="file" name="filePath" id="filePathNote" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
 							    <input type="hidden" name="result" class="form-control"/> 
 							    <input type="hidden" name="fileName"/> 
 							    <input type="hidden" name="path"/> 
-								<a href="#" onclick="xh.upload(2)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
-								<span id="uploadResultGH" class="span_result_GH" style="color:red"></span>
+								<a href="#" onclick="xh.upload(3)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultNote" class="span_result_GH" style="color:red"></span>
 							</div>
 						</div>
 					</div>
@@ -379,7 +388,7 @@
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="check_btn6">
+					class="btn btn-success btn-sm" id="check_btn7">
 					<i class="fa fa-plus"></i>&nbsp;提交
 				</button> 
 			</div>
@@ -404,6 +413,8 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="0" name="type">
 							</div>
 							
 						</div>
@@ -552,6 +563,670 @@
 		</div>
 	</div>
 </div>
+<!-- 上传文件窗口 -->
+<div class="modal fade" id="checkWin11" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm11" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>{{divTitle}}</label>
+								<input type="file" name="filePath" id="filePathJS" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(6)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultJS" class="span_result_GH" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn11">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 主管部门指定经办人 -->
+<div class="modal fade" id="checkWin12" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm12" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked" id="selectZG">
+									<option value="1" selected="selected">审核通过</option>
+									<option value="-1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>经办人领导</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="user" ng-model="user">
+								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn12">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 评估技术方案 -->
+<div class="modal fade" id="checkWin13" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm13" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>上传附件评估技术方案</label>
+								<input type="file" name="filePath" id="filePathFJ" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(7)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultFJ" class="span_result_GH" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn13">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 主管部门根据评估技术方案，审核申请 -->
+<div class="modal fade" id="checkWin14" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm14" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>proposer</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="proposer"
+									required="required" ng-model="checkData.userName">
+								<label>operator</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="operator"
+									required="required" ng-model="checkData.user2">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看评估方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color:red">{{checkData.fileName_Note}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked" id="selectZG">
+									<option value="3" selected="selected">审核通过</option>
+									<option value="-2">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn14">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 上传编制资源配置技术方案 -->
+<div class="modal fade" id="checkWin15" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm15" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看评估方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color:red">{{checkData.fileName_Note}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>上传编制资源配置技术方案 </label>
+								<input type="file" name="filePath" id="filePathBZ1" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(8)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultBZ1" class="span_result_GH" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>审核人</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="user" ng-model="user">
+								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note3" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn15">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 内审资源配置技术方案 -->
+<div class="modal fade" id="checkWin16" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm16" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="backUser"
+									required="required" ng-model="checkData.user2">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="sendUser"
+									required="required" ng-model="checkData.userName">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="managerUser"
+									required="required" ng-model="checkData.user1">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看评估方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color:red">{{checkData.fileName_Note}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看资源配置方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color:red">{{checkData.fileName}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked" id="selectZG">
+									<option value="1" selected="selected">审核通过</option>
+									<option value="0">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note4" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn16">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 上传编制资源配置技术方案 -->
+<div class="modal fade" id="checkWin17" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm17" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="sendUser"
+									required="required" ng-model="checkData.user2">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看评估方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color:red">{{checkData.fileName_Note}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看资源配置方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color:red">{{checkData.fileName}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>上传协议文件 </label>
+								<input type="file" name="filePath" id="filePathXY" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(9)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultXY" class="span_result_GH" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn17">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 内审资源配置技术方案 -->
+<div class="modal fade" id="checkWin18" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm18" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type">
+								<label>User</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="sendUser"
+									required="required" ng-model="checkData.user2">
+								<label>UserRoleId</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="loginUserRoleId"
+									required="required" ng-model="loginUserRoleId">
+								<label>checkId</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="checkId"
+									required="required" ng-model="checkData.checked">
+								<label>managerUser</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="managerUser"
+									required="required" ng-model="checkData.user1">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看技术方案</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-2)" style="color:red">{{checkData.fileName_GH}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看评估方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color:red">{{checkData.fileName_Note}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看资源配置方案:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color:red">{{checkData.fileName}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>查看协议文件:</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(-1,-4)" style="color:red">{{checkData.fileName}}</a>
+							</div>
+							
+						</div>
+					</div>
+					<div class="row"  ng-if="checkData.checked == 7">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>管理方备注</label>
+								<textarea name="note6" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row"  ng-if="checkData.checked >= 8">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>管理方备注</label>
+								<textarea name="note6A" rows="4" cols="10" class="form-control" disabled="disabled" ng-model="checkData.note6"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row"  ng-if="checkData.checked == 8">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>服务方备注</label>
+								<textarea name="result" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row"  ng-if="checkData.checked == 9">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>服务方备注</label>
+								<textarea name="resultA" rows="4" cols="10" class="form-control" disabled="disabled" ng-model="checkData.result"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-if="checkData.checked == 9">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked" id="selectZG">
+									<option value="1" selected="selected">审核通过</option>
+									<option value="0">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row"  ng-if="checkData.checked == 9">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>接入完成管理方备注</label>
+								<textarea name="note6B" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn18">
+					<i class="fa fa-plus"></i>&nbsp;通知
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 </script> -->
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
@@ -584,7 +1259,30 @@
 	$("#check_btn10").click(function() {
 		$('#checkForm10').submit();
 	});
-	
+	$("#check_btn11").click(function() {
+		$('#checkForm11').submit();
+	});
+	$("#check_btn12").click(function() {
+		$('#checkForm12').submit();
+	});
+	$("#check_btn13").click(function() {
+		$('#checkForm13').submit();
+	});
+	$("#check_btn14").click(function() {
+		$('#checkForm14').submit();
+	});
+	$("#check_btn15").click(function() {
+		$('#checkForm15').submit();
+	});
+	$("#check_btn16").click(function() {
+		$('#checkForm16').submit();
+	});
+	$("#check_btn17").click(function() {
+		$('#checkForm17').submit();
+	});
+	$("#check_btn18").click(function() {
+		$('#checkForm18').submit();
+	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
@@ -689,6 +1387,86 @@
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check10();
+	});
+	//上传采购设备信息
+	$('#checkForm11').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check11();
+	});
+	//主管部门审核
+	$('#checkForm12').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check12();
+	});
+	//评估技术方案
+	$('#checkForm13').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check13();
+	});
+	//
+	$('#checkForm14').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check14();
+	});
+	//上传编制资源配置技术方案
+	$('#checkForm15').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check15();
+	});
+	//审核资源配置技术方案
+	$('#checkForm16').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check16();
+	});
+	//用户上传协议文件
+	$('#checkForm17').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check17();
+	});
+	//用户上传协议文件
+	$('#checkForm18').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check18();
 	});
 </script>
 <script>

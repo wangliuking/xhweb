@@ -143,7 +143,55 @@ xh.load = function() {
 		$scope.download = function(id,type) {
 			xh.download(id,type);
 		}
-		/* 显示审核窗口 */
+		/* 显示审核窗口（有线接入） */
+		$scope.checkWinYX = function(id,type) {
+			$scope.checkData = $scope.data[id];
+			$http.get("../../web/user/getUserList?roleId=10002")
+			.success(function(response) {
+				$scope.userData = response.items;
+				$scope.userTotals = response.totals;
+				if ($scope.userTotals > 0) {
+					$scope.user = $scope.userData[0].user;
+				}
+			});
+			//上传技术方案
+			if(type == 1){
+				$scope.divTitle = "上传技术方案"
+				$("#checkForm11 input").val('');
+				$(".span_result_GH").html('');
+				$("#checkWin11").modal('show');
+			}
+			//主管部门指定经办人
+			else if (type == 2) {
+				$("#checkWin12").modal('show');
+			}
+			//评估技术方案
+			else if (type == 3) {
+				$("#checkWin13").modal('show');
+			}
+			//主管部门根据评估技术方案，审核申请
+			else if (type == 4) {
+				$("#checkWin14").modal('show');
+			}
+			//上传编制资源配置技术方案
+			else if (type == 5) {
+				$("#checkWin15").modal('show');
+			}
+			//内审资源配置技术方案
+			else if (type == 6) {
+				$("#checkWin16").modal('show');
+			}
+			//用户上传协议文件
+			else if (type == 7) {
+				$("#checkWin17").modal('show');
+			}
+			//审核全部文件
+			else if (type == 8) {
+				$("#checkWin18").modal('show');
+			}
+		}
+		
+		/* 显示审核窗口（无线接入） */
 		$scope.checkWin = function(id) {
 			$scope.checkData = $scope.data[id];
 			// $http.get("../../web/user/userlist10002").
@@ -221,12 +269,6 @@ xh.load = function() {
 			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 11) {
 				xh.updateCheckById($scope.checkData.id, 12);
 			}
-			
-			//有线接入
-			else if($scope.checkData.serviceType == '有线接入'){
-				
-			}
-			
 		};
 		/* 查询数据 */
 		$scope.search = function(page) {
@@ -574,10 +616,198 @@ xh.updateCheckById = function(id,checkedNum) {
 		success : function(data) {
 
 			if (data.result == 1) {
-				$('#checkWin2').modal('hide');
+				//$('#checkWin2').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 上传技术方案 */
+xh.check11 = function() {
+	if (parseInt($("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件不能提交", '提示');
+		return;
+	}
+	$.ajax({
+		url : '../../net/uploadGH',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm11").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin11').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 主管部门审核 */
+xh.check12 = function() {
+	$.ajax({
+		url : '../../net/checkedOne',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm12").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin12').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 评估技术方案 */
+xh.check13 = function() {
+	$.ajax({
+		url : '../../net/uploadNote',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm13").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin13').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 根据评估技术方案，审核申请 */
+xh.check14 = function() {
+	$.ajax({
+		url : '../../net/YXcheckOne',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm14").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin14').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 上传编制资源配置技术方案 */
+xh.check15 = function() {
+	$.ajax({
+		url : '../../net/uploadFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm15").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin15').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 审核资源配置技术方案 */
+xh.check16 = function() {
+	$.ajax({
+		url : '../../net/checkFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm16").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin16').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 用户上传协议文件*/
+xh.check17 = function() {
+	$.ajax({
+		url : '../../net/uploadHT',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm17").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin17').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 安排应用接入*/
+xh.check18 = function() {
+	$.ajax({
+		url : '../../net/applicationAccess',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm18").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin18').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -608,7 +838,22 @@ xh.upload = function(index) {
 		path = 'filePathCG';
 		note = 'uploadResultCG';
 	}
-	
+	if (index == 6) {
+		path = 'filePathJS';
+		note = 'uploadResultJS';
+	}
+	if (index == 7) {
+		path = 'filePathFJ';
+		note = 'uploadResultFJ';
+	}
+	if (index == 8) {
+		path = 'filePathBZ1';
+		note = 'uploadResultBZ1';
+	}
+	if (index == 9) {
+		path = 'filePathXY';
+		note = 'uploadResultXY';
+	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
@@ -728,8 +973,20 @@ xh.download = function(id,type) {
 	if(type == 0){
 		filename = $scope.checkData.fileName;
 	}
-	//如果ID为-1 表示 下载编组方案
+	//如果ID为-1 表示 下载合同
 	else if(type==-1){
+		filename = $scope.checkData.fileName_HT;
+	}
+	//如果ID为-2 表示 下载技术方案
+	else if(type==-2){
+		filename = $scope.checkData.fileName_GH;
+	}
+	//如果ID为-3 表示 下载评估方案
+	else if(type==-3){
+		filename = $scope.checkData.fileName_Note;
+	}
+	//如果ID为-4表示 下载协议文件
+	else if(type==-4){
 		filename = $scope.checkData.fileName_HT;
 	}
 	else{
