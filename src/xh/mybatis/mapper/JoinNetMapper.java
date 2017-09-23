@@ -96,6 +96,23 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int updateCheckById(JoinNetBean bean)throws Exception;
+ 
+	/**
+	 * 有线-主管部门审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int YXcheckedOne(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 有线-应用接入
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int applicationAccess(JoinNetBean bean)throws Exception;
+
 
 	/**
 	 * 保存采购文档

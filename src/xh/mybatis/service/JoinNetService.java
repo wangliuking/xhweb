@@ -228,6 +228,42 @@ public class JoinNetService {
 		return result;
 	}
 	/**
+	 * 有线-主管部门审核
+	 * @param bean
+	 * @return
+	 */
+	public static int YXcheckedOne(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.YXcheckedOne(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 有线-应用接入 
+	 * @param bean
+	 * @return
+	 */
+	public static int applicationAccess(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.applicationAccess(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 上传编组方案
 	 * @param bean
 	 * @return
