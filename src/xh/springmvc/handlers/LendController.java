@@ -50,13 +50,16 @@ public class LendController {
 		this.success = true;
 		int start = funUtil.StringToInt(request.getParameter("start"));
 		int limit = funUtil.StringToInt(request.getParameter("limit"));
+		String user = request.getParameter("user");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("user", user.trim());
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals", LendService.lendlistCount());
-		result.put("items", LendService.lendlist(map));
+		List<Map<String,Object>> list = LendService.lendlist(map);
+		result.put("totals", list.size());
+		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -114,7 +117,7 @@ public class LendController {
 		bean.setTime(funUtil.nowDate());
 		int rst = LendService.lend(bean);
 		if (rst == 1) {
-			this.message = "申请已经发出，耐心等待审核";
+			this.message = "申请完成，请选择租赁设备";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
@@ -125,6 +128,51 @@ public class LendController {
 			// ----END
 		} else {
 			this.message = "申请失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 将租借信息发送给用户
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/lend/checkedSend", method = RequestMethod.POST)
+	public void lendSend(HttpServletRequest request, HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("lendId"));
+		String loginUser = request.getParameter("loginUser");
+		LendBean bean = new LendBean();
+		bean.setId(id);
+		bean.setUser1(loginUser);
+		bean.setChecked(1);
+		bean.setTime1(funUtil.nowDate());
+
+		int rst = LendService.checkedSend(bean);
+		if (rst == 1) {
+			this.message = "提交至用户审核租借清单成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("提交至用户审核租借清单，data=" + id);
+			WebLogService.writeLog(webLogBean);
+			// ----发送通知邮件
+			//sendNotify(manager, "设备租借清单，请领导审核", request);
+			// ----END
+		} else {
+			this.message = "提交至用户审核租借清单失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -197,30 +245,29 @@ public class LendController {
 		List<Map<String, Object>> list = GsonUtil.json2Object(jsonData, ArrayList.class);
 		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < list.size(); i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
+			//Map<String, Object> map = new HashMap<String, Object>();
 			Map<String, Object> map2 = new HashMap<String, Object>();
-			map.put("lendId", id);
-			map.put("serialNumber", list.get(i).get("serialNumber").toString());
+			//map.put("lendId", id);
+			//map.put("serialNumber", list.get(i).get("serialNumber").toString());
 
 			map2.put("lendId", id);
-			map2.put("id", list.get(i).get("id").toString());
+			//map2.put("id", list.get(i).get("id").toString());
 			map2.put("type", list.get(i).get("type").toString());
 			map2.put("name", list.get(i).get("name").toString());
 			map2.put("model", list.get(i).get("model").toString());
 			map2.put("serialNumber", list.get(i).get("serialNumber").toString());
-
-			if (LendService.isExtisSerialNumberInfo(map) == 0) {
-				list2.add(map2);
-			}
+			// if (LendService.isExtisSerialNumberInfo(map) == 0) {
+			list2.add(map2);
+			// }
 		}
 
 		int rst = -1;
 		if (list2.size() > 0) {
 			rst = LendService.addOrder(list2);
 		}
-		if (rst == 1) {
-			this.message = "审核成功";
-			LendService.updateAssetStatus(list2);
+		if (rst == list2.size()) {
+			this.message = "设备添加成功";
+			LendService.updateAssetStatus1(list2);
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
@@ -253,33 +300,52 @@ public class LendController {
 	 * @param request
 	 * @param response
 	 */
-	/*
-	 * @RequestMapping(value="/lend/deleteLendOrderE",method =
-	 * RequestMethod.POST) public void deleteLendOrderE(HttpServletRequest
-	 * request, HttpServletResponse response){ this.success = true; String
-	 * lendId = request.getParameter("lendId"); String serialNumber =
-	 * request.getParameter("serialNumber"); Map<String,Object> map=new
-	 * HashMap<String, Object>(); map.put("lendId", lendId);
-	 * map.put("serialNumber", serialNumber); int
-	 * rst=LendService.deleteLendOrderE(map); if(rst==1){ this.message = "删除成功";
-	 * webLogBean.setOperator(funUtil.loginUser(request));
-	 * webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-	 * webLogBean.setStyle(2); webLogBean.setContent("删除清单中的记录，data=" +lendId);
-	 * WebLogService.writeLog(webLogBean); }else{ this.message = "删除失败"; }
-	 * HashMap result = new HashMap(); result.put("success", success);
-	 * result.put("result", rst); result.put("message", message);
-	 * response.setContentType("application/json;charset=utf-8"); String jsonstr
-	 * = json.Encode(result); log.debug(jsonstr); try {
-	 * response.getWriter().write(jsonstr); } catch (IOException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } }
-	 */
+	
+	 @RequestMapping(value="/lend/deleteLendOrderE",method = RequestMethod.POST)
+	 public void deleteLendOrderE(HttpServletRequest request, HttpServletResponse response){ 
+		 this.success = true; 
+		 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		 String lendId = request.getParameter("lendId"); 
+		 String serialNumber = request.getParameter("serialNumber"); 
+		 Map<String,Object> map=new HashMap<String, Object>(); 
+		 map.put("lendId", lendId);
+		 map.put("status", 4);
+		 map.put("serialNumber", serialNumber); 
+		 System.out.println(lendId + "+ " + serialNumber);
+		 int rst=LendService.deleteLendOrderE(map);
+		 int rst2=LendService.updateAssetStatusBySerialNumber(map);
+		 if(rst==1 && rst==1){ 
+			 this.message = "删除成功";
+			 webLogBean.setOperator(funUtil.loginUser(request));
+			 webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			 webLogBean.setStyle(2); webLogBean.setContent("删除清单中的记录，data=" +lendId);
+			 WebLogService.writeLog(webLogBean); 
+		 }else{ 
+			 this.message = "删除失败"; 
+		 }
+		 HashMap result = new HashMap(); 
+		 result.put("success", success);
+		 result.put("result", rst);
+		 result.put("message", message);
+		 response.setContentType("application/json;charset=utf-8");
+		 String jsonstr = json.Encode(result); 
+		 log.debug(jsonstr); 
+		 try {
+			 response.getWriter().write(jsonstr); 
+		 } 
+		 catch (IOException e) { 
+			 // TODOAuto-generated catch block 
+			 e.printStackTrace(); 
+		 } 
+	 }
+
 	/**
 	 * 提交至领导审核租借清单
 	 * 
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/lend/checkedTwo", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/lend/checkedTwo", method = RequestMethod.POST)
 	public void checkedTwo(HttpServletRequest request, HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("lendId"));
@@ -318,7 +384,7 @@ public class LendController {
 		}
 
 	}
-
+*/
 	/**
 	 * 领导审核租借清单
 	 * 
@@ -417,34 +483,37 @@ public class LendController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/lend/returnEquipment", method = RequestMethod.POST)
-	public void returnEquipment(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/lend/operation", method = RequestMethod.POST)
+	public void operation(HttpServletRequest request, HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("lendId"));
 		int status = funUtil.StringToInt(request.getParameter("status"));
 		String checkId = request.getParameter("checkId");
-		String manager = request.getParameter("manager");
 		List<String> checkIds = Arrays.asList(checkId.split(","));
 		Map<String, Object> mapforLend = new HashMap<String, Object>();
-		mapforLend.put("returnTime", funUtil.nowDate());
+		//mapforLend.put("returnTime", funUtil.nowDate());
 		mapforLend.put("lendId", id);
 		mapforLend.put("status", status);
 		mapforLend.put("checkIds", checkIds);
 		// -------------------将归还设备在资产信息表中修改状态----------------
-		// Map<String, Object> mapforBusiness=new HashMap<String, Object>();
-		// mapforBusiness.put("stutas", 4);
-		// mapforBusiness.put("checkIds", checkIds);
-		// int rst2 = BusinessService.updateStatusByNum(mapforBusiness);
+		if(status == 0){
+			 Map<String, Object> mapforBusiness=new HashMap<String, Object>();
+			 mapforBusiness.put("status", 4);
+			 mapforBusiness.put("checkIds", checkIds);
+			 int rst2 = LendService.updateAssetStatusBySerialNumberList(mapforBusiness);
+		}
 		// -------------------------------------------------------------
-		int rst = LendService.deleteLendOrderE(mapforLend);
+		int rst = LendService.operation(mapforLend);
 		// if (rst == 1 && rst2 == 1) {
-		if (rst == 1) {
-			if (status == 0) {
-				this.message = "设备归还完成";
-			} else {
+		if (rst == checkIds.size()) {
+			if (status == 1) {
+				this.message = "验收设备完成";
+			} else if(status == 3) {
 				this.message = "设备归还待审核";
+			} else if(status == 0){
+				this.message = "设备已归还";
 				// ----发送通知邮件
-				sendNotify(manager, "归还设备，请审核", request);
+				//sendNotify(manager, "归还设备，请审核", request);
 				// ----END
 			}
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -453,11 +522,11 @@ public class LendController {
 			webLogBean.setContent("归还设备，data=" + id + ",serialNumber=" + checkId);
 			WebLogService.writeLog(webLogBean);
 		} else {
-			this.message = "设备归还失败";
+			this.message = "操作未成功，请联系管理员";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("result", rst);
+		result.put("result", true);
 		result.put("message", message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

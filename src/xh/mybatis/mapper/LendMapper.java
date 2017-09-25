@@ -34,12 +34,12 @@ public interface LendMapper {
 	 */
 	public int checkedOne(LendBean bean)throws Exception;
 	/**
-	 * 提交至领导审核租借清单
+	 * 提交至用户审核租借清单
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
-	public int checkedTwo(LendBean bean)throws Exception;
+	public int checkedSend(LendBean bean)throws Exception;
 	/**
 	 * 领导审核租借清单
 	 * @param bean
@@ -69,12 +69,47 @@ public interface LendMapper {
 	 */
 	public int addOrder(List<Map<String,Object>> list)throws Exception;
 	/**
-	 * 更新资产租借状态
+	 * 更新资产租借状态1
 	 * @param list
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateAssetStatus(List<Map<String,Object>> list)throws Exception;
+	public int updateAssetStatus1(List<Map<String,Object>> list)throws Exception;
+	/**
+	 * 更新资产租借状态2
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAssetStatusBySerialNumber(Map<String,Object> map)throws Exception;
+	/**
+	 * 归还设备
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAssetStatusBySerialNumberList(Map<String,Object> map)throws Exception;
+	/**
+	 * 更新流程状态
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateStatusBySerialNumber(Map<String,Object> map)throws Exception;
+	/**
+	 * 归还设备
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int returnEquipment(Map<String,Object> map)throws Exception;
+	/**
+	 * 审核/归还/验收
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int operation(Map<String,Object> map)throws Exception;
 	/**
 	 * 删除租借设备清单
 	 * @param map

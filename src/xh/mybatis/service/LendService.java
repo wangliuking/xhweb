@@ -90,12 +90,12 @@ public class LendService {
 	 * @param bean
 	 * @return
 	 */
-	public static int checkedTwo(LendBean bean){
+	public static int checkedSend(LendBean bean){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
 		int result=0;
 		try {
-			result=mapper.checkedTwo(bean);
+			result=mapper.checkedSend(bean);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -180,16 +180,16 @@ public class LendService {
 		return result;
 	}
 	/**
-	 * 更新资产租借状态
+	 * 更新资产租借状态1
 	 * @param map
 	 * @return
 	 */
-	public static int updateAssetStatus(List<Map<String,Object>> list){
+	public static int updateAssetStatus1(List<Map<String,Object>> list){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
 		int result=0;
 		try {
-			result=mapper.updateAssetStatus(list);
+			result=mapper.updateAssetStatus1(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -199,7 +199,102 @@ public class LendService {
 		return result;
 	}
 	/**
-	 * 删除设备清单中的设备
+	 * 更新资产租借状态2
+	 * @param map
+	 * @return
+	 */
+	public static int updateAssetStatusBySerialNumber(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateAssetStatusBySerialNumber(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 更新资产租借状态2
+	 * @param map
+	 * @return
+	 */
+	public static int updateAssetStatusBySerialNumberList(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateAssetStatusBySerialNumberList(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 更新流程状态
+	 * @param map
+	 * @return
+	 */
+	public static int updateStatusBySerialNumber(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateStatusBySerialNumber(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 归还设备
+	 * @param map
+	 * @return
+	 */
+	public static int returnEquipment(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.returnEquipment(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 审核/归还/验收
+	 * @param map
+	 * @return
+	 */
+	public static int operation(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.operation(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 删除设备清单
 	 * @param map
 	 * @return
 	 */

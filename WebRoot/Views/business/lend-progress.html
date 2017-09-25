@@ -199,7 +199,7 @@
 									<th>型号</th>
 									<th>序列号</th>
 									<th>状态</th>
-									<th>操作</th>
+									<!-- <th>操作</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -213,11 +213,13 @@
 									<td>{{x.serialNumber}}</td>
 									<td ng-if="x.status==0">已归还</td>
 									<td ng-if="x.status==1">在借</td>
-									<td ng-if="x.status==2">审核中</td>
-									<td><a ng-if="x.status==2 && loginUser==progressData.user1" href="#"
+									<td ng-if="x.status==2">等待验收</td>
+									<td ng-if="x.status==3">归还审核中</td>
+									<!-- <td><a ng-if="x.status==3 && loginUser==progressData.user" href="#"
 										ng-click="checkSuccess($index,progressData.user1)"><i
-											class="fa fa-check text-success"></i>审核通过
-									</a> </td>
+											class="fa fa-check text-success"></i>审核通过 </a>
+										
+									</td> -->
 								</tr>
 							</tbody>
 						</table>

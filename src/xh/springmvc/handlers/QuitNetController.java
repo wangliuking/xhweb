@@ -205,7 +205,7 @@ public class QuitNetController {
 		bean.setNote1(note1);
 		bean2.setId(quitNumber);
 		System.out.println(quitNumber);
-		bean2.setChecked(6);
+		bean2.setChecked(10);
 		log.info("data==>" + bean.toString());
 
 		WebLogBean webLogBean = new WebLogBean();
