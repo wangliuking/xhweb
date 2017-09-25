@@ -1,77 +1,204 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
+<title>demo</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
-<title>Insert title here</title>
-<link href="Resources/css/xh.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
 </head>
-<body>
-<form enctype="multipart/form-data" id="batchUpload"  action="user/upload" method="post" class="form-horizontal">    
-    <button class="btn btn-success btn-xs" id="uploadEventBtn" style="height:26px;"  type="button" >选择文件</button>  
-    <input type="file" name="file"  style="width:0px;height:0px;" id="uploadEventFile">  
-    <input id="uploadEventPath"  disabled="disabled"  type="text" placeholder="请选择excel表" style="border: 1px solid #e6e6e6; height: 26px;width: 200px;" >                                           
-</form>  
-<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()" >上传</button> 
+<body ng-app="app" ng-controller="test"
+	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="color-line"></div>
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 头部文件 -->
+	<div ng-include="'Views/index-top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'Views/menu/monitor-menu.html'"></div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+
+							<li><span>当前位置：</span></li>
+							<li class="active"><span>统计对比</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+					<div class="col-md-4">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+										class="closebox"><i class="fa fa-times"></i></a>
+								</div>
+								<i class="fa fa-search"></i> 单位选择
+							</div>
+							<div class="panel-body" style="height:170px;">
+								<ul>
+									<li><input type="checkbox" />单位一</li>
+									<li><input type="checkbox" />单位二</li>
+									<li><input type="checkbox" />单位三</li>
+									<li><input type="checkbox" />单位四</li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="hpanel">
+									<div class="panel-heading hbuilt">
+										<div class="panel-tools">
+											<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+												class="closebox"><i class="fa fa-times"></i></a>
+										</div>
+										<i class="fa fa-search"></i> 时间
+									</div>
+									<div class="panel-body">
+										<ul>
+											<li><input type="text" />起始时间</li>
+											<li><input type="text" />终止时间</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="hpanel">
+									<div class="panel-heading hbuilt">
+										<div class="panel-tools">
+											<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+												class="closebox"><i class="fa fa-times"></i></a>
+										</div>
+										<i class="fa fa-search"></i> 指标
+									</div>
+									<div class="panel-body">
+										<select>
+											<option>指标一</option>
+											<option>指标二</option>
+											<option>指标三</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="hpanel">
+									<div class="panel-heading hbuilt">
+										<div class="panel-tools">
+											<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+												class="closebox"><i class="fa fa-times"></i></a>
+										</div>
+										<i class="fa fa-search"></i> 类型
+									</div>
+									<div class="panel-body">
+										<select>
+											<option>月份</option>
+											<option>小时</option>
+											<option>分钟</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 地图
+						</div>
+						<div class="panel-body">
+							<img src="temp.png" style="width:800px;height:430px;">
+						</div>
+					</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+					<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 折线图
+						</div>
+						<div class="panel-body">
+							<div id="barDemo" style="width:700px;height:290px"></div>
+						</div>
+					</div>
+					</div>
+					</div>
+					
+					<div class="row">
+					<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 柱状图
+						</div>
+						<div class="panel-body">
+							<div id="barTest" style="width:700px;height:300px"></div>
+						</div>
+					</div>
+					</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+
+	</div>
+
+
+
+
+	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="lib/echarts/echarts.js"></script>
+	<script type="text/javascript" src="Resources/js/test.js"></script>
 </body>
-<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
-<script type="text/javascript">
-var User = function(){  
-    
-    this.init = function(){  
-          
-        //模拟上传excel  
-         $("#uploadEventBtn").unbind("click").bind("click",function(){  
-             $("#uploadEventFile").click();  
-         });  
-         $("#uploadEventFile").bind("change",function(){  
-             $("#uploadEventPath").attr("value",$("#uploadEventFile").val());  
-         });  
-          
-    };  
-    //点击上传按钮  
-    this.uploadBtn = function(){  
-        var uploadEventFile = $("#uploadEventFile").val();  
-        if(uploadEventFile == ''){  
-            alert("请选择excel,再上传");  
-        }else if(uploadEventFile.lastIndexOf(".xls")<0){//可判断以.xls和.xlsx结尾的excel  
-            alert("只能上传Excel文件");  
-        }else{  
-        	var time="2017-10-16 13:37:26";
-            var url =  'excel/upload?time='+time;  
-            var formData = new FormData($('form')[0]);  
-            user.sendAjaxRequest(url,'POST',formData);  
-        }  
-    };  
-      
-    this.sendAjaxRequest = function(url,type,data){  
-        $.ajax({  
-            url : url,  
-            type : type,  
-            data : data,  
-            success : function(result) {  
-                alert(result);  
-            },  
-            error : function() {  
-                alert( "excel上传失败");  
-            },  
-            cache : false,  
-            contentType : false,  
-            processData : false  
-        });  
-    };  
-};
-      
-  
-var user;  
-$(function(){  
-    user = new User();  
-    user.init();  
-}); 
-</script>
+
 </html>

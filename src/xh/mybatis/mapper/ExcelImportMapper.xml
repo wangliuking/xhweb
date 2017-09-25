@@ -6,14 +6,13 @@
 	<!--导入excel -->
 	<insert id="insertExcel" parameterType="java.util.List">
 		INSERT INTO
-		xhgmnet_road_test01(db,lng,lat,positionArea,nPositionArea,ndb,time)
+		xhgmnet_road_history(bsId,db,lng,lat,positionArea,nPositionArea,ndb,time)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb},#{item.time})
+			(#{item.bsId},#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb},#{item.time})
 		</foreach>
 	</insert>
-
 	
 	<!-- <update id="insertExcel"  parameterType="java.util.List">    
           <foreach collection="list" item="item" index="index" open="" close="" separator=";">  

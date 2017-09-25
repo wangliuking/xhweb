@@ -58,6 +58,10 @@ xh.org.listeners.SingLoginListener
 </listener-class>   
 </listener>
 
+<!-- 启动定时器，定时获取动环数据-->
+<listener>
+<listener-class>xh.org.listeners.EMHListener</listener-class>
+</listener>
 <!--Axis2 config start -->
 	<servlet>  
       <servlet-name>AxisServlet</servlet-name>  

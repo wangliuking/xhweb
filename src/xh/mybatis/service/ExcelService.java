@@ -17,7 +17,7 @@ public class ExcelService {
 	/** 
      * 读取excel中的数据,生成list 
      */  
-    public String readExcelFile(MultipartFile file,String time){
+    public String readExcelFile(MultipartFile file,String time,String bsId){
     	String result ="";  
         //创建处理EXCEL的类  
         ReadExcel readExcel=new ReadExcel();  
@@ -27,6 +27,7 @@ public class ExcelService {
         List<ImpExcelBean> excelList = readExcel.getExcelInfo(file);
         for(int i=0;i<excelList.size();i++){
         	excelList.get(i).setTime(time);
+        	excelList.get(i).setBsId(bsId);
         }
         //System.out.println(excelList);
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作 

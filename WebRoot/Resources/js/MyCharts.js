@@ -5,7 +5,7 @@ require.config({
 });
 var background="#272625";
 //循环调用的函数
-var tempCharts=function(j,data){
+/*var tempCharts=function(j,data){
 	switch(j){
 	case 4:
 		temperature(data);
@@ -17,7 +17,7 @@ var tempCharts=function(j,data){
 		Current_voltage(data);
 		break;
 	}
-}
+}*/
 
 //基于准备好的dom，初始化echarts实例
 var chart = null;
