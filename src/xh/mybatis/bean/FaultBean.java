@@ -16,9 +16,197 @@ public class FaultBean {
 	private String user1;
 	private String user2;
 	private int checked;
+	private int faultType;
 	private String userName;
 	// 指定审核故障申请的主管部门领导
 	private String user_MainManager;
+	private String user3;
+	private String note3;
+	private String time3;
+	private String fileName_Request;
+	private String filePath_Request;
+	private String fileName_Finish;
+	private String filePath_Finish;
+	private String user;
+	private String faultReason;
+	private String faultDoMethod;
+	private String DeviceContact;
+	private String DeviceFault;
+	private String NetFault;
+	private String UserVisit;
+	private String DeadLine;
+	private String faultReason2;
+	private String faultDoMethod2;
+	private String user4;
+	private String time4;
+	private String note4;
+
+	public String getNote4() {
+		return note4;
+	}
+
+	public void setNote4(String note4) {
+		this.note4 = note4;
+	}
+
+	public String getUser4() {
+		return user4;
+	}
+
+	public void setUser4(String user4) {
+		this.user4 = user4;
+	}
+
+	public String getTime4() {
+		return time4;
+	}
+
+	public void setTime4(String time4) {
+		this.time4 = time4;
+	}
+
+	public String getDeviceFault() {
+		return DeviceFault;
+	}
+
+	public String getNetFault() {
+		return NetFault;
+	}
+
+	public String getUserVisit() {
+		return UserVisit;
+	}
+	public void setDeviceFault(String deviceFault) {
+		DeviceFault = deviceFault;
+	}
+
+	public void setNetFault(String netFault) {
+		NetFault = netFault;
+	}
+
+	public void setUserVisit(String userVisit) {
+		UserVisit = userVisit;
+	}
+	public String getFaultReason2() {
+		return faultReason2;
+	}
+
+	public void setFaultReason2(String faultReason2) {
+		this.faultReason2 = faultReason2;
+	}
+
+	public String getFaultDoMethod2() {
+		return faultDoMethod2;
+	}
+
+	public void setFaultDoMethod2(String faultDoMethod2) {
+		this.faultDoMethod2 = faultDoMethod2;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getFaultReason() {
+		return faultReason;
+	}
+
+	public void setFaultReason(String faultReason) {
+		this.faultReason = faultReason;
+	}
+
+	public String getFaultDoMethod() {
+		return faultDoMethod;
+	}
+
+	public void setFaultDoMethod(String faultDoMethod) {
+		this.faultDoMethod = faultDoMethod;
+	}
+
+	public String getDeviceContact() {
+		return DeviceContact;
+	}
+
+	public void setDeviceContact(String deviceContact) {
+		DeviceContact = deviceContact;
+	}
+
+	public String getDeadLine() {
+		return DeadLine;
+	}
+
+	public void setDeadLine(String deadLine) {
+		DeadLine = deadLine;
+	}
+
+	public String getFileName_Request() {
+		return fileName_Request;
+	}
+
+	public void setFileName_Request(String fileName_Request) {
+		this.fileName_Request = fileName_Request;
+	}
+
+	public String getFilePath_Request() {
+		return filePath_Request;
+	}
+
+	public void setFilePath_Request(String filePath_Request) {
+		this.filePath_Request = filePath_Request;
+	}
+
+	public String getFileName_Finish() {
+		return fileName_Finish;
+	}
+
+	public void setFileName_Finish(String fileName_Finish) {
+		this.fileName_Finish = fileName_Finish;
+	}
+
+	public String getFilePath_Finish() {
+		return filePath_Finish;
+	}
+
+	public void setFilePath_Finish(String filePath_Finish) {
+		this.filePath_Finish = filePath_Finish;
+	}
+
+	public String getUser3() {
+		return user3;
+	}
+
+	public void setUser3(String user3) {
+		this.user3 = user3;
+	}
+
+	public String getNote3() {
+		return note3;
+	}
+
+	public void setNote3(String note3) {
+		this.note3 = note3;
+	}
+
+	public String getTime3() {
+		return time3;
+	}
+
+	public void setTime3(String time3) {
+		this.time3 = time3;
+	}
+
+
+	public int getFaultType() {
+		return faultType;
+	}
+
+	public void setFaultType(int faultType) {
+		this.faultType = faultType;
+	}
 
 	public String getNote1() {
 		return note1;

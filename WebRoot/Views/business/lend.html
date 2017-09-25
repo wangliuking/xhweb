@@ -62,8 +62,12 @@
 							<!-- row -->
 							<div class="row">
 								<div class="col-md-12">
-									<button class="btn btn-success btn-sm" data-toggle="modal"
+									<button class="btn btn-success btn-sm" data-toggle="modal" ng-if="loginUserRoleId >= 1000 && loginUserRoleId < 10000"
 										ng-click="checkWin(-1)">
+										<i class="fa fa-plus-circle"></i>&nbsp;租借设备
+									</button>
+									<button class="btn btn-success btn-sm" data-toggle="modal" ng-if="loginUserRoleId >= 10000"
+										disabled="disabled">
 										<i class="fa fa-plus-circle"></i>&nbsp;租借设备
 									</button>
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -108,39 +112,31 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.zone}}</td>
 										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-gray">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
-										<td ng-if="x.checked==1" class="td-danger">正在审核中</td>
-										<td ng-if="x.checked==2" class="td-danger">等待审核租借清单</td>
-										<td ng-if="x.checked==3" class="td-danger">等待用户确认租借清单</td>
-										<td ng-if="x.checked==4" class="td-success">审核通过</td>
+										<td ng-if="x.checked==0" class="td-warning">申请表填写成功，请等待经办人审核</td>
+										<td ng-if="x.checked==1" class="td-success">请用户验收设备</td>
+										<!-- <td ng-if="x.checked==2" class="td-danger">审核通过，等待管理方安排借出资产</td> -->
+										<!-- <td ng-if="x.checked==2" class="td-danger">等待审核租借清单</td>
+										<td ng-if="x.checked==3" class="td-danger">等待用户确认租借清单</td> -->
+										<!-- <td ng-if="x.checked==3" class="td-success">审核通过，请管理方检查设备并交收</td> -->
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;</a> <!-- <a
-											href="#" ng-click="toDeal($index)"><i
-												class="fa fa-file-text-o text-success"> </i>| &nbsp;归还</a> --> <a
-											ng-if="		
-										loginUserRoleId==10002 && x.checked==0"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a> <a
-											ng-if="		
-										loginUserRoleId==10002 && loginUser==x.user2 && x.checked==1"
-											href="#" ng-click="toDeal($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;办理</a><a
-											ng-if="		
-										loginUserRoleId==10002 && loginUser==x.user1 && x.checked==2"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核租借清单</a>
-												<a
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;</a> 
+											<a ng-if="loginUserRoleId==10002 && x.checked==0"
+											href="#" ng-click="checkWin($index)">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核</a>
+											<a ng-if="loginUser==x.user || loginUser==x.user1 && x.checked==1"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>查看租借清单</a>
+												<!-- <a
 											ng-if="		
 										loginUser==x.user && x.checked==3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认租借清单</a>
 												<a
 											ng-if="		
-										loginUser==x.user && x.checked==4"
+										loginUser==x.user && x.checked==3"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i> &nbsp;归还设备</a>
+												class="fa fa-hand-o-down text-danger"></i> &nbsp;归还设备</a> -->
 												<!-- <a
 											ng-if="		
 										loginUser==x.user1 && x.checked==4 && lendTotals != 0"

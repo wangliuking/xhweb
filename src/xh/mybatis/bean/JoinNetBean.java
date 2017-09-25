@@ -30,10 +30,13 @@ public class JoinNetBean {
 	private String time3;
 	private String time4;
 	private String time5;
+	private String time6;
 	private String note1;
 	private String note2;
 	private String note3;
 	private String note4;
+	private String note5;
+	private String note6;
 	private String fileName;
 	private String filePath;
 	private String fileNameGH;
@@ -42,7 +45,54 @@ public class JoinNetBean {
 	private String filePathNote;
 	private String fileNameDoc;
 	private String filePathDoc;
+	private String fileNameHT;
+	private String filePathHT;
+	private String fileNameCG;
+	private String filePathCG;
 	
+	
+	public String getFileNameCG() {
+		return fileNameCG;
+	}
+	public void setFileNameCG(String fileNameCG) {
+		this.fileNameCG = fileNameCG;
+	}
+	public String getFilePathCG() {
+		return filePathCG;
+	}
+	public void setFilePathCG(String filePathCG) {
+		this.filePathCG = filePathCG;
+	}
+	public String getTime6() {
+		return time6;
+	}
+	public void setTime6(String time6) {
+		this.time6 = time6;
+	}
+	public String getNote6() {
+		return note6;
+	}
+	public void setNote6(String note6) {
+		this.note6 = note6;
+	}
+	public String getFileNameHT() {
+		return fileNameHT;
+	}
+	public void setFileNameHT(String fileNameHT) {
+		this.fileNameHT = fileNameHT;
+	}
+	public String getFilePathHT() {
+		return filePathHT;
+	}
+	public void setFilePathHT(String filePathHT) {
+		this.filePathHT = filePathHT;
+	}
+	public String getNote5() {
+		return note5;
+	}
+	public void setNote5(String note5) {
+		this.note5 = note5;
+	}
 	public String getFileNameDoc() {
 		return fileNameDoc;
 	}

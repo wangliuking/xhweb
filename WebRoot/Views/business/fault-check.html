@@ -1,4 +1,5 @@
-<!-- 管理 -->
+<!-- 管理方根据故障类型判定是否需要服务提供方（亚光）处理，故障类型是否为网络故障：
+       是网络故障，则想服务提供方发送处理故障的请求消息（该请求消息应包含上传附件的功能）； -->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -7,7 +8,7 @@
 			<div class="modal-header">
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="checkForm1" onSubmit="return false">
+				<form action="#" id="checkForm1" onSubmit="return false">	
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -15,8 +16,9 @@
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
 							</div>
+							
 						</div>
-					</div>
+					</div>	
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -31,7 +33,18 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> 
+								<label>故障类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="faultType">
+									<option value="1" selected="selected">网络故障</option>
+									<option value="-1">其它故障</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>服务提供方</label>&nbsp;<span class="text-danger">[*]</span> 
 								<select class="form-control" name="user" ng-model="user">
 								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
 								</select>
@@ -63,10 +76,10 @@
 	</div>
 </div>
 
-<!-- 经办人 -->
+<!-- 管理方上传故障请求信息  -->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -85,21 +98,26 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>审核人</label>&nbsp;<span class="text-danger">[*]</span> 
-								<select class="form-control" name="user" ng-model="user">
-								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
-								</select>
+								<label>故障处理报告</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="file" name="filePath" id="filePath_Request" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult_Request" style="color:red"></span>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>备注</label>
 								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- row-------end -->
 				</form>
 			</div>
@@ -117,7 +135,7 @@
 	</div>
 </div>
 
-<!-- 用户确认 -->
+<!-- 服务提供方对故障请求信息进行审核 -->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -134,6 +152,236 @@
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
 							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>故障请求信息下载链接</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(checkData.id)" style="color:red">{{checkData.fileName_Request}}</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="3" selected="selected">通过</option>
+									<option value="1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn3">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 服务提供方上传故障完成信息  -->
+<div class="modal fade" id="checkWin4" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm4" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>故障处理报告</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="file" name="filePath" id="filePath_Finish" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(2)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult_Finish" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div> -->
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn4">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 管理方审核故障完成信息 -->
+<div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm5" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>故障完成信息下载链接</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(checkData.id)" style="color:red">{{checkData.fileName_Finish}}</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="5" selected="selected">通过</option>
+									<option value="3">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note3" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn5">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- 管理方记录故障信息 -->
+<div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm6" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note4" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn6">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- 用户回访 -->
+<div class="modal fade" id="checkWin7" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm7" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
 							
 						</div>
 					</div>
@@ -142,8 +390,8 @@
 							<div class="form-group col-md-12">
 								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="1" selected="selected">通过</option>
-									<option value="0">拒绝</option>
+									<option value="7" selected="selected">通过</option>
+									<option value="-2">拒绝</option>
 								</select>
 							</div>
 						</div>
@@ -165,7 +413,7 @@
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="check_btn3">
+					class="btn btn-success btn-sm" id="check_btn7">
 					<i class="fa fa-plus"></i>&nbsp;提交
 				</button>
 			</div>
@@ -183,12 +431,24 @@
 	$("#check_btn3").click(function() {
 		$('#checkForm3').submit();
 	});
+	$("#check_btn4").click(function() {
+		$('#checkForm4').submit();
+	});
+	$("#check_btn5").click(function() {
+		$('#checkForm5').submit();
+	});
+	$("#check_btn6").click(function() {
+		$('#checkForm6').submit();
+	});
+	$("#check_btn7").click(function() {
+		$('#checkForm7').submit();
+	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	//管理部门审核提交
+	//管理方审核提交
 	$('#checkForm1').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
@@ -198,7 +458,7 @@
 		e.preventDefault();
 		xh.check1();
 	});
-	//经办人审核提交
+	//服务提供方处理
 	$('#checkForm2').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
@@ -208,7 +468,7 @@
 		e.preventDefault();
 		xh.check2();
 	});
-	//用户确认
+	
 	$('#checkForm3').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
@@ -217,6 +477,43 @@
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check3();
+	});
+	//用户
+	$('#checkForm4').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check4();
+	});
+	$('#checkForm5').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check5();
+	});
+	$('#checkForm6').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check6();
+	});
+	$('#checkForm7').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check7();
 	});
 </script>
 <script>

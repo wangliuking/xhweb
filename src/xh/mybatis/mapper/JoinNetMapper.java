@@ -74,12 +74,53 @@ public interface JoinNetMapper {
 	public int uploadFileNote(JoinNetBean bean)throws Exception;
 	
 	/**
-	 * 上传通知函
+	 * 上传合同
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFileHT(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 保存签署文档
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int uploadFileDoc(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 更新流程
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateCheckById(JoinNetBean bean)throws Exception;
+ 
+	/**
+	 * 有线-主管部门审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int YXcheckedOne(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 有线-应用接入
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int applicationAccess(JoinNetBean bean)throws Exception;
+
+
+	/**
+	 * 保存采购文档
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFileCG(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 审核编组方案
@@ -95,6 +136,13 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int sureFile(JoinNetBean bean)throws Exception;
+	/**
+	 * 审核样机入网送检申请（合同附件）
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int sureHT(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 用户签署协议

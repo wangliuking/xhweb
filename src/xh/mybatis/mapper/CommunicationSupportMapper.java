@@ -42,28 +42,117 @@ public interface CommunicationSupportMapper {
 	 */
 	public int checkedOne(CommunicationSupportBean bean)throws Exception;
 	/**
-	 * 主管部门审核
+	 *
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int checkedTwo(CommunicationSupportBean bean)throws Exception;
-	
+
 	/**
-	 * 
+	 *
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
-	public int uploadFile(CommunicationSupportBean bean)throws Exception;
-	
+	public int checkedThree(CommunicationSupportBean bean)throws Exception;
+
 	/**
-	 * 
+	 *
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
-	public int checkFile(CommunicationSupportBean bean)throws Exception;
+	public int checkedFour(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedFive(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedSix(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedSeven(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedEight(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedNine(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedTen(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedEvelen(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedTwelve(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedThirteen(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedFourteen(CommunicationSupportBean bean)throws Exception;
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkedFifteen(CommunicationSupportBean bean)throws Exception;
+
 	/**
 	 * 用户确认
 	 * @param bean

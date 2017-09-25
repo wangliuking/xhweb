@@ -38,17 +38,28 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
+			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
+				/*获取申请记录表*/
+				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
+				success(function(response){
+					xh.maskHide();
+					$scope.data = response.items;
+					$scope.totals = response.totals;
+					xh.pagging(1, parseInt($scope.totals), $scope);
+				});
+				
+			}else{
+				/*获取申请记录表*/
+				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=all").
+				success(function(response){
+					xh.maskHide();
+					$scope.data = response.items;
+					$scope.totals = response.totals;
+					xh.pagging(1, parseInt($scope.totals), $scope);
+				});
+			}
 		});
 		
-		
-		/*获取申请记录表*/
-		$http.get("../../business/lend/list?start=0&limit=" + pageSize).
-		success(function(response){
-			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals), $scope);
-		});
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -58,7 +69,7 @@ xh.load = function() {
 		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
-			window.location.href="lend-deal.html?data_id="+$scope.editData.id + "&manager=" + $scope.editData.user1;
+			window.location.href="lend-deal.html?data_id="+$scope.editData.id;
 	    };
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
@@ -76,10 +87,43 @@ xh.load = function() {
 	    	$scope.issure=issure==1?true:false;
 	    	console.log($scope.issure);
 	    };
-	    /*审核归还通过*/
-		$scope.checkSuccess = function (id) {
+	    /* 审核/归还/验收 */
+		$scope.checkSuccess = function (id,status) {
 			$scope.checkedSerialNumber = $scope.dataLend[id].serialNumber;
+			/* 验收 */
 			$.ajax({
+				url : '../../business/lend/operation',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					lendId:$scope.dataLend[id].lendId,
+					checkId:$scope.checkedSerialNumber,
+					status:status
+				},
+				success : function(data) {
+					if (data.result) {
+						$("#checkWin3").modal('hide');
+						xh.refresh();
+						//$scope.checkWin($scope.ch)
+						//设备清单列表
+						/*$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
+						success(function(response){
+							xh.maskHide();
+							$scope.dataLend = response.items;
+							$scope.lendTotals = response.totals;
+						});
+						$("#checkWin3").modal('show');*/
+						toastr.success(data.message, '提示');
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+			/*$.ajax({
 				url : '../../business/lend/returnEquipment',
 				type : 'POST',
 				dataType : "json",
@@ -102,7 +146,7 @@ xh.load = function() {
 				},
 				error : function() {
 				}
-			});
+			});*/
 		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
@@ -118,7 +162,7 @@ xh.load = function() {
 				$("#add").modal('show');
 			}
 			$scope.checkData = $scope.data[id];
-			$scope.ch="1";
+			$scope.ch=id;
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
 				$http.get("../../web/user/getUserList?roleId=10002").
 				success(function(response){
@@ -130,7 +174,8 @@ xh.load = function() {
 				});
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
+			//if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
+			if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==1){
 				//设备清单列表
 				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
 				success(function(response){
@@ -138,9 +183,19 @@ xh.load = function() {
 					$scope.dataLend = response.items;
 					$scope.lendTotals = response.totals;
 				});
+				$scope.selectAll=false;  
+			    $scope.all= function (m) {  
+			        for(var i=0;i<$scope.dataLend.length;i++){  
+			          if(m===true){  
+			              $scope.dataItem[i].state=true;  
+			          }else {  
+			              $scope.dataItem[i].state=false;  
+			          }  
+			        }  
+			    };  
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==3){
+			/*if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==3){
 				xh.check4();
 			}
 			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
@@ -153,7 +208,7 @@ xh.load = function() {
 				});
 				$("#checkWin5").modal('show');
 			}
-			/*if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
+			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
 				//设备清单列表
 				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id + "status=2").
 				success(function(response){
@@ -165,7 +220,7 @@ xh.load = function() {
 			}*/
 			
 	    };
-	    /* 用户确认编组方案 */
+	    /* 用户确认编组方案 
 	    $scope.sureFile = function(id) {
 	    	$.ajax({
 	    		url : '../../net/sureFile',
@@ -185,7 +240,7 @@ xh.load = function() {
 	    		error : function(){
 	    		}
 	    	});
-	    };
+	    };*/
 		/* 显示修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -257,13 +312,6 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
-			/*var type = $("#type").val();
-			var name = $("#name").val();
-			var model = $("#model").val();
-			var serialNumber = $("#serialNumber").val();
-			var from = $("#from").val();
-			var status = $("#status").val();
-			var pageSize = $("#page-limit").val();*/
 			frist = 0;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -273,13 +321,33 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
+			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
+				/*获取申请记录表*/
+				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
+				success(function(response){
+					xh.maskHide();
+					$scope.data = response.items;
+					$scope.totals = response.totals;
+					xh.pagging(1, parseInt($scope.totals), $scope);
+				});
+				
+			}else{
+				/*获取申请记录表*/
+				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=all").
+				success(function(response){
+					xh.maskHide();
+					$scope.data = response.items;
+					$scope.totals = response.totals;
+					xh.pagging(1, parseInt($scope.totals), $scope);
+				});
+			}
+			/*$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
-			});
+			});*/
 		};
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -343,8 +411,8 @@ xh.add = function() {
 	});
 };
 /*主管部门审核*/
-xh.check1 = function() {
-	$.ajax({
+xh.check1 = function(id) {
+	/*$.ajax({
 		url : '../../business/lend/checkedOne',
 		type : 'POST',
 		dataType : "json",
@@ -365,7 +433,8 @@ xh.check1 = function() {
 		},
 		error : function() {
 		}
-	});
+	});*/
+	window.location.href="lend-deal.html?data_id="+id;
 };
 
 /*管理部门领导审核租借清单*/
@@ -424,26 +493,24 @@ xh.check4 = function() {
 	});
 };
 /*用户归还设备*/
-xh.check5 = function(checkIds) {
+xh.check5 = function(checkIds,status) {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../business/lend/returnEquipment',
+		url : '../../business/lend/operation',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
 			lendId:$scope.checkData.id,
 			checkId:checkIds,
-			manager:$scope.checkData.user1,
-			status:2
+			//manager:$scope.checkData.user1,
+			status:status
 		},
 		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin5').modal('hide');
+			if (data.result) {
+				$('#checkWin3').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error(data.message, '提示');
 			}

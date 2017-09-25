@@ -102,7 +102,7 @@ public class CommunicationSupportService{
 		return result;
 	}
 	/**
-	 * 经办人审核
+	 *
 	 * @param bean
 	 * @return
 	 */
@@ -119,6 +119,255 @@ public class CommunicationSupportService{
 		}
 		return result;
 	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedThree(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedThree(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFour(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFour(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFive(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFive(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedSix(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedSix(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedSeven(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedSeven(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedEight(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedEight(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedNine(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedNine(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedTen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedTen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedEvelen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedEvelen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedTwelve(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedTwelve(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedThirteen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedThirteen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFourteen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFourteen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFifteen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFifteen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
 	/**
 	 * 用户确认
 	 * @param bean

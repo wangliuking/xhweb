@@ -15,7 +15,16 @@ public class QuitNetBean {
 	private String userName;
 	private String note1;
 	private String note;
-	
+	private String quitModal;
+
+	public String getQuitModal() {
+		return quitModal;
+	}
+
+	public void setQuitModal(String quitModal) {
+		this.quitModal = quitModal;
+	}
+
 	public String getNote1() {
 		return note1;
 	}

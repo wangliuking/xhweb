@@ -75,6 +75,10 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 
+		$scope.download = function(id) {
+			xh.download(id);
+		}
+
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
@@ -91,7 +95,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10002").
+			$http.get("../../web/user/getUserList?roleId=10001").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -107,6 +111,45 @@ xh.load = function() {
 			}
 			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==3){
+				$("#checkWin4").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==4){
+				$("#checkWin5").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
+				$("#checkWin6").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
+				$("#checkWin7").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==7){
+				$("#checkWin8").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==8){
+				$("#checkWin9").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==9){
+				$("#checkWin10").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==10){
+				$("#checkWin11").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==11){
+				$("#checkWin12").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==12){
+				$("#checkWin13").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==13){
+				$("#checkWin14").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==14){
+				$("#checkWin15").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==15){
+				$("#checkWin16").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -281,7 +324,7 @@ xh.check1 = function() {
 	});
 };
 
-/*经办人处理*/
+/*管理方向用户单位发送通信保障需求确认消息（该请求消息可包含上传附件的功能）*/
 xh.check2 = function() {
 	$.ajax({
 		url : '../../support/checkedTwo',
@@ -304,10 +347,11 @@ xh.check2 = function() {
 		}
 	});
 };
-/*用户确认*/
+
+/*用户单位核准该消息*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../support/sureFile',
+		url : '../../support/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -327,9 +371,412 @@ xh.check3 = function() {
 		}
 	});
 };
+
+/*管理方根据通信保障类型发送消息通知服务提供方(该请求消息可包含上传附件的功能) */
+xh.check4 = function() {
+	$.ajax({
+		url : '../../support/checkedFour',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm4").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin4').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*服务提供方审核信息*/
+xh.check5 = function() {
+	$.ajax({
+		url : '../../support/checkedFive',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm5").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin5').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*服务提供方发送审核请求消息给管理方(该请求消息可包含上传附件的功能) */
+xh.check6 = function() {
+	$.ajax({
+		url : '../../support/checkedSix',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm6").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin6').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*管理方对消息内容进行审核：
+  	   不通过则返回服务提供方；
+       通过则发送消息通知服务提供方，同时发送消息（该消息可包含上传附件的功能）通知用户单位 */
+xh.check7 = function() {
+	$.ajax({
+		url : '../../support/checkedSeven',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm7").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin7').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*管理方发送消息*/
+xh.check8 = function() {
+	$.ajax({
+		url : '../../support/checkedEight',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm8").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin8').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*用户单位确认*/
+xh.check9 = function() {
+	$.ajax({
+		url : '../../support/checkedNine',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm9").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin9').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*服务提供方发送通信保障准备情况消息给管理方(该请求消息可包含上传附件的功能) */
+xh.check10 = function() {
+	$.ajax({
+		url : '../../support/checkedTen',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm10").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin10').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*管理方接受消息*/
+xh.check11 = function() {
+	$.ajax({
+		url : '../../support/checkedEleven',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm11").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin11').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*管理方发送通信保障准备情况消息给用户单位(该请求消息可包含上传附件的功能)*/
+xh.check12 = function() {
+	$.ajax({
+		url : '../../support/checkedTwelve',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm12").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin12').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*用户单位确认*/
+xh.check13 = function() {
+	$.ajax({
+		url : '../../support/checkedThirteen',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm13").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin13').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*服务提供方发送通信保障完成消息给管理方(该请求消息可包含上传附件的功能)*/
+xh.check14 = function() {
+	$.ajax({
+		url : '../../support/checkedFourteen',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm14").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin14').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*管理方确认*/
+xh.check15 = function() {
+	$.ajax({
+		url : '../../support/checkedFifteen',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm15").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin15').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/*等待用户评价*/
+xh.check16 = function() {
+	$.ajax({
+		url : '../../support/sureFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm16").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin16').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/* 上传文件 */
+xh.upload = function(index) {
+	if (index == 1) {
+		path = 'filePath1';
+		note = 'uploadResult1';
+	}
+	if (index == 2) {
+		path = 'filePath2';
+		note = 'uploadResult2';
+	}
+	if (index == 3) {
+		path = 'filePath3';
+		note = 'uploadResult3';
+	}
+	if (index == 4) {
+		path = 'filePath4';
+		note = 'uploadResult4';
+	}
+	if (index == 5) {
+		path = 'filePath5';
+		note = 'uploadResult5';
+	}
+	if (index == 6) {
+		path = 'filePath6';
+		note = 'uploadResult6';
+	}
+	if (index == 7) {
+		path = 'filePath7';
+		note = 'uploadResult7';
+	}
+	if ($("#" + path).val() == "") {
+		toastr.error("你还没选择文件", '提示');
+		return;
+	}
+
+	xh.maskShow();
+	$.ajaxFileUpload({
+		url : '../../net/upload', // 用于文件上传的服务器端请求地址
+		secureuri : false, // 是否需要安全协议，一般设置为false
+		fileElementId : path, // 文件上传域的ID
+		dataType : 'json', // 返回值类型 一般设置为json
+		type : 'POST',
+		success : function(data, status) // 服务器成功响应处理函数
+		{
+			// var result=jQuery.parseJSON(data);
+			console.log(data.filePath)
+			xh.maskHide();
+			if (data.success) {
+				$("#"+note).html(data.message);
+				$("input[name='result']").val(1);
+				$("input[name='fileName']").val(data.fileName);
+				$("input[name='path']").val(data.filePath);
+			}	else {
+				$("#"+note).html(data.message);
+			}
+
+		},
+		error : function(data, status, e)// 服务器响应失败处理函数
+		{
+			alert(e);
+		}
+	});
+};
+
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	var filename=$scope.checkData.fileName;
+	var checked = $scope.checkData.checked;
+	var fileName = null;
+	if(checked != -1){
+		if(checked == 2 && $scope.checkData.fileName1 !=null){
+			fileName = $scope.checkData.fileName1;
+		}
+		else if(checked == 4 && $scope.checkData.fileName2!=null){
+			fileName = $scope.checkData.fileName2;
+		}
+		else if(checked == 6 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
+		}
+		else if(checked == 8 && $scope.checkData.fileName4!=null){
+			fileName = $scope.checkData.fileName4;
+		}
+		else if(checked == 10 && $scope.checkData.fileName5!=null){
+			fileName = $scope.checkData.fileName5;
+		}
+		else if(checked == 12 && $scope.checkData.fileName6!=null){
+			fileName = $scope.checkData.fileName6;
+		}
+		else if(checked == 14 && $scope.checkData.fileName7!=null){
+			fileName = $scope.checkData.fileName7;
+		}
+	}
 	console.log("filename=>"+filename);
 	var downUrl="../../support/download?fileName="+filename;
 	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');

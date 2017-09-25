@@ -13,7 +13,7 @@
 		,DATE_FORMAT(u.time,'%Y-%m-%d') as time
 		from xhgmnet_business_communicationsupport as u where 1=1
 		<choose>
-			<when test="roleId &gt;10002 || roleId &lt;10000">
+			<when test="roleId &gt;10003 || roleId &lt;10000">
 				and u.userName=#{user}
 			</when>
 			<otherwise>
@@ -25,7 +25,7 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_communicationsupport where 1=1
 		<choose>
-			<when test="roleId &gt;10002 || roleId &lt;10000">
+			<when test="roleId &gt;10003 || roleId &lt;10000">
 			</when>
 			<otherwise>
 			</otherwise>
@@ -51,12 +51,98 @@
 		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
-	<!--管理方审核 -->
+
+	<!--上传 -->
 	<update id="checkedTwo" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where 
+		fileName1=#{fileName1},filePath1=#{filePath1},checked=#{checked} where
 		id=#{id}
 	</update>
+
+	<!--审核 -->
+	<update id="checkedThree" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedFour" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedFive" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedSix" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName3=#{fileName3},filePath3=#{filePath3},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedSeven" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedEight" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName4=#{fileName4},filePath4=#{filePath4},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedNine" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time5=#{time5},note5=#{note5},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedTen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName5=#{fileName5},filePath5=#{filePath5},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedEvelen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time6=#{time6},note6=#{note6},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedTwelve" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName6=#{fileName6},filePath6=#{filePath6},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedThirteen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time7=#{time7},note7=#{note7},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--上传 -->
+	<update id="checkedFourteen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		fileName7=#{fileName7},filePath7=#{filePath7},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--审核 -->
+	<update id="checkedFifteen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		time8=#{time8},note8=#{note8},checked=#{checked} where id=#{id}
+	</update>
+
 	<!--用户确认方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
