@@ -8,6 +8,7 @@ package com.chinamobile.lscservice;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,15 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import xh.springmvc.handlers.GosuncnController;
+
 /**
  * LSCServiceSkeleton java skeleton for the axisService
  */
 public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
+	protected static final Log log = LogFactory.getLog(LSCServiceSkeleton.class);
 
 	/**
 	 * Auto generated method signature
@@ -34,24 +40,28 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 
 	public com.chinamobile.lscservice.InvokeResponse invoke(
 			com.chinamobile.lscservice.Invoke invoke0) {
-		Date date=new Date();
-		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String time=format.format(date);
-		System.out.println(time);
-		System.out.println(invoke0.getXmlData());
+		log.info(invoke0.getXmlData());
+		/*try {
+			log.info(new String(invoke0.getXmlData().getString().getBytes(),"GB2312"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		String xml = null;
 		String xmlString = invoke0.getXmlData().getString();
-		//xml = parseXml(xmlString);
+		xml = parseXml(xmlString);
 		InvokeResponse response = new InvokeResponse();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
 		enc.setString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>");
 		response.setInvokeReturn(enc);
-		System.out.println(response.getInvokeReturn());
+		log.info(response.getInvokeReturn());
 		return response;
 	}
 	
-	private static String parseXml(String xml){
+	public static String parseXml(String xml){
 		SAXReader reader = new SAXReader();
+		reader.setEncoding("utf8");
 		Document document = null;
 		try {
 			document = reader.read(getStringStream(xml));
@@ -71,7 +81,8 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				Element e = (Element)list.get(i);
 				map.put(e.getName(), e.getText());			
 			}
-			System.out.println(map);
+			String result = GosuncnController.insertLogin(map);
+			log.info(result);
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
 			//上报动环设置配置

@@ -70,19 +70,24 @@
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label for="bsId">位置区</label>
+										<label>位置区</label>
 										<div>
 											<input type="text" class="form-control" id="positionArea"
 												placeholder="位置区ID" width="20px">
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
+										<div class="btn-group" style="padding-top:22px">
 											<button type="submit" class="btn btn-sm btn-success"
 												ng-click="search(1)">
 												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+												data-toggle="modal" data-target="#upload">
+												<i class="fa fa-upload"></i>&nbsp;&nbsp;上传excel文件
+											</button>
 										</div>
+
 									</div>
 
 
@@ -156,6 +161,69 @@
 			</div>
 		</div>
 		<!-- row/ -->
+		<!-- 模态框 start -->
+		<div class="modal fade" id="upload" tabindex="-1" role="dialog"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="color-line"></div>
+					<div class="modal-header ">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<small class="font-bold">添加excel文件</small>
+					</div>
+					<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+						<form enctype="multipart/form-data" id="batchUpload" action=""
+							method="post" class="form-horizontal">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>路测基站ID</label>&nbsp;<span class="text-info">[*]</span>
+										<input type="number" value="" class="form-control" name="bsId"
+											id="bsId" required="required">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>测试时间</label>&nbsp;<span class="text-warning">[*]</span>
+										<input type="text" value="" class="form-control"
+											name="roadTime" id="roadTime" required="required" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
+									<textarea
+										style="width:560px;height:150px;max-width:560px;max-height:260px;"
+										id="note" name="note"></textarea>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2"
+									style="padding-right:0px;margin-right:0px;">
+									<button class="btn btn-success btn-xs" id="uploadEventBtn"
+										style="height:26px;" type="button">选择文件</button>
+								</div>
+								<div class="col-md-4" style="padding-left:0px;margin-left:0px;">
+									<input type="file" name="file" style="width:0px;height:0px;"
+										id="uploadEventFile"> <input id="uploadEventPath"
+										disabled="disabled" type="text" placeholder="请选择excel表"
+										style="border: 1px solid #e6e6e6; height: 26px;width: 200px;">
+								</div>
+
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger btn-sm"
+							onclick="uploadBtn()">上传</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 模态框 end -->
 	</div>
 	<!-- 中间内容体 /-->
 	<!-- 底部内容体 -->
@@ -174,6 +242,58 @@
 		src="../../Controllers/operations/roadInfo.js"></script>
 	<script type="text/javascript">
 		xh.load();
+		var init = function() {
+			//模拟上传excel  
+			$("#uploadEventBtn").unbind("click").bind("click", function() {
+				$("#uploadEventFile").click();
+			});
+			$("#uploadEventFile").bind(
+					"change",
+					function() {
+						$("#uploadEventPath").attr("value",
+								$("#uploadEventFile").val());
+					});
+
+		};
+		init();
+		//点击上传按钮  
+		var uploadBtn = function() {
+			var bsId = $("#bsId").val();
+			var roadTime = $("#roadTime").val();
+			var note = $("#note").val();
+			var uploadEventFile = $("#uploadEventFile").val();
+			if (bsId == '') {
+				alert("请输入路测基站的ID");
+			} else if (roadTime == '') {
+				alert("请输入路测时间");
+			} else if (uploadEventFile == '') {
+				alert("请选择excel,再上传");
+			} else if (uploadEventFile.lastIndexOf(".xls") < 0) {//可判断以.xls和.xlsx结尾的excel  
+				alert("只能上传Excel文件");
+			} else {
+				var url = "../../excel/upload?bsId=" + bsId + "&roadTime="
+						+ roadTime + "&note=" + note;
+				var formData = new FormData($('#batchUpload')[0]);
+				sendAjaxRequest(url, 'POST', formData);
+			}
+		};
+		var sendAjaxRequest = function(url, type, data) {
+			$.ajax({
+				url : url,
+				type : type,
+				data : data,
+				success : function(result) {
+					$('#upload').modal('hide');
+					toastr.success("添加路测信息成功", '提示');
+				},
+				error : function() {
+					alert("excel上传失败");
+				},
+				cache : false,
+				contentType : false,
+				processData : false
+			});
+		};
 	</script>
 </body>
 </html>

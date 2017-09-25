@@ -1,6 +1,7 @@
 package xh.mybatis.bean;
 
 public class ImpExcelBean {
+	private String bsId;
 	private String db;
 	private String lng;
 	private String lat;
@@ -50,14 +51,19 @@ public class ImpExcelBean {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	public String getBsId() {
+		return bsId;
+	}
+	public void setBsId(String bsId) {
+		this.bsId = bsId;
+	}
 	@Override
 	public String toString() {
-		return "ImpExcelBean [db=" + db + ", lng=" + lng + ", lat=" + lat
-				+ ", positionArea=" + positionArea + ", nPositionArea="
-				+ nPositionArea + ", ndb=" + ndb + ", time=" + time + "]";
+		return "ImpExcelBean [bsId=" + bsId + ", db=" + db + ", lng=" + lng
+				+ ", lat=" + lat + ", positionArea=" + positionArea
+				+ ", nPositionArea=" + nPositionArea + ", ndb=" + ndb
+				+ ", time=" + time + "]";
 	}
-	
-	
 	
 	
 }

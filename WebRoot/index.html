@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>角色管理</title>
+<title>GIS地图</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -53,10 +53,10 @@ html,body {
 }
 /* 右侧标签样式 */
 .nav_right {
-	width: 40px;
-	height: 220px;
+	width: 20px;
+	height: 110px;
 	position: fixed;
-	top: 36%;
+	top: 46%;
 	left: 0px;
 	background: rgba(176, 196, 222, 0.7);
 	text-align: center;
@@ -66,6 +66,10 @@ html,body {
 	display: block;
 	cursor: pointer;
 	z-index: 1000;
+	border-top-left-radius:0em;
+	border-top-right-radius:20em;
+	border-bottom-right-radius:20em;
+	border-bottom-left-radius:0em;
 }
 /* 右上角显示框样式 */
 .info_right {
@@ -87,7 +91,6 @@ html,body {
 	text-align: center;
 	background-color: white;
 	color: black;
-	overflow-x: hidden;
 }
 
 .info_one td,.info_one th,#tb-info,.info_two td,.info_two th,.info_three td,.info_three th
@@ -105,7 +108,6 @@ html,body {
 	text-align: center;
 	background-color: white;
 	color: black;
-	overflow-x: hidden;
 }
 
 /* 圈选按钮样式 */
@@ -176,19 +178,19 @@ html,body {
 					</tr> -->
 					<tr>
 						<td style="width:70%;">武侯二办</td>
-						<td style="width:30%;">145</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">双流城区1</td>
-						<td style="width:30%;">67</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">都江堰城区</td>
 						<td style="width:30%;">11</td>
 					</tr>
 					<tr>
-						<td style="width:70%;">成都市公安局</td>
+						<td style="width:70%;">双流城区1</td>
 						<td style="width:30%;">37</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">都江堰城区</td>
+						<td style="width:30%;">54</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">成都市公安局</td>
+						<td style="width:30%;">67</td>
 					</tr>
 					<tr>
 						<td style="width:70%;">政府三办</td>
@@ -210,9 +212,29 @@ html,body {
 			<table id="table2" class="xh-table table-hover"
 				style="padding:0;margin:0;">
 				<tbody>
-					<tr ng-repeat="x in top5Channel">
+					<!-- <tr ng-repeat="x in top5Channel">
 						<td style="width:70%;"><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
 						<td style="width:30%;">{{x.sum}}</td>
+					</tr> -->
+					<tr>
+						<td style="width:70%;">龙泉洪安镇</td>
+						<td style="width:30%;">16</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">彭州城区1</td>
+						<td style="width:30%;">25</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">郫县安德镇</td>
+						<td style="width:30%;">37</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">天府新区永兴镇</td>
+						<td style="width:30%;">68</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">省交警总队</td>
+						<td style="width:30%;">72</td>
 					</tr>
 				</tbody>
 			</table>
@@ -220,7 +242,7 @@ html,body {
 	</div>
 	<!-- 导航右侧标签 -->
 	<div class="nav_right">
-		地<br>图<br>菜<br>单
+		
 	</div>
 	<!-- 左侧导航 -->
 	<aside id="menu" class="menu"
@@ -501,7 +523,7 @@ html,body {
 							<div id="Current_voltage" style="height:180px;width:568px;"></div>
 						</div>
 						<div class="tab-pane fade" id="movie">
-							<video src="movie.ogg" controls="controls"></video>
+							<a href="http://192.168.5.253" target="_blank">点击查看</a>
 						</div>
 					</div>
 				</div>
@@ -520,7 +542,7 @@ html,body {
 			parseOnLoad : true,
 			packages : [ {
 				"name" : "src",
-				"location" : "/xhweb"
+				"location" : "/axis2"
 			} ]
 		};
 		/* location.pathname.replace(/\/[^/]+$/, '') */
@@ -533,7 +555,7 @@ html,body {
 		src="lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="echarts.source.js"></script>
 	<script src="http://125.70.9.194:801/3.15/init.js"></script>
-	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
+	
 	<!-- highcharts -->
 	<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
 	<script type="text/javascript" src="lib/highcharts/highcharts-more.js"></script>
@@ -541,7 +563,7 @@ html,body {
 		src="lib/highcharts/modules/exporting.js"></script>
 	<script type="text/javascript"
 		src="lib/highcharts/themes/grid-light.js"></script>
-	<script type="text/javascript" src="Resources/js/HighCharts.js"></script>
+	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
 	<script type="text/javascript">
 		$('#side-menu').metisMenu();
 		$('.nav_right').mouseover(function() {

@@ -247,21 +247,6 @@ public class BsstationService {
 		return bsStation;
 	}
 	/**
-	 * 根据选中的基站id查询对应的动环信息
-	 * @author wlk
-	 * @param bsId
-	 * @return
-	 * @throws Exception
-	 */
-	public List<HashMap<String, String>> selectAllEMHById(String bsId) throws Exception{
-		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.emh);
-		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
-		List<HashMap<String, String>> bsStation = mapper.selectAllEMHById(bsId);
-		session.commit();
-		session.close();
-		return bsStation;
-	}
-	/**
 	 * 查询首页话务量
 	 * @author wlk
 	 * @return

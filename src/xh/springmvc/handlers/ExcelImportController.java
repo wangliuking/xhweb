@@ -25,8 +25,9 @@ public class ExcelImportController {
 	    @RequestMapping(value="/upload",method = RequestMethod.POST)  
 	    @ResponseBody  
 	    public String upload(@RequestParam(value="file",required = false)MultipartFile file,HttpServletRequest request, HttpServletResponse response){
-	    	String time = request.getParameter("time");
-	        String result = excelService.readExcelFile(file,time);
+	    	String bsId = request.getParameter("bsId");
+	    	String roadTime = request.getParameter("roadTime");
+	        String result = excelService.readExcelFile(file,roadTime,bsId);
 	        /*response.setContentType("application/json;charset=utf-8");
 			String jsonstr = json.Encode(result);
 			try {
