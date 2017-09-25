@@ -116,7 +116,7 @@ public class QuitNetController {
 							  HttpServletResponse response) {
 		this.success = true;
 		String userName = request.getParameter("userName");
-		List<Integer> ids =  new ArrayList<>();
+		List<Integer> ids =  new ArrayList<Integer>();
 
 		ids = QuitNetService.selectquitNumber(userName);
 		String jsonstr = json.Encode(ids);

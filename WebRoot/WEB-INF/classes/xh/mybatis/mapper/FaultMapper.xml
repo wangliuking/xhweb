@@ -13,7 +13,7 @@
 		,DATE_FORMAT(u.time,'%Y-%m-%d') as time
 		from xhgmnet_business_fault as u where 1=1
 		<choose>
-			<when test="roleId &gt;10002 || roleId &lt;10000">
+			<when test="roleId &gt;10003 || roleId &lt;10000">
 				and u.userName=#{user}
 			</when>
 			<otherwise>
@@ -26,7 +26,7 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_fault where 1=1
 		<choose>
-			<when test="roleId &gt;10002 || roleId &lt;10000">
+			<when test="roleId &gt;10003 || roleId &lt;10000">
 			</when>
 			<otherwise>
 			</otherwise>
@@ -44,21 +44,48 @@
 		xhgmnet_business_fault(unit,person,tel,information,time,userName)
 		values(#{unit},#{person},#{tel},#{information},#{time},#{userName})
 	</insert>
-	<!--主管部门审核 -->
+	<!--管理方审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where id=#{id}
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked},
+		faultType=#{faultType} where id=#{id}
 	</update>
 	
-	<!--经办人确认 -->
+	<!--管理方上传-->
 	<update id="checkedTwo" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		user2=#{user2},time2=#{time2},note2=#{note2},checked=2 where id=#{id}
+		fileName_Request=#{fileName_Request},filePath_Request=#{filePath_Request},checked=#{checked}
+		where id=#{id}
 	</update>
-	
+
+	<!--服务提供方审核 -->
+	<update id="checkedThree" parameterType="xh.mybatis.bean.FaultBean">
+		update xhgmnet_business_fault set
+		user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--服务提供方上传 -->
+	<update id="checkedFour" parameterType="xh.mybatis.bean.FaultBean">
+		update xhgmnet_business_fault set
+		fileName_Finish=#{fileName_Finish},filePath_Finish=#{filePath_Finish},checked=#{checked} where
+		id=#{id}
+	</update>
+
+	<!--管理方审核 -->
+	<update id="checkedFive" parameterType="xh.mybatis.bean.FaultBean">
+		update xhgmnet_business_fault set
+		time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--管理方审核 -->
+	<update id="checkedSix" parameterType="xh.mybatis.bean.FaultBean">
+		update xhgmnet_business_fault set
+		time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+	</update>
+
 	<!--用户确认 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		note=#{note},checked=3 where id=#{id}
+		time=#{time},note=#{note},checked=#{checked} where id=#{id}
 	</update>
 </mapper>

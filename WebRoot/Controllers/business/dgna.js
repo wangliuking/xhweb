@@ -22,6 +22,7 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var runTag;
 xh.load = function() {
 	var app = angular.module("app", []);
 
@@ -30,6 +31,7 @@ xh.load = function() {
 		
 		$scope.data=[];
 		$scope.totals=0;
+		$scope.runTag=0;
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -128,15 +130,37 @@ xh.load = function() {
 			$scope.totals=$scope.data.length;	
 		};
 		$scope.start=function(){
-			var opreation=$("input[name='operation']:checked").val();
+			
 			var data=[];
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
 				return;
 			}
 			$.each($scope.data,function(i,record){
-				data.push(record.userId);
+				//data.push(record.userId);
+				
+				$scope.data[i].status="等待处理";
 			});
+			
+			
+			var timeout=setInterval(function(){
+				if(runTag<$scope.data.lenght){
+					run();
+					runTag++;
+					$scope.runTag=runTag;
+				}else{
+					clearInterval(timeout);
+					$scope.runTag=0;
+				}
+			}, 1000);
+			
+			
+		};
+		$scope.run=function(){
+			var opreation=$("input[name='operation']:checked").val();
+			var cou=$("input[name='cou']:checked").val();
+			var attached=$("input[name='attached']:checked").val();
+			$scope.data[runTag].status="处理中，请等待";
 			$.ajax({
 				url : '../../tools/dgna',
 				type : 'POST',
@@ -145,18 +169,17 @@ xh.load = function() {
 				async : true,
 				data:{
 					operation:opreation,
-					groupId:$("#groupId").val(),
-					data:data.join(",")
+					groupId:$scope.data[i].groupId,
+					userId:$scope.data[i].userId,
+					cou:cou,
+					attached:attached
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
-					}
+					
 				},
 				error : function() {
+					$scope.data[runTag].status="失败";
 				}
 			});
 		};
