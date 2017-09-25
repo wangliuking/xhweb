@@ -42,10 +42,17 @@ xh.load = function() {
 		$scope.showDiv=false;
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
+		//获取登录用户
+		$http.get("../../web/loginUserInfo").
+		success(function(response){
+			xh.maskHide();
+			$scope.loginUser = response.user;
+			$scope.loginUserRoleId = response.roleId;	
+		});
 		$scope.data_id=$location.search().data_id;
-		$scope.manager=$location.search().manager;
+		//$scope.manager=$location.search().manager;
 		$http.get("../../business/assetList?type="+type+"&name="+name+"" +
-				"&model="+model+"&serialNumber="+serialNumber+"&from=0" +
+				"&model="+model+"&serialNumber="+serialNumber+"&from=0" + "&status=4"+
 				"&status=0&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
@@ -74,12 +81,21 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 		/*刷新order记录*/
-		$scope.refreshOrder = function(page) {
+		$scope.refreshOrder = function() {
 			$http.get("../../business/lend/lendInfoList?lendId="+$scope.data_id).
 			success(function(response){
 				xh.maskHide();
 				$scope.dataLend = response.items;
 				$scope.lendTotals = response.totals;
+				xh.pagging(page, parseInt($scope.totals), $scope);
+			});
+			$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+					"&model="+model+"&serialNumber="+serialNumber+"&from=0" + "&status=4"+
+					"&status=0&start=0&limit="+pageSize).
+			success(function(response){
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
 			});
 		};
 
@@ -93,7 +109,7 @@ xh.load = function() {
 				async : false,
 				data:{
 					 lendId:$scope.delData.lendId,
-					 serialNumber:$scope.delData.serialNumber
+					 serialNumber:$scope.delData.serialNumber,
 				},
 				success : function(data) {
 					if (data.result === 1) {
@@ -211,21 +227,21 @@ xh.addOrder= function() {
 	});
 };
 
-/*提交至领导审核租借清单*/
-xh.check2 = function() {
+/*将设备清单通知用户办理租借*/
+xh.checkSend = function() {
 	var $scope = angular.element(appElement).scope();
 	if($scope.lendTotals<1){
 		toastr.error("清单中还没有数据 ，请添加后再提交", '提示');
 		return;
 	}
 	$.ajax({
-		url : '../../business/lend/checkedTwo',
+		url : '../../business/lend/checkedSend',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
 			lendId:$scope.data_id,
-			manager:$scope.manager
+			loginUser:$scope.loginUser
 		},
 		success : function(data) {
 
