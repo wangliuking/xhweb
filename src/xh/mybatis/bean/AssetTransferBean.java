@@ -8,6 +8,7 @@ public class AssetTransferBean {
 	private String serialNumber;
 	private String price;
 	private String user;
+	private String note;
 	private String createTime;
 	
 	private int statusCount;
@@ -54,6 +55,12 @@ public class AssetTransferBean {
 	public void setUser(String user) {
 		this.user = user;
 	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -70,7 +77,7 @@ public class AssetTransferBean {
 	public String toString() {
 		return "AssetTransferBean [id=" + id + ", type=" + type + ", name=" + name
 				+ ", model=" + model + ", serialNumber=" + serialNumber
-				+ ", price=" + price + ", user=" + user + ", createTime="
+				+ ", price=" + price + ", user=" + user + ", note=" + note + ", createTime="
 				+ createTime + ", statusCount=" + statusCount + "]";
 	}
 	

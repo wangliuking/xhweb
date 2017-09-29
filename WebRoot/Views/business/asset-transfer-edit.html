@@ -11,6 +11,7 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="updateForm" onSubmit="return false">
+				<input type="hidden" name="note" id="updateForm_note" />
 					<div class="row">
 						<div class="col-md-4" ng-hide="true">
 							<div class="form-group col-md-12">
@@ -71,7 +72,7 @@
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>用户</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="user"
+									id="user" type="text" value="" class="form-control" name="user"
 									ng-model="editData.user">
 							</div>
 						</div>
