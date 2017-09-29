@@ -1,67 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.QuitNetMapper">
-    <!-- redis缓存  LRU FIFO-->
-    <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"
-     type="xh.mybatis.tools.MybatisRedisCache"/> -->
-    <!--    <cache eviction="FIFO" flushInterval="600000" size="1024"
-            readOnly="true" />  -->
-    <!--查询退网申请所有记录 -->
-    <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
-    >
-        select u.*
-        ,DATE_FORMAT(u.quitTime,'%Y-%m-%d') as quitTime
-        from xhgmnet_business_quitnet as u where 1=1
-        <choose>
-            <when test="roleId &gt;10002 || roleId &lt;10000">
-                and u.userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
-        order by id desc limit #{start},#{limit}
-    </select>
-    <!--查询退网申请所有记录总数 -->
-    <select id="dataCount" parameterType="map" resultType="int" useCache="true">
-        select count(id) from xhgmnet_business_quitnet where 1=1
-        <choose>
-            <when test="roleId &gt;10002 || roleId &lt;10000">
-                and userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
-    </select>
-    <!--查询退网申请进度 -->
-    <select id="applyProgress" parameterType="int" resultType="map"
-            useCache="true">
+  <!-- redis缓存  LRU FIFO-->
+   <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"  
+    type="xh.mybatis.tools.MybatisRedisCache"/> -->
+<!--    <cache eviction="FIFO" flushInterval="600000" size="1024"  
+        readOnly="true" />  -->
+	<!--查询退网申请所有记录 -->
+	<select id="selectAll" parameterType="map" resultType="java.util.HashMap"
+		>
+		select u.*
+		,DATE_FORMAT(u.quitTime,'%Y-%m-%d') as quitTime
+		from xhgmnet_business_quitnet as u where 1=1
+		<choose>
+			<when test="roleId &gt;10002 || roleId &lt;10000">
+				and u.userName=#{user}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+		order by id desc limit #{start},#{limit}
+	</select>
+	<!--查询退网申请所有记录总数 -->
+	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
+		select count(id) from xhgmnet_business_quitnet where 1=1
+		<choose>
+			<when test="roleId &gt;10002 || roleId &lt;10000">
+				and userName=#{user}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<!--查询退网申请进度 -->
+	<select id="applyProgress" parameterType="int" resultType="map"
+		useCache="true">
 		select * from xhgmnet_business_quitnet where id=#{id}
 	</select>
-
-    <!--查询终端号-->
-    <select id="selectquitNumber" parameterType="String" resultType="list"
-            useCache="true">
-      select id from xhgmnet_business_net where userName = #{userName};
-	</select>
-
-    <!--退网申请 -->
-    <insert id="quitNet" useGeneratedKeys="true" keyProperty="id"
-            parameterType="xh.mybatis.bean.QuitNetBean">
+	<!--退网申请 -->
+	<insert id="quitNet" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.QuitNetBean">
 		insert into
-		xhgmnet_business_quitnet(quitName,quitTime,quitType,quitModal,quitReason,quitPerson,quitNumber,tel,userName)
-		values(#{quitName},#{quitTime},#{quitType},#{quitModal},#{quitReason},#{quitPerson},#{quitNumber},#{tel},#{userName})
+		xhgmnet_business_quitnet(quitName,quitTime,quitType,quitReason,quitPerson,quitNumber,tel,userName)
+		values(#{quitName},#{quitTime},#{quitType},#{quitReason},#{quitPerson},#{quitNumber},#{tel},#{userName})
 	</insert>
-
-    <!--主管部门审核 -->
-    <update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
-		update xhgmnet_business_quitnet set
-		quit=#{quit},note1=#{note1} where id=#{id}
+	<!--主管部门审核 -->
+	<update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
+		update xhgmnet_business_net set
+		quit=#{quit} where
+		id=#{id}
 	</update>
-
-    <!--用户确认 -->
-    <update id="sureFile" parameterType="xh.mybatis.bean.QuitNetBean">
+	
+	<!--用户确认 -->
+	<update id="sureFile" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_quitnet set
-		note=#{note},quit=#{quit} where id=#{id}
+		quit=#{quit} where id=#{id}
 	</update>
 
 </mapper>

@@ -15,7 +15,7 @@ public class GpsService {
 	 * @return
 	 */
 	public static List<HashMap<String,String>> gpsInfo(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
 		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
@@ -36,7 +36,7 @@ public class GpsService {
 	 * @throws Exception
 	 */
 	public static int gpsCount(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		GpsMapper mapper = sqlSession.getMapper(GpsMapper.class);
 		int count = 0;
 		try {

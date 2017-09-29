@@ -15,8 +15,8 @@
 		,DATE_FORMAT(u.serviceTime,'%Y-%m-%d') as servicetime
 		from xhgmnet_business_net as u where 1=1
 		<choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-				and u.userName=#{user} and checked!=99
+			<when test="roleId &gt;10002 || roleId &lt;10000">
+				and u.userName=#{user} and checked!=7
 			</when>
 			<otherwise>
 			</otherwise>
@@ -28,7 +28,7 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_net where 1=1
 		<choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
+			<when test="roleId &gt;10002 || roleId &lt;10000">
 				and userName=#{user}
 			</when>
 			<otherwise>
@@ -45,14 +45,14 @@
 		parameterType="xh.mybatis.bean.JoinNetBean">
 		insert into
 		xhgmnet_business_net(unitName,unitNature,unitType,serviceType,netBasis,netTime,pactName,
-		signTime,serviceTime,unitPerson,tel,department,virtualnetName,userName,time,checked)
+		signTime,serviceTime,unitPerson,tel,department,virtualnetName,userName,time)
 		values(#{unitName},#{unitNature},#{unitType},#{serviceType},#{netBasis},#{netTime},#{pactName},
-		#{signTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{virtualnetName},#{userName},#{time},#{checked})
+		#{signTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{virtualnetName},#{userName},#{time})
 	</insert>
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		user1=#{user1},user2=#{user2},time1=#{time1},note1=#{note1},checked=#{checked} where
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--管理方审核 -->
@@ -69,17 +69,12 @@
 	</update>
 	<!--上传公函 -->
 	<update id="uploadFileGh" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH},checked=#{checked} where
+		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH} where
 		id=#{id}
 	</update>
 	<!--上传通知函 -->
 	<update id="uploadFileNote" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked} where
-		id=#{id}
-	</update>
-	<!--上传合同 -->
-	<update id="uploadFileHT" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_HT=#{fileNameHT},filePath_HT=#{filePathHT},checked=#{checked} where
+		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote} where
 		id=#{id}
 	</update>
 	<!--生成模板 -->
@@ -90,34 +85,12 @@
 	<!--审核编组方案 -->
 	<update id="checkFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		time4=#{time4},note4=#{note4},note5=#{note5},checked=#{checked} where id=#{id}
+		time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
 	</update>
 	<!--用户确认编组方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		time5=#{time5},checked=#{checked},note5=#{note5} where id=#{id}
-	</update>
-	<!--审核样机入网送检申请（合同附件） -->
-	<update id="sureHT" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set
-		time6=#{time6},checked=#{checked},note6=#{note6} where id=#{id}
-	</update>
-	<!--上传采购设备信息 -->
-	<update id="uploadFileCG" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_CG=#{fileNameCG},filePath_CG=#{filePathCG},checked=8 where
-		id=#{id}
-	</update>
-	<!--更新流程 -->
-	<update id="updateCheckById" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set checked=#{checked} where id=#{id}
-	</update>
-	<!--有线-主管部门审核 -->
-	<update id="YXcheckedOne" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set checked=#{checked},time2=#{time2},note2=#{note2} where id=#{id}
-	</update>
-	<!--有线-应用接入 -->
-	<update id="applicationAccess" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
+		time5=#{time5},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--退网-->

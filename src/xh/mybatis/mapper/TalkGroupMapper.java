@@ -15,14 +15,6 @@ public interface TalkGroupMapper {
 	public List<HashMap<String,String>> ById(Map<String,Object> map)throws Exception;
 	
 	/**
-	 * 根据ID查找组名
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	public String GroupNameById(int id)throws Exception;
-	
-	/**
 	 * 总数
 	 * @return
 	 * @throws Exception
