@@ -29,6 +29,11 @@
     <result column="iaName" property="ianame" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
+  <!-- 根据通话组ID查找名称 -->
+  <select id="GroupNameById" parameterType="int" resultType="String"
+		useCache="true">
+		select E_name from xhgmnet_talkgroup where TalkgroupID=#{id} limit 1
+  </select>
   <select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
 		select * from xhgmnet_talkgroup where 1=1
