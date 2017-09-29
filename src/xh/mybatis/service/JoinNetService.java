@@ -120,16 +120,142 @@ public class JoinNetService {
 		return result;
 	}
 	/**
-	 * 上传公函或通知函
+	 * 上传公函
 	 * @param bean
 	 * @return
 	 */
-	public static int uploadFileGhorNote(JoinNetBean bean){
+	public static int uploadFileGh(JoinNetBean bean){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
 		int result=0;
 		try {
-			result=mapper.uploadFileGhorNote(bean);
+			result=mapper.uploadFileGh(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传通知函
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileNote(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileNote(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传合同
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileHT(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileHT(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传doc
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileDoc(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileDoc(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传CG
+	 * @param bean
+	 * @return
+	 */
+	public static int uploadFileCG(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.uploadFileCG(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 上传CG
+	 * @param bean
+	 * @return
+	 */
+	public static int updateCheckById(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateCheckById(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 有线-主管部门审核
+	 * @param bean
+	 * @return
+	 */
+	public static int YXcheckedOne(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.YXcheckedOne(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 有线-应用接入 
+	 * @param bean
+	 * @return
+	 */
+	public static int applicationAccess(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.applicationAccess(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -184,6 +310,24 @@ public class JoinNetService {
 		int result=0;
 		try {
 			result=mapper.sureFile(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 审核样机入网送检申请（合同附件）
+	 * @param bean
+	 * @return
+	 */
+	public static int sureHT(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.sureHT(bean);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -17,12 +17,21 @@
 							</div>
 						</div>
 					</div>
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>quitNumber</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="quitNumber"
+									required="required" ng-model="checkData.quitNumber">
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="quit">
-									<option value="1" selected="selected">审核通过</option>
+									<option value="1" selected="selected">通过</option>
 									<option value="-1">拒绝</option>
 								</select>
 							</div>
@@ -80,7 +89,6 @@
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
 							</div>
-							
 						</div>
 					</div>
 					<div class="row">
@@ -88,7 +96,7 @@
 							<div class="form-group col-md-12">
 								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="quit">
-									<option value="1" selected="selected">通过</option>
+									<option value="2" selected="selected">通过</option>
 									<option value="0">拒绝</option>
 								</select>
 							</div>
@@ -148,7 +156,7 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.check1();
+		xh.check2();
 	});	
 </script>
 <script>

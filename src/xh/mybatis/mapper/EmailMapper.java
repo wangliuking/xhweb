@@ -27,7 +27,7 @@ public interface EmailMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int emailCount()throws Exception;
+	public int emailCount(Map<String, Object> map)throws Exception;
 	/**
 	 * 未读邮件总数
 	 * @param map

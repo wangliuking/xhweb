@@ -70,6 +70,7 @@ public class CommunicationSupportController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", CommunicationSupportService.selectAll(map));
+		
 		result.put("totals", CommunicationSupportService.dataCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -99,7 +100,6 @@ public class CommunicationSupportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -113,7 +113,6 @@ public class CommunicationSupportController {
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
-		
 		CommunicationSupportBean bean = GsonUtil.json2Object(jsonData, CommunicationSupportBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
@@ -166,7 +165,11 @@ public class CommunicationSupportController {
 		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
-		bean.setChecked(checked);
+		if(checked == 1){
+			bean.setChecked(checked);
+		}else if(checked == -1){
+			bean.setChecked(checked);
+		}
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
@@ -204,7 +207,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 经办人审核
+	 * 管理方向用户单位发送通信保障需求确认消息（该请求消息可包含上传附件的功能）
 	 * 
 	 * @param request
 	 * @param response
@@ -214,18 +217,17 @@ public class CommunicationSupportController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		String note2 = request.getParameter("note2");
 		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName1(fileName);
+		bean.setFilePath1(path);
 		bean.setId(id);
 		bean.setChecked(2);
-		bean.setUser2(funUtil.loginUser(request));
-		bean.setTime2(funUtil.nowDate());
-		bean.setNote2(note2);
-		
 		int rst = CommunicationSupportService.checkedTwo(bean);
 		if (rst == 1) {
-			this.message = "通知经办人处理成功";
+			this.message = "确认信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
@@ -251,26 +253,31 @@ public class CommunicationSupportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	/**
-	 * 用户确认
+	/**用户单位核准该消息
+	 *
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/sureFile", method = RequestMethod.POST)
-	public void sureFile(HttpServletRequest request,
-			HttpServletResponse response) {
+	@RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
+	public void checkedThree(HttpServletRequest request,
+							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		String note = request.getParameter("note");
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note2 = request.getParameter("note2");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
-		bean.setId(id);	
+		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		bean.setChecked(3);
-		bean.setNote(note);
-		int rst = CommunicationSupportService.sureFile(bean);
+		if(checked == 3){
+			bean.setChecked(3);
+		}else if(checked == 1){
+			bean.setChecked(1);
+		}
+		bean.setTime2(funUtil.nowDate());
+		bean.setNote2(note2);
+		int rst = CommunicationSupportService.checkedThree(bean);
 		if (rst == 1) {
 			this.message = "确认成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -278,7 +285,7 @@ public class CommunicationSupportController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("确认，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-			
+
 			//----发送通知邮件
 			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
 			//----END
@@ -298,7 +305,704 @@ public class CommunicationSupportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
+	/**
+	 * 管理方根据通信保障类型发送消息通知服务提供方(该请求消息可包含上传附件的功能)
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
+	public void checkedFour(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName2(fileName);
+		bean.setFilePath2(path);
+		bean.setId(id);
+		bean.setChecked(4);
+		int rst = CommunicationSupportService.checkedFour(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *服务提供方审核信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
+	public void checkedFive(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note3 = request.getParameter("note3");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 5){
+			bean.setChecked(5);
+		}else if(checked == 3) {
+			bean.setChecked(3);
+		}
+		bean.setTime3(funUtil.nowDate());
+		bean.setNote3(note3);
+		int rst = CommunicationSupportService.checkedFive(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 服务提供方发送审核请求消息给管理方(该请求消息可包含上传附件的功能)
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
+	public void checkedSix(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName3(fileName);
+		bean.setFilePath3(path);
+		bean.setId(id);
+		bean.setChecked(6);
+		int rst = CommunicationSupportService.checkedSix(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedSeven", method = RequestMethod.POST)
+	public void checkedSeven(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note4 = request.getParameter("note4");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 7) {
+			bean.setChecked(7);
+		}else if(checked == 5){
+			bean.setChecked(5);
+		}
+		bean.setTime4(funUtil.nowDate());
+		bean.setNote4(note4);
+		int rst = CommunicationSupportService.checkedSeven(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 管理方上传
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedEight", method = RequestMethod.POST)
+	public void checkedEight(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName4(fileName);
+		bean.setFilePath4(path);
+		bean.setId(id);
+		bean.setChecked(8);
+		int rst = CommunicationSupportService.checkedEight(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedNine", method = RequestMethod.POST)
+	public void checkedNine(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note5 = request.getParameter("note5");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 9 ){
+			bean.setChecked(9);
+		}else if(checked == 7) {
+			bean.setChecked(7);
+		}
+		bean.setTime5(funUtil.nowDate());
+		bean.setNote5(note5);
+		int rst = CommunicationSupportService.checkedNine(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 管理方上传
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedTen", method = RequestMethod.POST)
+	public void checkedTen(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName5(fileName);
+		bean.setFilePath5(path);
+		bean.setId(id);
+		bean.setChecked(10);
+		int rst = CommunicationSupportService.checkedTen(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedEvelen", method = RequestMethod.POST)
+	public void checkedEvelen(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note6 = request.getParameter("note6");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 11){
+			bean.setChecked(11);
+		}else if(checked == 9){
+			bean.setChecked(9);
+		}
+		bean.setTime6(funUtil.nowDate());
+		bean.setNote6(note6);
+		int rst = CommunicationSupportService.checkedEvelen(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 管理方上传
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedTwelve", method = RequestMethod.POST)
+	public void checkedTwelve(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName6(fileName);
+		bean.setFilePath6(path);
+		bean.setId(id);
+		bean.setChecked(12);
+		int rst = CommunicationSupportService.checkedTwelve(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedThirteen", method = RequestMethod.POST)
+	public void checkedThirteen(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note7 = request.getParameter("note7");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 13){
+			bean.setChecked(13);
+		}else if(checked == 11){
+			bean.setChecked(11);
+		}
+		bean.setTime7(funUtil.nowDate());
+		bean.setNote7(note7);
+		int rst = CommunicationSupportService.checkedThirteen(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 管理方上传
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedFourteen", method = RequestMethod.POST)
+	public void checkedFourteen(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		String fileName = request.getParameter("fileName");
+		String path = request.getParameter("path");
+		bean.setFileName7(fileName);
+		bean.setFilePath7(path);
+		bean.setId(id);
+		bean.setChecked(14);
+		int rst = CommunicationSupportService.checkedFourteen(bean);
+		if (rst == 1) {
+			this.message = "确认信息发送成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "保障申请信息审核。。。", request);
+			//----END
+		} else {
+			this.message = "通知经办人处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedFifteen", method = RequestMethod.POST)
+	public void checkedFifteen(HttpServletRequest request,
+							 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String note8 = request.getParameter("note8");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		if(checked == 15) {
+			bean.setChecked(15);
+		}else if(checked == 13){
+			bean.setChecked(13);
+		}
+		bean.setTime8(funUtil.nowDate());
+		bean.setNote8(note8);
+		int rst = CommunicationSupportService.checkedFifteen(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 用户确认
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/sureFile", method = RequestMethod.POST)
+	public void sureFile(HttpServletRequest request,
+						 HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note = request.getParameter("note");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		//bean.setTime5(funUtil.nowDate());
+		bean.setChecked(16);
+		bean.setTime(funUtil.nowDate());
+		bean.setNote(note);
+		int rst = CommunicationSupportService.sureFile(bean);
+		if (rst == 1) {
+			this.message = "确认成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("确认，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			//sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			//----END
+		} else {
+			this.message = "确认失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 上传文件
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void upload(@RequestParam("filePath") MultipartFile file,
+					   HttpServletRequest request,HttpServletResponse response) {
+		String path = request.getSession().getServletContext()
+				.getRealPath("")+"/Resources/upload";
+		String fileName = file.getOriginalFilename();
+		//String fileName = new Date().getTime()+".jpg";
+		log.info("path==>"+path);
+		log.info("fileName==>"+fileName);
+		File targetFile = new File(path, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success=true;
+			this.message="文件上传成功";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.message="文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", fileName);
+		result.put("filePath", path+"/"+fileName);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 下载文件

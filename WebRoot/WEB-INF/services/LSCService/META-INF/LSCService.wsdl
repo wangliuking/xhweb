@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://LSCService.chinamobile.com" xmlns:impl="http://LSCService.chinamobile.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:intf="http://LSCService.chinamobile.com" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">
+  <wsdl:message name="invokeResponse">
+    <wsdl:part name="invokeReturn" type="SOAP-ENC:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invokeRequest">
+    <wsdl:part name="xmlData" type="SOAP-ENC:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LSCService">
+    <wsdl:operation name="invoke" parameterOrder="xmlData">
+      <wsdl:input name="invokeRequest" message="impl:invokeRequest">
+    </wsdl:input>
+      <wsdl:output name="invokeResponse" message="impl:invokeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LSCServiceSoapBinding" type="impl:LSCService">
+    <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="invoke">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="invokeRequest">
+        <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://LSCService.chinamobile.com"/>
+      </wsdl:input>
+      <wsdl:output name="invokeResponse">
+        <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://LSCService.chinamobile.com"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LSCService">
+    <wsdl:port name="LSCService" binding="impl:LSCServiceSoapBinding">
+      <wsdlsoap:address location="http://127.0.0.1:8080/services/LSCService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

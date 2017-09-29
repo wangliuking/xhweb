@@ -1,7 +1,102 @@
 <!-- 管理方审核-->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<span>审核租用申请</span>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="tab-content" style="padding: 20px">
+					<div class="tab-pane fade in active text-danger" id="info">
+						<div class="row" ng-show="false">
+							<div class="col-md-12">
+								<div class="form-group col-md-12">
+									<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" class="form-control" name="idSH"
+										required="required" ng-model="checkData.id">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" value="" class="form-control"
+										ng-model="checkData.unit" required="required"
+										disabled="disabled">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" value="" class="form-control"
+										ng-model="checkData.name" required="required"
+										disabled="disabled">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" value="" class="form-control"
+										ng-model="checkData.tel" required="required"
+										disabled="disabled">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" value="" class="form-control"
+										ng-model="checkData.backTime" required="required"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+										disabled="disabled">
+								</div>
+							</div>
+							<div class="col-md-8">
+								<div class="form-group col-md-12">
+									<label>使用区域</label><input type="text" value=""
+										class="form-control" ng-model="checkData.zone"
+										disabled="disabled">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group col-md-12">
+									<label>租借原因</label>
+									<textarea rows="3" cols="6" class="form-control"
+										ng-model="checkData.reason" disabled="disabled"></textarea>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group col-md-12">
+									<label>备注</label>
+									<textarea rows="3" cols="6" class="form-control"
+										ng-model="checkData.note" disabled="disabled"></textarea>
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					data-dismiss="modal" id="check_btn1">
+					<i class="fa fa-plus"></i>&nbsp;选择租赁设备
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header"></div>
@@ -35,7 +130,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- row-------end -->
+					row-------end
 					<div class="row" ng-show="ch==1?true:false">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
@@ -58,73 +153,87 @@
 				</button>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
-<!-- 管理部门领导审核租借清单-->
+<!-- 用户审核租借清单-->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog ">
 		<div class="modal-content">
 			<div class="color-line"></div>
-			<div class="modal-header "></div>
+			<div class="modal-header ">
+				<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user">
+						<i class="fa fa-remove"></i>&nbsp;批量归还设备
+				</button>
+				<button type="button"
+						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1">
+						<i class="fa fa-remove"></i>&nbsp;批量确认归还设备
+				</button>
+			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				<div>
-					<span>用户租借设备清单</span>
-				</div>
-				<table id="tb-info" class="xh-table table-hover">
-					<thead>
-						<tr class="tr-gray">
-							<th>设备类别</th>
-							<th>名称</th>
-							<th>型号</th>
-							<th>序列号</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="lendTotals==0">
-							<td colspan="4" class="text-center">租借清单为空，请前往添加</td>
-						</tr>
-						<tr ng-repeat="x in dataLend">
-							<td>{{x.type}}</td>
-							<td>{{x.name}}</td>
-							<td>{{x.model}}</td>
-							<td>{{x.serialNumber}}</td>
-						</tr>
-					</tbody>
-				</table>
 				<form action="#" id="checkForm3" onSubmit="return false">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>备注</label>
-								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
-							</div>
-						</div>
+					<div>
+						<span>用户租借设备清单</span>
 					</div>
-					<!-- row-------end -->
+					<table id="tb-info" class="xh-table table-hover">
+						<thead>
+							<tr class="tr-gray">
+								<th width="30px"><input type="checkbox"
+									id="table-checkbox" class="table-check" ng-model="selectAll" ng-click="all(selectAll)"/></th>
+								<th>设备类别</th>
+								<th>名称</th>
+								<th>型号</th>
+								<th>序列号</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="lendTotals==0">
+								<td colspan="4" class="text-center">租借清单为空，请前往添加</td>
+							</tr>
+							<tr ng-repeat="x in dataLend">
+								<td><input type="checkbox" name="tb-check"
+										value="{{x.serialNumber}}" index="{{$index}}" ng-if="x.status==1 || (x.status==3 && loginUser==checkData.user1)"
+										ng-checked="selectAll" ng-model="dataItem.state"/></td>
+								<td>{{x.type}}</td>
+								<td>{{x.name}}</td>
+								<td>{{x.model}}</td>
+								<td>{{x.serialNumber}}</td>
+								<td ng-if="x.status==0">已归还</td>
+								<td ng-if="x.status==1">在借</td>
+								<td ng-if="x.status==2">等待验收</td>
+								<td ng-if="x.status==3">归还审核中</td>
+								<td><a ng-if="x.status==2 && loginUser==checkData.user" href="#"
+										ng-click="checkSuccess($index,1)"><i
+										class="fa fa-check text-success"></i>验收 </a>
+									<a ng-if="x.status==1 && loginUser==checkData.user" href="#"
+										ng-click="checkSuccess($index,3)"><i
+										class="fa fa-check text-success"></i>归还设备</a>
+									<a ng-if="x.status==3 && loginUser==checkData.user1" href="#"
+										ng-click="checkSuccess($index,0)"><i
+										class="fa fa-check text-success"></i>确认归还设备</a>
+									<a ng-if="x.status==0" href="#">#</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger btn-sm"
-						data-dismiss="modal">
-						<i class="fa fa-remove"></i>&nbsp;关闭
-					</button>
-					<button type="button" ng-disabled="form.$invalid"
-						class="btn btn-success btn-sm" id="check_btn3_ok">
-						<i class="fa fa-plus"></i>&nbsp;同意
-					</button>
-					<button type="button" class="btn btn-danger btn-sm"
-						id="check_btn3_no">
-						<i class="fa fa-remove"></i>&nbsp;拒绝
-					</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 /*归还设备清单*/
-<div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
+<!-- <div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog ">
 		<div class="modal-content">
@@ -165,7 +274,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<!-- row-------end -->
+					row-------end
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -182,39 +291,62 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
+<script>
+	function clk_check_btn3(){
+		var checkIds = '';
+		$("input[name='tb-check']:checked").each(function() {
+			checkIds += $(this).val() + ","
+		});
+		checkIds = checkIds.substring(0, checkIds.length - 1);
+		xh.check5(checkIds,3);
+	}
+	function clk_check_btn4(){
+		var checkIds = '';
+		$("input[name='tb-check']:checked").each(function() {
+			checkIds += $(this).val() + ","
+		});
+		checkIds = checkIds.substring(0, checkIds.length - 1);
+		xh.check5(checkIds,0);
+	}
+	
+</script>
+
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
-		$('#checkForm1').submit();
+		//$('#checkForm1').submit();
+		var id = $("input[name='idSH']").val();
+		xh.check1(id);
 	});
-	$("#check_btn3_ok").click(function() {
-		xh.check3(3);
-	});
-	$("#check_btn3_no").click(function() {
-		xh.check3(1);
-	});
-	$("#check_btn5").click(function() {
+	
+	/* $("#check_btn3").click(function() {
+		alert(123);
 		var checkIds = '';
 		$("input[name='tb-check']:checked").each(function() {
 			checkIds += $(this).val() + ","
 		});
 		checkIds = checkIds.substring(0, checkIds.length - 1);
 		xh.check5(checkIds);
-	});
-	var faIcon = {
-		valid : 'fa fa-check-circle fa-lg text-success',
-		invalid : 'fa fa-times-circle fa-lg',
-		validating : 'fa fa-refresh'
-	};
+	}); */
+	
+	/* $("#check_btn4").click(function() {
+		alert(123);
+		var checkIds = '';
+		$("input[name='tb-check']:checked").each(function() {
+			checkIds += $(this).val() + ","
+		});
+		checkIds = checkIds.substring(0, checkIds.length - 1);
+		xh.check5(checkIds,0);
+	}); */
 	//主管部门审核提交
-	$('#checkForm1').bootstrapValidator({
-		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
-		fields : {}
-	}).on('success.form.bv', function(e, data) {
-		e.preventDefault();
-		xh.check1();
-	});
+	//$('#checkForm1').bootstrapValidator({
+	//	excluded : [ ':disabled' ],
+	//	/* feedbackIcons: faIcon, */
+	//	fields : {}
+	//}).on('success.form.bv', function(e, data) {
+	//	e.preventDefault();
+	//	xh.check1();
+	//});
 </script>
 <script>
 	$(function() {

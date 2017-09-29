@@ -102,7 +102,7 @@ public class FaultService {
 		return result;
 	}
 	/**
-	 * 经办人审核
+	 *
 	 * @param bean
 	 * @return
 	 */
@@ -119,7 +119,80 @@ public class FaultService {
 		}
 		return result;
 	}
-	
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedThree(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedThree(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 管理方入库信息
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFour(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFour(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedFive(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedFive(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * @param bean
+	 * @return
+	 */
+	public static int checkedSix(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedSix(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	/**
 	 * 用户确认
 	 * @param bean

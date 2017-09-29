@@ -1,4 +1,4 @@
-$(function () {
+function highChart() {
 	
 	//温度计
     $('#temperature').highcharts({
@@ -380,4 +380,4 @@ $(function () {
     });
     
     
-});
+}

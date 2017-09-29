@@ -26,14 +26,21 @@
 									required="required" onfocus="WdatePicker()">
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>退网形式</label>&nbsp;<span class="text-danger">[*]</span> <select
 									name="quitType" class="form-control">
 									<option value="整体退网" selected="selected">整体退网</option>
 									<option value="部分终端退网">部分终端退网</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>退网类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="quitModal" class="form-control">
+									<option value="有限退网" selected="selected">有限退网</option>
+									<option value="无线退网">无线退网</option>
 								</select>
 							</div>
 						</div>
@@ -52,18 +59,9 @@
 								<label>退网终端号码</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="quitNumber"
 									required="required">
+									<option id="add" type="checkbox" ng-model="quitNumber">{{quitNumber.id}}</option>		
 							</div>
 						</div>
-						<!-- <div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="serviceTime"
-									onfocus="WdatePicker()" required="required">
-							</div>
-						</div> -->
-					</div>
-					<!-- row-------end -->
-					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
@@ -78,41 +76,13 @@
 									required="required">
 							</div>
 						</div>
-						<!-- <div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>联系部门</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="department"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" value="" class="form-control"
-									name="virtualnetName" required="required">
-							</div>
-						</div> -->
+					
 					</div>
-					<!-- row-------end -->
-					<!-- <div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>服务类型</label>&nbsp;<span class="text-danger">[*]</span> 
-									<a href="#" data-toggle="tooltip" data-placement="top"
-									title="无线接入：包括手持终端、车载终端等无线接入设备;有线接入：包括调度台、二次开发应用等接入设备"><i
-									class="fa fa-question-circle"></i> </a> <select name="serviceType"
-									class="form-control">
-									<option value="无线接入" selected="selected">无线接入</option>
-									<option value="有线接入">有线接入</option>
-								</select>
-							</div>
-						</div>
-					</div> -->
 					<!--row-------end -->
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>退网审核人</label>&nbsp;<span class="text-danger">[*]</span>
+								<label>退网申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
 								<select class="form-control" name="user_MainManager" ng-model="user_M">
 									<option ng-repeat="x in userData_MainManager"
 										value="{{x.user}}">{{x.userName}}</option>
@@ -141,7 +111,10 @@
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
 	});
-
+	// $("#add").click(function(){
+	// 	alert(quitNumber);
+	// });
+	
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',

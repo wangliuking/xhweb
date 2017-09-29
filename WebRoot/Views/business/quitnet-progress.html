@@ -31,13 +31,18 @@
 										name="netTime" required="required">
 								</div>
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>退网形式</label> <input type="text"
 										ng-model="editData.quitType" class="form-control"
 										name="virtualnetName" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>退网类型</label> <input type="text"
+										ng-model="editData.quitModal" class="form-control"
+										name="serviceType" required="required">
 								</div>
 							</div>
 						</div>
@@ -57,9 +62,6 @@
 										name="servicetime" required="required">
 								</div>
 							</div>
-						</div>
-						<!-- row-------end -->
-						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>联系人</label><input type="text"
@@ -71,16 +73,6 @@
 								<div class="form-group col-md-12">
 									<label>联系电话</label> <input type="text" ng-model="editData.tel"
 										class="form-control" name="tel" required="required">
-								</div>
-							</div>
-						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>服务类型</label> <input type="text"
-										ng-model="editData.serviceType" class="form-control"
-										name="serviceType" required="required">
 								</div>
 							</div>
 						</div>
@@ -114,18 +106,18 @@
 									</div>
 								</div>
 							</div> -->
-							<div class="cd-timeline-block" ng-if="progressData.checked!=-1">
+							<div class="cd-timeline-block" ng-if="progressData.quit!=-1">
 								<div class="cd-timeline-block">
 									<div class="cd-timeline-img cd-gray"
-										ng-if="progressData.checked<5"></div>
+										ng-if="progressData.quit<=0"></div>
 									<div class="cd-timeline-img cd-green"
-										ng-if="progressData.checked==5"></div>
+										ng-if="progressData.quit>0"></div>
 									<div class="cd-timeline-content">
-										<h2>主管部门审核</h2>
+										<h2>管理方审核</h2>
 										<p>
 											<span>备注：</span><span>{{progressData.note1}}</span>
 										</p>
-										<span ng-if="progressData.checked==0"
+										<span ng-if="progressData.checked<=0"
 											class="cd-date text-danger">等待审核！</span> <span
 											ng-if="progressData.checked>0"
 											class="cd-date text-success font-bold text-x">已经审核;
@@ -171,49 +163,29 @@
 								<!-- cd-timeline-block end-->
 								<div class="cd-timeline-block">
 									<div class="cd-timeline-img cd-gray"
-										ng-if="progressData.checked<3"></div>
+										ng-if="progressData.quit<=1"></div>
 									<div class="cd-timeline-img cd-green"
-										ng-if="progressData.checked>=3"></div>
+										ng-if="progressData.quit>1"></div>
 									<div class="cd-timeline-content">
-										<h2>管理方领导审核编组方案</h2>
+										<h2>用户确认</h2>
 										<p>
 											<span>备注：</span><span>备注内容</span>
 										</p>
-										<span ng-if="progressData.checked<3"
-											class="cd-date text-danger">等待管理方领导审核编组方案！</span> <span
-											ng-if="progressData.checked>=3"
-											class="cd-date text-success font-bold">编组方案已审核完成，等待用户确认;
-											时间：{{progressData.time2}}</span>
+										<span ng-if="progressData.checked<=1"
+											class="cd-date text-danger">等待用户确认</span> <span
+											ng-if="progressData.checked>1"
+											class="cd-date text-success font-bold">用户已确认;
+											时间：{{progressData.time}}</span>
 									</div>
 								</div>
 								<!-- cd-timeline-block end-->
-								<div class="cd-timeline-block">
-									<div class="cd-timeline-img cd-gray"
-										ng-if="progressData.checked<4"></div>
-									<div class="cd-timeline-img cd-green"
-										ng-if="progressData.checked>=4"></div>
-									<div class="cd-timeline-content">
-										<h2>用户确认编组方案是否可行</h2>
-										<a ng-if="progressData.checked>=4" href="#" title="点击下载文件"
-											onclick="xh.download()" style="color: red">{{progressData.fileName}}</a>
-										<p>
-											<span>备注：</span><span>备注内容</span>
-										</p>
-										<span ng-if="progressData.checked<4"
-											class="cd-date text-danger">等待确认编组方案</span> <span
-											ng-if="progressData.checked>=4"
-											class="cd-date text-success font-bold">编组方案已经确认;
-											时间：{{progressData.time2}}
-										</span>
-									</div>
-								</div>
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.checked<5">结束</div>
+									ng-if="progressData.checked<=2">结束</div>
 								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.checked>=5">结束</div>
+									ng-if="progressData.checked>2">结束</div>
 							</div>
 						</div>
 					</div>

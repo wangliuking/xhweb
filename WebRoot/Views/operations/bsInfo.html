@@ -7,8 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="pragma" content="no-cache"> 
-<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
@@ -45,7 +45,7 @@
 				<div class="panel-body">
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
-						    
+
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><span>资源配置</span></li>
@@ -56,10 +56,15 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
-			<!-- row -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
 						<div class="panel-body">
 							<div id="search-div">
 								<form class="form-inline" role="form">
@@ -85,27 +90,44 @@
 											</button>
 										</div>
 									</div>
-									
-									<div class="btn-group pull-right" style="padding-top:22px;">
-					
-									
-									<button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
-										<i class="fa fa-plus-circle"></i>&nbsp;添加基站
-									</button>
-									<button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改基站
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除基站
-									</button>
-									<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
-								</div>
+
+
 								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<!-- <div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div> -->
+							基站列表
+						</div>
+						<div class="panel-body">
+							<div class="btn-group pull-left" style="padding-bottom:5px;">
+
+
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#add" ng-disabled="">
+									<i class="fa fa-plus-circle"></i>&nbsp;添加基站
+								</button>
+								<button class="btn btn-info btn-sm" ng-disabled=""
+									ng-click="showEditModel()">
+									<i class="fa fa-edit"></i>&nbsp;修改基站
+								</button>
+								<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+									ng-disabled="">
+									<i class="fa fa-trash"></i>&nbsp;批量删除基站
+								</button>
+								<button class="btn btn-warning btn-sm" ng-click="refresh()">
+									<i class="fa fa-refresh"></i>&nbsp;刷新
+								</button>
 							</div>
 							<!-- row -->
 							<!-- 	<div class="row">
@@ -158,7 +180,8 @@
 										<td>{{x.lng}}</td>
 										<td>{{x.lat}}</td>
 										<td>{{x.height}}</td>
-										<td ng-if="x.openen==1" class="td-success"><span style="color:#fff">已经启用</span></td>
+										<td ng-if="x.openen==1" class="td-success"><span
+											style="color:#fff">已经启用</span></td>
 										<td ng-if="x.openen==0" class="td-gray">未启用</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
@@ -206,7 +229,8 @@
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../Controllers/operations/bsInfo.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsInfo.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

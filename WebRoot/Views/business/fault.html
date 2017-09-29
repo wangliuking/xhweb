@@ -46,7 +46,7 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span>业务管理</span></li>
+							<li><span><a href="fault.html">业务管理</a></span></li>
 							<li class="active"><span>故障申报</span></li>
 						</ol>
 					</div>
@@ -61,10 +61,14 @@
 						<div class="panel-body" style="padding-top:5px">
 							<!-- row -->
 							<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
-										<i class="fa fa-plus-circle"></i>&nbsp;故障申报
+								<div class="col-md-12" ng-model="loginUserRoleId">
+									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
+									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#quit"  ng-if="loginUserRoleId > 10000 || loginUserRoleId < 1000" disabled="disabled">
+										<i class="fa fa-plus-circle"></i>&nbsp;故障申请
+									</button>
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#quit"  ng-if="loginUserRoleId == 10000 || loginUserRoleId == 1000">
+										<i class="fa fa-plus-circle"></i>&nbsp;故障申请
 									</button>
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
 										data-target="#add" ng-disabled="">
@@ -120,11 +124,16 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.information}}</td>
 										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-gray">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-danger">等待审核</td>
-										<td ng-if="x.checked==1" class="td-danger">经办人处理中</td>
-										<td ng-if="x.checked==2" class="td-danger">等待用户确认</td>
-										<td ng-if="x.checked==3" class="td-warning">确认通过，故障处理完成</td>
+										<td ng-if="x.checked==-2" class="td-danger">用户拒绝</td>
+										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
+										<td ng-if="x.checked==0" class="td-warning">等待管理方审核</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方上传故障请求信息</td>
+										<td ng-if="x.checked==2" class="td-warning">等待亚光审核</td>
+										<td ng-if="x.checked==3" class="td-warning">等待亚光维修故障</td>
+										<td ng-if="x.checked==4" class="td-warning">等待管理方审核故障完成信息</td>
+										<td ng-if="x.checked==5" class="td-warning">等待管理方记录故障完成信息</td>
+										<td ng-if="x.checked==6" class="td-warning">等待用户回访确认</td>
+										<td ng-if="x.checked==7" class="td-success">流程结束</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -132,16 +141,23 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
 										</a> 
 
-										<a ng-if="loginUserRoleId==10001 && x.checked==0 "
+										<a ng-if="loginUserRoleId==10002 && x.checked==0
+												||loginUserRoleId==10003 && x.checked==2
+												||loginUserRoleId==10002 && x.checked==4"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
-										<a ng-if="		
-										loginUserRoleId==10002 && x.checked==1"
+											
+										<a ng-if="loginUserRoleId==10002 && x.checked==1
+												||loginUserRoleId==10003 && x.checked==3"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
+
+										<a ng-if="	loginUserRoleId==10002 && x.checked==5"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
 										
 										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
+											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==6"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
 

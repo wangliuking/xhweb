@@ -117,11 +117,6 @@
 	 select * from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
-	<!-- 根据基站id查询对应动环信息 wlk -->
-	<select id="selectAllEMHById" resultType="java.util.HashMap" useCache="true">
-	 select * from emh_server as a,emh_sensor as b where a.id = b.sid and a.code=#{bsId} order by b.dev_name
-	</select>
-	
 	<!-- 首页话务量查询 -->
 	<select id="selectCalllist" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
 	 select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a 
@@ -139,6 +134,19 @@
 	<!-- 首页路测数据查询 -->
 	<select id="selectRoadTest" resultType="java.util.HashMap" useCache="true">
 		select * from xhgmnet_road_test01
+	</select>
+	
+	<!--区域圈选查询 -->
+	<select id="rectangle" parameterType="map" resultType="xh.mybatis.bean.BsstationBean"
+		useCache="true">
+		select * from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat} 
+		order by bsId asc limit #{start},#{limit}
+	</select>
+	<!--根据基站ID，名称查找基站记录总数 -->
+	<select id="rectangleCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat} 
+		order by bsId asc limit #{start},#{limit}
 	</select>
 
 </mapper>
