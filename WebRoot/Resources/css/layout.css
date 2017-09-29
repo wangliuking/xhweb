@@ -13,14 +13,14 @@
 }
 /* 网页头部 #428bca*/
 #header {
-	background-image:url("../images/img/main3.jpg");
-	background-color: #1874CD;
+	background-image:url("../images/img/ocean.jpg");
+/* 	background-color: #1874CD; */
 	display: block;
-	height: 70px;
+	height: 60px;
 	margin: 0;
 	padding: 0;
 	position: relative;
-	border-bottom: 1px solid #e4e5e7;
+	border-bottom: 0px solid #e4e5e7;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2)
 }
 
@@ -31,6 +31,7 @@
 
 #nav-top {
 	background-color: #fff;
+	
 	display: block;
 	height: 30px;
 	margin: 0;
@@ -85,9 +86,10 @@
 }
 
 #logo .small-logo .title {
+	font-family:sans-serif;
 	padding-top: 5px;
 	font-weight:bold;
-	font-size: 23pt;
+	font-size: 18pt;
 	color: #ffffff;
 }
 /* 网页中间内容体 wrapper */
@@ -305,7 +307,7 @@ iframe {
 	width: 100%;
 	position: fixed;
 	z-index: 100;
-	top: 71px;
+	top: 61px;
 }
 
 .fixed-sidebar #menu {
@@ -313,12 +315,12 @@ iframe {
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 190px;
-	top: 100px;
+	top: 90px;
 }
 
 .fixed-small-header .small-header {
 	position: fixed;
-	top: 100px;
+	top: 90px;
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
@@ -334,17 +336,17 @@ iframe {
 }
 
 .fixed-navbar #wrapper {
-	top: 100px;
+	top: 90px;
 }
 
 .fixed-wrapper #wrapper {
-	top: 100px;
+	top: 90px;
 	margin-left: 0px;
 }
 
 .fixed-wrapper .small-header {
 	position: fixed;
-	top: 100px;
+	top: 90px;
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;

@@ -40,7 +40,10 @@ html,body {
 }
 
 body {
+	/* background-color: #ecf0f5; #0064B3;#2B6474*/
+	/* background: #0064B3; */
 	background-color: #ecf0f5;
+	background-image:url("../images/img/ocean.jpg");
 	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial,
 		sans-serif;
 	font-size: 13px;
@@ -689,6 +692,11 @@ li.divider {
 	background:#ccc;
 }
 /* Panels */
+/* .col-md{
+	background:green;
+	margin:0;
+	padding:0;
+} */
 .hpanel>.panel-title {
 	color: #000;
 	/* font-weight: 400; */
