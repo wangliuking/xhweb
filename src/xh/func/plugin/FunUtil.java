@@ -178,7 +178,7 @@ public class FunUtil {
 	}
 
 	// 读取xml文档
-	public String readXml(String str1, String str2) {
+	public static String readXml(String str1, String str2) {
 		String fileName = xmlPath();
 		String value = "";
 		try {
@@ -204,7 +204,7 @@ public class FunUtil {
 
 	}
 	//更新xml配置文件
-	public void updateXML(String str1, String str2, String value)
+	public  static void updateXML(String str1, String str2, String value)
 			throws Exception {
 
 		String filename = xmlPath();

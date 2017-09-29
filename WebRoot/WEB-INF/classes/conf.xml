@@ -24,5 +24,9 @@
   <ip>125.69.77.63</ip>
   <port>6080</port>
 </ca>
+<ucm>
+<ip>127.0.0.1</ip>
+<port>20000</port>
+</ucm>
 
 </config>
