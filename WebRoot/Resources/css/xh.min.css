@@ -680,7 +680,7 @@ li.divider {
 	bottom:0px;
 	position: absolute;
 	background: #fafafa;
-	top:100px;
+	top:80px;
 	
 }
 .row-title {
@@ -2352,8 +2352,8 @@ bs-status-right .headering {
 }
 
 .phote-img {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	margin: 0;
 }
 /* 审核进度 */

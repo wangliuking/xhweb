@@ -16,7 +16,7 @@
 	background-image:url("../images/img/ocean.jpg");
 /* 	background-color: #1874CD; */
 	display: block;
-	height: 60px;
+	height: 50px;
 	margin: 0;
 	padding: 0;
 	position: relative;
@@ -307,7 +307,7 @@ iframe {
 	width: 100%;
 	position: fixed;
 	z-index: 100;
-	top: 61px;
+	top: 50px;
 }
 
 .fixed-sidebar #menu {
@@ -315,12 +315,12 @@ iframe {
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 190px;
-	top: 90px;
+	top: 80px;
 }
 
 .fixed-small-header .small-header {
 	position: fixed;
-	top: 90px;
+	top: 80px;
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
@@ -336,17 +336,17 @@ iframe {
 }
 
 .fixed-navbar #wrapper {
-	top: 90px;
+	top: 80px;
 }
 
 .fixed-wrapper #wrapper {
-	top: 90px;
+	top: 80px;
 	margin-left: 0px;
 }
 
 .fixed-wrapper .small-header {
 	position: fixed;
-	top: 90px;
+	top: 80px;
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;
