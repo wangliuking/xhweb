@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>故障申报</title>
+<title>网络优化</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -46,8 +46,8 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="fault.html">业务管理</a></span></li>
-							<li class="active"><span>故障申报</span></li>
+							<li><span><a href="optimizenet.html">业务管理</a></span></li>
+							<li class="active"><span>网络优化</span></li>
 						</ol>
 					</div>
 				</div>
@@ -64,11 +64,11 @@
 								<div class="col-md-12" ng-model="loginUserRoleId">
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
 									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 || loginUserRoleId < 1000" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;故障申请
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10003 || loginUserRoleId < 10002" disabled="disabled">
+										<i class="fa fa-plus-circle"></i>&nbsp;网络优化
 									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10000 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;故障申请
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10003 || loginUserRoleId == 10002">
+										<i class="fa fa-plus-circle"></i>&nbsp;网络优化
 									</button>
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
 										data-target="#add" ng-disabled="">
@@ -105,10 +105,10 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>用户单位</th>
-										<th>联系人</th>
-										<th>联系方式</th>
-										<th>故障信息</th>
+										<th>管理单位</th>
+										<th>管理人</th>
+										<th>请求内容</th>
+										<!-- <th></th> -->
 										<th width="180px">申请时间</th>
 										<th width="160px">状态</th>
 										<th width="100px">操作详情</th>
@@ -119,21 +119,19 @@
 										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.unit}}</td>
-										<td>{{x.person}}</td>
-										<td>{{x.tel}}</td>
-										<td>{{x.information}}</td>
-										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-2" class="td-danger">用户拒绝</td>
+										<td>{{x.userNature}}</td>
+										<td>{{x.userUnit}}</td>
+										<td>网络优化</td>
+										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方上传故障请求信息</td>
-										<td ng-if="x.checked==2" class="td-warning">等待亚光审核</td>
-										<td ng-if="x.checked==3" class="td-warning">等待亚光维修故障</td>
-										<td ng-if="x.checked==4" class="td-warning">等待管理方审核故障完成信息</td>
-										<td ng-if="x.checked==5" class="td-warning">等待管理方记录故障完成信息</td>
-										<td ng-if="x.checked==6" class="td-warning">等待用户回访确认</td>
-										<td ng-if="x.checked==7" class="td-success">流程结束</td>
+										<td ng-if="x.checked==0" class="td-warning">等待服务提供方审核</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方上传网络优化任务消息</td>
+										<td ng-if="x.checked==2" class="td-warning">等待服务提供方审核网络优化任务消息</td>
+										<td ng-if="x.checked==3" class="td-warning">等待服务提供方上传方案审核消息</td>
+										<td ng-if="x.checked==4" class="td-warning">等待管理方审核方案审核消息/td>
+										<td ng-if="x.checked==5" class="td-warning">等待服务提供方上传总结审核消息</td>
+										<td ng-if="x.checked==6" class="td-warning">等待管理方审核总结审核消息</td>
+										<td ng-if="x.checked==7" class="td-success">审核通过，流程结束</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -141,25 +139,18 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
 										</a> 
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==0
+										<a ng-if="loginUserRoleId==10003 && x.checked==0
 												||loginUserRoleId==10003 && x.checked==2
-												||loginUserRoleId==10002 && x.checked==4"
+												||loginUserRoleId==10002 && x.checked==4
+												||loginUserRoleId==10002 && x.checked==6"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
 										<a ng-if="loginUserRoleId==10002 && x.checked==1
-												||loginUserRoleId==10003 && x.checked==3"
+												||loginUserRoleId==10003 && x.checked==3
+												||loginUserRoleId==10003 && x.checked==5"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
-
-										<a ng-if="	loginUserRoleId==10002 && x.checked==5"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
-										
-										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==6"
-											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
 
 										</td>
 									</tr>
@@ -203,18 +194,18 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加 -->
-	<div ng-include="'fault-add.html'"></div>
+	<div ng-include="'optimizenet-add.html'"></div>
 	<!-- 进度-->
-	<div ng-include="'fault-progress.html'"></div>
+	<div ng-include="'optimizenet-progress.html'"></div>
 	<!-- 审核-->
-	<div ng-include="'fault-check.html'"></div>
+	<div ng-include="'optimizenet-check.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/fault.js"></script>
+	<script type="text/javascript" src="../../Controllers/business/optimizenet.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>
