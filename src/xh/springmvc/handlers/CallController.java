@@ -67,7 +67,7 @@ public class CallController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/Resources/audio");
+		String path = request.getSession().getServletContext().getRealPath("/wav");
 		String fileName=request.getParameter("fileName");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
