@@ -36,7 +36,9 @@ body {
 } */
 html,body {
 	min-width: 290px;
-	-ms-overflow-style: scrollbar
+	-ms-overflow-style: scrollbar,
+	margin:0;
+	padding:0;
 }
 
 body {
@@ -680,7 +682,7 @@ li.divider {
 	bottom:0px;
 	position: absolute;
 	background: #fafafa;
-	top:80px;
+	top:0px;
 	
 }
 .row-title {
