@@ -12,14 +12,15 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="../../lib/layer-master/src/theme/layer.css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="xhcontroller"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="color-line"></div>
@@ -34,10 +35,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
+	
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -192,7 +190,7 @@
 										<option value="40">40</option>
 										<option value="50">50</option>
 									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+								 		ng-model="lastIndex">{{lastIndex}}条,</span> <span
 										ng-model="totals">总计{{totals}}条</span>
 								</div>
 								<div class="page-paging"></div>
@@ -213,8 +211,6 @@
 		</div>
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -233,6 +229,8 @@
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/communicationsupport.js"></script>
+	<script type="text/javascript"
+		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>
