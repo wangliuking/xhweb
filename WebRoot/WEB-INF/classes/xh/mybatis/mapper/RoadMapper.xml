@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.RoadMapper">
+
+	<!--根据路测基站ID，名称查找记录 -->
+	<select id="roadInfo" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select * from xhgmnet_road_test01 where 1=1
+		<if test="positionArea!=null and positionArea!=''">
+			and positionArea like concat(#{positionArea},'%')
+		</if>
+		order by positionArea asc limit #{start},#{limit}
+	</select>
+	<!--根据路测基站ID，名称查找总数 -->
+	<select id="roadCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_road_test01 where 1=1
+		<if test="positionArea!=null and positionArea!=''">
+			and positionArea like concat(#{positionArea},'%')
+		</if>
+	</select>
+
+</mapper>

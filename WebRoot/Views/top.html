@@ -2,9 +2,11 @@
 <div id="header" role="navigation" class="header-style">
 	<div id="logo">
 		<ul class="small-logo">
-			<li><img alt="" src="../../Resources/images/img/log.png"
-				height="50px" width="50px"></li>
-			<li class="title"><span>综合应用与管理平台</span></li>
+			<li><img alt="" src="Resources/images/img/log.png"
+				height="40px" width="40px"></li>
+			<li class="title"><span>综合应用与管理平台</span> 
+			
+			</li>
 			<!-- <li style="margin-top:10px;color:#fff;cursor: pointer;" class="menu-hide"><i class="fa fa-bars fa-2x"></i></li> -->
 		</ul>
 	</div>
@@ -12,7 +14,7 @@
 		<div class="font-white">
 			<ul class="navbar-right">
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					href="../../Views/operations/email.html" target="_self"><i
+					href="Views/operations/email.html" target="mainframe"><i
 						class="fa fa-envelope-o fa-x font-white" style="font-size:15pt"></i>
 						<span class="badge badge-header badge-danger" id="emailcount">0</span>
 				</a></li>
@@ -29,19 +31,23 @@
 								class="fa fa-bell-slash-o"></i>解除声音</a></li>
 
 					</ul>
+				
+				
 				<li class="member-center">
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
-							src="../../Resources/images/img/profile.jpg"
+							src="Resources/images/img/profile.jpg"
 							class="img-circle phote-img" alt="logo"> <!-- <i class=" fa fa-user fa-x"></i><small class="text-white">个人中心 <b class="caret"></b></small> -->
 						</a>
 						<ul class="dropdown-menu animated flipInX m-t-xs border-top-white">
-							<li><a href="../../Views/operations/email.html"><i
+						<li style="color:red;margin-bottom:40px;"><span>欢迎你!</span>&nbsp;&nbsp;<span
+				            id="login-user" name="AS"></span></li>
+							<li><a href="Views/operations/email.html" target="mainframe"><i
 									class="fa fa-envelope-o fa-x"></i>&nbsp;&nbsp;邮件</a></li>
-							<li><a href="../../Views/web/updateMember.html"><i
+							<li><a href="Views/web/updateMember.html" target="mainframe"><i
 									class="fa fa-edit fa-x"></i>&nbsp;&nbsp;修改个人资料</a></li>
 							<li class="divider"></li>
-							<li><a href="../../web/loginOut"><i
+							<li><a href="web/loginOut"><i
 									class="fa fa-hand-pointer-o fa-x"></i>&nbsp;&nbsp;退出登录</a></li>
 						</ul>
 					</div>
@@ -50,50 +56,17 @@
 		</div>
 	</nav>
 </div>
-<!-- <div class="color-line"></div> -->
-<div id="nav-top">
-	<nav role="navigation">
-		<ul class="navbar-left">
-			<li class="hide-menu" style="margin-right:72px;">功能菜单&nbsp;<i
-				class="fa fa-bars"></i></li>
-			<li
-				ng-class="{true: 'header-active', false: 'inactive'}[mapMenu]"><a
-				href="../../index.html" target="_self"><i
-					class="fa fa-map-o"></i>&nbsp;|GIS地图</a></li>
-			
-			<li
-				ng-class="{true: 'header-active', false: 'inactive'}[operationMenu]"><a
-				href="../operations/bsInfo.html" target="_self"><i
-					class="fa fa-wrench"></i>&nbsp;|运维管理</a></li>
-			<li
-				ng-class="{true: 'header-active', false: 'inactive'}[businessMenu]"><a
-				href="../business/asset-info.html" target="_self"><i
-					class="fa fa-suitcase"></i>&nbsp;|业务管理</a></li>
-			<li
-				ng-class="{true: 'header-active', false: 'inactive'}[securityMenu]"><a
-				href="../web/user.html" target="_self"><i class="fa fa-lock"></i>&nbsp;|平台管理</a></li>
-		</ul>
-		<ul class="navbar-bottom-right">
-			<li style="color:#d15b47"><span>欢迎你!</span>&nbsp;&nbsp;<span
-				id="login-user" name="AS"></span></li>
-			<!-- <li><a href="#" data-toggle="modal" data-target="#update_member"
-				onclick="xh.user()"><i class="fa fa-edit"></i>&nbsp;|修改个人资料</a></li>
-			<li><a href="../../web/loginOut"><i
-					class="fa fa-hand-o-left"></i>&nbsp;|退出系统</a></li> -->
-		</ul>
-	</nav>
-</div>
 
 <audio id="bgMusic" loop="loop">
-	<source src="../../Resources/sound/alarm.mp3" type="audio/mp3">
-	<source src="../../Resources/sound/alarm.ogg" type="audio/ogg">
+	<source src="Resources/sound/alarm.mp3" type="audio/mp3">
+	<source src="Resources/sound/alarm.ogg" type="audio/ogg">
 </audio>
 <script type="text/javascript">
 	var user = "";
 	var roleId = 0;
 	/* 登录用户信息 */
 	$.ajax({
-		url : '../../web/loginUserInfo',
+		url : 'web/loginUserInfo',
 		type : 'post',
 		dataType : "json",
 		data : {},
@@ -117,7 +90,7 @@
 	});
 	/* 	邮件 */
 	$.ajax({
-		url : '../../center/email/noReadEmailCount',
+		url : 'center/email/noReadEmailCount',
 		type : 'GET',
 		dataType : "json",
 		data : {},
@@ -133,7 +106,7 @@
 	/*基站告警信息*/
 	$
 			.ajax({
-				url : '../../bs/alarmList',
+				url : 'bs/alarmList',
 				type : 'GET',
 				dataType : "json",
 				data : {},

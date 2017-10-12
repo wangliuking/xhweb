@@ -1,5 +1,6 @@
 package xh.springmvc.handlers;
 
+import net.sf.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,6 +35,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.google.gson.Gson;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -573,8 +576,9 @@ public class BusinessController {
         bean.setCreateTime(funUtil.nowDate());
 		log.info("data==>"+bean.toString());
 		int rlt=BusinessService.insertAssetTransfer(bean);
+		int rlt_1=BusinessService.updateAssetTransfer2(bean);
 		System.out.println("<---------------->"+bean.toString());
-		if (rlt==1) {
+		if (rlt==1&&rlt_1==1) {
 			this.message="添加资产移交成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));

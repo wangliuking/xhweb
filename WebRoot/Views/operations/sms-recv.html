@@ -26,7 +26,7 @@
 </style>
 </head>
 <body ng-app="app" ng-controller="sms-recv"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="color-line"></div>
@@ -41,10 +41,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/monitor-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -53,35 +49,41 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span>运维管理</span></li>
-							<li><span>数据报表</span></li>
-							<li class="active"><span>800M短信</span></li>
+							<li><span>业务管理</span></li>
+							<li><span>数据管理</span></li>
+							<li><span>业务数据</span></li>
+							<li class="active"><span>收件箱</span></li>
 						</ol>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="content animate-panel">
-			<!-- row -->
+				<!-- row -->
 			<div class="row">
 				<!-- 左侧菜单 -->
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-							<div class="panel-tools">
+							<!-- <div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
-							</div>
+							</div> -->
 							<i class="fa fa-reorder"></i> 菜单列表
 						</div>
 						<div class="panel-body">
 							<ul class="mailbox-list">
-								<li class="active" style="margin-bottom:10px;"><a href="#"><i
-										class="fa fa-envelope text-warning"></i>收件箱</a></li>
+								<li class="active" style="margin-bottom:10px;"><a href="audio.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>全网录音</a></li>
 
-								<li><a href="../../Views/operations/sms-send.html"><i
-										class="fa fa-paper-plane text-danger"></i>发件箱</a></li>
-								<hr>
+								<li><a href="../../Views/operations/sms-recv.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>收件箱</a></li>
+								<li><a href="../../Views/operations/sms-send.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>发件箱</a></li>
+								<li><a href="../../Views/operations/gps.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>GPS数据</a></li>
+								<li><a href="../../Views/operations/userstatus.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>终端状态</a></li>
 							</ul>
 						</div>
 
@@ -222,8 +224,6 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
