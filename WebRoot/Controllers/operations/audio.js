@@ -84,7 +84,7 @@ xh.load = function() {
 					div.innerHTML = '';
 				}, 5000);
 			}*/
-		}
+		};
 
 		// 分页点击
 		$scope.pageClick = function(page) {
