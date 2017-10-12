@@ -1,6 +1,5 @@
 package xh.mybatis.service;
 
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.OptimizeNetBean;
 import xh.mybatis.bean.OptimizeNetDropBean;

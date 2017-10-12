@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>发送短信</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="../../lib/layer-master/src/theme/layer.css">
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li><span>数据管理</span></li>
+							<li><span>业务数据</span></li>
+							<li class="active"><span>发送短信</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+
+			<!-- row -->
+			<div class="row">
+				<!-- 左侧菜单 -->
+				<div class="col-md-2">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<!-- <div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div> -->
+							<i class="fa fa-reorder"></i> 菜单列表
+						</div>
+						<div class="panel-body">
+							<ul class="mailbox-list">
+								<li class="active"><a
+									href="../../Views/operations/sendsms.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>短信发送</a></li>
+								<li><a href="audio.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>全网录音</a></li>
+
+								<li><a href="../../Views/operations/sms-recv.html"
+									target="_self"><i class="fa fa-sitemap text-success"></i>收件箱</a></li>
+								<li><a href="../../Views/operations/sms-send.html"
+									target="_self"><i class="fa fa-sitemap text-success"></i>发件箱</a></li>
+								<li><a href="../../Views/operations/gps.html"
+									target="_self"><i class="fa fa-sitemap text-success"></i>GPS数据</a></li>
+								<li><a href="../../Views/operations/userstatus.html"
+									target="_self"><i class="fa fa-sitemap text-success"></i>终端状态</a></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-md-10">
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+									</div>
+									<i class="fa fa-envelope-o"></i> 短信编辑框
+								</div>
+								<div class="panel-body">
+
+									<form action="#" class="form-inline" role="form" id="smsform" onSubmit="return false">
+										<div class="row">
+											<div class="col-md-3">
+												<div class="input-group">
+													<span class="input-group-addon">调度台ID</span> <input
+														type="number" required="required" class="form-control" placeholder="调度台ID"
+														name="srcId" value="8000695">
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="input-group">
+													<span class="input-group-addon">短信接收ID</span> <input
+														type="number" required="required" class="form-control" placeholder="短信接收ID"
+														name="dstId">
+												</div>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:20px;">
+											<div class="col-md-12">
+												<span class="">发送方式</span>
+												<div class="radio radio-info radio-inline">
+													<input type="radio" id="inlineRadio1" value="0"
+														name="type" checked=""> <label
+														for="inlineRadio1">单发</label>
+												</div>
+												<div class="radio radio-inline">
+													<input type="radio" id="inlineRadio2" value="1"
+														name="type"> <label for="inlineRadio2">
+														组发 </label>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="form-group">
+
+												<div class="col-md-12">
+													<div class="form-group">
+														<label for="content">短信内容</label>
+														<textarea required="required" id="content" class="form-control" rows="5"
+															cols="60" name="content" maxlength="70"
+															placeholder="最多可以输入70个中文">
+													
+													</textarea>
+
+
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row" style="margin-top:20px;">
+											<div class="col-md-6"></div>
+											<div class="col-md-6">
+												<button class="btn btn-sm btn-danger" id="send">发送短信</button>
+											</div>
+										</div>
+
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+
+
+	<!-- 告警详情 -->
+	<div ng-include="'audio-play.html'"></div>
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/sendsms.js"></script>
+	<script type="text/javascript"
+		src="../../lib/layer-master/src/layer.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+	<script type="text/javascript">
+	$("#send").click(function() {
+		$('#smsform').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#smsform').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			dstId : {
+				validators : {
+					notEmpty : {
+						message : '发送ID号不能为空'
+					}
+				}
+			}
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.sendsms();
+	});
+</script>
+</body>
+</html>

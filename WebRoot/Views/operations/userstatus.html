@@ -64,7 +64,10 @@
 						</div>
 						<div class="panel-body">
 							<ul class="mailbox-list">
-								<li style="margin-bottom:10px;"><a href="audio.html" target="_self"><i
+							<li><a
+									href="../../Views/operations/sendsms.html" target="_self"><i
+										class="fa fa-sitemap text-success"></i>短信发送</a></li>
+								<li><a href="audio.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>全网录音</a></li>
 
 								<li><a href="../../Views/operations/sms-recv.html" target="_self"><i
@@ -106,9 +109,9 @@
 										<label for="called">在线状态</label>
 										<div>
 											<select id="regStatus" class="form-control">
-												<option value="0" selected="selected">=不限制=</option>
+												<option value="-1" selected="selected">=不限制=</option>
 												<option value="1">在线</option>
-												<option value="2">离线</option>
+												<option value="0">离线</option>
 											</select>
 										</div>
 									</div>
@@ -156,7 +159,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="6" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{$index+1}}</td>
