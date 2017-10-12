@@ -42,7 +42,6 @@ xh.load = function() {
 	app.controller("xhcontroller",function($scope, $http, $location) {
 		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
-		$scope.businessMenu = true; // 菜单变色
 
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -62,7 +61,7 @@ xh.load = function() {
 		});
 
 		/* 获取主管部门领导列表 */
-		$http.get("../../web/user/getUserList?roleId=10001").success(
+		$http.get("../../web/user/getUserList?roleId=10002").success(
 			function(response) {
 				$scope.userData_MainManager = response.items;
 				$scope.userTotals_MainManager = response.totals;
