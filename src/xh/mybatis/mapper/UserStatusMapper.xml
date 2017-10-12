@@ -8,7 +8,7 @@
      <if test="userId !=null and userId !=''">
          and a.userId=#{userId}
      </if>
-     <if test="regStatus!=0">
+     <if test="regStatus!=-1">
          and a.regStatus=#{regStatus}
      </if>
      order by a.userId asc limit #{start},#{limit}
@@ -19,7 +19,7 @@
      <if test="userId !=null and userId !=''">
          and userId=#{userId}
      </if>
-     <if test="regStatus!=0">
+     <if test="regStatus!=-1">
          and regStatus=#{regStatus}
      </if>
     </select> 

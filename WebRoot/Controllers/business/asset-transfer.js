@@ -181,7 +181,6 @@ xh.load = function() {
 };
 /* 添加移交 */
 xh.add = function() {
-//	alert(xh.serializeJson($("#addForm").serializeArray()));
 	$.ajax({
 		url : '../../business/insertAssetTransfer',
 		type : 'POST',
@@ -209,13 +208,16 @@ xh.add = function() {
 };
 /* 修改 */
 xh.update = function() {
+	var result={};
+	var note1="移交资产给用户"+$("#user").val();
+	$("#updateForm_note").val(note1);
 	$.ajax({
 		url : '../../business/updateAssetTransfer',
 		type : 'POST',
 		dataType : "json",
 		async : false,
 		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
+			formData:xh.serializeJson($("#updateForm").serializeArray()), //将表单序列化为JSON对象
 		},
 		success : function(data) {
 			if (data.result === 1) {

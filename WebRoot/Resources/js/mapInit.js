@@ -280,7 +280,8 @@ function floor(data) {
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	
 	test = new
-	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer");//动态服务
+	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/regions/MapServer");//动态服务
+	//http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find
 	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
@@ -751,9 +752,15 @@ function init(data,markData) {
 					} else if (data.status == 2) {
 						$('#status').val("未启用");
 					}
-
+					
+					$('#temp_0').val(0.0);
+					$('#temp_1').val(1.0);
+					$('#temp_2').val(0.0);
+					$('#temp_3').val(1.0);
+					highChart(data);
 				}
 			});
+			//gosuncn1
 			/*$.ajax({
 				type : "GET",
 				url : "gonsuncn/oneBsEmh?bsId=" + params.value,
@@ -761,9 +768,12 @@ function init(data,markData) {
 				success : function(dataById) {
 					// 动环数据展示
 					var data = dataById.items;
-					//console.log(data[0]["017001"]);
-					//$('#temp_0').val(data[0][]);
-
+					$('#temp_0').val(data[2]["017001"]);
+					$('#temp_1').val(data[3]["017002"]);
+					$('#temp_2').val(data[4]["017004"]);
+					$('#temp_3').val(data[5]["017020"]);
+					highChart(data);
+					$("#movie").load("http://192.168.5.253/doc/page/simplepreview.asp"+" #movie"); 
 				}
 			});*/
 		});
@@ -783,10 +793,10 @@ function init(data,markData) {
                         var res;
                         res = '基站ID：'+params["2"]+
                         '<br/>'+'基站名称：'+params["1"]+
-                        '<br/>'+'信道占用率：'+
-                        '<br/>'+'注册组数：'+
-                        '<br/>'+'注册用户数：'+
-                        '<br/>'+'排队数：';
+                        '<br/>'+'信道占用率：'+ 0.27 +
+                        '<br/>'+'注册组数：'+ 15 +
+                        '<br/>'+'注册用户数：'+ 22 +
+                        '<br/>'+'排队数：' + 28;
                         return res;
                     },
                     show: true,
@@ -1106,3 +1116,329 @@ function tableInterval() {
 	
 };
 temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
+
+//highcharts
+function highChart(data) {
+	
+	//温度计
+    $('#temperature').highcharts({
+    	credits: {
+    		enabled:false
+    	},
+    	exporting: { 
+    		enabled:false 
+    	},
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: '温度仪'
+        },
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 80,
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: '℃'
+            },
+            plotBands: [{
+                from: 0,
+                to: 30,
+                color: '#55BF3B' // green
+            }, {
+                from: 30,
+                to: 60,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 50,
+                to: 80,
+                color: '#DF5353' // red
+            }]
+        },
+        series: [{
+            name: '温度',
+            data: [/*data[0]["017301"]*1*/28.32],
+            tooltip: {
+                valueSuffix: ' ℃'
+            }
+        }]
+    });
+    
+    
+    //湿度计
+    $('#humidity').highcharts({
+    	credits: {
+    		enabled:false
+    	},
+    	exporting: { 
+    		enabled:false 
+    	},
+        chart: {
+            type: 'gauge',
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: '湿度计'
+        },
+        pane: {
+            startAngle: -150,
+            endAngle: 150,
+            background: [{
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#FFF'],
+                        [1, '#333']
+                    ]
+                },
+                borderWidth: 0,
+                outerRadius: '109%'
+            }, {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, '#333'],
+                        [1, '#FFF']
+                    ]
+                },
+                borderWidth: 1,
+                outerRadius: '107%'
+            }, {
+                // default background
+            }, {
+                backgroundColor: '#DDD',
+                borderWidth: 0,
+                outerRadius: '105%',
+                innerRadius: '103%'
+            }]
+        },
+        // the value axis
+        yAxis: {
+            min: 0,
+            max: 120,
+            minorTickInterval: 'auto',
+            minorTickWidth: 1,
+            minorTickLength: 10,
+            minorTickPosition: 'inside',
+            minorTickColor: '#666',
+            tickPixelInterval: 30,
+            tickWidth: 2,
+            tickPosition: 'inside',
+            tickLength: 10,
+            tickColor: '#666',
+            labels: {
+                step: 2,
+                rotation: 'auto'
+            },
+            title: {
+                text: '℃'
+            },
+            plotBands: [{
+                from: 0,
+                to: 40,
+                color: '#DDDF0D' // yellow
+            }, {
+                from: 40,
+                to: 80,
+                color: '#55BF3B' // green
+            }, {
+                from: 80,
+                to: 120,
+                color: '#DF5353' // red
+            }]
+        },
+        series: [{
+            name: '湿度',
+            data: [/*data[1]["017302"]*1*/37.63],
+            tooltip: {
+                valueSuffix: ' ℃'
+            }
+        }]
+    });
+    
+    //伏压图
+    $('#Current_voltage').highcharts({
+    	credits: {
+    		enabled:false
+    	},
+    	exporting: { 
+    		enabled:false 
+    	},
+        chart: {
+            type: 'gauge',
+            plotBorderWidth: 1,
+            plotBackgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3: 1 },
+                stops: [
+                    [0, '#FFF4C6'],
+                    [0.3, '#FFFFFF'],
+                    [1, '#FFF4C6']
+                ]
+            },
+            plotBackgroundImage: null,
+            height: 200
+        },
+        title: {
+            text: 'DC/AC图'
+        },
+        pane: [{
+            startAngle: -45,
+            endAngle: 45,
+            background: null,
+            center: ['18%', '115%'],
+            size: 200
+        }, {
+            startAngle: -45,
+            endAngle: 45,
+            background: null,
+            center: ['52%', '115%'],
+            size: 200
+        },{
+            startAngle: -45,
+            endAngle: 45,
+            background: null,
+            center: ['85%', '115%'],
+            size: 200
+        }],
+        yAxis: [{
+            min: -20,
+            max: 6,
+            minorTickPosition: 'outside',
+            tickPosition: 'outside',
+            labels: {
+                rotation: 'auto',
+                distance: 20
+            },
+            plotBands: [{
+                from: 0,
+                to: 6,
+                color: '#C02316',
+                innerRadius: '100%',
+                outerRadius: '105%'
+            }],
+            pane: 0,
+            title: {
+                text: 'V<br/><span style="font-size:8px">DC电压</span>',
+                y: -40
+            }
+        }, {
+            min: -20,
+            max: 6,
+            minorTickPosition: 'outside',
+            tickPosition: 'outside',
+            labels: {
+                rotation: 'auto',
+                distance: 20
+            },
+            plotBands: [{
+                from: 0,
+                to: 6,
+                color: '#C02316',
+                innerRadius: '100%',
+                outerRadius: '105%'
+            }],
+            pane: 1,
+            title: {
+                text: 'V<br/><span style="font-size:8px">AC电压</span>',
+                y: -40
+            }
+        },{
+            min: -20,
+            max: 6,
+            minorTickPosition: 'outside',
+            tickPosition: 'outside',
+            labels: {
+                rotation: 'auto',
+                distance: 20
+            },
+            plotBands: [{
+                from: 0,
+                to: 6,
+                color: '#C02316',
+                innerRadius: '100%',
+                outerRadius: '105%'
+            }],
+            pane: 2,
+            title: {
+                text: 'A<br/><span style="font-size:8px">AC电流</span>',
+                y: -40
+            }
+        }],
+        plotOptions: {
+            gauge: {
+                dataLabels: {
+                    enabled: false
+                },
+                dial: {
+                    radius: '100%'
+                }
+            }
+        },
+        series: [{
+            data: [-20],
+            yAxis: 0
+        }, {
+            data: [-20],
+            yAxis: 1
+        },{
+            data: [-20],
+            yAxis: 2
+        }]
+    });
+    
+    
+}
+

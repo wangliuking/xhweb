@@ -22,6 +22,7 @@ import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.GosuncnService;
 
 /**
  * 动环设备处理类
@@ -34,7 +35,7 @@ public class GosuncnController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(BsstationController.class);
+	protected final Log log = LogFactory.getLog(GosuncnController.class);
 	private FlexJSON json=new FlexJSON();
 	private BsstationBean bsstationBean=new BsstationBean();
 	private WebLogBean webLogBean=new WebLogBean();
@@ -46,6 +47,7 @@ public class GosuncnController {
 	@RequestMapping("/oneBsEmh")
 	public void oneBsInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		String url = "http://192.168.5.254:8080/services/FSUService";
 		String FSUID = "09201704160085";
 		List<Map<String,String>> list = null;
 		List<String> list1 = new ArrayList<String>();
@@ -56,7 +58,7 @@ public class GosuncnController {
 		list1.add("170500000000001");
 		list1.add("170700000000001");
 		try {
-			list = Test.getDataByList(FSUID,list1);
+			list = Test.getDataByList(url,FSUID,list1);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -72,6 +74,63 @@ public class GosuncnController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 添加fsu注册信息
+	 */
+	public static String insertLogin(Map<String,String> map){
+		String bsId = "110";
+		map.put("bsId", bsId);
+		int count = GosuncnService.insertLogin(map);
+		if(count>0){
+			return "success";
+		}else{
+			return "failure";
+		}
+		
+	}
+	
+	/**
+	 * 添加fsu配置信息
+	 */
+	public static String insertConfig(List<Map<String,String>> list){
+		int count = GosuncnService.insertConfig(list);
+		if(count>0){
+			return "success";
+		}else{
+			return "failure";
+		}
+	}
+	
+	/**
+	 * 添加监控点数据
+	 */
+	public static String insertData(List<Map<String,String>> list){
+		int count = GosuncnService.insertData(list);
+		if(count>0){
+			return "success";
+		}else{
+			return "failure";
+		}
+	}
+	
+	/**
+	 * 查询传感器表中是否有相同FSUID的数据，有则删除
+	 */
+	public static String updateFSUID(String FSUID){
+		int count = GosuncnService.selectByFSUID(FSUID);
+		if(count>0){
+			int result = GosuncnService.deleteByFSUID(FSUID);
+			if(result>0){
+				return "success";
+			}else{
+				return "failure";
+			}
+		}else{
+			return "none data";
+		}
+		
 	}
 	
 }

@@ -23,11 +23,9 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="talkgroupia"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+<body ng-app="app" ng-controller="talkgroupia" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -39,10 +37,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -67,20 +61,18 @@
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-
 							<ul class="mailbox-list">
-								<li><a href="../../Views/business/talkgroup.html"><i class="fa fa-user"></i>
-										通话组</a></li>
-								<li><a href="../../Views/business/multigroup.html"><i
-										class="fa fa-paper-plane text-warning"></i> 通播组</a></li>
-							</ul>
-							<hr>
-							<ul class="mailbox-list">
-								<li><a href="../../Views/business/talkgroupbusiness.html"><i class="fa fa-plane text-danger"></i>
-										业务属性</a></li>
-								<li class="active"><a href="#"><i class="fa fa-bar-chart text-warning"></i>
-										互联属性</a></li>
-
+								<li><a href="radiouserbusiness.html"><i
+										class="fa fa-paper-plane text-warning"></i> 无线用户业务属性</a></li>
+								<li><a href="radiodispatchbusiness.html"><i
+										class="fa fa-bar-chart text-warning"></i> 调度用户业务属性</a></li>
+								<li><a href="talkgroupbusiness.html"><i
+										class="fa fa-plane text-danger"></i> 通话组/通播组业务属性</a></li>
+								<li><a href="radiouserseria.html"> <i
+										class="fa fa-exchange "></i> 无线用户互联属性
+								</a></li>
+								<li><a href="talkgroupia.html"><i
+										class="fa fa-bar-chart text-warning"></i> 通话组/通播组互联属性</a></li>
 							</ul>
 						</div>
 					</div>
@@ -142,8 +134,6 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

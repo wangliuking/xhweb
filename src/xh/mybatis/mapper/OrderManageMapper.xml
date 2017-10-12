@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.OrderManageMapper">
+    <!-- redis缓存  LRU FIFO-->
+    <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"
+     type="xh.mybatis.tools.MybatisRedisCache"/> -->
+    <!--    <cache eviction="FIFO" flushInterval="600000" size="1024"
+            readOnly="true" />  -->
+    <!--查询入网申请所有记录 -->
+    <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
+    >
+        select u.*
+        from xhgmnet_web_equipmentFailure as u where 1=1
+        <choose>
+            <when test="roleId &gt;1004 || roleId &lt;1000">
+                and u.userName=#{user}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+
+        order by id desc limit #{start},#{limit}
+    </select>
+    <!--查询故障登记表 所有记录总数 -->
+    <select id="dataCount" parameterType="map" resultType="int" useCache="true">
+        select count(id) from xhgmnet_web_equipmentFailure where 1=1
+        <choose>
+            <when test="roleId &gt;1004 || roleId &lt;1000">
+                and userName=#{user}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+    <!--查询处理进度 -->
+    <select id="applyProgress" parameterType="int" resultType="map"
+            useCache="true">
+        select * from xhgmnet_web_equipmentFailure where id=#{id}
+    </select>
+
+    <!--故障记录入库 -->
+    <insert id="insertOrderManage" useGeneratedKeys="true" keyProperty="id"
+            parameterType="xh.mybatis.bean.OrderManageBean">
+        insert into
+        xhgmnet_web_equipmentFailure(userUnit,userUnitContact,accepterTime,userDescription,need,time,userName)
+        values(#{userUnit},#{userUnitContact},#{accepterTime},#{userDescription},#{need},#{time},#{userName})
+    </insert>
+
+    <!--值班人员确认 -->
+    <update id="checkedOne" parameterType="xh.mybatis.bean.OrderManageBean">
+        update xhgmnet_web_equipmentFailure set user1=#{user1},time1=#{time1},note1=#{note1},result=#{result},checked=#{ckecked} where id=#{id}
+    </update>
+    <!--管理方审核 -->
+    <update id="checkedTwo" parameterType="xh.mybatis.bean.OrderManageBean">
+        update xhgmnet_web_equipmentFailure set user2=#{user2},time2=#{time2},note2=#{note2},result=#{result},checked=#{checked},need_contact=#{need_contact} where id=#{id}
+    </update>
+
+    <!--管理方审核 -->
+    <update id="checkedThree" parameterType="xh.mybatis.bean.OrderManageBean">
+        update xhgmnet_web_equipmentFailure set time3=#{time3},note3=#{note3},result=#{result},checked=#{checked} where id=#{id}
+    </update>
+
+    <!--确认 -->
+    <update id="sureFile" parameterType="xh.mybatis.bean.OrderManageBean">
+        update xhgmnet_web_equipmentFailure set time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+    </update>
+
+</mapper>

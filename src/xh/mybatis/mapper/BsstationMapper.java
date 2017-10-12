@@ -90,11 +90,6 @@ public interface BsstationMapper {
 	 */
 	public List<HashMap<String,String>> selectBsStationById(int bsId) throws Exception;
 	/**
-	 * 根据基站id查询对应动环信息
-	 * @author wlk
-	 */
-	public List<HashMap<String,String>> selectAllEMHById(String bsId) throws Exception;
-	/**
 	 * 查询top5话务量
 	 * @author wlk
 	 */

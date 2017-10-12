@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GIS地图</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
+<link rel="stylesheet"
+	href="http://125.70.9.194:801/3.15/esri/css/esri.css">
+<style type="text/css">
+html,body {
+	margin: 0;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-y: hidden;
+}
+
+#myModal {
+	z-index: 9999;
+}
+
+.modal-backdrop {
+	z-index: -1;
+}
+
+.esriLayerList {
+	height: auto;
+	width: 200px !important;
+	position: fixed;
+	right: 0%;
+	bottom: 0%;
+	z-index: 1;
+	border-radius: 4px;
+}
+
+#esri_dijit_OverviewMap_0-map_gc {
+	margin-top: 20px !important;
+}
+
+#side-menu li {
+	background: rgba(176, 196, 222, 0.7);
+}
+/* 隐藏左上角放大缩小 */
+#mapDiv_zoom_slider {
+	display: none;
+}
+/* 右侧标签样式 */
+.nav_right {
+	width: 20px;
+	height: 110px;
+	position: fixed;
+	top: 46%;
+	left: 0px;
+	background: rgba(176, 196, 222, 0.7);
+	text-align: center;
+	font-size: 16px;
+	color: black;
+	line-height: 55px;
+	display: block;
+	cursor: pointer;
+	z-index: 1000;
+	border-top-left-radius:0em;
+	border-top-right-radius:20em;
+	border-bottom-right-radius:20em;
+	border-bottom-left-radius:0em;
+}
+/* 右上角显示框样式 */
+.info_right {
+	width: 380px;
+	height: 60px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	z-index: 1 !important;
+	background: rgba(176, 196, 222, 0.7);
+}
+
+.info_one,.info_two {
+	width: 158px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	text-align: center;
+	background-color: white;
+	color: black;
+}
+
+.info_one td,.info_one th,#tb-info,.info_two td,.info_two th,.info_three td,.info_three th
+	{
+	margin: 0;
+	padding: 0;
+}
+
+.info_three {
+	width: 60px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	text-align: center;
+	background-color: white;
+	color: black;
+}
+
+/* 圈选按钮样式 */
+.dijitOffScreen {
+	position: absolute !important;
+	left: -10000px !important;
+	top: -10000px !important;
+}
+
+#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar {
+	display: none;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="map"
+	class="fixed-iframe">
+
+<!-- 右上角显示框 -->
+	<div class="info_right">
+		<div class="info_three">
+			<table class="xh-table table-hover" style="padding:0;margin:0;">
+				<thead>
+					<tr class="tr-gray">
+						<th style="border:1px solid gray;">top</th>
+					</tr>
+				</thead>
+			</table>
+			<table id="table0" class="xh-table table-hover"
+				style="padding:0;margin:0;">
+				<tbody>
+					<tr>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td>2</td>
+					</tr>
+					<tr>
+						<td>3</td>
+					</tr>
+					<tr>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>5</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div class="info_one">
+			<table class="xh-table table-hover" style="padding:0;margin:0;">
+				<thead>
+					<tr class="tr-gray">
+						<th style="width:70%;border:1px solid gray;">基站</th>
+						<th style="width:30%;border:1px solid gray;">话务量</th>
+					</tr>
+				</thead>
+			</table>
+			<table id="table1" class="xh-table table-hover"
+				style="padding:0;margin:0;">
+				<tbody>
+					<!-- <tr ng-repeat="x in top5Calllist">
+						<td style="width:70%;"><a href="#"
+							ng-click="calllistChoose(x)">{{x.name}}</a></td>
+						<td style="width:30%;">{{x.num}}</td>
+					</tr> -->
+					<tr>
+						<td style="width:70%;">武侯二办</td>
+						<td style="width:30%;">11</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">双流城区1</td>
+						<td style="width:30%;">37</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">都江堰城区</td>
+						<td style="width:30%;">54</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">成都市公安局</td>
+						<td style="width:30%;">67</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">政府三办</td>
+						<td style="width:30%;">69</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<div class="info_two">
+			<table class="xh-table table-hover" style="padding:0;margin:0;">
+				<thead>
+					<tr class="tr-gray">
+						<th style="width:70%;border:1px solid gray;">基站</th>
+						<th style="width:30%;border:1px solid gray;">排队数</th>
+					</tr>
+				</thead>
+			</table>
+			<table id="table2" class="xh-table table-hover"
+				style="padding:0;margin:0;">
+				<tbody>
+					<!-- <tr ng-repeat="x in top5Channel">
+						<td style="width:70%;"><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
+						<td style="width:30%;">{{x.sum}}</td>
+					</tr> -->
+					<tr>
+						<td style="width:70%;">龙泉洪安镇</td>
+						<td style="width:30%;">16</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">彭州城区1</td>
+						<td style="width:30%;">25</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">郫县安德镇</td>
+						<td style="width:30%;">37</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">天府新区永兴镇</td>
+						<td style="width:30%;">68</td>
+					</tr>
+					<tr>
+						<td style="width:70%;">省交警总队</td>
+						<td style="width:30%;">72</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 导航右侧标签 -->
+	<div class="nav_right">
+		
+	</div>
+	<!-- 左侧导航 -->
+	<aside id="menu" class="menu"
+		style="z-index:1000;height:100%-80px;background: rgba(176,196,222, 0.7);position:fixed;top:0;left:-190px;overflow-x:hidden;">
+		<!-- <div id="menu-title">
+		<i class="fa fa-list-alt text-danger"></i>&nbsp;&nbsp;<span>菜单列表</span>
+	</div> -->
+		<ul class="nav" id="side-menu"
+			style="height:auto;background: rgba(176,196,222, 0.7);">
+			<li><a href="#"> <i class="fa fa-level-up text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
+			</a>
+				<ul class="nav nav-second-level" ng-repeat="x in levelData">
+					<li ng-if="x.level!=4"><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+				</ul></li>
+			<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
+			</a>
+				<ul class="nav nav-second-level" ng-repeat="x in data">
+					<li style="padding-left:36px;"><label class="areaChoose"><input
+							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
+				</ul></li>
+			<li><a href="#"> <i class="fa fa-location-arrow text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">图层选择</span><span class="fa arrow"></span>
+			</a>
+				<ul class="nav nav-second-level">
+					<li style="padding-left:36px;"><label><input
+							id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
+					<li style="padding-left:36px;"><label><input
+							id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
+							<li style="padding-left:36px;"><label><input
+							id="testService" type="checkbox" value="">行政区域</label></li>
+				</ul></li>
+			<li><a href="#"> <i class="fa fa-columns text-black"></i>&nbsp;&nbsp;
+					<span class="nav-label">区域圈选</span><span class="fa arrow"></span>
+			</a>
+				<ul class="nav nav-second-level">
+					<li style="padding-left:36px;"><label>
+							<button data-dojo-type="dijit/form/Button">点击选择</button>
+					</label></li>
+				</ul></li>
+
+		</ul>
+	</aside>
+
+
+	<!-- <div id="head" data-dojo-props="region:'top'">
+      <button data-dojo-type="dijit/form/Button">Ellipse</button>
+    </div> -->
+	<div id="mapDiv"></div>
+	<!-- 模态框（圈选） start-->
+	<div class="modal fade" id="rectangle" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="message_move">圈选查询</div>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#manage" data-toggle="tab">
+								已选{{totals}}个基站</a></li>
+						<li><a href="#param" data-toggle="tab">路测信息</a></li>
+						<li><a href="#moveController" data-toggle="tab">其他</a></li>
+						<li><a href="#movie" data-toggle="tab">视频</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="">
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th>基站ID</th>
+										<th>基站名称</th>
+										<th>基站级别</th>
+										<th>经度</th>
+										<th>纬度</th>
+										<th>高度</th>
+										<th>是否启用</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="7" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in dataRectangle">
+										<td>{{x.bsId}}</td>
+										<td>{{x.name}}</td>
+										<td>{{x.level}}</td>
+										<td>{{x.lng}}</td>
+										<td>{{x.lat}}</td>
+										<td>{{x.height}}</td>
+										<td ng-if="x.openen==1" class="td-success"><span
+											style="color:#fff">已经启用</span></td>
+										<td ng-if="x.openen==0" class="td-gray">未启用</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="search()"
+										ng-model="count">
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id=""></div>
+						<div class="tab-pane fade" id=""></div>
+						<div class="tab-pane fade" id=""></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（圈选）end -->
+
+	<!-- 模态框（Modal） start-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="message_move">当前基站信息</div>
+				</div>
+				<div class="modal-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="#manage" data-toggle="tab">
+								基本</a></li>
+						<li><a href="#param" data-toggle="tab">参数</a></li>
+						<li><a href="#moveController" data-toggle="tab">动环</a></li>
+						<li><a href="#movie" data-toggle="tab">视频</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="manage">
+							<div>
+								<table width="100%" border="0" class="userCon_2">
+									<tr>
+										<th width="40%">基站ID：</th>
+										<td width="60%"><input value="" type="text" name="bsId"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="bsId" required="" aria-required="true" disabled></td>
+									</tr>
+									<tr>
+										<th>基站名称：</th>
+										<td><input value="" type="text" name="bsName"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="bsName" required="" aria-required="true" disabled></td>
+									</tr>
+									<tr>
+										<th>基站纬度：</th>
+										<td><input value="" type="text" name="lat"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="lat" required="" aria-required="true" disabled /></td>
+									</tr>
+									<tr>
+										<th>基站经度：</th>
+										<td><input value="" type="text" name="lng"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="lng" required="" aria-required="true" disabled /></td>
+									</tr>
+									<tr>
+										<th>基站地址：</th>
+										<td><input value="" type="text" name="address"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="address" required="" aria-required="true" disabled /></td>
+									</tr>
+									<tr>
+										<th>基站IP：</th>
+										<td><input value="" type="text" name="ip"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="ip" required="" aria-required="true" disabled /></td>
+									</tr>
+									<tr>
+										<th>联系人：</th>
+										<td><input value="" type="text" name="contact"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="contact" required="" aria-required="true" disabled />
+									</tr>
+									<tr>
+										<th>电话：</th>
+										<td><input value="" type="text" name="tel"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="tel" required="" aria-required="true" disabled />
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="param">
+							<div>
+								<table width="100%" border="0" class="userCon_2">
+									<trheight:"10%">
+										<th width="40%">载波数：</th>
+										<td width="60%"><input type="text" name="chnumber"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="chnumber" value="" required="" aria-required="true"
+											disabled></td>
+										</tr>
+										<tr>
+											<th>gps天线数：</th>
+											<td><input type="text" name="gpsLineNum"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="gpsLineNum" value="" required="" aria-required="true"
+												disabled></td>
+										</tr>
+
+										<tr>
+											<th>额定功率：</th>
+											<td><input type="text" name="power" class="form-control"
+												style="border-radius:3px; width:220px;" id="power" value=""
+												required="" aria-required="true" disabled /></td>
+										</tr>
+										<tr>
+											<th>运营商：</th>
+											<td><input type="text" name="carrier"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="carrier" value="" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+										<tr>
+											<th>机房海拔：</th>
+											<td><input type="text" name="height"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="height" value="" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+										<tr>
+											<th>天线高度：</th>
+											<td><input type="text" name="lineHeight"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="lineHeight" value="" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+										<tr>
+											<th>状态：</th>
+											<td><input type="text" name="status"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="status" value="" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="moveController">
+							<div id="" style="height:60px;width:568px;">
+								<table width="100%" border="0">
+									<tr border="0">
+										<th width="10%" border="0">漏水：</th>
+										<td width="10%" border="0"><input id="temp_0" value=""
+											style="width:100%;" disabled /></td>
+										<th width="10%" border="0">门磁：</th>
+										<td width="10%" border="0"><input id="temp_1" value=""
+											style="width:100%;" disabled /></td>
+										<th width="10%" border="0">消防：</th>
+										<td width="10%" border="0"><input id="temp_2" value=""
+											style="width:100%;" disabled /></td>
+										<th width="10%" border="0">烟感：</th>
+										<td width="10%" border="0"><input id="temp_3" value=""
+											style="width:100%;" disabled /></td>
+									</tr>
+								</table>
+							</div>
+							<div id="" style="height:260px;width:568px;">
+								<div id="temperature"
+									style="height:260px;width:283px;float:left;"></div>
+								<div id="humidity" style="height:260px;width:283px;float:right;"></div>
+							</div>
+							<div id="Current_voltage" style="height:180px;width:568px;"></div>
+						</div>
+						<div class="tab-pane fade" id="movie">
+							<a href="http://192.168.5.253" target="_blank">点击查看</a>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm"
+						data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal）end -->
+<script>
+		var dojoConfig = {
+			parseOnLoad : true,
+			packages : [ {
+				"name" : "src",
+				"location" : "/axis2"
+			} ]
+		};
+		/* location.pathname.replace(/\/[^/]+$/, '') */
+	</script>
+
+
+
+	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="echarts.source.js"></script>
+	<script src="http://125.70.9.194:801/3.15/init.js"></script>
+	
+	<!-- highcharts -->
+	<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="lib/highcharts/highcharts-more.js"></script>
+	<script type="text/javascript"
+		src="lib/highcharts/modules/exporting.js"></script>
+	<script type="text/javascript"
+		src="lib/highcharts/themes/grid-light.js"></script>
+	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
+	<script type="text/javascript">
+		$('#side-menu').metisMenu();
+		$('.nav_right').mouseover(function() {
+			$('#menu').animate({
+				left : "0px"
+			}, 100, function() {
+				$('.nav_right').animate({
+					left : "189px"
+				}, 300);
+			});
+		});
+		$('.nav_right').click(function() {
+			$('#menu').animate({
+				left : "-190px"
+			}, 100, function() {
+				$('.nav_right').animate({
+					left : "0px"
+				}, 300);
+			});
+		});
+	</script>
+</body>
+
+</html>

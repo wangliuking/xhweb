@@ -367,21 +367,9 @@ public class BsstationController {
 		BsstationService bsStationService = new BsstationService();
 		String str = request.getParameter("bsId");
 		int bsId = Integer.parseInt(str);
-		//基站ID转换为动环server表的code
-		String bsIdTemp="";
-		if(str.length()==1){
-			bsIdTemp = "0"+"0"+str;
-		}else if(str.length()==2){
-			bsIdTemp = "0"+str;
-		}else if(str.length()==3){
-			bsIdTemp = str;
-		}
 		try {
 			List<HashMap<String, String>> bsStationBean = bsStationService.selectBsStationById(bsId);
-			//查询动环信息
-			List<HashMap<String, String>> moveController = bsStationService.selectAllEMHById(bsIdTemp);
 			map.put("items", bsStationBean);
-			map.put("moveController", moveController);
 			String dataById = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();

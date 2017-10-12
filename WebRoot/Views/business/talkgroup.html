@@ -24,10 +24,9 @@
 <![endif]-->
 </head>
 <body ng-app="app" ng-controller="talkgroup"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -39,10 +38,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -52,8 +47,8 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>业务管理</span></li>
-							<li><span>用户数据管理</span></li>
-							<li><span>组</span></li>
+							<li><span>数据管理</span></li>
+							<li><span>基础数据</span></li>
 							<li class="active"><span>通话组</span></li>
 						</ol>
 					</div>
@@ -69,17 +64,12 @@
 						<div class="panel-body">
 
 							<ul class="mailbox-list">
-								<li class="active"><a href="#"><i class="fa fa-user"></i>
-										通话组</a></li>
-								<li><a href="../../Views/business/multigroup.html"><i
-										class="fa fa-paper-plane text-warning"></i> 通播组</a></li>
-							</ul>
-							<hr>
-							<ul class="mailbox-list">
-								<li><a href="../../Views/business/talkgroupbusiness.html"><i class="fa fa-plane text-danger"></i>
-										业务属性</a></li>
-								<li><a href="../../Views/business/talkgroupia.html"><i class="fa fa-bar-chart text-warning"></i>
-										互联属性</a></li>
+								<li><a href="radiouser.html" target="_self"><i
+										class="fa fa-user"></i>入网终端</a></li>
+								<li><a href="radiodispatch.html" target="_self"><i
+										class="fa fa-plane text-danger"></i> 调度用户</a></li>
+								<li class="active"><a href="talkgroup.html" target="_self"><i
+										class="fa fa-user"></i> 通话组</a></li>
 
 							</ul>
 						</div>
@@ -178,8 +168,6 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

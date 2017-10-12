@@ -34,14 +34,31 @@ xh.load = function() {
 			xh.search(page);
 
 		};
+		//播放语音文件
+		$scope.play=function(index){
+			console.log("play="+$scope.data[index].call_Path);
+			layer.closeAll();
+			var html={
+					  type: 2,
+					  title:'语音播放器',
+					  area: ['340px', '200px'],
+					  shade: 0,
+					  /*skin: 'layui-layer-rim', //加上边框*/					  
+					  content: ["../../Views/operations/play.jsp?playerID="+$scope.data[index].call_Path, 'no']
+					};
+			layer.open(html);
+			
+		};
 		/* 下载文件 */
-		$scope.download = function(sef, audioName) {
-			//var filename = $("#download").val();
-			console.log("下载音频文件名filename=>" + audioName);
-			var downUrl = "../../call/download?fileName=" + audioName;
+		$scope.download = function(index) {
+			var path=$scope.data[index].call_Path;
+			var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);	
+			console.log("下载音频文件名filename=>" +name);
+			var downUrl = "../../call/download?fileName=" + name;
 			window.open(downUrl, '_self',
 					'width=1,height=1,toolbar=no,menubar=no,location=no');
-		}
+		};
 		/* 播放录音 */
 		$scope.play_click = function(sef, audioName, index) {
 			//这里因为本地数据录音路径名为ModelTest*.mp3 ，因此设置默认值为ModelTest1.mp3,
@@ -67,7 +84,7 @@ xh.load = function() {
 					div.innerHTML = '';
 				}, 5000);
 			}*/
-		}
+		};
 
 		// 分页点击
 		$scope.pageClick = function(page) {

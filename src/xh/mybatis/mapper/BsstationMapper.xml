@@ -117,11 +117,6 @@
 	 select * from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
-	<!-- 根据基站id查询对应动环信息 wlk -->
-	<select id="selectAllEMHById" resultType="java.util.HashMap" useCache="true">
-	 select * from emh_server as a,emh_sensor as b where a.id = b.sid and a.code=#{bsId} order by b.dev_name
-	</select>
-	
 	<!-- 首页话务量查询 -->
 	<select id="selectCalllist" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
 	 select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a 

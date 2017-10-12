@@ -100,20 +100,20 @@ public class FSUServiceStub extends org.apache.axis2.client.Stub implements
 	/**
 	 * Default Constructor
 	 */
-	public FSUServiceStub(
+	/*public FSUServiceStub(
 			org.apache.axis2.context.ConfigurationContext configurationContext)
 			throws org.apache.axis2.AxisFault {
 
 		this(configurationContext, "http://192.168.5.254:8080/services/FSUService");
 
-	}
+	}*/
 
 	/**
 	 * Default Constructor
 	 */
 	public FSUServiceStub() throws org.apache.axis2.AxisFault {
 
-		this("http://192.168.5.254:8080/services/FSUService");
+		this(null);
 
 	}
 

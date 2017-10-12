@@ -30,6 +30,7 @@ public class TalkGroupService {
 		return list;
 	}
 
+
 	/**
 	 * 总数
 	 * 
@@ -48,6 +49,24 @@ public class TalkGroupService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	/**
+	 * 根据ID获取组名称
+	 * @param id
+	 * @return
+	 */
+	public static String GroupNameById(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		String groupName="";
+		try {
+			groupName = mapper.GroupNameById(id);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return groupName;
 	}
 	
 	/**
