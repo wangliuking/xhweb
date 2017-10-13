@@ -23,6 +23,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.chinamobile.fsuservice.ParseXml;
+
 import xh.springmvc.handlers.GosuncnController;
 
 /**
@@ -53,7 +55,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 		xml = parseXml(xmlString);
 		InvokeResponse response = new InvokeResponse();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
-		enc.setString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>");
+		enc.setString(xml);
 		response.setInvokeReturn(enc);
 		log.info(response.getInvokeReturn());
 		return response;
@@ -86,7 +88,32 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
 			//上报动环设置配置
+			Element nameElem = root.element("Info").element("FSUID");
+			String FSUID = nameElem.getText();
+			List<Map<String, String>> configList;
+			try {
+				configList = ParseXml.getDevConf(xml, FSUID);
+				GosuncnController.deleteByFSUID(FSUID);//配置信息入库前，删除以前的
+				String result = GosuncnController.insertConfig(configList);//将配置信息入库
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_DEV_CONF_DATA_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Response>";
+		}else if("SEND_ALARM".equals(temp)){
+			//上报告警信息
+			Element nameElem = root.element("Info").element("FSUID");
+			String FSUID = nameElem.getText();
+			Element tAlarm = root.element("Info").element("Values").element("TAlarmList").element("TAlarm");//一条告警数据
+			List<Element> list = tAlarm.elements();
+			Map<String,String> map = new HashMap<String,String>();
+			for(int i=0;i<list.size();i++){
+				Element e = (Element)list.get(i);
+				map.put(e.getName(), e.getText());			
+			}
+			map.put("FSUID", FSUID);
+			String result = GosuncnController.insertAlarm(map);
+			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_ALARM_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}
 		return null;
 	}

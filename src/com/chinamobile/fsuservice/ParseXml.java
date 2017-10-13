@@ -135,6 +135,32 @@ public class ParseXml {
 		}
 		return configList;
 	}
+	
+	/**
+	 * 上报告警信息数据解析(1条告警数据)已在LSCServiceSkeleton中实现
+	 * @param elem
+	 * @throws DocumentException 
+	 */
+/*	@SuppressWarnings("unchecked")
+	public static List<Map<String,String>> sendAlarmInfo(String xml,String FSUID) throws DocumentException{
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(getStringStream(xml));
+		Element root = document.getRootElement();
+		Element nameElem = root.element("Info").element("Values").element("TAlarmList").element("TAlarm");//一条告警数据
+		List<Element> list = nameElem.elements();
+		List<Map<String,String>> alarmList = new ArrayList<Map<String,String>>();
+		for(int i=0;i<list.size();i++){
+			Map<String,String> map = new HashMap<String,String>();
+			Element temp = (Element)list.get(i);
+			String DeviceID = temp.attributeValue("DeviceID");
+			String DeviceName = temp.attributeValue("DeviceName");
+			map.put("fsuId", FSUID);
+			map.put("deviceId", DeviceID);
+			map.put("deviceName", DeviceName);
+			configList.add(map);
+		}
+		return configList;
+	}*/
 
 	
 	
