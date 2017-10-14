@@ -34,7 +34,7 @@
   <sql id="Base_Column_List" >
     id, fileName, contact, tel, note, status, filePath, uploadUser, recvUser, createtime
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultType="map" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from xhgmnet_operations_quality
