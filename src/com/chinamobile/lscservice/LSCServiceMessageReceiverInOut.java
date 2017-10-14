@@ -17,8 +17,7 @@ public class LSCServiceMessageReceiverInOut extends
 			org.apache.axis2.context.MessageContext msgContext,
 			org.apache.axis2.context.MessageContext newMsgContext)
 			throws org.apache.axis2.AxisFault {
-		String temp = msgContext.UTF_8;
-		System.out.println("11111111111111111111111111111"+"  "+temp);
+
 		try {
 
 			// get the implementation class for the Web Service
