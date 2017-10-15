@@ -62,17 +62,24 @@
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-
+							<div class="panel-heading hbuilt">
+								<!-- <div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div> -->
+								<i class="fa fa-reorder"></i> 菜单列表
+							</div>
 							<ul class="mailbox-list">
-								<li><a href="radiouserbusiness.html"><i
+								<li class="active"><a href="radiouserbusiness.html"><i
 										class="fa fa-paper-plane text-warning"></i> 无线用户业务属性</a></li>
-								<li><a href="radiodispatchbusiness.html"><i
-										class="fa fa-bar-chart text-warning"></i> 调度用户业务属性</a></li>
-								<li><a href="talkgroupbusiness.html"><i
-										class="fa fa-plane text-danger"></i> 通话组/通播组业务属性</a></li>				
 								<li><a href="radiouserseria.html"> <i
 										class="fa fa-exchange "></i> 无线用户互联属性
 								</a></li>
+								<li><a href="radiodispatchbusiness.html"><i
+										class="fa fa-bar-chart text-warning"></i> 调度用户业务属性</a></li>
+								<li><a href="talkgroupbusiness.html"><i
+										class="fa fa-plane text-danger"></i> 通话组/通播组业务属性</a></li>
+
 								<li><a href="talkgroupia.html"><i
 										class="fa fa-bar-chart text-warning"></i> 通话组/通播组互联属性</a></li>
 							</ul>
@@ -82,97 +89,119 @@
 					</div>
 				</div>
 				<div class="col-md-10">
-					<div class="hpanel">
-						<div class="panel-body">
-							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label for="id">业务属性标识</label>
-										<div>
-											<input type="text" class="form-control" id="id"
-												placeholder="业务属性标识" width="20px">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="name">业务属性名称</label>
-										<div>
-											<input type="text" class="form-control" id="name"
-												placeholder="业务属性名称">
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button type="submit" class="btn btn-sm btn-success"
-												ng-click="search(1)">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
-											</button>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button class="btn btn-warning btn-sm" ng-click="refresh()">
-												<i class="fa fa-refresh"></i>&nbsp;刷新
-											</button>
-										</div>
-									</div>
-								</form>
-							</div>
-
-							<!-- row -->
-							<table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th>序号</th>
-										<th>业务属性标识</th>
-										<th>业务属性名称</th>
-										<th>状态集标识</th>
-										<th>状态集名称</th>
-										<th>呼叫优先级</th>
-										<th>允许私密呼叫</th>
-										<th>允许组呼叫</th>
-										<th>允许通播组呼叫</th>
-										<th>允许通播组紧急呼叫</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="11" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{$index+1}}</td>
-										<td>{{x.id}}</td>
-										<td>{{x.name}}</td>
-										<td>{{x.ssid}}</td>
-										<td>{{x.ssname}}</td>
-										<td>{{x.dispatchpriority}}</td>
-										<td>{{x.pceenabled}}</td>
-										<td>{{x.tgenabled}}</td>
-										<td>{{x.mgenabled}}</td>
-										<td>{{x.mgemergencyenabled}}</td>
-										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i
-												class="fa fa-edit text-success"></i>&nbsp;显示详情
-										</a></td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
+					<div class="row">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+										class="closebox"><i class="fa fa-times"></i></a>
 								</div>
-								<div class="page-paging"></div>
+								<i class="fa fa-search"></i> 查询
+							</div>
+							<div class="panel-body">
+								<div id="search-div">
+									<form class="form-inline" role="form">
+										<div class="form-group">
+											<label for="id">业务属性标识</label>
+											<div>
+												<input type="text" class="form-control" id="id"
+													placeholder="业务属性标识" width="20px">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="name">业务属性名称</label>
+											<div>
+												<input type="text" class="form-control" id="name"
+													placeholder="业务属性名称">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2" style="padding-top:22px">
+												<button type="submit" class="btn btn-sm btn-success"
+													ng-click="search(1)">
+													<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+												</button>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2" style="padding-top:22px">
+												<button class="btn btn-warning btn-sm" ng-click="refresh()">
+													<i class="fa fa-refresh"></i>&nbsp;刷新
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+										class="closebox"><i class="fa fa-times"></i></a>
+								</div>
+								属性
+							</div>
+							<div class="panel-body">
+								<table id="tb-info" class="xh-table table-hover">
+									<thead>
+										<tr class="tr-gray">
+											<th>序号</th>
+											<th>业务属性标识</th>
+											<th>业务属性名称</th>
+											<th>状态集标识</th>
+											<th>状态集名称</th>
+											<th>呼叫优先级</th>
+											<th>允许私密呼叫</th>
+											<th>允许组呼叫</th>
+											<th>允许通播组呼叫</th>
+											<th>允许通播组紧急呼叫</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="totals==0">
+											<td colspan="11" class="text-center">没有记录！</td>
+										</tr>
+										<tr ng-repeat="x in data">
+											<td>{{$index+1}}</td>
+											<td>{{x.id}}</td>
+											<td>{{x.name}}</td>
+											<td>{{x.ssid}}</td>
+											<td>{{x.ssname}}</td>
+											<td>{{x.dispatchpriority}}</td>
+											<td>{{x.pceenabled}}</td>
+											<td>{{x.tgenabled}}</td>
+											<td>{{x.mgenabled}}</td>
+											<td>{{x.mgemergencyenabled}}</td>
+											<td style="width:20px;text-align:center"><a href="#"
+												ng-click="editModel($index)" data-toggle="modal"> <i
+													class="fa fa-edit text-success"></i>&nbsp;显示详情
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="page">
+									<div class="page-info">
+										每页显示 <select id="page-limit" ng-change="refresh()"
+											ng-model="count">
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+										</select> 条, <span ng-model="index">显示{{start}}-</span><span
+											ng-model="lastIndex">{{lastIndex}}条,</span> <span
+											ng-model="totals">总计{{totals}}条</span>
+									</div>
+									<div class="page-paging"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
