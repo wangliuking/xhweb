@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.WorkBean;
 import xh.mybatis.mapper.WorkMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -45,6 +46,46 @@ public class WorkServices {
 			e.printStackTrace();
 		}
 		return  count;
+	}
+	
+	/**
+	 * 新增工作记录
+	 * @param bean
+	 * @return
+	 */
+	public static int addwork(WorkBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkMapper mapper=sqlSession.getMapper(WorkMapper.class);
+		int result=0;
+		try {
+			result=mapper.addwork(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+
+	/**
+	 * 签收工作记录
+	 * @param bean
+	 * @return
+	 */
+	public static int signWork(int id){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkMapper mapper=sqlSession.getMapper(WorkMapper.class);
+		int result=0;
+		try {
+			result=mapper.signWork(id);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
 	}
 
 }
