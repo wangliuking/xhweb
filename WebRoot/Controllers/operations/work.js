@@ -1,4 +1,3 @@
-
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -19,52 +18,101 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
 	var app = angular.module("app", []);
 	var filename = $("#filename").val();
 	var contact = $("#contact").val();
 	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();
-	
-	app.filter('qualitystatus', function() { //可以注入依赖
-	    return function(text) {
-	        if(text==0){
-	        	return "未签收";
-	        }else if(text==1){
-	        	return "签收";
-	        }
-	    };
+
+	app.filter('qualitystatus', function() { // 可以注入依赖
+		return function(text) {
+			if (text == 0) {
+				return "未签收";
+			} else if (text == 1) {
+				return "签收";
+			}
+		};
 	});
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "20";//每页数据显示默认值
-		$scope.systemMenu=true; //菜单变色
-		$http.get("../../quality/list?filename="+filename+"&contact="+contact+"&status="+status+"&start=0&limit="+pageSize).
-		success(function(response){
+		$scope.count = "20";// 每页数据显示默认值
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals), $scope);
+			$scope.loginUser = response.user;
+			console.log("loginuser="+$scope.loginUser);
+			$scope.loginUserRoleId = response.roleId;
 		});
+		$http.get(
+				"../../work/worklist?filename=" + filename + "" + "&contact="
+						+ contact + "&status=" + status + ""
+						+ "&start=0&limit=" + pageSize).success(
+				function(response) {
+					xh.maskHide();
+					$scope.data = response.items;
+					$scope.totals = response.totals;
+					xh.pagging(1, parseInt($scope.totals), $scope);
+				});
 		/* 获取主管单位用户列表 */
 		$http.get("../../web/user/getUserList?roleId=10002").success(
-			function(response) {
-				$scope.user = response.items;
-				
-			});
+				function(response) {
+					$scope.user = response.items;
+
+				});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#filename").val("");
 			$("#contact").val("");
 			$scope.search(1);
 		};
-		
-		$scope.editModel = function(id){
-			$("#edit").modal('show');
-			$scope.editData=$scope.data[id];
+
+		/*显示详细信息*/
+		$scope.editModel = function(id) {
+			$("#detail").modal('show');
+			$scope.editData = $scope.data[id];
 		};
-		
+		/*下载工作记录*/
+		$scope.download = function(path) {
+			var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);	
+			var downUrl = "../../uploadFile/download?filePath="+path+"&fileName=" + name;
+			window.open(downUrl, '_self',
+					'width=1,height=1,toolbar=no,menubar=no,location=no');
+		};
+		/*签收*/
+		$scope.sign=function(index){
+			var id=$scope.data[index].id;
+			$.ajax({
+				url : '../../work/signwork',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					id:id,
+					recvUser:$scope.data[index].uploadUser
+				},
+				success : function(data) {
+
+					if (data.result ==1) {
+						xh.refresh();
+						toastr.success(data.message, '提示');
+					} else {
+						swal({
+							title : "提示",
+							text : data.message,
+							type : "error"
+						});
+					}
+				},
+				error : function() {
+				}
+			});
+			
+		};
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -82,15 +130,17 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../quality/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+limit).
-			success(function(response){
+			$http.get(
+					"../../work/worklist?filename=" + filename + "" + "&contact="
+							+ contact + "&status=" + status + ""
+							+ "&start=0&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		//分页点击
+		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var filename = $("#filename").val();
@@ -104,8 +154,10 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../quality/list?filename="+filename+"&contact="+contact+"&status="+status+"&start="+start+"&limit="+pageSize).
-			success(function(response){
+			$http.get(
+					"../../work/worklist?filename=" + filename + "" + "&contact="
+							+ contact + "&status=" + status + ""
+							+ "&start="+strat+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -120,40 +172,41 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
-			
+
 		};
 	});
 };
+//刷新数据
+xh.refresh = function() {
+	var $scope = angular.element(appElement).scope();
+	// 调用$scope中的方法
+	$scope.refresh();
+};
 /* 添加 */
 xh.add = function() {
-	var appElement = document.querySelector('[ng-controller=quality]');
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../quality/add',
+		url : '../../work/addwork',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#addForm").serialize(), //将表单序列化为JSON对象
+		data:{
+			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+		},
 		success : function(data) {
 
-			if (data.result == 0) {
+			if (data.result ==1) {
 				$('#add').modal('hide');
-
-				for (var i = 1; i < 10; i++) {
-					console.log(1);
-				}
 				xh.refresh();
-				toastr.success("添加成功", '提示');
-				/*清除添加框之前的数据*/
-				$('#add input[type!="radio"]').val('');
-				//将监听的隐藏input框重置（该功能用于检测是否上传成功再同意添加操作）
-				$('#listener').attr("value", "");
-				$('#listenerIO').attr("value", "");
-				$('#filepath').attr("value", "");
+				toastr.success(data.message, '提示');
+				$("input[name='result']").val("");
+            	$("input[name='fileName']").val("");
+            	$("input[name='filePath']").val("");
+            	$("#uploadResult").html("");
 			} else {
 				swal({
 					title : "提示",
-					text : "失败",
+					text : data.message,
 					type : "error"
 				});
 			}
@@ -161,13 +214,6 @@ xh.add = function() {
 		error : function() {
 		}
 	});
-};
-// 刷新数据
-xh.refresh = function() {
-	var appElement = document.querySelector('[ng-controller=quality]');
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
@@ -205,4 +251,3 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-

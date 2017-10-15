@@ -1,39 +1,43 @@
 
-<div class="modal fade" id="add" tabindex="-1" role="dialog"
+<div class="modal fade" id="detail" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="color-line"></div>
+			<!-- <div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold">上传工作记录文件</small>
-			</div>
+			</div> -->
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false" method="POST">
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>接收者</label>&nbsp;<span class="text-danger">[*]</span> <select
-									class="form-control" name="recvUser">
-									<option ng-repeat="x in user" value="{{x.user}}">{{x.userName}}</option>
+								<label>接收者</label>
+								<input type="text" class="form-control" ng-model="editData.recvUser">
 								</select>
 							</div>
 						</div>
-
+                       <div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>上传者</label>
+								<input type="text" class="form-control" ng-model="editData.uploadUser">
+							</div>
+						</div>
 					</div>
 					<div class="row">
 
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span><input
-									type="text" class="form-control" name="contact">
+								<label>联系人</label><input type="text" class="form-control"
+									name="contact" ng-model="editData.contact">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" class="form-control" name="tel">
+								<label>联系方式</label><input type="text" class="form-control"
+									name="tel" ng-model="editData.tel">
 							</div>
 						</div>
 					</div>
@@ -43,43 +47,29 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
-								<textarea style="width:500px;height:110px;" name="note"></textarea>
+								<label>备注信息</label>
+								<textarea  class="form-control" style="width:500px;height:70px;" name="note"
+									ng-model="editData.note"></textarea>
 							</div>
-							
+
 						</div>
 						<input type="hidden" name="fileName" value="" /> <input
 							type="hidden" name="filePath" value="" /> <input type="hidden"
 							name="result" value="" />
 					</div>
-				</form>
-				<form action="#" id="" onSubmit="return false"
-					enctype="multipart/form-data" method="POST">
 					<div class="row">
-						<div class="col-md-8">
-							<div class="form-group col-md-10" style="padding-right:0px;">
+						<div class="col-md-12">
+							<label>工作记录文件：</label><span> <a href="#" ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>
 
-								<label>上传附件</label>&nbsp;<span class="text-info">[*]</span> <input
-									class="form-control" type="file" id="pathName" name="pathName" />
-							</div>
-							<div class="form-group col-md-2" style="padding-left:0px;">
-								<button type="button" ng-disabled="form.$invalid"
-									class="btn btn-info btn-sm" style="margin-top:23px;"
-									id="uploadfile">
-									<i class="fa fa-plus-circle"></i>点击上传
-								</button>
-							</div>
 						</div>
-						<div class="col-md-4"><span style="color:red" id="uploadResult"></span></div>
 
 					</div>
+
 				</form>
+
 			</div>
 			<div class="modal-footer">
-				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="add_btn">
-					<i class="fa fa-plus"></i>&nbsp;添加
-				</button>
+			
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
@@ -105,18 +95,18 @@
 			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
 			{
-                if(data.success){
-                	$("input[name='result']").val(1);
-                	$("input[name='fileName']").val(data.fileName);
-                	$("input[name='filePath']").val(data.filePath);
-                	$("#uploadResult").html("文件上传成功");
-                	toastr.success("文件上传成功", '提示');
-                }else{
-                	$("input[name='result']").val(0);
-                	toastr.error("文件上传失败", '提示');
-                	$("#uploadResult").html("文件上传失败");
-                }
-				
+				if (data.success) {
+					$("input[name='result']").val(1);
+					$("input[name='fileName']").val(data.fileName);
+					$("input[name='filePath']").val(data.filePath);
+					$("#uploadResult").html("文件上传成功");
+					toastr.success("文件上传成功", '提示');
+				} else {
+					$("input[name='result']").val(0);
+					toastr.error("文件上传失败", '提示');
+					$("#uploadResult").html("文件上传失败");
+				}
+
 			},
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
@@ -125,18 +115,17 @@
 		});
 	});
 
-	$("#add_btn").click(
-			function() {
-				if ($("input[name='result']").val()!=1) {
-					alert("请先上传文件！");
-					return false;
-				}
-				/* if ($("input[name='result']").val()!=2) {
-					alert("请等待上传完成！");
-					return false;
-				} */
-				$('#addForm').submit();
-			});
+	$("#add_btn").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		$('#addForm').submit();
+	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
@@ -153,7 +142,7 @@
 					}
 				}
 			},
-			
+
 			recvuser : {
 				validators : {
 					notEmpty : {
