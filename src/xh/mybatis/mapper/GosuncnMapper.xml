@@ -9,6 +9,11 @@
 		values(#{bsId},#{FSUID},#{FSUIP},#{FSUMAC},#{FSUVER})
 	</insert>
 	
+	<!-- 根据FSUID删除对应配置信息数据 -->
+	<delete id="deleteConfigByFSUID" parameterType="String">
+		delete from xhgmnet_emh_config where fsuId=#{FSUID}
+	</delete>
+	
 	<!-- 增加FSU配置信息 -->
 	<insert id="insertConfig" parameterType="java.util.List">
 		INSERT INTO
@@ -29,6 +34,12 @@
 			separator=",">
 			(#{item.bsId},#{item.FSUID},#{item.deviceId},#{item.ID},#{item.Type},#{item.MeasuredVal},#{item.Status},#{item.Time})
 		</foreach>
+	</insert>
+	
+	<!-- 增加告警信息 -->
+	<insert id="insertAlarm" parameterType="map">
+		insert into xhgmnet_emh_sensor_alarm(fsuId,serialNo,alarmId,deviceId,nmAlarmId,alarmTime,alarmlevel,alarmFlag,eventValue,description) 
+		values(#{FSUID},#{SerialNo},#{ID},#{DeviceID},#{NMAlarmID},#{AlarmTime},#{AlarmLevel},#{AlarmFlag},#{EventValue},#{AlarmDesc})
 	</insert>
 	
 	<!-- 根据FSUID查询是否存在数据 -->

@@ -104,7 +104,7 @@ public class LSCServiceMessageReceiverInOut extends
 			boolean optimizeContent, javax.xml.namespace.QName elementQName)
 			throws org.apache.axis2.AxisFault {
 		try {
-			org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = MessageConverter.getSoapEnvelope();
+			org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
 			emptyEnvelope.getBody().removeChildren();
 			emptyEnvelope.getBody().addChild(
 					param.getOMElement(

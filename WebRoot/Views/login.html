@@ -49,6 +49,7 @@ body {
 
 .wrap1 {
 	position: absolute;
+	/* background:#fff; */
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -57,12 +58,14 @@ body {
 }
 
 .main_content {
-	background: url(../Resources/images/img/main_bg.png) repeat;
+	/* background: url(../Resources/images/img/main_bg.png) repeat; */
 	margin-left: auto;
 	margin-right: auto;
 	text-align: left;
 	float: none;
 	border-radius: 8px;
+	width:400px;
+	background:#fff;
 }
 
 .form-group {
@@ -98,11 +101,11 @@ body {
 }
 
 .font16 {
-	font-size: 16px;
+	font-size: 12px;
 }
 
 .mg-t20 {
-	margin-top: 20px;
+	margin-top: 0px;
 }
 
 .mg-b20 {
@@ -117,7 +120,7 @@ body {
 
 @media ( min-width :768px) {
 	.pd-sm-50 {
-		padding: 50px;
+		padding: 10px 30px 30px 30px;
 	}
 }
 
@@ -136,11 +139,11 @@ body {
 <body style="background:url(../Resources/images/img/ocean.jpg) no-repeat;">
 
 	<div class="container wrap1" style="height:450px;">
-		<h2 class="mg-b20 text-center">综合应用与管理平台</h2>
-		<div
-			class="col-sm-8 col-md-5 center-auto pd-sm-50 pd-xs-20 main_content">
-			<p class="text-center font16">用户登录</p>
-			<form action="#" id="loginForm" onSubmit="return false">
+		<!-- <h2 class="mg-b20 text-center">综合应用与管理平台</h2> -->
+		<div class="col-sm-8 col-md-5 center-auto pd-sm-50 main_content">
+			<h3 class="mg-b20 text-center" style="color:#000;">综合应用与管理平台</h3>
+			<p class="text-center font16" style="color:#000;">登录</p>
+			<form action="#" id="loginForm" onSubmit="return false" style="color:#000;">
 				<div class="form-group mg-t20">
 					<i class="fa fa-user icon_font"></i> <input class="login_input"
 						type="text" placeholder="请输入用户名" title="Please enter you username"
@@ -158,7 +161,7 @@ body {
                             <input type="checkbox" />记住我的登录信息
                         </label>
                     </div> -->
-				<button class="login_btn" id="login-btn">登录</button>
+				<button class="btn btn-block btn-success" id="login-btn">登录</button>
 			</form>
 		</div>
 		<!--row end-->

@@ -19,6 +19,7 @@ public class CallListBean {
 	private String Call_RSSI;
 	private String Call_Result;
 	private String Call_Path;
+	private String name;
 	
 	
 	public int getId() {
@@ -128,6 +129,12 @@ public class CallListBean {
 	}
 	public void setTable(String table) {
 		this.table = table;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

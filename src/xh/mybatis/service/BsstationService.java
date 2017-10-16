@@ -253,7 +253,7 @@ public class BsstationService {
 	 * @throws Exception
 	 */
 	public List<HashMap<String, String>> selectCalllist(String currentMonth) throws Exception{
-		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
 		List<HashMap<String, String>> BsStation=mapper.selectCalllist(currentMonth);
 	        session.commit();  

@@ -5,7 +5,7 @@
 	<!--根据基站ID，名称查找基站记录 -->
 	<select id="recInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from xhgmnet_sms_send where 1=1
+		select * from xhgmnet_sendsms where 1=1
 		<if test="srcId!=null and srcId!=''">
 			and srcId like concat('%',#{srcId},'%')
 		</if>
@@ -20,7 +20,7 @@
 	<!--根据源ID，目标ID，接收时间查找基站记录总数 -->
 	<select id="recCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_sms_send where 1=1
+		select count(*) from xhgmnet_sendsms where 1=1
 		<if test="srcId!=null and srcId!=''">
 			and srcId like concat('%',#{srcId},'%')
 		</if>
@@ -34,7 +34,7 @@
 
 	<!--删除短信 -->
 	<delete id="deleteById" parameterType="java.util.List">
-		delete from xhgmnet_sms_send where id in(
+		delete from xhgmnet_sendsms where id in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
 		</foreach>

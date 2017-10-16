@@ -33,6 +33,44 @@ public class GosuncnService {
 	}
 	
 	/**
+	 * 添加告警信息
+	 * @param map
+	 * @return
+	 */
+	public static int insertAlarm(Map<String,String> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertAlarm(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 根据FSUID删除对应配置信息
+	 */
+	public static int deleteConfigByFSUID(String FSUID){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.deleteByFSUID(FSUID);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 添加FSU的配置信息
 	 * @param map
 	 * @return

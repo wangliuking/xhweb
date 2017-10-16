@@ -100,7 +100,12 @@ xh.org.listeners.SingLoginListener
   <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
 </listener>  -->  
 <!--emh TCP长连接    end -->
-   
+
+<!-- ping调度台线程 -->
+ <listener>
+   <description>ping调度台</description>
+  <listener-class>xh.org.listeners.PingDispatchListener</listener-class>
+ </listener> 
 
   
     <error-page>

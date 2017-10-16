@@ -15,7 +15,7 @@
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>接收者</label>&nbsp;<span class="text-danger">[*]</span> <select
-									class="form-control" name="user">
+									class="form-control" name="recvUser">
 									<option ng-repeat="x in user" value="{{x.user}}">{{x.userName}}</option>
 								</select>
 							</div>
@@ -46,13 +46,11 @@
 								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
 								<textarea style="width:500px;height:110px;" name="note"></textarea>
 							</div>
-							<input type="hidden" name="filepath" id="filepath" />
+							
 						</div>
 						<input type="hidden" name="fileName" value="" /> <input
 							type="hidden" name="filePath" value="" /> <input type="hidden"
 							name="result" value="" />
-							<input type="hidden"
-							name="flag" value="" />
 					</div>
 				</form>
 				<form action="#" id="" onSubmit="return false"
@@ -133,10 +131,10 @@
 					alert("请先上传文件！");
 					return false;
 				}
-				if ($("input[name='result']").val()!=2) {
+				/* if ($("input[name='result']").val()!=2) {
 					alert("请等待上传完成！");
 					return false;
-				}
+				} */
 				$('#addForm').submit();
 			});
 	var faIcon = {

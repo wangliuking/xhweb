@@ -21,15 +21,23 @@ public interface RadioDispatchBusinessMapper {
 	 */
 	public int  Count(Map<String,Object> map)throws Exception;
 	
-    int deleteByPrimaryKey(Integer id);
+	/**
+	 * 增加
+	 * @return
+	 * @throws Exception
+	 */
+	public int  insert(Map<String,Object> map)throws Exception;
+	/**
+	 * 修改
+	 * @return
+	 * @throws Exception
+	 */
+	public int  update(Map<String,Object> map)throws Exception;
+	/**
+	 * 删除
+	 * @return
+	 * @throws Exception
+	 */
+	public void  delete(List<String> list)throws Exception;
 
-    int insert(RadioDispatchBusiness record);
-
-    int insertSelective(RadioDispatchBusiness record);
-
-    RadioDispatchBusiness selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(RadioDispatchBusiness record);
-
-    int updateByPrimaryKey(RadioDispatchBusiness record);
 }

@@ -73,6 +73,7 @@ html,body {
 }
 /* 右上角显示框样式 */
 .info_right {
+	display:none;
 	width: 380px;
 	height: 60px;
 	position: fixed;
@@ -304,9 +305,9 @@ html,body {
 					<ul id="myTab" class="nav nav-tabs">
 						<li class="active"><a href="#manage" data-toggle="tab">
 								已选{{totals}}个基站</a></li>
-						<li><a href="#param" data-toggle="tab">路测信息</a></li>
+						<!-- <li><a href="#param" data-toggle="tab">路测信息</a></li>
 						<li><a href="#moveController" data-toggle="tab">其他</a></li>
-						<li><a href="#movie" data-toggle="tab">视频</a></li>
+						<li><a href="#movie" data-toggle="tab">视频</a></li> -->
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="">
@@ -316,8 +317,7 @@ html,body {
 										<th>基站ID</th>
 										<th>基站名称</th>
 										<th>基站级别</th>
-										<th>经度</th>
-										<th>纬度</th>
+										<th>状态</th>
 										<th>高度</th>
 										<th>是否启用</th>
 									</tr>
@@ -330,8 +330,10 @@ html,body {
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.level}}</td>
-										<td>{{x.lng}}</td>
-										<td>{{x.lat}}</td>
+										<td ng-if="x.status==0" class="td-gray"><span
+											style="color:#fff">断开</span></td>
+										<td ng-if="x.status==1" class="td-success"><span
+											style="color:#fff">正常</span></td>
 										<td>{{x.height}}</td>
 										<td ng-if="x.openen==1" class="td-success"><span
 											style="color:#fff">已经启用</span></td>
@@ -382,7 +384,7 @@ html,body {
 								基本</a></li>
 						<li><a href="#param" data-toggle="tab">参数</a></li>
 						<li><a href="#moveController" data-toggle="tab">动环</a></li>
-						<li><a href="#movie" data-toggle="tab">视频</a></li>
+						<!-- <li><a href="#movie" data-toggle="tab">视频</a></li> -->
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="manage">
