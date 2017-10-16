@@ -39,7 +39,10 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String[] nowDate=funUtil.nowDate().split("-");
+		String dbname="xhgmnet_calllist"+nowDate[1];
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("dbname", dbname);
 		map.put("caller", caller);
 		map.put("called", called);
 		map.put("starttime", starttime);
@@ -50,6 +53,7 @@ public class CallController {
 		result.put("success", success);
 		result.put("totals", CallListServices.CallListCount(map));
 		result.put("items", CallListServices.selectCallList(map));
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -67,9 +71,11 @@ public class CallController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/wav");
+		String filePath=request.getParameter("filePath");
 		String fileName=request.getParameter("fileName");
-		String downPath=path+"/"+fileName;
+		String path = request.getSession().getServletContext().getRealPath(filePath);
+		
+		String downPath=path;
 		log.info(downPath);
 		 File file = new File(downPath);
 		 if(!file.exists()){

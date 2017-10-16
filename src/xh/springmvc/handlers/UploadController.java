@@ -94,7 +94,7 @@ public class UploadController {
 		String path = request.getSession().getServletContext().getRealPath(filePath);
 		
 		String downPath=path;
-		log.info(downPath);
+		
 		 File file = new File(downPath);
 		 if(!file.exists()){
 			 this.success=false;
