@@ -19,10 +19,9 @@
 <![endif]-->
 </head>
 <body ng-app="app" ng-controller="xhcontroller"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -34,10 +33,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/monitor-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -79,8 +74,7 @@
 										<th width="50px">#</th>
 										<th>服务器名称</th>
 										<th>IP地址</th>
-										<th>C盘剩余容量</th>
-										<th>D盘剩余容量</th>
+										<th>剩余磁盘空间（单位：G）</th>
 										<th>运行状态</th>
 										<th>更新时间</th>
 									</tr>
@@ -93,11 +87,14 @@
 										<td>{{$index+1}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.ip}}</td>
-										<td>{{x.cpan}}</td>
-										<td>{{x.dpan}}</td>
-										<td ng-if="x.status==1"><span
+										<td>{{x.dpan |number:2}}</td>
+										<td ng-if="x.type==0 && x.status==1"><span
 											class="label arrowed-in label-sm label-success">运行正常</span></td>
-										<td ng-if="x.status==0"><span
+										<td ng-if="x.type==0 && x.status==0"><span
+											class="label arrowed-in label-sm label-success">无法连接</span></td>
+										<td ng-if="x.type==1 && x.status==0"><span
+											class="label arrowed-in label-sm label-success">运行正常</span></td>
+										<td ng-if="x.type==1 && x.status==1"><span
 											class="label arrowed label-sm label-danger">无法连接</span></td>
 										
 										<td>{{x.time}}</td>
@@ -116,8 +113,6 @@
 		</div>
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

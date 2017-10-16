@@ -36,14 +36,16 @@ body {
 } */
 html,body {
 	min-width: 290px;
-	-ms-overflow-style: scrollbar
+	-ms-overflow-style: scrollbar,
+	margin:0;
+	padding:0;
 }
 
 body {
 	/* background-color: #ecf0f5; #0064B3;#2B6474*/
 	/* background: #0064B3; */
 	background-color: #ecf0f5;
-	background-image:url("../images/img/ocean.jpg");
+	/* background-image:url("../images/img/ocean.jpg"); */
 	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial,
 		sans-serif;
 	font-size: 13px;
@@ -680,7 +682,7 @@ li.divider {
 	bottom:0px;
 	position: absolute;
 	background: #fafafa;
-	top:100px;
+	top:0px;
 	
 }
 .row-title {
@@ -1100,9 +1102,9 @@ body.fullscreen-panel-mode {
 /* 表格样式 */
 .xh-table {
 	margin-top: 10px;
-	width: 100%;
+	width:100%;
 	border-radius: 10px;
-	/* table-layout:fixed; */
+	table-layout:fixed;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	text-align: center;
@@ -2352,8 +2354,8 @@ bs-status-right .headering {
 }
 
 .phote-img {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	margin: 0;
 }
 /* 审核进度 */

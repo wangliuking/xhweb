@@ -19,10 +19,9 @@
 <![endif]-->
 </head>
 <body ng-app="app" ng-controller="xhcontroller"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -34,10 +33,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -58,33 +53,8 @@
 		<div class="content animate-panel">
 			<!-- row -->
 			<div class="row">
-				<!-- 左侧菜单 -->
-				<div class="col-md-2">
-					<div class="hpanel">
-						<div class="panel-body">
-
-							<ul class="mailbox-list">
-							    <li class="active"><a href="access-user.html" target="_self"><i
-										class="fa fa-user text-success"></i> 接入用户</a></li>
-								<li><a href="radiouser.html" target="_self"><i
-										class="fa fa-user"></i> 无线用户</a></li>
-								<li><a href="../../Views/business/radiouserbusiness.html"><i class="fa fa-paper-plane text-warning"></i>
-										业务属性</a></li>
-								<li><a href="../../Views/business/radiouserseria.html"><i class="fa fa-exchange "></i> 互联属性</a></li>
-							</ul>
-							<hr>
-							<ul class="mailbox-list">
-								<li><a href="../../Views/business/radiodispatch.html"><i class="fa fa-plane text-danger"></i>
-										调度用户</a></li>
-								<li><a href="../../Views/business/radiodispatchbusiness.html"><i class="fa fa-bar-chart text-warning"></i>
-										业务属性</a></li>
-								<li><a href="#"><i class="fa fa-users text-info"></i>
-										号段管理</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-10">
+				
+				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
 							<div class="row">
@@ -150,8 +120,6 @@
 	<!-- 中间内容体 /-->
 	<div ng-include="'access-user-edit.html'"></div>
 	<div ng-include="'access-user-ad.html'"></div>
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

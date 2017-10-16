@@ -11,12 +11,34 @@
 	-webkit-animation-delay: -1s;
 	animation-delay: -1s;
 }
+
+#mainframe {
+	margin: 0 0 0 190px;
+	padding: 0;
+	position: fixed;
+	width:100%;
+	height: 100%;
+	top:50px;
+	overflow-y: auto;
+	/* height:500px; */
+	/* top: 50px;
+	left:190px;
+	padding: 0;
+	background: #f1f3f6;
+	border-left: 1px solid #e4e5e7;
+	transition: all 0.4s ease 0s;
+	position: absolute;
+	min-height: 100%;
+	height: 100%;
+	overflow-x:hidden;
+	overflow-y: auto; */
+}
 /* 网页头部 #428bca*/
 #header {
-	background-image:url("../images/img/ocean.jpg");
-/* 	background-color: #1874CD; */
+	background-image: url("../images/img/ocean.jpg");
+	/* 	background-color: #1874CD; */
 	display: block;
-	height: 60px;
+	height: 50px;
 	margin: 0;
 	padding: 0;
 	position: relative;
@@ -31,7 +53,6 @@
 
 #nav-top {
 	background-color: #fff;
-	
 	display: block;
 	height: 30px;
 	margin: 0;
@@ -86,10 +107,10 @@
 }
 
 #logo .small-logo .title {
-	font-family:sans-serif;
+	font-family: sans-serif;
 	padding-top: 5px;
-	font-weight:bold;
-	font-size: 18pt;
+	font-weight: bold;
+	font-size: 14pt;
 	color: #ffffff;
 }
 /* 网页中间内容体 wrapper */
@@ -110,32 +131,38 @@
 	color: #fff;
 	border: none;
 }
+
 .bg-blue {
 	background: #3498db;
 	color: #fff;
 	border: none;
 }
+
 .bg-red {
 	background: #e74c3c;
 	color: #fff;
 	border: none;
 }
+
 .bg-yellow {
-	background:#ffb606;
+	background: #ffb606;
 	color: #fff;
 	border: none;
 }
-.bg-orange{
-	background:#e67e22;
+
+.bg-orange {
+	background: #e67e22;
 	color: #fff;
 	border: none;
 }
+
 .bg-navyblue {
-	background:#34495e;
+	background: #34495e;
 	color: #fff;
 	border: none;
 }
-.bg-reddeep{
+
+.bg-reddeep {
 	background: #c0392b;
 	color: #fff;
 	border: none;
@@ -172,15 +199,15 @@
 	overflow: hidden;
 }
 
-iframe {
-	/*  margin: 80px 180px 0 180px; */
+/* iframe {
+	 margin: 80px 180px 0 180px;
 	min-height: 100%;
 	border: 0;
 	transition: all 0.4s ease 0s;
 	position: relative;
 	width: 100%;
 	height: 100%;
-}
+} */
 
 #wrapper-iframe {
 	margin: 0 0 0 190px;
@@ -193,7 +220,17 @@ iframe {
 	height: 500px;
 	overflow: hidden;
 }
-
+#iframe-div{
+	margin: 0 0 0 190px;
+	padding: 0;
+	background: #f1f3f6;
+	border-left: 1px solid #e4e5e7;
+	transition: all 0.4s ease 0s;
+	position: relative;
+	min-height: 100%;
+	height: 100%;
+	overflow-y: auto;
+}
 .content {
 	padding: 15px 10px 10px 10px;
 	background: #fafafa;
@@ -307,7 +344,7 @@ iframe {
 	width: 100%;
 	position: fixed;
 	z-index: 100;
-	top: 61px;
+	top: 50px;
 }
 
 .fixed-sidebar #menu {
@@ -315,12 +352,12 @@ iframe {
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 190px;
-	top: 90px;
+	top: 50px;
 }
 
 .fixed-small-header .small-header {
 	position: fixed;
-	top: 90px;
+	top: 50px;
 	left: 2px;;
 	right: 0;
 	margin-left: 190px;
@@ -336,21 +373,43 @@ iframe {
 }
 
 .fixed-navbar #wrapper {
-	top: 90px;
+	top: 50px;
 }
 
 .fixed-wrapper #wrapper {
-	top: 90px;
+	top: 50px;
 	margin-left: 0px;
 }
 
 .fixed-wrapper .small-header {
 	position: fixed;
-	top: 90px;
+	top: 50px;
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;
 	z-index: 10;
+}
+
+.fixed-iframe .small-header{
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	margin-left: 0px;
+}
+.fixed-iframe #wrapper{
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	margin-left: 0px;
+}
+.fixed-iframe .footer{
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 0px;
+	right: 0;
 }
 
 /* 
@@ -378,13 +437,13 @@ iframe {
 }
 
 .hide-menu #wrapper {
-	top: 80px;
+	top: 50px;
 	margin-left: 0px;
 }
 
 .hide-menu .small-header {
 	position: fixed;
-	top: 80px;
+	top: 50px;
 	left: 2px;;
 	right: 0;
 	margin-left: 0px;
@@ -489,7 +548,7 @@ iframe {
 }
 
 ::-webkit-scrollbar-thumb:active {
-	background: green;
+	background: #3498db;
 }
 
 ::-moz-scrollbar-track-piece {
@@ -519,5 +578,5 @@ iframe {
 }
 
 ::-moz-scrollbar-thumb:active {
-	background: green;
+	background: #3498db;
 }

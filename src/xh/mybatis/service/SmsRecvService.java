@@ -15,7 +15,7 @@ public class SmsRecvService {
 	 * @return
 	 */
 	public static List<HashMap<String,String>> recInfo(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		SmsRecvMapper mapper = sqlSession.getMapper(SmsRecvMapper.class);
 		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
@@ -36,7 +36,7 @@ public class SmsRecvService {
 	 * @throws Exception
 	 */
 	public static int recCount(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		SmsRecvMapper mapper = sqlSession.getMapper(SmsRecvMapper.class);
 		int count = 0;
 		try {
@@ -56,7 +56,7 @@ public class SmsRecvService {
 	 * @throws Exception
 	 */
 	public static void deleteById(List<String> list) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
 		SmsRecvMapper mapper = sqlSession.getMapper(SmsRecvMapper.class);
 		try {
 			mapper.deleteById(list);

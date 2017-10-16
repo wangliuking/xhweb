@@ -8,6 +8,7 @@
     document.write('<link rel="stylesheet" type="text/css" href="'+path+'lib/sweetalert/lib/sweet-alert.css">');
     document.write('<link rel="stylesheet" type="text/css" href="'+path+'lib/toastr/build/toastr.min.css">');
     document.write('<link rel="stylesheet" type="text/css" href="'+path+'Resources/css/magic-check.min.css">');
+    /*document.write('<link rel="stylesheet" type="text/css" href="'+path+'lib/metisMenu/dist/metisMenu.css">');*/
 })()
 function rootPath(){
 	 var scripts = document.getElementsByTagName('script'),

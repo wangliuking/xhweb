@@ -24,7 +24,7 @@
 <![endif]-->
 </head>
 <body ng-app="app" ng-controller="talkgroupbusiness"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="color-line"></div>
@@ -67,40 +67,40 @@
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-
+							<div class="panel-heading hbuilt">
+								<!-- <div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div> -->
+								<i class="fa fa-reorder"></i> 菜单列表
+							</div>
 							<ul class="mailbox-list">
-								<li><a href="../../Views/business/talkgroup.html"><i class="fa fa-user"></i>
-										通话组</a></li>
-								<li><a href="../../Views/business/multigroup.html"><i
-										class="fa fa-paper-plane text-warning"></i> 通播组</a></li>
-							</ul>
-							<hr>
-							<ul class="mailbox-list">
-								<li class="active"><a href="#"><i class="fa fa-plane text-danger"></i>
-										业务属性</a></li>
-								<li><a href="../../Views/business/talkgroupia.html"><i class="fa fa-bar-chart text-warning"></i>
-										互联属性</a></li>
+								<li><a href="radiouserbusiness.html"><i
+										class="fa fa-paper-plane text-warning"></i> 无线用户业务属性</a></li>
+								<li><a href="radiouserseria.html"> <i
+										class="fa fa-exchange "></i> 无线用户互联属性
+								</a></li>
+								<li><a href="radiodispatchbusiness.html"><i
+										class="fa fa-bar-chart text-warning"></i> 调度用户业务属性</a></li>
+								<li class="active"><a href="talkgroupbusiness.html"><i
+										class="fa fa-plane text-danger"></i> 通话组/通播组业务属性</a></li>
 
+								<li><a href="talkgroupia.html"><i
+										class="fa fa-bar-chart text-warning"></i> 通话组/通播组互联属性</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-10">
 					<div class="hpanel">
-						<div class="panel-body">
-							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button class="btn btn-warning btn-sm" ng-click="refresh()">
-												<i class="fa fa-refresh"></i>&nbsp;刷新
-											</button>
-										</div>
-									</div>
-								</form>
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
 							</div>
-
-							<!-- row -->
+							<i class="fa fa-plane"></i> 通话组/通播组业务属性
+						</div>
+						<div class="panel-body">
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">

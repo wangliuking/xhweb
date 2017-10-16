@@ -13,6 +13,16 @@ public interface GosuncnMapper {
 	public int insertLogin(Map<String,String> map)throws Exception;
 	
 	/**
+	 * 添加告警信息
+	 */
+	public int insertAlarm(Map<String,String> map);
+	
+	/**
+	 * 根据FSUID删除对应配置信息
+	 */
+	public int deleteConfigByFSUID(String FSUID);
+	
+	/**
 	 * 添加FSU配置信息
 	 * @param bean
 	 * @return

@@ -148,7 +148,7 @@
 									</p>
 									<span ng-if="progressData.checked<2"
 										class="cd-date text-danger">用户单位拒绝通过！</span> 
-									<span ng-if="progressData.checked=2"
+									<span ng-if="progressData.checked==2"
 										class="cd-date text-danger">等待用户单位确认！</span> <span
 										ng-if="progressData.checked>2"
 										class="cd-date text-success font-bold">管理方向服务提供方发送审核信息中;
@@ -188,7 +188,7 @@
 									</p>
 									<span ng-if="progressData.checked<4"
 										class="cd-date text-danger">审核不通过</span>
-									<span ng-if="progressData.checked=4"
+									<span ng-if="progressData.checked==4"
 										class="cd-date text-danger">等待服务提供方审核</span> 
 									<span
 										ng-if="progressData.checked>4"
@@ -197,7 +197,6 @@
 								</div>
 							</div>
 
-							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
@@ -229,7 +228,7 @@
 									</p>
 									<span ng-if="progressData.checked<6"
 										class="cd-date text-danger">管理方拒绝通过！</span>
-									<span ng-if="progressData.checked=6"
+									<span ng-if="progressData.checked==6"
 										class="cd-date text-danger">等待管理方方审核！</span> <span
 										ng-if="progressData.checked>6"
 										class="cd-date text-success font-bold">管理方通知用户单位;
@@ -269,14 +268,12 @@
 									</p>
 									<span ng-if="progressData.checked<8"
 										class="cd-date text-danger">用户单位拒绝通过</span>
-									<span ng-if="progressData.checked=8"
+									<span ng-if="progressData.checked==8"
 										class="cd-date text-danger">等待用户单位确认</span> <span
 										ng-if="progressData.checked>8"
 										class="cd-date text-success font-bold">服务提供方发送保障准备信息;
 										时间：{{progressData.time5}}</span>
 								</div>
-							</div>
-
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
@@ -309,7 +306,7 @@
 									</p>
 									<span ng-if="progressData.checked<10"
 										class="cd-date text-danger">管理方拒绝通过！</span>
-									<span ng-if="progressData.checked=10"
+									<span ng-if="progressData.checked==10"
 										class="cd-date text-danger">等待管理方确认保障准备信息！</span> <span
 										ng-if="progressData.checked>10"
 										class="cd-date text-success font-bold">管理方方正在发送保障准备信息;
@@ -349,7 +346,7 @@
 									</p>
 									<span ng-if="progressData.checked<12"
 										class="cd-date text-danger">用户单位拒绝通过！</span>
-									<span ng-if="progressData.checked=12"
+									<span ng-if="progressData.checked==12"
 										class="cd-date text-danger">等待用户单位确认保障准备信息！</span> <span
 										ng-if="progressData.checked>12"
 										class="cd-date text-success font-bold">服务提供方正在;
@@ -390,7 +387,7 @@
 									</p>
 									<span ng-if="progressData.checked<14"
 										class="cd-date text-danger">管理方拒绝通过！</span>
-									<span ng-if="progressData.checked=14"
+									<span ng-if="progressData.checked==14"
 										class="cd-date text-danger">等待管理方审核保障完成信息！</span> <span
 										ng-if="progressData.checked>14"
 										class="cd-date text-success font-bold">管理方正在备案故障信息;

@@ -23,11 +23,9 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="radiouserseria"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+<body ng-app="app" ng-controller="radiouserseria" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -39,10 +37,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -63,26 +57,30 @@
 		<div class="content animate-panel">
 			<!-- row -->
 			<div class="row">
-			<!-- 左侧菜单 -->
+				<!-- 左侧菜单 -->
 				<div class="col-md-2">
 					<div class="hpanel">
 						<div class="panel-body">
-
+							<div class="panel-heading hbuilt">
+								<!-- <div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div> -->
+								<i class="fa fa-reorder"></i> 菜单列表
+							</div>
 							<ul class="mailbox-list">
-								<li><a href="../../Views/business/radiouser.html"><i
-										class="fa fa-user"></i> 无线用户</a></li>
-								<li><a href="../../Views/business/radiouserbusiness.html"><i class="fa fa-paper-plane text-warning"></i>
-										业务属性</a></li>
-								<li class="active"><a href="#"><i class="fa fa-exchange "></i> 互联属性</a></li>
-							</ul>
-							<hr>
-							<ul class="mailbox-list">
-								<li><a href="../../Views/business/radiodispatch.html"><i class="fa fa-plane text-danger"></i>
-										调度用户</a></li>
-								<li><a href="../../Views/business/radiodispatchbusiness.html"><i class="fa fa-bar-chart text-warning"></i>
-										业务属性</a></li>
-								<li><a href="#"><i class="fa fa-users text-info"></i>
-										号段管理</a></li>
+								<li><a href="radiouserbusiness.html"><i
+										class="fa fa-paper-plane text-warning"></i> 无线用户业务属性</a></li>
+								<li class="active"><a href="radiouserseria.html"> <i
+										class="fa fa-exchange "></i> 无线用户互联属性
+								</a></li>
+								<li><a href="radiodispatchbusiness.html"><i
+										class="fa fa-bar-chart text-warning"></i> 调度用户业务属性</a></li>
+								<li><a href="talkgroupbusiness.html"><i
+										class="fa fa-plane text-danger"></i> 通话组/通播组业务属性</a></li>
+								
+								<li><a href="talkgroupia.html"><i
+										class="fa fa-bar-chart text-warning"></i> 通话组/通播组互联属性</a></li>
 							</ul>
 
 
@@ -91,88 +89,113 @@
 					</div>
 				</div>
 				<div class="col-md-10">
-					<div class="hpanel">
-						<div class="panel-body">
-							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label for="id">互连属性标识</label>
-										<div>
-											<input type="text" class="form-control" id="id"
-												placeholder="互连属性标识" width="20px">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="name">互连属性名</label>
-										<div>
-											<input type="text" class="form-control" id="name"
-												placeholder="互连属性名">
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button type="submit" class="btn btn-sm btn-success"
-												ng-click="search(1)">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
-											</button>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
-										</div>
-									</div>
-								</form>
-							</div>
-						
-							<!-- row -->
-							<table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th>序号</th>
-										<th>互连属性标识</th>
-										<th>互连属性名</th>
-										<th>优先级</th>
-										<th>呼入限制</th>
-										<th>呼出限制</th>
-										<th>时间</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{$index+1}}</td>
-										<td>{{x.id}}</td>
-										<td>{{x.name}}</td>
-										<td>{{x.prioritylevel}}</td>
-										<td>{{x.bictype}}</td>
-										<td>{{x.boctype}}</td>
-										<td>{{x.time}}</td>
-										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i class="fa fa-edit text-success"></i>&nbsp;显示详情
-										</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
+					<div class="row">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+										class="closebox"><i class="fa fa-times"></i></a>
 								</div>
-								<div class="page-paging"></div>
+								<i class="fa fa-search"></i> 查询
+							</div>
+							<div class="panel-body">
+								<div id="search-div">
+									<form class="form-inline" role="form">
+										<div class="form-group">
+											<label for="id">互连属性标识</label>
+											<div>
+												<input type="text" class="form-control" id="id"
+													placeholder="互连属性标识" width="20px">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="name">互连属性名</label>
+											<div>
+												<input type="text" class="form-control" id="name"
+													placeholder="互连属性名">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2" style="padding-top:22px">
+												<button type="submit" class="btn btn-sm btn-success"
+													ng-click="search(1)">
+													<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+												</button>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2" style="padding-top:22px">
+												<button class="btn btn-warning btn-sm" ng-click="refresh()">
+													<i class="fa fa-refresh"></i>&nbsp;刷新
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+										class="closebox"><i class="fa fa-times"></i></a>
+								</div>
+								属性
+							</div>
+
+							<div class="panel-body">
+								<!-- row -->
+								<table id="tb-info" class="xh-table table-hover">
+									<thead>
+										<tr class="tr-gray">
+											<th>序号</th>
+											<th>互连属性标识</th>
+											<th>互连属性名</th>
+											<th>优先级</th>
+											<th>呼入限制</th>
+											<th>呼出限制</th>
+											<th>时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="totals==0">
+											<td colspan="8" class="text-center">没有记录！</td>
+										</tr>
+										<tr ng-repeat="x in data">
+											<td>{{$index+1}}</td>
+											<td>{{x.id}}</td>
+											<td>{{x.name}}</td>
+											<td>{{x.prioritylevel}}</td>
+											<td>{{x.bictype}}</td>
+											<td>{{x.boctype}}</td>
+											<td>{{x.time}}</td>
+											<td style="width:20px;text-align:center"><a href="#"
+												ng-click="editModel($index)" data-toggle="modal"> <i
+													class="fa fa-edit text-success"></i>&nbsp;显示详情
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="page">
+									<div class="page-info">
+										每页显示 <select id="page-limit" ng-change="refresh()"
+											ng-model="count">
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+										</select> 条, <span ng-model="index">显示{{start}}-</span><span
+											ng-model="lastIndex">{{lastIndex}}条,</span> <span
+											ng-model="totals">总计{{totals}}条</span>
+									</div>
+									<div class="page-paging"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -182,8 +205,6 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<div ng-include="'../footer.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
