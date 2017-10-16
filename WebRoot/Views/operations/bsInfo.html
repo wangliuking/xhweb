@@ -181,14 +181,13 @@
 												<th>基站级别</th>
 												<th>经度</th>
 												<th>纬度</th>
-												<th>高度</th>
 												<th>是否启用</th>
 												<th width="150px">操作</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="11" class="text-center">没有记录！</td>
+												<td colspan="9" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
@@ -199,7 +198,6 @@
 												<td>{{x.level}}</td>
 												<td>{{x.lng}}</td>
 												<td>{{x.lat}}</td>
-												<td>{{x.height}}</td>
 												<td ng-if="x.openen==1" class="td-success"><span
 													style="color:#fff">已经启用</span></td>
 												<td ng-if="x.openen==0" class="td-gray">未启用</td>
