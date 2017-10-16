@@ -171,13 +171,12 @@
 											<tr class="tr-gray">
 												<th width="30px"><input type="checkbox"
 													id="table-checkbox" class="table-check" /></th>
-												<th>呼叫流水号</th>
+												
 												<th>主叫号码</th>
 												<th>被叫号码</th>
 												<th>呼叫起始时间</th>
 												<th>接入基站id</th>
-												<th>呼叫用时</th>
-												<th>音频地址</th>
+												<th>呼叫用时[s]</th>
 												<th>操作</th>
 											</tr>
 										</thead>
@@ -188,13 +187,12 @@
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
 													value="{{x.id}}" index="{{$index}}" /></td>
-												<td>{{x.call_id}}</td>
+												
 												<td>{{x.caller}}</td>
 												<td>{{x.called}}</td>
 												<td>{{x.call_Time}}</td>
-												<td>{{x.call_TS_Id}}</td>
+												<td>[{{x.call_TS_Id}}]{{x.name}}</td>
 												<td>{{x.use_Time}}</td>
-												<td>{{x.call_Path}}</td>
 												<td><a href="#" ng-click="play($index)"><i
 														class="fa fa-play-circle text-success"></i>&nbsp;播放 </a>| <a
 													href="#" ng-click="download($index)"><i
