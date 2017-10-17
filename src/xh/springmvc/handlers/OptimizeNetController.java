@@ -36,7 +36,7 @@ import xh.mybatis.bean.*;
 import xh.mybatis.service.*;
 
 @Controller
-@RequestMapping(value = "/optimizeNet")
+@RequestMapping(value = "/optimizenet")
 public class OptimizeNetController {
 
     private boolean success;
@@ -124,9 +124,7 @@ public class OptimizeNetController {
         String jsonData = request.getParameter("formData");
         OptimizeNetBean bean = GsonUtil.json2Object(jsonData, OptimizeNetBean.class);
         bean.setUserName(funUtil.loginUser(request));
-        bean.setRequestTime(funUtil.nowDate());
         log.info("data==>" + bean.toString());
-
         int rst = OptimizeNetService.insertOptimizeNet(bean);
         WebLogBean webLogBean = new WebLogBean();
         if (rst == 1) {
@@ -136,7 +134,6 @@ public class OptimizeNetController {
             webLogBean.setStyle(1);
             webLogBean.setContent("网络优化申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
-
             //----发送通知邮件
             sendNotify(bean.getUser_MainManager(), "网络优化申请信息已经成功提交,请审核。。。", request);
             //----END
@@ -278,7 +275,6 @@ public class OptimizeNetController {
             bean.setChecked(3);
         }else if(checked == 1) {
             bean.setChecked(1);
-
         }
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
