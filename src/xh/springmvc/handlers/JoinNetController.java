@@ -607,7 +607,7 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
-		int type = funUtil.StringToInt(request.getParameter("type"));
+		//int type = funUtil.StringToInt(request.getParameter("type"));
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setFileNameGH(fileName);
