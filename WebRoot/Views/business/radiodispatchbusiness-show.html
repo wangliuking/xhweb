@@ -1,53 +1,203 @@
 
 <div class="modal fade" id="edit" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">查看调度用户业务详细信息</small>
+				<small class="font-bold">修改调度用户业务详细信息</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<table class="table-bordered table-hover table-striped" style="width:100%;">
-				<thead>
-				<tr>
-				<th>名称</th>
-				<th>参数</th>
-				<th>备注</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr><td>调度用户业务属性唯一标识</td><td>{{editData.id}}</td><td></td></tr>
-				<tr><td>调度用户业务属性名称</td><td>{{editData.name}}</td><td></td></tr>
-				<tr><td>打开监控</td><td>{{editData.monitoron}}</td><td></td></tr>
-				<tr><td>允许呼叫预占</td><td>{{editData.pcpreempt}}</td><td></td></tr>
-				<tr><td>呼叫优先级</td><td>{{editData.callpriority}}</td><td></td></tr>
-				<tr><td>允许全静音</td><td>{{editData.allmute}}</td><td></td></tr>
-				<tr><td>全静音超时</td><td>{{editData.allmutetimeout}}</td><td></td></tr>
-				<tr><td>PTT发射优先级</td><td>{{editData.pttpriority}}</td><td></td></tr>
-				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
-				<tr><td>userGroup</td><td>{{editData.usergroup}}</td><td></td></tr>
-				<tr><td>emergIndCallEnabled</td><td>{{editData.emergindcallenabled}}</td><td></td></tr>
-				<tr><td>emergGroupCallEnabled</td><td>{{editData.emerggroupcallenabled}}</td><td></td></tr>
-				<tr><td>允许通话禁止音</td><td>{{editData.prohibittone}}</td><td></td></tr>
-				<tr><td>允许侧音</td><td>{{editData.sidetone}}</td><td></td></tr>
-				<tr><td>派接组数目</td><td>{{editData.patchgroupnum}}</td><td></td></tr>
-				<tr><td>多选组数目</td><td>{{editData.msgroupnum}}</td><td></td></tr>
-				<tr><td>APB传输数目</td><td>{{editData.apbnum}}</td><td></td></tr>
-				<tr><td>被叫用户预占</td><td>{{editData.calledpreempt}}</td><td></td></tr>
-				<tr><td>电话呼入</td><td>{{editData.inboundcall}}</td><td></td></tr>
-				<tr><td>PTT呼入</td><td>{{editData.inboundptt}}</td><td></td></tr>
-				<tr><td>瞬时传输</td><td>{{editData.instanttransmit}}</td><td></td></tr>
-				<tr><td>派接私密呼叫</td><td>{{editData.patchpc}}</td><td></td></tr>
-				</tbody>
-				</table>
+			<form action="#" id="addForm" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>业务属性唯一标识</label>&nbsp;<span class="text-danger">[*]</span>
+								<input
+									type="text" ng-model="editData.id" class="form-control" name="id"
+									required="required" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>业务属性名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.name" class="form-control" name="name"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>打开监控</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.monitoron" class="form-control" name="monitoron"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许呼叫预占</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.pcpreempt" class="form-control" name="pcpreempt"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>呼叫优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.callpriority" class="form-control" name="callpriority"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许全静音</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.allmute" class="form-control" name="allmute"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>全静音超时</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.allmutetimeout" class="form-control" name="allmutetimeout"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>PTT发射优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.pttpriority" class="form-control" name="pttpriority"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>时间</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" class="form-control"
+											name="time" id="time" placeholder="时间"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>userGroup</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.usergroup" class="form-control" name="usergroup"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>emergIndCallEnabled</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.emergindcallenabled" class="form-control" name="emergindcallenabled"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>emergGroupCallEnabled</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.emerggroupcallenabled" class="form-control" name="emerggroupcallenabled"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end --><!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许通话禁止音</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.prohibittone" class="form-control" name="prohibittone"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许侧音</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.sidetone" class="form-control" name="sidetone"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>派接组数目</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.patchgroupnum" class="form-control" name="patchgroupnum"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>多选组数目</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.msgroupnum" class="form-control" name="msgroupnum"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>APB传输数目</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.apbnum" class="form-control" name="apbnum"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>被叫用户预占</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.calledpreempt" class="form-control" name="calledpreempt"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>电话呼入</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.inboundcall" class="form-control" name="inboundcall"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>PTT呼入</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.inboundptt" class="form-control" name="inboundptt"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>瞬时传输</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.instanttransmit" class="form-control" name="instanttransmit"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>派接私密呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.patchpc" class="form-control" name="patchpc"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;更新
 				</button>
 			</div>
 		</div>
@@ -55,35 +205,6 @@
 </div>
 <!--修改基站---end -->
 <script type="text/javascript">
-//控制步骤
-$(function() {
-	
-		/* $('#edit').on("hidden.bs.modal", function() {
-			var app = angular.module("app", []);
-			app.controller("radiouser",function($scope){
-				$scope.editData=[];
-			});
-		}); */
-
-	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
-		$('#edit a[data-toggle="tab"]').addClass('btn-default');
-		$(this).removeClass('btn-default');
-		$(this).addClass('btn-primary');
-	});
-
-	$('#edit .next').click(function() {
-		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
-		$('#edit a[href="#'+nextId+'"]').tab('show');
-	});
-
-	$('#edit .prev').click(function() {
-		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
-		$('#edit a[href="#' + prevId + '"]').tab('show');
-	});
-
-});
-
 	$("#update_btn").click(function() {
 		$('#updateForm').submit();
 	});
@@ -96,13 +217,17 @@ $(function() {
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			bsId : {
+			/* bsId : {
 				validators : {
 					notEmpty : {
-						message : '无线用户ID号不能为空'
+						message : '不能为空'
+					},
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
 					}
 				}
-			}
+			} */
 
 		}
 	}).on('success.form.bv', function(e, data) {

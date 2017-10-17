@@ -29,13 +29,11 @@ html,body{
 	<!-- 头部文件 -->
 	<div ng-include="'Views/top.html'"></div>
 	<!-- 系统菜单 -->
-	<div ng-include="'Views/menu/menu.html'"></div>
+	<div ng-include="'Views/menu.html'"></div>
 
 	<!-- 中间内容体 -->
-	<div id="wrapper">
-		<iframe src="map.html" id="mainframe" name="mainframe" frameborder="0"
+	<iframe src="map.html" id="mainframe" name="mainframe" frameborder="0"
 			scrolling="no" onload="changeFrameHeight()"></iframe>
-	</div>
 	<!-- 中间内容体 /-->
 	<!-- 底部内容体 -->
 	 <div ng-include="'Views/footer.html'"></div>
@@ -46,7 +44,8 @@ html,body{
 	<script type="text/javascript">
 		xh.load();
 		function changeFrameHeight(){
-			$("#mainframe").height(document.documentElement.clientHeight-40);
+			$("#mainframe").height(document.documentElement.clientHeight-80);
+			$("#mainframe").width(document.documentElement.clientWidth-190);
 		}
 		window.onresize=function(){  
 		     changeFrameHeight();  

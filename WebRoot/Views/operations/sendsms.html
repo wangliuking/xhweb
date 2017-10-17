@@ -89,20 +89,21 @@
 								</div>
 								<div class="panel-body">
 
-									<form action="#" class="form-inline" role="form" id="smsform" onSubmit="return false">
+									<form action="#" class="form-inline" role="form" id="smsform"
+										onSubmit="return false">
 										<div class="row">
 											<div class="col-md-3">
 												<div class="input-group">
 													<span class="input-group-addon">调度台ID</span> <input
-														type="number" required="required" class="form-control" placeholder="调度台ID"
-														name="srcId" value="8000695">
+														type="number" required="required" class="form-control"
+														placeholder="调度台ID" name="srcId" value="8000695">
 												</div>
 											</div>
 											<div class="col-md-3">
 												<div class="input-group">
 													<span class="input-group-addon">短信接收ID</span> <input
-														type="number" required="required" class="form-control" placeholder="短信接收ID"
-														name="dstId">
+														type="number" required="required" class="form-control"
+														placeholder="短信接收ID" name="dstId">
 												</div>
 											</div>
 										</div>
@@ -111,14 +112,12 @@
 											<div class="col-md-12">
 												<span class="">发送方式</span>
 												<div class="radio radio-info radio-inline">
-													<input type="radio" id="inlineRadio1" value="0"
-														name="type" checked=""> <label
-														for="inlineRadio1">单发</label>
+													<input type="radio" id="inlineRadio1" value="0" name="type"
+														checked=""> <label for="inlineRadio1">单发</label>
 												</div>
 												<div class="radio radio-inline">
-													<input type="radio" id="inlineRadio2" value="1"
-														name="type"> <label for="inlineRadio2">
-														组发 </label>
+													<input type="radio" id="inlineRadio2" value="1" name="type">
+													<label for="inlineRadio2"> 组发 </label>
 												</div>
 											</div>
 										</div>
@@ -126,7 +125,15 @@
 											<div class="form-group">
 
 												<div class="col-md-12">
+
 													<div class="form-group">
+														<label for="content">短信内容</label>&nbsp;
+														<textarea
+															style="width:460px;height:100px;max-width:460px;max-height:200px;"
+															name="content" id="content" required="required" maxlength="70"></textarea>
+													</div>
+
+													<!-- <div class="form-group">
 														<label for="content">短信内容</label>
 														<textarea required="required" id="content" class="form-control" rows="5"
 															cols="60" name="content" maxlength="70"
@@ -135,7 +142,7 @@
 													</textarea>
 
 
-													</div>
+													</div> -->
 												</div>
 											</div>
 										</div>
@@ -183,30 +190,30 @@
 		xh.load();
 	</script>
 	<script type="text/javascript">
-	$("#send").click(function() {
-		$('#smsform').submit();
-	});
-	var faIcon = {
-		valid : 'fa fa-check-circle fa-lg text-success',
-		invalid : 'fa fa-times-circle fa-lg',
-		validating : 'fa fa-refresh'
-	};
-	$('#smsform').bootstrapValidator({
-		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
-		fields : {
-			dstId : {
-				validators : {
-					notEmpty : {
-						message : '发送ID号不能为空'
+		$("#send").click(function() {
+			$('#smsform').submit();
+		});
+		var faIcon = {
+			valid : 'fa fa-check-circle fa-lg text-success',
+			invalid : 'fa fa-times-circle fa-lg',
+			validating : 'fa fa-refresh'
+		};
+		$('#smsform').bootstrapValidator({
+			excluded : [ ':disabled' ],
+			/* feedbackIcons: faIcon, */
+			fields : {
+				dstId : {
+					validators : {
+						notEmpty : {
+							message : '发送ID号不能为空'
+						}
 					}
 				}
 			}
-		}
-	}).on('success.form.bv', function(e, data) {
-		e.preventDefault();
-		xh.sendsms();
-	});
-</script>
+		}).on('success.form.bv', function(e, data) {
+			e.preventDefault();
+			xh.sendsms();
+		});
+	</script>
 </body>
 </html>

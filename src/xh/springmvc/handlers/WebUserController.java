@@ -52,7 +52,6 @@ public class WebUserController {
 	public void userlist10002(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
-		System.out.println("---------传入的RoleID为：" + roleId);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",WebUserServices.userlistByRoleId(roleId).size());
