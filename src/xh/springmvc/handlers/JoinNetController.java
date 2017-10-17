@@ -119,10 +119,10 @@ public class JoinNetController {
 		JoinNetBean bean = GsonUtil.json2Object(jsonData, JoinNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
-		if(bean.getServiceType()=="有线接入"){
+		if("有线接入".equals(bean.getServiceType())){
 			bean.setChecked(-1);
 		}
-		else if(bean.getServiceType()=="无线接入"){
+		else if("无线接入".equals(bean.getServiceType())){
 			bean.setChecked(0);
 		}
 		log.info("data==>" + bean.toString());

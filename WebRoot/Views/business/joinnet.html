@@ -100,23 +100,23 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户单位</th>
-										<th width="150px">单位性质</th>
-										<th width="100px">服务类型</th>
-										<th width="100px">入网依据</th>
-										<th width="180px">入网时间</th>
-										<th width="200px">审核状态</th>
-										<th width="200px">操作详情</th>
+										<!-- <th width="170px">单位性质</th> -->
+										<th width="170px">服务类型</th>
+										<!-- <th>入网依据</th> -->
+										<th>入网时间</th>
+										<th>审核状态</th>
+										<th>操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="4" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.unitName}}</td>
-										<td>{{x.unitNature}}</td>
+										<td>{{x.unit1}}</td>
+										<!-- <td>{{x.unitNature}}</td> -->
 										<td>{{x.serviceType}}</td>
-										<td>{{x.netBasis}}</td>
+										<!-- <td>{{x.netBasis}}</td> -->
 										<td>{{x.nettime}}</td>
 										<!-- 无线接入流程 -->
 										<td ng-if="x.checked==-3 && x.serviceType=='无线接入'" class="td-danger">用户样机入网送检申请（合同附件）方案未通过，请用户重新提交</td>

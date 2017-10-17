@@ -95,14 +95,14 @@
 										<th>联系人</th>
 										<th>联系方式</th>
 										<th>使用区域</th>
-										<th width="180px">申请时间</th>
-										<th width="160px">状态</th>
-										<th width="100px">操作详情</th>
+										<th>申请时间</th>
+										<th>状态</th>
+										<th>操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.unit}}</td>
@@ -111,7 +111,7 @@
 										<td>{{x.zone}}</td>
 										<td>{{x.time}}</td>
 										<td ng-if="x.checked==0" class="td-warning">申请表填写成功，请等待经办人审核</td>
-										<td ng-if="x.checked==1" class="td-success">请用户验收设备</td>
+										<td ng-if="x.checked==1" class="td-success">设备处理流程中</td>
 										<!-- <td ng-if="x.checked==2" class="td-danger">审核通过，等待管理方安排借出资产</td> -->
 										<!-- <td ng-if="x.checked==2" class="td-danger">等待审核租借清单</td>
 										<td ng-if="x.checked==3" class="td-danger">等待用户确认租借清单</td> -->
