@@ -513,7 +513,7 @@
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="check_btn9	q">
+					class="btn btn-success btn-sm" id="check_btn9">
 					<i class="fa fa-plus"></i>&nbsp;提交
 				</button>
 			</div>
@@ -1055,6 +1055,16 @@
 	});
 
 	$('#checkForm10').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check10();
+	});
+	
+	$('#checkForm11').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {

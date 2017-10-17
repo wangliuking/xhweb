@@ -10,6 +10,9 @@ public class WebUserBean {
 	private String sex;
 	private String tel;
 	private int status;
+	private String unit;
+	private String unitType;
+	private String userType;
 	private String createTime;
 	
 	
@@ -85,6 +88,30 @@ public class WebUserBean {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 	
