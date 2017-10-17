@@ -1,219 +1,641 @@
 package xh.springmvc.handlers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import com.opensymphony.xwork2.inject.Inject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.JsonObject;
+
+import net.sf.json.JSONObject;
+import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.QualityCheck;
+import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.EmailBean;
+import xh.mybatis.bean.QualityCheckBean;
+import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
+import xh.mybatis.service.EmailService;
 import xh.mybatis.service.QualityCheckService;
+import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.WebUserServices;
 
 @Controller
-@RequestMapping(value = "/qualityCheck")
+@RequestMapping(value = "/qualitycheck")
 public class QualityCheckController {
-	private boolean success;
-	private String message;
-	private FunUtil funUtil = new FunUtil();
-	protected final Log log = LogFactory.getLog(QualityCheckController.class);
-	private FlexJSON json = new FlexJSON();
 
-	/**
-	 * 查询
-	 * 
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void info(HttpServletRequest request, HttpServletResponse response) {
-		this.success = true;
-		String filename = request.getParameter("filename");
-		String contact = request.getParameter("contact");
-		String status = request.getParameter("status");
-		int start = funUtil.StringToInt(request.getParameter("start"));
-		int limit = funUtil.StringToInt(request.getParameter("limit"));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("filename", filename);
-		map.put("contact", contact);
-		map.put("status", status);
-		map.put("start", start);
-		map.put("limit", limit);
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("totals", QualityCheckService.Count(map));
-		result.put("items", QualityCheckService.ById(map));
-		//System.out.println(QualityCheckService.ById(map));
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    private boolean success;
+    private String message;
+    private FunUtil funUtil = new FunUtil();
+    protected final Log log = LogFactory.getLog(QualityCheckController.class);
+    private FlexJSON json = new FlexJSON();
+    private WebLogBean webLogBean = new WebLogBean();
+    /**
+     * 查询所有流程
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+    public void selectAll(HttpServletRequest request,
+                          HttpServletResponse response) {
+        this.success = true;
+        int start = funUtil.StringToInt(request.getParameter("start"));
+        int limit = funUtil.StringToInt(request.getParameter("limit"));
+        String user=funUtil.loginUser(request);
+        WebUserBean userbean=WebUserServices.selectUserByUser(user);
+        int roleId=userbean.getRoleId();
 
-	}
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("start", start);
+        map.put("limit", limit);
+        map.put("user", user);
+        map.put("roleId", roleId);
 
-	/**
-	 * ajax文件上传
-	 * 
-	 * @param file
-	 * @param session
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping("/upload")
-	@ResponseBody
-	public String fileUpload(@RequestParam("pathName") MultipartFile file,
-			HttpSession session, HttpServletRequest request) throws IOException {
-		String name = file.getOriginalFilename();
-		String temp = null;
-		String dateNowStr = null;
-		try {
-			// 获取当前时间
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			dateNowStr = sdf.format(d);
-			// 获取项目路径
-			String str = this.getClass().getClassLoader().getResource("")
-					.toURI().getPath();
-			temp = str.substring(1, str.length() - 17) + "/Resources/data/"
-					+ dateNowStr;
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// 判断是否有相同日期下的文件夹
-		File filetemp = new File(temp);
-		File filename = new File(temp + "/" + name);
-		// 如果文件夹不存在则创建
-		if (!filetemp.exists() && !filetemp.isDirectory()) {
-			System.out.println("//不存在");
-			filetemp.mkdir();
-		} else {
-			if (filename.exists()) {
-				return "0";
-			}
-		}
-		String fileName = imgsUpload(file, session, "/Resources/data/"
-				+ dateNowStr);
-		return name;
-	}
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", QualityCheckService.selectAll(map));
+        result.put("totals", QualityCheckService.dataCount(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * 文件上传公共方法
-	 * 
-	 * @param file
-	 * @param session
-	 * @return
-	 * @throws IOException
-	 */
-	private String imgsUpload(MultipartFile file, HttpSession session,
-			String savePath) throws IOException {
-		// 获取文件在服务器的存储路径
-		String path = session.getServletContext().getRealPath(savePath);
-		// 获取上传文件的名称
-		String fileName = file.getOriginalFilename();
-		// 进行文件存储
-		file.transferTo(new File(path, fileName));
-		return savePath + fileName;
-	}
 
-	/**
-	 * 文件下载方法
-	 */
-	@RequestMapping("/download")
-	public void download(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			String temp = request.getParameter("path");
-			String str1=temp;
-			String path=new String(str1.getBytes("ISO-8859-1"),"utf-8"); //转码UTF8
-			String str = this.getClass().getClassLoader().getResource("")
-					.toURI().getPath();
-			// 截取字符串
-			String strTemp = str.substring(0, str.length() - 17);	
-			String filePath = strTemp + path; // 文件在项目中的路径
-			File outfile = new File(filePath);
-			String filename = outfile.getName();// 获取文件名称
-			InputStream fis = new BufferedInputStream(new FileInputStream(
-					filePath));
-			byte[] buffer = new byte[fis.available()];
-			fis.read(buffer); // 读取文件流
-			fis.close();
-			response.reset(); // 重置结果集
-			response.addHeader("Content-Disposition", "attachment;filename="
-					+ new String(
-							filename.replaceAll(" ", "").getBytes("utf-8"),
-							"iso8859-1")); // 返回头 文件名
-			response.addHeader("Content-Length", "" + outfile.length()); // 返回头
-																			// 文件大小
-			response.setContentType("application/octet-stream"); // 设置数据种类
-			// 获取返回体输出权
-			OutputStream os = new BufferedOutputStream(
-					response.getOutputStream());
-			os.write(buffer); // 输出文件
-			os.flush();
-			os.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	/**
-	 * 添加值班信息
-	 * 
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/add")
-	public void insertRadioUser(QualityCheck record, HttpServletRequest request,
-			HttpServletResponse response) {
-		this.success = true;
-		// 获取当前时间
-		Date d = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String dateNowStr = sdf.format(d);
-		String name = record.getFilepath();
-		if(name!=null){
-			if(name.length()==0){
-				record.setFilepath("null");
-			}else{
-				record.setFilepath("/Resources/data/" + dateNowStr + "/" + name);
-			}		
-		}else if(name==null || name==""){
-			record.setFilepath("null");
-		}
-		record.setStatus(0);
-		int count = QualityCheckService.insert(record);
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("result", count);
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    @RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
+    public void applyProgress(HttpServletRequest request,
+                              HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", QualityCheckService.applyProgress(id));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+//	@RequestMapping(value = "/demo", method = RequestMethod.GET)
+//	public List<Integer> selectquitNumber(@RequestBody UserFormBean userFormBean) {
+//		this.success = true;
+//		String userName = request.getParameter("userName");
+//		List<Integer> ids =  new ArrayList<>();
+//		return quitNetService.selectquitNumber(userName);
+//	}
+
+    /**
+     * 申请
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/insertQualityCheck", method = RequestMethod.POST)
+    public void insertQualityCheck(HttpServletRequest request,
+                        HttpServletResponse response) {
+        this.success = true;
+        String jsonData = request.getParameter("formData");
+        QualityCheckBean bean = GsonUtil.json2Object(jsonData, QualityCheckBean.class);
+        bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(funUtil.nowDate());
+        log.info("data==>" + bean.toString());
+        System.out.println("+++++++++++++++++"+bean.toString());
+        int rst = QualityCheckService.insertQualityCheck(bean);
+        System.out.println(rst);
+        WebLogBean webLogBean = new WebLogBean();
+        if (rst == 1) {
+            this.message = "质量抽检申请信息已经成功提交";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(1);
+            webLogBean.setContent("网络优化申请信息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(bean.getUser_MainManager(), "质量抽检申请信息已经成功提交,请审核。。。", request);
+            //----END
+        } else {
+            this.message = "质量抽检申请信息提交失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 服务提供方审核
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedOne", method = RequestMethod.POST)
+    public void checkedOne(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        String note1 = request.getParameter("note1");
+        String user = request.getParameter("user");
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        if(checked ==1) {
+            bean.setChecked(1);
+        }else if(checked == -1) {
+            bean.setChecked(-1);
+        }
+
+        bean.setUser1(funUtil.loginUser(request));
+        bean.setTime1(funUtil.nowDate());
+        bean.setNote1(note1);
+        int rst = QualityCheckService.checkedOne(bean);
+        if (rst == 1) {
+            this.message = "审核提交成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("审核网络优化信息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "网络优化信息审核，请服务提供方方人员审核并尽快处理", request);
+            //----EN
+        }
+        log.info("data==>" + bean.toString());
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 管理方下达网络优化任务消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedTwo", method = RequestMethod.POST)
+    public void checkedTwo(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        bean.setChecked(2);
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
+        System.out.println("网络优化任务消息:" + fileName);
+
+        int rst = QualityCheckService.checkedTwo(bean);
+        if (rst == 1) {
+            this.message = "上传网络优化任务消息成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("上传网络优化任务消息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+        } else {
+            this.message = "上传网络优化任务消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 服务提供方审核
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
+    public void checkedThree(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note2 = request.getParameter("note2");
+        String user = request.getParameter("user");
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        if(checked == 3){
+            bean.setChecked(3);
+        }else if(checked == 1) {
+            bean.setChecked(1);
+
+        }
+		bean.setUser2(funUtil.loginUser(request));
+        bean.setTime2(funUtil.nowDate());
+        bean.setNote2(note2);
+        int rst = QualityCheckService.checkedFive(bean);
+        if (rst == 1) {
+            this.message = "通知服务管理方处理成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("通知服务管理方处理(网络优化任务消息)，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "服务管理方请重新处理网络优化任务消息。。。", request);
+            //----END
+        } else {
+            this.message = "通知服务管理方处理网络优化任务消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 服务提供方上传方案审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
+    public void checkedFour(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        bean.setChecked(4);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
+        System.out.println("方案审核消息:" + fileName);
+
+        int rst = QualityCheckService.checkedTwo(bean);
+        if (rst == 1) {
+            this.message = "上传方案审核消息成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("上传方案审核消息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+        } else {
+            this.message = "上传方案审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 管理方审核方案审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
+    public void checkedFive(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note3 = request.getParameter("note3");
+        String user = request.getParameter("user");
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        if(checked == 5){
+            bean.setChecked(5);
+        }else if(checked == 3) {
+            bean.setChecked(3);
+
+        }
+        bean.setUser3(funUtil.loginUser(request));
+        bean.setTime3(funUtil.nowDate());
+        bean.setNote3(note3);
+        int rst = QualityCheckService.checkedFive(bean);
+        if (rst == 1) {
+            this.message = "通知服务管理方处理方案审核消息成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("通知服务管理方处理(方案审核消息)，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "服务管理方请重新处理方案审核消息。。。", request);
+            //----END
+        } else {
+            this.message = "通知服务管理方处理方案审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 服务提供方上传总结审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
+    public void checkedSix(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        bean.setChecked(6);
+        bean.setFileName3(fileName);
+        bean.setFilePath3(filePath);
+        System.out.println("总结审核消息请求:" + fileName);
+
+        int rst = QualityCheckService.checkedTwo(bean);
+        if (rst == 1) {
+            this.message = "上传总结审核消息成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("上传总结审核消息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+        } else {
+            this.message = "上传总结审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 管理方审核总结审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedSeven", method = RequestMethod.POST)
+    public void checkedSeven(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note4 = request.getParameter("note4");
+        String user = request.getParameter("user");
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        QualityCheckBean bean = new QualityCheckBean();
+        bean.setId(id);
+        if(checked == 7){
+            bean.setChecked(7);
+        }else if(checked == 5) {
+            bean.setChecked(5);
+
+        }
+        bean.setUser4(funUtil.loginUser(request));
+        bean.setTime4(funUtil.nowDate());
+        bean.setNote4(note4);
+        int rst = QualityCheckService.checkedFive(bean);
+        if (rst == 1) {
+            this.message = "通知服务管理方处理成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "服务管理方请重新处理总结审核消息。。。", request);
+            //----END
+        } else {
+            this.message = "通知服务管理方处理总结审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 上传文件
+     * @param file
+     * @param request
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public void upload(@RequestParam("filePath") MultipartFile file,
+                       HttpServletRequest request,HttpServletResponse response) {
+        String path = request.getSession().getServletContext()
+                .getRealPath("")+"/Resources/upload";
+        String fileName = file.getOriginalFilename();
+        //String fileName = new Date().getTime()+".jpg";
+        log.info("path==>"+path);
+        log.info("fileName==>"+fileName);
+        File targetFile = new File(path, fileName);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        // 保存
+        try {
+            file.transferTo(targetFile);
+            this.success=true;
+            this.message="文件上传成功";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.message="文件上传失败";
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("message", message);
+        result.put("fileName", fileName);
+        result.put("filePath", path+"/"+fileName);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 下载文件
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
+        int type = funUtil.StringToInt(request.getParameter("type"));
+        String path = "";
+        if(type == 3){
+            path = request.getSession().getServletContext().getRealPath("/Resources/outputDoc");
+        }
+        else{
+            path = request.getSession().getServletContext().getRealPath("/Resources/upload");
+        }
+        String fileName=request.getParameter("fileName");
+        fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
+        String downPath=path+"/"+fileName;
+        log.info(downPath);
+        System.out.println(downPath);
+        File file = new File(downPath);
+        if(!file.exists()){
+            this.success=false;
+            this.message="文件不存在";
+        }
+        //设置响应头和客户端保存文件名
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), fileName));
+        //用于记录以完成的下载的数据量，单位是byte
+        long downloadedLength = 0l;
+        try {
+            //打开本地文件流
+            InputStream inputStream = new FileInputStream(downPath);
+            //激活下载操作
+            OutputStream os = response.getOutputStream();
+
+            //循环写入输出流
+            byte[] b = new byte[2048];
+            int length;
+            while ((length = inputStream.read(b)) > 0) {
+                os.write(b, 0, length);
+                downloadedLength += b.length;
+            }
+
+            // 这里主要关闭。
+            os.close();
+            inputStream.close();
+        } catch (Exception e){
+            throw e;
+        }
+        //存储记录
+    }
+
+    /**
+     * 发送邮件
+     * @param recvUser	邮件接收者
+     * @param content	邮件内容
+     * @param request
+     */
+    public void sendNotify(String recvUser,String content,HttpServletRequest request){
+        //----发送通知邮件
+        EmailBean emailBean = new EmailBean();
+        emailBean.setTitle("运维质量抽查");
+        emailBean.setRecvUser(recvUser);
+        emailBean.setSendUser(funUtil.loginUser(request));
+        emailBean.setContent(content);
+        emailBean.setTime(funUtil.nowDate());
+        EmailService.insertEmail(emailBean);
+        //----END
+    }
+
 }
