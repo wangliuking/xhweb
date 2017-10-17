@@ -48,8 +48,8 @@
     </select>   
     <!--添加用户-->    
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId" parameterType="xh.mybatis.bean.WebUserBean">
-      insert into xhgmnet_web_user(user,userPass,userName,sex,tel,createTime)
-      values(#{user},#{userPass},#{userName},#{sex},#{tel},#{createTime})
+      insert into xhgmnet_web_user(user,userPass,userName,sex,tel,createTime,unit,unitType,userType)
+      values(#{user},#{userPass},#{userName},#{sex},#{tel},#{createTime},#{unit},#{unitType},#{userType})
     </insert>
     <!--添加用户ID到角色关系表-->    
     <insert id="addUserToRole" useGeneratedKeys="true" keyProperty="userId" parameterType="xh.mybatis.bean.WebUserBean">
@@ -101,11 +101,11 @@
      <choose>
        <when test="userPass!='' and userPass!=null">
             update xhgmnet_web_user set userPass=#{userPass},userName=#{userName},sex=#{sex},
-               tel=#{tel} where user=#{user}
+               tel=#{tel},unit=#{unit},unitType=#{unitType},userType=#{userType} where user=#{user}
        </when>
        <otherwise>
              update xhgmnet_web_user set userName=#{userName},sex=#{sex},
-               tel=#{tel} where user=#{user}
+               tel=#{tel},unit=#{unit},unitType=#{unitType},userType=#{userType} where user=#{user}
        </otherwise>
      </choose>     
     </update>

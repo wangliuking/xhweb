@@ -12,17 +12,25 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form  action="#" id="addForm" onSubmit="return false">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>用户名</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="text" value="" class="form-control" name="user"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>密码</label>&nbsp;<span class="text-danger">[*]</span>
 								<input type="text" value="" class="form-control" name="userPass">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>角色</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="roleId">
+								    <option ng-repeat="x in role" value="{{x.roleId}}" >{{x.role}}</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -46,21 +54,39 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
+								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
+									class="form-control" name="unit" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>单位性质</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="unitType" class="form-control">
+									<option value="党政部门" selected="selected">党政部门</option>
+									<option value="事业单位">事业单位</option>
+									<option value="企业">企业</option>
+								</select>
+							</div>
+						</div>
+					</div>
+						<div class="row">
+						
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="userType" class="form-control">
+									<option value="协议入网用户">协议入网用户</option>
+									<option value="临时用户" selected="selected">临时用户</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
 								<label>联系电话</label>
 								<input type="text" value="" class="form-control" name="tel"
 									>
 							</div>
 						</div>
-						
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>角色</label>&nbsp;<span class="text-danger">[*]</span> 
-								<select class="form-control" name="roleId">
-								    <option ng-repeat="x in role" value="{{x.roleId}}" >{{x.role}}</option>
-								</select>
-							</div>
-						</div>
-						
 					</div>
 				</form>
 			</div>
