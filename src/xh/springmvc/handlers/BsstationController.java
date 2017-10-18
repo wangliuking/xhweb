@@ -381,7 +381,7 @@ public class BsstationController {
 	}
 	
 	/**
-	 * 查询top5话务量
+	 * 查询单个基站话务量及其他业务
 	 * @author wlk
 	 * @param request
 	 * @param response
@@ -401,7 +401,7 @@ public class BsstationController {
 			currentMonth="xhgmnet_calllist"+currentMonth;
 			HashMap map = new HashMap();
 			BsstationService bsStationService = new BsstationService();
-			List<HashMap<String, String>> listMap = bsStationService.selectCalllist(currentMonth);
+			List<HashMap<String, String>> listMap = bsStationService.selectCalllistById(currentMonth);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
@@ -414,7 +414,7 @@ public class BsstationController {
 	}
 	
 	/**
-	 * 查询top5排队数
+	 * 查询单个基站排队数及其他业务
 	 * @author wlk
 	 * @param request
 	 * @param response
@@ -425,7 +425,7 @@ public class BsstationController {
 		try {
 			HashMap map = new HashMap();
 			BsstationService bsStationService = new BsstationService();
-			List<HashMap<String, String>> listMap = bsStationService.selectChannel();
+			List<HashMap<String, String>> listMap = bsStationService.selectChannelById();
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");

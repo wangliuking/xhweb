@@ -1,4 +1,5 @@
 package xh.mybatis.service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,10 +18,13 @@ public class RadioDispatchBusinessService {
 	 * @param root
 	 * @return
 	 */
-	public static List<HashMap<String,String>> radioUserBusinessInfo(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		RadioDispatchBusinessMapper mapper = sqlSession.getMapper(RadioDispatchBusinessMapper.class);
-		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+	public static List<HashMap<String, String>> radioUserBusinessInfo(
+			Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioDispatchBusinessMapper mapper = sqlSession
+				.getMapper(RadioDispatchBusinessMapper.class);
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		try {
 			list = mapper.ById(map);
 			sqlSession.close();
@@ -39,8 +43,10 @@ public class RadioDispatchBusinessService {
 	 * @throws Exception
 	 */
 	public static int Count(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		RadioDispatchBusinessMapper mapper = sqlSession.getMapper(RadioDispatchBusinessMapper.class);
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioDispatchBusinessMapper mapper = sqlSession
+				.getMapper(RadioDispatchBusinessMapper.class);
 		int count = 0;
 		try {
 			count = mapper.Count(map);
@@ -51,7 +57,7 @@ public class RadioDispatchBusinessService {
 		}
 		return count;
 	}
-	
+
 	/**
 	 * 添加
 	 * 
@@ -59,14 +65,13 @@ public class RadioDispatchBusinessService {
 	 * @throws Exception
 	 */
 	public static int insert(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		RadioDispatchBusinessMapper mapper = sqlSession.getMapper(RadioDispatchBusinessMapper.class);
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RadioDispatchBusinessMapper mapper = sqlSession
+				.getMapper(RadioDispatchBusinessMapper.class);
 		int count = 0;
 		try {
-			//count = mapper.selectByBsId(bean.getBsId());
-			if (count == 0) {
-				mapper.insert(map);
-			}
+			count = mapper.insert(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -83,8 +88,10 @@ public class RadioDispatchBusinessService {
 	 * @throws Exception
 	 */
 	public static int update(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		RadioDispatchBusinessMapper mapper = sqlSession.getMapper(RadioDispatchBusinessMapper.class);
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RadioDispatchBusinessMapper mapper = sqlSession
+				.getMapper(RadioDispatchBusinessMapper.class);
 		int count = 0;
 		try {
 			count = mapper.update(map);
@@ -104,8 +111,10 @@ public class RadioDispatchBusinessService {
 	 * @throws Exception
 	 */
 	public static void delete(List<String> list) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		RadioDispatchBusinessMapper mapper = sqlSession.getMapper(RadioDispatchBusinessMapper.class);
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RadioDispatchBusinessMapper mapper = sqlSession
+				.getMapper(RadioDispatchBusinessMapper.class);
 		try {
 			mapper.delete(list);
 			sqlSession.commit();

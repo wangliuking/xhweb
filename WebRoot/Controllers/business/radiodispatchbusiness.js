@@ -184,19 +184,17 @@ xh.add = function() {
 		url : '../../radiodispatchbusiness/add',
 		type : 'POST',
 		dataType : "json",
-		async : true,
+		async : false,
 		data : $("#addForm").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#addForm')[0].reset();
-				$('#add').modal('hide');
+				$('#add').modal('hide');			
+				toastr.success("添加成功！", '提示');
 				xh.refresh();
-				toastr.success(data.message, '提示');
-				
 
 			} else {
-				toastr.error(data.message, '提示');
+				toastr.error("添加失败！", '提示');
 			}
 		},
 		error : function() {
@@ -210,19 +208,17 @@ xh.update = function() {
 		type : 'POST',
 		dataType : "json",
 		async : false,
-		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#updateForm").serializeArray(),
 		success : function(data) {
 			if (data.result === 1) {
 				$('#updateForm')[0].reset();
 				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
+				toastr.success("修改成功！", '提示');
 				xh.refresh();
 				
 
 			} else {
-				toastr.error(data.message, '提示');
+				toastr.error("修改失败！", '提示');
 			}
 		},
 		error : function(){

@@ -178,7 +178,53 @@ xh.load = function() {
 		};
 	});
 };
+/* 添加 */
+xh.add = function() {
+	$.ajax({
+		url : '../../radiouserbusiness/add',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#addForm").serializeArray(),
+		success : function(data) {
+			if (data.result ==1) {
+				$('#addForm')[0].reset();
+				$('#add').modal('hide');			
+				toastr.success("添加成功！", '提示');
+				xh.refresh();
 
+			} else {
+				toastr.error("添加失败！", '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 修改 */
+xh.update = function() {
+	$.ajax({
+		url : '../../radiouserbusiness/update',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#updateForm").serializeArray(),
+		success : function(data) {
+			if (data.result === 1) {
+				$('#updateForm')[0].reset();
+				$('#edit').modal('hide');
+				toastr.success("修改成功！", '提示');
+				xh.refresh();
+				
+
+			} else {
+				toastr.error("修改失败！", '提示');
+			}
+		},
+		error : function(){
+		}
+	});
+};
 /* 批量删除基站 */
 xh.delMore = function() {
 	var checkVal = [];
