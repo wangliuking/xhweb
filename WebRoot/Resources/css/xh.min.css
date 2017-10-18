@@ -1104,7 +1104,7 @@ body.fullscreen-panel-mode {
 	margin-top: 10px;
 	width:100%;
 	border-radius: 10px;
-	table-layout:fixed;
+	/* table-layout:fixed; */
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	text-align: center;

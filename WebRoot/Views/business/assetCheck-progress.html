@@ -1,0 +1,123 @@
+
+<div class="modal fade" id="progress" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<ul id="xh-tabs" class="nav nav-tabs">
+					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
+					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
+					
+				</ul>
+				<div class="tab-content" style="padding: 20px">
+					<div class="tab-pane fade in active" id="info">
+						<div class="row">
+						
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系人</label><input
+									type="text" value="" class="form-control" name="person"
+									required="required" ng-model="progressData.person">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系方式</label> <input
+									type="text" value="" class="form-control" name="tel"
+									required="required" ng-model="progressData.tel">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea  class="form-control" name="note" cols="50",rows="10" ng-model="progressData.note">
+									</textarea>
+							</div>
+						</div>
+						
+
+					</div>
+					</div>
+					<!-- tab-pane--end -->
+					<div class="tab-pane fade text-danger" id="p-timeline"
+						style="background: #e9f0f5; margin: 0;">
+						<div id="cd-timeline" class="cd-container">
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-green">开始</div>
+								<div class="cd-timeline-content">
+									<h2>提交资产核查申请</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note}}</span>
+									</p>
+									<span class="cd-date text-success font-bold text-x">
+										提交时间：{{progressData.applyTime}}</span>
+								</div>
+							</div>
+						
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<1"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=1"></div>
+								<div class="cd-timeline-content">
+									<h2>管理部门领导审核</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note1}}</span>
+									</p>
+									<span ng-if="progressData.status<1"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.status>=1"
+										class="cd-date text-success font-bold">审核
+										时间：{{progressData.time1}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<2"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.status>=2"></div>
+								<div class="cd-timeline-content">
+									<h2>资产管理员确认资产核查完成</h2>
+
+									<span ng-if="progressData.status<2"
+										class="cd-date text-danger">等待确认</span> <span
+										ng-if="progressData.status>=2"
+										class="cd-date text-success font-bold">资产管理员已确认;
+										时间：{{progressData.time2}}</span>
+								</div>
+							</div>
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.status<1">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.status>=1">结束</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- tab-pane--end -->
+				</div>
+			</div>
+		</div>
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div> -->
+	</div>
+</div>

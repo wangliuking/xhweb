@@ -109,6 +109,9 @@ public class WebUserController {
 		String tel=request.getParameter("tel");
 		String createTime=funUtil.nowDate();
 		String roleId=request.getParameter("roleId");
+		String unit=request.getParameter("unit");
+		String unitType=request.getParameter("unitType");
+		String userType=request.getParameter("userType");
 		WebUserBean bean=new WebUserBean();
 		WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
 		
@@ -117,6 +120,9 @@ public class WebUserController {
 		bean.setUserName(userName);
 		bean.setSex(sex);
 		bean.setTel(tel);
+		bean.setUnit(unit);
+		bean.setUnitType(unitType);
+		bean.setUserType(userType);
 		bean.setCreateTime(createTime);
 		int flag=WebUserServices.insertUser(bean);
 		if (flag==0) {
@@ -175,12 +181,18 @@ public class WebUserController {
 		String tel=request.getParameter("tel");
 		String createTime=funUtil.nowDate();
 		String roleId=request.getParameter("roleId");
+		String unit=request.getParameter("unit");
+		String unitType=request.getParameter("unitType");
+		String userType=request.getParameter("userType");
 		WebUserBean bean=new WebUserBean();
 		bean.setUser(user);
 		bean.setUserPass(userPass);
 		bean.setUserName(userName);
 		bean.setSex(sex);
 		bean.setTel(tel);
+		bean.setUnit(unit);
+		bean.setUnitType(unitType);
+		bean.setUserType(userType);
 		bean.setCreateTime(createTime);
 		int flag=WebUserServices.updateUser(bean);
 		if (flag==1) {

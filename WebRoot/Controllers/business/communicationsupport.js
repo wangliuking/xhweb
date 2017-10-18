@@ -75,8 +75,8 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 
 		/*跳转到进度页面*/
@@ -545,7 +545,7 @@ xh.check10 = function() {
 /*管理方接受消息*/
 xh.check11 = function() {
 	$.ajax({
-		url : '../../support/checkedEleven',
+		url : '../../support/checkedEvelen',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -750,37 +750,45 @@ xh.upload = function(index) {
 	});
 };
 
-xh.download=function(){
+xh.download = function() {
 	var $scope = angular.element(appElement).scope();
+	var filename = null;
 	var checked = $scope.checkData.checked;
-	var fileName = null;
-	if(checked != -1){
-		if(checked == 2 && $scope.checkData.fileName1 !=null){
-			fileName = $scope.checkData.fileName1;
+	//如果type为1 那么表示下载公函。
+		if(checked == 2 && $scope.checkData.fileName1 != null && $scope.checkData.fileName1 != ''){
+			filename = $scope.checkData.fileName1;
 		}
-		else if(checked == 4 && $scope.checkData.fileName2!=null){
-			fileName = $scope.checkData.fileName2;
+		//如果type为2 那么表示下载通知函。
+		else if(checked == 4 && $scope.checkData.fileName2!= null && $scope.checkData.fileName2!= ''){
+			filename = $scope.checkData.fileName2;
 		}
-		else if(checked == 6 && $scope.checkData.fileName3!=null){
-			fileName = $scope.checkData.fileName3;
+		//如果type为3 那么表示下载签署协议。
+		else if(checked == 6 && $scope.checkData.fileName3 != null && $scope.checkData.fileName3 != ''){
+			filename = $scope.checkData.fileName3;
 		}
-		else if(checked == 8 && $scope.checkData.fileName4!=null){
-			fileName = $scope.checkData.fileName4;
+		//如果type为4 那么表示下载合同。
+		else if(checked == 8 && $scope.checkData.fileName4 != null && $scope.checkData.fileName4 != ''){
+			filename = $scope.checkData.fileName4;
 		}
-		else if(checked == 10 && $scope.checkData.fileName5!=null){
-			fileName = $scope.checkData.fileName5;
+		//如果type为5 那么表示下载合同。
+		else if(checked == 10 && $scope.checkData.fileName5 != null && $scope.checkData.fileName5 != ''){
+			filename = $scope.checkData.fileName5;
 		}
-		else if(checked == 12 && $scope.checkData.fileName6!=null){
-			fileName = $scope.checkData.fileName6;
+		//如果type为5 那么表示下载合同。
+		else if(checked == 12 && $scope.checkData.fileName6 != null && $scope.checkData.fileName6 != ''){
+			filename = $scope.checkData.fileName5;
 		}
-		else if(checked == 14 && $scope.checkData.fileName7!=null){
-			fileName = $scope.checkData.fileName7;
+		//如果type为5 那么表示下载合同。
+		else if(checked == 14 && $scope.checkData.fileName7 != null && $scope.checkData.fileName7 != ''){
+			filename = $scope.checkData.fileName7;
 		}
-	}
-	console.log("filename=>"+filename);
-	var downUrl="../../support/download?fileName="+filename;
-	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	console.log("filename=>" + filename);
+	var downUrl = "../../net/download?fileName=" + filename;
+	window.open(downUrl, '_self',
+			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
+
+
 
 // 刷新数据
 xh.refresh = function() {

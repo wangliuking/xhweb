@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>终端管理</title>
+<title>资产核查</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -23,7 +23,6 @@
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
-		<div class="color-line"></div>
 		<div class="splash-title">
 			<h1>系统正在努力加载中，请耐心等待</h1>
 			<div class="spinner">
@@ -35,10 +34,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
+
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -47,8 +43,10 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="devicemanage.html">业务管理</a></span></li>
-							<li class="active"><span>终端管理</span></li>
+							<li><span>业务管理</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>资产管理</span></li>
+							<li class="active"><span>变更管理</span></li>
 						</ol>
 					</div>
 				</div>
@@ -62,27 +60,12 @@
 						<div class="panel-body" style="padding-top:5px">
 							<!-- row -->
 							<div class="row">
-								<div class="col-md-12" ng-model="loginUserRoleId">
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
-									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10002 || loginUserRoleId < 1000" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;终端管理
+								<div class="col-md-12">
+									
+									<button class="btn btn-success btn-sm" data-toggle="modal" 
+									data-target="#apply">
+										<i class="fa fa-plus-circle"></i>&nbsp;资产核查申请
 									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10002 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;终端管理
-									</button>
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
-										<i class="fa fa-plus-circle"></i>&nbsp;
-									</button> -->
-									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改记录
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除记录
-									</button> -->
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
 										<i class="fa fa-refresh"></i>&nbsp;刷新
 									</button>
@@ -106,48 +89,35 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>用户单位</th>
-										<th>联系人</th>
-										<th>请求信息</th>
-										<th width="180px">申请时间</th>
-										<th width="160px">状态</th>
-										<th width="180px">操作详情</th>
+										<th>申请人</th>
+										<th>联系方式</th>
+										<th>状态</th>
+										<th width="150px">申请时间</th>
+										<th width="100px">操作详情</th>
 									</tr>
 								</thead>
-								<tbody ng-model="loginUserRoleId">
+								<tbody>
 									<tr ng-if="totals==0">
 										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.userNature}}</td>
-										<td>{{x.userUnit}}</td>
-										<td>{{x.request}}</td>
-										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方处理</td>
-										<td ng-if="x.checked==2" class="td-warning">等待用户单位确认</td>
-										<td ng-if="x.checked==3" class="td-success">流程结束</td>
-										<td style="text-align:center">
-
-										<a href="#"
+										<td>{{x.person}}</td>
+										<td>{{x.tel}}</td>
+										<td ng-if="x.status==-1" class="td-primary">申请拒绝</td>
+										<td ng-if="x.status==0" class="td-danger">等待审核</td>
+										<td ng-if="x.status==1" class="td-success">审核通过</td>
+										<td ng-if="x.status==2" class="td-success">核查完成</td>
+										<td>{{x.applyTime}}</td>
+										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
-										</a> 
-
-										<a ng-if="loginUserRoleId==10002 && x.checked==0"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
-										
-										<a ng-if="	loginUserRoleId==10002 && x.checked==1"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
-										
-										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
-											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
-
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;</a> 
+											<a href="#" ng-click="checkWin($index)">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核</a>
+											<a href="#" ng-click="checkWin($index)">|<i
+												class="fa fa-hand-o-down text-danger"></i>核查</a>
+											<a href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>完成</a>
+												
 										</td>
 									</tr>
 								</tbody>
@@ -183,23 +153,24 @@
 			</div>
 		</div>
 	</div>
+	<!-- 中间内容体 /-->
 	
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加 -->
-	<div ng-include="'devicemanage-add.html'"></div>
+	<div ng-include="'assetCheck-add.html'"></div>
 	<!-- 进度-->
-	<div ng-include="'devicemanage-progress.html'"></div>
+	<div ng-include="'assetCheck-progress.html'"></div>
 	<!-- 审核-->
-	<div ng-include="'devicemanage-check.html'"></div>
+	<div ng-include="'assetCheck-check.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/devicemanage.js"></script>
+	<script type="text/javascript" src="../../Controllers/business/assetCheck.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">

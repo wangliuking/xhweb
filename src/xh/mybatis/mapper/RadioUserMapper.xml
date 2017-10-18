@@ -56,7 +56,7 @@
 		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_sn},#{E_company},#{E_type},#{E_enabled},#{E_shortData},#{E_fullDuple},
 		#{E_radioType},#{E_anycall},#{E_saId},#{E_iaId},#{E_vaId},#{E_rutgId},#{E_ip},#{E_PrimaryTGId},#{E_ambienceMonitoring},#{E_packetData},#{E_ambienceInitiation},
 		#{E_directDial},#{E_PSTNAccess},#{E_pabxAccess},#{E_clir},#{E_clirOverride},#{E_killed},#{E_msType},#{E_status},#{pdtType},#{npType},
-		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{id_joinNet})
+		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{userId})
 	</insert>
 
 	<!--更新无线用户 -->
