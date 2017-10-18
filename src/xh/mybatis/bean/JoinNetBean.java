@@ -49,8 +49,29 @@ public class JoinNetBean {
 	private String filePathHT;
 	private String fileNameCG;
 	private String filePathCG;
+	private int terminalNum;
+	private int talkGroupNum;
+	private String talkRequirment;
 	
 	
+	public int getTerminalNum() {
+		return terminalNum;
+	}
+	public void setTerminalNum(int terminalNum) {
+		this.terminalNum = terminalNum;
+	}
+	public int getTalkGroupNum() {
+		return talkGroupNum;
+	}
+	public void setTalkGroupNum(int talkGroupNum) {
+		this.talkGroupNum = talkGroupNum;
+	}
+	public String getTalkRequirment() {
+		return talkRequirment;
+	}
+	public void setTalkRequirment(String talkRequirment) {
+		this.talkRequirment = talkRequirment;
+	}
 	public String getFileNameCG() {
 		return fileNameCG;
 	}

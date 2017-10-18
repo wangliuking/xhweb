@@ -342,6 +342,60 @@
 	</div>
 </div>
 <!-- 上传通知函 -->
+<!-- <div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm6" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+								<label>ManagerID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="managerId"
+									required="required" ng-model="checkData.user1">
+								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="0" name="type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>上传公函</label>
+								<input type="file" name="filePath" id="filePathNote" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(2)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResultNote" class="span_result_GH" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn6">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button> 
+			</div>
+		</div>
+	</div>
+</div> -->
+<!-- 上传通知函 -->
 <div class="modal fade" id="checkWin7" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
@@ -573,14 +627,14 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="checkForm11" onSubmit="return false" enctype="multipart/form-data" method="POST">
-					<div class="row" ng-show="false">
+					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
-								<label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="1" name="type">
+								<!-- <label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="1" name="type"> -->
 							</div>
 						</div>
 					</div>

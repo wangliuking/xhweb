@@ -5,37 +5,30 @@
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
-				<!-- <button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<small class="font-bold"></small> -->
+				入网申请
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="unitName"
-									required="required">
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.unit"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>单位性质</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="unitNature" class="form-control">
-									<option value="党政部门" selected="selected">党政部门</option>
-									<option value="事业单位">事业单位</option>
-									<option value="企业">企业</option>
-								</select>
+								<label>单位性质</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.unitType"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="unitType" class="form-control">
-									<option value="协议入网用户" selected="selected">协议入网用户</option>
-									<option value="临时用户">临时用户</option>
-								</select>
+								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.userType"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -47,17 +40,26 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>入网依据</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="netBasis" class="form-control">
+									<option value="协议或合同" selected="selected">协议或合同</option>
+									<option value="非协议或合同">非协议或合同</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>入网时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="netTime"
 									required="required" onfocus="WdatePicker()">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>合同名称</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="pactName"
@@ -70,8 +72,8 @@
 								<input type="text" value="" class="form-control" name="signTime"
 									required="required" onfocus="WdatePicker()" required="required">
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="serviceTime"
@@ -81,34 +83,65 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>单位负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="unitPerson"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系电话</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="tel"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系部门</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="department"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
 								<input type="text" value="" class="form-control"
 									name="virtualnetName" required="required">
 							</div>
+						</div> -->
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>终端数量</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="terminalNum"
+									required="required">
+							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>通信组数量</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="talkGroupNum"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>通信需求</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="talkRequirment"
+									required="required">
+							</div>
+						</div>
+						<!-- <div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" value="" class="form-control"
+									name="virtualnetName" required="required">
+							</div>
+						</div> -->
 					</div>
 					<!-- row-------end -->
 					<div class="row">

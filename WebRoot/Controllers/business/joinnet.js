@@ -61,7 +61,7 @@ xh.load = function() {
 		});
 
 		/* 获取主管部门领导列表 */
-		$http.get("../../web/user/getUserList?roleId=10002").success(
+		$http.get("../../web/user/getUserList?roleId=10001").success(
 			function(response) {
 				$scope.userData_MainManager = response.items;
 				$scope.userTotals_MainManager = response.totals;
@@ -77,7 +77,6 @@ xh.load = function() {
 		/* 跳转到申请进度页面 */
 		$scope.toProgress = function(id) {
 			$scope.editData = $scope.data[id];
-			$scope.checkData = $scope.editData;
 			/*
 			 * $http.get("../../net/applyProgress?id="+$scope.editData.id).
 			 * success(function(response){ $scope.progressData =
@@ -86,6 +85,7 @@ xh.load = function() {
 			 * });
 			 */
 			$scope.progressData = $scope.editData;
+			
 			$("#progress").modal('show');
 		};
 		/* 显示协议签署窗口 */

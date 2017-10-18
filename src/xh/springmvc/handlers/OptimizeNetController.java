@@ -118,7 +118,7 @@ public class OptimizeNetController {
      * @param response
      */
     @RequestMapping(value = "/insertOptimizeNet", method = RequestMethod.POST)
-    public void optimizeNet(HttpServletRequest request,
+    public void insertOptimizeNet(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
         String jsonData = request.getParameter("formData");
@@ -175,7 +175,6 @@ public class OptimizeNetController {
         }else if(checked == -1) {
             bean.setChecked(-1);
         }
-
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
         bean.setNote1(note1);

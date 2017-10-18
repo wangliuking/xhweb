@@ -65,6 +65,7 @@ public class TalkGroupController {
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		int userId=funUtil.loginUserId(request);
 		HashMap<String,Object> map = new HashMap<String,Object>();
 			Enumeration rnames=request.getParameterNames();
 			for (Enumeration e = rnames ; e.hasMoreElements() ;) {
@@ -72,6 +73,7 @@ public class TalkGroupController {
 			        String thisValue=request.getParameter(thisName);
 			        map.put(thisName, thisValue);
 			}
+			map.put("userId",userId);
 			int count=TalkGroupService.insertTalkGroup(map);
 			HashMap result = new HashMap();
 			result.put("success", success);

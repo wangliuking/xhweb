@@ -20,29 +20,29 @@
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>用户单位</label><input type="text"
-										ng-model="editData.unitName" class="form-control"
-										name="unitName" required="required">
+										ng-model="editData.unit1" class="form-control"
+										name="unitName" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>单位性质</label> <input type="text"
-										ng-model="editData.unitNature" class="form-control"
-										name="unitNature" required="required">
+										ng-model="editData.unitType1" class="form-control"
+										name="unitNature" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>单位类型</label> <input type="text"
-										ng-model="editData.unitType" class="form-control"
-										name="unitType" required="required">
+									<label>用户类型</label> <input type="text"
+										ng-model="editData.userType1" class="form-control"
+										name="unitType" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>入网依据</label> <input type="text"
 										ng-model="editData.netBasis" class="form-control"
-										name="netBasis" required="required">
+										name="netBasis" required="required" disabled="disabled">
 								</div>
 							</div>
 						</div>
@@ -52,7 +52,7 @@
 								<div class="form-group col-md-12">
 									<label>入网时间</label> <input type="text"
 										ng-model="editData.nettime" class="form-control"
-										name="netTime" required="required">
+										name="netTime" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -73,7 +73,7 @@
 								<div class="form-group col-md-12">
 									<label>服务期限</label><input type="text"
 										ng-model="editData.servicetime" class="form-control"
-										name="servicetime" required="required">
+										name="servicetime" required="required" disabled="disabled">
 								</div>
 							</div>
 						</div>
@@ -83,27 +83,27 @@
 								<div class="form-group col-md-12">
 									<label>单位负责人</label><input type="text"
 										ng-model="editData.unitPerson" class="form-control"
-										name="unitPerson" required="required">
+										name="unitPerson" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>联系电话</label> <input type="text" ng-model="editData.tel"
-										class="form-control" name="tel" required="required">
+										class="form-control" name="tel" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>联系部门</label><input type="text"
 										ng-model="editData.department" class="form-control"
-										name="department" required="required">
+										name="department" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>虚拟专网名称</label> <input type="text"
 										ng-model="editData.virtualnetName" class="form-control"
-										name="virtualnetName" required="required">
+										name="virtualnetName" required="required" disabled="disabled">
 								</div>
 							</div>
 						</div>
@@ -113,7 +113,7 @@
 								<div class="form-group col-md-12">
 									<label>服务类型</label> <input type="text"
 										ng-model="editData.serviceType" class="form-control"
-										name="serviceType" required="required">
+										name="serviceType" required="required" disabled="disabled">
 								</div>
 							</div>
 						</div>
@@ -251,12 +251,20 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal" >
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="saveHT_btn"
+					data-dismiss="modal" ng-if="loginUserRoleId == 10002">
+					<i class="fa fa-plus"></i>&nbsp;保存
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					data-dismiss="modal" disabled="disabled" ng-if="loginUserRoleId != 10002" >
+					<i class="fa fa-plus"></i>&nbsp;保存
+				</button>
+			</div>
 		</div>
-		<!-- <div class="modal-footer">
-			<button type="button" class="btn btn-danger btn-sm"
-				data-dismiss="modal">
-				<i class="fa fa-remove"></i>&nbsp;关闭
-			</button>
-		</div> -->
 	</div>
 </div>
