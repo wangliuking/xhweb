@@ -70,7 +70,7 @@ public class CommunicationSupportController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", CommunicationSupportService.selectAll(map));
-		
+
 		result.put("totals", CommunicationSupportService.dataCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -558,7 +558,7 @@ public class CommunicationSupportController {
 		}
 	}
 
-	/**
+	/**用户确认
 	 *
 	 * @param request
 	 * @param response
@@ -664,7 +664,7 @@ public class CommunicationSupportController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/checkedEvelen", method = RequestMethod.POST)
+	@RequestMapping(value = "/checkedEleven", method = RequestMethod.POST)
 	public void checkedEvelen(HttpServletRequest request,
 							 HttpServletResponse response) {
 		this.success = true;
