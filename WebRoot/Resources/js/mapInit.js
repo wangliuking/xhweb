@@ -10,16 +10,6 @@ app.controller("map", function($scope, $http) {
 			function(response) {
 				$scope.levelData = response.items;
 			});
-	/*top5话务量*/
-	$http.get("bs/map/top5Calllist").success(
-			function(response) {
-				$scope.top5Calllist = response.items;
-			});
-	/*top5排队数*/
-	$http.get("bs/map/top5Channel").success(
-			function(response) {
-				$scope.top5Channel = response.items;
-			});
 	/* 级别选择 */
 	var level={
 			/*"4":{"lat":"30.664979585525476","lng":"104.05377994605959","zoom":"7"},*/
@@ -178,7 +168,15 @@ app.controller("map", function($scope, $http) {
 		}
 		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
-			$scope.dataRectangle = response.items;
+			var tempData=response.items;		
+			//添加模拟数据 start
+			for(var i=0;i<tempData.length;i++){
+				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+			}
+			//添加模拟数据 end
+			$scope.dataRectangle = tempData;		
 			$scope.totals = response.totals;
 			xh.pagging(page, parseInt($scope.totals), $scope,params);
 		});
@@ -500,7 +498,7 @@ function areaRingsCreate(data,params){
 			  esri.symbol.CartographicLineSymbol.STYLE_SOLID,
 			  new dojo.Color(params[1]), 3,
 			  esri.symbol.CartographicLineSymbol.CAP_ROUND,
-			  esri.symbol.CartographicLineSymbol.JOIN_MITER, 5
+			  esri.symbol.CartographicLineSymbol.JOIN_MITER, 1
 			);
 		var polyline = new esri.Graphic(line, lineSymbol);
 		polyline.attributes=params[0];
@@ -752,6 +750,19 @@ function init(data,markData) {
 					} else if (data.status == 2) {
 						$('#status').val("未启用");
 					}
+					
+					/**
+					 * start
+					 * 业务部分模拟数据
+					 */
+					$('#business1').val(parseInt(Math.random()*(99-5+1) + 5));
+					$('#business2').val(parseInt(Math.random()*(50-16+1) + 16)+"%");
+					$('#business3').val(parseInt(Math.random()*(65-16+1) + 11)+"%");
+					$('#business4').val(parseInt(Math.random()*(99-5+1) + 5));
+					$('#business5').val(parseInt(Math.random()*(51-23+1) + 23)+"%");
+					/**
+					 * end
+					 */
 					
 					$('#temp_0').val(0.0);
 					$('#temp_1').val(1.0);
@@ -1332,7 +1343,7 @@ function highChart(data) {
             height: 200
         },
         title: {
-            text: 'DC/AC图'
+            text: '电流/电压图'
         },
         pane: [{
             startAngle: -45,
@@ -1371,7 +1382,7 @@ function highChart(data) {
             }],
             pane: 0,
             title: {
-                text: 'V<br/><span style="font-size:8px">DC电压</span>',
+                text: 'V<br/><span style="font-size:8px">电压</span>',
                 y: -40
             }
         }, {
@@ -1392,7 +1403,7 @@ function highChart(data) {
             }],
             pane: 1,
             title: {
-                text: 'V<br/><span style="font-size:8px">AC电压</span>',
+                text: 'V<br/><span style="font-size:8px">电压</span>',
                 y: -40
             }
         },{
@@ -1413,7 +1424,7 @@ function highChart(data) {
             }],
             pane: 2,
             title: {
-                text: 'A<br/><span style="font-size:8px">AC电流</span>',
+                text: 'A<br/><span style="font-size:8px">电流</span>',
                 y: -40
             }
         }],

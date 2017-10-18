@@ -90,15 +90,15 @@ public interface BsstationMapper {
 	 */
 	public List<HashMap<String,String>> selectBsStationById(int bsId) throws Exception;
 	/**
-	 * 查询top5话务量
+	 * 查询单个基站话务量及其他业务
 	 * @author wlk
 	 */
-	public List<HashMap<String,String>> selectCalllist(String currentMonth) throws Exception;
+	public List<HashMap<String,String>> selectCalllistById(String currentMonth) throws Exception;
 	/**
-	 * 查询top5排队数
+	 * 查询单个基站排队数及其他业务
 	 * @author wlk
 	 */
-	public List<HashMap<String,String>> selectChannel() throws Exception;
+	public List<HashMap<String,String>> selectChannelById() throws Exception;
 	
 	/**
 	 * 路测数据查询
