@@ -103,7 +103,7 @@ public class UploadController {
 		    //设置响应头和客户端保存文件名
 		    response.setCharacterEncoding("utf-8");
 		    response.setContentType("multipart/form-data");
-		    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+		    response.setHeader("Content-Disposition", "attachment;fileName=" + new String(fileName.getBytes("gbk"),"iso-8859-1"));
 		    //用于记录以完成的下载的数据量，单位是byte
 		    long downloadedLength = 0l;
 		    try {
