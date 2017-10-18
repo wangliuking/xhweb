@@ -218,8 +218,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -480,10 +480,8 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
-	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
+	if(checked!= -1){
 		if(checked == 2 && $scope.checkData.fileName_Request !=null){
 			fileName = $scope.checkData.fileName_Request;
 		}
@@ -492,7 +490,7 @@ xh.download=function(){
 		}
 	}
 	console.log("filename=>" + filename);
-	var downUrl = "../../fault/download?fileName=" + filename;
+	var downUrl = "../../net/download?fileName=" + fileName + "&type=" + type;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

@@ -63,7 +63,7 @@ xh.load = function() {
 		});
 		
 		/*获取管理方人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10002").
+		$http.get("../../web/user/getUserList?roleId=10003").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;
@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10003").
+			$http.get("../../web/user/getUserList?roleId=10002").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -218,8 +218,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -267,7 +267,6 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -482,24 +481,23 @@ xh.upload = function(index) {
 		}
 	});
 };
+
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
-	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
-		if(checked == 1 && $scope.checkData.fileName1!=null){
+	if(checked!= -1){
+		if(checked == 2 && $scope.checkData.fileName1 !=null){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 3 && $scope.checkData.fileName2!=null){
+		else if(checked == 4 && $scope.checkData.fileName2 !=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 5 && $scope.checkData.fileName3!=null){
-			fileName = $scope.checkData.fileName3;
+		else if(checked == 6 && $scope.checkData.fileName2 !=null){
+			fileName = $scope.checkData.fileName2;
 		}
 	}
 	console.log("filename=>" + filename);
-	var downUrl = "../../optimizenet/download?fileName=" + filename;
+	var downUrl = "../../net/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

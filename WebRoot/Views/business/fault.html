@@ -103,12 +103,12 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户单位</th>
-										<th>联系人</th>
-										<th>联系方式</th>
+										<th width="100px">联系人</th>
+										<th width="100px">联系方式</th>
 										<th>故障信息</th>
 										<th width="180px">申请时间</th>
 										<th width="160px">状态</th>
-										<th width="100px">操作详情</th>
+										<th width="180px">操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
@@ -121,6 +121,8 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.information}}</td>
 										<td>{{x.time}}</td>
+										<!-- <td ng-if="x.checked<7" class="td-worning">等待处理</td>
+										<td ng-if="x.checked==7" class="td-success">流程结束</td> -->
 										<td ng-if="x.checked==-2" class="td-danger">用户拒绝</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
 										<td ng-if="x.checked==0" class="td-warning">等待管理方审核</td>
