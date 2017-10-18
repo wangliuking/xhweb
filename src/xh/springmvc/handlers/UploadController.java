@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 
@@ -91,7 +92,7 @@ public class UploadController {
 	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String filePath=request.getParameter("filePath");
 		String fileName=request.getParameter("fileName");
-		String path = request.getSession().getServletContext().getRealPath(filePath);
+		String path = request.getSession().getServletContext().getRealPath(new String(filePath.getBytes("iso-8859-1"),"utf-8"));
 		
 		String downPath=path;
 		
@@ -103,7 +104,7 @@ public class UploadController {
 		    //设置响应头和客户端保存文件名
 		    response.setCharacterEncoding("utf-8");
 		    response.setContentType("multipart/form-data");
-		    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+		    response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), new String(fileName.getBytes("iso-8859-1"),"utf-8")));
 		    //用于记录以完成的下载的数据量，单位是byte
 		    long downloadedLength = 0l;
 		    try {

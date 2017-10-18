@@ -52,15 +52,6 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 		
 		String xml = null;
 		String xmlString = invoke0.getXmlData().getString();
-		try {
-			String temp1 = new String(xmlString.getBytes("UTF8"),"GBK");
-			log.info("1111111111    "+temp1);
-			String temp2 = new String(xmlString.getBytes("GBK"),"UTF8");
-			log.info("2222222222    "+temp2);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
 		xml = parseXml(xmlString);
 		InvokeResponse response = new InvokeResponse();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
@@ -72,13 +63,14 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 	
 	public static String parseXml(String xml){
 		SAXReader reader = new SAXReader();
-		reader.setEncoding("utf8");
+		reader.setEncoding("GBK");
 		Document document = null;
 		try {
 			document = reader.read(getStringStream(xml));
 		} catch (DocumentException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//e1.printStackTrace();
+			log.info("======================document cannot parse!!!check encode");
 		}
 		Element root = document.getRootElement();
 		String temp = root.element("PK_Type").element("Name").getText();

@@ -1011,8 +1011,10 @@ xh.download = function(id,type) {
 			filename = $scope.checkData.fileName_CG;
 		}
 	}
+	var filepath = "/Resources/upload/" + filename;
 	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
+	//var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
+	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

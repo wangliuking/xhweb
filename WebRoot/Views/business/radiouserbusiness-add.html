@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -10,27 +10,27 @@
 				<small class="font-bold">修改无线用户业务属性</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-			<form action="#" id="updateForm" onSubmit="return false">
+			<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>无线用户互连属性标识</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-									type="text" ng-model="editData.id" class="form-control" name="id"
-									required="required" readonly="readonly">
+									type="text" class="form-control" name="id"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>无线用户业务属性名称</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.name" class="form-control" name="name"
+									type="text" class="form-control" name="name"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>状态集标识</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.ssid" class="form-control" name="ssid"
+									type="text" class="form-control" name="ssid"
 									required="required">
 							</div>
 						</div>
@@ -41,21 +41,21 @@
 							<div class="form-group col-md-12">
 								<label>状态集名称</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-									type="text" ng-model="editData.ssname" class="form-control" name="ssname"
+									type="text" class="form-control" name="ssname"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>呼叫优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.dispatchpriority" class="form-control" name="dispatchpriority"
+									type="text" class="form-control" name="dispatchpriority"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>允许私密呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.pceenabled" class="form-control" name="pceenabled"
+									type="text" class="form-control" name="pceenabled"
 									required="required">
 							</div>
 						</div>
@@ -66,21 +66,21 @@
 							<div class="form-group col-md-12">
 								<label>允许组呼叫</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-									type="text" ng-model="editData.tgenabled" class="form-control" name="tgenabled"
+									type="text" class="form-control" name="tgenabled"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>允许通播组呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.mgenabled" class="form-control" name="mgenabled"
+									type="text" class="form-control" name="mgenabled"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>允许通播组紧急呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.mgemergencyenabled" class="form-control" name="mgemergencyenabled"
+									type="text" class="form-control" name="mgemergencyenabled"
 									required="required">
 							</div>
 						</div>
@@ -91,21 +91,21 @@
 							<div class="form-group col-md-12">
 								<label>允许调度呼叫预占</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-									type="text" ng-model="editData.dispatchpreempt" class="form-control" name="dispatchpreempt"
+									type="text" class="form-control" name="dispatchpreempt"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>全部站点许可</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.allsitesallowed" class="form-control" name="allsitesallowed"
+									type="text" class="form-control" name="allsitesallowed"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>允许呼叫预占</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.calledpreempt" class="form-control" name="calledpreempt"
+									type="text" class="form-control" name="calledpreempt"
 									required="required">
 							</div>
 						</div>
@@ -116,21 +116,21 @@
 							<div class="form-group col-md-12">
 								<label>用户组</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-									type="text" ng-model="editData.usergroup" class="form-control" name="usergroup"
+									type="text" class="form-control" name="usergroup"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>紧急单呼许可范围</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.emergindcallenabled" class="form-control" name="emergindcallenabled"
+									type="text" class="form-control" name="emergindcallenabled"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>紧急组呼许可范围</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.emerggroupcallenabled" class="form-control" name="emerggroupcallenabled"
+									type="text" class="form-control" name="emerggroupcallenabled"
 									required="required">
 							</div>
 						</div>
@@ -144,28 +144,29 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" class="btn btn-success btn-sm" id="update_btn">
-					<i class="fa fa-edit"></i>&nbsp;更新
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
 				</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!--修改基站---end -->
 <script type="text/javascript">
-	$("#update_btn").click(function() {
-		$('#updateForm').submit();
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
 	});
+
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	$('#updateForm').bootstrapValidator({
+	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			/* bsId : {
+			id : {
 				validators : {
 					notEmpty : {
 						message : '不能为空'
@@ -175,11 +176,11 @@
 						message : '只能输入整数和小数'
 					}
 				}
-			} */
+			}
 
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.update();
+		xh.add();
 	});
 </script>

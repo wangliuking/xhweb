@@ -12,7 +12,6 @@
 		<result property="lng" column="lng" javaType="java.lang.String"></result>
 		<result property="height" column="height" javaType="java.lang.Float"></result>
 		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
-
 	</resultMap>
 	<!--查询所有基站 -->
 	<select id="allBsInfo" resultType="java.util.HashMap"
@@ -117,18 +116,17 @@
 	 select * from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
-	<!-- 首页话务量查询 -->
-	<select id="selectCalllist" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
+	<!-- 首页话务量及其他业务查询 -->
+	<select id="selectCalllistById" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
 	 select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a 
 	 left join xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id 
      order by num desc limit 0,5
 	</select> 
 	
-	<!-- 首页排队量查询 -->
-	<select id="selectChannel" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
-	 select name,sum(queuedAllocReq) as sum,lat,lng,a.bsId from xhgmnet_bs_channel_info as a 
-	 left join xhgmnet_bs_station as b on a.bsId=b.bsId group by name 
-     order by sum desc limit 0,5
+	<!-- 首页排队量及其他业务查询 -->
+	<select id="selectChannelById" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="true">
+	 select name,sum(queuedAllocReq) as sum,lat,lng,upload,download,time from xhgmnet_bs_channel_info as a 
+	 left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId} 
 	</select>
 	
 	<!-- 首页路测数据查询 -->

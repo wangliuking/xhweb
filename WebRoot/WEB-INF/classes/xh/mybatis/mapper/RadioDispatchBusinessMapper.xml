@@ -28,7 +28,7 @@
   <select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
 		select * from xhgmnet_dispatchuser_ia where 1=1
-		<if test="id !=null and id !='' and id !=0">
+		<if test="id !=null and id !=''">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name !=null and name !=''">
@@ -40,7 +40,7 @@
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_dispatchuser_ia where 1=1
-		<if test="id!=null and id!=''">
+		<if test="id!=null and id !=''">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name!=null and name!=''">

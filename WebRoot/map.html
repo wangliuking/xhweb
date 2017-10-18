@@ -255,7 +255,7 @@ html,body {
 					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li ng-if="x.level!=4"><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+					<li ng-if="x.level!=null"><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
 				</ul></li>
 			<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
@@ -317,8 +317,10 @@ html,body {
 										<th>基站ID</th>
 										<th>基站名称</th>
 										<th>基站级别</th>
+										<th>话务量</th>
+										<th>排队数</th>
+										<th>信道占用率</th>
 										<th>状态</th>
-										<th>高度</th>
 										<th>是否启用</th>
 									</tr>
 								</thead>
@@ -330,11 +332,13 @@ html,body {
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.level}}</td>
+										<td>{{x.testnum1}}</td>
+										<td>{{x.testnum2}}</td>
+										<td>{{x.testnum3}}</td>
 										<td ng-if="x.status==0" class="td-gray"><span
 											style="color:#fff">断开</span></td>
 										<td ng-if="x.status==1" class="td-success"><span
 											style="color:#fff">正常</span></td>
-										<td>{{x.height}}</td>
 										<td ng-if="x.openen==1" class="td-success"><span
 											style="color:#fff">已经启用</span></td>
 										<td ng-if="x.openen==0" class="td-gray">未启用</td>
@@ -383,8 +387,8 @@ html,body {
 						<li class="active"><a href="#manage" data-toggle="tab">
 								基本</a></li>
 						<li><a href="#param" data-toggle="tab">参数</a></li>
-						<li><a href="#moveController" data-toggle="tab">动环</a></li>
-						<!-- <li><a href="#movie" data-toggle="tab">视频</a></li> -->
+						<li><a href="#business" data-toggle="tab">业务</a></li>
+						<li><a href="#moveController" data-toggle="tab">动环</a></li>					
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="manage">
@@ -496,6 +500,55 @@ html,body {
 								</table>
 							</div>
 						</div>
+						<div class="tab-pane fade" id="business">
+							<div>
+								<table width="100%" border="0" class="userCon_2">
+									<tr height:"10%">
+										<th width="40%">话务量：</th>
+										<td width="60%"><input type="text" name="business1"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="business1" value="15" required="" aria-required="true"
+											disabled></td>
+										</tr>
+										<tr>
+											<th>控制信道占用率(上行)：</th>
+											<td><input type="text" name="business2"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="business2" value="45%" required="" aria-required="true"
+												disabled></td>
+										</tr>
+
+										<tr>
+											<th>控制信道占用率(下行)：</th>
+											<td><input type="text" name="business3" class="form-control"
+												style="border-radius:3px; width:220px;" id="business3" value="63%"
+												required="" aria-required="true" disabled /></td>
+										</tr>
+										<tr>
+											<th>排队数：</th>
+											<td><input type="text" name="business4"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="business4" value="72" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+										<tr>
+											<th>业务信道占用率：</th>
+											<td><input type="text" name="business5"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="business5" value="22%" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+										<tr>
+											<th>获取时间：</th>
+											<td><input type="text" name="lineHeight"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="lineHeight" value="2017-10-18 10:14:09" required="" aria-required="true"
+												disabled /></td>
+										</tr>
+								</table>
+							</div>
+							
+						</div>
 						<div class="tab-pane fade" id="moveController">
 							<div id="" style="height:60px;width:568px;">
 								<table width="100%" border="0">
@@ -522,9 +575,7 @@ html,body {
 							</div>
 							<div id="Current_voltage" style="height:180px;width:568px;"></div>
 						</div>
-						<div class="tab-pane fade" id="movie">
-							<a href="http://192.168.5.253" target="_blank">点击查看</a>
-						</div>
+						
 					</div>
 				</div>
 				<div class="modal-footer">
