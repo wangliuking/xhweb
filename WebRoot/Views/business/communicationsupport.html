@@ -116,7 +116,9 @@
 										<td>{{x.supportTime}}</td>
 										<td>{{x.area}}</td>
 										<td>{{x.time}}</td>
-										<td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td>
+										<!-- <td ng-if="x.checked<16" class="td-worning">等待处理</td>
+										<td ng-if="x.checked==16" class="td-success">流程结束</td> -->
+										<!-- <td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> -->
 										<td ng-if="x.checked==0" class="td-warning">等待用户向主管方发送申请</td>
 										<!-- <td ng-if="x.checked==1" class="td-warning">等待主管方记录信息</td> -->
 										<td ng-if="x.checked==1" class="td-warning">等待管理方向用户发送确认信息</td>
@@ -126,7 +128,7 @@
 										<td ng-if="x.checked==5" class="td-warning">服务提供方发送审核请求消息给管理方</td>									<td ng-if="x.checked==6" class="td-warning">等待管理方对消息内容审核</td>
 										<td ng-if="x.checked==7" class="td-warning">等待管理方通知用户单位</td>
 										<td ng-if="x.checked==8" class="td-warning">等待用户单位确认</td>
-										<!-- 在这里审核通过后，管理房就会给用户发送消息，所以用户应该有消息提示 -->
+										在这里审核通过后，管理房就会给用户发送消息，所以用户应该有消息提示
 										<td ng-if="x.checked==9" class="td-warning">等待服务提供方发送保障准备信息给管理方</td>
 										<td ng-if="x.checked==10" class="td-warning">等待管理方确认保障准备信息</td>
 										<td ng-if="x.checked==11" class="td-warning">等待管理方发送保障准备信息给用户单位</td>
@@ -143,8 +145,7 @@
 										
 										<a ng-if="loginUserRoleId==10001 && x.checked==0
 												||loginUserRoleId==10003 && x.checked==4
-												||loginUserRoleId==10002 && x.checked==6
-												||loginUserRoleId==10002 && x.checked==7"
+												||loginUserRoleId==10002 && x.checked==6"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
@@ -154,6 +155,7 @@
 
 										<a ng-if="loginUserRoleId==10002 && x.checked==1
 												||loginUserRoleId==10003 && x.checked==5
+												||loginUserRoleId==10002 && x.checked==7
 												||loginUserRoleId==10003 && x.checked==9
 												||loginUserRoleId==10002 && x.checked==11
 												||loginUserRoleId==10003 && x.checked==13"
@@ -170,10 +172,10 @@
 										<a class="text-danger"
 											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;核实</a></td>
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;核实</a>
 										
 										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==15"
+											ng-if="loginUserRoleId==1000 && x.checked==15"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;评价</a></td>
 

@@ -1,3 +1,6 @@
+/**
+ * 资产管理
+ */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -47,11 +50,12 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleId = response.roleId;	
+			$scope.loginUserRoleId = response.roleId;
+			alert(response.roleId);
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../support/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../qualitycheck/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -59,8 +63,8 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		/*获取管理房人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10001").
+		/*获取管理方人员列表*/
+		$http.get("../../web/user/getUserList?roleId=10002").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;
@@ -74,10 +78,6 @@ xh.load = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
-
-		$scope.download = function() {
-			xh.download();
-		}
 
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
@@ -95,7 +95,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10001").
+			$http.get("../../web/user/getUserList?roleId=10003").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -103,19 +103,19 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==3){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
 				$("#checkWin4").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==4){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
@@ -123,33 +123,6 @@ xh.load = function() {
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
 				$("#checkWin7").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==7){
-				$("#checkWin8").modal('show');
-			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==8){
-				$("#checkWin9").modal('show');
-			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==9){
-				$("#checkWin10").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==10){
-				$("#checkWin11").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==11){
-				$("#checkWin12").modal('show');
-			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==12){
-				$("#checkWin13").modal('show');
-			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==13){
-				$("#checkWin14").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==14){
-				$("#checkWin15").modal('show');
-			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==15){
-				$("#checkWin16").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -238,7 +211,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../support/selectAll?start=0&limit=" + limit).
+			$http.get("../../qualitycheck/selectAll?start=0&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -246,6 +219,9 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
+		$scope.download = function(id) {
+			xh.download(id);
+		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
@@ -257,7 +233,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../support/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../qualitycheck/selectAll?start="+start+"&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -276,10 +252,12 @@ xh.load = function() {
 		};
 	});
 };
-/*保障申请*/
+//对应
+/*网络优化申请*/
 xh.add = function() {
+	alert(1);
 	$.ajax({
-		url : '../../support/insertSupport',
+		url : '../../qualitycheck/insertQualityCheck',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -291,19 +269,21 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
+				alert(xh.serializeJson($("#addForm").serializeArray()));
 			} else {
 				toastr.error(data.message, '提示');
+				
 			}
 		},
 		error : function() {
+			alert(xh.serializeJson($("#addForm").serializeArray()));
 		}
 	});
 };
 /*管理方审核*/
 xh.check1 = function() {
 	$.ajax({
-		url : '../../support/checkedOne',
+		url : '../../qualitycheck/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -324,16 +304,15 @@ xh.check1 = function() {
 	});
 };
 
-/*管理方向用户单位发送通信保障需求确认消息（该请求消息可包含上传附件的功能）*/
+/*管理方上传*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../support/checkedTwo',
+		url : '../../qualitycheck/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
 				xh.refresh();
@@ -347,11 +326,10 @@ xh.check2 = function() {
 		}
 	});
 };
-
-/*用户单位核准该消息*/
+/*服务方审核*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../support/checkedThree',
+		url : '../../qualitycheck/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -371,11 +349,10 @@ xh.check3 = function() {
 		}
 	});
 };
-
-/*管理方根据通信保障类型发送消息通知服务提供方(该请求消息可包含上传附件的功能) */
+/*服务方上传*/
 xh.check4 = function() {
 	$.ajax({
-		url : '../../support/checkedFour',
+		url : '../../qualitycheck/checkedFour',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -395,17 +372,15 @@ xh.check4 = function() {
 		}
 	});
 };
-
-/*服务提供方审核信息*/
+/*管理方审核*/
 xh.check5 = function() {
 	$.ajax({
-		url : '../../support/checkedFive',
+		url : '../../qualitycheck/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm5").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
 				xh.refresh();
@@ -419,11 +394,10 @@ xh.check5 = function() {
 		}
 	});
 };
-
-/*服务提供方发送审核请求消息给管理方(该请求消息可包含上传附件的功能) */
+/*管理方记录*/
 xh.check6 = function() {
 	$.ajax({
-		url : '../../support/checkedSix',
+		url : '../../qualitycheck/checkedSix',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -443,13 +417,10 @@ xh.check6 = function() {
 		}
 	});
 };
-
-/*管理方对消息内容进行审核：
-  	   不通过则返回服务提供方；
-       通过则发送消息通知服务提供方，同时发送消息（该消息可包含上传附件的功能）通知用户单位 */
+/*用户确认*/
 xh.check7 = function() {
 	$.ajax({
-		url : '../../support/checkedSeven',
+		url : '../../qualitycheck/checkedSeven',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -469,223 +440,6 @@ xh.check7 = function() {
 		}
 	});
 };
-
-/*管理方发送消息*/
-xh.check8 = function() {
-	$.ajax({
-		url : '../../support/checkedEight',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm8").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin8').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*用户单位确认*/
-xh.check9 = function() {
-	$.ajax({
-		url : '../../support/checkedNine',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm9").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin9').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*服务提供方发送通信保障准备情况消息给管理方(该请求消息可包含上传附件的功能) */
-xh.check10 = function() {
-	$.ajax({
-		url : '../../support/checkedTen',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm10").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin10').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*管理方接受消息*/
-xh.check11 = function() {
-	$.ajax({
-		url : '../../support/checkedEvelen',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm11").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin11').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*管理方发送通信保障准备情况消息给用户单位(该请求消息可包含上传附件的功能)*/
-xh.check12 = function() {
-	$.ajax({
-		url : '../../support/checkedTwelve',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm12").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin12').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*用户单位确认*/
-xh.check13 = function() {
-	$.ajax({
-		url : '../../support/checkedThirteen',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm13").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin13').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*服务提供方发送通信保障完成消息给管理方(该请求消息可包含上传附件的功能)*/
-xh.check14 = function() {
-	$.ajax({
-		url : '../../support/checkedFourteen',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm14").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin14').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*管理方确认*/
-xh.check15 = function() {
-	$.ajax({
-		url : '../../support/checkedFifteen',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm15").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin15').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-/*等待用户评价*/
-xh.check16 = function() {
-	$.ajax({
-		url : '../../support/sureFile',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm16").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin16').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -700,30 +454,13 @@ xh.upload = function(index) {
 		path = 'filePath3';
 		note = 'uploadResult3';
 	}
-	if (index == 4) {
-		path = 'filePath4';
-		note = 'uploadResult4';
-	}
-	if (index == 5) {
-		path = 'filePath5';
-		note = 'uploadResult5';
-	}
-	if (index == 6) {
-		path = 'filePath6';
-		note = 'uploadResult6';
-	}
-	if (index == 7) {
-		path = 'filePath7';
-		note = 'uploadResult7';
-	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
 	}
-
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../net/upload', // 用于文件上传的服务器端请求地址
+		url : '../../qualitycheck/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -738,7 +475,7 @@ xh.upload = function(index) {
 				$("input[name='result']").val(1);
 				$("input[name='fileName']").val(data.fileName);
 				$("input[name='path']").val(data.filePath);
-			}	else {
+			} else {
 				$("#"+note).html(data.message);
 			}
 
@@ -749,46 +486,27 @@ xh.upload = function(index) {
 		}
 	});
 };
-
-xh.download = function() {
+xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	var filename = null;
+	$scope.checkData = $scope.data[id];
 	var checked = $scope.checkData.checked;
-	//如果type为1 那么表示下载公函。
-		if(checked == 2 && $scope.checkData.fileName1 != null && $scope.checkData.fileName1 != ''){
-			filename = $scope.checkData.fileName1;
+	var fileName = null;
+	if(checked != -1){
+		if(checked == 1 && $scope.checkData.fileName1!=null){
+			fileName = $scope.checkData.fileName1;
 		}
-		//如果type为2 那么表示下载通知函。
-		else if(checked == 4 && $scope.checkData.fileName2!= null && $scope.checkData.fileName2!= ''){
-			filename = $scope.checkData.fileName2;
+		else if(checked == 3 && $scope.checkData.fileName2!=null){
+			fileName = $scope.checkData.fileName2;
 		}
-		//如果type为3 那么表示下载签署协议。
-		else if(checked == 6 && $scope.checkData.fileName3 != null && $scope.checkData.fileName3 != ''){
-			filename = $scope.checkData.fileName3;
+		else if(checked == 5 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
 		}
-		//如果type为4 那么表示下载合同。
-		else if(checked == 8 && $scope.checkData.fileName4 != null && $scope.checkData.fileName4 != ''){
-			filename = $scope.checkData.fileName4;
-		}
-		//如果type为5 那么表示下载合同。
-		else if(checked == 10 && $scope.checkData.fileName5 != null && $scope.checkData.fileName5 != ''){
-			filename = $scope.checkData.fileName5;
-		}
-		//如果type为5 那么表示下载合同。
-		else if(checked == 12 && $scope.checkData.fileName6 != null && $scope.checkData.fileName6 != ''){
-			filename = $scope.checkData.fileName5;
-		}
-		//如果type为5 那么表示下载合同。
-		else if(checked == 14 && $scope.checkData.fileName7 != null && $scope.checkData.fileName7 != ''){
-			filename = $scope.checkData.fileName7;
-		}
+	}
 	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + filename;
+	var downUrl = "../../optimizenet/download?fileName=" + filename;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
-
-
 
 // 刷新数据
 xh.refresh = function() {

@@ -32,17 +32,23 @@ import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
-import xh.mybatis.bean.*;
-import xh.mybatis.service.*;
+import xh.mybatis.bean.EmailBean;
+import xh.mybatis.bean.QualityCheckBean;
+import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
+import xh.mybatis.service.EmailService;
+import xh.mybatis.service.QualityCheckService;
+import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.WebUserServices;
 
 @Controller
-@RequestMapping(value = "/optimizenet")
-public class OptimizeNetController {
+@RequestMapping(value = "/qualitycheck")
+public class QualityCheckController {
 
     private boolean success;
     private String message;
     private FunUtil funUtil = new FunUtil();
-    protected final Log log = LogFactory.getLog(OptimizeNetController.class);
+    protected final Log log = LogFactory.getLog(QualityCheckController.class);
     private FlexJSON json = new FlexJSON();
     private WebLogBean webLogBean = new WebLogBean();
     /**
@@ -69,8 +75,8 @@ public class OptimizeNetController {
 
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", OptimizeNetService.selectAll(map));
-        result.put("totals", OptimizeNetService.dataCount(map));
+        result.put("items", QualityCheckService.selectAll(map));
+        result.put("totals", QualityCheckService.dataCount(map));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         try {
@@ -90,7 +96,7 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", OptimizeNetService.applyProgress(id));
+        result.put("items", QualityCheckService.applyProgress(id));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -117,28 +123,32 @@ public class OptimizeNetController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/insertOptimizeNet", method = RequestMethod.POST)
-    public void optimizeNet(HttpServletRequest request,
+    @RequestMapping(value = "/insertQualityCheck", method = RequestMethod.POST)
+    public void insertQualityCheck(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
         String jsonData = request.getParameter("formData");
-        OptimizeNetBean bean = GsonUtil.json2Object(jsonData, OptimizeNetBean.class);
+        QualityCheckBean bean = GsonUtil.json2Object(jsonData, QualityCheckBean.class);
         bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(funUtil.nowDate());
         log.info("data==>" + bean.toString());
-        int rst = OptimizeNetService.insertOptimizeNet(bean);
+        System.out.println("+++++++++++++++++"+bean.toString());
+        int rst = QualityCheckService.insertQualityCheck(bean);
+        System.out.println(rst);
         WebLogBean webLogBean = new WebLogBean();
         if (rst == 1) {
-            this.message = "网络优化申请信息已经成功提交";
+            this.message = "质量抽检申请信息已经成功提交";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(1);
             webLogBean.setContent("网络优化申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+
             //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "网络优化申请信息已经成功提交,请审核。。。", request);
+            sendNotify(bean.getUser_MainManager(), "质量抽检申请信息已经成功提交,请审核。。。", request);
             //----END
         } else {
-            this.message = "网络优化申请信息提交失败";
+            this.message = "质量抽检申请信息提交失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -168,7 +178,7 @@ public class OptimizeNetController {
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note1 = request.getParameter("note1");
         String user = request.getParameter("user");
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         if(checked ==1) {
             bean.setChecked(1);
@@ -179,7 +189,7 @@ public class OptimizeNetController {
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
         bean.setNote1(note1);
-        int rst = OptimizeNetService.checkedOne(bean);
+        int rst = QualityCheckService.checkedOne(bean);
         if (rst == 1) {
             this.message = "审核提交成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -223,14 +233,14 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         bean.setChecked(2);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
         System.out.println("网络优化任务消息:" + fileName);
 
-        int rst = OptimizeNetService.checkedTwo(bean);
+        int rst = QualityCheckService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "上传网络优化任务消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -269,17 +279,18 @@ public class OptimizeNetController {
         String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         if(checked == 3){
             bean.setChecked(3);
         }else if(checked == 1) {
             bean.setChecked(1);
+
         }
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);
-        int rst = OptimizeNetService.checkedFive(bean);
+        int rst = QualityCheckService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -322,14 +333,14 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         bean.setChecked(4);
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
         System.out.println("方案审核消息:" + fileName);
 
-        int rst = OptimizeNetService.checkedTwo(bean);
+        int rst = QualityCheckService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "上传方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -368,7 +379,7 @@ public class OptimizeNetController {
         String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         if(checked == 5){
             bean.setChecked(5);
@@ -379,7 +390,7 @@ public class OptimizeNetController {
         bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(funUtil.nowDate());
         bean.setNote3(note3);
-        int rst = OptimizeNetService.checkedFive(bean);
+        int rst = QualityCheckService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -422,14 +433,14 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         bean.setChecked(6);
         bean.setFileName3(fileName);
         bean.setFilePath3(filePath);
         System.out.println("总结审核消息请求:" + fileName);
 
-        int rst = OptimizeNetService.checkedTwo(bean);
+        int rst = QualityCheckService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "上传总结审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -468,7 +479,7 @@ public class OptimizeNetController {
         String note4 = request.getParameter("note4");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        OptimizeNetBean bean = new OptimizeNetBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         if(checked == 7){
             bean.setChecked(7);
@@ -479,7 +490,7 @@ public class OptimizeNetController {
         bean.setUser4(funUtil.loginUser(request));
         bean.setTime4(funUtil.nowDate());
         bean.setNote4(note4);
-        int rst = OptimizeNetService.checkedFive(bean);
+        int rst = QualityCheckService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -618,7 +629,7 @@ public class OptimizeNetController {
     public void sendNotify(String recvUser,String content,HttpServletRequest request){
         //----发送通知邮件
         EmailBean emailBean = new EmailBean();
-        emailBean.setTitle("网络优化");
+        emailBean.setTitle("运维质量抽查");
         emailBean.setRecvUser(recvUser);
         emailBean.setSendUser(funUtil.loginUser(request));
         emailBean.setContent(content);

@@ -212,8 +212,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -429,7 +429,6 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
 	var checked = $scope.checkData.checked;
 	var fileName = null;
 	if(checked != -1){
@@ -442,7 +441,7 @@ xh.download=function(){
 		
 	}
 	console.log("filename=>" + filename);
-	var downUrl = "../../optimizenetdrop/download?fileName=" + filename;
+	var downUrl = "../../optimizenetdrop/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
