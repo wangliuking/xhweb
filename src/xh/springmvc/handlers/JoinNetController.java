@@ -137,7 +137,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
+			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
 			//----END
 		} else {
 			this.message = "入网申请信息提交失败";
@@ -993,7 +993,7 @@ public class JoinNetController {
 			path = request.getSession().getServletContext().getRealPath("/Resources/upload");
 		}
 		String fileName=request.getParameter("fileName");
-		fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
+		fileName = new String(fileName.getBytes("ISO-8859-1"),"utf-8");
 		String downPath=path+"/"+fileName;
 		log.info(downPath);
 		System.out.println(downPath);
@@ -1005,7 +1005,7 @@ public class JoinNetController {
 		    //设置响应头和客户端保存文件名
 		    response.setCharacterEncoding("utf-8");
 		    response.setContentType("multipart/form-data");
-		    response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), fileName));
+		    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 		    //用于记录以完成的下载的数据量，单位是byte
 		    long downloadedLength = 0l;
 		    try {
