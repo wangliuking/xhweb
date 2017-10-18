@@ -201,7 +201,11 @@ public class QuitNetController {
 		QuitNetBean bean = new QuitNetBean();
 		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
-		bean.setQuit(quit);
+		if(quit == 1){
+			bean.setQuit(1);
+		}else if(quit ==-1){
+			bean.setQuit(-1);
+		}
 		bean.setNote1(note1);
 		bean2.setId(quitNumber);
 		System.out.println(quitNumber);
@@ -298,10 +302,15 @@ public class QuitNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		int quit = funUtil.StringToInt(request.getParameter("quit"));
 		String note = request.getParameter("note");
 		QuitNetBean bean = new QuitNetBean();
-		bean.setId(id);	
-		bean.setQuit(2);
+		bean.setId(id);
+		if(quit == 2){
+			bean.setQuit(2);
+		}else if(quit == 0){
+			bean.setQuit(0);
+		}
 		bean.setNote(note);
 		WebLogBean webLogBean = new WebLogBean();
 
