@@ -45,6 +45,18 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
+								<label>服务类型</label>&nbsp;<span class="text-danger">[*]</span> <a
+									href="#" data-toggle="tooltip" data-placement="top"
+									title="无线接入：包括手持终端、车载终端等无线接入设备;有线接入：包括调度台、二次开发应用等接入设备"><i
+									class="fa fa-question-circle"></i> </a> <select name="serviceType"
+									class="form-control">
+									<option value="无线接入" selected="selected">无线接入</option>
+									<option value="有线接入">有线接入</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
 								<label>入网依据</label>&nbsp;<span class="text-danger">[*]</span> <select
 									name="netBasis" class="form-control">
 									<option value="协议或合同" selected="selected">协议或合同</option>
@@ -73,16 +85,11 @@
 									required="required" onfocus="WdatePicker()" required="required">
 							</div>
 						</div> -->
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="serviceTime"
-									onfocus="WdatePicker()" required="required">
-							</div>
-						</div>
+						
 					</div>
 					<!-- row-------end -->
 					<div class="row">
+						
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>单位负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
@@ -116,6 +123,13 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
+								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="serviceTime"
+									onfocus="WdatePicker()" required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
 								<label>终端数量</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="terminalNum"
 									required="required">
@@ -128,13 +142,7 @@
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>通信需求</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="talkRequirment"
-									required="required">
-							</div>
-						</div>
+						
 						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
@@ -145,16 +153,10 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>服务类型</label>&nbsp;<span class="text-danger">[*]</span> <a
-									href="#" data-toggle="tooltip" data-placement="top"
-									title="无线接入：包括手持终端、车载终端等无线接入设备;有线接入：包括调度台、二次开发应用等接入设备"><i
-									class="fa fa-question-circle"></i> </a> <select name="serviceType"
-									class="form-control">
-									<option value="无线接入" selected="selected">无线接入</option>
-									<option value="有线接入">有线接入</option>
-								</select>
+								<label>通信需求</label>&nbsp;<span class="text-danger">[*]</span> 
+								<textarea name="talkRequirment" rows="2" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
 					</div>
@@ -187,7 +189,7 @@
 						</div>
 					</div>
 					<!--row-------end -->
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>入网申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
@@ -197,7 +199,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!--row-------end -->
 				</form>
 			</div>
