@@ -120,7 +120,6 @@ public class OrderManageController {
 
         OrderManageBean bean = GsonUtil.json2Object(jsonData, OrderManageBean.class);
         bean.setUserName(funUtil.loginUser(request));
-        bean.setTime(funUtil.nowDate());
         log.info("data==>" + bean.toString());
 
         int rst = OrderManageService.insertOrderManage(bean);

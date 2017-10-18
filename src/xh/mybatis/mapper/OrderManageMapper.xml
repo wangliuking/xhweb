@@ -10,7 +10,7 @@
     <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
     >
         select u.*
-        from xhgmnet_web_equipmentFailure as u where 1=1
+        from xhgmnet_web_equipmentfailure as u where 1=1
         <choose>
             <when test="roleId &gt;1004 || roleId &lt;1000">
                 and u.userName=#{user}
@@ -23,7 +23,7 @@
     </select>
     <!--查询故障登记表 所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
-        select count(id) from xhgmnet_web_equipmentFailure where 1=1
+        select count(id) from xhgmnet_web_equipmentfailure where 1=1
         <choose>
             <when test="roleId &gt;1004 || roleId &lt;1000">
                 and userName=#{user}
@@ -35,15 +35,15 @@
     <!--查询处理进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"
             useCache="true">
-        select * from xhgmnet_web_equipmentFailure where id=#{id}
+        select * from xhgmnet_web_equipmentfailure where id=#{id}
     </select>
 
     <!--故障记录入库 -->
     <insert id="insertOrderManage" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.OrderManageBean">
         insert into
-        xhgmnet_web_equipmentFailure(userUnit,userUnitContact,accepterTime,userDescription,need,time,userName)
-        values(#{userUnit},#{userUnitContact},#{accepterTime},#{userDescription},#{need},#{time},#{userName})
+        xhgmnet_web_equipmentfailure(userUnit,userUnitContact,accepterTime,userDescription,need,userName,checked)
+        values(#{userUnit},#{userUnitContact},#{accepterTime},#{userDescription},#{need},#{userName},#checked)
     </insert>
 
     <!--值班人员确认 -->
@@ -52,17 +52,17 @@
     </update>
     <!--管理方审核 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.OrderManageBean">
-        update xhgmnet_web_equipmentFailure set user2=#{user2},time2=#{time2},note2=#{note2},result=#{result},checked=#{checked},need_contact=#{need_contact} where id=#{id}
+        update xhgmnet_web_equipmentfailure set user2=#{user2},time2=#{time2},note2=#{note2},result=#{result},checked=#{checked},need_contact=#{need_contact} where id=#{id}
     </update>
 
     <!--管理方审核 -->
     <update id="checkedThree" parameterType="xh.mybatis.bean.OrderManageBean">
-        update xhgmnet_web_equipmentFailure set time3=#{time3},note3=#{note3},result=#{result},checked=#{checked} where id=#{id}
+        update xhgmnet_web_equipmentfailure set time3=#{time3},note3=#{note3},result=#{result},checked=#{checked} where id=#{id}
     </update>
 
     <!--确认 -->
     <update id="sureFile" parameterType="xh.mybatis.bean.OrderManageBean">
-        update xhgmnet_web_equipmentFailure set time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+        update xhgmnet_web_equipmentfailure set time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
     </update>
 
 </mapper>
