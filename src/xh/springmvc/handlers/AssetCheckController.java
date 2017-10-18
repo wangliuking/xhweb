@@ -16,49 +16,95 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.AssetCheckBean;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WorkBean;
+import xh.mybatis.service.AssetCheckServices;
 import xh.mybatis.service.EmailService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkServices;
 
 @Controller
-@RequestMapping("/work")
-public class WorkController {
+@RequestMapping("/asset")
+public class AssetCheckController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(WorkController.class);
+	protected final Log log = LogFactory.getLog(AssetCheckController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 	
 	/**
-	 * 获取工作记录
+	 * 资产核查申请列表
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/worklist")
-	public void worklist(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping("/assetCheckList")
+	public void assetCheckList(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		String fileName=request.getParameter("filename");
+		/*String fileName=request.getParameter("filename");
 		String contact=request.getParameter("contact");
-		int status=funUtil.StringToInt(request.getParameter("status"));
+		int status=funUtil.StringToInt(request.getParameter("status"));*/
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		
 		Map<String,Object> map=new HashMap<String, Object>();
-		map.put("fileName", fileName);
-		map.put("contact", contact);
-		map.put("status", status);
 		map.put("start", start);
 		map.put("limit", limit);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WorkServices.count(map));
-		result.put("items", WorkServices.worklist(map));
+		result.put("totals",AssetCheckServices.count());
+		result.put("items", AssetCheckServices.assetCheckList(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	@RequestMapping("/apply")
+	public void apply(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");	
+		AssetCheckBean bean=GsonUtil.json2Object(formData, AssetCheckBean.class);
+		EmailBean emailBean=new EmailBean();
+		bean.setAccount(funUtil.loginUser(request));
+		bean.setApplyTime(funUtil.nowDate());
+		log.info(bean.toString());		
+		int rlt=AssetCheckServices.apply(bean);
+		
+		if(rlt==1){
+			this.success=true;
+			this.message="资产核查申请提交成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("资产核查申请提交");
+			WebLogService.writeLog(webLogBean);
+			
+			emailBean.setTitle("资产核查申请");
+			emailBean.setRecvUser(String.valueOf(10002));
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent("请审核资产核查申请");
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			
+			
+		}else{
+			this.success=false;
+			this.message="资产核查申请提交失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rlt);
+		result.put("message",message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -73,13 +119,12 @@ public class WorkController {
 	 * 新增工作记录
 	 * @param request
 	 * @param response
-	 */
+	 *//*
 	@RequestMapping("/addwork")
 	public void addwork(HttpServletRequest request, HttpServletResponse response){
 		String formData=request.getParameter("formData");	
 		WorkBean bean=GsonUtil.json2Object(formData, WorkBean.class);
 		EmailBean emailBean=new EmailBean();
-		bean.setRecvUser("10002");
 		bean.setUploadUser(funUtil.loginUser(request));
 		log.info(bean.toString());		
 		int rlt=WorkServices.addwork(bean);
@@ -93,8 +138,8 @@ public class WorkController {
 			webLogBean.setContent("上传工作记录");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("工作记录");
-			emailBean.setRecvUser("10002");
+			emailBean.setTitle("签收工作记录");
+			emailBean.setRecvUser(bean.getRecvUser());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("请签收工作记录");
 			emailBean.setTime(funUtil.nowDate());
@@ -120,11 +165,11 @@ public class WorkController {
 		}
 		
 	}
-	/**
+	*//**
 	 * 签收工作记录
 	 * @param request
 	 * @param response
-	 */
+	 *//*
 	@RequestMapping("/signwork")
 	public void signWork(HttpServletRequest request, HttpServletResponse response){
 		int id=Integer.parseInt(request.getParameter("id"));
@@ -141,7 +186,7 @@ public class WorkController {
 			webLogBean.setContent("签收工作记录，id=" +id);
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("工作记录");
+			emailBean.setTitle("工作记录已经签收");
 			emailBean.setRecvUser(recvUser);
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("工作记录已经签收");
@@ -166,6 +211,6 @@ public class WorkController {
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 
 }
