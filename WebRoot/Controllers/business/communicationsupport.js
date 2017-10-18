@@ -545,7 +545,7 @@ xh.check10 = function() {
 /*管理方接受消息*/
 xh.check11 = function() {
 	$.ajax({
-		url : '../../support/checkedEleven',
+		url : '../../support/checkedEvelen',
 		type : 'POST',
 		dataType : "json",
 		async : true,
