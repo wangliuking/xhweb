@@ -13,6 +13,11 @@ public interface GosuncnMapper {
 	public int insertLogin(Map<String,String> map)throws Exception;
 	
 	/**
+	 * 查询注册信息用于维持心跳
+	 */
+	public List<Map<String,String>> selectForGetLogin();
+	
+	/**
 	 * 添加告警信息
 	 */
 	public int insertAlarm(Map<String,String> map);
@@ -29,6 +34,11 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public int insertConfig(List<Map<String,String>> list)throws Exception;
+	
+	/**
+	 * 根据FSUID查询对应配置信息
+	 */
+	public List<String> selectConfigByFSUID(String FSUID);
 	
 	/**
 	 * 添加监控点数据
