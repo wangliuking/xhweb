@@ -52,6 +52,14 @@ public interface AssetInfoMapper {
 	 * @throws Exception
 	 */
 	public int updateAsset(AssetInfoBean bean)throws Exception;
+	
+	/**
+	 * 核查资产
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkAsset(Map<String,Object> map)throws Exception;
 	/**
 	 * 删除记录
 	 * @param list

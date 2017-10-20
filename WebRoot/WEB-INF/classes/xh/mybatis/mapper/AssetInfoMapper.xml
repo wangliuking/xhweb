@@ -108,6 +108,13 @@
 		serialNumber=#{serialNumber},price=#{price},number=#{number},`from`=#{from},
 		status=#{status},note=#{note} where id=#{id}
 	</update>
+	<!--核查资产 -->
+	<update id="checkAsset" parameterType="map">
+		update
+		xhgmnet_business_assetinfo set 	status=#{status},
+		checkTime=#{checkTime},checkResult=#{checkResult},
+		checkUser=#{checkUser} where id=#{id}
+	</update>
 	<!--删除资产 -->
 	<delete id="deleteAsset" parameterType="java.util.List">
 		delete from xhgmnet_business_assetinfo where id in(

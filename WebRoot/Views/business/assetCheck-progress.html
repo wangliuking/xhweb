@@ -69,14 +69,17 @@
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.status<1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=1"></div>
+									ng-if="progressData.status>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>管理部门领导审核</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
-									<span ng-if="progressData.status<1"
-										class="cd-date text-danger">等待处理！</span> <span
+									<span ng-if="progressData.status<1 && progressData.status==-1"
+										class="cd-date text-danger">申请拒绝</span>
+									<span ng-if="progressData.status<1 && progressData.status>-1"
+										class="cd-date text-danger">等待处理！</span>
+								 <span
 										ng-if="progressData.status>=1"
 										class="cd-date text-success font-bold">审核
 										时间：{{progressData.time1}}</span>
@@ -90,7 +93,7 @@
 									ng-if="progressData.status>=2"></div>
 								<div class="cd-timeline-content">
 									<h2>资产管理员确认资产核查完成</h2>
-
+                                    <h2><a href="#" ng-click="download(progressData.filePath)">{{progressData.fileName}}</a></h2>
 									<span ng-if="progressData.status<2"
 										class="cd-date text-danger">等待确认</span> <span
 										ng-if="progressData.status>=2"

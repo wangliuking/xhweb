@@ -19,11 +19,15 @@
 		insert into xhgmnet_asset_check(person,tel,note,account,applyTime)
 		values(#{person},#{tel},#{note},#{account},#{applyTime})
 	</insert>
-	<!-- 签收工作记录 -->
-    <update id="signWork" parameterType="int">
-     update xhgmnet_operations_work set status=1 where id=#{id}    
+	<!-- 管理部门领导审核 -->
+    <update id="checkOne" parameterType="map">
+     update xhgmnet_asset_check set status=#{status},user1=#{user1},time1=#{time1},note1=#{note1} where id=#{id}    
     </update>
-
+	<!-- 资产管理员确认完成 -->
+    <update id="checkTwo" parameterType="map">
+     update xhgmnet_asset_check set status=2,time2=#{time2},note2=#{note2},fileName=#{fileName},
+     filePath=#{filePath} where id=#{id}    
+    </update>
 
 
 

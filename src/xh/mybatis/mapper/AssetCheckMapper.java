@@ -28,5 +28,21 @@ public interface AssetCheckMapper {
 	 * @throws Exception
 	 */
 	public int apply(AssetCheckBean bean) throws Exception;
+	
+	/**
+	 * 管理部门领导审核
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkOne(AssetCheckBean bean) throws Exception;
+	
+	/**
+	 * 资产管理员确认完成
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkTwo(Map<String,Object> map) throws Exception;
 
 }
