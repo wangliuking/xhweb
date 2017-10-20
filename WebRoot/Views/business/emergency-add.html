@@ -28,7 +28,7 @@
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>抽查请求时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>应急处置演练请求时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="requestTime"
 									required="required" onfocus="WdatePicker()">
 							</div>
@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>抽查审核人</label>&nbsp;<span class="text-danger">[*]</span>
+								<label>申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
 								<select class="form-control" name="user_MainManager" ng-model="user_M">
 									<option ng-repeat="x in userData_MainManager"
 										value="{{x.user}}">{{x.userName}}</option>
@@ -47,29 +47,24 @@
 							</div>
 						</div>
 					</div>
-				</form>
-					
-<!-- 				<form action="#" id="" onSubmit="return false"
-					enctype="multipart/form-data" method="POST">
-					<div class="row">
-						<div class="col-md-8">
-							<div class="form-group col-md-10" style="padding-right:0px;">
-								<input type="hidden" id="listener" name="listener" value="" />
-								<input type="hidden" id="listenerIO" name="listenerIO" value="" />
-								<label>上传附件</label>&nbsp;<span class="text-info">[*]</span> <input
-									class="form-control" type="file" id="pathName" name="pathName"/>
-							</div>
-							<div class="form-group col-md-2" style="padding-left:0px;">
-								<button type="button" ng-disabled="form.$invalid"
-									class="btn btn-info btn-sm" style="margin-top:23px;"
-									id="uploadfile">
-									<i class="fa fa-plus-circle"></i>点击上传
-								</button>
+					<!--row-------end -->
+					<!-- <div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>故障审核人</label>&nbsp;<span class="text-danger">[*]</span>
+								<select class="form-control" name="user_MainManager" ng-model="user_M">
+									<option ng-repeat="x in userData_MainManager"
+										value="{{x.user}}">{{x.userName}}</option>
+								</select>
 							</div>
 						</div>
-					</div>
-				</form> -->
-				
+					</div> -->
+					<!--row-------end -->
+
+
+
+
+				</form>
 			</div>
 			<div class="modal-footer">
 

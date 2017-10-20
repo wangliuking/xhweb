@@ -5,16 +5,16 @@ import java.util.Map;
 
 import xh.mybatis.bean.DeviceManageBean;
 import xh.mybatis.bean.JoinNetBean;
-import xh.mybatis.bean.QualityCheckBean;
+import xh.mybatis.bean.EmergencyBean;
 
 
-public interface QualityCheckMapper {
+public interface EmergencyMapper {
     /**
      * 查询所有申请记录
      * @return
      * @throws Exception
      */
-    public List<QualityCheckBean> selectAll(Map<String, Object> map)throws Exception;
+    public List<EmergencyBean> selectAll(Map<String, Object> map)throws Exception;
 
     /**
      * 申请进度查询
@@ -35,27 +35,31 @@ public interface QualityCheckMapper {
      * @return
      * @throws Exception
      */
-    public int insertQualityCheck(QualityCheckBean bean)throws Exception;
+    public int insertEmergency(EmergencyBean bean)throws Exception;
     /**
      *
      * @param bean
      * @return
      * @throws Exception
      */
-    public int checkedOne(QualityCheckBean bean)throws Exception;
+    public int checkedOne(EmergencyBean bean)throws Exception;
     /**
      *
      * @param bean
      * @return
      * @throws Exception
      */
-    public int checkedTwo(QualityCheckBean bean)throws Exception;
+    public int checkedTwo(EmergencyBean bean)throws Exception;
 
-    public int checkedThree(QualityCheckBean bean)throws Exception;
+    public int checkedThree(EmergencyBean bean)throws Exception;
 
-    public int checkedFour(QualityCheckBean bean)throws Exception;
+    public int checkedFour(EmergencyBean bean)throws Exception;
 
-    public int checkedFive(QualityCheckBean bean)throws Exception;
+    public int checkedFive(EmergencyBean bean)throws Exception;
+    
+    public int checkedSix(EmergencyBean bean)throws Exception;
+
+    public int checkedSeven(EmergencyBean bean)throws Exception;
 
 
 }
