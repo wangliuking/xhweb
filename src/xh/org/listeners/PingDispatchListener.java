@@ -26,7 +26,7 @@ public class PingDispatchListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 		if(timer==null){
-			timer.schedule(new timerTask(), 10*1000, 60*1000);
+			//timer.schedule(new pingTask(), 10*1000, 60*1000);
 		}
 	}
 

@@ -88,6 +88,14 @@ public class GosuncnController {
 	}
 	
 	/**
+	 * 根据FSUID查询对应配置信息
+	 */
+	public static List<String> selectConfigByFSUID(String FSUID){
+		List<String> list = GosuncnService.selectConfigByFSUID(FSUID);
+		return list;
+	}
+	
+	/**
 	 * 添加fsu注册信息
 	 */
 	public static String insertLogin(Map<String,String> map){
@@ -100,6 +108,14 @@ public class GosuncnController {
 			return "failure";
 		}
 		
+	}
+	
+	/**
+	 * 查询fsu注册信息用于维持心跳
+	 */
+	public static List<Map<String,String>> selectForGetLogin(){
+		List<Map<String,String>> list = GosuncnService.selectForGetLogin();
+		return list;
 	}
 	
 	/**
