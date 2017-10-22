@@ -74,14 +74,16 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
-			$http.get("../../business/lend/lendInfoList?lendId="+$scope.progressData.id).
-			success(function(response){
-				xh.maskHide();
-				$scope.dataLend = response.items;
-				$scope.lendTotals = response.totals;
-			});
 			$("#progress").modal('show');
 	    };
+		/*下载工作记录*/
+		$scope.download = function(path) {
+			var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);	
+			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
+			window.open(downUrl, '_self',
+					'width=1,height=1,toolbar=no,menubar=no,location=no');
+		};
 	    
 	    $scope.checkedChange=function(issure){
 	    	$scope.issure=issure==1?true:false;
@@ -90,121 +92,14 @@ xh.load = function() {
 	  
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
-			$scope.checkData=$scope.data[id];
-			/*if(id == -1){
-				$http.get("../../web/user/getUserList?roleId=10002").
-				success(function(response){
-					$scope.userData = response.items;
-					$scope.userTotals = response.totals;
-					if($scope.userTotals>0){
-						$scope.user=$scope.userData[0].user;
-					}
-				});
-				$("#add").modal('show');
-			}
-			$scope.checkData = $scope.data[id];
-			$scope.ch=id;
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
-				$http.get("../../web/user/getUserList?roleId=10002").
-				success(function(response){
-					$scope.userData = response.items;
-					$scope.userTotals = response.totals;
-					if($scope.userTotals>0){
-						$scope.user=$scope.userData[0].user;
-					}
-				});*/
-				$("#checkWin1").modal('show');
-			
-			
+			$scope.checkData=$scope.data[id];			
+				$("#checkWin1").modal('show');	
 	    };
-	    /* 用户确认编组方案 
-	    $scope.sureFile = function(id) {
-	    	$.ajax({
-	    		url : '../../net/sureFile',
-	    		type : 'POST',
-	    		dataType : "json",
-	    		async : false,
-	    		data:{id:id},
-	    		success : function(data) {
-	    			if (data.result === 1) {
-	    				toastr.success(data.message, '提示');
-	    				xh.refresh();
-
-	    			} else {
-	    				toastr.error(data.message, '提示');
-	    			}
-	    		},
-	    		error : function(){
-	    		}
-	    	});
-	    };*/
-		/* 显示修改model */
-		$scope.editModel = function(id) {
-			$scope.editData = $scope.data[id];
-			$scope.type = $scope.editData.type.toString();
-			$scope.from = $scope.editData.from.toString();
-		};
-		/* 显示修改model */
-		$scope.showEditModel = function() {
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				/*swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});*/
-				toastr.error("只能选择一条数据", '提示');
-				return;
-			}
-			$("#edit").modal('show');
-			$scope.editData = $scope.data[parseInt(checkVal[0])];
-			
-			$scope.type = $scope.editData.type.toString();
-			$scope.from = $scope.editData.from.toString();
-		};
-		/* 删除 */
-		$scope.delBs = function(id) {
-			swal({
-				title : "提示",
-				text : "确定要删除该记录吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../business/deleteAsset',
-						type : 'post',
-						dataType : "json",
-						data : {
-							deleteIds : id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.refresh();
-							} else {
-								toastr.error(data.message, '提示');
-							}
-						},
-						error : function() {
-							$scope.refresh();
-						}
-					});
-				}
-			});
-		};
+	    $scope.checkWin2 = function (id) {
+			$scope.checkData=$scope.data[id];			
+				$("#checkWin2").modal('show');	
+	    };
+	   
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -295,14 +190,18 @@ xh.add = function() {
 	});
 };
 /*主管部门审核*/
-xh.check1 = function(id) {
-	/*$.ajax({
-		url : '../../business/lend/checkedOne',
+xh.check1 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../asset/checkOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
-			formData:xh.serializeJson($("#checkForm1").serializeArray()) //将表单序列化为JSON对象
+			id:$("#checkForm1").find("input[name='id']").val(),
+			note1:$("#checkForm1").find("textarea[name='note1']").val(),
+			checked:$("#checkForm1").find("select[name='checked1']").val(),
+			account:$scope.checkData.account
 		},
 		success : function(data) {
 
@@ -317,29 +216,28 @@ xh.check1 = function(id) {
 		},
 		error : function() {
 		}
-	});*/
-	window.location.href="lend-deal.html?data_id="+id;
+	});
 };
 
-/*管理部门领导审核租借清单*/
 
-xh.check3 = function(checked) {
+xh.check2 = function(checked) {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../business/lend/checkedOrder',
+		url : '../../asset/checkTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
-			lendId:$scope.checkData.id,
-			checked:checked,
-			user:$scope.checkData.user,
-			note2:$("#checkForm3").find("input[name='note2']").val()
+			id:$("#checkForm2").find("input[name='id']").val(),
+			note:$("#checkForm2").find("textarea[name='note2']").val(),
+			fileName:$("#checkForm2").find("input[name='fileName']").val(),
+			filePath:$("#checkForm2").find("input[name='filePath']").val(),
+			user1:$scope.checkData.user1
 		},
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin3').modal('hide');
+				$('#checkWin2').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -351,58 +249,7 @@ xh.check3 = function(checked) {
 		}
 	});
 };
-/*用户确认租借清单*/
-xh.check4 = function() {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../business/lend/sureOrder',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			lendId:$scope.checkData.id
-		},
-		success : function(data) {
 
-			if (data.result ==1) {
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*用户归还设备*/
-xh.check5 = function(checkIds,status) {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../business/lend/operation',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			lendId:$scope.checkData.id,
-			checkId:checkIds,
-			//manager:$scope.checkData.user1,
-			status:status
-		},
-		success : function(data) {
-			if (data.result) {
-				$('#checkWin3').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 
 /*上传文件*/
 xh.upload = function() {

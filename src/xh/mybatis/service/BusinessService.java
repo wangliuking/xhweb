@@ -149,6 +149,26 @@ public class BusinessService {
 		return  result;
 	}
 	/**
+	 * 核查资产
+	 * @param map
+	 * @return
+	 */
+	public static int checkAsset(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkAsset(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**
 	 * 删除资产记录
 	 * @param list
 	 * @return

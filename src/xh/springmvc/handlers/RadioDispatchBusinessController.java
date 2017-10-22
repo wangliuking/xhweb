@@ -76,7 +76,6 @@ public class RadioDispatchBusinessController {
 			        String thisValue=request.getParameter(thisName);
 			        map.put(thisName, thisValue);
 			}
-			System.out.println(map);
 			int count=RadioDispatchBusinessService.insert(map);
 			HashMap result = new HashMap();
 			result.put("success", success);

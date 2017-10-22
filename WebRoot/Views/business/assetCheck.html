@@ -113,10 +113,12 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;</a> 
 											<a href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核</a>
-											<a href="#" ng-click="checkWin($index)">|<i
+											<a ng-if="loginUser==x.account && x.status==1" href="assetCheck-info.html">|<i
 												class="fa fa-hand-o-down text-danger"></i>核查</a>
-											<a href="#" ng-click="checkWin($index)">| <i
+											<a ng-if="loginUser==x.account && x.status==1" href="#" ng-click="checkWin2($index)">| <i
 												class="fa fa-hand-o-down text-danger"></i>完成</a>
+											<a ng-if="x.status==2" href="#" ng-click="download(x.filePath)">| <i
+												class="fa fa-download text-danger"></i>核查反馈文件</a>
 												
 										</td>
 									</tr>

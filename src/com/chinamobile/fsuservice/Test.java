@@ -180,7 +180,7 @@ public class Test {
 	 * @throws RemoteException
 	 * 
 	 */
-	public static void getDevConf(String url, String FSUID)
+	public static List<Map<String, String>> getDevConf(String url, String FSUID)
 			throws RemoteException {
 		FSUServiceStub stub = new FSUServiceStub(url);
 		Invoke invoke = new Invoke();
@@ -199,16 +199,16 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
+		List<Map<String, String>> configList = null;
 		try {
-			List<Map<String, String>> configList = ParseXml.getDevConf(
-					resp.getString(), FSUID);
+			configList = ParseXml.getDevConf(resp.getString(), FSUID);
 			log.info(resp);
-			String result = GosuncnController.insertConfig(configList);//将配置信息入库
+			
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return configList;
 	}
 
 	/**

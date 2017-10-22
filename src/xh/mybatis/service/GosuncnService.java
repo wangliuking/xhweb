@@ -33,6 +33,17 @@ public class GosuncnService {
 	}
 	
 	/**
+	 * 查询注册信息用于维持心跳
+	 */
+	public static List<Map<String,String>> selectForGetLogin(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,String>> list = mapper.selectForGetLogin();
+		sqlSession.close();
+		return list;
+	}
+	
+	/**
 	 * 添加告警信息
 	 * @param map
 	 * @return
@@ -68,6 +79,17 @@ public class GosuncnService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * 根据FSUID查询对应配置信息
+	 */
+	public static List<String> selectConfigByFSUID(String FSUID){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<String> list = mapper.selectConfigByFSUID(FSUID);
+		sqlSession.close();
+		return list;
 	}
 	
 	/**

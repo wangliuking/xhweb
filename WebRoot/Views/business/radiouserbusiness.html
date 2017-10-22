@@ -146,9 +146,30 @@
 								属性
 							</div>
 							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="btn-group" style="padding-top:10px;">
+											<button class="btn btn-success btn-sm" data-toggle="modal"
+												data-target="#add" ng-disabled="">
+												<i class="fa fa-plus-circle"></i>&nbsp;添加属性
+											</button>
+											<button class="btn btn-info btn-sm" ng-disabled=""
+												ng-click="showEditModel()">
+												<i class="fa fa-edit"></i>&nbsp;修改属性
+											</button>
+											<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+												ng-disabled="">
+												<i class="fa fa-trash"></i>&nbsp;批量删除
+											</button>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
 								<table id="tb-info" class="xh-table table-hover">
 									<thead>
 										<tr class="tr-gray">
+											<th width="30px"><input type="checkbox"
+												id="table-checkbox" class="table-check" /></th>
 											<th>序号</th>
 											<th>业务属性标识</th>
 											<th>业务属性名称</th>
@@ -164,9 +185,11 @@
 									</thead>
 									<tbody>
 										<tr ng-if="totals==0">
-											<td colspan="11" class="text-center">没有记录！</td>
+											<td colspan="12" class="text-center">没有记录！</td>
 										</tr>
 										<tr ng-repeat="x in data">
+											<td><input type="checkbox" name="tb-check"
+												value="{{x.id}}" index="{{$index}}" /></td>
 											<td>{{$index+1}}</td>
 											<td>{{x.id}}</td>
 											<td>{{x.name}}</td>
@@ -178,9 +201,10 @@
 											<td>{{x.mgenabled}}</td>
 											<td>{{x.mgemergencyenabled}}</td>
 											<td style="width:20px;text-align:center"><a href="#"
-												ng-click="editModel($index)" data-toggle="modal"> <i
-													class="fa fa-edit text-success"></i>&nbsp;显示详情
-											</a></td>
+												ng-disabled="" ng-click="editModel($index)"> <i
+													class="fa fa-edit text-success"></i>&nbsp;修改
+											</a>| <a href="#" ng-click="delBs(x.id)"><i
+													class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -211,7 +235,9 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<!-- 编辑基站 -->
+	<!-- 添加 -->
+	<div ng-include="'radiouserbusiness-add.html'"></div>
+	<!-- 编辑 -->
 	<div ng-include="'radiouserbusiness-show.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>

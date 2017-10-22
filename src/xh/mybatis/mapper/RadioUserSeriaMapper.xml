@@ -13,7 +13,7 @@
   <select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
 		select * from xhgmnet_radiouseria where 1=1
-		<if test="id !=null and id !='' and id !=0">
+		<if test="id !=null and id !=''">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name !=null and name !=''">
@@ -25,7 +25,7 @@
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_radiouseria where 1=1
-		<if test="id!=null and id!=''">
+		<if test="id!=null and id !=''">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name!=null and name!=''">
@@ -33,98 +33,26 @@
 		</if>
 	</select>
 	
-  <sql id="Base_Column_List" >
-    id, name, priorityLevel, bicType, bocType, time
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from xhgmnet_radiouseria
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from xhgmnet_radiouseria
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="xh.mybatis.bean.RadioUserSeria" >
-    insert into xhgmnet_radiouseria (id, name, priorityLevel, 
-      bicType, bocType, time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{prioritylevel,jdbcType=INTEGER}, 
-      #{bictype,jdbcType=INTEGER}, #{boctype,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="xh.mybatis.bean.RadioUserSeria" >
-    insert into xhgmnet_radiouseria
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="prioritylevel != null" >
-        priorityLevel,
-      </if>
-      <if test="bictype != null" >
-        bicType,
-      </if>
-      <if test="boctype != null" >
-        bocType,
-      </if>
-      <if test="time != null" >
-        time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="prioritylevel != null" >
-        #{prioritylevel,jdbcType=INTEGER},
-      </if>
-      <if test="bictype != null" >
-        #{bictype,jdbcType=INTEGER},
-      </if>
-      <if test="boctype != null" >
-        #{boctype,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.RadioUserSeria" >
-    update xhgmnet_radiouseria
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="prioritylevel != null" >
-        priorityLevel = #{prioritylevel,jdbcType=INTEGER},
-      </if>
-      <if test="bictype != null" >
-        bicType = #{bictype,jdbcType=INTEGER},
-      </if>
-      <if test="boctype != null" >
-        bocType = #{boctype,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.RadioUserSeria" >
-    update xhgmnet_radiouseria
-    set name = #{name,jdbcType=VARCHAR},
-      priorityLevel = #{prioritylevel,jdbcType=INTEGER},
-      bicType = #{bictype,jdbcType=INTEGER},
-      bocType = #{boctype,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<!--增加 -->
+	<insert id="insert" parameterType="java.util.Map">
+		insert into
+		xhgmnet_radiouseria(id,name,priorityLevel,bicType,bocType)
+		values(#{id},#{name},#{prioritylevel},#{bictype},#{boctype})
+	</insert>
+
+	<!--更新 -->
+	<update id="update" parameterType="java.util.Map">
+		update
+		xhgmnet_radiouseria set name=#{name},priorityLevel=#{prioritylevel},bicType=#{bictype},bocType=#{boctype} where id=#{id} 
+	</update>
+
+	<!--删除-->
+	<delete id="delete" parameterType="java.util.List">
+		delete from xhgmnet_radiouseria where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+  
 </mapper>

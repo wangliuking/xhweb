@@ -247,29 +247,29 @@ public class BsstationService {
 		return bsStation;
 	}
 	/**
-	 * 查询首页话务量
+	 * 查询单个基站话务量及其他业务
 	 * @author wlk
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String, String>> selectCalllist(String currentMonth) throws Exception{
+	public List<HashMap<String, String>> selectCalllistById(String currentMonth) throws Exception{
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
-		List<HashMap<String, String>> BsStation=mapper.selectCalllist(currentMonth);
+		List<HashMap<String, String>> BsStation=mapper.selectCalllistById(currentMonth);
 	        session.commit();  
 	        session.close();
 	        return BsStation;   
 	}
 	/**
-	 * 查询首页排队数
+	 * 查询单个基站排队数及其他业务
 	 * @author wlk
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String, String>> selectChannel() throws Exception{
+	public List<HashMap<String, String>> selectChannelById() throws Exception{
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
-		List<HashMap<String, String>> BsStation=mapper.selectChannel();
+		List<HashMap<String, String>> BsStation=mapper.selectChannelById();
 	        session.commit();  
 	        session.close();
 	        return BsStation;   

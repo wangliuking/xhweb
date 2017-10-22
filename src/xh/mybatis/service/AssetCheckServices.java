@@ -65,24 +65,17 @@ public class AssetCheckServices {
 		}
 		return  result;
 	}
-	
 	/**
-	 * 新增工作记录
+	 * 管理部门领导审核
 	 * @param bean
 	 * @return
-	 *//*
-	
-	*//**
-	 * 签收工作记录
-	 * @param bean
-	 * @return
-	 *//*
-	public static int signWork(int id){
+	 */
+	public static int checkOne(AssetCheckBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-		WorkMapper mapper=sqlSession.getMapper(WorkMapper.class);
+		AssetCheckMapper mapper=sqlSession.getMapper(AssetCheckMapper.class);
 		int result=0;
 		try {
-			result=mapper.signWork(id);
+			result=mapper.checkOne(bean);
 			sqlSession.commit();
 			sqlSession.close();					
 		} catch (Exception e) {
@@ -90,6 +83,27 @@ public class AssetCheckServices {
 			e.printStackTrace();
 		}
 		return  result;
-	}*/
+	}
+	/**
+	 * 资产管理员确认完成
+	 * @param map
+	 * @return
+	 */
+	public static int checkTwo(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetCheckMapper mapper=sqlSession.getMapper(AssetCheckMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkTwo(map);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	
+	
 
 }

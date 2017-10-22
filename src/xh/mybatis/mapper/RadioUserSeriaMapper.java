@@ -21,15 +21,22 @@ public interface RadioUserSeriaMapper {
 	 */
 	public int  Count(Map<String,Object> map)throws Exception;
 	
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(RadioUserSeria record);
-
-    int insertSelective(RadioUserSeria record);
-
-    RadioUserSeria selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(RadioUserSeria record);
-
-    int updateByPrimaryKey(RadioUserSeria record);
+	/**
+	 * 增加
+	 * @return
+	 * @throws Exception
+	 */
+	public int  insert(Map<String,Object> map)throws Exception;
+	/**
+	 * 修改
+	 * @return
+	 * @throws Exception
+	 */
+	public int  update(Map<String,Object> map)throws Exception;
+	/**
+	 * 删除
+	 * @return
+	 * @throws Exception
+	 */
+	public void  delete(List<String> list)throws Exception;
 }
