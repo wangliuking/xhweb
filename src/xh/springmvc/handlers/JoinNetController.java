@@ -114,22 +114,37 @@ public class JoinNetController {
 	public void insertNet(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
+		int rst = 0;
+		int shoubanNum = 0;
+		int chezaitaiNum = 0;
 		String jsonData = request.getParameter("formData");
 		
 		JoinNetBean bean = GsonUtil.json2Object(jsonData, JoinNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
-		bean.setTime(funUtil.nowDate());
-		if("有线接入".equals(bean.getServiceType())){
+		bean.setNetTime(funUtil.nowDate());
+		if(bean.getApply2() != 0){
 			bean.setChecked(-1);
+			bean.setServiceType("有线接入");
+			shoubanNum = bean.getApply0();
+			chezaitaiNum = bean.getApply1();
+			bean.setApply0(0);
+			bean.setApply1(0);
+			log.info("data有线==>" + bean.toString());
+			rst = JoinNetService.insertNet(bean);
+			bean.setApply2(0);
 		}
-		else if("无线接入".equals(bean.getServiceType())){
-			bean.setChecked(0);
-		}
-		log.info("data==>" + bean.toString());
-
-		int rst = JoinNetService.insertNet(bean); 
-		if (rst == 1) {
+		
+		bean.setApply0(shoubanNum);
+		bean.setApply1(chezaitaiNum);
+		bean.setServiceType("无线接入");
+		bean.setChecked(0);
+		rst += JoinNetService.insertNet(bean); 
+		log.info(rst + "data无线==>" + bean.toString());
+		if (rst >= 1) {
 			this.message = "入网申请信息已经成功提交";
+			if(rst == 2) {
+				this.message = "有线/无线入网申请信息已经成功提交";
+			}
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
@@ -271,6 +286,7 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int type = funUtil.StringToInt(request.getParameter("type"));
 		String note3 = request.getParameter("note3");
+		String backUser = request.getParameter("backUser");
 		String user4 = request.getParameter("user");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
@@ -297,7 +313,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user4, "入网申请信息审核，编组方案已上传，内审资源配置技术方案。。。", request);
+			sendNotify(backUser, "入网申请信息审核，编组方案已上传，内审资源配置技术方案。。。", request);
 			//----END
 		} else {
 			this.message = "上传编组方案失败";
@@ -356,7 +372,7 @@ public class JoinNetController {
 					}
 			}else{
 				if(checked==1){
-					bean.setChecked(6);
+					bean.setChecked(7);
 					sendUser = managerUser;
 				}else{
 					bean.setChecked(3);
@@ -408,20 +424,16 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("userBZ_checked"));
 		String note5 = request.getParameter("note5");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);	
 		bean.setTime5(funUtil.nowDate());
 		bean.setNote5(note5);
-		if(checked == 1){
-			bean.setChecked(5);
-		} else{
-			bean.setChecked(-2);
-		}
+		bean.setChecked(6);
+		
 		int rst = JoinNetService.sureFile(bean);
 		if (rst == 1) {
-			this.message = "确认编组方案成功";
+			this.message = "请于近期将入网样机送至软件中心测试";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
@@ -650,6 +662,8 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		String user2 = request.getParameter("loginUser");
+		String note2_suggest = request.getParameter("note2_suggest");
 		String managerId = request.getParameter("managerId");
 		int type = funUtil.StringToInt(request.getParameter("type"));
 		String fileName = request.getParameter("fileName");
@@ -660,6 +674,9 @@ public class JoinNetController {
 		bean.setFilePathNote(filePath);
 		if(type == 1){
 			bean.setChecked(2);
+			bean.setUser2(user2);
+			bean.setNote2_suggest(note2_suggest);
+			System.out.println("----->" + user2);
 			//----发送通知邮件
 			sendNotify(managerId, "评估意见已上报,请审核。。。", request);
 			//----END
@@ -712,11 +729,7 @@ public class JoinNetController {
 		bean.setId(id);
 		bean.setFileNameHT(fileName);
 		bean.setFilePathHT(filePath);
-		if(type == 1){
-			bean.setChecked(7);
-		}else{
-			bean.setChecked(6);
-		}
+		bean.setChecked(11);
 		System.out.println("保存合同:" + fileName + filePath);
 		
 		int rst = JoinNetService.uploadFileHT(bean);
