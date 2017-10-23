@@ -9,6 +9,8 @@ public class QualityCheckBean {
     private String userName;
     private String userUnit;
     private String userNature;
+    private String applicant;
+    private String tel;
     private String requestTime;
 //    private int number;
     private String user1;
@@ -85,6 +87,22 @@ public class QualityCheckBean {
 
     public void setUserUnit(String userUnit) {
         this.userUnit = userUnit;
+    }
+    
+    public String getApplicant() {
+        return applicant;
+    }
+
+    public void setApplicant(String applicant) {
+        this.applicant = applicant;
+    }
+    
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public int getId() {
@@ -233,7 +251,7 @@ public class QualityCheckBean {
 	@Override
 	public String toString() {
 		return "QualityCheckBean [id=" + id + ", checked=" + checked + ", userName=" + userName
-				+ ", userUnit=" + userUnit + ", userNature=" + userNature
+				+ ", applicant=" + applicant + ", tel=" + tel
 				+ ", requestTime=" + requestTime + ", user1=" + user1 +", user2=" + user2 +", user3=" + user3 +", user4=" + user4 + ", note1=" + note1 +", note2=" + note2 +", note3=" + note3 +", note4=" + note4 + ", time1="
 				+ time1 +", time2="+ time2 +", time3="+ time3 +", time4="+ time4 + ", user_MainManager=" + user_MainManager + "]";
 	}

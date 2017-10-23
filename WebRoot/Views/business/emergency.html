@@ -103,8 +103,8 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>管理单位</th>
-										<th>管理人</th>
+										<th>联系人</th>
+										<th>联系方式</th>
 										<th>请求内容</th>
 										<!-- <th></th> -->
 										<th width="180px">申请时间</th>
@@ -114,11 +114,11 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.userNature}}</td>
-										<td>{{x.userUnit}}</td>
+										<td>{{x.applicant}}</td>
+										<td>{{x.tel}}</td>
 										<td>应急处置演练</td>
 										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>

@@ -42,8 +42,8 @@
     <insert id="insertQualityCheck" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.QualityCheckBean">
         insert into
-        xhgmnet_bs_qualitycheck(userNature,userUnit,requesTtime,userName,checked)
-        values(#{userNature},#{userUnit},#{requestTime},#{userName},#{checked})
+        xhgmnet_bs_qualitycheck(applicant,tel,requestTime,userName,checked)
+        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked})
     </insert>
 
     <!--服务提供方审核 -->

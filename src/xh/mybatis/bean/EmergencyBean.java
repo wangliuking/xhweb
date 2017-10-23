@@ -7,6 +7,8 @@ public class EmergencyBean {
     private int id;
     private int checked;
     private int level;
+    private String applicant;
+    private String tel;
     private String userName;
     private String userUnit;
     private String userNature;
@@ -79,7 +81,22 @@ public class EmergencyBean {
     public void setFilePath3(String filePath3) {
         this.filePath3 = filePath3;
     }
+    
+    public String getApplicant() {
+        return applicant;
+    }
 
+    public void setApplicant(String applicant) {
+        this.applicant = applicant;
+    }
+    
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
     public String getUserUnit() {
         return userUnit;
     }
