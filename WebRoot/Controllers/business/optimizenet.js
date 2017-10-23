@@ -105,10 +105,10 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
@@ -116,12 +116,6 @@ xh.load = function() {
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
-			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
-				$("#checkWin6").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
-				$("#checkWin7").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -275,7 +269,53 @@ xh.add = function() {
 		}
 	});
 };
-/*管理方审核*/
+// /*管理方审核*/
+// xh.check1 = function() {
+// 	$.ajax({
+// 		url : '../../optimizenet/checkedOne',
+// 		type : 'POST',
+// 		dataType : "json",
+// 		async : true,
+// 		data:$("#checkForm1").serializeArray(),
+// 		success : function(data) {
+
+// 			if (data.result ==1) {
+// 				$('#checkWin1').modal('hide');
+// 				xh.refresh();
+// 				toastr.success(data.message, '提示');
+
+// 			} else {
+// 				toastr.error(data.message, '提示');
+// 			}
+// 		},
+// 		error : function() {
+// 		}
+// 	});
+// };
+
+// /*管理方上传*/
+// xh.check2 = function() {
+// 	$.ajax({
+// 		url : '../../optimizenet/checkedTwo',
+// 		type : 'POST',
+// 		dataType : "json",
+// 		async : true,
+// 		data:$("#checkForm2").serializeArray(),
+// 		success : function(data) {
+// 			if (data.result ==1) {
+// 				$('#checkWin2').modal('hide');
+// 				xh.refresh();
+// 				toastr.success(data.message, '提示');
+
+// 			} else {
+// 				toastr.error(data.message, '提示');
+// 			}
+// 		},
+// 		error : function() {
+// 		}
+// 	});
+// };
+/*服务方审核*/
 xh.check1 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedOne',
@@ -298,8 +338,7 @@ xh.check1 = function() {
 		}
 	});
 };
-
-/*管理方上传*/
+/*服务方上传*/
 xh.check2 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedTwo',
@@ -308,6 +347,7 @@ xh.check2 = function() {
 		async : true,
 		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
+
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
 				xh.refresh();
@@ -321,7 +361,7 @@ xh.check2 = function() {
 		}
 	});
 };
-/*服务方审核*/
+/*管理方审核*/
 xh.check3 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedThree',
@@ -330,7 +370,6 @@ xh.check3 = function() {
 		async : true,
 		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
 				xh.refresh();
@@ -344,7 +383,7 @@ xh.check3 = function() {
 		}
 	});
 };
-/*服务方上传*/
+/*管理方记录*/
 xh.check4 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedFour',
@@ -367,7 +406,7 @@ xh.check4 = function() {
 		}
 	});
 };
-/*管理方审核*/
+/*用户确认*/
 xh.check5 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedFive',
@@ -376,54 +415,9 @@ xh.check5 = function() {
 		async : true,
 		data:$("#checkForm5").serializeArray(),
 		success : function(data) {
+
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*管理方记录*/
-xh.check6 = function() {
-	$.ajax({
-		url : '../../optimizenet/checkedSix',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm6").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin6').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*用户确认*/
-xh.check7 = function() {
-	$.ajax({
-		url : '../../optimizenet/checkedSeven',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm7").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin7').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -486,13 +480,13 @@ xh.download=function(){
 	var checked = $scope.checkData.checked;
 	var fileName = null;
 	if(checked != -1){
-		if(checked == 1 && $scope.checkData.fileName1!=null){
+		if(checked == 0 && $scope.checkData.fileName1!=null){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 3 && $scope.checkData.fileName2!=null){
+		else if(checked == 1 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 5 && $scope.checkData.fileName3!=null){
+		else if(checked == 3 && $scope.checkData.fileName3!=null){
 			fileName = $scope.checkData.fileName3;
 		}
 	}

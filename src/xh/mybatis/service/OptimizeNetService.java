@@ -79,10 +79,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.insertOptimizeNet(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -97,10 +100,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.checkedOne(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -115,10 +121,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.checkedTwo(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -133,10 +142,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.checkedThree(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -151,10 +163,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.checkedFour(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -170,47 +185,13 @@ public class OptimizeNetService {
         int result=0;
         try {
             result=mapper.checkedFive(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param bean
-     * @return
-     */
-    public static int checkedSix(OptimizeNetBean bean){
-        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeNetMapper mapper = sqlSession.getMapper(OptimizeNetMapper.class);
-        int result=0;
-        try {
-            result=mapper.checkedSix(bean);
+        }finally {
             sqlSession.close();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return result;
-    }
-    /**
-     *
-     * @param bean
-     * @return
-     */
-    public static int checkedSeven(OptimizeNetBean bean){
-        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeNetMapper mapper = sqlSession.getMapper(OptimizeNetMapper.class);
-        int result=0;
-        try {
-            result=mapper.checkedSeven(bean);
-            sqlSession.close();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         return result;
     }

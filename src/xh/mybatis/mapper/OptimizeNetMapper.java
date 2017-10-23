@@ -58,8 +58,4 @@ public interface OptimizeNetMapper {
     public int checkedFive(OptimizeNetBean bean)throws Exception;
 
 
-    public int checkedSix(OptimizeNetBean bean)throws Exception;
-
-    public int checkedSeven(OptimizeNetBean bean)throws Exception;
-
 }

@@ -45,6 +45,7 @@ public class OptimizeNetController {
     protected final Log log = LogFactory.getLog(OptimizeNetController.class);
     private FlexJSON json = new FlexJSON();
     private WebLogBean webLogBean = new WebLogBean();
+    private String unit;
     /**
      * 查询所有流程
      *
@@ -58,6 +59,7 @@ public class OptimizeNetController {
         int start = funUtil.StringToInt(request.getParameter("start"));
         int limit = funUtil.StringToInt(request.getParameter("limit"));
         String user=funUtil.loginUser(request);
+        //unit = WebUserServices.selectUnitByUser(user);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
         int roleId=userbean.getRoleId();
 
@@ -122,8 +124,17 @@ public class OptimizeNetController {
                         HttpServletResponse response) {
         this.success = true;
         String jsonData = request.getParameter("formData");
+//        String note1 = request.getParameter("note1");
+//        String userUnit = request.getParameter("userUnit");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
         OptimizeNetBean bean = GsonUtil.json2Object(jsonData, OptimizeNetBean.class);
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
         bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(funUtil.nowDate());
+//        bean.setNote1(note1);
+//        bean.setUserUnit(userUnit);
         log.info("data==>" + bean.toString());
         int rst = OptimizeNetService.insertOptimizeNet(bean);
         WebLogBean webLogBean = new WebLogBean();
@@ -134,9 +145,9 @@ public class OptimizeNetController {
             webLogBean.setStyle(1);
             webLogBean.setContent("网络优化申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "网络优化申请信息已经成功提交,请审核。。。", request);
-            //----END
+//            //----发送通知邮件
+//            sendNotify(bean.getUser_MainManager(), "网络优化申请信息已经成功提交,请审核。。。", request);
+//            //----END
         } else {
             this.message = "网络优化申请信息提交失败";
         }
@@ -166,7 +177,7 @@ public class OptimizeNetController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note1 = request.getParameter("note1");
+        String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
@@ -175,9 +186,9 @@ public class OptimizeNetController {
         }else if(checked == -1) {
             bean.setChecked(-1);
         }
-        bean.setUser1(funUtil.loginUser(request));
-        bean.setTime1(funUtil.nowDate());
-        bean.setNote1(note1);
+        bean.setUser2(funUtil.loginUser(request));
+        bean.setTime2(funUtil.nowDate());
+        bean.setNote2(note2);
         int rst = OptimizeNetService.checkedOne(bean);
         if (rst == 1) {
             this.message = "审核提交成功";
@@ -210,7 +221,7 @@ public class OptimizeNetController {
     }
 
     /**
-     * 管理方下达网络优化任务消息
+     * 管理方上传方案总结消息
      *
      * @param request
      * @param response
@@ -225,20 +236,20 @@ public class OptimizeNetController {
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
         bean.setChecked(2);
-        bean.setFileName1(fileName);
-        bean.setFilePath1(filePath);
-        System.out.println("网络优化任务消息:" + fileName);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
+        System.out.println("方案总结消息消息:" + fileName);
 
         int rst = OptimizeNetService.checkedTwo(bean);
         if (rst == 1) {
-            this.message = "上传网络优化任务消息成功";
+            this.message = "上传方案总结消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
             webLogBean.setContent("上传网络优化任务消息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
         } else {
-            this.message = "上传网络优化任务消息失败";
+            this.message = "上传方案总结消息失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -255,7 +266,7 @@ public class OptimizeNetController {
         }
     }
     /**
-     * 服务提供方审核
+     * 服务提供方审核方案总结消息
      *
      * @param request
      * @param response
@@ -265,133 +276,37 @@ public class OptimizeNetController {
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String note2 = request.getParameter("note2");
+        String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
+        int drop = funUtil.StringToInt(request.getParameter("drop"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        if(checked == 3){
+        bean.setDrop(drop);
+        if(checked == 3 && drop != 1){
             bean.setChecked(3);
-        }else if(checked == 1) {
+        }else if(drop == 1) {
+            bean.setChecked(-2);
+        }else if(checked ==1){
             bean.setChecked(1);
         }
-		bean.setUser2(funUtil.loginUser(request));
-        bean.setTime2(funUtil.nowDate());
-        bean.setNote2(note2);
-        int rst = OptimizeNetService.checkedFive(bean);
+		bean.setUser3(funUtil.loginUser(request));
+        bean.setTime3(funUtil.nowDate());
+        bean.setNote3(note3);
+        int rst = OptimizeNetService.checkedThree(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(网络优化任务消息)，data=" + bean.toString());
+            webLogBean.setContent("通知服务管理方处理(方案总结消息)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理网络优化任务消息。。。", request);
+            sendNotify(user, "服务管理方请重新处理方案总结消息。。。", request);
             //----END
         } else {
-            this.message = "通知服务管理方处理网络优化任务消息失败";
-        }
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 服务提供方上传方案审核消息
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
-    public void checkedFour(HttpServletRequest request,
-                           HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        OptimizeNetBean bean = new OptimizeNetBean();
-        bean.setId(id);
-        bean.setChecked(4);
-        bean.setFileName2(fileName);
-        bean.setFilePath2(filePath);
-        System.out.println("方案审核消息:" + fileName);
-
-        int rst = OptimizeNetService.checkedTwo(bean);
-        if (rst == 1) {
-            this.message = "上传方案审核消息成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传方案审核消息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-        } else {
-            this.message = "上传方案审核消息失败";
-        }
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 管理方审核方案审核消息
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
-    public void checkedFive(HttpServletRequest request,
-                             HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String note3 = request.getParameter("note3");
-        String user = request.getParameter("user");
-        int checked = funUtil.StringToInt(request.getParameter("checked"));
-        OptimizeNetBean bean = new OptimizeNetBean();
-        bean.setId(id);
-        if(checked == 5){
-            bean.setChecked(5);
-        }else if(checked == 3) {
-            bean.setChecked(3);
-
-        }
-        bean.setUser3(funUtil.loginUser(request));
-        bean.setTime3(funUtil.nowDate());
-        bean.setNote3(note3);
-        int rst = OptimizeNetService.checkedFive(bean);
-        if (rst == 1) {
-            this.message = "通知服务管理方处理方案审核消息成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(方案审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理方案审核消息。。。", request);
-            //----END
-        } else {
-            this.message = "通知服务管理方处理方案审核消息失败";
+            this.message = "通知服务管理方处理方案总结消息失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -414,8 +329,8 @@ public class OptimizeNetController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
-    public void checkedSix(HttpServletRequest request,
+    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
+    public void checkedFour(HttpServletRequest request,
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
@@ -423,12 +338,12 @@ public class OptimizeNetController {
         String filePath = request.getParameter("path");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        bean.setChecked(6);
+        bean.setChecked(4);
         bean.setFileName3(fileName);
         bean.setFilePath3(filePath);
-        System.out.println("总结审核消息请求:" + fileName);
+        System.out.println("总结审核消息:" + fileName);
 
-        int rst = OptimizeNetService.checkedTwo(bean);
+        int rst = OptimizeNetService.checkedFour(bean);
         if (rst == 1) {
             this.message = "上传总结审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -459,8 +374,8 @@ public class OptimizeNetController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/checkedSeven", method = RequestMethod.POST)
-    public void checkedSeven(HttpServletRequest request,
+    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
+    public void checkedFive(HttpServletRequest request,
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
@@ -469,18 +384,17 @@ public class OptimizeNetController {
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        if(checked == 7){
-            bean.setChecked(7);
-        }else if(checked == 5) {
+        if(checked == 5){
             bean.setChecked(5);
-
+        }else if(checked == 3) {
+            bean.setChecked(3);
         }
         bean.setUser4(funUtil.loginUser(request));
         bean.setTime4(funUtil.nowDate());
         bean.setNote4(note4);
         int rst = OptimizeNetService.checkedFive(bean);
         if (rst == 1) {
-            this.message = "通知服务管理方处理成功";
+            this.message = "通知服务管理方处理总结审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
