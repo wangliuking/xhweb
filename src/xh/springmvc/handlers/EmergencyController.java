@@ -32,23 +32,17 @@ import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
-import xh.mybatis.bean.EmailBean;
-import xh.mybatis.bean.QualityCheckBean;
-import xh.mybatis.bean.WebLogBean;
-import xh.mybatis.bean.WebUserBean;
-import xh.mybatis.service.EmailService;
-import xh.mybatis.service.QualityCheckService;
-import xh.mybatis.service.WebLogService;
-import xh.mybatis.service.WebUserServices;
+import xh.mybatis.bean.*;
+import xh.mybatis.service.*;
 
 @Controller
-@RequestMapping(value = "/qualitycheck")
-public class QualityCheckController {
+@RequestMapping(value = "/emergency")
+public class EmergencyController {
 
     private boolean success;
     private String message;
     private FunUtil funUtil = new FunUtil();
-    protected final Log log = LogFactory.getLog(QualityCheckController.class);
+    protected final Log log = LogFactory.getLog(EmergencyController.class);
     private FlexJSON json = new FlexJSON();
     private WebLogBean webLogBean = new WebLogBean();
     /**
@@ -75,8 +69,8 @@ public class QualityCheckController {
 
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", QualityCheckService.selectAll(map));
-        result.put("totals", QualityCheckService.dataCount(map));
+        result.put("items", EmergencyService.selectAll(map));
+        result.put("totals", EmergencyService.dataCount(map));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         try {
@@ -96,7 +90,7 @@ public class QualityCheckController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", QualityCheckService.applyProgress(id));
+        result.put("items", EmergencyService.applyProgress(id));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -123,32 +117,31 @@ public class QualityCheckController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/insertQualityCheck", method = RequestMethod.POST)
-    public void insertQualityCheck(HttpServletRequest request,
+    @RequestMapping(value = "/insertEmergency", method = RequestMethod.POST)
+    public void optimizeNet(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
         String jsonData = request.getParameter("formData");
-        QualityCheckBean bean = GsonUtil.json2Object(jsonData, QualityCheckBean.class);
+        EmergencyBean bean = GsonUtil.json2Object(jsonData, EmergencyBean.class);
         bean.setUserName(funUtil.loginUser(request));
         bean.setRequestTime(funUtil.nowDate());
         log.info("data==>" + bean.toString());
-        System.out.println("+++++++++++++++++"+bean.toString());
-        int rst = QualityCheckService.insertQualityCheck(bean);
-        System.out.println(rst);
+
+        int rst = EmergencyService.insertEmergency(bean);
         WebLogBean webLogBean = new WebLogBean();
         if (rst == 1) {
-            this.message = "运维质量抽检申请信息已经成功提交";
+            this.message = "应急演练信息已经成功提交";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(1);
-            webLogBean.setContent("运维质量抽检申请信息，data=" + bean);
+            webLogBean.setContent("应急演练申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "运维质量抽检申请信息已经成功提交,请审核。。。", request);
+            sendNotify(bean.getUser_MainManager(), "应急演练申请信息已经成功提交,请审核。。。", request);
             //----END
         } else {
-            this.message = "运维质量抽检申请信息提交失败";
+            this.message = "应急演练申请信息提交失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -178,7 +171,7 @@ public class QualityCheckController {
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note1 = request.getParameter("note1");
         String user = request.getParameter("user");
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         if(checked ==1) {
             bean.setChecked(1);
@@ -189,17 +182,17 @@ public class QualityCheckController {
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
         bean.setNote1(note1);
-        int rst = QualityCheckService.checkedOne(bean);
+        int rst = EmergencyService.checkedOne(bean);
         if (rst == 1) {
             this.message = "审核提交成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("审核抽查申请信息，data=" + bean.toString());
+            webLogBean.setContent("审核应急处置演练信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "运维质量抽查申请信息审核，请服务提供方方人员审核并尽快处理", request);
+            sendNotify(user, "应急处置演练信息审核，请服务提供方方人员审核并尽快处理", request);
             //----EN
         }
         log.info("data==>" + bean.toString());
@@ -233,23 +226,23 @@ public class QualityCheckController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(2);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
-        System.out.println("运维质量抽查计划消息:" + fileName);
+        System.out.println("应急处置演练任务消息:" + fileName);
 
-        int rst = QualityCheckService.checkedTwo(bean);
+        int rst = EmergencyService.checkedTwo(bean);
         if (rst == 1) {
-            this.message = "上传抽查计划任务消息成功";
+            this.message = "上传应急处置演练计划成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传抽查计划任务消息，data=" + bean.toString());
+            webLogBean.setContent("上传应急处置演练计划，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
         } else {
-            this.message = "上传抽查计划任务消息失败";
+            this.message = "上传应急处置演练计划失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -279,7 +272,7 @@ public class QualityCheckController {
         String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         if(checked == 3){
             bean.setChecked(3);
@@ -290,20 +283,20 @@ public class QualityCheckController {
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);
-        int rst = QualityCheckService.checkedFive(bean);
+        int rst = EmergencyService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(运维质量抽查任务消息)，data=" + bean.toString());
+            webLogBean.setContent("通知服务管理方处理(应急处置演练计划)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理运维质量抽查任务消息。。。", request);
+            sendNotify(user, "服务管理方请重新处理应急处置演练任务消息。。。", request);
             //----END
         } else {
-            this.message = "通知服务管理方处理运维质量抽查任务消息失败";
+            this.message = "通知服务管理方处理应急处置演练任务消息失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -333,14 +326,14 @@ public class QualityCheckController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(4);
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
         System.out.println("方案审核消息:" + fileName);
 
-        int rst = QualityCheckService.checkedTwo(bean);
+        int rst = EmergencyService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "上传方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -379,7 +372,7 @@ public class QualityCheckController {
         String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         if(checked == 5){
             bean.setChecked(5);
@@ -390,7 +383,7 @@ public class QualityCheckController {
         bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(funUtil.nowDate());
         bean.setNote3(note3);
-        int rst = QualityCheckService.checkedFive(bean);
+        int rst = EmergencyService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -404,6 +397,107 @@ public class QualityCheckController {
             //----END
         } else {
             this.message = "通知服务管理方处理方案审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 服务提供方上传总结审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
+    public void checkedSix(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        EmergencyBean bean = new EmergencyBean();
+        bean.setId(id);
+        bean.setChecked(6);
+        bean.setFileName3(fileName);
+        bean.setFilePath3(filePath);
+        System.out.println("总结审核消息请求:" + fileName);
+
+        int rst = EmergencyService.checkedTwo(bean);
+        if (rst == 1) {
+            this.message = "上传总结审核消息成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("上传总结审核消息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+        } else {
+            this.message = "上传总结审核消息失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 管理方审核总结审核消息
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedSeven", method = RequestMethod.POST)
+    public void checkedSeven(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note4 = request.getParameter("note4");
+        String user = request.getParameter("user");
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        int level = funUtil.StringToInt(request.getParameter("level"));
+        EmergencyBean bean = new EmergencyBean();
+        bean.setId(id);
+        if(checked == 7){
+            bean.setChecked(7);
+        }else if(checked == 5) {
+            bean.setChecked(5);
+
+        }
+        bean.setUser4(funUtil.loginUser(request));
+        bean.setTime4(funUtil.nowDate());
+        bean.setNote4(note4);
+        int rst = EmergencyService.checkedFive(bean);
+        if (rst == 1) {
+            this.message = "通知服务管理方处理成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "服务管理方请重新处理总结审核消息。。。", request);
+            //----END
+        } else {
+            this.message = "通知服务管理方处理总结审核消息失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -529,7 +623,7 @@ public class QualityCheckController {
     public void sendNotify(String recvUser,String content,HttpServletRequest request){
         //----发送通知邮件
         EmailBean emailBean = new EmailBean();
-        emailBean.setTitle("运维质量抽查");
+        emailBean.setTitle("应急处置演练");
         emailBean.setRecvUser(recvUser);
         emailBean.setSendUser(funUtil.loginUser(request));
         emailBean.setContent(content);

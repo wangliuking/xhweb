@@ -2,9 +2,9 @@ package xh.mybatis.service;
 
 import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.FaultBean;
-import xh.mybatis.bean.QualityCheckBean;
+import xh.mybatis.bean.EmergencyBean;
 import xh.mybatis.mapper.FaultMapper;
-import xh.mybatis.mapper.QualityCheckMapper;
+import xh.mybatis.mapper.EmergencyMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 import java.util.ArrayList;
@@ -15,15 +15,15 @@ import java.util.Map;
 /**
  * Created by Artorius on 28/09/2017.
  */
-public class QualityCheckService {
+public class EmergencyService {
     /**
      * 申请记录
      * @return
      */
-    public static List<QualityCheckBean> selectAll(Map<String, Object> map){
+    public static List<EmergencyBean> selectAll(Map<String, Object> map){
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
-        List<QualityCheckBean> list=new ArrayList<QualityCheckBean>();
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
+        List<EmergencyBean> list=new ArrayList<EmergencyBean>();
         try {
             list = mapper.selectAll(map);
             sqlSession.close();
@@ -40,7 +40,7 @@ public class QualityCheckService {
      */
     public static Map<String,Object> applyProgress(int id){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             map = mapper.applyProgress(id);
@@ -57,7 +57,7 @@ public class QualityCheckService {
      */
     public static int dataCount(Map<String, Object> map){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int count=0;
         try {
             count=mapper.dataCount(map);
@@ -73,12 +73,12 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int insertQualityCheck(QualityCheckBean bean){
+    public static int insertEmergency(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
-            result=mapper.insertQualityCheck(bean);
+            result=mapper.insertEmergency(bean);
             sqlSession.close();
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -91,9 +91,9 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int checkedOne(QualityCheckBean bean){
+    public static int checkedOne(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
             result=mapper.checkedOne(bean);
@@ -109,9 +109,9 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int checkedTwo(QualityCheckBean bean){
+    public static int checkedTwo(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
             result=mapper.checkedTwo(bean);
@@ -127,9 +127,9 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int checkedThree(QualityCheckBean bean){
+    public static int checkedThree(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
             result=mapper.checkedThree(bean);
@@ -145,9 +145,9 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int checkedFour(QualityCheckBean bean){
+    public static int checkedFour(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
             result=mapper.checkedFour(bean);
@@ -164,9 +164,9 @@ public class QualityCheckService {
      * @param bean
      * @return
      */
-    public static int checkedFive(QualityCheckBean bean){
+    public static int checkedFive(EmergencyBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        QualityCheckMapper mapper = sqlSession.getMapper(QualityCheckMapper.class);
+        EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
         int result=0;
         try {
             result=mapper.checkedFive(bean);
@@ -177,5 +177,40 @@ public class QualityCheckService {
         }
         return result;
     }
-
+    /**
+    *
+    * @param bean
+    * @return
+    */
+   public static int checkedSix(EmergencyBean bean){
+       SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+       EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
+       int result=0;
+       try {
+           result=mapper.checkedSix(bean);
+           sqlSession.close();
+       } catch (Exception e) {
+           // TODO Auto-generated catch block
+           e.printStackTrace();
+       }
+       return result;
+   }
+   /**
+   *
+   * @param bean
+   * @return
+   */
+  public static int checkedSeven(EmergencyBean bean){
+      SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+      EmergencyMapper mapper = sqlSession.getMapper(EmergencyMapper.class);
+      int result=0;
+      try {
+          result=mapper.checkedSeven(bean);
+          sqlSession.close();
+      } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
+      return result;
+  }
 }
