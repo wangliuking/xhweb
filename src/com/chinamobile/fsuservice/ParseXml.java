@@ -76,6 +76,7 @@ public class ParseXml {
 	@SuppressWarnings("unchecked")
 	public static List<Map<String,String>> getDataForDB(String xml) throws DocumentException{	
 		SAXReader reader = new SAXReader();
+		reader.setEncoding("UTF-8");
 		Document document = reader.read(getStringStream(xml));
 		Element root = document.getRootElement();
 		String FSUID = root.element("Info").element("FSUID").getText();
@@ -95,7 +96,6 @@ public class ParseXml {
 					String MeasuredVal = temp1.attributeValue("MeasuredVal");
 					String Status = temp1.attributeValue("Status");
 					String Time = temp1.attributeValue("Time");
-					map.put("bsId", "110");
 					map.put("FSUID", FSUID);
 					map.put("deviceId", deviceId);
 					map.put("ID", ID);	
@@ -118,6 +118,7 @@ public class ParseXml {
 	@SuppressWarnings("unchecked")
 	public static List<Map<String,String>> getDevConf(String xml,String FSUID) throws DocumentException{
 		SAXReader reader = new SAXReader();
+		reader.setEncoding("GBK");
 		Document document = reader.read(getStringStream(xml));
 		Element root = document.getRootElement();
 		Element nameElem = root.element("Info").element("Values");
@@ -127,10 +128,10 @@ public class ParseXml {
 			Map<String,String> map = new HashMap<String,String>();
 			Element temp = (Element)list.get(i);
 			String DeviceID = temp.attributeValue("DeviceID");
-			String DeviceName = temp.attributeValue("DeviceName");
+			String SiteID = temp.attributeValue("SiteID");		
 			map.put("fsuId", FSUID);
 			map.put("deviceId", DeviceID);
-			map.put("deviceName", DeviceName);
+			map.put("siteId", SiteID);
 			configList.add(map);
 		}
 		return configList;

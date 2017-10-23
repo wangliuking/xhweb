@@ -51,7 +51,7 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../qualitycheck/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../emergency/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -113,6 +113,12 @@ xh.load = function() {
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
+				$("#checkWin6").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
+				$("#checkWin7").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -201,13 +207,12 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../qualitycheck/selectAll?start=0&limit=" + limit).
+			$http.get("../../emergency/selectAll?start=0&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
-				
 			});
 		};
 		$scope.download = function() {
@@ -224,7 +229,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../qualitycheck/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../emergency/selectAll?start="+start+"&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -240,14 +245,15 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
+			alert($scope.totals);
 		};
 	});
 };
 //对应
-/*网络中断优化申请*/
+/*网络优化申请*/
 xh.add = function() {
 	$.ajax({
-		url : '../../qualitycheck/insertQualtiyCheck',
+		url : '../../emergency/insertEmergency',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -271,7 +277,7 @@ xh.add = function() {
 /*管理方审核*/
 xh.check1 = function() {
 	$.ajax({
-		url : '../../qualitycheck/checkedOne',
+		url : '../../emergency/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -295,7 +301,7 @@ xh.check1 = function() {
 /*管理方上传*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../qualitycheck/checkedTwo',
+		url : '../../emergency/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -317,7 +323,7 @@ xh.check2 = function() {
 /*服务方审核*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../qualitycheck/checkedThree',
+		url : '../../emergency/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -340,7 +346,7 @@ xh.check3 = function() {
 /*服务方上传*/
 xh.check4 = function() {
 	$.ajax({
-		url : '../../qualitycheck/checkedFour',
+		url : '../../emergency/checkedFour',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -363,7 +369,7 @@ xh.check4 = function() {
 /*管理方审核*/
 xh.check5 = function() {
 	$.ajax({
-		url : '../../qualitycheck/checkedFive',
+		url : '../../emergency/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -382,7 +388,52 @@ xh.check5 = function() {
 		}
 	});
 };
+/*管理方记录*/
+xh.check6 = function() {
+	$.ajax({
+		url : '../../emergency/checkedSix',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm6").serializeArray(),
+		success : function(data) {
 
+			if (data.result ==1) {
+				$('#checkWin6').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*用户确认*/
+xh.check7 = function() {
+	$.ajax({
+		url : '../../emergency/checkedSeven',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm7").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin7').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -393,13 +444,17 @@ xh.upload = function(index) {
 		path = 'filePath2';
 		note = 'uploadResult2';
 	}
+	if (index == 3) {
+		path = 'filePath3';
+		note = 'uploadResult3';
+	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../qualitycheck/upload', // 用于文件上传的服务器端请求地址
+		url : '../../emergency/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -437,7 +492,9 @@ xh.download=function(){
 		else if(checked == 3 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		
+		else if(checked == 5 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
+		}
 	}
 	console.log("filename=>" + fileName);
 	var downUrl = "../../net/download?fileName=" + fileName;

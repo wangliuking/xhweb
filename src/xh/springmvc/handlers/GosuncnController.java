@@ -78,8 +78,8 @@ public class GosuncnController {
 	/**
 	 * 根据FSUID删除配置信息(保持最新的配置信息)
 	 */
-	public static String deleteByFSUID(String FSUID){
-		int count = GosuncnService.deleteByFSUID(FSUID);
+	public static String deleteConfigByFSUID(String FSUID){
+		int count = GosuncnService.deleteConfigByFSUID(FSUID);
 		if(count>0){
 			return "success";
 		}else{
@@ -99,8 +99,6 @@ public class GosuncnController {
 	 * 添加fsu注册信息
 	 */
 	public static String insertLogin(Map<String,String> map){
-		String bsId = "110";
-		map.put("bsId", bsId);
 		int count = GosuncnService.insertLogin(map);
 		if(count>0){
 			return "success";
@@ -133,8 +131,8 @@ public class GosuncnController {
 	/**
 	 * 添加fsu告警
 	 */
-	public static String insertAlarm(Map<String,String> map){
-		int count = GosuncnService.insertAlarm(map);
+	public static String insertAlarm(List<Map<String,String>> list){
+		int count = GosuncnService.insertAlarm(list);
 		if(count>0){
 			return "success";
 		}else{
@@ -148,6 +146,18 @@ public class GosuncnController {
 	 */
 	public static String insertData(List<Map<String,String>> list){
 		int count = GosuncnService.insertData(list);
+		if(count>0){
+			return "success";
+		}else{
+			return "failure";
+		}
+	}
+	
+	/**
+	 * 添加监控点历史数据
+	 */
+	public static String insertHData(List<Map<String,String>> list){
+		int count = GosuncnService.insertHData(list);
 		if(count>0){
 			return "success";
 		}else{

@@ -3,9 +3,10 @@ package xh.mybatis.bean;
 /**
  * Created by Artorius on 28/09/2017.
  */
-public class QualityCheckBean {
+public class EmergencyBean {
     private int id;
     private int checked;
+    private int level;
     private String userName;
     private String userUnit;
     private String userNature;
@@ -98,9 +99,17 @@ public class QualityCheckBean {
     public int getChecked() {
         return checked;
     }
-
+    
     public void setChecked(int checked) {
         this.checked = checked;
+    }
+    
+    public int getLevel() {
+        return level;
+    }
+    
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public String getUserName() {
@@ -230,11 +239,4 @@ public class QualityCheckBean {
     public void setUser_MainManager(String user_MainManager) {
         this.user_MainManager = user_MainManager;
     }
-	@Override
-	public String toString() {
-		return "QualityCheckBean [id=" + id + ", checked=" + checked + ", userName=" + userName
-				+ ", userUnit=" + userUnit + ", userNature=" + userNature
-				+ ", requestTime=" + requestTime + ", user1=" + user1 +", user2=" + user2 +", user3=" + user3 +", user4=" + user4 + ", note1=" + note1 +", note2=" + note2 +", note3=" + note3 +", note4=" + note4 + ", time1="
-				+ time1 +", time2="+ time2 +", time3="+ time3 +", time4="+ time4 + ", user_MainManager=" + user_MainManager + "]";
-	}
 }

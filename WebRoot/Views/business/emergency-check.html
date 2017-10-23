@@ -1,4 +1,4 @@
-<!-- 服务提供方审核运维质量抽查请求信息 -->
+<!-- 服务提供方审核网络优化请求信息 -->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -54,7 +54,8 @@
 	</div>
 </div>
 
-<!-- 管理方上传文件（抽检计划），发送消息通知服务提供方；-->
+<!-- 管理方下达应急处置演练任务消息（该请求消息应包含上传附件的功能）；该请求需要生成流程编号，便于平台终止该流程；
+  -->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -76,7 +77,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>抽检计划</label>&nbsp;<span class="text-danger">[*]</span> 
+								<label>应急处置演练</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
@@ -113,7 +114,7 @@
 	</div>
 </div>
 
-<!--服务提供方查阅该抽检计划消息后，向管理方发送命令接收消息； -->
+<!-- 服务提供方对任务消息进行审核 -->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -135,7 +136,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>抽检计划下载链接</label>&nbsp;</span> 
+								<label>应急处置演练任务消息下载链接</label>&nbsp;</span> 
 								<a href="#" title="点击下载文件" onclick="xh.download()" style="color:red">{{checkData.fileName1}}</a>
 							</div>
 						</div>
@@ -145,7 +146,7 @@
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="3" selected="selected">准备抽检</option>
+									<option value="3" selected="selected">通过</option>
 									<option value="1">拒绝</option>
 								</select>
 							</div>
@@ -176,7 +177,7 @@
 	</div>
 </div>
 
-<!-- 服务提供方向管理方发送抽检状态恢复确认消息；  -->
+<!-- 服务提供方上传方案审核消息  -->
 <div class="modal fade" id="checkWin4" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -199,7 +200,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>运维质量审核消息</label>&nbsp;<span class="text-danger">[*]</span> 
+								<label>方案审核消息</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath2" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
@@ -238,10 +239,7 @@
 </div>
 
 
-<!-- 管理方接收到状态恢复消息后，对状态恢复消息进行审核；
-审核通过则流程结束；
-审核不通过则向服务提供方发出重新提交状态恢复消息；
- -->
+<!-- 管理方审核方案信息 -->
 <div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -303,6 +301,143 @@
 	</div>
 </div>
 
+<!-- 服务提供方上传总结审核消息  -->
+<div class="modal fade" id="checkWin6" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm6" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>总结审核消息</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="file" name="filePath" id="filePath3" class="form-control"/> 
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(3)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult3" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div> -->
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn6">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 管理方审核总结审核消息 -->
+<div class="modal fade" id="checkWin7" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm7" onSubmit="return false" enctype="multipart/form-data" method="POST">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>总结审核消息下载链接</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download()" style="color:red">{{checkData.fileName3}}</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="7" selected="selected">通过</option>
+									<option value="5">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>级别</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="level">
+									<option value="1" selected="selected">优</option>
+									<option value="2">良</option>
+									<option value="3">中</option>
+									<option value="4">差</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note4" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="check_btn7">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
@@ -318,6 +453,12 @@
 	});
 	$("#check_btn5").click(function() {
 		$('#checkForm5').submit();
+	});
+	$("#check_btn6").click(function() {
+		$('#checkForm6').submit();
+	});
+	$("#check_btn7").click(function() {
+		$('#checkForm7').submit();
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
@@ -372,6 +513,24 @@
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check5();
+	});
+	$('#checkForm6').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check6();
+	});
+	$('#checkForm7').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check7();
 	});
 </script>
 <script>
