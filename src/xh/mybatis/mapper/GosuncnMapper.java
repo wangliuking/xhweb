@@ -20,7 +20,7 @@ public interface GosuncnMapper {
 	/**
 	 * 添加告警信息
 	 */
-	public int insertAlarm(Map<String,String> map);
+	public int insertAlarm(List<Map<String,String>> list);
 	
 	/**
 	 * 根据FSUID删除对应配置信息
@@ -47,6 +47,11 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public int insertData(List<Map<String, String>> list)throws Exception;
+	
+	/**
+	 * 添加监控点历史数据
+	 */
+	public int insertHData(List<Map<String, String>> list)throws Exception;
 	
 	/**
 	 * 根据FSUID查询是否存在数据
