@@ -88,6 +88,53 @@ xh.load = function() {
 			
 			$("#progress").modal('show');
 		};
+		
+        $scope.terminal = new Object();
+        $scope.index_apply = 0;
+        $scope.terminal.terminalsApply = [{key: "手办", value: 1}];
+        // 初始化时由于只有1条，所以不允许删除
+        $scope.terminal.canDescApply = false;
+
+        // 增加回复数
+        $scope.terminal.incrApply = function($index) {
+        	//alert($scope.terminal.combineReplies());
+        	if($index == 0){
+        		$scope.terminal.terminalsApply.splice($index + 1, 0,
+                        {key: "车载台", value: 1});
+        		$scope.index_apply++;
+                $scope.terminal.canDescReply = true;
+        	}
+        	if($index == 1){
+        		$scope.terminal.terminalsApply.splice($index + 1, 0,
+                        {key: "调度台", value: 1});
+        		$scope.index_apply++;
+        		$scope.terminal.canDescReply = true;
+        	}
+        }
+
+        // 减少回复数
+        $scope.terminal.decrApply = function($index) {
+            // 如果回复数大于1，删除被点击回复
+            if ($scope.terminal.terminalsApply.length > 1) {
+                $scope.terminal.terminalsApply.splice($index, 1);
+                $scope.index_apply--;
+            }
+            // 如果回复数为1，不允许删除
+            if ($scope.terminal.terminalsApply.length == 1) {
+                $scope.terminal.canDescReply = false;
+            }
+        }
+
+        /*$scope.terminal.combineReplies = function() {
+            var cr = "";
+            for (var i = 0; i < $scope.terminal.terminalsApply.length; i++) {
+                cr += "#" + $scope.terminal.terminalsApply[i].key + "#" + $scope.terminal.terminalsApply[i].value;
+            }
+            cr = cr.substring(1);
+
+            return cr;
+        }*/
+		
 		/* 显示协议签署窗口 */
 		$scope.checkSign = function(id) {
 			$scope.signData = $scope.data[id];
@@ -180,7 +227,7 @@ xh.load = function() {
 			else if (type == 6) {
 				$("#checkWin16").modal('show');
 			}
-			//用户上传协议文件
+			//管理方上传协议文件
 			else if (type == 7) {
 				$("#checkWin17").modal('show');
 			}
@@ -218,7 +265,7 @@ xh.load = function() {
 			}
 			//经办人审核编组方案
 			else if ($scope.loginUserRoleId == 10002
-					&& $scope.loginUser == $scope.checkData.user4
+					&& $scope.loginUser == $scope.checkData.user2
 					&& $scope.checkData.checked == 3) {
 				$("#checkWin4").modal('show');
 			}
@@ -338,7 +385,7 @@ xh.addJoinNet = function() {
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
-			if (data.result == 1) {
+			if (data.result >= 1) {
 				$('#addJoinNet').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -460,6 +507,21 @@ xh.check5 = function() {
 			if (data.result == 1) {
 				$('#checkWin5').modal('hide');
 				xh.refresh();
+				toastr.options = {  
+				        closeButton: false,  
+				        debug: false,  
+				        progressBar: true,  
+				        positionClass: "toast-top-center",  
+				        onclick: null,  
+				        showDuration: "300",  
+				        hideDuration: "1000",  
+				        timeOut: "20000",  
+				        extendedTimeOut: "1000",  
+				        showEasing: "swing",  
+				        hideEasing: "linear",  
+				        showMethod: "fadeIn",  
+				        hideMethod: "fadeOut"  
+				    };
 				toastr.success(data.message, '提示');
 
 			} else {
