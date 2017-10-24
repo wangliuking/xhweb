@@ -7,7 +7,7 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">上传工作记录文件</small>
+				<small class="font-bold">上传事件报告文件</small>
 			</div>
 			<div class="modal-body pad-0">
 				<form action="#" id="addForm" onSubmit="return false">
@@ -22,16 +22,37 @@
 						</div>
 					</div> -->
 					<div class="row">
-					<input type="hidden" name="fileName" value="" /> 
-						<input type="hidden" name="filePath" value="" /> 
-						<input type="hidden" name="result" value="" />
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>报告类型</label>
+								<div>
+									<select name="fileType" class="form-control" style="width:159px;">
+									
+										<option value="周报" selected="selected">周报</option>
+										<option value="月报">月报</option>
+										<option value="系统监控表">系统监控表</option>
+										<option value="故障记录登记表">故障记录登记表</option>
+										<option value="故障处理报告">故障处理报告</option>
+										<option value="巡检计划">巡检计划</option>
+										<option value="巡检计划">巡检计划</option>
+										<option value="问题整改计划表">问题整改计划表</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<input type="hidden" name="fileName" value="" /> <input
+							type="hidden" name="filePath" value="" /> <input type="hidden"
+							name="result" value="" />
 					</div>
 					<div class="row">
 
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" class="form-control" name="contact" required="required">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" class="form-control" name="contact"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -50,7 +71,7 @@
 							</div>
 
 						</div>
-						
+
 					</div>
 				</form>
 				<form action="#" id="" onSubmit="return false"
@@ -142,8 +163,8 @@
 			alert("请等待上传完成！");
 			return false;
 		} */
-		 $('#addForm').submit();
-	
+		$('#addForm').submit();
+
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',

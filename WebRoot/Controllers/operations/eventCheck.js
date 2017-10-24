@@ -21,9 +21,11 @@ toastr.options = {
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
 	var app = angular.module("app", []);
+	var fileType = $("#fileType").val();
 	var filename = $("#filename").val();
 	var contact = $("#contact").val();
 	var status = $("#status").val();
+	
 	var pageSize = $("#page-limit").val();
 
 	app.filter('qualitystatus', function() { // 可以注入依赖
@@ -47,7 +49,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;
 		});
 		$http.get(
-				"../../work/worklist?filename=" + filename + "" + "&contact="
+				"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
 						+ contact + "&status=" + status + ""
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
@@ -74,7 +76,7 @@ xh.load = function() {
 			$("#detail").modal('show');
 			$scope.editData = $scope.data[id];
 		};
-		/*下载工作记录*/
+		/*下载文件*/
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
@@ -86,7 +88,7 @@ xh.load = function() {
 		$scope.sign=function(index){
 			var id=$scope.data[index].id;
 			$.ajax({
-				url : '../../work/signwork',
+				url : '../../eventReport/signEventReport',
 				type : 'POST',
 				dataType : "json",
 				async : true,
@@ -119,6 +121,7 @@ xh.load = function() {
 			var filename = $("#filename").val();
 			var contact = $("#contact").val();
 			var status = $("#status").val();
+			var fileType = $("#fileType").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -131,7 +134,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../work/worklist?filename=" + filename + "" + "&contact="
+					"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
 							+ "&start=0&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
@@ -146,6 +149,7 @@ xh.load = function() {
 			var filename = $("#filename").val();
 			var contact = $("#contact").val();
 			var status = $("#status").val();
+			var fileType = $("#fileType").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -155,9 +159,9 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../work/worklist?filename=" + filename + "" + "&contact="
+					"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
-							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
+							+ "&start="+strat+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -186,7 +190,7 @@ xh.refresh = function() {
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../work/addwork',
+		url : '../../eventReport/addEventReport',
 		type : 'POST',
 		dataType : "json",
 		async : true,

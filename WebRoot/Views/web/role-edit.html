@@ -3,14 +3,28 @@
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">添加用户</small>
+				<small class="font-bold">修改角色</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form  action="#" id="editForm" onSubmit="return false">
+				<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>角色类型</label>
+								<div>
+									<select name="roleType" class="form-control" ng-model="editData.roleType">
+									    <option value="1">市经信委</option>
+									    <option value="2">软件产业中心</option>
+										<option value="3">亚光运维组</option>
+										<option value="4">普通企业</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 					    <div class="col-md-6">
 							<div class="form-group col-md-12">

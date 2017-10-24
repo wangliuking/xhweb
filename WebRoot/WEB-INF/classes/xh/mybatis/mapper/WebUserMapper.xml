@@ -24,7 +24,13 @@
     <select id="userlistByRoleId" parameterType="java.lang.Integer" resultType="map" useCache="true">
      select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
      xhgmnet_web_role_user where roleId=#{roleId})
-    </select>    
+    </select>  
+    <!--根据Role类型查找用户列表-->
+    <select id="userlistByRoleType" parameterType="String" resultType="map" useCache="true">
+     select userId,user,userName from xhgmnet_web_user 
+     where userId in(select userId from xhgmnet_web_role_user 
+     where roleId in(#{roleId}))
+    </select>       
    <!-- 
     <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean"  resultMap="webUserMap">
      select * from xhgmnet_web_user where user=#{user} and userPass=#{userPass}

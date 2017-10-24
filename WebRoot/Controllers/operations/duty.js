@@ -47,7 +47,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;
 		});
 		$http.get(
-				"../../work/worklist?filename=" + filename + "" + "&contact="
+				"../../duty/list?filename=" + filename + "" + "&contact="
 						+ contact + "&status=" + status + ""
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
@@ -82,23 +82,56 @@ xh.load = function() {
 			window.open(downUrl, '_self',
 					'width=1,height=1,toolbar=no,menubar=no,location=no');
 		};
-		/*签收*/
-		$scope.sign=function(index){
-			var id=$scope.data[index].id;
+		/*显示审核*/
+		$scope.checkWin=function(index){
+			$scope.checkData=$scope.data[index];
+			var roleType=3;
+			/* 获取主管单位用户列表 */
+			$http.get("../../web/role/roleTypeByList?roleType="+roleType).success(
+					function(response) {
+						$scope.roleData = response.items;
+						$scope.roleTotals=response.totals
+					});
+			
+			$("#checkWin1").modal('show');
+			
+			
+			/**/
+			
+		};
+		$scope.check=function(){
+			var checkVal = [];
+			$("[name='roleType']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("id"));
+				}
+			});
+			if (checkVal.length <1) {
+				swal({
+					title : "提示",
+					text : "必须至少选择一个组发送通知",
+					type : "error"
+				});
+				return;
+			}
 			$.ajax({
-				url : '../../work/signwork',
+				url : '../../duty/sign',
 				type : 'POST',
 				dataType : "json",
 				async : true,
 				data:{
-					id:id,
-					recvUser:$scope.data[index].uploadUser
+					id:$("#checkForm1").find('input[name="id"]').val(),
+					check:$("#checkForm1").find('select[name="checked1"]').val(),
+					note:$("#checkForm1").find('textarea[name="note1"]').val(),
+					roleType:checkVal.join(","),
+					recvUser:$scope.checkData.uploadUser
 				},
 				success : function(data) {
 
 					if (data.result ==1) {
 						xh.refresh();
 						toastr.success(data.message, '提示');
+						$("#checkWin1").modal('hide');
 					} else {
 						swal({
 							title : "提示",
@@ -110,7 +143,6 @@ xh.load = function() {
 				error : function() {
 				}
 			});
-			
 		};
 
 		/* 查询数据 */
@@ -131,7 +163,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../work/worklist?filename=" + filename + "" + "&contact="
+					"../../duty/list?filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
 							+ "&start=0&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
@@ -155,7 +187,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../work/worklist?filename=" + filename + "" + "&contact="
+					"../../duty/list?filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
 							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
@@ -186,7 +218,7 @@ xh.refresh = function() {
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../work/addwork',
+		url : '../../duty/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,

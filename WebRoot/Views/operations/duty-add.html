@@ -1,75 +1,87 @@
 
-<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<!-- <div class="color-line"></div>
+			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">上传工作记录文件</small>
-			</div> -->
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#"  onSubmit="return false">
-					<div class="row">
+				<small class="font-bold">上传运维值班情况表</small>
+			</div>
+			<div class="modal-body pad-0">
+				<form action="#" id="addForm" onSubmit="return false">
+					<!-- <div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>接收者</label>
-								<input type="text" class="form-control" ng-model="editData.recvUser">
+								<label>接收者</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="recvUser">
+									<option ng-repeat="x in user" value="{{x.user}}">{{x.userName}}</option>
 								</select>
 							</div>
 						</div>
-                       <div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>上传者</label>
-								<input type="text" class="form-control" ng-model="editData.uploadUser">
-							</div>
-						</div>
+					</div> -->
+					<div class="row">
+					<input type="hidden" name="fileName" value="" /> 
+						<input type="hidden" name="filePath" value="" /> 
+						<input type="hidden" name="result" value="" />
 					</div>
 					<div class="row">
 
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系人</label><input type="text" class="form-control"
-									name="contact" ng-model="editData.contact">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="contact" required="required">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系方式</label><input type="text" class="form-control"
-									name="tel" ng-model="editData.tel">
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" class="form-control" name="tel" required="required">
 							</div>
 						</div>
 					</div>
-
-
 
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>备注信息</label>
-								<textarea  class="form-control" style="width:500px;height:70px;" name="note"
-									ng-model="editData.note"></textarea>
+								<textarea class="form-control" row="40" name="note"></textarea>
 							</div>
 
 						</div>
-						<input type="hidden" name="fileName" value="" /> <input
-							type="hidden" name="filePath" value="" /> <input type="hidden"
-							name="result" value="" />
+						
 					</div>
+				</form>
+				<form action="#" id="" onSubmit="return false"
+					enctype="multipart/form-data" method="POST">
 					<div class="row">
-						<div class="col-md-12">
-							<label>工作记录文件：</label><span> <a href="#" ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>
+						<div class="col-md-8">
+							<div class="form-group col-md-10" style="padding-right:0px;">
 
+								<label>上传附件</label>&nbsp;<span class="text-info">[*]</span> <input
+									class="form-control" type="file" id="pathName" name="pathName" />
+							</div>
+							<div class="form-group col-md-2" style="padding-left:0px;">
+								<button type="button" ng-disabled="form.$invalid"
+									class="btn btn-info btn-sm" style="margin-top:23px;"
+									id="uploadfile">
+									<i class="fa fa-plus-circle"></i>点击上传
+								</button>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<span style="color:red" id="uploadResult"></span>
 						</div>
 
 					</div>
-
 				</form>
-
 			</div>
 			<div class="modal-footer">
-			
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
@@ -87,6 +99,8 @@
 			return false;
 		}
 		$("input[name='result']").val(2);
+		$("#uploadfile").attr("disabled", true);
+		xh.maskShow("正在上传文件，请耐心等待");
 		$.ajaxFileUpload({
 			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
@@ -95,6 +109,8 @@
 			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
 			{
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
 				if (data.success) {
 					$("input[name='result']").val(1);
 					$("input[name='fileName']").val(data.fileName);
@@ -111,6 +127,8 @@
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
 				alert(e);
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
 			}
 		});
 	});
@@ -124,7 +142,8 @@
 			alert("请等待上传完成！");
 			return false;
 		} */
-		$('#addForm').submit();
+		 $('#addForm').submit();
+	
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
@@ -135,35 +154,6 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			filename : {
-				validators : {
-					notEmpty : {
-						message : '文件名称不能为空'
-					}
-				}
-			},
-
-			recvuser : {
-				validators : {
-					notEmpty : {
-						message : '接受者不能为空'
-					}
-				}
-			},
-			contact : {
-				validators : {
-					notEmpty : {
-						message : '联系人不能为空'
-					}
-				}
-			},
-			tel : {
-				validators : {
-					notEmpty : {
-						message : '联系方式不能为空'
-					}
-				}
-			}
 
 		}
 	}).on('success.form.bv', function(e, data) {
