@@ -132,7 +132,7 @@ public class DutyController {
 		int id=Integer.parseInt(request.getParameter("id"));
 		String note=request.getParameter("note");
 		int status=Integer.parseInt(request.getParameter("check"));
-		String roleType=request.getParameter("roleType");
+		String[] roleId=request.getParameter("roleType").split(",");
 		String recvUser=request.getParameter("recvUser");
 		
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -144,7 +144,7 @@ public class DutyController {
 		int rlt=0;
 		EmailBean emailBean=new EmailBean();
 		
-		if(status==0){
+		if(status==-1){
 			rlt=DutyServices.sign(id);
 			if(rlt==1){
 				this.success=true;
@@ -176,12 +176,14 @@ public class DutyController {
 				webLogBean.setStyle(4);
 				webLogBean.setContent("签收运维值班情况表审核通过，id=" +id);
 				WebLogService.writeLog(webLogBean);
-				List<Map<String,Object>> list=WebUserServices.userlistByRoleType(roleType);
-				
-				log.info("userlist==>"+list.size());
+				List<String> roleIdlist=new ArrayList<String>();
+				for(int a=0;a<roleId.length;a++){
+					roleIdlist.add(roleId[a]);
+				}
+				List<Map<String,Object>> list=WebUserServices.userlistByRoleType(roleIdlist);
+			
 				
 				for(int i=0;i<list.size();i++){
-					log.info("userlist==>"+list.get(i));
 					Map<String,Object> usermap=list.get(i);
 					EmailBean email=new EmailBean();
 					email.setTitle("运维值班情况表");

@@ -1132,7 +1132,7 @@ body.fullscreen-panel-mode {
 .xh-table,th,td {
 	border: 1px solid #ccc;
 	border-collapse: collapse;
-	padding: 8px;
+	padding: 7px;
 }
 
 .xh-table tr:nth-child(odd) {
@@ -1157,10 +1157,10 @@ body.fullscreen-panel-mode {
 }
 
 .xh-table .tr-gray th {
-	background:#4f99c6;
+	background:url("../images/img/column-header-over-bg.gif");
 	/* background: #4f99c6; */
 	/* #d15b47-danger ,#e59729-wraing ,#629959=success*/
-	color: #fff;
+	color: #263238;
 	font-weight: bold;
 	text-align: center;
 	border: 1px solid #ccc;

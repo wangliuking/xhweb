@@ -28,7 +28,7 @@ public interface WebUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> userlistByRoleType(String roleType)throws Exception;
+	public List<Map<String,Object>> userlistByRoleType(List<String> roleIdlist)throws Exception;
 	/**
 	 * 根据登录用户名,密码查找登录用户
 	 * @param name

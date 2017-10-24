@@ -22,14 +22,18 @@
     </select> -->  
     <!--根据RoleID角色组用户列表-->
     <select id="userlistByRoleId" parameterType="java.lang.Integer" resultType="map" useCache="true">
-     select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
-     xhgmnet_web_role_user where roleId=#{roleId})
-    </select>  
+      select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
+      xhgmnet_web_role_user where roleId=#{roleId})
+    </select>    
+     
     <!--根据Role类型查找用户列表-->
-    <select id="userlistByRoleType" parameterType="String" resultType="map" useCache="true">
-     select userId,user,userName from xhgmnet_web_user 
-     where userId in(select userId from xhgmnet_web_role_user 
-     where roleId in(#{roleId}))
+    <select id="userlistByRoleType" parameterType="List" resultType="map" useCache="true">
+     select userId,user,userName from xhgmnet_web_user where userId in(select userId from 
+     xhgmnet_web_role_user where roleId in(
+     <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+     ))
     </select>       
    <!-- 
     <select id="selectUserByUserAndPass" parameterType="xh.mybatis.bean.WebUserBean"  resultMap="webUserMap">
