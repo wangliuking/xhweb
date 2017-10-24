@@ -58,8 +58,4 @@ public interface QualityCheckMapper {
     public int checkedFive(QualityCheckBean bean)throws Exception;
 
 
-    public int checkedSix(QualityCheckBean bean)throws Exception;
-
-    public int checkedSeven(QualityCheckBean bean)throws Exception;
-
 }

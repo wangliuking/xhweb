@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xh.mybatis.mapper.QualityCheckMapper">
+<mapper namespace="xh.mybatis.mapper.EmergencyMapper">
     <!-- redis缓存  LRU FIFO-->
     <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"
      type="xh.mybatis.tools.MybatisRedisCache"/> -->
@@ -10,7 +10,7 @@
     <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
     >
         select u.*
-        from xhgmnet_bs_qualitycheck as u where 1=1
+        from xhgmnet_bs_emergency as u where 1=1
         <choose>
             <when test="roleId &gt;10003 || roleId &lt;10000">
                 and u.userName=#{user}
@@ -23,7 +23,7 @@
     </select>
     <!--查询申请所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
-        select count(id) from xhgmnet_bs_qualitycheck where 1=1
+        select count(id) from xhgmnet_bs_emergency where 1=1
         <choose>
             <when test="roleId &gt;10003 || roleId &lt;10000">
                 and userName=#{user}
@@ -35,49 +35,59 @@
     <!--查询申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"
             useCache="true">
-        select * from xhgmnet_bs_qualitycheck where id=#{id}
+        select * from xhgmnet_bs_emergency where id=#{id}
     </select>
 
     <!--申请 -->
-    <insert id="insertQualityCheck" useGeneratedKeys="true" keyProperty="id"
-            parameterType="xh.mybatis.bean.QualityCheckBean">
+    <insert id="insertEmergency" useGeneratedKeys="true" keyProperty="id"
+            parameterType="xh.mybatis.bean.EmergencyBean">
         insert into
-        xhgmnet_bs_qualitycheck(applicant,tel,requestTime,userName,checked)
+        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked)
         values(#{applicant},#{tel},#{requestTime},#{userName},#{checked})
     </insert>
 
     <!--服务提供方审核 -->
-    <update id="checkedOne" parameterType="xh.mybatis.bean.QualityCheckBean">
-        update xhgmnet_bs_qualitycheck set
+    <update id="checkedOne" parameterType="xh.mybatis.bean.EmergencyBean">
+        update xhgmnet_bs_emergency set
         user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
         id=#{id}
     </update>
 
     <!--管理方上传-->
-    <update id="checkedTwo" parameterType="xh.mybatis.bean.QualityCheckBean">
-        update xhgmnet_bs_qualitycheck set
+    <update id="checkedTwo" parameterType="xh.mybatis.bean.EmergencyBean">
+        update xhgmnet_bs_emergency set
         fileName1=#{fileName1},filePath1=#{filePath1},checked=#{checked}
         where id=#{id}
     </update>
 
     <!--服务提供方审核 -->
-    <update id="checkedThree" parameterType="xh.mybatis.bean.QualityCheckBean">
-        update xhgmnet_bs_qualitycheck set
+    <update id="checkedThree" parameterType="xh.mybatis.bean.EmergencyBean">
+        update xhgmnet_bs_emergency set
         user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
     </update>
 
     <!--服务提供方上传-->
-    <update id="checkedFour" parameterType="xh.mybatis.bean.QualityCheckBean">
-        update xhgmnet_bs_qualitycheck set
+    <update id="checkedFour" parameterType="xh.mybatis.bean.EmergencyBean">
+        update xhgmnet_bs_emergency set
         fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked}
         where id=#{id}
     </update>
 
     <!--管理方审核 -->
-    <update id="checkedFive" parameterType="xh.mybatis.bean.QualityCheckBean">
-        update xhgmnet_bs_qualitycheck set
+    <update id="checkedFive" parameterType="xh.mybatis.bean.EmergencyBean">
+        update xhgmnet_bs_emergency set
         user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
     </update>
+    <update id="checkedSix" parameterType="xh.mybatis.bean.OptimizeNetBean">
+        update xhgmnet_bs_emergency set
+        fileName3=#{fileName3},filePath3=#{filePath3},checked=#{checked}
+        where id=#{id}
+    </update>
 
+    <!--管理方审核 -->
+    <update id="checkedSeven" parameterType="xh.mybatis.bean.OptimizeNetBean">
+        update xhgmnet_bs_emergency set
+        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked},level=#{level} where id=#{id}
+    </update>
 
 </mapper>

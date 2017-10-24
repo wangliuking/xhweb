@@ -52,7 +52,6 @@ public class QuitNetController {
 	private FunUtil funUtil = new FunUtil();
 	protected final Log log = LogFactory.getLog(QuitNetController.class);
 	private FlexJSON json = new FlexJSON();
-
 	/**
 	 * 查询所有流程
 	 * 
@@ -68,7 +67,6 @@ public class QuitNetController {
 		String user=funUtil.loginUser(request);
 		WebUserBean userbean=WebUserServices.selectUserByUser(user);
 		int roleId=userbean.getRoleId();
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
@@ -89,8 +87,6 @@ public class QuitNetController {
 		}
 	}
 
-
-
 	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
 	public void applyProgress(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -109,23 +105,6 @@ public class QuitNetController {
 			e.printStackTrace();
 		}
 
-	}
-
-	@RequestMapping(value = "/selectquitNumber", method = RequestMethod.GET)
-	public void selectquitNumber(HttpServletRequest request,
-							  HttpServletResponse response) {
-		this.success = true;
-		String userName = request.getParameter("userName");
-		List<Integer> ids =  new ArrayList<Integer>();
-
-		ids = QuitNetService.selectquitNumber(userName);
-		String jsonstr = json.Encode(ids);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 //	@RequestMapping(value = "/demo", method = RequestMethod.GET)
@@ -151,7 +130,7 @@ public class QuitNetController {
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setQuitTime(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
-		
+
 		int rst = QuitNetService.quitNet(bean);
 		WebLogBean webLogBean = new WebLogBean();
 		if (rst == 1) {
@@ -162,9 +141,9 @@ public class QuitNetController {
 			webLogBean.setContent("退网申请信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
-			//----发送通知邮件
-			sendNotify(bean.getUser_MainManager(), "退网申请信息已经成功提交,请审核。。。", request);
-			//----END
+//			//----发送通知邮件
+//			sendNotify(bean.getUser_MainManager(), "退网申请信息已经成功提交,请审核。。。", request);
+//			//----END
 		} else {
 			this.message = "退网申请信息提交失败";
 		}
@@ -194,10 +173,10 @@ public class QuitNetController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int quit = funUtil.StringToInt(request.getParameter("quit"));
-		int quitNumber = funUtil.StringToInt(request.getParameter("quitNumber"));
 		String note1 = request.getParameter("note1");
 		//String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
+		String userName = QuitNetService.selectUserName(id);
 		QuitNetBean bean = new QuitNetBean();
 		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
@@ -207,13 +186,10 @@ public class QuitNetController {
 			bean.setQuit(-1);
 		}
 		bean.setNote1(note1);
-		bean2.setId(quitNumber);
-		System.out.println(quitNumber);
-		bean2.setChecked(10);
+		bean2.setUserName(userName);
+		bean2.setChecked(99);
 		log.info("data==>" + bean.toString());
-
 		WebLogBean webLogBean = new WebLogBean();
-
 		int rst = QuitNetService.checkedOne(bean);
 		int rst1 = JoinNetService.quitNet(bean2);
 		if (rst == 1 && rst1 == 1){
@@ -245,52 +221,6 @@ public class QuitNetController {
 			e.printStackTrace();
 		}
 
-	}
-	/**
-	 * 下载文件
-	 * @param request
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/download", method = RequestMethod.GET)
-	public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String path = request.getSession().getServletContext().getRealPath("/Resources/upload");
-		String fileName=request.getParameter("fileName");
-		fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
-		String downPath=path+"/"+fileName;
-		log.info(downPath);
-		 File file = new File(downPath);
-		 if(!file.exists()){
-			 this.success=false;
-			 this.message="文件不存在";
-		 }
-		    //设置响应头和客户端保存文件名
-		    response.setCharacterEncoding("utf-8");
-		    response.setContentType("multipart/form-data");
-		    response.setHeader("Content-Disposition", "attachment;fileName=" + DownLoadUtils.getName(request.getHeader("user-agent"), fileName));
-		    //用于记录以完成的下载的数据量，单位是byte
-		    long downloadedLength = 0l;
-		    try {
-		        //打开本地文件流
-		        InputStream inputStream = new FileInputStream(downPath);
-		        //激活下载操作
-		        OutputStream os = response.getOutputStream();
-
-		        //循环写入输出流
-		        byte[] b = new byte[2048];
-		        int length;
-		        while ((length = inputStream.read(b)) > 0) {
-		            os.write(b, 0, length);
-		            downloadedLength += b.length;
-		        }
-
-		        // 这里主要关闭。
-		        os.close();
-		        inputStream.close();
-		    } catch (Exception e){
-		        throw e;
-		    }
-		    //存储记录
 	}
 	/**
 	 * 用户确认

@@ -1,6 +1,3 @@
-/**
- * 资产管理
- */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -54,7 +51,7 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../fault/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../emergency/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -102,7 +99,7 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
@@ -117,10 +114,10 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==5){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
 				$("#checkWin6").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==6){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
 				$("#checkWin7").modal('show');
 			}
 	    };
@@ -210,7 +207,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../fault/selectAll?start=0&limit=" + limit).
+			$http.get("../../emergency/selectAll?start=0&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -232,7 +229,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../fault/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../emergency/selectAll?start="+start+"&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -248,14 +245,15 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
+			alert($scope.totals);
 		};
 	});
 };
 //对应
-/*故障申请*/
+/*网络优化申请*/
 xh.add = function() {
 	$.ajax({
-		url : '../../fault/insertFault',
+		url : '../../emergency/insertEmergency',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -279,7 +277,7 @@ xh.add = function() {
 /*管理方审核*/
 xh.check1 = function() {
 	$.ajax({
-		url : '../../fault/checkedOne',
+		url : '../../emergency/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -303,7 +301,7 @@ xh.check1 = function() {
 /*管理方上传*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../fault/uploadRequest',
+		url : '../../emergency/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -325,7 +323,7 @@ xh.check2 = function() {
 /*服务方审核*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../fault/checkedTwo',
+		url : '../../emergency/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -348,7 +346,7 @@ xh.check3 = function() {
 /*服务方上传*/
 xh.check4 = function() {
 	$.ajax({
-		url : '../../fault/uploadFinish',
+		url : '../../emergency/checkedFour',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -371,7 +369,7 @@ xh.check4 = function() {
 /*管理方审核*/
 xh.check5 = function() {
 	$.ajax({
-		url : '../../fault/checkedThree',
+		url : '../../emergency/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -393,7 +391,7 @@ xh.check5 = function() {
 /*管理方记录*/
 xh.check6 = function() {
 	$.ajax({
-		url : '../../fault/checkedFour',
+		url : '../../emergency/checkedSix',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -416,7 +414,7 @@ xh.check6 = function() {
 /*用户确认*/
 xh.check7 = function() {
 	$.ajax({
-		url : '../../fault/sureFile',
+		url : '../../emergency/checkedSeven',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -439,12 +437,16 @@ xh.check7 = function() {
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
-		path = 'filePath_Request';
-		note = 'uploadResult_Request';
+		path = 'filePath1';
+		note = 'uploadResult1';
 	}
 	if (index == 2) {
-		path = 'filePath_Finish';
-		note = 'uploadResult_Finish';
+		path = 'filePath2';
+		note = 'uploadResult2';
+	}
+	if (index == 3) {
+		path = 'filePath3';
+		note = 'uploadResult3';
 	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
@@ -452,7 +454,7 @@ xh.upload = function(index) {
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../fault/upload', // 用于文件上传的服务器端请求地址
+		url : '../../emergency/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -480,17 +482,22 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
+	$scope.checkData = $scope.data[id];
+	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked!= -1){
-		if(checked == 2 && $scope.checkData.fileName_Request !=null){
-			fileName = $scope.checkData.fileName_Request;
+	if(checked != -1){
+		if(checked == 1 && $scope.checkData.fileName1!=null){
+			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 4 && $scope.checkData.fileName_Finish !=null){
-			fileName = $scope.checkData.fileName_Finish;
+		else if(checked == 3 && $scope.checkData.fileName2!=null){
+			fileName = $scope.checkData.fileName2;
+		}
+		else if(checked == 5 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + fileName + "&type=" + type;
+	console.log("filename=>" + fileName);
+	var downUrl = "../../net/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

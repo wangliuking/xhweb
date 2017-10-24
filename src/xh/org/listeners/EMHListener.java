@@ -37,9 +37,8 @@ public class EMHListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub	
-		timer.schedule(new timerTaskForLogin(), 3*60*1000, 5*60*1000);//心跳任务
-		timer.schedule(new timerTaskForConfig(), 60*1000, 10*60*1000);//获取配置任务
-		timer.schedule(new timerTaskForData(), 2*60*1000, 60*1000);//定时获取数据任务
+		//timer.schedule(new timerTaskForLogin(), 3*60*1000, 5*60*1000);//心跳任务
+		//timer.schedule(new timerTaskForData(), 1*60*1000, 60*1000);//定时获取数据任务
 	}
 
 }
@@ -84,7 +83,7 @@ class timerTaskForConfig extends TimerTask{
 			String url = "http://"+map.get("fsuIp")+":8080/services/FSUService";
 			try {
 				List<Map<String,String>> configList = Test.getDevConf(url, FSUID);
-				String result = GosuncnController.deleteByFSUID(FSUID);//删除之前的配置信息，保持最新
+				String result = GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新
 				if("success".equals(result)){
 					GosuncnController.insertConfig(configList);//将最新的配置信息入库
 				}				
@@ -116,9 +115,11 @@ class timerTaskForData extends TimerTask{
 				List<String> list = GosuncnController.selectConfigByFSUID(FSUID);
 				List<Map<String,String>> listData = Test.getDataForDB(url,FSUID, list);
 				//插入前查询实时表里面有无数据,有则删除
-				//String temp = GosuncnController.updateFSUID(FSUID);
+				GosuncnController.updateFSUID(FSUID);
+				//插入实时数据
 				String result = GosuncnController.insertData(listData);
-				log.info(result);
+				//插入历史数据
+				GosuncnController.insertHData(listData);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				log.info("获取数据失败！！！get data failure!!!");

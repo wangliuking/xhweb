@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,13 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 		
 		String xml = null;
 		String xmlString = invoke0.getXmlData().getString();
+		try{
 		xml = parseXml(xmlString);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+			log.info("======================document cannot parse!!!check encode");
+		}
 		InvokeResponse response = new InvokeResponse();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
 		enc.setString(xml);
@@ -61,17 +68,11 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 		return response;
 	}
 	
-	public static String parseXml(String xml){
+	public static String parseXml(String xml) throws DocumentException{
 		SAXReader reader = new SAXReader();
 		reader.setEncoding("GBK");
 		Document document = null;
-		try {
-			document = reader.read(getStringStream(xml));
-		} catch (DocumentException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
-			log.info("======================document cannot parse!!!check encode");
-		}
+		document = reader.read(getStringStream(xml));
 		Element root = document.getRootElement();
 		String temp = root.element("PK_Type").element("Name").getText();
 		//判断报文类型
@@ -94,8 +95,10 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			List<Map<String, String>> configList;
 			try {
 				configList = ParseXml.getDevConf(xml, FSUID);
-				GosuncnController.deleteByFSUID(FSUID);//配置信息入库前，删除以前的
-				String result = GosuncnController.insertConfig(configList);//将配置信息入库
+				String result = GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新	
+				if("success".equals(result)){
+					GosuncnController.insertConfig(configList);//将配置信息入库
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -105,15 +108,25 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			//上报告警信息
 			Element nameElem = root.element("Info").element("FSUID");
 			String FSUID = nameElem.getText();
-			Element tAlarm = root.element("Info").element("Values").element("TAlarmList").element("TAlarm");//一条告警数据
-			List<Element> list = tAlarm.elements();
-			Map<String,String> map = new HashMap<String,String>();
-			for(int i=0;i<list.size();i++){
-				Element e = (Element)list.get(i);
-				map.put(e.getName(), e.getText());			
-			}
-			map.put("FSUID", FSUID);
-			String result = GosuncnController.insertAlarm(map);
+			Element tAlarmList = root.element("Info").element("Values").element("TAlarmList");
+			List<Element> alarmList = tAlarmList.elements();
+			List<Map<String,String>> dataList = new ArrayList<Map<String,String>>();
+			for(int i=0;i<alarmList.size();i++){
+				Element tempList = (Element)alarmList.get(i);
+				List<Element> list = tempList.elements();
+				Map<String,String> map = new HashMap<String,String>();
+				if(!"".equals(list) || list!=null){
+					for(int j=0;j<list.size();j++){					
+						Element e = (Element)list.get(j);
+						map.put(e.getName(), e.getText());	
+					}							
+					map.put("FSUID", FSUID);
+					dataList.add(map);
+				}
+				
+			}			
+			log.info(dataList);
+			String result = GosuncnController.insertAlarm(dataList);
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_ALARM_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}
 		return null;

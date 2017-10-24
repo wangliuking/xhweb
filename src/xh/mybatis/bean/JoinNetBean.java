@@ -49,16 +49,37 @@ public class JoinNetBean {
 	private String filePathHT;
 	private String fileNameCG;
 	private String filePathCG;
-	private int terminalNum;
 	private int talkGroupNum;
 	private String talkRequirment;
+	private int apply0;
+	private int apply1;
+	private int apply2;
+	private String note2_suggest;
 	
 	
-	public int getTerminalNum() {
-		return terminalNum;
+	public String getNote2_suggest() {
+		return note2_suggest;
 	}
-	public void setTerminalNum(int terminalNum) {
-		this.terminalNum = terminalNum;
+	public void setNote2_suggest(String note2_suggest) {
+		this.note2_suggest = note2_suggest;
+	}
+	public int getApply0() {
+		return apply0;
+	}
+	public void setApply0(int apply0) {
+		this.apply0 = apply0;
+	}
+	public int getApply1() {
+		return apply1;
+	}
+	public void setApply1(int apply1) {
+		this.apply1 = apply1;
+	}
+	public int getApply2() {
+		return apply2;
+	}
+	public void setApply2(int apply2) {
+		this.apply2 = apply2;
 	}
 	public int getTalkGroupNum() {
 		return talkGroupNum;

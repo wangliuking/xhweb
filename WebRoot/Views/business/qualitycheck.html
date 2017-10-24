@@ -65,7 +65,7 @@
 									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10003 || loginUserRoleId < 10002" disabled="disabled">
 										<i class="fa fa-plus-circle"></i>&nbsp;添加抽查
 									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add" ><!--ng-if="loginUserRoleId == 10003 || loginUserRoleId == 10002" -->
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add" ng-if="loginUserRoleId == 10003 || loginUserRoleId == 10002">
 										<i class="fa fa-plus-circle"></i>&nbsp;添加抽查
 									</button>
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
@@ -103,8 +103,8 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>管理单位</th>
-										<th>管理人</th>
+										<th>联系人</th>
+										<th>联系方式</th>
 										<th>请求内容</th>
 										<!-- <th></th> -->
 										<th width="180px">申请时间</th>
@@ -114,22 +114,20 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.userNature}}</td>
-										<td>{{x.userUnit}}</td>
+										<td>{{x.applicant}}</td>
+										<td>{{x.tel}}</td>
 										<td>运维质量抽查</td>
 										<td>{{x.requestTime}}</td>
-										<td ng-if="x.checked==-1" class="td-danger">管理方已经添加抽查计划</td>
+										<td ng-if="x.checked==-1" class="td-danger">抽查申请已被拒绝</td>
 										<td ng-if="x.checked==0" class="td-warning">等待服务提供方审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方上传网络优化任务消息</td>
-										<td ng-if="x.checked==2" class="td-warning">等待服务提供方审核网络优化任务消息</td>
-										<td ng-if="x.checked==3" class="td-warning">等待服务提供方上传方案审核消息</td>
-										<td ng-if="x.checked==4" class="td-warning">等待管理方审核方案审核消息/td>
-										<td ng-if="x.checked==5" class="td-warning">等待服务提供方上传总结审核消息</td>
-										<td ng-if="x.checked==6" class="td-warning">等待管理方审核总结审核消息</td>
-										<td ng-if="x.checked==7" class="td-success">审核通过，流程结束</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方上传抽查计划任务消息</td>
+										<td ng-if="x.checked==2" class="td-warning">等待服务提供方审核运维质量抽查任务消息</td>
+										<td ng-if="x.checked==3" class="td-warning">等待服务提供方上传确认消息</td>
+										<td ng-if="x.checked==4" class="td-warning">等待管理方审核抽查确认消息/td>
+										<td ng-if="x.checked==5" class="td-success">审核通过，流程结束</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -139,14 +137,12 @@
 
 										<a ng-if="loginUserRoleId==10003 && x.checked==0
 												||loginUserRoleId==10003 && x.checked==2
-												||loginUserRoleId==10002 && x.checked==4
-												||loginUserRoleId==10002 && x.checked==6"
+												||loginUserRoleId==10002 && x.checked==4"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
 										<a ng-if="loginUserRoleId==10002 && x.checked==1
-												||loginUserRoleId==10003 && x.checked==3
-												||loginUserRoleId==10003 && x.checked==5"
+												||loginUserRoleId==10003 && x.checked==3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 

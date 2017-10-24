@@ -19,7 +19,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>用户单位</label><input type="text" ng-model="editData.unit"
+									<label>用户单位</label><input type="text" ng-model="editData.unit1"
 										class="form-control" name="unit" required="required">
 								</div>
 							</div>
@@ -109,8 +109,8 @@
 								<div class="cd-timeline-content">
 									<h2>管理方上传故障请求信息</h2>
 									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
-											onclick="xh.download(1)" style="color: red">{{progressData.fileName_Request}}</a>
-									<span ng-if="progressData.checked<=1"
+											onclick="xh.download()" style="color: red">{{progressData.fileName_Request}}</a>
+									<span ng-if="progressData.checked==1"
 										class="cd-date text-danger">等待管理方上传故障请求信息！</span> <span
 										ng-if="progressData.checked>1"
 										class="cd-date text-success font-bold"> 已通知服务提供方进行审核
@@ -131,7 +131,7 @@
 									<!-- <p>
 										<span>备注：</span><span>备注内容</span>
 									</p> -->
-									<span ng-if="progressData.checked<2"
+									<span ng-if="progressData.checked==1"
 										class="cd-date text-danger">服务提供方拒绝通过！</span>
 									<span ng-if="progressData.checked==2"
 										class="cd-date text-danger">等待服务提供方审核！</span> <span
@@ -149,13 +149,13 @@
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传故障完成信息</h2>
 									<a ng-if="progressData.checked>3" href="#" title="点击下载文件"
-											onclick="xh.download(2)" style="color: red">{{progressData.fileName_Finish}}</a>
+											onclick="xh.download()" style="color: red">{{progressData.fileName_Finish}}</a>
 									<!-- <a ng-if="progressData.checked>=4" href="#" title="点击下载文件"
 											onclick="xh.download()" style="color: red">{{progressData.fileName}}</a> -->
 									<!-- <p>
 										<span>备注：</span><span>备注内容</span>
 									</p> -->
-									<span ng-if="progressData.checked<=3"
+									<span ng-if="progressData.checked==3"
 										class="cd-date text-danger">等待服务提供方上传故障完成信息</span> <span
 										ng-if="progressData.checked>3"
 										class="cd-date text-success font-bold">已通知管理方进行审核;
@@ -173,7 +173,7 @@
 									<p>
 										<span>备注：</span><span>{{progressData.note3}}</span>
 									</p>
-									<span ng-if="progressData.checked<4"
+									<span ng-if="progressData.checked==3"
 										class="cd-date text-danger">管理方拒绝通过！</span>
 									<span ng-if="progressData.checked==4"
 										class="cd-date text-danger">等待管理方审核！</span> <span
@@ -192,7 +192,7 @@
 									<p>
 										<span>备注：</span><span>{{progressData.note4}}</span>
 									</p>
-									<span ng-if="progressData.checked<=5"
+									<span ng-if="progressData.checked==5"
 										class="cd-date text-danger">等待管理方备案故障信息！</span> <span
 										ng-if="progressData.checked>5"
 										class="cd-date text-success font-bold">用户回访;
@@ -205,12 +205,9 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>6"></div>
 								<div class="cd-timeline-content">
-									<h2>用户回访</h2>
-									<p>
-										<span>备注：</span><span>{{progressData.note}}</span>
-									</p>
-									<span ng-if="progressData.checked<=6"
-										class="cd-date text-danger">等待用户回访</span> <span
+									<h2>用户确认</h2>
+									<span ng-if="progressData.checked==6"
+										class="cd-date text-danger">等待用户确认</span> <span
 										ng-if="progressData.checked>6"
 										class="cd-date text-success font-bold">故障保障完成;
 										时间：{{progressData.time}}</span>

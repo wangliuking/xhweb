@@ -277,6 +277,13 @@ function floor(data) {
 			"http://125.70.9.194:801/services/MapServer/map2d");// 切片服务
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	
+	//var source = new esri.layers.RasterDataSource();
+	//var sourceData = source.toJson();
+	/*var isRasterLayer = new esri.layers.RasterLayer("C:\Users\12878\Desktop\地图\test.png", {
+		GEOGCS["Geographic Coordinate System",DATUM["D_WGS84",SPHEROID["WGS84",6378137,298.257223560493]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
+	});
+	myMap.addLayer(isRasterLayer);*/
+	
 	test = new
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/regions/MapServer");//动态服务
 	//http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find

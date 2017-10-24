@@ -48,12 +48,12 @@ public class GosuncnService {
 	 * @param map
 	 * @return
 	 */
-	public static int insertAlarm(Map<String,String> map){
+	public static int insertAlarm(List<Map<String,String>> list){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		int result=0;
 		try {
-			result=mapper.insertAlarm(map);
+			result=mapper.insertAlarm(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class GosuncnService {
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		int result=0;
 		try {
-			result=mapper.deleteByFSUID(FSUID);
+			result=mapper.deleteConfigByFSUID(FSUID);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -123,6 +123,26 @@ public class GosuncnService {
 		int result=0;
 		try {
 			result=mapper.insertData(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 添加监控点历史数据
+	 * @param list
+	 * @return
+	 */
+	public static int insertHData(List<Map<String, String>> list) {
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertHData(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

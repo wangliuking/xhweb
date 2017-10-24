@@ -1,6 +1,3 @@
-/**
- * 资产管理
- */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -50,8 +47,7 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleId = response.roleId;
-			alert(response.roleId);
+			$scope.loginUserRoleId = response.roleId;	
 		});
 		
 		/*获取申请记录表*/
@@ -219,8 +215,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -249,13 +245,13 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
+			alert($scope.totals);
 		};
 	});
 };
 //对应
 /*网络优化申请*/
 xh.add = function() {
-	alert(1);
 	$.ajax({
 		url : '../../qualitycheck/insertQualityCheck',
 		type : 'POST',
@@ -269,14 +265,12 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-				alert(xh.serializeJson($("#addForm").serializeArray()));
+
 			} else {
 				toastr.error(data.message, '提示');
-				
 			}
 		},
 		error : function() {
-			alert(xh.serializeJson($("#addForm").serializeArray()));
 		}
 	});
 };
@@ -394,52 +388,7 @@ xh.check5 = function() {
 		}
 	});
 };
-/*管理方记录*/
-xh.check6 = function() {
-	$.ajax({
-		url : '../../qualitycheck/checkedSix',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm6").serializeArray(),
-		success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin6').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*用户确认*/
-xh.check7 = function() {
-	$.ajax({
-		url : '../../qualitycheck/checkedSeven',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm7").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin7').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -502,8 +451,8 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + filename);
-	var downUrl = "../../optimizenet/download?fileName=" + filename;
+	console.log("filename=>" + fileName);
+	var downUrl = "../../net/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
