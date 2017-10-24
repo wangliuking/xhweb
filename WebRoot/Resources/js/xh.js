@@ -337,9 +337,16 @@ xh.getOneDay = function() {
 }
 /* 显示网页遮罩层 */
 xh.maskShow = function() {
-	var html = "<div class='xh-mask text-white'>";
-	html += "<i class='fa fa-spinner fa-spin fa-2x'></i>";
-	html += "<i class=''>加载中...</i>";
+	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+	html += "<i class=''>数据处理中...</i>";
+	html += "</div>";
+	$("body").append(html);
+}
+xh.maskShow = function(message) {
+	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+	html += "<i class=''>"+message+"</i>";
 	html += "</div>";
 	$("body").append(html);
 }

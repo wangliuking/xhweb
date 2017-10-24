@@ -59,17 +59,17 @@ public class QuitNetService {
      *
      * @return
      */
-    public static List<Integer> selectquitNumber(String userName) {
+    public static String selectUserName(int id) {
         SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.slave);
         QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
-        List<Integer> list = new ArrayList<Integer>();
+        String userName = "123";
         try {
-            list = mapper.selectquitNumber(userName);
+            userName = mapper.selectUserName(id);
             sqlSession.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return userName;
     }
 
     /**
@@ -103,10 +103,12 @@ public class QuitNetService {
         int result = 0;
         try {
             result = mapper.quitNet(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -123,10 +125,13 @@ public class QuitNetService {
         int result = 0;
         try {
             result = mapper.checkedOne(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -143,10 +148,13 @@ public class QuitNetService {
         int result = 0;
         try {
             result = mapper.sureFile(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }

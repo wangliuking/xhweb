@@ -42,8 +42,8 @@
     <insert id="insertEmergency" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.EmergencyBean">
         insert into
-        xhgmnet_bs_emergency(userNature,userUnit,requesTtime,userName,checked)
-        values(#{userNature},#{userUnit},#{requestTime},#{userName},#{checked})
+        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked)
+        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked})
     </insert>
 
     <!--服务提供方审核 -->

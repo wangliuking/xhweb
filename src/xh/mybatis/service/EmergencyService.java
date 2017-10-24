@@ -79,8 +79,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.insertEmergency(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -97,8 +99,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.checkedOne(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -115,8 +119,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.checkedTwo(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -133,8 +139,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.checkedThree(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -151,8 +159,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.checkedFour(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -170,8 +180,10 @@ public class EmergencyService {
         int result=0;
         try {
             result=mapper.checkedFive(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result = 1 ;
         } catch (Exception e) {
+        	sqlSession.close();
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -188,8 +200,10 @@ public class EmergencyService {
        int result=0;
        try {
            result=mapper.checkedSix(bean);
-           sqlSession.close();
+           sqlSession.commit();
+           result = 1 ;
        } catch (Exception e) {
+       	sqlSession.close();
            // TODO Auto-generated catch block
            e.printStackTrace();
        }
@@ -206,8 +220,10 @@ public class EmergencyService {
       int result=0;
       try {
           result=mapper.checkedSeven(bean);
-          sqlSession.close();
+          sqlSession.commit();
+          result = 1 ;
       } catch (Exception e) {
+      	sqlSession.close();
           // TODO Auto-generated catch block
           e.printStackTrace();
       }

@@ -128,10 +128,14 @@ public class ParseXml {
 			Map<String,String> map = new HashMap<String,String>();
 			Element temp = (Element)list.get(i);
 			String DeviceID = temp.attributeValue("DeviceID");
-			String SiteID = temp.attributeValue("SiteID");		
+			String DeviceName = temp.attributeValue("DeviceName");
+			String SiteID = temp.attributeValue("SiteID");	
+			String SiteName = temp.attributeValue("SiteName");
 			map.put("fsuId", FSUID);
 			map.put("deviceId", DeviceID);
+			map.put("deviceName", DeviceName);
 			map.put("siteId", SiteID);
+			map.put("siteName", SiteName);
 			configList.add(map);
 		}
 		return configList;
@@ -167,7 +171,6 @@ public class ParseXml {
 	
 	// 递归查询节点函数,输出节点名称
 	private static void getChildNodes(Element elem) {
-		System.out.println(elem.getName());
 		Iterator<Node> it = elem.nodeIterator();
 		while (it.hasNext()) {
 			Node node = it.next();

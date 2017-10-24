@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.DutyMapper">
+
+	<select id="list" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_operations_dutyinfo where 1=1
+		<if test="fileName !=null and fileName !=''">
+			and fileName like concat('%',#{fileName},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_dutyinfo where 1=1
+		<if test="fileName !=null and fileName !=''">
+			and fileName like concat('%',#{fileName},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+	</select>
+	<!-- 新增运维值班情况表 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.WorkBean">
+		insert into xhgmnet_operations_dutyinfo(fileName,contact,tel,note,status,filePath,uploadUser,recvUser)
+		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{recvUser})
+	</insert>
+	<!-- 签收运维值班情况表 -->
+    <update id="sign" parameterType="int">
+     update xhgmnet_operations_dutyinfo set status=1 where id=#{id}    
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

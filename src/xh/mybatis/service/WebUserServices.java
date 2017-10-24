@@ -50,6 +50,24 @@ public class WebUserServices {
 		return  list;	
 	}
 	/**
+	 * 根据Role类型查找用户列表
+	 * @param roleId
+	 * @return
+	 */
+	public static List<Map<String,Object>> userlistByRoleType(List<String> roleIdlist) {
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.userlistByRoleType(roleIdlist);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;	
+	}
+	/**
 	 * 根据登录用户名，密码查找登录用户
 	 * @param root
 	 * @return

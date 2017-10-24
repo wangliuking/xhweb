@@ -157,7 +157,7 @@ xh.load = function() {
 			$http.get(
 					"../../work/worklist?filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
-							+ "&start="+strat+"&limit=" + pageSize).success(function(response) {
+							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;

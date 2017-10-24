@@ -97,9 +97,8 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户单位</th>
-										<th >退网终端号码</th>
-										<th >退网类型</th>
-										<th >联系人</th>
+										<th>退网类型</th>
+										<th>联系人</th>
 										<th>申请退网时间</th>
 										<th>审核状态</th>
 										<th>操作详情</th>
@@ -107,12 +106,11 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.quitName}}</td>
-										<td>{{x.quitNumber}}</td>
-										<td>{{x.quitType}}</td>
+										<td>{{x.unit1}}</td>
+										<td>{{x.quitModal}}</td>
 										<td>{{x.quitPerson}}</td>
 										<td>{{x.quitTime}}</td>
 										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>

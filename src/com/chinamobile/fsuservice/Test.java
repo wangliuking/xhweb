@@ -106,7 +106,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(response.getInvokeReturn());
 		try {
 			list = ParseXml.getData(resp.getString());
 
@@ -144,7 +143,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(response.getInvokeReturn());
 		try {
 			list1 = ParseXml.getDataByList(resp.getString());
 
@@ -182,7 +180,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 		try {
 			list1 = ParseXml.getDataForDB(resp.getString());
 
@@ -218,7 +215,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 		List<Map<String, String>> configList = null;
 		try {
 			configList = ParseXml.getDevConf(resp.getString(), FSUID);
@@ -244,12 +240,10 @@ public class Test {
 				+ FSUID
 				+ "</FSUID><Value><DeviceList><Device ID=\"170100000000001\"><TThreshold Type=\"3\" ID=\"017301\" SignalNumber=\"001\" Threshold=\"20.00000\" AlarmLevel=\"3\" NMAlarmID=\"99999999999999\"/></Device></DeviceList></Value></Info></Request>";
 		enc.setString(SET_THRESHOLD);
-		log.info(enc);
 		invoke.setXmlData(enc);
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 	}
 
 	/**
@@ -277,7 +271,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 
@@ -304,7 +297,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 
@@ -353,7 +345,6 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 

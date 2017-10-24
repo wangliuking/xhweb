@@ -99,6 +99,8 @@
 			return false;
 		}
 		$("input[name='result']").val(2);
+		$("#uploadfile").attr("disabled", true);
+		xh.maskShow("正在上传文件，请耐心等待");
 		$.ajaxFileUpload({
 			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
@@ -107,6 +109,8 @@
 			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
 			{
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
 				if (data.success) {
 					$("input[name='result']").val(1);
 					$("input[name='fileName']").val(data.fileName);
@@ -123,6 +127,8 @@
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
 				alert(e);
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
 			}
 		});
 	});

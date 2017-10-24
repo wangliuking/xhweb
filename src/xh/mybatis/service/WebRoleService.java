@@ -2,6 +2,7 @@ package xh.mybatis.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -22,6 +23,26 @@ public class WebRoleService {
 		List<WebRoleBean> list=new ArrayList<WebRoleBean>();
 		try {
 			list=mapper.roleByAll();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+		
+		
+	}
+	/**
+	 * 根据角色类型查找角色列表
+	 * @param roleType
+	 * @return
+	 */
+	public static List<Map<String,Object>> roleTypeByList(int roleType){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.roleTypeByList(roleType);			
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

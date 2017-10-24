@@ -11,7 +11,7 @@ require.config({
 });
 var background="#fff";
 var frist = 0;
-var appElement = document.querySelector('[ng-controller=xhcontroller]');
+var appElement = document.querySelector('[ng-controller=gonsuncn]');
 toastr.options = {
 		"debug" : false,
 		"newestOnTop" : false,
@@ -31,14 +31,16 @@ toastr.options = {
 xh.load = function() {
 	var app = angular.module("app", []);
 	var pageSize = $("#page-limit").val();
-	app.controller("xhcontroller", function($scope, $http) {
+	app.controller("gonsuncn", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.operationMenu=true; //菜单变色
-		/* 终端状态统计图 */
-		/*xh.loadUserStatusPie();*/
-		/*获取日志信息*/
-		$http.get("../../emh/bsEmhNowStatus?start=0&limit="+pageSize).
+		var deviceIds=[];
+		$(".form-inline input:checked").each(function(i){
+			deviceIds.push($(this).val());
+		});
+		var alarmLevel = $("#alarmLv  option:selected").val();
+		$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -76,11 +78,21 @@ xh.load = function() {
 			
 		};
 		
+		/*下拉框改变时触发函数*/
+		$scope.change = function(x){
+		    console.log(x);
+		};
+		
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
-			/*var userId=$("#userId").val();
-			var regStatus=$("#regStatus").val();*/
+			/*获取选中的checkbox和告警等级*/
+			var deviceIds=[];
+			$(".form-inline input:checked").each(function(i){
+				deviceIds.push($(this).val());
+			});
+			var alarmLevel = $("#alarmLv  option:selected").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -92,7 +104,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emh/bsEmhNowStatus?start="+start+"&limit="+pageSize).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -113,7 +125,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emh/bsEmhNowStatus?start="+start+"&limit="+pageSize).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				
