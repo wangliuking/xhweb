@@ -76,7 +76,7 @@ xh.load = function() {
 		};
 		/* 跳转到申请进度页面 */
 		$scope.toProgress = function(id) {
-			$scope.editData = $scope.data[id];
+			$scope.checkData = $scope.data[id];
 			/*
 			 * $http.get("../../net/applyProgress?id="+$scope.editData.id).
 			 * success(function(response){ $scope.progressData =
@@ -84,56 +84,11 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
-			$scope.progressData = $scope.editData;
+			$scope.progressData = $scope.checkData;
 			
 			$("#progress").modal('show');
 		};
 		
-        $scope.terminal = new Object();
-        $scope.index_apply = 0;
-        $scope.terminal.terminalsApply = [{key: "手办", value: 1}];
-        // 初始化时由于只有1条，所以不允许删除
-        $scope.terminal.canDescApply = false;
-
-        // 增加回复数
-        $scope.terminal.incrApply = function($index) {
-        	//alert($scope.terminal.combineReplies());
-        	if($index == 0){
-        		$scope.terminal.terminalsApply.splice($index + 1, 0,
-                        {key: "车载台", value: 1});
-        		$scope.index_apply++;
-                $scope.terminal.canDescReply = true;
-        	}
-        	if($index == 1){
-        		$scope.terminal.terminalsApply.splice($index + 1, 0,
-                        {key: "调度台", value: 1});
-        		$scope.index_apply++;
-        		$scope.terminal.canDescReply = true;
-        	}
-        }
-
-        // 减少回复数
-        $scope.terminal.decrApply = function($index) {
-            // 如果回复数大于1，删除被点击回复
-            if ($scope.terminal.terminalsApply.length > 1) {
-                $scope.terminal.terminalsApply.splice($index, 1);
-                $scope.index_apply--;
-            }
-            // 如果回复数为1，不允许删除
-            if ($scope.terminal.terminalsApply.length == 1) {
-                $scope.terminal.canDescReply = false;
-            }
-        }
-
-        /*$scope.terminal.combineReplies = function() {
-            var cr = "";
-            for (var i = 0; i < $scope.terminal.terminalsApply.length; i++) {
-                cr += "#" + $scope.terminal.terminalsApply[i].key + "#" + $scope.terminal.terminalsApply[i].value;
-            }
-            cr = cr.substring(1);
-
-            return cr;
-        }*/
 		
 		/* 显示协议签署窗口 */
 		$scope.checkSign = function(id) {
@@ -507,22 +462,11 @@ xh.check5 = function() {
 			if (data.result == 1) {
 				$('#checkWin5').modal('hide');
 				xh.refresh();
-				toastr.options = {  
-				        closeButton: false,  
-				        debug: false,  
-				        progressBar: true,  
-				        positionClass: "toast-top-center",  
-				        onclick: null,  
-				        showDuration: "300",  
-				        hideDuration: "1000",  
-				        timeOut: "20000",  
-				        extendedTimeOut: "1000",  
-				        showEasing: "swing",  
-				        hideEasing: "linear",  
-				        showMethod: "fadeIn",  
-				        hideMethod: "fadeOut"  
-				    };
-				toastr.success(data.message, '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "success"
+				});
 
 			} else {
 				toastr.error(data.message, '提示');
@@ -1052,7 +996,9 @@ xh.download = function(id,type) {
 	}
 	else{
 		//如果type为1 那么表示下载公函。
-		$scope.checkData = $scope.data[id];
+		if(id >= 0){
+			$scope.checkData = $scope.data[id];
+		}
 		if(type == 1 && $scope.checkData.fileName_GH != null && $scope.checkData.fileName_GH != ''){
 			filename = $scope.checkData.fileName_GH;
 		}
