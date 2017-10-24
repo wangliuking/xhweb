@@ -253,6 +253,7 @@ xh.pagging = function(currentPage, totals, $scope, params) {
  * https://developers.arcgis.com/javascript/jssamples/
  */
 dojo.require("esri.map");
+var myTiledMapServiceLayer;
 var myMap;
 var scalebar;
 var draw;
@@ -264,6 +265,7 @@ var roadtest;
 var areaRings;
 var rectangle;
 var test;
+var testDemo;
 function floor(data) {
 	var options = {
 		logo : false
@@ -271,22 +273,18 @@ function floor(data) {
 	esri.symbols = esri.symbol;
 	myMap = new esri.Map("mapDiv", options);// 在mapDiv中创建map地图对象
 	// 创建底图图层对象,http://10.190.230.165/arcgisditu/rest/services/NEWMAP/MapServer为政务外网底图服务地址,
-	var myTiledMapServiceLayer = new
-	// esri.layers.ArcGISDynamicMapServiceLayer("动态服务地址");//动态服务
+	myTiledMapServiceLayer = new
 	esri.layers.ArcGISTiledMapServiceLayer(
-			"http://125.70.9.194:801/services/MapServer/map2d");// 切片服务
+			"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务
 	myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	
-	//var source = new esri.layers.RasterDataSource();
-	//var sourceData = source.toJson();
-	/*var isRasterLayer = new esri.layers.RasterLayer("C:\Users\12878\Desktop\地图\test.png", {
-		GEOGCS["Geographic Coordinate System",DATUM["D_WGS84",SPHEROID["WGS84",6378137,298.257223560493]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]
-	});
-	myMap.addLayer(isRasterLayer);*/
+	testDemo = new
+	esri.layers.ArcGISTiledMapServiceLayer(
+			"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
+	//myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	
 	test = new
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/regions/MapServer");//动态服务
-	//http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find
 	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
@@ -969,6 +967,16 @@ function init(data,markData) {
 					 
 				} else {
 					myMap.removeLayer(test);
+				}
+			});
+			
+			$("#testDemo").click(function() {
+				if ($(this).prop("checked") == true) {				
+					myMap.removeLayer(myTiledMapServiceLayer);
+					myMap.addLayer(testDemo);
+				} else {
+					myMap.removeLayer(testDemo);
+					myMap.addLayer(myTiledMapServiceLayer);
 				}
 			});
 			

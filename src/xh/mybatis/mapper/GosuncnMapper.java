@@ -63,4 +63,21 @@ public interface GosuncnMapper {
 	 */
 	public int deleteByFSUID(String FSUID)throws Exception;
 	
+	/*
+	 * 环控告警页面部分
+	 */
+	/**
+	 * 告警查询
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectEMHAlarm(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 告警总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int countEMHAlarm(Map<String,Object> map)throws Exception;
+	
 }

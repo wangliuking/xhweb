@@ -43,28 +43,19 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 
 	public com.chinamobile.lscservice.InvokeResponse invoke(
 			com.chinamobile.lscservice.Invoke invoke0) {
-		log.info(invoke0.getXmlData());
-		/*try {
-			log.info(new String(invoke0.getXmlData().getString().getBytes(),"GB2312"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
+		//log.info(invoke0.getXmlData());
 		String xml = null;
 		String xmlString = invoke0.getXmlData().getString();
 		try{
 		xml = parseXml(xmlString);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
 			log.info("======================document cannot parse!!!check encode");
 		}
 		InvokeResponse response = new InvokeResponse();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
 		enc.setString(xml);
 		response.setInvokeReturn(enc);
-		log.info(response.getInvokeReturn());
+		//log.info(response.getInvokeReturn());
 		return response;
 	}
 	
@@ -86,7 +77,10 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				map.put(e.getName(), e.getText());			
 			}
 			String result = GosuncnController.insertLogin(map);
-			log.info(result);
+			if("success".equals(result)){
+				log.info("啦啦啦一个FSU注册成功！");
+			}
+			
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
 			//上报动环设置配置
@@ -98,9 +92,9 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				String result = GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新	
 				if("success".equals(result)){
 					GosuncnController.insertConfig(configList);//将配置信息入库
+					log.info("啦啦啦一个FSU已添加配置！");			
 				}
 			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_DEV_CONF_DATA_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Response>";
@@ -125,8 +119,8 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				}
 				
 			}			
-			log.info(dataList);
-			String result = GosuncnController.insertAlarm(dataList);
+			GosuncnController.insertAlarm(dataList);
+			log.info("啦啦啦一条告警信息已经添加！");
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_ALARM_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}
 		return null;
