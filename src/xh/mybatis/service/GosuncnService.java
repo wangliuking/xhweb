@@ -188,4 +188,47 @@ public class GosuncnService {
 		}
 		return result;
 	}
+	
+	/*
+	 * 环控告警页面部分
+	 */
+	/**
+	 * 告警查询
+	 */
+	public static List<Map<String,String>> selectEMHAlarm(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,String>> list=null;
+		try {
+			list=mapper.selectEMHAlarm(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 告警条数
+	 */
+	public static int countEMHAlarm(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.countEMHAlarm(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

@@ -23,11 +23,11 @@
 	<!-- 增加FSU配置信息 -->
 	<insert id="insertConfig" parameterType="java.util.List">
 		INSERT INTO
-		xhgmnet_emh_config(siteId,fsuId,deviceId)
+		xhgmnet_emh_config(siteId,siteName,fsuId,deviceId,deviceName)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.siteId},#{item.fsuId},#{item.deviceId})
+			(#{item.siteId},#{#item.siteName},#{item.fsuId},#{item.deviceId},#{item.deviceName})
 		</foreach>
 	</insert>
 	
@@ -70,11 +70,51 @@
 	
 	<!-- 增加告警信息 -->
 	<insert id="insertAlarm" parameterType="java.util.List">
-		insert into xhgmnet_emh_sensor_alarm(fsuId,serialNo,alarmId,deviceId,nmAlarmId,alarmTime,alarmlevel,alarmFlag,eventValue) 
+		insert into xhgmnet_emh_sensor_alarm(fsuId,serialNo,alarmId,deviceId,nmAlarmId,alarmTime,alarmlevel,alarmFlag,alarmDesc,eventValue) 
 		values
 		<foreach collection="list" item="item" index="index" separator=",">
-		(#{item.FSUID},#{item.SerialNo},#{item.ID},#{item.DeviceID},#{item.NMAlarmID},#{item.AlarmTime},#{item.AlarmLevel},#{item.AlarmFlag},#{item.EventValue})
+		(#{item.FSUID},#{item.SerialNo},#{item.ID},#{item.DeviceID},#{item.NMAlarmID},#{item.AlarmTime},#{item.AlarmLevel},#{item.AlarmFlag},#{item.AlarmDesc},#{item.EventValue})
 		</foreach>
 	</insert>
+	
+	<!-- 动环告警页面部分 -->
+	
+	<!--根据不同传感器查找告警记录-->
+	<select id="selectEMHAlarm" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId where 1=1
+		<if test="deviceIds ==null or deviceIds ==''">
+			and 1=0
+		</if>
+		<if test="deviceIds !=null and deviceIds !=''">
+			and a.deviceId in
+			<foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
+      			#{item}
+   			</foreach>
+		</if>
+		<if test="alarmlevel !=null and alarmlevel !=0">
+			and alarmlevel=#{alarmlevel}
+		</if>
+		order by alarmTime desc limit #{start},#{limit}
+	</select>
+	<!--根据基站ID，名称查找基站记录总数 -->
+	<select id="countEMHAlarm" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId where 1=1
+		<if test="deviceIds ==null or deviceIds ==''">
+			and 1=0
+		</if>
+		<if test="deviceIds !=null and deviceIds !=''">
+			and a.deviceId in
+			<foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
+      			#{item}
+   			</foreach>
+		</if>
+		<if test="alarmlevel !=null and alarmlevel !=0">
+			and alarmlevel=#{alarmlevel}
+		</if>
+	</select>
+	
+	
 
 </mapper>

@@ -38,7 +38,8 @@ public class EMHListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub	
 		//timer.schedule(new timerTaskForLogin(), 3*60*1000, 5*60*1000);//心跳任务
-		//timer.schedule(new timerTaskForData(), 1*60*1000, 60*1000);//定时获取数据任务
+		//timer.schedule(new timerTaskForData(), 2*60*1000, 2*60*1000);//定时获取数据任务
+		//timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
 	}
 
 }
@@ -60,7 +61,7 @@ class timerTaskForLogin extends TimerTask{
 				Test.getLoginInfo(url, FSUID);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
-				log.info("发送心跳信息失败！！！send for login failure!!!!");
+				log.info("发送心跳信息失败！！！"+FSUID+"send for login failure!!!!");
 			}
 		}
 			
@@ -86,6 +87,7 @@ class timerTaskForConfig extends TimerTask{
 				String result = GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新
 				if("success".equals(result)){
 					GosuncnController.insertConfig(configList);//将最新的配置信息入库
+					log.info("啦啦啦一个FSU已添加配置！");
 				}				
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
@@ -122,7 +124,7 @@ class timerTaskForData extends TimerTask{
 				GosuncnController.insertHData(listData);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
-				log.info("获取数据失败！！！get data failure!!!");
+				log.info("获取数据失败！！！"+FSUID+"get data failure!!!");
 			}
 		}
 		
