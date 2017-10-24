@@ -33,10 +33,13 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.EmailBean;
+import xh.mybatis.bean.EmergencyBean;
+import xh.mybatis.bean.JoinNetBean;
 import xh.mybatis.bean.QualityCheckBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.EmailService;
+import xh.mybatis.service.EmergencyService;
 import xh.mybatis.service.QualityCheckService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
@@ -127,12 +130,26 @@ public class QualityCheckController {
     public void insertQualityCheck(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
-        String jsonData = request.getParameter("formData");
-        QualityCheckBean bean = GsonUtil.json2Object(jsonData, QualityCheckBean.class);
-        bean.setUserName(funUtil.loginUser(request));
-        bean.setRequestTime(funUtil.nowDate());
-        log.info("data==>" + bean.toString());
-        System.out.println("+++++++++++++++++"+bean.toString());
+        //String jsonData = request.getParameter("formData");
+        String fileName = request.getParameter("fileName");
+		String filePath = request.getParameter("path");
+		String applicant = request.getParameter("applicant");
+		String tel = request.getParameter("tel");
+		
+        //QualityCheckBean bean = GsonUtil.json2Object(jsonData, QualityCheckBean.class);
+        //bean.setUserName(funUtil.loginUser(request));
+        //bean.setRequestTime(funUtil.nowDate());
+        //log.info("data==>" + bean.toString());
+		QualityCheckBean bean = new QualityCheckBean();
+		bean.setRequestTime(funUtil.nowDate());
+		bean.setTel(tel);
+		bean.setUserName(funUtil.loginUser(request));
+		bean.setChecked(0);
+		bean.setApplicant(applicant);
+		bean.setFileName1(fileName);
+		bean.setFilePath1(filePath);
+        System.out.println("+++++++++++++++++"+filePath);
+        System.out.println("+++++++++++++++++"+fileName);
         int rst = QualityCheckService.insertQualityCheck(bean);
         System.out.println(rst);
         WebLogBean webLogBean = new WebLogBean();
@@ -141,11 +158,11 @@ public class QualityCheckController {
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(1);
-            webLogBean.setContent("运维质量抽检申请信息，data=" + bean);
+            webLogBean.setContent("运维质量抽检申请信息，data=" );
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "运维质量抽检申请信息已经成功提交,请审核。。。", request);
+            //sendNotify(bean.getUser_MainManager(), "运维质量抽检申请信息已经成功提交,请审核。。。", request);
             //----END
         } else {
             this.message = "运维质量抽检申请信息提交失败";
@@ -233,23 +250,23 @@ public class QualityCheckController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        QualityCheckBean bean = new QualityCheckBean();
+        EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(2);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
-        System.out.println("运维质量抽查计划消息:" + fileName);
+        System.out.println("应急处置演练任务消息:" + fileName);
 
-        int rst = QualityCheckService.checkedTwo(bean);
+        int rst = EmergencyService.checkedTwo(bean);
         if (rst == 1) {
-            this.message = "上传抽查计划任务消息成功";
+            this.message = "上传抽查记录成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传抽查计划任务消息，data=" + bean.toString());
+            webLogBean.setContent("上传抽查记录，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
         } else {
-            this.message = "上传抽查计划任务消息失败";
+            this.message = "上传抽查结果失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -290,7 +307,7 @@ public class QualityCheckController {
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);
-        int rst = QualityCheckService.checkedFive(bean);
+        int rst = QualityCheckService.checkedThree(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -340,7 +357,7 @@ public class QualityCheckController {
         bean.setFilePath2(filePath);
         System.out.println("方案审核消息:" + fileName);
 
-        int rst = QualityCheckService.checkedTwo(bean);
+        int rst = QualityCheckService.checkedFour(bean);
         if (rst == 1) {
             this.message = "上传方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -473,14 +490,8 @@ public class QualityCheckController {
      */
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void downFile(HttpServletRequest request,HttpServletResponse response) throws Exception{
-        int type = funUtil.StringToInt(request.getParameter("type"));
         String path = "";
-        if(type == 3){
-            path = request.getSession().getServletContext().getRealPath("/Resources/outputDoc");
-        }
-        else{
-            path = request.getSession().getServletContext().getRealPath("/Resources/upload");
-        }
+        path = request.getSession().getServletContext().getRealPath("/Resources/upload");
         String fileName=request.getParameter("fileName");
         fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
         String downPath=path+"/"+fileName;

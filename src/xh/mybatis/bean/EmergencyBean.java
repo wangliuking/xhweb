@@ -18,6 +18,7 @@ public class EmergencyBean {
     private String user2;
     private String user3;
     private String user4;
+    private String note;
     private String note1;
     private String note2;
     private String note3;
@@ -193,6 +194,14 @@ public class EmergencyBean {
         this.note1 = note1;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+    
     public String getNote2() {
         return note2;
     }

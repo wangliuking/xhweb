@@ -105,7 +105,7 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			/*if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
@@ -114,12 +114,7 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
-				$("#checkWin6").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
-				$("#checkWin7").modal('show');
-			}
+			*/
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
@@ -257,9 +252,7 @@ xh.add = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#addForm").serializeArray(),
 		success : function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
@@ -321,7 +314,7 @@ xh.check2 = function() {
 	});
 };
 /*服务方审核*/
-xh.check3 = function() {
+/*xh.check3 = function() {
 	$.ajax({
 		url : '../../qualitycheck/checkedThree',
 		type : 'POST',
@@ -343,7 +336,7 @@ xh.check3 = function() {
 		}
 	});
 };
-/*服务方上传*/
+服务方上传
 xh.check4 = function() {
 	$.ajax({
 		url : '../../qualitycheck/checkedFour',
@@ -366,7 +359,7 @@ xh.check4 = function() {
 		}
 	});
 };
-/*管理方审核*/
+管理方审核
 xh.check5 = function() {
 	$.ajax({
 		url : '../../qualitycheck/checkedFive',
@@ -387,7 +380,7 @@ xh.check5 = function() {
 		error : function() {
 		}
 	});
-};
+};*/
 
 /* 上传文件 */
 xh.upload = function(index) {
@@ -435,24 +428,23 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(){
+xh.download=function(type){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
-	var checked = $scope.checkData.checked;
+	//$scope.checkData = $scope.data[id];
+	//var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
-		if(checked == 1 && $scope.checkData.fileName1!=null){
-			fileName = $scope.checkData.fileName1;
-		}
-		else if(checked == 3 && $scope.checkData.fileName2!=null){
-			fileName = $scope.checkData.fileName2;
-		}
-		else if(checked == 5 && $scope.checkData.fileName3!=null){
-			fileName = $scope.checkData.fileName3;
-		}
+	if(type == 1){
+		fileName = $scope.checkData.fileName1;
+		filePath = $scope.checkData.filePath1;
+	}
+	else if(type == 2){
+		fileName = $scope.checkData.fileName2;
+	}
+	else if(type == 3){
+		fileName = $scope.checkData.fileName3;
 	}
 	console.log("filename=>" + fileName);
-	var downUrl = "../../net/download?fileName=" + fileName;
+	var downUrl = "../../qualitycheck/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
