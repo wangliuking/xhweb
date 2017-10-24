@@ -30,7 +30,7 @@ public interface QuitNetMapper {
      * @return
      * @throws Exception
      */
-    public List<Integer> selectquitNumber(String userName) throws Exception;
+    public String selectUserName(int id) throws Exception;
 
     /**
      * 总数

@@ -44,7 +44,6 @@ public class CommunicationSupportController {
 	protected final Log log = LogFactory.getLog(CommunicationSupportController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
-
 	/**
 	 * 查询所有流程
 	 * 
@@ -109,7 +108,7 @@ public class CommunicationSupportController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/insertSupport", method = RequestMethod.POST)
-	public void insertNet(HttpServletRequest request,
+	public void insertSupport(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
@@ -117,7 +116,6 @@ public class CommunicationSupportController {
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
-
 		int rst = CommunicationSupportService.insertSupport(bean);
 		if (rst == 1) {
 			this.message = "保障申请信息已经成功提交";
@@ -146,7 +144,6 @@ public class CommunicationSupportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -160,16 +157,11 @@ public class CommunicationSupportController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
-		if(checked == 1){
-			bean.setChecked(checked);
-		}else if(checked == -1){
-			bean.setChecked(checked);
-		}
+		bean.setChecked(1);
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
@@ -265,16 +257,11 @@ public class CommunicationSupportController {
 							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note2 = request.getParameter("note2");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 3){
-			bean.setChecked(3);
-		}else if(checked == 1){
-			bean.setChecked(1);
-		}
+		bean.setChecked(3);
 		bean.setTime2(funUtil.nowDate());
 		bean.setNote2(note2);
 		int rst = CommunicationSupportService.checkedThree(bean);

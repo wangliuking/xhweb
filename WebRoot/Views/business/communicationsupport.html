@@ -97,25 +97,23 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>申请单位</th>
+										<th width="100px">申请单位</th>
 										<th width="150px">联系人</th>
 										<th width="100px">保障时间</th>
 										<th width="100px">保障区域</th>
-										<th width="180px">申请时间</th>
 										<th width="200px">审核状态</th>
 										<th width="200px">操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.unit}}</td>
+										<td>{{x.unit1}}</td>
 										<td>{{x.person}}</td>
 										<td>{{x.supportTime}}</td>
 										<td>{{x.area}}</td>
-										<td>{{x.time}}</td>
 										<!-- <td ng-if="x.checked<16" class="td-worning">等待处理</td>
 										<td ng-if="x.checked==16" class="td-success">流程结束</td> -->
 										<!-- <td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> -->
@@ -128,7 +126,6 @@
 										<td ng-if="x.checked==5" class="td-warning">服务提供方发送审核请求消息给管理方</td>									<td ng-if="x.checked==6" class="td-warning">等待管理方对消息内容审核</td>
 										<td ng-if="x.checked==7" class="td-warning">等待管理方通知用户单位</td>
 										<td ng-if="x.checked==8" class="td-warning">等待用户单位确认</td>
-										在这里审核通过后，管理房就会给用户发送消息，所以用户应该有消息提示
 										<td ng-if="x.checked==9" class="td-warning">等待服务提供方发送保障准备信息给管理方</td>
 										<td ng-if="x.checked==10" class="td-warning">等待管理方确认保障准备信息</td>
 										<td ng-if="x.checked==11" class="td-warning">等待管理方发送保障准备信息给用户单位</td>
@@ -172,13 +169,17 @@
 										<a class="text-danger"
 											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;核实</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;核实</a>
 										
 										<a class="text-danger"
 											ng-if="loginUserRoleId==1000 && x.checked==15"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;评价</a></td>
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;评价</a>
 
+										<a class="text-danger"
+											ng-if="x.checked==16"
+											href="#" ng-click="toDownload($index)">|<i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;下载</a></td>		
 									</tr>
 								</tbody>
 							</table>
@@ -222,6 +223,8 @@
 	<div ng-include="'communicationsupport-check.html'"></div>
 	<!-- 详细 -->
 	<div ng-include="'communicationsupport-progress.html'"></div>
+	<!-- 详细 -->
+	<div ng-include="'communicationsupport-download.html'"></div>
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>

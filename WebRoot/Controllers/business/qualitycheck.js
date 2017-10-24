@@ -114,6 +114,12 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
+				$("#checkWin6").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
+				$("#checkWin7").modal('show');
+			}
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
@@ -207,7 +213,6 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
-				
 			});
 		};
 		$scope.download = function() {
@@ -240,14 +245,15 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
+			alert($scope.totals);
 		};
 	});
 };
 //对应
-/*网络中断优化申请*/
+/*网络优化申请*/
 xh.add = function() {
 	$.ajax({
-		url : '../../qualitycheck/insertQualtiyCheck',
+		url : '../../qualitycheck/insertQualityCheck',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -393,6 +399,10 @@ xh.upload = function(index) {
 		path = 'filePath2';
 		note = 'uploadResult2';
 	}
+	if (index == 3) {
+		path = 'filePath3';
+		note = 'uploadResult3';
+	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
@@ -437,7 +447,9 @@ xh.download=function(){
 		else if(checked == 3 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		
+		else if(checked == 5 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
+		}
 	}
 	console.log("filename=>" + fileName);
 	var downUrl = "../../net/download?fileName=" + fileName;

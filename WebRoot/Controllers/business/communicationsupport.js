@@ -91,6 +91,20 @@ xh.load = function() {
 			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
 	    };
+	    /*跳转到进度页面*/
+		$scope.toDownload = function (id) {
+			$scope.editData = $scope.data[id];
+			$scope.checkData=$scope.editData;
+			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
+			success(function(response){
+				$scope.progressData = response.items;
+				
+			});*/
+			$scope.progressData=$scope.editData;
+			if($scope.checkData.checked==16){
+				$("#download").modal('show');
+			}
+	    };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];

@@ -1,8 +1,8 @@
 package xh.mybatis.bean;
 
-/**
- * Created by Artorius on 28/09/2017.
- */
+import java.io.Serializable;
+import java.util.Date;
+
 public class OptimizeNetBean {
     
 
@@ -32,6 +32,24 @@ public class OptimizeNetBean {
     private String filePath2;
     private String fileName3;
     private String filePath3;
+    private int drop;
+    private String tel;
+
+    public int getDrop() {
+        return drop;
+    }
+
+    public void setDrop(int drop) {
+        this.drop = drop;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
 
     public String getFileName1() {
         return fileName1;

@@ -481,7 +481,6 @@ xh.upload = function(index) {
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
 	var fileName = null;
-	var checked = $scope.checkData.checked;
 	if(checked!= -1){
 		if(checked == 2 && $scope.checkData.fileName_Request !=null){
 			fileName = $scope.checkData.fileName_Request;
@@ -490,8 +489,8 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName_Finish;
 		}
 	}
-	console.log("filename=>" + fileName);
-	var downUrl = "../../net/download?fileName=" + fileName;
+	console.log("filename=>" + filename);
+	var downUrl = "../../net/download?fileName=" + fileName + "&type=" + type;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
