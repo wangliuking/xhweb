@@ -259,6 +259,7 @@ xh.add = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 			} else {
@@ -350,6 +351,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -395,6 +397,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

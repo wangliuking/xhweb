@@ -67,7 +67,7 @@
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button"
-					class="btn btn-success btn-sm" id="check_btn1">
+					class="btn btn-success btn-sm" id="check_btn1" on>
 					<i class="fa fa-plus"></i>&nbsp;提交意见
 				</button>
 			</div>
@@ -97,7 +97,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>故障处理报告</label>&nbsp;<span class="text-danger">[*]</span> 
+								<label>故障请求信息</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath_Request" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
@@ -405,15 +405,15 @@
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
 	});
-	$("#check_btn2").click(function() {
-		$('#checkForm2').submit();
-	});
+	// $("#check_btn2").click(function() {
+	// 	$('#checkForm2').submit();
+	// });
 	$("#check_btn3").click(function() {
 		$('#checkForm3').submit();
 	});
-	$("#check_btn4").click(function() {
-		$('#checkForm4').submit();
-	});
+	// $("#check_btn4").click(function() {
+	// 	$('#checkForm4').submit();
+	// });
 	$("#check_btn5").click(function() {
 		$('#checkForm5').submit();
 	});
@@ -428,6 +428,28 @@
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
+	$("#check_btn2").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#addForm2').submit();
+	});
+	$("#check_btn4").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#addForm2').submit();
+	});
 	//管理方审核提交
 	$('#checkForm1').bootstrapValidator({
 		excluded : [ ':disabled' ],
