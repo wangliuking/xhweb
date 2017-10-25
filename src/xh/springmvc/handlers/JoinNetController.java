@@ -118,7 +118,6 @@ public class JoinNetController {
 		int shoubanNum = 0;
 		int chezaitaiNum = 0;
 		String jsonData = request.getParameter("formData");
-		
 		JoinNetBean bean = GsonUtil.json2Object(jsonData, JoinNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setNetTime(funUtil.nowDate());
@@ -132,14 +131,15 @@ public class JoinNetController {
 			log.info("data有线==>" + bean.toString());
 			rst = JoinNetService.insertNet(bean);
 			bean.setApply2(0);
+			bean.setApply0(shoubanNum);
+			bean.setApply1(chezaitaiNum);
 		}
-		
-		bean.setApply0(shoubanNum);
-		bean.setApply1(chezaitaiNum);
-		bean.setServiceType("无线接入");
-		bean.setChecked(0);
-		rst += JoinNetService.insertNet(bean); 
-		log.info(rst + "data无线==>" + bean.toString());
+		if(bean.getApply0() != 0 && bean.getApply0() !=0){
+			bean.setServiceType("无线接入");
+			bean.setChecked(0);
+			rst += JoinNetService.insertNet(bean); 
+			log.info(rst + "data无线==>" + bean.toString());
+		}
 		if (rst >= 1) {
 			this.message = "入网申请信息已经成功提交";
 			if(rst == 2) {

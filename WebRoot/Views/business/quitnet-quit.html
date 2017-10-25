@@ -11,22 +11,21 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
-					<div class="row">
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>用户单位名称</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="quitName"
 									required="required">
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>退网时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="quitTime"
 									required="required" onfocus="WdatePicker()">
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>退网形式</label>&nbsp;<span class="text-danger">[*]</span> <select
 									name="quitType" class="form-control">
@@ -34,8 +33,10 @@
 									<option value="部分终端退网">部分终端退网</option>
 								</select>
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>退网类型</label>&nbsp;<span class="text-danger">[*]</span> <select
 									name="quitModal" class="form-control">
@@ -44,51 +45,37 @@
 								</select>
 							</div>
 						</div>
-					</div>
-					<!-- row-------end -->
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>退网原因</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="quitReason"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>退网终端号码</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="quitNumber"
 									required="required">
 									<option id="add" type="checkbox" ng-model="quitNumber">{{quitNumber.id}}</option>		
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="quitPerson"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
+						<div class="col-md-4">
+							<div class="form-group col-md-9">
 								<label>联系电话</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="tel"
 									required="required">
 							</div>
 						</div>
-					
-					<!--row-------end -->
+					</div>
 					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>退网申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="user_MainManager" ng-model="user_M">
-									<option ng-repeat="x in userData_MainManager"
-										value="{{x.user}}">{{x.userName}}</option>
-								</select>
+						<div class="col-md-6">
+							<div class="form-group col-md-6">
+								<label>退网原因</label>&nbsp;<span class="text-danger">[*]</span> <textarea
+									style="width:300px;height:100px;max-width:300px;max-height:100px;"
+									name="quitReason" id="content" class="form-control" required="required" maxlength="70"></textarea>
 							</div>
 						</div>
-					</div>
 					</div>
 					<!--row-------end -->
 				</form>

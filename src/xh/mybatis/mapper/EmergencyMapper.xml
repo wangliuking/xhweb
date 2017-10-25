@@ -10,7 +10,10 @@
     <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
     >
         select u.*
-        from xhgmnet_bs_emergency as u where 1=1
+        ,b.unit as unit1
+		,b.unitType as initType1
+		,b.userType as userType1
+        from xhgmnet_bs_emergency as u LEFT JOIN xhgmnet_web_user as b on u.userName=b.user where 1=1
         <choose>
             <when test="roleId &gt;10003 || roleId &lt;10000">
                 and u.userName=#{user}
@@ -42,8 +45,8 @@
     <insert id="insertEmergency" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.EmergencyBean">
         insert into
-        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked)
-        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked})
+        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked,note)
+        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked},#{note})
     </insert>
 
     <!--服务提供方审核 -->
