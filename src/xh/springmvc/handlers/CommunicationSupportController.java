@@ -560,11 +560,7 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 9 ){
-			bean.setChecked(9);
-		}else if(checked == 7) {
-			bean.setChecked(7);
-		}
+		bean.setChecked(9);
 		bean.setTime5(funUtil.nowDate());
 		bean.setNote5(note5);
 		int rst = CommunicationSupportService.checkedNine(bean);

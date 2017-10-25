@@ -19,14 +19,21 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>用户单位</label><input type="text" ng-model="editData.userNature"
+									<label>联系单位</label><input type="text" ng-model="editData.unit1"
 										class="form-control" name="userNature" required="required">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>单位联系人</label> <input type="text"
+									<label>联系人</label> <input type="text"
 										ng-model="editData.userUnit" class="form-control" name="userUnit"
+										required="required">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>联系人</label> <input type="text"
+										ng-model="editData.tel" class="form-control" name="tel"
 										required="required">
 								</div>
 							</div>
@@ -41,8 +48,15 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>请求内容</label> <input type="text"
+									<label>业务变更需求</label> <input type="text"
 										ng-model="editData.request" class="form-control"
+										name="request" required="required">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>变更原因</label> <input type="text"
+										ng-model="editData.reason" class="form-control"
 										name="request" required="required">
 								</div>
 							</div>
@@ -55,7 +69,7 @@
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
-									<h2>用户提交遥控请求信息</h2>
+									<h2>用户提交变更请求信息</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.request}}</span>
 									</p>
@@ -104,10 +118,12 @@
 									<p>
 										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
-									<span ng-if="progressData.checked<=1"
+									<span ng-if="progressData.checked==1"
+										class="cd-date text-danger">请管理方重新处理！</span>
+									<span ng-if="progressData.checked==2"
 										class="cd-date text-danger">等待管理方处理请求！</span> <span
 										ng-if="progressData.checked>1"
-										class="cd-date text-success font-bold"> 已通知服务提供方处理请求
+										class="cd-date text-success font-bold"> 管理方处理请求中
 										时间：{{progressData.time2}}</span>
 								</div>
 							</div>
@@ -118,12 +134,10 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>2"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方处理遥控请求成功，等待用户确认</h2>
+									<h2>管理方处理请求成功，等待用户确认</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note3}}</span>
 									</p>
-									<span ng-if="progressData.checked<2"
-										class="cd-date text-danger">用户拒绝通过！</span>
 									<span ng-if="progressData.checked==2"
 										class="cd-date text-danger">等待用户确认！</span> <span
 										ng-if="progressData.checked>2"
