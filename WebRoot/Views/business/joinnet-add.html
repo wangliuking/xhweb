@@ -162,11 +162,46 @@
 						<div class="col-md-12" style="padding: 0 40px 0 40px;" id="terminalType">
 							<fieldset class="form-group">
 								<legend>终端类型
-			                        <a href="" ng-click="terminal.incrApply(index_apply)" style="float:right">
+			                        <!-- <a href="" ng-click="terminal.incrApply(index_apply)" style="float:right">
 			                            <i class="fa fa-plus"></i>增加
-			                        </a>
+			                        </a> -->
 			                    </legend>
-								<div class="col-md-12">
+			                        <label for="shouban"><input type="checkbox" id="shouban" ng-model="isChecked1"/>手办</label>
+			                        <label for="chezaitai"><input type="checkbox" id="chezaitai" ng-model="isChecked2"/>车载台</label>
+			                        <label for="diaodutai"><input type="checkbox" id="diaodutai" ng-model="isChecked3"/>调度台</label>
+			                    <div class="form-group col-md-12">
+								    <div class="col-md-4" ng-if="isChecked1" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="sb" >手办</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply0" required="required">
+										 	</div>
+									 	</div>
+									</div>
+								    <div class="col-md-4" ng-if="isChecked2" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="cz" >车载台</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply1" required="required">
+										 	</div>
+										 </div>
+									</div>
+								    <div class="col-md-4" ng-if="isChecked3" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="dd" >调度台</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply2" required="required" >
+										 	</div>
+										 </div>
+									</div>
+								</div>
+								<!-- <div class="col-md-12">
 							        <div ng-repeat="apply in terminal.terminalsApply">
 							            <div class="form-group">
 							                <div class="col-md-12">
@@ -187,7 +222,7 @@
 							                </div>
 							            </div>
 							        </div>
-								</div>
+								</div> -->
 							</fieldset>
 						</div>
 					</div>

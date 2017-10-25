@@ -128,9 +128,9 @@
 										<td ng-if="x.checked==2 && x.serviceType=='无线接入'" class="td-danger">等待经办人提交编组方案</td>
 										<td ng-if="x.checked==3 && x.serviceType=='无线接入'" class="td-danger">正在审核编组方案</td>
 										<td ng-if="x.checked==4 && x.serviceType=='无线接入'" class="td-danger">请用户确认编组方案</td>
-										<td ng-if="x.checked==5 && x.serviceType=='无线接入'" class="td-danger">请用户发送合同附件</td>
-										<td ng-if="x.checked==6 && x.serviceType=='无线接入'" class="td-danger">用户合同已上传，请经办人审核</td>
-										<td ng-if="x.checked==7 && x.serviceType=='无线接入'" class="td-danger">等待用户上传采购设备信息（请先将入网样机送至软件中心测试）</td>
+										<!-- <td ng-if="x.checked==5 && x.serviceType=='无线接入'" class="td-danger">请用户发送合同附件</td> -->
+										<td ng-if="x.checked==6 && x.serviceType=='无线接入'" class="td-danger">请经办人处理（请用户先将入网样机送至软件中心测试）</td>
+										<td ng-if="x.checked==7 && x.serviceType=='无线接入'" class="td-danger">等待用户上传采购设备信息</td>
 										<td ng-if="x.checked==8 && x.serviceType=='无线接入'" class="td-danger">用户已上传采购设备信息，等待管理方交付终端</td>
 										<td ng-if="x.checked==9 && x.serviceType=='无线接入'" class="td-danger">管理方已交付终端，等待用户确认</td>
 										<td ng-if="x.checked==10 && x.serviceType=='无线接入'" class="td-danger">终端已交付，等待培训</td>
@@ -145,7 +145,7 @@
 										<td ng-if="x.checked==2 && x.serviceType=='有线接入'" class="td-danger">管理方已上报评估意见，等待主管部门审核</td>
 										<td ng-if="x.checked==3 && x.serviceType=='有线接入'" class="td-danger">主管部门审核通过，请管理方上传资源配置方案</td>
 										<td ng-if="x.checked==4 && x.serviceType=='有线接入'" class="td-danger">等待管理方内审资源配置方案</td>
-										<td ng-if="x.checked==5 && x.serviceType=='有线接入'" class="td-danger">等待用户审核资源配置方案</td>
+										<td ng-if="x.checked==5 && x.serviceType=='有线接入'" class="td-danger">等待用户确认资源配置方案</td>
 										<td ng-if="x.checked==6 && x.serviceType=='有线接入'" class="td-danger">等待用户上传（签署协议）</td>
 										<td ng-if="x.checked==7 && x.serviceType=='有线接入'" class="td-danger">等待管理方通知</td>
 										<td ng-if="x.checked==8 && x.serviceType=='有线接入'" class="td-danger">应用接入中，请等待</td>
@@ -187,17 +187,17 @@
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a>
 										<!-- 上传样机入网送检申请（合同附件） -->
-										<a ng-if="loginUser==x.userName && (x.checked==5 || x.checked==-3) && x.serviceType=='无线接入'"
+										<!-- <a ng-if="loginUser==x.userName && (x.checked==5 || x.checked==-3) && x.serviceType=='无线接入'"
 										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-upload text-danger"></i>&nbsp;上传样机入网送检申请（合同附件）</a>	
+												class="fa fa-upload text-danger"></i>&nbsp;上传样机入网送检申请（合同附件）</a> -->	
 										<!-- 查看样机入网送检申请（合同附件） -->
-										<a ng-if="loginUser==x.userName && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
+										<!-- <a ng-if="loginUser==x.userName && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
 										href="#" ng-click="download($index,4)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;查看样机入网送检申请（合同附件）</a>
+												class="fa fa-download text-danger"></i>&nbsp;查看样机入网送检申请（合同附件）</a> -->
 										<!-- 审核样机入网送检申请（合同附件） -->
 										<a ng-if="loginUser==x.user3 && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
 										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;审核样机入网送检申请（合同附件）</a>		
+												class="fa fa-download text-danger"></i>&nbsp;办理样机入网送检申请（合同附件）</a>		
 
 										<!-- 上传采购设备信息 -->
 										<a ng-if="loginUser==x.userName && x.checked==7 && x.serviceType=='无线接入'"
@@ -271,7 +271,7 @@
 										<!-- 用户审核资源配置技术方案 -->
 										<a ng-if="loginUser==x.userName && x.checked==5 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,6)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;用户审核资源配置技术方案</a>
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;用户确认资源配置技术方案</a>
 										<!-- 用户审核资源配置技术方案 -->
 										<!-- <a ng-if="loginUser==x.userName && x.checked==6 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,7)">| <i

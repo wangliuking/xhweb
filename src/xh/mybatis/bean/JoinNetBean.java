@@ -390,21 +390,21 @@ public class JoinNetBean {
 	}
 	@Override
 	public String toString() {
-		return "JoinNetBean [id=" + id + ", unitName=" + unitName
-				+ ", unitNature=" + unitNature + ", unitType=" + unitType
-				+ ", netBasis=" + netBasis + ", netTime=" + netTime
-				+ ", pactName=" + pactName + ", signTime=" + signTime
-				+ ", serviceType=" + serviceType + ", serviceTime="
-				+ serviceTime + ", unitPerson=" + unitPerson + ", tel=" + tel
-				+ ", department=" + department + ", softPerson=" + softPerson
-				+ ", virtualnetName=" + virtualnetName + ", checked=" + checked
-				+ ", result=" + result + ", userName=" + userName + ", time="
-				+ time + ", user1=" + user1 + ", user2=" + user2 + ", user3="
-				+ user3 + ", user4=" + user4 + ", time1=" + time1 + ", time2="
-				+ time2 + ", time3=" + time3 + ", time4=" + time4 + ", time5="
-				+ time5 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
-				+ note3 + ", note4=" + note4 + ", fileName=" + fileName
-				+ ", filePath=" + filePath + "]";
+		return "JoinNetBean [id=" + id + ", unitName=" + unitName + ", unitNature=" + unitNature + ", unitType="
+				+ unitType + ", netBasis=" + netBasis + ", netTime=" + netTime + ", pactName=" + pactName
+				+ ", signTime=" + signTime + ", serviceType=" + serviceType + ", serviceTime=" + serviceTime
+				+ ", unitPerson=" + unitPerson + ", tel=" + tel + ", department=" + department + ", softPerson="
+				+ softPerson + ", virtualnetName=" + virtualnetName + ", checked=" + checked + ", result=" + result
+				+ ", userName=" + userName + ", time=" + time + ", user1=" + user1 + ", user2=" + user2 + ", user3="
+				+ user3 + ", user4=" + user4 + ", time1=" + time1 + ", time2=" + time2 + ", time3=" + time3 + ", time4="
+				+ time4 + ", time5=" + time5 + ", time6=" + time6 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
+				+ note3 + ", note4=" + note4 + ", note5=" + note5 + ", note6=" + note6 + ", fileName=" + fileName
+				+ ", filePath=" + filePath + ", fileNameGH=" + fileNameGH + ", filePathGH=" + filePathGH
+				+ ", fileNameNote=" + fileNameNote + ", filePathNote=" + filePathNote + ", fileNameDoc=" + fileNameDoc
+				+ ", filePathDoc=" + filePathDoc + ", fileNameHT=" + fileNameHT + ", filePathHT=" + filePathHT
+				+ ", fileNameCG=" + fileNameCG + ", filePathCG=" + filePathCG + ", talkGroupNum=" + talkGroupNum
+				+ ", talkRequirment=" + talkRequirment + ", apply0=" + apply0 + ", apply1=" + apply1 + ", apply2="
+				+ apply2 + ", note2_suggest=" + note2_suggest + ", user_MainManager=" + user_MainManager + "]";
 	}
 	
 	
