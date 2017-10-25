@@ -259,7 +259,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+								<label>管理方意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
 									<option value="5" selected="selected">通过</option>
 									<option value="3">拒绝</option>
@@ -489,7 +489,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -499,7 +499,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -608,7 +608,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+								<label>管理方意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
 									<option value="11" selected="selected">通过</option>
 									<option value="9">拒绝</option>
@@ -724,8 +724,8 @@
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="13" selected="selected">通过</option>
-									<option value="11">拒绝</option>
+									<option value="13" selected="selected">同意</option>
+									<option value="11">不同意</option>
 								</select>
 							</div>
 						</div>
@@ -906,123 +906,6 @@
 				</button>
 				<button type="button" ng-disabled="form.$invalid"
 					class="btn btn-success btn-sm" id="check_btn16">
-					<i class="fa fa-plus"></i>&nbsp;提交
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="checkWin17" tabindex="-1" role="dialog"
-	aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="color-line"></div>
-			<div class="modal-header ">
-			</div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="checkForm17" onSubmit="return false" enctype="multipart/form-data" method="POST">
-					<div class="row" ng-show="false">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="id"
-									required="required" ng-model="checkData.id">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<p>
-    <span style=";font-family:宋体;font-size:14px">&nbsp;</span>
-</p>
-<table width="649">
-    <tbody>
-        <tr style="height:63px" class="firstRow">
-            <td width="75" valign="center" style="padding: 0px 7px; border-width: 1px; border-color: windowtext;">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">受理用户</span></strong><strong><span style="font-family: 宋体;font-size: 12px">通信保障</span></strong><strong><span style="font-family: 宋体;font-size: 12px">时间</span></strong>
-                </p>
-            </td>
-            <td width="109" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <input name="supportTime" ng-model="editData.supportTime" class="form-control" type="text" required="required" value="{macros}" title="supportTime" leipiplugins="macros" orgtype="sys_datetime" orghide="0" orgwidth="80" style="width: 80px;"/>
-            </td>
-            <td width="56" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">受理人</span></strong>
-                </p>
-            </td>
-            <td width="72" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <input name="user" type="text" title="user" ng-model="editData.user" class="form-control" required="required" eipiplugins="text" orghide="0" orgalign="left" orgwidth="60" orgtype="text" style="text-align: left; width: 60px;" orgfontsize="" orgheight=""/>
-            </td>
-            <td width="63" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">用户单位</span></strong>
-                </p>
-            </td>
-            <td width="76" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <input name="unit" type="text" title="unit" ng-model="editData.unit" class="form-control" required="required" leipiplugins="text" orghide="0" orgalign="left" orgwidth="80" orgtype="text" style="text-align: left; width: 80px;"/>
-            </td>
-            <td width="106" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">&nbsp;单位联系人</span></strong>
-                </p>
-            </td>
-            <td width="91" valign="center" style="padding: 0px 7px; border-width: 1px 1px 1px 43px; border-left-style: none; border-color: windowtext windowtext windowtext rgb(255, 255, 255);">
-                <input name="person" type="text" title="person" ng-model="editData.person" class="form-control" required="required" leipiplugins="text" orghide="0" orgalign="left" orgwidth="80" orgtype="text" style="text-align: left; width: 80px;"/>
-            </td>
-        </tr>
-        <tr style="height:21px">
-            <td width="75" valign="center" rowspan="3" style="padding: 0px 7px; border-left-width: 1px; border-left-color: windowtext; border-right-width: 1px; border-right-color: windowtext;">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">保障需求</span></strong>
-                </p>
-            </td>
-            <td width="574" valign="center" colspan="7" rowspan="3" style="padding: 0px 7px; border-left: none; border-right-width: 1px; border-right-color: rgb(0, 0, 0);">
-                <input name="need" type="text" title="need" ng-model="editData.need" class="form-control" required="required" leipiplugins="text" orghide="0" orgalign="left" orgwidth="600" orgheight="60" orgtype="text" style="text-align: left; width: 600px; height: 60px;" orgfontsize=""/>
-            </td>
-        </tr>
-        <tr style="height:21px"></tr>
-        <tr style="height:21px"></tr>
-        <tr style="height:67px">
-            <td width="75" valign="center" style="padding: 0px 7px; border-width: 43px 1px 1px; border-color: rgb(255, 255, 255) windowtext windowtext; border-top-style: none;">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">保障事由</span></strong>
-                </p>
-            </td>
-            <td width="574" valign="center" colspan="7" style="padding: 0px 7px; border-left: 43px none rgb(255, 255, 255); border-right-width: 1px; border-right-color: rgb(0, 0, 0); border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
-                <input name="reason" type="text" title="reason" ng-model="editData.reason" class="form-control" required="required" leipiplugins="text" orghide="0" orgalign="left" orgwidth="600" orgheight="60" orgtype="text" style="text-align: left; width: 600px; height: 60px;"/>
-            </td>
-        </tr>
-        <tr style="height:78px">
-            <td width="75" valign="center" style="padding: 0px 7px; border-width: 43px 1px 1px; border-color: rgb(255, 255, 255) windowtext windowtext; border-top-style: none;">
-                <p>
-                    <strong><span style="font-family: 宋体;font-size: 12px">用户评价</span></strong>
-                </p>
-            </td>
-            <td width="574" valign="center" colspan="7" style="padding: 0px 7px; border-left: 43px none rgb(255, 255, 255); border-right-width: 1px; border-right-color: rgb(0, 0, 0); border-top: none; border-bottom-width: 1px; border-bottom-color: windowtext;">
-                <input name="note" type="text" title="note" ng-model="editData.note" class="form-control" required="required" leipiplugins="text" orghide="0" orgalign="left" orgwidth="600" orgheight="60" orgtype="text" style="text-align: left; width: 600px; height: 60px;"/>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<p>
-    <br/>
-</p>
-							</div>
-						</div>
-					</div>
-					<!-- row-------end -->
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger btn-sm"
-					data-dismiss="modal">
-					<i class="fa fa-remove"></i>&nbsp;关闭
-				</button>
-				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="check_btn1">
 					<i class="fa fa-plus"></i>&nbsp;提交
 				</button>
 			</div>
