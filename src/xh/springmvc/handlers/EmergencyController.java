@@ -283,7 +283,7 @@ public class EmergencyController {
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);
-        int rst = EmergencyService.checkedFive(bean);
+        int rst = EmergencyService.checkedThree(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -332,8 +332,9 @@ public class EmergencyController {
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
         System.out.println("方案审核消息:" + fileName);
+        System.out.println("id是:" + id);
 
-        int rst = EmergencyService.checkedTwo(bean);
+        int rst = EmergencyService.checkedFour(bean);
         if (rst == 1) {
             this.message = "上传方案审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -433,7 +434,7 @@ public class EmergencyController {
         bean.setFilePath3(filePath);
         System.out.println("总结审核消息请求:" + fileName);
 
-        int rst = EmergencyService.checkedTwo(bean);
+        int rst = EmergencyService.checkedSix(bean);
         if (rst == 1) {
             this.message = "上传总结审核消息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -484,7 +485,7 @@ public class EmergencyController {
         bean.setUser4(funUtil.loginUser(request));
         bean.setTime4(funUtil.nowDate());
         bean.setNote4(note4);
-        int rst = EmergencyService.checkedFive(bean);
+        int rst = EmergencyService.checkedSeven(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));

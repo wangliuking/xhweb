@@ -25,16 +25,29 @@
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+<!-- 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>抽查请求时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="requestTime"
 									required="required" onfocus="WdatePicker()">
 							</div>
+						</div> -->
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>抽检计划</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
+							</div>	
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName" /> 
+							    <input type="hidden" name="path"  /> 
+								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult1" style="color:red"></span>
+							</div>	
 						</div>
 					</div>
-					<!-- row-------end -->
-
 <!-- 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
@@ -48,7 +61,7 @@
 					</div> -->
 				</form>
 					
- 				<form action="#" id="" onSubmit="return false"
+<!--  				<form action="#" id="" onSubmit="return false"
 					enctype="multipart/form-data" method="POST">
 					<div class="row">
 						<div class="col-md-8">
@@ -67,7 +80,7 @@
 							</div>
 						</div>
 					</div>
-				</form> 
+				</form>  -->
 				
 			</div>
 			<div class="modal-footer">
@@ -85,43 +98,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$("#uploadfile").click(function() {
-	if ($('#pathName').val() == "") {
-		alert("请选择需要上传的文件！");
-		return false;
-	}
-	$('#listenerIO').attr("value", "1");
-	$.ajaxFileUpload({
-		url : '../../quality/upload', //用于文件上传的服务器端请求地址
-		secureuri : false, //是否需要安全协议，一般设置为false
-		fileElementId : 'pathName', //文件上传域的ID
-		dataType : 'HTML', //返回值类型 一般设置为json
-		success : function(data, status) //服务器成功响应处理函数
-		{
-			if (data == "0") {
-				alert("已存在同名文件，请重新操作！");
-			} else{
-				//进行添加操作之前，获取另一个表单的部分信息
-				$('#filepath').val(data);
-				$('#listener').attr("value", "1");
-				$('#listenerIO').attr("value", "");
-				alert("上传成功！");
-			}
-		},
-		error : function(data, status, e)//服务器响应失败处理函数
-		{
-			alert(e);
-		}
-	});
-});
 	$("#add_btn").click(function() {
-		if($('#pathName').val()!="" && $('#listener').val()==""){
-			alert("请点击上传按钮进行上传！");
-			return false;
-		}else if($('#pathName').val()!="" && $('#listenerIO').val()=="1"){
-			alert("请等待上传完成！");
-			return false;
-		}	
 		$('#addForm').submit();
 	});
 	var faIcon = {
@@ -132,7 +109,23 @@
 	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
-		fields : {}
+		fields : {
+			applicant : {
+				validators : {
+					notEmpty : {
+						message : '联系人不能为空'
+					}
+				}
+			},
+			tel : {
+				validators : {
+					notEmpty : {
+						message : '联系方式不能为空'
+					}
+				}
+			}
+
+		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.add();

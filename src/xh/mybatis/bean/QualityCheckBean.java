@@ -252,7 +252,7 @@ public class QualityCheckBean {
 	public String toString() {
 		return "QualityCheckBean [id=" + id + ", checked=" + checked + ", userName=" + userName
 				+ ", applicant=" + applicant + ", tel=" + tel
-				+ ", requestTime=" + requestTime + ", user1=" + user1 +", user2=" + user2 +", user3=" + user3 +", user4=" + user4 + ", note1=" + note1 +", note2=" + note2 +", note3=" + note3 +", note4=" + note4 + ", time1="
+				+ ", requestTime=" + requestTime + ", user1=" + user1 +", user2=" + user2 +", user3=" + user3 +", user4=" + user4 + ", flieName1=" + fileName1 +", fliePath1=" + filePath1 +", note3=" + note3 +", note4=" + note4 + ", time1="
 				+ time1 +", time2="+ time2 +", time3="+ time3 +", time4="+ time4 + ", user_MainManager=" + user_MainManager + "]";
 	}
 }
