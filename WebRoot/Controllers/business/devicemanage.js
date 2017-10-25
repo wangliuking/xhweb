@@ -1,5 +1,5 @@
 /**
- * 资产管理
+ * 工单管理
  */
 if (!("xh" in window)) {
 	window.xh = {};
@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10003").
+			$http.get("../../web/user/getUserList?roleId=10002").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;

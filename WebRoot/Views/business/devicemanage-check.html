@@ -1,5 +1,4 @@
-<!-- 管理方根据故障类型判定是否需要服务提供方（亚光）处理，故障类型是否为网络故障：
-       是网络故障，则想服务提供方发送处理故障的请求消息（该请求消息应包含上传附件的功能）； -->
+<!-- 管理方审核用户申请 -->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -24,7 +23,7 @@
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="1" selected="selected">审核通过</option>
+									<option value="1" selected="selected">通过</option>
 									<option value="-1">拒绝</option>
 								</select>
 							</div>
@@ -55,7 +54,7 @@
 	</div>
 </div>
 
-<!-- 管理方上传故障请求信息  -->
+<!-- 管理方核实处理 -->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -71,6 +70,17 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>核实意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="2" selected="selected">通过</option>
+									<option value="1">拒绝</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -98,7 +108,7 @@
 	</div>
 </div>
 
-<!-- 用户回访 -->
+<!-- 用户确认 -->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -115,20 +125,19 @@
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
 							</div>
-							
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="3" selected="selected">确认</option>
-									<option value="1">拒绝</option>
+									<option value="3" selected="selected">同意</option>
+									<option value="2">不同意</option>
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -169,7 +178,7 @@
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	//管理方审核提交
+	//
 	$('#checkForm1').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
@@ -179,7 +188,7 @@
 		e.preventDefault();
 		xh.check1();
 	});
-	//服务提供方处理
+
 	$('#checkForm2').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */

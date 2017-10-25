@@ -78,7 +78,7 @@ xh.load = function() {
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
-			var downUrl = "../../uploadFile/download?filePath="+path+"&fileName=" + name;
+			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
 			window.open(downUrl, '_self',
 					'width=1,height=1,toolbar=no,menubar=no,location=no');
 		};

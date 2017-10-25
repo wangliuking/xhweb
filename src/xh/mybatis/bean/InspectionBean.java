@@ -15,8 +15,16 @@ public class InspectionBean implements Serializable {
     private String uploadUser;
     
     private String createtime;
+    
+    private String user1;
     private String time1;
     private String note1;
+    
+    private String user2;
+    private String time2;
+    private String note2;
+    private String fileName2;
+    private String filePath2;
     
     
     public int getId() {
@@ -91,6 +99,44 @@ public class InspectionBean implements Serializable {
 	}
 	public void setNote1(String note1) {
 		this.note1 = note1;
+	}
+	
+	public String getUser1() {
+		return user1;
+	}
+	public void setUser1(String user1) {
+		this.user1 = user1;
+	}
+	public String getUser2() {
+		return user2;
+	}
+	public void setUser2(String user2) {
+		this.user2 = user2;
+	}
+	public String getTime2() {
+		return time2;
+	}
+	public void setTime2(String time2) {
+		this.time2 = time2;
+	}
+	public String getNote2() {
+		return note2;
+	}
+	public void setNote2(String note2) {
+		this.note2 = note2;
+	}
+	
+	public String getFileName2() {
+		return fileName2;
+	}
+	public void setFileName2(String fileName2) {
+		this.fileName2 = fileName2;
+	}
+	public String getFilePath2() {
+		return filePath2;
+	}
+	public void setFilePath2(String filePath2) {
+		this.filePath2 = filePath2;
 	}
 	@Override
 	public String toString() {
