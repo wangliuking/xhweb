@@ -13,55 +13,42 @@
 					
 					<div class="row">
 					<input type="hidden" name="fileName" value="" /> 
+					<input type="hidden" name="id" ng-model="checkData.id"/> 
 						<input type="hidden" name="filePath" value="" /> 
 						<input type="hidden" name="result" value="" />
 					</div>
-					<div class="row">
-
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" class="form-control" name="contact" required="required">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" class="form-control" name="tel" required="required">
-							</div>
-						</div>
-					</div>
+					
 
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>备注信息</label>
-								<textarea class="form-control" row="40" name="note"></textarea>
+								<textarea class="form-control" row="40" name="note2"></textarea>
 							</div>
 
 						</div>
 						
 					</div>
 				</form>
-				<form action="#" id="" onSubmit="return false"
+				<form action="#" id="upload2" onSubmit="return false"
 					enctype="multipart/form-data" method="POST">
 					<div class="row">
 						<div class="col-md-8">
 							<div class="form-group col-md-10" style="padding-right:0px;">
 
 								<label>上传抢修情况汇总文件</label>&nbsp;<span class="text-info">[*]</span> <input
-									class="form-control" type="file" id="pathName" name="pathName" />
+									class="form-control" type="file" id="pathName2" name="pathName2" />
 							</div>
 							<div class="form-group col-md-2" style="padding-left:0px;">
 								<button type="button" ng-disabled="form.$invalid"
 									class="btn btn-info btn-sm" style="margin-top:23px;"
-									id="uploadfile">
+									id="uploadfile2">
 									<i class="fa fa-plus-circle"></i>点击上传
 								</button>
 							</div>
 						</div>
 						<div class="col-md-4">
-							<span style="color:red" id="uploadResult"></span>
+							<span style="color:red" id="uploadResult2"></span>
 						</div>
 
 					</div>
@@ -69,8 +56,8 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" ng-disabled="form.$invalid"
-					class="btn btn-success btn-sm" id="add_btn">
-					<i class="fa fa-plus"></i>&nbsp;添加
+					class="btn btn-success btn-sm" id="upload_btn2">
+					<i class="fa fa-plus"></i>&nbsp;提交
 				</button>
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
@@ -83,48 +70,48 @@
 
 
 <script type="text/javascript">
-	$("#uploadfile").click(function() {
-		if ($('#pathName').val() == "") {
+	$("#uploadfile2").click(function() {
+		if ($('#pathName2').val() == "") {
 			alert("请选择需要上传的文件！");
 			return false;
 		}
-		$("input[name='result']").val(2);
-		$("#uploadfile").attr("disabled", true);
+		$("#checkForm2").find("input[name='result']").val(2);
+		$("#uploadfile2").attr("disabled", true);
 		xh.maskShow("正在上传文件，请耐心等待");
 		$.ajaxFileUpload({
-			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+			url : '../../inspection/uploadOne', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
-			fileElementId : 'pathName', //文件上传域的ID
+			fileElementId : 'pathName2', //文件上传域的ID
 			dataType : 'json', // 返回值类型 一般设置为json
 			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
 			{
-				$("#uploadfile").attr("disabled", false);
+				$("#uploadfile2").attr("disabled", false);
 				xh.maskHide();
 				if (data.success) {
-					$("input[name='result']").val(1);
-					$("input[name='fileName']").val(data.fileName);
-					$("input[name='filePath']").val(data.filePath);
-					$("#uploadResult").html("文件上传成功");
+					$("#checkForm2").find("input[name='result']").val(1);
+					$("#checkForm2").find("input[name='fileName']").val(data.fileName);
+					$("#checkForm2").find("input[name='filePath']").val(data.filePath);
+					$("#uploadResult2").html("文件上传成功");
 					toastr.success("文件上传成功", '提示');
 				} else {
-					$("input[name='result']").val(0);
+					$("#checkForm2").find("input[name='result']").val(0);
 					toastr.error("文件上传失败", '提示');
-					$("#uploadResult").html("文件上传失败");
+					$("#uploadResult2").html("文件上传失败");
 				}
 
 			},
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
 				alert(e);
-				$("#uploadfile").attr("disabled", false);
+				$("#uploadfile2").attr("disabled", false);
 				xh.maskHide();
 			}
 		});
 	});
 
-	$("#add_btn").click(function() {
-		if ($("input[name='result']").val() != 1) {
+	$("#upload_btn2").click(function() {
+		if ($("#checkForm2").find("input[name='result']").val() != 1) {
 			alert("请先上传文件！");
 			return false;
 		}
@@ -132,7 +119,7 @@
 			alert("请等待上传完成！");
 			return false;
 		} */
-		 $('#addForm').submit();
+		 $('#checkForm2').submit();
 	
 	});
 	var faIcon = {
@@ -140,7 +127,7 @@
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	$('#addForm').bootstrapValidator({
+	$('#checkForm2').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
@@ -148,6 +135,6 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.add();
+		xh.check2();
 	});
 </script>

@@ -252,6 +252,39 @@ xh.add = function() {
 		}
 	});
 };
+//通知巡检组
+xh.check2 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../inspection/check2',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			formData:xh.serializeJson($("#checkForm2").serializeArray()) //将表单序列化为JSON对象
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#add').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				$("input[name='result']").val("");
+            	$("input[name='fileName']").val("");
+            	$("input[name='filePath']").val("");
+            	$("#uploadResult").html("");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
