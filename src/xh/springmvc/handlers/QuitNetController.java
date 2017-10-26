@@ -52,6 +52,7 @@ public class QuitNetController {
 	private FunUtil funUtil = new FunUtil();
 	protected final Log log = LogFactory.getLog(QuitNetController.class);
 	private FlexJSON json = new FlexJSON();
+	private String unit;
 	/**
 	 * 查询所有流程
 	 * 
@@ -128,6 +129,7 @@ public class QuitNetController {
 		String jsonData = request.getParameter("formData");
 		QuitNetBean bean = GsonUtil.json2Object(jsonData, QuitNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
+		unit = funUtil.loginUser(request);
 		bean.setQuitTime(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
 
@@ -176,7 +178,6 @@ public class QuitNetController {
 		String note1 = request.getParameter("note1");
 		//String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
-		String userName = QuitNetService.selectUserName(id);
 		QuitNetBean bean = new QuitNetBean();
 		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
@@ -186,8 +187,9 @@ public class QuitNetController {
 			bean.setQuit(-1);
 		}
 		bean.setNote1(note1);
-		bean2.setUserName(userName);
+		bean2.setUserName(unit);
 		bean2.setChecked(99);
+		bean2.toString();
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
 		int rst = QuitNetService.checkedOne(bean);

@@ -45,8 +45,8 @@
     <insert id="insertDeviceManage" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.DeviceManageBean">
         insert into
-        xhgmnet_bs_devicemanage(usetUnit,tel,request,reason,time,userName)
-        values(#{usetUnit},#{tel},#{request},#{reason},#{time},#{userName})
+        xhgmnet_bs_devicemanage(userUnit,tel,request,reason,time,userName)
+        values(#{userUnit},#{tel},#{request},#{reason},#{time},#{userName})
     </insert>
     <!-- -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.DeviceManageBean">
