@@ -355,7 +355,6 @@ xh.check4 = function() {
 		async : true,
 		data:$("#checkForm4").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
 				$("input[name='result']").val(1);
@@ -482,6 +481,7 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
+	var checked = $scope.checkData.checked;
 	var fileName = null;
 	if(checked!= -1){
 		if(checked == 2 && $scope.checkData.fileName_Request !=null){
@@ -491,8 +491,8 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName_Finish;
 		}
 	}
-	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + fileName + "&type=" + type;
+	console.log("filename=>" + fileName);
+	var downUrl = "../../net/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

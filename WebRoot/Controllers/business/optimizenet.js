@@ -486,14 +486,14 @@ xh.download=function(){
 		if(checked == 0 && $scope.checkData.fileName1!=null){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 1 && $scope.checkData.fileName2!=null){
+		else if(checked == 2 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 3 && $scope.checkData.fileName3!=null){
+		else if(checked == 4 && $scope.checkData.fileName3!=null){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + filename);
+	console.log("filename=>" + fileName);
 	var downUrl = "../../optimizenet/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
