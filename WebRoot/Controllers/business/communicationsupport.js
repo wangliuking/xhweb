@@ -564,13 +564,12 @@ xh.check10 = function() {
 /*管理方接受消息*/
 xh.check11 = function() {
 	$.ajax({
-		url : '../../support/checkedEvelen',
+		url : '../../support/checkedEleven',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm11").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin11').modal('hide');
 				xh.refresh();

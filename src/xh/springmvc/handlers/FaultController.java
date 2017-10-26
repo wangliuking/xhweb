@@ -468,10 +468,10 @@ public class FaultController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("上传故障请求，data=" + bean.toString());
+			webLogBean.setContent("上传故障请求信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 		} else {
-			this.message = "上传故障请求失败";
+			this.message = "上传故障请求信息失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -504,7 +504,7 @@ public class FaultController {
 		bean.setChecked(4);
 		bean.setFileName_Finish(fileName);
 		bean.setFilePath_Finish(path);
-		System.out.println("保存故障完成:" + fileName);
+		System.out.println("上传故障完成信息:" + fileName);
 
 		int rst = FaultService.checkedFour(bean);
 		if (rst == 1) {
@@ -512,10 +512,10 @@ public class FaultController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("上传故障完成，data=" + bean.toString());
+			webLogBean.setContent("上传故障完成信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 		} else {
-			this.message = "上传故障完成失败";
+			this.message = "上传故障完成信息失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
