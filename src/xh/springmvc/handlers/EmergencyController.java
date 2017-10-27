@@ -169,7 +169,7 @@ public class EmergencyController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note1 = request.getParameter("note1");
+        String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
@@ -181,7 +181,7 @@ public class EmergencyController {
 
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
-        bean.setNote1(note1);
+        bean.setNote2(note2);
         int rst = EmergencyService.checkedOne(bean);
         if (rst == 1) {
             this.message = "审核提交成功";
@@ -269,7 +269,7 @@ public class EmergencyController {
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String note2 = request.getParameter("note2");
+        String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         EmergencyBean bean = new EmergencyBean();
@@ -282,7 +282,7 @@ public class EmergencyController {
         }
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
-        bean.setNote2(note2);
+        bean.setNote3(note3);
         int rst = EmergencyService.checkedThree(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
@@ -326,24 +326,27 @@ public class EmergencyController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
+        String note3 = request.getParameter("note3");
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(4);
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
-        System.out.println("方案审核消息:" + fileName);
+        bean.setNote3(note3);
+        bean.setTime3(funUtil.nowDate());
+        System.out.println("方案报告消息:" + fileName);
         System.out.println("id是:" + id);
 
         int rst = EmergencyService.checkedFour(bean);
         if (rst == 1) {
-            this.message = "上传方案审核消息成功";
+            this.message = "上传演练报告成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传方案审核消息，data=" + bean.toString());
+            webLogBean.setContent("上传演练报告，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
         } else {
-            this.message = "上传方案审核消息失败";
+            this.message = "上传演练报告失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -370,9 +373,10 @@ public class EmergencyController {
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String note3 = request.getParameter("note3");
+        //String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
+        int level = funUtil.StringToInt(request.getParameter("level"));
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         if(checked == 5){
@@ -382,8 +386,8 @@ public class EmergencyController {
 
         }
         bean.setUser3(funUtil.loginUser(request));
-        bean.setTime3(funUtil.nowDate());
-        bean.setNote3(note3);
+        bean.setTime4(funUtil.nowDate());
+        bean.setLevel(level);
         int rst = EmergencyService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理方案审核消息成功";
