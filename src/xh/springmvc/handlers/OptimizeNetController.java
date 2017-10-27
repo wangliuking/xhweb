@@ -122,20 +122,20 @@ public class OptimizeNetController {
     public void insertOptimizeNet(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
-        //String jsonData = request.getParameter("formData");
-//        String note1 = request.getParameter("note1");
-//        String userUnit = request.getParameter("userUnit");
+        String userUnit = request.getParameter("userUnit");
+        String note1 = request.getParameter("note1");
+        String tel = request.getParameter("tel");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        String userUnit = request.getParameter("userUnit");
-        String tel = request.getParameter("tel");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setUserUnit(userUnit);
         bean.setTel(tel);
-        bean.setUserName(funUtil.loginUser(request));
-        bean.setRequestTime(funUtil.nowDate());
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
+        bean.setNote1(note1);
+        bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(funUtil.nowDate());
+
 //        bean.setNote1(note1);
 //        bean.setUserUnit(userUnit);
         log.info("data==>" + bean.toString());

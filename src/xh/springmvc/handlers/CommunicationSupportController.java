@@ -177,7 +177,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核，请管理部门领导审核并移交经办人，上传。。。", request);
+			sendNotify(user, "保障申请信息审核，请管理部门领导审核并移交经办人。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -219,11 +219,11 @@ public class CommunicationSupportController {
 		bean.setChecked(2);
 		int rst = CommunicationSupportService.checkedTwo(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障需求确认消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知用户处理(保障需求确认消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
@@ -315,11 +315,11 @@ public class CommunicationSupportController {
 		bean.setChecked(4);
 		int rst = CommunicationSupportService.checkedFour(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障类型发送消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障类型发送消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
@@ -416,18 +416,18 @@ public class CommunicationSupportController {
 		bean.setChecked(6);
 		int rst = CommunicationSupportService.checkedSix(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "审核请求消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(审核请求消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "审核请求消息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知管理方处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -497,7 +497,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 管理方通知用户
 	 *
 	 * @param request
 	 * @param response
@@ -521,14 +521,14 @@ public class CommunicationSupportController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(确认信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "确认信息信息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知用户处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -594,7 +594,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 服务提供方发送保障准备信息给管理方
 	 *
 	 * @param request
 	 * @param response
@@ -614,11 +614,11 @@ public class CommunicationSupportController {
 		bean.setChecked(10);
 		int rst = CommunicationSupportService.checkedTen(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障准备信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障准备信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
@@ -695,7 +695,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 管理方发送保障准备信息给用户单位
 	 *
 	 * @param request
 	 * @param response
@@ -715,18 +715,18 @@ public class CommunicationSupportController {
 		bean.setChecked(12);
 		int rst = CommunicationSupportService.checkedTwelve(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障准备信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知用户处理(保障准备信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "保障准备信息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知用户处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -796,7 +796,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 服务提供方发送保障完成信息给管理方
 	 *
 	 * @param request
 	 * @param response
@@ -816,15 +816,15 @@ public class CommunicationSupportController {
 		bean.setChecked(14);
 		int rst = CommunicationSupportService.checkedFourteen(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障完成信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障完成信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "保障完成信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
