@@ -79,10 +79,13 @@ public class DeviceManageService {
         int result=0;
         try {
             result=mapper.insertDeviceManage(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -97,10 +100,13 @@ public class DeviceManageService {
         int result=0;
         try {
             result=mapper.checkedOne(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -115,10 +121,13 @@ public class DeviceManageService {
         int result=0;
         try {
             result=mapper.checkedTwo(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }
@@ -134,10 +143,13 @@ public class DeviceManageService {
         int result=0;
         try {
             result=mapper.sureFile(bean);
-            sqlSession.close();
+            sqlSession.commit();
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }finally {
+            sqlSession.close();
         }
         return result;
     }

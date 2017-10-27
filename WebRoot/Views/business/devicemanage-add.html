@@ -39,14 +39,14 @@
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>业务变更需求</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="request" class="form-control">
+									name="request" class="form-control" onchange="list(this)">
 									<option value="个呼号优先级" selected="selected">个呼号优先级</option>
 									<option value="通话组优先级">通话组优先级</option>
 									<option value="设置漫游权限">设置漫游权限</option>
 									<option value="新增/删除通话组">新增/删除通话组</option>
 									<option value="遥启/遥毙终端">遥启/遥毙终端</option>
 									<option value="变更终端设备">变更终端设备</option>
-									<option value="其他">其他</option>
+									<option value="其它">其他</option>
 								</select>
 								<textarea
 									style="width:400px;height:100px;max-width:400px;max-height:100px; display: none"
@@ -91,7 +91,7 @@
 			$(obj).fadeOut();
 			$(obj).remove();
 			var content = $("#content");
-			content.attr("name","information");
+			content.attr("name","request");
 			content.fadeIn();
 		}
 	}

@@ -253,9 +253,7 @@ xh.add = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#addForm").serializeArray(),
 		success : function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
