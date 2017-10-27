@@ -250,14 +250,14 @@ public class QualityCheckController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        EmergencyBean bean = new EmergencyBean();
+        QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         bean.setChecked(2);
-        bean.setFileName1(fileName);
-        bean.setFilePath1(filePath);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
         System.out.println("应急处置演练任务消息:" + fileName);
 
-        int rst = EmergencyService.checkedTwo(bean);
+        int rst = QualityCheckService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "上传抽查记录成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -302,7 +302,6 @@ public class QualityCheckController {
             bean.setChecked(3);
         }else if(checked == 1) {
             bean.setChecked(1);
-
         }
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());

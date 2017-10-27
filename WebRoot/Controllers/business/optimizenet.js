@@ -253,12 +253,11 @@ xh.add = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#addForm").serializeArray(),
 		success : function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 			} else {
@@ -350,6 +349,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -395,6 +395,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -483,14 +484,14 @@ xh.download=function(){
 		if(checked == 0 && $scope.checkData.fileName1!=null){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 1 && $scope.checkData.fileName2!=null){
+		else if(checked == 2 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 3 && $scope.checkData.fileName3!=null){
+		else if(checked == 4 && $scope.checkData.fileName3!=null){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + filename);
+	console.log("filename=>" + fileName);
 	var downUrl = "../../optimizenet/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');

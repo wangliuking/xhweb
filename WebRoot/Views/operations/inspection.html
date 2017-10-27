@@ -146,19 +146,30 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.uploadUser}}</td>
 
-										<td ng-if="x.status==-1" style="color:green;">已审核,已经通知抢修组整改</td>
+										<td ng-if="x.status==-1" style="color:gray;">已审核,已经通知抢修组整改</td>
 										<td ng-if="x.status==0" style="color:red;">未审核</td>
-										<td ng-if="x.status==1" style="color:green;">完成</td>
+										<td ng-if="x.status==1" style="color:gray;">等待上传巡检记录</td>
+										<td ng-if="x.status==2 || x.status==4" style="color:green;">流程结束</td>
+										<td ng-if="x.status==3" style="color:gray;">已通知巡检组，等待上传巡检记录</td>
+										
 										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i
+											ng-click="toProgress($index)" data-toggle="modal"> <i
 												class="fa fa-newspaper-o text-success"></i>&nbsp;详情
 										</a> <a ng-if="loginUser=x.recvUser && x.status==0" href="#"
 											ng-click="checkWin($index)">|&nbsp;<i
 												class="fa fa-edit text-success"></i>审核
 										</a>
 										<a ng-if="loginUser=x.recvUser && x.status==-1" href="#"
-											ng-click="checkWin2($index)">|&nbsp;<i
+											ng-click="checkWin3($index)">|&nbsp;<i
 												class="fa fa-upload text-danger"></i>上传抢修情况汇总文件
+										</a>
+										<a ng-if="loginUser=x.uploadUser && x.status==1" href="#"
+											ng-click="checkWin2($index)">|&nbsp;<i
+												class="fa fa-upload text-danger"></i>上传巡检记录
+										</a>
+										<a ng-if="x.status==3" href="#"
+											ng-click="checkWin4($index)">|&nbsp;<i
+												class="fa fa-upload text-danger"></i>上传巡检记录
 										</a>
 										</td>
 
@@ -191,7 +202,7 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'inspection-detail.html'"></div>
+	<div ng-include="'inspection-progress.html'"></div>
 	<div ng-include="'inspection-add.html'"></div>
 	<div ng-include="'inspection-check.html'"></div>
 

@@ -917,44 +917,23 @@
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
 	});
-	$("#check_btn2").click(function() {
-		$('#checkForm2').submit();
-	});
 	$("#check_btn3").click(function() {
 		$('#checkForm3').submit();
-	});
-	$("#check_btn4").click(function() {
-		$('#checkForm4').submit();
 	});
 	$("#check_btn5").click(function() {
 		$('#checkForm5').submit();
 	});
-	$("#check_btn6").click(function() {
-		$('#checkForm6').submit();
-	});
 	$("#check_btn7").click(function() {
 		$('#checkForm7').submit();
-	});
-	$("#check_btn8").click(function() {
-		$('#checkForm8').submit();
 	});
 	$("#check_btn9").click(function() {
 		$('#checkForm9').submit();
 	});
-	$("#check_btn10").click(function() {
-		$('#checkForm10').submit();
-	});
 	$("#check_btn11").click(function() {
 		$('#checkForm11').submit();
 	});
-	$("#check_btn12").click(function() {
-		$('#checkForm12').submit();
-	});
 	$("#check_btn13").click(function() {
 		$('#checkForm13').submit();
-	});
-	$("#check_btn14").click(function() {
-		$('#checkForm14').submit();
 	});
 	$("#check_btn15").click(function() {
 		$('#checkForm15').submit();
@@ -967,6 +946,83 @@
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
+	$("#check_btn2").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm2').submit();
+	});
+	$("#check_btn4").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm4').submit();
+	});
+	$("#check_btn6").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm6').submit();
+	});
+	$("#check_btn8").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm8').submit();
+	});
+	$("#check_btn10").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm10').submit();
+	});
+	$("#check_btn12").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm12').submit();
+	});
+	$("#check_btn14").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		 $('#checkForm14').submit();
+	});
 	//主管部门审核
 	$('#checkForm1').bootstrapValidator({
 		excluded : [ ':disabled' ],

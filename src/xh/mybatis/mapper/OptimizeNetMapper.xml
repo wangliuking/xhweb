@@ -56,21 +56,19 @@
     <!--服务提供方上传-->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_optimizenet set
-        fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked}
-        where id=#{id}
+        fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where id=#{id}
     </update>
 
     <!--管理方审核 -->
     <update id="checkedThree" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_optimizenet set
-        user3=#{user3},time3=#{time3},note3=#{note3},drop=#{drop},checked=#{checked} where id=#{id}
+        user3=#{user3},time3=#{time3},note3=#{note3},dropnet=#{dropnet},checked=#{checked} where id=#{id}
     </update>
 
     <!--服务提供方上传-->
     <update id="checkedFour" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_optimizenet set
-        fileName3=#{fileName3},filePath3=#{filePath3},checked=#{checked}
-        where id=#{id}
+        fileName3=#{fileName3},filePath3=#{filePath3},checked=#{checked} where id=#{id}
     </update>
 
     <!--管理方审核 -->

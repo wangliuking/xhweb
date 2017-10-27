@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class OptimizeNetBean {
-    
-
 	private int id;
     private int checked;
     private String userName;
@@ -32,15 +30,15 @@ public class OptimizeNetBean {
     private String filePath2;
     private String fileName3;
     private String filePath3;
-    private int drop;
+    private int dropnet;
     private String tel;
 
-    public int getDrop() {
-        return drop;
+    public int getDropnet() {
+        return dropnet;
     }
 
-    public void setDrop(int drop) {
-        this.drop = drop;
+    public void setDropnet(int dropnet) {
+        this.dropnet = dropnet;
     }
 
     public String getTel() {
