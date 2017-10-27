@@ -70,10 +70,15 @@ xh.load = function() {
 		};
 
 		/*显示详细信息*/
-		$scope.editModel = function(id) {
+	/*	$scope.editModel = function(id) {
 			$("#detail").modal('show');
 			$scope.editData = $scope.data[id];
-		};
+		};*/
+		/*跳转到申请进度页面*/
+		$scope.toProgress = function (id) {
+			$scope.progressData = $scope.data[id];
+			$("#progress").modal('show');
+	    };
 		/*下载工作记录*/
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
@@ -99,17 +104,25 @@ xh.load = function() {
 		};
 		/*显示审核*/
 		$scope.checkWin2=function(index){
+			$scope.checkData=$scope.data[index];			
+			$("#checkWin2").modal('show');
+			
+		};
+		$scope.checkWin3=function(index){
 			$scope.checkData=$scope.data[index];
-			/*$scope.checked1="1";*/
-		/*	var roleType=3;
-			 获取主管单位用户列表 
+			var roleType=3;
+			/* 获取服务提供方用户列表 */
 			$http.get("../../web/role/roleTypeByList?roleType="+roleType).success(
 					function(response) {
 						$scope.roleData = response.items;
 						$scope.roleTotals=response.totals
-					});*/
+					});
+			$("#checkWin3").modal('show');
 			
-			$("#checkWin2").modal('show');
+		};
+		$scope.checkWin4=function(index){
+			$scope.checkData=$scope.data[index];			
+			$("#checkWin4").modal('show');
 			
 		};
 		/*是否需要整改*/
@@ -252,7 +265,7 @@ xh.add = function() {
 		}
 	});
 };
-//通知巡检组
+//填写巡检记录相关信息，汇总上报项目负责人
 xh.check2 = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
@@ -261,18 +274,87 @@ xh.check2 = function() {
 		dataType : "json",
 		async : true,
 		data:{
+			user1:$scope.checkData.user1,
 			formData:xh.serializeJson($("#checkForm2").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#add').modal('hide');
+				$('#checkWin2').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-				$("input[name='result']").val("");
-            	$("input[name='fileName']").val("");
-            	$("input[name='filePath']").val("");
-            	$("#uploadResult").html("");
+				$("#checkForm2").find("input[name='result']").val("");
+				$("#checkForm2").find("input[name='fileName2']").val("");
+				$("#checkForm2").find("input[name='filePath2']").val("");
+            	$("#uploadResult2").html("");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组
+xh.check3 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../inspection/check3',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			/*user1:$scope.checkData.user1,*/
+			formData:xh.serializeJson($("#checkForm3").serializeArray()) //将表单序列化为JSON对象
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin3').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				$("#checkForm3").find("input[name='result']").val("");
+				$("#checkForm3").find("input[name='fileName3']").val("");
+				$("#checkForm3").find("input[name='filePath3']").val("");
+            	$("#uploadResult3").html("");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//填写巡检记录相关信息，汇总上报项目负责人
+xh.check4 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../inspection/check4',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			user1:$scope.checkData.user1,
+			formData:xh.serializeJson($("#checkForm4").serializeArray()) //将表单序列化为JSON对象
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin4').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				$("#checkForm4").find("input[name='result']").val("");
+				$("#checkForm4").find("input[name='fileName4']").val("");
+				$("#checkForm4").find("input[name='filePath4']").val("");
+            	$("#uploadResult4").html("");
 			} else {
 				swal({
 					title : "提示",

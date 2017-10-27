@@ -40,7 +40,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;	
 			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
 				/*获取申请记录表*/
-				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
+				$http.get("../../asset/assetCheckList?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
 				success(function(response){
 					xh.maskHide();
 					$scope.data = response.items;

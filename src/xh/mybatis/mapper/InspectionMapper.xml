@@ -14,7 +14,7 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
-		order by id asc limit #{start},#{limit}
+		order by id desc limit #{start},#{limit}
 	</select>
 
 	<select id="count" parameterType="map" resultType="int"
@@ -40,9 +40,21 @@
     <update id="sign" parameterType="map">
      update xhgmnet_operations_inspection set status=#{status},note1=#{note1},time1=#{time1},user1=#{user1} where id=#{id}    
     </update>
-
-
-
+	<!-- 填写巡检记录相关信息，汇总上报项目负责人 -->
+    <update id="check2" parameterType="xh.mybatis.bean.InspectionBean">
+     update xhgmnet_operations_inspection set status=#{status},note2=#{note2},
+     time2=#{time2},user2=#{user2},fileName2=#{fileName2},filePath2=#{filePath2} where id=#{id}    
+    </update>
+	<!-- 抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组-->
+    <update id="check3" parameterType="xh.mybatis.bean.InspectionBean">
+     update xhgmnet_operations_inspection set status=#{status},note3=#{note3},
+     time3=#{time3},user3=#{user3},fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}    
+    </update>
+	<!-- 巡检组整理填写巡检记录相关信息，汇总上报项目负责人，流程结束-->
+    <update id="check4" parameterType="xh.mybatis.bean.InspectionBean">
+     update xhgmnet_operations_inspection set status=#{status},note4=#{note4},
+     time4=#{time4},user4=#{user4},fileName4=#{fileName4},filePath4=#{filePath4} where id=#{id}    
+    </update>
 
 
 
