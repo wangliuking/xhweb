@@ -67,7 +67,63 @@ public class InspectionServices {
 		}
 		return  result;
 	}
-
+	/**
+	 * 填写巡检记录相关信息，汇总上报项目负责人
+	 * @param bean
+	 * @return
+	 */
+	public static int check2(InspectionBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		InspectionMapper mapper=sqlSession.getMapper(InspectionMapper.class);
+		int result=0;
+		try {
+			result=mapper.check2(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**
+	 * 抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组
+	 * @param bean
+	 * @return
+	 */
+	public static int check3(InspectionBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		InspectionMapper mapper=sqlSession.getMapper(InspectionMapper.class);
+		int result=0;
+		try {
+			result=mapper.check3(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**
+	 * 巡检组整理填写巡检记录相关信息，汇总上报项目负责人，流程结束
+	 * @param bean
+	 * @return
+	 */
+	public static int check4(InspectionBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		InspectionMapper mapper=sqlSession.getMapper(InspectionMapper.class);
+		int result=0;
+		try {
+			result=mapper.check4(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
 	/**
 	 * 签收运维巡检记录表
 	 * @param bean

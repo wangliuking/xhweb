@@ -1,0 +1,178 @@
+
+<div class="modal fade" id="progress" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<ul id="xh-tabs" class="nav nav-tabs">
+					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
+					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
+					
+				</ul>
+				<div class="tab-content" style="padding: 20px">
+					<div class="tab-pane fade in active" id="info">
+					
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系人</label><input type="text" class="form-control"
+									name="contact" ng-model="progressData.contact">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系方式</label><input type="text" class="form-control"
+									name="tel" ng-model="progressData.tel">
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>
+								<textarea  class="form-control" style="width:500px;height:70px;" name="note"
+									ng-model="progressData.note"></textarea>
+							</div>
+
+						</div>
+						<input type="hidden" name="fileName" value="" /> <input
+							type="hidden" name="filePath" value="" /> <input type="hidden"
+							name="result" value="" />
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<label>巡检计划表：</label><span> <a href="#" ng-click="download(progressData.filePath)">{{progressData.fileName}}</a></span>
+
+						</div>
+
+					</div>
+					</div>
+					<!-- tab-pane--end -->
+					<div class="tab-pane fade text-danger" id="p-timeline"
+						style="background: #e9f0f5; margin: 0;">
+						<div id="cd-timeline" class="cd-container">
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-green">开始</div>
+								<div class="cd-timeline-content">
+									<h2>巡检人员提交巡检计划表</h2>
+									<h2><a href="#" ng-click="download(progressData.filePath)">{{progressData.fileName}}</a></h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note}}</span>
+									</p>
+									<span class="cd-date text-success font-bold text-x">
+										提交时间：{{progressData.createtime}}</span>
+								</div>
+							</div>
+							
+							
+						
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<1"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.status>=1"></div>
+								<div class="cd-timeline-content">
+									<h2>项目负责人处理</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note1}}</span>
+									</p>
+									<span ng-if="progressData.status<2 && progressData.status==0"
+										class="cd-date text-danger">等待处理</span>
+									<span ng-if="progressData.status<2 && progressData.status==-1"
+										class="cd-date text-success">需要整改</span>
+								<span ng-if="progressData.status<2 && progressData.status==1"
+										class="cd-date text-success">不需要整改</span>
+								
+								<!-- <span ng-if="progressData.status>=2"
+										class="cd-date text-success">已处理</span>	 -->	
+								 <span
+										ng-if="progressData.status>=1"
+										class="cd-date text-success font-bold">处理
+										时间：{{progressData.time1}}</span>
+								</div>
+							</div>
+							
+								<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block" ng-show="progressData.status==2">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<2"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.status>=2"></div>
+								<div class="cd-timeline-content">
+									<h2>通知巡检组，等待上传巡检记录</h2>
+                                    <h2><a href="#" ng-click="download(progressData.filePath2)">{{progressData.fileName2}}</a></h2>
+									<span ng-if="progressData.status<2"
+										class="cd-date text-danger">等待上传巡检记录文件</span> <span
+										ng-if="progressData.status>=2"
+										class="cd-date text-success font-bold">已经上传巡检记录文件;
+										时间：{{progressData.time2}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block" ng-show="progressData.status>=3">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<3"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.status>=3"></div>
+								<div class="cd-timeline-content">
+									<h2>抢修组将抢修情况汇总记录到平台</h2>
+                                    <h2><a href="#" ng-click="download(progressData.filePath3)">{{progressData.fileName3}}</a></h2>
+									<span ng-if="progressData.status<3"
+										class="cd-date text-danger">等待上传抢修情况汇总记录文件</span> <span
+										ng-if="progressData.status>=3"
+										class="cd-date text-success font-bold">已经上传抢修情况汇总记录文件;
+										时间：{{progressData.time3}}</span>
+								</div>
+							</div>
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block" ng-show="progressData.status>=3">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.status<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.status>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>通知巡检组，等待上传巡检记录</h2>
+                                    <h2><a href="#" ng-click="download(progressData.filePath4)">{{progressData.fileName4}}</a></h2>
+									<span ng-if="progressData.status<4"
+										class="cd-date text-danger">等待上传巡检记录文件</span> <span
+										ng-if="progressData.status>=4"
+										class="cd-date text-success font-bold">已经上传巡检记录文件;
+										时间：{{progressData.time4}}</span>
+								</div>
+							</div>
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.status<1">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.status>=1">结束</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- tab-pane--end -->
+				</div>
+			</div>
+		</div>
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div> -->
+	</div>
+</div>

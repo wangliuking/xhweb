@@ -14,7 +14,7 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
-		order by id asc limit #{start},#{limit}
+		order by id desc limit #{start},#{limit}
 	</select>
 
 	<select id="count" parameterType="map" resultType="int"
