@@ -102,10 +102,10 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
