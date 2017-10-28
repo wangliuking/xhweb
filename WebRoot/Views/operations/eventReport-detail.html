@@ -1,0 +1,194 @@
+
+<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- <div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">上传工作记录文件</small>
+			</div> -->
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>报告类型</label>
+								<div>
+									<select ng-model="editData.fileType" class="form-control"
+										style="width:159px;">
+
+										<option value="周报">周报</option>
+										<option value="月报">月报</option>
+										<option value="系统监控表">系统监控表</option>
+										<option value="故障记录登记表">故障记录登记表</option>
+										<option value="故障处理报告">故障处理报告</option>
+										<option value="巡检计划">巡检计划</option>
+										<option value="巡检计划">巡检计划</option>
+										<option value="问题整改计划表">问题整改计划表</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>接收者</label> <input type="text" class="form-control"
+									ng-model="editData.recvUser"> </select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>上传者</label> <input type="text" class="form-control"
+									ng-model="editData.uploadUser">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系人</label><input type="text" class="form-control"
+									name="contact" ng-model="editData.contact">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系方式</label><input type="text" class="form-control"
+									name="tel" ng-model="editData.tel">
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>
+								<textarea class="form-control" style="width:500px;height:70px;"
+									name="note" ng-model="editData.note"></textarea>
+							</div>
+
+						</div>
+						<input type="hidden" name="fileName" value="" /> <input
+							type="hidden" name="filePath" value="" /> <input type="hidden"
+							name="result" value="" />
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<label>工作记录文件：</label><span> <a href="#"
+								ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>
+
+						</div>
+
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#uploadfile").click(function() {
+		if ($('#pathName').val() == "") {
+			alert("请选择需要上传的文件！");
+			return false;
+		}
+		$("input[name='result']").val(2);
+		$.ajaxFileUpload({
+			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+			secureuri : false, //是否需要安全协议，一般设置为false
+			fileElementId : 'pathName', //文件上传域的ID
+			dataType : 'json', // 返回值类型 一般设置为json
+			type : 'POST',
+			success : function(data, status) //服务器成功响应处理函数
+			{
+				if (data.success) {
+					$("input[name='result']").val(1);
+					$("input[name='fileName']").val(data.fileName);
+					$("input[name='filePath']").val(data.filePath);
+					$("#uploadResult").html("文件上传成功");
+					toastr.success("文件上传成功", '提示');
+				} else {
+					$("input[name='result']").val(0);
+					toastr.error("文件上传失败", '提示');
+					$("#uploadResult").html("文件上传失败");
+				}
+
+			},
+			error : function(data, status, e)//服务器响应失败处理函数
+			{
+				alert(e);
+			}
+		});
+	});
+
+	$("#add_btn").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		$('#addForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			filename : {
+				validators : {
+					notEmpty : {
+						message : '文件名称不能为空'
+					}
+				}
+			},
+
+			recvuser : {
+				validators : {
+					notEmpty : {
+						message : '接受者不能为空'
+					}
+				}
+			},
+			contact : {
+				validators : {
+					notEmpty : {
+						message : '联系人不能为空'
+					}
+				}
+			},
+			tel : {
+				validators : {
+					notEmpty : {
+						message : '联系方式不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

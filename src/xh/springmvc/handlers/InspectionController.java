@@ -1,18 +1,12 @@
 package xh.springmvc.handlers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,49 +17,57 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.Inspection;
-import xh.mybatis.service.InspectionService;
+import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.EmailBean;
+import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.InspectionBean;
+import xh.mybatis.service.InspectionServices;
+import xh.mybatis.service.EmailService;
+import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.WebUserServices;
+import xh.mybatis.service.WorkServices;
 
 @Controller
-@RequestMapping(value = "/inspection")
+@RequestMapping("/inspection")
 public class InspectionController {
 	private boolean success;
 	private String message;
-	private FunUtil funUtil = new FunUtil();
+	private FunUtil funUtil=new FunUtil();
 	protected final Log log = LogFactory.getLog(InspectionController.class);
-	private FlexJSON json = new FlexJSON();
-
+	private FlexJSON json=new FlexJSON();
+	private WebLogBean webLogBean = new WebLogBean();
+	
 	/**
-	 * 查询
-	 * 
+	 * 获取运维巡检
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public void info(HttpServletRequest request, HttpServletResponse response) {
-		this.success = true;
-		String filename = request.getParameter("filename");
-		String contact = request.getParameter("contact");
-		String status = request.getParameter("status");
-		int start = funUtil.StringToInt(request.getParameter("start"));
-		int limit = funUtil.StringToInt(request.getParameter("limit"));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("filename", filename);
+	@RequestMapping("/list")
+	public void list(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String fileName=request.getParameter("filename");
+		String contact=request.getParameter("contact");
+		int status=funUtil.StringToInt(request.getParameter("status"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("fileName", fileName);
 		map.put("contact", contact);
 		map.put("status", status);
 		map.put("start", start);
 		map.put("limit", limit);
+
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals", InspectionService.Count(map));
-		result.put("items", InspectionService.radioUserBusinessInfo(map));
+		result.put("totals",InspectionServices.count(map));
+		result.put("items", InspectionServices.list(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -74,144 +76,50 @@ public class InspectionController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
-
 	/**
-	 * ajax文件上传
-	 * 
-	 * @param file
-	 * @param session
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping("/upload")
-	@ResponseBody
-	public String fileUpload(@RequestParam("pathName") MultipartFile file,
-			HttpSession session, HttpServletRequest request) throws IOException {
-		String name = file.getOriginalFilename();
-		String temp = null;
-		String dateNowStr = null;
-		try {
-			// 获取当前时间
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			dateNowStr = sdf.format(d);
-			// 获取项目路径
-			String str = this.getClass().getClassLoader().getResource("")
-					.toURI().getPath();
-			temp = str.substring(1, str.length() - 17) + "/Resources/data/"
-					+ dateNowStr;
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// 判断是否有相同日期下的文件夹
-		File filetemp = new File(temp);
-		File filename = new File(temp + "/" + name);
-		// 如果文件夹不存在则创建
-		if (!filetemp.exists() && !filetemp.isDirectory()) {
-			System.out.println("//不存在");
-			filetemp.mkdir();
-		} else {
-			if (filename.exists()) {
-				return "0";
-			}
-		}
-		String fileName = imgsUpload(file, session, "/Resources/data/"
-				+ dateNowStr);
-		return name;
-	}
-
-	/**
-	 * 文件上传公共方法
-	 * 
-	 * @param file
-	 * @param session
-	 * @return
-	 * @throws IOException
-	 */
-	private String imgsUpload(MultipartFile file, HttpSession session,
-			String savePath) throws IOException {
-		// 获取文件在服务器的存储路径
-		String path = session.getServletContext().getRealPath(savePath);
-		// 获取上传文件的名称
-		String fileName = file.getOriginalFilename();
-		// 进行文件存储
-		file.transferTo(new File(path, fileName));
-		return savePath + fileName;
-	}
-
-	/**
-	 * 文件下载方法
-	 */
-	@RequestMapping("/download")
-	public void download(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			String temp = request.getParameter("path");
-			String str1=temp;
-			String path=new String(str1.getBytes("ISO-8859-1"),"utf-8"); //转码UTF8
-			String str = this.getClass().getClassLoader().getResource("")
-					.toURI().getPath();
-			// 截取字符串
-			String strTemp = str.substring(0, str.length() - 17);
-			String filePath = strTemp + path; // 文件在项目中的路径
-			File outfile = new File(filePath);
-			String filename = outfile.getName();// 获取文件名称
-			InputStream fis = new BufferedInputStream(new FileInputStream(
-					filePath));
-			byte[] buffer = new byte[fis.available()];
-			fis.read(buffer); // 读取文件流
-			fis.close();
-			response.reset(); // 重置结果集
-			response.addHeader("Content-Disposition", "attachment;filename="
-					+ new String(
-							filename.replaceAll(" ", "").getBytes("utf-8"),
-							"iso8859-1")); // 返回头 文件名
-			response.addHeader("Content-Length", "" + outfile.length()); // 返回头
-																			// 文件大小
-			response.setContentType("application/octet-stream"); // 设置数据种类
-			// 获取返回体输出权
-			OutputStream os = new BufferedOutputStream(
-					response.getOutputStream());
-			os.write(buffer); // 输出文件
-			os.flush();
-			os.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 添加值班信息
-	 * 
+	 * 新增运维巡检
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping("/add")
-	public void insertRadioUser(Inspection record, HttpServletRequest request,
-			HttpServletResponse response) {
-		this.success = true;
-		// 获取当前时间
-		Date d = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String dateNowStr = sdf.format(d);
-		String name = record.getFilepath();
-		if(name!=null){
-			if(name.length()==0){
-				record.setFilepath("null");
-			}else{
-				record.setFilepath("/Resources/data/" + dateNowStr + "/" + name);
-			}		
-		}else if(name==null || name==""){
-			record.setFilepath("null");
+	public void add(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");	
+		InspectionBean bean=GsonUtil.json2Object(formData, InspectionBean.class);
+		EmailBean emailBean=new EmailBean();
+		bean.setRecvUser("10002");
+		bean.setUploadUser(funUtil.loginUser(request));
+		log.info(bean.toString());		
+		int rlt=InspectionServices.add(bean);
+		
+		if(rlt==1){
+			this.success=true;
+			this.message="运维巡检提交成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("上传运维巡检");
+			WebLogService.writeLog(webLogBean);
+			
+			emailBean.setTitle("运维巡检");
+			emailBean.setRecvUser("10002");
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent("运维巡检计划已经上传，如需整改请通知抢修组");
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			
+			
+		}else{
+			this.success=false;
+			this.message="运维巡检提交失败";
 		}
-		record.setStatus(0);
-		int count = InspectionService.insert(record);
+
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("result", count);
+		result.put("result", rlt);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -219,5 +127,427 @@ public class InspectionController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
+	/**
+	 * 签收运维巡检
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/sign")
+	public void sign(HttpServletRequest request, HttpServletResponse response){
+		int id=Integer.parseInt(request.getParameter("id"));
+		String note=request.getParameter("note");
+		int status=Integer.parseInt(request.getParameter("check"));
+		String[] roleId=request.getParameter("roleType").split(",");
+		String recvUser=request.getParameter("recvUser");
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("note1", note);
+		map.put("status",status);
+		map.put("user1",funUtil.loginUser(request));
+		map.put("time1", funUtil.nowDate());
+		
+		
+		int rlt=0;
+		EmailBean emailBean=new EmailBean();
+		
+		if(status==1){
+			rlt=InspectionServices.sign(map);
+			if(rlt==1){
+				this.success=true;
+				this.message="操作成功";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(5);
+				webLogBean.setContent("签收运维巡检，id=" +id);
+				WebLogService.writeLog(webLogBean);
+				
+				emailBean.setTitle("运维巡检");
+				emailBean.setRecvUser(recvUser);
+				emailBean.setSendUser(funUtil.loginUser(request));
+				emailBean.setContent("运维巡检计划表已查看，不需要整改");
+				emailBean.setTime(funUtil.nowDate());
+				EmailService.insertEmail(emailBean);
+				
+			}else{
+				this.success=false;
+				this.message="签收失败";
+			}
+		}else{
+			rlt=InspectionServices.sign(map);
+			if(rlt==1){
+				this.success=true;
+				this.message="操作成功";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(4);
+				webLogBean.setContent("运维巡检计划表已查看，需要抢修组，等进行配合整改，id=" +id);
+				WebLogService.writeLog(webLogBean);
+				List<String> roleIdlist=new ArrayList<String>();
+				for(int a=0;a<roleId.length;a++){
+					roleIdlist.add(roleId[a]);
+				}
+				List<Map<String,Object>> list=WebUserServices.userlistByRoleType(roleIdlist);
+			
+				
+				for(int i=0;i<list.size();i++){
+					Map<String,Object> usermap=list.get(i);
+					EmailBean email=new EmailBean();
+					email.setTitle("运维巡检");
+					email.setRecvUser(usermap.get("user").toString());
+					email.setSendUser(funUtil.loginUser(request));
+					email.setContent("请相关负责人将抢修情况汇总记录到平台，并通知巡检组");
+					email.setTime(funUtil.nowDate());
+					EmailService.insertEmail(email);	
+				}
+			}else{
+				this.success=false;
+				this.message="签收失败";
+			}
+		}
+		
+		
+		
+		
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rlt);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/uploadOne")
+	@ResponseBody
+	public void uploadOne(@RequestParam("pathName2") MultipartFile file,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/Resources/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath="/Resources/upload/"+data[0] + "/" + data[1] + "/" + data[2];
+		// 判断是否有相同日期下的文件夹
+
+		File targetFile = new File(path, name);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success = true;
+			this.message = "文件上传成功";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.success=false;
+			this.message = "文件上传失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + name);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("/uploadTwo")
+	@ResponseBody
+	public void uploadTwo(@RequestParam("pathName3") MultipartFile file,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/Resources/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath="/Resources/upload/"+data[0] + "/" + data[1] + "/" + data[2];
+		// 判断是否有相同日期下的文件夹
+
+		File targetFile = new File(path, name);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success = true;
+			this.message = "文件上传成功";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.success=false;
+			this.message = "文件上传失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + name);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping("/uploadThree")
+	@ResponseBody
+	public void uploadThree(@RequestParam("pathName4") MultipartFile file,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/Resources/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath="/Resources/upload/"+data[0] + "/" + data[1] + "/" + data[2];
+		// 判断是否有相同日期下的文件夹
+
+		File targetFile = new File(path, name);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success = true;
+			this.message = "文件上传成功";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.success=false;
+			this.message = "文件上传失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + name);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 填写巡检记录相关信息，汇总上报项目负责人
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/check2")
+	public void check2(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		String user1=request.getParameter("user1");
+		InspectionBean bean=GsonUtil.json2Object(formData, InspectionBean.class);
+		EmailBean emailBean=new EmailBean();
+		
+		bean.setUser2(funUtil.loginUser(request));
+		bean.setTime2(funUtil.nowDate());
+		bean.setStatus(2);
+		log.info(bean.toString());
+		
+		int rslt=InspectionServices.check2(bean);
+		
+		if(rslt==1){
+			this.success=true;
+			this.message="操作成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("填写巡检记录相关信息，汇总上报项目负责人");
+			WebLogService.writeLog(webLogBean);
+			
+			emailBean.setTitle("运维巡检");
+			emailBean.setRecvUser(user1);
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent("巡检组已经提交巡检记录，请查收！");
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			
+			
+		}else{
+			this.success=false;
+			this.message="操作失败";
+			
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", 1);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	/**
+	 * 抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/check3")
+	public void check3(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		/*String user1=request.getParameter("user1");*/
+		InspectionBean bean=GsonUtil.json2Object(formData, InspectionBean.class);
+		EmailBean emailBean=new EmailBean();
+		
+		bean.setUser3(funUtil.loginUser(request));
+		bean.setTime3(funUtil.nowDate());
+		bean.setStatus(3);
+		log.info(bean.toString());
+		
+		int rslt=InspectionServices.check3(bean);
+		
+		if(rslt==1){
+			this.success=true;
+			this.message="操作成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("上传抢修情况汇总记录");
+			WebLogService.writeLog(webLogBean);
+			
+			
+			
+			List<String> roleIdlist=new ArrayList<String>();
+			for(int a=0;a<bean.getRoleId().split(",").length;a++){
+				roleIdlist.add(bean.getRoleId().split(",")[a]);
+			}
+			List<Map<String,Object>> list=WebUserServices.userlistByRoleType(roleIdlist);
+		
+			
+			for(int i=0;i<list.size();i++){
+				Map<String,Object> usermap=list.get(i);
+				EmailBean email=new EmailBean();
+				email.setTitle("运维巡检");
+				email.setRecvUser(usermap.get("user").toString());
+				email.setSendUser(funUtil.loginUser(request));
+				email.setContent("抢修情况汇总记录");
+				email.setTime(funUtil.nowDate());
+				EmailService.insertEmail(email);	
+			}
+			
+			
+			
+		}else{
+			this.success=false;
+			this.message="操作失败";
+			
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", 1);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 巡检组整理填写巡检记录相关信息，汇总上报项目负责人，流程结束
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/check4")
+	public void check4(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		String user1=request.getParameter("user1");
+		InspectionBean bean=GsonUtil.json2Object(formData, InspectionBean.class);
+		EmailBean emailBean=new EmailBean();
+		
+		bean.setUser4(funUtil.loginUser(request));
+		bean.setTime4(funUtil.nowDate());
+		bean.setStatus(4);
+		log.info(bean.toString());
+		
+		int rslt=InspectionServices.check4(bean);
+		
+		if(rslt==1){
+			this.success=true;
+			this.message="操作成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("填写巡检记录相关信息，汇总上报项目负责人");
+			WebLogService.writeLog(webLogBean);
+			
+			emailBean.setTitle("运维巡检");
+			emailBean.setRecvUser(user1);
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent("巡检组已经提交巡检记录，请查收！");
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			
+			
+		}else{
+			this.success=false;
+			this.message="操作失败";
+			
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", 1);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+
 }

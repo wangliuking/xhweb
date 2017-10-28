@@ -42,6 +42,7 @@ xh.load = function() {
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
+			$scope.editData.roleType = $scope.editData.roleType.toString();
 		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -61,6 +62,7 @@ xh.load = function() {
 			}
 			$("#edit").modal('show');
 			$scope.editData = $scope.data[parseInt(checkVal[0])];
+			$scope.editData.roleType = $scope.editData.roleType.toString();
 			
 		};
 		/* 删除用户 */

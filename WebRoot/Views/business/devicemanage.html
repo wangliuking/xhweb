@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>终端管理</title>
+<title>工单管理</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -48,7 +48,7 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span><a href="devicemanage.html">业务管理</a></span></li>
-							<li class="active"><span>终端管理</span></li>
+							<li class="active"><span>工单处理</span></li>
 						</ol>
 					</div>
 				</div>
@@ -65,11 +65,11 @@
 								<div class="col-md-12" ng-model="loginUserRoleId">
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
 									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10002 || loginUserRoleId < 1000" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;终端管理
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId < 1000 || loginUserRoleId > 10002" disabled="disabled">
+										<i class="fa fa-plus-circle"></i>&nbsp;业务申请变更
 									</button>
 									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10002 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;终端管理
+										<i class="fa fa-plus-circle"></i>&nbsp;业务申请变更
 									</button>
 									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
 										data-target="#add" ng-disabled="">
@@ -108,7 +108,7 @@
 									<tr class="tr-gray">
 										<th>用户单位</th>
 										<th>联系人</th>
-										<th>请求信息</th>
+										<th>业务变更信息</th>
 										<th width="180px">申请时间</th>
 										<th width="160px">状态</th>
 										<th width="180px">操作详情</th>
@@ -119,13 +119,13 @@
 										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.userNature}}</td>
+										<td>{{x.unit1}}</td>
 										<td>{{x.userUnit}}</td>
 										<td>{{x.request}}</td>
 										<td>{{x.time}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方处理</td>
+										<td ng-if="x.checked==0" class="td-warning">等待管理方审核工单请求信息</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方处理工单</td>
 										<td ng-if="x.checked==2" class="td-warning">等待用户单位确认</td>
 										<td ng-if="x.checked==3" class="td-success">流程结束</td>
 										<td style="text-align:center">

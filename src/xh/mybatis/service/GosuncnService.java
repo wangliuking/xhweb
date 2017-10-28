@@ -48,12 +48,12 @@ public class GosuncnService {
 	 * @param map
 	 * @return
 	 */
-	public static int insertAlarm(Map<String,String> map){
+	public static int insertAlarm(List<Map<String,String>> list){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		int result=0;
 		try {
-			result=mapper.insertAlarm(map);
+			result=mapper.insertAlarm(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class GosuncnService {
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		int result=0;
 		try {
-			result=mapper.deleteByFSUID(FSUID);
+			result=mapper.deleteConfigByFSUID(FSUID);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -133,6 +133,26 @@ public class GosuncnService {
 	}
 	
 	/**
+	 * 添加监控点历史数据
+	 * @param list
+	 * @return
+	 */
+	public static int insertHData(List<Map<String, String>> list) {
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertHData(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 根据FSUID查询是否存在数据
 	 */
 	public static int selectByFSUID(String FSUID) {
@@ -168,4 +188,47 @@ public class GosuncnService {
 		}
 		return result;
 	}
+	
+	/*
+	 * 环控告警页面部分
+	 */
+	/**
+	 * 告警查询
+	 */
+	public static List<Map<String,String>> selectEMHAlarm(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,String>> list=null;
+		try {
+			list=mapper.selectEMHAlarm(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 告警条数
+	 */
+	public static int countEMHAlarm(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.countEMHAlarm(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

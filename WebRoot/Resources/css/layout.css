@@ -540,7 +540,7 @@
 
 ::-webkit-scrollbar-thumb,::-webkit-scrollbar-thumb:horizontal {
 	border-radius: 2px;
-	background: #8dba60;
+	background: #4f99c6;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -570,7 +570,7 @@
 
 ::-moz-scrollbar-thumb,::-moz-scrollbar-thumb:horizontal {
 	border-radius: 2px;
-	background: #8dba60;
+	background: #4f99c6;
 }
 
 ::-moz-scrollbar-thumb:hover {

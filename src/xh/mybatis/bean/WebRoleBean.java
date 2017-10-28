@@ -1,6 +1,7 @@
 package xh.mybatis.bean;
 
 public class WebRoleBean {
+	private int roleType;
 	private int roleId;
 	private String role;
 	private String createTime;
@@ -26,6 +27,14 @@ public class WebRoleBean {
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public int getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(int roleType) {
+		this.roleType = roleType;
 	}
 	
 	

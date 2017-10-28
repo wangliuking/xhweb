@@ -13,7 +13,7 @@
 		,DATE_FORMAT(a.signTime,'%Y-%m-%d') as signtime
 		,DATE_FORMAT(a.serviceTime,'%Y-%m-%d') as servicetime
 		,b.unit as unit1
-		,b.unitType as initType1
+		,b.unitType as unitType1
 		,b.userType as userType1
 		from xhgmnet_business_net as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
 		<choose>
@@ -46,8 +46,8 @@
 	<insert id="insertNet" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.JoinNetBean">
 		insert into
-		xhgmnet_business_net(serviceType,netBasis,netTime,serviceTime,unitPerson,tel,department,userName,time,checked,terminalNum,talkGroupNum,talkRequirment)
-		values(#{serviceType},#{netBasis},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{time},#{checked},#{terminalNum},#{talkGroupNum},#{talkRequirment})
+		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2)
+		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2})
 	</insert>
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
@@ -74,7 +74,7 @@
 	</update>
 	<!--上传通知函 -->
 	<update id="uploadFileNote" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked} where
+		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked},user2=#{user2},note2_suggest=#{note2_suggest} where
 		id=#{id}
 	</update>
 	<!--上传合同 -->
@@ -120,10 +120,10 @@
 		update xhgmnet_business_net set result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
 	</update>
 
-	<!--退网-->
+	<!--根据UserName更改整体check状态-->
 	<update id="quitNet" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		checked=#{checked} where id=#{id}
+		checked=#{checked} where userName=#{userName}
 	</update>
 
 </mapper>

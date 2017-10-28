@@ -45,7 +45,6 @@ public class OptimizeNetController {
     protected final Log log = LogFactory.getLog(OptimizeNetController.class);
     private FlexJSON json = new FlexJSON();
     private WebLogBean webLogBean = new WebLogBean();
-    private String unit;
     /**
      * 查询所有流程
      *
@@ -123,16 +122,20 @@ public class OptimizeNetController {
     public void insertOptimizeNet(HttpServletRequest request,
                         HttpServletResponse response) {
         this.success = true;
-        String jsonData = request.getParameter("formData");
-//        String note1 = request.getParameter("note1");
-//        String userUnit = request.getParameter("userUnit");
+        String userUnit = request.getParameter("userUnit");
+        String note1 = request.getParameter("note1");
+        String tel = request.getParameter("tel");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        OptimizeNetBean bean = GsonUtil.json2Object(jsonData, OptimizeNetBean.class);
+        OptimizeNetBean bean = new OptimizeNetBean();
+        bean.setUserUnit(userUnit);
+        bean.setTel(tel);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
+        bean.setNote1(note1);
         bean.setUserName(funUtil.loginUser(request));
         bean.setRequestTime(funUtil.nowDate());
+
 //        bean.setNote1(note1);
 //        bean.setUserUnit(userUnit);
         log.info("data==>" + bean.toString());
@@ -246,7 +249,7 @@ public class OptimizeNetController {
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传网络优化任务消息，data=" + bean.toString());
+            webLogBean.setContent("上传方案总结消息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
         } else {
             this.message = "上传方案总结消息失败";
@@ -278,17 +281,15 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
-        int drop = funUtil.StringToInt(request.getParameter("drop"));
+        int dropnet = funUtil.StringToInt(request.getParameter("dropnet"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        bean.setDrop(drop);
-        if(checked == 3 && drop != 1){
-            bean.setChecked(3);
-        }else if(drop == 1) {
+        bean.setDropnet(dropnet);
+        if(dropnet == 1){
             bean.setChecked(-2);
-        }else if(checked ==1){
-            bean.setChecked(1);
+        }else if(dropnet == -1){
+            bean.setChecked(checked);
         }
 		bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(funUtil.nowDate());
@@ -435,7 +436,7 @@ public class OptimizeNetController {
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
-        log.info("fileName==>"+fileName);
+        log.info("fileName==>"+fileName);;
         File targetFile = new File(path, fileName);
         if (!targetFile.exists()) {
             targetFile.mkdirs();

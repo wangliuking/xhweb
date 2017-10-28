@@ -99,6 +99,10 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
 		$('#addForm').submit();
 	});
 	var faIcon = {

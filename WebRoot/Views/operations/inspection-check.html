@@ -1,0 +1,454 @@
+
+<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">上传巡检计划表</small> -->
+			</div>
+			<div class="modal-body pad-0">
+				<form action="#" id="checkForm2" onSubmit="return false">
+
+					<div class="row" ng-show="false">
+						<input type="text" name="fileName2" value="" /> <input
+							type="text" name="id" value="" ng-model="checkData.id" /> <input
+							type="text" name="filePath2" value="" /> <input type="text"
+							name="result" value="" />
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>
+								<textarea class="form-control" row="40" name="note2"></textarea>
+							</div>
+
+						</div>
+
+					</div>
+				</form>
+				<form action="#" id="upload2" onSubmit="return false"
+					enctype="multipart/form-data" method="POST">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group col-md-10" style="padding-right:0px;">
+
+								<label>上传巡检记录文件</label>&nbsp;<span class="text-info">[*]</span>
+								<input class="form-control" type="file" id="pathName2"
+									name="pathName2" />
+							</div>
+							<div class="form-group col-md-2" style="padding-left:0px;">
+								<button type="button" ng-disabled="form.$invalid"
+									class="btn btn-info btn-sm" style="margin-top:23px;"
+									id="uploadfile2">
+									<i class="fa fa-plus-circle"></i>点击上传
+								</button>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<span style="color:red" id="uploadResult2"></span>
+						</div>
+
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="upload_btn2">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">上传巡检计划表</small> -->
+			</div>
+			<div class="modal-body pad-0">
+				<form action="#" id="upload3" onSubmit="return false"
+					enctype="multipart/form-data" method="POST">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group col-md-10" style="padding-right:0px;">
+
+								<label>上传抢修情况汇总文件</label>&nbsp;<span class="text-info">[*]</span>
+								<input class="form-control" type="file" id="pathName3"
+									name="pathName3" />
+							</div>
+							<div class="form-group col-md-2" style="padding-left:0px;">
+								<button type="button" ng-disabled="form.$invalid"
+									class="btn btn-info btn-sm" style="margin-top:23px;"
+									id="uploadfile3">
+									<i class="fa fa-plus-circle"></i>点击上传
+								</button>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<span style="color:red" id="uploadResult3"></span>
+						</div>
+
+					</div>
+				</form>
+				<form action="#" id="checkForm3" onSubmit="return false">
+
+					<div class="row" ng-show="false">
+						<input type="text" name="fileName3" value="" /> <input
+							type="text" name="id" value="" ng-model="checkData.id" /> <input
+							type="text" name="filePath3" value="" /> <input type="text"
+							name="result" value="" />
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>
+								<textarea class="form-control" row="40" name="note3"></textarea>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<label class="form-group col-md-12">选择需要发送通知的组</label>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-4" ng-repeat="x in roleData"
+							style="margin-left:20px;">
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="id3-{{x.roleId}}" value="{{x.roleId}}"
+									name="roleId" checked=""> <label for="id3-{{x.roleId}}">{{x.role}}
+								</label>
+							</div>
+							<!-- <div class="form-group col-md-12">
+
+									<input id="{{x.roleId}}" class="magic-checkbox" type="checkbox"
+										name="roleType" value="1"> <label for="{{x.roleId}}"><span>{{x.role}}</span></label>
+								</div> -->
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="upload_btn3">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="checkWin4" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">上传巡检计划表</small> -->
+			</div>
+			<div class="modal-body pad-0">
+				<form action="#" id="checkForm4" onSubmit="return false">
+
+					<div class="row" ng-show="false">
+						<input type="text" name="fileName4" value="" /> <input
+							type="text" name="id" value="" ng-model="checkData.id" /> <input
+							type="text" name="filePath4" value="" /> <input type="text"
+							name="result" value="" />
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注信息</label>
+								<textarea class="form-control" row="40" name="note4"></textarea>
+							</div>
+
+						</div>
+
+					</div>
+				</form>
+				<form action="#" id="upload4" onSubmit="return false"
+					enctype="multipart/form-data" method="POST">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group col-md-10" style="padding-right:0px;">
+
+								<label>上传巡检记录文件</label>&nbsp;<span class="text-info">[*]</span>
+								<input class="form-control" type="file" id="pathName4"
+									name="pathName4" />
+							</div>
+							<div class="form-group col-md-2" style="padding-left:0px;">
+								<button type="button" ng-disabled="form.$invalid"
+									class="btn btn-info btn-sm" style="margin-top:23px;"
+									id="uploadfile4">
+									<i class="fa fa-plus-circle"></i>点击上传
+								</button>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<span style="color:red" id="uploadResult4"></span>
+						</div>
+
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="upload_btn4">
+					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#uploadfile2").click(
+			function() {
+				if ($('#pathName2').val() == "") {
+					alert("请选择需要上传的文件！");
+					return false;
+				}
+				$("#checkForm2").find("input[name='result']").val(2);
+				$("#uploadfile2").attr("disabled", true);
+				xh.maskShow("正在上传文件，请耐心等待");
+				$.ajaxFileUpload({
+					url : '../../inspection/uploadOne', //用于文件上传的服务器端请求地址
+					secureuri : false, //是否需要安全协议，一般设置为false
+					fileElementId : 'pathName2', //文件上传域的ID
+					dataType : 'json', // 返回值类型 一般设置为json
+					type : 'POST',
+					success : function(data, status) //服务器成功响应处理函数
+					{
+						$("#uploadfile2").attr("disabled", false);
+						xh.maskHide();
+						if (data.success) {
+							$("#checkForm2").find("input[name='result']")
+									.val(1);
+							$("#checkForm2").find("input[name='fileName2']")
+									.val(data.fileName);
+							$("#checkForm2").find("input[name='filePath2']")
+									.val(data.filePath);
+							$("#uploadResult2").html("文件上传成功");
+							toastr.success("文件上传成功", '提示');
+						} else {
+							$("#checkForm2").find("input[name='result']")
+									.val(0);
+							toastr.error("文件上传失败", '提示');
+							$("#uploadResult2").html("文件上传失败");
+						}
+
+					},
+					error : function(data, status, e)//服务器响应失败处理函数
+					{
+						alert(e);
+						$("#uploadfile2").attr("disabled", false);
+						xh.maskHide();
+					}
+				});
+			});
+
+	$("#uploadfile3").click(
+			function() {
+				if ($('#pathName3').val() == "") {
+					alert("请选择需要上传的文件！");
+					return false;
+				}
+				$("#checkForm3").find("input[name='result']").val(2);
+				$("#uploadfile3").attr("disabled", true);
+				xh.maskShow("正在上传文件，请耐心等待");
+				$.ajaxFileUpload({
+					url : '../../inspection/uploadTwo', //用于文件上传的服务器端请求地址
+					secureuri : false, //是否需要安全协议，一般设置为false
+					fileElementId : 'pathName3', //文件上传域的ID
+					dataType : 'json', // 返回值类型 一般设置为json
+					type : 'POST',
+					success : function(data, status) //服务器成功响应处理函数
+					{
+						$("#uploadfile3").attr("disabled", false);
+						xh.maskHide();
+						if (data.success) {
+							$("#checkForm3").find("input[name='result']")
+									.val(1);
+							$("#checkForm3").find("input[name='fileName3']")
+									.val(data.fileName);
+							$("#checkForm3").find("input[name='filePath3']")
+									.val(data.filePath);
+							$("#uploadResult3").html("文件上传成功");
+							toastr.success("文件上传成功", '提示');
+						} else {
+							$("#checkForm3").find("input[name='result']")
+									.val(0);
+							toastr.error("文件上传失败", '提示');
+							$("#uploadResult3").html("文件上传失败");
+						}
+
+					},
+					error : function(data, status, e)//服务器响应失败处理函数
+					{
+						alert(e);
+						$("#uploadfile3").attr("disabled", false);
+						xh.maskHide();
+					}
+				});
+			});
+	$("#uploadfile4").click(
+			function() {
+				if ($('#pathName4').val() == "") {
+					alert("请选择需要上传的文件！");
+					return false;
+				}
+				$("#checkForm4").find("input[name='result']").val(4);
+				$("#uploadfile4").attr("disabled", true);
+				xh.maskShow("正在上传文件，请耐心等待");
+				$.ajaxFileUpload({
+					url : '../../inspection/uploadThree', //用于文件上传的服务器端请求地址
+					secureuri : false, //是否需要安全协议，一般设置为false
+					fileElementId : 'pathName4', //文件上传域的ID
+					dataType : 'json', // 返回值类型 一般设置为json
+					type : 'POST',
+					success : function(data, status) //服务器成功响应处理函数
+					{
+						$("#uploadfile4").attr("disabled", false);
+						xh.maskHide();
+						if (data.success) {
+							$("#checkForm4").find("input[name='result']")
+									.val(1);
+							$("#checkForm4").find("input[name='fileName4']")
+									.val(data.fileName);
+							$("#checkForm4").find("input[name='filePath4']")
+									.val(data.filePath);
+							$("#uploadResult4").html("文件上传成功");
+							toastr.success("文件上传成功", '提示');
+						} else {
+							$("#checkForm4").find("input[name='result']")
+									.val(0);
+							toastr.error("文件上传失败", '提示');
+							$("#uploadResult4").html("文件上传失败");
+						}
+
+					},
+					error : function(data, status, e)//服务器响应失败处理函数
+					{
+						alert(e);
+						$("#uploadfile4").attr("disabled", false);
+						xh.maskHide();
+					}
+				});
+			});
+	$("#upload_btn2").click(function() {
+		if ($("#checkForm2").find("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		$('#checkForm2').submit();
+
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#checkForm2').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check2();
+	});
+
+	$("#upload_btn3").click(function() {
+		if ($("#checkForm3").find("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=3) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		$('#checkForm3').submit();
+
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#checkForm3').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check3();
+	});
+	$("#upload_btn4").click(function() {
+		if ($("#checkForm4").find("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
+		/* if ($("input[name='result']").val()!=2) {
+			alert("请等待上传完成！");
+			return false;
+		} */
+		$('#checkForm4').submit();
+
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#checkForm4').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check4();
+	});
+</script>

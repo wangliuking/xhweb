@@ -76,7 +76,7 @@ xh.load = function() {
 		};
 		/* 跳转到申请进度页面 */
 		$scope.toProgress = function(id) {
-			$scope.editData = $scope.data[id];
+			$scope.checkData = $scope.data[id];
 			/*
 			 * $http.get("../../net/applyProgress?id="+$scope.editData.id).
 			 * success(function(response){ $scope.progressData =
@@ -84,10 +84,12 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
-			$scope.progressData = $scope.editData;
+			$scope.progressData = $scope.checkData;
 			
 			$("#progress").modal('show');
 		};
+		
+		
 		/* 显示协议签署窗口 */
 		$scope.checkSign = function(id) {
 			$scope.signData = $scope.data[id];
@@ -180,7 +182,7 @@ xh.load = function() {
 			else if (type == 6) {
 				$("#checkWin16").modal('show');
 			}
-			//用户上传协议文件
+			//管理方上传协议文件
 			else if (type == 7) {
 				$("#checkWin17").modal('show');
 			}
@@ -218,7 +220,7 @@ xh.load = function() {
 			}
 			//经办人审核编组方案
 			else if ($scope.loginUserRoleId == 10002
-					&& $scope.loginUser == $scope.checkData.user4
+					&& $scope.loginUser == $scope.checkData.user2
 					&& $scope.checkData.checked == 3) {
 				$("#checkWin4").modal('show');
 			}
@@ -338,7 +340,7 @@ xh.addJoinNet = function() {
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
-			if (data.result == 1) {
+			if (data.result >= 1) {
 				$('#addJoinNet').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -460,7 +462,11 @@ xh.check5 = function() {
 			if (data.result == 1) {
 				$('#checkWin5').modal('hide');
 				xh.refresh();
-				toastr.success(data.message, '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "success"
+				});
 
 			} else {
 				toastr.error(data.message, '提示');
@@ -990,7 +996,9 @@ xh.download = function(id,type) {
 	}
 	else{
 		//如果type为1 那么表示下载公函。
-		$scope.checkData = $scope.data[id];
+		if(id >= 0){
+			$scope.checkData = $scope.data[id];
+		}
 		if(type == 1 && $scope.checkData.fileName_GH != null && $scope.checkData.fileName_GH != ''){
 			filename = $scope.checkData.fileName_GH;
 		}

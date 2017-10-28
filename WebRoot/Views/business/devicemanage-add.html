@@ -14,64 +14,56 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="userNature"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>单位联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="userUnit"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="tel"
+									required="required">
+							</div>
+						</div>
+						<!-- <div class="col-md-4">
+							<div class="form-group col-md-12">
 								<label>故障时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="time"
 									required="required" onfocus="WdatePicker()">
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<!-- row-------end -->
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>遥控请求</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="request" class="form-control">
-									<option value="终端遥启" selected="selected">终端遥启</option>
-									<option value="终端遥毙" selected="selected">终端遥毙</option>
+								<label>业务变更需求</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="request" class="form-control" onchange="list(this)">
+									<option value="个呼号优先级" selected="selected">个呼号优先级</option>
+									<option value="通话组优先级">通话组优先级</option>
+									<option value="设置漫游权限">设置漫游权限</option>
+									<option value="新增/删除通话组">新增/删除通话组</option>
+									<option value="遥启/遥毙终端">遥启/遥毙终端</option>
+									<option value="变更终端设备">变更终端设备</option>
+									<option value="其它">其他</option>
 								</select>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>遥控申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="user_MainManager" ng-model="user_M">
-									<option ng-repeat="x in userData_MainManager"
-										value="{{x.user}}">{{x.userName}}</option>
-								</select>
+								<textarea
+									style="width:400px;height:100px;max-width:400px;max-height:100px; display: none"
+									name="" id="content" class="form-control" required="required" maxlength="70"></textarea>
 							</div>
 						</div>
 					</div>
-					<!--row-------end -->
-					<!-- <div class="row">
-						<div class="col-md-3">
+					<div class="row">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>故障审核人</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="user_MainManager" ng-model="user_M">
-									<option ng-repeat="x in userData_MainManager"
-										value="{{x.user}}">{{x.userName}}</option>
-								</select>
+								<label>变更原因</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea
+									style="width:400px;height:100px;max-width:400px;max-height:100px;"
+									name="reason" id="content" class="form-control" required="required" maxlength="70"></textarea>
 							</div>
 						</div>
-					</div> -->
-					<!--row-------end -->
-
-
-
-
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -92,7 +84,17 @@
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
 	});
-
+	function list(obj){
+		var index = obj.selectedIndex;
+		var op = obj.options[index];
+		if(op.value == "其它"){
+			$(obj).fadeOut();
+			$(obj).remove();
+			var content = $("#content");
+			content.attr("name","request");
+			content.fadeIn();
+		}
+	}
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',

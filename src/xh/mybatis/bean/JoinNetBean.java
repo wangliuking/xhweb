@@ -49,16 +49,37 @@ public class JoinNetBean {
 	private String filePathHT;
 	private String fileNameCG;
 	private String filePathCG;
-	private int terminalNum;
 	private int talkGroupNum;
 	private String talkRequirment;
+	private int apply0;
+	private int apply1;
+	private int apply2;
+	private String note2_suggest;
 	
 	
-	public int getTerminalNum() {
-		return terminalNum;
+	public String getNote2_suggest() {
+		return note2_suggest;
 	}
-	public void setTerminalNum(int terminalNum) {
-		this.terminalNum = terminalNum;
+	public void setNote2_suggest(String note2_suggest) {
+		this.note2_suggest = note2_suggest;
+	}
+	public int getApply0() {
+		return apply0;
+	}
+	public void setApply0(int apply0) {
+		this.apply0 = apply0;
+	}
+	public int getApply1() {
+		return apply1;
+	}
+	public void setApply1(int apply1) {
+		this.apply1 = apply1;
+	}
+	public int getApply2() {
+		return apply2;
+	}
+	public void setApply2(int apply2) {
+		this.apply2 = apply2;
 	}
 	public int getTalkGroupNum() {
 		return talkGroupNum;
@@ -369,21 +390,21 @@ public class JoinNetBean {
 	}
 	@Override
 	public String toString() {
-		return "JoinNetBean [id=" + id + ", unitName=" + unitName
-				+ ", unitNature=" + unitNature + ", unitType=" + unitType
-				+ ", netBasis=" + netBasis + ", netTime=" + netTime
-				+ ", pactName=" + pactName + ", signTime=" + signTime
-				+ ", serviceType=" + serviceType + ", serviceTime="
-				+ serviceTime + ", unitPerson=" + unitPerson + ", tel=" + tel
-				+ ", department=" + department + ", softPerson=" + softPerson
-				+ ", virtualnetName=" + virtualnetName + ", checked=" + checked
-				+ ", result=" + result + ", userName=" + userName + ", time="
-				+ time + ", user1=" + user1 + ", user2=" + user2 + ", user3="
-				+ user3 + ", user4=" + user4 + ", time1=" + time1 + ", time2="
-				+ time2 + ", time3=" + time3 + ", time4=" + time4 + ", time5="
-				+ time5 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
-				+ note3 + ", note4=" + note4 + ", fileName=" + fileName
-				+ ", filePath=" + filePath + "]";
+		return "JoinNetBean [id=" + id + ", unitName=" + unitName + ", unitNature=" + unitNature + ", unitType="
+				+ unitType + ", netBasis=" + netBasis + ", netTime=" + netTime + ", pactName=" + pactName
+				+ ", signTime=" + signTime + ", serviceType=" + serviceType + ", serviceTime=" + serviceTime
+				+ ", unitPerson=" + unitPerson + ", tel=" + tel + ", department=" + department + ", softPerson="
+				+ softPerson + ", virtualnetName=" + virtualnetName + ", checked=" + checked + ", result=" + result
+				+ ", userName=" + userName + ", time=" + time + ", user1=" + user1 + ", user2=" + user2 + ", user3="
+				+ user3 + ", user4=" + user4 + ", time1=" + time1 + ", time2=" + time2 + ", time3=" + time3 + ", time4="
+				+ time4 + ", time5=" + time5 + ", time6=" + time6 + ", note1=" + note1 + ", note2=" + note2 + ", note3="
+				+ note3 + ", note4=" + note4 + ", note5=" + note5 + ", note6=" + note6 + ", fileName=" + fileName
+				+ ", filePath=" + filePath + ", fileNameGH=" + fileNameGH + ", filePathGH=" + filePathGH
+				+ ", fileNameNote=" + fileNameNote + ", filePathNote=" + filePathNote + ", fileNameDoc=" + fileNameDoc
+				+ ", filePathDoc=" + filePathDoc + ", fileNameHT=" + fileNameHT + ", filePathHT=" + filePathHT
+				+ ", fileNameCG=" + fileNameCG + ", filePathCG=" + filePathCG + ", talkGroupNum=" + talkGroupNum
+				+ ", talkRequirment=" + talkRequirment + ", apply0=" + apply0 + ", apply1=" + apply1 + ", apply2="
+				+ apply2 + ", note2_suggest=" + note2_suggest + ", user_MainManager=" + user_MainManager + "]";
 	}
 	
 	

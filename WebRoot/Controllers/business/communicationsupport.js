@@ -350,6 +350,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -398,6 +399,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -446,6 +448,7 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -496,6 +499,7 @@ xh.check8 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin8').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -544,6 +548,7 @@ xh.check10 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin10').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -559,13 +564,12 @@ xh.check10 = function() {
 /*管理方接受消息*/
 xh.check11 = function() {
 	$.ajax({
-		url : '../../support/checkedEvelen',
+		url : '../../support/checkedEleven',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm11").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin11').modal('hide');
 				xh.refresh();
@@ -592,6 +596,7 @@ xh.check12 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin12').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -640,6 +645,7 @@ xh.check14 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin14').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

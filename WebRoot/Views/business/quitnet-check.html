@@ -42,7 +42,7 @@
 							<div class="form-group col-md-12">
 								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> 
 								<select class="form-control" name="user" ng-model="user">
-								    <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+								    <option ng-repeat="x in userData" value="{{x.unit1}}" >{{x.userName}}</option>
 								</select>
 							</div>
 						</div>
@@ -96,8 +96,8 @@
 							<div class="form-group col-md-12">
 								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="quit">
-									<option value="2" selected="selected">通过</option>
-									<option value="0">拒绝</option>
+									<option value="2" selected="selected">同意</option>
+									<option value="0">不同意</option>
 								</select>
 							</div>
 						</div>
