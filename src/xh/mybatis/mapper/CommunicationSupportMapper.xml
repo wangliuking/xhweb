@@ -151,4 +151,10 @@
 		note=#{note},checked=#{checked} where id=#{id}
 	</update>
 
+	<!--管理方领导审核 -->
+	<update id="checkedSeventeen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		checked=#{checked} where id=#{id}
+	</update>
+
 </mapper>

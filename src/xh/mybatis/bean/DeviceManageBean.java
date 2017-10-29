@@ -23,6 +23,15 @@ public class DeviceManageBean {
     private String userName;
     private String tel;
     private String reason;
+    private String desciption;
+
+    public String getDesciption() {
+        return desciption;
+    }
+
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
+    }
 
     public String getTel() {
         return tel;

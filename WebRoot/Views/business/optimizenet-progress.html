@@ -85,9 +85,9 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=1"></div>
+									ng-if="progressData.checked<1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>1"></div>
+									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传方案审核消息</h2>
 									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
@@ -103,9 +103,9 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=2"></div>
+									ng-if="progressData.checked<2"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>2"></div>
+									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传方案审核消息成功，等待管理方审核</h2>
 									<p>
@@ -125,9 +125,9 @@
 
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=3"></div>
+									ng-if="progressData.checked<3"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>3"></div>
+									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传总结审核消息</h2>
 									<a ng-if="progressData.checked>=3" href="#" title="点击下载文件"
@@ -146,9 +146,9 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=4"></div>
+									ng-if="progressData.checked<4"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>4"></div>
+									ng-if="progressData.checked>=4"></div>
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传总结审核消息成功，等待管理方审核</h2>
 									<p>
@@ -174,27 +174,19 @@
 					</div>
 				</div>
 			</div>
-		</div>
+
 		<!-- <div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-dismiss="modal">
 				<i class="fa fa-remove"></i>&nbsp;关闭
 			</button>
 		</div> -->
-		<div class="modal-footer">
+			<div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-dismiss="modal">
 				<i class="fa fa-remove"></i>&nbsp;关闭
 			</button>
-			<!-- <button type="button" class="btn btn-success btn-sm" id="saveHT_btn"
-				data-dismiss="modal" ng-if="loginUserRoleId == 10002">
-				<i class="fa fa-plus"></i>&nbsp;保存
-			</button>
-			<button type="button" class="btn btn-success btn-sm"
-				data-dismiss="modal" disabled="disabled"
-				ng-if="loginUserRoleId != 10002">
-				<i class="fa fa-plus"></i>&nbsp;保存
-			</button> -->
+			</div>
 		</div>
 	</div>
 </div>

@@ -96,10 +96,10 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>0"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方审核</h2>
-									<p>
+									<h2>管理方领导审核</h2>
+									<!-- <p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
-									</p>
+									</p> -->
 									<span ng-if="progressData.checked==0"
 										class="cd-date text-danger">等待审核！</span> <span
 										ng-if="progressData.checked>0"
@@ -110,9 +110,9 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=1"></div>
+									ng-if="progressData.checked<1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>1"></div>
+									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>管理方处理请求中</h2>
 									<p>
@@ -122,7 +122,7 @@
 										class="cd-date text-danger">请管理方重新处理！</span>
 									<span ng-if="progressData.checked==2"
 										class="cd-date text-danger">等待管理方处理请求！</span> <span
-										ng-if="progressData.checked>1"
+										ng-if="progressData.checked>2"
 										class="cd-date text-success font-bold"> 管理方处理请求中
 										时间：{{progressData.time2}}</span>
 								</div>
@@ -130,9 +130,9 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<=2"></div>
+									ng-if="progressData.checked<2"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>2"></div>
+									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
 									<h2>管理方处理请求成功，等待用户确认</h2>
 									<p>
@@ -148,9 +148,9 @@
 						<!-- cd-timeline-block end-->
 						<div class="cd-timeline-block">
 							<div class="cd-timeline-img-first cd-gray"
-								ng-if="progressData.checked<=3">结束</div>
+								ng-if="progressData.checked<3">结束</div>
 							<div class="cd-timeline-img-first cd-green"
-								ng-if="progressData.checked>3">结束</div>
+								ng-if="progressData.checked>=3">结束</div>
 						</div>
 					</div>
 				</div>

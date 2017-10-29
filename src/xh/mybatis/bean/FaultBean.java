@@ -40,7 +40,6 @@ public class FaultBean {
 	private String user4;
 	private String time4;
 	private String note4;
-
 	public String getNote4() {
 		return note4;
 	}

@@ -136,6 +136,23 @@ public class QuitNetService {
         return result;
     }
 
+    public static int checkedTwo(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedTwo(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
     /**
      * 用户确认
      *
