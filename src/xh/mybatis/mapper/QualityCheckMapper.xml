@@ -59,7 +59,7 @@
     <!--管理方上传-->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.QualityCheckBean">
         update xhgmnet_bs_qualitycheck set
-        fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked}
+        fileName2=#{fileName2},filePath2=#{filePath2},user2=#{user2},time2=#{time2},checked=#{checked}
         where id=#{id}
     </update>
 

@@ -253,6 +253,8 @@ public class QualityCheckController {
         QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
         bean.setChecked(2);
+        bean.setUser2(funUtil.loginUser(request));
+        bean.setTime2(funUtil.nowDate());
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
         System.out.println("应急处置演练任务消息:" + fileName);
