@@ -45,8 +45,8 @@
 	<insert id="insertFault" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.FaultBean">
 		insert into
-		xhgmnet_business_fault(unit,person,tel,information,time,userName)
-		values(#{unit},#{person},#{tel},#{information},#{time},#{userName})
+		xhgmnet_business_fault(unit,person,tel,information,faultReason,time,userName)
+		values(#{unit},#{person},#{tel},#{information},#{faultReason},#{time},#{userName})
 	</insert>
 
 	<update id="checkedEight" parameterType="xh.mybatis.bean.FaultBean">
