@@ -1,11 +1,13 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
+var powerData=null;
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
+		xh.userPower();
 	})
 	$("#wrapper-iframe").height($("body").height()-100);
 	/* 首页全屏 */
@@ -353,6 +355,20 @@ xh.maskShow = function(message) {
 /* 关闭网页遮罩层 */
 xh.maskHide = function() {
 	$(".xh-mask").fadeOut(300);
+}
+xh.userPower=function(){
+	$.ajax({
+		url : 'web/loginUserPower',
+		type : 'post',
+		dataType : "json",
+		data : {},
+		async : false,
+		success : function(data) {
+			powerData=data;
+		},
+		error : function() {
+		}
+	});
 }
 
 /* 获取cookie */

@@ -355,24 +355,17 @@ public class WebUserController {
         int rslt=0;
         if(WebUserServices.existsUserPower(bean.getUserId())>0){
         	rslt=WebUserServices.updateUserPower(bean);
-        	log.info("count1="+WebUserServices.existsUserPower(bean.getUserId()));
         }else{
         	rslt=WebUserServices.addUserPower(bean);
-        	log.info("count2="+WebUserServices.existsUserPower(bean.getUserId()));
         }
         if(rslt==1){
-			try {
-				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
-				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-				webLogBean.setStyle(4);
-				webLogBean.setContent("设置用户权限，userId="+bean.getUserId());
-				webLogBean.setCreateTime(funUtil.nowDate());
-				WebLogService.writeLog(webLogBean);
-				message="设置用户权限成功";
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(4);
+			webLogBean.setContent("设置用户权限，userId="+bean.getUserId());
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+			message="设置用户权限成功";
 		}else{
 			message="设置用户权限失败";
 		}		

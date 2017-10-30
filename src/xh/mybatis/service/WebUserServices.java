@@ -93,6 +93,42 @@ public class WebUserServices {
 		
 	}
 	/**
+	 * 根据用户名,查找用户信息
+	 * @param user
+	 * @return
+	 */
+	public static Map<String,Object>userInfoByName(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			map=mapper.userInfoByName(user);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  map;	
+	}
+	/**
+	 * 根据用户名,查找用户权限信息
+	 * @param user
+	 * @return
+	 */
+	public static Map<String,Object>userPowerInfoByName(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			map=mapper.userPowerInfoByName(user);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  map;	
+	}
+	/**
 	 * 根据登录用户名,登录用户
 	 * @param root
 	 * @return
@@ -295,7 +331,8 @@ public class WebUserServices {
 		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
 		int result=-1;
 		try {
-			result=mapper.addUserPower(bean);		
+			result=mapper.addUserPower(bean);
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -313,7 +350,8 @@ public class WebUserServices {
 		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
 		int result=-1;
 		try {
-			result=mapper.updateUserPower(bean);		
+			result=mapper.updateUserPower(bean);
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
