@@ -66,49 +66,10 @@ html,body {
 	display: block;
 	cursor: pointer;
 	z-index: 1000;
-	border-top-left-radius:0em;
-	border-top-right-radius:20em;
-	border-bottom-right-radius:20em;
-	border-bottom-left-radius:0em;
-}
-/* 右上角显示框样式 */
-.info_right {
-	display:none;
-	width: 380px;
-	height: 60px;
-	position: fixed;
-	top: 0px;
-	right: 0px;
-	z-index: 1 !important;
-	background: rgba(176, 196, 222, 0.7);
-}
-
-.info_one,.info_two {
-	width: 158px;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	float: left;
-	text-align: center;
-	background-color: white;
-	color: black;
-}
-
-.info_one td,.info_one th,#tb-info,.info_two td,.info_two th,.info_three td,.info_three th
-	{
-	margin: 0;
-	padding: 0;
-}
-
-.info_three {
-	width: 60px;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	float: left;
-	text-align: center;
-	background-color: white;
-	color: black;
+	border-top-left-radius: 0em;
+	border-top-right-radius: 20em;
+	border-bottom-right-radius: 20em;
+	border-bottom-left-radius: 0em;
 }
 
 /* 圈选按钮样式 */
@@ -121,143 +82,93 @@ html,body {
 #dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar {
 	display: none;
 }
+/*右上角工具栏*/
+.info_right {
+	position: fixed;
+	top: 0;
+	right: 6%;
+	z-index: 1000;
+}
+.dropdown-menu{
+	background: rgba(255, 255, 255, 0.6);
+}
 </style>
 </head>
-<body ng-app="app" ng-controller="map"
-	class="fixed-iframe">
+<body ng-app="app" ng-controller="map" class="fixed-iframe">
 
-<!-- 右上角显示框 -->
+	<!-- 右上角显示框 -->
 	<div class="info_right">
-		<div class="info_three">
-			<table class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead>
-					<tr class="tr-gray">
-						<th style="border:1px solid gray;">top</th>
-					</tr>
-				</thead>
-			</table>
-			<table id="table0" class="xh-table table-hover"
-				style="padding:0;margin:0;">
-				<tbody>
-					<tr>
-						<td>1</td>
-					</tr>
-					<tr>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>3</td>
-					</tr>
-					<tr>
-						<td>4</td>
-					</tr>
-					<tr>
-						<td>5</td>
-					</tr>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				级别 <span class="caret"></span>
+			</button>
+			<div class="dropdown-menu" role="menu">
+				<ul class="nav nav-second-level" ng-repeat="x in levelData">
+					<li style="text-align:center;" ng-if="x.level!=null"><a href="#"
+						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+				</ul>
+			</div>
 
-				</tbody>
-			</table>
 		</div>
-		<div class="info_one">
-			<table class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead>
-					<tr class="tr-gray">
-						<th style="width:70%;border:1px solid gray;">基站</th>
-						<th style="width:30%;border:1px solid gray;">话务量</th>
-					</tr>
-				</thead>
-			</table>
-			<table id="table1" class="xh-table table-hover"
-				style="padding:0;margin:0;">
-				<tbody>
-					<!-- <tr ng-repeat="x in top5Calllist">
-						<td style="width:70%;"><a href="#"
-							ng-click="calllistChoose(x)">{{x.name}}</a></td>
-						<td style="width:30%;">{{x.num}}</td>
-					</tr> -->
-					<tr>
-						<td style="width:70%;">武侯二办</td>
-						<td style="width:30%;">11</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">双流城区1</td>
-						<td style="width:30%;">37</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">都江堰城区</td>
-						<td style="width:30%;">54</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">成都市公安局</td>
-						<td style="width:30%;">67</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">政府三办</td>
-						<td style="width:30%;">69</td>
-					</tr>
-					
-				</tbody>
-			</table>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				区域 <span class="caret"></span>
+			</button>
+			<div class="dropdown-menu" role="menu">
+				<ul ng-repeat="x in data">
+					<li><label class="areaChoose"><input
+							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
+				</ul>
+			</div>
 		</div>
-		<div class="info_two">
-			<table class="xh-table table-hover" style="padding:0;margin:0;">
-				<thead>
-					<tr class="tr-gray">
-						<th style="width:70%;border:1px solid gray;">基站</th>
-						<th style="width:30%;border:1px solid gray;">排队数</th>
-					</tr>
-				</thead>
-			</table>
-			<table id="table2" class="xh-table table-hover"
-				style="padding:0;margin:0;">
-				<tbody>
-					<!-- <tr ng-repeat="x in top5Channel">
-						<td style="width:70%;"><a href="#" ng-click="channel(x)">{{x.name}}</a></td>
-						<td style="width:30%;">{{x.sum}}</td>
-					</tr> -->
-					<tr>
-						<td style="width:70%;">龙泉洪安镇</td>
-						<td style="width:30%;">16</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">彭州城区1</td>
-						<td style="width:30%;">25</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">郫县安德镇</td>
-						<td style="width:30%;">37</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">天府新区永兴镇</td>
-						<td style="width:30%;">68</td>
-					</tr>
-					<tr>
-						<td style="width:70%;">省交警总队</td>
-						<td style="width:30%;">72</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				图层 <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li style="padding-left:36px;"><label><input
+						id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
+				<li style="padding-left:36px;"><label><input
+						id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
+				<li style="padding-left:36px;"><label><input
+						id="testService" type="checkbox" value="">行政区域</label></li>
+				<li style="padding-left:36px;"><label><input
+						id="testDemo" type="checkbox" value="">仿真图片</label></li>
+			</ul>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				圈选 <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li style="padding-left:36px;"><label>
+							<button data-dojo-type="dijit/form/Button">点击选择</button>
+					</label></li>
+			</ul>
 		</div>
 	</div>
 	<!-- 导航右侧标签 -->
-	<div class="nav_right">
-		
-	</div>
+	<div class="nav_right"></div>
 	<!-- 左侧导航 -->
-	<aside id="menu" class="menu"
+	<!-- <aside id="menu" class="menu"
 		style="z-index:1000;height:100%-80px;background: rgba(176,196,222, 0.7);position:fixed;top:0;left:-190px;overflow-x:hidden;">
-		<!-- <div id="menu-title">
+		<div id="menu-title">
 		<i class="fa fa-list-alt text-danger"></i>&nbsp;&nbsp;<span>菜单列表</span>
-	</div> -->
+	</div>
 		<ul class="nav" id="side-menu"
 			style="height:auto;background: rgba(176,196,222, 0.7);">
 			<li><a href="#"> <i class="fa fa-level-up text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li ng-if="x.level!=null"><a href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+					<li ng-if="x.level!=null"><a href="#"
+						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
 				</ul></li>
-			<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
+		 	<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
 					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
 			</a>
 				<ul class="nav nav-second-level" ng-repeat="x in data">
@@ -272,9 +183,9 @@ html,body {
 							id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
 					<li style="padding-left:36px;"><label><input
 							id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
-							<li style="padding-left:36px;"><label><input
+					<li style="padding-left:36px;"><label><input
 							id="testService" type="checkbox" value="">行政区域</label></li>
-							<li style="padding-left:36px;"><label><input
+					<li style="padding-left:36px;"><label><input
 							id="testDemo" type="checkbox" value="">仿真图片</label></li>
 				</ul></li>
 			<li><a href="#"> <i class="fa fa-columns text-black"></i>&nbsp;&nbsp;
@@ -287,7 +198,7 @@ html,body {
 				</ul></li>
 
 		</ul>
-	</aside>
+	</aside> -->
 
 
 	<!-- <div id="head" data-dojo-props="region:'top'">
@@ -301,7 +212,6 @@ html,body {
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="message_move">圈选查询</div>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				</div>
 				<div class="modal-body">
 					<ul id="myTab" class="nav nav-tabs">
@@ -328,7 +238,7 @@ html,body {
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in dataRectangle">
 										<td>{{x.bsId}}</td>
@@ -367,8 +277,7 @@ html,body {
 						<div class="tab-pane fade" id=""></div>
 					</div>
 				</div>
-				<div class="modal-footer">
-				</div>
+				<div class="modal-footer"></div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
@@ -390,7 +299,7 @@ html,body {
 								基本</a></li>
 						<li><a href="#param" data-toggle="tab">参数</a></li>
 						<li><a href="#business" data-toggle="tab">业务</a></li>
-						<li><a href="#moveController" data-toggle="tab">动环</a></li>					
+						<li><a href="#moveController" data-toggle="tab">动环</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="manage">
@@ -505,7 +414,7 @@ html,body {
 						<div class="tab-pane fade" id="business">
 							<div>
 								<table width="100%" border="0" class="userCon_2">
-									<tr height:"10%">
+									<trheight:"10%">
 										<th width="40%">话务量：</th>
 										<td width="60%"><input type="text" name="business1"
 											class="form-control" style="border-radius:3px; width:220px;"
@@ -522,9 +431,10 @@ html,body {
 
 										<tr>
 											<th>控制信道占用率(下行)：</th>
-											<td><input type="text" name="business3" class="form-control"
-												style="border-radius:3px; width:220px;" id="business3" value="63%"
-												required="" aria-required="true" disabled /></td>
+											<td><input type="text" name="business3"
+												class="form-control" style="border-radius:3px; width:220px;"
+												id="business3" value="63%" required="" aria-required="true"
+												disabled /></td>
 										</tr>
 										<tr>
 											<th>排队数：</th>
@@ -544,12 +454,12 @@ html,body {
 											<th>获取时间：</th>
 											<td><input type="text" name="lineHeight"
 												class="form-control" style="border-radius:3px; width:220px;"
-												id="lineHeight" value="2017-10-18 10:14:09" required="" aria-required="true"
-												disabled /></td>
+												id="lineHeight" value="2017-10-18 10:14:09" required=""
+												aria-required="true" disabled /></td>
 										</tr>
 								</table>
 							</div>
-							
+
 						</div>
 						<div class="tab-pane fade" id="moveController">
 							<div id="" style="height:60px;width:568px;">
@@ -577,7 +487,7 @@ html,body {
 							</div>
 							<div id="Current_voltage" style="height:180px;width:568px;"></div>
 						</div>
-						
+
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -590,7 +500,7 @@ html,body {
 		<!-- /.modal -->
 	</div>
 	<!-- 模态框（Modal）end -->
-<script>
+	<script>
 		var dojoConfig = {
 			parseOnLoad : true,
 			packages : [ {
@@ -608,7 +518,7 @@ html,body {
 		src="lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="echarts.source.js"></script>
 	<script src="http://125.70.9.194:801/3.15/init.js"></script>
-	
+
 	<!-- highcharts -->
 	<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
 	<script type="text/javascript" src="lib/highcharts/highcharts-more.js"></script>
