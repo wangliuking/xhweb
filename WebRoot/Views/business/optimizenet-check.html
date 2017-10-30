@@ -1,4 +1,4 @@
- 服务提供方对任务消息进行审核 -->
+<!--  服务提供方对任务消息进行审核 -->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -25,17 +25,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									 class="form-control" name="checked">
-									<option value="1" selected="selected">通过</option>
-									<option value="-1">拒绝</option>
-								</select>
-							</div>
-						</div>
-					</div>	
+					<!-- seee2 -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -64,7 +54,7 @@
 <!-- 服务提供方上传方案审核消息  -->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -125,7 +115,7 @@
 <!-- 管理方审核方案信息 -->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -152,15 +142,15 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>中断</label>&nbsp;<span class="text-danger">[*]</span>  <select
-									 class="form-control" name="dropnet">
+								<label>中断</label>&nbsp;<span class="text-danger">[*]</span>
+								<select class="form-control" name="dropnet" ng-change="dropnetChange()" ng-model="dropnet">
 									<option value="1">中断</option>
 									<option value="-1" selected="selected">不中断</option>
 								</select>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-show="dropnet==1?false:true">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -198,7 +188,7 @@
 <!-- 服务提供方上传总结审核消息  -->
 <div class="modal fade" id="checkWin4" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -288,8 +278,8 @@
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="7" selected="selected">通过</option>
-									<option value="5">拒绝</option>
+									<option value="5" selected="selected">通过</option>
+									<option value="3">拒绝</option>
 								</select>
 							</div>
 						</div>
