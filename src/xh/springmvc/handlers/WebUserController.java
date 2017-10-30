@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import xh.mybatis.service.DataBaseUtilService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserRoleService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/web")
@@ -283,6 +285,7 @@ public class WebUserController {
 	@RequestMapping(value="/user/lock",method = RequestMethod.POST)
 	public void lockUser(HttpServletRequest request, HttpServletResponse response){
 		String userId=request.getParameter("userId");
+		String user=request.getParameter("user");
 		int lock=funUtil.StringToInt(request.getParameter("lock"));
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("id", userId);map.put("lock", lock);
@@ -296,6 +299,18 @@ public class WebUserController {
 				webLogBean.setContent("更新账号状态，userId="+userId+",lock="+lock);
 				webLogBean.setCreateTime(funUtil.nowDate());
 				WebLogService.writeLog(webLogBean);
+				
+				 Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
+		            while (iter.hasNext()) {  
+		                Map.Entry entry = (Map.Entry) iter.next();  
+		                Object key = entry.getKey();  
+		                Object val = entry.getValue();  
+		                if (((String) val).equals(user)) {  
+		                	SingLoginListener.getLogUserMap().remove(key);  
+		                }  
+		            }
+				
+				
 				message="更新用户状态成功";
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
@@ -350,7 +365,7 @@ public class WebUserController {
 	public void setuserpower(HttpServletRequest request, HttpServletResponse response){
 		String jsonData=request.getParameter("formData");
         UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
-        log.info(bean.toString());
+      
         
         int rslt=0;
         if(WebUserServices.existsUserPower(bean.getUserId())>0){
@@ -365,6 +380,15 @@ public class WebUserController {
 			webLogBean.setContent("设置用户权限，userId="+bean.getUserId());
 			webLogBean.setCreateTime(funUtil.nowDate());
 			WebLogService.writeLog(webLogBean);
+			 Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
+	            while (iter.hasNext()) {  
+	                Map.Entry entry = (Map.Entry) iter.next();  
+	                Object key = entry.getKey();  
+	                Object val = entry.getValue();  
+	                if (((String) val).equals(bean.getUser())) {  
+	                	SingLoginListener.getLogUserMap().remove(key);  
+	                }  
+	            }  
 			message="设置用户权限成功";
 		}else{
 			message="设置用户权限失败";

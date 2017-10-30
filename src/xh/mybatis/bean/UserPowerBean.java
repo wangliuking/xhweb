@@ -5,6 +5,7 @@ public class UserPowerBean {
 	
 	/*用户ID*/
 	private int userId;
+	private String user;
 	
 	/*运维管理权限*/
 	private String o_check_report="off"; //'报告审核',
@@ -24,6 +25,7 @@ public class UserPowerBean {
 	private String p_update="off"; //'平台管理-修改',
 	private String p_delete="off";// '平台管理-删除',
 	private String p_lock="off"; //'平台管理-账号加锁',
+	private String p_power="off"; //'平台管理-权限分配',
 	
 	
 	/*业务管理权限*/
@@ -178,6 +180,20 @@ public class UserPowerBean {
 	}
 	public void setB_check_lend(String b_check_lend) {
 		this.b_check_lend = b_check_lend;
+	}
+	
+	public String getP_power() {
+		return p_power;
+	}
+	public void setP_power(String p_power) {
+		this.p_power = p_power;
+	}
+	
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
 	}
 	@Override
 	public String toString() {

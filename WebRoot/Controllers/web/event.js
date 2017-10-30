@@ -26,7 +26,11 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	app.controller("web", function($scope, $http) {
 		xh.maskShow();
-		$scope.securityMenu=true; //菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		/*获取计划任务信息*/
 		$http.get("../../web/event").
 		success(function(response){

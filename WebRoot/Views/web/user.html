@@ -70,15 +70,15 @@
 								<div class="col-md-12">
 								<div class="btn-group" style="padding-top:10px;">
 									<button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
+										data-target="#add" ng-disabled="up.p_add=='off'?true:false">
 										<i class="fa fa-plus-circle"></i>&nbsp;添加用户
 									</button>
-									<button class="btn btn-info btn-sm" ng-disabled=""
+									<button class="btn btn-info btn-sm"ng-disabled="up.p_update=='off'?true:false"
 										ng-click="showEditModel()">
 										<i class="fa fa-edit"></i>&nbsp;修改用户
 									</button>
 									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
+										ng-disabled="up.p_delete=='off'?true:false">
 										<i class="fa fa-trash"></i>&nbsp;批量删除用户
 									</button>
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -122,15 +122,15 @@
 										<td ng-if="x.status!=0"><span class="label arrowed-in label-sm label-success">启用</span></td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
-											data-target="#edit" ng-if="x.roleId!=10000"> <i class="fa fa-edit text-success"></i>&nbsp;修改
-										</a> <a href="#" ng-click="del(x.userId)" ng-if="x.roleId!=10000">|<i
-												class="fa fa-trash text-success"></i>&nbsp;删除</a>
-												<a href="#"  ng-click="power($index)" ng-if="x.roleId!=10000">|<i
-												class="fa fa-wrench text-success"></i>&nbsp;权限分配</a>
-									  <a href="#" ng-if="x.roleId!=10000 && x.status==0" ng-click="unLockUser(x.userId)">|<i
-												class="fa fa-lock text-success"></i>&nbsp;启用</a>
-									<a href="#"  ng-click="lockUser(x.userId)" ng-if="x.roleId!=10000 && x.status==1">|<i
-												class="fa fa-unlock-alt text-success"></i>&nbsp;禁用</a>
+											data-target="#edit" ng-if="x.roleId!=10000" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改 |
+										</a> <a href="#" ng-click="del(x.userId)" ng-if="x.roleId!=10000" ng-show="up.p_delete=='on'?true:false"><i
+												class="fa fa-trash text-success"></i>&nbsp;删除|</a>
+												<a href="#"  ng-click="power($index)" ng-if="x.roleId!=10000"  ng-show="up.p_power=='on'?true:false"><i
+												class="fa fa-wrench text-success"></i>&nbsp;权限分配|</a>
+									  <a href="#" ng-if="x.roleId!=10000 && x.status==0" ng-click="unLockUser(x.userId)" ng-show="up.p_lock=='on'?true:false"><i
+												class="fa fa-lock text-success" ></i>&nbsp;启用|</a>
+									<a href="#"  ng-click="lockUser(x.userId)" ng-if="x.roleId!=10000 && x.status==1" ng-show="up.p_lock=='on'?true:false"><i
+												class="fa fa-unlock-alt text-success" ></i>&nbsp;禁用</a>
 									</td>
 												
 												

@@ -28,7 +28,11 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.businessMenu=true; //菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		$http.get("../../access/list").
 		success(function(response){
 			xh.maskHide();

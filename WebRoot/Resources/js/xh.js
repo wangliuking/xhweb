@@ -7,7 +7,7 @@ $(document).ready(function() {
 	/* 初始化页面加载动画 */
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
-		xh.userPower();
+		/*xh.userPower();*/
 	})
 	$("#wrapper-iframe").height($("body").height()-100);
 	/* 首页全屏 */
@@ -358,15 +358,17 @@ xh.maskHide = function() {
 }
 xh.userPower=function(){
 	$.ajax({
-		url : 'web/loginUserPower',
+		url : '../../web/loginUserPower',
 		type : 'post',
 		dataType : "json",
 		data : {},
-		async : false,
+		async : true,
 		success : function(data) {
 			powerData=data;
+			
 		},
 		error : function() {
+			
 		}
 	});
 }
