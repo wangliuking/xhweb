@@ -101,7 +101,7 @@ xh.load = function() {
 				
 			});*/
 			$scope.progressData=$scope.editData;
-			if($scope.checkData.checked==16){
+			if($scope.checkData.checked==17){
 				$("#download").modal('show');
 			}
 	    };
@@ -308,7 +308,6 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error(data.message, '提示');
 			}

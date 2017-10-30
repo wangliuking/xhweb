@@ -114,10 +114,10 @@ xh.load = function() {
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==1){
-				$("#checkWin1").modal('show');
+				$("#checkWin2").modal('show');
 			}
 			if($scope.loginUserRoleId==1000 && $scope.checkData.quit==2){
-				$("#checkWin2").modal('show');
+				$("#checkWin3").modal('show');
 			}
 	    };
 	    /* 用户确认编组方案 
@@ -317,7 +317,7 @@ xh.check1 = function() {
 	});
 };
 /*管理方审核*/
-xh.check1 = function() {
+xh.check2 = function() {
 	$.ajax({
 		url : '../../quitnet/checkedTwo',
 		type : 'POST',
