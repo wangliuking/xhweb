@@ -48,42 +48,30 @@ public class Test {
 		// 获取FSU状态信息
 		String GET_FSUINFO = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_FSUINFO</Name></PK_Type><Info><FSUID>09201704160085</FSUID></Info></Request>";
 		// getData("09201704160085");
-		//List<String> list = new ArrayList<String>();
-		//list.add("170100000000001");// 温度
-		//list.add("170200000000001");// 湿度
-		//list.add("170300000000001");// 水浸
-		//list.add("170400000000001");// 烟雾
-		//list.add("170500000000001");// 红外
-		//list.add("170700000000001");// 门碰
-		//list.add("920100000000001");// 电表
-		//list.add("080200000000001");// UPS
-		//list.add("760300000000001");// FSU
-		//getData("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取所有监控点数据
-		//getDataByList("http://192.168.5.254:8080/services/FSUService","09201704160085",list);// 查询监控点数据
-		
-		//setThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085", list);// 写监控点门限数据
-		//getThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//查询监控点门限数据
+		// List<String> list = new ArrayList<String>();
+		// list.add("170100000000001");// 温度
+		// list.add("170200000000001");// 湿度
+		// list.add("170300000000001");// 水浸
+		// list.add("170400000000001");// 烟雾
+		// list.add("170500000000001");// 红外
+		// list.add("170700000000001");// 门碰
+		// list.add("920100000000001");// 电表
+		// list.add("080200000000001");// UPS
+		// list.add("760300000000001");// FSU
+		// getData("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取所有监控点数据
+		// getDataByList("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//
+		// 查询监控点数据
+
+		// setThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",
+		// list);// 写监控点门限数据
+		// getThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//查询监控点门限数据
 		// getLoginInfo("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取注册信息
 		// getDevConf("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取FSU配置信息
 		// timeCheck("09201704160085");//时间确认
-		
-		List<Map<String,String>> list = GosuncnController.selectForGetLogin();
-		for(int i=0;i<list.size();i++){
-			Map<String,String> map = list.get(i);
-			String FSUID = map.get("fsuId");
-			String url = "http://"+map.get("fsuIp")+":8080/services/FSUService";
-			try {
-				List<Map<String,String>> configList = Test.getDevConf(url, FSUID);
-				//String result = GosuncnController.deleteByFSUID(FSUID);//删除之前的配置信息，保持最新
-				//if("success".equals(result)){
-					GosuncnController.insertConfig(configList);//将最新的配置信息入库
-				//}				
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				
-			}
-		}		
-		
+
+		List<Map<String, String>> list = GosuncnController.selectForGetLogin();
+		log.info(list);
+
 	}
 
 	/**
@@ -218,7 +206,7 @@ public class Test {
 		List<Map<String, String>> configList = null;
 		try {
 			configList = ParseXml.getDevConf(resp.getString(), FSUID);
-			
+
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -281,22 +269,27 @@ public class Test {
 	}
 
 	/**
-	 * 获取FSU注册信息
+	 * 获取FSU状态信息
+	 * 
+	 * @throws RemoteException
 	 * 
 	 */
-	public static List<String> getLoginInfo(String url, String FSUID)
+	public static List<String> getFSUInfo(String url, String FSUID)
 			throws RemoteException {
+		log.info("开始维持心跳！！！ "+url);
 		FSUServiceStub stub = new FSUServiceStub(url);
 		Invoke invoke = new Invoke();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
 		List<String> list = null;
-		String GET_LOGININFO = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_LOGININFO</Name></PK_Type><Info><FSUID>"
+		String GET_FSUINFO = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_FSUINFO</Name></PK_Type><Info><FSUID>"
 				+ FSUID + "</FSUID></Info></Request>";
-		enc.setString(GET_LOGININFO);
+		enc.setString(GET_FSUINFO);
 		invoke.setXmlData(enc);
 		InvokeResponse response = stub.invoke(invoke);
+		log.info("结束维持心跳！！！ "+url);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
+		//log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 
