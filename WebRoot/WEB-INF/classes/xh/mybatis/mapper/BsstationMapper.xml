@@ -143,8 +143,7 @@
 	<!--根据基站ID，名称查找基站记录总数 -->
 	<select id="rectangleCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat} 
-		order by bsId asc limit #{start},#{limit}
+		select count(*) from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
 	</select>
 
 </mapper>

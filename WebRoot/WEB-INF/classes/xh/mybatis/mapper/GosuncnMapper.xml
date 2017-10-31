@@ -27,7 +27,7 @@
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.siteId},#{#item.siteName},#{item.fsuId},#{item.deviceId},#{item.deviceName})
+			(#{item.siteId},#{item.siteName},#{item.fsuId},#{item.deviceId},#{item.deviceName})
 		</foreach>
 	</insert>
 	
@@ -115,6 +115,6 @@
 		</if>
 	</select>
 	
-	
+
 
 </mapper>
