@@ -44,7 +44,6 @@ public class CommunicationSupportController {
 	protected final Log log = LogFactory.getLog(CommunicationSupportController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
-
 	/**
 	 * 查询所有流程
 	 * 
@@ -70,7 +69,7 @@ public class CommunicationSupportController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", CommunicationSupportService.selectAll(map));
-		
+
 		result.put("totals", CommunicationSupportService.dataCount(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -109,7 +108,7 @@ public class CommunicationSupportController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/insertSupport", method = RequestMethod.POST)
-	public void insertNet(HttpServletRequest request,
+	public void insertSupport(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
@@ -117,7 +116,6 @@ public class CommunicationSupportController {
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
-
 		int rst = CommunicationSupportService.insertSupport(bean);
 		if (rst == 1) {
 			this.message = "保障申请信息已经成功提交";
@@ -146,7 +144,6 @@ public class CommunicationSupportController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -160,16 +157,11 @@ public class CommunicationSupportController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
-		if(checked == 1){
-			bean.setChecked(checked);
-		}else if(checked == -1){
-			bean.setChecked(checked);
-		}
+		bean.setChecked(2);
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
@@ -185,7 +177,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核，请管理部门领导审核并移交经办人，上传。。。", request);
+			sendNotify(user, "保障申请信息审核，请管理部门领导审核并移交经办人。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -207,6 +199,50 @@ public class CommunicationSupportController {
 	}
 
 	/**
+	 * 管理方领导指派管理方处理
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/checkedSeventeen", method = RequestMethod.POST)
+	public void checkedSeventeen(HttpServletRequest request,
+							  HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		int checked = funUtil.StringToInt(request.getParameter("checked"));
+		String user = request.getParameter("user");
+		CommunicationSupportBean bean = new CommunicationSupportBean();
+		bean.setId(id);
+		bean.setChecked(checked);
+		int rst = CommunicationSupportService.checkedTwelve(bean);
+		if (rst == 1) {
+			this.message = "管理方领导指派管理方处理";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("通知管理方处理，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
+			//----发送通知邮件
+			sendNotify(user, "管理方处理。。。", request);
+			//----END
+		} else {
+			this.message = "通知管理方处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 管理方向用户单位发送通信保障需求确认消息（该请求消息可包含上传附件的功能）
 	 * 
 	 * @param request
@@ -224,14 +260,14 @@ public class CommunicationSupportController {
 		bean.setFileName1(fileName);
 		bean.setFilePath1(path);
 		bean.setId(id);
-		bean.setChecked(2);
+		bean.setChecked(3);
 		int rst = CommunicationSupportService.checkedTwo(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障需求确认消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知用户处理(保障需求确认消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
@@ -265,16 +301,11 @@ public class CommunicationSupportController {
 							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note2 = request.getParameter("note2");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 3){
-			bean.setChecked(3);
-		}else if(checked == 1){
-			bean.setChecked(1);
-		}
+		bean.setChecked(4);
 		bean.setTime2(funUtil.nowDate());
 		bean.setNote2(note2);
 		int rst = CommunicationSupportService.checkedThree(bean);
@@ -325,14 +356,14 @@ public class CommunicationSupportController {
 		bean.setFileName2(fileName);
 		bean.setFilePath2(path);
 		bean.setId(id);
-		bean.setChecked(4);
+		bean.setChecked(5);
 		int rst = CommunicationSupportService.checkedFour(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障类型发送消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障类型发送消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
@@ -366,16 +397,11 @@ public class CommunicationSupportController {
 							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note3 = request.getParameter("note3");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 5){
-			bean.setChecked(5);
-		}else if(checked == 3) {
-			bean.setChecked(3);
-		}
+		bean.setChecked(6);
 		bean.setTime3(funUtil.nowDate());
 		bean.setNote3(note3);
 		int rst = CommunicationSupportService.checkedFive(bean);
@@ -426,21 +452,21 @@ public class CommunicationSupportController {
 		bean.setFileName3(fileName);
 		bean.setFilePath3(path);
 		bean.setId(id);
-		bean.setChecked(6);
+		bean.setChecked(7);
 		int rst = CommunicationSupportService.checkedSix(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "审核请求消息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(审核请求消息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "审核请求消息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知管理方处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -457,7 +483,7 @@ public class CommunicationSupportController {
 		}
 	}
 
-	/**
+	/**管理方审核
 	 *
 	 * @param request
 	 * @param response
@@ -472,10 +498,10 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 7) {
-			bean.setChecked(7);
-		}else if(checked == 5){
-			bean.setChecked(5);
+		if(checked == 8) {
+			bean.setChecked(8);
+		}else if(checked == 6){
+			bean.setChecked(6);
 		}
 		bean.setTime4(funUtil.nowDate());
 		bean.setNote4(note4);
@@ -510,7 +536,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 管理方通知用户
 	 *
 	 * @param request
 	 * @param response
@@ -527,21 +553,21 @@ public class CommunicationSupportController {
 		bean.setFileName4(fileName);
 		bean.setFilePath4(path);
 		bean.setId(id);
-		bean.setChecked(8);
+		bean.setChecked(9);
 		int rst = CommunicationSupportService.checkedEight(bean);
 		if (rst == 1) {
 			this.message = "确认信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(确认信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "确认信息信息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知用户处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -558,7 +584,7 @@ public class CommunicationSupportController {
 		}
 	}
 
-	/**
+	/**用户确认
 	 *
 	 * @param request
 	 * @param response
@@ -573,11 +599,7 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 9 ){
-			bean.setChecked(9);
-		}else if(checked == 7) {
-			bean.setChecked(7);
-		}
+		bean.setChecked(10);
 		bean.setTime5(funUtil.nowDate());
 		bean.setNote5(note5);
 		int rst = CommunicationSupportService.checkedNine(bean);
@@ -611,7 +633,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 服务提供方发送保障准备信息给管理方
 	 *
 	 * @param request
 	 * @param response
@@ -628,14 +650,14 @@ public class CommunicationSupportController {
 		bean.setFileName5(fileName);
 		bean.setFilePath5(path);
 		bean.setId(id);
-		bean.setChecked(10);
+		bean.setChecked(11);
 		int rst = CommunicationSupportService.checkedTen(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障准备信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障准备信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
@@ -664,7 +686,7 @@ public class CommunicationSupportController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/checkedEvelen", method = RequestMethod.POST)
+	@RequestMapping(value = "/checkedEleven", method = RequestMethod.POST)
 	public void checkedEvelen(HttpServletRequest request,
 							 HttpServletResponse response) {
 		this.success = true;
@@ -674,10 +696,10 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 11){
-			bean.setChecked(11);
-		}else if(checked == 9){
-			bean.setChecked(9);
+		if(checked == 12){
+			bean.setChecked(12);
+		}else if(checked == 10){
+			bean.setChecked(10);
 		}
 		bean.setTime6(funUtil.nowDate());
 		bean.setNote6(note6);
@@ -712,7 +734,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 管理方发送保障准备信息给用户单位
 	 *
 	 * @param request
 	 * @param response
@@ -729,21 +751,21 @@ public class CommunicationSupportController {
 		bean.setFileName6(fileName);
 		bean.setFilePath6(path);
 		bean.setId(id);
-		bean.setChecked(12);
+		bean.setChecked(13);
 		int rst = CommunicationSupportService.checkedTwelve(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障准备信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知用户处理(保障准备信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "保障准备信息审核。。。", request);
 			//----END
 		} else {
-			this.message = "通知经办人处理失败";
+			this.message = "通知用户处理失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -770,16 +792,11 @@ public class CommunicationSupportController {
 							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note7 = request.getParameter("note7");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 13){
-			bean.setChecked(13);
-		}else if(checked == 11){
-			bean.setChecked(11);
-		}
+		bean.setChecked(14);
 		bean.setTime7(funUtil.nowDate());
 		bean.setNote7(note7);
 		int rst = CommunicationSupportService.checkedThirteen(bean);
@@ -813,7 +830,7 @@ public class CommunicationSupportController {
 	}
 
 	/**
-	 * 管理方上传
+	 * 服务提供方发送保障完成信息给管理方
 	 *
 	 * @param request
 	 * @param response
@@ -830,18 +847,18 @@ public class CommunicationSupportController {
 		bean.setFileName7(fileName);
 		bean.setFilePath7(path);
 		bean.setId(id);
-		bean.setChecked(14);
+		bean.setChecked(15);
 		int rst = CommunicationSupportService.checkedFourteen(bean);
 		if (rst == 1) {
-			this.message = "确认信息发送成功";
+			this.message = "保障完成信息发送成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(保障申请)，data=" + bean.toString());
+			webLogBean.setContent("通知经办人处理(保障完成信息)，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotify(user, "保障完成信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -876,10 +893,10 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		if(checked == 15) {
-			bean.setChecked(15);
-		}else if(checked == 13){
-			bean.setChecked(13);
+		if(checked == 16) {
+			bean.setChecked(16);
+		}else if(checked == 14){
+			bean.setChecked(14);
 		}
 		bean.setTime8(funUtil.nowDate());
 		bean.setNote8(note8);
@@ -927,7 +944,7 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		//bean.setTime5(funUtil.nowDate());
-		bean.setChecked(16);
+		bean.setChecked(17);
 		bean.setTime(funUtil.nowDate());
 		bean.setNote(note);
 		int rst = CommunicationSupportService.sureFile(bean);

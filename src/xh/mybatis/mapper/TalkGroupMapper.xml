@@ -64,7 +64,7 @@
 		E_name,E_alias,E_mscId,E_vpnId,E_saId,E_iaId,E_vaId,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet)
 		values(#{TalkgroupID}, '', '', '', '', '', 0, 0, 0, 0,
 		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_saId},#{E_iaId},#{E_vaId},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
-		#{E_pdtType},#{E_npType},#{id_joinNet})
+		#{E_pdtType},#{E_npType},#{userId})
 	</insert>
   <sql id="Base_Column_List" >
     id, TalkgroupID, M_TalkgroupAlias, M_SecurityGroup, M_ConsoleTGMGCapabilityProfileAlias, 

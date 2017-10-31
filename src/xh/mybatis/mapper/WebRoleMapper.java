@@ -1,6 +1,8 @@
 package xh.mybatis.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import xh.mybatis.bean.WebRoleBean;
 
 public interface WebRoleMapper {
@@ -10,6 +12,14 @@ public interface WebRoleMapper {
 	 * @throws Exception
 	 */
 	public String roleByUser(String user)throws Exception;
+	
+	/**
+	 * 根据角色类型查找角色列表
+	 * @param roleType
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> roleTypeByList(int roleType)throws Exception;
 	/**
 	 * 根据用户查询角色roleId
 	 * @param user

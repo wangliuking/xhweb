@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>资产核查</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="asset" class="fixed-iframe">
+	<!-- splash screen-->
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>资产管理</span></li>
+							<li><a href="assetCheck.html"><span>变更管理</span></a></li>
+							<li class="active"><span>核查资产</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label for="type">资产类型</label>
+										<div>
+											<select id="type" class="form-control">
+												<option value="0" selected="selected">=全部=</option>
+												<option value="1">交换控制中心（MSO）设备</option>
+												<option value="2">远端调度台设备</option>
+												<option value="3">基站设备</option>
+												<option value="4">用户台设备</option>
+												<option value="5">备件</option>
+												<option value="6">附件</option>
+												<option value="7">其他</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="name">名称</label>
+										<div>
+											<input type="text" class="form-control" id="name"
+												placeholder="名称">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="model">型号</label>
+										<div>
+											<input type="text" class="form-control" id="model"
+												placeholder="型号">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="serialNumber">序列号</label>
+										<div>
+											<input type="text" class="form-control" id="serialNumber"
+												placeholder="序列号">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="from">资产来源</label>
+										<div>
+											<select id="from" class="form-control">
+												<option value="0" selected="selected">=不限制=</option>
+												<option value="1">采购</option>
+												<option value="2">赠送</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="status">资产状态</label>
+										<div>
+											<select id="status" class="form-control">
+												<option value="0" selected="selected">=不限制=</option>
+												<option value="1">外借</option>
+												<option value="2">报废</option>
+												<option value="3">维修</option>
+												<option value="4">在库</option>
+												<option value="5">在用</option>
+												<option value="6">待报废</option>
+												<option value="7">遗失</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												onclick="xh.refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- row -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							资产列表
+						</div>
+						<div class="panel-body">
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="btn-group" style="padding-top:10px;">
+
+										<button class="btn btn-danger btn-sm"
+											onclick="xh.checkAsset()" ng-disabled="">
+											<i class="fa fa-edit"></i>&nbsp;核查资产
+										</button>
+										<a href="assetCheck.html" class="btn btn-primary btn-sm"
+											>
+											<i class="fa fa-edit"></i>&nbsp;返回资产变更
+										</a>
+
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th>
+										<th>资产类别</th>
+										<th>名称</th>
+										<th>型号</th>
+										<th>序列号</th>
+										<th>单价</th>
+										<th>来源</th>
+										<th>状态</th>
+										<th width="180px">记录时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="9" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td>
+										<td ng-if="x.type==1">交换控制中心（MSO）设备</td>
+										<td ng-if="x.type==2">远端调度台设备</td>
+										<td ng-if="x.type==3">基站设备</td>
+										<td ng-if="x.type==4">用户台设备</td>
+										<td ng-if="x.type==5">备件</td>
+										<td ng-if="x.type==6">附件</td>
+										<td ng-if="x.type==7">其他</td>
+										<td>{{x.name}}</td>
+										<td>{{x.model}}</td>
+										<td>{{x.serialNumber}}</td>
+										<td>{{x.price}}</td>
+										<td>{{x.from}}</td>
+										<td ng-if="x.status==0">未知</td>
+										<td ng-if="x.status==1">外借</td>
+										<td ng-if="x.status==2">报废</td>
+										<td ng-if="x.status==3">维修</td>
+										<td ng-if="x.status==4">在库</td>
+										<td ng-if="x.status==5">在用</td>
+										<td ng-if="x.status==6">待报废</td>
+										<td ng-if="x.status==7">遗失</td>
+
+										<td>{{x.createTime}}</td>
+										
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+
+	<div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<!-- <div class="color-line"></div> -->
+				<div class="modal-header"></div>
+				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<form action="#" id="checkForm" onSubmit="return false">
+						<div class="row" ng-show="false">
+							<div class="col-md-12">
+								<div class="form-group col-md-12">
+									<label>ID</label><input type="text" value=""
+										class="form-control" name="id" required="required"
+										ng-model="checkData.id">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group col-md-12">
+									<label>更新状态</label> <select name="status" class="form-control">
+										<option value="1" selected="selected">外借</option>
+										<option value="2">报废</option>
+										<option value="3">维修</option>
+										<option value="4">在库</option>
+										<option value="5">在用</option>
+										<option value="6">待报废</option>
+										<option value="7">遗失</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group col-md-12">
+									<label>核查结果</label>
+									<textarea name="checkResult" rows="4" cols="10" class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+						<!-- row-------end -->
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm"
+						id="check_btn1">
+						<i class="fa fa-plus"></i>&nbsp;提交意见
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/assetCheck-info.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		$("#check_btn1").click(function() {
+			
+			console.log("111");
+			xh.check1();
+		});
+		var faIcon = {
+			valid : 'fa fa-check-circle fa-lg text-success',
+			invalid : 'fa fa-times-circle fa-lg',
+			validating : 'fa fa-refresh'
+		};
+		$('#checkForm').bootstrapValidator({
+			excluded : [ ':disabled' ],
+			/* feedbackIcons: faIcon, */
+			fields : {}
+		}).on('success.form.bv', function(e, data) {
+			e.preventDefault();
+			console.log("111");
+			xh.check1();
+		});
+	</script>
+</body>
+</html>

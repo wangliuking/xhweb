@@ -1,51 +1,42 @@
 
-<div class="modal fade" id="add" tabindex="-1" role="dialog"
-	aria-hidden="true">
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">添加</small>
+				<small class="font-bold">上传巡检计划表</small>
 			</div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="addForm" onSubmit="return false" method="POST">
-					<div class="row">
-						<div class="col-md-12">
+			<div class="modal-body pad-0">
+				<form action="#" id="addForm" onSubmit="return false">
+					<!-- <div class="row">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>文件名称</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" class="form-control" name="filename">
+								<label>接收者</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="recvUser">
+									<option ng-repeat="x in user" value="{{x.user}}">{{x.userName}}</option>
+								</select>
 							</div>
 						</div>
+					</div> -->
+					<div class="row">
+					<input type="hidden" name="fileName" value="" /> 
+						<input type="hidden" name="filePath" value="" /> 
+						<input type="hidden" name="result" value="" />
 					</div>
-
 					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>上传者</label>&nbsp;<span class="text-warning">[*]</span> <input
-									type="text" class="form-control" name="uploaduser">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>接收者</label>&nbsp;<span class="text-warning">[*]</span><input
-									type="text" class="form-control" name="recvuser">
-							</div>
-						</div>
-					</div>
 
-					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span><input
-									type="text" class="form-control" name="contact">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="contact" required="required">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" class="form-control" name="tel">
+									type="text" class="form-control" name="tel" required="required">
 							</div>
 						</div>
 					</div>
@@ -53,13 +44,12 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
-								<textarea
-									style="width:560px;height:150px;max-width:560px;max-height:260px;"
-									name="note"></textarea>
+								<label>备注信息</label>
+								<textarea class="form-control" row="40" name="note"></textarea>
 							</div>
-							<input type="hidden" name="filepath" id="filepath"/>
+
 						</div>
+						
 					</div>
 				</form>
 				<form action="#" id="" onSubmit="return false"
@@ -67,10 +57,9 @@
 					<div class="row">
 						<div class="col-md-8">
 							<div class="form-group col-md-10" style="padding-right:0px;">
-								<input type="hidden" id="listener" name="listener" value="" />
-								<input type="hidden" id="listenerIO" name="listenerIO" value="" />
+
 								<label>上传附件</label>&nbsp;<span class="text-info">[*]</span> <input
-									class="form-control" type="file" id="pathName" name="pathName"/>
+									class="form-control" type="file" id="pathName" name="pathName" />
 							</div>
 							<div class="form-group col-md-2" style="padding-left:0px;">
 								<button type="button" ng-disabled="form.$invalid"
@@ -79,6 +68,9 @@
 									<i class="fa fa-plus-circle"></i>点击上传
 								</button>
 							</div>
+						</div>
+						<div class="col-md-4">
+							<span style="color:red" id="uploadResult"></span>
 						</div>
 
 					</div>
@@ -105,40 +97,52 @@
 			alert("请选择需要上传的文件！");
 			return false;
 		}
-		$('#listenerIO').attr("value", "1");
+		$("input[name='result']").val(2);
+		$("#uploadfile").attr("disabled", true);
+		xh.maskShow("正在上传文件，请耐心等待");
 		$.ajaxFileUpload({
-			url : '../../inspection/upload', //用于文件上传的服务器端请求地址
+			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
 			fileElementId : 'pathName', //文件上传域的ID
-			dataType : 'HTML', //返回值类型 一般设置为json
+			dataType : 'json', // 返回值类型 一般设置为json
+			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
 			{
-				if (data == "0") {
-					alert("已存在同名文件，请重新操作！");
-				} else{
-					//进行添加操作之前，获取另一个表单的部分信息
-					$('#filepath').val(data);
-					$('#listener').attr("value", "1");
-					$('#listenerIO').attr("value", "");
-					alert("上传成功！");
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
+				if (data.success) {
+					$("input[name='result']").val(1);
+					$("input[name='fileName']").val(data.fileName);
+					$("input[name='filePath']").val(data.filePath);
+					$("#uploadResult").html("文件上传成功");
+					toastr.success("文件上传成功", '提示');
+				} else {
+					$("input[name='result']").val(0);
+					toastr.error("文件上传失败", '提示');
+					$("#uploadResult").html("文件上传失败");
 				}
+
 			},
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
 				alert(e);
+				$("#uploadfile").attr("disabled", false);
+				xh.maskHide();
 			}
 		});
 	});
 
 	$("#add_btn").click(function() {
-		if($('#pathName').val()!="" && $('#listener').val()==""){
-			alert("请点击上传按钮进行上传！");
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
 			return false;
-		}else if($('#pathName').val()!="" && $('#listenerIO').val()=="1"){
+		}
+		/* if ($("input[name='result']").val()!=2) {
 			alert("请等待上传完成！");
 			return false;
-		}	
-		$('#addForm').submit();
+		} */
+		 $('#addForm').submit();
+	
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
@@ -149,41 +153,6 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			filename : {
-				validators : {
-					notEmpty : {
-						message : '文件名称不能为空'
-					}
-				}
-			},
-			uploaduser : {
-				validators : {
-					notEmpty : {
-						message : '上传者不能为空'
-					}
-				}
-			},
-			recvuser : {
-				validators : {
-					notEmpty : {
-						message : '接受者不能为空'
-					}
-				}
-			},
-			contact : {
-				validators : {
-					notEmpty : {
-						message : '联系人不能为空'
-					}
-				}
-			},
-			tel : {
-				validators : {
-					notEmpty : {
-						message : '联系方式不能为空'
-					}
-				}
-			}
 
 		}
 	}).on('success.form.bv', function(e, data) {

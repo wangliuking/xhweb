@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col-md-12">当前基站下注册终端总计：{{radioTotals}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th width="50px">#</th>
+					<th>终端ID</th>
+					<th>名称</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-if="radioTotals==0">
+					<td colspan="3" class="text-center">没有记录！</td>
+				</tr>
+				<tr ng-repeat="x in radioData">
+					<td>{{$index+1}}</td>
+					<td>{{x.userId}}</td>
+					<td>{{x.name}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="page">
+			<div class="page-info">
+				每页显示 <select id="page-limit" ng-change="refresh()" ng-model="count">
+				    <option value="10">10</option>
+					<option value="20">20</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+					<option value="50">50</option>
+				</select> 条, <span ng-model="index">显示{{start}}-</span><span
+					ng-model="lastIndex">{{lastIndex}}条,</span> <span ng-model="totals">总计{{totals}}条</span>
+			</div>
+			<div class="page-paging"></div>
+		</div>
+	</div>
+</div>

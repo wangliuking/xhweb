@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="quitprogress" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -12,7 +11,7 @@
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
-					<!-- <li><a href="#p-timeline" data-toggle="tab">申请进度</a></li> -->
+					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
 				</ul>
 				<div class="tab-content" style="padding: 20px">
 					<div class="tab-pane fade in active text-danger" id="info">
@@ -20,8 +19,8 @@
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>用户单位名称</label><input type="text"
-										ng-model="editData.quitName" class="form-control"
-										name="unitName" required="required">
+										ng-model="editData.unit1" class="form-control"
+										name="unit1" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -29,13 +28,6 @@
 									<label>退网时间</label> <input type="text"
 										ng-model="editData.quitTime" class="form-control"
 										name="netTime" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>退网形式</label> <input type="text"
-										ng-model="editData.quitType" class="form-control"
-										name="virtualnetName" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -50,20 +42,6 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>退网原因</label> <input type="text"
-										ng-model="editData.quitReason" class="form-control"
-										name="signtime" required="required" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
-									<label>退网终端号码</label><input type="text"
-										ng-model="editData.id" class="form-control"
-										name="servicetime" required="required">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group col-md-12">
 									<label>联系人</label><input type="text"
 										ng-model="editData.quitPerson" class="form-control"
 										name="unitPerson" required="required">
@@ -76,127 +54,103 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>退网原因</label><input type="text" ng-model="editData.quitReason"
+										class="form-control" name="quitReason" required="required">
+								</div>
+							</div>
+						</div>
 					</div>
-					<!-- tab-pane--end -->
 					<div class="tab-pane fade text-danger" id="p-timeline"
-						style="background: #e9f0f5; margin: 0;" ng-model="progressData">
+						style="background: #e9f0f5; margin: 0;">
 						<div id="cd-timeline" class="cd-container">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
 									<h2>用户提交审核信息</h2>
-									<p>
-										<span>备注：</span><span>{{progressData.note}}</span>
-									</p>
+									<!-- <p>
+										<textarea
+									style="width:300px;height:100px;max-width:300px;max-height:100px;"
+									name="quitReason" ng-model="progressData.quitReason" class="form-control" required="required" maxlength="70">
+									</p> -->
 									<span class="cd-date text-success font-bold text-x">
-										提交时间：{{progressData.time}}</span>
+										提交时间：{{progressData.quitTime}}</span>
 								</div>
 							</div>
-							<!-- cd-timeline-block end-->
-							<!-- <div class="cd-timeline-block" ng-if="progressData.checked==-1">
-								<div class="cd-timeline-block">
-									<div class="cd-timeline-img cd-gray"></div>
-									<div class="cd-timeline-content">
-										<h2>主管部门审核</h2>
-										<p>
-											<span>备注：</span><span>{{progressData.note1}}</span>
-										</p>
-										<span 
-											class="cd-date text-warning">申请被拒绝！</span>
-									</div>
-								</div>
-							</div> -->
-							<div class="cd-timeline-block" ng-if="progressData.quit!=-1">
-								<div class="cd-timeline-block">
+							
+							<div class="cd-timeline-block">
 									<div class="cd-timeline-img cd-gray"
 										ng-if="progressData.quit<=0"></div>
 									<div class="cd-timeline-img cd-green"
 										ng-if="progressData.quit>0"></div>
 									<div class="cd-timeline-content">
-										<h2>管理方审核</h2>
-										<p>
-											<span>备注：</span><span>{{progressData.note1}}</span>
-										</p>
-										<span ng-if="progressData.checked<=0"
+										<h2>管理方领导审核</h2>
+										<span ng-if="progressData.quit==-1"
+											class="cd-date text-danger">退网失败！</span>
+										<span ng-if="progressData.quit==0"
 											class="cd-date text-danger">等待审核！</span> <span
-											ng-if="progressData.checked>0"
+											ng-if="progressData.quit>0"
 											class="cd-date text-success font-bold text-x">已经审核;
 											审核时间：{{progressData.time1}}</span>
 									</div>
-								</div>
-								<!-- cd-timeline-block end-->
-								<!-- <div class="cd-timeline-block">
-									<div class="cd-timeline-img cd-gray"
-										ng-if="progressData.checked<1"></div>
-									<div class="cd-timeline-img cd-green"
-										ng-if="progressData.checked>=1"></div>
-									<div class="cd-timeline-content">
-										<h2>软件产业发展中心领导审核</h2>
-										<p>
-											<span>备注：</span><span>{{progressData.note2}}</span>
-										</p>
-										<span ng-if="progressData.checked<1"
-											class="cd-date text-danger">等待处理！</span> <span
-											ng-if="progressData.checked>=1"
-											class="cd-date text-success font-bold">已经安排专人进行编组方案拟定;
-											时间：{{progressData.time2}}</span>
-									</div>
-								</div> -->
-								<!-- cd-timeline-block end-->
-								<!-- <div class="cd-timeline-block">
-									<div class="cd-timeline-img cd-gray"
-										ng-if="progressData.checked<2"></div>
-									<div class="cd-timeline-img cd-green"
-										ng-if="progressData.checked>=2"></div>
-									<div class="cd-timeline-content">
-										<h2>经办人处理，制定编组方案提交领导审核</h2>
-										<p>
-											<span>备注：</span><span>备注内容</span>
-										</p>
-										<span ng-if="progressData.checked<2"
-											class="cd-date text-danger">等待处理！</span> <span
-											ng-if="progressData.checked>=2"
-											class="cd-date text-success font-bold">编组方案提交至领导处审核;
-											时间：{{progressData.time2}}</span>
-									</div>
-								</div> -->
-								<!-- cd-timeline-block end-->
-								<div class="cd-timeline-block">
+							</div>
+							<div class="cd-timeline-block">
 									<div class="cd-timeline-img cd-gray"
 										ng-if="progressData.quit<=1"></div>
 									<div class="cd-timeline-img cd-green"
 										ng-if="progressData.quit>1"></div>
 									<div class="cd-timeline-content">
-										<h2>用户确认</h2>
+										<h2>管理方审核</h2>
 										<p>
-											<span>备注：</span><span>备注内容</span>
+											<span>备注：</span><span>{{progressData.note1}}</span>
 										</p>
-										<span ng-if="progressData.checked<=1"
-											class="cd-date text-danger">等待用户确认</span> <span
-											ng-if="progressData.checked>1"
-											class="cd-date text-success font-bold">用户已确认;
-											时间：{{progressData.time}}</span>
+										<span ng-if="progressData.quit==1"
+											class="cd-date text-danger">等待审核！</span> <span
+											ng-if="progressData.quit>1"
+											class="cd-date text-success font-bold text-x">已经审核;
+											审核时间：{{progressData.time2}}</span>
 									</div>
-								</div>
-								<!-- cd-timeline-block end-->
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.quit<=2"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.quit>2"></div>
+								<div class="cd-timeline-content">
+									<h2>用户确认</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note}}</span>
+									</p>
+									<span ng-if="progressData.quit==2"
+										class="cd-date text-danger">等待用户确认</span> <span
+										ng-if="progressData.quit>2"
+										class="cd-date text-success font-bold">用户已确认
+										时间：{{progressData.time3}}</span>
+								</div>
+							</div>
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.checked<=2">结束</div>
+									ng-if="progressData.quit<=3">结束</div>
 								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.checked>2">结束</div>
+									ng-if="progressData.quit>3">结束</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
-		</div>
-		<!-- <div class="modal-footer">
+			<div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-dismiss="modal">
 				<i class="fa fa-remove"></i>&nbsp;关闭
 			</button>
-		</div> -->
+		</div>
+		</div>
 	</div>
 </div>
+		

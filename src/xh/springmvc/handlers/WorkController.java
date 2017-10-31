@@ -79,6 +79,7 @@ public class WorkController {
 		String formData=request.getParameter("formData");	
 		WorkBean bean=GsonUtil.json2Object(formData, WorkBean.class);
 		EmailBean emailBean=new EmailBean();
+		bean.setRecvUser("10002");
 		bean.setUploadUser(funUtil.loginUser(request));
 		log.info(bean.toString());		
 		int rlt=WorkServices.addwork(bean);
@@ -92,8 +93,8 @@ public class WorkController {
 			webLogBean.setContent("上传工作记录");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("签收工作记录");
-			emailBean.setRecvUser(bean.getRecvUser());
+			emailBean.setTitle("工作记录");
+			emailBean.setRecvUser("10002");
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("请签收工作记录");
 			emailBean.setTime(funUtil.nowDate());
@@ -140,7 +141,7 @@ public class WorkController {
 			webLogBean.setContent("签收工作记录，id=" +id);
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("工作记录已经签收");
+			emailBean.setTitle("工作记录");
 			emailBean.setRecvUser(recvUser);
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("工作记录已经签收");

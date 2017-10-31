@@ -5,10 +5,20 @@
     <!--接入用户列表-->
     <select id="serverstatus" resultType="map" useCache="true">
      <!-- select * from xhgmnet_server_sys_info limit 0,100 -->
-     select * from (select name,(dpan/1024) as dpan,status,time,type from xhgmnet_server_sys_info) as a 
+     <!-- select * from (select name,(dpan/1024) as dpan,status,time,type from xhgmnet_server_sys_info) as a 
      
      union select server_name as name,(diskSize-diskUsed)/(1024*1024*1024) as dpan,runStatus as status,
-     time,type from xhgmnet_eastcom_server
+     time,type from xhgmnet_eastcom_server -->
+     
+     select server_name as name,
+      diskSize/(1024*1024*1024) as diskSize,
+      diskUsed/(1024*1024*1024) as diskUsed,
+      memSize/(1024*1024*1024) as memSize,
+      memUsed/(1024*1024*1024) as memUsed,
+      (diskSize-diskUsed)/(1024*1024*1024) as diskResidue,
+      (memSize-memUsed)/(1024*1024*1024) as memResidue,
+      runStatus as status,
+      time,type from xhgmnet_eastcom_server
     </select>  
    
    

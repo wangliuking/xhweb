@@ -106,21 +106,24 @@ xh.load = function() {
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+				$("#checkWin8").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==4){
 				$("#checkWin4").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==5){
 				$("#checkWin5").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==5){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
 				$("#checkWin6").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==6){
+			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==7){
 				$("#checkWin7").modal('show');
 			}
 	    };
@@ -218,8 +221,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -311,6 +314,7 @@ xh.check2 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -354,9 +358,9 @@ xh.check4 = function() {
 		async : true,
 		data:$("#checkForm4").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -436,6 +440,30 @@ xh.check7 = function() {
 		}
 	});
 };
+
+xh.check8 = function() {
+	$.ajax({
+		url : '../../fault/checkedEight',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm8").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin8').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -480,19 +508,21 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
 	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
+	if(checked!= -1){
 		if(checked == 2 && $scope.checkData.fileName_Request !=null){
 			fileName = $scope.checkData.fileName_Request;
+			filePath = $scope.checkData.filePath_Request;
 		}
 		else if(checked == 4 && $scope.checkData.fileName_Finish !=null){
 			fileName = $scope.checkData.fileName_Finish;
+			filePath = $scope.checkData.filePath_Finish;
 		}
 	}
-	console.log("filename=>" + filename);
-	var downUrl = "../../fault/download?fileName=" + filename;
+	console.log("filename=>" + fileName);
+	console.log("filename=>" + filePath);
+	var downUrl = "../../uploadFile/downfile?fileName=" + fileName + "&filePath=" + filePath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.QualityCheckMapper">
+    <!-- redis缓存  LRU FIFO-->
+    <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"
+     type="xh.mybatis.tools.MybatisRedisCache"/> -->
+    <!--    <cache eviction="FIFO" flushInterval="600000" size="1024"
+            readOnly="true" />  -->
+    <!--查询入网申请所有记录 -->
+    <select id="selectAll" parameterType="map" resultType="java.util.HashMap"
+    >
+        select u.*
+        ,b.unit as unit1
+		,b.unitType as initType1
+		,b.userType as userType1
+        from xhgmnet_bs_qualitycheck as u LEFT JOIN xhgmnet_web_user as b on u.userName=b.user where 1=1
+        <choose>
+            <when test="roleId &gt;10003 || roleId &lt;10000">
+                and u.userName=#{user}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+
+        order by id desc limit #{start},#{limit}
+    </select>
+    <!--查询申请所有记录总数 -->
+    <select id="dataCount" parameterType="map" resultType="int" useCache="true">
+        select count(id) from xhgmnet_bs_qualitycheck where 1=1
+        <choose>
+            <when test="roleId &gt;10003 || roleId &lt;10000">
+                and userName=#{user}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+    <!--查询申请进度 -->
+    <select id="applyProgress" parameterType="int" resultType="map"
+            useCache="true">
+        select * from xhgmnet_bs_qualitycheck where id=#{id}
+    </select>
+
+    <!--申请 -->
+    <insert id="insertQualityCheck" useGeneratedKeys="true" keyProperty="id"
+            parameterType="xh.mybatis.bean.QualityCheckBean">
+        insert into
+        xhgmnet_bs_qualitycheck(applicant,tel,requestTime,userName,checked,fileName1,filePath1)
+        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked},#{fileName1},#{filePath1})
+    </insert>
+
+    <!--服务提供方审核 -->
+    <update id="checkedOne" parameterType="xh.mybatis.bean.QualityCheckBean">
+        update xhgmnet_bs_qualitycheck set
+        user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
+        id=#{id}
+    </update>
+
+    <!--管理方上传-->
+    <update id="checkedTwo" parameterType="xh.mybatis.bean.QualityCheckBean">
+        update xhgmnet_bs_qualitycheck set
+        fileName2=#{fileName2},filePath2=#{filePath2},user2=#{user2},time2=#{time2},checked=#{checked}
+        where id=#{id}
+    </update>
+
+    <!--服务提供方审核 -->
+    <update id="checkedThree" parameterType="xh.mybatis.bean.QualityCheckBean">
+        update xhgmnet_bs_qualitycheck set
+        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+    </update>
+
+    <!--服务提供方上传-->
+    <update id="checkedFour" parameterType="xh.mybatis.bean.QualityCheckBean">
+        update xhgmnet_bs_qualitycheck set
+        fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked}
+        where id=#{id}
+    </update>
+
+    <!--管理方审核 -->
+    <update id="checkedFive" parameterType="xh.mybatis.bean.QualityCheckBean">
+        update xhgmnet_bs_qualitycheck set
+        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+    </update>
+
+
+</mapper>

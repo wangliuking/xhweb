@@ -386,5 +386,18 @@ public class CommunicationSupportService{
 		}
 		return result;
 	}
-	
+
+	public static int checkedSeventeen(CommunicationSupportBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		CommunicationSupportMapper mapper = sqlSession.getMapper(CommunicationSupportMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedSeventeen(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

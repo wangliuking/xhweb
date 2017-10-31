@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="add" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg ">
+	<div class="modal-dialog modal-md ">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -12,58 +12,44 @@
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>管理单位</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="userNature"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>管理方</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="userUnit"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>网络优化请求时间</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="requestTime"
-									required="required" onfocus="WdatePicker()">
-							</div>
-						</div>
-					</div>
-					<!-- row-------end -->
-
-					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="user_MainManager" ng-model="user_M">
-									<option ng-repeat="x in userData_MainManager"
-										value="{{x.user}}">{{x.userName}}</option>
-								</select>
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="tel"
+									required="required">
 							</div>
 						</div>
 					</div>
-					<!--row-------end -->
-					<!-- <div class="row">
-						<div class="col-md-3">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-6">
+								<label>网络优化任务</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
+							</div>	
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+							    <input type="hidden" name="result" class="form-control"/> 
+							    <input type="hidden" name="fileName"/> 
+							    <input type="hidden" name="path"/> 
+								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult1" style="color:red"></span>
+							</div>	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>故障审核人</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="user_MainManager" ng-model="user_M">
-									<option ng-repeat="x in userData_MainManager"
-										value="{{x.user}}">{{x.userName}}</option>
-								</select>
+								<label>备注</label>
+								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
-					</div> -->
-					<!--row-------end -->
-
-
-
-
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -82,9 +68,12 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
+		if ($("input[name='result']").val() != 1) {
+			alert("请先上传文件！");
+			return false;
+		}
 		$('#addForm').submit();
 	});
-
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',

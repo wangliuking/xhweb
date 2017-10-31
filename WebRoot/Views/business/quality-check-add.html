@@ -1,0 +1,193 @@
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="addForm" onSubmit="return false" method="POST">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>文件名称</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="filename">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>上传者</label>&nbsp;<span class="text-warning">[*]</span> <input
+									type="text" class="form-control" name="uploaduser">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>接收者</label>&nbsp;<span class="text-warning">[*]</span><input
+									type="text" class="form-control" name="recvuser">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span><input
+									type="text" class="form-control" name="contact">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" class="form-control" name="tel">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>&nbsp;<span class="text-info">[*]</span>
+								<textarea
+									style="width:560px;height:150px;max-width:560px;max-height:260px;"
+									name="note"></textarea>
+							</div>
+							<input type="hidden" name="filepath" id="filepath"/>
+						</div>
+					</div>
+				</form>
+				<form action="#" id="" onSubmit="return false"
+					enctype="multipart/form-data" method="POST">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group col-md-10" style="padding-right:0px;">
+								<input type="hidden" id="listener" name="listener" value="" />
+								<input type="hidden" id="listenerIO" name="listenerIO" value="" />
+								<label>上传附件</label>&nbsp;<span class="text-info">[*]</span> <input
+									class="form-control" type="file" id="pathName" name="pathName"/>
+							</div>
+							<div class="form-group col-md-2" style="padding-left:0px;">
+								<button type="button" ng-disabled="form.$invalid"
+									class="btn btn-info btn-sm" style="margin-top:23px;"
+									id="uploadfile">
+									<i class="fa fa-plus-circle"></i>点击上传
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#uploadfile").click(function() {
+		if ($('#pathName').val() == "") {
+			alert("请选择需要上传的文件！");
+			return false;
+		}
+		$('#listenerIO').attr("value", "1");
+		$.ajaxFileUpload({
+			url : '../../qualityCheck/upload', //用于文件上传的服务器端请求地址
+			secureuri : false, //是否需要安全协议，一般设置为false
+			fileElementId : 'pathName', //文件上传域的ID
+			dataType : 'HTML', //返回值类型 一般设置为json
+			success : function(data, status) //服务器成功响应处理函数
+			{
+				if (data == "0") {
+					alert("已存在同名文件，请重新操作！");
+				} else{
+					//进行添加操作之前，获取另一个表单的部分信息
+					$('#filepath').val(data);
+					$('#listener').attr("value", "1");
+					$('#listenerIO').attr("value", "");
+					alert("上传成功！");
+				}
+			},
+			error : function(data, status, e)//服务器响应失败处理函数
+			{
+				alert(e);
+			}
+		});
+	});
+
+	$("#add_btn").click(function() {
+		if($('#pathName').val()!="" && $('#listener').val()==""){
+			alert("请点击上传按钮进行上传！");
+			return false;
+		}else if($('#pathName').val()!="" && $('#listenerIO').val()=="1"){
+			alert("请等待上传完成！");
+			return false;
+		}	
+		$('#addForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			filename : {
+				validators : {
+					notEmpty : {
+						message : '文件名称不能为空'
+					}
+				}
+			},
+			uploaduser : {
+				validators : {
+					notEmpty : {
+						message : '上传者不能为空'
+					}
+				}
+			},
+			recvuser : {
+				validators : {
+					notEmpty : {
+						message : '接受者不能为空'
+					}
+				}
+			},
+			contact : {
+				validators : {
+					notEmpty : {
+						message : '联系人不能为空'
+					}
+				}
+			},
+			tel : {
+				validators : {
+					notEmpty : {
+						message : '联系方式不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

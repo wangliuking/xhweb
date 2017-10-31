@@ -27,7 +27,11 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.securityMenu=true; //菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		/*获取信息*/
 		$http.get("../../web/role/allRoleList").
 		success(function(response){
@@ -35,6 +39,7 @@ xh.load = function() {
 			$scope.data = response.items;
 			$scope.totals=$scope.data.length;
 		});
+	
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -42,6 +47,7 @@ xh.load = function() {
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
+			$scope.editData.roleType = $scope.editData.roleType.toString();
 		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -61,6 +67,7 @@ xh.load = function() {
 			}
 			$("#edit").modal('show');
 			$scope.editData = $scope.data[parseInt(checkVal[0])];
+			$scope.editData.roleType = $scope.editData.roleType.toString();
 			
 		};
 		/* 删除用户 */

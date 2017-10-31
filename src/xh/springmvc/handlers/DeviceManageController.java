@@ -74,7 +74,6 @@ public class DeviceManageController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
@@ -108,7 +107,6 @@ public class DeviceManageController {
                           HttpServletResponse response) {
         this.success = true;
         String jsonData = request.getParameter("formData");
-
         DeviceManageBean bean = GsonUtil.json2Object(jsonData, DeviceManageBean.class);
         bean.setUserName(funUtil.loginUser(request));
         bean.setTime(funUtil.nowDate());
@@ -116,18 +114,18 @@ public class DeviceManageController {
 
         int rst = DeviceManageService.insertDeviceManage(bean);
         if (rst == 1) {
-            this.message = "遥控申请信息已经成功提交";
+            this.message = "业务变更申请信息已经成功提交";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(1);
-            webLogBean.setContent("遥控申请信息，data=" + bean.toString());
+            webLogBean.setContent("业务变更申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "遥控申请信息已经成功提交,请审核。。。", request);
+            sendNotify(bean.getUser_MainManager(), "业务变更申请信息已经成功提交,请审核。。。", request);
             //----END
         } else {
-            this.message = "遥控申请信息提交失败";
+            this.message = "业务变更申请信息提交失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -146,7 +144,7 @@ public class DeviceManageController {
     }
 
     /**
-     * 主管部门审核
+     * 管理方审核
      *
      * @param request
      * @param response
@@ -157,7 +155,6 @@ public class DeviceManageController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note1 = request.getParameter("note1");
         String user = request.getParameter("user");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
@@ -168,7 +165,6 @@ public class DeviceManageController {
         }
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
-        bean.setNote1(note1);
         log.info("data==>" + bean.toString());
         int rst = DeviceManageService.checkedOne(bean);
         if (rst == 1) {
@@ -180,7 +176,7 @@ public class DeviceManageController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "遥控申请信息审核，请管理部门领导审核并处理。。。", request);
+            sendNotify(user, "业务变更信息审核，请管理部门领导审核并处理。。。", request);
             //----END
         } else {
             this.message = "审核提交失败";
@@ -212,29 +208,33 @@ public class DeviceManageController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
         String user3 = request.getParameter("user");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
-        bean.setChecked(2);
+        if(checked == 2){
+            bean.setChecked(2);
+        }else if(checked ==1) {
+            bean.setChecked(1);
+        }
         bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);
-
         int rst = DeviceManageService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "通知经办人处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("通知经办人处理(入网申请)，data=" + bean.toString());
+            webLogBean.setContent("通知经办人处理(业务变更申请)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user3, "入网申请信息审核，请上传编组方案。。。", request);
+            sendNotify(user3, "业务变更完成,通知用户确认。。。", request);
             //----END
         } else {
-            this.message = "通知经办人处理失败";
+            this.message = "通知用户确认失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -262,17 +262,12 @@ public class DeviceManageController {
                          HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        int checked = funUtil.StringToInt(request.getParameter("userBZ_checked"));
         String note3 = request.getParameter("note3");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
         bean.setTime3(funUtil.nowDate());
         bean.setNote3(note3);
-        if(checked == 3){
-            bean.setChecked(3);
-        } else{
-            bean.setChecked(1);
-        }
+        bean.setChecked(3);
         int rst = DeviceManageService.sureFile(bean);
         if (rst == 1) {
             this.message = "确认遥控完成信息成功";

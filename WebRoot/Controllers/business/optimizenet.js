@@ -90,6 +90,11 @@ xh.load = function() {
 			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
 	    };
+	    /*是否需要整改*/
+		$scope.dropnetChange=function(){
+			var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
+			$scope.dropnet=dropnet;
+		};
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -105,10 +110,10 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
@@ -116,12 +121,6 @@ xh.load = function() {
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
-			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
-				$("#checkWin6").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
-				$("#checkWin7").modal('show');
 			}
 	    };
 		/* 显示修改model */
@@ -218,8 +217,8 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		$scope.download = function(id) {
-			xh.download(id);
+		$scope.download = function() {
+			xh.download();
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -259,15 +258,13 @@ xh.add = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#addForm").serializeArray(),
 		success : function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -276,7 +273,53 @@ xh.add = function() {
 		}
 	});
 };
-/*管理方审核*/
+// /*管理方审核*/
+// xh.check1 = function() {
+// 	$.ajax({
+// 		url : '../../optimizenet/checkedOne',
+// 		type : 'POST',
+// 		dataType : "json",
+// 		async : true,
+// 		data:$("#checkForm1").serializeArray(),
+// 		success : function(data) {
+
+// 			if (data.result ==1) {
+// 				$('#checkWin1').modal('hide');
+// 				xh.refresh();
+// 				toastr.success(data.message, '提示');
+
+// 			} else {
+// 				toastr.error(data.message, '提示');
+// 			}
+// 		},
+// 		error : function() {
+// 		}
+// 	});
+// };
+
+// /*管理方上传*/
+// xh.check2 = function() {
+// 	$.ajax({
+// 		url : '../../optimizenet/checkedTwo',
+// 		type : 'POST',
+// 		dataType : "json",
+// 		async : true,
+// 		data:$("#checkForm2").serializeArray(),
+// 		success : function(data) {
+// 			if (data.result ==1) {
+// 				$('#checkWin2').modal('hide');
+// 				xh.refresh();
+// 				toastr.success(data.message, '提示');
+
+// 			} else {
+// 				toastr.error(data.message, '提示');
+// 			}
+// 		},
+// 		error : function() {
+// 		}
+// 	});
+// };
+/*服务方审核*/
 xh.check1 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedOne',
@@ -299,8 +342,7 @@ xh.check1 = function() {
 		}
 	});
 };
-
-/*管理方上传*/
+/*服务方上传*/
 xh.check2 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedTwo',
@@ -309,8 +351,10 @@ xh.check2 = function() {
 		async : true,
 		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
+
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -322,7 +366,7 @@ xh.check2 = function() {
 		}
 	});
 };
-/*服务方审核*/
+/*管理方审核*/
 xh.check3 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedThree',
@@ -331,7 +375,6 @@ xh.check3 = function() {
 		async : true,
 		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
 				xh.refresh();
@@ -345,7 +388,7 @@ xh.check3 = function() {
 		}
 	});
 };
-/*服务方上传*/
+/*管理方记录*/
 xh.check4 = function() {
 	$.ajax({
 		url : '../../optimizenet/checkedFour',
@@ -357,51 +400,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*管理方审核*/
-xh.check5 = function() {
-	$.ajax({
-		url : '../../optimizenet/checkedFive',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm5").serializeArray(),
-		success : function(data) {
-			if (data.result ==1) {
-				$('#checkWin5').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*管理方记录*/
-xh.check6 = function() {
-	$.ajax({
-		url : '../../optimizenet/checkedSix',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm6").serializeArray(),
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin6').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -414,17 +413,17 @@ xh.check6 = function() {
 	});
 };
 /*用户确认*/
-xh.check7 = function() {
+xh.check5 = function() {
 	$.ajax({
-		url : '../../optimizenet/checkedSeven',
+		url : '../../optimizenet/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkForm7").serializeArray(),
+		data:$("#checkForm5").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin7').modal('hide');
+				$('#checkWin5').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -484,22 +483,21 @@ xh.upload = function(index) {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	$scope.checkData = $scope.data[id];
 	var checked = $scope.checkData.checked;
 	var fileName = null;
 	if(checked != -1){
-		if(checked == 1 && $scope.checkData.fileName1!=null){
+		if(checked == 0 && $scope.checkData.fileName1!=null){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 3 && $scope.checkData.fileName2!=null){
+		else if(checked == 2 && $scope.checkData.fileName2!=null){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 5 && $scope.checkData.fileName3!=null){
+		else if(checked == 4 && $scope.checkData.fileName3!=null){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + filename);
-	var downUrl = "../../optimizenet/download?fileName=" + filename;
+	console.log("filename=>" + fileName);
+	var downUrl = "../../optimizenet/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

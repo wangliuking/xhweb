@@ -1,11 +1,13 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
+var powerData=null;
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
+		/*xh.userPower();*/
 	})
 	$("#wrapper-iframe").height($("body").height()-100);
 	/* 首页全屏 */
@@ -337,15 +339,38 @@ xh.getOneDay = function() {
 }
 /* 显示网页遮罩层 */
 xh.maskShow = function() {
-	var html = "<div class='xh-mask text-white'>";
-	html += "<i class='fa fa-spinner fa-spin fa-2x'></i>";
-	html += "<i class=''>加载中...</i>";
+	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+	html += "<i class=''>数据处理中...</i>";
+	html += "</div>";
+	$("body").append(html);
+}
+xh.maskShow = function(message) {
+	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+	html += "<i class=''>"+message+"</i>";
 	html += "</div>";
 	$("body").append(html);
 }
 /* 关闭网页遮罩层 */
 xh.maskHide = function() {
 	$(".xh-mask").fadeOut(300);
+}
+xh.userPower=function(){
+	$.ajax({
+		url : '../../web/loginUserPower',
+		type : 'post',
+		dataType : "json",
+		data : {},
+		async : true,
+		success : function(data) {
+			powerData=data;
+			
+		},
+		error : function() {
+			
+		}
+	});
 }
 
 /* 获取cookie */

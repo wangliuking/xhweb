@@ -21,6 +21,33 @@ public class DeviceManageBean {
     private String time3;
     private String user_MainManager;
     private String userName;
+    private String tel;
+    private String reason;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public String getUserName() {
         return userName;

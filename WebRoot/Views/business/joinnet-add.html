@@ -5,37 +5,30 @@
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
-				<!-- <button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<small class="font-bold"></small> -->
+				入网申请
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="unitName"
-									required="required">
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.unit"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>单位性质</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="unitNature" class="form-control">
-									<option value="党政部门" selected="selected">党政部门</option>
-									<option value="事业单位">事业单位</option>
-									<option value="企业">企业</option>
-								</select>
+								<label>单位性质</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.unitType"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="unitType" class="form-control">
-									<option value="协议入网用户" selected="selected">协议入网用户</option>
-									<option value="临时用户">临时用户</option>
-								</select>
+								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="unitName" ng-model="userData.userType"
+									required="required" disabled="disabled">
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -47,17 +40,38 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						<!-- <div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>服务类型</label>&nbsp;<span class="text-danger">[*]</span> <a
+									href="#" data-toggle="tooltip" data-placement="top"
+									title="无线接入：包括手持终端、车载终端等无线接入设备;有线接入：包括调度台、二次开发应用等接入设备"><i
+									class="fa fa-question-circle"></i> </a> <select name="serviceType"
+									class="form-control">
+									<option value="无线接入" selected="selected">无线接入</option>
+									<option value="有线接入">有线接入</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>入网依据</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="netBasis" class="form-control">
+									<option value="协议或合同" selected="selected">协议或合同</option>
+									<option value="非协议或合同">非协议或合同</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>入网时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="netTime"
 									required="required" onfocus="WdatePicker()">
 							</div>
-						</div>
-						<div class="col-md-3">
+						</div> -->
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>合同名称</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="pactName"
@@ -70,91 +84,179 @@
 								<input type="text" value="" class="form-control" name="signTime"
 									required="required" onfocus="WdatePicker()" required="required">
 							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="serviceTime"
-									onfocus="WdatePicker()" required="required">
-							</div>
-						</div>
+						</div> -->
+						
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>单位负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="unitPerson"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系电话</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="tel"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系部门</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="department"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
 								<input type="text" value="" class="form-control"
 									name="virtualnetName" required="required">
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-3">
+						<!-- <div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>服务类型</label>&nbsp;<span class="text-danger">[*]</span> <a
-									href="#" data-toggle="tooltip" data-placement="top"
-									title="无线接入：包括手持终端、车载终端等无线接入设备;有线接入：包括调度台、二次开发应用等接入设备"><i
-									class="fa fa-question-circle"></i> </a> <select name="serviceType"
-									class="form-control">
-									<option value="无线接入" selected="selected">无线接入</option>
-									<option value="有线接入">有线接入</option>
-								</select>
+								<label>服务期限</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="serviceTime"
+									onfocus="WdatePicker()" required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>终端类型</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="terminalNum"
+									required="required">
+							</div>
+						</div> -->
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>通信组数量</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="talkGroupNum"
+									required="required">
+							</div>
+						</div>
+						
+						<!-- <div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>虚拟专网名称</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" value="" class="form-control"
+									name="virtualnetName" required="required">
+							</div>
+						</div> -->
+						<div class="col-md-8">
+							<div class="form-group col-md-12">
+								<label>通信需求</label>&nbsp;<span class="text-danger">[*]</span> 
+								<textarea name="talkRequirment" rows="2" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
 					</div>
 					<!-- row-------end -->
-					<div class="row" ng-show="false">
-						<div class="col-md-12" style="padding: 0 40px 0 40px;">
+					<div class="row">
+						<div class="col-md-12" style="padding: 0 40px 0 40px;" id="terminalType">
 							<fieldset class="form-group">
-								<legend>申请终端</legend>
-								<div class="row">
-									<div class="col-md-3">
-										<div class="form-group col-md-12">
-											<label>MTM700</label> <input type="number" value="0"
-												class="form-control" name="mtm700">
-										</div>
+								<legend>终端类型
+			                        <!-- <a href="" ng-click="terminal.incrApply(index_apply)" style="float:right">
+			                            <i class="fa fa-plus"></i>增加
+			                        </a> -->
+			                    </legend>
+			                        <label for="shouban"><input type="checkbox" id="shouban" ng-model="isChecked1"/>手办</label>
+			                        <label for="chezaitai"><input type="checkbox" id="chezaitai" ng-model="isChecked2"/>车载台</label>
+			                        <label for="diaodutai"><input type="checkbox" id="diaodutai" ng-model="isChecked3"/>调度台</label>
+			                    <div class="form-group col-md-12">
+								    <div class="col-md-4" ng-if="isChecked1" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="sb" >手办</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply0" required="required">
+										 	</div>
+									 	</div>
 									</div>
-									<div class="col-md-3">
-										<div class="form-group col-md-12">
-											<label>MTP700</label> <input type="number" value="0"
-												class="form-control" name="mtp700">
-										</div>
+								    <div class="col-md-4" ng-if="isChecked2" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="cz" >车载台</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply1" required="required">
+										 	</div>
+										 </div>
 									</div>
-									<div class="col-md-3">
-										<div class="form-group col-md-12">
-											<label>MTM800</label> <input type="number" value="0"
-												class="form-control" name="mtm800">
-										</div>
+								    <div class="col-md-4" ng-if="isChecked3" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="dd" >调度台</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply2" required="required" >
+										 	</div>
+										 </div>
 									</div>
 								</div>
+								<!-- <div class="col-md-12">
+							        <div ng-repeat="apply in terminal.terminalsApply">
+							            <div class="form-group">
+							                <div class="col-md-12">
+							                    <div class="col-md-2">
+							                        <label for="apply{{$index + 1}}" ng-model="apply.key">{{apply.key}}</label>
+							                    </div>
+							                    <div class="col-md-8">
+							                        <input type="number" ng-model="apply.value" class="form-control" name="apply{{$index}}" required="required">
+							                    </div>
+							                    <div class="col-md-2">
+								                    <a href="" ng-click="terminal.decrApply($index)" ng-show="terminal.canDescReply">
+							                            <i class="fa fa-remove"></i>删除
+							                        </a>
+							                        <a href="" ng-show="!terminal.canDescReply">
+							                            <i class="fa fa-remove"></i>删除
+							                        </a>
+						                        </div>
+							                </div>
+							            </div>
+							        </div>
+								</div> -->
 							</fieldset>
 						</div>
 					</div>
+					<!-- <div class="row">
+						<label class="col-md-2 control-label">答复内容:</label>
+					    <div class="col-md-10">
+					        <div ng-repeat="reply in terminal.terminalsApply">
+					            <div class="form-group">
+					                <div class="col-md-12">
+					                    <div class="col-md-1">
+					                        <label for="reply{{$index + 1}}">回答{{$index + 1}}</label>
+					                    </div>
+					                    <div class="col-md-9">
+					                        <input type="text" class="form-control" ng-model="reply.value"
+					                               id="apply{{$index + 1}}" name="apply{{$index + 1}}" />
+					                    </div>
+					                    <div class="col-md-2 img-link">
+					                        <a href="" ng-click="terminal.incrApply($index)">
+					                            <img src="/images/plus.png" alt="plus" width="30px" height="30px" />
+					                        </a>
+					                        <a href="" ng-click="terminal.decrApply($index)" ng-show="terminal.canDescReply">
+					                            <img src="/images/minus.png" alt="minus" width="30px" height="30px"/>
+					                        </a>
+					                        <img src="/images/dis_minus.png" alt="minus" width="30px" height="30px"
+					                             ng-show="!terminal.canDescReply"/>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <input type="hidden" id="replies" name="replies" value="{{terminal.combineReplies()}}" />
+					    </div>
+				    </div> -->
 					<!--row-------end -->
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>入网申请审核人</label>&nbsp;<span class="text-danger">[*]</span>
@@ -164,7 +266,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!--row-------end -->
 				</form>
 			</div>
@@ -185,21 +287,22 @@
 <script type="text/javascript">
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
+		xh.addJoinNet();
 	});
 
-	var faIcon = {
+	/* var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
 	$('#addForm').bootstrapValidator({
-		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
+		excluded : [ ':disabled' , '#terminalType'],
+		/* feedbackIcons: faIcon,
 		fields : {}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.addJoinNet();
-	});
+	});  */
 </script>
 <script>
 	$(function() {

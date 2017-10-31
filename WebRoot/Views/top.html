@@ -72,18 +72,9 @@
 		data : {},
 		async : false,
 		success : function(data) {
-			if (data.success) {
-				user = data.user;
-				roleId = data.roleId;
-				var html = data.user + "&nbsp;&nbsp;角色[" + data.role + "]";
-				$("#login-user").html(
-						"<span style='color:blue'>" + html + "</span>");
-			} else {
-				var html = data.user + "&nbsp;&nbsp;角色[" + data.user + "]";
-				$("#login-user").html(
-						"<span style='color:blue'>" + html + "</span>");
-			}
-			;
+			var html = data.user + "&nbsp;&nbsp;角色[" + data.role + "]";
+			$("#login-user").html(
+					"<span style='color:blue'>" + html + "</span>");
 		},
 		error : function() {
 		}

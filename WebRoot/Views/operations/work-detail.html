@@ -3,14 +3,11 @@
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<!-- <div class="color-line"></div>
 			<div class="modal-header ">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<small class="font-bold">上传工作记录文件</small>
-			</div> -->
+				
+			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="addForm" onSubmit="return false" method="POST">
+				<form action="#"  onSubmit="return false">
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
@@ -57,6 +54,7 @@
 							type="hidden" name="filePath" value="" /> <input type="hidden"
 							name="result" value="" />
 					</div>
+					
 					<div class="row">
 						<div class="col-md-12">
 							<label>工作记录文件：</label><span> <a href="#" ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>

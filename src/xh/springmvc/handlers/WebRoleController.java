@@ -60,6 +60,27 @@ public class WebRoleController {
 		
 	}
 	/**
+	 * 根据角色类型查找角色列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/role/roleTypeByList",method=RequestMethod.GET)
+	public void roleTypeByList(HttpServletRequest request, HttpServletResponse response){
+		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
+		HashMap result = new HashMap();
+		result.put("totals",WebRoleService.roleTypeByList(roleType).size());
+		result.put("items", WebRoleService.roleTypeByList(roleType));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
 	 * 添加角色
 	 * @param request
 	 * @param response
@@ -68,9 +89,11 @@ public class WebRoleController {
 	public void addRole(HttpServletRequest request, HttpServletResponse response){
 		String role=request.getParameter("role");
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
+		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
 		String createTime=funUtil.nowDate();
 		WebRoleBean bean=new WebRoleBean();
 		
+		bean.setRoleType(roleType);
 		bean.setRoleId(roleId);
 		bean.setRole(role);
 		bean.setCreateTime(createTime);
@@ -112,9 +135,11 @@ public class WebRoleController {
 	@RequestMapping(value="/role/update",method = RequestMethod.POST)
 	public void updateRole(HttpServletRequest request, HttpServletResponse response){
 		String roleId=request.getParameter("roleId");
+		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
 		String role=request.getParameter("role");
 		String createTime=funUtil.nowDate();
 		WebRoleBean bean=new WebRoleBean();
+		bean.setRoleType(roleType);
 		bean.setRoleId(funUtil.StringToInt(roleId));
 		bean.setRole(role);
 		bean.setCreateTime(createTime);

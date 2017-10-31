@@ -43,7 +43,8 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="quitnet.html">业务管理</a></span></li>
+							<li><span>业务管理</span></li>
+							<li><span>用户管理</span></li>
 							<li class="active"><span>退网申请</span></li>
 						</ol>
 					</div>
@@ -97,9 +98,8 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户单位</th>
-										<th >退网终端号码</th>
-										<th >退网类型</th>
-										<th >联系人</th>
+										<th>退网类型</th>
+										<th>联系人</th>
 										<th>申请退网时间</th>
 										<th>审核状态</th>
 										<th>操作详情</th>
@@ -107,29 +107,33 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.quitName}}</td>
-										<td>{{x.quitNumber}}</td>
-										<td>{{x.quitType}}</td>
+										<td>{{x.unit1}}</td>
+										<td>{{x.quitModal}}</td>
 										<td>{{x.quitPerson}}</td>
 										<td>{{x.quitTime}}</td>
 										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
-										<td ng-if="x.quit==0" class="td-warning">等待管理方审核</td>
-										<td ng-if="x.quit==1" class="td-warning">用户确认</td>
-										<td ng-if="x.quit==2" class="td-success">退网成功</td>
+										<td ng-if="x.quit==0" class="td-warning">等待管理方领导审核</td>
+										<td ng-if="x.quit==1" class="td-warning">等待管理方处理</td>
+										<td ng-if="x.quit==2" class="td-warning">用户确认</td>
+										<td ng-if="x.quit==3" class="td-success">退网成功</td>
 										
 										<td style="text-align:center">
-										<a href="#"
-											ng-click="toProgress($index)"><i
+										<a href="#" ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
 												
 										<a ng-if="loginUserRoleId==10002 && x.quit==0"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
+
+										<a ng-if="loginUserRoleId==10002 && x.quit==1"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
+
 										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.quit==1"
+											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.quit==2"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
 									</tr>

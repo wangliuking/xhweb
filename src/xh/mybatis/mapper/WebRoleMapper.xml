@@ -4,6 +4,7 @@
 <!-- 自定义返回结果集 -->
    <resultMap id="role" type="xh.mybatis.bean.WebRoleBean">
         <id property="roleId" column="roleId" javaType="java.lang.Integer"></id>
+        <result property="roleType" column="roleType" javaType="java.lang.Integer"></result>
         <result property="role" column="role" javaType="java.lang.String"></result>
         <result property="createTime" column="createTime" javaType="java.lang.String"></result>
    </resultMap>
@@ -12,6 +13,10 @@
      select role from xhgmnet_web_role where roleId=(select roleId from xhgmnet_web_role_user where 
       userId=(select userId from xhgmnet_web_user where user=#{user}))
     </select>
+   <!--根据角色类型查找角色列表-->
+    <select id="roleTypeByList" parameterType="int" resultType="map" useCache="true">
+     select * from xhgmnet_web_role where roleType=#{roleType} limit 0,10
+    </select>    
    <!--根据角色判断角色是否存在-->
     <select id="roleIsExists" parameterType="xh.mybatis.bean.WebRoleBean" resultType="int" useCache="true">
      select count(*) from xhgmnet_web_role where role=#{role} or roleId=#{roleId}
@@ -27,12 +32,12 @@
     </select> 
     <!--添加角色-->    
     <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="xh.mybatis.bean.WebRoleBean">
-      insert into xhgmnet_web_role(roleId,role,createTime)
-      values(#{roleId},#{role},#{createTime})
+      insert into xhgmnet_web_role(roleId,role,createTime,roleType)
+      values(#{roleId},#{role},#{createTime},#{roleType})
     </insert> 
     <!--更新角色-->
     <update id="updateByroleId" parameterType="xh.mybatis.bean.WebRoleBean">
-      update xhgmnet_web_role set role=#{role} where roleId=#{roleId}    
+      update xhgmnet_web_role set role=#{role},roleType=#{roleType} where roleId=#{roleId}    
     </update>          
    <!--根据角色ID删除角色-->
     <delete id="deleteByRoleId" parameterType="java.util.List">
