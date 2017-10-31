@@ -3251,3 +3251,21 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
     border-color: #5cb85c; }
 .radio-success input[type="radio"]:checked + label::after {
     background-color: #5cb85c; }
+.panel-card{
+	width:150px;
+	height:60px;
+	color:#fff;
+	background:green;
+}
+.panel-card .card-img{
+	padding:auto;
+	margin:auto;
+	height:100%;
+	width:50px;
+	border-right: 2px solid #ccc;
+}
+.panel-card .card-img i{
+	margin-top:10px;
+	margin-left:10px;
+}
+.panel-card div{float:left;margin-left:10px;}
