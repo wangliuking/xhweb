@@ -1,7 +1,7 @@
 <!-- 服务提供方审核运维质量抽查请求信息 -->
 <div class="modal fade" id="checkWin1" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header">
@@ -17,7 +17,15 @@
 							</div>
 							
 						</div>
-					</div>	
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>抽检计划下载链接</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(1)" style="color:red">{{checkData.fileName1}}</a>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -57,7 +65,7 @@
 <!-- 管理方上传文件（抽检计划），发送消息通知服务提供方；-->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -135,8 +143,8 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>抽检计划下载链接</label>&nbsp;</span> 
-								<a href="#" title="点击下载文件" onclick="xh.download()" style="color:red">{{checkData.fileName1}}</a>
+								<label>抽检记录下载链接</label>&nbsp;</span> 
+								<a href="#" title="点击下载文件" onclick="xh.download(2)" style="color:red">{{checkData.fileName2}}</a>
 							</div>
 						</div>
 					</div>
@@ -264,7 +272,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>方案审核信息下载链接</label>&nbsp;</span> 
-								<a href="#" title="点击下载文件" onclick="xh.download()" style="color:red">{{checkData.fileName2}}</a>
+								<a href="#" title="点击下载文件" onclick="xh.download(2)" style="color:red">{{checkData.fileName2}}</a>
 							</div>
 						</div>
 					</div>

@@ -17,6 +17,23 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+/* table tbody {
+display:block;
+width:100%;
+height:195px;
+overflow-y:scroll;
+}
+table thead, tbody tr {
+display:table;
+width:100%;
+table-layout:fixed;
+}
+
+table thead {
+width: calc( 100% - 1em )
+} */
+</style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller"
 	class="fixed-iframe">
@@ -71,10 +88,12 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
-										<th width="50px">#</th>
+										<!-- <th width="50px">#</th> -->
 										<th>服务器名称</th>
-										<th>IP地址</th>
-										<th>剩余磁盘空间（单位：G）</th>
+										<th>磁盘大小（单位：G）</th>
+										<th>磁盘已用空间（单位：G）</th>
+										<th>内存大小（单位：G）</th>
+										<th>内存已用空间（单位：G）</th>
 										<th>运行状态</th>
 										<th>更新时间</th>
 									</tr>
@@ -84,16 +103,18 @@
 										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{$index+1}}</td>
+										<!-- <td>{{$index+1}}</td> -->
 										<td>{{x.name}}</td>
-										<td>{{x.ip}}</td>
-										<td>{{x.dpan |number:2}}</td>
+										<td>{{x.diskSize |number:2}}</td>
+										<td>{{x.diskUsed |number:2}}</td>
+										<td>{{x.memSize |number:2}}</td>
+										<td>{{x.memUsed |number:2}}</td>
 										<td ng-if="x.type==0 && x.status==1"><span
-											class="label arrowed-in label-sm label-success">运行正常</span></td>
+											class="label arrowed-in label-sm label-success">正常</span></td>
 										<td ng-if="x.type==0 && x.status==0"><span
 											class="label arrowed-in label-sm label-success">无法连接</span></td>
 										<td ng-if="x.type==1 && x.status==0"><span
-											class="label arrowed-in label-sm label-success">运行正常</span></td>
+											class="label arrowed-in label-sm label-success">正常</span></td>
 										<td ng-if="x.type==1 && x.status==1"><span
 											class="label arrowed label-sm label-danger">无法连接</span></td>
 										

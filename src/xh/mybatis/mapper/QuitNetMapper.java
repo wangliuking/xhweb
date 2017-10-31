@@ -58,6 +58,7 @@ public interface QuitNetMapper {
      */
     public int checkedOne(QuitNetBean bean) throws Exception;
 
+    public int checkedTwo(QuitNetBean bean) throws Exception;
     /**
      * 用户确认
      *

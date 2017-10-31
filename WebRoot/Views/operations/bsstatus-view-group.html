@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-md-12">当前基站下注册组总计：{{groupTotals}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+	 
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th width="50px">#</th>
+					<th>组ID</th>
+					<th>名称</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-if="groupTotals==0">
+					<td colspan="3" class="text-center">没有记录！</td>
+				</tr>
+				<tr ng-repeat="x in groupData">
+					<td>{{$index+1}}</td>
+					<td>{{x.TGid}}</td>
+					<td>{{x.name}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+</div>

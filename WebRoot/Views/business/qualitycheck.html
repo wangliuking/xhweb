@@ -44,8 +44,9 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="optimizenet.html">业务管理</a></span></li>
-							<li class="active"><span>运维质量抽查</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>日常监管</span></li>
+							<li class="active"><span><a href="qualitycheck.html">服务抽检</a></span></li>
 						</ol>
 					</div>
 				</div>
@@ -122,9 +123,9 @@
 										<td>运维质量抽查</td>
 										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">抽查申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待服务提供方审核</td>
+										<td ng-if="x.checked==0" class="td-warning">等待服务提供方确认</td>
 										<td ng-if="x.checked==1" class="td-warning">等待管理方上传抽查记录消息</td>
-										<td ng-if="x.checked==2" class="td-warning">流程结束</td>
+										<td ng-if="x.checked==2" class="td-success">流程结束</td>
 										<!-- <td ng-if="x.checked==2" class="td-warning">等待服务提供方审核运维质量抽查任务消息</td>
 										<td ng-if="x.checked==3" class="td-warning">等待服务提供方上传确认消息</td>
 										<td ng-if="x.checked==4" class="td-warning">等待管理方审核抽查确认消息/td>

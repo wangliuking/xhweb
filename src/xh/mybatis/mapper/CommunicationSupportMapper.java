@@ -160,5 +160,7 @@ public interface CommunicationSupportMapper {
 	 * @throws Exception
 	 */
 	public int sureFile(CommunicationSupportBean bean)throws Exception;
+
+	public int checkedSeventeen(CommunicationSupportBean bean)throws Exception;
 	
 }

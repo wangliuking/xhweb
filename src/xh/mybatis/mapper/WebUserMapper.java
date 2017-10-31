@@ -36,6 +36,21 @@ public interface WebUserMapper {
 	 * @throws Exception
 	 */
 	public HashMap<String,Object> selectUserByUserAndPass(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据用户名,查找用户信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap<String,Object> userInfoByName(String user)throws Exception;
+	/**
+	 * 根据用户名,查找用户权限信息
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	public HashMap<String,Object>userPowerInfoByName(String user)throws Exception;
 	/**
 	 * 根据登录用户名查找登录用户
 	 * @param user

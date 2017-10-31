@@ -113,8 +113,11 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.quit==1){
+			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==1){
 				$("#checkWin2").modal('show');
+			}
+			if($scope.loginUserRoleId==1000 && $scope.checkData.quit==2){
+				$("#checkWin3").modal('show');
 			}
 	    };
 	    /* 用户确认编组方案 
@@ -313,10 +316,10 @@ xh.check1 = function() {
 		}
 	});
 };
-/*用户确认*/
+/*管理方审核*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../quitnet/sureFile',
+		url : '../../quitnet/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -325,6 +328,29 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/*用户确认*/
+xh.check2 = function() {
+	$.ajax({
+		url : '../../quitnet/sureFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm3").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin3').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

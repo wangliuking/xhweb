@@ -175,26 +175,19 @@ public class QuitNetController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int quit = funUtil.StringToInt(request.getParameter("quit"));
-		String note1 = request.getParameter("note1");
-		//String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		QuitNetBean bean = new QuitNetBean();
-		JoinNetBean bean2 = new JoinNetBean();
 		bean.setId(id);
 		if(quit == 1){
 			bean.setQuit(1);
 		}else if(quit ==-1){
 			bean.setQuit(-1);
 		}
-		bean.setNote1(note1);
-		bean2.setUserName(unit);
-		bean2.setChecked(99);
-		bean2.toString();
+		bean.setTime1(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
 		int rst = QuitNetService.checkedOne(bean);
-		int rst1 = JoinNetService.quitNet(bean2);
-		if (rst == 1 && rst1 == 1){
+		if (rst == 1){
 			this.message = "审核提交成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -202,6 +195,52 @@ public class QuitNetController {
 			webLogBean.setContent("审核退网申请，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
+			//----发送通知邮件
+			sendNotify(user, "退网申请信息审核，请管理人审核。。。", request);
+			//----END
+		} else {
+			this.message = "审核提交失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@RequestMapping(value = "/checkedTwo", method = RequestMethod.POST)
+	public void checkedTwo(HttpServletRequest request,
+						   HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String note1 = request.getParameter("note1");
+		String user = request.getParameter("user");
+		QuitNetBean bean = new QuitNetBean();
+		bean.setId(id);
+		bean.setNote1(note1);
+		bean.setQuit(2);
+		bean.setTime2(funUtil.nowDate());
+		log.info("data==>" + bean.toString());
+		WebLogBean webLogBean = new WebLogBean();
+		int rst = QuitNetService.checkedTwo(bean);
+		if (rst == 1){
+			this.message = "审核提交成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("审核退网申请，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+
 			//----发送通知邮件
 			sendNotify(user, "退网申请信息审核，请管理人审核。。。", request);
 			//----END
@@ -238,11 +277,12 @@ public class QuitNetController {
 		String note = request.getParameter("note");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setId(id);
-		if(quit == 2){
-			bean.setQuit(2);
-		}else if(quit == 0){
-			bean.setQuit(0);
+		if(quit == 3){
+			bean.setQuit(3);
+		}else if(quit == 1){
+			bean.setQuit(1);
 		}
+		bean.setTime3(funUtil.nowDate());
 		bean.setNote(note);
 		WebLogBean webLogBean = new WebLogBean();
 

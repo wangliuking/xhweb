@@ -169,34 +169,31 @@ public class EmergencyController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note1 = request.getParameter("note1");
+        String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
         EmergencyBean bean = new EmergencyBean();
-        bean.setId(id);
-        if(checked ==1) {
-            bean.setChecked(1);
-        }else if(checked == -1) {
-            bean.setChecked(-1);
-        }
-
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
-        bean.setNote1(note1);
+        bean.setNote2(note2);
+        bean.setId(id);
+        bean.setChecked(1);
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
+        System.out.println("应急处置演练计划:" + fileName);
+
         int rst = EmergencyService.checkedOne(bean);
         if (rst == 1) {
-            this.message = "审核提交成功";
+            this.message = "上传应急处置演练计划成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("审核应急处置演练信息，data=" + bean.toString());
+            webLogBean.setContent("上传应急处置演练计划，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotify(user, "应急处置演练信息审核，请服务提供方方人员审核并尽快处理", request);
-            //----EN
+        } else {
+            this.message = "上传应急处置演练计划失败";
         }
-        log.info("data==>" + bean.toString());
-
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -224,66 +221,21 @@ public class EmergencyController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        EmergencyBean bean = new EmergencyBean();
-        bean.setId(id);
-        bean.setChecked(2);
-        bean.setFileName1(fileName);
-        bean.setFilePath1(filePath);
-        System.out.println("应急处置演练任务消息:" + fileName);
-
-        int rst = EmergencyService.checkedTwo(bean);
-        if (rst == 1) {
-            this.message = "上传应急处置演练计划成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传应急处置演练计划，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-        } else {
-            this.message = "上传应急处置演练计划失败";
-        }
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 服务提供方审核
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
-    public void checkedThree(HttpServletRequest request,
-                             HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String note2 = request.getParameter("note2");
+        String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
-        if(checked == 3){
-            bean.setChecked(3);
-        }else if(checked == 1) {
-            bean.setChecked(1);
+        if(checked == 2){
+            bean.setChecked(2);
+        }else if(checked == 0) {
+            bean.setChecked(0);
 
         }
 		bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
-        bean.setNote2(note2);
-        int rst = EmergencyService.checkedThree(bean);
+        bean.setNote3(note3);
+        int rst = EmergencyService.checkedTwo(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -312,6 +264,55 @@ public class EmergencyController {
             e.printStackTrace();
         }
     }
+    /**
+     * 服务提供方审核
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
+    public void checkedThree(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        String note3 = request.getParameter("note3");
+        EmergencyBean bean = new EmergencyBean();
+        bean.setId(id);
+        bean.setChecked(3);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
+        bean.setNote3(note3);
+        bean.setTime3(funUtil.nowDate());
+        System.out.println("方案报告消息:" + fileName);
+        System.out.println("id是:" + id);
+
+        int rst = EmergencyService.checkedThree(bean);
+        if (rst == 1) {
+            this.message = "上传演练报告成功";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(5);
+            webLogBean.setContent("上传演练报告，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+        } else {
+            this.message = "上传演练报告失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 服务提供方上传方案审核消息
@@ -324,26 +325,30 @@ public class EmergencyController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
+        //String note3 = request.getParameter("note3");
+        String user = request.getParameter("user");
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        int level = funUtil.StringToInt(request.getParameter("level"));
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(4);
-        bean.setFileName2(fileName);
-        bean.setFilePath2(filePath);
-        System.out.println("方案审核消息:" + fileName);
-        System.out.println("id是:" + id);
-
+        bean.setUser3(funUtil.loginUser(request));
+        bean.setTime4(funUtil.nowDate());
+        bean.setLevel(level);
         int rst = EmergencyService.checkedFour(bean);
         if (rst == 1) {
-            this.message = "上传方案审核消息成功";
+            this.message = "通知服务方处理方案评审成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传方案审核消息，data=" + bean.toString());
+            webLogBean.setContent("通知服务管理方处理(方案评审消息)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+
+            //----发送通知邮件
+            sendNotify(user, "服务方请查看处理方案结果消息。。。", request);
+            //----END
         } else {
-            this.message = "上传方案审核消息失败";
+            this.message = "通知服务方处理方案评审消息失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -365,14 +370,15 @@ public class EmergencyController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
     public void checkedFive(HttpServletRequest request,
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String note3 = request.getParameter("note3");
+        //String note3 = request.getParameter("note3");
         String user = request.getParameter("user");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
+        int level = funUtil.StringToInt(request.getParameter("level"));
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         if(checked == 5){
@@ -382,8 +388,8 @@ public class EmergencyController {
 
         }
         bean.setUser3(funUtil.loginUser(request));
-        bean.setTime3(funUtil.nowDate());
-        bean.setNote3(note3);
+        bean.setTime4(funUtil.nowDate());
+        bean.setLevel(level);
         int rst = EmergencyService.checkedFive(bean);
         if (rst == 1) {
             this.message = "通知服务管理方处理方案审核消息成功";
@@ -412,14 +418,14 @@ public class EmergencyController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    /**
+    }*/
+/*
+    *//**
      * 服务提供方上传总结审核消息
      *
      * @param request
      * @param response
-     */
+     *//*
     @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
     public void checkedSix(HttpServletRequest request,
                            HttpServletResponse response) {
@@ -459,12 +465,12 @@ public class EmergencyController {
             e.printStackTrace();
         }
     }
-    /**
+    *//**
      * 管理方审核总结审核消息
      *
      * @param request
      * @param response
-     */
+     *//*
     @RequestMapping(value = "/checkedSeven", method = RequestMethod.POST)
     public void checkedSeven(HttpServletRequest request,
                              HttpServletResponse response) {
@@ -513,7 +519,7 @@ public class EmergencyController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      * 上传文件

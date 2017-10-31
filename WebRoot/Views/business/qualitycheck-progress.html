@@ -59,7 +59,7 @@
 									<p>
 										<a ng-if="progressData.checked>=1" href="#" title="点击下载文件"
 											onclick="xh.download(1)" style="color: red">{{progressData.fileName1}}</a>
-										<span>备注：</span><span>{{progressData.note}}</span>
+										<!-- <span>备注：</span><span>{{progressData.note}}</span> -->
 									</p>
 									<span class="cd-date text-success font-bold text-x">
 										提交时间：{{progressData.requestTime}}</span>
@@ -90,6 +90,10 @@
 									ng-if="progressData.checked>1"></div>
 								<div class="cd-timeline-content">
 									<h2>管理方执行抽检</h2>
+									<p><span>抽检记录：</span>
+									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
+											onclick="xh.download(2)" style="color: red">{{progressData.fileName2}}</a>
+									</p>
 									<span ng-if="progressData.checked<=1"
 										class="cd-date text-danger">等待管理方上传抽查记录消息！</span> <span
 										ng-if="progressData.checked>1"

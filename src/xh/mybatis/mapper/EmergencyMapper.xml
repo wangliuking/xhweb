@@ -45,41 +45,39 @@
     <insert id="insertEmergency" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.EmergencyBean">
         insert into
-        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked,note)
-        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked},#{note})
+        xhgmnet_bs_emergency(applicant,tel,requestTime,userName,checked,note1)
+        values(#{applicant},#{tel},#{requestTime},#{userName},#{checked},#{note1})
     </insert>
 
     <!--服务提供方审核 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
+        user1=#{user1},time1=#{time1},note2=#{note2},fileName1=#{fileName1},filePath1=#{filePath1},checked=#{checked} where
         id=#{id}
     </update>
 
-    <!--管理方上传-->
+    <!--服务方上传-->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        fileName1=#{fileName1},filePath1=#{filePath1},checked=#{checked}
-        where id=#{id}
+        user2=#{user2},time2=#{time2},checked=#{checked} where id=#{id}
     </update>
 
-    <!--服务提供方审核 -->
+    <!--管理方审核 -->
     <update id="checkedThree" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+        fileName2=#{fileName2},filePath2=#{filePath2},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
     </update>
 
     <!--服务提供方上传-->
     <update id="checkedFour" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked}
-        where id=#{id}
+        user3=#{user3},time4=#{time4},level=#{level},checked=#{checked} where id=#{id}
     </update>
 
     <!--管理方审核 -->
-    <update id="checkedFive" parameterType="xh.mybatis.bean.EmergencyBean">
+<!--     <update id="checkedFive" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+        user3=#{user3},time4=#{time4},level=#{level},checked=#{checked} where id=#{id}
     </update>
     <update id="checkedSix" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_emergency set
@@ -87,10 +85,10 @@
         where id=#{id}
     </update>
 
-    <!--管理方审核 -->
+    管理方审核
     <update id="checkedSeven" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_emergency set
         user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked},level=#{level} where id=#{id}
-    </update>
+    </update> -->
 
 </mapper>

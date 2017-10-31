@@ -18,7 +18,7 @@
 							</div>
 						</div>
 					</div>	
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -28,14 +28,14 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>故障类型</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="faultType">
 									<option value="1" selected="selected">网络故障</option>
-									<option value="-1">其它故障</option>
+									<option value="-1">终端故障</option>
 								</select>
 							</div>
 						</div>
@@ -78,7 +78,7 @@
 <!-- 管理方上传故障请求信息  -->
 <div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -189,7 +189,7 @@
 <!-- 服务提供方上传故障完成信息  -->
 <div class="modal fade" id="checkWin4" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -275,17 +275,17 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="row">
+					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
-									<option value="5" selected="selected">通过</option>
-									<option value="3">拒绝</option>
+									<option value="6" selected="selected">通过</option>
+									<option value="4">拒绝</option>
 								</select>
 							</div>
 						</div>
-					</div> -->
+					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -373,13 +373,27 @@
 							
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>用户意见</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
 									<option value="7" selected="selected">同意</option>
 									<option value="-2">不同意</option>
+								</select>
+							</div>
+						</div>
+					</div> -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>用户满意度</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="UserVisit">
+									<option value="非常满意" selected="selected">非常满意</option>
+									<option value="满意">满意</option>
+									<option value="一般">一般</option>
+									<option value="不满意">不满意</option>
+									<option value="故障未处理">故障未处理</option>
 								</select>
 							</div>
 						</div>
@@ -395,6 +409,62 @@
 				<button type="button" ng-disabled="form.$invalid"
 					class="btn btn-success btn-sm" id="check_btn7">
 					<i class="fa fa-plus"></i>&nbsp;提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="checkWin8" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header">
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm8" onSubmit="return false">	
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									 class="form-control" name="checked">
+									<option value="1" selected="selected">审核通过</option>
+									<option value="-1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>管理方</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="user" ng-model="user">
+								    <option ng-repeat="x in userData" value="{{x.user}}" ng-if="x.user != loginUser" >{{x.userName}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="check_btn8" on>
+					<i class="fa fa-plus"></i>&nbsp;提交意见
 				</button>
 			</div>
 		</div>
@@ -422,6 +492,9 @@
 	});
 	$("#check_btn7").click(function() {
 		$('#checkForm7').submit();
+	});
+	$("#check_btn8").click(function() {
+		$('#checkForm8').submit();
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
@@ -516,6 +589,15 @@
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check7();
+	});
+	$('#checkForm8').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check8();
 	});
 </script>
 <script>

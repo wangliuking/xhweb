@@ -31,6 +31,24 @@ public class RadioStatusService {
 		 return list;
 	}
 	/**
+	 * 查询基站下的注册组列表
+	 * @param map
+	 * @return
+	 */
+	public static List<HashMap<String,Object>>oneBsGroup(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioStatusMapper mapper=sqlSession.getMapper(RadioStatusMapper.class);
+		 List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
+		 try {
+			list=mapper.oneBsGroup(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return list;
+	}
+	/**
 	 * 查询基站下的注册终端总数
 	 * @param bsId
 	 * @return

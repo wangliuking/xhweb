@@ -23,6 +23,15 @@ public class DeviceManageBean {
     private String userName;
     private String tel;
     private String reason;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getTel() {
         return tel;

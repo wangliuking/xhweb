@@ -77,7 +77,6 @@ public class LoginController {
 			
 			
 			if (map!=null) {
-				log.info("loginmap:"+map);
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
 					this.message = "登录系统成功";
@@ -139,21 +138,30 @@ public class LoginController {
 
 	@RequestMapping(value = "/web/loginUserInfo")
 	@ResponseBody
-	public void LoginUser(HttpServletRequest request,
+	public void LoginUserInfo(HttpServletRequest request,
 			HttpServletResponse response) {
-		String user = "", role = "";
-		int roleId = 0;
+		HashMap<String,Object> result = new HashMap<String,Object>();
 		if (SingLoginListener.isOnline(request.getSession())) {
-			user = funUtil.loginUser(request);
-			role = SingLoginListener.getLogUserInfoMap()
-					.get(request.getSession().getId()).get("role").toString();
-			roleId = WebUserServices.selectUserByUser(user).getRoleId();
+			result=(HashMap<String, Object>) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
 		}
-		HashMap result = new HashMap();
-		result.put("success", true);
-		result.put("user", user);
-		result.put("role", role);
-		result.put("roleId", roleId);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/web/loginUserPower")
+	@ResponseBody
+	public void LoginUserPower(HttpServletRequest request,
+			HttpServletResponse response) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		if (SingLoginListener.isOnline(request.getSession())) {
+			result=(HashMap<String, Object>) SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
+		}
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

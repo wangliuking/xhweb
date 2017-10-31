@@ -7,6 +7,7 @@ public class CommunicationSupportBean {
 	private String reason;
 	private String area;
 	private String supportTime;
+	private String endTime;
 	private String need;
 	private String person;
 	private String tel;
@@ -44,6 +45,14 @@ public class CommunicationSupportBean {
 	private String time6;
 	private String time7;
 	private String time8;
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 
 	public String getNote8() {
 		return note8;
