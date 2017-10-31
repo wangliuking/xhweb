@@ -45,8 +45,12 @@
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><span>实时监测</span></li>
-							<li class="active"><span>基站状态</span></li>
+							<li><a href="bsstatus.html" target="_self"><span>基站状态</span></a></li>
+							<li class="active"><span>【{{bsId}}】号基站状态</span></li>
 						</ol>
+					</div>
+					<div class="pull-right btn-group">
+					<a class="btn btn-success btn-sm" href="bsstatus.html" target="_self">返回</a>
 					</div>
 				</div>
 			</div>
@@ -65,8 +69,8 @@
 							</div> -->
 
 							<ul id="xh-tabs" class="nav nav-tabs">
-								<li class="active"><a href="#emh" data-toggle="tab"> 环控状态
-								</a></li>
+								<li class="active">
+								<a href="#emh" data-toggle="tab" ng-click='emh()'> 环控状态</a></li>
 								<li><a href="#group" data-toggle="tab" ng-click='bsGroup()'> 注册组 </a></li>
 								<li><a href="#radio" data-toggle="tab" ng-click='radioUser()'> 注册终端 </a></li>
 								
