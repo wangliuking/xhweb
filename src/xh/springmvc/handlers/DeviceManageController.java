@@ -74,7 +74,6 @@ public class DeviceManageController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/applyProgress", method = RequestMethod.GET)

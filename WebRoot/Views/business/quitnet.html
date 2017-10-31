@@ -116,13 +116,12 @@
 										<td>{{x.quitTime}}</td>
 										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
 										<td ng-if="x.quit==0" class="td-warning">等待管理方领导审核</td>
-										<td ng-if="x.quit==0" class="td-warning">等待管理方处理</td>
-										<td ng-if="x.quit==1" class="td-warning">用户确认</td>
-										<td ng-if="x.quit==2" class="td-success">退网成功</td>
+										<td ng-if="x.quit==1" class="td-warning">等待管理方处理</td>
+										<td ng-if="x.quit==2" class="td-warning">用户确认</td>
+										<td ng-if="x.quit==3" class="td-success">退网成功</td>
 										
 										<td style="text-align:center">
-										<a href="#"
-											ng-click="toProgress($index)"><i
+										<a href="#" ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
 												
 										<a ng-if="loginUserRoleId==10002 && x.quit==0"

@@ -44,13 +44,22 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>保障时间</label> <input type="text"
+									<label>保障开始时间</label> <input type="text"
 										ng-model="editData.supportTime" class="form-control"
 										name="supportTime" required="required">
 								</div>
 							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>保障结束时间</label> <input type="text"
+										ng-model="editData.endTime" class="form-control"
+										name="endTime" required="required">
+								</div>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>保障需求</label> <input type="text" ng-model="editData.need"

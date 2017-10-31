@@ -23,14 +23,14 @@ public class DeviceManageBean {
     private String userName;
     private String tel;
     private String reason;
-    private String desciption;
+    private String description;
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTel() {

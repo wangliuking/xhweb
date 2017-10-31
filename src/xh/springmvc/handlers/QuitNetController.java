@@ -183,6 +183,7 @@ public class QuitNetController {
 		}else if(quit ==-1){
 			bean.setQuit(-1);
 		}
+		bean.setTime1(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
 		int rst = QuitNetService.checkedOne(bean);
@@ -228,9 +229,10 @@ public class QuitNetController {
 		bean.setId(id);
 		bean.setNote1(note1);
 		bean.setQuit(2);
+		bean.setTime2(funUtil.nowDate());
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
-		int rst = QuitNetService.checkedOne(bean);
+		int rst = QuitNetService.checkedTwo(bean);
 		if (rst == 1){
 			this.message = "审核提交成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -280,6 +282,7 @@ public class QuitNetController {
 		}else if(quit == 1){
 			bean.setQuit(1);
 		}
+		bean.setTime3(funUtil.nowDate());
 		bean.setNote(note);
 		WebLogBean webLogBean = new WebLogBean();
 

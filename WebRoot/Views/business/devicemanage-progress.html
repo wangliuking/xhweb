@@ -127,12 +127,10 @@
 										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
 									<span ng-if="progressData.checked==1"
-										class="cd-date text-danger">请管理方重新处理！</span>
-									<span ng-if="progressData.checked==2"
-										class="cd-date text-danger">等待管理方处理请求！</span> <span
-										ng-if="progressData.checked>2"
-										class="cd-date text-success font-bold"> 管理方处理请求中
-										时间：{{progressData.time2}}</span>
+										class="cd-date text-danger">等待管理方处理请求！</span>
+									<span ng-if="progressData.checked>=2"
+										class="cd-date text-success font-bold text-x">管理方处理完成！
+										处理时间：{{progressData.time2}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -152,7 +150,6 @@
 										class="cd-date text-success font-bold">用户确认，流程结束：{{progressData.time3}}</span>
 								</div>
 							</div>
-						
 						<!-- cd-timeline-block end-->
 						<div class="cd-timeline-block">
 							<div class="cd-timeline-img-first cd-gray"
