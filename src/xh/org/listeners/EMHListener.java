@@ -44,7 +44,7 @@ public class EMHListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
-		// timer.schedule(new timerTaskForLogin(), 20*1000, 60*1000);//心跳任务
+		timer.schedule(new timerTaskForLogin(), 3*60*1000, 60*1000);//心跳任务
 		// timer1.schedule(new timerTaskForData(), 30*1000, 60*1000);//定时获取数据任务
 		//timer2.schedule(new timerTaskForTimeCheck(),30*1000,20*1000);// 时间同步（一次）
 		
