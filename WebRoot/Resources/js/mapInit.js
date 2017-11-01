@@ -166,6 +166,7 @@ app.controller("map", function($scope, $http) {
 		} else {
 			start = (page - 1) * pageSize;
 		}
+		
 		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
 			var tempData=response.items;		
@@ -182,7 +183,7 @@ app.controller("map", function($scope, $http) {
 		});
 	};
 	//分页点击
-	$scope.pageClick = function(page, totals, totalPages, params) {
+	$scope.pageClick = function(page, totals, totalPages, params) {		
 		var pageSize = $("#page-limit").val();
 		var start = 1, limit = pageSize;
 		page = parseInt(page);
@@ -203,7 +204,15 @@ app.controller("map", function($scope, $http) {
 					$scope.lastIndex = 0;
 				}
 			}
-			$scope.dataRectangle = response.items;
+			var tempData=response.items;
+			//添加模拟数据 start			
+			for(var i=0;i<tempData.length;i++){
+				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+			}
+			//添加模拟数据 end
+			$scope.dataRectangle = tempData;
 			$scope.totals = response.totals;
 		});
 		
@@ -1116,43 +1125,6 @@ function flashMark(markData){
 	}
 	return objTemp;
 }
-
-//滚动效果
-$('.info_right').mouseover(function(){
-	clearInterval(temptimer);//停止计时器
-});
-
-$('.info_right').mouseout(function(){
-	temptimer = setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
-});
-
-var temptimer;
-
-//先在table的最后增加一行，然后再把第一行中的数据填充到新增加的行中，最后再删除table的第一行
-function change(table) {
-	var row = table.insertRow(table.rows.length);//在table的最后增加一行,table.rows.length是表格的总行数
-	for (j = 0; j < table.rows[0].cells.length; j++) {//循环第一行的所有单元格的数据，让其加到最后新加的一行数据中（注意下标是从0开始的）
-		var cell = row.insertCell(j);//给新插入的行中添加单元格
-		cell.height = "19px";//一个单元格的高度，跟css样式中的line-height高度一样
-		cell.width = "70%";
-		cell.innerHTML = table.rows[0].cells[j].innerHTML;//设置新单元格的内容，这个根据需要，自己设置
-	}
-	table.deleteRow(0);//删除table的第一行 
-};
-function tableInterval() {
-	var table0 = document.getElementById("table0");//获得表格
-	var table1 = document.getElementById("table1");
-	var table2 = document.getElementById("table2");
-	change(table0);//执行表格change函数，删除第一行，最后增加一行，类似行滚动
-	change(table1);
-	change(table2);
-	/*var appElement = document.querySelector('[ng-controller=map]');
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.test();*/
-	
-};
-temptimer=setInterval("tableInterval()", 2000);//每隔2秒执行一次change函数，相当于table在向上滚动一样
 
 //highcharts
 function highChart(data) {

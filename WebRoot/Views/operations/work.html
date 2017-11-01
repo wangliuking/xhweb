@@ -131,21 +131,19 @@
 										<th>联系人</th>
 										<th>联系方式</th>
 										<th>上传者</th>
-										<th>接收者</th>
 										<th>状态</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.fileName}}</td>
 										<td>{{x.contact}}</td>
 										<td>{{x.tel}}</td>
 										<td>{{x.uploadUser}}</td>
-										<td>{{x.recvUser}}</td>
 										<td ng-if="x.status==0"
 											style="color:red;">未签收</td>
 										<td ng-if="x.status==1"

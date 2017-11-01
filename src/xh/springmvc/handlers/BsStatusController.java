@@ -3,10 +3,13 @@ package xh.springmvc.handlers;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +27,9 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,12 +37,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.mybatis.bean.BsStatusBean;
+import xh.mybatis.bean.EmhBean;
 import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.BusinessService;
 
 
 @Controller
 @RequestMapping(value="/bsstatus")
 public class BsStatusController {
+	protected final Log log = LogFactory.getLog(BsStatusController.class);
+	private FlexJSON json=new FlexJSON();
 	
 	@RequestMapping(value="/index/ajax_table2",method=RequestMethod.GET)
 	@ResponseBody
@@ -227,6 +238,61 @@ public class BsStatusController {
 
 			}
 		}
+	}
+	@RequestMapping(value="/bsEmh",method=RequestMethod.GET)
+	@ResponseBody
+	public void bsEmh(HttpServletRequest request, HttpServletResponse response){
+		int siteId=Integer.parseInt(request.getParameter("siteId"));
+		String fsuId = null;
+		try {
+			fsuId = BsStatusService.fsuIdBySiteId(siteId);
+			
+			List<EmhBean> list = BsStatusService.bsEmh(fsuId);
+			Map<String,Object> map = new HashMap<String,Object>();
+			for (EmhBean emhBean : list) {
+				map.put(emhBean.getSingleId(), emhBean.getSingleValue());
+			}
+			DecimalFormat df=new DecimalFormat("#.0"); 
+			
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			if(list.size()>0){
+				result.put("water",  Float.parseFloat(map.get("017001").toString()));//水浸告警
+				result.put("smoke",  Float.parseFloat(map.get("017002").toString()));//烟雾告警
+				result.put("red",    Float.parseFloat(map.get("017004").toString()));//红外告警
+				result.put("door",   Float.parseFloat(map.get("017020").toString()));//门碰告警
+				
+				result.put("temp", df.format(Float.parseFloat(map.get("017301").toString())));//温度XX ℃
+				result.put("damp", df.format(Float.parseFloat(map.get("017302").toString())));//湿度XX %RH
+				
+				//UPS
+				
+				result.put("ups1", Float.parseFloat(map.get("008304").toString()));//输入相电压Ua	
+				result.put("ups2", Float.parseFloat(map.get("008315").toString()));//输出相电压Ua
+				result.put("ups3", Float.parseFloat(map.get("008321").toString()));//输出频率	
+				result.put("ups4", Float.parseFloat(map.get("008334").toString()));//电池组电压	
+				result.put("ups5", Float.parseFloat(map.get("008408").toString()));//电池方式工作状态
+				
+				//FSU
+				result.put("fsu1", Float.parseFloat(map.get("076002").toString()));//非智能设备采集器通信状态告警
+				result.put("fsu2", Float.parseFloat(map.get("076501").toString()));//开关电源通信状态告警
+				result.put("fsu3", Float.parseFloat(map.get("076507").toString()));//UPS设备通信状态告警
+				result.put("fsu4", Float.parseFloat(map.get("076509").toString()));//电池方式工作状态
+				result.put("fsu5", Float.parseFloat(map.get("008408").toString()));//智能电表通信状态告警
+			}
+			
+			
+			
+			
+			result.put("totals",list.size());
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			
+		
 	}
 
 }

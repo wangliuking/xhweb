@@ -3251,3 +3251,48 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
     border-color: #5cb85c; }
 .radio-success input[type="radio"]:checked + label::after {
     background-color: #5cb85c; }
+.panel-card{
+	width:150px;
+	height:60px;
+	color:#fff;
+	background:#fafafa;
+}
+.panel-card .card-img{
+	padding:auto;
+	margin:auto;
+	height:100%;
+	width:50px;
+	border-right: 1px solid #ccc;
+}
+.panel-card .card-info{
+	padding-left:10px;
+	margin:auto;
+	margin-top:10px;
+	height:100%;
+
+}
+.panel-card .card-img i{
+	margin-top:10px;
+	margin-left:5px;
+}
+.panel-card div{float:left;margin-left:10px;}
+.hbgred{
+	background: #e74c3c;
+	color: #fff;
+	border: none;
+}
+.hbgreen{
+	background: #629b58;
+	color: #fff;
+	border: none;
+}
+.hbgorign{
+	background: #e59729;
+	color: #fff;
+	border: none;
+}
+.hbgblue{
+	background: #6fb3e0;
+	color: #fff;
+	border: none;
+}
