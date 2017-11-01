@@ -57,13 +57,13 @@
     <!--主管部门审核 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_quitnet set
-		quit=#{quit},time1={time1} where id=#{id}
+		quit=#{quit},time1={time1},checkUser=#{checkUser} where id=#{id}
 	</update>
 
     <!--主管部门审核 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.QuitNetBean">
         update xhgmnet_business_quitnet set
-        quit=#{quit},note1=#{note1},time2={time2} where id=#{id}
+        user1=#{user1},quit=#{quit},note1=#{note1},time2={time2} where id=#{id}
     </update>
 
     <!--用户确认 -->

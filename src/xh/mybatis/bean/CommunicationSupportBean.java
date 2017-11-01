@@ -45,6 +45,15 @@ public class CommunicationSupportBean {
 	private String time6;
 	private String time7;
 	private String time8;
+	private String checkUser;
+
+	public String getCheckUser() {
+		return checkUser;
+	}
+
+	public void setCheckUser(String checkUser) {
+		this.checkUser = checkUser;
+	}
 
 	public String getEndTime() {
 		return endTime;
