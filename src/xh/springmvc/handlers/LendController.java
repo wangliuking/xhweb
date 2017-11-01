@@ -154,22 +154,23 @@ public class LendController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("lendId"));
 		String loginUser = request.getParameter("loginUser");
+		String leaderUser = request.getParameter("leaderUser");
 		LendBean bean = new LendBean();
 		bean.setId(id);
 		bean.setUser1(loginUser);
-		bean.setChecked(1);
+		bean.setChecked(2);
 		bean.setTime1(funUtil.nowDate());
 
 		int rst = LendService.checkedSend(bean);
 		if (rst == 1) {
-			this.message = "提交至用户审核租借清单成功";
+			this.message = "提交至领导审核租借清单成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("提交至用户审核租借清单，data=" + id);
+			webLogBean.setContent("提交至领导审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			//sendNotify(manager, "设备租借清单，请领导审核", request);
+			sendNotify(leaderUser, "设备租借清单，请领导审核", request);
 			// ----END
 		} else {
 			this.message = "提交至用户审核租借清单失败";
