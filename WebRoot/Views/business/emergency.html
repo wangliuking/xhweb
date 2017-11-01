@@ -44,8 +44,9 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="optimizenet.html">业务管理</a></span></li>
-							<li class="active"><span>应急处置演练</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>日常监管</span></li>
+							<li class="active"><span><a href="emergency.html">应急处置演练</a></span></li>
 						</ol>
 					</div>
 				</div>
@@ -122,12 +123,12 @@
 										<td>应急处置演练</td>
 										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待服务提供方审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待服务方上传命演练计划</td>
-										<td ng-if="x.checked==2" class="td-warning">等待管理方审核</td>
-										<td ng-if="x.checked==3" class="td-warning">等待服务方上传演练报告</td>
-										<td ng-if="x.checked==4" class="td-warning">等待管理方确认 </td>
-										<td ng-if="x.checked==5" class="td-success">审核通过，流程结束</td>
+										<!-- <td ng-if="x.checked==0" class="td-warning">等待服务提供方确认</td> -->
+										<td ng-if="x.checked==0" class="td-warning">等待服务方上传命演练计划</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方审核</td>
+										<td ng-if="x.checked==2" class="td-warning">等待服务方上传演练报告</td>
+										<td ng-if="x.checked==3" class="td-warning">等待管理方确认 </td>
+										<td ng-if="x.checked==4" class="td-success">审核通过，流程结束</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -135,14 +136,13 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
 										</a> 
 
-										<a ng-if="loginUserRoleId==10003 && x.checked==0
-												||loginUserRoleId==10002 && x.checked==2
-												||loginUserRoleId==10002 && x.checked==4"
+										<a ng-if="loginUserRoleId==10002 && x.checked==1
+												||loginUserRoleId==10002 && x.checked==3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
-										<a ng-if="loginUserRoleId==10003 && x.checked==1
-												||loginUserRoleId==10003 && x.checked==3"
+										<a ng-if="loginUserRoleId==10003 && x.checked==0
+												||loginUserRoleId==10003 && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 

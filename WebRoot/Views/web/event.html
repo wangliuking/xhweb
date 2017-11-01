@@ -54,7 +54,7 @@
 				提示：计划任务 主要指系统定期自动清理数据库过期的数据
 				<div class="btn-group" style="margin-left:40px;padding-top:0px;">
 					<button class="btn btn-success btn-sm" data-toggle="modal"
-						data-target="#add" ng-disabled="">
+						data-target="#add" ng-disabled="up.p_add=='off'?true:false">
 						<i class="fa fa-plus-circle"></i>&nbsp;添加计划任务
 					</button>
 				</div>
@@ -104,7 +104,7 @@
 										<td>{{x.status}}</td>
 										<td>{{x.last_executed}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="del(x.name)"><i
+											ng-click="del(x.name)" ng-show="up.p_add=='on'?true:false"><i
 												class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 									</tr>
 								</tbody>

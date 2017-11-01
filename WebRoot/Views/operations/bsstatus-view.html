@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>基站状态</title>
+<title>基站状态详细情况</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,8 +21,7 @@
 <p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="userstatus"
-	class="fixed-iframe">
+<body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="splash-title">
@@ -46,34 +45,50 @@
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><span>实时监测</span></li>
-							<li class="active"><span>基站状态</span></li>
+							<li><a href="bsstatus.html" target="_self"><span>基站状态</span></a></li>
+							<li class="active"><span>【{{bsId}}】号基站状态</span></li>
 						</ol>
+					</div>
+					<div class="pull-right btn-group">
+					<a class="btn btn-success btn-sm" href="bsstatus.html" target="_self">返回</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="content animate-panel" data-child="hpanel"
-			data-effect="fadeInDown">
-			<div class="alert alert-danger">
-				<i class="fa fa-close text-white pull-right" id="alert-close"></i> <img
-					src="../../Resources/images/img/tower_on.png" width="20"
-					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站连接正常</span> &nbsp;&nbsp; <img
-					src="../../Resources/images/img/tower_off.png" width="20"
-					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站连接中断</span> &nbsp;&nbsp; <img
-					src="../../Resources/images/img/tower_stop.png" width="20"
-					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站没有启用</span> &nbsp;&nbsp;
-			</div>
+		<div class="content animate-panel" data-effect="fadeInDown">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
-							<div class="btn-group" style="padding-top:2px;">
-								<button class="btn btn-success btn-sm" ng-disabled="" onclick="xh.excelToBsstatus()">
+							<!-- <div class="btn-group" style="padding-top:2px;">
+								<button class="btn btn-success btn-sm" ng-disabled=""
+									onclick="xh.excelToBsstatus()">
 									<i class="fa fa-file-excel-o"></i>&nbsp;导出现网基站的运行记录
 								</button>
+
+							</div> -->
+
+							<ul id="xh-tabs" class="nav nav-tabs">
+								<li class="active">
+								<a href="#emh" data-toggle="tab" ng-click='emh()'> 环控状态</a></li>
+								<li><a href="#group" data-toggle="tab" ng-click='bsGroup()'> 注册组 </a></li>
+								<li><a href="#radio" data-toggle="tab" ng-click='radioUser()'> 注册终端 </a></li>
+								
+							</ul>
+							<div class="tab-content" style="padding:20px">
+							
+								<div class="tab-pane fade in active" id="emh">
+								<div ng-include="'bsstatus-view-emh.html'"></div>
+								</div>
+								<!-- emh -->
+								<div class="tab-pane fade" id="group">
+								<div ng-include="'bsstatus-view-group.html'"></div>
+								</div>
+								<!-- group -->
+								<div class="tab-pane fade" id="radio">
+								<div ng-include="'bsstatus-view-radio.html'"></div>
+								</div>
+								<!-- radio -->
 								
 							</div>
 						</div>
@@ -81,32 +96,10 @@
 				</div>
 			</div>
 			<!-- row---end -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel bs-box" ng-repeat="x in data"
-						bsId-value="{{x.bsId}}" status-value="{{x.status}}">
-						<div class="panel-heading">【{{x.bsId}}号】基站</div>
-						<div class="panel-body">
-							<div ng-if="x.status==0 && x.openen==1">
-								<img alt="" src="../../Resources/images/img/tower_off.png">
-							</div>
-							<div ng-if="x.status==1 && x.openen==1">
-								<img alt="" src="../../Resources/images/img/tower_on.png">
-							</div>
-							<div ng-if="x.openen==0">
-								<img alt="" src="../../Resources/images/img/tower_stop.png">
-							</div>
-						</div>
-						<!-- panel-body--end -->
-						<div class="panel-footer" id="f-o">{{x.name}}</div>
-						<!-- hpanel --end-->
-					</div>
-				</div>
-			</div>
-			<!-- row-end -->
+
 		</div>
 	</div>
-	
+	<!-- 中间内容体 /-->
 	<!-- 底部内容体 -->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
@@ -121,13 +114,17 @@
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
 	<script type="text/javascript"
-		src="../../Controllers/operations/bsstatus.js"></script>
+		src="../../Controllers/operations/bsstatus-view.js"></script>
 	<script type="text/javascript">
 		xh.load();
+		$(".closePanel").click(function() {
+			$("#bs-status-right").fadeToggle("fast");
+
+		});
 		$("body").delegate(".bs-box", "click", function() {
 			$("#bs-status-right").fadeIn("fast");
 			var bsId = $(this).attr("bsId-value");
-			window.location.href="bsstatus-view.html?bsId="+bsId;
+			xh.bsNature(bsId);
 
 			// TODO
 		});

@@ -45,9 +45,15 @@
 	<insert id="insertFault" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.FaultBean">
 		insert into
-		xhgmnet_business_fault(unit,person,tel,information,time,userName)
-		values(#{unit},#{person},#{tel},#{information},#{time},#{userName})
+		xhgmnet_business_fault(unit,person,tel,information,faultReason,time,userName)
+		values(#{unit},#{person},#{tel},#{information},#{faultReason},#{time},#{userName})
 	</insert>
+
+	<update id="checkedEight" parameterType="xh.mybatis.bean.FaultBean">
+		update xhgmnet_business_fault set
+		checked=#{checked} where id=#{id}
+	</update>
+
 	<!--管理方审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
@@ -90,6 +96,6 @@
 	<!--用户确认 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		time=#{time},checked=#{checked} where id=#{id}
+		time=#{time},UserVisit=#{UserVisit},checked=#{checked} where id=#{id}
 	</update>
 </mapper>
