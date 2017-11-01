@@ -340,7 +340,7 @@ xh.check2 = function() {
 	});
 };
 /*用户确认*/
-xh.check2 = function() {
+xh.check3 = function() {
 	$.ajax({
 		url : '../../quitnet/sureFile',
 		type : 'POST',

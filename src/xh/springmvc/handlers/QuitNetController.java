@@ -183,8 +183,8 @@ public class QuitNetController {
 		}else if(quit ==-1){
 			bean.setQuit(-1);
 		}
-		bean.setCheckUser(user);
 		bean.setTime1(funUtil.nowDate());
+		bean.setCheckUser(user);
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
 		int rst = QuitNetService.checkedOne(bean);
@@ -227,6 +227,7 @@ public class QuitNetController {
 		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		QuitNetBean bean = new QuitNetBean();
+		bean.setUser1(funUtil.loginUser(request));
 		bean.setId(id);
 		bean.setNote1(note1);
 		bean.setQuit(2);

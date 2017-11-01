@@ -57,7 +57,7 @@
     <!--主管部门审核 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_quitnet set
-		quit=#{quit},time1={time1},checkUser=#{checkUser} where id=#{id}
+		quit=#{quit},time1=#{time1},checkUser=#{checkUser} where id=#{id}
 	</update>
 
     <!--主管部门审核 -->
