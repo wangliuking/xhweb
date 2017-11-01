@@ -85,4 +85,6 @@ public interface FaultMapper {
 	 * @throws Exception
 	 */
 	public int sureFile(FaultBean bean)throws Exception;
+
+	public int checkedEight(FaultBean bean)throws Exception;
 }

@@ -5,11 +5,13 @@
         <div class="modal-content">
             <div class="color-line"></div>
             <div class="modal-header ">
-                <button type="button" class="close" data-dismiss="modal"
-                    aria-hidden="true">&times;</button>
+                <!-- <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button> -->
                 <small class="font-bold"></small>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true" onClick="print('print')">打印</button>
             </div>
-            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;" id="print">
                 <div class="tab-content" style="padding: 20px">
                     <div class="tab-pane fade in active text-danger" id="info">
                        <p>
@@ -104,3 +106,18 @@
         </div> -->
 </div>
 </div>
+
+
+<script language="javascript"> 
+function print(printpage) 
+{ 
+    var headstr = "<html><head><title></title></head><body>"; 
+    var footstr = "</body>"; 
+    var newstr = document.all.item(printpage).innerHTML; 
+    var oldstr = document.body.innerHTML; 
+    document.body.innerHTML = headstr+newstr+footstr; 
+    window.print(); 
+    document.body.innerHTML = oldstr; 
+    return false; 
+} 
+</script>

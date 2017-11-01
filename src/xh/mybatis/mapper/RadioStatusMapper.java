@@ -19,5 +19,13 @@ public interface RadioStatusMapper {
 	 * @throws Exception
 	 */
 	public int oneBsRadioCount(int bsId) throws Exception;
+	
+	
+	/**
+	 * 查询基站下的注册组列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String,Object>>oneBsGroup(Map<String,Object> map) throws Exception;
 
 }

@@ -32,8 +32,10 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>备注</label>
-								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> 
+								<select class="form-control" name="user" ng-model="user">
+								    <option ng-repeat="x in userData" value="{{x.user}}" ng-if="x.user != loginUser" >{{x.userName}}</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -76,7 +78,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>核实意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+								<label>核实处理情况</label>&nbsp;<span class="text-danger">[*]</span> <select
 									 class="form-control" name="checked">
 									<option value="2" selected="selected">通过</option>
 									<option value="1">拒绝</option>

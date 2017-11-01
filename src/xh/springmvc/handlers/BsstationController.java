@@ -498,7 +498,6 @@ public class BsstationController {
 		map.put("bigLat", bigLat);
 		map.put("start", start);
 		map.put("limit", limit);
-		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",BsstationService.rectangleCount(map));

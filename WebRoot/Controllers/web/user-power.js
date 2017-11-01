@@ -69,6 +69,43 @@ xh.load = function() {
 
 	});
 };
+/*$("#selectAll").bind("click", function() {
+	var checkVal = [];
+	var flag = $(this).is(':checked') ? 1 : 0;
+	if ($(this).is(':checked')) {
+		$("#form").find("[type='checkbox']").prop("checked", true);// 全选
+		
+		 * $("[name='tb-check']:checkbox").each(function(){
+		 * if($(this).is(':checked')){ checkVal.push($(this).attr("value")); }
+		 * });
+		 
+	} else {
+		$("#form").find("[type='checkbox']").prop("checked", false);// 反选
+	}
+});*/
+$("#selectAll").bind("click", function() {
+	$("#form").find("[type='checkbox']").prop("checked", true);// 全选
+});
+$("#selectNo").bind("click", function() {
+	$("#form").find("[type='checkbox']").prop("checked", false);// 反选
+});
+$("#selectOther").bind("click", function() {
+	var checkbox=$("#form").find("[type='checkbox']");
+	
+	for(var i=0;i<checkbox.length;i++){
+		if(checkbox[i].checked==true){
+			checkbox[i].checked=false;
+		}else{
+			checkbox[i].checked=true;
+		}
+	}
+	
+	/*if($("#form").find("[type='checkbox']").is(':checked')){
+		$("#form").find("[type='checkbox']").prop("checked", false);
+	}else{
+		$("#form").find("[type='checkbox']").prop("checked", true);
+	}*/
+});
 //刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();

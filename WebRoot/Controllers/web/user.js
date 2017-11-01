@@ -28,7 +28,12 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.securityMenu=true; //菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
+		
 		/* 获取用户信息 */
 		$http.get("../../web/user/userList?start=0&limit=" + pageSize).success(
 				function(response) {
@@ -111,6 +116,7 @@ xh.load = function() {
 				dataType : "json",
 				data : {
 					userId :id,
+					user:$scope.editData.user,
 					lock:0
 				},
 				async : false,

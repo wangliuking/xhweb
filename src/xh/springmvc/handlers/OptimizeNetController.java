@@ -184,11 +184,7 @@ public class OptimizeNetController {
         String user = request.getParameter("user");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        if(checked ==1) {
-            bean.setChecked(1);
-        }else if(checked == -1) {
-            bean.setChecked(-1);
-        }
+        bean.setChecked(1);
         bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(funUtil.nowDate());
         bean.setNote2(note2);

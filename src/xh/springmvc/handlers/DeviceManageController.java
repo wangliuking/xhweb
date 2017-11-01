@@ -74,7 +74,6 @@ public class DeviceManageController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
@@ -156,7 +155,6 @@ public class DeviceManageController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note1 = request.getParameter("note1");
         String user = request.getParameter("user");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
@@ -167,7 +165,6 @@ public class DeviceManageController {
         }
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
-        bean.setNote1(note1);
         log.info("data==>" + bean.toString());
         int rst = DeviceManageService.checkedOne(bean);
         if (rst == 1) {

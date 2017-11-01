@@ -211,4 +211,18 @@ public class FaultService {
 		}
 		return result;
 	}
+
+	public static int checkedEight(FaultBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		FaultMapper mapper = sqlSession.getMapper(FaultMapper.class);
+		int result=0;
+		try {
+			result=mapper.checkedEight(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

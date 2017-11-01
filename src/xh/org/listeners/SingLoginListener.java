@@ -22,6 +22,8 @@ public class SingLoginListener implements HttpSessionListener{
     private static HashMap logUserMap = new HashMap();
     //保存登录用户信息
     private static HashMap<String,Map<String, Object>> logUserInfoMap = new HashMap<String, Map<String,Object>>();
+    //保存登录用户权限信息
+    private static HashMap<String,Map<String, Object>> loginUserPowerMap = new HashMap<String, Map<String,Object>>();
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
@@ -35,6 +37,7 @@ public class SingLoginListener implements HttpSessionListener{
 		log.info("session:"+se.getSession().getId()+"已失效");
 		logUserMap.remove(se.getSession().getId());
 		logUserInfoMap.remove(se.getSession().getId());
+		loginUserPowerMap.remove(se.getSession().getId());
 		/*se.getSession().invalidate();*/
 	}
 	 /** 
@@ -46,10 +49,7 @@ public class SingLoginListener implements HttpSessionListener{
      */  
     public static boolean isLogin(HttpSession session, String sUserName) {  
         boolean flag = false;  
-        Map<String, Object> info=new HashMap<String, Object>();
-        info.put("userId", WebUserServices.userIdByUser(sUserName));
-        info.put("roleId", WebRoleService.roleIdByUserId(sUserName));
-        info.put("role", WebRoleService.roleByUserId(sUserName));
+        Map<String, Object> info=WebUserServices.userInfoByName(sUserName);
         // 如果该用户已经登录过，则使上次登录的用户掉线(依据使用户名是否在logUserMap中)  
         if (logUserMap.containsValue(sUserName)) {  
             flag = true;  
@@ -67,11 +67,19 @@ public class SingLoginListener implements HttpSessionListener{
             logUserMap.put(session.getId(), sUserName); 
             logUserInfoMap.remove(session.getId());
             logUserInfoMap.put(session.getId(), info);
+            
+            loginUserPowerMap.remove(session.getId());
+            loginUserPowerMap.put(session.getId(), WebUserServices.userPowerInfoByName(sUserName));
         } else {// 如果该用户没登录过，直接添加现在的sessionID和username  
             flag = false;  
             logUserMap.put(session.getId(), sUserName);      
             logUserInfoMap.put(session.getId(), info);
+            loginUserPowerMap.put(session.getId(), WebUserServices.userPowerInfoByName(sUserName));
         }  
+        
+        /*log.info("UserInfo=>"+logUserInfoMap);
+        log.info("UserPowerInfo=>"+loginUserPowerMap);*/
+        log.info("UserPowerInfo=>"+loginUserPowerMap);
         return flag;  
     } 
     /** 
@@ -93,6 +101,15 @@ public class SingLoginListener implements HttpSessionListener{
         }  
         return flag;  
     }
+
+	public static HashMap<String, Map<String, Object>> getLoginUserPowerMap() {
+		return loginUserPowerMap;
+	}
+
+	public static void setLoginUserPowerMap(
+			HashMap<String, Map<String, Object>> loginUserPowerMap) {
+		SingLoginListener.loginUserPowerMap = loginUserPowerMap;
+	}
 
 	public static HashMap getLogUserMap() {
 		return logUserMap;

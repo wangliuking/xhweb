@@ -43,8 +43,8 @@
 	<insert id="insertSupport" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		insert into
-		xhgmnet_business_communicationsupport(reason,need,supportTime,area,person,tel,time,userName)
-		values(#{reason},#{need},#{supportTime},#{area},#{person},#{tel},#{time},#{userName})
+		xhgmnet_business_communicationsupport(reason,need,supportTime,endTime,area,person,tel,time,userName)
+		values(#{reason},#{need},#{supportTime},#{endTime},#{area},#{person},#{tel},#{time},#{userName})
 	</insert>
 	
 	<!--主管部门审核 -->
@@ -149,6 +149,12 @@
 	<update id="sureFile" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
 		note=#{note},checked=#{checked} where id=#{id}
+	</update>
+
+	<!--管理方领导审核 -->
+	<update id="checkedSeventeen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
+		update xhgmnet_business_communicationsupport set
+		checked=#{checked} where id=#{id}
 	</update>
 
 </mapper>

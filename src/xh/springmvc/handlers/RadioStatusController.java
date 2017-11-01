@@ -58,5 +58,35 @@ public class RadioStatusController {
 		}
 		
 	}
+	/**
+	 * 查询基站下的注册组列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/status/oneBsGroup",method = RequestMethod.GET)
+	@ResponseBody
+	public void oneBsGroup(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int start=0;
+		int limit=50;
+		int bsId=funUtil.StringToInt(request.getParameter("bsId"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("start", start);
+		map.put("limit", limit);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",RadioStatusService.oneBsGroup(map).size());
+		result.put("items", RadioStatusService.oneBsGroup(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

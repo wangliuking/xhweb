@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>工单管理</title>
+<title>业务变更</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -47,8 +47,9 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span><a href="devicemanage.html">业务管理</a></span></li>
-							<li class="active"><span>工单处理</span></li>
+							<li><span>业务管理</span></li>
+							<li><span>用户服务</span></li>
+							<li class="active"><span>业务变更</span></li>
 						</ol>
 					</div>
 				</div>
@@ -124,8 +125,8 @@
 										<td>{{x.request}}</td>
 										<td>{{x.time}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方审核工单请求信息</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方处理工单</td>
+										<td ng-if="x.checked==0" class="td-warning">等待管理方领导审核业务变更信息</td>
+										<td ng-if="x.checked==1" class="td-warning">等待管理方处理业务变更</td>
 										<td ng-if="x.checked==2" class="td-warning">等待用户单位确认</td>
 										<td ng-if="x.checked==3" class="td-success">流程结束</td>
 										<td style="text-align:center">

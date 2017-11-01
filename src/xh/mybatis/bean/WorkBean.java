@@ -13,6 +13,8 @@ public class WorkBean implements Serializable {
     private String filePath;
 	private String recvUser;
     private String uploadUser;
+    private String createtime;
+    private String signTime;
     
     public int getId() {
 		return id;
@@ -67,6 +69,19 @@ public class WorkBean implements Serializable {
 	}
 	public void setUploadUser(String uploadUser) {
 		this.uploadUser = uploadUser;
+	}
+	
+	public String getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+	public String getSignTime() {
+		return signTime;
+	}
+	public void setSignTime(String signTime) {
+		this.signTime = signTime;
 	}
 	@Override
 	public String toString() {
