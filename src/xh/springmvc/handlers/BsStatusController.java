@@ -246,7 +246,6 @@ public class BsStatusController {
 		String fsuId = null;
 		try {
 			fsuId = BsStatusService.fsuIdBySiteId(siteId);
-			log.info("fsuId====>"+fsuId);
 			
 			List<EmhBean> list = BsStatusService.bsEmh(fsuId);
 			Map<String,Object> map = new HashMap<String,Object>();

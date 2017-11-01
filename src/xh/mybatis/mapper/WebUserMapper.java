@@ -23,6 +23,14 @@ public interface WebUserMapper {
 	public List<Map<String,Object>> userlistByRoleId(Integer roleId)throws Exception;
 	
 	/**
+	 * 根据权限获取用户
+	 * @param powerstr
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> userlistByPower(Map<String,Object> map)throws Exception;
+	
+	/**
 	 * 根据Role类型查找用户列表
 	 * @param roleId
 	 * @return
