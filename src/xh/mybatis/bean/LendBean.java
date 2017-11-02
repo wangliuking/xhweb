@@ -21,6 +21,16 @@ public class LendBean {
 	private String 	note1;
 	private String 	note2;
 	private String  manager;
+	private String requirementDes;
+	
+	
+	
+	public String getRequirementDes() {
+		return requirementDes;
+	}
+	public void setRequirementDes(String requirementDes) {
+		this.requirementDes = requirementDes;
+	}
 	public String getManager() {
 		return manager;
 	}
