@@ -72,6 +72,10 @@
 										ng-click="showEditModel()" >
 										<i class="fa fa-edit"></i>&nbsp;修改角色
 									</button>
+									<button class="btn btn-success btn-sm" data-toggle="modal"
+										data-target="#add" ng-disabled="up.p_add=='off'?true:false">
+										<i class="fa fa-bars"></i>&nbsp;菜单编辑
+									</button>
 									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
 										ng-disabled="up.p_delete=='off'?true:false">
 										<i class="fa fa-trash"></i>&nbsp;批量删除角色
@@ -100,13 +104,13 @@
 										<td colspan="4" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><input ng-if="x.roleId<10000" type="checkbox" name="tb-check"
+										<td><input ng-if="x.roleId<=1000" type="checkbox" name="tb-check"
 											value="{{x.roleId}}" index="{{$index}}" /></td>
 										<td>{{x.roleId}}</td>
 										<td>{{x.role}}</td>
 										<td ng-if="x.roleType==1">市经信委</td>
 										<td ng-if="x.roleType==2">软件产业中心</td>
-										<td ng-if="x.roleType==3">亚光运维组</td>
+										<td ng-if="x.roleType==3">亚光运维</td>
 										<td ng-if="x.roleType==4">普通企业</td>
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
