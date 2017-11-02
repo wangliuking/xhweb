@@ -1,0 +1,38 @@
+
+<div class="row">
+	<div class="col-md-12">
+	 
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th>载频ID</th>
+					<th>工作状态</th>
+					<th>在线状态</th>
+					<th>联网状态</th>
+					<th>主备状态</th>
+					<th>外部时钟状态</th>
+					<th>运行时长</th>
+					<th>更新时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-if="bscTotals==0">
+					<td colspan="8" class="text-center">没有记录！</td>
+				</tr>
+				<tr ng-repeat="x in bscData">
+					<td>{{x.Id}}</td>
+					<td ng-if="x.working==0" class="td-danger">异常</td>
+					<td ng-if="x.working==1" class="td-success">正常运行</td>
+					<td ng-if="x.working==2" class="td-success">正常运行</td>
+					<td>{{x.online}}</td>
+					<td>{{x.mode}}</td>
+					<td>{{x.master}}</td>
+					<td>{{x.time}}</td>
+					<td>{{x.runtime}}</td>
+					<td>{{x.updateTime}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+</div>
