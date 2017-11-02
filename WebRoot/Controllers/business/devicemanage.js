@@ -63,7 +63,7 @@ xh.load = function() {
 		});
 		
 		/*获取管理方人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10002").
+		$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;
@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10002").
+			$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
