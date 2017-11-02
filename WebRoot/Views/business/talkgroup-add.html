@@ -8,6 +8,8 @@
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold">添加组</small>
+				<label for="piliangtianjia" style="float:right">批量添加用户组</label>
+				<input type="checkbox" id="piliangtianjia" ng-model="isChecked1" style="float:right"/>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addTalkGroupForm" onSubmit="return false">
@@ -29,12 +31,34 @@
 							</div>
 						</div>
 						<div class="row">
+							
+						</div>
+						<div class="row">
 							<div class="col-md-6">
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-12" ng-if="!isChecked1">
 									<label>通话组ID</label> <input type="number" value=""
 										class="form-control" name="TalkgroupID" id="TalkgroupID"
 										oninput="if(value.length>20)value=value.slice(0,20)"
 										required="required">
+								</div>
+								<div class="form-group col-md-12" ng-if="isChecked1">
+							    	<div class="col-md-5">
+								    	<label for="sb" >通话组ID</label>
+								    	<input type="number" value=""
+										class="form-control" name="TalkgroupIDS" id="TalkgroupID"
+										oninput="if(value.length>20)value=value.slice(0,20)"
+										required="required">
+									</div>
+									<div class="col-md-2 text-center">
+										<div style="width:10px;height:1px;background-color:gray;margin-top: 37px;display:inline-block"></div>
+									</div>
+									<div class="col-md-5">
+										<label style="visibility:hidden;">1</label>
+										<input type="number" value=""
+										class="form-control" name="TalkgroupIDE" id="TalkgroupID"
+										oninput="if(value.length>20)value=value.slice(0,20)"
+										required="required">
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -57,10 +81,11 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>交换中心唯一标识</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_mscId" id="E_mscId"
-										required="required">
+									<label>交换中心唯一标识</label>
+										<select class="form-control" id="E_mscId"
+										name="E_mscId" ng-model="vpnName">
+										<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -131,7 +156,7 @@
 								<div class="form-group col-md-12">
 									<label>重组使能</label> <input type="number" value=""
 										oninput="if(value.length>20)value=value.slice(0,20)"
-										class="form-control" name="E_ip" id="E_ip" required="required">
+										class="form-control" name="E_regroupable" id="E_regroupable" required="required">
 								</div>
 							</div>
 						</div>
@@ -140,7 +165,7 @@
 								<div class="form-group col-md-12">
 									<label>pdt类型(0或581)</label> <input type=number value=""
 										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="pdtType" id="pdtType"
+										class="form-control" name="E_pdtType" id="E_pdtType"
 										required="required">
 								</div>
 							</div>
@@ -148,7 +173,7 @@
 								<div class="form-group col-md-12">
 									<label>np类型(0-1000)</label> <input type="number" value=""
 										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="npType" id="npType"
+										class="form-control" name="E_npType" id="E_npType"
 										required="required">
 								</div>
 							</div>
@@ -158,7 +183,7 @@
 								<div class="form-group col-md-12">
 									<label>组使能</label> <input type="number" value=""
 										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_ip" id="E_ip" required="required">
+										class="form-control" name="E_enabled" id="E_enabled" required="required">
 								</div>
 							</div>
 						</div>
@@ -182,15 +207,16 @@
 <script type="text/javascript">
 	$("#add_group_btn").click(function() {
 		$('#addTalkGroupForm').submit();
+		xh.addTGroup();
+		
 	});
-	var faIcon = {
+	/* var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
 	$('#addTalkGroupForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
 		fields : {
 			C_ID : {
 				validators : {
@@ -203,6 +229,6 @@
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.addTGroup();
-	});
+	}); */
 </script>
 <!-- 添加组---end -->

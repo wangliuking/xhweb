@@ -36,6 +36,13 @@ public interface TalkGroupMapper {
 	 */
 	public int  insertTalkGroup(Map<String,Object> map)throws Exception;
 	
+	/**
+	 * 获取交换中心标识列表 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> vpnList()throws Exception;
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(TalkGroup record);
