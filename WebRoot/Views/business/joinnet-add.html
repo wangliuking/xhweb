@@ -92,7 +92,7 @@
 						
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>单位负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="unitPerson"
 									required="required">
 							</div>
@@ -161,19 +161,17 @@
 					<div class="row">
 						<div class="col-md-12" style="padding: 0 40px 0 40px;" id="terminalType">
 							<fieldset class="form-group">
-								<legend>终端类型
-			                        <!-- <a href="" ng-click="terminal.incrApply(index_apply)" style="float:right">
-			                            <i class="fa fa-plus"></i>增加
-			                        </a> -->
+								<legend>申请类型
 			                    </legend>
-			                        <label for="shouban"><input type="checkbox" id="shouban" ng-model="isChecked1"/>手办</label>
+			                        <label for="shouban"><input type="checkbox" id="shouban" ng-model="isChecked1"/>手台</label>
 			                        <label for="chezaitai"><input type="checkbox" id="chezaitai" ng-model="isChecked2"/>车载台</label>
 			                        <label for="diaodutai"><input type="checkbox" id="diaodutai" ng-model="isChecked3"/>调度台</label>
+			                        <label for="yingyongjieru"><input type="checkbox" id="yingyongjieru" ng-model="isChecked4"/>二次应用开发</label>
 			                    <div class="form-group col-md-12">
 								    <div class="col-md-4" ng-if="isChecked1" style="float:left">
 								    	<div class="form-group col-md-12">
 								    		<div class="col-md-4">
-										    	<label for="sb" >手办</label>
+										    	<label for="sb" >手台</label>
 										    </div>
 										    <div class="col-md-8">
 										    	<input type="number" class="form-control" name="apply0" required="required">
@@ -197,6 +195,16 @@
 										    </div>
 										    <div class="col-md-8">
 										    	<input type="number" class="form-control" name="apply2" required="required" >
+										 	</div>
+										 </div>
+									</div>
+								    <div class="col-md-4" ng-if="isChecked4" style="float:left">
+								    	<div class="form-group col-md-12">
+								    		<div class="col-md-4">
+										    	<label for="dd" >二次应用开发</label>
+										    </div>
+										    <div class="col-md-8">
+										    	<input type="number" class="form-control" name="apply3" required="required" >
 										 	</div>
 										 </div>
 									</div>

@@ -51,7 +51,7 @@
     <!-- -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.DeviceManageBean">
         update xhgmnet_bs_devicemanage set
-        user1=#{user1},time1=#{time1},checked=#{checked} where
+        user1=#{user1},time1=#{time1},checked=#{checked},checkUser=#{checkUser} where
         id=#{id}
     </update>
     <!-- -->

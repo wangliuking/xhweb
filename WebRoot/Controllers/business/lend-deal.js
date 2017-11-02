@@ -50,7 +50,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;	
 		});
 		$scope.data_id=$location.search().data_id;
-		//$scope.manager=$location.search().manager;
+		$scope.leaderUser=$location.search().leaderUser;
 		$http.get("../../business/assetList?type="+type+"&name="+name+"" +
 				"&model="+model+"&serialNumber="+serialNumber+"&from=0" + "&status=4"+
 				"&status=0&start=0&limit="+pageSize).
@@ -241,7 +241,8 @@ xh.checkSend = function() {
 		async : true,
 		data:{
 			lendId:$scope.data_id,
-			loginUser:$scope.loginUser
+			loginUser:$scope.loginUser,
+			leaderUser:$scope.leaderUser
 		},
 		success : function(data) {
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.JoinNetBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.CallListServices;
+import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.WebLogService;
 @Controller
@@ -85,10 +88,20 @@ public class RadioUserController {
 			        map.put(thisName, thisValue);
 			}
 			map.put("userId", userId);
-			int count=RadioUserService.insertRadioUser(map);
+			//如果通过入网流程添加，则改变入网流程check
+			System.out.println("----------" + Integer.parseInt((String) map.get("id_JoinNet")));
+			int rst = 0;
+			if(map.get("id_JoinNet") != null){
+				JoinNetBean bean = new JoinNetBean();
+				bean.setId(Integer.parseInt((String) map.get("id_JoinNet")));
+				bean.setChecked(9);
+				rst = JoinNetService.updateCheckById(bean);
+			}
+			
+			rst += RadioUserService.insertRadioUser(map);
 			HashMap result = new HashMap();
 			result.put("success", success);
-			result.put("result",count);
+			result.put("result",rst);
 			String jsonstr = json.Encode(result);
 			try {
 				response.getWriter().write(jsonstr);

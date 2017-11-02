@@ -54,9 +54,16 @@ public class JoinNetBean {
 	private int apply0;
 	private int apply1;
 	private int apply2;
+	private int apply3;
 	private String note2_suggest;
 	
 	
+	public int getApply3() {
+		return apply3;
+	}
+	public void setApply3(int apply3) {
+		this.apply3 = apply3;
+	}
 	public String getNote2_suggest() {
 		return note2_suggest;
 	}
