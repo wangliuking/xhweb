@@ -30,11 +30,11 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
-	/*app.filter('upp', function() { //可以注入依赖
+	app.filter('power', function() { //可以注入依赖
 	    return function(text) {
-	        return text+"$$";
+	        return text-15;
 	    };
-	});*/
+	});
 	app.config([ '$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode({
 			enabled : true,
@@ -67,7 +67,7 @@ xh.load = function() {
 		//基站下的注册终端
 		$scope.radioUser=function(){
 			var bsId=$scope.bsId;
-		
+			frist = 0;
 			var pageSize = $("#page-limit").val();
 			$http.get("../../radio/status/oneBsRadio?bsId="+bsId+"&start=0&limit="+pageSize).
 			success(function(response){
@@ -86,7 +86,42 @@ xh.load = function() {
 				$scope.groupTotals = response.totals;
 			});
 		};
-		
+		//基站下的bsc状态
+		$scope.bsc=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/bsc?bsId="+bsId).
+			success(function(response){
+				$scope.bscData = response.items;
+				$scope.bscTotals = response.totals;
+			});
+		};
+		//基站下的bsr状态
+		$scope.bsr=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/bsr?bsId="+bsId).
+			success(function(response){
+				$scope.bsrData = response.items;
+				$scope.bsrTotals = response.totals;
+			});
+		};
+		//基站下的dpx状态
+		$scope.dpx=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/dpx?bsId="+bsId).
+			success(function(response){
+				$scope.dpxData = response.items;
+				$scope.dpxTotals = response.totals;
+			});
+		};
+		//基站下的psm状态
+		$scope.psm=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/psm?bsId="+bsId).
+			success(function(response){
+				$scope.psmData = response.items;
+				$scope.psmTotals = response.totals;
+			});
+		};
 		
 		/*$http.get("../../emh/oneBsEmh?bsId=1").
 		success(function(response){

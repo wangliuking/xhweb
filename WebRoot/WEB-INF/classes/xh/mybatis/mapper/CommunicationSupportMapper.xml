@@ -64,7 +64,7 @@
 	<!--审核 -->
 	<update id="checkedThree" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+		user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -77,7 +77,7 @@
 	<!--审核 -->
 	<update id="checkedFive" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+		user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -90,7 +90,7 @@
 	<!--审核 -->
 	<update id="checkedSeven" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+		user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -103,7 +103,7 @@
 	<!--审核 -->
 	<update id="checkedNine" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time5=#{time5},note5=#{note5},checked=#{checked} where id=#{id}
+		user5=#{user5},time5=#{time5},note5=#{note5},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -116,7 +116,7 @@
 	<!--审核 -->
 	<update id="checkedEvelen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time6=#{time6},note6=#{note6},checked=#{checked} where id=#{id}
+		user6=#{user6},time6=#{time6},note6=#{note6},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -129,7 +129,7 @@
 	<!--审核 -->
 	<update id="checkedThirteen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time7=#{time7},note7=#{note7},checked=#{checked} where id=#{id}
+		user7=#{user7},time7=#{time7},note7=#{note7},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--上传 -->
@@ -142,7 +142,7 @@
 	<!--审核 -->
 	<update id="checkedFifteen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		time8=#{time8},note8=#{note8},checked=#{checked} where id=#{id}
+		user8=#{user8},time8=#{time8},note8=#{note8},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--用户确认方案 -->
@@ -154,7 +154,7 @@
 	<!--管理方领导审核 -->
 	<update id="checkedSeventeen" parameterType="xh.mybatis.bean.CommunicationSupportBean">
 		update xhgmnet_business_communicationsupport set
-		checked=#{checked} where id=#{id}
+		checked=#{checked},checkUser=#{checkUser} where id=#{id}
 	</update>
 
 </mapper>

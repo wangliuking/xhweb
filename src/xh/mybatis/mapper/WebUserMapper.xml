@@ -201,5 +201,21 @@
 		where a.${powerstr}="on"
 	</select>
 
+	<!--根据RoleID角色组用户列表(除去指定user) -->
+	<select id="userlistByRoleIdExceptUser" parameterType="map"
+		resultType="map" useCache="true">
+		select userId,user,userName from xhgmnet_web_user where userId in(select
+		userId from
+		xhgmnet_web_role_user where roleId=#{roleId})  and user != #{user}
+	</select>
+	
+	<!--根据用户权限+RoleID获取用户 -->
+	<select id="userlistByPowerAndRoleId" parameterType="map" resultType="java.util.HashMap"
+		useCache="true" statementType="STATEMENT">
+		SELECT a.userId,c.`user`,b.roleId FROM xhgmnet_web_user_action AS a 
+		LEFT JOIN xhgmnet_web_role_user AS b ON a.userId = b.userId 
+		LEFT JOIN xhgmnet_web_user AS c ON a.userId=c.userId 
+		WHERE a.${powerstr}="on" and b.roleId=#{roleId}
+	</select>
 
 </mapper>

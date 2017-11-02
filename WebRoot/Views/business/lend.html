@@ -129,7 +129,7 @@
 											<a ng-if="(loginUserRoleId==10002 && x.checked==0) || (loginUserRoleId==10002 && x.checked==2 && x.user1==loginUser)"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核</a>
-											<a ng-if="loginUserRoleId==10002 && x.checked==1 && x.user2==loginUser"
+											<a ng-if="x.checked==1 && x.user2==loginUser"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>办理</a>
 												<!-- <a

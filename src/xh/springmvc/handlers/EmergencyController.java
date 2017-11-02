@@ -168,7 +168,7 @@ public class EmergencyController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        //int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
         String user = request.getParameter("user");
         String fileName = request.getParameter("fileName");
