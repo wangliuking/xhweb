@@ -441,12 +441,14 @@ xh.download=function(type){
 	}
 	else if(type == 2){
 		fileName = $scope.checkData.fileName2;
+		filePath = $scope.checkData.filePath2;
 	}
 	else if(type == 3){
 		fileName = $scope.checkData.fileName3;
+		filePath = $scope.checkData.filePath3;
 	}
 	console.log("filename=>" + fileName);
-	var downUrl = "../../qualitycheck/download?fileName=" + fileName;
+	var downUrl = "../../qualitycheck/download?fileName=" + fileName+"&filePath="+filePath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
