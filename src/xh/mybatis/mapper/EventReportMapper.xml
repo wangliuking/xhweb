@@ -14,7 +14,7 @@
 		<if test="contact !=null and contact !=''">
 			and contact like concat('%',#{contact},'%')
 		</if>
-		<if test="status !=null and status !='' and status !=2">
+		<if test="status !=2">
 			and status=#{status}
 		</if>
 		<if test="power=='off'">
@@ -26,13 +26,16 @@
 	<select id="count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_eventreport where 1=1
+		<if test="fileType!='所有报告'">
+		     and fileType=#{fileType}
+		</if>
 		<if test="fileName !=null and fileName !=''">
 			and fileName like concat('%',#{fileName},'%')
 		</if>
 		<if test="contact !=null and contact !=''">
 			and contact like concat('%',#{contact},'%')
 		</if>
-		<if test="status !=null and status !='' and status !=2">
+		<if test="status !=2">
 			and status=#{status}
 		</if>
 		<if test="power=='off'">

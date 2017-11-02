@@ -51,7 +51,7 @@
 
 	<update id="checkedEight" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		checked=#{checked} where id=#{id}
+		checked=#{checked},checkUser=#{checkUser} where id=#{id}
 	</update>
 
 	<!--管理方审核 -->

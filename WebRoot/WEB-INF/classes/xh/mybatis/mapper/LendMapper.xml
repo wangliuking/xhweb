@@ -23,8 +23,8 @@
 	<insert id="lend" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.LendBean">
 		insert into
-		xhgmnet_business_lend(unit,name,tel,zone,reason,user,note,time,backTime,checked)
-		values(#{unit},#{name},#{tel},#{zone},#{reason},#{user},#{note},#{time},#{backTime},#{checked})
+		xhgmnet_business_lend(name,tel,zone,reason,user,note,time,backTime,checked,requirementDes)
+		values(#{name},#{tel},#{zone},#{reason},#{user},#{note},#{time},#{backTime},#{checked},#{requirementDes})
 	</insert>
 	<!--管理方审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.LendBean">
@@ -43,7 +43,7 @@
 	<update id="checkedOrder" parameterType="xh.mybatis.bean.LendBean">
 		update
 		xhgmnet_business_lend set
-		time3=#{time3},checked=#{checked} where
+		time3=#{time3},checked=#{checked},note2=#{note2} where
 		id=#{id}
 	</update>
 	<!--用户确认租借清单 -->

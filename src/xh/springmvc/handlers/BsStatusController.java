@@ -294,5 +294,103 @@ public class BsStatusController {
 			
 		
 	}
+	/**
+	 * 基站下的bsc状态
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsc",method=RequestMethod.GET)
+	@ResponseBody
+	public void bsc(HttpServletRequest request, HttpServletResponse response){
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		String fsuId = null;
+		try {
+			List<Map<String,Object>> list = BsStatusService.bsc(bsId);
+			
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("totals",list.size());
+			result.put("items",list);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		
+	}
+	/**
+	 * 基站下的bsr状态
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsr",method=RequestMethod.GET)
+	@ResponseBody
+	public void bsr(HttpServletRequest request, HttpServletResponse response){
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		String fsuId = null;
+		try {
+			List<Map<String,Object>> list = BsStatusService.bsr(bsId);
+			
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("totals",list.size());
+			result.put("items",list);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		
+	}
+	/**
+	 * 基站下的dpx状态
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/dpx",method=RequestMethod.GET)
+	@ResponseBody
+	public void dpx(HttpServletRequest request, HttpServletResponse response){
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		try {
+			List<Map<String,Object>> list = BsStatusService.dpx(bsId);
+			
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("totals",list.size());
+			result.put("items",list);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		
+	}
+	/**
+	 * 基站下的psm状态
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/psm",method=RequestMethod.GET)
+	@ResponseBody
+	public void psm(HttpServletRequest request, HttpServletResponse response){
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		try {
+			List<Map<String,Object>> list = BsStatusService.psm(bsId);
+			
+			HashMap<String,Object> result = new HashMap<String,Object>();
+			result.put("totals",list.size());
+			result.put("items",list);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}			
+		
+	}
 
 }

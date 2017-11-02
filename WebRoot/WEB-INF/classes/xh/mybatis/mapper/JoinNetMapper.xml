@@ -46,8 +46,8 @@
 	<insert id="insertNet" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.JoinNetBean">
 		insert into
-		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2)
-		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2})
+		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2,apply3)
+		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2},#{apply3})
 	</insert>
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">

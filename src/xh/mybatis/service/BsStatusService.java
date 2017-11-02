@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -58,6 +59,58 @@ public class BsStatusService {
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		List<EmhBean> list = mapper.bsEmh(fsuId);
+		session.close();
+		return list;
+	}
+	/**
+	 * 基站下的bsc状态
+	 * @param bsId
+	 * @return
+	 * @throws Exception
+	 */
+	public static  List<Map<String,Object>> bsc(int bsId) throws Exception {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = mapper.bsc(bsId);
+		session.close();
+		return list;
+	}
+	/**
+	 * 基站下的psm状态
+	 * @param bsId
+	 * @return
+	 * @throws Exception
+	 */
+	public static  List<Map<String,Object>> psm(int bsId) throws Exception {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = mapper.psm(bsId);
+		session.close();
+		return list;
+	}
+	/**
+	 * 基站下的bsr状态
+	 * @param bsId
+	 * @return
+	 * @throws Exception
+	 */
+	public static  List<Map<String,Object>> bsr(int bsId) throws Exception {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = mapper.bsr(bsId);
+		session.close();
+		return list;
+	}
+	/**
+	 * 基站下的dpx状态
+	 * @param bsId
+	 * @return
+	 * @throws Exception
+	 */
+	public static  List<Map<String,Object>> dpx(int bsId) throws Exception {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = mapper.dpx(bsId);
 		session.close();
 		return list;
 	}
