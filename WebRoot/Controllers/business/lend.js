@@ -151,8 +151,12 @@ xh.load = function() {
 		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id,type) {
+			if(id >= 0){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
+			}
 			if(id == -1){
-				$http.get("../../web/user/getUserList?roleId=10002").
+				$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 				success(function(response){
 					$scope.userData = response.items;
 					$scope.userTotals = response.totals;
@@ -186,10 +190,8 @@ xh.load = function() {
 			}
 			
 			//领导审核并指定经办人
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
-				$scope.checkData = $scope.data[id];
-				$scope.ch=id;
-				$http.get("../../web/user/getUserList?roleId=10002").
+			else if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
+				$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 				success(function(response){
 					$scope.userData = response.items;
 					$scope.userTotals = response.totals;
@@ -201,14 +203,10 @@ xh.load = function() {
 			}
 			//领导审核经办人办理的租借清单
 			else if($scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
-				$scope.checkData = $scope.data[id];
-				$scope.ch=id;
-				$("#checkWin3").modal('show');
+				$("#checkWin5").modal('show');
 			}
-			/*else if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1 && $scope.checkData.user2 == $scope.loginUser){
-				$scope.checkData = $scope.data[id];
-				$scope.ch=id;
-				$http.get("../../web/user/getUserList?roleId=10002").
+			else if($scope.checkData.checked==1 && $scope.checkData.user2 == $scope.loginUser){
+				$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 				success(function(response){
 					$scope.userData = response.items;
 					$scope.userTotals = response.totals;
@@ -217,11 +215,9 @@ xh.load = function() {
 					}
 				});
 				$("#checkWin1").modal('show');
-			}*/
+			}
 			//if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
-			else if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==1){
-				$scope.checkData = $scope.data[id];
-				$scope.ch=id;
+			else if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user2 && $scope.checkData.checked==1){
 				//设备清单列表
 				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
 				success(function(response){
@@ -461,13 +457,13 @@ xh.check2 = function() {
 };
 
 xh.check1 = function(id) {
+	var $scope = angular.element(appElement).scope();
 	window.location.href="lend-deal.html?data_id="+id+"&leaderUser="+$scope.checkData.user1;
 };
 
 
 /*管理部门领导审核租借清单*/
-
-xh.check3 = function() {
+xh.check6 = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
 		url : '../../business/lend/checkedOrder',
@@ -478,16 +474,17 @@ xh.check3 = function() {
 			lendId:$scope.checkData.id,
 			checked:3,
 			user:$scope.checkData.user,
-			note2:$("#checkForm3").find("input[name='note2']").val()
+			note2:$("#checkForm5").find("input[name='note2']").val()
 		},
 		success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin3').modal('hide');
+			if (data.result >=1) {
+				$('#checkWin5').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
 			} else {
+				xh.refresh();
 				toastr.error(data.message, '提示');
 			}
 		},
@@ -513,6 +510,7 @@ xh.check4 = function() {
 				toastr.success(data.message, '提示');
 
 			} else {
+				xh.refresh();
 				toastr.error(data.message, '提示');
 			}
 		},
@@ -540,6 +538,7 @@ xh.check5 = function(checkIds,status) {
 				xh.refresh();
 				toastr.success(data.message, '提示');
 			} else {
+				xh.refresh();
 				toastr.error(data.message, '提示');
 			}
 		},
@@ -548,53 +547,7 @@ xh.check5 = function(checkIds,status) {
 	});
 };
 
-/*上传文件*/
-xh.upload = function() {
-	if($("input[type='file']").val()==""){
-		toastr.error("你还没选择文件", '提示');
-		return;
-	}
-	xh.maskShow();
-	$.ajaxFileUpload({
-		url : '../../net/upload', //用于文件上传的服务器端请求地址
-		secureuri : false, //是否需要安全协议，一般设置为false
-		fileElementId : 'filePath', //文件上传域的ID
-		dataType : 'json', //返回值类型 一般设置为json
-		type:'POST',
-		success : function(data, status) //服务器成功响应处理函数
-		{
-			xh.maskHide();
-			if(data.success){
-				$("#uploadResult").html(data.message);
-				$("input[name='result']").val(1);
-				$("input[name='fileName']").val(data.fileName);
-				$("input[name='path']").val(data.filePath);
-			}else{
-				$("#uploadResult").html(data.message);
-			}
-			
-		},
-		error : function(data, status, e)//服务器响应失败处理函数
-		{
-			alert(e);
-		}
-	});
-};
-xh.download=function(){
-	var $scope = angular.element(appElement).scope();
-	var filename=$scope.checkData.fileName;
-	console.log("filename=>"+filename);
-	var downUrl="../../net/download?fileName="+filename;
-	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
-};
 
-// 刷新数据
-xh.refresh = function() {
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
-
-};
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
