@@ -25,6 +25,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/duty")
@@ -50,7 +51,13 @@ public class DutyController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		
+		String power=SingLoginListener.
+				getLoginUserPowerMap().
+				get(request.getSession().getId()).get("o_check_duty").toString();
+		
 		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("loginuser", funUtil.loginUser(request));
+		map.put("power", power);
 		map.put("fileName", fileName);
 		map.put("contact", contact);
 		map.put("status", status);
@@ -80,9 +87,8 @@ public class DutyController {
 	public void add(HttpServletRequest request, HttpServletResponse response){
 		String formData=request.getParameter("formData");	
 		WorkBean bean=GsonUtil.json2Object(formData, WorkBean.class);
-		EmailBean emailBean=new EmailBean();
-		bean.setRecvUser("10002");
 		bean.setUploadUser(funUtil.loginUser(request));
+		bean.setCreatetime(funUtil.nowDate());
 		log.info(bean.toString());		
 		int rlt=DutyServices.add(bean);
 		
@@ -95,12 +101,20 @@ public class DutyController {
 			webLogBean.setContent("上传运维值班情况表");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("运维值班情况表");
-			emailBean.setRecvUser("10002");
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("请签收运维值班情况表");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			
+            List<Map<String,Object>> list=WebUserServices.userlistByPower("o_check_duty");
+			
+			for (Map<String, Object> map : list) {
+				EmailBean emailBean=new EmailBean();
+				emailBean.setTitle("运维值班");
+				emailBean.setRecvUser(map.get("user").toString());
+				emailBean.setSendUser(funUtil.loginUser(request));
+				emailBean.setContent("请签收运维值班情况表");
+				emailBean.setTime(funUtil.nowDate());
+				EmailService.insertEmail(emailBean);
+			}
+			
+			
 			
 			
 		}else{

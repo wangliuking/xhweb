@@ -132,6 +132,7 @@ public class LoginController {
 		webLogBean.setContent("登录系统");
 		WebLogService.writeLog(webLogBean);
 		SingLoginListener.getLogUserMap().remove(request.getSession().getId());
+		SingLoginListener.getLoginUserPowerMap().remove(request.getSession().getId());
 		return "redirect:/Views/login.html";
 
 	}

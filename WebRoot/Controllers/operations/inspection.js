@@ -39,6 +39,11 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
