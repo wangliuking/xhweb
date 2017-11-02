@@ -24,6 +24,15 @@ public class DeviceManageBean {
     private String tel;
     private String reason;
     private String description;
+    private String checkUser;
+
+    public String getCheckUser() {
+        return checkUser;
+    }
+
+    public void setCheckUser(String checkUser) {
+        this.checkUser = checkUser;
+    }
 
     public String getDescription() {
         return description;

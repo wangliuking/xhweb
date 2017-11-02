@@ -19,6 +19,33 @@ public class QuitNetBean {
 	private String time1;
 	private String time2;
 	private String time3;
+	private String user1;
+	private String user2;
+	private String checkUser;
+
+	public String getCheckUser() {
+		return checkUser;
+	}
+
+	public void setCheckUser(String checkUser) {
+		this.checkUser = checkUser;
+	}
+
+	public String getUser1() {
+		return user1;
+	}
+
+	public void setUser1(String user1) {
+		this.user1 = user1;
+	}
+
+	public String getUser2() {
+		return user2;
+	}
+
+	public void setUser2(String user2) {
+		this.user2 = user2;
+	}
 
 	public String getTime1() {
 		return time1;

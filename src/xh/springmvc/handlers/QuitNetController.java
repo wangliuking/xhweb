@@ -143,9 +143,9 @@ public class QuitNetController {
 			webLogBean.setContent("退网申请信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
-//			//----发送通知邮件
-//			sendNotify(bean.getUser_MainManager(), "退网申请信息已经成功提交,请审核。。。", request);
-//			//----END
+			//----发送通知邮件
+			sendNotifytoGroup("b_check_quitnet", "退网申请信息已经成功提交,请审核。。。", request);
+			//----END
 		} else {
 			this.message = "退网申请信息提交失败";
 		}
@@ -184,6 +184,7 @@ public class QuitNetController {
 			bean.setQuit(-1);
 		}
 		bean.setTime1(funUtil.nowDate());
+		bean.setCheckUser(user);
 		log.info("data==>" + bean.toString());
 		WebLogBean webLogBean = new WebLogBean();
 		int rst = QuitNetService.checkedOne(bean);
@@ -196,7 +197,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "退网申请信息审核，请管理人审核。。。", request);
+			sendNotifytoSingle(user, "退网申请信息审核，请管理人审核。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -226,6 +227,7 @@ public class QuitNetController {
 		String note1 = request.getParameter("note1");
 		String user = request.getParameter("user");
 		QuitNetBean bean = new QuitNetBean();
+		bean.setUser1(funUtil.loginUser(request));
 		bean.setId(id);
 		bean.setNote1(note1);
 		bean.setQuit(2);
@@ -242,7 +244,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "退网申请信息审核，请管理人审核。。。", request);
+			sendNotifytoSingle(user, "退网申请信息审核，请管理人审核。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -316,23 +318,43 @@ public class QuitNetController {
 		}
 
 	}
-	
+
 	/**
-	 * 发送邮件
+	 * 发送邮件(指定收件人)--保障申请
 	 * @param recvUser	邮件接收者
 	 * @param content	邮件内容
 	 * @param request
 	 */
-	public void sendNotify(String recvUser,String content,HttpServletRequest request){
+	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
 		//----发送通知邮件
 		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("退网申请");
+		emailBean.setTitle("保障申请");
 		emailBean.setRecvUser(recvUser);
 		emailBean.setSendUser(funUtil.loginUser(request));
 		emailBean.setContent(content);
 		emailBean.setTime(funUtil.nowDate());
 		EmailService.insertEmail(emailBean);
 		//----END
+	}
+	/**
+	 * 发送邮件(指定权限)--保障申请
+	 * @param
+	 * @param content	邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
+		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
+		for(Map<String,Object> map : list){
+			//----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("保障申请");
+			emailBean.setRecvUser(map.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			//----END
+		}
 	}
 
 }
