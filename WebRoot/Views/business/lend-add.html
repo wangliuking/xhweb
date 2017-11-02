@@ -12,13 +12,13 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
-						<div class="col-md-4">
+						<!-- <div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="unit"
 									required="required">
 							</div>
-						</div>
+						</div> -->
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
@@ -33,26 +33,32 @@
 									required="required">
 							</div>
 						</div>
-						
-					</div>
-					<!-- row-------end -->
-					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>预计归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="backTime"
 									required="required" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 							</div>
 						</div>
-						<div class="col-md-8">
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>使用区域</label><input
-									type="text" value="" class="form-control" name="zone">
+								<label>使用区域</label>
+									<textarea rows="3" cols="6" class="form-control" name="zone"></textarea>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>需求描述</label>
+								<textarea rows="3" cols="6" class="form-control" name="requirementDes"></textarea>
 							</div>
 						</div>
 					</div>
 					<!-- row-------end -->
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>通知管理部门领导</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -61,7 +67,7 @@
 								</select>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- row-------end -->
 					<div class="row">
 						<div class="col-md-6">

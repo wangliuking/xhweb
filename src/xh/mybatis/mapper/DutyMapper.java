@@ -36,6 +36,6 @@ public interface DutyMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int sign(int id)throws Exception;
+	public int sign(WorkBean bean)throws Exception;
 
 }

@@ -25,6 +25,7 @@ import xh.mybatis.service.EventReportServices;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/eventReport")
@@ -51,7 +52,13 @@ public class EventReportController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		
+		String power=SingLoginListener.
+				getLoginUserPowerMap().
+				get(request.getSession().getId()).get("o_check_report").toString();
+		
 		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("loginuser", funUtil.loginUser(request));
+		map.put("power", power);
 		map.put("fileName", fileName);
 		map.put("contact", contact);
 		map.put("status", status);

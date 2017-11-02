@@ -17,6 +17,9 @@ public class UserPowerBean {
 	private String o_add="off"; //'运维模块-添加数据',
 	private String o_update="off"; //'运维模块-修改数据',
 	private String o_delete="off"; //'运维模块-删除数据',
+	private String o_check_fault="off"; //'运维管理-故障处理审核',
+	private String o_check_duty="off"; //'运维管理-运维值班文件审核',
+	private String o_check_inspection="off"; //'运维管理-运维巡检文件审核',
 	
 	
 	/*平台管理权限*/
@@ -194,6 +197,25 @@ public class UserPowerBean {
 	}
 	public void setUser(String user) {
 		this.user = user;
+	}
+	
+	public String getO_check_fault() {
+		return o_check_fault;
+	}
+	public void setO_check_fault(String o_check_fault) {
+		this.o_check_fault = o_check_fault;
+	}
+	public String getO_check_duty() {
+		return o_check_duty;
+	}
+	public void setO_check_duty(String o_check_duty) {
+		this.o_check_duty = o_check_duty;
+	}
+	public String getO_check_inspection() {
+		return o_check_inspection;
+	}
+	public void setO_check_inspection(String o_check_inspection) {
+		this.o_check_inspection = o_check_inspection;
 	}
 	@Override
 	public String toString() {

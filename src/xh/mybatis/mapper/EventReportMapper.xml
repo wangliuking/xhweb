@@ -17,6 +17,9 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
+		<if test="power=='off'">
+		 and uploadUser=#{loginuser}
+		</if>
 		order by id asc limit #{start},#{limit}
 	</select>
 
@@ -31,6 +34,9 @@
 		</if>
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
+		</if>
+		<if test="power=='off'">
+		 and uploadUser=#{loginuser}
 		</if>
 	</select>
 	<!-- 新增工作记录 -->

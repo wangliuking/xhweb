@@ -38,6 +38,6 @@ public interface WorkMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int signWork(int id)throws Exception;
+	public int signWork(WorkBean bean)throws Exception;
 
 }

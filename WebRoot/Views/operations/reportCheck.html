@@ -165,7 +165,7 @@
 											ng-click="editModel($index)" data-toggle="modal"> <i
 												class="fa fa-newspaper-o text-success"></i>&nbsp;详情
 										</a>
-										<a ng-if="loginUser=x.recvUser && x.status==0" href="#" ng-click="sign($index)">|&nbsp;<i class="fa fa-edit text-success"></i>签收</a>
+										<a ng-if="x.status==0 && up.o_check_report=='on'" href="#" ng-click="sign($index)">|&nbsp;<i class="fa fa-edit text-success"></i>签收</a>
 										</td>
 										
 										

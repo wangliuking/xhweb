@@ -74,6 +74,7 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
+			$scope.checkData = $scope.progressData;
 			$http.get("../../business/lend/lendInfoList?lendId="+$scope.progressData.id).
 			success(function(response){
 				xh.maskHide();
@@ -149,7 +150,7 @@ xh.load = function() {
 			});*/
 		}
 		/*显示审核窗口*/
-		$scope.checkWin = function (id) {
+		$scope.checkWin = function (id,type) {
 			if(id == -1){
 				$http.get("../../web/user/getUserList?roleId=10002").
 				success(function(response){
@@ -161,21 +162,9 @@ xh.load = function() {
 				});
 				$("#add").modal('show');
 			}
-			$scope.checkData = $scope.data[id];
-			$scope.ch=id;
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
-				$http.get("../../web/user/getUserList?roleId=10002").
-				success(function(response){
-					$scope.userData = response.items;
-					$scope.userTotals = response.totals;
-					if($scope.userTotals>0){
-						$scope.user=$scope.userData[0].user;
-					}
-				});
-				$("#checkWin1").modal('show');
-			}
-			//if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
-			if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==1){
+			if(type == -2){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
 				//设备清单列表
 				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
 				success(function(response){
@@ -195,10 +184,44 @@ xh.load = function() {
 			    };  
 				$("#checkWin3").modal('show');
 			}
-			/*if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==3){
-				xh.check4();
+			
+			//领导审核并指定经办人
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
+				$http.get("../../web/user/getUserList?roleId=10002").
+				success(function(response){
+					$scope.userData = response.items;
+					$scope.userTotals = response.totals;
+					if($scope.userTotals>0){
+						$scope.user=$scope.userData[0].user;
+					}
+				});
+				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
+			//领导审核经办人办理的租借清单
+			else if($scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
+				$("#checkWin3").modal('show');
+			}
+			/*else if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1 && $scope.checkData.user2 == $scope.loginUser){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
+				$http.get("../../web/user/getUserList?roleId=10002").
+				success(function(response){
+					$scope.userData = response.items;
+					$scope.userTotals = response.totals;
+					if($scope.userTotals>0){
+						$scope.user=$scope.userData[0].user;
+					}
+				});
+				$("#checkWin1").modal('show');
+			}*/
+			//if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
+			else if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==1){
+				$scope.checkData = $scope.data[id];
+				$scope.ch=id;
 				//设备清单列表
 				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
 				success(function(response){
@@ -206,18 +229,19 @@ xh.load = function() {
 					$scope.dataLend = response.items;
 					$scope.lendTotals = response.totals;
 				});
-				$("#checkWin5").modal('show');
+				$scope.selectAll=false;  
+			    $scope.all= function (m) {  
+			        for(var i=0;i<$scope.dataLend.length;i++){  
+			          if(m===true){  
+			              $scope.dataItem[i].state=true;  
+			          }else {  
+			              $scope.dataItem[i].state=false;  
+			          }  
+			        }  
+			    };  
+				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUser==$scope.checkData.user && $scope.checkData.checked==4){
-				//设备清单列表
-				$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id + "status=2").
-				success(function(response){
-					xh.maskHide();
-					$scope.dataLend = response.items;
-					$scope.lendTotals = response.totals;
-				});
-				$("#checkWin6").modal('show');
-			}*/
+
 			
 	    };
 	    /* 用户确认编组方案 
@@ -410,20 +434,20 @@ xh.add = function() {
 		}
 	});
 };
-/*主管部门审核*/
-xh.check1 = function(id) {
-	/*$.ajax({
+/*指定经办人*/
+xh.check2 = function() {
+	$.ajax({
 		url : '../../business/lend/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
-			formData:xh.serializeJson($("#checkForm1").serializeArray()) //将表单序列化为JSON对象
+			formData:xh.serializeJson($("#checkForm2").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin1').modal('hide');
+				$('#checkWin2').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -433,13 +457,17 @@ xh.check1 = function(id) {
 		},
 		error : function() {
 		}
-	});*/
-	window.location.href="lend-deal.html?data_id="+id;
+	});
 };
+
+xh.check1 = function(id) {
+	window.location.href="lend-deal.html?data_id="+id+"&leaderUser="+$scope.checkData.user1;
+};
+
 
 /*管理部门领导审核租借清单*/
 
-xh.check3 = function(checked) {
+xh.check3 = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
 		url : '../../business/lend/checkedOrder',
@@ -448,7 +476,7 @@ xh.check3 = function(checked) {
 		async : true,
 		data:{
 			lendId:$scope.checkData.id,
-			checked:checked,
+			checked:3,
 			user:$scope.checkData.user,
 			note2:$("#checkForm3").find("input[name='note2']").val()
 		},

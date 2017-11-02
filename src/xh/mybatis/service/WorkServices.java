@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WorkBean;
 import xh.mybatis.mapper.WorkMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -76,9 +77,13 @@ public class WorkServices {
 	public static int signWork(int id){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		WorkMapper mapper=sqlSession.getMapper(WorkMapper.class);
+		WorkBean bean=new WorkBean();
+		FunUtil fun=new FunUtil();
+		bean.setId(id);
+		bean.setSignTime(fun.nowDate());
 		int result=0;
 		try {
-			result=mapper.signWork(id);
+			result=mapper.signWork(bean);
 			sqlSession.commit();
 			sqlSession.close();					
 		} catch (Exception e) {
