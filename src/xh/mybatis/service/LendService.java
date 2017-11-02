@@ -143,6 +143,25 @@ public class LendService {
 		return result;
 	}
 	/**
+	 * 用户完全归还设备
+	 * @param bean
+	 * @return
+	 */
+	public static int returnFinish(LendBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.returnFinish(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 判断租借清单中是否存在该条记录
 	 * @param map
 	 * @return
@@ -256,6 +275,25 @@ public class LendService {
 		return result;
 	}
 	/**
+	 * 更新流程状态
+	 * @param map
+	 * @return
+	 */
+	public static int updateStatusByLendID(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateStatusByLendID(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 归还设备
 	 * @param map
 	 * @return
@@ -347,6 +385,24 @@ public class LendService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	/**
+	 * 查询待审核 归还借设备清单 
+	 * @param map
+	 * @return
+	 */
+	public static int checkReturnOrderCount(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
+		int count = 0;
+		try {
+			count=mapper.checkReturnOrderCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

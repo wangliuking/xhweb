@@ -405,8 +405,15 @@ public class LendController {
 		bean.setTime3(funUtil.nowDate());
 		bean.setNote2(note2);
 
+		Map<String, Object> mapforLend = new HashMap<String, Object>();
+		//mapforLend.put("returnTime", funUtil.nowDate());
+		mapforLend.put("lendId", id);
+		mapforLend.put("status", 2);
+		
 		int rst = LendService.checkedOrder(bean);
-		if (rst == 1) {
+		rst += LendService.updateStatusByLendID(mapforLend);
+		
+		if (rst >= 1) {
 			this.message = "审核租借清单完成";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -502,6 +509,16 @@ public class LendController {
 			 mapforBusiness.put("status", 4);
 			 mapforBusiness.put("checkIds", checkIds);
 			 int rst2 = LendService.updateAssetStatusBySerialNumberList(mapforBusiness);
+			 Map<String, Object> map2 = new HashMap<String, Object>();
+			 map2.put("lendId", id);
+			 int rst3 = LendService.checkReturnOrderCount(map2);
+			 if(rst3 == 0){
+				 LendBean bean = new LendBean();
+				 bean.setId(id);
+				 bean.setChecked(5);
+				 bean.setTime5(funUtil.nowDate());
+				 LendService.returnFinish(bean);
+			 }
 		}
 		// -------------------------------------------------------------
 		int rst = LendService.operation(mapforLend);

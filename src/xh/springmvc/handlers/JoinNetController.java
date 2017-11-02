@@ -138,7 +138,7 @@ public class JoinNetController {
 			bean.setApply1(chezaitaiNum);
 			if(rst == 1){
 				//----发送通知邮件
-				sendNotifytoGroup("b_check_joinnet", "有线入网申请信息已经成功提交,请审核。。。", request);
+				sendNotifytoGroup("b_check_joinnet",10001, "有线入网申请信息已经成功提交,请审核。。。", request);
 				//----END
 			}
 		}
@@ -149,7 +149,7 @@ public class JoinNetController {
 			log.info(rst + "data无线==>" + bean.toString());
 			if(rst != 0){
 				//----发送通知邮件
-				sendNotifytoGroup("b_check_joinnet", "无线入网申请信息已经成功提交,请审核。。。", request);
+				sendNotifytoGroup("b_check_joinnet",10001, "无线入网申请信息已经成功提交,请审核。。。", request);
 				//----END
 			}
 		}
@@ -164,9 +164,6 @@ public class JoinNetController {
 			webLogBean.setContent("入网申请信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			
-			//----发送通知邮件
-			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
-			//----END
 		} else {
 			this.message = "入网申请信息提交失败";
 		}
@@ -199,12 +196,10 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note1 = request.getParameter("note1");
-		String user = request.getParameter("user");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setChecked(checked);
 		bean.setUser1(funUtil.loginUser(request));
-		bean.setUser2(user);
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
 		log.info("data==>" + bean.toString());
@@ -218,7 +213,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoSingle(user, "入网申请信息审核，请管理部门领导审核并移交经办人，上传编组方案。。。", request);
+			sendNotifytoGroup("b_check_joinnet",10002, "入网申请信息审核，请管理部门指定并移交经办人办理。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -326,7 +321,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoSingle(backUser, "入网申请信息审核，编组方案已上传，内审资源配置技术方案。。。", request);
+			sendNotifytoSingle(backUser, "入网申请信息审核，编组方案已上传配置技术方案。。。", request);
 			//----END
 		} else {
 			this.message = "上传编组方案失败";
@@ -437,6 +432,7 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
+		String sendUser = request.getParameter("sendUser");
 		String note5 = request.getParameter("note5");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);	
@@ -454,7 +450,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoSingle(sendUser, "用户将于三个工作日内将入网样机送至软件中心测试，请注意查收。", request);
 			//----END
 		} else {
 			this.message = "确认编组方案失败";
@@ -485,6 +481,7 @@ public class JoinNetController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("userHT_checked"));
+		String sendUser = request.getParameter("sendUser");
 		String note6 = request.getParameter("note6");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);	
@@ -505,7 +502,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			//sendNotify(bean.getUser_MainManager(), "入网申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoSingle(sendUser, "审核样机入网送检申请（合同附件）成功,请用户上传采购设备信息。", request);
 			//----END
 		} else {
 			this.message = "确认编组方案失败";
@@ -785,6 +782,7 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
+		String sendUser = request.getParameter("sendUser");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setFileNameCG(fileName);
@@ -800,6 +798,8 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传采购设备信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
+			
+			sendNotifytoSingle(sendUser, "上传采购设备信息成功。", request);
 		} else {
 			this.message = "上传采购设备信息失败";
 		}
@@ -828,6 +828,7 @@ public class JoinNetController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checkNum = funUtil.StringToInt(request.getParameter("checkNum"));
+		String sendUser = request.getParameter("sendUser");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setChecked(checkNum);
@@ -840,15 +841,19 @@ public class JoinNetController {
 			}
 			else if(checkNum == 10){
 				this.message = "终端交付成功";
+				sendNotifytoSingle(sendUser, "终端交付成功,请用户确认", request);
 			}
 			else if(checkNum == 11){
 				this.message = "终端接受确认成功";
+				sendNotifytoSingle(sendUser, "终端接受确认成功，请经办人办理培训", request);
 			}
 			else if(checkNum == 12){
 				this.message = "用户使用培训完成";
+				sendNotifytoSingle(sendUser, "用户使用培训完成，请用户确认。", request);
 			}
 			else if(checkNum == 13){
 				this.message = "培训确认完成";
+				sendNotifytoSingle(sendUser, "培训确认完成，请经办人上传附件报备", request);
 			}
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -1083,13 +1088,19 @@ public class JoinNetController {
 	 * @param content	邮件内容
 	 * @param request
 	 */
-	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
-		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
-		for(Map<String,Object> map : list){
+	public void sendNotifytoGroup(String powerstr,Integer roleId,String content,HttpServletRequest request){
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		System.out.println("-----" + roleId);
+		List<Map<String,Object>> items = WebUserServices.userlistByPowerAndRoleId(map);
+		//List<Map<String,Object>> items = WebUserServices.userlistByPower(powerstr);
+		System.out.println("-----" + items);
+		for(Map<String,Object> item : items){
 			//----发送通知邮件
 			EmailBean emailBean = new EmailBean();
 			emailBean.setTitle("入网申请");
-			emailBean.setRecvUser(map.get("user").toString());
+			emailBean.setRecvUser(item.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent(content);
 			emailBean.setTime(funUtil.nowDate());

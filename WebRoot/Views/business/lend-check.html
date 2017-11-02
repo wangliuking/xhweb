@@ -232,11 +232,11 @@
 						<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user">
+						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user && checkData.checked!=5">
 						<i class="fa fa-remove"></i>&nbsp;批量归还设备
 				</button>
 				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1">
+						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1 && checkData.checked!=5">
 						<i class="fa fa-remove"></i>&nbsp;批量确认归还设备
 				</button>
 			</div>
@@ -270,6 +270,7 @@
 								<td>{{x.name}}</td>
 								<td>{{x.model}}</td>
 								<td>{{x.serialNumber}}</td>
+								<td ng-if="x.status==-1">等待领导审核</td>
 								<td ng-if="x.status==0">已归还</td>
 								<td ng-if="x.status==1">在借</td>
 								<td ng-if="x.status==2">等待验收</td>
@@ -425,7 +426,7 @@
 		fields : {}
 	    }).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.check5();
+		xh.check6();
 	});
 </script>
 <script>
