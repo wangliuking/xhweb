@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -126,7 +127,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(bean.getUser_MainManager(), "保障申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoGroup("b_check_communicationsupport", "保障申请信息已经成功提交,请审核。。。", request);
 			//----END
 		} else {
 			this.message = "保障申请信息提交失败";
@@ -177,7 +178,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核，请管理部门领导审核并移交经办人。。。", request);
+			sendNotifytoGroup("b_check_communicationsupport", "保障申请信息审核，请管理部门领导审核并移交经办人。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -213,6 +214,7 @@ public class CommunicationSupportController {
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		bean.setChecked(checked);
+		bean.setCheckUser(user);
 		int rst = CommunicationSupportService.checkedTwelve(bean);
 		if (rst == 1) {
 			this.message = "管理方领导指派管理方处理";
@@ -223,7 +225,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "管理方处理。。。", request);
+			sendNotifytoSingle(user, "管理方处理。。。", request);
 			//----END
 		} else {
 			this.message = "通知管理方处理失败";
@@ -271,7 +273,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotifytoSingle(user, "保障申请信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -367,7 +369,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotifytoSingle(user, "保障申请信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -463,7 +465,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "审核请求消息审核。。。", request);
+			sendNotifytoSingle(user, "审核请求消息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知管理方处理失败";
@@ -564,7 +566,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "确认信息信息审核。。。", request);
+			sendNotifytoSingle(user, "确认信息信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知用户处理失败";
@@ -661,7 +663,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障申请信息审核。。。", request);
+			sendNotifytoSingle(user, "保障申请信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -762,7 +764,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障准备信息审核。。。", request);
+			sendNotifytoSingle(user, "保障准备信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知用户处理失败";
@@ -858,7 +860,7 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "保障完成信息审核。。。", request);
+			sendNotifytoSingle(user, "保障完成信息审核。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -1067,14 +1069,14 @@ public class CommunicationSupportController {
 		    }
 		    //存储记录
 	}
-	
+
 	/**
-	 * 发送邮件
+	 * 发送邮件(指定收件人)--保障申请
 	 * @param recvUser	邮件接收者
 	 * @param content	邮件内容
 	 * @param request
 	 */
-	public void sendNotify(String recvUser,String content,HttpServletRequest request){
+	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
 		//----发送通知邮件
 		EmailBean emailBean = new EmailBean();
 		emailBean.setTitle("保障申请");
@@ -1084,6 +1086,26 @@ public class CommunicationSupportController {
 		emailBean.setTime(funUtil.nowDate());
 		EmailService.insertEmail(emailBean);
 		//----END
+	}
+	/**
+	 * 发送邮件(指定权限)--保障申请
+	 * @param
+	 * @param content	邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
+		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
+		for(Map<String,Object> map : list){
+			//----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("保障申请");
+			emailBean.setRecvUser(map.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			//----END
+		}
 	}
 
 }

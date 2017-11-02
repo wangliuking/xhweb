@@ -155,7 +155,7 @@
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="toProgress($index)" data-toggle="modal"> <i
 												class="fa fa-newspaper-o text-success"></i>&nbsp;详情
-										</a> <a ng-if="loginUser=x.recvUser && x.status==0" href="#"
+										</a> <a ng-if="x.status==0 && up.o_check_inspection=='on'" href="#"
 											ng-click="checkWin($index)">|&nbsp;<i
 												class="fa fa-edit text-success"></i>审核
 										</a>

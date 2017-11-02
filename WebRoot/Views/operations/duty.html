@@ -131,28 +131,26 @@
 										<th>联系人</th>
 										<th>联系方式</th>
 										<th>上传者</th>
-										<th>接收者</th>
 										<th>状态</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.fileName}}</td>
 										<td>{{x.contact}}</td>
 										<td>{{x.tel}}</td>
 										<td>{{x.uploadUser}}</td>
-										<td>{{x.recvUser}}</td>
 										<td ng-if="x.status==-1" style="color:blue;">审核未通过</td>
 										<td ng-if="x.status==0" style="color:red;">未审核</td>
 										<td ng-if="x.status==1" style="color:green;">已审核</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"> <i
 												class="fa fa-newspaper-o text-success"></i>&nbsp;详情
-										</a> <a ng-if="loginUser=x.recvUser && x.status==0" href="#"
+										</a> <a ng-if="x.status==0 && up.o_check_duty=='on'" href="#"
 											ng-click="checkWin($index)">|&nbsp;<i
 												class="fa fa-edit text-success"></i>审核
 										</a></td>

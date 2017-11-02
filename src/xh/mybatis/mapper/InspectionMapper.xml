@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xh.mybatis.mapper.InspectionMapper">
 
-	<select id="list" parameterType="map" resultType="map"
-		useCache="true">
+	<select id="list" parameterType="map" resultType="map" useCache="true">
 		select * from xhgmnet_operations_inspection where 1=1
 		<if test="fileName !=null and fileName !=''">
 			and fileName like concat('%',#{fileName},'%')
@@ -13,6 +12,14 @@
 		</if>
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
+		</if>
+		<if test="power=='off'">			
+			and (uploadUser=#{loginuser}
+			or user1=#{loginuser}
+			or user2=#{loginuser}
+			or user3=#{loginuser}
+			or user4=#{loginuser})
+			
 		</if>
 		order by id desc limit #{start},#{limit}
 	</select>
@@ -29,32 +36,50 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
+		<if test="power=='off'">			
+			or uploadUser=#{loginuser}
+			or user1=#{loginuser}
+			or user2=#{loginuser}
+			or user3=#{loginuser}
+			or user4=#{loginuser}
+			
+		</if>
 	</select>
 	<!-- 新增运维巡检记录表 -->
 	<insert id="add" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.InspectionBean">
-		insert into xhgmnet_operations_inspection(fileName,contact,tel,note,status,filePath,uploadUser,recvUser)
-		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{recvUser})
+		insert into
+		xhgmnet_operations_inspection(fileName,contact,tel,note,status,filePath,uploadUser,createtime)
+		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{createtime})
 	</insert>
 	<!-- 签收运维巡检记录表 -->
-    <update id="sign" parameterType="map">
-     update xhgmnet_operations_inspection set status=#{status},note1=#{note1},time1=#{time1},user1=#{user1} where id=#{id}    
-    </update>
+	<update id="sign" parameterType="map">
+		update
+		xhgmnet_operations_inspection set
+		status=#{status},note1=#{note1},time1=#{time1},user1=#{user1} where
+		id=#{id}
+	</update>
 	<!-- 填写巡检记录相关信息，汇总上报项目负责人 -->
-    <update id="check2" parameterType="xh.mybatis.bean.InspectionBean">
-     update xhgmnet_operations_inspection set status=#{status},note2=#{note2},
-     time2=#{time2},user2=#{user2},fileName2=#{fileName2},filePath2=#{filePath2} where id=#{id}    
-    </update>
-	<!-- 抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组-->
-    <update id="check3" parameterType="xh.mybatis.bean.InspectionBean">
-     update xhgmnet_operations_inspection set status=#{status},note3=#{note3},
-     time3=#{time3},user3=#{user3},fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}    
-    </update>
-	<!-- 巡检组整理填写巡检记录相关信息，汇总上报项目负责人，流程结束-->
-    <update id="check4" parameterType="xh.mybatis.bean.InspectionBean">
-     update xhgmnet_operations_inspection set status=#{status},note4=#{note4},
-     time4=#{time4},user4=#{user4},fileName4=#{fileName4},filePath4=#{filePath4} where id=#{id}    
-    </update>
+	<update id="check2" parameterType="xh.mybatis.bean.InspectionBean">
+		update
+		xhgmnet_operations_inspection set status=#{status},note2=#{note2},
+		time2=#{time2},user2=#{user2},fileName2=#{fileName2},filePath2=#{filePath2}
+		where id=#{id}
+	</update>
+	<!-- 抢修组将抢修情况汇总记录到平台，并发送消息通知巡检组 -->
+	<update id="check3" parameterType="xh.mybatis.bean.InspectionBean">
+		update
+		xhgmnet_operations_inspection set status=#{status},note3=#{note3},
+		time3=#{time3},user3=#{user3},fileName3=#{fileName3},filePath3=#{filePath3}
+		where id=#{id}
+	</update>
+	<!-- 巡检组整理填写巡检记录相关信息，汇总上报项目负责人，流程结束 -->
+	<update id="check4" parameterType="xh.mybatis.bean.InspectionBean">
+		update
+		xhgmnet_operations_inspection set status=#{status},note4=#{note4},
+		time4=#{time4},user4=#{user4},fileName4=#{fileName4},filePath4=#{filePath4}
+		where id=#{id}
+	</update>
 
 
 
