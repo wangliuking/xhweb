@@ -94,7 +94,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10003&user="+$scope.loginUser).
+			$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
