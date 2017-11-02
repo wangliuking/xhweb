@@ -144,17 +144,17 @@
 
 										<a ng-if="loginUserRoleId==10002 && x.checked==0
 												||loginUserRoleId==10003 && x.checked==3
-												||loginUserRoleId==10002 && x.checked==5"
+												||loginUserRoleId==10002 && x.checked==5 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
-										<a ng-if="loginUserRoleId==10002 && x.checked==2
+										<a ng-if="loginUserRoleId==10002 && x.checked==2 && loginUser == x.checkUser
 												||loginUserRoleId==10003 && x.checked==4"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==6
-												||loginUserRoleId==10002 && x.checked==1"
+										<a ng-if="loginUserRoleId==10002 && x.checked==6 && loginUser == x.checkUser
+												||loginUserRoleId==10002 && x.checked==1 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
 										
