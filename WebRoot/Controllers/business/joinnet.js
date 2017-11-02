@@ -115,7 +115,22 @@ xh.load = function() {
 					$scope.userseriaName = $scope.userseriaData[0].name;
 				}
 			});
-
+			// 获取msclist
+			$http.get("../../talkgroup/mscList").success(function(response) {
+				$scope.msc = response.items;
+				$scope.mscNum = response.totals;
+				if ($scope.mscNum > 0) {
+					$scope.mscName = $scope.msc[0].name;
+				}
+			});
+			// 获取vpnList
+			$http.get("../../talkgroup/vpnList").success(function(response) {
+				$scope.vpn = response.items;
+				$scope.vpnNum = response.totals;
+				if ($scope.vpnNum > 0) {
+					$scope.vpnName = $scope.vpn[0].name;
+				}
+			});
 			$("#add").modal('show');
 		};
 		/* 显示添加组窗口 */
@@ -139,12 +154,18 @@ xh.load = function() {
 								$scope.userseriaName = $scope.userseriaData[0].name;
 							}
 						});
+			// 获取msclist
+			$http.get("../../talkgroup/mscList").success(function(response) {
+				$scope.msc = response.items;
+				$scope.mscNum = response.totals;
+				if ($scope.mscNum > 0) {
+					$scope.mscName = $scope.msc[0].name;
+				}
+			});
 			// 获取vpnList
 			$http.get("../../talkgroup/vpnList").success(function(response) {
-				alert(123);
 				$scope.vpn = response.items;
 				$scope.vpnNum = response.totals;
-				alert(response.items[0].name);
 				if ($scope.vpnNum > 0) {
 					$scope.vpnName = $scope.vpn[0].name;
 				}

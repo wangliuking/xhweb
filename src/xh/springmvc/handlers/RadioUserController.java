@@ -28,6 +28,7 @@ import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.RadioUserService;
+import xh.mybatis.service.TalkGroupService;
 import xh.mybatis.service.WebLogService;
 @Controller
 @RequestMapping(value="/radiouser")
@@ -80,16 +81,38 @@ public class RadioUserController {
 	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		int userId=funUtil.loginUserId(request);
+		int count = 0;
 		HashMap<String,Object> map = new HashMap<String,Object>();
-			Enumeration rnames=request.getParameterNames();
+		Enumeration rnames=request.getParameterNames();
+		for (Enumeration e = rnames ; e.hasMoreElements() ;) {
+			String thisName=e.nextElement().toString();
+			String thisValue=request.getParameter(thisName);
+			map.put(thisName, thisValue);
+		}
+		map.put("userId",userId);
+		map.put("time",funUtil.nowDate());
+		if(map.get("C_ID") == null
+				&& map.get("C_IDS")!=null && map.get("C_IDE")!=null
+				&& Integer.parseInt(map.get("C_IDS").toString())<Integer.parseInt(map.get("C_IDE").toString())){
+			int C_IDS = Integer.parseInt(map.get("C_IDS").toString());
+			int C_IDE = Integer.parseInt(map.get("C_IDE").toString());
+			for(int i = C_IDS;i <= C_IDE; i++){
+				map.put("C_ID",i);
+				count+=RadioUserService.insertRadioUser(map);
+			}
+		}
+		else {
+			count=RadioUserService.insertRadioUser(map);
+		}
+		
+		/*	Enumeration rnames=request.getParameterNames();
 			for (Enumeration e = rnames ; e.hasMoreElements() ;) {
 			         String thisName=e.nextElement().toString();
 			        String thisValue=request.getParameter(thisName);
 			        map.put(thisName, thisValue);
 			}
-			map.put("userId", userId);
+			map.put("userId", userId);*/
 			//如果通过入网流程添加，则改变入网流程check
-			System.out.println("----------" + Integer.parseInt((String) map.get("id_JoinNet")));
 			int rst = 0;
 			if(map.get("id_JoinNet") != null){
 				JoinNetBean bean = new JoinNetBean();
@@ -98,10 +121,10 @@ public class RadioUserController {
 				rst = JoinNetService.updateCheckById(bean);
 			}
 			
-			rst += RadioUserService.insertRadioUser(map);
+			//rst += RadioUserService.insertRadioUser(map);
 			HashMap result = new HashMap();
 			result.put("success", success);
-			result.put("result",rst);
+			result.put("result",rst + count);
 			String jsonstr = json.Encode(result);
 			try {
 				response.getWriter().write(jsonstr);

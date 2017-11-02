@@ -295,6 +295,7 @@ public class JoinNetController {
 		int type = funUtil.StringToInt(request.getParameter("type"));
 		String note3 = request.getParameter("note3");
 		String backUser = request.getParameter("backUser");
+		String sendUser = request.getParameter("sendUser");
 		String user4 = request.getParameter("user");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
@@ -321,7 +322,11 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoSingle(backUser, "入网申请信息审核，编组方案已上传配置技术方案。。。", request);
+			if(backUser != null){
+				sendNotifytoSingle(backUser, "入网申请信息审核，编组方案已上传配置技术方案。。。", request);
+			}else if(sendUser != null){
+				sendNotifytoSingle(sendUser, "入网申请信息审核，编组方案已上传配置技术方案。。。", request);
+			}
 			//----END
 		} else {
 			this.message = "上传编组方案失败";

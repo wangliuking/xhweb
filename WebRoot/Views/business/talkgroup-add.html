@@ -8,6 +8,10 @@
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold">添加组</small>
+				<button type="button"
+						class="btn btn-warning btn-sm" id="pldr" onclick="clk_add_btn();">
+						<i class="fa fa-plus"></i>&nbsp;批量导入
+				</button>
 				<label for="piliangtianjia" style="float:right">批量添加用户组</label>
 				<input type="checkbox" id="piliangtianjia" ng-model="isChecked1" style="float:right"/>
 			</div>
@@ -83,8 +87,8 @@
 								<div class="form-group col-md-12">
 									<label>交换中心唯一标识</label>
 										<select class="form-control" id="E_mscId"
-										name="E_mscId" ng-model="vpnName">
-										<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
+										name="E_mscId" ng-model="mscName">
+										<option ng-repeat="x in msc" value="{{x.vpnId}}">{{x.name}}</option>
 									</select>
 								</div>
 							</div>
@@ -92,10 +96,11 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>VPN标识</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_vpnId" id="E_vpnId"
-										required="required">
+									<label>VPN标识</label>
+										<select class="form-control" id="E_vpnId"
+										name="E_vpnId" ng-model="vpnName">
+										<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
+										</select>
 								</div>
 							</div>
 							<div class="col-md-6">
