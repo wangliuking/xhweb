@@ -48,29 +48,26 @@ public class Test {
 		// 获取FSU状态信息
 		String GET_FSUINFO = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_FSUINFO</Name></PK_Type><Info><FSUID>09201704160085</FSUID></Info></Request>";
 		// getData("09201704160085");
-		// List<String> list = new ArrayList<String>();
-		// list.add("170100000000001");// 温度
-		// list.add("170200000000001");// 湿度
-		// list.add("170300000000001");// 水浸
-		// list.add("170400000000001");// 烟雾
-		// list.add("170500000000001");// 红外
-		// list.add("170700000000001");// 门碰
-		// list.add("920100000000001");// 电表
-		// list.add("080200000000001");// UPS
-		// list.add("760300000000001");// FSU
+		List<String> list = new ArrayList<String>();
+		list.add("170100000000001");// 温度
+		list.add("170200000000001");// 湿度
+		list.add("170300000000001");// 水浸
+		list.add("170400000000001");// 烟雾
+		list.add("170500000000001");// 红外
+		list.add("170700000000001");// 门碰
+		//list.add("920100000000001");// 电表
+		list.add("080200000000001");// UPS
+		list.add("760300000000001");// FSU
 		// getData("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取所有监控点数据
 		// getDataByList("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//
 		// 查询监控点数据
 
 		// setThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",
 		// list);// 写监控点门限数据
-		// getThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//查询监控点门限数据
+		getThreshold("http://10.1.65.3:8090/services/FSUService","09201704160085",list);//查询监控点门限数据
 		// getLoginInfo("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取注册信息
 		// getDevConf("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取FSU配置信息
 		// timeCheck("09201704160085");//时间确认
-
-		List<Map<String, String>> list = GosuncnController.selectForGetLogin();
-		log.info(list);
 
 	}
 
@@ -143,12 +140,14 @@ public class Test {
 
 	/**
 	 * 请求指定监控点数据用于入库
+	 * @throws AxisFault 
 	 * 
 	 * @throws RemoteException
 	 * 
 	 */
 	public static List<Map<String, String>> getDataForDB(String url,
-			String FSUID, List list) throws RemoteException {
+			String FSUID, List list) throws AxisFault{
+		log.info("开始获取数据！！！");
 		FSUServiceStub stub = new FSUServiceStub(url);
 		Invoke invoke = new Invoke();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
@@ -165,7 +164,14 @@ public class Test {
 				+ "</DeviceList></Info></Request>";
 		enc.setString(GET_DATA);
 		invoke.setXmlData(enc);
-		InvokeResponse response = stub.invoke(invoke);
+		InvokeResponse response = null;
+		try {
+			response = stub.invoke(invoke);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		log.info("结束获取数据！！！");
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
 		try {
@@ -259,6 +265,7 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
+		log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 
@@ -270,12 +277,13 @@ public class Test {
 
 	/**
 	 * 获取FSU状态信息
+	 * @throws AxisFault 
 	 * 
 	 * @throws RemoteException
 	 * 
 	 */
-	public static List<String> getFSUInfo(String url, String FSUID)
-			throws RemoteException {
+	public static List<String> getFSUInfo(String url, String FSUID) throws AxisFault
+			{
 		log.info("开始维持心跳！！！ "+url);
 		FSUServiceStub stub = new FSUServiceStub(url);
 		Invoke invoke = new Invoke();
@@ -285,7 +293,13 @@ public class Test {
 				+ FSUID + "</FSUID></Info></Request>";
 		enc.setString(GET_FSUINFO);
 		invoke.setXmlData(enc);
-		InvokeResponse response = stub.invoke(invoke);
+		InvokeResponse response = null;
+		try {
+			response = stub.invoke(invoke);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			log.info("此ip发送心跳信息失败！！！ "+url);
+		}
 		log.info("结束维持心跳！！！ "+url);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
