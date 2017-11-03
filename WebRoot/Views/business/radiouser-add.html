@@ -8,6 +8,16 @@
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold">添加无线用户</small>
+				<button type="button"
+						class="btn btn-warning btn-sm" id="pldr" onclick="clk_add_btn();">
+						<i class="fa fa-plus"></i>&nbsp;批量导入
+				</button>
+				<!-- <button type="button"
+						class="btn btn-warning btn-sm" id="pltj" ng-model="isChecked1" onclick="clk_add_btn();">
+						<i class="fa fa-plus"></i>&nbsp;批量添加无线用户
+				</button> -->
+				<label for="tj" style="float:right">批量添加无线用户</label>
+				<input type="checkbox" id="tj" ng-model="isChecked1" style="float:right"/>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addUserForm" onSubmit="return false">
@@ -33,14 +43,41 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6">
+								<!-- <div class="col-md-6">
 									<div class="form-group col-md-12">
 										<label>无线用户ID</label> <input type="number" value=""
 											class="form-control" name="C_ID" id="C_ID"
 											oninput="if(value.length>20)value=value.slice(0,20)"
 											required="required">
 									</div>
+								</div> -->
+								<div class="col-md-6">
+								<div class="form-group col-md-12" ng-if="!isChecked1">
+									<label>无线用户ID</label> <input type="number" value=""
+										class="form-control" name="C_ID" id="C_ID"
+										oninput="if(value.length>20)value=value.slice(0,20)"
+										required="required">
 								</div>
+								<div class="form-group col-md-12" ng-if="isChecked1">
+							    	<div class="col-md-5">
+								    	<label for="sb" >无线用户ID</label>
+								    	<input type="number" value=""
+										class="form-control" name="C_IDS" id="C_IDS"
+										oninput="if(value.length>20)value=value.slice(0,20)"
+										required="required">
+									</div>
+									<div class="col-md-2 text-center">
+										<div style="width:10px;height:1px;background-color:gray;margin-top: 37px;display:inline-block"></div>
+									</div>
+									<div class="col-md-5">
+										<label style="visibility:hidden;">1</label>
+										<input type="number" value=""
+										class="form-control" name="C_IDE" id="C_IDE"
+										oninput="if(value.length>20)value=value.slice(0,20)"
+										required="required">
+									</div>
+								</div>
+							</div>
 								<div class="col-md-6">
 									<div class="form-group col-md-12">
 										<label>无线用户名称</label> <input type="text" value=""
@@ -61,20 +98,22 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group col-md-12">
-										<label>交换中心唯一标识</label> <input type="number" value=""
-											oninput="if(value.length>11)value=value.slice(0,11)"
-											class="form-control" name="E_mscId" id="E_mscId"
-											required="required">
+										<label>交换中心唯一标识</label> 
+										<select class="form-control" id="E_mscId"
+										name="E_mscId" ng-model="mscName">
+										<option ng-repeat="x in msc" value="{{x.vpnId}}">{{x.name}}</option>
+									</select>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group col-md-12">
-										<label>虚拟专网唯一标识</label> <input type="number" value=""
-											oninput="if(value.length>11)value=value.slice(0,11)"
-											class="form-control" name="E_vpnId" id="E_vpnId"
-											required="required">
+										<label>虚拟专网唯一标识</label> 
+										<select class="form-control" id="E_vpnId"
+										name="E_vpnId" ng-model="vpnName">
+										<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
+										</select>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -458,6 +497,14 @@
 	</div>
 </div>
 <script>
+	function clk_add_btn(){
+		alert(123);
+		//isChecked1 = !isChecked1;
+		alert(isChecked1);
+	}
+
+</script>
+<script>
 	//控制步骤
 	$(function() {
 		$('#add a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -476,21 +523,21 @@
 			var prevId = $(this).parents('#add .tab-pane').prev().attr("id");
 			$('#add a[href="#' + prevId + '"]').tab('show');
 		});
-
+		
 	});
 </script>
 <script type="text/javascript">
 	$("#add_user_btn").click(function() {
 		$('#addUserForm').submit();
+		xh.addUser();
 	});
-	var faIcon = {
+	/* var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
 	$('#addUserForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
 		fields : {
 			C_ID : {
 				validators : {
@@ -502,7 +549,7 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.addUser();
-	});
+		
+	}); */
 </script>
 <!-- 添加无线用户---end -->

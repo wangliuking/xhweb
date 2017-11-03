@@ -371,4 +371,8 @@
   <select id="vpnList" resultType="java.util.HashMap" useCache="true">
 		select * from xhgmnet_msclist
   </select>
+  <!-- 	获取虚拟专网名列表 -->
+  <select id="vpnList2" resultType="java.util.HashMap" useCache="true">
+		select * from xhgmnet_vpn
+  </select>
 </mapper>
