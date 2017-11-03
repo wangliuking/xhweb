@@ -65,14 +65,35 @@ public class TalkGroupController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value="/vpnList",method = RequestMethod.GET)
+	@RequestMapping(value="/mscList",method = RequestMethod.GET)
 	public void vpnList(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;	
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",TalkGroupService.vpnList().size());
 		result.put("items", TalkGroupService.vpnList());
-		System.out.println("-----" + TalkGroupService.vpnList());
+		response.setContentType("application/json;charset=utf-8");   
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 查询无线用户互联属性
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/vpnList",method = RequestMethod.GET)
+	public void vpnList2(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;	
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",TalkGroupService.vpnList2().size());
+		result.put("items", TalkGroupService.vpnList2());
 		response.setContentType("application/json;charset=utf-8");   
 		String jsonstr = json.Encode(result);
 		try {

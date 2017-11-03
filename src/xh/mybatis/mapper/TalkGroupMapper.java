@@ -43,6 +43,13 @@ public interface TalkGroupMapper {
 	 */
 	public List<HashMap<String, String>> vpnList()throws Exception;
 	
+	/**
+	 * 获取交换中心标识列表 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> vpnList2()throws Exception;
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(TalkGroup record);
