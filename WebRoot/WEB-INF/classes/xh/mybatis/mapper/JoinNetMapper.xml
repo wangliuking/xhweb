@@ -52,7 +52,7 @@
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		user1=#{user1},user2=#{user2},time1=#{time1},note1=#{note1},checked=#{checked} where
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--管理方审核 -->

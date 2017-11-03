@@ -79,7 +79,7 @@ public class SingLoginListener implements HttpSessionListener{
         
         /*log.info("UserInfo=>"+logUserInfoMap);
         log.info("UserPowerInfo=>"+loginUserPowerMap);*/
-        log.info("UserPowerInfo=>"+loginUserPowerMap);
+        /*log.info("UserPowerInfo=>"+loginUserPowerMap);*/
         return flag;  
     } 
     /** 

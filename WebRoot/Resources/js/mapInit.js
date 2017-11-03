@@ -595,7 +595,7 @@ function layerCreate(data){
 			temp = "bluesky/unuse_small.png";
 		}
 
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
+		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
 		var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1);// 创建点对象
 		var attr = {
 			"Xcoord" : data[i].lng,
@@ -632,7 +632,7 @@ function layerCreate(data){
 			temp = "bluesky/unuse_middle.png";
 		}
 
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(48), parseInt(48));
+		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
 		var pt = new esri.geometry.Point(data[j].lng*1, data[j].lat*1);// 创建点对象
 		var attr = {
 			"Xcoord" : data[j].lng,
@@ -669,7 +669,7 @@ function layerCreate(data){
 			temp = "bluesky/unuse_big.png";
 		}
 
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(64), parseInt(64));
+		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(48), parseInt(48));
 		var pt = new esri.geometry.Point(data[x].lng*1, data[x].lat*1);// 创建点对象
 		var attr = {
 			"Xcoord" : data[x].lng,
