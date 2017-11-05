@@ -85,6 +85,10 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 
+		$scope.download = function() {
+			xh.download();
+		}
+		
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
@@ -110,14 +114,30 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==0){
+			if($scope.loginUserRoleId==10001 && $scope.checkData.quit==0){
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.quit==2){
-				$("#checkWin3").modal('show');
+			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==2){
+				if($scope.checkData.quitModal == 1){
+					$("#checkWin3").modal('show');
+				}else if($scope.checkData.quitModal == -1){
+					$("#checkWin7").modal('show');
+				}
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.quit==3 && $scope.checkData.quitModal ==1){
+				$("#checkWin4").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==3 && $scope.checkData.quitModal == -1){
+				$("#checkWin8").modal('show');
+			}
+			if($scope.loginUserRoleId==10003 && $scope.checkData.quit==4 && $scope.checkData.quitModal ==1){
+				$("#checkWin5").modal('show');
+			}
+			if($scope.loginUserRoleId==10002 && $scope.checkData.quit==5 && $scope.checkData.quitModal ==1){
+				$("#checkWin6").modal('show');
 			}
 	    };
 	    /* 用户确认编组方案 
@@ -339,18 +359,41 @@ xh.check2 = function() {
 		}
 	});
 };
-/*用户确认*/
+
 xh.check3 = function() {
 	$.ajax({
-		url : '../../quitnet/sureFile',
+		url : '../../quitnet/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				$("input[name='result']").val(1);
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			alert("123123");
+		}
+	});
+};
+xh.check4 = function() {
+	$.ajax({
+		url : '../../quitnet/checkedFour',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm4").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin4').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -362,35 +405,139 @@ xh.check3 = function() {
 		}
 	});
 };
+xh.check5 = function() {
+	$.ajax({
+		url : '../../quitnet/checkedFive',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm5").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin5').modal('hide');
+				$("input[name='result']").val(1);
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+xh.check6 = function() {
+	$.ajax({
+		url : '../../quitnet/checkedSix',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm6").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin6').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+xh.check7 = function() {
+	$.ajax({
+		url : '../../quitnet/checkedSeven',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm7").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin7').modal('hide');
+				$("input[name='result']").val(1);
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			alert("aabbcc");
+		}
+	});
+};
+xh.check8 = function() {
+	$.ajax({
+		url : '../../quitnet/checkedEight',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:$("#checkForm8").serializeArray(),
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin8').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
 /*上传文件*/
-xh.upload = function() {
-	if($("input[type='file']").val()==""){
+xh.upload = function(index) {
+	if (index == 1) {
+		path = 'filePath1';
+		note = 'uploadResult1';
+	}
+	if (index == 2) {
+		path = 'filePath2';
+		note = 'uploadResult2';
+	}
+	if (index == 3) {
+		path = 'filePath3';
+		note = 'uploadResult3';
+	}
+	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../net/upload', //用于文件上传的服务器端请求地址
-		secureuri : false, //是否需要安全协议，一般设置为false
-		fileElementId : 'filePath', //文件上传域的ID
-		dataType : 'json', //返回值类型 一般设置为json
-		type:'POST',
-		success : function(data, status) //服务器成功响应处理函数
+		url : '../../quitnet/upload', // 用于文件上传的服务器端请求地址
+		secureuri : false, // 是否需要安全协议，一般设置为false
+		fileElementId : path, // 文件上传域的ID
+		dataType : 'json', // 返回值类型 一般设置为json
+		type : 'POST',
+		success : function(data, status) // 服务器成功响应处理函数
 		{
-			//var result=jQuery.parseJSON(data);  
+			// var result=jQuery.parseJSON(data);
 			console.log(data.filePath)
 			xh.maskHide();
-			if(data.success){
-				$("#uploadResult").html(data.message);
+			if (data.success) {
+				$("#"+note).html(data.message);
 				$("input[name='result']").val(1);
 				$("input[name='fileName']").val(data.fileName);
 				$("input[name='path']").val(data.filePath);
-			}else{
-				$("#uploadResult").html(data.message);
+			} else {
+				$("#"+note).html(data.message);
 			}
-			
+
 		},
-		error : function(data, status, e)//服务器响应失败处理函数
+		error : function(data, status, e)// 服务器响应失败处理函数
 		{
 			alert(e);
 		}
@@ -398,10 +545,24 @@ xh.upload = function() {
 };
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	var filename=$scope.checkData.fileName;
-	console.log("filename=>"+filename);
-	var downUrl="../../net/download?fileName="+filename;
-	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	var quit = $scope.checkData.quit;
+	var quitModal = $scope.checkedData.quitModal;
+	var fileName = null;
+	if(quit != -1){
+		if(quit == 3 && quitModal == 1 && $scope.checkData.fileName1!=null){
+			fileName = $scope.checkData.fileName1;
+		}
+		else if(quit == 5 && quitModal == 1 && $scope.checkData.fileName2!=null){
+			fileName = $scope.checkData.fileName2;
+		}
+		else if(quit == 3 && quitModal == -1 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
+		}
+	}
+	console.log("filename=>" + fileName);
+	var downUrl = "../../optimizenet/download?fileName=" + fileName;
+	window.open(downUrl, '_self',
+			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };
 
 // 刷新数据

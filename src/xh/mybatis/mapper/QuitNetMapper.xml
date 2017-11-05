@@ -14,7 +14,7 @@
         ,b.userType as userType1
         from xhgmnet_business_quitnet as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
         <choose>
-            <when test="roleId &gt;10002 || roleId &lt;10000">
+            <when test="roleId &gt;10003 || roleId &lt;10000">
                 and a.userName=#{user}
             </when>
             <otherwise>
@@ -27,7 +27,7 @@
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_business_quitnet where 1=1
         <choose>
-            <when test="roleId &gt;10002 || roleId &lt;10000">
+            <when test="roleId &gt;10003 || roleId &lt;10000">
                 and userName=#{user}
             </when>
             <otherwise>
@@ -57,21 +57,50 @@
     <!--主管部门审核 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.QuitNetBean">
 		update xhgmnet_business_quitnet set
-		quit=#{quit},time1=#{time1},checkUser=#{checkUser} where id=#{id}
+		quit=#{quit},time1=#{time1},note1=#{note1},user1=#{user1} where id=#{id}
 	</update>
 
-    <!--主管部门审核 -->
+    <!--管理方领导指派 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.QuitNetBean">
         update xhgmnet_business_quitnet set
-        user1=#{user1},quit=#{quit},note1=#{note1},time2=#{time2} where id=#{id}
+        user2=#{user2},quit=#{quit},time1=#{time2},note2=#{note2},checkUser=#{checkUser} where id=#{id}
     </update>
 
-    <!--用户确认 -->
-    <update id="sureFile" parameterType="xh.mybatis.bean.QuitNetBean">
-		update xhgmnet_business_quitnet set
-		note=#{note},quit=#{quit},time3=#{time3} where id=#{id}
-	</update>
+    <!-- 有线-->
+    <!--管理方上传 -->
+    <update id="checkedThree" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user3=#{user3},quit=#{quit},fileName1=#{fileName1},filePath1=#{filePath1},time3=#{time3} where id=#{id}
+    </update>
 
+    <!--服务提供方确认 -->
+    <update id="checkedFour" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user4=#{user4},quit=#{quit},note4=#{note4},time4=#{time4} where id=#{id}
+    </update>
 
+    <!--服务提供方上传 -->
+    <update id="checkedFive" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user5=#{user5},quit=#{quit},fileName2=#{fileName2},filePath2=#{filePath2},time5=#{time5} where id=#{id}
+    </update>
 
+    <!--管理方确认确认 -->
+    <update id="checkedSix" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user6=#{user6},quit=#{quit},note6=#{note6},time6=#{time6} where id=#{id}
+    </update>
+
+    <!--无线-->
+    <!--管理方上传 -->
+    <update id="checkedSeven" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user7=#{user7},quit=#{quit},fileName3=#{fileName3},filePath3=#{filePath3},time7=#{time7} where id=#{id}
+    </update>
+
+    <!--管理方确认确认 -->
+    <update id="checkedEight" parameterType="xh.mybatis.bean.QuitNetBean">
+        update xhgmnet_business_quitnet set
+        user8=#{user8},quit=#{quit},note8=#{note8},time8=#{time8} where id=#{id}
+    </update>
 </mapper>

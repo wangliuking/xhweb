@@ -60,7 +60,7 @@ xh.load = function() {
 		});
 		
 		/*获取管理房人员列表*/
-		$http.get("../../web/user/getUserList?roleId=10001&user="+$scope.loginUser).
+		$http.get("../../web/user/getUserList?roleId=10001").
 		success(function(response){
 			$scope.userData_MainManager = response.items;
 			$scope.userTotals_MainManager = response.totals;
@@ -109,7 +109,7 @@ xh.load = function() {
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
 			//$http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10001&&user="+$scope.loginUser).
+			$http.get("../../web/user/getUserList?roleId=10001").
 			success(function(response){
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -121,6 +121,14 @@ xh.load = function() {
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+				$http.get("../../web/user/getUserList?roleId=10002").
+				success(function(response){
+				$scope.userData = response.items;
+				$scope.userTotals = response.totals;
+				if($scope.userTotals>0){
+					$scope.user=$scope.userData[0].user;
+				}
+			});
 				$("#checkWin17").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){

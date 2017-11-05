@@ -281,7 +281,6 @@ public class OptimizeNetController {
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
-        bean.setDropnet(dropnet);
         if(dropnet == 1){
             bean.setChecked(-2);
         }else if(dropnet == -1){

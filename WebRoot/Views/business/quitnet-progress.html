@@ -33,8 +33,11 @@
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>退网类型</label> <input type="text"
-										ng-model="editData.quitModal" class="form-control"
-										name="serviceType" required="required">
+										ng-if="editData.quitModal == 1" class="form-control"
+										value="有线退网" required="required">
+										<input type="text"
+										ng-if="editData.quitModal == -1" class="form-control"
+										value="无线退网" required="required">
 								</div>
 							</div>
 						</div>
@@ -64,7 +67,7 @@
 						</div>
 					</div>
 					<div class="tab-pane fade text-danger" id="p-timeline"
-						style="background: #e9f0f5; margin: 0;">
+						style="background: #e9f0f5; margin: 0;" ng-model="progressData" ng-if="progressData.quitModal== 1">
 						<div id="cd-timeline" class="cd-container">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
@@ -86,9 +89,10 @@
 									<div class="cd-timeline-img cd-green"
 										ng-if="progressData.quit>0"></div>
 									<div class="cd-timeline-content">
-										<h2>管理方领导审核</h2>
-										<span ng-if="progressData.quit==-1"
-											class="cd-date text-danger">退网失败！</span>
+										<h2>经管委审核</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note1}}</span>
+										</p>
 										<span ng-if="progressData.quit==0"
 											class="cd-date text-danger">等待审核！</span> <span
 											ng-if="progressData.quit>0"
@@ -102,14 +106,14 @@
 									<div class="cd-timeline-img cd-green"
 										ng-if="progressData.quit>1"></div>
 									<div class="cd-timeline-content">
-										<h2>管理方审核</h2>
+										<h2>管理方领导指派人员处理</h2>
 										<p>
-											<span>备注：</span><span>{{progressData.note1}}</span>
+											<span>备注：</span><span>{{progressData.note2}}</span>
 										</p>
 										<span ng-if="progressData.quit==1"
-											class="cd-date text-danger">等待审核！</span> <span
+											class="cd-date text-danger">等待指派！</span> <span
 											ng-if="progressData.quit>1"
-											class="cd-date text-success font-bold text-x">已经审核;
+											class="cd-date text-success font-bold text-x">已经指派;
 											审核时间：{{progressData.time2}}</span>
 									</div>
 							</div>
@@ -120,36 +124,175 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.quit>2"></div>
 								<div class="cd-timeline-content">
-									<h2>用户确认</h2>
-									<p>
-										<span>备注：</span><span>{{progressData.note}}</span>
-									</p>
+									<h2>管理方人员上传处理方案给服务提供方</h2>
+									<a ng-if="progressData.quit>2" href="#" title="点击下载文件"
+											onclick="xh.download()" style="color: red">{{progressData.fileName1}}</a>
 									<span ng-if="progressData.quit==2"
-										class="cd-date text-danger">等待用户确认</span> <span
+										class="cd-date text-danger">等待管理方上传处理方案</span> <span
 										ng-if="progressData.quit>2"
-										class="cd-date text-success font-bold">用户已确认
+										class="cd-date text-success font-bold">管理方上传处理方案成功
 										时间：{{progressData.time3}}</span>
 								</div>
 							</div>
-							
-							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
+										ng-if="progressData.quit<=3"></div>
+									<div class="cd-timeline-img cd-green"
+										ng-if="progressData.quit>3"></div>
+									<div class="cd-timeline-content">
+										<h2>服务提供方审核处理方案</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note4}}</span>
+										</p>
+										<span ng-if="progressData.quit==3"
+											class="cd-date text-danger">等待服务提供方审核处理方案！</span> <span
+											ng-if="progressData.quit>3"
+											class="cd-date text-success font-bold text-x">服务提供方审核处理方案通过;
+											审核时间：{{progressData.time4}}</span>
+									</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.quit<=4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.quit>4"></div>
+								<div class="cd-timeline-content">
+									<h2>服务提供方上传实施报告给管理方</h2>
+									<a ng-if="progressData.quit>4" href="#" title="点击下载文件"
+											onclick="xh.download()" style="color: red">{{progressData.fileName2}}</a>
+									<span ng-if="progressData.quit==4"
+										class="cd-date text-danger">等待管理方上传处理方案</span> <span
+										ng-if="progressData.quit>4"
+										class="cd-date text-success font-bold">管理方上传处理方案成功
+										时间：{{progressData.time5}}</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
+										ng-if="progressData.quit<=5"></div>
+									<div class="cd-timeline-img cd-green"
+										ng-if="progressData.quit>5"></div>
+									<div class="cd-timeline-content">
+										<h2>管理方审核实施报告</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note6}}</span>
+										</p>
+										<span ng-if="progressData.quit==5"
+											class="cd-date text-danger">等待管理方审核实施报告！</span> <span
+											ng-if="progressData.quit>5"
+											class="cd-date text-success font-bold text-x">管理方审核实施报告通过;
+											审核时间：{{progressData.time6}}</span>
+									</div>
+							</div>
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.quit<=3">结束</div>
-								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.quit>3">结束</div>
+									ng-if="progressData.quit<=6">结束</div>
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.quit>6">结束</div>
 							</div>
 						</div>
 					</div>
-
+					<div class="tab-pane fade text-danger" id="p-timeline"
+						style="background: #e9f0f5; margin: 0;" ng-model="progressData" ng-if="progressData.quitModal== -1">
+						<div id="cd-timeline" class="cd-container">
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-green">开始</div>
+								<div class="cd-timeline-content">
+									<h2>用户提交审核信息</h2>
+									<!-- <p>
+										<textarea
+									style="width:300px;height:100px;max-width:300px;max-height:100px;"
+									name="quitReason" ng-model="progressData.quitReason" class="form-control" required="required" maxlength="70">
+									</p> -->
+									<span class="cd-date text-success font-bold text-x">
+										提交时间：{{progressData.quitTime}}</span>
+								</div>
+							</div>
+							
+							<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
+										ng-if="progressData.quit<=0"></div>
+									<div class="cd-timeline-img cd-green"
+										ng-if="progressData.quit>0"></div>
+									<div class="cd-timeline-content">
+										<h2>经管委审核</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note1}}</span>
+										</p>
+										<span ng-if="progressData.quit==0"
+											class="cd-date text-danger">等待审核！</span> <span
+											ng-if="progressData.quit>0"
+											class="cd-date text-success font-bold text-x">已经审核;
+											审核时间：{{progressData.time1}}</span>
+									</div>
+							</div>
+							<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
+										ng-if="progressData.quit<=1"></div>
+									<div class="cd-timeline-img cd-green"
+										ng-if="progressData.quit>1"></div>
+									<div class="cd-timeline-content">
+										<h2>管理方领导指派人员处理</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note2}}</span>
+										</p>
+										<span ng-if="progressData.quit==1"
+											class="cd-date text-danger">等待指派！</span> <span
+											ng-if="progressData.quit>1"
+											class="cd-date text-success font-bold text-x">已经指派;
+											审核时间：{{progressData.time2}}</span>
+									</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.quit<=2 && progressData.quitModal == -1"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.quit>2 && progressData.quitModal == -1"></div>
+								<div class="cd-timeline-content">
+									<h2>管理方人员上传实施报告给管理方领导</h2>
+									<a ng-if="progressData.quit>2 && progressData.quitModal == -1" href="#" title="点击下载文件"
+											onclick="xh.download()" style="color: red">{{progressData.fileName3}}</a>
+									<span ng-if="progressData.quit==2 && progressData.quitModal == -1"
+										class="cd-date text-danger">等待管理方上传处理方案</span> <span
+										ng-if="progressData.quit>2 && progressData.quitModal == -1"
+										class="cd-date text-success font-bold">管理方上传处理方案成功
+										时间：{{progressData.time7}}</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
+										ng-if="progressData.quit<=3 && progressData.quitModal == -1"></div>
+									<div class="cd-timeline-img cd-green"
+										ng-if="progressData.quit>3 && progressData.quitModal == -1"></div>
+									<div class="cd-timeline-content">
+										<h2>服务提供方审核处理方案</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note8}}</span>
+										</p>
+										<span ng-if="progressData.quit==3 && progressData.quitModal == -1"
+											class="cd-date text-danger">等待服务提供方审核处理方案！</span> <span
+											ng-if="progressData.quit>3 && progressData.quitModal == -1"
+											class="cd-date text-success font-bold text-x">服务提供方审核处理方案通过;
+											审核时间：{{progressData.time8}}</span>
+									</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.quit<=4">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.quit>4">结束</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
 			<div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-dismiss="modal">
 				<i class="fa fa-remove"></i>&nbsp;关闭
 			</button>
-		</div>
+			</div>
+			</div>
 		</div>
 	</div>
 </div>

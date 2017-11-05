@@ -62,7 +62,7 @@
     <!--管理方审核 -->
     <update id="checkedThree" parameterType="xh.mybatis.bean.OptimizeNetBean">
         update xhgmnet_bs_optimizenet set
-        user3=#{user3},time3=#{time3},note3=#{note3},dropnet=#{dropnet},checked=#{checked} where id=#{id}
+        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
     </update>
 
     <!--服务提供方上传-->
