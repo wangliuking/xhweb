@@ -128,17 +128,6 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									 class="form-control" name="quit">
-									<option value="3" selected="selected">通过</option>
-									<option value="1">拒绝</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>处理方案</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
@@ -449,13 +438,13 @@
 		$('#checkForm5').submit();
 	});
 	$("#check_btn6").click(function() {
+		$('#checkForm6').submit();
+	});
+	$("#check_btn7").click(function() {
 		if ($("input[name='result']").val() != 1) {
 			alert("请先上传文件！");
 			return false;
 		}
-		$('#checkForm6').submit();
-	});
-	$("#check_btn7").click(function() {
 		$('#checkForm7').submit();
 	});
 	$("#check_btn8").click(function() {
