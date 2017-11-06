@@ -8,7 +8,6 @@
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold"></small>
-				<a href="javascript:printme()" rel="external nofollow" target="_self">打印</a> 
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<ul id="xh-tabs" class="nav nav-tabs">
@@ -231,6 +230,9 @@
 									ng-if="progressData.checked>=7"></div>
 								<div class="cd-timeline-content">
 									<h2>用户确认</h2>
+									<p>
+										<span>满意度: </span><span>{{progressData.UserVisit}}</span>
+									</p>
 									<span ng-if="progressData.checked==7"
 										class="cd-date text-danger">等待用户确认</span> <span
 										ng-if="progressData.checked>7"

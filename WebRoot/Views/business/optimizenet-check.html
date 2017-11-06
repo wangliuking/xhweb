@@ -141,12 +141,14 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group col-md-8">
-								<label>中断</label>&nbsp;<span class="text-danger">[*]</span>
-								<select class="form-control" name="dropnet" ng-change="dropnetChange()" ng-model="dropnet">
+							<div class="form-group col-md-12">
+								<!-- <label>中断</label>&nbsp;<span class="text-danger">[*]</span> -->
+								<!-- <select class="form-control" name="dropnet" ng-model="dropnet" ng-change="dropnetChange()">
+									<option value="-1" ng-selected="selected">不中断</option>
 									<option value="1">中断</option>
-									<option value="-1" selected="selected">不中断</option>
-								</select>
+								</select> -->
+								<input type="radio" name="dropnet" value=1 ng-model="dropnet"/>中断&nbsp;&nbsp;&nbsp;&nbsp;
+    							<input type="radio" name="dropnet" value=-1 ng-model="dropnet"/>不中断
 							</div>
 						</div>
 					</div>

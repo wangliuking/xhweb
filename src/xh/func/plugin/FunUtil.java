@@ -88,6 +88,21 @@ public class FunUtil {
 		}
         return null;
     }
+	public static String BytesToHexS(byte[] str){
+		if (str==null) {
+			return "";
+		}else {
+			String string="";
+			for (byte b : str) {
+				String c=Integer.toHexString(b& 0xFF);
+				if (c.length()==1) {
+					c="0"+c;
+				}
+				string+=c+" ";
+			}
+			return string;
+		}
+	}
 	//清楚cookie
 	public void removeCookie(HttpServletRequest request,HttpServletResponse response,String str) {
     	//request.setCharacterEncoding("GB18030");
