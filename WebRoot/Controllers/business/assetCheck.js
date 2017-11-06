@@ -81,8 +81,12 @@ xh.load = function() {
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
 			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
-			window.open(downUrl, '_self',
-					'width=1,height=1,toolbar=no,menubar=no,location=no');
+			if(xh.isfile(path)){
+				window.open(downUrl, '_self',
+				'width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error("文件不存在", '提示');
+			}
 		};
 	    
 	    $scope.checkedChange=function(issure){

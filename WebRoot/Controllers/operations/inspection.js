@@ -84,13 +84,17 @@ xh.load = function() {
 			$scope.progressData = $scope.data[id];
 			$("#progress").modal('show');
 	    };
-		/*下载工作记录*/
+		/*下载*/
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
 			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
-			window.open(downUrl, '_self',
-					'width=1,height=1,toolbar=no,menubar=no,location=no');
+			if(xh.isfile(path)){
+				window.open(downUrl, '_self',
+				'width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error("文件不存在", '提示');
+			}
 		};
 		/*显示审核*/
 		$scope.checkWin=function(index){
