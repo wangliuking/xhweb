@@ -162,7 +162,7 @@ public class CommunicationSupportController {
 		String user = request.getParameter("user");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
-		bean.setChecked(2);
+		bean.setChecked(1);
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		bean.setNote1(note1);
@@ -215,7 +215,7 @@ public class CommunicationSupportController {
 		bean.setId(id);
 		bean.setChecked(checked);
 		bean.setCheckUser(user);
-		int rst = CommunicationSupportService.checkedTwelve(bean);
+		int rst = CommunicationSupportService.checkedSeventeen(bean);
 		if (rst == 1) {
 			this.message = "管理方领导指派管理方处理";
 			webLogBean.setOperator(funUtil.loginUser(request));

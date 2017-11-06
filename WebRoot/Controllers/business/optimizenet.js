@@ -91,10 +91,10 @@ xh.load = function() {
 			$("#progress").modal('show');
 	    };
 	    /*是否需要整改*/
-		$scope.dropnetChange=function(){
-			var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
-			$scope.dropnet=dropnet;
-		};
+		// $scope.dropnetChange=function(){
+		// 	var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
+		// 	$scope.dropnet=dropnet;
+		// };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
