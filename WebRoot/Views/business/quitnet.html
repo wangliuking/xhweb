@@ -111,31 +111,42 @@
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.unit1}}</td>
-										<td>{{x.quitModal}}</td>
+										<td ng-if="x.quitModal == 1">有线退网</td>
+										<td ng-if="x.quitModal == -1">无线退网</td>
 										<td>{{x.quitPerson}}</td>
 										<td>{{x.quitTime}}</td>
 										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
-										<td ng-if="x.quit==0" class="td-warning">等待管理方领导审核</td>
-										<td ng-if="x.quit==1" class="td-warning">等待管理方处理</td>
-										<td ng-if="x.quit==2" class="td-warning">用户确认</td>
-										<td ng-if="x.quit==3" class="td-success">退网成功</td>
-										
+										<td ng-if="x.quit==0" class="td-warning">等待经信委受理</td>
+										<td ng-if="x.quit==1" class="td-warning">等待管理方领导审核并指派处理</td>
+										<td ng-if="x.quit==2 && x.quitModal ==1 " class="td-warning">等待管理方上传处理方案通知服务提供方</td>
+										<td ng-if="x.quit==3 && x.quitModal ==1 " class="td-warning">等待服务提供方处理方案</td>
+										<td ng-if="x.quit==4 && x.quitModal ==1 " class="td-warning">等待服务提供方上传实施报告</td>
+										<td ng-if="x.quit==5 && x.quitModal ==1 " class="td-warning">等待管理方审核实施报告</td>
+										<td ng-if="x.quit==6 && x.quitModal ==1 " class="td-success">流程结束</td>
+
+										<td ng-if="x.quit==2 && x.quitModal ==-1 " class="td-warning">等待管理方处理完后上传实施报告</td>
+										<td ng-if="x.quit==3 && x.quitModal ==-1 " class="td-warning">管理部门领导审核</td>
+										<td ng-if="x.quit==4 && x.quitModal ==-1 " class="td-success">流程结束</td>
+
 										<td style="text-align:center">
 										<a href="#" ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
 												
-										<a ng-if="loginUserRoleId==10002 && x.quit==0"
+										<a ng-if="loginUserRoleId==10001 && x.quit==0
+												||loginUserRoleId==10002 && x.quit==3 && x.quitModal==-1 && loginUser == x.user2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.quit==1 && loginUser == x.checkUser"
+										<a ng-if="loginUserRoleId==10002 && x.quit==1
+												||loginUserRoleId==10003 && x.quit==3
+												||loginUserRoleId==10002 && x.quit==5 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
 
-										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.quit==2"
-											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
+										<a ng-if="loginUserRoleId==10002 && x.quit==2 && loginUser == x.checkUser
+												||loginUserRoleId==10003 && x.quit==4 && x.quitModal == 1"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 									</tr>
 								</tbody>
 							</table>
