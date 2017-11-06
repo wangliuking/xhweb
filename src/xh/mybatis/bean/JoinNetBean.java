@@ -55,9 +55,31 @@ public class JoinNetBean {
 	private int apply1;
 	private int apply2;
 	private int apply3;
+	private String pxTime;
+	private String pxAddress;
+	private int pxNumOfPeople;
+	
 	private String note2_suggest;
 	
 	
+	public String getPxTime() {
+		return pxTime;
+	}
+	public void setPxTime(String pxTime) {
+		this.pxTime = pxTime;
+	}
+	public String getPxAddress() {
+		return pxAddress;
+	}
+	public void setPxAddress(String pxAddress) {
+		this.pxAddress = pxAddress;
+	}
+	public int getPxNumOfPeople() {
+		return pxNumOfPeople;
+	}
+	public void setPxNumOfPeople(int pxNumOfPeople) {
+		this.pxNumOfPeople = pxNumOfPeople;
+	}
 	public int getApply3() {
 		return apply3;
 	}

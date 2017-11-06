@@ -133,6 +133,7 @@ xh.load = function() {
 			});
 			$("#add").modal('show');
 		};
+
 		/* 显示添加组窗口 */
 		$scope.addGroup = function(id) {
 			$scope.joinNetProcessId = $scope.data[id].id;
@@ -188,6 +189,7 @@ xh.load = function() {
 			});
 			//上传技术方案
 			if(type == 1){
+				$scope.maxIDinsert = $scope.checkData.id;
 				$scope.divTitle = "上传技术方案"
 				$("#checkForm11 input").val('');
 				$(".span_result_GH").html('');
@@ -295,11 +297,16 @@ xh.load = function() {
 			}
 			//用户使用培训完成请求
 			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 11) {
-				xh.updateCheckById($scope.checkData.id, 12, $scope.checkData.userName);
+				$("#checkWin19").modal('show');
+				//xh.updateCheckById($scope.checkData.id, 12, $scope.checkData.userName);
 			} 	
 			//培训确认
 			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 12) {
 				xh.updateCheckById($scope.checkData.id, 13, $scope.checkData.user3);
+			}
+			//培训确认
+			else if ($scope.checkData.checked == 13) {
+				$("#checkWin20").modal('show');
 			}
 		};
 		/* 查询数据 */
@@ -361,6 +368,7 @@ xh.load = function() {
 };
 /* 申请入网 */
 xh.addJoinNet = function() {
+	var $scope = angular.element(appElement).scope();
 	$.ajax({
 		url : '../../net/insertNet',
 		type : 'POST',
@@ -372,11 +380,22 @@ xh.addJoinNet = function() {
 		},
 		success : function(data) {
 			if (data.result >= 1) {
-				if(data.result == 2){
+				if(data.result >= 2){
 					swal({
 						title : "有线入网申请提示",
 						text : "有线接入流程请上传技术方案",
-						type : "warning"
+						showCancelButton: true,
+						cancelButtonText: "取消",
+						confirmButtonText: "上传技术方案",
+						type : "success",
+						closeOnConfirm: true
+					},function(){
+						var id = data.maxID;
+						$scope.maxIDinsert = id;
+						$scope.divTitle = "上传技术方案"
+						$("#checkForm11 input").val('');
+						$(".span_result_GH").html('');
+						$("#checkWin11").modal('show');
 					});
 				}
 				$('#addJoinNet').modal('hide');
@@ -849,6 +868,31 @@ xh.check18 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin18').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+/* 安排应用接入*/
+xh.check19 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../net/training',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm19").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin19').modal('hide');
+				xh.updateCheckById($scope.checkData.id, 12, $scope.checkData.userName);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
