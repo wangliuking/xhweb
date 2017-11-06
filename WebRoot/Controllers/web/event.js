@@ -81,6 +81,89 @@ xh.load = function() {
 				}
 			});
 		};
+		
+		
+		/* 查询数据 */
+		$scope.a = function(page) {
+			$.ajax({
+				url : '../../test/a',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.b = function(page) {
+			$.ajax({
+				url : '../../test/b',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.c = function(page) {
+			$.ajax({
+				url : '../../test/c',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.d = function(page) {
+			$.ajax({
+				url : '../../test/d',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.e = function(page) {
+			$.ajax({
+				url : '../../test/e',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.f = function(page) {
+			$.ajax({
+				url : '../../test/f',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+	
+		
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();

@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +22,7 @@ public class TcpKeepAliveClient extends Thread {
 	private String ip;
 	private int port;
 	private static Socket socket;
-	private static int timeout = 10 * 1000;
+	private static int timeout = 600 * 1000;
 	private static byte[] result;
 	private static byte[] bufferFlag = {};
 	private static int slot;
@@ -88,15 +89,15 @@ public class TcpKeepAliveClient extends Thread {
 				input = socket.getInputStream();
 				if (socket.isConnected()) {
 					connected = true;
-					log.debug("TCP Connected success!!");
+					log.info("TCP Connected success!!");
 					
 
-					try {
+					/*try {
 						Timer timer = new Timer();
 						timer.schedule(new HeartBeat(socket), 2000, 3 * 1000);
 					} catch (IOException e) {
 						log.info("Timer");
-					}
+					}*/
 				}
 				// read body
 				byte[] buf = new byte[4096];// 收到的包字节数组
@@ -106,7 +107,10 @@ public class TcpKeepAliveClient extends Thread {
 				while (connected) {
 					int len = input.read(buf);
 					int recvLen = len;
-					if (len > 0 && len + writeBuf.length >= 4) {
+					byte[] buf2=new byte[len];
+					System.arraycopy(buf, 0, buf2, 0,len);
+					log.info("收到的数据："+Arrays.toString(buf2));
+					/*if (len > 0 && len + writeBuf.length >= 4) {
 						readBuf = new byte[len + writeBuf.length];
 						System.arraycopy(writeBuf, 0, readBuf, 0,
 								writeBuf.length);
@@ -118,7 +122,7 @@ public class TcpKeepAliveClient extends Thread {
 						if (!packageHeader.equals("c4d7")) {
 							log.error("SocketError1111:>>!c4d7");
 							log.info(packageHeader);
-							/* writeBuf=null; */
+							 writeBuf=null; 
 						} else {
 							int length = dd.BigByteArrayToShort(readBuf, 2);
 							if (length + 4 > len) {
@@ -185,10 +189,11 @@ public class TcpKeepAliveClient extends Thread {
 					
 						connected = false;
 					}
+				}*/
 				}
 
 			} catch (SocketException e) {
-				log.debug("TCP connection trying");
+				log.info("TCP connection trying");
 				if (socket.isConnected() || socket != null) {
 					try {
 						socket.close();
@@ -205,7 +210,7 @@ public class TcpKeepAliveClient extends Thread {
 				}
 			} catch (UnknownHostException e) {
 			} catch (IOException e) {
-				log.debug("recvData timeout 10s,socket is closed and reconnecting!");
+				log.info("recvData timeout 10s,socket is closed and reconnecting!");
 				try {
 					socket.close();
 
