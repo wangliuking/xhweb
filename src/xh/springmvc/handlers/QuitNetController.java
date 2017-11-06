@@ -268,14 +268,13 @@ public class QuitNetController {
 						   HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int quit = funUtil.StringToInt(request.getParameter("quit"));
 		String user = request.getParameter("user");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setUser3(funUtil.loginUser(request));
 		bean.setId(id);
-		bean.setQuit(quit);
+		bean.setQuit(3);
 		bean.setFileName1(fileName);
 		bean.setFilePath1(filePath);
 		bean.setTime3(funUtil.nowDate());
