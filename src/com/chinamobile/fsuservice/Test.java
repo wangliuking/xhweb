@@ -303,7 +303,7 @@ public class Test {
 		log.info("结束维持心跳！！！ "+url);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
-		//log.info(resp);
+		log.info(resp);
 		/*
 		 * try { list = ParseXml.getData(resp.getString());
 		 * 
