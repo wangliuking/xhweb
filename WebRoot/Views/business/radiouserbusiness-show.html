@@ -10,134 +10,183 @@
 				<small class="font-bold">修改无线用户业务属性</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-			<form action="#" id="updateForm" onSubmit="return false">
+				<form action="#" id="updateForm" onSubmit="return false">
+				<div style="margin-bottom:10px;padding-left:15px;">唯一标识符</div>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>无线用户互连属性标识</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.id" class="form-control" name="id"
-									required="required" readonly="readonly">
+								<input type="text" ng-model="editData.id" class="form-control"
+									name="id" required="required" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>无线用户业务属性名称</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.name" class="form-control" name="name"
-									required="required">
+								<label>无线用户业务属性名称</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.name" class="form-control"
+									name="name" required="required">
 							</div>
 						</div>
+					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;"/>
+					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">状态集</div>
+					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>状态集标识</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.ssid" class="form-control" name="ssid"
-									required="required">
+									type="text" ng-model="editData.ssid" class="form-control"
+									name="ssid" required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>状态集名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.ssname" class="form-control"
+									name="ssname" required="required">
 							</div>
 						</div>
 					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;"/>
 					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">配置参数</div>
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>状态集名称</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.ssname" class="form-control" name="ssname"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group col-md-12">
 								<label>呼叫优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.dispatchpriority" class="form-control" name="dispatchpriority"
+									type="text" ng-model="editData.dispatchpriority"
+									class="form-control" name="dispatchpriority"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>允许私密呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.pceenabled" class="form-control" name="pceenabled"
+								<label>用户组</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.usergroup" class="form-control"
+									name="usergroup" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>紧急单呼许可范围</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.emergindcallenabled"
+									class="form-control" name="emergindcallenabled"
 									required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>紧急组呼许可范围</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.emerggroupcallenabled"
+									class="form-control" name="emerggroupcallenabled"
+									required="required">
+							</div>
+						</div>									
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许私密呼叫</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="pceenabled" id="pceenabled"
+									ng-model="editData.pceenabled"
+									ng-checked="editData.pceenabled==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline" name="pceenabled"
+									id="pceenabled" ng-model="editData.pceenabled"
+									ng-checked="editData.pceenabled==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许组呼叫</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="tgenabled" id="tgenabled"
+									ng-model="editData.tgenabled"
+									ng-checked="editData.tgenabled==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline" name="tgenabled"
+									id="tgenabled" ng-model="editData.tgenabled"
+									ng-checked="editData.tgenabled==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许通播组呼叫</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="mgenabled" id="mgenabled"
+									ng-model="editData.mgenabled"
+									ng-checked="editData.mgenabled==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline" name="mgenabled"
+									id="mgenabled" ng-model="editData.mgenabled"
+									ng-checked="editData.mgenabled==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许通播组紧急呼叫</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="mgemergencyenabled"
+									id="mgemergencyenabled" ng-model="editData.mgemergencyenabled"
+									ng-checked="editData.mgemergencyenabled==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="mgemergencyenabled" id="mgemergencyenabled"
+									ng-model="editData.mgemergencyenabled"
+									ng-checked="editData.mgemergencyenabled==0">否
 							</div>
 						</div>
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>允许组呼叫</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.tgenabled" class="form-control" name="tgenabled"
-									required="required">
+								<label>允许调度呼叫预占</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="dispatchpreempt"
+									id="dispatchpreempt" ng-model="editData.dispatchpreempt"
+									ng-checked="editData.dispatchpreempt==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="dispatchpreempt" id="dispatchpreempt"
+									ng-model="editData.dispatchpreempt"
+									ng-checked="editData.dispatchpreempt==0">否
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>允许通播组呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.mgenabled" class="form-control" name="mgenabled"
-									required="required">
+								<label>全部站点许可</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="allsitesallowed"
+									id="allsitesallowed" ng-model="editData.allsitesallowed"
+									ng-checked="editData.allsitesallowed==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="allsitesallowed" id="allsitesallowed"
+									ng-model="editData.allsitesallowed"
+									ng-checked="editData.allsitesallowed==0">否
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group col-md-12">
-								<label>允许通播组紧急呼叫</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.mgemergencyenabled" class="form-control" name="mgemergencyenabled"
-									required="required">
-							</div>
-						</div>
-					</div>
-					<!-- row-------end -->
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>允许调度呼叫预占</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.dispatchpreempt" class="form-control" name="dispatchpreempt"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>全部站点许可</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.allsitesallowed" class="form-control" name="allsitesallowed"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>允许呼叫预占</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.calledpreempt" class="form-control" name="calledpreempt"
-									required="required">
-							</div>
-						</div>
-					</div>
-					<!-- row-------end -->
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>用户组</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.usergroup" class="form-control" name="usergroup"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>紧急单呼许可范围</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.emergindcallenabled" class="form-control" name="emergindcallenabled"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>紧急组呼许可范围</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.emerggroupcallenabled" class="form-control" name="emerggroupcallenabled"
-									required="required">
+								<label>允许呼叫预占</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width:26px;height:26px;" type="radio" value="1"
+									class="radio-inline" name="calledpreempt" id="calledpreempt"
+									ng-model="editData.calledpreempt"
+									ng-checked="editData.calledpreempt==1">是 <input
+									style="width:26px;height:26px;margin:4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="calledpreempt" id="calledpreempt"
+									ng-model="editData.calledpreempt"
+									ng-checked="editData.calledpreempt==0">否
 							</div>
 						</div>
 					</div>
 					<!-- row-------end -->
 				</form>
-			
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger btn-sm"
@@ -165,17 +214,17 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			/* bsId : {
-				validators : {
-					notEmpty : {
-						message : '不能为空'
-					},
-					regexp : {
-						regexp : /^[0-9.]+$/,
-						message : '只能输入整数和小数'
-					}
+		/* bsId : {
+			validators : {
+				notEmpty : {
+					message : '不能为空'
+				},
+				regexp : {
+					regexp : /^[0-9.]+$/,
+					message : '只能输入整数和小数'
 				}
-			} */
+			}
+		} */
 
 		}
 	}).on('success.form.bv', function(e, data) {

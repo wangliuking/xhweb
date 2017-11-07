@@ -178,14 +178,12 @@
 											<th>呼叫优先级</th>
 											<th>允许私密呼叫</th>
 											<th>允许组呼叫</th>
-											<th>允许通播组呼叫</th>
-											<th>允许通播组紧急呼叫</th>
 											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr ng-if="totals==0">
-											<td colspan="12" class="text-center">没有记录！</td>
+											<td colspan="10" class="text-center">没有记录！</td>
 										</tr>
 										<tr ng-repeat="x in data">
 											<td><input type="checkbox" name="tb-check"
@@ -198,8 +196,6 @@
 											<td>{{x.dispatchpriority}}</td>
 											<td>{{x.pceenabled}}</td>
 											<td>{{x.tgenabled}}</td>
-											<td>{{x.mgenabled}}</td>
-											<td>{{x.mgemergencyenabled}}</td>
 											<td style="width:20px;text-align:center"><a href="#"
 												ng-disabled="" ng-click="editModel($index)"> <i
 													class="fa fa-edit text-success"></i>&nbsp;修改
