@@ -30,6 +30,7 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.JoinNetBean_programingTemplate;
 import xh.mybatis.bean.JoinNet_registerFormBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
@@ -119,6 +120,7 @@ public class JoinNetController {
 		int rst = 0;
 		int shoubanNum = 0;
 		int chezaitaiNum = 0;
+		int MAXID = 0;
 		String jsonData = request.getParameter("formData");
 		JoinNetBean bean = GsonUtil.json2Object(jsonData, JoinNetBean.class);
 		bean.setUserName(funUtil.loginUser(request));
@@ -131,12 +133,12 @@ public class JoinNetController {
 			bean.setApply0(0);
 			bean.setApply1(0);
 			log.info("data有线==>" + bean.toString());
-			rst = JoinNetService.insertNet(bean);
+			rst = JoinNetService.insertNet(bean) + 1;
 			bean.setApply2(0);
 			bean.setApply3(0);
 			bean.setApply0(shoubanNum);
 			bean.setApply1(chezaitaiNum);
-			if(rst == 1){
+			if(rst == 2){
 				//----发送通知邮件
 				sendNotifytoGroup("b_check_joinnet",10001, "有线入网申请信息已经成功提交,请审核。。。", request);
 				//----END
@@ -154,10 +156,14 @@ public class JoinNetController {
 			}
 		}
 		if (rst >= 1) {
-			this.message = "入网申请信息已经成功提交";
+			this.message = "无线入网申请信息已经成功提交";
 			if(rst == 2) {
+				this.message = "有线入网申请信息已经成功提交";
+			}else if(rst == 3){
 				this.message = "有线/无线入网申请信息已经成功提交";
 			}
+			MAXID = JoinNetService.YXMAXID();
+			System.out.println("-----MAXID:" + MAXID);
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
@@ -170,6 +176,7 @@ public class JoinNetController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", rst);
+		result.put("maxID", MAXID);
 		result.put("message", message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -623,6 +630,72 @@ public class JoinNetController {
 		}
 	}
 	/**
+	 * 上传文件
+	 * @param file
+	 * @param request
+	 */
+	@RequestMapping(value = "/upload1", method = RequestMethod.POST)
+	public void uploadfiles(@RequestParam("files") MultipartFile[] files,
+			HttpServletRequest request,HttpServletResponse response) {
+		int id = funUtil.StringToInt(request.getParameter("joinNetId"));
+		int isSuccess = 1;
+		String path = request.getSession().getServletContext()
+				.getRealPath("")+"/Resources/upload";
+		String fileName = files[0].getOriginalFilename();
+		log.info("path==>"+path);
+		log.info("fileName==>"+fileName);
+		List<Integer> list = JoinNetService.getUserCIDByID(id);
+		if(list.contains(Integer.parseInt(fileName.split("\\.")[0]))){
+			/*JoinNetBean_programingTemplate bean = new JoinNetBean_programingTemplate();
+			bean.setId_JoinNet(id);
+			bean.setFileName(fileName);
+			bean.setFilePath(path);
+			bean.setInsertTime(funUtil.nowDate());*/
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("id_JoinNet", request.getParameter("joinNetId"));
+			map.put("fileName", fileName);
+			map.put("filePath", path);
+			map.put("insertTime", funUtil.nowDate());
+			
+			File targetFile = new File(path, fileName);
+			if (!targetFile.exists()) {
+				targetFile.mkdirs();
+			}
+			// 保存
+			try {
+				files[0].transferTo(targetFile);
+				
+				int rst = JoinNetService.insertProgramingTemplate(map);
+				System.out.println("---------" + rst);
+				this.success=true;
+				this.message="文件上传成功";
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.message="文件上传失败";
+			}
+		}else{
+			this.success=true;
+			isSuccess = 0;
+		}
+		
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("isSuccess", isSuccess);
+		result.put("message", message);
+		result.put("fileName", fileName);
+		result.put("filePath", path+"/"+fileName);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 上传公函
 	 * @param file
 	 * @param request
@@ -1014,6 +1087,57 @@ public class JoinNetController {
 			e.printStackTrace();
 		}
 
+	}
+	/**
+	 * 安排应用接入
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/training", method = RequestMethod.POST)
+	public void training(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		String managerUser = request.getParameter("managerUser");
+		String pxTime = request.getParameter("pxTime");
+		String pxAddress = request.getParameter("pxAddress");
+		int pxNumOfPeople = funUtil.StringToInt(request.getParameter("pxNumOfPeople"));
+		JoinNetBean bean = new JoinNetBean();
+		bean.setId(id);
+		bean.setPxAddress(pxAddress);
+		bean.setPxNumOfPeople(pxNumOfPeople);
+		bean.setPxTime(pxTime);
+		
+		
+		int rst = JoinNetService.training(bean);
+		if (rst == 1) {
+			this.message = "处理成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("处理(入网申请)，data=" + bean.toString());
+			WebLogService.writeLog(webLogBean);
+			//----发送通知邮件
+			sendNotifytoSingle(managerUser, "培训通知\n培训时间:" + bean.getPxTime() + "\n培训地点:" + bean.getPxAddress() + "\n培训人数:" + bean.getPxNumOfPeople(), request);
+			//----END
+		} else {
+			this.message = "处理失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rst);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	/**
 	 * 下载文件

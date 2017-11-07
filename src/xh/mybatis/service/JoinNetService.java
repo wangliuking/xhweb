@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.JoinNetBean_programingTemplate;
 import xh.mybatis.mapper.JoinNetMapper;
 import xh.mybatis.tools.MoreDbTools;
 import xh.mybatis.tools.MoreDbTools.DataSourceEnvironment;
@@ -49,6 +50,24 @@ public class JoinNetService {
 		return map;
 	}
 	/**
+	 * 查询该入网流程所添加的用户C_ID
+	 * @param id
+	 * @return
+	 */
+	public static List<Integer> getUserCIDByID(int id){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		List<Integer> list=new ArrayList<Integer>();
+		try {
+			list = mapper.getUserCIDByID(id);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
 	 * 总数
 	 * @return
 	 */
@@ -66,6 +85,40 @@ public class JoinNetService {
 		return count;
 	}
 	/**
+	 * 查询最新一条有线接入ID
+	 * @return
+	 */
+	public static int YXMAXID(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int MAXID=0;
+		try {
+			MAXID=mapper.YXMAXID();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return MAXID;
+	}
+	/**
+	 * 通知培训
+	 * @return
+	 */
+	public static int training(JoinNetBean bean){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.training(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
 	 * 入网申请
 	 * @param bean
 	 * @return
@@ -76,6 +129,24 @@ public class JoinNetService {
 		int result=0;
 		try {
 			result=mapper.insertNet(bean);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 导入编程模板
+	 * @param map
+	 * @return
+	 */
+	public static int insertProgramingTemplate(Map<String, String> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertProgramingTemplate(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
