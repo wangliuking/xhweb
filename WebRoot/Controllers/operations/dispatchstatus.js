@@ -35,7 +35,7 @@ xh.load = function() {
 		$scope.count = "20";//每页数据显示默认值
 		$scope.operationMenu=true; //菜单变色
 		/*xh.loadUserStatusPie();*/
-		/*获取日志信息*/
+	
 		$http.get("../../status/dispatch").
 		success(function(response){
 			xh.maskHide();
@@ -45,6 +45,72 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
+		};
+		/* 显示修改model */
+		$scope.showEditModel = function() {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			/* $scope.edit(parseInt(checkVal[0])); */
+			$("#edit").modal('show');
+			$scope.editData = $scope.data[parseInt(checkVal[0])];
+			/*$scope.editData = $scope.data[parseInt(checkVal[0])];
+			$scope.type = $scope.editData.type.toString();
+			$scope.level = $scope.editData.level.toString();*/
+		};
+		$scope.delMore = function() {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length<1) {
+				swal({
+					title : "提示",
+					text : "至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			xh.maskShow();
+			$.ajax({
+				url : '../../status/deleteDispatch',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				data:{
+					dstId:checkVal.join(",")
+				},
+				success : function(data) {
+					xh.maskHide();
+					if (data.result === 1) {
+						toastr.success(data.message, '提示');
+						xh.refresh();
+
+					} else {
+						swal({
+							title : "提示",
+							text : data.message,
+							type : "error"
+						});
+					}
+				},
+				error : function() {
+					xh.maskHide();
+				}
+			});
 		};
 		
 		/* 查询数据 */
@@ -63,7 +129,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../server/list").
+			$http.get("../../status/dispatch").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -81,100 +147,61 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
-/* 终端状态统计图 */
-xh.loadUserStatusPie = function() {
-	// 设置容器宽高
-	 var resizeBarContainer = function() {
-	  $("#userStatus-pie").width(parseInt($("#userStatus-pie").parent().width()));
-	  $("#userStatus-pie").height(300);
-	  };
-	  resizeBarContainer();
-	 
-	// 基于准备好的dom，初始化echarts实例
-	var chart = null;
-	if (chart != null) {
-		chart.clear();
-		chart.dispose();
-	}
-	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
-		chart = ec.init(document.getElementById('userStatus-pie'));
-		chart.showLoading({
-			text : '正在努力的读取数据中...'
-		});
-		var option = {
-			/*title : {
-				x : 'center',
-				text : '终端状态统计图',
-				subtext : '',
-				textStyle : {
-					color : '#fff'
-				}
-			},*/
-			tooltip : {
-				trigger : 'item',
-				formatter : "{a} <br/>{b} : {c} ({d}%)"
-			},
-			legend : {
-				orient : 'vertical',
-				x : 'left',
-				textStyle : {
-					color : '#ccc'
-				},
-				data : [ '离线', '在线' ]
-			},
-			/*
-			 * toolbox : { show : true, feature : { dataView : { show : true,
-			 * readOnly : false }, restore : { show : true }, saveAsImage : {
-			 * show : true } } },
-			 */
-			calculable : false,
-			backgroundColor : background,
-			series : [ {
-				name : '数量',
-				type : 'pie',
-				radius : '55%',
-				center : [ '50%', '60%' ],
-				itemStyle : {
-					normal : {
-						color : function(params) {
-							// build a color map as your need.
-							var colorList = [ '#C1232B', 'green', '#FCCE10' ];
-							return colorList[params.dataIndex];
-						},
-						label : {
-							show : true,
-							position : 'top',
-							formatter : '{b}\n{c}'
-						}
-					}
-				},
-				data : []
-			} ]
-		};
+/* 添加 */
+xh.add = function() {
+	
+	$.ajax({
+		url : '../../status/addDispatch',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data:{
+			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		success : function(data) {
+			if (data.result === 1) {
+				$('#add').modal('hide');
+				toastr.success(data.message, '提示');
+				xh.refresh();
 
-		$.ajax({
-			url : '../../operations/data/userstatusChart',
-			data : {},
-			type : 'get',
-			dataType : "json",
-			async : false,
-			success : function(response) {
-				var data = response.items;
-				// option.xAxis[0].data = xAxisData;
-				option.series[0].data = data;
-				/* option.title.subtext="当前基站总数:"+response.totals; */
-				chart.hideLoading();
-				chart.setOption(option);
-
-			},
-			failure : function(response) {
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
 			}
-		});
-
+		},
+		error : function() {
+		}
 	});
-	// 用于使chart自适应高度和宽度
-	window.onresize = function() {
-		// 重置容器高宽
-		chart.resize();
-	};
+};
+/* 修改 */
+xh.update = function() {
+	
+	$.ajax({
+		url : '../../status/updateDispatch',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data:{
+			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		success : function(data) {
+			if (data.result === 1) {
+				$('#edit').modal('hide');
+				toastr.success(data.message, '提示');
+				xh.refresh();
+
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
 };

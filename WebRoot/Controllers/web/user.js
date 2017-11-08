@@ -32,7 +32,7 @@ xh.load = function() {
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
 					$scope.up = response;
-				});
+		});
 		
 		/* 获取用户信息 */
 		$http.get("../../web/user/userList?start=0&limit=" + pageSize).success(

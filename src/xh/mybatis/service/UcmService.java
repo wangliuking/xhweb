@@ -88,7 +88,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)108);  //91+48  //四期：长度+=32
+		header.setLength((short)147);  //91+48  //四期：长度+=16
 		header.setCommandId((short)167);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -168,7 +168,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)135); //  131+4
+		header.setLength((short)150); //  131+4
 		header.setCommandId((short)163);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);

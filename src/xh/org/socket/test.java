@@ -89,7 +89,7 @@ public class test {
 		DispatchUserStruct struct=new DispatchUserStruct();
 		struct.setOperation(1); //数据处理方式
 		struct.setId(122);
-		struct.setName("2");
+		struct.setName("22");
 		struct.setAlias("2");
 		struct.setMscId(0);
 		struct.setVpnId(0);
