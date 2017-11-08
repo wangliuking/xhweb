@@ -4,7 +4,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header ">
-				<span>审核租用申请</span>
+				<span>办理</span>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="tab-content" style="padding: 20px">
@@ -79,7 +79,17 @@
 										ng-model="checkData.note" disabled="disabled"></textarea>
 								</div>
 							</div>
+							
 						</div>
+						<div class="row">
+						<div class="col-md-12">
+							<legend></legend>
+							<div class="form-group col-md-12">
+								<label>领导备注</label>
+								<textarea ng-model="checkData.note1" disabled="disabled" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
 						<!-- row-------end -->
 					</div>
 				</div>
@@ -96,12 +106,17 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="modal-dialog modal-sm">
+</div>
+
+<!-- 领导指定经办人 -->
+<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header"></div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				<form action="#" id="checkForm1" onSubmit="return false">
+				<form action="#" id="checkForm2" onSubmit="return false">
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -115,7 +130,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									class="form-control" name="checked" ng-model="ch">
+									class="form-control" name="checked">
 									<option value="1" ng-selected="1">审核通过</option>
 									<option value="-1">拒绝</option>
 								</select>
@@ -130,13 +145,12 @@
 							</div>
 						</div>
 					</div>
-					row-------end
-					<div class="row" ng-show="ch==1?true:false">
+					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group col-md-8">
-								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> <select
+							<div class="form-group col-md-12">
+								<label>指定经办人</label>&nbsp;<span class="text-danger">[*]</span> <select
 									class="form-control" name="user2" ng-model="user">
-									<option ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</option>
+									<option ng-repeat="x in userData" value="{{x.user}}" ng-if="x.user != loginUser">{{x.userName}}</option>
 								</select>
 							</div>
 						</div>
@@ -148,14 +162,65 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" class="btn btn-success btn-sm" id="check_btn1">
+				<button type="button" class="btn btn-success btn-sm" id="check_btn2">
 					<i class="fa fa-plus"></i>&nbsp;提交意见
 				</button>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>
-<!-- 用户审核租借清单-->
+<!-- 领导审核经办人的办理清单 -->
+<div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header"></div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="checkForm5" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="id"
+									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="checked3">
+									<option value="3" ng-selected="1">审核通过</option>
+									<option value="-1">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note2" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="check_btn5">
+					<i class="fa fa-plus"></i>&nbsp;提交意见
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 租借清单-->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog ">
@@ -167,11 +232,11 @@
 						<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
 				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user">
+						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user && checkData.checked!=5">
 						<i class="fa fa-remove"></i>&nbsp;批量归还设备
 				</button>
 				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1">
+						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1 && checkData.checked!=5">
 						<i class="fa fa-remove"></i>&nbsp;批量确认归还设备
 				</button>
 			</div>
@@ -199,12 +264,13 @@
 							</tr>
 							<tr ng-repeat="x in dataLend">
 								<td><input type="checkbox" name="tb-check"
-										value="{{x.serialNumber}}" index="{{$index}}" ng-if="x.status==1 || (x.status==3 && loginUser==checkData.user1)"
+										value="{{x.serialNumber}}" index="{{$index}}" ng-if="(x.status==1 && loginUser==checkData.user) || (x.status==3 && loginUser==checkData.user1)"
 										ng-checked="selectAll" ng-model="dataItem.state"/></td>
 								<td>{{x.type}}</td>
 								<td>{{x.name}}</td>
 								<td>{{x.model}}</td>
 								<td>{{x.serialNumber}}</td>
+								<td ng-if="x.status==-1">等待领导审核</td>
 								<td ng-if="x.status==0">已归还</td>
 								<td ng-if="x.status==1">在借</td>
 								<td ng-if="x.status==2">等待验收</td>
@@ -232,7 +298,7 @@
 		</div>
 	</div>
 </div>
-/*归还设备清单*/
+
 <!-- <div class="modal fade" id="checkWin5" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog ">
@@ -318,6 +384,12 @@
 		var id = $("input[name='idSH']").val();
 		xh.check1(id);
 	});
+	$("#check_btn2").click(function() {
+		$('#checkForm2').submit();
+	});
+	$("#check_btn5").click(function() {
+		$('#checkForm5').submit();
+	});
 	
 	/* $("#check_btn3").click(function() {
 		alert(123);
@@ -338,15 +410,24 @@
 		checkIds = checkIds.substring(0, checkIds.length - 1);
 		xh.check5(checkIds,0);
 	}); */
-	//主管部门审核提交
-	//$('#checkForm1').bootstrapValidator({
-	//	excluded : [ ':disabled' ],
-	//	/* feedbackIcons: faIcon, */
-	//	fields : {}
-	//}).on('success.form.bv', function(e, data) {
-	//	e.preventDefault();
-	//	xh.check1();
-	//});
+	//领导指定经办人
+	$('#checkForm2').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {}
+	    }).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check2();
+	});
+	//领导审核经办人的办理清单
+	$('#checkForm5').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {}
+	    }).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.check6();
+	});
 </script>
 <script>
 	$(function() {

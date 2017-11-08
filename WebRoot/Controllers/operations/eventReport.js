@@ -41,6 +41,11 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+				});
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
@@ -81,8 +86,12 @@ xh.load = function() {
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
 			var downUrl = "../../uploadFile/download?filePath="+path+"&fileName=" + name;
-			window.open(downUrl, '_self',
-					'width=1,height=1,toolbar=no,menubar=no,location=no');
+			if(xh.isfile(path)){
+				window.open(downUrl, '_self',
+				'width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error("文件不存在", '提示');
+			}
 		};
 		/*签收*/
 		$scope.sign=function(index){

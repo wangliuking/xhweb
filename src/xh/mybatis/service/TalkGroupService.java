@@ -29,6 +29,46 @@ public class TalkGroupService {
 		}
 		return list;
 	}
+	
+	/**
+	 * 查询通话组信息
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> vpnList() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.vpnList();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 查询通话组信息
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> vpnList2() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.vpnList2();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 
 	/**

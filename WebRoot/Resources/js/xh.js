@@ -372,6 +372,25 @@ xh.userPower=function(){
 		}
 	});
 }
+var result=false;
+xh.isfile=function(filePath){
+	
+	$.ajax({
+		url : '../../uploadFile/fileExists',
+		type : 'post',
+		dataType : "json",
+		data : {filePath:filePath},
+		async : false,
+		success : function(data) {			
+				
+			result=data.success;
+	
+		},
+		error : function() {
+		}
+	});
+	return result;
+}
 
 /* 获取cookie */
 xh.getcookie = function(name) {

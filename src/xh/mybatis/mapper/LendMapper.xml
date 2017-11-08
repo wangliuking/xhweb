@@ -23,8 +23,8 @@
 	<insert id="lend" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.LendBean">
 		insert into
-		xhgmnet_business_lend(unit,name,tel,zone,reason,user,note,time,backTime,checked)
-		values(#{unit},#{name},#{tel},#{zone},#{reason},#{user},#{note},#{time},#{backTime},#{checked})
+		xhgmnet_business_lend(name,tel,zone,reason,user,note,time,backTime,checked,requirementDes)
+		values(#{name},#{tel},#{zone},#{reason},#{user},#{note},#{time},#{backTime},#{checked},#{requirementDes})
 	</insert>
 	<!--管理方审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.LendBean">
@@ -43,7 +43,7 @@
 	<update id="checkedOrder" parameterType="xh.mybatis.bean.LendBean">
 		update
 		xhgmnet_business_lend set
-		time3=#{time3},checked=#{checked} where
+		time3=#{time3},checked=#{checked},note2=#{note2} where
 		id=#{id}
 	</update>
 	<!--用户确认租借清单 -->
@@ -51,6 +51,13 @@
 		update
 		xhgmnet_business_lend set
 		time4=#{time4},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--用户完全归还设备 -->
+	<update id="returnFinish" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		time5=#{time5},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--判断设备清单是否存在该设备 -->
@@ -69,7 +76,7 @@
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			(#{item.lendId},#{item.type},#{item.name},#{item.model},
-			#{item.serialNumber},2)
+			#{item.serialNumber},-1)
 		</foreach>
 	</insert>
 	<!--设备借出 -->
@@ -91,6 +98,11 @@
 	<update id="updateStatusBySerialNumber" parameterType="map">
 		update xhgmnet_business_lend set
 		status=#{status} where serialNumber=#{serialNumber}
+	</update>
+	<!--更改流程状态 -->
+	<update id="updateStatusByLendID" parameterType="map">
+		update xhgmnet_business_lend_info set
+		status=#{status} where lendId=#{lendId}
 	</update>
 	<!--删除租借列表项 -->
 	<delete id="deleteLendOrderE" parameterType="map">
@@ -125,6 +137,16 @@
 			#{serialNumber}
 		</foreach>
 	</update>
+	<!--查询是否完全归还 -->
+	<select id="checkReturnOrderCount" parameterType="map" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			`xhgmnet_business_lend_info`
+		WHERE
+			lendId = #{lendId}
+		AND `status` = 0;
+	</select>
 	<!--查询待审核 归还借设备清单 -->
 	<select id="checkLendOrderCount" resultType="java.util.HashMap">
 		select a.id as

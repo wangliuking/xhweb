@@ -137,14 +137,11 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
 										</a> 
 
-										<a ng-if="loginUserRoleId==10003 && x.checked==0
-												||loginUserRoleId==10003 && x.checked==2
-												||loginUserRoleId==10002 && x.checked==4"
+										<a ng-if="loginUserRoleId==10003 && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
-										<a ng-if="loginUserRoleId==10002 && x.checked==1
-												||loginUserRoleId==10003 && x.checked==3"
+										<a ng-if="loginUserRoleId==10002 && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 

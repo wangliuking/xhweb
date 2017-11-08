@@ -54,10 +54,15 @@ public class WebUserController {
 	public void userlist10002(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
+		String user=request.getParameter("user");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("roleId", roleId);
+		map.put("user", user);
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WebUserServices.userlistByRoleId(roleId).size());
-		result.put("items", WebUserServices.userlistByRoleId(roleId));
+		result.put("totals",WebUserServices.userlistByRoleIdExceptUser(map).size());
+		result.put("items", WebUserServices.userlistByRoleIdExceptUser(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

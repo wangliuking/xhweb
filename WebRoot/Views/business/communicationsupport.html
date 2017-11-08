@@ -142,28 +142,28 @@
 										
 										<a ng-if="loginUserRoleId==10001 && x.checked==0
 												||loginUserRoleId==10003 && x.checked==5
-												||loginUserRoleId==10002 && x.checked==7"
+												||loginUserRoleId==10002 && x.checked==7 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 											
-										<a ng-if="loginUserRoleId==10002 && x.checked==4
+										<a ng-if="loginUserRoleId==10002 && x.checked==4 && loginUser == x.checkUser
 												||loginUserRoleId==10002 && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==2
+										<a ng-if="loginUserRoleId==10002 && x.checked==2 && loginUser == x.checkUser
 												||loginUserRoleId==10003 && x.checked==6
-												||loginUserRoleId==10002 && x.checked==8
+												||loginUserRoleId==10002 && x.checked==8 && loginUser == x.checkUser
 												||loginUserRoleId==10003 && x.checked==10
-												||loginUserRoleId==10002 && x.checked==12
+												||loginUserRoleId==10002 && x.checked==12 && loginUser == x.checkUser
 												||loginUserRoleId==10003 && x.checked==14"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==11
+										<a ng-if="loginUserRoleId==10002 && x.checked==11 && loginUser == x.checkUser
 												||loginUserRoleId==1000  && x.checked==9
 												||loginUserRoleId==1000  && x.checked==13
-												||loginUserRoleId==10002 && x.checked==15"
+												||loginUserRoleId==10002 && x.checked==15 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认</a>
 

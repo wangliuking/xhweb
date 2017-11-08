@@ -62,16 +62,39 @@
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
 							</div>
-							调度台运行状态
+							调度台列表
 						</div>
 						<div class="panel-body">
+						<div class="row">
+								<div class="col-md-12">
+								<div class="btn-group" style="padding-top:10px;">
+									<button class="btn btn-success btn-sm" data-toggle="modal"
+										data-target="#add" ng-disabled="up.o_add=='off'?true:false">
+										<i class="fa fa-plus-circle"></i>&nbsp;添加调度台
+									</button>
+									<button class="btn btn-info btn-sm" ng-disabled="up.o_update=='off'?true:false"
+										ng-click="showEditModel()">
+										<i class="fa fa-edit"></i>&nbsp;修改调度台
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="delMore()"
+										ng-disabled="up.o_delete=='off'?true:false">
+										<i class="fa fa-trash"></i>&nbsp;批量删除调度台
+									</button>
+									<button class="btn btn-warning btn-sm" ng-click="refresh()">
+										<i class="fa fa-refresh"></i>&nbsp;刷新
+									</button>
+									</div>
+								</div>
+							</div>
 							<!-- row -->
 
 							<!-- row -->
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
-										<th width="50px">#</th>
+									<th width="30px"><input type="checkbox"
+													id="table-checkbox" class="table-check" /></th>
+										<th>调度台ID</th>
 										<th>调度台名称</th>
 										<th>IP地址</th>
 										<th>是否安装</th>
@@ -84,7 +107,9 @@
 										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{$index+1}}</td>
+									<td><input type="checkbox" name="tb-check"
+													value="{{x.dstId}}" index="{{$index}}" /></td>
+										<td>{{x.dstId}}</td>
 										<td>{{x.dstName}}</td>
 										<td>{{x.IP}}</td>
 										<td ng-if="x.setupStatus==1"><span
@@ -114,10 +139,8 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<!-- 添加用户 -->
-	<!-- <div ng-include="'user-add.html'"></div> -->
-	<!-- 编辑基用户-->
-	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<div ng-include="'dispatchstatus-add.html'"></div>
+	<div ng-include="'dispatchstatus-edit.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

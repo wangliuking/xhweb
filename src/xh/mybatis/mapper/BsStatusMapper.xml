@@ -3,32 +3,91 @@
 <mapper namespace="xh.mybatis.mapper.BsStatusMapper">
 
 
-<!-- 自定义返回结果集 -->
-   <resultMap id="BsStatusMap" type="xh.mybatis.bean.BsStatusBean">
-        <id property="bsId" column="bsId" javaType="java.lang.Integer"></id>
-        <result property="status" column="status" javaType="java.lang.Integer"></result>
-        <result property="groupNum" column="groupNum" javaType="java.lang.Integer"></result>
-        <result property="mscNum" column="mscNum" javaType="java.lang.Integer"></result>
-        <result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
-    </resultMap>
- 
- 
-    <!--查询所有-->
-    <select id="selectAllBsStatus" resultType="java.util.HashMap" useCache="true">
-     select name,a.status,updateTime from xhgmnet_bs_status as a,xhgmnet_bs_station as b where a.bsId=b.bsId
-    </select>
-    <!--导出现网基站的运行记录-->
-    <select id="excelToBsStatus" resultType="xh.mybatis.bean.BsStatusBean" useCache="true">
-     select 
-     a.bsId,a.name,a.status,
-     b.clock_status,b.Returnloss1,b.Returnloss2,b.runtime as bscRuntime,
-     c.runtime as enbRuntime 
-     from xhgmnet_bs_station a 
-     left join xhgmnet_bsstatus b on a.bsId=b.bsId  and b.chId=1 
-     left join xhgmnet_enbstatus c on b.bsId=c.enbId 
-     where a.bsId not in(select bsIds from xhgmnet_stationalarm) order by a.bsId asc;
-    </select>
+	<!-- 自定义返回结果集 -->
+	<resultMap id="BsStatusMap" type="xh.mybatis.bean.BsStatusBean">
+		<id property="bsId" column="bsId" javaType="java.lang.Integer"></id>
+		<result property="status" column="status" javaType="java.lang.Integer"></result>
+		<result property="groupNum" column="groupNum" javaType="java.lang.Integer"></result>
+		<result property="mscNum" column="mscNum" javaType="java.lang.Integer"></result>
+		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
+	</resultMap>
 
-    
-    
+
+	<!--查询所有 -->
+	<select id="selectAllBsStatus" resultType="java.util.HashMap"
+		useCache="true">
+		select name,a.status,updateTime from xhgmnet_bs_status as
+		a,xhgmnet_bs_station as b where a.bsId=b.bsId
+	</select>
+	<!--导出现网基站的运行记录 -->
+	<select id="excelToBsStatus" resultType="xh.mybatis.bean.BsStatusBean"
+		useCache="true">
+		select
+		a.bsId,a.name,a.status,
+		b.clock_status,b.Returnloss1,b.Returnloss2,b.runtime as bscRuntime,
+		c.runtime as enbRuntime
+		from xhgmnet_bs_station a
+		left join
+		xhgmnet_bsstatus b on a.bsId=b.bsId and b.chId=1
+		left join
+		xhgmnet_enbstatus c on b.bsId=c.enbId
+		where a.bsId not in(select bsIds
+		from xhgmnet_stationalarm) order by a.bsId
+		asc;
+	</select>
+	<!--基站下的环控fsuId -->
+	<select id="fsuIdBySiteId" parameterType="int" resultType="String"
+		useCache="true">
+		SELECT fsuId
+		FROM xhgmnet_emh_config
+		WHERE siteId=#{siteId}
+		LIMIT 1
+	</select>
+	<!--基站下的环控状态 -->
+	<select id="bsEmh" parameterType="String" resultType="xh.mybatis.bean.EmhBean"
+		useCache="true">
+		SELECT fsuId, deviceId, singleId, singleType, singleValue,
+		level, updateTime
+		FROM xhgmnet_emh_sensor_status
+		WHERE fsuId = #{fsuId}
+		ORDER BY deviceId ASC , singleId ASC
+		LIMIT 0 , 100
+	</select>
+	<!--基站下的bsc状态 -->
+	<select id="bsc" parameterType="int" resultType="map" useCache="true">
+		SELECT *
+		FROM xhgmnet_bs_bsc
+		WHERE bsId = #{bsId}
+		ORDER BY Id ASC
+		LIMIT 0,
+		30
+	</select>
+	<!--基站下的bsr状态 -->
+	<select id="bsr" parameterType="int" resultType="map" useCache="true">
+		SELECT *
+		FROM xhgmnet_bs_bsr
+		WHERE bsId = #{bsId}
+		ORDER BY Id ASC
+		LIMIT 0,
+		30
+	</select>
+	<!--基站下的dpx状态 -->
+	<select id="dpx" parameterType="int" resultType="map" useCache="true">
+		SELECT *
+		FROM xhgmnet_bs_dpx
+		WHERE bsId = #{bsId}
+		ORDER BY Id ASC
+		LIMIT 0,
+		30
+	</select>
+	<!--基站下的psm状态 -->
+	<select id="psm" parameterType="int" resultType="map" useCache="true">
+		SELECT *
+		FROM xhgmnet_bs_psm
+		WHERE bsId = #{bsId}
+		ORDER BY Id ASC
+		LIMIT 0,
+		30
+	</select>
+
 </mapper>

@@ -37,6 +37,14 @@
 			</otherwise>
 		</choose>
 	</select>
+	<!--查询最新一条有线接入ID -->
+	<select id="YXMAXID" resultType="int" useCache="true">
+		SELECT max(ID) ID FROM `xhgmnet_business_net` where serviceType='有线接入';
+	</select>
+	<!--查询该入网流程所添加的用户C_ID -->
+	<select id="getUserCIDByID" parameterType="int" resultType="int" useCache="true">
+		SELECT C_ID FROM `xhgmnet_radiouser` where id_JoinNet=#{id};
+	</select>
 	<!--查询入网申请进度 -->
 	<select id="applyProgress" parameterType="int" resultType="map"
 		useCache="true">
@@ -46,13 +54,20 @@
 	<insert id="insertNet" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.JoinNetBean">
 		insert into
-		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2)
-		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2})
+		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2,apply3)
+		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2},#{apply3})
+	</insert>
+	<!--导入编程模板 -->
+	<insert id="insertProgramingTemplate" useGeneratedKeys="true" keyProperty="id"
+		parameterType="map" >
+		insert into
+		xhgmnet_business_net_programingTemplate(id_JoinNet,fileName,filePath,insertTime)
+		values(#{id_JoinNet},#{fileName},#{filePath},#{insertTime})
 	</insert>
 	<!--主管部门审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		user1=#{user1},user2=#{user2},time1=#{time1},note1=#{note1},checked=#{checked} where
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
 		id=#{id}
 	</update>
 	<!--管理方审核 -->
@@ -120,6 +135,11 @@
 		update xhgmnet_business_net set result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
 	</update>
 
+	<!--通知培训-->
+	<update id="training" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		pxTime=#{pxTime},pxAddress=#{pxAddress},pxNumOfPeople=#{pxNumOfPeople} where id=#{id}
+	</update>
 	<!--根据UserName更改整体check状态-->
 	<update id="quitNet" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set

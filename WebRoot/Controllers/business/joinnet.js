@@ -61,7 +61,7 @@ xh.load = function() {
 		});
 
 		/* 获取主管部门领导列表 */
-		$http.get("../../web/user/getUserList?roleId=10001").success(
+		$http.get("../../web/user/getUserList?roleId=10001&user="+$scope.loginUser).success(
 			function(response) {
 				$scope.userData_MainManager = response.items;
 				$scope.userTotals_MainManager = response.totals;
@@ -115,9 +115,25 @@ xh.load = function() {
 					$scope.userseriaName = $scope.userseriaData[0].name;
 				}
 			});
-
+			// 获取msclist
+			$http.get("../../talkgroup/mscList").success(function(response) {
+				$scope.msc = response.items;
+				$scope.mscNum = response.totals;
+				if ($scope.mscNum > 0) {
+					$scope.mscName = $scope.msc[0].name;
+				}
+			});
+			// 获取vpnList
+			$http.get("../../talkgroup/vpnList").success(function(response) {
+				$scope.vpn = response.items;
+				$scope.vpnNum = response.totals;
+				if ($scope.vpnNum > 0) {
+					$scope.vpnName = $scope.vpn[0].name;
+				}
+			});
 			$("#add").modal('show');
 		};
+
 		/* 显示添加组窗口 */
 		$scope.addGroup = function(id) {
 			$scope.joinNetProcessId = $scope.data[id].id;
@@ -139,6 +155,22 @@ xh.load = function() {
 								$scope.userseriaName = $scope.userseriaData[0].name;
 							}
 						});
+			// 获取msclist
+			$http.get("../../talkgroup/mscList").success(function(response) {
+				$scope.msc = response.items;
+				$scope.mscNum = response.totals;
+				if ($scope.mscNum > 0) {
+					$scope.mscName = $scope.msc[0].name;
+				}
+			});
+			// 获取vpnList
+			$http.get("../../talkgroup/vpnList").success(function(response) {
+				$scope.vpn = response.items;
+				$scope.vpnNum = response.totals;
+				if ($scope.vpnNum > 0) {
+					$scope.vpnName = $scope.vpn[0].name;
+				}
+			});
 			$("#addTalkGroup").modal('show');
 		};
 		$scope.download = function(id,type) {
@@ -147,7 +179,7 @@ xh.load = function() {
 		/* 显示审核窗口（有线接入） */
 		$scope.checkWinYX = function(id,type) {
 			$scope.checkData = $scope.data[id];
-			$http.get("../../web/user/getUserList?roleId=10002")
+			$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser)
 			.success(function(response) {
 				$scope.userData = response.items;
 				$scope.userTotals = response.totals;
@@ -157,6 +189,7 @@ xh.load = function() {
 			});
 			//上传技术方案
 			if(type == 1){
+				$scope.maxIDinsert = $scope.checkData.id;
 				$scope.divTitle = "上传技术方案"
 				$("#checkForm11 input").val('');
 				$(".span_result_GH").html('');
@@ -196,7 +229,7 @@ xh.load = function() {
 		$scope.checkWin = function(id) {
 			$scope.checkData = $scope.data[id];
 			// $http.get("../../web/user/userlist10002").
-			$http.get("../../web/user/getUserList?roleId=10002")
+			$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser)
 					.success(function(response) {
 						$scope.userData = response.items;
 						$scope.userTotals = response.totals;
@@ -255,20 +288,25 @@ xh.load = function() {
 				$("#checkWin10").modal('show');
 			}
 			//交付终端
-			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 8) {
-				xh.updateCheckById($scope.checkData.id, 9);
+			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 9) {
+				xh.updateCheckById($scope.checkData.id, 10, $scope.checkData.userName);
 			}
 			//终端接受确认
-			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 9) {
-				xh.updateCheckById($scope.checkData.id, 10);
+			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 10) {
+				xh.updateCheckById($scope.checkData.id, 11, $scope.checkData.user3);
 			}
 			//用户使用培训完成请求
-			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 10) {
-				xh.updateCheckById($scope.checkData.id, 11);
+			else if ($scope.loginUser == $scope.checkData.user3 && $scope.checkData.checked == 11) {
+				$("#checkWin19").modal('show');
+				//xh.updateCheckById($scope.checkData.id, 12, $scope.checkData.userName);
 			} 	
 			//培训确认
-			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 11) {
-				xh.updateCheckById($scope.checkData.id, 12);
+			else if ($scope.loginUser == $scope.checkData.userName && $scope.checkData.checked == 12) {
+				xh.updateCheckById($scope.checkData.id, 13, $scope.checkData.user3);
+			}
+			//培训确认
+			else if ($scope.checkData.checked == 13) {
+				$("#checkWin20").modal('show');
 			}
 		};
 		/* 查询数据 */
@@ -330,6 +368,7 @@ xh.load = function() {
 };
 /* 申请入网 */
 xh.addJoinNet = function() {
+	var $scope = angular.element(appElement).scope();
 	$.ajax({
 		url : '../../net/insertNet',
 		type : 'POST',
@@ -341,6 +380,24 @@ xh.addJoinNet = function() {
 		},
 		success : function(data) {
 			if (data.result >= 1) {
+				if(data.result >= 2){
+					swal({
+						title : "有线入网申请提示",
+						text : "有线接入流程请上传技术方案",
+						showCancelButton: true,
+						cancelButtonText: "取消",
+						confirmButtonText: "上传技术方案",
+						type : "success",
+						closeOnConfirm: true
+					},function(){
+						var id = data.maxID;
+						$scope.maxIDinsert = id;
+						$scope.divTitle = "上传技术方案"
+						$("#checkForm11 input").val('');
+						$(".span_result_GH").html('');
+						$("#checkWin11").modal('show');
+					});
+				}
 				$('#addJoinNet').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -608,7 +665,7 @@ xh.check10 = function() {
 	});
 };
 /* 交付终端 */
-xh.updateCheckById = function(id,checkedNum) {
+xh.updateCheckById = function(id,checkedNum,sendUser) {
 	$.ajax({
 		url : '../../net/updateCheckById',
 		type : 'POST',
@@ -616,7 +673,8 @@ xh.updateCheckById = function(id,checkedNum) {
 		async : true,
 		data : {
 			id:id,
-			checkNum:checkedNum
+			checkNum:checkedNum,
+			sendUser:sendUser
 		},
 		success : function(data) {
 
@@ -821,6 +879,31 @@ xh.check18 = function() {
 		}
 	});
 };
+/* 安排应用接入*/
+xh.check19 = function() {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../net/training',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm19").serializeArray(),
+		success : function(data) {
+			
+			if (data.result == 1) {
+				$('#checkWin19').modal('hide');
+				xh.updateCheckById($scope.checkData.id, 12, $scope.checkData.userName);
+				xh.refresh();
+				toastr.success(data.message, '提示');
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -902,13 +985,8 @@ xh.addUser = function() {
 		async : false,
 		data : $("#addUserForm").serializeArray(),
 		success : function(data) {
-
-			if (data.result == 0) {
+			if (data.result >= 1) {
 				$('#add').modal('hide');
-
-				for (var i = 1; i < 10; i++) {
-					console.log(1);
-				}
 				toastr.success("添加无线用户成功", '提示');
 				xh.refresh();
 			} else {
@@ -929,13 +1007,14 @@ xh.addTGroup = function() {
 		data : $("#addTalkGroupForm").serializeArray(),
 		success : function(data) {
 
-			if (data.result == 0) {
+			if (data.result >= 1) {
 				$('#addTalkGroup').modal('hide');
-
-				for (var i = 1; i < 10; i++) {
-					console.log(1);
+				if(data.result == 1){
+					toastr.success("添加用户组成功", '提示');
 				}
-				toastr.success("添加用户组成功", '提示');
+				else{
+					toastr.success("批量添加用户组成功", '提示');
+				}
 				xh.refresh();
 			} else {
 				toastr.error("添加用户组失败", '提示');

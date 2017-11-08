@@ -14,6 +14,9 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
+		<if test="power=='off'">
+		    and uploadUser=#{loginuser}
+		</if>
 		order by id desc limit #{start},#{limit}
 	</select>
 
@@ -29,16 +32,19 @@
 		<if test="status !=null and status !='' and status !=2">
 			and status=#{status}
 		</if>
+		<if test="power=='off'">
+		    and uploadUser=#{loginuser}
+		</if>
 	</select>
 	<!-- 新增运维值班情况表 -->
 	<insert id="add" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.WorkBean">
-		insert into xhgmnet_operations_dutyinfo(fileName,contact,tel,note,status,filePath,uploadUser,recvUser)
-		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{recvUser})
+		insert into xhgmnet_operations_dutyinfo(fileName,contact,tel,note,status,filePath,uploadUser,createtime)
+		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{createtime})
 	</insert>
 	<!-- 签收运维值班情况表 -->
-    <update id="sign" parameterType="int">
-     update xhgmnet_operations_dutyinfo set status=1 where id=#{id}    
+    <update id="sign" parameterType="xh.mybatis.bean.WorkBean">
+     update xhgmnet_operations_dutyinfo set status=1,signTime=#{signTime} where id=#{id}    
     </update>
 
 

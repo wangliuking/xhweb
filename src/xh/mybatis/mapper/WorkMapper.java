@@ -1,6 +1,7 @@
 package xh.mybatis.mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.WorkBean;
@@ -14,6 +15,7 @@ public interface WorkMapper {
 	 * @throws Exception
 	 */
 	public ArrayList<Map<String,Object>> worklist(Map<String,Object> map)throws Exception;
+	
 	/**
 	 * 工作记录总数
 	 * @param map
@@ -36,6 +38,6 @@ public interface WorkMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int signWork(int id)throws Exception;
+	public int signWork(WorkBean bean)throws Exception;
 
 }

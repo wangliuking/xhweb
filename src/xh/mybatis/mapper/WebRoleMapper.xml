@@ -28,7 +28,7 @@
     </select>
    <!--查询所有角色role-->
     <select id="roleByAll"  resultType="xh.mybatis.bean.WebRoleBean" useCache="true">
-     select * from xhgmnet_web_role order by roleId asc
+     select * from xhgmnet_web_role order by roleType asc
     </select> 
     <!--添加角色-->    
     <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="xh.mybatis.bean.WebRoleBean">

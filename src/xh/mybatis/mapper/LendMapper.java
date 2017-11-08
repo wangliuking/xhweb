@@ -55,6 +55,13 @@ public interface LendMapper {
 	 */
 	public int sureOrder(LendBean bean)throws Exception;
 	/**
+	 * 用户完全归还设备
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int returnFinish(LendBean bean)throws Exception;
+	/**
 	 * 判断设备清单中是否存在该条记录
 	 * @param map
 	 * @return
@@ -97,6 +104,13 @@ public interface LendMapper {
 	 */
 	public int updateStatusBySerialNumber(Map<String,Object> map)throws Exception;
 	/**
+	 * 更新流程状态
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateStatusByLendID(Map<String,Object> map)throws Exception;
+	/**
 	 * 归还设备
 	 * @param map
 	 * @return
@@ -131,6 +145,13 @@ public interface LendMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> checkLendOrderCount()throws Exception;
+	/**
+	 * 查询归还借设备清单 
+	 * @param lendId
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkReturnOrderCount(Map<String,Object> map)throws Exception;
 
 
 }

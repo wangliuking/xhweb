@@ -59,13 +59,13 @@ public interface QuitNetMapper {
     public int checkedOne(QuitNetBean bean) throws Exception;
 
     public int checkedTwo(QuitNetBean bean) throws Exception;
-    /**
-     * 用户确认
-     *
-     * @param bean
-     * @return
-     * @throws Exception
-     */
-    public int sureFile(QuitNetBean bean) throws Exception;
+
+    public int checkedThree(QuitNetBean bean) throws Exception;
+
+    public int checkedFour(QuitNetBean bean) throws Exception;
+    public int checkedFive(QuitNetBean bean) throws Exception;
+    public int checkedSix(QuitNetBean bean) throws Exception;
+    public int checkedSeven(QuitNetBean bean) throws Exception;
+    public int checkedEight(QuitNetBean bean) throws Exception;
 
 }

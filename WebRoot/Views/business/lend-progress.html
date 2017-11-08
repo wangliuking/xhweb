@@ -13,47 +13,45 @@
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
 					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
-					<li><a href="#order" data-toggle="tab">租借清单</a></li>
 				</ul>
 				<div class="tab-content" style="padding: 20px">
 					<div class="tab-pane fade in active text-danger" id="info">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
-										type="text" value="" class="form-control"
-										ng-model="progressData.unit" required="required">
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group col-md-12">
 									<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 										type="text" value="" class="form-control"
-										ng-model="progressData.name" required="required">
+										ng-model="progressData.name" required="required" disabled="disabled">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
 									<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
 										type="text" value="" class="form-control"
-										ng-model="progressData.tel" required="required">
+										ng-model="progressData.tel" required="required" disabled="disabled">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group col-md-12">
+									<label>预计归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+										type="text" value="" class="form-control"
+										ng-model="progressData.backTime" required="required"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" disabled="disabled">
 								</div>
 							</div>
 						</div>
 						<!-- row-------end -->
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>归还时间</label>&nbsp;<span class="text-danger">[*]</span> <input
-										type="text" value="" class="form-control"
-										ng-model="progressData.backTime" required="required"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+									<label>使用区域</label>
+										<textarea rows="3" cols="6" class="form-control" name="zone" ng-model="progressData.zone" disabled="disabled"></textarea>
 								</div>
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>使用区域</label><input type="text" value=""
-										class="form-control" ng-model="progressData.zone">
+									<label>需求描述</label>
+									<textarea rows="3" cols="6" class="form-control" name="requirementDes" ng-model="progressData.requirementDes" disabled="disabled"></textarea>
 								</div>
 							</div>
 						</div>
@@ -63,14 +61,14 @@
 								<div class="form-group col-md-12">
 									<label>租借原因</label>
 									<textarea rows="3" cols="6" class="form-control"
-										ng-model="progressData.reason"></textarea>
+										ng-model="progressData.reason" disabled="disabled"></textarea>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group col-md-12">
 									<label>备注</label>
 									<textarea rows="3" cols="6" class="form-control"
-										ng-model="progressData.note"></textarea>
+										ng-model="progressData.note" disabled="disabled"></textarea>
 								</div>
 							</div>
 						</div>
@@ -98,7 +96,7 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>0"></div>
 								<div class="cd-timeline-content">
-									<h2>管理部门审核</h2>
+									<h2>领导审核，并指定经办人</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
@@ -121,7 +119,7 @@
 									<span ng-if="progressData.checked<1"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=1"
-										class="cd-date text-success font-bold">租借清单已经整理，等待管理部门领导审核;
+										class="cd-date text-success font-bold">租借清单已经整理，等待领导审核;
 										时间：{{progressData.time2}}</span>
 								</div>
 							</div>
@@ -132,7 +130,7 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>管理部门领导审核租借清单</h2>
+									<h2>领导审核租借清单</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
@@ -150,36 +148,16 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
-									<h2>用户确认租借清单</h2>
+									<h2>设备处理流程中</h2>
 
 									<span ng-if="progressData.checked<3"
 										class="cd-date text-danger">等待确认</span> <span
 										ng-if="progressData.checked>=3"
-										class="cd-date text-success font-bold">用户已确认;
-										时间：{{progressData.time4}}</span>
+										class="cd-date text-success font-bold">设备处理流程中;
+										</span>
 								</div>
 							</div>
-							<!-- cd-timeline-block end-->
-							<!-- 	<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<4"></div>
-								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=4"></div>
-								<div class="cd-timeline-content">
-									<h2>用户确认编组方案是否可行</h2>
-									<a ng-if="progressData.checked>=4" href="#" title="点击下载文件"
-										onclick="xh.download()" style="color:red">{{progressData.fileName}}</a>
-									<p>
-										<span>备注：</span><span>备注内容</span>
-									</p>
-									<span ng-if="progressData.checked<4"
-										class="cd-date text-danger">等待确认编组方案</span> <span
-										ng-if="progressData.checked>=4"
-										class="cd-date text-success font-bold">编组方案已经确认;
-										时间：{{progressData.time2}}</span>
-								</div>
-							</div> -->
-							<!-- cd-timeline-block end-->
+
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
 									ng-if="progressData.checked<5">结束</div>
@@ -188,43 +166,67 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade text-danger" id="order"
+					<!-- <div class="tab-pane fade text-danger" id="order"
 						style="background: #e9f0f5; margin: 0;">
+							<button type="button" class="btn btn-danger btn-sm"
+									data-dismiss="modal">
+									<i class="fa fa-remove"></i>&nbsp;关闭
+							</button>
+							<button type="button"
+									class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user">
+									<i class="fa fa-remove"></i>&nbsp;批量归还设备
+							</button>
+							<button type="button"
+									class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1">
+									<i class="fa fa-remove"></i>&nbsp;批量确认归还设备
+							</button>
+						<form action="#" id="checkForm3" onSubmit="return false">
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" ng-model="selectAll" ng-click="all(selectAll)"/></th>
+										<th>设备类别</th>
+										<th>名称</th>
+										<th>型号</th>
+										<th>序列号</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="lendTotals==0">
+										<td colspan="7" class="text-center">租借清单为空，请前往添加</td>
+									</tr>
+									<tr ng-repeat="x in dataLend">
+										<td><input type="checkbox" name="tb-check"
+												value="{{x.serialNumber}}" index="{{$index}}" ng-if="x.status==1 || (x.status==3 && loginUser==checkData.user1)"
+												ng-checked="selectAll" ng-model="dataItem.state"/></td>
+										<td>{{x.type}}</td>
+										<td>{{x.name}}</td>
+										<td>{{x.model}}</td>
+										<td>{{x.serialNumber}}</td>
+										<td ng-if="x.status==0">已归还</td>
+										<td ng-if="x.status==1">在借</td>
+										<td ng-if="x.status==2">等待验收</td>
+										<td ng-if="x.status==3">归还审核中</td>
+										<td><a ng-if="x.status==2 && loginUser==checkData.user" href="#"
+												ng-click="checkSuccess($index,1)"><i
+												class="fa fa-check text-success"></i>验收 </a>
+											<a ng-if="x.status==1 && loginUser==checkData.user" href="#"
+												ng-click="checkSuccess($index,3)"><i
+												class="fa fa-check text-success"></i>归还设备</a>
+											<a ng-if="x.status==3 && loginUser==checkData.user1" href="#"
+												ng-click="checkSuccess($index,0)"><i
+												class="fa fa-check text-success"></i>确认归还设备</a>
+											<a ng-if="x.status==0" href="#">#</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
 
-						<table id="tb-info" class="xh-table table-hover">
-							<thead>
-								<tr class="tr-gray">
-									<th>设备类别</th>
-									<th>名称</th>
-									<th>型号</th>
-									<th>序列号</th>
-									<th>状态</th>
-									<!-- <th>操作</th> -->
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-if="lendTotals==0">
-									<td colspan="6" class="text-center">租借清单为空，请前往添加</td>
-								</tr>
-								<tr ng-repeat="x in dataLend">
-									<td>{{x.type}}</td>
-									<td>{{x.name}}</td>
-									<td>{{x.model}}</td>
-									<td>{{x.serialNumber}}</td>
-									<td ng-if="x.status==0">已归还</td>
-									<td ng-if="x.status==1">在借</td>
-									<td ng-if="x.status==2">等待验收</td>
-									<td ng-if="x.status==3">归还审核中</td>
-									<!-- <td><a ng-if="x.status==3 && loginUser==progressData.user" href="#"
-										ng-click="checkSuccess($index,progressData.user1)"><i
-											class="fa fa-check text-success"></i>审核通过 </a>
-										
-									</td> -->
-								</tr>
-							</tbody>
-						</table>
-
-					</div>
+					</div> -->
 					<!-- tab-pane--end -->
 				</div>
 			</div>

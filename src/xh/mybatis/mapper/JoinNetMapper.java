@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.JoinNetBean_programingTemplate;
 
 
 public interface JoinNetMapper {
@@ -22,11 +23,24 @@ public interface JoinNetMapper {
 	 */
 	public Map<String,Object> applyProgress(int id)throws Exception;
 	/**
+	 * 查询该入网流程所添加的用户C_ID
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Integer> getUserCIDByID(int id)throws Exception;
+	/**
 	 * 总数
 	 * @return
 	 * @throws Exception
 	 */
 	public int dataCount(Map<String, Object> map)throws Exception;
+	/**
+	 * 查询最新一条有线接入ID
+	 * @return
+	 * @throws Exception
+	 */
+	public int YXMAXID()throws Exception;
 	/**
 	 * 入网申请
 	 * @param bean
@@ -34,6 +48,13 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int insertNet(JoinNetBean bean)throws Exception;
+	/**
+	 * 导入编程模板
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertProgramingTemplate(Map<String, String> map)throws Exception;
 	/**
 	 * 管理方审核
 	 * @param bean
@@ -159,6 +180,14 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int signFileTwo(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 通知培训
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int training(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 退网

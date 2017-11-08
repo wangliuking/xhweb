@@ -40,6 +40,16 @@ public class FaultBean {
 	private String user4;
 	private String time4;
 	private String note4;
+	private String checkUser;
+
+	public String getCheckUser() {
+		return checkUser;
+	}
+
+	public void setCheckUser(String checkUser) {
+		this.checkUser = checkUser;
+	}
+
 	public String getNote4() {
 		return note4;
 	}

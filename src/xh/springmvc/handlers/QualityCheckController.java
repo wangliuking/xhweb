@@ -197,12 +197,7 @@ public class QualityCheckController {
         String user = request.getParameter("user");
         QualityCheckBean bean = new QualityCheckBean();
         bean.setId(id);
-        if(checked ==1) {
-            bean.setChecked(1);
-        }else if(checked == -1) {
-            bean.setChecked(-1);
-        }
-
+        bean.setChecked(1);
         bean.setUser1(funUtil.loginUser(request));
         bean.setTime1(funUtil.nowDate());
         bean.setNote1(note1);

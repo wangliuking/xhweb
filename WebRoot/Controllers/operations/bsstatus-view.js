@@ -30,11 +30,11 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
-	/*app.filter('upp', function() { //可以注入依赖
+	app.filter('power', function() { //可以注入依赖
 	    return function(text) {
-	        return text+"$$";
+	        return text-15;
 	    };
-	});*/
+	});
 	app.config([ '$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode({
 			enabled : true,
@@ -47,10 +47,27 @@ xh.load = function() {
 		$scope.bsId = $location.search().bsId;
 		console.log($scope.bsId);
 		
+		$http.get("../../bsstatus/bsEmh?siteId="+$scope.bsId).
+		success(function(response){
+			$scope.emhData = response;
+		});
+		
+		
+		//获取环控设备状态
+		
+		$scope.emh=function(){
+			$http.get("../../bsstatus/bsEmh?siteId="+$scope.bsId).
+			success(function(response){
+				$scope.emhData = response;
+			});
+		};
+		
+		
+		
 		//基站下的注册终端
 		$scope.radioUser=function(){
 			var bsId=$scope.bsId;
-		
+			frist = 0;
 			var pageSize = $("#page-limit").val();
 			$http.get("../../radio/status/oneBsRadio?bsId="+bsId+"&start=0&limit="+pageSize).
 			success(function(response){
@@ -69,8 +86,44 @@ xh.load = function() {
 				$scope.groupTotals = response.totals;
 			});
 		};
+		//基站下的bsc状态
+		$scope.bsc=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/bsc?bsId="+bsId).
+			success(function(response){
+				$scope.bscData = response.items;
+				$scope.bscTotals = response.totals;
+			});
+		};
+		//基站下的bsr状态
+		$scope.bsr=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/bsr?bsId="+bsId).
+			success(function(response){
+				$scope.bsrData = response.items;
+				$scope.bsrTotals = response.totals;
+			});
+		};
+		//基站下的dpx状态
+		$scope.dpx=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/dpx?bsId="+bsId).
+			success(function(response){
+				$scope.dpxData = response.items;
+				$scope.dpxTotals = response.totals;
+			});
+		};
+		//基站下的psm状态
+		$scope.psm=function(){
+			var bsId=$scope.bsId;		
+			$http.get("../../bsstatus/psm?bsId="+bsId).
+			success(function(response){
+				$scope.psmData = response.items;
+				$scope.psmTotals = response.totals;
+			});
+		};
 		
-		$http.get("../../emh/oneBsEmh?bsId=1").
+		/*$http.get("../../emh/oneBsEmh?bsId=1").
 		success(function(response){
 			xh.maskHide();
 			$scope.emhData = response.items;
@@ -82,7 +135,7 @@ xh.load = function() {
 			$scope.aci=$scope.emhData[3].sig_value;
 			$scope.dcv=$scope.emhData[0].sig_value;
 			$scope.dci=$scope.emhData[0].sig_value;
-		});
+		});*/
 
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -161,6 +214,258 @@ xh.refresh = function() {
 xh.excelToBsstatus=function(){
 	window.location.href="../../bsstatus/ExcelToStationStatus";
 };
+/* 温度*/
+xh.loadTemp = function() {
+	var $scope = angular.element(appElement).scope();
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
+		chart = ec.init(document.getElementById('temp-div'));
+		/*chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});*/
+		var option = {
+				backgroundColor: '#1b1b1b',				
+			    tooltip : {
+			        formatter: "{a} <br/>{b} : {c}℃"
+			    },
+			    series : [
+			        {
+			            name:'温度',
+			            type:'gauge',
+			            min:0,
+			            max:90,
+			            splitNumber:10,       // 分割段数，默认为5
+			            
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                	 color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
+			                     width: 4,
+			                     shadowColor : '#fff', //默认透明
+			                     shadowBlur: 10
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length :10,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {            // 坐标轴小标记
+			                textStyle: {       // 属性lineStyle控制线条样式
+			                    fontWeight: 'bolder',
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length :15,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width:3,
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {           // 分隔线
+			                shadowColor : '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title : {
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    fontSize: 20,
+			                    fontStyle: 'italic',
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            detail : {
+			                backgroundColor: 'rgba(30,144,255,0.8)',
+			                borderWidth: 1,
+			                borderColor: '#fff',
+			                shadowColor : '#fff', //默认透明
+			                shadowBlur: 5,
+			                offsetCenter: [0, '50%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    /*fontWeight: 'bolder',*/
+			                    color: '#fff'
+			                }
+			            },
+			            data:[{value: $scope.emhData.temp, name: '温度'}]
+			        }
+			    ]
+			};
+
+
+		chart.setOption(option);
+
+	});
+};
+/* 湿度*/
+xh.loadDamp = function() {
+	var $scope = angular.element(appElement).scope();
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
+		chart = ec.init(document.getElementById('damp-div'));
+		/*chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});*/
+		var option = {
+				backgroundColor: '#1b1b1b',				
+			    tooltip : {
+			        formatter: "{a} <br/>{b} : {c}℃"
+			    },
+			    series : [
+			        {
+			            name:'湿度',
+			            type:'gauge',
+			            min:0,
+			            max:90,
+			            splitNumber:10,       // 分割段数，默认为5
+			            
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                	 color: [[0.2, 'lime'],[0.8, '#1e90ff'],[1, '#ff4500']],
+			                     width: 4,
+			                     shadowColor : '#fff', //默认透明
+			                     shadowBlur: 10
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                length :10,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            axisLabel: {            // 坐标轴小标记
+			                textStyle: {       // 属性lineStyle控制线条样式
+			                    fontWeight: 'bolder',
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                length :15,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    width:3,
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            pointer: {           // 分隔线
+			                shadowColor : '#fff', //默认透明
+			                shadowBlur: 5
+			            },
+			            title : {
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    fontWeight: 'bolder',
+			                    fontSize: 20,
+			                    fontStyle: 'italic',
+			                    color: '#fff',
+			                    shadowColor : '#fff', //默认透明
+			                    shadowBlur: 10
+			                }
+			            },
+			            detail : {
+			                backgroundColor: 'rgba(30,144,255,0.8)',
+			                borderWidth: 1,
+			                borderColor: '#fff',
+			                shadowColor : '#fff', //默认透明
+			                shadowBlur: 5,
+			                offsetCenter: [0, '50%'],       // x, y，单位px
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    /*fontWeight: 'bolder',*/
+			                    color: '#fff'
+			                }
+			            },
+			            data:[{value: $scope.emhData.damp, name: '湿度'}]
+			        }
+			    ]
+			};
+
+
+		chart.setOption(option);
+
+	});
+};
+xh.loadDamp2 = function() {
+	var $scope = angular.element(appElement).scope();
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
+		chart = ec.init(document.getElementById('damp-div'));
+		/*chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});*/
+		var option = {
+			    tooltip : {
+			        formatter: "{a} <br/>{b} : {c}%RH"
+			    },
+			    series : [
+			        {
+			            name:'湿度',
+			            type:'gauge',
+			            splitNumber: 10,       // 分割段数，默认为5
+			            axisLine: {            // 坐标轴线
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: [[0.2, '#62cb31'],[0.8, 'green'],[1, '#ff4500']], 
+			                    width: 6
+			                }
+			            },
+			            axisTick: {            // 坐标轴小标记
+			                splitNumber: 10,   // 每份split细分多少段
+			                length :5,        // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle控制线条样式
+			                    color: 'auto'
+			                }
+			            },
+			            axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
+			                textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+			                    color: 'auto'
+			                }
+			            },
+			            splitLine: {           // 分隔线
+			                show: true,        // 默认显示，属性show控制显示与否
+			                length :10,         // 属性length控制线长
+			                lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+			                    color: 'auto'
+			                }
+			            },
+			            pointer : {
+			                width : 5
+			            },
+			            data:[{value: $scope.emhData.damp, name: '湿度'}]
+			        }
+			    ]
+			};
+
+
+		chart.setOption(option);
+
+	});
+};
 /* AC电压*/
 xh.loadAcv = function() {
 	// 设置容器宽高
@@ -193,7 +498,7 @@ xh.loadAcv = function() {
 			            axisLine: {            // 坐标轴线
 			                lineStyle: {       // 属性lineStyle控制线条样式
 			                    color: [[0.2, '#62cb31'],[0.8, '#48b'],[1, '#ff4500']], 
-			                    width: 2
+			                    width: 6
 			                }
 			            },
 			            axisTick: {            // 坐标轴小标记
@@ -496,33 +801,7 @@ xh.loadPow = function() {
 
 	});
 };
-/* 添加用户*/
-xh.add = function() {
-	$.ajax({
-		url : '../../web/user/add',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : $("#addForm").serializeArray(),
-		success : function(data) {
 
-			if (data.success) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
 	var pageSize = $("#page-limit").val();

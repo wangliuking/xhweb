@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -128,7 +129,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(bean.getUser_MainManager(), "故障申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoGroup("b_check_fault", "故障申请信息已经成功提交,请审核。。。", request);
 			//----END
 		} else {
 			this.message = "故障申请信息提交失败";
@@ -184,7 +185,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "故障申请信息审核，请管理方人员审核并尽快处理故障", request);
+			sendNotifytoSingle(user, "故障申请信息审核，请管理方人员审核并尽快处理故障", request);
 			//----EN
 		}
 		log.info("data==>" + bean.toString());
@@ -234,7 +235,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotify(user, "故障申请信息审核，请确认。。。", request);
+			sendNotifytoSingle(user, "故障申请信息审核，请确认。。。", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -283,7 +284,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "服务管理方请重新处理故障。。。", request);
+			sendNotifytoSingle(user, "服务管理方请重新处理故障。。。", request);
 			//----END
 		} else {
 			this.message = "通知服务管理方处理失败";
@@ -332,7 +333,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "故障完成信息审核，请确认。。。", request);
+			sendNotifytoSingle(user, "故障完成信息审核，请确认。。。", request);
 			//----END
 		} else {
 			this.message = "通知用户回访处理失败";
@@ -409,6 +410,7 @@ public class FaultController {
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
 		bean.setChecked(checked);
+		bean.setCheckUser(user);
 //		bean.setUser4(funUtil.loginUser(request));
 		int rst = FaultService.checkedEight(bean);
 		if (rst == 1) {
@@ -420,7 +422,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotify(user, "故障完成信息审核，请确认。。。", request);
+			sendNotifytoSingle(user, "故障完成信息审核，请确认。。。", request);
 			//----END
 		} else {
 			this.message = "通知用户回访处理失败";
@@ -620,12 +622,12 @@ public class FaultController {
 		//存储记录
 	}
 	/**
-	 * 发送邮件
+	 * 发送邮件(指定收件人)--保障申请
 	 * @param recvUser	邮件接收者
 	 * @param content	邮件内容
 	 * @param request
 	 */
-	public void sendNotify(String recvUser,String content,HttpServletRequest request){
+	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
 		//----发送通知邮件
 		EmailBean emailBean = new EmailBean();
 		emailBean.setTitle("故障申请");
@@ -635,5 +637,25 @@ public class FaultController {
 		emailBean.setTime(funUtil.nowDate());
 		EmailService.insertEmail(emailBean);
 		//----END
+	}
+	/**
+	 * 发送邮件(指定权限)--保障申请
+	 * @param
+	 * @param content	邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
+		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
+		for(Map<String,Object> map : list){
+			//----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("故障申请");
+			emailBean.setRecvUser(map.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			//----END
+		}
 	}
 }

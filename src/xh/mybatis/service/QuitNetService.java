@@ -143,7 +143,7 @@ public class QuitNetService {
         try {
             result = mapper.checkedTwo(bean);
             sqlSession.commit();
-            result = 1;
+            result=1;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -153,18 +153,92 @@ public class QuitNetService {
         return result;
     }
 
-    /**
-     * 用户确认
-     *
-     * @param bean
-     * @return
-     */
-    public static int sureFile(QuitNetBean bean) {
+    public static int checkedThree(QuitNetBean bean) {
         SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
         QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
         int result = 0;
         try {
-            result = mapper.sureFile(bean);
+            result = mapper.checkedThree(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    public static int checkedFour(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedFour(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    public static int checkedFive(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedFive(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    public static int checkedSix(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedSix(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    public static int checkedSeven(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedSeven(bean);
+            sqlSession.commit();
+            result = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    public static int checkedEight(QuitNetBean bean) {
+        SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.master);
+        QuitNetMapper mapper = sqlSession.getMapper(QuitNetMapper.class);
+        int result = 0;
+        try {
+            result = mapper.checkedEight(bean);
             sqlSession.commit();
             result = 1;
         } catch (Exception e) {

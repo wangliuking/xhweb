@@ -18,9 +18,26 @@ public class LendBean {
 	private String 	time2;
 	private String 	time3;
 	private String 	time4;
+	private String 	time5;
 	private String 	note1;
 	private String 	note2;
 	private String  manager;
+	private String requirementDes;
+	
+	
+	
+	public String getTime5() {
+		return time5;
+	}
+	public void setTime5(String time5) {
+		this.time5 = time5;
+	}
+	public String getRequirementDes() {
+		return requirementDes;
+	}
+	public void setRequirementDes(String requirementDes) {
+		this.requirementDes = requirementDes;
+	}
 	public String getManager() {
 		return manager;
 	}

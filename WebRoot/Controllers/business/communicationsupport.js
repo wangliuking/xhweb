@@ -121,6 +121,14 @@ xh.load = function() {
 				$("#checkWin1").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+				$http.get("../../web/user/getUserList?roleId=10002").
+				success(function(response){
+				$scope.userData = response.items;
+				$scope.userTotals = response.totals;
+				if($scope.userTotals>0){
+					$scope.user=$scope.userData[0].user;
+				}
+			});
 				$("#checkWin17").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){

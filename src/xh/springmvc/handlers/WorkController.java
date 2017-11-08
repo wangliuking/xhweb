@@ -2,7 +2,9 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/work")
@@ -44,6 +47,9 @@ public class WorkController {
 		this.success=true;
 		String fileName=request.getParameter("filename");
 		String contact=request.getParameter("contact");
+		String power=SingLoginListener.
+				getLoginUserPowerMap().
+				get(request.getSession().getId()).get("o_check_work").toString();
 		int status=funUtil.StringToInt(request.getParameter("status"));
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
@@ -52,6 +58,8 @@ public class WorkController {
 		map.put("fileName", fileName);
 		map.put("contact", contact);
 		map.put("status", status);
+		map.put("power", power);
+		map.put("loginuser", funUtil.loginUser(request));
 		map.put("start", start);
 		map.put("limit", limit);
 
@@ -78,9 +86,9 @@ public class WorkController {
 	public void addwork(HttpServletRequest request, HttpServletResponse response){
 		String formData=request.getParameter("formData");	
 		WorkBean bean=GsonUtil.json2Object(formData, WorkBean.class);
-		EmailBean emailBean=new EmailBean();
-		bean.setRecvUser("10002");
+		
 		bean.setUploadUser(funUtil.loginUser(request));
+		bean.setCreatetime(funUtil.nowDate());
 		log.info(bean.toString());		
 		int rlt=WorkServices.addwork(bean);
 		
@@ -93,12 +101,21 @@ public class WorkController {
 			webLogBean.setContent("上传工作记录");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("工作记录");
-			emailBean.setRecvUser("10002");
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("请签收工作记录");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			List<Map<String,Object>> list=WebUserServices.userlistByPower("o_check_work");
+			
+			for (Map<String, Object> map : list) {
+				EmailBean emailBean=new EmailBean();
+				emailBean.setTitle("工作记录");
+				emailBean.setRecvUser(map.get("user").toString());
+				emailBean.setSendUser(funUtil.loginUser(request));
+				emailBean.setContent("请签收工作记录");
+				emailBean.setTime(funUtil.nowDate());
+				EmailService.insertEmail(emailBean);
+			}
+			
+			
+			
+			
 			
 			
 		}else{

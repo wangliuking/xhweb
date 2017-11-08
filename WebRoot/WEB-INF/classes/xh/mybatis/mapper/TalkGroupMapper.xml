@@ -61,10 +61,10 @@
 		insert into
 		xhgmnet_talkgroup(TalkgroupID,M_TalkgroupAlias,M_SecurityGroup,M_ConsoleTGMGCapabilityProfileAlias,M_TGMGCapabilityProfileAlias,M_TGMGValidSitesProfileAlias,
 		M_PreemptCapable,M_ExtendedBandchannelscanbeassigned,M_TalkgroupRegroupable,M_GroupEnable,
-		E_name,E_alias,E_mscId,E_vpnId,E_saId,E_iaId,E_vaId,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet)
+		E_name,E_alias,E_mscId,E_vpnId,E_saId,E_iaId,E_vaId,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet,time)
 		values(#{TalkgroupID}, '', '', '', '', '', 0, 0, 0, 0,
 		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_saId},#{E_iaId},#{E_vaId},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
-		#{E_pdtType},#{E_npType},#{userId})
+		#{E_pdtType},#{E_npType},#{userId},#{time})
 	</insert>
   <sql id="Base_Column_List" >
     id, TalkgroupID, M_TalkgroupAlias, M_SecurityGroup, M_ConsoleTGMGCapabilityProfileAlias, 
@@ -366,4 +366,13 @@
     where id = #{id,jdbcType=INTEGER}
       and TalkgroupID = #{talkgroupid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 	获取交换中心标识列表 -->
+  <select id="vpnList" resultType="java.util.HashMap" useCache="true">
+		select * from xhgmnet_msclist
+  </select>
+  <!-- 	获取虚拟专网名列表 -->
+  <select id="vpnList2" resultType="java.util.HashMap" useCache="true">
+		select * from xhgmnet_vpn
+  </select>
 </mapper>
