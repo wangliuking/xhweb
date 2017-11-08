@@ -297,7 +297,7 @@ function floor(data) {
 	
 	test = new
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");//动态服务
-	myMap.addLayer(test);// 将底图图层对象添加到地图中
+	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
 	gLayermiddle = new esri.layers.GraphicsLayer({id:"中图标"});// 创建中图标图层

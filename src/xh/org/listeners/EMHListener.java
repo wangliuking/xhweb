@@ -45,7 +45,7 @@ public class EMHListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
-		//timer.schedule(new timerTaskForLogin(), 60 * 1000, 60 * 1000);// 心跳任务
+		// timer.schedule(new timerTaskForLogin(), 60 * 1000, 60 * 1000);// 心跳任务
 		// timer1.schedule(new timerTaskForData(), 2 * 60 * 1000, 60 *
 		// 1000);//定时获取数据任务
 		// timer2.schedule(new timerTaskForTimeCheck(),30*1000,20*1000);//
@@ -68,38 +68,43 @@ class timerTaskForLogin extends TimerTask {
 		// TODO Auto-generated method stub
 		ExecutorService es = Executors.newFixedThreadPool(1000);
 		for (int i = 0; i < list.size(); i++) {
+			es.execute(new Runnable() {
+				@Override
+				public void run() {
+					String[] strs = Thread.currentThread().getName().split("-");
+					String thr = strs[3];
+					Map<String, String> map = list.get(Integer.parseInt(thr) - 1);
+					String FSUID = map.get("fsuId");
+					String url = "http://" + map.get("fsuIp")
+							+ ":8090/services/FSUService";
+					try {
+						Test.getFSUInfo(url, FSUID);
+					} catch (RemoteException e) { // TODO Auto-generated catch
+													// block
+						log.info("发送心跳信息失败！！！" + FSUID
+								+ "send for login failure!!!!");
+					}
+				}
+			});
+
 			/*
-			 * es.execute(new Runnable() {
+			 * Map<String, String> map = list.get(i); String FSUID =
+			 * map.get("fsuId"); String url = "http://" + map.get("fsuIp") +
+			 * ":8090/services/FSUService"; log.info(FSUID + " " + url); try {
+			 * Test.getFSUInfo(url, FSUID); } catch (RemoteException e) {
 			 * 
-			 * @Override public void run() { String[] strs =
-			 * Thread.currentThread().getName().split("-"); String thr =
-			 * strs[3]; Map<String, String> map = list.get(Integer.parseInt(thr)
-			 * - 1); String FSUID = map.get("fsuId"); String url = "http://" +
-			 * map.get("fsuIp") + ":8090/services/FSUService"; try {
-			 * Test.getFSUInfo(url, FSUID); } catch (RemoteException e) { //
-			 * TODO Auto-generated catch block log.info("发送心跳信息失败！！！" + FSUID +
-			 * "send for login failure!!!!"); } } });
+			 * log.info("发送心跳信息失败！！！" + FSUID + "send for login failure!!!!"); }
 			 */
-
-			Map<String, String> map = list.get(i);
-			String FSUID = map.get("fsuId");
-			String url = "http://" + map.get("fsuIp")
-					+ ":8090/services/FSUService";
-			log.info(FSUID + " " + url);
-			try {
-				Test.getFSUInfo(url, FSUID);
-			} catch (RemoteException e) {
-
-				log.info("发送心跳信息失败！！！" + FSUID + "send for login failure!!!!");
-			}
 		}
-		/*es.shutdown();
+
+		es.shutdown();
 		try {
 			es.awaitTermination(50 * 1000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			System.out.println("awaitTermination interrupted: " + e);
 			es.shutdownNow();
-		}*/
+		}
+
 	}
 }
 
