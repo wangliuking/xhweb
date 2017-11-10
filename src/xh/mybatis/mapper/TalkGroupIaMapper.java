@@ -21,15 +21,22 @@ public interface TalkGroupIaMapper {
 	 */
 	public int  Count(Map<String,Object> map)throws Exception;
 	
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(TalkGroupIa record);
-
-    int insertSelective(TalkGroupIa record);
-
-    TalkGroupIa selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TalkGroupIa record);
-
-    int updateByPrimaryKey(TalkGroupIa record);
+	/**
+	 * 增加
+	 * @return
+	 * @throws Exception
+	 */
+	public int  insert(Map<String,Object> map)throws Exception;
+	/**
+	 * 修改
+	 * @return
+	 * @throws Exception
+	 */
+	public int  update(Map<String,Object> map)throws Exception;
+	/**
+	 * 删除
+	 * @return
+	 * @throws Exception
+	 */
+	public void  delete(List<String> list)throws Exception;
 }

@@ -17,12 +17,25 @@
   </resultMap>
   	<select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
-		select * from xhgmnet_talkgroup_e_businessattribute order by id asc limit #{start},#{limit}
+		select * from xhgmnet_talkgroup_e_businessattribute where 1=1
+		<if test="id !=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
 	</select>
 
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_talkgroup_e_businessattribute
+		select count(*) from xhgmnet_talkgroup_e_businessattribute where 1=1
+		<if test="id !=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
 	</select>
 	<!--增加 -->
 	<insert id="insert" parameterType="java.util.Map">

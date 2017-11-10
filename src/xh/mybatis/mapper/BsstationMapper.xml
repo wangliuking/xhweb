@@ -108,12 +108,13 @@
 	
     <!--查询所有 wlk-->
     <select id="selectAllBsStation" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a group by a.bsId
+     select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join xhgmnet_bsstatus as b on a.bsId=b.bsId group by a.bsId
     </select>
 	
 	<!-- 根据id查询对应基站信息 wlk -->
 	<select id="selectBsStationById" resultType="java.util.HashMap" useCache="true">
-	 select * from xhgmnet_bs_station where bsId=#{bsId}
+	 select a.*,b.link as bsStatus,c.* from xhgmnet_bs_station as a left join xhgmnet_bsstatus as b on a.bsId=b.bsId left join xhgmnet_bs_channel_info as c 
+	 on a.bsId=c.bsId where a.bsId=#{bsId} group by a.bsId
 	</select>
 	
 	<!-- 首页话务量及其他业务查询 -->

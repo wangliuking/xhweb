@@ -43,6 +43,8 @@ xh.load = function() {
 				});
 		/* 刷新数据 */
 		$scope.refresh = function() {
+			$("#id").val("");
+			$("#name").val("");
 			$scope.search(1);
 		};
 		
@@ -113,6 +115,8 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var id = $("#id").val();
+			var name = $("#name").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -125,7 +129,8 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../talkgroupbusiness/list?start=" + start + "&limit=" + limit).success(
+					"../../talkgroupia/list?id=" + id + "&name=" + name + "&start="
+					+ start + "&limit=" + limit).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.items;
@@ -136,6 +141,8 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var id = $("#id").val();
+			var name = $("#name").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -145,7 +152,8 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../talkgroupbusiness/list?start=" + start + "&limit=" + pageSize).success(
+					"../../radiouserbusiness/list?id=" + id + "&name=" + name + "&start="
+					+ start + "&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;
