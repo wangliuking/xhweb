@@ -39,14 +39,22 @@ xh.load = function() {
 	app.controller("userstatus", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "10";//每页数据显示默认值
-		$scope.operationMenu=true; //菜单变色
+		var type=$("select[name='type']").val();
+		var zone=$("select[name='zone']").val();
+		var link=$("select[name='link']").val();
+		var status=$("select[name='status']").val();
+		$http.get("../../bs/map/area").success(
+				function(response) {
+					$scope.zoneData = response.items;
+				});
 		/*获取信息*/
-		$http.get("../../bs/allBsInfo").
+		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
-			$scope.totals = response.totals;
+			$scope.totals = $scope.data.length;
 		});
+		
 		
 		
 		/* 刷新数据 */
@@ -56,6 +64,10 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
+			var type=$("select[name='type']").val();
+			var zone=$("select[name='zone']").val();
+			var link=$("select[name='link']").val();
+			var status=$("select[name='status']").val();
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -67,12 +79,11 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../radio/status/oneBsRadio?bsId="+$scope.bsId+"&start="+start+"&limit="+pageSize).
+			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status).
 			success(function(response){
 				xh.maskHide();
-				$scope.radioData = response.items;
-				$scope.radioTotals = response.totals;
-				xh.pagging(page, parseInt($scope.radioTotals),$scope);
+				$scope.data = response.items;
+				$scope.totals = response.totals;
 			});
 		};
 		//分页点击

@@ -21,8 +21,7 @@
 <p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
 <![endif]-->
 </head>
-<body ng-app="app" ng-controller="userstatus"
-	class="fixed-iframe">
+<body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="splash-title">
@@ -54,7 +53,7 @@
 		</div>
 		<div class="content animate-panel" data-child="hpanel"
 			data-effect="fadeInDown">
-			<div class="alert alert-danger">
+			<div class="alert alert-success">
 				<i class="fa fa-close text-white pull-right" id="alert-close"></i> <img
 					src="../../Resources/images/img/tower_on.png" width="20"
 					height="20" style="background:#fff"> &nbsp;&nbsp;<span
@@ -65,17 +64,57 @@
 					src="../../Resources/images/img/tower_stop.png" width="20"
 					height="20" style="background:#fff"> &nbsp;&nbsp;<span
 					style="color:#fff">代表基站没有启用</span> &nbsp;&nbsp;
+
+				<button class="btn btn-danger btn-sm" ng-disabled=""
+					onclick="xh.excelToBsstatus()">
+					<i class="fa fa-file-excel-o"></i>&nbsp;导出现网基站的运行记录
+				</button>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
-							<div class="btn-group" style="padding-top:2px;">
-								<button class="btn btn-success btn-sm" ng-disabled="" onclick="xh.excelToBsstatus()">
-									<i class="fa fa-file-excel-o"></i>&nbsp;导出现网基站的运行记录
-								</button>
-								
+
+							<div class="row">
+								<div class="col-md-3">
+									<label>基站级别:</label> <select
+										name="type" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										<option value="0" selected="selected">全部</option>
+										<option value="1">一级基站</option>
+										<option value="2">二级基站</option>
+										<option value="3">三级基站</option>
+									</select>
+
+								</div>
+								<div class="col-md-3">
+									<label>基站区域:</label> <select
+										name="zone" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										<option value="全部" selected="selected">全部</option>
+										<option ng-repeat="x in zoneData" value="{{x.zone}}" >{{x.zone}}</option>
+										
+									</select>
+
+								</div>
+								<div class="col-md-3">
+									<label>连接状态:</label> <select
+										name="link" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										<option value="2" selected="selected">全部</option>
+										<option value="0">连接</option>
+										<option value="1">断开</option>
+									</select>
+
+								</div>
+								<div class="col-md-3">
+									<label>启用状态:</label> <select
+										name="status" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										<option value="2" selected="selected">全部</option>
+										<option value="1">启用</option>
+										<option value="0">未启用</option>
+									</select>
+
+								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -83,17 +122,19 @@
 			<!-- row---end -->
 			<div class="row">
 				<div class="col-md-12">
+				 <div ng-if="totals==0">未找到相关数据</div>
 					<div class="hpanel bs-box" ng-repeat="x in data"
 						bsId-value="{{x.bsId}}" status-value="{{x.status}}">
 						<div class="panel-heading">【{{x.bsId}}号】基站</div>
 						<div class="panel-body">
-							<div ng-if="x.status==0 && x.openen==1">
+						   
+							<div ng-if="x.link==1 && x.status==1">
 								<img alt="" src="../../Resources/images/img/tower_off.png">
 							</div>
-							<div ng-if="x.status==1 && x.openen==1">
+							<div ng-if="x.link==0 && x.status==1">
 								<img alt="" src="../../Resources/images/img/tower_on.png">
 							</div>
-							<div ng-if="x.openen==0">
+							<div ng-if="x.status==0">
 								<img alt="" src="../../Resources/images/img/tower_stop.png">
 							</div>
 						</div>
@@ -106,7 +147,7 @@
 			<!-- row-end -->
 		</div>
 	</div>
-	
+
 	<!-- 底部内容体 -->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
@@ -127,7 +168,7 @@
 		$("body").delegate(".bs-box", "click", function() {
 			$("#bs-status-right").fadeIn("fast");
 			var bsId = $(this).attr("bsId-value");
-			window.location.href="bsstatus-view.html?bsId="+bsId;
+			window.location.href = "bsstatus-view.html?bsId=" + bsId;
 
 			// TODO
 		});

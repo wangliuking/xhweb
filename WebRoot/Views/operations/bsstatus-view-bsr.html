@@ -1,41 +1,48 @@
 
 <div class="row">
 	<div class="col-md-12">
-	 
-		<table id="tb-info" class="xh-table table-hover">
-			<thead>
-				<tr class="tr-gray">
-					<th>bsrID</th>
-					<th>工作状态</th>
-					<th>第一载波频点</th>
-					<th>第二载波频点</th>
-					<th>第三载波频点</th>
-					<th>第四载波频点</th>
-					<th>是否包含主载波</th>
-					<th>功率</th>
-					<th>更新时间</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-if="bsrTotals==0">
-					<td colspan="9" class="text-center">没有记录！</td>
-				</tr>
-				<tr ng-repeat="x in bsrData">
-					<td>{{x.Id}}</td>
-					<td ng-if="x.working==0" class="td-danger">异常</td>
-					<td ng-if="x.working==1" class="td-success">正常运行</td>
-					<td ng-if="x.working==2" class="td-success">正常运行</td>
-					<td>{{x.freq}}</td>
-					<td>{{x.freq2}}</td>
-					<td>{{x.freq3}}</td>
-					<td>{{x.freq4}}</td>
-					<td>{{x.master}}</td>
-					<td ng-if="x.power>45">{{x.power-15}}</td>
-					<td ng-if="x.power<=45">{{x.power}}</td>
-					<td>{{x.updateTime}}</td>
-				</tr>
-			</tbody>
-		</table>
-		
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+
+				<i class="fa fa-navicon"></i> BSR状态
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>bsrID</th>
+							<th>工作状态</th>
+							<th>第一载波频点</th>
+							<th>第二载波频点</th>
+							<th>第三载波频点</th>
+							<th>第四载波频点</th>
+							<th>是否包含主载波</th>
+							<th>功率</th>
+							<th>更新时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="bsrTotals==0">
+							<td colspan="9" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in bsrData">
+							<td>{{x.Id}}</td>
+							<td ng-if="x.working==0" class="td-danger">异常</td>
+							<td ng-if="x.working==1" class="td-success">正常运行</td>
+							<td ng-if="x.working==2" class="td-success">正常运行</td>
+							<td>{{x.freq}}</td>
+							<td>{{x.freq2}}</td>
+							<td>{{x.freq3}}</td>
+							<td>{{x.freq4}}</td>
+							<td>{{x.master}}</td>
+							<td ng-if="x.power>45">{{x.power-15}}</td>
+							<td ng-if="x.power<=45">{{x.power}}</td>
+							<td>{{x.updateTime}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
 	</div>
 </div>

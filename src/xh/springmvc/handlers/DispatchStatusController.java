@@ -58,7 +58,7 @@ public class DispatchStatusController {
 		
 		DispatchBean bean=GsonUtil.json2Object(formData, DispatchBean.class);
 		
-		log.info("调度台INFO123="+bean.toString());
+		log.info("调度台="+bean.toString());
 		int rsl=0;
 		if(DispatchStatusService.dispatchExists(bean.getDstId())==0){
 			rsl=DispatchStatusService.addDispatch(bean);
