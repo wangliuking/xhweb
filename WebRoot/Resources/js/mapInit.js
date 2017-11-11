@@ -61,7 +61,8 @@ app.controller("map", function($scope, $http) {
 			});
 			$http.get("bs/map/bsByArea?zone="+t).success(
 					function(response) {
-						var tempData = response.items;			
+						var tempData = response.items;	
+						console.log(tempData);
 						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
 						myMap.centerAndZoom(point,area[params].zoom*1);
 						layerCreate(tempData);
@@ -579,7 +580,7 @@ function layerCreate(data){
 		// 判断基站是连接还是断开
 		if (data[i].bsStatus == 0) {
 			temp = "bluesky/contact_small.png";
-		} else if (data[i].bsStatus == 1) {
+		} else {
 			// 判断基站告警的级别
 			/*if (typeof (data[i].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_small.png";
@@ -614,7 +615,7 @@ function layerCreate(data){
 		// 判断基站是连接还是断开
 		if (data[j].bsStatus == 0) {
 			temp = "bluesky/contact_middle.png";
-		} else if (data[j].bsStatus == 1) {
+		} else {
 			// 判断基站告警的级别
 			/*if (typeof (data[j].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_middle.png";
@@ -649,7 +650,7 @@ function layerCreate(data){
 		// 判断基站是连接还是断开
 		if (data[x].bsStatus == 0) {
 			temp = "bluesky/contact_big.png";
-		} else if (data[x].bsStatus == 1) {
+		} else {
 			// 判断基站告警的级别
 			/*if (typeof (data[x].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_big.png";
@@ -856,7 +857,7 @@ function init(data,markData) {
 					geoCoord : obj,
 					markPoint : {
 						symbol : 'image://',
-						symbolSize: 16,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
+						symbolSize: 12,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
 		                
 		                data:objAll
 					}
@@ -866,10 +867,10 @@ function init(data,markData) {
 					mapType : 'none',
 					data : [],
 					markPoint : {
-						symbol : 'emptyCircle',
+						symbol : 'image://',//'emptyCircle'
 						
 						symbolSize : function(v) {
-							return 16
+							return 12
 						},
 						effect : {
 							show : true,
