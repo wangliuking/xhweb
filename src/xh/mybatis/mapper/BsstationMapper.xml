@@ -32,6 +32,7 @@
 		</if>
 		  order by a.bsId asc
 	</select>
+
 	<!--根据基站ID，名称查找基站记录 -->
 	<select id="bsInfo" parameterType="map" resultType="xh.mybatis.bean.BsstationBean"
 		useCache="true">
@@ -95,7 +96,7 @@
 
 	<!--根据区域信息查询所有基站wlk-->
     <select id="bsByArea" resultType="java.util.HashMap" parameterType="java.util.List" useCache="true">
-     select * from xhgmnet_bs_station as a where a.zone in (
+     select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join xhgmnet_bsstatus as b on a.bsId=b.bsId where a.zone in (
      <foreach collection="list" item="z" separator=",">
 			#{z}
 		</foreach>
@@ -103,7 +104,7 @@
     </select>
     <!--根据级别信息查询所有基站wlk-->
     <select id="bsByLevel" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_bs_station as a where a.level=#{level} group by a.bsId 
+     select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join xhgmnet_bsstatus as b on a.bsId=b.bsId where a.level=#{level} group by a.bsId 
     </select>
 	<!--查询所有 区域信息wlk-->
     <select id="selectAllArea" resultType="java.util.HashMap" useCache="true">
@@ -155,7 +156,7 @@
 		select * from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat} 
 		order by bsId asc limit #{start},#{limit}
 	</select>
-	<!--根据基站ID，名称查找基站记录总数 -->
+	<!--区域圈选总数 -->
 	<select id="rectangleCount" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
