@@ -37,9 +37,13 @@ public class TalkGroupEBusinessController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void info(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;	
+		String id=request.getParameter("id");
+		String name=request.getParameter("name");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("name", name);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
