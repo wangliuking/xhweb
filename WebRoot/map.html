@@ -89,8 +89,13 @@ html,body {
 	right: 6%;
 	z-index: 1000;
 }
-.dropdown-menu{
+
+.dropdown-menu {
 	background: rgba(255, 255, 255, 0.6);
+}
+
+.chooseLevel {
+	color: red;
 }
 </style>
 </head>
@@ -104,9 +109,9 @@ html,body {
 				级别 <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu" role="menu">
-				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li style="text-align:center;" ng-if="x.level!=null"><a href="#"
-						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+				<ul class="nav nav-second-level" ng-repeat="x in levelData" id="testChooseLevel">
+					<li style="text-align:center;" ng-if="x.level!=null"><a class="chooseLevel"
+						href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
 				</ul>
 			</div>
 
@@ -118,8 +123,8 @@ html,body {
 			</button>
 			<div class="dropdown-menu" role="menu">
 				<ul ng-repeat="x in data">
-					<li><label class="areaChoose"><input
-							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
+					<li><label class="areaChoose"><input type="checkbox"
+							ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
 				</ul>
 			</div>
 		</div>
@@ -130,74 +135,22 @@ html,body {
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li style="padding-left:36px;"><label><input
-						id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
+						id="bsInfo" type="checkbox" value="" checked>基站信息图</label></li>
 				<li style="padding-left:36px;"><label><input
-						id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
+						id="roadtestInfo" type="checkbox" value="">路测信息图</label></li>
 				<li style="padding-left:36px;"><label><input
-						id="testService" type="checkbox" value="">行政区域</label></li>
+						id="testService" type="checkbox" value="">行政区域图</label></li>
 				<li style="padding-left:36px;"><label><input
-						id="testDemo" type="checkbox" value="">基站覆盖图</label></li>
+						id="testDemo" type="checkbox" value="">基站覆盖仿真图</label></li>
 			</ul>
 		</div>
 		<div class="btn-group">
-			<button data-dojo-type="dijit/form/Button" class="btn btn-primary btn-sm dropdown-toggle">
-				圈选
-			</button>
+			<button data-dojo-type="dijit/form/Button"
+				class="btn btn-primary btn-sm dropdown-toggle">圈选</button>
 		</div>
 	</div>
-	<!-- 导航右侧标签 -->
-	<!-- <div class="nav_right"></div> -->
-	<!-- 左侧导航 -->
-	<!-- <aside id="menu" class="menu"
-		style="z-index:1000;height:100%-80px;background: rgba(176,196,222, 0.7);position:fixed;top:0;left:-190px;overflow-x:hidden;">
-		<div id="menu-title">
-		<i class="fa fa-list-alt text-danger"></i>&nbsp;&nbsp;<span>菜单列表</span>
-	</div>
-		<ul class="nav" id="side-menu"
-			style="height:auto;background: rgba(176,196,222, 0.7);">
-			<li><a href="#"> <i class="fa fa-level-up text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li ng-if="x.level!=null"><a href="#"
-						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
-				</ul></li>
-		 	<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level" ng-repeat="x in data">
-					<li style="padding-left:36px;"><label class="areaChoose"><input
-							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-location-arrow text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">图层选择</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level">
-					<li style="padding-left:36px;"><label><input
-							id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="testService" type="checkbox" value="">行政区域</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="testDemo" type="checkbox" value="">仿真图片</label></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-columns text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">区域圈选</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level">
-					<li style="padding-left:36px;"><label>
-							<button data-dojo-type="dijit/form/Button">点击选择</button>
-					</label></li>
-				</ul></li>
-
-		</ul>
-	</aside> -->
 
 
-	<!-- <div id="head" data-dojo-props="region:'top'">
-      <button data-dojo-type="dijit/form/Button">Ellipse</button>
-    </div> -->
 	<div id="mapDiv"></div>
 	<!-- 模态框（圈选） start-->
 	<div class="modal fade" id="rectangle" tabindex="-1" role="dialog"
@@ -408,35 +361,35 @@ html,body {
 						<div class="tab-pane fade" id="business">
 							<div>
 								<table width="100%" border="0" class="userCon_2">
-										<tr>
-											<th>上行控制信道占用率：</th>
-											<td><input type="text" name="business2"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business1" value="" required="" aria-required="true"
-												disabled></td>
-										</tr>
+									<tr>
+										<th>上行控制信道占用率：</th>
+										<td><input type="text" name="business2"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="business1" value="" required="" aria-required="true"
+											disabled></td>
+									</tr>
 
-										<tr>
-											<th>下行控制信道占用率：</th>
-											<td><input type="text" name="business3"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business2" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>排队数：</th>
-											<td><input type="text" name="business4"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business3" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>获取时间：</th>
-											<td><input type="text" name="lineHeight"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business4" value="" required=""
-												aria-required="true" disabled /></td>
-										</tr>
+									<tr>
+										<th>下行控制信道占用率：</th>
+										<td><input type="text" name="business3"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="business2" value="" required="" aria-required="true"
+											disabled /></td>
+									</tr>
+									<tr>
+										<th>排队数：</th>
+										<td><input type="text" name="business4"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="business3" value="" required="" aria-required="true"
+											disabled /></td>
+									</tr>
+									<tr>
+										<th>获取时间：</th>
+										<td><input type="text" name="lineHeight"
+											class="form-control" style="border-radius:3px; width:220px;"
+											id="business4" value="" required="" aria-required="true"
+											disabled /></td>
+									</tr>
 								</table>
 							</div>
 
@@ -508,23 +461,9 @@ html,body {
 		src="lib/highcharts/themes/grid-light.js"></script>
 	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
 	<script type="text/javascript">
-		$('#side-menu').metisMenu();
-		$('.nav_right').mouseover(function() {
-			$('#menu').animate({
-				left : "0px"
-			}, 100, function() {
-				$('.nav_right').animate({
-					left : "189px"
-				}, 300);
-			});
-		});
-		$('.nav_right').click(function() {
-			$('#menu').animate({
-				left : "-190px"
-			}, 100, function() {
-				$('.nav_right').animate({
-					left : "0px"
-				}, 300);
+		$(function() {
+			$("testChooseLevel li a").click(function() {
+				$(this).removeClass("chooseLevel");
 			});
 		});
 	</script>
