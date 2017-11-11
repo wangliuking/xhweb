@@ -21,7 +21,6 @@
 	margin: 0px;
 	padding: 0px;
 }
-
 body {
 	font-family: 'Microsoft Yahei';
 	background-color: #f1f3f6;
@@ -2038,7 +2037,7 @@ line-height
 
 .form-control {
 	border-color: #e4e5e7 !important;
-	/* padding:0; */
+	 padding:0; 
 	height: 30px;
 }
 .form-control-static {

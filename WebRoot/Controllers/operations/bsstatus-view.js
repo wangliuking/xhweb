@@ -55,11 +55,9 @@ xh.load = function() {
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
 		$http.get(
-				"../../radio/status/oneBsGroup?bsId=" + bsId
-						+ "&start=0&limit=" + pageSize).success(
+				"../../bs/map/dataById?bsId=" + bsId).success(
 				function(response) {
-					$scope.groupData = response.items;
-					$scope.groupTotals = response.totals;
+					$scope.bsinfoData = response.items[0];
 				});
 
 		// 获取环控设备状态

@@ -68,21 +68,32 @@
 	<insert id="insertBs" keyProperty="bsId"
 		parameterType="xh.mybatis.bean.BsstationBean">
 		insert into
-		xhgmnet_bs_station(bsId,name,type,level,lat,lng,chnumber,gpsLineNum,power,carrier,
-		carrierName,carrierLink,lineHeight,address,contact,tel,ip,height,openen)
-		values(#{bsId},#{name},#{type},#{level},#{lat},#{lng},#{chnumber},#{gpsLineNum},
-		#{power},#{carrier},#{carrierName},#{carrierLink},#{lineHeight},#{address},
-		#{contact},#{tel},#{ip},#{height},#{openen})
+		xhgmnet_bs_station(bsId, name, period, lat, lng, chnumber, number, gpsLineNum, 
+		power, carrier, carrierName, carrierLink, height, lineHeight, lineInstallType, 
+		address, contact, tel, ip, type, productor, deviceType, level, status, 
+		hometype, roomCharge, electricCharge, createTime, zone, envMonitor, conditionerCount, 
+		fireEquipment, generatorConfig, isGenerator, entryLimitType, transCount, comment)
+		values(#{bsId}, #{name}, #{period}, #{lat}, #{lng}, #{chnumber}, #{number}, 
+		#{gpsLineNum}, #{power}, #{carrier}, #{carrierName}, #{carrierLink}, #{height}, 
+		#{lineHeight}, #{lineInstallType}, #{address}, #{contact}, #{tel}, #{ip}, 
+		#{type},#{productor},#{deviceType}, #{level}, #{status}, #{hometype}, #{roomCharge}, 
+		#{electricCharge}, #{createTime}, #{zone}, #{envMonitor}, #{conditionerCount}, #{fireEquipment}, 
+		#{generatorConfig}, #{isGenerator}, #{entryLimitType}, #{transCount}, #{comment})
 	</insert>
 
 	<!--更新基站 -->
 	<update id="updateByBsId" parameterType="xh.mybatis.bean.BsstationBean">
 		update
-		xhgmnet_bs_station set name=#{name},type=#{type},level=#{level},
-		lat=#{lat},lng=#{lng},chnumber=#{chnumber},gpsLineNum=#{gpsLineNum} ,power=#{power} 
-		,carrier=#{carrier} ,carrierName=#{carrierName} ,carrierLink=#{carrierLink} ,
-		lineHeight=#{lineHeight} ,address=#{address} ,contact=#{contact} ,tel=#{tel} ,
-		ip=#{ip} ,height=#{height},openen=#{openen}  where bsId=#{bsId}
+		xhgmnet_bs_station set name=#{name}, period=#{period}, lat=#{lat}, lng=#{lng}, chnumber=#{chnumber}, number=#{number}, 
+		gpsLineNum=#{gpsLineNum}, power=#{power}, carrier=#{carrier}, carrierName=#{carrierName}, 
+		carrierLink=#{carrierLink}, height=#{height},lineHeight=#{lineHeight}, lineInstallType=#{lineInstallType}, 
+		address=#{address}, contact=#{contact}, tel=#{tel}, ip=#{ip}, 
+		type=#{type},productor=#{productor},deviceType=#{deviceType}, level=#{level}, status=#{status}, 
+		hometype=#{hometype}, roomCharge=#{roomCharge}, 
+		electricCharge=#{electricCharge}, createTime=#{createTime}, zone=#{zone}, envMonitor=#{envMonitor}, 
+		conditionerCount=#{conditionerCount}, fireEquipment=#{fireEquipment}, 
+		generatorConfig=#{generatorConfig}, isGenerator=#{isGenerator}, entryLimitType=#{entryLimitType}, 
+		transCount=#{transCount}, comment=#{comment}  where bsId=#{bsId}
 	</update>
 
 	<!--删除基站 -->

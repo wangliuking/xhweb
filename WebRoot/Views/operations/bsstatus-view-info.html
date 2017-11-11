@@ -1,0 +1,27 @@
+
+<div class="row">
+	<div class="col-md-12">
+	 <div class="hpanel">
+			<!-- <div class="panel-heading hbuilt">
+				
+				<i class="fa fa-navicon"></i> PSM状态
+			</div> -->
+			<div class="panel-body">
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th>类别</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-if="psmTotals==0">
+					<td colspan="2" class="text-center">没有记录！</td>
+				</tr>
+				<tr><td>基站ID</td><td>{{bsinfoData.bsId}}</td></tr>
+				<tr><td>基站名称</td><td>{{bsinfoData.name}}</td></tr>
+			</tbody>
+		</table>
+		</div></div>
+	</div>
+</div>

@@ -26,6 +26,24 @@ xh.load = function() {
 	var bsId = $("#bsId").val();
 	var name = $("#name").val();
 	var pageSize = $("#page-limit").val();
+	app.directive('stringData', function(){
+	  return {
+	    require: 'ngModel',
+	    link: function(scope, elem, attr, ngModelCtrl) {
+	      ngModelCtrl.$formatters.push(function(modelValue){
+	        if(modelValue) {
+	          return modelValue.toString();
+	        }
+	      });
+
+	     /* ngModelCtrl.$parsers.push(function(value){
+	        if(value) {
+	          return "1";
+	        }
+	      });*/
+	    }
+	  };
+	});
 
 	app.controller("bs", function($scope, $http) {
 		xh.maskShow();
@@ -47,8 +65,6 @@ xh.load = function() {
 		/* 显示修改基站model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
-			$scope.type = $scope.editData.type.toString();
-			$scope.level = $scope.editData.level.toString();
 		};
 		/* 显示修改基站model */
 		$scope.showEditModel = function() {

@@ -70,13 +70,13 @@
 							</div> -->
 
 							<ul id="xh-tabs" class="nav nav-tabs">
-								<li ><a href="#info" data-toggle="tab"
-									ng-click='bsGroup()'> 基本信息 </a></li>
+								<li class="active"><a href="#info" data-toggle="tab" ng-click=''>
+										基本信息 </a></li>
 								<li><a href="#config" data-toggle="tab"
 									ng-click='bsGroup()'> 参数</a></li>
 								<li><a href="#business" data-toggle="tab"
 									ng-click='bsGroup()'> 业务</a></li>
-								<li class="active"><a href="#group" data-toggle="tab"
+								<li><a href="#group" data-toggle="tab"
 									ng-click='bsGroup()'> 注册组 </a></li>
 								<li><a href="#radio" data-toggle="tab"
 									ng-click='radioUser()'> 注册终端 </a></li>
@@ -97,11 +97,14 @@
 							</ul>
 							<div class="tab-content" style="padding:20px">
 
+								<div class="tab-pane fade in active" id="info">
+									<div ng-include="'bsstatus-view-info.html'"></div>
+								</div>
 								<div class="tab-pane fade" id="emh">
 									<div ng-include="'bsstatus-view-emh.html'"></div>
 								</div>
 								<!-- emh -->
-								<div class="tab-pane fade in active" id="group">
+								<div class="tab-pane fade" id="group">
 									<div ng-include="'bsstatus-view-group.html'"></div>
 								</div>
 								<!-- group -->
