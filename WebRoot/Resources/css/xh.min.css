@@ -2032,11 +2032,16 @@ line-height
 	font-weight: normal;
 }
 
-.form-control,.form-control:focus {
+.form-control,.form-control-static.form-control:focus {
 	box-shadow: none;
 }
 
 .form-control {
+	border-color: #e4e5e7 !important;
+	/* padding:0; */
+	height: 30px;
+}
+.form-control-static {
 	border-color: #e4e5e7 !important;
 	/* padding:0; */
 	height: 35px;

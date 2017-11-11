@@ -98,16 +98,17 @@ xh.org.listeners.SingLoginListener
 
 	<!--Axis2 end -->
 
+
 <!--emh TCP长连接 -->
 <!--  <listener>
   <description>emh socket 长连接 </description>
   <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
 </listener> -->
-<!--emh TCP长连接    end -->
+<!--emh TCP长连接end -->
 
 <!-- ping调度台线程 -->
  <listener>
-   <description>ping调度台</description>
+  <description>ping调度台</description>
   <listener-class>xh.org.listeners.PingDispatchListener</listener-class>
  </listener> 
 

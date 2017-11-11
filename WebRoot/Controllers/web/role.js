@@ -49,6 +49,12 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$scope.editData.roleType = $scope.editData.roleType.toString();
 		};
+		/*跳转到菜单分配页面*/
+		$scope.menu = function(id) {
+			$scope.editData = $scope.data[id];
+			//+$scope.editData.roleId+"&role="+$scope.editData.role
+			window.location.href="role-menu.html?roleId=";
+	    };
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
 			var checkVal = [];

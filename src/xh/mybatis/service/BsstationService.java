@@ -140,12 +140,12 @@ public class BsstationService {
 	 * 查询所有基站
 	 * @return
 	 */
-	public static List<HashMap> allBsInfo() {
+	public static List<HashMap> allBsInfo(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {
-			list=mapper.allBsInfo();
+			list=mapper.allBsInfo(map);
 			sqlSession.commit();
 			sqlSession.close();
 			
