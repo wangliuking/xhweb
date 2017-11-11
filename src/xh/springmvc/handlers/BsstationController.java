@@ -124,6 +124,7 @@ public class BsstationController {
 		}
 		
 	}
+
 	/**
 	 * 添加基站
 	 * @param request
@@ -251,9 +252,9 @@ public class BsstationController {
 			HashMap map = new HashMap();
 			BsstationService bsStationService = new BsstationService();
 			String temp = request.getParameter("zone");			
-			byte[] b=temp.getBytes("ISO-8859-1");
-			String test=new String(b,"utf-8");
-			String[] zonetemp = test.split(",");
+			//byte[] b=temp.getBytes("ISO-8859-1");
+			//String test=new String(b,"utf-8");
+			String[] zonetemp = temp.split(",");
 			List<String> zone = Arrays.asList(zonetemp);
 			List<HashMap<String, String>> listMap = bsStationService.bsByArea(zone);
 			map.put("items", listMap);

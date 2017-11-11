@@ -577,11 +577,11 @@ function layerCreate(data){
 	for (i = 0; i < data.length; i++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[i].status == 0) {
-			temp = "bluesky/break_small.png";
-		} else if (data[i].status == 1) {
+		if (data[i].bsStatus == 0) {
+			temp = "bluesky/contact_small.png";
+		} else if (data[i].bsStatus == 1) {
 			// 判断基站告警的级别
-/*			if (typeof (data[i].alarmLevel) === "undefined") {
+			/*if (typeof (data[i].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_small.png";
 			} else if (data[i].alarmLevel == 1) {
 				temp = "bluesky/normal_small.gif";
@@ -590,8 +590,6 @@ function layerCreate(data){
 			} else if (data[i].alarmLevel == 3) {
 				temp = "bluesky/urgent_small.gif";
 			}*/
-			temp = "bluesky/contact_small.png";
-		} else if (data[i].status == 2) {
 			temp = "bluesky/unuse_small.png";
 		}
 
@@ -614,9 +612,9 @@ function layerCreate(data){
 	for (j = 0; j < data.length; j++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[j].status == 0) {
-			temp = "bluesky/break_middle.png";
-		} else if (data[j].status == 1) {
+		if (data[j].bsStatus == 0) {
+			temp = "bluesky/contact_middle.png";
+		} else if (data[j].bsStatus == 1) {
 			// 判断基站告警的级别
 			/*if (typeof (data[j].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_middle.png";
@@ -627,8 +625,6 @@ function layerCreate(data){
 			} else if (data[j].alarmLevel == 3) {
 				temp = "bluesky/urgent_middle.gif";
 			}*/
-			temp = "bluesky/contact_middle.png";
-		} else if (data[j].status == 2) {
 			temp = "bluesky/unuse_middle.png";
 		}
 
@@ -651,9 +647,9 @@ function layerCreate(data){
 	for (x = 0; x < data.length; x++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[x].status == 0) {
-			temp = "bluesky/break_big.png";
-		} else if (data[x].status == 1) {
+		if (data[x].bsStatus == 0) {
+			temp = "bluesky/contact_big.png";
+		} else if (data[x].bsStatus == 1) {
 			// 判断基站告警的级别
 			/*if (typeof (data[x].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_big.png";
@@ -664,8 +660,6 @@ function layerCreate(data){
 			} else if (data[x].alarmLevel == 3) {
 				temp = "bluesky/urgent_big.gif";
 			}*/
-			temp = "bluesky/contact_big.png";
-		} else if (data[x].status == 2) {
 			temp = "bluesky/unuse_big.png";
 		}
 
@@ -722,7 +716,6 @@ function init(data,markData) {
 			};
 			objAll.push(y);
 		}
-		/*console.log("data->"+objTemp[0].name);*/
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
 		var myChart = overlay.initECharts(chartsContainer);
@@ -740,8 +733,12 @@ function init(data,markData) {
 					var data = dataTemp[0];
 					$('#bsId').val(data.bsId);
 					$('#bsName').val(data.name);
-					$('#lat').val(data.lat);
-					$('#lng').val(data.lng);
+					if(data.period==3){
+						$('#period').val("三期基站");
+					}else{
+						$('#period').val("四期基站");
+					}
+					$('#type').val(data.type);
 					$('#address').val(data.address);
 					$('#ip').val(data.ip);
 					if (data.contact == '') {
@@ -752,31 +749,33 @@ function init(data,markData) {
 						$('#contact').val(data.contact);
 						$('#tel').val(data.tel);
 					}
+					
 					$('#chnumber').val(data.chnumber);
 					$('#gpsLineNum').val(data.gpsLineNum);
 					$('#power').val(data.power);
 					$('#carrier').val(data.carrier);
 					$('#height').val(data.height);
 					$('#lineHeight').val(data.lineHeight);
-					if (data.status == '') {
+					if (data.bsStatus == '') {
 						$('#status').val("暂无相关信息");
 					} else if (data.status == 0) {
-						$('#status').val("断开");
-					} else if (data.status == 1) {
 						$('#status').val("正常");
-					} else if (data.status == 2) {
+					}else{
 						$('#status').val("未启用");
 					}
 					
+					$('#business1').val(data.upload);
+					$('#business2').val(data.download);
+					$('#business3').val(data.queuedAllocReq);
+					$('#business4').val(data.time);
 					/**
 					 * start
 					 * 业务部分模拟数据
 					 */
-					$('#business1').val(parseInt(Math.random()*(99-5+1) + 5));
+					/*$('#business1').val(parseInt(Math.random()*(99-5+1) + 5));
 					$('#business2').val(parseInt(Math.random()*(50-16+1) + 16)+"%");
 					$('#business3').val(parseInt(Math.random()*(65-16+1) + 11)+"%");
-					$('#business4').val(parseInt(Math.random()*(99-5+1) + 5));
-					$('#business5').val(parseInt(Math.random()*(51-23+1) + 23)+"%");
+					$('#business4').val(parseInt(Math.random()*(99-5+1) + 5));*/
 					/**
 					 * end
 					 */
