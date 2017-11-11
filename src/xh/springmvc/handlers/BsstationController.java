@@ -99,10 +99,21 @@ public class BsstationController {
 	 */
 	@RequestMapping(value="/allBsInfo",method = RequestMethod.GET)
 	public void allBsInfo(HttpServletRequest request, HttpServletResponse response){
+		int type=Integer.parseInt(request.getParameter("type"));
+		String zone=request.getParameter("zone");
+		int link=Integer.parseInt(request.getParameter("link"));
+		int status=Integer.parseInt(request.getParameter("status"));
+		Map<String,Object> paramMap=new HashMap<String, Object>();
+		paramMap.put("type", type);
+		paramMap.put("zone", zone);
+		paramMap.put("link", link);
+		paramMap.put("status",status);
+		
+		
 		this.success=true;		
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("items", BsstationService.allBsInfo());
+		result.put("items", BsstationService.allBsInfo(paramMap));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -113,6 +124,7 @@ public class BsstationController {
 		}
 		
 	}
+
 	/**
 	 * 添加基站
 	 * @param request

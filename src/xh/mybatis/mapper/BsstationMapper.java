@@ -58,7 +58,8 @@ public interface BsstationMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap>allBsInfo()throws Exception;
+	public List<HashMap>allBsInfo(Map<String,Object> map)throws Exception;
+
 	/**
 	 * 根据所选区域查询所有基站
 	 * @author wlk
