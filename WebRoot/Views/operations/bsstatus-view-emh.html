@@ -79,7 +79,8 @@
 					<div class="hpanel">
 						<div class="panel-heading">视频监控</div>
 						<div class="panel-body">
-							<div id="divPlugin" class="plugin"></div>
+							<div id="divPlugin" class="plugin" style="width:600px;height:400px;"></div>
+							<input type="button" ng-click='initCamera()' value="预览"/>
 						</div>
 					</div>
 				</div>
@@ -226,6 +227,7 @@
 	</div>
 </div> -->
 <!-- row -->
+<script src="../../demo/jquery-1.7.1.min.js"></script>
 <script type="text/javascript">
 	var $scope = angular.element(appElement).scope();
 	$scope.loadTemp();
@@ -235,6 +237,3 @@
 	/* 湿度*/
 	/* xh.loadDamp(); */
 </script>
-<script src="../../demo/jquery-1.7.1.min.js"></script>
-<script src="../../demo/codebase/webVideoCtrl.js"></script>
-<script src="../../demo/cn/demo-easy.js"></script>

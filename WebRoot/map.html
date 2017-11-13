@@ -93,9 +93,8 @@ html,body {
 .dropdown-menu {
 	background: rgba(255, 255, 255, 0.6);
 }
-
-.chooseLevel {
-	color: red;
+.chooseLevel{
+	color:red;
 }
 </style>
 </head>
@@ -110,8 +109,9 @@ html,body {
 			</button>
 			<div class="dropdown-menu" role="menu">
 				<ul class="nav nav-second-level" ng-repeat="x in levelData" id="testChooseLevel">
-					<li style="text-align:center;" ng-if="x.level!=null"><a class="chooseLevel"
-						href="#" ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+					<li style="text-align:center;" ng-if="x.level!=null"><a
+						href="#" ng-click="levelChoose(x.level,$index)">{{x.level}}级基站 <i class="fa fa-check-square-o" ng-show="clickLevel==$index"></i>
+						<i class="fa fa-square-o" ng-show="clickLevel!=$index"></i></a></li>
 				</ul>
 			</div>
 
@@ -138,8 +138,6 @@ html,body {
 						id="bsInfo" type="checkbox" value="" checked>基站信息图</label></li>
 				<li style="padding-left:36px;"><label><input
 						id="roadtestInfo" type="checkbox" value="">路测信息图</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="testService" type="checkbox" value="">行政区域图</label></li>
 				<li style="padding-left:36px;"><label><input
 						id="testDemo" type="checkbox" value="">基站覆盖仿真图</label></li>
 			</ul>
@@ -463,7 +461,8 @@ html,body {
 	<script type="text/javascript">
 		$(function() {
 			$("testChooseLevel li a").click(function() {
-				$(this).removeClass("chooseLevel");
+				console.log("aaa");
+				
 			});
 		});
 	</script>

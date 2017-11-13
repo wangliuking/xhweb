@@ -1,4 +1,4 @@
-$(function () {
+function initCamera() {
 	// 检查插件是否已经安装过
     var iRet = WebVideoCtrl.I_CheckPluginInstall();
 	if (-2 == iRet) {
@@ -57,4 +57,4 @@ $(function () {
 	$(window).unload(function () {
 		WebVideoCtrl.I_Stop();
 	});
-});
+};

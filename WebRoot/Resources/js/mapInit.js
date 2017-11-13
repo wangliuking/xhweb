@@ -17,8 +17,9 @@ app.controller("map", function($scope, $http) {
 			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
 			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
 	}
-	$scope.levelChoose=function(params){
-		console.log(params);
+	$scope.levelChoose=function(params,index){
+		console.log(params+"  "+index);
+		$scope.clickLevel=index;
 		$http.get("bs/map/bsByLevel?level="+params).success(
 				function(response) {
 					var tempData = response.items;					
@@ -284,20 +285,20 @@ function floor(data) {
 	esri.symbols = esri.symbol;
 	myMap = new esri.Map("mapDiv", options);// 在mapDiv中创建map地图对象
 	// 创建底图图层对象,http://10.190.230.165/arcgisditu/rest/services/NEWMAP/MapServer为政务外网底图服务地址,
+	console.log(chooseLayer);
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务
+				"http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
-	}else{
+	}else if(chooseLayer==1){
 		testDemo = new
 		esri.layers.ArcGISTiledMapServiceLayer(
 				"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
-	
-	test = new
-	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");//动态服务
+	/*test = new
+	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");*///动态服务
 	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
@@ -309,7 +310,7 @@ function floor(data) {
 	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
 	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
-	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
+	myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
 	myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
@@ -970,15 +971,6 @@ function init(data,markData) {
 					 
 				} else {
 					myMap.removeLayer(roadtest);
-				}
-			});
-			
-			$("#testService").click(function() {
-				if ($(this).prop("checked") == true) {
-					myMap.addLayer(test);
-					 
-				} else {
-					myMap.removeLayer(test);
 				}
 			});
 			
