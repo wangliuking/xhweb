@@ -14,7 +14,7 @@
 		<result property="createTime" column="createTime" javaType="java.lang.String"></result>
 	</resultMap>
 	<!-- 基站列表 -->
-	<select id="bsInfo" parameterType="map" resultType="java.util.HashMap"
+	<select id="bsstatusInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select a.*,b.link from xhgmnet_bs_station as a left join view_bsstatus
 		as b on a.bsId=b.bsId where 1=1
