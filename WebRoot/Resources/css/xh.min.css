@@ -1164,7 +1164,15 @@ body.fullscreen-panel-mode {
 	text-align: center;
 	border: 1px solid #ccc;
 }
-
+.xh-table .tr-img-gray th {
+	background:url("../images/table/column-header-over-bg.gif");
+	/* background: #4f99c6; */
+	/* #d15b47-danger ,#e59729-wraing ,#629959=success*/
+	color: #263238;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #ccc;
+}
 .xh-table .tr-blue th {
 	background: #3498db;
 	text-align: center;

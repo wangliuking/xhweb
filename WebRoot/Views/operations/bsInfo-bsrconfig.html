@@ -1,0 +1,132 @@
+
+<div class="modal fade" id="bsrconfigWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】BSR配置信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<div class="btn-group pull-left" style="padding-bottom:5px;">
+					<button class="btn btn-success btn-sm" data-toggle="modal"
+						data-target="#addNeighborWin" ng-disabled="">
+						<i class="fa fa-plus-circle"></i>&nbsp;添加BSR配置信息
+					</button>
+
+				</div>
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<!-- <th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th> -->
+							<th>BSC-ID</th>
+							<th>BSC版本</th>
+							<th>BSC-IP</th>
+							<th>BSC启用</th>
+							<th>BSC备注信息</th>
+							<th>BSR-ID</th>
+							<th>BSR启用</th>
+							<th>功率1</th>
+							<th>功率2</th>
+							<th>频点值1</th>
+							<th>频点值2</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="bsrconfigTotals==0">
+							<td colspan="11" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in bsrconfigData">
+							<!-- <td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.bsName}}</td> -->
+							<td>{{x.bscId}}</td>
+							<td>{{x.bscVersion}}</td>
+							<td>{{x.bscIp}}</td>
+							<td>{{x.bscIsEnable}}</td>
+							<td>{{x.bscComment}}</td>
+							<td>{{x.bsrId}}</td>
+							<td>{{x.bsrIsEnable}}</td>
+							<td>{{x.poweOne}}</td>
+							<td>{{x.poweTwo}}</td>
+							<td>{{x.freqOne}}</td>
+							<td>{{x.freqTwo}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addBsconfigWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】相邻小区选择</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="addBsconfigForm" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>基站列表</label> <select class="form-control" name="bsId">
+									<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" ng-disabled="" class="btn btn-success btn-sm"
+						id="addBsconfig_btn">
+						<i class="fa fa-plus"></i>&nbsp;确认
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#addNeighbor_btn").click(function() {
+		$('#addNeighborForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addNeighborForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

@@ -74,6 +74,94 @@ public class BsstationController {
 		}
 		
 	}
+	/**
+	 * 根据基站ID查找基站相邻小区
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/neighborByBsId",method = RequestMethod.GET)
+	public void neighborByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.neighborByBsId(bsId).size());
+		result.put("items", BsstationService.neighborByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站切换参数
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/handoverByBsId",method = RequestMethod.GET)
+	public void handoverByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.handoverByBsId(bsId).size());
+		result.put("items", BsstationService.handoverByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站BSR配置信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsrconfigByBsId",method = RequestMethod.GET)
+	public void bsrconfigByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.bsrconfigByBsId(bsId).size());
+		result.put("items", BsstationService.bsrconfigByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站传输配置信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/linkconfigByBsId",method = RequestMethod.GET)
+	public void linkconfigByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.linkconfigByBsId(bsId).size());
+		result.put("items", BsstationService.linkconfigByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping(value="/alarmList",method = RequestMethod.GET)
 	public void bsOfflineList(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;

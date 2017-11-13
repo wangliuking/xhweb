@@ -145,6 +145,22 @@
 											ng-disabled="">
 											<i class="fa fa-trash"></i>&nbsp;批量删除基站
 										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showNeighborWin()">
+											<i class="fa fa-edit"></i>&nbsp;相邻小区配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showEditModel()">
+											<i class="fa fa-edit"></i>&nbsp;切换参数配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showBsrConfigWin()">
+											<i class="fa fa-edit"></i>&nbsp;BSR配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showLinkConfigWin()">
+											<i class="fa fa-edit"></i>&nbsp;传输配置
+										</button>
 										<button class="btn btn-warning btn-sm" ng-click="refresh()">
 											<i class="fa fa-refresh"></i>&nbsp;刷新
 										</button>
@@ -245,6 +261,9 @@
 	<div ng-include="'bsInfo-add.html'"></div>
 	<!-- 编辑基站 -->
 	<div ng-include="'bsInfo-edit.html'"></div>
+	<div ng-include="'bsInfo-neighbor.html'"></div>
+	<div ng-include="'bsInfo-bsrconfig.html'"></div>
+	<div ng-include="'bsInfo-linkconfig.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
