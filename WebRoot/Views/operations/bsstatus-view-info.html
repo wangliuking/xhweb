@@ -9,17 +9,30 @@
 			<div class="panel-body">
 		<table id="tb-info" class="xh-table table-hover">
 			<thead>
-				<tr class="tr-gray">
-					<th>类别</th>
-					<th>说明</th>
+				<tr class="td-danger">
+					<th width="50px">类别</th>
+					<th width="200px">说明</th>
+					<th width="50px">类别</th>
+					<th width="200px">说明</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-if="psmTotals==0">
 					<td colspan="2" class="text-center">没有记录！</td>
 				</tr>
-				<tr><td>基站ID</td><td>{{bsinfoData.bsId}}</td></tr>
-				<tr><td>基站名称</td><td>{{bsinfoData.name}}</td></tr>
+				<tr><td class="td-success">ID</td><td>{{bsinfoData.bsId}}</td><td class="td-success">gps天线数量</td><td>{{bsinfoData.gpsLineNum}}</td></tr>
+				<tr><td class="td-success">名称</td><td>{{bsinfoData.name}}</td><td class="td-success">运营商/社会</td><td>{{bsinfoData.carrier}}</td></tr>
+				<tr><td class="td-success">类型</td><td>{{bsinfoData.type}}</td><td class="td-success">运营商站名</td><td>{{bsinfoData.carrierName}}</td></tr>
+				<tr ng-if="bsinfoData.level==1"><td class="td-success">级别</td><td >一级基站</td><td class="td-success">运行商传输</td><td>{{bsinfoData.carrierLink}}</td></tr>
+				<tr ng-if="bsinfoData.level==2"><td class="td-success">级别</td><td >二级基站</td><td class="td-success">运行商传输</td><td>{{bsinfoData.carrierLink}}</td></tr>
+				<tr ng-if="bsinfoData.level==3"><td class="td-success">级别</td><td >三级基站</td><td class="td-success">运行商传输</td><td>{{bsinfoData.carrierLink}}</td></tr>
+				
+				<tr><td class="td-success">地址</td><td>{{bsinfoData.address}}</td><td class="td-success">联系人</td><td>{{bsinfoData.contact}}</td></tr>
+				<tr><td class="td-success">归属区域</td><td>{{bsinfoData.zone}}</td><td class="td-success">电话</td><td>{{bsinfoData.tel}}</td></tr>
+				<tr><td class="td-success">载波数</td><td>{{bsinfoData.chnumber}}</td><td class="td-success">行政区域</td><td>{{bsinfoData.zone}}</td></tr>
+				<tr ng-if="bsinfoData.status==1"><td class="td-success">是否启用</td><td >启用</td><td class="td-success">IP</td><td >{{bsinfoData.ip}}</td></tr>
+				<tr ng-if="bsinfoData.status==0"><td class="td-success">是否启用</td><td>未启用</td><td class="td-success">IP</td><td >{{bsinfoData.ip}}</td></tr>
+				<tr><td class="td-success">设备厂家</td><td>{{bsinfoData.productor}}</td><td class="td-success">额定功率[W]</td><td>{{bsinfoData.power}}</td></tr>
 			</tbody>
 		</table>
 		</div></div>

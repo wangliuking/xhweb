@@ -1,0 +1,180 @@
+<!-- 相邻小区 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading td-danger" style="color:#fff;">
+
+				<i class="fa fa-navicon"></i> 相邻小区
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="td-danger">
+							<th width="50px">#</th>
+							<th>小区ID</th>
+							<th>基站ID</th>
+							<th>基站名称</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="radioTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in radioData">
+							<td>{{$index+1}}</td>
+							<td>{{x.adjacentCellId}}</td>
+							<td>{{x.name}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 基站切换 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading td-danger" style="color:#fff;">
+
+				<i class="fa fa-navicon"></i> 基站切换参数
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="td-danger">
+							<th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th>
+							<th>切换参数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="radioTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in radioData">
+							<td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.handoverPara}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- BSR配置表 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading td-danger" style="color:#fff;">
+
+				<i class="fa fa-navicon"></i> BSR配置表
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="td-danger">
+							<th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th>
+							<th>BSC-ID</th>
+							<th>BSC版本</th>
+							<th>BSC-IP</th>
+							<th>BSC启用</th>
+							<th>BSC备注信息</th>
+							<th>BSR-ID</th>
+							<th>BSR启用</th>
+							<th>功率1</th>
+							<th>功率2</th>
+							<th>频点值1</th>
+							<th>频点值2</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="radioTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in radioData">
+							<td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.bscId}}</td>
+							<td>{{x.bscVersion}}</td>
+							<td>{{x.bscIp}}</td>
+							<td>{{x.bscIsEnable}}</td>
+							<td>{{x.bscComment}}</td>
+							<td>{{x.bsrId}}</td>
+							<td>{{x.bsrIsEnable}}</td>
+							<td>{{x.poweOne}}</td>
+							<td>{{x.poweTwo}}</td>
+							<td>{{x.freqOne}}</td>
+							<td>{{x.freqTwo}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 传输配置信息 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading td-danger" style="color:#fff;">
+
+				<i class="fa fa-navicon"></i>传输配置信息
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="td-danger">
+							<th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th>
+							<th>BSC-ID</th>
+							<th>BSC版本</th>
+							<th>BSC-IP</th>
+							<th>BSC启用</th>
+							<th>BSC备注信息</th>
+							<th>BSR-ID</th>
+							<th>BSR启用</th>
+							<th>功率1</th>
+							<th>功率2</th>
+							<th>频点值1</th>
+							<th>频点值2</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="radioTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in radioData">
+							<td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.bscId}}</td>
+							<td>{{x.bscVersion}}</td>
+							<td>{{x.bscIp}}</td>
+							<td>{{x.bscIsEnable}}</td>
+							<td>{{x.bscComment}}</td>
+							<td>{{x.bsrId}}</td>
+							<td>{{x.bsrIsEnable}}</td>
+							<td>{{x.poweOne}}</td>
+							<td>{{x.poweTwo}}</td>
+							<td>{{x.freqOne}}</td>
+							<td>{{x.freqTwo}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

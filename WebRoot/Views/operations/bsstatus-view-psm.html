@@ -1,51 +1,52 @@
 
 <div class="row">
 	<div class="col-md-12">
-	 <div class="hpanel">
-			<div class="panel-heading hbuilt">
-				
+		<div class="hpanel">
+			<div class="panel-heading td-danger" style="color:#fff;">
+
 				<i class="fa fa-navicon"></i> PSM状态
 			</div>
 			<div class="panel-body">
-		<table id="tb-info" class="xh-table table-hover">
-			<thead>
-				<tr class="tr-gray">
-					<th>psmID</th>
-					<th>工作状态</th>
-					<th>风扇1状态</th>
-					<th>风扇2状态</th>
-					<th>风扇3状态</th>
-					<th>AC/DC通信状态</th>
-					<th>温度1(℃)</th>
-					<th>温度2(℃)</th>
-					<th>温度3(℃)</th>
-					<th>AC/DC电压(V)</th>
-					<th>AC/DC电流(A)</th>
-					<th>更新时间</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-if="psmTotals==0">
-					<td colspan="12" class="text-center">没有记录！</td>
-				</tr>
-				<tr ng-repeat="x in psmData">
-					<td>{{Id}}</td>
-					<td ng-if="x.working==0" class="td-danger">异常</td>
-					<td ng-if="x.working==1" class="td-success">正常运行</td>
-					<td ng-if="x.working==2" class="td-success">正常运行</td>
-					<td>{{x.fan1}}</td>
-					<td>{{x.fan2}}</td>
-					<td>{{x.fan3}}</td>
-					<td>{{x.ad}}</td>
-					<td>{{x.bdTmp1/2}}</td>
-					<td>{{x.bdTmp2/2}}</td>
-					<td>{{x.bdTmp3/2}}</td>
-					<td>{{x.acdcVol/10}}</td>
-					<td>{{x.acdcCur/10}}</td>
-					<td>{{x.updateTime}}</td>
-				</tr>
-			</tbody>
-		</table>
-		</div></div>
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>psmID</th>
+							<th>工作状态</th>
+							<th>风扇1状态</th>
+							<th>风扇2状态</th>
+							<th>风扇3状态</th>
+							<th>AC/DC通信状态</th>
+							<th>温度1(℃)</th>
+							<th>温度2(℃)</th>
+							<th>温度3(℃)</th>
+							<th>AC/DC电压(V)</th>
+							<th>AC/DC电流(A)</th>
+							<th>更新时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="psmTotals==0">
+							<td colspan="12" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in psmData">
+							<td>{{Id}}</td>
+							<td ng-if="x.working==0" class="td-danger">异常</td>
+							<td ng-if="x.working==1" class="td-success">正常运行</td>
+							<td ng-if="x.working==2" class="td-success">正常运行</td>
+							<td>{{x.fan1}}</td>
+							<td>{{x.fan2}}</td>
+							<td>{{x.fan3}}</td>
+							<td>{{x.ad}}</td>
+							<td>{{x.bdTmp1/2}}</td>
+							<td>{{x.bdTmp2/2}}</td>
+							<td>{{x.bdTmp3/2}}</td>
+							<td>{{x.acdcVol/10}}</td>
+							<td>{{x.acdcCur/10}}</td>
+							<td>{{x.updateTime}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
