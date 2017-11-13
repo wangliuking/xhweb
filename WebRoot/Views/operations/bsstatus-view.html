@@ -75,19 +75,16 @@
 							</div> -->
 
 							<ul id="xh-tabs" class="nav nav-tabs">
-								<li ><a href="#info" data-toggle="tab"
-									ng-click='bsGroup()'> 基本信息 </a></li>
+								<li class="active"><a href="#info" data-toggle="tab" ng-click=''>
+										基本信息 </a></li>
 								<li><a href="#config" data-toggle="tab"
-									ng-click='bsGroup()'> 参数</a></li>
+									ng-click='config()'>配置信息</a></li>
 								<li><a href="#business" data-toggle="tab"
-									ng-click='bsGroup()'> 业务</a></li>
-								<li class="active"><a href="#group" data-toggle="tab"
-									ng-click='bsGroup()'> 注册组 </a></li>
-								<li><a href="#radio" data-toggle="tab"
-									ng-click='radioUser()'> 注册终端 </a></li>
+									ng-click='bsGroup()'> 业务信息</a></li>
+							
 
 								<li><a href="#equip" data-toggle="tab" ng-click='equip()'>
-										主设备状态 </a></li>
+										设备状态 </a></li>
 								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
 										环控状态</a></li>
 								<!-- <li><a href="#bsc" data-toggle="tab" ng-click='bsc()'>
@@ -102,16 +99,19 @@
 							</ul>
 							<div class="tab-content" style="padding:20px">
 
+								<div class="tab-pane fade in active" id="info">
+									<div ng-include="'bsstatus-view-info.html'"></div>
+								</div>
 								<div class="tab-pane fade" id="emh">
 									<div ng-include="'bsstatus-view-emh.html'"></div>
 								</div>
-								<!-- emh -->
-								<div class="tab-pane fade in active" id="group">
-									<div ng-include="'bsstatus-view-group.html'"></div>
-								</div>
 								<!-- group -->
-								<div class="tab-pane fade" id="radio">
-									<div ng-include="'bsstatus-view-radio.html'"></div>
+								<div class="tab-pane fade" id="business">
+									<div ng-include="'bsstatus-view-business.html'"></div>
+								</div>
+								<div class="tab-pane fade" id="config">
+
+									<div ng-include="'bsstatus-view-config.html'"></div>
 								</div>
 								<!-- radio -->
 								<div class="tab-pane fade" id="equip">
@@ -121,19 +121,7 @@
 									<div ng-include="'bsstatus-view-dpx.html'"></div>
 									<div ng-include="'bsstatus-view-psm.html'"></div>
 								</div>
-								<!-- <div class="tab-pane fade" id="bsc">
-									<div ng-include="'bsstatus-view-bsc.html'"></div>
-								</div>
-								<div class="tab-pane fade" id="bsr">
-									<div ng-include="'bsstatus-view-bsr.html'"></div>
-								</div>
-								<div class="tab-pane fade" id="dpx">
-									<div ng-include="'bsstatus-view-dpx.html'"></div>
-								</div>
-								<div class="tab-pane fade" id="psm">
-									<div ng-include="'bsstatus-view-psm.html'"></div>
-								</div> -->
-
+								
 
 							</div>
 						</div>

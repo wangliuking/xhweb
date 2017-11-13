@@ -26,6 +26,24 @@ xh.load = function() {
 	var bsId = $("#bsId").val();
 	var name = $("#name").val();
 	var pageSize = $("#page-limit").val();
+	app.directive('stringData', function(){
+	  return {
+	    require: 'ngModel',
+	    link: function(scope, elem, attr, ngModelCtrl) {
+	      ngModelCtrl.$formatters.push(function(modelValue){
+	        if(modelValue) {
+	          return modelValue.toString();
+	        }
+	      });
+
+	     /* ngModelCtrl.$parsers.push(function(value){
+	        if(value) {
+	          return "1";
+	        }
+	      });*/
+	    }
+	  };
+	});
 
 	app.controller("bs", function($scope, $http) {
 		xh.maskShow();
@@ -47,8 +65,6 @@ xh.load = function() {
 		/* 显示修改基站model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
-			$scope.type = $scope.editData.type.toString();
-			$scope.level = $scope.editData.level.toString();
 		};
 		/* 显示修改基站model */
 		$scope.showEditModel = function() {
@@ -137,6 +153,110 @@ xh.load = function() {
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
+		};
+		// 根据基站ID查找基站相邻小区
+		$scope.neighborByBsId = function(bsId) {
+			
+			$http.get("../../bs/neighborByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.neighborData = response.items;
+						$scope.neighborTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站切换参数
+		$scope.handoverByBsId = function() {
+			var bsId = $scope.bsId;
+			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.handoverData = response.items;
+						$scope.handoverTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站BSR配置信息
+		$scope.bsrconfigByBsId= function(bsId) {
+			
+			$http.get("../../bs/bsrconfigByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.bsrconfigData = response.items;
+						$scope.bsrconfigTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站传输配置信息
+		$scope.linkconfigByBsId = function(bsId) {
+			$http.get("../../bs/linkconfigByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.linkconfigData = response.items;
+						$scope.linkconfigTotals = response.totals;
+					});
+		};
+		$scope.bslist=function(){
+			$http.get("../../bs/list?bsId=&name=&start=0&limit=1000").
+			success(function(response){
+				$scope.bslistData = response.items;
+			});
+		};
+		//显示相邻小区窗口
+		$scope.showNeighborWin=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			$scope.bsData = $scope.data[parseInt(checkVal[0])];
+			$scope.neighborByBsId($scope.bsData.bsId);
+			$("#neighborWin").modal("show");
+			$scope.bslist();
+		};
+		//显示BSR配置信息
+		$scope.showBsrConfigWin=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			$scope.bsData = $scope.data[parseInt(checkVal[0])];
+			$scope.bsrconfigByBsId($scope.bsData.bsId);
+			$("#bsrconfigWin").modal("show");
+			$scope.bslist();
+		};
+		//显示传输配置信息
+		$scope.showLinkConfigWin=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			$scope.bsData = $scope.data[parseInt(checkVal[0])];
+			$scope.linkconfigByBsId($scope.bsData.bsId);
+			$("#linkconfigWin").modal("show");
+			$scope.bslist();
 		};
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {

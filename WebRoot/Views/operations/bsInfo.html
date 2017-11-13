@@ -62,7 +62,7 @@
 						<div class="panel-body">
 							<ul class="mailbox-list" style="height:200px;">
 								<li class="active" style="margin-bottom:10px;"><a
-									href="emhAlarm.html" target="_self"><i
+									href="bsInfo.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>基站配置</a></li>
 
 								<li><a href="roadInfo.html" target="_self"><i
@@ -145,6 +145,22 @@
 											ng-disabled="">
 											<i class="fa fa-trash"></i>&nbsp;批量删除基站
 										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showNeighborWin()">
+											<i class="fa fa-edit"></i>&nbsp;相邻小区配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showEditModel()">
+											<i class="fa fa-edit"></i>&nbsp;切换参数配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showBsrConfigWin()">
+											<i class="fa fa-edit"></i>&nbsp;BSR配置
+										</button>
+										<button class="btn btn-info btn-sm" ng-disabled=""
+											ng-click="showLinkConfigWin()">
+											<i class="fa fa-edit"></i>&nbsp;传输配置
+										</button>
 										<button class="btn btn-warning btn-sm" ng-click="refresh()">
 											<i class="fa fa-refresh"></i>&nbsp;刷新
 										</button>
@@ -179,15 +195,16 @@
 												<th>基站名称</th>
 												<th>基站类型</th>
 												<th>基站级别</th>
-												<th>经度</th>
-												<th>纬度</th>
+												<th>地址</th>
+												<th>归属区域</th>
+												<th>载波数</th>
 												<th>是否启用</th>
 												<th width="150px">操作</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="9" class="text-center">没有记录！</td>
+												<td colspan="10" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
@@ -195,12 +212,16 @@
 												<td>{{x.bsId}}</td>
 												<td>{{x.name}}</td>
 												<td>{{x.type}}</td>
-												<td>{{x.level}}</td>
-												<td>{{x.lng}}</td>
-												<td>{{x.lat}}</td>
-												<td ng-if="x.openen==1" class="td-success"><span
+												<td ng-if="x.level==1">一级基站</td>
+												<td ng-if="x.level==2">二级基站</td>
+												<td ng-if="x.level==3">三级基站</td>
+												<td>{{x.address}}</td>
+												<td>{{x.zone}}</td>
+												<td>{{x.chnumber}}</td>
+												
+												<td ng-if="x.status==1" class="td-success"><span
 													style="color:#fff">已经启用</span></td>
-												<td ng-if="x.openen==0" class="td-gray">未启用</td>
+												<td ng-if="x.status==0" class="td-gray">未启用</td>
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="editModel($index)" data-toggle="modal"
 													data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改
@@ -240,6 +261,9 @@
 	<div ng-include="'bsInfo-add.html'"></div>
 	<!-- 编辑基站 -->
 	<div ng-include="'bsInfo-edit.html'"></div>
+	<div ng-include="'bsInfo-neighbor.html'"></div>
+	<div ng-include="'bsInfo-bsrconfig.html'"></div>
+	<div ng-include="'bsInfo-linkconfig.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>

@@ -47,6 +47,32 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public int  selectByBsId(int bsId)throws Exception;
+	
+	
+	/**
+	 * 根据基站ID查找基站相邻小区
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  neighborByBsId(int bsId)throws Exception;
+	/**
+	 * 根据基站ID查找基站切换参数
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  handoverByBsId(int bsId)throws Exception;
+	/**
+	 * 根据基站ID查找基站BSR配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  bsrconfigByBsId(int bsId)throws Exception;
+	/**
+	 * 根据基站ID查找基站传输配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  linkconfigByBsId(int bsId)throws Exception;
 	/**
 	 * 根据基站ID删除基站
 	 * @return

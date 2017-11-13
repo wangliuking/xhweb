@@ -1,0 +1,112 @@
+
+<div class="modal fade" id="neighborWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】相邻小区信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<div class="btn-group pull-left" style="padding-bottom:5px;">
+					<button class="btn btn-success btn-sm" data-toggle="modal"
+						data-target="#addNeighborWin" ng-disabled="">
+						<i class="fa fa-plus-circle"></i>&nbsp;添加相邻小区
+					</button>
+
+				</div>
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<th width="50px">#</th>
+							<th>小区ID</th>
+							<th>基站名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="neighborTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in neighborData">
+							<td>{{$index+1}}</td>
+							<td>{{x.adjacentCellId}}</td>
+							<td>{{x.bsName}}</td>
+							<td><a href="#" ng-click="delBs(x.bsId)"><i
+									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addNeighborWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】相邻小区选择</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="addNeighborForm" onSubmit="return false">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>基站列表</label> <select class="form-control" name="bsId">
+									<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" ng-disabled="" class="btn btn-success btn-sm"
+						id="addNeighbor_btn">
+						<i class="fa fa-plus"></i>&nbsp;确认
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#addNeighbor_btn").click(function() {
+		$('#addNeighborForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addNeighborForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			bsId : {
+				validators : {
+					notEmpty : {
+						message : '基站ID号不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

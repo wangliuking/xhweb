@@ -55,11 +55,9 @@ xh.load = function() {
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
 		$http.get(
-				"../../radio/status/oneBsGroup?bsId=" + bsId
-						+ "&start=0&limit=" + pageSize).success(
+				"../../bs/map/dataById?bsId=" + bsId).success(
 				function(response) {
-					$scope.groupData = response.items;
-					$scope.groupTotals = response.totals;
+					$scope.bsinfoData = response.items[0];
 				});
 
 		// 获取环控设备状态
@@ -195,6 +193,42 @@ xh.load = function() {
 						$scope.psmTotals = response.totals;
 					});
 		};
+		// 根据基站ID查找基站相邻小区
+		$scope.neighborByBsId = function() {
+			var bsId = $scope.bsId;
+			$http.get("../../bs/neighborByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.neighborData = response.items;
+						$scope.neighborTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站切换参数
+		$scope.handoverByBsId = function() {
+			var bsId = $scope.bsId;
+			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.handoverData = response.items;
+						$scope.handoverTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站BSR配置信息
+		$scope.bsrconfigByBsId= function() {
+			var bsId = $scope.bsId;
+			$http.get("../../bs/bsrconfigByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.bsrconfigData = response.items;
+						$scope.bsrconfigTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站传输配置信息
+		$scope.linkconfigByBsId = function() {
+			var bsId = $scope.bsId;
+			$http.get("../../bs/linkconfigByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.linkconfigData = response.items;
+						$scope.linkconfigTotals = response.totals;
+					});
+		};
 
 		$scope.equip = function() {
 			$scope.bsc();
@@ -202,19 +236,14 @@ xh.load = function() {
 			$scope.dpx();
 			$scope.psm();
 		};
+		//基站配置参数
+		$scope.config = function() {
+			$scope.neighborByBsId();
+			$scope.handoverByBsId();
+			$scope.bsrconfigByBsId();
+			$scope.linkconfigByBsId();
+		};
 
-		/*
-		 * $http.get("../../emh/oneBsEmh?bsId=1"). success(function(response){
-		 * xh.maskHide(); $scope.emhData = response.items;
-		 * $scope.smoky=$scope.emhData[5].sig_value==1?true:false;
-		 * $scope.door=$scope.emhData[1].sig_value==1?true:false;
-		 * $scope.fire=$scope.emhData[4].sig_value==1?true:false;
-		 * $scope.water=$scope.emhData[8].sig_value==1?true:false;
-		 * $scope.acv=$scope.emhData[2].sig_value;
-		 * $scope.aci=$scope.emhData[3].sig_value;
-		 * $scope.dcv=$scope.emhData[0].sig_value;
-		 * $scope.dci=$scope.emhData[0].sig_value; });
-		 */
 
 		/* 刷新数据 */
 		$scope.refresh = function() {

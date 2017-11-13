@@ -146,7 +146,6 @@ public class BsstationService {
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {
 			list=mapper.allBsInfo(map);
-			sqlSession.commit();
 			sqlSession.close();
 			
 		} catch (Exception e) {
@@ -155,8 +154,78 @@ public class BsstationService {
 		}
 		return list;
 	}
-
-	
+	/**
+	 * 根据基站ID查找基站相邻小区
+	 * @return
+	 */
+	public static List<Map<String,Object>>  neighborByBsId(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list=mapper.neighborByBsId(bsId);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 根据基站ID查找基站切换参数
+	 * @return
+	 */
+	public static List<Map<String,Object>>  handoverByBsId(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list=mapper.handoverByBsId(bsId);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 根据基站ID查找基站BSR配置信息
+	 * @return
+	 */
+	public static List<Map<String,Object>>  bsrconfigByBsId(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list=mapper.bsrconfigByBsId(bsId);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 根据基站ID查找基站传输配置信息
+	 * @return
+	 */
+	public static List<Map<String,Object>>  linkconfigByBsId(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list=mapper.linkconfigByBsId(bsId);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/**
 	 * 根据所选区域查询所有基站
 	 * @author wlk
