@@ -58,11 +58,44 @@
 	</select>
 	<!-- 新增基站相邻小区 -->
 	<insert id="addBsNeighbor" keyProperty="id"  useGeneratedKeys="true" parameterType="map">
-		insert into xhgmnet_bs_neighbor_cells(bsId,adjacentCellId)values(#{bsId},#(adjacentCellId))		
+		insert into xhgmnet_bs_neighbor_cells(bsId,adjacentCellId)values(#{bsId},#{adjacentCellId})		
 	</insert>	
-	
-	<delete id="delBsNeighbor" parameterType="map"></delete>
-
+	<!-- 删除基站相邻小区 -->
+	<delete id="delBsNeighbor" parameterType="map">
+	delete from  xhgmnet_bs_neighbor_cells where bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
+	</delete>
+	<!--根据基站ID,调单好判断该基站传输是否存在 -->
+	<select id="linkconfigExists" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_link_config where bsId=#{bsId} and transferNumber=#{transferNumber}
+	</select>
+	<!-- 新增基站传输 -->
+	<insert id="addLinkconfig" keyProperty="id"  useGeneratedKeys="true" parameterType="xh.mybatis.bean.bsLinkConfigBean">
+		INSERT INTO xhgmnet_bs_link_config (bsId,switchPort1, carrierOperator, type, bandwidth, 
+		unitType, transferNumber, basePort, switchElement, switchPort2, masterIp, cameraIp) VALUES
+		(#{bsId},#{switchPort1}, #{carrierOperator}, #{type}, #{bandwidth}, 
+		#{unitType}, #{transferNumber}, #{basePort}, #{switchElement}, #{switchPort2}, #{masterIp}, #{cameraIp})		
+	</insert>
+	<!-- 删除基站传输 -->
+	<delete id="delLinkconfig" parameterType="int">
+	delete from xhgmnet_bs_link_config where id=#{id}
+	</delete>
+	<!--根据基站ID,bscId,bsrId判断该基站bsr是否存在 -->
+	<select id="bsrconfigExists" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_bsr_config where bsId=#{bsId} and bscId=#{bscId} and bsrId=#{bsrId}
+	</select>
+	<!-- 新增基站bsr -->
+	<insert id="addBsrconfig" keyProperty="id"  useGeneratedKeys="true" parameterType="xh.mybatis.bean.bsrConfigBean">
+		INSERT INTO xhgmnet_bs_bsr_config (bsId,bscId, bscVersion, bscIp, bscIsEnable, bscComment, 
+		bsrId, bsrIsEnable, poweOne, poweTwo, freqOne, freqTwo)values(#{bsId},#{bscId}, 
+		#{bscVersion}, #{bscIp}, #{bscIsEnable}, #{bscComment},#{bsrId}, #{bsrIsEnable}, #{poweOne}, 
+		#{poweTwo}, #{freqOne}, #{freqTwo})	
+	</insert>
+	<!-- 删除基站bsr -->
+	<delete id="delBsrconfig" parameterType="int">
+	delete from xhgmnet_bs_bsr_config where id=#{id}
+	</delete>		
 	<!--根据基站ID，名称查找基站记录 -->
 	<select id="bsInfo" parameterType="map"
 		resultType="xh.mybatis.bean.BsstationBean" useCache="true">
@@ -99,7 +132,7 @@
 		select a.*,b.name as bsName from xhgmnet_bs_neighbor_cells as
 		a left join
 		xhgmnet_bs_station as b on a.adjacentCellId=b.bsId where
-		a.bsId=#{bsId}
+		a.bsId=#{bsId} order by a.adjacentCellId asc
 	</select>
 	<!--根据基站ID,查找基站切换参数 -->
 	<select id="handoverByBsId" parameterType="int" resultType="map"
@@ -107,7 +140,7 @@
 		select a.*,b.name as bsName from xhgmnet_bs_handover_para as
 		a left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where
-		a.bsId=#{bsId}
+		a.bsId=#{bsId} 
 	</select>
 	<!--根据基站ID,查找基站BSR配置信息 -->
 	<select id="bsrconfigByBsId" parameterType="int" resultType="map"
@@ -115,6 +148,7 @@
 		select a.*,b.name as bsName from xhgmnet_bs_bsr_config as a
 		left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId}
+		 order by a.bscId asc,a.bsrId asc
 	</select>
 	<!--根据基站ID,查找基站传输配置信息 -->
 	<select id="linkconfigByBsId" parameterType="int" resultType="map"

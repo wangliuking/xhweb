@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bsrConfigBean;
 import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
@@ -85,6 +87,183 @@ public class BsstationService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	/**
+	 * 根据基站ID,判断该基站相邻小区是否存在
+	 * @param map
+	 * @return
+	 */
+	public static int neighborExists(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.neighborExists(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 新增基站相邻小区
+	 * @param map
+	 * @return
+	 */
+	public static int addBsNeighbor(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.addBsNeighbor(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	/**
+	 * 删除基站相邻小区
+	 * @param map
+	 * @return
+	 */
+	public static int delBsNeighbor(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.delBsNeighbor(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	
+	/**
+	 * 根据基站ID,调单好判断该基站传输是否存在
+	 * @param map
+	 * @return
+	 */
+	public static int linkconfigExists(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.linkconfigExists(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 *  新增基站传输
+	 * @param map
+	 * @return
+	 */
+	public static int addLinkconfig(bsLinkConfigBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.addLinkconfig(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	/**
+	 * 删除基站传输
+	 * @param map
+	 * @return
+	 */
+	public static int delLinkconfig(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.delLinkconfig(id);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	
+	/**
+	 * 根据基站ID,bscId,bsrId判断该基站bsr是否存在 
+	 * @param map
+	 * @return
+	 */
+	public static int bsrconfigExists(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.bsrconfigExists(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 *  新增基站bsr
+	 * @param map
+	 * @return
+	 */
+	public static int addBsrconfig(bsrConfigBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.addBsrconfig(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	/**
+	 * 删除基站bsr
+	 * @param map
+	 * @return
+	 */
+	public static int delBsrconfig(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.delBsrconfig(id);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
 	}
 
 	/**

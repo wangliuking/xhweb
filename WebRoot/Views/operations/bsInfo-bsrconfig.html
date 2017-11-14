@@ -12,7 +12,7 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<div class="btn-group pull-left" style="padding-bottom:5px;">
 					<button class="btn btn-success btn-sm" data-toggle="modal"
-						data-target="#addNeighborWin" ng-disabled="">
+						data-target="#addBsrconfigWin" ng-disabled="">
 						<i class="fa fa-plus-circle"></i>&nbsp;添加BSR配置信息
 					</button>
 
@@ -34,11 +34,12 @@
 							<th>功率2</th>
 							<th>频点值1</th>
 							<th>频点值2</th>
+							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-if="bsrconfigTotals==0">
-							<td colspan="11" class="text-center">没有记录！</td>
+							<td colspan="12" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in bsrconfigData">
 							<!-- <td>{{$index+1}}</td>
@@ -55,7 +56,9 @@
 							<td>{{x.poweTwo}}</td>
 							<td>{{x.freqOne}}</td>
 							<td>{{x.freqTwo}}</td>
-							
+							<td><a href="#" ng-click="delBsrconfig($index)"><i
+									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+
 						</tr>
 					</tbody>
 				</table>
@@ -64,25 +67,111 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="addBsconfigWin" tabindex="-1" role="dialog"
+<div class="modal fade" id="addBsrconfigWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】相邻小区选择</small>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】BSR配置信息</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="addBsconfigForm" onSubmit="return false">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>基站列表</label> <select class="form-control" name="bsId">
-									<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
-								</select>
+				<form action="#" id="addBsrconfigForm" onSubmit="return false">
+
+					<div class="hpanel">
+						<div class="panel-heading head-blue">BSC基本参数</div>
+						<div class="panel-body">
+							<div class="row">
+
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+									<input type="text" name="bsId" ng-model="bsData.bsId" ng-show=false />
+										<label>BSC-ID</label><input type="text" value=""
+											class="form-control" name="bscId">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>BSC-版本</label><input type="text" value=""
+											class="form-control" name="bscVersion">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>BSC-IP</label><input type="text" value=""
+											class="form-control" name="bscIp">
+									</div>
+								</div>
 							</div>
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group col-md-12">
+										<label> BSC备注信息 </label><input type="text" value=""
+											class="form-control" name="bscComment">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12" style="margin-top:20px;">
+										<input id="bscIsEnable" class="magic-checkbox" type="checkbox"
+											name="bscIsEnable" value="1" checked> <label
+											for="bscIsEnable"><span>启用</span></label>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+						</div>
+					</div>
+
+					<div class="hpanel">
+						<div class="panel-heading head-blue">BSC基本参数</div>
+						<div class="panel-body">
+
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>BSR-ID</label><input type="text" value=""
+											class="form-control" name="bsrId">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>功率1</label><input type="text" value=""
+											class="form-control" name="poweOne">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>功率2</label><input type="text" value=""
+											class="form-control" name="poweTwo">
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>频点值1</label><input type="text" value=""
+											class="form-control" name="freqOne">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12">
+										<label>频点值2</label><input type="text" value=""
+											class="form-control" name="freqTwo">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group col-md-12" style="margin-top:20px;">
+										<input id="bsrIsEnable" class="magic-checkbox" type="checkbox"
+											name="bsrIsEnable" value="1" checked> <label
+											for="bsrIsEnable"><span>启用</span></label>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
 						</div>
 					</div>
 				</form>
@@ -95,7 +184,7 @@
 						<i class="fa fa-remove"></i>&nbsp;关闭
 					</button>
 					<button type="button" ng-disabled="" class="btn btn-success btn-sm"
-						id="addBsconfig_btn">
+						id="addBsrconfig_btn">
 						<i class="fa fa-plus"></i>&nbsp;确认
 					</button>
 				</div>
@@ -104,29 +193,22 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$("#addNeighbor_btn").click(function() {
-		$('#addNeighborForm').submit();
+	$("#addBsrconfig_btn").click(function() {
+		$('#addBsrconfigForm').submit();
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	$('#addNeighborForm').bootstrapValidator({
+	$('#addBsrconfigForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			bsId : {
-				validators : {
-					notEmpty : {
-						message : '基站ID号不能为空'
-					}
-				}
-			}
 
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.add();
+		xh.addBsrconfig();
 	});
 </script>

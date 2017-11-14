@@ -28,13 +28,13 @@
 					</thead>
 					<tbody>
 						<tr ng-if="neighborTotals==0">
-							<td colspan="3" class="text-center">没有记录！</td>
+							<td colspan="4" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in neighborData">
 							<td>{{$index+1}}</td>
 							<td>{{x.adjacentCellId}}</td>
 							<td>{{x.bsName}}</td>
-							<td><a href="#" ng-click="delBs(x.bsId)"><i
+							<td><a href="#" ng-click="delBsNeighbor($index)"><i
 									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 						</tr>
 					</tbody>
@@ -56,10 +56,13 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addNeighborForm" onSubmit="return false">
+				    <div class="row" ng-show=false>
+				    <input type="text" name="bsId" ng-model="bsData.bsId"/>
+				    </div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>基站列表</label> <select class="form-control" name="bsId">
+								<label>基站列表</label> <select class="form-control" name="adjacentCellId">
 									<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
 								</select>
 							</div>
@@ -96,17 +99,11 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			bsId : {
-				validators : {
-					notEmpty : {
-						message : '基站ID号不能为空'
-					}
-				}
-			}
+			
 
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.add();
+		xh.addNeighbor();
 	});
 </script>

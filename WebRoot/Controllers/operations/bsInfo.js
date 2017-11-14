@@ -21,6 +21,7 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var appElement = document.querySelector('[ng-controller=bs]');
 xh.load = function() {
 	var app = angular.module("app", []);
 	var bsId = $("#bsId").val();
@@ -125,6 +126,136 @@ xh.load = function() {
 						},
 						error : function() {
 							$scope.refresh();
+						}
+					});
+				}
+			});
+		};
+		/* 删除基站相邻小区 */
+		$scope.delBsNeighbor = function(id) {
+			var deldata=$scope.neighborData[id];
+			swal({
+				title : "提示",
+				text : "确定要删除该临近小区吗吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bs/delBsNeighbor',
+						type : 'post',
+						dataType : "json",
+						data : {
+							bsId : deldata.bsId,
+							adjacentCellId:deldata.adjacentCellId
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.neighborByBsId(deldata.bsId);
+							} else {
+								swal({
+									title : "提示",
+									text : data.message,
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							
+						}
+					});
+				}
+			});
+		};
+		/* 删除基站传输配置 */
+		$scope.delLinkconfig = function(id) {
+			var deldata=$scope.linkconfigData[id];
+			swal({
+				title : "提示",
+				text : "确定要删除传输配置吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bs/delLinkconfig',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : deldata.id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.linkconfigByBsId(deldata.bsId);
+							} else {
+								swal({
+									title : "提示",
+									text : data.message,
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							
+						}
+					});
+				}
+			});
+		};
+		/* 删除基站bsr */
+		$scope.delBsrconfig = function(id) {
+			var deldata=$scope.bsrconfigData[id];
+			swal({
+				title : "提示",
+				text : "确定要删除bsr配置吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bs/delBsrconfig',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : deldata.id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.bsrconfigByBsId(deldata.bsId);
+							} else {
+								swal({
+									title : "提示",
+									text : data.message,
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							
 						}
 					});
 				}
@@ -403,6 +534,87 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+//添加基站临近小区
+xh.addNeighbor=function(){
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../bs/addBsNeighbor',
+		type : 'post',
+		dataType : "json",
+		data : $("#addNeighborForm").serializeArray(),
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.neighborByBsId($scope.bsData.bsId);
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//添加基站传输
+xh.addLinkconfig=function(){
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../bs/addLinkconfig',
+		type : 'post',
+		dataType : "json",
+		data:{
+			formData:xh.serializeJson($("#addLinkconfigForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.linkconfigByBsId($scope.bsData.bsId);
+				$("#addNeighborWin").modal("hide");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//添加基站bsr
+xh.addBsrconfig=function(){
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../bs/addBsrconfig',
+		type : 'post',
+		dataType : "json",
+		data:{
+			formData:xh.serializeJson($("#addBsrconfigForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.bsrconfigByBsId($scope.bsData.bsId);
+				$("#addBsrconfigWin").modal("hide");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
@@ -439,6 +651,7 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+
 /*$http({
 method : "POST",
 url : "../../bs/list",

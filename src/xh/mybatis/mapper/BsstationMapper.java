@@ -6,6 +6,8 @@ import java.util.Map;
 
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bsrConfigBean;
 
 public interface BsstationMapper {
 	/**
@@ -20,6 +22,82 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap<String, Object>> bsstatusInfo(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据基站ID,判断该基站相邻小区是否存在
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int neighborExists(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 新增基站相邻小区
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int addBsNeighbor(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 删除基站相邻小区
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int delBsNeighbor(Map<String,Object> map)throws Exception;
+	
+	
+	
+	
+	/**
+	 * 根据基站ID,调单好判断该基站传输是否存在
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int linkconfigExists(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 新增基站传输
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int addLinkconfig(bsLinkConfigBean bean)throws Exception;
+	
+	/**
+	 * 删除基站传输
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int delLinkconfig(int id)throws Exception;
+	
+	
+	/**
+	 * 根据基站ID,bscId,bsrId判断该基站bsr是否存在 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsrconfigExists(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 新增基站bsr
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int addBsrconfig(bsrConfigBean bean)throws Exception;
+	
+	/**
+	 * 删除基站bsr
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int delBsrconfig(int id)throws Exception;
 	
 	/**
 	 * 查询基站断站列表
