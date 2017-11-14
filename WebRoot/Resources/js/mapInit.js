@@ -289,7 +289,7 @@ function floor(data) {
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
+				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	}else if(chooseLayer==1){
 		testDemo = new
@@ -310,7 +310,7 @@ function floor(data) {
 	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
 	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
-	myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
+	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
 	myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);

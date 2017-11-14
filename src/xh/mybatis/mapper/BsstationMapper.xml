@@ -51,6 +51,17 @@
 		</if>
 		order by a.bsId asc
 	</select>
+	<!--根据基站ID,判断该基站相邻小区是否存在 -->
+	<select id="neighborExists" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_neighbor_cells where bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
+	</select>
+	<!-- 新增基站相邻小区 -->
+	<insert id="addBsNeighbor" keyProperty="id"  useGeneratedKeys="true" parameterType="map">
+		insert into xhgmnet_bs_neighbor_cells(bsId,adjacentCellId)values(#{bsId},#(adjacentCellId))		
+	</insert>	
+	
+	<delete id="delBsNeighbor" parameterType="map"></delete>
 
 	<!--根据基站ID，名称查找基站记录 -->
 	<select id="bsInfo" parameterType="map"
