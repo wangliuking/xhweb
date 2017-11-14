@@ -574,7 +574,7 @@ xh.addLinkconfig=function(){
 			if (data.success) {
 				toastr.success(data.message, '提示');
 				$scope.linkconfigByBsId($scope.bsData.bsId);
-				$("#addNeighborWin").modal("hide");
+				$("#addLinkconfigWin").modal("hide");
 			} else {
 				swal({
 					title : "提示",
