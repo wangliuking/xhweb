@@ -289,7 +289,7 @@ function floor(data) {
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
+				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	}else if(chooseLayer==1){
 		testDemo = new
@@ -310,7 +310,7 @@ function floor(data) {
 	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
 	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
-	myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
+	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
 	myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
@@ -579,7 +579,9 @@ function layerCreate(data){
 	for (i = 0; i < data.length; i++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[i].bsStatus == 0) {
+		if(data[i].status == 0){
+			temp = "bluesky/unuse_small.png";
+		}else if (data[i].bsStatus == 0) {
 			temp = "bluesky/contact_small.png";
 		} else {
 			// 判断基站告警的级别
@@ -592,7 +594,7 @@ function layerCreate(data){
 			} else if (data[i].alarmLevel == 3) {
 				temp = "bluesky/urgent_small.gif";
 			}*/
-			temp = "bluesky/unuse_small.png";
+			temp = "bluesky/break_small.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
@@ -614,7 +616,9 @@ function layerCreate(data){
 	for (j = 0; j < data.length; j++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[j].bsStatus == 0) {
+		if(data[j].status == 0){
+			temp = "bluesky/unuse_middle.png";
+		}else if (data[j].bsStatus == 0) {
 			temp = "bluesky/contact_middle.png";
 		} else {
 			// 判断基站告警的级别
@@ -627,7 +631,7 @@ function layerCreate(data){
 			} else if (data[j].alarmLevel == 3) {
 				temp = "bluesky/urgent_middle.gif";
 			}*/
-			temp = "bluesky/unuse_middle.png";
+			temp = "bluesky/break_middle.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
@@ -649,7 +653,9 @@ function layerCreate(data){
 	for (x = 0; x < data.length; x++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[x].bsStatus == 0) {
+		if(data[x].status == 0){
+			temp = "bluesky/unuse_big.png";
+		}else if (data[x].bsStatus == 0) {
 			temp = "bluesky/contact_big.png";
 		} else {
 			// 判断基站告警的级别
@@ -662,7 +668,7 @@ function layerCreate(data){
 			} else if (data[x].alarmLevel == 3) {
 				temp = "bluesky/urgent_big.gif";
 			}*/
-			temp = "bluesky/unuse_big.png";
+			temp = "bluesky/break_big.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(48), parseInt(48));
