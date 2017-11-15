@@ -42,7 +42,7 @@ public class MenuService {
 				for (Map<String, Object> map2 : listOne) {
 					Map<String,Object> mapTwo=map2;
 					List<Map<String,Object>> listTwo=mapper.menuChild(Integer.parseInt(map2.get("id").toString()));
-					mapTwo.put("child", listTwo);
+					mapTwo.put("children", listTwo);
 					mapTwo.put("num",listTwo.size());
 					
 					list3.add(mapTwo);

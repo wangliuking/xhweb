@@ -22,6 +22,36 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var zTree;
+var setting = {
+		view : {
+			dblClickExpand : false,
+			showLine : true,
+			selectedMulti : false
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "pId"/*
+								 * rootPId : ""
+								 */
+			}
+		},
+		callback : {
+			beforeClick : function(treeId, treeNode) {
+				var zTree = $.fn.zTree.getZTreeObj("tree");
+				if (treeNode.isParent) {
+					zTree.expandNode(treeNode);
+					return false;
+				} else {
+					// demoIframe.attr("src", treeNode.file + ".html");
+					return true;
+				}
+			}
+			/*onClick : TreeOnClick*/
+		}
+	};
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.config([ '$locationProvider', function($locationProvider) {
@@ -38,9 +68,11 @@ xh.load = function() {
 			$scope.data = response.items;
 		});*/
 		/* 获取用户菜单权限 */
-		$http.get("../../web/menu").success(
-				function(response) {
-					$scope.menu = response.items;
+		$http.get("../../web/menu").success(function(response) {
+			var zNodes = response.items;
+			console.log(zNodes);
+			var t = $("#tree");
+			t = $.fn.zTree.init(t, setting, zNodes);
 		});
 	
 		$scope.save=function(){
