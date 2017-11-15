@@ -10,6 +10,15 @@ public interface MenuMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> menuChild(int pId)throws Exception;
+	public List<Map<String,Object>> menuChild(Map<String,Object> map)throws Exception;
+	
+	
+	/**
+	 * 修改菜单
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateMenu(Map<String,Object> map) throws Exception;
 
 }

@@ -12,6 +12,9 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+	
+	<link rel="stylesheet" type="text/css"
+	href="../../lib/zTree_v3/css/zTreeStyle/zTreeStyle.css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -113,7 +116,13 @@
 										<td ng-if="x.roleType==3">亚光运维</td>
 										<td ng-if="x.roleType==4">普通企业</td>
 										<td>{{x.createTime}}</td>
-										<td style="width:20px;text-align:center"><a href="#"
+										<td style="width:20px;text-align:center">
+										<a href="#" ng-if="up.p_update=='on'?true:false"
+										ng-click="menu($index)">
+										<i class="fa fa-bars text-success"></i>&nbsp;菜单编辑
+									    </a>
+										
+										<a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
 											data-target="#edit" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a><a href="#" ng-click="del(x.roleId)" ng-if="x.roleId<10000" ng-show="up.p_delete=='on'?true:false">|<i
@@ -138,10 +147,15 @@
 	<div ng-include="'role-add.html'"></div>
 	<!-- 编辑-->
 	<div ng-include="'role-edit.html'"></div>
+	<div ng-include="'role-menu.html'"></div>
+	
+	<script type="text/javascript"
+	src="../../Resources/js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+<script type="text/javascript"
+	src="../../lib/zTree_v3/js/jquery.ztree.core-3.5.min.js"></script>
+<script type="text/javascript" src="../../lib/zTree_v3/js/jquery.ztree.excheck-3.5.js"></script>
 	<script type="text/javascript" src="../../Controllers/web/role.js"></script>
 	<script type="text/javascript">
 		xh.load();

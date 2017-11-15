@@ -2833,7 +2833,7 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	}
 }
 /* modal */
-/* .modal-content {
+ .modal-content {
   border-radius: 5px;
   border: none;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -2854,7 +2854,9 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 }
 .modal-header {
   padding: 10px 10px;
-  background: #f7f9fa;
+  /* background: #f7f9fa; */
+  /* background:green; */
+ /*  color:#fff; */
 }
 .modal-body {
   padding: 5px;
@@ -2862,7 +2864,7 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .modal-header small {
   color: #9d9fa2;
 }
-*/
+
 .modal-footer {
   /* background: #f7f9fa; */
   padding:5px;
