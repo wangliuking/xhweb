@@ -222,7 +222,7 @@ public interface BsstationMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BsstationBean> rectangle(Map<String,Object> map)throws Exception;
+	public List<HashMap<String,String>> rectangle(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 圈选基站总数

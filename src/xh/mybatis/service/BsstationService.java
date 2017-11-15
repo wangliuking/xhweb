@@ -559,10 +559,10 @@ public class BsstationService {
 	 * @param root
 	 * @return
 	 */
-	public static List<BsstationBean> rectangle(Map<String, Object> map) {
+	public static List<HashMap<String,String>> rectangle(Map<String, Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
-		List<BsstationBean> list = new ArrayList<BsstationBean>();
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
 			list = mapper.rectangle(map);
 			sqlSession.close();
