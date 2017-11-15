@@ -287,11 +287,10 @@
 
 	<!--区域圈选查询 -->
 	<select id="rectangle" parameterType="map"
-		resultType="xh.mybatis.bean.BsstationBean" useCache="true">
-		select * from
-		xhgmnet_bs_station where lng between #{smallLng} and #{bigLng} and lat
-		between #{smallLat} and #{bigLat}
-		order by bsId asc limit #{start},#{limit}
+		resultType="java.util.HashMap" useCache="true">
+		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
+		group by a.bsId order by bsId asc limit #{start},#{limit}
 	</select>
 	<!--区域圈选总数 -->
 	<select id="rectangleCount" parameterType="map" resultType="int"
