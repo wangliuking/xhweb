@@ -97,12 +97,18 @@ public class ReadExcel1 {
         // 得到Excel的行数  
         this.totalRows = sheet.getPhysicalNumberOfRows();  
         // 得到Excel的列数(前提是有行数)  
-        if (totalRows > 1 && sheet.getRow(0) != null) {  
-            this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();  
+        /*Row r0 =sheet.getRow(0);
+        Row r1 =sheet.getRow(1);
+        Row r2 =sheet.getRow(2);
+        Row r3 =sheet.getRow(3);
+        Row r4 =sheet.getRow(4);*/
+        
+        if (totalRows > 1 && sheet.getRow(2) != null) {  
+            this.totalCells = sheet.getRow(2).getPhysicalNumberOfCells();  
         }  
         List<TempBean> impExcelBeanList = new ArrayList<TempBean>();  
         // 循环Excel行数  
-        for (int r = 1; r < totalRows; r++) {  
+        for (int r = 3; r < totalRows-4; r++) {  
             Row row = sheet.getRow(r);  
             if (row == null){  
                 continue;  
@@ -120,12 +126,68 @@ public class ReadExcel1 {
                         }else{  
                         	tempBean.setBsId(cell.getStringCellValue());
                         }  
-                    } else if (c == 5) {  
+                    } else if (c == 3) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String name = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setName((name.substring(0, name.length()-2>0?name.length()-2:1)));
+                        }else{  
+                        	tempBean.setName(cell.getStringCellValue());
+                        }  
+                    } else if (c == 6) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String chnumber = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setChnumber((chnumber.substring(0, chnumber.length()-2>0?chnumber.length()-2:1)));
+                        }else{  
+                        	tempBean.setChnumber(cell.getStringCellValue());
+                        }  
+                    }else if (c == 8) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String zone = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setZone((zone.substring(0, zone.length()-2>0?zone.length()-2:1)));
+                        }else{  
+                        	tempBean.setZone(cell.getStringCellValue());
+                        }  
+                    }else if (c == 10) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String type = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setType((type.substring(0, type.length()-2>0?type.length()-2:1)));
+                        }else{  
+                        	tempBean.setType(cell.getStringCellValue());
+                        }  
+                    }else if (c == 11) {  
                         if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
                             String level = String.valueOf(cell.getNumericCellValue());  
                             tempBean.setLevel((level.substring(0, level.length()-2>0?level.length()-2:1)));
                         }else{  
                         	tempBean.setLevel(cell.getStringCellValue());
+                        }  
+                    }else if (c == 12) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String period = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setPeriod((period.substring(0, period.length()-2>0?period.length()-2:1)));
+                        }else{  
+                        	tempBean.setPeriod(cell.getStringCellValue());
+                        }  
+                    }else if (c == 13) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String address = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setAddress((address.substring(0, address.length()-2>0?address.length()-2:1)));
+                        }else{  
+                        	tempBean.setAddress(cell.getStringCellValue());
+                        }  
+                    }else if (c == 14) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String lng = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setLng((lng.substring(0, lng.length()-2>0?lng.length()-2:1)));
+                        }else{  
+                        	tempBean.setLng(cell.getStringCellValue());
+                        }  
+                    }else if (c == 15) {  
+                        if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
+                            String lat = String.valueOf(cell.getNumericCellValue());  
+                            tempBean.setLat((lat.substring(0, lat.length()-2>0?lat.length()-2:1)));
+                        }else{  
+                        	tempBean.setLat(cell.getStringCellValue());
                         }  
                     }
                 }  
