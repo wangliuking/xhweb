@@ -23,7 +23,7 @@ toastr.options = {
 	"progressBar" : true,
 };
 var zTree;
-var setting = {
+/*var setting = {
 		view : {
 			dblClickExpand : false,
 			showLine : true,
@@ -33,9 +33,9 @@ var setting = {
 			simpleData : {
 				enable : true,
 				idKey : "id",
-				pIdKey : "pId"/*
+				pIdKey : "pId"
 								 * rootPId : ""
-								 */
+								 
 			}
 		},
 		callback : {
@@ -49,9 +49,10 @@ var setting = {
 					return true;
 				}
 			}
-			/*onClick : TreeOnClick*/
+			onClick : TreeOnClick
 		}
-	};
+	};*/
+
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.config([ '$locationProvider', function($locationProvider) {
@@ -61,61 +62,40 @@ xh.load = function() {
 		});
 	} ]);
 	app.controller("power", function($scope, $http, $location) {
-		$scope.securityMenu = true; // 菜单变色
 		$scope.userId = $location.search().roleId;
+		
+		
+		var zTreeObj;
+		// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+		var setting = {};
+		// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
+		var zNodes = [
+		{name:"test1", open:true, children:[
+		   {name:"test1_1"}, {name:"test1_2"}]},
+		{name:"test2", open:true, children:[
+		   {name:"test2_1"}, {name:"test2_2"}]}
+		];
+		 zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		
+		
 		/* 获取用户权限 
 		$http.get("../../web/user/getuserpower?userId="+$scope.userId).success(function(response) {
 			$scope.data = response.items;
 		});*/
 		/* 获取用户菜单权限 */
-		$http.get("../../web/menu").success(function(response) {
+		/*$http.get("../../web/menu").success(function(response) {
 			var zNodes = response.items;
 			console.log(zNodes);
 			var t = $("#tree");
 			t = $.fn.zTree.init(t, setting, zNodes);
-		});
+		});*/
 	
-		$scope.save=function(){
-			$.ajax({
-				url : '../../web/user/setuserpower',
-				type : 'POST',
-				dataType : "json",
-				async : false,
-				data:{
-					formData:xh.serializeJson($("#form").serializeArray()) //将表单序列化为JSON对象
-				},
-				success : function(data) {
-					if (data.result === 1) {
-						toastr.success(data.message, '提示');
-						xh.refresh();
-
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function(){
-				}
-			});
-		};
+		
 		
 
 	});
 };
 /*$("#selectAll").bind("click", function() {
-	var checkVal = [];
-	var flag = $(this).is(':checked') ? 1 : 0;
-	if ($(this).is(':checked')) {
-		$("#form").find("[type='checkbox']").prop("checked", true);// 全选
-		
-		 * $("[name='tb-check']:checkbox").each(function(){
-		 * if($(this).is(':checked')){ checkVal.push($(this).attr("value")); }
-		 * });
-		 
-	} else {
-		$("#form").find("[type='checkbox']").prop("checked", false);// 反选
-	}
-});*/
-$("#selectAll").bind("click", function() {
 	$("#form").find("[type='checkbox']").prop("checked", true);// 全选
 });
 $("#selectNo").bind("click", function() {
@@ -131,12 +111,6 @@ $("#selectOther").bind("click", function() {
 			checkbox[i].checked=true;
 		}
 	}
-	
-	/*if($("#form").find("[type='checkbox']").is(':checked')){
-		$("#form").find("[type='checkbox']").prop("checked", false);
-	}else{
-		$("#form").find("[type='checkbox']").prop("checked", true);
-	}*/
 });
 //刷新数据
 xh.refresh = function() {
@@ -145,3 +119,4 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+*/

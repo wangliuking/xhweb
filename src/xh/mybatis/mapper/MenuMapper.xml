@@ -5,14 +5,14 @@
 <!-- 菜单列表 -->
 	<select id="menuList" parameterType="int" resultType="map"
 		useCache="true">
-		select * from xhgmnet_web_menu where pId=#{pId}
+		select * from xhgmnet_web_role_menu where pId=#{pId}
 		order by id asc,morder asc limit 30
 	</select>
 	<!-- 获取菜单子项 -->
 	<select id="menuChild" parameterType="map" resultType="map"
 		useCache="true">
-		select id,pId,name,url,enabled from xhgmnet_web_menu where pId=#{pId}
-		order by id asc,morder asc limit 30
+		select id,pId,name,url,checked,roleId from xhgmnet_web_role_menu where pId=#{pId} and roleId=#{roleId}
+		order by id asc,morder asc limit 50
 	</select>
 	<!-- 新增工作记录 -->
 	<insert id="addwork" useGeneratedKeys="true" keyProperty="id"
@@ -20,9 +20,9 @@
 		insert into xhgmnet_operations_work(fileName,contact,tel,note,status,filePath,uploadUser,createtime)
 		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{createtime})
 	</insert>
-	<!-- 签收工作记录 -->
-    <update id="signWork" parameterType="xh.mybatis.bean.WorkBean">
-     update xhgmnet_operations_work set status=1,signTime=#{signTime} where id=#{id}    
+	<!-- 更新 -->
+    <update id="updateMenu" parameterType="map">     
+     update xhgmnet_web_role_menu set checked=#{checked} where id=#{id} and roleId=#{roleId}    
     </update>
 
 

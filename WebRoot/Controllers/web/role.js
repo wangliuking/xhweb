@@ -16,12 +16,13 @@ toastr.options = {
 		"showDuration" : "300",
 		"hideDuration" : "1000",
 		/* 消失时间 */
-		"timeOut" : "1000",
+		"timeOut" : "500",
 		"extendedTimeOut" : "1000",
 		"showMethod" : "fadeIn",
 		"hideMethod" : "fadeOut",
 		"progressBar" : true,
 	};
+
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.controller("user", function($scope, $http) {
@@ -39,6 +40,7 @@ xh.load = function() {
 			$scope.data = response.items;
 			$scope.totals=$scope.data.length;
 		});
+		
 	
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -53,7 +55,15 @@ xh.load = function() {
 		$scope.menu = function(id) {
 			$scope.editData = $scope.data[id];
 			//+$scope.editData.roleId+"&role="+$scope.editData.role
-			window.location.href="role-menu.html?roleId=";
+			//window.location.href="role-menu.html?roleId=";
+			$("#menuWin").modal('show');
+		
+			$.get("../../web/menu?roleId="+$scope.editData.roleId).success(function(response) {
+				var zNodes = response.items;
+				var t = $("#treeDemo");
+				t = $.fn.zTree.init(t, setting, zNodes);
+			});
+			
 	    };
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -231,5 +241,48 @@ xh.refresh = function() {
 	// 调用$scope中的方法
 	$scope.refresh();
 
+};
+xh.onCheck=function(e, treeId, treeNode) {
+
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	checkCount = zTree.getCheckedNodes(true).length,
+	nocheckCount = zTree.getCheckedNodes(false).length,
+	change = zTree.getChangeCheckedNodes();
+	
+	
+	var checkVal = [];
+	xh.maskShow();
+		
+	for(var i=0;i<zTree.getChangeCheckedNodes().length;i++){
+		var node={};
+		node.id=zTree.getChangeCheckedNodes()[i].id;
+		node.checked=zTree.getChangeCheckedNodes()[i].checked;
+		node.roleId=zTree.getChangeCheckedNodes()[i].roleId;
+		checkVal.push(node);
+	}
+	
+	if(checkVal.length>0){
+		
+		$.ajax({
+			url : '../../web/updateMenu',
+			type : 'post',
+			dataType : "json",
+			data:{
+				formData:JSON.stringify(checkVal) //将表单序列化为JSON对象
+				
+			},
+			async : false,
+			success : function(data) {
+				toastr.success("已更新", '提示');
+				
+			},
+			error : function() {
+				xh.maskHide();
+			}
+		});
+	}
+	xh.maskHide();
+	
+		
 };
 
