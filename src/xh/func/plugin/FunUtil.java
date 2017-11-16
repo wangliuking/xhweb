@@ -116,8 +116,8 @@ public class FunUtil {
 		request.getSession().setAttribute(name, value);
 	}
 	//获取session
-	public void getSession(HttpServletRequest request,String name){
-		request.getSession().getAttribute(name);
+	public String getSession(HttpServletRequest request,String name){
+		return request.getSession().getAttribute(name).toString();
 	}
 	//移除session
 	public void removeSession(HttpServletRequest request,String name,String value){

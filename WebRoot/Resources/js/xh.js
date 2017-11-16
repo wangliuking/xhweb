@@ -126,7 +126,7 @@ $(document).ready(function() {
 	});
 
 	// Function for close hpanel
-	$('.closebox').on('click', function(event) {-
+	$('.closebox').on('click', function(event) {
 		event.preventDefault();
 		var hpanel = $(this).closest('div.hpanel');
 		hpanel.remove();

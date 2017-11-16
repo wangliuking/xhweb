@@ -20,5 +20,22 @@ public interface MenuMapper {
 	 * @throws Exception
 	 */
 	public int updateMenu(Map<String,Object> map) throws Exception;
+	
+	public int updateMenuRoleId(int roleId) throws Exception;
+	
+	/**
+	 * 根据roleId 判断菜单是否存在
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public int menuExists(int roleId) throws Exception;
+	
+	/**
+	 * 添加菜单
+	 * @return
+	 * @throws Exception
+	 */
+	public int addMenu() throws Exception;
 
 }

@@ -7,7 +7,7 @@ if (!("xh" in window)) {
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.controller("index", function($scope, $http) {
-		console.log("菜单");
+		
 		
 		
 

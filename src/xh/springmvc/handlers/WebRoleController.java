@@ -22,6 +22,7 @@ import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebRoleBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.bean.WebUserRoleBean;
+import xh.mybatis.service.MenuService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebRoleService;
 import xh.mybatis.service.WebUserRoleService;
@@ -86,7 +87,7 @@ public class WebRoleController {
 	 * @param response
 	 */
 	@RequestMapping(value="/role/add",method = RequestMethod.POST)
-	public void addRole(HttpServletRequest request, HttpServletResponse response){
+	public synchronized void addRole(HttpServletRequest request, HttpServletResponse response){
 		String role=request.getParameter("role");
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
 		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
@@ -104,6 +105,13 @@ public class WebRoleController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("新增web角色，role="+role);
 			WebLogService.writeLog(webLogBean);
+			if(MenuService.menuExists(roleId)==0){
+				if(MenuService.addMenu()==1){
+					MenuService.updateMenuRoleId(roleId);
+				}
+			}
+			
+			
 			this.success=true;
 			this.message="添加角色成功";
 		}else if(flag==1){
@@ -133,7 +141,7 @@ public class WebRoleController {
 	 * @param response
 	 */
 	@RequestMapping(value="/role/update",method = RequestMethod.POST)
-	public void updateRole(HttpServletRequest request, HttpServletResponse response){
+	public synchronized void updateRole(HttpServletRequest request, HttpServletResponse response){
 		String roleId=request.getParameter("roleId");
 		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
 		String role=request.getParameter("role");
@@ -152,6 +160,12 @@ public class WebRoleController {
 			webLogBean.setContent("修改web角色，role="+role);
 			webLogBean.setCreateTime(createTime);
 			WebLogService.writeLog(webLogBean);
+			if(MenuService.menuExists(Integer.parseInt(roleId))==0){
+				
+					MenuService.addMenu();
+					MenuService.updateMenuRoleId(Integer.parseInt(roleId));
+				
+			}
 			this.message="修改角色成功";
 		}else {
 			this.success=false;
