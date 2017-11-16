@@ -1,0 +1,217 @@
+
+<div class="modal fade" id="linkconfigWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】传输配置信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<div class="btn-group pull-left" style="padding-bottom:5px;">
+					<button class="btn btn-success btn-sm" data-toggle="modal"
+						data-target="#addLinkconfigWin" ng-disabled="">
+						<i class="fa fa-plus-circle"></i>&nbsp;添加传输配置信息
+					</button>
+
+				</div>
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<th>交换机端口</th>
+							<th>运营商</th>
+							<th>类型</th>
+							<th>带宽</th>
+							<th>设备型号</th>
+							<th>调单号</th>
+							<th>基站侧端口号</th>
+							<th>中心侧网元</th>
+							<th>中心侧端口</th>
+							<th>主机IP</th>
+							<th>摄像IP</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="linkconfigTotals==0">
+							<td colspan="12" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in linkconfigData">
+
+							<td>{{x.switchPort1}}</td>
+							<td>{{x.carrierOperator}}</td>
+							<td>{{x.type}}</td>
+							<td>{{x.bandwidth}}</td>
+							<td>{{x.unitType}}</td>
+							<td>{{x.transferNumber}}</td>
+							<td>{{x.basePort}}</td>
+							<td>{{x.switchElement}}</td>
+							<td>{{x.switchPort2}}</td>
+							<td>{{x.masterIp}}</td>
+							<td>{{x.cameraIp}}</td>
+							<td><a href="#" ng-click="delLinkconfig($index)"><i
+									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addLinkconfigWin" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">{{bsData.bsId}}号基站【{{bsData.name}}】传输配置信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="addLinkconfigForm" onSubmit="return false">
+
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+							<input type="text" name="bsId" ng-model="bsData.bsId" ng-show=false />
+								<label>交换中心5700交换机端口</label><input type="text" value=""
+									class="form-control" name="switchPort1">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>设备型号</label><input type="text" value=""
+									class="form-control" name="unitType">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>主机IP</label><input type="text" value=""
+									class="form-control" name="masterIp">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>摄像头IP</label><input type="text" value=""
+									class="form-control" name="cameraIp">
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>运营商</label><select name="carrierOperator"
+									class="form-control">
+									<option value="成度电信" selected="selected">成度电信</option>
+									<option value="成度移动">成都移动</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>传输类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									name="type" class="form-control">
+									<option value="E1" selected="selected">E1</option>
+									<option value="IP">IP</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>带宽[M]</label> <input type="text" value="2"
+									class="form-control" name="bandwidth">
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>调单号[运营商传输线路唯一编码]</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" value="" class="form-control"
+									name="transferNumber" required="required">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>基站侧端口号[传输链路在设备上的具体接口]</label><input type="text" value=""
+									class="form-control" name="basePort">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>中心侧网元[交换中心传输设备在运营商网管中的编号]</label> <select
+									name="switchElement" class="form-control">
+									<option value="12000" selected="selected">12000</option>
+									<option value="119-239">119-239</option>
+									<option value="119-240">119-240</option>
+									<option value="119-241">119-241</option>
+									<option value="119-245">119-245</option>
+									<option value="119-246">119-246</option>
+									<option value="119-247">119-247</option>
+									<option value="ZC505">ZC505</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>中心侧端口[传输链路在设备上的具体接口]</label> <input type="text" value=""
+									class="form-control" name="switchPort2">
+							</div>
+						</div>
+
+
+					</div>
+					<!-- row -->
+
+					<!-- row -->
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" ng-disabled="" class="btn btn-success btn-sm"
+						id="addLinkconfig_btn">
+						<i class="fa fa-plus"></i>&nbsp;确认
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#addLinkconfig_btn").click(function() {
+		$('#addLinkconfigForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addLinkconfigForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.addLinkconfig();
+	});
+</script>

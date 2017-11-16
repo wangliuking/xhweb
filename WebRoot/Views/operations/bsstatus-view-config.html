@@ -1,0 +1,173 @@
+<!-- 相邻小区 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading" style="color:#000;border-left:4px solid green">
+
+				<!-- <i class="fa fa-navicon"></i> --> 相邻小区
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<th width="50px">#</th>
+							<th>小区ID</th>
+							<th>基站名称</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="neighborTotals==0">
+							<td colspan="3" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in neighborData">
+							<td>{{$index+1}}</td>
+							<td>{{x.adjacentCellId}}</td>
+							<td>{{x.bsName}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 基站切换 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading" style="color:#000;border-left:4px solid green">
+
+				基站切换参数
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th>
+							<th>切换参数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="handoverTotals==0">
+							<td colspan="4" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in handoverData">
+							<td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.bsName}}</td>
+							<td>{{x.handoverPara}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- BSR配置表 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading" style="color:#000;border-left:4px solid green">
+
+				 BSR配置表
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<!-- <th width="50px">#</th>
+							<th>基站ID</th>
+							<th>基站名称</th> -->
+							<th>BSC-ID</th>
+							<th>BSC版本</th>
+							<th>BSC-IP</th>
+							<th>BSC启用</th>
+							<th>BSC备注信息</th>
+							<th>BSR-ID</th>
+							<th>BSR启用</th>
+							<th>功率1</th>
+							<th>功率2</th>
+							<th>频点值1</th>
+							<th>频点值2</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="bsrconfigTotals==0">
+							<td colspan="11" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in bsrconfigData">
+							<!-- <td>{{$index+1}}</td>
+							<td>{{x.bsId}}</td>
+							<td>{{x.bsName}}</td> -->
+							<td>{{x.bscId}}</td>
+							<td>{{x.bscVersion}}</td>
+							<td>{{x.bscIp}}</td>
+							<td>{{x.bscIsEnable}}</td>
+							<td>{{x.bscComment}}</td>
+							<td>{{x.bsrId}}</td>
+							<td>{{x.bsrIsEnable}}</td>
+							<td>{{x.poweOne}}</td>
+							<td>{{x.poweTwo}}</td>
+							<td>{{x.freqOne}}</td>
+							<td>{{x.freqTwo}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 传输配置信息 -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading" style="color:#000;border-left:4px solid green">
+				传输配置信息
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							<th>交换中心5700交换机端口</th>
+							<th>运营商</th>
+							<th>类型</th>
+							<th>带宽</th>
+							<th>设备型号</th>
+							<th>调单号</th>
+							<th>基站侧端口号</th>
+							<th>中心侧网元</th>
+							<th>中心侧端口</th>
+							<th>主机IP</th>
+							<th>摄像IP</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="linkconfigTotals==0">
+							<td colspan="11" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in linkconfigData">
+							
+							<td>{{x.switchPort1}}</td>
+							<td>{{x.carrierOperator}}</td>
+							<td>{{x.type}}</td>
+							<td>{{x.bandwidth}}</td>
+							<td>{{x.unitType}}</td>
+							<td>{{x.transferNumber}}</td>
+							<td>{{x.basePort}}</td>
+							<td>{{x.switchElement}}</td>
+							<td>{{x.switchPort2}}</td>
+							<td>{{x.masterIp}}</td>
+							<td>{{x.cameraIp}}</td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

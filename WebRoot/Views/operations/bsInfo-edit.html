@@ -11,148 +11,310 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="updateForm" onSubmit="return false">
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>基站ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="number" value="" class="form-control" name="bsId"
-									required="required" readonly="readonly" ng-model="editData.bsId">
+
+
+					<ul id="xh-tabs" class="nav nav-tabs">
+						<li class="active"><a href="#info10" data-toggle="tab">
+								基本信息 </a></li>
+						<li><a href="#info11" data-toggle="tab">属性配置</a></li>
+						<li><a href="#line10" data-toggle="tab">天线配置</a></li>
+						<li><a href="#location10" data-toggle="tab">位置信息</a></li>
+
+
+					</ul>
+					<div class="tab-content" style="padding:20px">
+
+						<div class="tab-pane fade in active" id="info10">
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>基站ID</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="number" value="" class="form-control" name="bsId"
+											required="required" ng-model="editData.bsId"
+											readonly="readonly">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>基站名称</label>&nbsp;<span class="text-danger">[*]</span>
+										<input type="text" value="" class="form-control" name="name"
+											required="required" ng-model="editData.name">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>建设期</label><select name="period" class="form-control"
+											ng-model="editData.period" string-data>
+											<option value="3">三期建设</option>
+											<option value="4" selected="selected">四期建设</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>基站类型</label>&nbsp;<span class="text-danger">[*]</span><select
+											name="type" class="form-control" ng-model="editData.type"
+											string-data>
+											<option value="1" selected="selected">1</option>
+											<option value="2">2</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span>
+										<select name="level" class="form-control"
+											ng-model="editData.level" string-data>
+											<option value="1" selected="selected">一级</option>
+											<option value="2">二级</option>
+											<option value="3">三级</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>载波数</label>&nbsp;<span class="text-danger">[*]</span> <select
+											name="chnumber" class="form-control"
+											ng-model="editData.chnumber" string-data>
+											<option value="2" selected="selected">2</option>
+											<option value="4">4</option>
+											<option value="8">8</option>
+											<option value="16">16</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>额定功率</label> <input type="text" value=""
+											class="form-control" name="power" ng-model="editData.power">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>IP</label> <input type="text" value=""
+											class="form-control" name="ip" ng-model="editData.ip">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>设备型号</label><input type="text" value=""
+											class="form-control" name="deviceType"
+											ng-model="editData.deviceType">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>设备厂家</label><select name="productor"
+											class="form-control" ng-model="editData.productor"
+											string-data>
+											<option value="东方通信" selected="selected">东方通信</option>
+											<option value="摩托罗拉">摩托罗拉</option>
+											<option value="国人通信">国人通信</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>联系人</label> <input type="text" value=""
+											class="form-control" name="contact"
+											ng-model="editData.contact">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>联系电话</label> <input type="text" value=""
+											class="form-control" name="tel" ng-model="editData.tel">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group col-md-12">
+										<textarea class="form-control" name="comment" cols="60"
+											rows="3" ng-model="editData.comment"></textarea>
+									</div>
+								</div>
+							</div>
+							<!-- row -->
+
+
+
+						</div>
+						<div class="tab-pane fade" id="info11">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运行商传输</label> <input type="text" value=""
+											class="form-control" name="carrierLink"
+											ng-model="editData.carrierLink">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>传输数量</label> <select name="transCount"
+											class="form-control" ng-model="editData.transCount">
+											<option value="1" selected="selected">1</option>
+											<option value="2">2</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运营商/社会</label> <input type="text" value=""
+											class="form-control" name="carrier"
+											ng-model="editData.carrier">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运营商站名</label> <input type="text" value=""
+											class="form-control" name="carrierName"
+											ng-model="editData.carrierName">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>动环建设</label> <select name="envMonitor"
+											class="form-control" ng-model="editData.envMonitor"
+											string-data>
+											<option value="0" selected="selected">自建</option>
+											<option value="1">共建</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>空调数量</label><input type="text" class="form-control"
+											name="conditionerCount" ng-model="editData.conditionerCount">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>机房进出受限说明</label> <select name="entryLimitType"
+											class="form-control" ng-model="editData.entryLimitType"
+											string-data>
+											<option value="1" selected="selected">高山站</option>
+											<option value="2">时限</option>
+											<option value="3">借钥匙</option>
+										</select>
+									</div>
+								</div>
+
+
+
+
+							</div>
+							<!-- row -->
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:10px;">
+										<input id="ck5" class="magic-checkbox" type="checkbox"
+											name="status" value="1" ng-checked="editData.status">
+										<label for="ck5"><span>是否启用</span></label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:10px;">
+										<input id="ck6" class="magic-checkbox" type="checkbox"
+											name="fireEquipment" value="1"
+											ng-checked="editData.fireEquipment"> <label for="ck6"><span>消防</span></label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:10px;">
+										<input id="ck7" class="magic-checkbox" type="checkbox"
+											name="generatorConfig" value="1"
+											ng-checked="editData.generatorConfig"> <label
+											for="ck7"><span>发电机配置</span></label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:10px;">
+										<input id="ck8" class="magic-checkbox" type="checkbox"
+											name="isGenerator" value="1"
+											ng-checked="editData.isGenerator"> <label for="ck8"><span>具备发电条</span></label>
+									</div>
+								</div>
+
+							</div>
+							<!-- row-end -->
+						</div>
+						<div class="tab-pane fade" id="line10">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>天线安装方式</label><select name="lineInstallType"
+											class="form-control" ng-model="editData.lineInstallType"
+											string-data>
+											<option value="0" selected="selected">楼顶铁塔</option>
+											<option value="1">楼顶抱杆</option>
+											<option value="2">地面铁塔</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>gps天线数量</label> <input type="text" class="form-control"
+											name="gpsLineNum" ng-model="editData.gpsLineNum">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>天线高度[地面到天线]</label> <input type="text" value=""
+											class="form-control" name="lineHeight"
+											ng-model="editData.lineHeight">
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>基站名称</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="name"
-									required="required" ng-model="editData.name">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>基站类型</label>&nbsp;<span class="text-danger">[*]</span><select
-									name="type" class="form-control" ng-model="type">
-									<option value="1" selected="selected">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="level" class="form-control" ng-model="level">
-									<option value="1" selected="selected">一级</option>
-									<option value="2">二级</option>
-									<option value="3">三级</option>
-								</select>
+
+						<div class="tab-pane fade" id="location10">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>机房归属</label> <select name="hometype"
+											class="form-control" ng-model="editData.hometype" string-data>
+											<option value="移动机房" selected="selected">移动机房</option>
+											<option value="铁塔机房">铁塔机房</option>
+											<option value="电信机房">电信机房</option>
+											<option value="电信机房">自建机房</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>行政区域</label> <input type="text" value=""
+											class="form-control" name="zone" ng-model="editData.zone">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>地址</label> <input type="text" value=""
+											class="form-control" name="address"
+											ng-model="editData.address">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>经度</label> <input type="text" value=""
+											class="form-control" name="lng" ng-model="editData.lng">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>纬度</label> <input type="text" value=""
+											class="form-control" name="lat" ng-model="editData.lat">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>机房海拔</label> <input type="text" value=""
+											class="form-control" name="height" ng-model="editData.height">
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>经度</label> <input type="text" value=""
-									class="form-control" name="lng" ng-model="editData.lng">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>纬度</label> <input type="text" value=""
-									class="form-control" name="lat" ng-model="editData.lat">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>载波数</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="number" value="4" class="form-control" name="chnumber"
-									required="required" ng-model="editData.chnumber">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>gps天线数量</label> <input type="number" value="2"
-									class="form-control" name="gpsLineNum" ng-model="editData.gpsLineNum">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>额定功率</label> <input type="text" value=""
-									class="form-control" name="power" ng-model="editData.power">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>运营商/社会</label> <input type="text" value=""
-									class="form-control" name="carrier" ng-model="editData.carrier">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>运营商站名</label> <input type="text" value=""
-									class="form-control" name="carrierName" ng-model="editData.carrierName">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>运行商传输</label> <input type="text" value=""
-									class="form-control" name="carrierLink" ng-model="editData.carrierLink">
-							</div>
-						</div>
-					</div>
-					<!-- row-end -->
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>机房海拔</label> <input type="text" value=""
-									class="form-control" name="height" ng-model="editData.height">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>天线高度</label> <input type="text" value=""
-									class="form-control" name="lineHeight" ng-model="editData.lineHeight">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>地址</label> <input type="text" value=""
-									class="form-control" name="address" ng-model="editData.address">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>联系人</label> <input type="text" value=""
-									class="form-control" name="contact" ng-model="editData.contact">
-							</div>
-						</div>
-					</div>
-					<!-- row-end -->
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>电话</label> <input type="text" value=""
-									class="form-control" name="tel" ng-model="editData.tel">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12">
-								<label>IP</label> <input type="text" value=""
-									class="form-control" name="ip" ng-model="editData.ip">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group col-md-12" style="margin-top:30px;">
-			
-							<input id="ck11" class="magic-checkbox" type="checkbox"
-									name="openen" value="1" checked ng-model="editData.openen"
-									> <label for="ck11"><span>是否启用</span></label>
-							</div>
-						</div>
-						
-					</div>
-					<!-- row-end -->
 				</form>
 			</div>
 			<div class="modal-footer">

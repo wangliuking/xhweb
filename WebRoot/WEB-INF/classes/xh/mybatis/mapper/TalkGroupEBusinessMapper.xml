@@ -6,219 +6,60 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="messageTransmission" property="messagetransmission" jdbcType="INTEGER" />
     <result column="busyOverride" property="busyoverride" jdbcType="INTEGER" />
-    <result column="TGEnabled" property="tgenabled" jdbcType="INTEGER" />
+    <result column="vpnId" property="vpnid" jdbcType="INTEGER" />
     <result column="emergencyCall" property="emergencycall" jdbcType="INTEGER" />
     <result column="emergencyAtNVS" property="emergencyatnvs" jdbcType="INTEGER" />
     <result column="dispatchPriority" property="dispatchpriority" jdbcType="INTEGER" />
     <result column="priorityMonitor" property="prioritymonitor" jdbcType="INTEGER" />
-    <result column="inactivityTime" property="inactivitytime" jdbcType="INTEGER" />
-    <result column="callsWithoutMGEG" property="callswithoutmgeg" jdbcType="INTEGER" />
-    <result column="audioInterrupt" property="audiointerrupt" jdbcType="INTEGER" />
     <result column="TGDataPreempt" property="tgdatapreempt" jdbcType="INTEGER" />
     <result column="userGroup" property="usergroup" jdbcType="INTEGER" />
-    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    
   </resultMap>
-  <select id="ById" parameterType="map" resultMap="BaseResultMap"
+  	<select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
-		select * from xhgmnet_talkgroup_e_businessattribute order by id asc limit #{start},#{limit}
+		select * from xhgmnet_talkgroup_e_businessattribute where 1=1
+		<if test="id !=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
 	</select>
 
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_talkgroup_e_businessattribute
+		select count(*) from xhgmnet_talkgroup_e_businessattribute where 1=1
+		<if test="id !=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
 	</select>
-  
-  
-  <sql id="Base_Column_List" >
-    id, name, messageTransmission, busyOverride, TGEnabled, emergencyCall, emergencyAtNVS, 
-    dispatchPriority, priorityMonitor, inactivityTime, callsWithoutMGEG, audioInterrupt, 
-    TGDataPreempt, userGroup, time
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from xhgmnet_talkgroup_e_businessattribute
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from xhgmnet_talkgroup_e_businessattribute
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="xh.mybatis.bean.TalkGroupEBusiness" >
-    insert into xhgmnet_talkgroup_e_businessattribute (id, name, messageTransmission, 
-      busyOverride, TGEnabled, emergencyCall, 
-      emergencyAtNVS, dispatchPriority, priorityMonitor, 
-      inactivityTime, callsWithoutMGEG, audioInterrupt, 
-      TGDataPreempt, userGroup, time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{messagetransmission,jdbcType=INTEGER}, 
-      #{busyoverride,jdbcType=INTEGER}, #{tgenabled,jdbcType=INTEGER}, #{emergencycall,jdbcType=INTEGER}, 
-      #{emergencyatnvs,jdbcType=INTEGER}, #{dispatchpriority,jdbcType=INTEGER}, #{prioritymonitor,jdbcType=INTEGER}, 
-      #{inactivitytime,jdbcType=INTEGER}, #{callswithoutmgeg,jdbcType=INTEGER}, #{audiointerrupt,jdbcType=INTEGER}, 
-      #{tgdatapreempt,jdbcType=INTEGER}, #{usergroup,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="xh.mybatis.bean.TalkGroupEBusiness" >
-    insert into xhgmnet_talkgroup_e_businessattribute
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="messagetransmission != null" >
-        messageTransmission,
-      </if>
-      <if test="busyoverride != null" >
-        busyOverride,
-      </if>
-      <if test="tgenabled != null" >
-        TGEnabled,
-      </if>
-      <if test="emergencycall != null" >
-        emergencyCall,
-      </if>
-      <if test="emergencyatnvs != null" >
-        emergencyAtNVS,
-      </if>
-      <if test="dispatchpriority != null" >
-        dispatchPriority,
-      </if>
-      <if test="prioritymonitor != null" >
-        priorityMonitor,
-      </if>
-      <if test="inactivitytime != null" >
-        inactivityTime,
-      </if>
-      <if test="callswithoutmgeg != null" >
-        callsWithoutMGEG,
-      </if>
-      <if test="audiointerrupt != null" >
-        audioInterrupt,
-      </if>
-      <if test="tgdatapreempt != null" >
-        TGDataPreempt,
-      </if>
-      <if test="usergroup != null" >
-        userGroup,
-      </if>
-      <if test="time != null" >
-        time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="messagetransmission != null" >
-        #{messagetransmission,jdbcType=INTEGER},
-      </if>
-      <if test="busyoverride != null" >
-        #{busyoverride,jdbcType=INTEGER},
-      </if>
-      <if test="tgenabled != null" >
-        #{tgenabled,jdbcType=INTEGER},
-      </if>
-      <if test="emergencycall != null" >
-        #{emergencycall,jdbcType=INTEGER},
-      </if>
-      <if test="emergencyatnvs != null" >
-        #{emergencyatnvs,jdbcType=INTEGER},
-      </if>
-      <if test="dispatchpriority != null" >
-        #{dispatchpriority,jdbcType=INTEGER},
-      </if>
-      <if test="prioritymonitor != null" >
-        #{prioritymonitor,jdbcType=INTEGER},
-      </if>
-      <if test="inactivitytime != null" >
-        #{inactivitytime,jdbcType=INTEGER},
-      </if>
-      <if test="callswithoutmgeg != null" >
-        #{callswithoutmgeg,jdbcType=INTEGER},
-      </if>
-      <if test="audiointerrupt != null" >
-        #{audiointerrupt,jdbcType=INTEGER},
-      </if>
-      <if test="tgdatapreempt != null" >
-        #{tgdatapreempt,jdbcType=INTEGER},
-      </if>
-      <if test="usergroup != null" >
-        #{usergroup,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        #{time,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.TalkGroupEBusiness" >
-    update xhgmnet_talkgroup_e_businessattribute
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="messagetransmission != null" >
-        messageTransmission = #{messagetransmission,jdbcType=INTEGER},
-      </if>
-      <if test="busyoverride != null" >
-        busyOverride = #{busyoverride,jdbcType=INTEGER},
-      </if>
-      <if test="tgenabled != null" >
-        TGEnabled = #{tgenabled,jdbcType=INTEGER},
-      </if>
-      <if test="emergencycall != null" >
-        emergencyCall = #{emergencycall,jdbcType=INTEGER},
-      </if>
-      <if test="emergencyatnvs != null" >
-        emergencyAtNVS = #{emergencyatnvs,jdbcType=INTEGER},
-      </if>
-      <if test="dispatchpriority != null" >
-        dispatchPriority = #{dispatchpriority,jdbcType=INTEGER},
-      </if>
-      <if test="prioritymonitor != null" >
-        priorityMonitor = #{prioritymonitor,jdbcType=INTEGER},
-      </if>
-      <if test="inactivitytime != null" >
-        inactivityTime = #{inactivitytime,jdbcType=INTEGER},
-      </if>
-      <if test="callswithoutmgeg != null" >
-        callsWithoutMGEG = #{callswithoutmgeg,jdbcType=INTEGER},
-      </if>
-      <if test="audiointerrupt != null" >
-        audioInterrupt = #{audiointerrupt,jdbcType=INTEGER},
-      </if>
-      <if test="tgdatapreempt != null" >
-        TGDataPreempt = #{tgdatapreempt,jdbcType=INTEGER},
-      </if>
-      <if test="usergroup != null" >
-        userGroup = #{usergroup,jdbcType=INTEGER},
-      </if>
-      <if test="time != null" >
-        time = #{time,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.TalkGroupEBusiness" >
-    update xhgmnet_talkgroup_e_businessattribute
-    set name = #{name,jdbcType=VARCHAR},
-      messageTransmission = #{messagetransmission,jdbcType=INTEGER},
-      busyOverride = #{busyoverride,jdbcType=INTEGER},
-      TGEnabled = #{tgenabled,jdbcType=INTEGER},
-      emergencyCall = #{emergencycall,jdbcType=INTEGER},
-      emergencyAtNVS = #{emergencyatnvs,jdbcType=INTEGER},
-      dispatchPriority = #{dispatchpriority,jdbcType=INTEGER},
-      priorityMonitor = #{prioritymonitor,jdbcType=INTEGER},
-      inactivityTime = #{inactivitytime,jdbcType=INTEGER},
-      callsWithoutMGEG = #{callswithoutmgeg,jdbcType=INTEGER},
-      audioInterrupt = #{audiointerrupt,jdbcType=INTEGER},
-      TGDataPreempt = #{tgdatapreempt,jdbcType=INTEGER},
-      userGroup = #{usergroup,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+	<!--增加 -->
+	<insert id="insert" parameterType="java.util.Map">
+		insert into
+		xhgmnet_talkgroup_e_businessattribute(id,name,messageTransmission,busyOverride,vpnId,emergencyCall,emergencyAtNVS,dispatchPriority,priorityMonitor,
+		TGDataPreempt,userGroup)
+		values(#{id},#{name},#{messagetransmission},#{busyoverride},#{vpnid},#{emergencycall},#{emergencyatnvs},#{dispatchpriority},#{prioritymonitor},
+		#{tgdatapreempt},#{usergroup})
+	</insert>
+
+	<!--更新 -->
+	<update id="update" parameterType="java.util.Map">
+		update
+		xhgmnet_talkgroup_e_businessattribute set name=#{name},messageTransmission=#{messagetransmission},busyOverride=#{busyoverride},vpnId=#{vpnid},
+		emergencyCall=#{emergencycall},emergencyAtNVS=#{emergencyatnvs},dispatchPriority=#{dispatchpriority},priorityMonitor=#{prioritymonitor},
+		TGDataPreempt=#{tgdatapreempt},userGroup=#{usergroup} where id=#{id} 
+	</update>
+
+	<!--删除-->
+	<delete id="delete" parameterType="java.util.List">
+		delete from xhgmnet_talkgroup_e_businessattribute where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
 </mapper>

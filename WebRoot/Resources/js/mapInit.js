@@ -1,7 +1,137 @@
+
 var app = angular.module("app", []);
-app.controller("map", function($scope, $http) { 
-	//设置圈选的默认显示条数
+var appElement = document.querySelector('[ng-controller=map]');
+app.controller("map", function($scope, $http) {
+	/**
+	 * 首页弹出模态框数据获取和设置start
+	 */
 	$scope.count = "10";
+	$scope.bsInformation = function() {
+		var bsId = $scope.bsId;
+		$http.get("bs/map/dataById?bsId=" + bsId).success(
+				function(response) {
+					$scope.bsinfoData = response.items[0];
+				});
+	};
+	
+	// 基站下的bsc状态
+	$scope.bsc = function() {
+		var bsId = $scope.bsId;
+		$http.get("bsstatus/bsc?bsId=" + bsId).success(
+				function(response) {
+					$scope.bscData = response.items;
+					$scope.bscTotals = response.totals;
+				});
+	};
+	// 基站下的bsr状态
+	$scope.bsr = function() {
+		var bsId = $scope.bsId;
+		$http.get("bsstatus/bsr?bsId=" + bsId).success(
+				function(response) {
+					$scope.bsrData = response.items;
+					$scope.bsrTotals = response.totals;
+				});
+	};
+	// 基站下的dpx状态
+	$scope.dpx = function() {
+		var bsId = $scope.bsId;
+		$http.get("bsstatus/dpx?bsId=" + bsId).success(
+				function(response) {
+					$scope.dpxData = response.items;
+					$scope.dpxTotals = response.totals;
+				});
+	};
+	// 基站下的psm状态
+	$scope.psm = function() {
+		var bsId = $scope.bsId;
+		$http.get("bsstatus/psm?bsId=" + bsId).success(
+				function(response) {
+					$scope.psmData = response.items;
+					$scope.psmTotals = response.totals;
+				});
+	};
+	// 根据基站ID查找基站相邻小区
+	$scope.neighborByBsId = function() {
+		var bsId = $scope.bsId;
+		$http.get("bs/neighborByBsId?bsId=" + bsId).success(
+				function(response) {
+					$scope.neighborData = response.items;
+					$scope.neighborTotals = response.totals;
+				});
+	};
+	// 根据基站ID查找基站切换参数
+	$scope.handoverByBsId = function() {
+		var bsId = $scope.bsId;
+		$http.get("bs/handoverByBsId?bsId=" + bsId).success(
+				function(response) {
+					$scope.handoverData = response.items;
+					$scope.handoverTotals = response.totals;
+				});
+	};
+	// 根据基站ID查找基站BSR配置信息
+	$scope.bsrconfigByBsId= function() {
+		var bsId = $scope.bsId;
+		$http.get("bs/bsrconfigByBsId?bsId=" + bsId).success(
+				function(response) {
+					$scope.bsrconfigData = response.items;
+					$scope.bsrconfigTotals = response.totals;
+				});
+	};
+	// 根据基站ID查找基站传输配置信息
+	$scope.linkconfigByBsId = function() {
+		var bsId = $scope.bsId;
+		$http.get("bs/linkconfigByBsId?bsId=" + bsId).success(
+				function(response) {
+					$scope.linkconfigData = response.items;
+					$scope.linkconfigTotals = response.totals;
+				});
+	};
+
+	$scope.equip = function() {
+		$scope.bsc();
+		$scope.bsr();
+		$scope.dpx();
+		$scope.psm();
+	};
+	//基站配置参数
+	$scope.config = function() {
+		$scope.neighborByBsId();
+		$scope.handoverByBsId();
+		$scope.bsrconfigByBsId();
+		$scope.linkconfigByBsId();
+	};
+	// 基站下的注册终端
+	$scope.radioUser = function() {
+		var bsId = $scope.bsId;
+		frist = 0;
+		var pageSize = $("#page-limit").val();
+		$http.get("radio/status/oneBsRadio?bsId=" + bsId
+						+ "&start=0&limit=" + pageSize).success(
+				function(response) {
+					$scope.radioData = response.items;
+					$scope.radioTotals = response.totals;
+					xh.pagging(1, parseInt($scope.radioTotals), $scope);
+				});
+	};
+	// 基站下的注册组
+	$scope.bsGroup = function() {
+		var bsId = $scope.bsId;
+		var pageSize = $("#page-limit").val();
+		$http.get("radio/status/oneBsGroup?bsId=" + bsId
+						+ "&start=0&limit=" + pageSize).success(
+				function(response) {
+					$scope.groupData = response.items;
+					$scope.groupTotals = response.totals;
+				});
+	};
+	
+	/**
+	 * 首页弹出模态框数据获取和设置end
+	 */
+	
+		
+	//设置圈选的默认显示条数
+	$scope.countChoose = "10";
 	$http.get("bs/map/area").success(
 			function(response) {
 				$scope.data = response.items;
@@ -17,8 +147,9 @@ app.controller("map", function($scope, $http) {
 			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
 			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
 	}
-	$scope.levelChoose=function(params){
-		console.log(params);
+	$scope.levelChoose=function(params,index){
+		console.log(params+"  "+index);
+		$scope.clickLevel=index;
 		$http.get("bs/map/bsByLevel?level="+params).success(
 				function(response) {
 					var tempData = response.items;					
@@ -61,7 +192,7 @@ app.controller("map", function($scope, $http) {
 			});
 			$http.get("bs/map/bsByArea?zone="+t).success(
 					function(response) {
-						var tempData = response.items;			
+						var tempData = response.items;	
 						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
 						myMap.centerAndZoom(point,area[params].zoom*1);
 						layerCreate(tempData);
@@ -152,11 +283,38 @@ app.controller("map", function($scope, $http) {
 					overlay.setOption(option);
 				});	
 	}
-	
-	/*圈选数据查询*/
-	/* 查询数据 */
-	$scope.search = function(page,params) {
+	/* 刷新数据  业务*/
+	$scope.refresh = function() {
+		$scope.search(1);
+	};
+	/* 查询数据  业务*/
+	$scope.search = function(page) {
+		var $scope = angular.element(appElement).scope();
 		var pageSize = $("#page-limit").val();
+		var start = 1, limit = pageSize;
+		frist = 0;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		xh.maskShow();
+		$http.get("radio/status/oneBsRadio?bsId=" + $scope.bsId
+						+ "&start=" + start + "&limit=" + pageSize)
+				.success(function(response) {
+					xh.maskHide();
+					$scope.radioData = response.items;
+					$scope.radioTotals = response.totals;
+					xh.pagging(page, parseInt($scope.radioTotals), $scope);
+				});
+	};
+	
+	
+	/* 查询数据  圈选*/
+	$scope.searchChoose = function(page,params) {
+		var pageSize = $("#page-limitChoose").val();
 		var start = 1, limit = pageSize;
 		frist = 0;
 		page = parseInt(page);
@@ -169,7 +327,7 @@ app.controller("map", function($scope, $http) {
 		
 		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
-			var tempData=response.items;		
+			var tempData=response.items;	
 			//添加模拟数据 start
 			for(var i=0;i<tempData.length;i++){
 				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
@@ -178,13 +336,44 @@ app.controller("map", function($scope, $http) {
 			}
 			//添加模拟数据 end
 			$scope.dataRectangle = tempData;		
-			$scope.totals = response.totals;
-			xh.pagging(page, parseInt($scope.totals), $scope,params);
+			$scope.totalsChoose = response.totals;
+			xh.paggingChoose(page, parseInt($scope.totalsChoose), $scope,params);
 		});
 	};
-	//分页点击
-	$scope.pageClick = function(page, totals, totalPages, params) {		
+	//分页点击，业务
+	$scope.pageClick = function(page, totals, totalPages) {
 		var pageSize = $("#page-limit").val();
+		var start = 1, limit = pageSize;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		xh.maskShow();
+		$http.get("radio/status/oneBsRadio?bsId=" + $scope.bsId
+						+ "&start=" + start + "&limit=" + pageSize)
+				.success(function(response) {
+					xh.maskHide();
+
+					$scope.start = (page - 1) * pageSize + 1;
+					$scope.lastIndex = page * pageSize;
+					if (page == totalPages) {
+						if (totals > 0) {
+							$scope.lastIndex = totals;
+						} else {
+							$scope.start = 0;
+							$scope.lastIndex = 0;
+						}
+					}
+					$scope.radioData = response.items;
+					$scope.radioTotals = response.totals;
+				});
+
+	};
+	//分页点击,圈选
+	$scope.pageClickChoose = function(page, totals, totalPages, params) {		
+		var pageSize = $("#page-limitChoose").val();
 		var start = 1, limit = pageSize;
 		page = parseInt(page);
 		if (page <= 1) {
@@ -194,14 +383,14 @@ app.controller("map", function($scope, $http) {
 		}
 		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+pageSize).
 		success(function(response){
-			$scope.start = (page - 1) * pageSize + 1;
-			$scope.lastIndex = page * pageSize;
+			$scope.startChoose = (page - 1) * pageSize + 1;
+			$scope.lastIndexChoose = page * pageSize;
 			if (page == totalPages) {
 				if (totals > 0) {
-					$scope.lastIndex = totals;
+					$scope.lastIndexChoose = totals;
 				} else {
-					$scope.start = 0;
-					$scope.lastIndex = 0;
+					$scope.startChoose = 0;
+					$scope.lastIndexChoose = 0;
 				}
 			}
 			var tempData=response.items;
@@ -213,14 +402,23 @@ app.controller("map", function($scope, $http) {
 			}
 			//添加模拟数据 end
 			$scope.dataRectangle = tempData;
-			$scope.totals = response.totals;
+			$scope.totalsChoose = response.totals;
 		});
 		
 	};
 	
 });
-/* 数据分页 */
-xh.pagging = function(currentPage, totals, $scope, params) {
+
+//刷新数据 业务
+xh.refresh = function() {
+	var $scope = angular.element(appElement).scope();
+	// 调用$scope中的方法
+	$scope.refresh();
+
+};
+
+/* 数据分页 业务 */
+xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
@@ -241,12 +439,48 @@ xh.pagging = function(currentPage, totals, $scope, params) {
 		$(".page-paging").html('<ul class="pagination"></ul>');
 		$('.pagination').twbsPagination({
 			totalPages : totalPages,
+			visiblePages : 3,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+
+/* 数据分页 圈选 */
+xh.paggingChoose = function(currentPage, totals, $scope, params) {
+	var pageSize = $("#page-limitChoose").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.startChoose = start;
+	$scope.lastIndexChoose = end;
+	$scope.totalsChoose = totals;
+	if (totals > 0) {
+		$(".page-pagingChoose").html('<ul class="paginationChoose"></ul>');
+		$('.paginationChoose').twbsPagination({
+			totalPages : totalPages,
 			visiblePages : 10,
 			version : '1.1',
 			startPage : currentPage,
 			onPageClick : function(event, page) {
 				if (frist == 1) {
-					$scope.pageClick(page, totals, totalPages, params);
+					$scope.pageClickChoose(page, totals, totalPages, params);
 				}
 				frist = 1;
 
@@ -283,20 +517,20 @@ function floor(data) {
 	esri.symbols = esri.symbol;
 	myMap = new esri.Map("mapDiv", options);// 在mapDiv中创建map地图对象
 	// 创建底图图层对象,http://10.190.230.165/arcgisditu/rest/services/NEWMAP/MapServer为政务外网底图服务地址,
+	console.log(chooseLayer);
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务
+				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
-	}else{
+	}else if(chooseLayer==1){
 		testDemo = new
 		esri.layers.ArcGISTiledMapServiceLayer(
 				"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
-	
-	test = new
-	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/common/rest/services/YingJiBan/regions/MapServer");//动态服务
+	/*test = new
+	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");*///动态服务
 	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
 	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
@@ -416,7 +650,7 @@ function floor(data) {
           $('#rectangle').modal();
           var appElement = document.querySelector('[ng-controller=map]');
       	  var $scope = angular.element(appElement).scope();
-      	  $scope.search(1,params);
+      	  $scope.searchChoose(1,params);
       }
       
     });
@@ -577,11 +811,13 @@ function layerCreate(data){
 	for (i = 0; i < data.length; i++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[i].status == 0) {
-			temp = "bluesky/break_small.png";
-		} else if (data[i].status == 1) {
+		if(data[i].status == 0){
+			temp = "bluesky/unuse_small.png";
+		}else if (data[i].bsStatus == 0) {
+			temp = "bluesky/contact_small.png";
+		} else {
 			// 判断基站告警的级别
-/*			if (typeof (data[i].alarmLevel) === "undefined") {
+			/*if (typeof (data[i].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_small.png";
 			} else if (data[i].alarmLevel == 1) {
 				temp = "bluesky/normal_small.gif";
@@ -590,9 +826,7 @@ function layerCreate(data){
 			} else if (data[i].alarmLevel == 3) {
 				temp = "bluesky/urgent_small.gif";
 			}*/
-			temp = "bluesky/contact_small.png";
-		} else if (data[i].status == 2) {
-			temp = "bluesky/unuse_small.png";
+			temp = "bluesky/break_small.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
@@ -614,9 +848,11 @@ function layerCreate(data){
 	for (j = 0; j < data.length; j++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[j].status == 0) {
-			temp = "bluesky/break_middle.png";
-		} else if (data[j].status == 1) {
+		if(data[j].status == 0){
+			temp = "bluesky/unuse_middle.png";
+		}else if (data[j].bsStatus == 0) {
+			temp = "bluesky/contact_middle.png";
+		} else {
 			// 判断基站告警的级别
 			/*if (typeof (data[j].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_middle.png";
@@ -627,9 +863,7 @@ function layerCreate(data){
 			} else if (data[j].alarmLevel == 3) {
 				temp = "bluesky/urgent_middle.gif";
 			}*/
-			temp = "bluesky/contact_middle.png";
-		} else if (data[j].status == 2) {
-			temp = "bluesky/unuse_middle.png";
+			temp = "bluesky/break_middle.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
@@ -651,9 +885,11 @@ function layerCreate(data){
 	for (x = 0; x < data.length; x++) {
 		var temp = 0;
 		// 判断基站是连接还是断开
-		if (data[x].status == 0) {
-			temp = "bluesky/break_big.png";
-		} else if (data[x].status == 1) {
+		if(data[x].status == 0){
+			temp = "bluesky/unuse_big.png";
+		}else if (data[x].bsStatus == 0) {
+			temp = "bluesky/contact_big.png";
+		} else {
 			// 判断基站告警的级别
 			/*if (typeof (data[x].alarmLevel) === "undefined") {
 				temp = "bluesky/contact_big.png";
@@ -664,9 +900,7 @@ function layerCreate(data){
 			} else if (data[x].alarmLevel == 3) {
 				temp = "bluesky/urgent_big.gif";
 			}*/
-			temp = "bluesky/contact_big.png";
-		} else if (data[x].status == 2) {
-			temp = "bluesky/unuse_big.png";
+			temp = "bluesky/break_big.png";
 		}
 
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(48), parseInt(48));
@@ -722,7 +956,6 @@ function init(data,markData) {
 			};
 			objAll.push(y);
 		}
-		/*console.log("data->"+objTemp[0].name);*/
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
 		var myChart = overlay.initECharts(chartsContainer);
@@ -731,7 +964,11 @@ function init(data,markData) {
 		myChart.on('click', function(params) {
 			/* 基站图标设置模态框并获取显示数据 */
 			$('#myModal').modal();
-			$.ajax({
+			var appElement = document.querySelector('[ng-controller=map]');
+			var $scope = angular.element(appElement).scope();
+			$scope.bsId=params.value;
+			$scope.bsInformation();
+			/*$.ajax({
 				type : "GET",
 				url : "bs/map/dataById?bsId=" + params.value,
 				dataType : "json",
@@ -740,8 +977,12 @@ function init(data,markData) {
 					var data = dataTemp[0];
 					$('#bsId').val(data.bsId);
 					$('#bsName').val(data.name);
-					$('#lat').val(data.lat);
-					$('#lng').val(data.lng);
+					if(data.period==3){
+						$('#period').val("三期基站");
+					}else{
+						$('#period').val("四期基站");
+					}
+					$('#type').val(data.type);
 					$('#address').val(data.address);
 					$('#ip').val(data.ip);
 					if (data.contact == '') {
@@ -752,34 +993,36 @@ function init(data,markData) {
 						$('#contact').val(data.contact);
 						$('#tel').val(data.tel);
 					}
+					
 					$('#chnumber').val(data.chnumber);
 					$('#gpsLineNum').val(data.gpsLineNum);
 					$('#power').val(data.power);
 					$('#carrier').val(data.carrier);
 					$('#height').val(data.height);
 					$('#lineHeight').val(data.lineHeight);
-					if (data.status == '') {
+					if (data.bsStatus == '') {
 						$('#status').val("暂无相关信息");
 					} else if (data.status == 0) {
-						$('#status').val("断开");
-					} else if (data.status == 1) {
 						$('#status').val("正常");
-					} else if (data.status == 2) {
+					}else{
 						$('#status').val("未启用");
 					}
 					
-					/**
+					$('#business1').val(data.upload);
+					$('#business2').val(data.download);
+					$('#business3').val(data.queuedAllocReq);
+					$('#business4').val(data.time);
+					*//**
 					 * start
 					 * 业务部分模拟数据
-					 */
+					 *//*
 					$('#business1').val(parseInt(Math.random()*(99-5+1) + 5));
 					$('#business2').val(parseInt(Math.random()*(50-16+1) + 16)+"%");
 					$('#business3').val(parseInt(Math.random()*(65-16+1) + 11)+"%");
 					$('#business4').val(parseInt(Math.random()*(99-5+1) + 5));
-					$('#business5').val(parseInt(Math.random()*(51-23+1) + 23)+"%");
-					/**
+					*//**
 					 * end
-					 */
+					 *//*
 					
 					$('#temp_0').val(0.0);
 					$('#temp_1').val(1.0);
@@ -787,7 +1030,7 @@ function init(data,markData) {
 					$('#temp_3').val(1.0);
 					highChart(data);
 				}
-			});
+			});*/
 			//gosuncn1
 			/*$.ajax({
 				type : "GET",
@@ -857,7 +1100,7 @@ function init(data,markData) {
 					geoCoord : obj,
 					markPoint : {
 						symbol : 'image://',
-						symbolSize: 16,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
+						symbolSize: 12,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
 		                
 		                data:objAll
 					}
@@ -867,10 +1110,10 @@ function init(data,markData) {
 					mapType : 'none',
 					data : [],
 					markPoint : {
-						symbol : 'emptyCircle',
+						symbol : 'image://',//'emptyCircle'
 						
 						symbolSize : function(v) {
-							return 16
+							return 12
 						},
 						effect : {
 							show : true,
@@ -970,15 +1213,6 @@ function init(data,markData) {
 					 
 				} else {
 					myMap.removeLayer(roadtest);
-				}
-			});
-			
-			$("#testService").click(function() {
-				if ($(this).prop("checked") == true) {
-					myMap.addLayer(test);
-					 
-				} else {
-					myMap.removeLayer(test);
 				}
 			});
 			

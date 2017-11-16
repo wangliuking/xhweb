@@ -1,81 +1,153 @@
 
 <div class="modal fade" id="edit" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">查看通话组/通播组业务信息</small>
+				<small class="font-bold">修改通话组/通播组业务属性</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<table class="table-bordered table-hover table-striped" style="width:100%;">
-				<thead>
-				<tr>
-				<th>名称</th>
-				<th>参数</th>
-				<th>备注</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr><td>名称</td><td>{{editData.name}}</td><td></td></tr>
-				<tr><td>通讯或传输模式</td><td>{{editData.messagetransmission}}</td><td></td></tr>
-				<tr><td>忙覆盖</td><td>{{editData.busyoverride}}</td><td></td></tr>
-				<tr><td>TGEnabled</td><td>{{editData.tgenabled}}</td><td></td></tr>
-				<tr><td>紧急呼叫许可</td><td>{{editData.emergencycall}}</td><td></td></tr>
-				<tr><td>无效站点紧急通话</td><td>{{editData.emergencyatnvs}}</td><td></td></tr>
-				<tr><td>呼叫优先级</td><td>{{editData.dispatchpriority}}</td><td></td></tr>
-				<tr><td>优先级监听使能</td><td>{{editData.prioritymonitor}}</td><td></td></tr>
-				<tr><td>通话组非活跃时间</td><td>{{editData.inactivitytime}}</td><td></td></tr>
-				<tr><td>无MGEG资源可呼叫</td><td>{{editData.callswithoutmgeg}}</td><td></td></tr>
-				<tr><td>语音中断模式</td><td>{{editData.audiointerrupt}}</td><td></td></tr>
-				<tr><td>允许通话组数据预占</td><td>{{editData.tgdatapreempt}}</td><td></td></tr>
-				<tr><td>用户组</td><td>{{editData.usergroup}}</td><td></td></tr>
-				<tr><td>时间</td><td>{{editData.time}}</td><td></td></tr>
-				</tbody>
-				</table>
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div style="margin-bottom:10px;padding-left:15px;">唯一标识符</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>通话组/通播组业务属性标识</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.id" class="form-control"
+									name="id" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>通话组/通播组业务属性名</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.name" class="form-control"
+									name="name" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>用户组</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.usergroup" class="form-control"
+									name="usergroup" required="required">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>虚拟专网标识</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.vpnid"
+									class="form-control" name="vpnid" required="required">
+							</div>
+						</div>
+					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;" />
+					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">模式</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>通讯或传输模式</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.messagetransmission"
+									class="form-control" name="messagetransmission"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>忙覆盖</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.busyoverride"
+									class="form-control" name="busyoverride" required="required">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>调度优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.dispatchpriority"
+									class="form-control" name="dispatchpriority"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;" />
+					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">配置参数</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>紧急呼叫许可</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width: 26px; height: 26px;" type="radio" value="1"
+									class="radio-inline" name="emergencycall" id="emergencycall"
+									ng-model="editData.emergencycall"
+									ng-checked="editData.emergencycall==1">是 <input
+									style="width: 26px; height: 26px; margin: 4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="emergencycall" id="emergencycall"
+									ng-model="editData.emergencycall"
+									ng-checked="editData.emergencycall==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>无效站点紧急通话</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width: 26px; height: 26px;" type="radio" value="1"
+									class="radio-inline" name="emergencyatnvs" id="emergencyatnvs"
+									ng-model="editData.emergencyatnvs"
+									ng-checked="editData.emergencyatnvs==1">是 <input
+									style="width: 26px; height: 26px; margin: 4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="emergencyatnvs" id="emergencyatnvs"
+									ng-model="editData.emergencyatnvs"
+									ng-checked="editData.emergencyatnvs==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>优先级监听使能</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width: 26px; height: 26px;" type="radio" value="1"
+									class="radio-inline" name="prioritymonitor"
+									id="prioritymonitor" ng-model="editData.prioritymonitor"
+									ng-checked="editData.prioritymonitor==1">是 <input
+									style="width: 26px; height: 26px; margin: 4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="prioritymonitor" id="prioritymonitor"
+									ng-model="editData.prioritymonitor"
+									ng-checked="editData.prioritymonitor==0">否
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group col-md-12">
+								<label>允许通话组数据预占</label>&nbsp;<span class="text-danger">[*]</span><br />
+								<input style="width: 26px; height: 26px;" type="radio" value="1"
+									class="radio-inline" name="tgdatapreempt" id="tgdatapreempt"
+									ng-model="editData.tgdatapreempt"
+									ng-checked="editData.tgdatapreempt==1">是 <input
+									style="width: 26px; height: 26px; margin: 4px 0px 0px 15px;"
+									type="radio" value="0" class="radio-inline"
+									name="tgdatapreempt" id="tgdatapreempt"
+									ng-model="editData.tgdatapreempt"
+									ng-checked="editData.tgdatapreempt==0">否
+							</div>
+						</div>
+					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;" />
+				</form>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
+				<button type="button" class="btn btn-success btn-sm" id="update_btn">
+					<i class="fa fa-edit"></i>&nbsp;更新
+				</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!--修改基站---end -->
 <script type="text/javascript">
-//控制步骤
-$(function() {
-	
-		/* $('#edit').on("hidden.bs.modal", function() {
-			var app = angular.module("app", []);
-			app.controller("radiouser",function($scope){
-				$scope.editData=[];
-			});
-		}); */
-
-	$('#edit a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-		$('#edit a[data-toggle="tab"]').removeClass('btn-primary');
-		$('#edit a[data-toggle="tab"]').addClass('btn-default');
-		$(this).removeClass('btn-default');
-		$(this).addClass('btn-primary');
-	});
-
-	$('#edit .next').click(function() {
-		var nextId = $(this).parents('#edit .tab-pane').next().attr("id");
-		$('#edit a[href="#'+nextId+'"]').tab('show');
-	});
-
-	$('#edit .prev').click(function() {
-		var prevId = $(this).parents('#edit .tab-pane').prev().attr("id");
-		$('#edit a[href="#' + prevId + '"]').tab('show');
-	});
-
-});
-
 	$("#update_btn").click(function() {
 		$('#updateForm').submit();
 	});
@@ -88,10 +160,14 @@ $(function() {
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			bsId : {
+			id : {
 				validators : {
 					notEmpty : {
-						message : '无线用户ID号不能为空'
+						message : '不能为空'
+					},
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
 					}
 				}
 			}

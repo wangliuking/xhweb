@@ -45,9 +45,9 @@ public class EMHListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
-		//timer.schedule(new timerTaskForLogin(), 60 * 1000, 60 * 1000);// 心跳任务
-		//timer1.schedule(new timerTaskForData(), 2 * 60 * 1000, 60 * 1000);//定时获取数据任务
-		// timer2.schedule(new timerTaskForTimeCheck(),30*1000,20*1000);//
+		timer.schedule(new timerTaskForLogin(), 8 * 60 * 1000, 8 * 60 * 1000);// 心跳任务
+		timer1.schedule(new timerTaskForData(),  2 * 60 * 1000, 60 * 1000);//定时获取数据任务
+		//timer2.schedule(new timerTaskForTimeCheck(),2 * 60 * 1000,60 * 60 * 1000);//
 		// 时间同步（一次）
 
 		// timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
@@ -75,35 +75,26 @@ class timerTaskForLogin extends TimerTask {
 					Map<String, String> map = list.get(Integer.parseInt(thr) - 1);
 					String FSUID = map.get("fsuId");
 					String url = "http://" + map.get("fsuIp")
-							+ ":8090/services/FSUService";
+							+ ":8080/services/FSUService";
 					try {
 						Test.getFSUInfo(url, FSUID);
 					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
 						log.info("发送心跳信息失败！！！" + FSUID
 								+ "send for login failure!!!!");
 					}
 				}
 			});
-
-			/*
-			 * Map<String, String> map = list.get(i); String FSUID =
-			 * map.get("fsuId"); String url = "http://" + map.get("fsuIp") +
-			 * ":8090/services/FSUService"; log.info(FSUID+" "+url); try {
-			 * Test.getFSUInfo(url, FSUID); } catch (RemoteException e) { //
-			 * TODO Auto-generated catch block log.info("发送心跳信息失败！！！" + FSUID +
-			 * "send for login failure!!!!"); }
-			 */
 		}
+
 		es.shutdown();
-		try {
+		/*try {
 			es.awaitTermination(50 * 1000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
-			System.out.println("awaitTermination interrupted: " + e);  
-	        es.shutdownNow();
-		}
-	}
+			System.out.println("awaitTermination interrupted: " + e);
+			es.shutdownNow();
+		}*/
 
+	}
 }
 
 /**
@@ -129,7 +120,7 @@ class timerTaskForData extends TimerTask {
 					Map<String, String> map = temp.get(Integer.parseInt(thr) - 1);
 					String FSUID = map.get("fsuId");
 					String url = "http://" + map.get("fsuIp")
-							+ ":8090/services/FSUService";
+							+ ":8080/services/FSUService";
 					try {
 						List<String> list = GosuncnController
 								.selectConfigByFSUID(FSUID);
@@ -149,12 +140,12 @@ class timerTaskForData extends TimerTask {
 			});
 		}
 		es.shutdown();
-		try {
+		/*try {
 			es.awaitTermination(50 * 1000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
-			System.out.println("awaitTermination interrupted: " + e);  
-	        es.shutdownNow();
-		}
+			System.out.println("awaitTermination interrupted: " + e);
+			es.shutdownNow();
+		}*/
 	}
 
 }
@@ -163,7 +154,8 @@ class timerTaskForData extends TimerTask {
  * 获取配置信息
  */
 class timerTaskForConfig extends TimerTask {
-	protected static final Log log = LogFactory.getLog(timerTaskForConfig.class);
+	protected static final Log log = LogFactory
+			.getLog(timerTaskForConfig.class);
 
 	@Override
 	public void run() {
@@ -173,7 +165,7 @@ class timerTaskForConfig extends TimerTask {
 			Map<String, String> map = list.get(i);
 			String FSUID = map.get("fsuId");
 			String url = "http://" + map.get("fsuIp")
-					+ ":8090/services/FSUService";
+					+ ":8080/services/FSUService";
 			try {
 				List<Map<String, String>> configList = Test.getDevConf(url,
 						FSUID);
@@ -213,7 +205,7 @@ class timerTaskForTimeCheck extends TimerTask {
 					Map<String, String> map = list.get(Integer.parseInt(thr) - 1);
 					String FSUID = map.get("fsuId");
 					String url = "http://" + map.get("fsuIp")
-							+ ":8090/services/FSUService";
+							+ ":8080/services/FSUService";
 					log.info(strs + " " + thr + " " + FSUID + " " + url + " "
 							+ Thread.currentThread().getName());
 					try {

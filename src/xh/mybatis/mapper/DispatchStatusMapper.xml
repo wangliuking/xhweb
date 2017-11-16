@@ -5,6 +5,10 @@
     <!--调度台状态-->
     <select id="dispatchstatus" resultType="map" useCache="true">
      select * from xhgmnet_dispatch limit 0,100
+    </select> 
+    <!-- 根据调度台ID判断调度台是否存在 -->
+    <select id="dispatchExists" parameterType="int" resultType="int" useCache="true">
+     select count(*) from xhgmnet_dispatch where dstId=#{dstId}
     </select>  
     <!--获取已经安装的调度台-->
     <select id="dispatchSetup" resultType="map" useCache="true">
@@ -13,6 +17,19 @@
     <!-- 修改调度台状态  -->
     <update id="updateDispatchStatus" parameterType="map">
      update xhgmnet_dispatch set set flag=#{flag} where dstId=#{dstId}
-    </update>    
+    </update> 
+    <!-- 新增调度台 -->
+    <insert id="addDispatch" keyProperty="dstId" useGeneratedKeys="false" parameterType="xh.mybatis.bean.DispatchBean">
+    INSERT INTO `xhgmnet_dispatch` (`dstId`, `dstName`, `IP`,`setupStatus`) VALUES(#{dstId}, #{dstName},#{IP},#{setupStatus})
+    </insert>
+    <!-- 更新调度台参数 --> 
+    <update id="updateDispatch" parameterType="xh.mybatis.bean.DispatchBean">
+    update xhgmnet_dispatch set dstName=#{dstName},IP=#{IP},setupStatus=#{setupStatus} where dstId=#{dstId}
+    </update>
+    <!-- 删除调度台 -->
+    <delete id="deleteDispatch" parameterType="List">
+    delete from xhgmnet_dispatch  where dstId in
+    (<foreach collection="list" item="id" separator=",">#{id}</foreach>)
+    </delete>  
    
 </mapper>

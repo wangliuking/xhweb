@@ -1,9 +1,13 @@
 package xh.mybatis.service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
+import xh.mybatis.mapper.TalkGroupEBusinessMapper;
 import xh.mybatis.mapper.TalkGroupIaMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -14,10 +18,13 @@ public class TalkGroupIaService {
 	 * @param root
 	 * @return
 	 */
-	public static List<HashMap<String,String>> radioUserBusinessInfo(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		TalkGroupIaMapper mapper = sqlSession.getMapper(TalkGroupIaMapper.class);
-		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+	public static List<HashMap<String, String>> radioUserBusinessInfo(
+			Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupIaMapper mapper = sqlSession
+				.getMapper(TalkGroupIaMapper.class);
+		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		try {
 			list = mapper.ById(map);
 			sqlSession.close();
@@ -36,8 +43,10 @@ public class TalkGroupIaService {
 	 * @throws Exception
 	 */
 	public static int Count(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		TalkGroupIaMapper mapper = sqlSession.getMapper(TalkGroupIaMapper.class);
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupIaMapper mapper = sqlSession
+				.getMapper(TalkGroupIaMapper.class);
 		int count = 0;
 		try {
 			count = mapper.Count(map);
@@ -47,6 +56,73 @@ public class TalkGroupIaService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	/**
+	 * 添加
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int insert(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupIaMapper mapper = sqlSession
+				.getMapper(TalkGroupIaMapper.class);
+		int count = 0;
+		try {
+			count = mapper.insert(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	/**
+	 * 修改
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int update(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupIaMapper mapper = sqlSession
+				.getMapper(TalkGroupIaMapper.class);
+		int count = 0;
+		try {
+			count = mapper.update(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	/**
+	 * 删除
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static void delete(List<String> list) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupIaMapper mapper = sqlSession
+				.getMapper(TalkGroupIaMapper.class);
+		try {
+			mapper.delete(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -327,7 +327,7 @@ public class DeviceManageController {
         for(Map<String,Object> map : list){
             //----发送通知邮件
             EmailBean emailBean = new EmailBean();
-            emailBean.setTitle("保障申请");
+            emailBean.setTitle("业务变更申请");
             emailBean.setRecvUser(map.get("user").toString());
             emailBean.setSendUser(funUtil.loginUser(request));
             emailBean.setContent(content);

@@ -21,7 +21,6 @@
 	margin: 0px;
 	padding: 0px;
 }
-
 body {
 	font-family: 'Microsoft Yahei';
 	background-color: #f1f3f6;
@@ -1165,7 +1164,15 @@ body.fullscreen-panel-mode {
 	text-align: center;
 	border: 1px solid #ccc;
 }
-
+.xh-table .tr-img-gray th {
+	background:url("../images/table/column-header-over-bg.gif");
+	/* background: #4f99c6; */
+	/* #d15b47-danger ,#e59729-wraing ,#629959=success*/
+	color: #263238;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #ccc;
+}
 .xh-table .tr-blue th {
 	background: #3498db;
 	text-align: center;
@@ -1206,27 +1213,27 @@ body.fullscreen-panel-mode {
 	text-align: center;
 }
 
-.xh-table .td-success {
+.td-success {
 	background: #5cb45b !important;
 	color: #fff;
 }
 
-.xh-table .td-danger {
+.td-danger {
 	background: #e74c3c !important;
 	color: #fff;
 }
 
-.xh-table .td-warning {
+.td-warning {
 	background: #ffb606 !important;
 	color: #fff;
 }
 
-.xh-table .td-primary {
+.td-primary {
 	background: #3498db !important;
 	color: #fff;
 }
 
-.xh-table .td-gray {
+.td-gray {
 	background: #ccc !important;
 	color: #000;
 }
@@ -2032,11 +2039,16 @@ line-height
 	font-weight: normal;
 }
 
-.form-control,.form-control:focus {
+.form-control,.form-control-static.form-control:focus {
 	box-shadow: none;
 }
 
 .form-control {
+	border-color: #e4e5e7 !important;
+	 padding:0; 
+	height: 30px;
+}
+.form-control-static {
 	border-color: #e4e5e7 !important;
 	/* padding:0; */
 	height: 35px;
@@ -2821,7 +2833,7 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	}
 }
 /* modal */
-/* .modal-content {
+ .modal-content {
   border-radius: 5px;
   border: none;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -2842,7 +2854,9 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 }
 .modal-header {
   padding: 10px 10px;
-  background: #f7f9fa;
+  /* background: #f7f9fa; */
+  /* background:green; */
+ /*  color:#fff; */
 }
 .modal-body {
   padding: 5px;
@@ -2850,7 +2864,7 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .modal-header small {
   color: #9d9fa2;
 }
-*/
+
 .modal-footer {
   /* background: #f7f9fa; */
   padding:5px;
@@ -3296,3 +3310,5 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	color: #fff;
 	border: none;
 }
+/* zTree样式 */
+

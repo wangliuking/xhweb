@@ -58,14 +58,14 @@ public class Test {
 		//list.add("920100000000001");// 电表
 		list.add("080200000000001");// UPS
 		list.add("760300000000001");// FSU
-		// getData("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取所有监控点数据
+		//getData("http://10.10.10.3:8090/services/FSUService","09201704160085");//获取所有监控点数据
 		// getDataByList("http://192.168.5.254:8080/services/FSUService","09201704160085",list);//
 		// 查询监控点数据
 
 		// setThreshold("http://192.168.5.254:8080/services/FSUService","09201704160085",
 		// list);// 写监控点门限数据
-		getThreshold("http://10.1.65.3:8090/services/FSUService","09201704160085",list);//查询监控点门限数据
-		// getLoginInfo("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取注册信息
+		//getThreshold("http://10.10.10.3:8080/services/FSUService","09201704160085",list);//查询监控点门限数据
+		//getFSUInfo("http://10.10.10.3:8090/services/FSUService","09201704160085");//获取状态信息
 		// getDevConf("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取FSU配置信息
 		// timeCheck("09201704160085");//时间确认
 
@@ -91,6 +91,7 @@ public class Test {
 		InvokeResponse response = stub.invoke(invoke);
 		org.apache.axis2.databinding.types.soapencoding.String resp = response
 				.getInvokeReturn();
+		//log.info(resp);
 		try {
 			list = ParseXml.getData(resp.getString());
 

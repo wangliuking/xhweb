@@ -16,12 +16,13 @@ toastr.options = {
 		"showDuration" : "300",
 		"hideDuration" : "1000",
 		/* 消失时间 */
-		"timeOut" : "1000",
+		"timeOut" : "500",
 		"extendedTimeOut" : "1000",
 		"showMethod" : "fadeIn",
 		"hideMethod" : "fadeOut",
 		"progressBar" : true,
 	};
+
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.controller("user", function($scope, $http) {
@@ -39,6 +40,7 @@ xh.load = function() {
 			$scope.data = response.items;
 			$scope.totals=$scope.data.length;
 		});
+		
 	
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -49,6 +51,20 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$scope.editData.roleType = $scope.editData.roleType.toString();
 		};
+		/*跳转到菜单分配页面*/
+		$scope.menu = function(id) {
+			$scope.editData = $scope.data[id];
+			//+$scope.editData.roleId+"&role="+$scope.editData.role
+			//window.location.href="role-menu.html?roleId=";
+			$("#menuWin").modal('show');
+		
+			$.get("../../web/menu?roleId="+$scope.editData.roleId).success(function(response) {
+				var zNodes = response.items;
+				var t = $("#treeDemo");
+				t = $.fn.zTree.init(t, setting, zNodes);
+			});
+			
+	    };
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
 			var checkVal = [];
@@ -225,5 +241,61 @@ xh.refresh = function() {
 	// 调用$scope中的方法
 	$scope.refresh();
 
+};
+xh.onCheck=function(e, treeId, treeNode) {
+	xh.maskShow();
+	
+	var $scope = angular.element(appElement).scope();
+	var roleId=$scope.editData.roleId;
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	checkCount = zTree.getCheckedNodes(true).length,
+	nocheckCount = zTree.getCheckedNodes(false).length,
+	change = zTree.getChangeCheckedNodes();
+	
+	var checkVal = [];
+	var nocheckVal = [];
+	
+		
+	for(var i=0;i<zTree.getCheckedNodes(true).length;i++){
+		var node={};
+		node.id=zTree.getCheckedNodes(true)[i].id;
+		node.checked=zTree.getCheckedNodes(true)[i].checked;
+		node.roleId=zTree.getCheckedNodes(true)[i].roleId;
+		checkVal.push(node.id);
+	}
+	for(var i=0;i<zTree.getCheckedNodes(false).length;i++){
+		var node={};
+		node.id=zTree.getCheckedNodes(false)[i].id;
+		node.checked=zTree.getCheckedNodes(false)[i].checked;
+		node.roleId=zTree.getCheckedNodes(false)[i].roleId;
+		nocheckVal.push(node.id);
+	}
+	
+	if(checkVal.length>0){
+		
+		$.ajax({
+			url : '../../web/updateMenu',
+			type : 'post',
+			dataType : "json",
+			data:{
+				checks:checkVal.join(","),
+				nochecks:nocheckVal.join(","),
+				roleId:roleId
+				/*formData:JSON.stringify(checkVal) //将表单序列化为JSON对象
+*/				
+			},
+			async : false,
+			success : function(data) {
+				toastr.success("已更新", '提示');
+				
+			},
+			error : function() {
+				xh.maskHide();
+			}
+		});
+	}
+	xh.maskHide();
+	
+		
 };
 

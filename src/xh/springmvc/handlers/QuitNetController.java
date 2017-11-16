@@ -655,7 +655,7 @@ public class QuitNetController {
 	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
 		//----发送通知邮件
 		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("保障申请");
+		emailBean.setTitle("退网申请");
 		emailBean.setRecvUser(recvUser);
 		emailBean.setSendUser(funUtil.loginUser(request));
 		emailBean.setContent(content);
@@ -674,7 +674,7 @@ public class QuitNetController {
 		for(Map<String,Object> map : list){
 			//----发送通知邮件
 			EmailBean emailBean = new EmailBean();
-			emailBean.setTitle("保障申请");
+			emailBean.setTitle("退网申请");
 			emailBean.setRecvUser(map.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent(content);

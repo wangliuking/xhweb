@@ -10,54 +10,57 @@
 				<small class="font-bold">修改无线用户互联属性</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-			<form action="#" id="updateForm" onSubmit="return false">
+				<form action="#" id="updateForm" onSubmit="return false">
+					<div style="margin-bottom:10px;padding-left:15px;">唯一标识符</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>无线用户互连属性标识</label>&nbsp;<span class="text-danger">[*]</span>
-								<input
-									type="text" ng-model="editData.id" class="form-control" name="id"
-									required="required" readonly="readonly">
+								<input type="text" ng-model="editData.id" class="form-control"
+									name="id" required="required" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>无线用户互连属性名</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.name" class="form-control" name="name"
-									required="required">
+								<label>无线用户互连属性名</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" ng-model="editData.name" class="form-control"
+									name="name" required="required">
 							</div>
 						</div>
 					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;" />
 					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">呼叫优先级</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>优先级</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.prioritylevel" class="form-control" name="prioritylevel"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>呼入限制</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.bictype" class="form-control" name="bictype"
-									required="required">
+									type="text" ng-model="editData.prioritylevel"
+									class="form-control" name="prioritylevel" required="required">
 							</div>
 						</div>
 					</div>
+					<hr style="margin-top:10px;margin-bottom:10px;" />
 					<!-- row-------end -->
-					<!-- row-------end -->
+					<div style="margin-bottom:10px;padding-left:15px;">呼入呼出列表</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
+								<label>呼入限制</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" ng-model="editData.bictype" class="form-control"
+									name="bictype" required="required">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
 								<label>呼出限制</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" ng-model="editData.boctype" class="form-control" name="boctype"
-									required="required">
+									type="text" ng-model="editData.boctype" class="form-control"
+									name="boctype" required="required">
 							</div>
 						</div>
 					</div>
 				</form>
-			
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger btn-sm"
@@ -85,17 +88,17 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			/* bsId : {
-				validators : {
-					notEmpty : {
-						message : '不能为空'
-					},
-					regexp : {
-						regexp : /^[0-9.]+$/,
-						message : '只能输入整数和小数'
-					}
+		/* bsId : {
+			validators : {
+				notEmpty : {
+					message : '不能为空'
+				},
+				regexp : {
+					regexp : /^[0-9.]+$/,
+					message : '只能输入整数和小数'
 				}
-			} */
+			}
+		} */
 
 		}
 	}).on('success.form.bv', function(e, data) {

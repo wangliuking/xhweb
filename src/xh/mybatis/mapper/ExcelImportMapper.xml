@@ -4,7 +4,7 @@
 
 
 	<!--导入excel -->
-	<insert id="insertExcel" parameterType="java.util.List">
+	<!-- <insert id="insertExcel" parameterType="java.util.List">
 		INSERT INTO
 		xhgmnet_road_history(bsId,db,lng,lat,positionArea,nPositionArea,ndb,time)
 		values
@@ -12,7 +12,7 @@
 			separator=",">
 			(#{item.bsId},#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb},#{item.time})
 		</foreach>
-	</insert>
+	</insert> -->
 	
 	<!-- <update id="insertExcel"  parameterType="java.util.List">    
           <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
@@ -24,6 +24,14 @@
          </foreach>  
             
     </update>  -->
-
+	<insert id="insertExcel" parameterType="java.util.List">
+		INSERT INTO
+		xhgmnet_bs_station(bsId,name,period,lat,lng,chnumber,type,zone,address,level)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.bsId},#{item.name},#{item.period},#{item.lat},#{item.lng},#{item.chnumber},#{item.type},#{item.zone},#{item.address},#{item.level})
+		</foreach>
+	</insert>
 
 </mapper>

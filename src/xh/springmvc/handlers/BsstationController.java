@@ -28,6 +28,8 @@ import xh.mybatis.bean.AssetInfoBean;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bsrConfigBean;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.WebLogService;
@@ -74,6 +76,94 @@ public class BsstationController {
 		}
 		
 	}
+	/**
+	 * 根据基站ID查找基站相邻小区
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/neighborByBsId",method = RequestMethod.GET)
+	public void neighborByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.neighborByBsId(bsId).size());
+		result.put("items", BsstationService.neighborByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站切换参数
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/handoverByBsId",method = RequestMethod.GET)
+	public void handoverByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.handoverByBsId(bsId).size());
+		result.put("items", BsstationService.handoverByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站BSR配置信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsrconfigByBsId",method = RequestMethod.GET)
+	public void bsrconfigByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.bsrconfigByBsId(bsId).size());
+		result.put("items", BsstationService.bsrconfigByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站传输配置信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/linkconfigByBsId",method = RequestMethod.GET)
+	public void linkconfigByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.linkconfigByBsId(bsId).size());
+		result.put("items", BsstationService.linkconfigByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping(value="/alarmList",method = RequestMethod.GET)
 	public void bsOfflineList(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
@@ -99,10 +189,21 @@ public class BsstationController {
 	 */
 	@RequestMapping(value="/allBsInfo",method = RequestMethod.GET)
 	public void allBsInfo(HttpServletRequest request, HttpServletResponse response){
+		int type=Integer.parseInt(request.getParameter("type"));
+		String zone=request.getParameter("zone");
+		int link=Integer.parseInt(request.getParameter("link"));
+		int status=Integer.parseInt(request.getParameter("status"));
+		Map<String,Object> paramMap=new HashMap<String, Object>();
+		paramMap.put("type", type);
+		paramMap.put("zone", zone);
+		paramMap.put("link", link);
+		paramMap.put("status",status);
+		
+		
 		this.success=true;		
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("items", BsstationService.allBsInfo());
+		result.put("items", BsstationService.allBsInfo(paramMap));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -113,6 +214,7 @@ public class BsstationController {
 		}
 		
 	}
+
 	/**
 	 * 添加基站
 	 * @param request
@@ -122,20 +224,6 @@ public class BsstationController {
 	@ResponseBody
 	public void addBs(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		/*int bsId=funUtil.StringToInt(request.getParameter("bsId"));
-		String name=request.getParameter("name");
-		int type=funUtil.StringToInt(request.getParameter("type"));
-		int level=funUtil.StringToInt(request.getParameter("level"));
-		String lat=request.getParameter("lat");
-		String lng=request.getParameter("lng");
-		bsstationBean.setBsId(bsId);
-		bsstationBean.setName(name);
-		bsstationBean.setType(type);
-		bsstationBean.setLevel(level);
-		bsstationBean.setLat(lat);
-		bsstationBean.setLng(lng);*/
-		
-		
 		String jsonData=request.getParameter("formData");
         BsstationBean bean=GsonUtil.json2Object(jsonData, BsstationBean.class);
         /*if (bean.getOpenen()==0) {
@@ -153,6 +241,266 @@ public class BsstationController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result",count);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 添加基站相邻小区
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/addBsNeighbor",method = RequestMethod.POST)
+	@ResponseBody
+	public void addBsNeighbor(HttpServletRequest request, HttpServletResponse response){
+		int bsId=funUtil.StringToInt(request.getParameter("bsId"));
+		int adjacentCellId=funUtil.StringToInt(request.getParameter("adjacentCellId"));
+		Map<String,Object> paramterMap=new HashMap<String, Object>();
+		paramterMap.put("bsId", bsId);
+		paramterMap.put("adjacentCellId", adjacentCellId);
+		int rslt=-1;
+		if (BsstationService.neighborExists(paramterMap)==0) {
+			rslt=BsstationService.addBsNeighbor(paramterMap);
+			if(rslt==1){
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("新增基站相邻小区，bsId="+bsId+";adjacentCellId="+adjacentCellId);
+				WebLogService.writeLog(webLogBean);
+				this.success=true;
+				this.message="相邻小区添加成功";
+			}else{
+				this.message="添加失败";
+				this.success=false;
+			}
+			
+		}else{
+			this.message="改临近小区已经存在";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 删除相邻小区
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/delBsNeighbor",method = RequestMethod.POST)
+	@ResponseBody
+	public void delBsNeighbor(HttpServletRequest request, HttpServletResponse response){
+		int bsId=funUtil.StringToInt(request.getParameter("bsId"));
+		int adjacentCellId=funUtil.StringToInt(request.getParameter("adjacentCellId"));
+		Map<String,Object> paramterMap=new HashMap<String, Object>();
+		paramterMap.put("bsId", bsId);
+		paramterMap.put("adjacentCellId", adjacentCellId);
+
+		int rslt=BsstationService.delBsNeighbor(paramterMap);
+		if (rslt==1) {
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent("删除基站相邻小区，bsId="+bsId+";adjacentCellId="+adjacentCellId);
+			WebLogService.writeLog(webLogBean);
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="删除失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	/**
+	 *  新增基站传输
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/addLinkconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void addLinkconfig(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		bsLinkConfigBean bean=GsonUtil.json2Object(formData, bsLinkConfigBean.class);
+		
+		
+		
+		
+		Map<String,Object> paramterMap=new HashMap<String, Object>();
+		paramterMap.put("bsId", bean.getBsId());
+		paramterMap.put("transferNumber", bean.getTransferNumber());
+		int rslt=-1;
+		if (BsstationService.linkconfigExists(paramterMap)==0) {
+			rslt=BsstationService.addLinkconfig(bean);
+			if(rslt==1){
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("新增基站传输配置，bsId="+bean.getBsId());
+				WebLogService.writeLog(webLogBean);
+				this.success=true;
+				this.message="基站传输配置添加成功";
+			}else{
+				this.message="添加失败";
+				this.success=false;
+			}
+			
+		}else{
+			this.message="该基站传输配置已经存在";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 删除基站传输
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/delLinkconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void delLinkconfig(HttpServletRequest request, HttpServletResponse response){
+		int id=funUtil.StringToInt(request.getParameter("id"));
+
+		int rslt=BsstationService.delLinkconfig(id);
+		if (rslt==1) {
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent(" 删除基站传输，id="+id);
+			WebLogService.writeLog(webLogBean);
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="删除失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	/**
+	 *  新增基站bsr
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/addBsrconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void addBsrconfig(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		bsrConfigBean bean=GsonUtil.json2Object(formData, bsrConfigBean.class);
+				Map<String,Object> paramterMap=new HashMap<String, Object>();
+		paramterMap.put("bsId", bean.getBsId());
+		paramterMap.put("bscId", bean.getBscId());
+		paramterMap.put("bsrId", bean.getBsrId());
+		int rslt=-1;
+		if (BsstationService.bsrconfigExists(paramterMap)==0) {
+			rslt=BsstationService.addBsrconfig(bean);
+			if(rslt==1){
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("新增基站bsr配置");
+				WebLogService.writeLog(webLogBean);
+				this.success=true;
+				this.message="基站bsr配置添加成功";
+			}else{
+				this.message="添加失败";
+				this.success=false;
+			}
+			
+		}else{
+			this.message="该基站bsr配置已经存在";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 删除基站bsr
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/delBsrconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void delBsrconfig(HttpServletRequest request, HttpServletResponse response){
+		int id=funUtil.StringToInt(request.getParameter("id"));
+
+		int rslt=BsstationService.delBsrconfig(id);
+		if (rslt==1) {
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent(" 删除基站bsr，id="+id);
+			WebLogService.writeLog(webLogBean);
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="删除失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -187,6 +535,7 @@ public class BsstationController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result",count);
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -218,6 +567,7 @@ public class BsstationController {
 		HashMap result = new HashMap();
 		this.success=true;
 		result.put("success", success);
+		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -240,9 +590,9 @@ public class BsstationController {
 			HashMap map = new HashMap();
 			BsstationService bsStationService = new BsstationService();
 			String temp = request.getParameter("zone");			
-			byte[] b=temp.getBytes("ISO-8859-1");
-			String test=new String(b,"utf-8");
-			String[] zonetemp = test.split(",");
+			//byte[] b=temp.getBytes("ISO-8859-1");
+			//String test=new String(b,"utf-8");
+			String[] zonetemp = temp.split(",");
 			List<String> zone = Arrays.asList(zonetemp);
 			List<HashMap<String, String>> listMap = bsStationService.bsByArea(zone);
 			map.put("items", listMap);

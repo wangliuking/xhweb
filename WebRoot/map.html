@@ -89,8 +89,13 @@ html,body {
 	right: 6%;
 	z-index: 1000;
 }
-.dropdown-menu{
+
+.dropdown-menu {
 	background: rgba(255, 255, 255, 0.6);
+}
+
+.chooseLevel {
+	color: red;
 }
 </style>
 </head>
@@ -104,9 +109,13 @@ html,body {
 				级别 <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu" role="menu">
-				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li style="text-align:center;" ng-if="x.level!=null"><a href="#"
-						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
+				<ul class="nav nav-second-level" ng-repeat="x in levelData"
+					id="testChooseLevel">
+					<li style="text-align:center;" ng-if="x.level!=null"><a
+						href="#" ng-click="levelChoose(x.level,$index)">{{x.level}}级基站
+							<i class="fa fa-check-square-o" ng-show="clickLevel==$index"></i>
+							<i class="fa fa-square-o" ng-show="clickLevel!=$index"></i>
+					</a></li>
 				</ul>
 			</div>
 
@@ -118,8 +127,8 @@ html,body {
 			</button>
 			<div class="dropdown-menu" role="menu">
 				<ul ng-repeat="x in data">
-					<li><label class="areaChoose"><input
-							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
+					<li><label class="areaChoose"><input type="checkbox"
+							ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
 				</ul>
 			</div>
 		</div>
@@ -130,74 +139,20 @@ html,body {
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				<li style="padding-left:36px;"><label><input
-						id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
+						id="bsInfo" type="checkbox" value="" checked>基站信息图</label></li>
 				<li style="padding-left:36px;"><label><input
-						id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
+						id="roadtestInfo" type="checkbox" value="">路测信息图</label></li>
 				<li style="padding-left:36px;"><label><input
-						id="testService" type="checkbox" value="">行政区域</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="testDemo" type="checkbox" value="">基站覆盖图</label></li>
+						id="testDemo" type="checkbox" value="">基站覆盖仿真图</label></li>
 			</ul>
 		</div>
 		<div class="btn-group">
-			<button data-dojo-type="dijit/form/Button" class="btn btn-primary btn-sm dropdown-toggle">
-				圈选
-			</button>
+			<button data-dojo-type="dijit/form/Button"
+				class="btn btn-primary btn-sm dropdown-toggle">圈选</button>
 		</div>
 	</div>
-	<!-- 导航右侧标签 -->
-	<!-- <div class="nav_right"></div> -->
-	<!-- 左侧导航 -->
-	<!-- <aside id="menu" class="menu"
-		style="z-index:1000;height:100%-80px;background: rgba(176,196,222, 0.7);position:fixed;top:0;left:-190px;overflow-x:hidden;">
-		<div id="menu-title">
-		<i class="fa fa-list-alt text-danger"></i>&nbsp;&nbsp;<span>菜单列表</span>
-	</div>
-		<ul class="nav" id="side-menu"
-			style="height:auto;background: rgba(176,196,222, 0.7);">
-			<li><a href="#"> <i class="fa fa-level-up text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">基站级别</span> <span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level" ng-repeat="x in levelData">
-					<li ng-if="x.level!=null"><a href="#"
-						ng-click="levelChoose(x.level)">{{x.level}}级基站</a></li>
-				</ul></li>
-		 	<li><a href="#"> <i class="fa fa-area-chart text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">基站区域</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level" ng-repeat="x in data">
-					<li style="padding-left:36px;"><label class="areaChoose"><input
-							type="checkbox" ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-location-arrow text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">图层选择</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level">
-					<li style="padding-left:36px;"><label><input
-							id="bsInfo" type="checkbox" value="" checked>基站信息</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="roadtestInfo" type="checkbox" value="">路测信息</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="testService" type="checkbox" value="">行政区域</label></li>
-					<li style="padding-left:36px;"><label><input
-							id="testDemo" type="checkbox" value="">仿真图片</label></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-columns text-black"></i>&nbsp;&nbsp;
-					<span class="nav-label">区域圈选</span><span class="fa arrow"></span>
-			</a>
-				<ul class="nav nav-second-level">
-					<li style="padding-left:36px;"><label>
-							<button data-dojo-type="dijit/form/Button">点击选择</button>
-					</label></li>
-				</ul></li>
-
-		</ul>
-	</aside> -->
 
 
-	<!-- <div id="head" data-dojo-props="region:'top'">
-      <button data-dojo-type="dijit/form/Button">Ellipse</button>
-    </div> -->
 	<div id="mapDiv"></div>
 	<!-- 模态框（圈选） start-->
 	<div class="modal fade" id="rectangle" tabindex="-1" role="dialog"
@@ -210,7 +165,7 @@ html,body {
 				<div class="modal-body">
 					<ul id="myTab" class="nav nav-tabs">
 						<li class="active"><a href="#manage" data-toggle="tab">
-								已选{{totals}}个基站</a></li>
+								已选{{totalsChoose}}个基站</a></li>
 						<!-- <li><a href="#param" data-toggle="tab">路测信息</a></li>
 						<li><a href="#moveController" data-toggle="tab">其他</a></li>
 						<li><a href="#movie" data-toggle="tab">视频</a></li> -->
@@ -226,12 +181,12 @@ html,body {
 										<th>话务量</th>
 										<th>排队数</th>
 										<th>信道占用率</th>
-										<th>状态</th>
 										<th>是否启用</th>
+										<th>状态</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-if="totals==0">
+									<tr ng-if="totalsChoose==0">
 										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in dataRectangle">
@@ -242,28 +197,25 @@ html,body {
 										<td>{{x.testnum2}}</td>
 										<td>{{x.testnum3}}</td>
 										<td ng-if="x.status==0" class="td-gray"><span
-											style="color:#fff">断开</span></td>
+											style="color:#fff">停用</span></td>
 										<td ng-if="x.status==1" class="td-success"><span
-											style="color:#fff">正常</span></td>
-										<td ng-if="x.openen==1" class="td-success"><span
 											style="color:#fff">已经启用</span></td>
-										<td ng-if="x.openen==0" class="td-gray">未启用</td>
+										<td ng-if="x.bsStatus==0" class="td-success">连接</td>
+										<td ng-if="x.bsStatus!=0" class="td-gray"><span
+											style="color:#fff">断开</span></td>
 									</tr>
 								</tbody>
 							</table>
 							<div class="page">
 								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="search()"
-										ng-model="count">
+									每页显示 <select id="page-limitChoose" ng-change="search()"
+										ng-model="countChoose">
 										<option value="10">10</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
+									</select> 条, <span ng-model="indexChoose">显示{{startChoose}}-</span><span
+										ng-model="lastIndexChoose">{{lastIndexChoose}}条,</span> <span
+										ng-model="totalsChoose">总计{{totalsChoose}}条</span>
 								</div>
-								<div class="page-paging"></div>
+								<div class="page-pagingChoose"></div>
 							</div>
 						</div>
 						<div class="tab-pane fade" id=""></div>
@@ -282,207 +234,52 @@ html,body {
 	<!-- 模态框（Modal） start-->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="message_move">当前基站信息</div>
 				</div>
 				<div class="modal-body">
-					<ul id="myTab" class="nav nav-tabs">
-						<li class="active"><a href="#manage" data-toggle="tab">
-								基本</a></li>
-						<li><a href="#param" data-toggle="tab">参数</a></li>
-						<li><a href="#business" data-toggle="tab">业务</a></li>
-						<li><a href="#moveController" data-toggle="tab">动环</a></li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade in active" id="manage">
-							<div>
-								<table width="100%" border="0" class="userCon_2">
-									<tr>
-										<th width="40%">基站ID：</th>
-										<td width="60%"><input value="" type="text" name="bsId"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="bsId" required="" aria-required="true" disabled></td>
-									</tr>
-									<tr>
-										<th>基站名称：</th>
-										<td><input value="" type="text" name="bsName"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="bsName" required="" aria-required="true" disabled></td>
-									</tr>
-									<tr>
-										<th>基站纬度：</th>
-										<td><input value="" type="text" name="lat"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="lat" required="" aria-required="true" disabled /></td>
-									</tr>
-									<tr>
-										<th>基站经度：</th>
-										<td><input value="" type="text" name="lng"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="lng" required="" aria-required="true" disabled /></td>
-									</tr>
-									<tr>
-										<th>基站地址：</th>
-										<td><input value="" type="text" name="address"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="address" required="" aria-required="true" disabled /></td>
-									</tr>
-									<tr>
-										<th>基站IP：</th>
-										<td><input value="" type="text" name="ip"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="ip" required="" aria-required="true" disabled /></td>
-									</tr>
-									<tr>
-										<th>联系人：</th>
-										<td><input value="" type="text" name="contact"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="contact" required="" aria-required="true" disabled />
-									</tr>
-									<tr>
-										<th>电话：</th>
-										<td><input value="" type="text" name="tel"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="tel" required="" aria-required="true" disabled />
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="param">
-							<div>
-								<table width="100%" border="0" class="userCon_2">
-									<trheight:"10%">
-										<th width="40%">载波数：</th>
-										<td width="60%"><input type="text" name="chnumber"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="chnumber" value="" required="" aria-required="true"
-											disabled></td>
-										</tr>
-										<tr>
-											<th>gps天线数：</th>
-											<td><input type="text" name="gpsLineNum"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="gpsLineNum" value="" required="" aria-required="true"
-												disabled></td>
-										</tr>
+					<ul id="xh-tabs" class="nav nav-tabs">
+						<li class="active"><a href="#info" data-toggle="tab"
+							ng-click=''> 基本信息 </a></li>
+						<li><a href="#config" data-toggle="tab" ng-click='config()'>配置信息</a></li>
 
-										<tr>
-											<th>额定功率：</th>
-											<td><input type="text" name="power" class="form-control"
-												style="border-radius:3px; width:220px;" id="power" value=""
-												required="" aria-required="true" disabled /></td>
-										</tr>
-										<tr>
-											<th>运营商：</th>
-											<td><input type="text" name="carrier"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="carrier" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>机房海拔：</th>
-											<td><input type="text" name="height"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="height" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>天线高度：</th>
-											<td><input type="text" name="lineHeight"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="lineHeight" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>状态：</th>
-											<td><input type="text" name="status"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="status" value="" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-								</table>
-							</div>
+						<li><a href="#business" data-toggle="tab"
+							ng-click='bsGroup()'> 业务信息</a></li>
+					</ul>
+					<div class="tab-content" style="padding:20px">
+						<div class="tab-pane fade in active" id="info">
+							<div ng-include="'Views/operations/bsstatus-view-info.html'"></div>
+						</div>
+						<div class="tab-pane fade" id="config">
+							<div ng-include="'Views/operations/bsstatus-view-config.html'"></div>
 						</div>
 						<div class="tab-pane fade" id="business">
-							<div>
-								<table width="100%" border="0" class="userCon_2">
-									<trheight:"10%">
-										<th width="40%">话务量：</th>
-										<td width="60%"><input type="text" name="business1"
-											class="form-control" style="border-radius:3px; width:220px;"
-											id="business1" value="15" required="" aria-required="true"
-											disabled></td>
-										</tr>
-										<tr>
-											<th>控制信道占用率(上行)：</th>
-											<td><input type="text" name="business2"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business2" value="45%" required="" aria-required="true"
-												disabled></td>
-										</tr>
-
-										<tr>
-											<th>控制信道占用率(下行)：</th>
-											<td><input type="text" name="business3"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business3" value="63%" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>排队数：</th>
-											<td><input type="text" name="business4"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business4" value="72" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>业务信道占用率：</th>
-											<td><input type="text" name="business5"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="business5" value="22%" required="" aria-required="true"
-												disabled /></td>
-										</tr>
-										<tr>
-											<th>获取时间：</th>
-											<td><input type="text" name="lineHeight"
-												class="form-control" style="border-radius:3px; width:220px;"
-												id="lineHeight" value="2017-10-18 10:14:09" required=""
-												aria-required="true" disabled /></td>
-										</tr>
-								</table>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel-body">
+										<ul id="xh-tabs" class="nav nav-tabs">
+											<li class="active"><a href="#group" data-toggle="tab"
+												ng-click='bsGroup()'> 注册组 </a></li>
+											<li><a href="#radio" data-toggle="tab"
+												ng-click='radioUser()'> 注册终端 </a></li>
+										</ul>
+										<div class="tab-content">
+											<div class="tab-pane fade in active" id="group">
+												<div ng-include="'Views/operations/bsstatus-view-group.html'"></div>
+											</div>
+											<div class="tab-pane fade" id="radio">
+												<div ng-include="'Views/operations/bsstatus-view-radio.html'"></div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-
 						</div>
-						<div class="tab-pane fade" id="moveController">
-							<div id="" style="height:60px;width:568px;">
-								<table width="100%" border="0">
-									<tr border="0">
-										<th width="10%" border="0">漏水：</th>
-										<td width="10%" border="0"><input id="temp_0" value=""
-											style="width:100%;" disabled /></td>
-										<th width="10%" border="0">门磁：</th>
-										<td width="10%" border="0"><input id="temp_1" value=""
-											style="width:100%;" disabled /></td>
-										<th width="10%" border="0">消防：</th>
-										<td width="10%" border="0"><input id="temp_2" value=""
-											style="width:100%;" disabled /></td>
-										<th width="10%" border="0">烟感：</th>
-										<td width="10%" border="0"><input id="temp_3" value=""
-											style="width:100%;" disabled /></td>
-									</tr>
-								</table>
-							</div>
-							<div id="" style="height:260px;width:568px;">
-								<div id="temperature"
-									style="height:260px;width:283px;float:left;"></div>
-								<div id="humidity" style="height:260px;width:283px;float:right;"></div>
-							</div>
-							<div id="Current_voltage" style="height:180px;width:568px;"></div>
-						</div>
-
 					</div>
+
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default btn-sm"
@@ -522,23 +319,10 @@ html,body {
 		src="lib/highcharts/themes/grid-light.js"></script>
 	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
 	<script type="text/javascript">
-		$('#side-menu').metisMenu();
-		$('.nav_right').mouseover(function() {
-			$('#menu').animate({
-				left : "0px"
-			}, 100, function() {
-				$('.nav_right').animate({
-					left : "189px"
-				}, 300);
-			});
-		});
-		$('.nav_right').click(function() {
-			$('#menu').animate({
-				left : "-190px"
-			}, 100, function() {
-				$('.nav_right').animate({
-					left : "0px"
-				}, 300);
+		$(function() {
+			$("testChooseLevel li a").click(function() {
+				console.log("aaa");
+
 			});
 		});
 	</script>
