@@ -645,33 +645,27 @@ public class JoinNetController {
 		log.info("path==>"+path);
 		log.info("fileName==>"+fileName);
 		List<Integer> list = JoinNetService.getUserCIDByID(id);
-		if(list.contains(Integer.parseInt(fileName.split("\\.")[0]))){
-			/*JoinNetBean_programingTemplate bean = new JoinNetBean_programingTemplate();
-			bean.setId_JoinNet(id);
-			bean.setFileName(fileName);
-			bean.setFilePath(path);
-			bean.setInsertTime(funUtil.nowDate());*/
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("id_JoinNet", request.getParameter("joinNetId"));
-			map.put("fileName", fileName);
-			map.put("filePath", path);
-			map.put("insertTime", funUtil.nowDate());
-			
-			File targetFile = new File(path, fileName);
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
-			// 保存
-			try {
-				files[0].transferTo(targetFile);
-				
-				int rst = JoinNetService.insertProgramingTemplate(map);
-				System.out.println("---------" + rst);
-				this.success=true;
-				this.message="文件上传成功";
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.message="文件上传失败";
+		if(funUtil.isInteger(fileName.split("\\.")[0])){
+			if(list.contains(Integer.parseInt(fileName.split("\\.")[0]))){
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id_JoinNet", request.getParameter("joinNetId"));
+				map.put("fileName", fileName);
+				map.put("filePath", path);
+				map.put("insertTime", funUtil.nowDate());
+				File targetFile = new File(path, fileName);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+				}
+				// 保存
+				try {
+					files[0].transferTo(targetFile);
+					int rst = JoinNetService.insertProgramingTemplate(map);
+					this.success=true;
+					this.message="文件上传成功";
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.message="文件上传失败";
+				}
 			}
 		}else{
 			this.success=true;
@@ -713,7 +707,7 @@ public class JoinNetController {
 		bean.setFileNameGH(fileName);
 		bean.setFilePathGH(filePath);
 		bean.setChecked(0);
-		System.out.println("保存公函:" + fileName);
+		System.out.println("保存文件:" + fileName);
 		
 		int rst = JoinNetService.uploadFileGh(bean);
 		if (rst == 1) {
@@ -724,7 +718,7 @@ public class JoinNetController {
 			webLogBean.setContent("上传公函，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 		} else {
-			this.message = "上传公函失败";
+			this.message = "上传文件失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -764,7 +758,6 @@ public class JoinNetController {
 			bean.setChecked(2);
 			bean.setUser2(user2);
 			bean.setNote2_suggest(note2_suggest);
-			System.out.println("----->" + user2);
 			//----发送通知邮件
 			sendNotifytoSingle(managerId, "评估意见已上报,请审核。。。", request);
 			//----END
