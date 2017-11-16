@@ -16,6 +16,8 @@ public interface ExcelImportMapper {
 	//public int insertExcel(List<ImpExcelBean> list)throws Exception;
 	
 	public int insertExcel(List<TempBean> list)throws Exception;
+	
+	public int updateExcel(TempBean tempBean)throws Exception;
 
 	
 }
