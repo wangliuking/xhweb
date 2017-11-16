@@ -195,7 +195,7 @@
 												<th>基站名称</th>
 												<th>基站类型</th>
 												<th>基站级别</th>
-												<th>地址</th>
+												<!-- <th>地址</th> -->
 												<th>归属区域</th>
 												<th>载波数</th>
 												<th>是否启用</th>
@@ -204,7 +204,7 @@
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="10" class="text-center">没有记录！</td>
+												<td colspan="9" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
@@ -212,16 +212,23 @@
 												<td>{{x.bsId}}</td>
 												<td>{{x.name}}</td>
 												<td>{{x.type}}</td>
-												<td ng-if="x.level==1">一级基站</td>
-												<td ng-if="x.level==2">二级基站</td>
-												<td ng-if="x.level==3">三级基站</td>
-												<td>{{x.address}}</td>
+												<td >
+												<span ng-if="x.level==1">一级基站</span>
+												<span ng-if="x.level==2">二级基站</span>
+												<span ng-if="x.level==3">三级基站</span>
+												
+												</td>
+												<!-- <td>{{x.address}}</td> -->
 												<td>{{x.zone}}</td>
 												<td>{{x.chnumber}}</td>
 												
-												<td ng-if="x.status==1" class="td-success"><span
-													style="color:#fff">已经启用</span></td>
-												<td ng-if="x.status==0" class="td-gray">未启用</td>
+												<td >
+												<span  ng-if="x.status==1" class="td-success" style="color:#fff">已经启用</span>
+												<span  ng-if="x.status==0" class="td-gray" style="color:#fff">未启用</span>
+												
+												</td>
+												
+												
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="editModel($index)" data-toggle="modal"
 													data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改

@@ -15,6 +15,27 @@ import xh.mybatis.tools.MoreDbTools;
 public class MenuService {
 	protected final static Log log=LogFactory.getLog(MenuService.class);
 	
+	
+	/**
+	 * 菜单列表
+	 * @param roleId
+	 * @return
+	 */
+	
+	public static List<Map<String,Object>> menuList(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.menuList(roleId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	/**
 	 * 获取菜单子项
 	 * @param pId

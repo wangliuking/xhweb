@@ -1,0 +1,28 @@
+<!-- 左侧导航菜单 -->
+<aside id="menu">
+	<ul class="ztree" id="side-menu2">
+	</ul>
+</aside>
+<script type="text/javascript">
+
+var setting = {
+		view: {
+			showLine: false
+		},
+		
+		data: {
+			simpleData: {
+				enable: true
+			}
+		}
+	};
+$.get("web/webMenu").success(function(response) {
+	var zNodes = response.items;
+	var t = $("#side-menu2");
+	t = $.fn.zTree.init(t, setting, zNodes);
+});
+
+</script>
+<script type="text/javascript">
+	/* $('#side-menu').metisMenu(); */
+</script>

@@ -120,11 +120,11 @@ public class SendData {
 
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
 		dos.write(dd.IntToSmallByteArray(getData.getSaId()));
-		dos.write(dd.LongData(getData.getSaName(), 16));
+		dos.write(dd.LongData(getData.getSaName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
-		dos.write(dd.LongData(getData.getMscName(), 16));
+		dos.write(dd.LongData(getData.getMscName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getBsId()));
-		dos.write(dd.LongData(getData.getBsName(), 16));
+		dos.write(dd.LongData(getData.getBsName(), 48));
 
 		/**************** content ***********************/
 		dos.writeShort(getHeader.getChecksum());// checksum 2 校验码
@@ -160,11 +160,11 @@ public class SendData {
 
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
 		dos.write(dd.IntToSmallByteArray(getData.getSaId()));
-		dos.write(dd.LongData(getData.getSaName(), 16));
+		dos.write(dd.LongData(getData.getSaName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
-		dos.write(dd.LongData(getData.getMscName(), 16));
+		dos.write(dd.LongData(getData.getMscName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getBsId()));
-		dos.write(dd.LongData(getData.getBsName(), 16));
+		dos.write(dd.LongData(getData.getBsName(), 48));
 		dos.writeByte(getData.getRequired());
 
 		/**************** content ***********************/
@@ -260,7 +260,7 @@ public class SendData {
 		dos.write(dd.LongData("", 280));
 		// 东信 190
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 32));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.write(dd.LongData(getData.getAlias(), 8));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
 		dos.write(dd.LongToSmallByteArray(getData.getVpnId()));
@@ -324,7 +324,7 @@ public class SendData {
 		dos.write(dd.LongData("", 88));
 		// etra
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 32));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.write(dd.LongData(getData.getAlias(), 8));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
 		dos.write(dd.LongToSmallByteArray(getData.getVpnId()));
@@ -373,7 +373,7 @@ public class SendData {
 		// 东信
 		// 71
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 32));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.write(dd.LongData(getData.getAlias(), 8));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
 		dos.write(dd.LongToSmallByteArray(getData.getVpnId()));
@@ -424,7 +424,7 @@ public class SendData {
 		dos.write(dd.IntToSmallByteArray(getData.getOperation()));
 		// content
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 32));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.write(dd.LongData(getData.getAlias(), 8));
 		dos.write(dd.ShortToBigByteArray((short) getData.getMscId()));
 		dos.write(dd.LongToSmallByteArray(getData.getVpnId()));
@@ -441,7 +441,7 @@ public class SendData {
 		// 新增
 		dos.write(dd.IntToSmallByteArray(getData.getCode()));
 		dos.write(dd.IntToSmallByteArray(getData.getDispatchNum()));
-		dos.write(dd.LongData(getData.getSaName(), 16));
+		dos.write(dd.LongData(getData.getSaName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getSupervisorStatus()));
 		dos.write(dd.IntToSmallByteArray(getData.getDispatcherType()));
 		dos.write(dd.LongData(getData.getDialString(), 16));
@@ -481,7 +481,7 @@ public class SendData {
 		dos.write(dd.IntToSmallByteArray(getData.getOperation()));
 		// content
 		dos.write(dd.ShortToBigByteArray((short) getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 16));
+		dos.write(dd.LongData(getData.getName(), 48));
 		/**************** content ***********************/
 		dos.writeShort(getHeader.getChecksum());// checksum 2 校验码
 
@@ -556,11 +556,11 @@ public class SendData {
 		// 东信
 		// 34 29
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 32));
+		dos.write(dd.LongData(getData.getName(), 48));
 
 		dos.write(dd.IntToSmallByteArray(getData.getSsId()));
 		// 新增
-		dos.write(dd.LongData(getData.getSsName(), 16));
+		dos.write(dd.LongData(getData.getSsName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getDispatchPriority()));
 		dos.writeByte(getData.getPccEnabled());
 		dos.writeByte(getData.getMgEnabled());
@@ -609,7 +609,7 @@ public class SendData {
 		// 东信
 		// 36
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 16));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getMessageTransmission()));
 		dos.write(dd.IntToSmallByteArray(getData.getBusyOverride()));
 		dos.writeByte(getData.getEmergencyCall());
@@ -663,7 +663,7 @@ public class SendData {
 		dos.write(dd.IntToSmallByteArray(getData.getOperation()));
 		// content
 		dos.write(dd.ShortToBigByteArray((short) getData.getId()));
-		dos.write(dd.LongData(getData.getName(), 16));
+		dos.write(dd.LongData(getData.getName(), 48));
 		dos.writeByte(getData.getMonitorOn());
 		dos.writeByte(getData.getPCPreempt());
 		dos.writeByte(getData.getCallPriority());
@@ -717,9 +717,9 @@ public class SendData {
 
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
 		dos.write(dd.IntToSmallByteArray(getData.getSaId()));
-		dos.write(dd.LongData(getData.getSaName(), 16));
+		dos.write(dd.LongData(getData.getSaName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
-		dos.write(dd.LongData(getData.getMscName(), 16));
+		dos.write(dd.LongData(getData.getMscName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getType()));
 		dos.write(dd.IntToSmallByteArray(getData.getNeType()));
 
@@ -756,9 +756,9 @@ public class SendData {
 
 		dos.write(dd.IntToSmallByteArray(getData.getId()));
 		dos.write(dd.IntToSmallByteArray(getData.getSaId()));
-		dos.write(dd.LongData(getData.getSaName(), 16));
+		dos.write(dd.LongData(getData.getSaName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getMscId()));
-		dos.write(dd.LongData(getData.getMscName(), 16));
+		dos.write(dd.LongData(getData.getMscName(), 48));
 		dos.write(dd.IntToSmallByteArray(getData.getType()));
 		dos.write(dd.IntToSmallByteArray(getData.getNeType()));
 

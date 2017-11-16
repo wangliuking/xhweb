@@ -5,6 +5,16 @@ import java.util.Map;
 
 public interface MenuMapper {
 	
+	
+	/**
+	 * 菜单列表
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	
+	public List<Map<String,Object>> menuList(int roleId)throws Exception;
+	
 	/**
 	 * 获取菜单子项
 	 * @return

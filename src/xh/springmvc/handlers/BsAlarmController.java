@@ -55,15 +55,15 @@ public class BsAlarmController {
 		BsAlarmService bsAlarmService = new BsAlarmService();
 		try {
 			request.setCharacterEncoding("utf-8");
-			String bsId=request.getParameter("bsId");
+			/*String bsId=request.getParameter("bsId");
 			String name=request.getParameter("name");
-			String dealEn=request.getParameter("dealEn");
+			String dealEn=request.getParameter("dealEn");*/
 			int start=funUtil.StringToInt(request.getParameter("start"));
 			int limit=funUtil.StringToInt(request.getParameter("limit"));
 			Map<String, Object> map=new HashMap<String, Object>();
-			map.put("bsId", bsId);
+			/*map.put("bsId", bsId);
 			map.put("name", name);
-			map.put("dealEn", dealEn);
+			map.put("dealEn", dealEn);*/
 			map.put("start", start);
 			map.put("limit", limit);
 			
@@ -71,15 +71,7 @@ public class BsAlarmController {
 			result.put("data", list);
 			result.put("totals", list.size());
 			
-			/**
-			 * 测试输出调试代码
-			 */
-			System.out.println("--输入的状态值-->" + dealEn);
-			System.out.println("--输入的条件值-->" + name);
-			System.out.println("--查询到的数据-->" + list.size());
-			/**
-			 * -------end----------
-			 */
+			
 			String jsonstr = FlexJSON.Encode(result);
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();

@@ -30,8 +30,8 @@ toastr.options = {
 };
 xh.load = function() {
 	var app = angular.module("app", []);
-	var bsId = $("#bsId").val();
-	var bsName = $("#name").val();
+	/*var bsId = $("#bsId").val();
+	var bsName = $("#name").val();*/
 	var pageSize = $("#page-limit").val();
 	app.controller("bsAlarm", function($scope, $http) {
 		xh.maskShow();
@@ -39,15 +39,14 @@ xh.load = function() {
 		$scope.operationMenu = true; // 菜单变色
 
 		//加载故障等级统计图
-		xh.loadbsAlarmLevelPie();
+		/*xh.loadbsAlarmLevelPie();
 		//加载故障类型统计图
-		xh.loadbsAlarmTypePie()
+		xh.loadbsAlarmTypePie()*/
 		/*
 		 * 获取基站告警信息 "../../bslarm/list?bsId=" + bsId + "&name=" + bsName +
 		 * "&dealEn=0" + "&start=0&limit=" + pageSize
 		 */
-		$http.get("../../bsAlarm/list?bsId=" + bsId + "&name=" + bsName
-				+ "&dealEn=0" + "&start=0&limit=" + pageSize).success(
+		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.data;
@@ -66,9 +65,9 @@ xh.load = function() {
 		/* 查询历史告警数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var bsId = $("#bsId").val();
+			/*var bsId = $("#bsId").val();
 			var bsName = $("#name").val();
-			var dealEn = $("#dealEn").val();
+			var dealEn = $("#dealEn").val();*/
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -79,8 +78,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsAlarm/list?bsId=" + bsId + "&name=" + bsName
-					+ "&dealEn="+ dealEn + "&start=0&limit=" + pageSize).success(
+			$http.get("../../bsAlarm/list?start=0&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.data;
@@ -133,8 +131,8 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var bsId = $("#bsId").val();
-			var bsName = $("#name").val();
+			/*var bsId = $("#bsId").val();
+			var bsName = $("#name").val();*/
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -144,8 +142,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../bsAlarm/list?bsId=" + bsId + "&name=" + bsName
-					+ "&dealEn="+ dealEn + "&start=0&limit=" + pageSize)
+					"../../bsAlarm/list?start=0&limit=" + pageSize)
 					.success(function(response) {
 						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;

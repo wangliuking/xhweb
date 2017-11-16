@@ -128,11 +128,9 @@
 						<div class="panel-heading">【{{x.bsId}}号】基站</div>
 						<div class="panel-body">
 						   
-							<div ng-if="x.link==1 && x.status==1">
-								<img alt="" src="../../Resources/images/img/tower_off.png">
-							</div>
-							<div ng-if="x.link==0 && x.status==1">
-								<img alt="" src="../../Resources/images/img/tower_on.png">
+							<div ng-if="x.status==1">
+								<img alt="" src="../../Resources/images/img/tower_off.png" ng-if="x.link!=0">
+								<img alt="" src="../../Resources/images/img/tower_on.png" ng-if="x.link==0">
 							</div>
 							<div ng-if="x.status==0">
 								<img alt="" src="../../Resources/images/img/tower_stop.png">

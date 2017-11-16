@@ -5,8 +5,8 @@
 <!-- 菜单列表 -->
 	<select id="menuList" parameterType="int" resultType="map"
 		useCache="true">
-		select * from xhgmnet_web_role_menu where pId=#{pId}
-		order by id asc,morder asc limit 30
+		select * from xhgmnet_web_role_menu where roleId=#{roleId}
+		 limit 100
 	</select>
 	<!-- 获取菜单子项 -->
 	<select id="menuExists" parameterType="int" resultType="int"
