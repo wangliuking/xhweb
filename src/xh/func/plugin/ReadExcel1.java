@@ -178,14 +178,14 @@ public class ReadExcel1 {
                     }else if (c == 14) {  
                         if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
                             String lng = String.valueOf(cell.getNumericCellValue());  
-                            tempBean.setLng((lng.substring(0, lng.length()-2>0?lng.length()-2:1)));
+                            tempBean.setLng(lng);
                         }else{  
                         	tempBean.setLng(cell.getStringCellValue());
                         }  
                     }else if (c == 15) {  
                         if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC){  
                             String lat = String.valueOf(cell.getNumericCellValue());  
-                            tempBean.setLat((lat.substring(0, lat.length()-2>0?lat.length()-2:1)));
+                            tempBean.setLat(lat);
                         }else{  
                         	tempBean.setLat(cell.getStringCellValue());
                         }  
