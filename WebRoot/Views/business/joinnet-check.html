@@ -628,14 +628,14 @@
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="checkForm11" onSubmit="return false"
 					enctype="multipart/form-data" method="POST">
-					<div class="row" ng-show="false">
+					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>ID1 + {{maxIDinsert}}</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="maxIDinsert">
 								<!-- <label>type</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="1" name="type">  ng-show="false"-->
+									type="text" value="1" name="type">  ng-show="false"  ng-model="maxIDinsert"-->
 							</div>
 						</div>
 					</div>
@@ -663,7 +663,7 @@
 				</button>
 				<button type="button" ng-disabled="form.$invalid"
 					class="btn btn-success btn-sm" id="check_btn11">
-					<i class="fa fa-plus"></i>&nbsp;提2交
+					<i class="fa fa-plus"></i>&nbsp;提交
 				</button>
 			</div>
 		</div>

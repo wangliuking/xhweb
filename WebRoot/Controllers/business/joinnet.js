@@ -381,6 +381,9 @@ xh.addJoinNet = function() {
 		success : function(data) {
 			if (data.result >= 1) {
 				if(data.result >= 2){
+					$('#addJoinNet').modal('hide');
+					xh.refresh();
+					toastr.success(data.message, '提示');
 					swal({
 						title : "有线入网申请提示",
 						text : "有线接入流程请上传技术方案",
@@ -390,17 +393,14 @@ xh.addJoinNet = function() {
 						type : "success",
 						closeOnConfirm: true
 					},function(){
-						var id = data.maxID;
-						$scope.maxIDinsert = id;
+						$scope.maxIDinsert = data.maxID;
 						$scope.divTitle = "上传技术方案"
 						$("#checkForm11 input").val('');
 						$(".span_result_GH").html('');
 						$("#checkWin11").modal('show');
 					});
 				}
-				$('#addJoinNet').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
+				
 
 			} else {
 				toastr.error(data.message, '提示');
@@ -702,7 +702,10 @@ xh.check11 = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data : $("#checkForm11").serializeArray(),
+		data :{ 
+			Jsondata : $("#checkForm11").serializeArray(),
+			mid:$scope.maxIDinsert
+			},
 		success : function(data) {
 
 			if (data.result == 1) {
