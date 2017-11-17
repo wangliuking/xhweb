@@ -321,10 +321,15 @@ xh.load = function() {
 					});
 		};
 		$scope.bslist=function(){
-			$http.get("../../bs/list?bsId=&name=&start=0&limit=1000").
+			
+			var bsId="";
+			var name="";
+			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start=0&limit=1000").
 			success(function(response){
 				$scope.bslistData = response.items;
 			});
+			
+			
 		};
 		//显示相邻小区窗口
 		$scope.showNeighborWin=function(){

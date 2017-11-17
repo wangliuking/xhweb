@@ -1,7 +1,7 @@
 package xh.mybatis.bean;
 
 public class BsstationBean {
-	private int bsId;
+	private String bsId;
 	private String name;
 	private int period;
 	private String lat;
@@ -57,13 +57,21 @@ public class BsstationBean {
 	}
 
 
-	public int getBsId() {
+	
+
+	public String getBsId() {
 		return bsId;
 	}
 
-	public void setBsId(int bsId) {
+
+
+
+	public void setBsId(String bsId) {
 		this.bsId = bsId;
 	}
+
+
+
 
 	public String getName() {
 		return name;

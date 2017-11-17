@@ -113,6 +113,49 @@ GB18030-2000 和 GB18030-2005 都不支持单字节的欧元符号
 	background-image: url("../images/img/ocean.jpg");
 	/* background:#fafafa; */
 }
+#left-bar {
+	width: 5px;
+	bottom: 0;
+	float: left;
+	left: 190px;
+	position: absolute;
+	top: 51px;
+	transition: all 0.4s ease 0s;
+	border: 0px solid green;
+	background:blue;
+	/* background:#fafafa; */
+}
+
+.hide-menu #mainframe{
+	margin: 0 0 0 0px;
+	padding: 0;
+	position: fixed;
+	width:calc(100%);
+	height: calc(100% - 80px);
+	top:49px;
+	left:0px;
+	right:0;
+	overflow-y: auto;
+}
+.hide-menu #menu{
+	display: block;
+	
+}
+.hide-menu #footer{
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 10px;
+	right: 0;
+}
+.hide-menu #left-bar{
+	position: fixed;
+	top: 51px;
+	bottom: 0;
+	left: 0px;
+	
+}
+
 /* for Chrome */
 /* .inner-container::-webkit-scrollbar {
     display: none;

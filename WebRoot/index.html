@@ -33,15 +33,17 @@ html,body{
 </style>
 </head>
 <body ng-app="app" ng-controller="index"
-	class="fixed-navbar fixed-sidebar fixed-footer fixed-small-header">
+	class="fixed-navbar fixed-sidebar">
 	<!-- 头部文件 -->
 	<div ng-include="'Views/top.html'"></div>
 	<!-- 系统菜单 -->
 	<div ng-include="'Views/menu.html'"></div>
+	<!-- 缩放 -->
+	<!-- <div id="left-bar"></div> -->
 
 	<!-- 中间内容体 -->
 	<iframe src="map.html" id="mainframe" name="mainframe" frameborder="0"
-			scrolling="no" onload="changeFrameHeight()" class=""></iframe>
+			scrolling="no" ></iframe>
 	<!-- 中间内容体 /-->
 	<!-- 底部内容体 -->
 	 <div ng-include="'Views/footer.html'"></div>
@@ -54,14 +56,29 @@ html,body{
 		src="lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="Controllers/index.js"></script>
 	<script type="text/javascript">
+	
+
+</script>
+	<script type="text/javascript">
 		xh.load();
-		function changeFrameHeight(){
+		/* $("[data-toggle='tooltip']").tooltip(); */
+		/* function changeFrameHeight(){
 			$("#mainframe").height(document.documentElement.clientHeight-80);
 			$("#mainframe").width(document.documentElement.clientWidth-190);
 		}
-		window.onresize=function(){  
-		     changeFrameHeight();  
-		};
+		function changeFrameHeight2(){
+			$("#mainframe").height(document.documentElement.clientHeight-80);
+			$("#mainframe").width(document.documentElement.clientWidth-10);
+		}
+		window.onresize=function(){ 
+			/* changeFrameHeight2(); */ 
+			/* if($("body").hasClass("hide-menu")){
+				changeFrameHeight2(); 
+			}else{
+				changeFrameHeight(); 
+			} */
+		      
+		//}; 
 	</script>
 </body>
 </html>

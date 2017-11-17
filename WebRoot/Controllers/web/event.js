@@ -162,6 +162,19 @@ xh.load = function() {
 				}
 			});
 		};
+		$scope.g = function(page) {
+			$.ajax({
+				url : '../../test/g',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
 	
 		
 		/* 查询数据 */
