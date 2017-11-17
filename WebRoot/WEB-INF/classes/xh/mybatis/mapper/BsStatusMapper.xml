@@ -53,6 +53,16 @@
 		ORDER BY deviceId ASC , singleId ASC
 		LIMIT 0 , 100
 	</select>
+	<!--基站下的环控告警 -->
+	<select id="bsEmhAlarm" parameterType="String" resultType="xh.mybatis.bean.EmhBean"
+		useCache="true">
+		SELECT fsuId, deviceId, singleId, singleType, singleValue,
+		level, updateTime
+		FROM xhgmnet_emh_sensor_status
+		WHERE fsuId = #{fsuId} and singleType=0 and singleValue!=0
+		ORDER BY deviceId ASC , singleId ASC
+		LIMIT 0 , 100
+	</select>
 	<!--基站下的bsc状态 -->
 	<select id="bsc" parameterType="int" resultType="map" useCache="true">
 		SELECT *

@@ -62,6 +62,20 @@ public class BsStatusService {
 		session.close();
 		return list;
 	}
+	
+	/**
+	 * 基站下的环控告警
+	 * @param fsuId
+	 * @return
+	 * @throws Exception
+	 */
+	public static  List<EmhBean> bsEmhAlarm(String fsuId) throws Exception {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<EmhBean> list = mapper.bsEmhAlarm(fsuId);
+		session.close();
+		return list;
+	}
 	/**
 	 * 基站下的bsc状态
 	 * @param bsId

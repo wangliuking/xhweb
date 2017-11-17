@@ -50,6 +50,8 @@ xh.load = function() {
 		$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId).success(
 				function(response) {
 					$scope.emhData = response;
+					$scope.emhAlarm = response.alarmItems;
+					
 				});
 
 		var bsId = $scope.bsId;

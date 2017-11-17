@@ -11,6 +11,11 @@
 	-webkit-animation-delay: -1s;
 	animation-delay: -1s;
 }
+.div-left .panel-card{
+	float: left;
+	margin-right:30px;
+	margin-top:5px;
+}
 
 #mainframe {
 	margin: 0 0 0 190px;
