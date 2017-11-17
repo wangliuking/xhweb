@@ -28,6 +28,14 @@ public interface BsStatusMapper {
 	public List<EmhBean> bsEmh(String fsuId) throws Exception;
 	
 	/**
+	 * 基站下的环控告警
+	 * @param fsuId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<EmhBean> bsEmhAlarm(String fsuId) throws Exception;
+	
+	/**
 	 * 基站下的环控fsuId 
 	 * @param siteId
 	 * @return

@@ -80,36 +80,67 @@
 						<div class="col-md-12">
 
 
-							<!-- <div class="hpanel">
-								row
+							<div class="hpanel">
+								<!-- row -->
 								<div class="panel-heading hbuilt">
 									<i class="fa fa-filter text-danger"></i>&nbsp;<span>历史告警查询</span>
 								</div>
 								<div class="panel-body">
 									<div id="search-div">
-										
+										<form class="form-inline" role="form">
+											<div class="form-group">
+												<label for="bsId">基站ID</label>
+												<div>
+													<input type="text" class="form-control" id="bsId"
+														placeholder="基站ID号" width="20px">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="name">基站名称</label>
+												<div>
+													<input type="text" class="form-control" id="name"
+														placeholder="基站名称">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="called">处理情况</label>
+												<div>
+													<select id="dealEn" class="form-control">
+														<option value="3">=不限制=</option>
+														<option value="0" selected="selected">未处理</option>
+														<option value="1">已恢复</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-offset-2" style="padding-top: 22px">
+													<button type="submit" class="btn btn-sm btn-success"
+														ng-click="search(1)">
+														<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+													</button>
+												</div>
+											</div>
+										</form>
 									</div>
 								</div>
-							</div> -->
+							</div>
 							<div class="hpanel">
-							<div class="panel-heading hbuilt">
-									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; --><span>告警信息</span>
-								</div>
 								<div class="panel-body">
 									<table id="tb-info" class="xh-table table-hover">
 										<thead>
 											<tr class="tr-gray">
-												<!-- <th width="50px">#</th> -->
+												<th width="50px">#</th>
 
-												<th width="100px">网元类型</th>
-												<th>网元ID</th>
-												<th>安全级别</th>
-												<th>描述</th>
+												<th width="100px">基站ID</th>
+												<th>基站名称</th>
+												<th>基站等级</th>
+												<th>故障来源</th>
+												<th>故障等级</th>
+												<th>故障类别</th>
 												<th>故障原因</th>
-												<th>建议</th>
-												<th>故障位置</th>
-											
-												<th>操作</th>
+												<th width="100px">故障处理情况</th>
+												<th>确认</th>
+												<th>详情</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -117,17 +148,43 @@
 												<td colspan="10" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
-												<!-- <td>{{$index+1}}</td> -->
-												<td>{{x.neType}}</td>
-												<td>{{x.neId}}</td>
-												<td>{{x.severity}}</td>
-												<td>{{x.description}}</td>
+												<td>{{$index+1}}</td>
+
+												<!-- <td>{{x.dealEn}}</td> -->
+
+												<td>{{x.bsId}}</td>
+												<td>{{x.name}}</td>
+												<td>{{x.bsLevel}}</td>
+												<td>{{x.source}}</td>
+												<!-- <td>{{x.level}}</td> -->
+												<td ng-if="x.level==1">一级故障</td>
+												<td ng-if="x.level==2">二级故障</td>
+												<td ng-if="x.level==3">三级故障</td>
+												<!-- <td>{{x.type}}</td> -->
+												<td ng-if="x.type=='紧急'" bgcolor="#DC3C37"><span
+													style="color: #fff">{{x.type}}</span></td>
+												<td ng-if="x.type=='一般'" bgcolor="#FFCCCC"><span
+													style="color: #fff">{{x.type}}</span></td>
+												<td ng-if="x.type=='非常紧急'" bgcolor="#852422"><span
+													style="color: #fff">{{x.type}}</span></td>
+												<td ng-if="x.type==''">未注明</td>
 												<td>{{x.reason}}</td>
-												<td>{{x.suggestion}}</td>
-												<td>{{x.location}}</td>
-												
-												<td><!-- <a href="#" ng-click="showDetails($index)"><i
-														class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a> --></td>
+												<td ng-if="x.dealEn==1"><span
+													class="label  label-sm label-success"><i
+														class="fa fa-plus"></i>已恢复</span></td>
+												<td ng-if="x.dealEn==0"><span
+													class="label  label-sm label-danger"><i
+														class="fa fa-close (alias)"></i>未恢复</span></td>
+												<td ng-if="x.status==1"><span
+													class="label  label-sm label-success"><i
+														class="fa fa-check"></i>已确认</span></td>
+												<td ng-if="x.status==0"></a> <span
+													class="label  label-sm label-wrong"><i
+														class="fa fa-circle-thin"></i><a href="#"
+														ng-click="identifyBsAlarm(x.id)"> </i>确认
+													</a></span></td>
+												<td><a href="#" ng-click="showDetails($index)"><i
+														class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -152,10 +209,10 @@
 
 
 					</div>
-<!-- 
+
 					<div class="row">
-						col-md-9 end
-						右侧放查询栏以及图表展示 col-md-3
+						<!-- col-md-9 end -->
+						<!-- 右侧放查询栏以及图表展示 col-md-3 -->
 						<div class="col-md-6">
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
@@ -176,9 +233,9 @@
 								</div>
 							</div>
 						</div>
-						col-md-3 end
+						<!-- col-md-3 end -->
 					</div>
- -->
+
 
 				</div>
 			</div>

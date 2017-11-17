@@ -15,12 +15,33 @@ import xh.mybatis.tools.MoreDbTools;
 public class MenuService {
 	protected final static Log log=LogFactory.getLog(MenuService.class);
 	
+	
+	/**
+	 * 菜单列表
+	 * @param roleId
+	 * @return
+	 */
+	
+	public static List<Map<String,Object>> menuList(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.menuList(roleId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	/**
 	 * 获取菜单子项
 	 * @param pId
 	 * @return
 	 */
-	public static List<Map<String,Object>> menuChild(int roleId){
+	public static List<Map<String,Object>> menuChild(int roleId,int flag){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		List<Map<String,Object>> list1=new ArrayList<Map<String,Object>>();
@@ -34,6 +55,7 @@ public class MenuService {
 			//一级菜单
 			Map<String,Object> paraMap=new HashMap<String, Object>();
 			paraMap.put("pId", 0);
+			paraMap.put("flag", flag);
 			paraMap.put("roleId", roleId);
 			list1=mapper.menuChild(paraMap);
 			for (Map<String, Object> map : list1) {
@@ -43,6 +65,7 @@ public class MenuService {
 				
 				Map<String,Object> paraMap2=new HashMap<String, Object>();
 				paraMap2.put("pId", Integer.parseInt(map.get("id").toString()));
+				paraMap.put("flag", flag);
 				paraMap2.put("roleId", roleId);
 				
 				
@@ -59,6 +82,7 @@ public class MenuService {
 					
 					Map<String,Object> paraMap3=new HashMap<String, Object>();
 					paraMap3.put("pId", Integer.parseInt(map2.get("id").toString()));
+					paraMap.put("flag", flag);
 					paraMap3.put("roleId", roleId);
 					
 					
@@ -101,11 +125,54 @@ public class MenuService {
 		}
 		return result;
 	}
-	
-	/*public static Map<String,Object> menuList(){
-		Map<String,Object> map=new HashMap<String, Object>();
-		
-	}*/
-
+	public static int updateMenuRoleId(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.updateMenuRoleId(roleId);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 判断菜单是否存在
+	 * @return
+	 */
+	public static int menuExists(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.menuExists(roleId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	/**
+	 * 新增菜单
+	 * @return
+	 */
+	public static int addMenu(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.addMenu();
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

@@ -1,7 +1,7 @@
 package xh.mybatis.bean;
 
 public class BsstationBean {
-	private int bsId;
+	private String bsId;
 	private String name;
 	private int period;
 	private String lat;
@@ -24,7 +24,7 @@ public class BsstationBean {
 	private String productor;
 	private String deviceType;
 	private String level;
-	private String status;
+	private String status="0";
 	private String hometype;
 	private String roomCharge;
 	private String electricCharge;
@@ -32,9 +32,9 @@ public class BsstationBean {
 	private String zone;
 	private String envMonitor;
 	private String conditionerCount;
-	private String fireEquipment;
-	private String generatorConfig;
-	private String isGenerator;
+	private String fireEquipment="0";
+	private String generatorConfig="0";
+	private String isGenerator="0";
 	private String entryLimitType;
 	private String transCount;
 	private String comment;
@@ -56,13 +56,22 @@ public class BsstationBean {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getBsId() {
+
+	
+
+	public String getBsId() {
 		return bsId;
 	}
 
-	public void setBsId(int bsId) {
+
+
+
+	public void setBsId(String bsId) {
 		this.bsId = bsId;
 	}
+
+
+
 
 	public String getName() {
 		return name;

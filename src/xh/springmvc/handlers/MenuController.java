@@ -21,6 +21,7 @@ import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.MenuService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/web")
@@ -33,12 +34,47 @@ public class MenuController {
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
+	/**
+	 * web角色菜单配置
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value="/menu", method = RequestMethod.GET)
 	public void menu(HttpServletRequest request, HttpServletResponse response) {
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
 
 		HashMap result = new HashMap();
-		result.put("items", MenuService.menuChild(roleId));
+		result.put("items", MenuService.menuChild(roleId,0));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 系统菜单获取
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/webMenu", method = RequestMethod.GET)
+	public void webMenu(HttpServletRequest request, HttpServletResponse response) {
+		
+		String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
+		int roleId=Integer.parseInt(role);
+		
+		List<Map<String,Object>> list=MenuService.menuList(roleId);
+		Map<String,Object> menuMap=new HashMap<String, Object>();
+		for (Map<String, Object> map : list) {
+			menuMap.put("m_"+map.get("id"), map.get("checked"));
+			
+		}
+
+		HashMap result = new HashMap();
+		result.put("items", menuMap);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -53,23 +89,49 @@ public class MenuController {
 	@RequestMapping("/updateMenu")
 	public void updateMenu(HttpServletRequest request,
 			HttpServletResponse response) {
-		String formData = request.getParameter("formData");
+		/*String formData = request.getParameter("formData");*/
+		String[] nochecks = request.getParameter("nochecks").split(",");
+		String[] checks = request.getParameter("checks").split(",");
 		String roleId = request.getParameter("roleId");
-		ArrayList list = GsonUtil.json2Object(formData, ArrayList.class);
+		/*ArrayList list = GsonUtil.json2Object(formData, ArrayList.class);*/
+		
+		
+		/*ArrayList listChecks = GsonUtil.json2Object(checks, ArrayList.class);
+		ArrayList listNoChecks = GsonUtil.json2Object(nochecks, ArrayList.class);*/
+		
+		
 
-		List<Map<String, Object>> paraList = new ArrayList<Map<String, Object>>();
+	/*	List<Map<String, Object>> paraList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> map = GsonUtil.json2Object(list.get(i).toString(), Map.class);
-
-			/*Map<String, Object> paraMap = new HashMap<String, Object>();
-			int rslt = (int) Math.floor(Float.parseFloat(map.get("id")
-					.toString()));
-			boolean checked = (Boolean) map.get("checked");
-			paraMap.put("id", rslt);
-			paraMap.put("checked", checked == true ? 1 : 0);*/
 			MenuService.updateMenu(map);
 
+		}*/
+		
+		List<String> listChecks=new ArrayList<String>();
+		for(int i=0;i<checks.length;i++){
+			listChecks.add(checks[i]);
 		}
+		List<String> listNoChecks=new ArrayList<String>();
+		for(int i=0;i<nochecks.length;i++){
+			listNoChecks.add(nochecks[i]);
+		}
+		Map<String,Object> paraMap=new HashMap<String, Object>();
+		paraMap.put("roleId", roleId);
+		paraMap.put("idlist", listChecks);
+		paraMap.put("checked", true);
+		
+		MenuService.updateMenu(paraMap);
+		
+		Map<String,Object> paraMap2=new HashMap<String, Object>();
+		paraMap2.put("roleId", roleId);
+		paraMap2.put("idlist", listNoChecks);
+		paraMap2.put("checked", false);
+		MenuService.updateMenu(paraMap2);
+		
+		
+		
+		
 
 		HashMap result = new HashMap();
 		/* result.put("items", ); */

@@ -130,7 +130,7 @@ public interface BsstationMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int  selectByBsId(int bsId)throws Exception;
+	public int  selectByBsId(String bsId)throws Exception;
 	
 	
 	/**

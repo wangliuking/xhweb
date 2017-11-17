@@ -44,5 +44,10 @@ public class TestController {
 		ss.dispatchUser();
 		
 	}
+	@RequestMapping(value="/g",method=RequestMethod.POST)
+	public void g(HttpServletRequest request, HttpServletResponse response){
+		ss.DispatchUserIA();
+		
+	}
 
 }

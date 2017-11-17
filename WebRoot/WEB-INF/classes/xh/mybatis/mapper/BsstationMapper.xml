@@ -100,7 +100,7 @@
 	<select id="bsInfo" parameterType="map"
 		resultType="xh.mybatis.bean.BsstationBean" useCache="true">
 		select * from xhgmnet_bs_station where 1=1
-		<if test="bsId !=null and bsId !='' and bsId !=0">
+		<if test="bsId!=null and bsId!=''">
 			and bsId like concat(#{bsId},'%')
 		</if>
 		<if test="name !=null and name !=''">
@@ -121,7 +121,7 @@
 	</select>
 
 	<!--根据基站ID,查找基站信息 -->
-	<select id="selectByBsId" parameterType="int" resultType="int"
+	<select id="selectByBsId" parameterType="String" resultType="int"
 		useCache="true">
 		select
 		count(*) from xhgmnet_bs_station where bsId=#{bsId}

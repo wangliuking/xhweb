@@ -27,7 +27,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)502);   ////四期：长度486+=32
+		header.setLength((short)518);   ////四期：长度486+=32  +16
 		header.setCommandId((short)153);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -47,7 +47,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)192);//四期：长度+=32
+		header.setLength((short)208);//四期：长度+=32
 		header.setCommandId((short)159);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -68,7 +68,7 @@ public class UcmService {
 		
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)1707);//1776+5   //四期：长度+=32
+		header.setLength((short)1723);//1776+5   //四期：长度+=32
 		header.setCommandId((short)161);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -88,7 +88,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)147);  //91+48  //四期：长度+=16
+		header.setLength((short)195);  //91+48  //四期：长度+=16
 		header.setCommandId((short)167);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -108,7 +108,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)30);
+		header.setLength((short)62);
 		header.setCommandId((short)165);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -148,7 +148,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)177);//145+16   //四期：长度+=32
+		header.setLength((short)225);//145+16   //四期：长度+=32
 		header.setCommandId((short)155);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -168,7 +168,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)150); //  131+4
+		header.setLength((short)182); //  131+4
 		header.setCommandId((short)163);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -188,7 +188,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)62);//40+22;
+		header.setLength((short)94);//40+22;
 		header.setCommandId((short)169);//169+22
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -228,7 +228,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)80);
+		header.setLength((short)176);
 		header.setCommandId((short)177);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -248,7 +248,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)81);
+		header.setLength((short)177);
 		header.setCommandId((short)181);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -268,7 +268,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)68);
+		header.setLength((short)132);
 		header.setCommandId((short)179);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -288,12 +288,12 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)68);
+		header.setLength((short)132);
 		header.setCommandId((short)183);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
 		try {
-			SendData.sendRadioUserSavalidRegionData(header, validregionStruct);
+			SendData.sendTalkGroupSavalidRegionData(header, validregionStruct);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

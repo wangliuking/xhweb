@@ -153,5 +153,32 @@ public class test {
 		setTalkGroupAttr.setUserGroup(0);
 		UcmService.sendTalkGroupAttrData(setTalkGroupAttr);
 	}
+	
+	public void DispatchUserIA() {
+		
+		DispatchUserIAStruct struct=new DispatchUserIAStruct();
+		struct.setOperation(1);
+    	struct.setId(1);
+    	struct.setName("sss");
+    	struct.setMonitorOn(0);
+    	struct.setPCPreempt(0);
+    	struct.setCallPriority(0);
+    	struct.setAllMute(0);
+    	struct.setAllMuteTimeout(0);
+    	struct.setPttPriority(0);
+    	
+     	//新增
+    	struct.setProhibitTone(0);
+    	struct.setSideTone(0);
+    	struct.setPatchGroupNum(0);
+    	struct.setMSGroupNum(0);
+    	struct.setAPBNum(0);
+    	struct.setCalledPreempt(0);
+    	struct.setInboundCall(0);
+    	struct.setInboundPTT(0);
+    	struct.setInstantTransmit(0);
+    	struct.setPatchPC(0);
+    	UcmService.sendDispatchUserIAData(struct);
+	}
 
 }

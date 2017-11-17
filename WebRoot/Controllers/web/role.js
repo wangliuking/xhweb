@@ -243,22 +243,32 @@ xh.refresh = function() {
 
 };
 xh.onCheck=function(e, treeId, treeNode) {
-
+	xh.maskShow();
+	
+	var $scope = angular.element(appElement).scope();
+	var roleId=$scope.editData.roleId;
 	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
 	checkCount = zTree.getCheckedNodes(true).length,
 	nocheckCount = zTree.getCheckedNodes(false).length,
 	change = zTree.getChangeCheckedNodes();
 	
-	
 	var checkVal = [];
-	xh.maskShow();
+	var nocheckVal = [];
+	
 		
-	for(var i=0;i<zTree.getChangeCheckedNodes().length;i++){
+	for(var i=0;i<zTree.getCheckedNodes(true).length;i++){
 		var node={};
-		node.id=zTree.getChangeCheckedNodes()[i].id;
-		node.checked=zTree.getChangeCheckedNodes()[i].checked;
-		node.roleId=zTree.getChangeCheckedNodes()[i].roleId;
-		checkVal.push(node);
+		node.id=zTree.getCheckedNodes(true)[i].id;
+		node.checked=zTree.getCheckedNodes(true)[i].checked;
+		node.roleId=zTree.getCheckedNodes(true)[i].roleId;
+		checkVal.push(node.id);
+	}
+	for(var i=0;i<zTree.getCheckedNodes(false).length;i++){
+		var node={};
+		node.id=zTree.getCheckedNodes(false)[i].id;
+		node.checked=zTree.getCheckedNodes(false)[i].checked;
+		node.roleId=zTree.getCheckedNodes(false)[i].roleId;
+		nocheckVal.push(node.id);
 	}
 	
 	if(checkVal.length>0){
@@ -268,8 +278,11 @@ xh.onCheck=function(e, treeId, treeNode) {
 			type : 'post',
 			dataType : "json",
 			data:{
-				formData:JSON.stringify(checkVal) //将表单序列化为JSON对象
-				
+				checks:checkVal.join(","),
+				nochecks:nocheckVal.join(","),
+				roleId:roleId
+				/*formData:JSON.stringify(checkVal) //将表单序列化为JSON对象
+*/				
 			},
 			async : false,
 			success : function(data) {

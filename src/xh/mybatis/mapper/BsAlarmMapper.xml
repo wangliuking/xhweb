@@ -23,8 +23,8 @@
 		显示告警列表，列表中只显示没有处理的告警；显示列表时联合查询基站列表显示基站名称，等级。
 	-->
     <select id="selectBsAlarmList" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     	select a.id as id,a.bsId,name,a.level,b.level as bsLevel,a.source,a.type,reason,dealEn,a.status,a.writeTime,a.recoveryTime from xhgmnet_bs_alarm as a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId where 1=1
-     	<if test="bsId !=null and bsId !='' and bsId !=0">
+     	select * from xhgmnet_eastcom_alarminfo where 1=1
+     	<!-- <if test="bsId !=null and bsId !='' and bsId !=0">
 			and a.bsId like concat(#{bsId},'%')
 		</if>
 		<if test="name !=null and name !=''">
@@ -32,8 +32,8 @@
 		</if>
 		<if test="dealEn !=null and dealEn !='' and dealEn !=3">
 			and a.dealEn=#{dealEn}
-		</if>
-		order by bsId asc limit #{start},#{limit}
+		</if> -->
+		order by time desc limit #{start},#{limit}
     </select>
     <!--警告等级统计 -->
 	<select id="bsAlarmLevelChart" resultType="java.util.HashMap"
