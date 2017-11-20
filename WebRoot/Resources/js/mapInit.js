@@ -163,29 +163,27 @@ app.controller("map", function($scope, $http) {
 	} 
 	/* 区域选择 */
 	var area={
-			"简阳":{"lat":"30.406510881231107","lng":"104.09227528499704","zoom":"7"},
+			"简阳":{"lat":"30.425071133933102","lng":"104.55696901931353","zoom":"7"},
 			"双流":{"lat":"30.52955848247763","lng":"103.93520055379688","zoom":"7"},
-			"都江堰":{"lat":"31.106988566539517","lng":"103.68807422615372","zoom":"6"},
+			"都江堰":{"lat":"31.041683973699183","lng":"103.62070738301315","zoom":"7"},
 			"天府新区":{"lat":"30.406854589614476","lng":"104.08540111732965","zoom":"7"},
 			"温江":{"lat":"30.665323293908852","lng":"103.83758737291974","zoom":"8"},
-			"龙泉驿":{"lat":"30.601049826218624","lng":"104.25588047548125","zoom":"7"},
+			"龙泉驿":{"lat":"30.60345578490222","lng":"104.29884402340252","zoom":"8"},
 			"金堂":{"lat":"30.73097159513254","lng":"104.59133985765051","zoom":"7"},
-			"青白江":{"lat":"30.716535843031004","lng":"104.38373999409495","zoom":"7"},
-			"新都":{"lat":"30.862955614346696","lng":"104.07783953289548","zoom":"7"},
+			"青白江":{"lat":"30.79112056222232","lng":"104.34421353000737","zoom":"8"},
+			"新都":{"lat":"30.837177485593934","lng":"104.10602362033183","zoom":"8"},
 			"彭州":{"lat":"31.13998457134305","lng":"103.89636150647604","zoom":"7"},
-			"郫县":{"lat":"30.843020528111225","lng":"103.87092708610665","zoom":"7"},
+			"郫都区":{"lat":"30.838552319127412","lng":"103.88123833760777","zoom":"8"},
 			"崇州":{"lat":"30.644357082523264","lng":"103.64957888721625","zoom":"7"},
 			"大邑":{"lat":"30.60998624418625","lng":"103.36705059608597","zoom":"7"},
 			"邛崃":{"lat":"30.39070029559608","lng":"103.38079893142077","zoom":"7"},
-			"蒲江":{"lat":"30.22984477217884","lng":"103.5017842823671","zoom":"7"},
-			"新津":{"lat":"30.433320135133982","lng":"103.80905957710003","zoom":"7"},
-			"主城区":{"lat":"30.662917335225256","lng":"104.06340378079395","zoom":"7"},
-			"青白江城区":{"lat":"30.78527751970504","lng":"104.3390579042568","zoom":"7"},
-			"高新区":{"lat":"30.406510881231107","lng":"104.09227528499704","zoom":"7"},
+			"蒲江":{"lat":"30.23775006499635","lng":"103.48941078056576","zoom":"8"},
+			"新津":{"lat":"30.427820801000056","lng":"103.81799599506768","zoom":"8"},
+			"高新区":{"lat":"30.56891309237351","lng":"104.07165278199483","zoom":"9"},
 			"成华区":{"lat":"30.693163672961827","lng":"104.14314412573583","zoom":"9"},
 			"武侯区":{"lat":"30.62682795497139","lng":"104.0120193774801","zoom":"9"},
 			"金牛区":{"lat":"30.728737490640643","lng":"104.09227528499704","zoom":"9"},
-			"锦江区":{"lat":"30.406510881231107","lng":"104.09227528499704","zoom":"7"},
+			"锦江区":{"lat":"30.60553707749492","lng":"104.11306964219092","zoom":"9"},
 			"青羊区":{"lat":"30.68010275439376","lng":"103.98581161324812","zoom":"9"},
 			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"9"}		
 	};
@@ -692,10 +690,10 @@ var areaRef={
 		"温江":{name:"温江",color:"#458B00"},
 		"龙泉驿":{name:"龙泉驿",color:"#006400"},
 		"金堂":{name:"金堂",color:"#228B22"},
-		"青白江":{name:"青白江区",color:"#8B7500"},
+		"青白江":{name:"青白江",color:"#8B7500"},
 		"新都":{name:"新都",color:"#8B658B"},
 		"彭州":{name:"彭州",color:"#A52A2A"},
-		"郫县":{name:"郫都区",color:"#FF0000"},
+		"郫都区":{name:"郫都区",color:"#FF0000"},
 		"崇州":{name:"崇州",color:"#008B8B"},
 		"大邑":{name:"大邑",color:"#8B008B"},
 		"邛崃":{name:"邛崃",color:"#8B0000"},
@@ -713,8 +711,8 @@ var areaRef={
 function areaRingsData(param){
 	var areaInfo=areaRef[param].name;
 	var color=areaRef[param].color;
-	var areaSearch="http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find?searchText="+areaInfo+"&contains=true&searchFields=&sr=&layers=0&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=pjson";
-	$.ajax({
+	/*var areaSearch="http://125.70.9.194:6080/common/rest/services/YingJiBan/Region/MapServer/find?searchText="+areaInfo+"&contains=true&searchFields=&sr=&layers=0&layerDefs=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&dynamicLayers=&returnZ=false&returnM=false&gdbVersion=&f=pjson";*/
+	/*$.ajax({
 		type : "GET",
 		url : areaSearch,
 		dataType : "json",
@@ -730,6 +728,18 @@ function areaRingsData(param){
 			var params=[param,color];
 			areaRingsCreate(tempData,params);
 		}
+	});*/
+	$.getJSON("Resources/js/mapArea.json", function (dataMap){
+		var data = dataMap[areaInfo].results[0].geometry.rings[0];
+		var temp=[];
+		var tempData=[];
+		var i;
+		for(i=0;i<data.length;i+=10){
+			temp.push(data[i]);
+		}
+		tempData.push(temp);
+		var params=[param,color];
+		areaRingsCreate(tempData,params);
 	});
 }
 
