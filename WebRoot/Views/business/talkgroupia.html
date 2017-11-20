@@ -146,8 +146,8 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="btn-group" style="padding-top:10px;">
-											<button class="btn btn-success btn-sm" data-toggle="modal"
-												data-target="#add" ng-disabled="">
+											<button class="btn btn-success btn-sm" ng-disabled=""
+												ng-click="showAddModel()">
 												<i class="fa fa-plus-circle"></i>&nbsp;添加属性
 											</button>
 											<button class="btn btn-info btn-sm" ng-disabled=""
@@ -217,14 +217,14 @@
 		</div>
 		<!-- row/ -->
 	</div>
-	<!-- 中间内容体 /-->
-	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
-		<i class="fa fa-chevron-circle-up fa-3x"></i>
-	</div>
 	<!-- 添加 -->
 	<div ng-include="'talkgroupia-add.html'"></div>
 	<!-- 编辑 -->
 	<div ng-include="'talkgroupia-show.html'"></div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
 	<script src="../../Resources/js/jquery-2.2.3.min.js"></script>
 	<script src="../../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
 	<script src="../../lib/metisMenu/dist/metisMenu.min.js"></script>

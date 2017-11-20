@@ -214,17 +214,17 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-		/* bsId : {
-			validators : {
-				notEmpty : {
-					message : '不能为空'
-				},
-				regexp : {
-					regexp : /^[0-9.]+$/,
-					message : '只能输入整数和小数'
+			id : {
+				validators : {
+					notEmpty : {
+						message : '不能为空'
+					},
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
+					}
 				}
 			}
-		} */
 
 		}
 	}).on('success.form.bv', function(e, data) {
