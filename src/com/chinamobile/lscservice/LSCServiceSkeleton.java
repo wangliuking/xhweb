@@ -89,11 +89,9 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			List<Map<String, String>> configList;
 			try {
 				configList = ParseXml.getDevConf(xml, FSUID);
-				//String result = GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新	
-				//if("success".equals(result)){
-					GosuncnController.insertConfig(configList);//将配置信息入库
-					log.info("啦啦啦一个FSU已添加配置！");			
-				//}
+				GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新	
+				GosuncnController.insertConfig(configList);//将配置信息入库
+				log.info("啦啦啦一个FSU已添加配置！");			
 			} catch (DocumentException e) {
 				e.printStackTrace();
 			}		

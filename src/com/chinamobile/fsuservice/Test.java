@@ -67,7 +67,7 @@ public class Test {
 		//getThreshold("http://10.10.10.3:8080/services/FSUService","09201704160085",list);//查询监控点门限数据
 		//getFSUInfo("http://10.10.10.3:8090/services/FSUService","09201704160085");//获取状态信息
 		// getDevConf("http://192.168.5.254:8080/services/FSUService","09201704160085");//获取FSU配置信息
-		// timeCheck("09201704160085");//时间确认
+		timeCheck("192.168.10.3","09201704160085");//时间确认
 
 	}
 
@@ -147,7 +147,7 @@ public class Test {
 	 * 
 	 */
 	public static List<Map<String, String>> getDataForDB(String url,
-			String FSUID, List list) throws AxisFault{
+			String FSUID) throws AxisFault{
 		log.info("开始获取数据！！！");
 		FSUServiceStub stub = new FSUServiceStub(url);
 		Invoke invoke = new Invoke();
@@ -155,9 +155,6 @@ public class Test {
 		List<Map<String, String>> list1 = null;
 		// 遍历list查出id并封装成报文
 		String temp = "";
-		for (int i = 0; i < list.size(); i++) {
-			temp = temp + "<Device ID=\"" + list.get(i) + "\"></Device>";
-		}
 		String GET_DATA = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Request><PK_Type><Name>GET_DATA</Name></PK_Type><Info><FSUID>"
 				+ FSUID
 				+ "</FSUID><DeviceList>"

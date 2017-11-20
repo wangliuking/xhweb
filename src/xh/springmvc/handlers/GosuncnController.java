@@ -76,6 +76,30 @@ public class GosuncnController {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 获取摄像头ip
+	 */
+	@RequestMapping("/cameraIp")
+	public void selectCameraIpByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String bsId = request.getParameter("bsId");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("bsId", bsId);
+		List<Map<String,String>> list = GosuncnService.selectCameraIpByBsId(map);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 根据FSUID删除配置信息(保持最新的配置信息)
 	 */
