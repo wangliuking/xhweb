@@ -43,7 +43,7 @@ xh.load = function() {
 	} ]);
 
 	app.controller("userstatus", function($scope, $http, $location) {
-		$scope.count = "10";// 每页数据显示默认值
+		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		console.log($scope.bsId);
 
@@ -974,3 +974,4 @@ function cameraConfig(cameraIp){
 		WebVideoCtrl.I_Stop();
 	});
 }
+
