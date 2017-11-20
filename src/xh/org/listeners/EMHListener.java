@@ -31,9 +31,10 @@ import com.chinamobile.lscservice.LSCServiceSkeleton;
  * 
  */
 public class EMHListener implements ServletContextListener {
-	Timer timer = new Timer();
-	Timer timer1 = new Timer();
-	Timer timer2 = new Timer();
+	private Timer timer = null;
+	private Timer timer1 = null;
+	private Timer timer2 = null;
+
 	protected static final Log log = LogFactory.getLog(EMHListener.class);
 
 	@Override
@@ -44,10 +45,12 @@ public class EMHListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		// TODO Auto-generated method stub
+		timer = new Timer(true);
+		timer1 = new Timer(true);
+		timer2 = new Timer(true);
 		timer.schedule(new timerTaskForLogin(), 8 * 60 * 1000, 8 * 60 * 1000);// 心跳任务
-		timer1.schedule(new timerTaskForData(),  2 * 60 * 1000, 60 * 1000);//定时获取数据任务
-		//timer2.schedule(new timerTaskForTimeCheck(),2 * 60 * 1000,60 * 60 * 1000);//
+		timer1.schedule(new timerTaskForData(), 60 * 1000, 60 * 1000);//定时获取数据任务
+		timer2.schedule(new timerTaskForTimeCheck(),2 * 60 * 1000,60 * 60 * 1000);//
 		// 时间同步（一次）
 
 		// timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
@@ -78,7 +81,8 @@ class timerTaskForLogin extends TimerTask {
 							+ ":8080/services/FSUService";
 					try {
 						Test.getFSUInfo(url, FSUID);
-					} catch (RemoteException e) {
+					} catch (RemoteException e) { // TODO Auto-generated catch
+													// block
 						log.info("发送心跳信息失败！！！" + FSUID
 								+ "send for login failure!!!!");
 					}
@@ -122,10 +126,7 @@ class timerTaskForData extends TimerTask {
 					String url = "http://" + map.get("fsuIp")
 							+ ":8080/services/FSUService";
 					try {
-						List<String> list = GosuncnController
-								.selectConfigByFSUID(FSUID);
-						List<Map<String, String>> listData = Test.getDataForDB(
-								url, FSUID, list);
+						List<Map<String, String>> listData = Test.getDataForDB(url, FSUID);
 						// 插入前查询实时表里面有无数据,有则删除
 						GosuncnController.updateFSUID(FSUID);
 						// 插入实时数据

@@ -49,6 +49,10 @@ xh.load = function() {
 		};
 		
 		/* 显示model */
+		$scope.showAddModel = function(id) {
+			$('#add').modal('show');
+		};
+		
 		$scope.editModel = function(id) {
 			$('#edit').modal('show');
 			$scope.editData = $scope.data[id];
@@ -129,7 +133,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../talkgroupia/list?id=" + id + "&name=" + name + "&start="
+					"../../talkgroupbusiness/list?id=" + id + "&name=" + name + "&start="
 					+ start + "&limit=" + limit).success(
 					function(response) {
 						xh.maskHide();
@@ -152,7 +156,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../radiouserbusiness/list?id=" + id + "&name=" + name + "&start="
+					"../../talkgroupbusiness/list?id=" + id + "&name=" + name + "&start="
 					+ start + "&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();

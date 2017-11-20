@@ -54,6 +54,9 @@ xh.load = function() {
 		};
 
 		/* 显示model */
+		$scope.showAddModel = function(id) {
+			$('#add').modal('show');
+		};
 		$scope.editModel = function(id) {
 			$('#edit').modal('show');
 			$scope.editData = $scope.data[id];
@@ -187,14 +190,14 @@ xh.add = function() {
 		async : false,
 		data : $("#addForm").serializeArray(),
 		success : function(data) {
-			if (data.result ==1) {
+			if (data.result === 1) {
 				$('#addForm')[0].reset();
 				$('#add').modal('hide');			
 				toastr.success("添加成功！", '提示');
 				xh.refresh();
 
 			} else {
-				toastr.error("添加失败！", '提示');
+				toastr.error("添加失败！业务属性标识已存在！", '提示');
 			}
 		},
 		error : function() {
@@ -215,8 +218,6 @@ xh.update = function() {
 				$('#edit').modal('hide');
 				toastr.success("修改成功！", '提示');
 				xh.refresh();
-				
-
 			} else {
 				toastr.error("修改失败！", '提示');
 			}

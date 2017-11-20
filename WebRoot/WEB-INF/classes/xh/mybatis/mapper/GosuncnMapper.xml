@@ -115,6 +115,10 @@
 		</if>
 	</select>
 	
+	<!-- 根据基站id查询摄像头IP -->
+	<select id="selectCameraIpByBsId" parameterType="map" resultType="map">
+		select * from xhgmnet_emh_camera where bsId=#{bsId}
+	</select>
 
 
 </mapper>
