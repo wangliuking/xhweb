@@ -926,8 +926,8 @@ function cameraConfig(cameraIp){
     }
 
 	var oPlugin = {
-		iWidth: 600,			// plugin width
-		iHeight: 400			// plugin height
+		iWidth: 800,			// plugin width
+		iHeight: 420			// plugin height
 	};
 	
 	// 初始化插件参数及插入插件
