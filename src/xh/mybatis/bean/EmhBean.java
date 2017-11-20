@@ -29,6 +29,7 @@ public class EmhBean {
 	private int bsId;
 	private String fsuId;
 	private String deviceId;
+	private String deviceName;
 	private String singleId;
 	private String singleType;
 	private String singleValue;
@@ -88,6 +89,12 @@ public class EmhBean {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 	
 	

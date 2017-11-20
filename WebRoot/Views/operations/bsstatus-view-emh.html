@@ -128,7 +128,7 @@
 					<div class="panel-tools">
 						<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
 					</div>
-					电源
+					EPS配电设备
 				</div>
 				<div class="panel-body">
 					<div class="row">
@@ -279,14 +279,16 @@
 						</tr>
 						<tr ng-repeat="x in emhAlarm">
 							<td>
-							 <span ng-if="x.deviceId=='170200000000001' || x.deviedId=='170100000000001'"> 温湿度</span>
+							{{x.deviceName}}
+							 <!-- <span ng-if="x.deviceId=='170200000000001'"> 温湿度</span>
+							 <span ng-if="x.deviedId=='170100000000001'"> 温湿度</span>
 							 <span ng-if="x.deviceId=='170300000000001'"> 水浸传感器</span>
 							 <span ng-if="x.deviceId=='170400000000001'"> 烟雾</span>
 							 <span ng-if="x.deviceId=='170500000000001'"> 红外</span>
 							 <span ng-if="x.deviceId=='170700000000001'"> 门磁</span>
 							 <span ng-if="x.deviceId=='080200000000001'"> 电源</span>
 							 <span ng-if="x.deviceId=='760300000000001'"> 环控采集器</span>
-							 <span ng-if="x.deviceId=='920100000000001'"> 智能电表</span>
+							 <span ng-if="x.deviceId=='920100000000001'"> 智能电表</span> -->
 							</td>
 							<td>{{x.singleValue}}</td>
 							<td class="td-danger">

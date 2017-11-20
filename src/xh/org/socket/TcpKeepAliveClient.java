@@ -109,6 +109,13 @@ public class TcpKeepAliveClient extends Thread {
 					int recvLen = len;
 					byte[] buf2=new byte[len];
 					System.arraycopy(buf, 0, buf2, 0,len);
+					System.arraycopy(buf2, 0, bufH, 0, 2);
+		            int length=dd.BigByteArrayToShort(buf2,4);
+		            int commId=dd.BigByteArrayToShort(buf2,6);
+		            
+		            log.info("包头---->"+HexString(bufH));
+		            log.info("length---->"+length);
+		            log.info("commId--->"+commId);
 					log.info("收到的数据："+Arrays.toString(buf2));
 					/*if (len > 0 && len + writeBuf.length >= 4) {
 						readBuf = new byte[len + writeBuf.length];
