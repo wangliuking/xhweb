@@ -25,7 +25,6 @@ var appElement = document.querySelector('[ng-controller=bs]');
 xh.load = function() {
 	var app = angular.module("app", []);
 	var bsId = $("#bsId").val();
-	var name = $("#name").val();
 	var pageSize = $("#page-limit").val();
 	app.directive('stringData', function(){
 	  return {
@@ -36,21 +35,13 @@ xh.load = function() {
 	          return modelValue.toString();
 	        }
 	      });
-
-	     /* ngModelCtrl.$parsers.push(function(value){
-	        if(value) {
-	          return "1";
-	        }
-	      });*/
 	    }
 	  };
 	});
-
 	app.controller("bs", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
-		$scope.operationMenu=true; //菜单变色
-		$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start=0&limit="+pageSize).
+		$http.get("../../bs/device/list?bsId="+bsId+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -134,136 +125,7 @@ xh.load = function() {
 				}
 			});
 		};
-		/* 删除基站相邻小区 */
-		$scope.delBsNeighbor = function(id) {
-			var deldata=$scope.neighborData[id];
-			swal({
-				title : "提示",
-				text : "确定要删除该临近小区吗吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../bs/delBsNeighbor',
-						type : 'post',
-						dataType : "json",
-						data : {
-							bsId : deldata.bsId,
-							adjacentCellId:deldata.adjacentCellId
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.neighborByBsId(deldata.bsId);
-							} else {
-								swal({
-									title : "提示",
-									text : data.message,
-									type : "error"
-								});
-							}
-						},
-						error : function() {
-							
-						}
-					});
-				}
-			});
-		};
-		/* 删除基站传输配置 */
-		$scope.delLinkconfig = function(id) {
-			var deldata=$scope.linkconfigData[id];
-			swal({
-				title : "提示",
-				text : "确定要删除传输配置吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../bs/delLinkconfig',
-						type : 'post',
-						dataType : "json",
-						data : {
-							id : deldata.id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.linkconfigByBsId(deldata.bsId);
-							} else {
-								swal({
-									title : "提示",
-									text : data.message,
-									type : "error"
-								});
-							}
-						},
-						error : function() {
-							
-						}
-					});
-				}
-			});
-		};
-		/* 删除基站bsr */
-		$scope.delBsrconfig = function(id) {
-			var deldata=$scope.bsrconfigData[id];
-			swal({
-				title : "提示",
-				text : "确定要删除bsr配置吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../bs/delBsrconfig',
-						type : 'post',
-						dataType : "json",
-						data : {
-							id : deldata.id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.bsrconfigByBsId(deldata.bsId);
-							} else {
-								swal({
-									title : "提示",
-									text : data.message,
-									type : "error"
-								});
-							}
-						},
-						error : function() {
-							
-						}
-					});
-				}
-			});
-		};
+		
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -280,7 +142,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+limit).
+			$http.get("../../bs/device/list?bsId="+bsId+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -288,49 +150,7 @@ xh.load = function() {
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
-		// 根据基站ID查找基站相邻小区
-		$scope.neighborByBsId = function(bsId) {
-			
-			$http.get("../../bs/neighborByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.neighborData = response.items;
-						$scope.neighborTotals = response.totals;
-					});
-		};
-		// 根据基站ID查找基站切换参数
-		$scope.handoverByBsId = function() {
-			var bsId = $scope.bsId;
-			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.handoverData = response.items;
-						$scope.handoverTotals = response.totals;
-					});
-		};
-		// 根据基站ID查找基站BSR配置信息
-		$scope.bsrconfigByBsId= function(bsId) {
-			
-			$http.get("../../bs/bsrconfigByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.bsrconfigData = response.items;
-						$scope.bsrconfigTotals = response.totals;
-					});
-		};
-		// 根据基站ID查找基站传输配置信息
-		$scope.linkconfigByBsId = function(bsId) {
-			$http.get("../../bs/linkconfigByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.linkconfigData = response.items;
-						$scope.linkconfigTotals = response.totals;
-					});
-		};
-		// 根据基站ID查找基站设备信息
-		$scope.deviceByBsId= function(bsId) {
-			$http.get("../../bs/device/list?bsId="+bsId+"&start=0&limit="+pageSize).
-			success(function(response){
-				xh.maskHide();
-				$scope.deviceData = response.items;
-			});
-		};
+		
 		$scope.bslist=function(){
 			
 			var bsId="";
@@ -342,89 +162,7 @@ xh.load = function() {
 			
 			
 		};
-		//显示相邻小区窗口
-		$scope.showNeighborWin=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$scope.bsData = $scope.data[parseInt(checkVal[0])];
-			$scope.neighborByBsId($scope.bsData.bsId);
-			$("#neighborWin").modal("show");
-			$scope.bslist();
-		};
-		//显示BSR配置信息
-		$scope.showBsrConfigWin=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$scope.bsData = $scope.data[parseInt(checkVal[0])];
-			$scope.bsrconfigByBsId($scope.bsData.bsId);
-			$("#bsrconfigWin").modal("show");
-			$scope.bslist();
-		};
-		//显示传输配置信息
-		$scope.showLinkConfigWin=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$scope.bsData = $scope.data[parseInt(checkVal[0])];
-			$scope.linkconfigByBsId($scope.bsData.bsId);
-			$("#linkconfigWin").modal("show");
-			$scope.bslist();
-		};
-		//显示基站设备信息窗口
-		$scope.showDeviceWin=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
-				}
-			});
-			if (checkVal.length != 1) {
-				swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$scope.bsData = $scope.data[parseInt(checkVal[0])];
-			$scope.deviceByBsId($scope.bsData.bsId);
-			$("#deviceWin").modal("show");
-		};
+		
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
@@ -438,7 +176,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+pageSize).
+			$http.get("../../bs/device/list?bsId="+bsId+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -639,33 +377,6 @@ xh.addBsrconfig=function(){
 				toastr.success(data.message, '提示');
 				$scope.bsrconfigByBsId($scope.bsData.bsId);
 				$("#addBsrconfigWin").modal("hide");
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
-//修改设备信息
-xh.updateBsDevice=function(){
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../bs/device/update',
-		type : 'post',
-		dataType : "json",
-		data:{
-			formData:xh.serializeJson($("#deviceForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				$("#deviceWin").modal("hide");
 			} else {
 				swal({
 					title : "提示",

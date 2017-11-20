@@ -396,7 +396,7 @@ public class SendData {
 		out.write(info);
 		log.info("MultiGroupData-length:" + info.length);
 		log.info("MultiGroupData:" + getData.toString());
-		log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info));
+		/*log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info))*/;
 
 	}
 
@@ -453,7 +453,7 @@ public class SendData {
 		out.write(info);
 		log.info("DispatchUserData-length:" + info.length);
 		log.info("DispatchUserData:" + getData.toString());
-		log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info));
+		/*log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info));*/
 
 	}
 
@@ -492,6 +492,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendStatusSetData-length:" + info.length);
+		log.info("sendStatusSetData:" + getData.toString());
 
 	}
 
@@ -526,6 +528,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendStatusSetUnitData-length:" + info.length);
+		log.info("sendStatusSetUnitData:" + getData.toString());
 
 	}
 
@@ -636,7 +640,7 @@ public class SendData {
 		out.write(info);
 		log.info("TalkGroupAttrData-length:" + info.length);
 		log.info("TalkGroupAttrData:" + getData.toString());
-		log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info));
+		/*log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info));*/
 
 	}
 
@@ -689,6 +693,8 @@ public class SendData {
 		byte[] info = bos.toByteArray();
 
 		out.write(info);
+		log.info("sendDispatchUserIAData-length:" + info.length);
+		log.info("sendDispatchUserIAData:" + getData.toString());
 
 	}
 
@@ -728,6 +734,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendRadioUserSavalidRegionData-length:" + info.length);
+		log.info("sendRadioUserSavalidRegionData:" + getData.toString());
 
 	}
 
@@ -767,6 +775,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendTalkGroupSavalidRegionData-length:" + info.length);
+		log.info("sendTalkGroupSavalidRegionData:" + getData.toString());
 
 	}
 

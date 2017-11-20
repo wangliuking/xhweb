@@ -12,20 +12,12 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false">
 
-
-					<ul id="xh-tabs" class="nav nav-tabs">
-						<li class="active"><a href="#info" data-toggle="tab">
-								基本信息 </a></li>
-						<li><a href="#info2" data-toggle="tab">属性配置</a></li>
-						<li><a href="#line1" data-toggle="tab">天线配置</a></li>
-						<li><a href="#location1" data-toggle="tab">位置信息</a></li>
-
-
-					</ul>
-					<div class="tab-content" style="padding:20px">
-
-						<div class="tab-pane fade in active" id="info">
-							<div class="row">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">基本信息</div>
+								<div class="panel-body">
 								<div class="col-md-3">
 									<div class="form-group col-md-12">
 										<label>基站ID</label>&nbsp;<span class="text-danger">[*]</span>
@@ -38,6 +30,22 @@
 										<label>基站名称</label>&nbsp;<span class="text-danger">[*]</span>
 										<input type="text" value="" class="form-control" name="name"
 											required="required">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span>
+										<select name="level" class="form-control">
+											<option value="1" selected="selected">一级</option>
+											<option value="2">二级</option>
+											<option value="3">三级</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>IP</label> <input type="text" value=""
+											class="form-control" name="ip">
 									</div>
 								</div>
 								<div class="col-md-3">
@@ -59,40 +67,6 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group col-md-12">
-										<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span>
-										<select name="level" class="form-control">
-											<option value="1" selected="selected">一级</option>
-											<option value="2">二级</option>
-											<option value="3">三级</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>载波数</label>&nbsp;<span class="text-danger">[*]</span> <select
-											name="chnumber" class="form-control">
-											<option value="2" selected="selected">2</option>
-											<option value="4">4</option>
-											<option value="8">8</option>
-											<option value="16">16</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>额定功率</label> <input type="text" value=""
-											class="form-control" name="power">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>IP</label> <input type="text" value=""
-											class="form-control" name="ip">
-									</div>
-								</div>
-								
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
 										<label>设备型号</label><input type="text" value=""
 											class="form-control" name="deviceType">
 									</div>
@@ -107,158 +81,18 @@
 										</select>
 									</div>
 								</div>
-								
 								<div class="col-md-3">
 									<div class="form-group col-md-12">
-										<label>联系人</label> <input type="text" value=""
-											class="form-control" name="contact">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>联系电话</label> <input type="text" value=""
-											class="form-control" name="tel">
-									</div>
-								</div>
-								<div class="col-md-12">
-								<div class="form-group col-md-12">
-								<label>备注</label>
-									<textarea class="form-control" name="comment" cols="60"
-										rows="3"></textarea>
-								</div>
-							</div>
-							</div>
-							<!-- row -->
-							
-
-
-						</div>
-						<div class="tab-pane fade" id="info2">
-							<div class="row">
-							<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>运行商传输</label> <input type="text" value=""
-											class="form-control" name="carrierLink">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>传输数量</label> <select name="transCount"
-											class="form-control">
-											<option value="1" selected="selected">1</option>
-											<option value="2">2</option>
+										<label>频率数</label>&nbsp;<span class="text-danger">[*]</span> <select
+											name="chnumber" class="form-control">
+											<option value="2" selected="selected">2</option>
+											<option value="4">4</option>
+											<option value="8">8</option>
+											<option value="16">16</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>运营商/社会</label> <input type="text" value=""
-											class="form-control" name="carrier">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>运营商站名</label> <input type="text" value=""
-											class="form-control" name="carrierName">
-									</div>
-								</div>
-
-							</div>
-							<!-- row -->
-							<div class="row">
-								
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>动环建设</label> <select name="envMonitor"
-											class="form-control">
-											<option value="0" selected="selected">自建</option>
-											<option value="1">共建</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>空调数量</label><input type="number" value="1"
-											class="form-control" name="conditionerCount">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>机房进出受限说明</label> <select name="entryLimitType"
-											class="form-control">
-											<option value="1" selected="selected">高山站</option>
-											<option value="2">时限</option>
-											<option value="3">借钥匙</option>
-										</select>
-									</div>
-								</div>
-
-							</div>
-							<!-- row-end -->
-
-							
-							<!-- row-end -->
-							<div class="row">
-								<div class="col-md-3">
-									<div class="form-group col-md-12" style="margin-top:10px;">
-										<input id="ck1" class="magic-checkbox" type="checkbox"
-											name="status" value="1" checked> <label for="ck1"><span>是否启用</span></label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12" style="margin-top:10px;">
-										<input id="ck2" class="magic-checkbox" type="checkbox"
-											name="fireEquipment" value="1" checked> <label
-											for="ck2"><span>消防</span></label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12" style="margin-top:10px;">
-										<input id="ck3" class="magic-checkbox" type="checkbox"
-											name="generatorConfig" value="1" checked> <label
-											for="ck3"><span>发电机配置</span></label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12" style="margin-top:10px;">
-										<input id="ck4" class="magic-checkbox" type="checkbox"
-											name="isGenerator" value="1" checked> <label
-											for="ck4"><span>具备发电条</span></label>
-									</div>
-								</div>
-
-							</div>
-							<!-- row-end -->
-						</div>
-						<div class="tab-pane fade" id="line1">
-							<div class="row">
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>天线安装方式</label><select name="lineInstallType"
-											class="form-control">
-											<option value="0" selected="selected">楼顶铁塔</option>
-											<option value="1">楼顶抱杆</option>
-											<option value="2">地面铁塔</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>gps天线数量</label> <input type="number" value="2"
-											class="form-control" name="gpsLineNum">
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group col-md-12">
-										<label>天线高度[地面到天线]</label> <input type="text" value=""
-											class="form-control" name="lineHeight">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="location1">
-							<div class="row">
-							<div class="col-md-3">
 									<div class="form-group col-md-12">
 										<label>机房归属</label> <select name="hometype"
 											class="form-control">
@@ -271,11 +105,35 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-group col-md-12">
+										<label>额定功率</label> <input type="text" value=""
+											class="form-control" name="power">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:10px;">
+										<input id="ck1" class="magic-checkbox" type="checkbox"
+											name="status" value="1" checked> <label for="ck1"><span>使用状态</span></label>
+									</div>
+								</div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">位置信息</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
 										<label>行政区域</label> <input type="text" value=""
 											class="form-control" name="zone">
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-9">
 									<div class="form-group col-md-12">
 										<label>地址</label> <input type="text" value=""
 											class="form-control" name="address">
@@ -299,10 +157,171 @@
 											class="form-control" name="height">
 									</div>
 								</div>
+								</div>
 							</div>
 						</div>
-						
 					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">天线</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>天线安装方式</label><select name="lineInstallType"
+											class="form-control">
+											<option value="0" selected="selected">楼顶铁塔</option>
+											<option value="1">楼顶抱杆</option>
+											<option value="2">地面铁塔</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>gps天线数量</label> <input type="number" value="2"
+											class="form-control" name="gpsLineNum">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>天线高度[地面到天线]</label> <input type="text" value=""
+											class="form-control" name="lineHeight">
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">动环</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>动环建设</label> <select name="envMonitor"
+											class="form-control">
+											<option value="0" selected="selected">自建</option>
+											<option value="1">共建</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>空调数量</label><input type="number" value="1"
+											class="form-control" name="conditionerCount">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group col-md-12">
+										<label>机房进出受限说明</label> <select name="entryLimitType"
+											class="form-control">
+											<option value="1" selected="selected">高山站</option>
+											<option value="2">时限</option>
+											<option value="3">借钥匙</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:20px;">
+										<input id="ck2" class="magic-checkbox" type="checkbox"
+											name="fireEquipment" value="1" checked> <label
+											for="ck2"><span>消防</span></label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:20px;">
+										<input id="ck3" class="magic-checkbox" type="checkbox"
+											name="generatorConfig" value="1" checked> <label
+											for="ck3"><span>发电机配置</span></label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12" style="margin-top:20px;">
+										<input id="ck4" class="magic-checkbox" type="checkbox"
+											name="isGenerator" value="1" checked> <label
+											for="ck4"><span>具备发电条</span></label>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">传输信息</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>传输数量</label> <select name="transCount"
+											class="form-control">
+											<option value="1" selected="selected">1</option>
+											<option value="2">2</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运行商传输</label> <input type="text" value=""
+											class="form-control" name="carrierLink">
+									</div>
+								</div>
+								
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运营商/社会</label> <input type="text" value=""
+											class="form-control" name="carrier">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>运营商站名</label> <input type="text" value=""
+											class="form-control" name="carrierName">
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading"
+									style="color:#000;border-left:2px solid green">管理信息</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>联系人</label> <input type="text" value=""
+											class="form-control" name="contact">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>联系电话</label> <input type="text" value=""
+											class="form-control" name="tel">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group col-md-12">
+										<label>备注</label>
+										<textarea class="form-control" name="comment" cols="60"
+											rows="3"></textarea>
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->						
+						
 				</form>
 			</div>
 			<div class="modal-footer">

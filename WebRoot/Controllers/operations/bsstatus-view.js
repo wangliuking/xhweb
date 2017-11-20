@@ -159,6 +159,10 @@ xh.load = function() {
 						$scope.groupTotals = response.totals;
 					});
 		};
+		$scope.business=function(){
+			$scope.radioUser();
+			$scope.bsGroup();
+		};
 		// 基站下的bsc状态
 		$scope.bsc = function() {
 			var bsId = $scope.bsId;

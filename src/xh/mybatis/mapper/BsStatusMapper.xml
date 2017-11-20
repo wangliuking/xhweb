@@ -56,11 +56,12 @@
 	<!--基站下的环控告警 -->
 	<select id="bsEmhAlarm" parameterType="String" resultType="xh.mybatis.bean.EmhBean"
 		useCache="true">
-		SELECT fsuId, deviceId, singleId, singleType, singleValue,
-		level, updateTime
-		FROM xhgmnet_emh_sensor_status
-		WHERE fsuId = #{fsuId} and singleType=0 and singleValue!=0
-		ORDER BY deviceId ASC , singleId ASC
+		SELECT a.fsuId, a.deviceId, a.singleId, a.singleType, a.singleValue,
+		a.level, a.updateTime,b.deviceName 
+		FROM xhgmnet_emh_sensor_status as a
+		left join xhgmnet_emh_config as b on a.deviceId=b.deviceId and a.fsuId=b.fsuId
+		WHERE a.fsuId = #{fsuId} and a.singleType=0 and a.singleValue!=0
+		ORDER BY a.deviceId ASC , a.singleId ASC
 		LIMIT 0 , 100
 	</select>
 	<!--基站下的bsc状态 -->
