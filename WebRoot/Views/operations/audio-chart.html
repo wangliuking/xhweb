@@ -64,41 +64,43 @@
 						<div class="panel-body">
 
 							<form action="#" onSubmit="return false" id="chartForm">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group col-md-12">
-										<label>基站列表</label> <select class="form-control" name="bsId">
-											<option value="0" selected="selected">==全部基站==</option>
-											<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
-										</select>
-									</div>
-
-								</div>
-								<div class="col-md-12">
-									<div class="form-group col-md-12">
-										<label>时间</label> <input type="text" class="form-control"
-											name="time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-											placeholder="时间" value="" required="required">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group col-md-12">
+											<label>基站列表</label> <select class="form-control" name="bsId">
+												<option value="0" selected="selected">==全部基站==</option>
+												<option ng-repeat="x in bslistData" value="{{x.bsId}}">{{x.name}}</option>
+											</select>
+										</div>
 
 									</div>
-								</div>
-								<div class="col-md-12" style="padding-left:30px;">
+									<div class="col-md-12">
+										<div class="form-group col-md-12">
+											<label>时间</label> <input type="text" class="form-control"
+												name="time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+												placeholder="时间" value="" required="required">
 
-									<div class="radio radio-primary">
-										<input type="radio" name="type" id="radio1" value="day"
-											checked=""> <label for="radio1"> 按天统计 </label>
+										</div>
 									</div>
-									<div class="radio radio-danger">
-										<input type="radio" name="type" id="radio2" value="hour">
-										<label for="radio2"> 按小时统计 </label>
+									<div class="col-md-12" style="padding-left:30px;">
+
+										<div class="radio radio-primary">
+											<input type="radio" name="type" id="radio1" value="day"
+												checked=""> <label for="radio1"> 按天统计 </label>
+										</div>
+										<div class="radio radio-danger">
+											<input type="radio" name="type" id="radio2" value="hour">
+											<label for="radio2"> 按小时统计 </label>
+										</div>
 									</div>
 								</div>
-							</div>
 							</form>
-							
+
 							<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-danger btn-sm" id="chartBtn"><i class="fa fa-bar-chart"></i>&nbsp;统计分析</button>
+								<div class="col-md-12">
+									<button class="btn btn-danger btn-sm" id="chartBtn">
+										<i class="fa fa-bar-chart"></i>&nbsp;统计分析
+									</button>
 								</div>
 							</div>
 
@@ -118,7 +120,15 @@
 									<i class="fa fa-bar-chart text-danger"></i>&nbsp; 图形分析
 								</div>
 								<div class="panel-body">
-								<div id="chart"></div>
+									<div id="chart" style="min-height:230px;">
+
+										<div style="margin:0 auto;text-align: center;">
+											<h1>
+												<i class="fa fa-question-circle-o fa-3x text-success"></i>
+											</h1>
+											<h2>图形统计区域</h2>
+										</div>
+									</div>
 								</div>
 
 							</div>
