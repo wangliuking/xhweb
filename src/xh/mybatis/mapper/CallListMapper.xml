@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.CallListMapper">
-<!-- 自定义返回结果集 -->
-   <resultMap id="callMap" type="xh.mybatis.bean.CallListBean">
-        <id property="id" column="id" javaType="java.lang.Integer"></id>
-        <result property="Call_Time" column="Call_Time" javaType="java.lang.String"></result>
-        <result property="Call_id" column="Call_id" javaType="java.lang.String"></result>
-        <result property="Call_sys_id" column="Call_sys_id" javaType="java.lang.String"></result>
-        <result property="Use_Time" column="Use_Time" javaType="java.lang.Integer"></result>
-        <result property="Caller" column="Caller" javaType="java.lang.String"></result>
-        <result property="Called" column="Called" javaType="java.lang.String"></result>
-        <result property="Call_Type" column="Call_Type" javaType="java.lang.String"></result>
-        <result property="Call_TS_Id" column="Call_TS_Id" javaType="java.lang.String"></result>
-        <result property="Call_BS_BS" column="Call_BS_BS" javaType="java.lang.String"></result>
-        <result property="Call_RSSI" column="Call_RSSI" javaType="java.lang.String"></result>
-        <result property="Call_Result" column="Call_Result" javaType="java.lang.String"></result>
-        <result property="Call_Path" column="Call_Path" javaType="java.lang.String"></result>
-        <result property="name" column="name" javaType="java.lang.String"></result>
-    </resultMap>
-    <!--查询呼叫记录name like concat(#{name},'%')-->
-    <select id="selectCallList" parameterType="map" resultMap="callMap">
-     select a.*,b.name from ${dbname} as a left join xhgmnet.xhgmnet_bs_station as b on 
-     a.Call_TS_Id=b.bsId where 1=1 
-        <if test="caller != null and caller !=''">
-            and a.Caller like concat(#{Caller},'%')
-        </if>
-        <if test="called!=null and called !=''">
-            and a.Called like concat(#{Called},'%')
-        </if>
-        <if test="starttime!=null and starttime!=''">
-            and a.Call_Time &gt;=#{starttime,jdbcType=DATE}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
-        </if>
-        order by a.Call_Time desc limit #{start},#{limit}
-    </select>
-    <!--查询呼叫记录总数-->
-    <select id="CallListCount" parameterType="xh.mybatis.bean.CallListBean" resultType="int">
-     select count(*) from ${dbname} where 1=1
-      <if test="caller != null and caller !=''">
-            and Caller like concat(#{Caller},'%')
-        </if>
-        <if test="called!=null and called !=''">
-            and Called like concat(#{Called},'%')
-        </if>
-        <if test="starttime!=null and starttime!=''">
-            and Call_Time &gt;=#{starttime,jdbcType=DATE}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and Call_Time &lt;=#{endtime,jdbcType=DATE}
-        </if>
-    </select>
-    
+	<!-- 自定义返回结果集 -->
+	<resultMap id="callMap" type="xh.mybatis.bean.CallListBean">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="Call_Time" column="Call_Time" javaType="java.lang.String"></result>
+		<result property="Call_id" column="Call_id" javaType="java.lang.String"></result>
+		<result property="Call_sys_id" column="Call_sys_id" javaType="java.lang.String"></result>
+		<result property="Use_Time" column="Use_Time" javaType="java.lang.Integer"></result>
+		<result property="Caller" column="Caller" javaType="java.lang.String"></result>
+		<result property="Called" column="Called" javaType="java.lang.String"></result>
+		<result property="Call_Type" column="Call_Type" javaType="java.lang.String"></result>
+		<result property="Call_TS_Id" column="Call_TS_Id" javaType="java.lang.String"></result>
+		<result property="Call_BS_BS" column="Call_BS_BS" javaType="java.lang.String"></result>
+		<result property="Call_RSSI" column="Call_RSSI" javaType="java.lang.String"></result>
+		<result property="Call_Result" column="Call_Result" javaType="java.lang.String"></result>
+		<result property="Call_Path" column="Call_Path" javaType="java.lang.String"></result>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+	</resultMap>
+	<!--查询呼叫记录name like concat(#{name},'%') -->
+	<select id="selectCallList" parameterType="map" resultMap="callMap">
+		select a.*,b.name from ${dbname} as a left join
+		xhgmnet.xhgmnet_bs_station as b on
+		a.Call_TS_Id=b.bsId where 1=1
+		<if test="caller != null and caller !=''">
+			and a.Caller like concat(#{Caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and a.Called like concat(#{Called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and a.Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+		order by a.Call_Time desc limit #{start},#{limit}
+	</select>
+	<!--查询呼叫记录总数 -->
+	<select id="CallListCount" parameterType="xh.mybatis.bean.CallListBean"
+		resultType="int">
+		select count(*) from ${dbname} where 1=1
+		<if test="caller != null and caller !=''">
+			and Caller like concat(#{Caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and Called like concat(#{Called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+	</select>
+	<!-- 话务统计分析 -->
+	<select id="callChart" parameterType="map" resultType="map">
+		<if test="type=='day'">
+			select sum(Use_Time) as usetime,count(id) as num, DATE_FORMAT(Call_Time, 'd-%d' ) AS
+			date from ${dbname} where 1=1
+		</if>
+		<if test="type=='hour'">
+			select sum(Use_Time) as usetime,count(id) as num ,DATE_FORMAT(Call_Time, 'h-%H' ) AS date
+			from ${dbname} where  date_format(Call_Time,'%Y-%m-%d')=#{time}
+		</if>
+		<if test="bsId!=0">
+			and Call_TS_Id=#{bsId}
+		</if>
+		 group by date order by date asc
+	</select>
 
-    
 
-    
-    
+
+
+
+
 </mapper>

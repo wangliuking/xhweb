@@ -50,7 +50,8 @@ body {
 	font-size: 13px;
 	font-weight: normal;
 	font-variant: normal;
-	color: #758697;
+	/* color: #758697; */
+	color:#000;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased !important
 }
@@ -1241,6 +1242,10 @@ body.fullscreen-panel-mode {
 .td-primary {
 	background: #3498db !important;
 	color: #fff;
+}
+.td-skyblue {
+	background: skyblue !important;
+	color: #000;
 }
 
 .td-gray {

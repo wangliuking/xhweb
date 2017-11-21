@@ -43,7 +43,7 @@ xh.load = function() {
 	} ]);
 
 	app.controller("userstatus", function($scope, $http, $location) {
-		$scope.count = "10";// 每页数据显示默认值
+		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		console.log($scope.bsId);
 
@@ -56,8 +56,7 @@ xh.load = function() {
 
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		$http.get(
-				"../../bs/map/dataById?bsId=" + bsId).success(
+		$http.get("../../bs/map/dataById?bsId=" + bsId).success(
 				function(response) {
 					$scope.bsinfoData = response.items[0];
 				});
@@ -974,3 +973,4 @@ function cameraConfig(cameraIp){
 		WebVideoCtrl.I_Stop();
 	});
 }
+

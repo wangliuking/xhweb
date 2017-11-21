@@ -8,7 +8,9 @@ $(function () {
 	/*if (-2 == iRet) {
 		alert("您的Chrome浏览器版本过高，不支持NPAPI插件！");
 		return;
-	} else */if (-1 == iRet) {
+
+    if (-1 == iRet) {
+
         alert("您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装！");
 		return;
     }

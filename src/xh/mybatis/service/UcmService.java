@@ -29,6 +29,7 @@ public class UcmService {
 		header.setSegFlag((byte)1);
 		header.setLength((short)518);   ////四期：长度486+=32  +16
 		header.setCommandId((short)153);
+		header.setBusinessSN(123);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
 		try {
@@ -121,7 +122,7 @@ public class UcmService {
 		
 	}
 	/**
-	 * 发送状态集数据包
+	 * 发送状态集单元数据包
 	 * @param talkgroup
 	 */
 	public static void sendStatusSetUnitData(statusSetUnitStruct struct){
@@ -208,10 +209,12 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)62);//40+22;
-		header.setCommandId((short)169);//169+22
+		header.setLength((short)19);
+		header.setCommandId((short)173);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
+		
+		
 		try {
 			SendData.sendKilledData(header, kill);
 		} catch (IOException e) {

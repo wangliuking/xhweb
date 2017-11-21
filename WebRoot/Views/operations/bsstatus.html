@@ -57,13 +57,13 @@
 				<i class="fa fa-close text-white pull-right" id="alert-close"></i> <img
 					src="../../Resources/images/img/tower_on.png" width="20"
 					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站连接正常</span> &nbsp;&nbsp; <img
+					style="color:#fff">[正常]</span> &nbsp;&nbsp; <img
 					src="../../Resources/images/img/tower_off.png" width="20"
 					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站连接中断</span> &nbsp;&nbsp; <img
+					style="color:#fff">[中断]</span> &nbsp;&nbsp; <img
 					src="../../Resources/images/img/tower_stop.png" width="20"
 					height="20" style="background:#fff"> &nbsp;&nbsp;<span
-					style="color:#fff">代表基站没有启用</span> &nbsp;&nbsp;
+					style="color:#fff">[没有启用]</span> &nbsp;&nbsp;
 
 				<button class="btn btn-danger btn-sm" ng-disabled=""
 					onclick="xh.excelToBsstatus()">
@@ -71,14 +71,14 @@
 				</button>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="hpanel">
 						<div class="panel-body">
 
 							<div class="row">
 								<div class="col-md-3">
 									<label>基站级别:</label> <select
-										name="type" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										name="type" class="form-control" onchange="xh.refresh()">
 										<option value="0" selected="selected">全部</option>
 										<option value="1">一级基站</option>
 										<option value="2">二级基站</option>
@@ -88,7 +88,7 @@
 								</div>
 								<div class="col-md-3">
 									<label>基站区域:</label> <select
-										name="zone" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										name="zone" class="form-control"  onchange="xh.refresh()">
 										<option value="全部" selected="selected">全部</option>
 										<option ng-repeat="x in zoneData" value="{{x.zone}}" >{{x.zone}}</option>
 										
@@ -97,7 +97,7 @@
 								</div>
 								<div class="col-md-3">
 									<label>连接状态:</label> <select
-										name="link" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										name="link" class="form-control" onchange="xh.refresh()">
 										<option value="2" selected="selected">全部</option>
 										<option value="0">连接</option>
 										<option value="1">断开</option>
@@ -106,7 +106,7 @@
 								</div>
 								<div class="col-md-3">
 									<label>启用状态:</label> <select
-										name="status" class="form-control-static" style="width:120px;" onchange="xh.refresh()">
+										name="status" class="form-control" onchange="xh.refresh()">
 										<option value="2" selected="selected">全部</option>
 										<option value="1">启用</option>
 										<option value="0">未启用</option>

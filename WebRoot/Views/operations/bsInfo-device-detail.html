@@ -1,0 +1,279 @@
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading"
+				style="color:#000;border-left:2px solid green;border-bottom:1px solid green;">基本设备信息</div>
+			<div class="panel-body">
+				<div ng-show="false">
+					<input type="text" name="bsId" ng-model="bsData.bsId" />
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>耗电功率（单位w）</label> <input type="text" class="form-control"
+							name="power" ng-model="deviceData.power">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>基站设备厂商</label> <input type="text" class="form-control"
+							name="manufacturer" ng-model="deviceData.manufacturer">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>基站设备型号</label> <input type="text" class="form-control"
+							name="bsType" ng-model="deviceData.bsType">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>机柜类型</label> <input type="text" class="form-control"
+							name="cabinetType" ng-model="deviceData.cabinetType">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSC数量</label> <input type="text"
+							ng-model="deviceData.bscCount" class="form-control"
+							name="bscCount" value=2>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSC1串号</label> <input type="text"
+							ng-model="deviceData.bsc1Item" class="form-control"
+							name="bsc1Item">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSC2串号</label> <input type="text"
+							ng-model="deviceData.bsc2Item" class="form-control"
+							name="bsc2Item" value=4>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSR数量</label><input type="text"
+							ng-model="deviceData.bsrCount" class="form-control"
+							name="bsrCount">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSR1串号</label><input type="text"
+							ng-model="deviceData.bsr1Item" class="form-control"
+							name="bsr1Item">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSR2串号</label><input type="text"
+							ng-model="deviceData.bsr2Item" class="form-control"
+							name="bsr2Item">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSR3串号</label><input type="text"
+							ng-model="deviceData.bsr3Item" class="form-control"
+							name="bsr3Item">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>BSR4串号</label><input type="text"
+							ng-model="deviceData.bsr4Item" class="form-control"
+							name="bsr4Item">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>双工器数量</label><input type="text"
+							ng-model="deviceData.duplexerCount" class="form-control"
+							name="duplexerCount">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>合路器数量</label><input type="text"
+							ng-model="deviceData.mixerCount" class="form-control"
+							name="mixerCount">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading"
+				style="color:#000;border-left:2px solid green;border-bottom:1px solid green;">天线信息</div>
+			<div class="panel-body">
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>基站天线品牌/型号</label> <input type="text"
+							ng-model="deviceData.bsLineType" class="form-control"
+							name="bsLineType">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>基站天线数量</label> <input type="text"
+							ng-model="deviceData.bsLineCount" class="form-control"
+							name="bsLineCount">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>基站天线增益</label> <input type="text"
+							ng-model="deviceData.lineGain" class="form-control"
+							name="lineGain">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>GPS/BD天线类型[双模/GPS]</label> <input type="text"
+							ng-model="deviceData.gpsLineType" class="form-control"
+							name="gpsLineType">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>GPS/BD天线数量</label> <input type="text"
+							ng-model="deviceData.gpsLineCount" class="form-control"
+							name="gpsLineCount">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading"
+				style="color:#000;border-left:2px solid green;border-bottom:1px solid green;">电源信息</div>
+			<div class="panel-body">
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>供电类型</label> <select name="powerType" class="form-control"
+							ng-model="deviceData.powerType">
+							<option value="0" selected="selected">交流</option>
+							<option value="1">直流（220V，48V）</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>主设备下电方式</label> <select name="masterPowerDownType"
+							class="form-control" ng-model="deviceData.masterPowerDownType">
+							<option value="0" selected="selected">EPS</option>
+							<option value="1">一次下电</option>
+							<option value="2">二次下电</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>综合柜下电方式</label> <select name="cabinetPowerDownType"
+							class="form-control" ng-model="deviceData.cabinetPowerDownType">
+							<option value="0" selected="selected">EPS</option>
+							<option value="1">一次下电</option>
+							<option value="2">二次下电</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>后备电池数量</label> <input type="text"
+							ng-model="deviceData.batteryVolume" class="form-control"
+							name="batteryVolume">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>后备电源续航时长(小时)</label> <input type="text"
+							ng-model="deviceData.duration" class="form-control"
+							name="duration">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>发电机功率</label> <input type="text"
+							ng-model="deviceData.generatorPower" class="form-control"
+							name="generatorPower">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>发电机启动方式</label> <select name="generatorType"
+							class="form-control" ng-model="deviceData.generatorType">
+							<option value="0" selected="selected">自启动</option>
+							<option value="1">手动</option>
+
+						</select>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading"
+				style="color:#000;border-left:2px solid green;border-bottom:1px solid green;">消防</div>
+			<div class="panel-body">
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>消防</label> <select name="fire" class="form-control"
+							ng-model="deviceData.fire">
+							<option value="0" selected="selected">气体灭火</option>
+							<option value="1">干粉灭火</option>
+							<option value="2">气体+干粉灭火</option>
+
+						</select>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row -->
+<!-- row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading"
+				style="color:#000;border-left:2px solid green;border-bottom:1px solid green;">动环</div>
+			<div class="panel-body">
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>主机[品牌/型号/无]</label><input type="text"
+							ng-model="deviceData.masterType" class="form-control"
+							name="masterType">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group col-md-12">
+						<label>摄像头[品牌/型号/无]</label><input type="text"
+							ng-model="deviceData.cameraType" class="form-control"
+							name="cameraType">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

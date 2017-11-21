@@ -1,6 +1,8 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.map.HashedMap;
@@ -50,6 +52,24 @@ public class CallListServices {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	/**
+	 * 话务统计
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String,Object>> callChartt(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		CallListMapper mapper=sqlSession.getMapper(CallListMapper.class);
+		List<Map<String,Object>> resultMap=new ArrayList<Map<String,Object>>();
+		try {
+			resultMap=mapper.callChart(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultMap;
 	}
 
 }

@@ -11,8 +11,10 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -88,6 +90,20 @@ public class FunUtil {
 		}
         return null;
     }
+	//获取某月的天数
+	public static int getDaysOfMonth(String str) {  
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");       
+        Date date = null;
+		try {
+			date = sdf.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);  
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);  
+    }  
 	public static String BytesToHexS(byte[] str){
 		if (str==null) {
 			return "";

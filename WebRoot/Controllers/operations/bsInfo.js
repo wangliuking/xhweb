@@ -325,10 +325,15 @@ xh.load = function() {
 		};
 		// 根据基站ID查找基站设备信息
 		$scope.deviceByBsId= function(bsId) {
-			$http.get("../../bs/device/list?bsId="+bsId+"&start=0&limit="+pageSize).
+			$http.get("../../bs/device/list?bsId="+bsId).
 			success(function(response){
 				xh.maskHide();
 				$scope.deviceData = response.items;
+				$scope.deviceData.powerType=$scope.deviceData.powerType.toString();
+				$scope.deviceData.masterPowerDownType=$scope.deviceData.masterPowerDownType.toString();
+				$scope.deviceData.cabinetPowerDownType=$scope.deviceData.cabinetPowerDownType.toString();
+				$scope.deviceData.generatorType=$scope.deviceData.generatorType.toString();
+				$scope.deviceData.fire=$scope.deviceData.fire.toString();
 			});
 		};
 		$scope.bslist=function(){
@@ -424,6 +429,17 @@ xh.load = function() {
 			$scope.bsData = $scope.data[parseInt(checkVal[0])];
 			$scope.deviceByBsId($scope.bsData.bsId);
 			$("#deviceWin").modal("show");
+		};
+		//显示基站详细信息窗口
+		$scope.showDetailWin=function(index){
+			
+			$("#detailWin").modal("show");
+			var bsId=$scope.data[index].bsId;
+			$scope.deviceByBsId(bsId);
+			$scope.bsinfoData=$scope.data[index];
+			$scope.neighborByBsId(bsId);
+			$scope.bsrconfigByBsId(bsId);
+			$scope.linkconfigByBsId(bsId);
 		};
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {

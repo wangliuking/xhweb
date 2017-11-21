@@ -1,0 +1,54 @@
+<div class="modal fade" id="detailWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">基站详细信息</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="hpanel">
+							<div class="panel-body">
+								<ul id="xh-tabs" class="nav nav-tabs">
+									<li class="active"><a href="#info" data-toggle="tab"
+										ng-click=''> 基本信息 </a></li>
+									<li><a href="#config" data-toggle="tab"
+										ng-click='config()'>配置信息</a></li>
+
+
+									<li><a href="#equip" data-toggle="tab" ng-click='equip()'>
+											设备信息 </a></li>
+								</ul>
+								<div class="tab-content" style="padding:20px">
+
+									<div class="tab-pane fade in active" id="info">
+										<div ng-include="'bsstatus-view-info.html'"></div>
+									</div>
+									
+									<!-- group -->
+									<div class="tab-pane fade" id="business">
+										<div ng-include="'bsstatus-view-business.html'"></div>
+									</div>
+									<div class="tab-pane fade" id="config">
+
+										<div ng-include="'bsstatus-view-config.html'"></div>
+									</div>
+									<!-- radio -->
+									<div class="tab-pane fade" id="equip">
+									<div ng-include="'bsInfo-device-detail.html'"></div>
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
