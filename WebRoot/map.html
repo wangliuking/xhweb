@@ -112,9 +112,9 @@ html,body {
 				<ul class="nav nav-second-level" ng-repeat="x in levelData"
 					id="testChooseLevel">
 					<li style="text-align:center;" ng-if="x.level!=0"><a href="#"
-						ng-click="levelChoose(x.level,$index)">{{x.level}}级基站 <i
+						ng-click="levelChoose(x.level,$index)"> <i
 							class="fa fa-check-square-o" ng-show="clickLevel==$index"></i> <i
-							class="fa fa-square-o" ng-show="clickLevel!=$index"></i>
+							class="fa fa-square-o" ng-show="clickLevel!=$index"></i>{{x.level}}级基站
 					</a></li>
 				</ul>
 			</div>
