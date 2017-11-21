@@ -142,13 +142,11 @@ app.controller("map", function($scope, $http) {
 			});
 	/* 级别选择 */
 	var level={
-			/*"4":{"lat":"30.664979585525476","lng":"104.05377994605959","zoom":"7"},*/
 			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"6"},
 			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
 			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
 	}
 	$scope.levelChoose=function(params,index){
-		console.log(params+"  "+index);
 		$scope.clickLevel=index;
 		$http.get("bs/map/bsByLevel?level="+params).success(
 				function(response) {
@@ -157,7 +155,10 @@ app.controller("map", function($scope, $http) {
 					myMap.centerAndZoom(point,level[params].zoom*1);
 					layerCreate(tempData);
 					option.series[0].markPoint.data=baseMark(tempData);
-					option.series[1].markPoint.data=[];
+					option.series[1].markPoint.data=flashMark(tempData);
+					myMap.removeLayer(gLayer);
+					option.series[0].markPoint.symbol='pin';
+					option.series[0].markPoint.symbolSize=8;
 					overlay.setOption(option);
 				});
 	} 
@@ -188,6 +189,7 @@ app.controller("map", function($scope, $http) {
 			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"9"}		
 	};
 	$scope.areaChoose=function(params){
+		$scope.clickLevel=0;
 		if ($(".areaChoose input[value="+params+"]").prop("checked") == true) {
 			var t=[];
 			$(".areaChoose input:checked").each(function(i){
@@ -699,13 +701,13 @@ var areaRef={
 		"邛崃":{name:"邛崃",color:"#8B0000"},
 		"蒲江":{name:"蒲江",color:"#F4A460"},
 		"新津":{name:"新津",color:"#FF1493"},
-		"高新区":{name:"高新区",color:"#FF00FF"},
-		"成华区":{name:"成华区",color:"#FF00FF"},
-		"武侯区":{name:"武侯区",color:"#FF00FF"},
+		"高新区":{name:"高新区",color:"#191970"},
+		"成华区":{name:"成华区",color:"#0000FF"},
+		"武侯区":{name:"武侯区",color:"#006400"},
 		"金牛区":{name:"金牛区",color:"#FF00FF"},
-		"锦江区":{name:"锦江区",color:"#FF00FF"},
-		"青白江":{name:"青白江",color:"#FF00FF"},
-		"青羊区":{name:"青羊区",color:"#FF00FF"}
+		"锦江区":{name:"锦江区",color:"#8B658B"},
+		"青白江":{name:"青白江",color:"#8B008B"},
+		"青羊区":{name:"青羊区",color:"#FF0000"}
 }
 //区域边界图层数据 
 function areaRingsData(param){
@@ -1171,19 +1173,22 @@ function init(data,markData) {
 					myMap.removeLayer(gLayer);
 					myMap.removeLayer(gLayermiddle);
 					myMap.addLayer(gLayerbig);
+					option.series[0].markPoint.symbol='image://';
 					option.series[0].markPoint.symbolSize=32;
 					overlay.setOption(option);
 				} else if (myMap.getZoom() >= 7 && myMap.getZoom() <= 9) {
 					myMap.removeLayer(gLayer);
 					myMap.removeLayer(gLayerbig);
 					myMap.addLayer(gLayermiddle);
+					option.series[0].markPoint.symbol='image://';
 					option.series[0].markPoint.symbolSize=24;
 					overlay.setOption(option);
-				} else {
+				} else if(myMap.getZoom() <= 6){
 					myMap.removeLayer(gLayermiddle);
 					myMap.removeLayer(gLayerbig);
-					myMap.addLayer(gLayer);
-					option.series[0].markPoint.symbolSize=16;
+					myMap.removeLayer(gLayer);
+					option.series[0].markPoint.symbol='pin';
+					option.series[0].markPoint.symbolSize=8;
 					overlay.setOption(option);
 				}
 			}
