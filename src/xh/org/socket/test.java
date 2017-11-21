@@ -1,12 +1,13 @@
 package xh.org.socket;
 
 import xh.func.plugin.Base64Util;
+import xh.func.plugin.FunUtil;
 import xh.mybatis.service.UcmService;
 import cn.com.scca.signgw.api.SccaGwSDK;
 
 public class test {
 	public static void main(String[] args) {
-		
+		 
 
 	}
 
@@ -14,7 +15,7 @@ public class test {
 		RadioUserStruct setRadioUser = new RadioUserStruct();
 		setRadioUser.setOperation(1);
 
-		setRadioUser.setId(100);
+		setRadioUser.setId(105);
 		setRadioUser.setName("100");
 		setRadioUser.setAlias("100");
 		setRadioUser.setMscId(1);

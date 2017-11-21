@@ -5,13 +5,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections4.map.HashedMap;
+import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -124,5 +127,110 @@ public class CallController {
 		log.info(downPath);
 		File file = new File(downPath);
 		 
+	}
+	/**
+	 * 通话统计分析
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/chart", method = RequestMethod.POST)
+	public void chart(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		String type=request.getParameter("type");
+		String time = request.getParameter("time");
+		
+		String[] date=time.split("-");
+		String dbname="xhgmnet_calllist"+date[1];
+	
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("dbname", dbname);
+		map.put("time", time);
+		map.put("type", type);
+		map.put("bsId",bsId);
+		
+		List<Map<String, Object>> resultList=new  ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> listParse=new  ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> listParse2=new  ArrayList<Map<String,Object>>();
+		resultList=CallListServices.callChartt(map);
+		
+		Map<String, Object> mapA=new HashMap<String, Object>();
+		Map<String, Object> mapB=new HashMap<String, Object>();
+		DecimalFormat df=new DecimalFormat("#.##"); 
+
+		for (Map<String, Object> map2 : resultList) {
+			mapA.put(map2.get("date").toString(), map2.get("usetime"));
+			mapB.put(map2.get("date").toString(), map2.get("num"));
+		}
+		
+		if(type.equals("day")){
+			int days=FunUtil.getDaysOfMonth(time);
+			
+			for(int i=1;i<=days;i++){
+				Map<String, Object> mapDay=new HashMap<String, Object>();
+				Map<String, Object> mapDay2=new HashMap<String, Object>();
+				String key="d-"+i;
+				double a=mapA.get(key)==null?0:Double.parseDouble(mapA.get(key).toString())/60;
+				mapDay.put("label", i);
+				mapDay.put("time", df.format(a));
+				listParse.add(mapDay);	
+				
+				mapDay2.put("label", i);
+				mapDay2.put("num", mapB.get(key)==null?0:mapB.get(key));
+				listParse2.add(mapDay2);					
+			}		
+		}
+		if(type.equals("hour")){
+			int hour=24;
+			
+			for(int i=0;i<hour;i++){
+				Map<String, Object> mapHour=new HashMap<String, Object>();
+				Map<String, Object> mapHour2=new HashMap<String, Object>();
+				String key="h-"+i,key1="";
+				if(i<10){
+					key1="0"+i+":00";
+					key="h-0"+i;
+				}else{
+					key1=i+":00";
+					key="h-"+i;
+				}
+				
+				double a=mapA.get(key)==null?0:Double.parseDouble(mapA.get(key).toString())/60;
+				 
+				 
+				mapHour.put("label", key1);
+				mapHour.put("time",df.format(a));
+				listParse.add(mapHour);	
+				
+				mapHour2.put("label", key1);
+				mapHour2.put("num", mapB.get(key)==null?0:mapB.get(key));
+				listParse2.add(mapHour2);	
+			}		
+		}
+		
+		
+		HashMap result = new HashMap();
+		result.put("totals", listParse.size());
+		result.put("time", listParse);
+		result.put("num", listParse2);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 	}
 }

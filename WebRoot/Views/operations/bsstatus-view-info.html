@@ -8,37 +8,37 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">ID</td>
+							<td class="td-skyblue">ID</td>
 							<td style="min-width:100px;">{{bsinfoData.bsId}}</td>
-							<td class="td-gray">名称</td>
+							<td class="td-skyblue">名称</td>
 							<td style="min-width:100px;">{{bsinfoData.name}}</td>
-							<td class="td-gray">级别</td>
+							<td class="td-skyblue">级别</td>
 							<td style="min-width:100px;"><span ng-if="bsinfoData.level==1">一级基站</span> <span
 								ng-if="bsinfoData.level==2">二级基站</span> <span
 								ng-if="bsinfoData.level==3">三级基站</span></td>
-							<td class="td-gray">IP</td>
+							<td class="td-skyblue">IP</td>
 							<td style="min-width:100px;">{{bsinfoData.ip}}</td>
 						</tr>
 						<!-- tr -->
 						<tr>
-							<td class="td-gray">建设期</td>
+							<td class="td-skyblue">建设期</td>
 							<td><span ng-if="bsinfoData.period==3">三期</span><span
 								ng-if="bsinfoData.period==4">四期</span></td>
-							<td class="td-gray">类别</td>
+							<td class="td-skyblue">类别</td>
 							<td><span ng-if="bsinfoData.type==0">固定基站</span><span
 								ng-if="bsinfoData.type==1">室分信源</span></td>
-							<td class="td-gray">设备厂家</td>
+							<td class="td-skyblue">设备厂家</td>
 							<td>{{bsinfoData.productor}}</td>
-							<td class="td-gray">设备型号</td>
+							<td class="td-skyblue">设备型号</td>
 							<td>{{bsinfoData.deviceType}}</td>
 						</tr>
 						<tr>
-							<td class="td-gray">基站使用状态</td>
+							<td class="td-skyblue">基站使用状态</td>
 							<td><span ng-if="bsinfoData.status==1">启用</span> <span
 								ng-if="bsinfoData.status==0">未启用</span></td>
-							<td class="td-gray">基站频率数</td>
+							<td class="td-skyblue">基站频率数</td>
 							<td>{{bsinfoData.chnumber}}</td>
-							<td class="td-gray">机房归属</td>
+							<td class="td-skyblue">机房归属</td>
 							<td>{{bsinfoData.hometype}}</td>
 						</tr>
 
@@ -60,20 +60,20 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">行政区域</td>
+							<td class="td-skyblue">行政区域</td>
 							<td colspan="3">{{bsinfoData.zone}}</td>
-							<td class="td-gray">基站地址</td>
+							<td class="td-skyblue">基站地址</td>
 							<td colspan="2" style="min-width:100px;">{{bsinfoData.address}}</td>
 							
 						</tr>
 						<!-- tr -->
 						
 						<tr>
-						<td class="td-gray">经度</td>
+						<td class="td-skyblue">经度</td>
 							<td>{{bsinfoData.lng}}</td>
-							<td class="td-gray">纬度</td>
+							<td class="td-skyblue">纬度</td>
 							<td>{{bsinfoData.lat}}</td>
-							<td class="td-gray">高度</td>
+							<td class="td-skyblue">高度</td>
 							<td>{{bsinfoData.height}}</td>
 						</tr>
 
@@ -96,11 +96,11 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">gps天线数量</td>
+							<td class="td-skyblue">gps天线数量</td>
 							<td style="min-width:100px;">{{bsinfoData.gpsLineNum}}</td>
-							<td class="td-gray">天线高度[地面到天线]</td>
+							<td class="td-skyblue">天线高度[地面到天线]</td>
 							<td style="min-width:100px;">{{bsinfoData.lineHeight}}</td>
-							<td class="td-gray">天线安装方式</td>
+							<td class="td-skyblue">天线安装方式</td>
 							<td style="min-width:100px;"><span ng-if="bsinfoData.lineInstallType==0">楼顶铁塔</span>
 								<span ng-if="bsinfoData.lineInstallType==1">楼顶抱杆</span> <span
 								ng-if="bsinfoData.lineInstallType==2">地面铁塔</span></td>
@@ -128,24 +128,24 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">动环建设</td>
+							<td class="td-skyblue">动环建设</td>
 							<td style="min-width:100px;"><span ng-if="bsinfoData.envMonitor==0">自建</span> <span
 								ng-if="bsinfoData.envMonitor==1">共建</span></td>
-							<td class="td-gray">空调数量</td>
+							<td class="td-skyblue">空调数量</td>
 							<td style="min-width:100px;">{{bsinfoData.conditionerCount}}</td>
-							<td class="td-gray">消防</td>
+							<td class="td-skyblue">消防</td>
 							<td style="min-width:100px;"><span ng-if="bsinfoData.fireEquipment==0">无</span> <span
 								ng-if="bsinfoData.fireEquipment==1">有</span></td>
-							<td class="td-gray">发电机配置</td>
+							<td class="td-skyblue">发电机配置</td>
 							<td style="min-width:100px;"><span ng-if="bsinfoData.generatorConfig==0">无</span> <span
 								ng-if="bsinfoData.generatorConfig==1">有</span></td>
 						</tr>
 						<!-- tr -->
 						<tr>
-							<td class="td-gray">具备发电条</td>
+							<td class="td-skyblue">具备发电条</td>
 							<td ><span ng-if="bsinfoData.isGenerator==0">无</span> <span
 								ng-if="bsinfoData.isGenerator==1">有</span></td>
-							<td class="td-gray">机房进出受限说明</td>
+							<td class="td-skyblue">机房进出受限说明</td>
 							<td><span ng-if="bsinfoData.entryLimitType==0">高山站</span> <span
 								ng-if="bsinfoData.entryLimitType==1">时限</span> <span
 								ng-if="bsinfoData.entryLimitType==2">借钥匙</span></td>
@@ -172,13 +172,13 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">传输数量</td>
+							<td class="td-skyblue">传输数量</td>
 							<td style="min-width:100px;">{{bsinfoData.transCount}}</td>
-							<td class="td-gray">运行商传输</td>
+							<td class="td-skyblue">运行商传输</td>
 							<td style="min-width:100px;">{{bsinfoData.carrierLink}}</td>
-							<td class="td-gray">运营商/社会</td>
+							<td class="td-skyblue">运营商/社会</td>
 							<td style="min-width:100px;">{{bsinfoData.carrier}}</td>
-							<td class="td-gray">运营商站名</td>
+							<td class="td-skyblue">运营商站名</td>
 							<td style="min-width:100px;">{{bsinfoData.carrierName}}</td>
 						</tr>
 
@@ -204,11 +204,11 @@
 					<tbody>
 
 						<tr>
-							<td class="td-gray">联系人</td>
+							<td class="td-skyblue">联系人</td>
 							<td style="min-width:100px;">{{bsinfoData.contact}}</td>
-							<td class="td-gray">电话</td>
+							<td class="td-skyblue">电话</td>
 							<td style="min-width:100px;">{{bsinfoData.tel}}</td>
-							<td class="td-gray">备注</td>
+							<td class="td-skyblue">备注</td>
 							<td style="min-width:100px;">{{bsinfoData.comment}}</td>
 						</tr>
 

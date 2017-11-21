@@ -112,11 +112,16 @@ public class TcpKeepAliveClient extends Thread {
 					System.arraycopy(buf2, 0, bufH, 0, 2);
 		            int length=dd.BigByteArrayToShort(buf2,4);
 		            int commId=dd.BigByteArrayToShort(buf2,6);
+		            int status=dd.SmallByteArrayToInt(buf, 20);
 		            
-		            log.info("包头---->"+HexString(bufH));
 		            log.info("length---->"+length);
 		            log.info("commId--->"+commId);
-					log.info("收到的数据："+Arrays.toString(buf2));
+		            log.info("status--->"+status);
+					log.info("收到的数据："+FunUtil.BytesToHexS(buf2));
+					
+					handler(commId,buf2);
+					
+					
 					/*if (len > 0 && len + writeBuf.length >= 4) {
 						readBuf = new byte[len + writeBuf.length];
 						System.arraycopy(writeBuf, 0, readBuf, 0,
@@ -234,14 +239,39 @@ public class TcpKeepAliveClient extends Thread {
 
 	}
 
-	public void handler(int comId, int len, String callid, byte[] buf,
-			int length) throws Exception {
+	public void handler(int comId,byte[] buf) throws Exception {
 
 		try {
 			switch (comId) {
-			case 1:
-			
-			break;
+			case 154://终端
+			    break;
+			case 156://终端用户业务属性
+				break;
+			case 160://通话组
+				break;
+			case 162://通播组
+				break;
+			case 164://通话组、通播组业务属性
+				break;
+			case 166://状态集
+				break;
+			case 168://调度用户
+				break;
+			case 170://调度用户业务属性
+				break;
+			case 172://状态集单元
+				break;
+			case 174://遥毙
+				break;
+			case 178://终端用户业务属性有效站点
+				break;
+				
+			case 180://终端用户有效地域
+				break;
+			case 182://通话组业务属性有效站点
+				break;
+			case 184://通话组有效地域
+				break;
 							
 			default:
 				break;
@@ -268,6 +298,7 @@ public class TcpKeepAliveClient extends Thread {
 			log.error(e.getMessage(), e);
 		}
 	}
+
 	// 转16进制
 	public String HexString(byte[] src) {
 		String str = "";

@@ -56,8 +56,7 @@ xh.load = function() {
 
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		$http.get(
-				"../../bs/map/dataById?bsId=" + bsId).success(
+		$http.get("../../bs/map/dataById?bsId=" + bsId).success(
 				function(response) {
 					$scope.bsinfoData = response.items[0];
 				});
