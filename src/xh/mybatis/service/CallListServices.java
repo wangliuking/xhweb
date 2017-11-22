@@ -20,11 +20,10 @@ public class CallListServices {
 	 * @param root
 	 * @return
 	 */
-	public static ArrayList<CallListBean> selectCallList(Map<String,Object> map){
+	public static ArrayList<Map<String,Object>> selectCallList(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		CallListMapper mapper=sqlSession.getMapper(CallListMapper.class);
-		CallListBean bean=new CallListBean();
-		ArrayList<CallListBean> list=new ArrayList<CallListBean>();
+		ArrayList<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		try {
 			list=mapper.selectCallList(map);
 			sqlSession.close();		

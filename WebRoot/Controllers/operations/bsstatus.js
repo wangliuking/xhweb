@@ -56,6 +56,13 @@ xh.load = function() {
 		});
 		
 		
+		$scope.bsView=function(index){
+			var bsId=$scope.data[index].bsId;
+			var period=$scope.data[index].period;
+			window.location.href = "bsstatus-view.html?bsId=" + bsId+"&period="+period;
+		};
+		
+		
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {

@@ -22,6 +22,13 @@ public interface DispatchStatusMapper {
 	public List<Map<String,String>> dispatchSetup() throws Exception;
 	
 	/**
+	 * 调度台断开报警
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> dispatchOffAlarm() throws Exception;
+	
+	/**
 	 * 调度用户是否存在
 	 * @param map
 	 * @return

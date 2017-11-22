@@ -134,6 +134,22 @@
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
+		
+		
+		<!--sql server -->
+		<environment id="sqlServer">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${sqlserver.driver}" />
+				<property name="url" value="${sqlserver.url}" />
+				<property name="username" value="${sqlserver.username}" />
+				<property name="password" value="${sqlserver.password}" />
+				<!-- <property name="poolPingQuery" value="SELECT NOW()" /> -->
+				<property name="poolMaximumActiveConnections" value="50" />
+            <!--   <property name="poolPingEnabled" value="true" /> -->
+			</dataSource>
+		</environment>
 
 
 

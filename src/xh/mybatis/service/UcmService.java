@@ -12,6 +12,7 @@ import xh.org.socket.RadioUserStruct;
 import xh.org.socket.SendData;
 import xh.org.socket.TalkGroupAttrStruct;
 import xh.org.socket.TalkGroupStruct;
+import xh.org.socket.addDgnaStruct;
 import xh.org.socket.savalidsiteStruct;
 import xh.org.socket.statusSetStruct;
 import xh.org.socket.statusSetUnitStruct;
@@ -209,7 +210,7 @@ public class UcmService {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)19);
+		header.setLength((short)23);
 		header.setCommandId((short)173);
 		header.setSrcDevice((byte)6);
 		header.setDstDevice((byte)6);
@@ -297,6 +298,26 @@ public class UcmService {
 		header.setDstDevice((byte)6);
 		try {
 			SendData.sendTalkGroupSavalidRegionData(header, validregionStruct);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 发送动态重组数据
+	 * @param radiouser
+	 */
+	public static void sendDgna(addDgnaStruct dgna){
+		MessageStruct header=new MessageStruct();
+		header.setSegNum((byte)1);
+		header.setSegFlag((byte)1);
+		header.setLength((short)62);
+		header.setCommandId((short)175);
+		header.setSrcDevice((byte)6);
+		header.setDstDevice((byte)6);
+		try {
+			SendData.DGNA(header, dgna);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

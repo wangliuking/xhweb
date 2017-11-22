@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.SqlServerMapper">
+   
+    <!--查询基站环控列表-->
+    <select id="bsmonitorList" parameterType="map" resultType="map" useCache="true">
+     select DevNode,NodeID,NodeAttribute,value,AlarmValue from ${dbname}
+    </select>
+    <!--查询三期基站环控告警列表-->
+    <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+     select DevName as deviceName,value as singleValue,AlarmEX  from ${dbname} where AlarmState=1
+    </select> 
+    
+    <!-- 三期环控交流电告警 -->
+    <select id="bsJiAlarm" parameterType="String" resultType="map" useCache="true">
+    select T.JFNode as bsId,T.AlarmText as name from 
+    (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
+      from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
+      and DevNode='0051' and NodeID='1003' ) as T1) as T 
+    </select>
+
+    
+
+</mapper>

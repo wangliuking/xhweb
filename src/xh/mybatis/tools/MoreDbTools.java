@@ -62,7 +62,8 @@ public class MoreDbTools {
         slave,
         gps_voice_master,
         gps_voice_slave,
-        emh,       
+        emh,
+        sqlServer,
         mysqlDb;  
     } 
     /**

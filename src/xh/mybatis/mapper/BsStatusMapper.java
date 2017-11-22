@@ -50,6 +50,13 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> bsc(int bsId) throws Exception;
+	
+	/**
+	 * 基站断站告警
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> bsOffList() throws Exception;
 	/**
 	 * 基站下的bs状态
 	 * @param bsId

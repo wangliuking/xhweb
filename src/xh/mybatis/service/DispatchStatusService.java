@@ -36,6 +36,24 @@ public class DispatchStatusService {
 		return list;
 	}
 	/**
+	 * 调度台断开报警
+	 * @return
+	 */
+	public static List<Map<String, Object>> dispatchOffAlarm(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.dispatchOffAlarm();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	/**
 	 * 调度台是否存在
 	 * @param dstId
 	 * @return

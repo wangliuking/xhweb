@@ -54,14 +54,14 @@ public class DgnaController {
 			bean.setCou(cou);
 			bean.setOperation(operation);
 			bean.setStatus(0);
-			if(TcpKeepAliveClient.getSocket().isConnected()){
+			/*if(TcpKeepAliveClient.getSocket().isConnected()){
 				try {
-					SendData.DGNA(bean);
+					//SendData.DGNA(bean);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}*/
 			
 			
 		}	
