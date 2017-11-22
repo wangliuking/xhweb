@@ -1085,13 +1085,18 @@ function init(data,markData) {
 								
 							}
 						});
+						console.log(params);
                         var res;
+                        var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
+                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
+                        var temp3 = parseInt(Math.random()*(99-5+1) + 7);
+                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
                         res = '基站ID：'+params["2"]+
                         '<br/>'+'基站名称：'+params["1"]+
-                        '<br/>'+'信道占用率：'+ 0.27 +
-                        '<br/>'+'注册组数：'+ 15 +
-                        '<br/>'+'注册用户数：'+ 22 +
-                        '<br/>'+'排队数：' + 28;
+                        '<br/>'+'信道占用率：'+ temp1 +
+                        '<br/>'+'注册组数：'+ temp2 +
+                        '<br/>'+'注册用户数：'+ temp3 +
+                        '<br/>'+'排队数：' + temp4;
                         return res;
                     },
                     show: true,
