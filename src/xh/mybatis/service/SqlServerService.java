@@ -1,7 +1,9 @@
 package xh.mybatis.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +41,7 @@ public class SqlServerService {
 		Map<String, Object> paraMap=new HashMap<String, Object>();
 		paraMap.put("dbname", table);
 		try {
-			list = mapper.bsmonitorList(paraMap);
-			
-			log.info("table==>"+table);
-			log.info(Arrays.toString(list.toArray()));
-			
+			list = mapper.bsmonitorList(paraMap);			
 			for (Map<String, Object> map : list) {
 				if(map.get("DevNode").toString().trim().equals("0021")&&map.get("NodeID").toString().equals("1001")){
 					result.put("temp", Float.parseFloat(map.get("value").toString()));
@@ -112,6 +110,27 @@ public class SqlServerService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	/**
+	 * 基站交流电断开
+	 * @return
+	 */
+	public static List<Map<String,Object>> bsJiAlarm(){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		
+		try {
+			list=mapper.bsJiAlarm(str_date1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+		
 	}
 
 }

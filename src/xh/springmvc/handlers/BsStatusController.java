@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +36,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import xh.func.plugin.FlexJSON;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.BusinessService;
+import xh.mybatis.service.DispatchStatusService;
 import xh.mybatis.service.SqlServerService;
 
 @Controller
@@ -295,6 +299,43 @@ public class BsStatusController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 response.setContentType("application/json;charset=utf-8"); 
+		 String jsonstr = json.Encode(result); 
+		 try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bsVoiceAlarm", method = RequestMethod.GET)
+	@ResponseBody
+	public void bsVoiceAlarm(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		List<Map<String, Object>> list1 = null;
+		try {
+			list1 = BsStatusService.bsOffList();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		List<Map<String,Object>> list2=SqlServerService.bsJiAlarm();
+		List<Map<String, Object>> list3=DispatchStatusService.dispatchOffAlarm();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		
+		for (Map<String, Object> map : list1) {
+			list.add(map);
+		}
+		for (Map<String, Object> map2 : list2) {
+			list.add(map2);
+		}
+		for (Map<String, Object> map3 : list3) {
+			list.add(map3);
+		}		
+		result.put("items", list);
+		result.put("totals", list.size());
+		
 		 response.setContentType("application/json;charset=utf-8"); 
 		 String jsonstr = json.Encode(result); 
 		 try {

@@ -238,6 +238,20 @@ public class BsStatusService {
 		session.close();
 		return list;
 	}
+	/**
+	 * 基站断站告警
+	 * @param bsId
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<Map<String, Object>> bsOffList() throws Exception {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = mapper.bsOffList();
+		session.close();
+		return list;
+	}
 
 	/**
 	 * 基站下的psm状态

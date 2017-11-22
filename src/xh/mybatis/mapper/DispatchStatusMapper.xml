@@ -30,6 +30,10 @@
     <delete id="deleteDispatch" parameterType="List">
     delete from xhgmnet_dispatch  where dstId in
     (<foreach collection="list" item="id" separator=",">#{id}</foreach>)
-    </delete>  
+    </delete> 
+    <!-- 调度台断开报警 -->
+    <select id="dispatchOffAlarm" resultType="map" useCache="true">
+    SELECT dstId as bsId,dstName as name,dstId  FROM  xhgmnet_dispatch where setupStatus=1 and flag=0
+    </select> 
    
 </mapper>

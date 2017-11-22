@@ -4,13 +4,11 @@
 		<ul class="small-logo">
 			<!-- <li><img alt="" src="Resources/images/img/log.png"
 				height="40px" width="40px"></li> -->
-			<li class="title"><span>综合应用与管理平台</span> 
-			
-			</li>
-			<li style="margin-top:10px;color:#fff;cursor: pointer;" class="menu-hide">
-			<a href="#" ng-click="hideMenu()" data-toggle='tooltip' title="隐藏左侧菜单" data-placement="top">
-			<i class="fa fa-bars fa-2x text-white"></i></a>
-			</li>
+			<li class="title"><span>综合应用与管理平台</span></li>
+			<li style="margin-top:10px;color:#fff;cursor: pointer;"
+				class="menu-hide"><a href="#" ng-click="hideMenu()"
+				data-toggle='tooltip' title="隐藏左侧菜单" data-placement="top"> <i
+					class="fa fa-bars fa-2x text-white"></i></a></li>
 		</ul>
 	</div>
 	<nav role="navigation">
@@ -24,18 +22,58 @@
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
 					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
 						class="fa fa-bell-o fa-x font-white" style="font-size:10pt"></i> <span
-						class="badge badge-header badge-warning" id="alarmcount"> 0</span>
+						class="badge badge-header badge-warning" id="alarmcount">{{totals}}</span>
 				</a> <!-- animated flipInX -->
 
-					<ul class="dropdown-menu hdropdown notification animated flipInX"
-						id="ul-alarm">
+					<div class="dropdown-menu hdropdown notification animated flipInX">
+						<div class="row"
+							style="max-height:300px;main-height:200px;overflow: scroll;">
 
-						<li class="summary"><a href="#" onclick="stopMap3()"><i
-								class="fa fa-bell-slash-o"></i>解除声音</a></li>
+							<div class="col-md-12">
+							
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-success">
+										<th>ID</th>
+										<th>告警描述</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="2" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in alarm" class="td-danger">
+										<td>{{x.bsId}}</td>
+										<td>
+										<span ng-if="x.dstId>0">{{x.name}},【调度台网络断开】</span>
+										<span ng-if="x.link==1">{{x.name}},【基站断开连接】</span>
+										<span ng-if="x.link==null && x.dstId==null">{{x.name}}</span>
+										</td>		
+									</tr>
+								</tbody>
+							</table>
+							
+							
+								<!-- <div class="col-md-12" ng-repeat="x in alarm">
+									<span class='label label-danger'
+										style='color:#fff;font-size:5pt'>new</span> 
+										<span class='label label-danger'
+										style='color:#fff;font-size:5pt'>{{x.bsId}}-{{x.name}}</span>
+								</div> -->
+							</div>
 
-					</ul>
-				
-				
+
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<a href="#" onclick="stopMap3()" class="btn btn-success btn-sm"><i
+									class="fa fa-bell-slash-o"></i>解除声音</a>
+							</div>
+						</div>
+
+
+
+					</div>
 				<li class="member-center">
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
@@ -43,8 +81,8 @@
 							class="img-circle phote-img" alt="logo"> <!-- <i class=" fa fa-user fa-x"></i><small class="text-white">个人中心 <b class="caret"></b></small> -->
 						</a>
 						<ul class="dropdown-menu animated flipInX m-t-xs border-top-white">
-						<li style="color:red;margin-bottom:20px;"><span>欢迎你!</span>&nbsp;&nbsp;<span
-				            id="login-user" name="AS"></span></li>
+							<li style="color:red;margin-bottom:20px;"><span>欢迎你!</span>&nbsp;&nbsp;<span
+								id="login-user" name="AS"></span></li>
 							<li><a href="Views/operations/email.html" target="mainframe"><i
 									class="fa fa-envelope-o fa-x"></i>&nbsp;&nbsp;邮件</a></li>
 							<li><a href="Views/web/updateMember.html" target="mainframe"><i
@@ -98,9 +136,9 @@
 		}
 	});
 	/*基站告警信息*/
-	$
+	/* $
 			.ajax({
-				url : 'bs/alarmList',
+				url : 'bsstatus/bsVoiceAlarm',
 				type : 'GET',
 				dataType : "json",
 				data : {},
@@ -125,7 +163,7 @@
 				},
 				error : function() {
 				}
-			});
+			}); */
 	function playMap3() {
 		var audio = document.getElementById("bgMusic");
 		//重新播放
