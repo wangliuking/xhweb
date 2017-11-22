@@ -123,11 +123,19 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="starttime">呼叫起始时间</label>
+												<label for="starttime">起始时间</label>
 												<div>
 													<input type="text" class="form-control" id="starttime"
 														onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
-														placeholder="呼叫起始时间">
+														placeholder="起始时间">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="starttime">结束时间</label>
+												<div>
+													<input type="text" class="form-control" id="endtime"
+														onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+														placeholder="结束时间">
 												</div>
 											</div>
 											<div class="form-group">
@@ -188,11 +196,11 @@
 												<td><input type="checkbox" name="tb-check"
 													value="{{x.id}}" index="{{$index}}" /></td>
 												
-												<td>{{x.caller}}</td>
-												<td>{{x.called}}</td>
-												<td>{{x.call_Time}}</td>
-												<td>[{{x.call_TS_Id}}]{{x.name}}</td>
-												<td>{{x.use_Time}}</td>
+												<td>{{x.Caller}}</td>
+												<td>{{x.Called}}</td>
+												<td>{{x.Call_Time}}</td>
+												<td>[{{x.Call_TS_Id}}]{{x.name}}</td>
+												<td>{{x.Use_Time}}</td>
 												<td><a href="#" ng-click="play($index)"><i
 														class="fa fa-play-circle text-success"></i>&nbsp;播放 </a>| <a
 													href="#" ng-click="download($index)"><i

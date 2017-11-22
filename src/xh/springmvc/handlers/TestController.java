@@ -49,5 +49,20 @@ public class TestController {
 		ss.DispatchUserIA();
 		
 	}
+	@RequestMapping(value="/h",method=RequestMethod.POST)
+	public void h(HttpServletRequest request, HttpServletResponse response){
+		ss.Killa();
+		
+	}
+	@RequestMapping(value="/i",method=RequestMethod.POST)
+	public void i(HttpServletRequest request, HttpServletResponse response){
+		ss.Killb();
+		
+	}
+	@RequestMapping(value="/j",method=RequestMethod.POST)
+	public void j(HttpServletRequest request, HttpServletResponse response){
+		ss.dgna();
+		
+	}
 
 }

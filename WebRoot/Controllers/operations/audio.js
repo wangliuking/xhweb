@@ -7,14 +7,15 @@ xh.load = function() {
 	var caller = $("#caller").val();
 	var called = $("#called").val();
 	var pageSize = $("#page-limit").val();
-
+	$("#starttime").val(xh.getDay());
+	$("#endtime").val(xh.getOneDay());
 	app.controller("audio", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
-		$scope.operationMenu = true; // 菜单变色
+		
 		$http.get(
 				"../../call/list?caller=" + caller + "&called=" + called + ""
-						+ "&starttime=''&endtime=" + xh.getOneDay()
+						+ "&starttime="+xh.getDay()+"&endtime=" + xh.getOneDay()
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
@@ -36,22 +37,26 @@ xh.load = function() {
 		};
 		//播放语音文件
 		$scope.play=function(index){
-			console.log("play="+$scope.data[index].call_Path);
+			console.log("play="+$scope.data[index].Call_Path);
 			layer.closeAll();
+			var path=$scope.data[index].Call_Path;
+			path=path.substring(1);
+	
+			
 			var html={
 					  type: 2,
 					  title:'语音播放器',
 					  area: ['340px', '200px'],
 					  shade: 0,
 					  /*skin: 'layui-layer-rim', //加上边框*/					  
-					  content: ["../../Views/operations/play.jsp?playerID="+$scope.data[index].call_Path, 'no']
+					  content: ["../../Views/operations/play.jsp?playerID="+path, 'no']
 					};
 			layer.open(html);
 			
 		};
 		/* 下载文件 */
 		$scope.download = function(index) {
-			var path="/"+$scope.data[index].call_Path;
+			var path="/"+$scope.data[index].Call_Path;
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
 			console.log("下载音频文件名filename=>" +name);
@@ -210,3 +215,49 @@ xh.pagging = function(currentPage, totals) {
 	}
 
 };
+xh.getDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"00:00:00";   
+    return  strYesterday;
+}
+xh.getOneDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"23:59:59";   
+    return  strYesterday;
+}

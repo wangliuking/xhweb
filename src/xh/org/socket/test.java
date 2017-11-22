@@ -7,7 +7,6 @@ import cn.com.scca.signgw.api.SccaGwSDK;
 
 public class test {
 	public static void main(String[] args) {
-		 
 
 	}
 
@@ -86,9 +85,10 @@ public class test {
 		setMultiGroup.setNpType(0);
 		UcmService.sendMultiGroupData(setMultiGroup);
 	}
-	public void dispatchUser(){
-		DispatchUserStruct struct=new DispatchUserStruct();
-		struct.setOperation(1); //数据处理方式
+
+	public void dispatchUser() {
+		DispatchUserStruct struct = new DispatchUserStruct();
+		struct.setOperation(1); // 数据处理方式
 		struct.setId(122);
 		struct.setName("22");
 		struct.setAlias("2");
@@ -102,9 +102,9 @@ public class test {
 		struct.setFullDuplex(0);
 		struct.setAmbienceInitiation(0);
 		struct.setClir(0);
-		struct.setClirOverride(0);	
-		
-		//新增
+		struct.setClirOverride(0);
+
+		// 新增
 		struct.setSaName("");
 		struct.setSupervisorStatus(0);
 		struct.setDispatcherType(0);
@@ -154,32 +154,71 @@ public class test {
 		setTalkGroupAttr.setUserGroup(0);
 		UcmService.sendTalkGroupAttrData(setTalkGroupAttr);
 	}
-	
+
 	public void DispatchUserIA() {
-		
-		DispatchUserIAStruct struct=new DispatchUserIAStruct();
+
+		DispatchUserIAStruct struct = new DispatchUserIAStruct();
 		struct.setOperation(1);
-    	struct.setId(1);
-    	struct.setName("sss");
-    	struct.setMonitorOn(0);
-    	struct.setPCPreempt(0);
-    	struct.setCallPriority(0);
-    	struct.setAllMute(0);
-    	struct.setAllMuteTimeout(0);
-    	struct.setPttPriority(0);
-    	
-     	//新增
-    	struct.setProhibitTone(0);
-    	struct.setSideTone(0);
-    	struct.setPatchGroupNum(0);
-    	struct.setMSGroupNum(0);
-    	struct.setAPBNum(0);
-    	struct.setCalledPreempt(0);
-    	struct.setInboundCall(0);
-    	struct.setInboundPTT(0);
-    	struct.setInstantTransmit(0);
-    	struct.setPatchPC(0);
-    	UcmService.sendDispatchUserIAData(struct);
+		struct.setId(1);
+		struct.setName("sss");
+		struct.setMonitorOn(0);
+		struct.setPCPreempt(0);
+		struct.setCallPriority(0);
+		struct.setAllMute(0);
+		struct.setAllMuteTimeout(0);
+		struct.setPttPriority(0);
+
+		// 新增
+		struct.setProhibitTone(0);
+		struct.setSideTone(0);
+		struct.setPatchGroupNum(0);
+		struct.setMSGroupNum(0);
+		struct.setAPBNum(0);
+		struct.setCalledPreempt(0);
+		struct.setInboundCall(0);
+		struct.setInboundPTT(0);
+		struct.setInstantTransmit(0);
+		struct.setPatchPC(0);
+		UcmService.sendDispatchUserIAData(struct);
 	}
 
+	// 摇起
+	public void Killa() {
+
+		KillStruct kill = new KillStruct();
+		kill.setOperation(1);
+
+		kill.setUserId(2017017);
+		kill.setMsId(1);
+		kill.setKillCmd(0);
+		UcmService.sendKilledData(kill);
+	}
+
+	// 摇晕
+	public void Killb() {
+
+		KillStruct kill = new KillStruct();
+		kill.setOperation(3);
+		kill.setUserId(2017017);
+		kill.setMsId(1);
+		kill.setKillCmd(1);
+		UcmService.sendKilledData(kill);
+	}
+	//动态重组
+	public void dgna() {
+
+		addDgnaStruct struct = new addDgnaStruct();
+		struct.setOpra(2);
+		struct.setMscId(1);
+		struct.setIssi(2017017);
+		struct.setGssi(10010007);
+		struct.setGroupname("亚光重组测试组");
+		struct.setAttached(1);
+		struct.setCou(4);
+		struct.setOperation(0);
+		struct.setStatus(0);
+
+		UcmService.sendDgna(struct);
+	}
+	
 }

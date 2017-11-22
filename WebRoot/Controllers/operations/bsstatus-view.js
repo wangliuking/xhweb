@@ -45,9 +45,10 @@ xh.load = function() {
 	app.controller("userstatus", function($scope, $http, $location) {
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
-		console.log($scope.bsId);
+		$scope.period = $location.search().period;
+		
 
-		$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId).success(
+		$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
 				function(response) {
 					$scope.emhData = response;
 					$scope.emhAlarm = response.alarmItems;
@@ -64,7 +65,7 @@ xh.load = function() {
 		// 获取环控设备状态
 
 		$scope.emh = function() {
-			$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId).success(
+			$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
 					function(response) {
 						$scope.emhData = response;
 					});

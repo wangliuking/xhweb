@@ -124,7 +124,7 @@
 				<div class="col-md-12">
 				 <div ng-if="totals==0">未找到相关数据</div>
 					<div class="hpanel bs-box" ng-repeat="x in data"
-						bsId-value="{{x.bsId}}" status-value="{{x.status}}">
+						bsId-value="{{x.bsId}}" status-value="{{x.status}}" ng-click="bsView($index)">
 						<div class="panel-heading">【{{x.bsId}}号】基站</div>
 						<div class="panel-body">
 						   
@@ -163,13 +163,13 @@
 		src="../../Controllers/operations/bsstatus.js"></script>
 	<script type="text/javascript">
 		xh.load();
-		$("body").delegate(".bs-box", "click", function() {
+		/* $("body").delegate(".bs-box", "click", function() {
 			$("#bs-status-right").fadeIn("fast");
 			var bsId = $(this).attr("bsId-value");
 			window.location.href = "bsstatus-view.html?bsId=" + bsId;
 
 			// TODO
-		});
+		}); */
 	</script>
 </body>
 </html>

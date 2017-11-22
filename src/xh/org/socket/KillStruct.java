@@ -2,9 +2,9 @@ package xh.org.socket;
 
 public class KillStruct {
 	private int operation;
-	private String message;
+/*	private String message;
 	
-	
+	*/
 	private int msId;
 	private int userId;
 	private int killCmd;
@@ -38,9 +38,8 @@ public class KillStruct {
 
 	@Override
 	public String toString() {
-		return "KillStruct [operation=" + operation + ", message=" + message
-				+ ", msId=" + msId + ", userId=" + userId + ", killCmd="
-				+ killCmd + "]";
+		return "KillStruct [operation=" + operation + ", msId=" + msId
+				+ ", userId=" + userId + ", killCmd=" + killCmd + "]";
 	}
 	
 	

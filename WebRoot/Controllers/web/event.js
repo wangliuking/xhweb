@@ -175,6 +175,45 @@ xh.load = function() {
 				}
 			});
 		};
+		$scope.h = function(page) {
+			$.ajax({
+				url : '../../test/h',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.i = function(page) {
+			$.ajax({
+				url : '../../test/i',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
+		$scope.j = function(page) {
+			$.ajax({
+				url : '../../test/j',
+				type : 'POST',
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					
+				},
+				error : function() {
+				}
+			});
+		};
 	
 		
 		/* 查询数据 */

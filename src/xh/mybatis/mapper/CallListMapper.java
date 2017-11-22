@@ -12,7 +12,7 @@ public interface CallListMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public ArrayList<CallListBean>  selectCallList(Map<String,Object> map)throws Exception;
+	public ArrayList<Map<String,Object>>  selectCallList(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 通话总数

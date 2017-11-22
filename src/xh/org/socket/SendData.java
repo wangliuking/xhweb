@@ -17,9 +17,9 @@ public class SendData {
 	private String message = "";
 	protected static final Log log = LogFactory.getLog(SendData.class);
 
-	private static MessageStruct header = new MessageStruct();
+	/*private static MessageStruct header = new MessageStruct();*/
 
-	public static void DGNA(DgnaBean bean) throws IOException {
+	public static void DGNA(MessageStruct header,addDgnaStruct bean) throws IOException {
 		MessageStruct m_header = new MessageStruct();
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
@@ -35,7 +35,7 @@ public class SendData {
 		dos.writeByte(header.getSegNum());// segNum 1 分片总数
 		dos.writeByte(header.getSegFlag());// segFlag 1 当前分片序号
 		dos.writeShort(header.getLength());// length 2 后接数据长度
-		dos.writeShort(175);// commandId 2 命令ID
+		dos.writeShort(header.getCommandId());// commandId 2 命令ID
 		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
 		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
 		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
@@ -57,6 +57,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("DGNAData-length:" + info.length);
+		log.info("DGNAData:" + bean.toString());
 
 	}
 
@@ -91,6 +93,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("KillData-length:" + info.length);
+		log.info("KillData:" + getData.toString());
 
 	}
 
@@ -131,6 +135,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendRadioUserSavalidSiteData-length:" + info.length);
+		log.info("sendRadioUserSavalidSiteData:" + getData.toString());
 
 	}
 
@@ -172,6 +178,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
+		log.info("sendTalkGroupSavalidSiteData:" + info.length);
+		log.info("sendTalkGroupSavalidSiteData:" + getData.toString());
 
 	}
 
@@ -208,6 +216,8 @@ public class SendData {
 
 			byte[] info = bos.toByteArray();
 			out.write(info);
+			log.info("sendSms:" + info.length);
+			log.info("sendSms:" + getData.toString());
 
 			/*
 			 * // 获得服务器发过来的数据，先获得输入流
