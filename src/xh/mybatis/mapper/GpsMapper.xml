@@ -12,23 +12,49 @@
 		<if test="dstId!=null and dstId!=''">
 			and dstId like concat('%',#{dstId},'%')
 		</if>
-		<if test="writeTime!=null and writeTime!=''">
-			and writeTime like concat('%',#{writeTime},'%')
+		<if test="startTime!=null and startTime!=''">
+			and infoTime between #{startTime} and #{endTime}
 		</if>
-		order by id asc limit #{start},#{limit}
+		<if test="nextMonth!=null and nextMonth!=''">
+			UNION ALL
+			select * from ${nextMonth} where 1=1
+			<if test="srcId!=null and srcId!=''">
+				and srcId like concat('%',#{srcId},'%')
+			</if>
+			<if test="dstId!=null and dstId!=''">
+				and dstId like concat('%',#{dstId},'%')
+			</if>
+			and infoTime between #{startTime} and #{endTime}
+		</if>
+		order by infoTime desc limit #{start},#{limit}
 	</select>
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
 	<select id="gpsCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from ${currentMonth} where 1=1
+		select SUM(cnt) from (
+		select count(*) cnt from ${currentMonth} where 1=1
 		<if test="srcId!=null and srcId!=''">
 			and srcId like concat('%',#{srcId},'%')
 		</if>
 		<if test="dstId!=null and dstId!=''">
 			and dstId like concat('%',#{dstId},'%')
 		</if>
-		<if test="writeTime!=null and writeTime!=''">
-			and writeTime like concat('%',#{writeTime},'%')
+		<if test="startTime!=null and startTime!=''">
+			and infoTime between #{startTime} and #{endTime}
+		</if>
+		<if test="nextMonth==null or nextMonth==''">
+			) as tempTable
+		</if>
+		<if test="nextMonth!=null and nextMonth!=''">
+			UNION ALL
+			select count(*) cnt from ${nextMonth} where 1=1
+			<if test="srcId!=null and srcId!=''">
+				and srcId like concat('%',#{srcId},'%')
+			</if>
+			<if test="dstId!=null and dstId!=''">
+				and dstId like concat('%',#{dstId},'%')
+			</if>
+			and infoTime between #{startTime} and #{endTime}) as tempTable
 		</if>
 	</select>
 

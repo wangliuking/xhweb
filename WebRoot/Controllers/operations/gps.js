@@ -25,14 +25,15 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	var srcId = $("#srcId").val();
 	var dstId = $("#dstId").val();
-	var writeTime = $("#writeTime").val();
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
 	var pageSize = $("#page-limit").val();
 
 	app.controller("gps", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
-		$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&writeTime="+writeTime+"&start=0&limit="+pageSize).
+		$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -43,7 +44,8 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$("#srcId").val("");
 			$("#dstId").val("");
-			$("#writeTime").val("");
+			$("#startTime").val("");
+			$("#endTime").val("");
 			$scope.search(1);
 		};
 		
@@ -52,7 +54,16 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var srcId = $("#srcId").val();
 			var dstId = $("#dstId").val();
-			var writeTime = $("#writeTime").val();
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			//时间比对
+			var d1 = new Date(startTime.replace(/\-/g, "\/"));  
+			var d2 = new Date(endTime.replace(/\-/g, "\/"));  
+			if(startTime!=""&&endTime!=""&&d1 >=d2){  
+				toastr.error("结束时间需要大于起始时间", '提示');
+				return false;  
+			}
+			
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -64,7 +75,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&writeTime="+writeTime+"&start="+start+"&limit="+limit).
+			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -77,7 +88,8 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var srcId = $("#srcId").val();
 			var dstId = $("#dstId").val();
-			var writeTime = $("#writeTime").val();
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -86,7 +98,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&writeTime="+writeTime+"&start="+start+"&limit="+pageSize).
+			$http.get("../../gps/list?srcId="+srcId+"&dstId="+dstId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

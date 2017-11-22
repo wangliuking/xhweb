@@ -39,6 +39,7 @@ public class GpsController {
 		Calendar cal = Calendar.getInstance();
 		int temp = cal.get(Calendar.MONTH)+1;
 		String currentMonth;
+		String nextMonth = "";
 		if(temp<10){
 			currentMonth="0"+temp;
 		}else{
@@ -46,9 +47,16 @@ public class GpsController {
 		}
 		String srcId=request.getParameter("srcId");
 		String dstId=request.getParameter("dstId");
-		String writeTime=request.getParameter("writeTime");
-		if(!"".equals(writeTime)){
-			currentMonth=writeTime.substring(writeTime.length()-2, writeTime.length());
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		if(!"".equals(startTime)){
+			currentMonth=startTime.substring(5, 7);
+		}
+		if(!"".equals(startTime) && !"".equals(endTime)){
+			if(!endTime.substring(5, 7).equals(startTime.substring(5, 7))){
+				nextMonth=endTime.substring(5, 7);
+				nextMonth="xhgmnet_gpsinfo"+nextMonth;
+			}		
 		}
 		currentMonth="xhgmnet_gpsinfo"+currentMonth;
 		int start=funUtil.StringToInt(request.getParameter("start"));
@@ -56,10 +64,12 @@ public class GpsController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("srcId", srcId);
 		map.put("dstId", dstId);
-		map.put("writeTime", writeTime);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("currentMonth", currentMonth);
+		map.put("nextMonth", nextMonth);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",GpsService.gpsCount(map));
