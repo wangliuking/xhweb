@@ -27,17 +27,16 @@ xh.load = function() {
 				});
 		// 刷新数据
 		$scope.refresh = function() {
-			xh.search(1);
+			$scope.search(1);
 
 		};
 		// 查询数据
 		$scope.search_1 = function(page) {
-			xh.search(page);
+			$scope.search(1);
 
 		};
 		//播放语音文件
 		$scope.play=function(index){
-			console.log("play="+$scope.data[index].Call_Path);
 			layer.closeAll();
 			var path=$scope.data[index].Call_Path;
 			path=path.substring(1);
@@ -89,6 +88,33 @@ xh.load = function() {
 					div.innerHTML = '';
 				}, 5000);
 			}*/
+		};
+		/* 查询数据 */
+		$scope.search = function(page) {
+			var pageSize = $("#page-limit").val();
+			var caller = $("#caller").val();
+			var called = $("#called").val();
+			var starttime = $("#starttime").val();
+			var endtime = $("#endtime").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			xh.maskShow();
+			$http.get(
+					"../../call/list?caller=" + caller + "&called=" + called + ""
+					+ "&starttime="+starttime+"&endtime=" + endtime
+					+ "&start=0&limit=" + pageSize).success(function(response) {
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(page, parseInt($scope.totals), $scope);
+			});
 		};
 
 		// 分页点击

@@ -16,7 +16,7 @@
 		<setting name="aggressiveLazyLoading" value="true" />
 		<!-- <setting name="enhancementEnabled" value="true"/> -->
 		<!-- 设置超时时间，它决定驱动等待一个数据库响应的时间。 -->
-		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="defaultStatementTimeout" value="5" />
 	</settings>
 
 

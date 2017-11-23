@@ -4,7 +4,25 @@
 
 	<!--查询呼叫记录name like concat(#{name},'%') -->
 	<select id="selectCallList" parameterType="map" resultType="map" useCache="true">
-		select a.*,b.name from ${dbname} as a left join
+	
+	select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller, Called, Call_Type, 
+	Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result, Call_Path from ${dbname} where 1=1
+		<if test="caller != null and caller !=''">
+			and Caller like concat(#{Caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and Called like concat(#{Called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+		order by Call_Time desc limit #{start},#{limit}
+	
+	 <!-- select a.id, a.Call_Time, a.Call_id, a.Call_sys_id, a.Use_Time, a.Caller, a.Called, a.Call_Type, 
+	a.Call_TS_Id, a.Call_BS_BS, a.Call_RSSI, a.Call_Result, a.Call_Path,b.name from ${dbname} as a left join
 		xhgmnet.xhgmnet_bs_station as b on
 		a.Call_TS_Id=b.bsId where 1=1
 		<if test="caller != null and caller !=''">
@@ -19,7 +37,7 @@
 		<if test="endtime!=null and endtime!=''">
 			and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
 		</if>
-		order by a.Call_Time desc limit #{start},#{limit}
+		order by a.Call_Time desc limit #{start},#{limit} -->
 	</select>
 	<!--查询呼叫记录总数 -->
 	<select id="CallListCount" parameterType="map"

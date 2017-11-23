@@ -368,6 +368,32 @@ public class BsstationBean {
 	public void setExist(String exist) {
 		this.exist = exist;
 	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "BsstationBean [bsId=" + bsId + ", name=" + name + ", period="
+				+ period + ", lat=" + lat + ", lng=" + lng + ", chnumber="
+				+ chnumber + ", number=" + number + ", gpsLineNum="
+				+ gpsLineNum + ", power=" + power + ", carrier=" + carrier
+				+ ", carrierName=" + carrierName + ", carrierLink="
+				+ carrierLink + ", height=" + height + ", lineHeight="
+				+ lineHeight + ", lineInstallType=" + lineInstallType
+				+ ", address=" + address + ", contact=" + contact + ", tel="
+				+ tel + ", ip=" + ip + ", type=" + type + ", productor="
+				+ productor + ", deviceType=" + deviceType + ", level=" + level
+				+ ", status=" + status + ", hometype=" + hometype
+				+ ", roomCharge=" + roomCharge + ", electricCharge="
+				+ electricCharge + ", createTime=" + createTime + ", zone="
+				+ zone + ", envMonitor=" + envMonitor + ", conditionerCount="
+				+ conditionerCount + ", fireEquipment=" + fireEquipment
+				+ ", generatorConfig=" + generatorConfig + ", isGenerator="
+				+ isGenerator + ", entryLimitType=" + entryLimitType
+				+ ", transCount=" + transCount + ", comment=" + comment
+				+ ", exist=" + exist + "]";
+	}
 	
 
 }
