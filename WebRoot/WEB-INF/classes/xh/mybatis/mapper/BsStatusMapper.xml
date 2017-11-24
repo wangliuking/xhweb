@@ -106,5 +106,29 @@
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		where a.link!=0 and  a.bsId not in (select bsIds from xhgmnet_stationalarm)
 	</select>
+	<!--基站断站,声音告警数目 -->
+	<select id="bsOffVoiceCount" resultType="int" useCache="true">
+		select count(bsId) as total from view_bsstatus where 
+		bsId not in (select bsIds from xhgmnet_stationalarm) 
+		and bsId not in(select bsId from xhgmnet_bs_status where stats=1 and link=1)
+		and link=1
+		
+	</select>
+	<!-- 基站告警状态变更 -->
+	<update id="bsOffVoiceChange" parameterType="map">
+	<if test="tag==1">
+	update xhgmnet_bs_status set link=0,stats=0 where bsId in (select bsId from view_bsstatus where link=0)	
+	</if>
+	<if test="tag==2">
+	update xhgmnet_bs_status set link=1 where bsId in (select bsId from view_bsstatus where link=1)
+	</if>	
+	</update>
+	
+	<!-- 更新基站断站告警状态 -->
+	<update id="updateAlarmStatus">
+	 update xhgmnet_bs_status set stats=1,link=1 where 
+	 bsId in(select bsId from view_bsstatus where link=1) and 
+	 bsId not in (select bsIds from xhgmnet_stationalarm)
+	</update>
 
 </mapper>

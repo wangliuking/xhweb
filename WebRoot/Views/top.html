@@ -65,7 +65,7 @@
 						</div>
 						<div class="row" ng-show="totals>0">
 							<div class="col-md-12 ">
-								<a href="#" onclick="stopMap3()" class="btn btn-success btn-sm" style="margin-left:120px;"><i
+								<a href="#" onclick="xh.stopMap3()" class="btn btn-success btn-sm"><i
 									class="fa fa-bell-slash-o"></i>解除声音</a>
 							</div>
 						</div>
@@ -134,45 +134,5 @@
 		error : function() {
 		}
 	});
-	/*基站告警信息*/
-	/* $
-			.ajax({
-				url : 'bsstatus/bsVoiceAlarm',
-				type : 'GET',
-				dataType : "json",
-				data : {},
-				async : false,
-				success : function(data) {
-					if (data.success) {
-						$("#alarmcount").html(data.totals);
-						var list = data.items;
-						for (var i = 0; i < data.totals; i++) {
-
-							$("#ul-alarm")
-									.prepend(
-											"<li><span class='label label-danger' style='color:#fff;font-size:5pt'>new</span><span>["
-													+ list[i].bsId
-													+ "号]"
-													+ list[i].name
-													+ "链路中断</span></li>");
-
-						}
-
-					}
-				},
-				error : function() {
-				}
-			}); */
-	function playMap3() {
-		var audio = document.getElementById("bgMusic");
-		//重新播放
-		audio.currentTime = 0;
-		audio.play();
-	}
-	function stopMap3() {
-		var audio = document.getElementById("bgMusic");
-		//停止
-		audio.pause();
-		audio.currentTime = 0;
-	}
+	
 </script>

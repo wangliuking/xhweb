@@ -166,14 +166,14 @@
 										<td>{{x.userId}}</td>
 										<td>ID:{{x.bsId}}-{{x.name}}</td>
 										<td>{{x.TGid}}</td>
-										<td ng-if="x.regStatus==1"><span
-											class="label arrowed-in label-sm label-success">在线</span></td>
-										<td ng-if="x.regStatus==0"><span
-											class="label arrowed label-sm label-danger">离线</span></td>
-										<td ng-if="x.callStatus==1"><span
-											class="label arrowed-right label-sm label-success">正在通话</span></td>
-										<td ng-if="x.callStatus==0"><span
-											class="label arrowed-in-right label-sm label-purple">空闲</span></td>
+										<td>
+										<span class="label arrowed-in label-sm label-success" ng-if="x.regStatus==1 || x.regStatus==2 || x.regStatus==3">在线</span>
+										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==0 || x.regStatus==4 ||">离线</span>
+										</td>
+										<td>
+										<span class="label arrowed-right label-sm label-success" ng-if="x.callStatus==1">正在通话</span>
+										<span class="label arrowed-right label-sm label-success" ng-if="x.callStatus==0">空闲</span>
+										</td>
 										<td>{{x.time}}</td>
 										<!-- <td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"

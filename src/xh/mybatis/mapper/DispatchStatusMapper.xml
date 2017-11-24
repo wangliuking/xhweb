@@ -35,5 +35,12 @@
     <select id="dispatchOffAlarm" resultType="map" useCache="true">
     SELECT dstId as bsId,dstName as name,dstId  FROM  xhgmnet_dispatch where setupStatus=1 and flag=0
     </select> 
-   
+    <!-- 调度台断开声音报警数目 -->
+    <select id="dispatchOffAlarmCount" resultType="int" useCache="true">
+    select count(*) as total from xhgmnet_dispatch where setupStatus=1 and flag=0 and alarmFlag=0
+    </select> 
+    <!-- 解除调度台掉线告警 --> 
+    <update id="updateDispatchAlarmStatus">
+      update xhgmnet_dispatch set alarmFlag=1 where setupStatus=1 and flag=0
+    </update>
 </mapper>

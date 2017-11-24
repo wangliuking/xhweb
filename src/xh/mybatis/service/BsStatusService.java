@@ -252,6 +252,60 @@ public class BsStatusService {
 		session.close();
 		return list;
 	}
+	/**
+	 * 基站断站声音告警数目 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int bsOffVoiceCount() {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count = mapper.bsOffVoiceCount();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	/**
+	 * 基站断站告警更新
+	 * @return
+	 */
+	public static void bsOffVoiceChange() {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		Map<String,Object> map1=new HashMap<String, Object>();
+		map1.put("tag", 1);
+		Map<String,Object> map2=new HashMap<String, Object>();
+		map2.put("tag", 2);
+		try {
+			mapper.bsOffVoiceChange(map1);
+			mapper.bsOffVoiceChange(map2);
+			session.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+	/**
+	 * 更新基站断站告警状态
+	 */
+	public static void updateAlarmStatus() {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		try {
+			mapper.updateAlarmStatus();
+			session.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
 
 	/**
 	 * 基站下的psm状态

@@ -132,5 +132,48 @@ public class SqlServerService {
 		return list;
 		
 	}
+	/**
+	 * 基站交流电断开数目
+	 * @return
+	 */
+	public static int bsJiAlarmCount(){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		int count = 0;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		
+		try {
+			count=mapper.bsJiAlarmCount(str_date1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+		
+	}
+	
+	/**
+	 * 基站交流电断开数目
+	 * @return
+	 */
+	public static void updateAlarmStatus(){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", str_date1);
+		
+		try {
+			mapper.updateAlarmStatus(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

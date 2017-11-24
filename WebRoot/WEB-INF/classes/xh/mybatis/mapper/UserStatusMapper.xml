@@ -8,25 +8,31 @@
      <if test="userId !=null and userId !=''">
          and a.userId=#{userId}
      </if>
-     <if test="regStatus!=-1">
-         and a.regStatus=#{regStatus}
+     <if test="regStatus==0">
+         and (a.regStatus=0 or a.regStatus=4)
+     </if>
+     <if test="regStatus==1">
+         and (a.regStatus=1 or a.regStatus=2 or a.regStatus=3)
      </if>
      order by a.userId asc limit #{start},#{limit}
     </select>  
     <!--终端状态数量-->
     <select id="userstatusCount" parameterType="map" resultType="int" useCache="true">
-     select count(id) from xhgmnet_operations_userstatus where 1=1
+     select count(userId) from xhgmnet_operations_userstatus where 1=1
      <if test="userId !=null and userId !=''">
          and userId=#{userId}
      </if>
-     <if test="regStatus!=-1">
-         and regStatus=#{regStatus}
+     <if test="regStatus==0">
+         and (a.regStatus=0 or a.regStatus=4)
+     </if>
+     <if test="regStatus==1">
+         and (a.regStatus=1 or a.regStatus=2 or a.regStatus=3)
      </if>
     </select> 
     <!--终端在线状态统计 -->
 	<select id="userStatusByChart" resultType="java.util.HashMap"
 		useCache="true">
-		select regStatus as name,count(id) as value from xhgmnet_operations_userstatus
+		select regStatus as name,count(userId) as value from xhgmnet_operations_userstatus
 		group by regStatus order by regStatus asc
 	</select>  
 

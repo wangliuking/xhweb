@@ -26,5 +26,21 @@ public interface SqlServerMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> bsJiAlarm(String time) throws Exception;
+	
+	/**
+	 * 交流电断开报警数目
+	 * @param time
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsJiAlarmCount(String time) throws Exception;
+	
+	/**
+	 * 更新告警状态
+	 * @param time
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAlarmStatus(Map<String,Object> map) throws Exception;
 
 }

@@ -42,10 +42,20 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		String[] nowDate=funUtil.nowDate().split("-");
-		String dbname="xhgmnet_calllist"+nowDate[1];
+		
+		String[] time1=starttime.split("-");
+		String[] time2=endtime.split("-");
+		int a=Integer.parseInt(time1[1]);
+		int b=Integer.parseInt(time2[1]);
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("dbname", dbname);
+		
+		if(a==b){
+			map.put("dbname1","xhgmnet_calllist"+time1[1]);
+			map.put("dbname2","");
+		}else{
+			map.put("dbname1","xhgmnet_calllist"+time1[1]);
+			map.put("dbname2","xhgmnet_calllist"+time2[1]);
+		}
 		map.put("caller", caller);
 		map.put("called", called);
 		map.put("starttime", starttime);

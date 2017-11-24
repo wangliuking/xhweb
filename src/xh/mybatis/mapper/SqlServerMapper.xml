@@ -18,6 +18,19 @@
       from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
       and DevNode='0051' and NodeID='1003' ) as T1) as T 
     </select>
+    
+    <!-- 三期环控交流电告警数目 -->
+    <select id="bsJiAlarmCount" parameterType="String" resultType="int" useCache="true"> 
+		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
+		and State='报警' and DevNode ='0051' and NodeID='1003' and flag=0
+    </select>
+    
+    <!--更新告警状态  -->
+    <update id="updateAlarmStatus" parameterType="map">
+    update  tb_AlarmRecording set flag=1 
+    where id in(select id from tb_AlarmRecording where AlarmDate=#{time} and State='报警' 
+    and DevNode ='0051' and NodeID='1003' and flag=0)
+    </update>
 
     
 

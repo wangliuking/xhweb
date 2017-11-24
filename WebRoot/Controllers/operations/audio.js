@@ -27,6 +27,21 @@ xh.load = function() {
 				});
 		// 刷新数据
 		$scope.refresh = function() {
+			var starttime = $("#starttime").val();
+			var endtime = $("#endtime").val();
+			var date1=new Date(starttime).getTime();
+			var date2=new Date(endtime).getTime();
+			var date=date2-date1;
+			if(date2<date1){
+				alert("时间区间错误");
+				return;
+			}
+			//计算出相差天数  
+		    var days=Math.floor(date/(24*3600*1000)); 
+		    if(days>7){
+				alert("时间区间错误,只提供时间段7天以内的数据");
+				return;
+			}
 			$scope.search(1);
 
 		};
@@ -286,4 +301,20 @@ xh.getOneDay=function()
     }
     var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"23:59:59";   
     return  strYesterday;
+}
+xh.dateMin=function(time1,time2){
+
+  
+   /* //计算出小时数  
+  
+    var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数  
+    var hours=Math.floor(leave1/(3600*1000))  
+    //计算相差分钟数  
+    var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数  
+    var minutes=Math.floor(leave2/(60*1000))  
+    //计算相差秒数  
+    var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数  
+    var seconds=Math.round(leave3/1000)  
+     */
+	
 }

@@ -346,6 +346,58 @@ public class BsStatusController {
 		}
 
 	}
+	/**
+	 * 基站断站声音告警数目 
+	 * @param request
+	 * @param response
+	 * @throws SQLServerException
+	 */
+	@RequestMapping(value = "/bsOffVoiceCount", method = RequestMethod.GET)
+	@ResponseBody
+	public void bsOffVoiceCount(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+		
+		int bsCount=BsStatusService.bsOffVoiceCount();
+		int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
+		int jiCount=SqlServerService.bsJiAlarmCount();
+		
+		
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("totals", bsCount+dispatchCount+jiCount);
+		
+		 response.setContentType("application/json;charset=utf-8"); 
+		 String jsonstr = json.Encode(result); 
+		 try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 基站断站告警更新
+	 * @param request
+	 * @param response
+	 * @throws SQLServerException
+	 */
+	@RequestMapping(value = "/bsOffVoiceChange", method = RequestMethod.POST)
+	@ResponseBody
+	public void bsOffVoiceChange(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+		
+		BsStatusService.bsOffVoiceChange();
+
+	}
+	
+	@RequestMapping(value = "/updateAlarm", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateAlarm(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+		
+		DispatchStatusService.updateDispatchAlarmStatus();
+		BsStatusService.updateAlarmStatus();
+		SqlServerService.updateAlarmStatus();
+
+	}
 
 	/**
 	 * 基站下的bsc状态

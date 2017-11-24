@@ -41,6 +41,7 @@ public class RadioStatusService {
 		 List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
 		 try {
 			list=mapper.oneBsGroup(map);
+			System.out.println("基站注册组---->"+list.size());
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

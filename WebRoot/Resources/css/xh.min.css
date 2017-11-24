@@ -34,7 +34,7 @@ body {
 	overflow-y: hidden;
 } */
 html,body {
-	min-width: 290px;
+	min-width: 300px;
 	-ms-overflow-style: scrollbar,
 	margin:0;
 	padding:0;

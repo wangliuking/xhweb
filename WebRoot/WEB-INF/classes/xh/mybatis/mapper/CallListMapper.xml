@@ -3,10 +3,14 @@
 <mapper namespace="xh.mybatis.mapper.CallListMapper">
 
 	<!--查询呼叫记录name like concat(#{name},'%') -->
-	<select id="selectCallList" parameterType="map" resultType="map" useCache="true">
-	
-	select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller, Called, Call_Type, 
-	Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result, Call_Path from ${dbname} where 1=1
+	<select id="selectCallList" parameterType="map" resultType="map"
+		useCache="true">
+
+		select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller, Called,
+		Call_Type,
+		Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result, Call_Path
+		from ${dbname1} where
+		1=1
 		<if test="caller != null and caller !=''">
 			and Caller like concat(#{Caller},'%')
 		</if>
@@ -19,30 +23,39 @@
 		<if test="endtime!=null and endtime!=''">
 			and Call_Time &lt;=#{endtime,jdbcType=DATE}
 		</if>
+		<if test="dbname2!=''">
+			union all
+
+			select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller,
+			Called,
+			Call_Type,
+			Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result,
+			Call_Path from ${dbname2} where
+			1=1
+			<if test="caller != null and caller !=''">
+				and Caller like concat(#{Caller},'%')
+			</if>
+			<if test="called!=null and called !=''">
+				and Called like concat(#{Called},'%')
+			</if>
+			<if test="starttime!=null and starttime!=''">
+				and Call_Time &gt;=#{starttime,jdbcType=DATE}
+			</if>
+			<if test="endtime!=null and endtime!=''">
+				and Call_Time &lt;=#{endtime,jdbcType=DATE}
+			</if>
+
+
+		</if>
+
 		order by Call_Time desc limit #{start},#{limit}
-	
-	 <!-- select a.id, a.Call_Time, a.Call_id, a.Call_sys_id, a.Use_Time, a.Caller, a.Called, a.Call_Type, 
-	a.Call_TS_Id, a.Call_BS_BS, a.Call_RSSI, a.Call_Result, a.Call_Path,b.name from ${dbname} as a left join
-		xhgmnet.xhgmnet_bs_station as b on
-		a.Call_TS_Id=b.bsId where 1=1
-		<if test="caller != null and caller !=''">
-			and a.Caller like concat(#{Caller},'%')
-		</if>
-		<if test="called!=null and called !=''">
-			and a.Called like concat(#{Called},'%')
-		</if>
-		<if test="starttime!=null and starttime!=''">
-			and a.Call_Time &gt;=#{starttime,jdbcType=DATE}
-		</if>
-		<if test="endtime!=null and endtime!=''">
-			and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
-		</if>
-		order by a.Call_Time desc limit #{start},#{limit} -->
 	</select>
 	<!--查询呼叫记录总数 -->
-	<select id="CallListCount" parameterType="map"
-		resultType="int" useCache="true">
-		select count(*) from ${dbname} where 1=1
+	<select id="CallListCount" parameterType="map" resultType="int"
+		useCache="true">
+
+		select sum(num) from(
+		select count(*) as num from ${dbname1} where 1=1
 		<if test="caller != null and caller !=''">
 			and Caller like concat(#{Caller},'%')
 		</if>
@@ -55,21 +68,53 @@
 		<if test="endtime!=null and endtime!=''">
 			and Call_Time &lt;=#{endtime,jdbcType=DATE}
 		</if>
+		
+		<if test="dbname2=''">
+		) as tb
+		</if>
+
+
+
+		<if test="dbname2!=''">
+			union all
+			select count(*) as num from ${dbname1} where 1=1
+			<if test="caller != null and caller !=''">
+				and Caller like concat(#{Caller},'%')
+			</if>
+			<if test="called!=null and called !=''">
+				and Called like concat(#{Called},'%')
+			</if>
+			<if test="starttime!=null and starttime!=''">
+				and Call_Time &gt;=#{starttime,jdbcType=DATE}
+			</if>
+			<if test="endtime!=null and endtime!=''">
+				and Call_Time &lt;=#{endtime,jdbcType=DATE}
+			</if>
+			) as tb
+		</if>
+
+		
+
+
 	</select>
 	<!-- 话务统计分析 -->
-	<select id="callChart" parameterType="map" resultType="map" useCache="true">
+	<select id="callChart" parameterType="map" resultType="map"
+		useCache="true">
 		<if test="type=='day'">
-			select sum(Use_Time) as usetime,count(id) as num, DATE_FORMAT(Call_Time, 'd-%d' ) AS
+			select sum(Use_Time) as usetime,count(id) as num,
+			DATE_FORMAT(Call_Time, 'd-%d' ) AS
 			date from ${dbname} where 1=1
 		</if>
 		<if test="type=='hour'">
-			select sum(Use_Time) as usetime,count(id) as num ,DATE_FORMAT(Call_Time, 'h-%H' ) AS date
-			from ${dbname} where  date_format(Call_Time,'%Y-%m-%d')=#{time}
+			select sum(Use_Time) as usetime,count(id) as num
+			,DATE_FORMAT(Call_Time, 'h-%H' ) AS date
+			from ${dbname} where
+			date_format(Call_Time,'%Y-%m-%d')=#{time}
 		</if>
 		<if test="bsId!=0">
 			and Call_TS_Id=#{bsId}
 		</if>
-		 group by date order by date asc
+		group by date order by date asc
 	</select>
 
 

@@ -19,6 +19,7 @@
 		useCache="true">
 		select a.TGid,a.bsId,b.E_name as name from xhgmnet_operations_userstatus as a
 		left join xhgmnet_talkgroup as b on a.TGid=b.TalkgroupID where a.bsId=#{bsId}
+		 and a.TGid !=0 group by a.TGid
 		limit #{start},#{limit}
 	</select>
 </mapper>

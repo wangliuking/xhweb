@@ -29,6 +29,19 @@ public interface DispatchStatusMapper {
 	public List<Map<String,Object>> dispatchOffAlarm() throws Exception;
 	
 	/**
+	 * 调度台断开报警数目
+	 * @return
+	 * @throws Exception
+	 */
+	public int dispatchOffAlarmCount() throws Exception;
+	/**
+	 * 解除调度台掉线告警
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateDispatchAlarmStatus() throws Exception;
+	
+	/**
 	 * 调度用户是否存在
 	 * @param map
 	 * @return

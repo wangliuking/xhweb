@@ -54,6 +54,40 @@ public class DispatchStatusService {
 		return list;
 	}
 	/**
+	 * 调度台断开报警数目
+	 * @return
+	 */
+	
+	public static int dispatchOffAlarmCount(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+		int count=0;
+		try {
+			count = mapper.dispatchOffAlarmCount();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	/**
+	 * 解除调度台掉线告警
+	 */
+	public static void updateDispatchAlarmStatus(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+		try {
+			mapper.updateDispatchAlarmStatus();
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * 调度台是否存在
 	 * @param dstId
 	 * @return

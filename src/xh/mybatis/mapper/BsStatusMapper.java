@@ -78,5 +78,26 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> psm(int bsId) throws Exception;
+	
+	/**
+	 * 基站断站声音告警数目 
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsOffVoiceCount() throws Exception;
+	
+	/**
+	 * 基站断站定时更新
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsOffVoiceChange(Map<String,Object> map) throws Exception;
+	
+	/**
+	 * 更新基站断站告警状态
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAlarmStatus() throws Exception;
 
 }

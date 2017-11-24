@@ -72,25 +72,28 @@ public class UserStatusController {
 		this.success = true;
 
 		List<HashMap> list = new ArrayList<HashMap>();
+		List<Map<String,Object>> list1 = new ArrayList<Map<String,Object>>();
 		list = UserStatusService.userStatusByChart();
+		int offline=0,online=0;
 		for (int i = 0; i < list.size(); i++) {
 			String status = list.get(i).get("name").toString();
-			HashMap mapResult = new HashMap();
-			if (status.equals("0")) {
-				mapResult.put("name", "离线");
-				mapResult.put("value", list.get(i).get("value").toString());
-				list.set(i, mapResult);
-			}
-			if (status.equals("1")) {
-				mapResult.put("name", "在线");
-				mapResult.put("value", list.get(i).get("value").toString());
-				list.set(i, mapResult);
+			if (status.equals("0") || status.equals("4")) {
+				offline+=Integer.parseInt(list.get(i).get("value").toString());
+			}else{
+				online+=Integer.parseInt(list.get(i).get("value").toString());
 			}
 		}
+		Map<String,Object> map1=new HashMap<String, Object>();
+		map1.put("name", "离线");
+		map1.put("value", offline);
+		
+		Map<String,Object> map2=new HashMap<String, Object>();
+		map2.put("name", "在线");
+		map2.put("value", online);
+		list1.add(map1);list1.add(map2);
+		
 		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("totals", "");
-		result.put("items", list);
+		result.put("items", list1);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
