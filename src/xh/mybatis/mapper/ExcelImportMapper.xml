@@ -4,27 +4,24 @@
 
 
 	<!--导入excel -->
-	<!-- <insert id="insertExcel" parameterType="java.util.List">
-		INSERT INTO
-		xhgmnet_road_history(bsId,db,lng,lat,positionArea,nPositionArea,ndb,time)
-		values
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			(#{item.bsId},#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb},#{item.time})
-		</foreach>
-	</insert> -->
-	
-	<!-- <update id="updateExcel"  parameterType="xh.mybatis.bean.TempBean">    
-        update xhgmnet_bs_station set name=#{name},period=#{period},lat=#{lat},lng=#{lng},chnumber=#{chnumber},
-        type=#{type},zone=#{zone},address=#{address},level=#{level} where bsId=#{bsId}
-    </update> -->
 	<insert id="insertExcel" parameterType="java.util.List">
 		INSERT INTO
-		xhgmnet_bs_station(bsId,name,period,lat,lng,chnumber,type,zone,address,level)
+		xhgmnet_road_test01(db,lng,lat,positionArea,nPositionArea,ndb,time)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.bsId},#{item.name},#{item.period},#{item.lat},#{item.lng},#{item.chnumber},#{item.type},#{item.zone},#{item.address},#{item.level})
+			(#{item.db},#{item.lng},#{item.lat},#{item.positionArea},#{item.nPositionArea},#{item.ndb},#{item.time})
+		</foreach>
+	</insert>
+	
+	<!--其他excel录入 -->
+	<insert id="insertExcelOther" parameterType="java.util.List">
+		INSERT INTO
+		xhgmnet_bs_neighbor_cells(bsId,name,adjacentCellId)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.bsId},#{item.name},#{item.adjacentCellId})
 		</foreach>
 	</insert>
 

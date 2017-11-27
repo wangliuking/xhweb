@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.ReadExcel;
 import xh.func.plugin.ReadExcel1;
 import xh.mybatis.bean.ImpExcelBean;
+import xh.mybatis.bean.OtherBean;
 import xh.mybatis.bean.TempBean;
 import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.mapper.ExcelImportMapper;
@@ -21,7 +22,7 @@ public class ExcelService {
     	/**
     	 * 路测录入
     	 */
-    	/*String result ="";  
+    	String result ="";  
     	 //创建处理EXCEL的类 
     	ReadExcel readExcel=new ReadExcel();
         List<ImpExcelBean> excelList = readExcel.getExcelInfo(file);
@@ -45,43 +46,34 @@ public class ExcelService {
         }else{  
             result = "failure!";  
         }  
-        return result;*/
-        
-        /**
-         * 基站
-         */
-        String result ="";
+        return result;
+    }
+    
+    
+    /**
+     * 其他数据录入
+     */
+    public String readExcelFileOther(MultipartFile file){
+    	String result ="";  
+    	 //创建处理EXCEL的类 
     	ReadExcel1 readExcel=new ReadExcel1();
-        //解析excel，获取上传的事件单  
-        List<TempBean> excelList = readExcel.getExcelInfo(file);      
-        System.out.println(excelList);
-        //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作 
+        List<OtherBean> excelList = readExcel.getExcelInfo(file);
+      //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作 
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         ExcelImportMapper mapper = sqlSession.getMapper(ExcelImportMapper.class);
-        /**
-         * 批量添加
-         */
-        try {
-			mapper.insertExcel(excelList);
+		try {
+			mapper.insertExcelOther(excelList);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-        /**
-         * 批量更新
-         */
-        /*for(TempBean tempBean:excelList){
-        	try {
-				mapper.updateExcel(tempBean);
-				sqlSession.commit();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		}     
+        if(excelList != null && !excelList.isEmpty()){  
+            result = "success!";  
+        }else{  
+            result = "failure!";  
         }  
-        sqlSession.close();*/
         return result;
     }
 }
