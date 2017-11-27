@@ -108,14 +108,12 @@ html,body {
 				data-toggle="dropdown">
 				级别 <span class="caret"></span>
 			</button>
-			<div class="dropdown-menu" role="menu">
-				<ul class="nav nav-second-level" ng-repeat="x in levelData"
-					id="testChooseLevel">
-					<li style="text-align:center;" ng-if="x.level!=0"><a href="#"
-						ng-click="levelChoose(x.level,$index)"> <i
-							class="fa fa-check-square-o" ng-show="clickLevel==$index"></i> <i
-							class="fa fa-square-o" ng-show="clickLevel!=$index"></i>{{x.level}}级基站
-					</a></li>
+			<div class="dropdown-menu pre-scrollable" role="menu">
+				<ul ng-repeat="x in levelData">
+					<li ng-if="x.level!=0">
+					<label class="levelChoose"><input type="checkbox"
+							ng-click="levelChoose(x.level)" ng-value="x.level">{{x.level}}级基站</label>
+					</li>
 				</ul>
 			</div>
 

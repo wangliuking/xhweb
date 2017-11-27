@@ -146,16 +146,46 @@ app.controller("map", function($scope, $http) {
 			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
 			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
 	}
-	$scope.levelChoose=function(params,index){
-		$scope.clickLevel=index;
-		$http.get("bs/map/bsByLevel?level="+params).success(
-				function(response) {
-					var tempData = response.items;					
-					var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
-					myMap.centerAndZoom(point,level[params].zoom*1);
-					option.series[0].markPoint.data=baseMark(tempData)[0];
-					option.series[1].markPoint.data=baseMark(tempData)[1];		
-				});
+	$scope.levelChoose=function(params){
+		if ($(".levelChoose input[value="+params+"]").prop("checked") == true) {
+			var t=[];
+			$(".levelChoose input:checked").each(function(i){
+				t.push($(this).val());
+			});
+			$http.get("amap/map/bsByLevel?level="+t).success(
+					function(response) {					
+						var tempData = response.items;	
+						var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
+						myMap.centerAndZoom(point,level[params].zoom*1);
+						option.series[0].markPoint.data=baseMark(tempData)[0];
+						option.series[1].markPoint.data=baseMark(tempData)[1];
+						overlay.setOption(option);
+					});
+		} else {
+			var t=[];
+			$(".levelChoose input:checked").each(function(i){
+				t.push($(this).val());
+			});
+			if(t.length==0){
+				$http.get("bs/map/data").success(
+						function(response) {
+							var tempData = response.items;
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
+							overlay.setOption(option);
+						});
+			}else{
+				$http.get("amap/map/bsByLevel?level="+t).success(
+						function(response) {
+							var tempData = response.items;
+							var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
+							myMap.centerAndZoom(point,level[params].zoom*1);
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
+							overlay.setOption(option);
+						});
+			}
+		}
 	} 
 	/* 区域选择 */
 	var area={
@@ -184,7 +214,6 @@ app.controller("map", function($scope, $http) {
 			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"9"}		
 	};
 	$scope.areaChoose=function(params){
-		$scope.clickLevel=0;
 		if ($(".areaChoose input[value="+params+"]").prop("checked") == true) {
 			var t=[];
 			$(".areaChoose input:checked").each(function(i){
@@ -847,26 +876,27 @@ function init(data,markData) {
 				color : [ 'gold', 'aqua', 'lime' ],
 				tooltip: {
 					formatter: function (params) {
+						var res;
 						$.ajax({
 							type : "GET",
-							url : "bs/map/data",
+							url : "amap/map/businessByBsId",
 							dataType : "json",
-							success : function(dataMap) {
-								
+							async : false,
+							success : function(dataMap) {							
+		                        var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
+		                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
+		                        var temp3 = parseInt(Math.random()*(99-5+1) + 7);
+		                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
+		                        res = '基站ID：'+params["5"].id+
+		                        '<br/>'+'基站名称：'+params["1"]+
+		                        '<br/>'+'信道占用率：'+ temp1 +
+		                        '<br/>'+'注册组数：'+ temp2 +
+		                        '<br/>'+'注册用户数：'+ temp3 +
+		                        '<br/>'+'排队数：' + temp4;
+		                        
 							}
-						});
-                        var res;
-                        var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
-                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
-                        var temp3 = parseInt(Math.random()*(99-5+1) + 7);
-                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
-                        res = '基站ID：'+params["5"].id+
-                        '<br/>'+'基站名称：'+params["1"]+
-                        '<br/>'+'信道占用率：'+ temp1 +
-                        '<br/>'+'注册组数：'+ temp2 +
-                        '<br/>'+'注册用户数：'+ temp3 +
-                        '<br/>'+'排队数：' + temp4;
-                        return res;
+						});   
+						return res;
                     },
                     show: true,
                     trigger: 'item',
