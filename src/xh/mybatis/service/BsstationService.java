@@ -107,6 +107,47 @@ public class BsstationService {
 		}
 		return count;
 	}
+	
+	/**
+	 * 新增基站切换参数
+	 * @param map
+	 * @return
+	 */
+	public static int addBsHandover(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.addBsHandover(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 *  修改基站切换参数
+	 * @param map
+	 * @return
+	 */
+	public static int updateBsHandover(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.updateBsHandover(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
 	/**
 	 * 新增基站相邻小区
 	 * @param map
@@ -402,6 +443,8 @@ public class BsstationService {
 		}
 		return list;
 	}
+	
+	
 	/**
 	 * 根据基站ID查找基站传输配置信息
 	 * @return

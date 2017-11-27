@@ -27,7 +27,6 @@ xh.load = function() {
 		$scope.alarmCount=function(){
 			$http.get("bsstatus/bsOffVoiceCount").success(function(response) {
 				$scope.AlarmTotals=response.totals;
-				console.log("bsss-->"+$scope.AlarmTotals)
 				if($scope.AlarmTotals>0){
 					xh.playMap3();
 				}else{

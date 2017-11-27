@@ -21,19 +21,29 @@ xh.load = function() {
 		xh.map();
 
 		// 更新基站断站告警状态
-		$scope.updateAlarm = function() {
+		$scope.bsMapCount = function() {
 			$.ajax({
-				url : 'bsstatus/updateAlarm',
-				type : 'POST',
+				url : '../../bsstatus/bsMapCount',
+				type : 'GET',
 				dataType : "json",
 				data : {},
 				async : false,
 				success : function(data) {
+					$("#bs").html(data.bsOffline);
+					$("#dispatch").html(data.dispatchOffline);
+					$("#msc").html(data.mscOffline);
+					$("#emh").html(data.emhAlarm);
 				},
 				error : function() {
 				}
 			});
 		};
+		
+		$scope.bsMapCount(); 
+		setInterval(function(){
+			$scope.bsMapCount();
+			xh.map();
+			}, 10000);
 
 	});
 };
@@ -128,12 +138,16 @@ xh.map = function() {
 				x : 'left',
 				data : [ '基站异常' ]
 			},
+		
 			dataRange : {
 				min : 0,
-				max : 500,
+				max : 100,
 				x : 'left',
 				y : 'bottom',
-				color:['red','skyblue'],
+				color:['red','red'],
+				itemStyle:{
+					color:'#fff'
+				},
 				text : [ '高', '低' ], // 文本，默认为数值文本
 				calculable : true
 			},
@@ -152,13 +166,21 @@ xh.map = function() {
 				itemStyle : {
 					normal : {
 						label : {
-							show : true
+							show : true,
+							textStyle: {
+								  color: "#fff"
+								}
 						}
 					},
 					emphasis : {
 						label : {
-							show : true
-						}
+							show : true,
+							 textStyle: {
+								  color: "#fff"
+								}
+						},
+						areaStyle:{
+							color:'green'},
 					}
 				},
 				data : []

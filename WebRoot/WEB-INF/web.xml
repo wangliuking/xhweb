@@ -63,9 +63,9 @@ xh.org.listeners.SingLoginListener
 </listener>
 
 <!-- 启动定时器，定时获取动环数据-->
-<listener>
+<!-- <listener>
 <listener-class>xh.org.listeners.EMHListener</listener-class>
-</listener>
+</listener> -->
 <!--Axis2 config start -->
 	<servlet>  
       <servlet-name>AxisServlet</servlet-name>  
@@ -100,17 +100,17 @@ xh.org.listeners.SingLoginListener
 
 
 <!--emh TCP长连接 -->
-<!-- <listener>
+ <listener>
   <description>emh socket 长连接 </description>
   <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
-</listener>  -->
+</listener> 
 <!--emh TCP长连接end -->
 
 <!-- ping调度台线程 -->
- <!-- <listener>
+<listener>
   <description>ping调度台</description>
   <listener-class>xh.org.listeners.PingDispatchListener</listener-class>
- </listener>  -->
+ </listener>
 
   
     <error-page>

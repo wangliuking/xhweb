@@ -179,9 +179,12 @@
 
 
 						<div ng-if="x.status==1 && x.link!=0" class="td-danger bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0" class="td-warning bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0" class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null" class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
+						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0"
+							class="td-warning bs-info">【{{x.bsId}}】{{x.name}}</div>
+						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0"
+							class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
+						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null"
+							class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
 						<div class="td-gray bs-info" ng-if="x.status==0">【{{x.bsId}}】{{x.name}}</div>
 						<!-- <div>
 						<table style="width:100%;">
@@ -201,18 +204,44 @@
 								</tbody>
 							</table>
 						</div> -->
-						<div>
-						<span ng-if='x.groupSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;0</span>
-						<span ng-if='x.groupSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;{{x.groupSum}}</span>
-						&nbsp;&nbsp;
-						<span ng-if='x.userSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
-						<span ng-if='x.userSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;{{x.userSum}}</span>
-						
+
+						<div ng-if="x.status==1 &&x.link==0">
+
+							<div>
+
+								<span ng-if='x.groupSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;0</span>
+								<span ng-if='x.groupSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;{{x.groupSum}}</span>
+								&nbsp;&nbsp; <span ng-if='x.userSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
+								<span ng-if='x.userSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;{{x.userSum}}</span>
+
+							</div>
+							<div>
+								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
+									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
+								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+							</div>
+
 						</div>
-						<div>
-						<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> 
-						<span ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
-						<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> --></div>
+							<div ng-if="x.status==1 &&x.link!=0">
+
+							<div>
+
+								<span ng-if='x.groupSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;0</span>
+								<span ng-if='x.groupSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;0</span>
+								&nbsp;&nbsp; <span ng-if='x.userSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
+								<span ng-if='x.userSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
+
+							</div>
+							<div>
+								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
+									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;0</span>
+								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+							</div>
+
+						</div>
+
+
+
 
 					</div>
 					<!-- <div class="hpanel bs-box" ng-repeat="x in data"

@@ -76,6 +76,20 @@
 		select count(*) from xhgmnet_bs_neighbor_cells where
 		bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
 	</select>
+	<!-- 新增基站切换参数 -->
+	<insert id="addBsHandover" keyProperty="id" useGeneratedKeys="true"
+		parameterType="map">
+		insert into
+		xhgmnet_bs_handover_para(bsId,minVol,slowReelectThreshold,fastReelectThreshold,slowReelectDelay,fastReelectDelay)
+		values(#{bsId},#{minVol},#{slowReelectThreshold},#{fastReelectThreshold},#{slowReelectDelay},#{fastReelectDelay})
+	</insert>
+	<!-- 修改基站切换参数 -->
+	<update id="updateBsHandover" parameterType="map">
+		update
+		xhgmnet_bs_handover_para set minVol=#{minVol},slowReelectThreshold=#{slowReelectThreshold},
+		fastReelectThreshold=#{fastReelectThreshold},slowReelectDelay=#{slowReelectDelay},fastReelectDelay=#{fastReelectDelay}
+		 where bsId=#{bsId}
+	</update>
 	<!-- 新增基站相邻小区 -->
 	<insert id="addBsNeighbor" keyProperty="id" useGeneratedKeys="true"
 		parameterType="map">
@@ -191,6 +205,7 @@
 		left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId}
 	</select>
+	
 	<!--增加基站 -->
 	<insert id="insertBs" keyProperty="bsId"
 		parameterType="xh.mybatis.bean.BsstationBean">

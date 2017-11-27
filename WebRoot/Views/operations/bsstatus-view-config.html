@@ -43,21 +43,26 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-img-gray">
-							<th width="50px">#</th>
-							<th>基站ID</th>
-							<th>基站名称</th>
-							<th>切换参数</th>
+							<th>基站</th>
+							<th>最小接入电平</th>
+							<th>慢速重选门限</th>
+							<th>快速重选门限</th>
+							<th>慢速重选滞后</th>
+							<th>快速重选滞后</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-if="handoverTotals==0">
-							<td colspan="4" class="text-center">没有记录！</td>
+							<td colspan="6" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in handoverData">
-							<td>{{$index+1}}</td>
-							<td>{{x.bsId}}</td>
-							<td>{{x.bsName}}</td>
-							<td>{{x.handoverPara}}</td>
+							
+							<td>{{x.bsId}}-{{x.bsName}}</td>
+							<td>{{x.minVol}}</td>
+							<td>{{x.slowReelectThreshold}}</td>
+							<td>{{x.fastReelectThreshold}}</td>
+							<td>{{x.slowReelectDelay}}</td>
+							<td>{{x.fastReelectDelay}}</td>
 						</tr>
 					</tbody>
 				</table>

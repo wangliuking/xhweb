@@ -298,8 +298,7 @@ xh.load = function() {
 					});
 		};
 		// 根据基站ID查找基站切换参数
-		$scope.handoverByBsId = function() {
-			var bsId = $scope.bsId;
+		$scope.handoverByBsId = function(bsId) {
 			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
 					function(response) {
 						$scope.handoverData = response.items;
@@ -430,12 +429,33 @@ xh.load = function() {
 			$scope.deviceByBsId($scope.bsData.bsId);
 			$("#deviceWin").modal("show");
 		};
+		//显示基站切换参数
+		$scope.showHandoverWin=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			$scope.bsData = $scope.data[parseInt(checkVal[0])];
+			$scope.handoverByBsId($scope.bsData.bsId);
+			$("#handoverWin").modal("show");
+		};
 		//显示基站详细信息窗口
 		$scope.showDetailWin=function(index){
 			
 			$("#detailWin").modal("show");
 			var bsId=$scope.data[index].bsId;
 			$scope.deviceByBsId(bsId);
+			$scope.handoverByBsId(bsId);
 			$scope.bsinfoData=$scope.data[index];
 			$scope.neighborByBsId(bsId);
 			$scope.bsrconfigByBsId(bsId);
@@ -667,7 +687,7 @@ xh.addBsrconfig=function(){
 		}
 	});
 };
-//修改设备信息
+//修改设备信息updateHandover
 xh.updateBsDevice=function(){
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
@@ -682,6 +702,31 @@ xh.updateBsDevice=function(){
 			if (data.success) {
 				toastr.success(data.message, '提示');
 				$("#deviceWin").modal("hide");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//修改设备信息updateHandover
+xh.updateHandover=function(){
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../bs/updateBsHandover',
+		type : 'post',
+		dataType : "json",
+		data:$("#handoverForm").serializeArray(),
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$("#handoverWin").modal("hide");
 			} else {
 				swal({
 					title : "提示",

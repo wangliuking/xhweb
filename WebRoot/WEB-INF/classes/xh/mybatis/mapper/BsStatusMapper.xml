@@ -115,8 +115,26 @@
 		
 	</select>
    <!--基站区域列表告警 -->
-	<select id="bsZoneAlarm" resultType="map" useCache="true">
-		select zone as name,count(id) as value from xhgmnet_bs_station group by zone
+	<select id="bsZoneAlarm" resultType="map" useCache="true">		
+		select zone as name,count(bsId) as value from (		
+		select
+		a.bsId,a.name,a.status,a.type,a.zone,a.level,a.period,b.link,d.deviceAlarmSum
+		from xhgmnet_bs_station as a
+		left join view_bsstatus as b on a.bsId=b.bsId
+		
+		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsr where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where working>0 and working!=255 group by bsId
+		) as temp group by bsId) as d on a.bsId=d.bsId
+		) as tem where deviceAlarmSum>0 group by zone 
+		
+		
+		
 		
 	</select>
 	<!-- 基站告警状态变更 -->
@@ -135,5 +153,34 @@
 	 bsId in(select bsId from view_bsstatus where link=1) and 
 	 bsId not in (select bsIds from xhgmnet_stationalarm)
 	</update>
+	<!-- 基站断站统计 -->
+	<select id="MapBsOfflineCount" resultType="int" useCache="true">
+		select count(bsId) as total from view_bsstatus where link!=0	
+	</select>
+	<!-- 交换中心异常统计 -->
+	<select id="MapMscAlarmCount" resultType="int" useCache="true">
+		select count(typeId) as total from xhgmnet_eastcom_server where runStatus=1	
+	</select>
+	<!-- 调度台异常统计 -->
+	<select id="MapDispatchAlarmCount" resultType="int" useCache="true">
+		select count(dstId) as total from xhgmnet_dispatch where setupStatus=1 and flag=0	
+	</select>
+	
+		<!-- 基站异常统计 -->
+	<select id="MapBsAlarmCount" resultType="int" useCache="true">
+		select a.bsId,d.deviceAlarmSum  as total
+		from join view_bsstatus as a 
+
+		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsr where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where working>0 and working!=255 group by bsId
+		) as temp group by bsId) as d on a.bsId=d.bsId
+	</select>
+	
 
 </mapper>

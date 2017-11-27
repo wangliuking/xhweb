@@ -53,6 +53,15 @@ public class BsStatusService {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		try {
 			list = mapper.bsZoneAlarm();
+			for (int i=0;i<list.size();i++) {
+				Map<String, Object> map=list.get(i);
+				if(map.get("value")==null){
+					
+					list.remove(i);
+					i--;
+				}
+				
+			}
 			sqlSession.close();
 
 		} catch (Exception e) {
@@ -375,6 +384,61 @@ public class BsStatusService {
 		List<Map<String, Object>> list = mapper.dpx(bsId);
 		session.close();
 		return list;
+	}
+
+	/**
+	 * 基站异常统计
+	 * @return
+	 */
+	public static int  MapBsOfflineCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count=mapper.MapBsOfflineCount();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 交换中心异常统计
+	 * @return
+	 */
+	public static int  MapMscAlarmCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count=mapper.MapMscAlarmCount();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 调度台异常统计
+	 * @return
+	 */
+	public static int  MapDispatchAlarmCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count=mapper.MapDispatchAlarmCount();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

@@ -32,6 +32,22 @@ public interface BsstationMapper {
 	public int neighborExists(Map<String,Object> map)throws Exception;
 	
 	/**
+	 *  新增基站切换参数
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int addBsHandover(Map<String,Object> map)throws Exception;
+	
+	/**
+	 *  修改基站切换参数
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateBsHandover(Map<String,Object> map)throws Exception;
+	
+	/**
 	 * 新增基站相邻小区
 	 * @param map
 	 * @return
