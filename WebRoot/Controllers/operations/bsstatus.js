@@ -62,6 +62,24 @@ xh.load = function() {
 			window.location.href = "bsstatus-view.html?bsId=" + bsId+"&period="+period;
 		};
 		
+		$scope.asd=function(){
+				/*layer.closeAll();*/
+		
+				
+				var html={
+						  type: 2,
+						  title:'语音播放器',
+						  area: ['340px', '200px'],
+						  shade: 0,
+						  /*skin: 'layui-layer-rim', //加上边框*/					  
+						  content: ["../../Views/operations/play.jsp?playerID=", 'no']
+						};
+				layer.open(html);
+				
+			};
+		
+	
+		
 		
 		
 		/* 刷新数据 */

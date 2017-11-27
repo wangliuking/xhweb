@@ -200,10 +200,10 @@ public class BsstationController {
 		paramMap.put("status",status);
 		
 		
-		this.success=true;		
+		List<HashMap> list=	 BsstationService.allBsInfo(paramMap);
 		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("items", BsstationService.allBsInfo(paramMap));
+		result.put("totals", list.size());
+		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

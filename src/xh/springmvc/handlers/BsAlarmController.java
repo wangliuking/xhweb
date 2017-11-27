@@ -67,9 +67,8 @@ public class BsAlarmController {
 			map.put("start", start);
 			map.put("limit", limit);
 			
-			List<BsAlarmBean> list = bsAlarmService.selectBsAlarmList(map);
-			result.put("data", list);
-			result.put("totals", list.size());
+			result.put("data", bsAlarmService.selectBsAlarmList(map));
+			result.put("totals",bsAlarmService.BsAlarmCount(map));
 			
 			
 			String jsonstr = FlexJSON.Encode(result);

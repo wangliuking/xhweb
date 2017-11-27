@@ -57,6 +57,13 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> bsOffList() throws Exception;
+	
+	/**
+	 * 基站区域列表告警
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> bsZoneAlarm() throws Exception;
 	/**
 	 * 基站下的bs状态
 	 * @param bsId

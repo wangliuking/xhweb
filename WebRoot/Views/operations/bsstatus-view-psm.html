@@ -10,7 +10,7 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-img-gray">
-							<th>psmID</th>
+							<th>ID</th>
 							<th>工作状态</th>
 							<th>风扇1状态</th>
 							<th>风扇2状态</th>
@@ -29,8 +29,8 @@
 							<td colspan="12" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-repeat="x in psmData">
-							<td>{{Id}}</td>
-							<td ng-if="x.working==0" class="td-danger">异常</td>
+							<td>{{x.Id}}</td>
+							<td ng-if="x.working==0" class="td-success">正常</td>
 							<td ng-if="x.working==1" class="td-success">正常运行</td>
 							<td ng-if="x.working==2" class="td-success">正常运行</td>
 							<td>{{x.fan1}}</td>

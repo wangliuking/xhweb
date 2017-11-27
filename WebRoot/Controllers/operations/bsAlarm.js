@@ -78,7 +78,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsAlarm/list?start=0&limit=" + pageSize).success(
+			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.data;
@@ -142,7 +142,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../bsAlarm/list?start=0&limit=" + pageSize)
+					"../../bsAlarm/list?start="+start+"&limit=" + pageSize)
 					.success(function(response) {
 						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;

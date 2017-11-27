@@ -54,13 +54,15 @@ xh.load = function() {
 					$scope.emhAlarm = response.alarmItems;
 					
 				});
+		
 
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		$http.get("../../bs/map/dataById?bsId=" + bsId).success(
+		/*$http.get("../../bs/map/dataById?bsId=" + bsId).success(
 				function(response) {
 					$scope.bsinfoData = response.items[0];
-				});
+				});*/
+		
 
 		// 获取环控设备状态
 
@@ -199,6 +201,7 @@ xh.load = function() {
 			$scope.bsrconfigByBsId();
 			$scope.linkconfigByBsId();
 		};
+		
 
 
 		/* 刷新数据 */
@@ -454,6 +457,7 @@ xh.load = function() {
 					});
 
 		};
+		$scope.equip();
 
 	});
 };

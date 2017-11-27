@@ -114,6 +114,11 @@
 		and link=1
 		
 	</select>
+   <!--基站区域列表告警 -->
+	<select id="bsZoneAlarm" resultType="map" useCache="true">
+		select zone as name,count(id) as value from xhgmnet_bs_station group by zone
+		
+	</select>
 	<!-- 基站告警状态变更 -->
 	<update id="bsOffVoiceChange" parameterType="map">
 	<if test="tag==1">

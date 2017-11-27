@@ -43,6 +43,25 @@ public class BsAlarmService {
 	}
 	
 	/**
+	 * 告警总数
+	 * @return
+	 */
+	public static int BsAlarmCount(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int count=0;
+		try {
+			count=mapper.BsAlarmCount(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
 	 * 告警等级统计
 	 * @return
 	 */

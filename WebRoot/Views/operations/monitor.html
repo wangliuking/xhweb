@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>基站状态</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
+<![endif]-->
+<style type="text/css">
+.img {
+	width: 100px;
+	height: 100px;
+	border: 3px solid gray;
+	border-left-color: yellow;
+	border-right-color: green;
+	border-top-color: red;
+	border-radius: 50%;
+	float: left;
+	margin: 10px 50px 10px 30px;
+	-webkit-animation: circle 1s infinite linear; /*匀速 循环*/
+}
+
+.img-font {
+	margin: 30% 1% 5px 11%;
+}
+
+.img-number {
+	margin: 0px 0px 0px 37px;
+	font-size: 15pt;
+	font-weight: 900;
+	color: blue;
+}
+
+@
+-webkit-keyframes circle { 0%{
+	transform: rotate(0deg);
+}
+100%{
+transform
+
+
+:rotate(-360deg)
+
+
+;
+}
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="monitor" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li class="active"><span>实时监测</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel" data-child="hpanel"
+			data-effect="fadeInDown">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="img">
+										<div class="img-font">基站断站</div>
+										<div class="img-number">30</div>
+									</div>
+
+
+									<div class="img">
+										<div class="img-font">交换中心异常</div>
+										<div class="img-number">30</div>
+									</div>
+
+
+									<div class="img">
+										<div class="img-font">调度台异常</div>
+										<div class="img-number">30</div>
+									</div>
+
+
+									<div class="img">
+										<div class="img-font">系统告警</div>
+										<div class="img-number">30</div>
+									</div>
+
+									<div class="img">
+										<div class="img-font">环控告警</div>
+										<div class="img-number">30</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- row-end -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+					<div class="panel-heading hbuilt">
+							系统告警实时监测
+						</div>
+						<div class="panel-body">
+							<div id="map"></div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+	</div>
+
+	<!-- 底部内容体 -->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加用户 -->
+	<!-- <div ng-include="'user-add.html'"></div> -->
+	<!-- 编辑基用户-->
+	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/monitor.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		/* $("body").delegate(".bs-box", "click", function() {
+			$("#bs-status-right").fadeIn("fast");
+			var bsId = $(this).attr("bsId-value");
+			window.location.href = "bsstatus-view.html?bsId=" + bsId;
+
+			// TODO
+		}); */
+	</script>
+</body>
+</html>

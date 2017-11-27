@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.mapper.BsStatusMapper;
+import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -37,6 +39,26 @@ public class BsStatusService {
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		List<BsStatusBean> list = mapper.excelToBsStatus();
 		session.close();
+		return list;
+	}
+	
+	/**
+	 * 基站区域列表告警
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String, Object>> bsZoneAlarm() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bsZoneAlarm();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return list;
 	}
 

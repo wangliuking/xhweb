@@ -375,6 +375,30 @@ public class BsStatusController {
 		}
 
 	}
+	/**\
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SQLServerException
+	 */
+	@RequestMapping(value = "/bsZoneAlarm", method = RequestMethod.GET)
+	@ResponseBody
+	public void bsZoneAlarm(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+	
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("items", BsStatusService.bsZoneAlarm());
+		
+		 response.setContentType("application/json;charset=utf-8"); 
+		 String jsonstr = json.Encode(result); 
+		 try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	/**
 	 * 基站断站告警更新
 	 * @param request

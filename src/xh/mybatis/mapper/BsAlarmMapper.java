@@ -21,6 +21,14 @@ public interface BsAlarmMapper {
 	public List<BsAlarmBean> selectBsAlarmList(Map<String,Object> map) throws Exception;
 	
 	/**
+	 *  告警总数
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int BsAlarmCount(Map<String,Object> map) throws Exception;
+	
+	/**
 	 * 警告等级统计查询
 	 * @return
 	 * @throws Exception

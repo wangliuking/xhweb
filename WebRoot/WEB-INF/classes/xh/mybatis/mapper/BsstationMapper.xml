@@ -28,17 +28,35 @@
 			and a.zone=#{zone}
 		</if>
 		<if test="link!=2">
-			and a.bsId in(select bsId from view_bsstatus where link=#{link})
+			and a.bsId in(select bsId from view_bsstatus where
+			link=#{link})
 		</if>
 		order by a.bsId asc
 	</select>
 	<!--查询所有基站 -->
 	<select id="allBsInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select a.*,b.link from xhgmnet_bs_station as a left join view_bsstatus
-		as b on a.bsId=b.bsId where 1=1
+		select
+		a.bsId,a.name,a.status,a.type,a.level,a.period,b.link,c.userSum,c.groupSum,d.deviceAlarmSum
+		from xhgmnet_bs_station as a
+		left join view_bsstatus as b on a.bsId=b.bsId
+		left join (select count(distinct TGid) as groupSum ,count(distinct userId)
+		as userSum ,
+		bsId from xhgmnet_operations_userstatus group by bsId) as c on
+		a.bsId=c.bsId
+		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_bsr where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255 group by bsId
+		union all
+		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where working>0 and working!=255 group by bsId
+		) as temp group by bsId) as d on a.bsId=d.bsId
+
+		where 1=1
 		<if test="type!=0">
-			and a.type=#{type}
+			and a.level=#{type}
 		</if>
 		<if test="status!=2">
 			and a.status=#{status}
@@ -47,55 +65,71 @@
 			and a.zone=#{zone}
 		</if>
 		<if test="link!=2">
-			and a.bsId in(select bsId from view_bsstatus where link=#{link})
+			and a.bsId in(select bsId from view_bsstatus where
+			link=#{link})
 		</if>
 		order by a.bsId asc
 	</select>
 	<!--根据基站ID,判断该基站相邻小区是否存在 -->
 	<select id="neighborExists" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_bs_neighbor_cells where bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
+		select count(*) from xhgmnet_bs_neighbor_cells where
+		bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
 	</select>
 	<!-- 新增基站相邻小区 -->
-	<insert id="addBsNeighbor" keyProperty="id"  useGeneratedKeys="true" parameterType="map">
-		insert into xhgmnet_bs_neighbor_cells(bsId,adjacentCellId)values(#{bsId},#{adjacentCellId})		
-	</insert>	
+	<insert id="addBsNeighbor" keyProperty="id" useGeneratedKeys="true"
+		parameterType="map">
+		insert into
+		xhgmnet_bs_neighbor_cells(bsId,adjacentCellId)values(#{bsId},#{adjacentCellId})
+	</insert>
 	<!-- 删除基站相邻小区 -->
 	<delete id="delBsNeighbor" parameterType="map">
-	delete from  xhgmnet_bs_neighbor_cells where bsId=#{bsId} and adjacentCellId=#{adjacentCellId}
+		delete from xhgmnet_bs_neighbor_cells where bsId=#{bsId} and
+		adjacentCellId=#{adjacentCellId}
 	</delete>
 	<!--根据基站ID,调单好判断该基站传输是否存在 -->
 	<select id="linkconfigExists" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_bs_link_config where bsId=#{bsId} and transferNumber=#{transferNumber}
+		select count(*) from xhgmnet_bs_link_config where
+		bsId=#{bsId} and transferNumber=#{transferNumber}
 	</select>
 	<!-- 新增基站传输 -->
-	<insert id="addLinkconfig" keyProperty="id"  useGeneratedKeys="true" parameterType="xh.mybatis.bean.bsLinkConfigBean">
-		INSERT INTO xhgmnet_bs_link_config (bsId,switchPort1, carrierOperator, type, bandwidth, 
-		unitType, transferNumber, basePort, switchElement, switchPort2, masterIp, cameraIp) VALUES
-		(#{bsId},#{switchPort1}, #{carrierOperator}, #{type}, #{bandwidth}, 
-		#{unitType}, #{transferNumber}, #{basePort}, #{switchElement}, #{switchPort2}, #{masterIp}, #{cameraIp})		
+	<insert id="addLinkconfig" keyProperty="id" useGeneratedKeys="true"
+		parameterType="xh.mybatis.bean.bsLinkConfigBean">
+		INSERT INTO xhgmnet_bs_link_config (bsId,switchPort1,
+		carrierOperator, type, bandwidth,
+		unitType, transferNumber, basePort, switchElement, switchPort2, masterIp,
+		cameraIp) VALUES
+		(#{bsId},#{switchPort1}, #{carrierOperator}, #{type},
+		#{bandwidth},
+		#{unitType}, #{transferNumber}, #{basePort}, #{switchElement}, #{switchPort2},
+		#{masterIp}, #{cameraIp})
 	</insert>
 	<!-- 删除基站传输 -->
 	<delete id="delLinkconfig" parameterType="int">
-	delete from xhgmnet_bs_link_config where id=#{id}
+		delete from xhgmnet_bs_link_config where id=#{id}
 	</delete>
 	<!--根据基站ID,bscId,bsrId判断该基站bsr是否存在 -->
 	<select id="bsrconfigExists" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_bs_bsr_config where bsId=#{bsId} and bscId=#{bscId} and bsrId=#{bsrId}
+		select count(*) from xhgmnet_bs_bsr_config where bsId=#{bsId}
+		and bscId=#{bscId} and bsrId=#{bsrId}
 	</select>
 	<!-- 新增基站bsr -->
-	<insert id="addBsrconfig" keyProperty="id"  useGeneratedKeys="true" parameterType="xh.mybatis.bean.bsrConfigBean">
-		INSERT INTO xhgmnet_bs_bsr_config (bsId,bscId, bscVersion, bscIp, bscIsEnable, bscComment, 
-		bsrId, bsrIsEnable, poweOne, poweTwo, freqOne, freqTwo)values(#{bsId},#{bscId}, 
-		#{bscVersion}, #{bscIp}, #{bscIsEnable}, #{bscComment},#{bsrId}, #{bsrIsEnable}, #{poweOne}, 
-		#{poweTwo}, #{freqOne}, #{freqTwo})	
+	<insert id="addBsrconfig" keyProperty="id" useGeneratedKeys="true"
+		parameterType="xh.mybatis.bean.bsrConfigBean">
+		INSERT INTO xhgmnet_bs_bsr_config (bsId,bscId,
+		bscVersion, bscIp, bscIsEnable, bscComment,
+		bsrId, bsrIsEnable, poweOne, poweTwo, freqOne,
+		freqTwo)values(#{bsId},#{bscId},
+		#{bscVersion}, #{bscIp}, #{bscIsEnable}, #{bscComment},#{bsrId}, #{bsrIsEnable},
+		#{poweOne},
+		#{poweTwo}, #{freqOne}, #{freqTwo})
 	</insert>
 	<!-- 删除基站bsr -->
 	<delete id="delBsrconfig" parameterType="int">
-	delete from xhgmnet_bs_bsr_config where id=#{id}
-	</delete>		
+		delete from xhgmnet_bs_bsr_config where id=#{id}
+	</delete>
 	<!--根据基站ID，名称查找基站记录 -->
 	<select id="bsInfo" parameterType="map"
 		resultType="xh.mybatis.bean.BsstationBean" useCache="true">
@@ -140,7 +174,7 @@
 		select a.*,b.name as bsName from xhgmnet_bs_handover_para as
 		a left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where
-		a.bsId=#{bsId} 
+		a.bsId=#{bsId}
 	</select>
 	<!--根据基站ID,查找基站BSR配置信息 -->
 	<select id="bsrconfigByBsId" parameterType="int" resultType="map"
@@ -148,7 +182,7 @@
 		select a.*,b.name as bsName from xhgmnet_bs_bsr_config as a
 		left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId}
-		 order by a.bscId asc,a.bsrId asc
+		order by a.bscId asc,a.bsrId asc
 	</select>
 	<!--根据基站ID,查找基站传输配置信息 -->
 	<select id="linkconfigByBsId" parameterType="int" resultType="map"
@@ -163,21 +197,31 @@
 		insert into
 		xhgmnet_bs_station(bsId, name, period, lat,
 		lng, chnumber, number, gpsLineNum,
-		power, carrier, carrierName, carrierLink, height, lineHeight,
+		power, carrier, carrierName,
+		carrierLink, height, lineHeight,
 		lineInstallType,
-		address, contact, tel, ip, type, productor, deviceType, level, status,
-		hometype, roomCharge, electricCharge, createTime, zone, envMonitor,
+		address, contact, tel,
+		ip, type, productor, deviceType, level, status,
+		hometype, roomCharge,
+		electricCharge, createTime, zone, envMonitor,
 		conditionerCount,
-		fireEquipment, generatorConfig, isGenerator, entryLimitType, transCount, comment)
-		values(#{bsId}, #{name}, #{period}, #{lat}, #{lng}, #{chnumber},
+		fireEquipment, generatorConfig, isGenerator, entryLimitType,
+		transCount, comment)
+		values(#{bsId}, #{name}, #{period}, #{lat},
+		#{lng}, #{chnumber},
 		#{number},
-		#{gpsLineNum}, #{power}, #{carrier}, #{carrierName}, #{carrierLink}, #{height},
-		#{lineHeight}, #{lineInstallType}, #{address}, #{contact}, #{tel},
+		#{gpsLineNum}, #{power}, #{carrier},
+		#{carrierName}, #{carrierLink}, #{height},
+		#{lineHeight},
+		#{lineInstallType}, #{address}, #{contact}, #{tel},
 		#{ip},
-		#{type},#{productor},#{deviceType}, #{level}, #{status}, #{hometype}, #{roomCharge},
-		#{electricCharge}, #{createTime}, #{zone}, #{envMonitor}, #{conditionerCount},
+		#{type},#{productor},#{deviceType}, #{level}, #{status}, #{hometype},
+		#{roomCharge},
+		#{electricCharge}, #{createTime}, #{zone},
+		#{envMonitor}, #{conditionerCount},
 		#{fireEquipment},
-		#{generatorConfig}, #{isGenerator}, #{entryLimitType}, #{transCount}, #{comment})
+		#{generatorConfig}, #{isGenerator}, #{entryLimitType}, #{transCount},
+		#{comment})
 	</insert>
 
 	<!--更新基站 -->
@@ -187,17 +231,22 @@
 		lng=#{lng}, chnumber=#{chnumber}, number=#{number},
 		gpsLineNum=#{gpsLineNum}, power=#{power}, carrier=#{carrier},
 		carrierName=#{carrierName},
-		carrierLink=#{carrierLink}, height=#{height},lineHeight=#{lineHeight},
+		carrierLink=#{carrierLink},
+		height=#{height},lineHeight=#{lineHeight},
 		lineInstallType=#{lineInstallType},
-		address=#{address}, contact=#{contact}, tel=#{tel}, ip=#{ip},
+		address=#{address},
+		contact=#{contact}, tel=#{tel}, ip=#{ip},
 		type=#{type},productor=#{productor},deviceType=#{deviceType},
 		level=#{level}, status=#{status},
-		hometype=#{hometype}, roomCharge=#{roomCharge},
-		electricCharge=#{electricCharge}, createTime=#{createTime}, zone=#{zone}, envMonitor=#{envMonitor},
+		hometype=#{hometype},
+		roomCharge=#{roomCharge},
+		electricCharge=#{electricCharge},
+		createTime=#{createTime}, zone=#{zone}, envMonitor=#{envMonitor},
 		conditionerCount=#{conditionerCount}, fireEquipment=#{fireEquipment},
 		generatorConfig=#{generatorConfig}, isGenerator=#{isGenerator},
 		entryLimitType=#{entryLimitType},
-		transCount=#{transCount}, comment=#{comment} where bsId=#{bsId}
+		transCount=#{transCount},
+		comment=#{comment} where bsId=#{bsId}
 	</update>
 
 	<!--删除基站 -->
@@ -228,45 +277,54 @@
 	<!--查询所有 区域信息wlk -->
 	<select id="selectAllArea" resultType="java.util.HashMap"
 		useCache="true">
-		select distinct zone from xhgmnet_bs_station where not isnull(zone) and zone
+		select distinct zone from xhgmnet_bs_station where not
+		isnull(zone) and zone
 		!= "" and zone != "null"
 	</select>
 	<!--查询所有 级别信息wlk -->
 	<select id="selectLevel" resultType="java.util.HashMap"
 		useCache="true">
-		select distinct level from xhgmnet_bs_station where not isnull(zone) order
+		select distinct level from xhgmnet_bs_station where not
+		isnull(zone) order
 		by level
 	</select>
 
 	<!-- 查询当前断站的基站 -->
 	<select id="bsOfflineList" resultType="java.util.HashMap"
 		useCache="true">
-		select a.bsId,a.status,b.name from xhgmnet_bs_status as a left join
+		select a.bsId,a.status,b.name from xhgmnet_bs_status as a
+		left join
 		xhgmnet_bs_station as b
-		on a.bsId=b.bsId where a.status=0 order by a.updateTime desc;
+		on a.bsId=b.bsId where a.status=0
+		order by a.updateTime desc;
 	</select>
 
 	<!--查询所有 wlk -->
 	<select id="selectAllBsStation" resultType="java.util.HashMap"
 		useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
+		select a.*,b.link as bsStatus from xhgmnet_bs_station as a
+		left join
 		xhgmnet_bsstatus as b on a.bsId=b.bsId group by a.bsId
 	</select>
 
 	<!-- 根据id查询对应基站信息 wlk -->
 	<select id="selectBsStationById" resultType="java.util.HashMap"
 		useCache="true">
-		select a.*,b.link as bsStatus,c.* from xhgmnet_bs_station as a left join
+		select a.*,b.link as bsStatus,c.* from xhgmnet_bs_station as
+		a left join
 		xhgmnet_bsstatus as b on a.bsId=b.bsId left join
 		xhgmnet_bs_channel_info as c
-		on a.bsId=c.bsId where a.bsId=#{bsId} group by a.bsId
+		on a.bsId=c.bsId where a.bsId=#{bsId}
+		group by a.bsId
 	</select>
 
 	<!-- 首页话务量及其他业务查询 -->
 	<select id="selectCalllistById" parameterType="java.lang.String"
 		resultType="java.util.HashMap" useCache="true">
-		select name,count(Call_TS_Id) as num,lat,lng,bsId from ${_parameter} as a
-		left join xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by
+		select name,count(Call_TS_Id)
+		as num,lat,lng,bsId from ${_parameter} as a
+		left join
+		xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by
 		Call_TS_Id
 		order by num desc limit 0,5
 	</select>
@@ -274,9 +332,11 @@
 	<!-- 首页排队量及其他业务查询 -->
 	<select id="selectChannelById" parameterType="java.lang.String"
 		resultType="java.util.HashMap" useCache="true">
-		select name,sum(queuedAllocReq) as sum,lat,lng,upload,download,time from
+		select
+		name,sum(queuedAllocReq) as sum,lat,lng,upload,download,time from
 		xhgmnet_bs_channel_info as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId}
+		left join xhgmnet_bs_station as b on
+		a.bsId=b.bsId where a.bsId=#{bsId}
 	</select>
 
 	<!-- 首页路测数据查询 -->
@@ -286,10 +346,12 @@
 	</select>
 
 	<!--区域圈选查询 -->
-	<select id="rectangle" parameterType="map"
-		resultType="java.util.HashMap" useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where lng between #{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
+	<select id="rectangle" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select a.*,b.link as bsStatus from xhgmnet_bs_station as a
+		left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId where lng between
+		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
 		group by a.bsId order by bsId asc limit #{start},#{limit}
 	</select>
 	<!--区域圈选总数 -->

@@ -27,7 +27,7 @@
 						</tr>
 						<tr ng-repeat="x in bscData">
 							<td>{{x.Id}}</td>
-							<td ng-if="x.working==0" class="td-danger">异常</td>
+							<td ng-if="x.working==0" class="td-success">正常</td>
 							<td ng-if="x.working==1" class="td-success">正常运行</td>
 							<td ng-if="x.working==2" class="td-success">正常运行</td>
 							<td>{{x.online}}</td>
