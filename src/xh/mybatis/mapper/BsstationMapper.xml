@@ -346,19 +346,22 @@
 	</select>
 
 	<!--区域圈选查询 -->
-	<select id="rectangle" parameterType="map" resultType="java.util.HashMap"
-		useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a
-		left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where lng between
-		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
+	<select id="rectangle" parameterType="map"
+		resultType="java.util.HashMap" useCache="true">
+		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId where a.bsId in 
+		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
+         #{item}
+        </foreach>
 		group by a.bsId order by bsId asc limit #{start},#{limit}
 	</select>
 	<!--区域圈选总数 -->
 	<select id="rectangleCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_bs_station where lng between
-		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
+		select count(*) from xhgmnet_bs_station where bsId in 
+		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
+         #{item}
+        </foreach>
 	</select>
 
 </mapper>
