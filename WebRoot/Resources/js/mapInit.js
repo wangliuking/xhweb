@@ -256,7 +256,8 @@ app.controller("map", function($scope, $http) {
 	
 	
 	/* 查询数据  圈选*/
-	$scope.searchChoose = function(page,params) {
+	$scope.searchChoose = function(page) {
+		var params = $scope.groupData;
 		var pageSize = $("#page-limitChoose").val();
 		var start = 1, limit = pageSize;
 		frist = 0;
@@ -461,7 +462,7 @@ function floor(data) {
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d
+				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer/378
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	}else if(chooseLayer==1){
 		testDemo = new
@@ -470,8 +471,8 @@ function floor(data) {
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
 	/*test = new
-	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");*///动态服务
-	//myMap.addLayer(test);// 将底图图层对象添加到地图中
+	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer/1");///动态服务
+	myMap.addLayer(test);*/// 将底图图层对象添加到地图中
 	
 	levelLayer = new esri.layers.GraphicsLayer({id:"基站级别"});
 	areaLayer = new esri.layers.GraphicsLayer({id:"基站区域"});
@@ -539,19 +540,17 @@ function floor(data) {
             d.on("click", activateTool);
           }
         });
-      var params;
       function activateTool() {
     	  toolbar = new Draw(myMap);
-    	  //开启鼠标监听
-    	  params = mouseEvents();
           toolbar.on("draw-end", addToMap);
-          var temp = "RECTANGLE";
+          var temp = "POLYGON";//RECTANGLE
     	  var tool = temp.replace(/ /g, "_");
           toolbar.activate(Draw[tool]);
           myMap.hideZoomSlider();
       }
 
       function addToMap(evt) {
+    	  var geometry = evt.geometry;
     	  var symbol;
           toolbar.deactivate();
           myMap.showZoomSlider();
@@ -568,15 +567,38 @@ function floor(data) {
               break;
           }
           var graphic = new Graphic(evt.geometry, symbol);
-          graphic.attributes=params;
+
+          if (graphic.geometry.type === "polygon") {  
+              var polygon = new esri.geometry.Polygon({"rings":geometry.rings,"spatialReference":geometry.spatialReference});  
+          }
+          var groupData=[];
+          //循环data找出包含的基站
+          for(var i=0;i<data.length;i++){
+        	  var tempPoint = new esri.geometry.Point(data[i].lng, data[i].lat);
+              var result = contain(tempPoint,polygon);
+              if(result == "yes"){
+            	  groupData.push(data[i].bsId);
+              }
+          }  
           rectangle.add(graphic);
           $('#rectangle').modal();
           var appElement = document.querySelector('[ng-controller=map]');
       	  var $scope = angular.element(appElement).scope();
-      	  $scope.searchChoose(1,params);
+      	  //把圈选包含基站的id放入groupData
+      	  $scope.groupData=groupData;
+      	  $scope.searchChoose(1);
       }
       
     });
+}
+
+//验证包含的方法，注意传入参数的类型是Point和Polygon，不是geometry。  
+function contain(point,polygon) {  
+    if (polygon.contains(point)) {  
+        return "yes";  
+    } else {  
+        return "no";  
+    }  
 }
 
 //圈选模态框消失后清除图层
