@@ -153,13 +153,8 @@ app.controller("map", function($scope, $http) {
 					var tempData = response.items;					
 					var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
 					myMap.centerAndZoom(point,level[params].zoom*1);
-					layerCreate(tempData);
-					option.series[0].markPoint.data=baseMark(tempData);
-					option.series[1].markPoint.data=flashMark(tempData);
-					myMap.removeLayer(gLayer);
-					option.series[0].markPoint.symbol='pin';
-					option.series[0].markPoint.symbolSize=8;
-					overlay.setOption(option);
+					option.series[0].markPoint.data=baseMark(tempData)[0];
+					option.series[1].markPoint.data=baseMark(tempData)[1];		
 				});
 	} 
 	/* 区域选择 */
@@ -200,9 +195,8 @@ app.controller("map", function($scope, $http) {
 						var tempData = response.items;	
 						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
 						myMap.centerAndZoom(point,area[params].zoom*1);
-						layerCreate(tempData);
-						option.series[0].markPoint.data=baseMark(tempData);
-						option.series[1].markPoint.data=flashMark(tempData);
+						option.series[0].markPoint.data=baseMark(tempData)[0];
+						option.series[1].markPoint.data=baseMark(tempData)[1];
 						overlay.setOption(option);
 						areaRingsData(params);
 					});
@@ -215,9 +209,8 @@ app.controller("map", function($scope, $http) {
 				$http.get("bs/map/data").success(
 						function(response) {
 							var tempData = response.items;
-							layerCreate(tempData);
-							option.series[0].markPoint.data=baseMark(tempData);
-							option.series[1].markPoint.data=[];
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
 							areaRingsClear(params);
 						});
@@ -225,9 +218,8 @@ app.controller("map", function($scope, $http) {
 				$http.get("bs/map/bsByArea?zone="+t).success(
 						function(response) {
 							var tempData = response.items;
-							layerCreate(tempData);
-							option.series[0].markPoint.data=baseMark(tempData);
-							option.series[1].markPoint.data=flashMark(tempData);
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
 							areaRingsClear(params);
 						});
@@ -235,59 +227,6 @@ app.controller("map", function($scope, $http) {
 		}
 		
 	} 
-	
-	$scope.test=function(){
-		var t = $scope.top5Calllist;
-		t[0]="";
-		$scope.top5Calllist=t;
-		/*var temp;
-		temp=t[0];
-		t[0]=t[1];
-		t[1]=t[2];
-		t[2]=t[3];
-		t[3]=t[4];
-		t[4]=temp;
-		$scope.top5Calllist = t;*/
-	}
-	
-	/*话务量点击定位*/
-	$scope.calllistChoose=function(x){
-		$http.get("bs/map/data").success(
-				function(response) {
-					var tempData = response.items;				
-					var point = new esri.geometry.Point(x.lng*1, x.lat*1);
-					myMap.centerAndZoom(point,8);
-					layerCreate(tempData);
-					var temp=[];
-					var y = {
-							name : x.name,
-							value : x.bsId
-						};
-					temp.push(y);
-					option.series[0].markPoint.data=baseMark(tempData);
-					option.series[1].markPoint.data=temp;
-					overlay.setOption(option);
-				});	
-	}
-	/*排队数点击定位*/
-	$scope.channel=function(x){
-		$http.get("bs/map/data").success(
-				function(response) {
-					var tempData = response.items;				
-					var point = new esri.geometry.Point(x.lng*1, x.lat*1);
-					myMap.centerAndZoom(point,8);
-					layerCreate(tempData);
-					var temp=[];
-					var y = {
-							name : x.name,
-							value : x.bsId
-						};
-					temp.push(y);
-					option.series[0].markPoint.data=baseMark(tempData);
-					option.series[1].markPoint.data=temp;
-					overlay.setOption(option);
-				});	
-	}
 	/* 刷新数据  业务*/
 	$scope.refresh = function() {
 		$scope.search(1);
@@ -301,7 +240,6 @@ app.controller("map", function($scope, $http) {
 		page = parseInt(page);
 		if (page <= 1) {
 			start = 0;
-
 		} else {
 			start = (page - 1) * pageSize;
 		}
@@ -505,9 +443,6 @@ var myTiledMapServiceLayer;
 var myMap;
 var scalebar;
 var draw;
-var gLayer;
-var gLayermiddle;
-var gLayerbig;
 var levelLayer,areaLayer
 var roadtest;
 var areaRings;
@@ -538,9 +473,6 @@ function floor(data) {
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/Feature/MapServer");*///动态服务
 	//myMap.addLayer(test);// 将底图图层对象添加到地图中
 	
-	gLayer = new esri.layers.GraphicsLayer({id:"小图标"}); // 创建图形显示图层，图形显示图层专门用于在地图上显示点，线，面图形数据
-	gLayermiddle = new esri.layers.GraphicsLayer({id:"中图标"});// 创建中图标图层
-	gLayerbig = new esri.layers.GraphicsLayer({id:"大图标"});// 创建大图形显示图层
 	levelLayer = new esri.layers.GraphicsLayer({id:"基站级别"});
 	areaLayer = new esri.layers.GraphicsLayer({id:"基站区域"});
 	roadtest = new esri.layers.GraphicsLayer({id:"路测数据"});
@@ -548,7 +480,7 @@ function floor(data) {
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
 	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
 	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
-	myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
+	//myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
 	myMap.addLayer(rectangle);
@@ -559,8 +491,6 @@ function floor(data) {
 	 * pSymbol.setSize(12); //设置点的大小为12像素 pSymbol.setColor(new
 	 * dojo.Color("#FFFFCC"));
 	 */
-	//创建图层
-	layerCreate(data);
 	//路测数据创建图层
 	$.ajax({
 		type : "GET",
@@ -582,18 +512,6 @@ function floor(data) {
 			// use "metric" for kilometers
 			scalebarUnit : "metric"
 		});
-	});
-	
-	// 图层组
-	require([ "esri/dijit/LayerList" ], function(LayerList) {
-		var layerList = new esri.dijit.LayerList({
-			map: myMap,
-		    showLegend: false,
-		    showSubLayers: false,
-		    showOpacitySlider: false,
-		    layers: [areaRings]
-		},"test");
-		layerList.startup();
 	});
 	//区域圈选
 	var toolbar, symbol, geomTask;
@@ -748,23 +666,6 @@ function areaRingsData(param){
 //区域边界图层创建
 function areaRingsCreate(data,params){
 	require(["esri/Color"], function(Color) {	
-		/*var i;
-		for(i=0;i<data.length;i++){
-			var temp=[255,0,0];
-			var symbol = new esri.symbol.SimpleMarkerSymbol({
-				"color": temp,
-				  "size": 4,
-				  "type": "simplemarkersymbol"
-			});
-			var pt = new esri.geometry.Point(data[i][0]*1, data[i][1]*1);// 创建点对象
-			var attr = {
-					"db" : ""
-			};// 设置相关的属性信息对象
-			var infoTemplate = new esri.InfoTemplate("弹出窗口的标题",
-					"");// 创建弹出窗口内容显示模板
-			var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
-			areaRings.add(graphic);// 将图形对象添加到图形显示图层
-		}*/
 		var line = new esri.geometry.Polyline({
 			   "paths": data,
 			   "spatialReference": { "wkid": 4326 }
@@ -828,7 +729,7 @@ function roadtestCreate(data){
 	
 }
 //基站图标创建
-function layerCreate(data){
+/*function layerCreate(data){
 	// 小图标图层
 	gLayer.clear();
 	var i;
@@ -840,19 +741,8 @@ function layerCreate(data){
 		}else if (data[i].bsStatus == 0) {
 			temp = "bluesky/contact_small.png";
 		} else {
-			// 判断基站告警的级别
-			/*if (typeof (data[i].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_small.png";
-			} else if (data[i].alarmLevel == 1) {
-				temp = "bluesky/normal_small.gif";
-			} else if (data[i].alarmLevel == 2) {
-				temp = "bluesky/warning_small.gif";
-			} else if (data[i].alarmLevel == 3) {
-				temp = "bluesky/urgent_small.gif";
-			}*/
 			temp = "bluesky/break_small.png";
 		}
-
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
 		var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1);// 创建点对象
 		var attr = {
@@ -865,82 +755,7 @@ function layerCreate(data){
 		var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
 		gLayer.add(graphic);// 将图形对象添加到图形显示图层
 	}
-
-	// 中图标图层
-	gLayermiddle.clear();
-	var j;
-	for (j = 0; j < data.length; j++) {
-		var temp = 0;
-		// 判断基站是连接还是断开
-		if(data[j].status == 0){
-			temp = "bluesky/unuse_middle.png";
-		}else if (data[j].bsStatus == 0) {
-			temp = "bluesky/contact_middle.png";
-		} else {
-			// 判断基站告警的级别
-			/*if (typeof (data[j].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_middle.png";
-			} else if (data[j].alarmLevel == 1) {
-				temp = "bluesky/normal_middle.gif";
-			} else if (data[j].alarmLevel == 2) {
-				temp = "bluesky/warning_middle.gif";
-			} else if (data[j].alarmLevel == 3) {
-				temp = "bluesky/urgent_middle.gif";
-			}*/
-			temp = "bluesky/break_middle.png";
-		}
-
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(32), parseInt(32));
-		var pt = new esri.geometry.Point(data[j].lng*1, data[j].lat*1);// 创建点对象
-		var attr = {
-			"Xcoord" : data[j].lng,
-			"Ycoord" : data[j].lat,
-			"Plant" : data[j].name
-		};// 设置相关的属性信息对象
-		var infoTemplate = new esri.InfoTemplate("弹出窗口的标题",
-				"纬度属性: ${Ycoord} <br/>经度属性: ${Xcoord} <br/>基站名称................:${Plant}");// 创建弹出窗口内容显示模板
-		var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
-		gLayermiddle.add(graphic);
-	}
-
-	// 大图标图层
-	gLayerbig.clear();
-	var x;
-	for (x = 0; x < data.length; x++) {
-		var temp = 0;
-		// 判断基站是连接还是断开
-		if(data[x].status == 0){
-			temp = "bluesky/unuse_big.png";
-		}else if (data[x].bsStatus == 0) {
-			temp = "bluesky/contact_big.png";
-		} else {
-			// 判断基站告警的级别
-			/*if (typeof (data[x].alarmLevel) === "undefined") {
-				temp = "bluesky/contact_big.png";
-			} else if (data[x].alarmLevel == 1) {
-				temp = "bluesky/normal_big.gif";
-			} else if (data[x].alarmLevel == 2) {
-				temp = "bluesky/warning_big.gif";
-			} else if (data[x].alarmLevel == 3) {
-				temp = "bluesky/urgent_big.gif";
-			}*/
-			temp = "bluesky/break_big.png";
-		}
-
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(48), parseInt(48));
-		var pt = new esri.geometry.Point(data[x].lng*1, data[x].lat*1);// 创建点对象
-		var attr = {
-			"Xcoord" : data[x].lng,
-			"Ycoord" : data[x].lat,
-			"Plant" : data[x].name
-		};// 设置相关的属性信息对象
-		var infoTemplate = new esri.InfoTemplate("弹出窗口的标题",
-				"纬度属性: ${Ycoord} <br/>经度属性: ${Xcoord} <br/>基站名称................:${Plant}");// 创建弹出窗口内容显示模板
-		var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
-		gLayerbig.add(graphic);
-	}
-
-}
+}*/
 
 var overlay,option
 function init(data,markData) {
@@ -964,21 +779,32 @@ function init(data,markData) {
 			for (j = 0; j < markData.length; j++) {
 				var x = {
 					name : markData[j].name,
-					value : markData[j].bsId
+					id : markData[j].bsId
 				};
 				objTemp.push(x);
 			}
 		}
-		
+
 		// 所有基站显示数据
 		var k;
-		var objAll = [];
+		var objConnect = [];
+		var objBreak = [];
 		for (k = 0; k < data.length; k++) {
-			var y = {
-				name : data[k].name,
-				value : data[k].bsId
-			};
-			objAll.push(y);
+			if(data[k].bsStatus==0){
+				var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+				objConnect.push(y);
+			}else if(data[k].bsStatus==1){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objBreak.push(y);
+			}			
 		}
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
@@ -986,91 +812,13 @@ function init(data,markData) {
 		window.onresize = myChart.onresize;
 		// 为echarts绑定事件
 		myChart.on('click', function(params) {
+			console.log(params);
 			/* 基站图标设置模态框并获取显示数据 */
 			$('#myModal').modal();
 			var appElement = document.querySelector('[ng-controller=map]');
 			var $scope = angular.element(appElement).scope();
-			$scope.bsId=params.value;
+			$scope.bsId=params.data.id;
 			$scope.bsInformation();
-			/*$.ajax({
-				type : "GET",
-				url : "bs/map/dataById?bsId=" + params.value,
-				dataType : "json",
-				success : function(dataById) {
-					var dataTemp = dataById.items;
-					var data = dataTemp[0];
-					$('#bsId').val(data.bsId);
-					$('#bsName').val(data.name);
-					if(data.period==3){
-						$('#period').val("三期基站");
-					}else{
-						$('#period').val("四期基站");
-					}
-					$('#type').val(data.type);
-					$('#address').val(data.address);
-					$('#ip').val(data.ip);
-					if (data.contact == '') {
-						$('#contact').val("暂无相关信息");
-					} else if (data.tel == 0) {
-						$('#tel').val(data.tel + " 暂无电话");
-					} else {
-						$('#contact').val(data.contact);
-						$('#tel').val(data.tel);
-					}
-					
-					$('#chnumber').val(data.chnumber);
-					$('#gpsLineNum').val(data.gpsLineNum);
-					$('#power').val(data.power);
-					$('#carrier').val(data.carrier);
-					$('#height').val(data.height);
-					$('#lineHeight').val(data.lineHeight);
-					if (data.bsStatus == '') {
-						$('#status').val("暂无相关信息");
-					} else if (data.status == 0) {
-						$('#status').val("正常");
-					}else{
-						$('#status').val("未启用");
-					}
-					
-					$('#business1').val(data.upload);
-					$('#business2').val(data.download);
-					$('#business3').val(data.queuedAllocReq);
-					$('#business4').val(data.time);
-					*//**
-					 * start
-					 * 业务部分模拟数据
-					 *//*
-					$('#business1').val(parseInt(Math.random()*(99-5+1) + 5));
-					$('#business2').val(parseInt(Math.random()*(50-16+1) + 16)+"%");
-					$('#business3').val(parseInt(Math.random()*(65-16+1) + 11)+"%");
-					$('#business4').val(parseInt(Math.random()*(99-5+1) + 5));
-					*//**
-					 * end
-					 *//*
-					
-					$('#temp_0').val(0.0);
-					$('#temp_1').val(1.0);
-					$('#temp_2').val(0.0);
-					$('#temp_3').val(1.0);
-					highChart(data);
-				}
-			});*/
-			//gosuncn1
-			/*$.ajax({
-				type : "GET",
-				url : "gonsuncn/oneBsEmh?bsId=" + params.value,
-				dataType : "json",
-				success : function(dataById) {
-					// 动环数据展示
-					var data = dataById.items;
-					$('#temp_0').val(data[2]["017001"]);
-					$('#temp_1').val(data[3]["017002"]);
-					$('#temp_2').val(data[4]["017004"]);
-					$('#temp_3').val(data[5]["017020"]);
-					highChart(data);
-					$("#movie").load("http://192.168.5.253/doc/page/simplepreview.asp"+" #movie"); 
-				}
-			});*/
 		});
 		//地图加载时执行
 		option = {
@@ -1085,13 +833,12 @@ function init(data,markData) {
 								
 							}
 						});
-						console.log(params);
                         var res;
                         var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
                         var temp2 = parseInt(Math.random()*(99-5+1) + 6);
                         var temp3 = parseInt(Math.random()*(99-5+1) + 7);
                         var temp4 = parseInt(Math.random()*(0-5+1) + 5);
-                        res = '基站ID：'+params["2"]+
+                        res = '基站ID：'+params["5"].id+
                         '<br/>'+'基站名称：'+params["1"]+
                         '<br/>'+'信道占用率：'+ temp1 +
                         '<br/>'+'注册组数：'+ temp2 +
@@ -1114,27 +861,34 @@ function init(data,markData) {
                         return [p[0] + 10, p[1] - 10];
                     }  
                 },
-				/*dataRange : {
-					min : 0,
-			        max : 500,
-			        calculable : true,
-			        color: ['maroon','purple','red','orange','yellow','lightgreen']
-			        color:['red','red']
-				},*/
 				series : [ {
-					name : '四川',
+					name : '四川正常基站',
 					type : 'map',
 					mapType : 'none',			
 					data : [],
 					geoCoord : obj,
 					markPoint : {
-						symbol : 'image://',
-						symbolSize: 12,       // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
-		                
-		                data:objAll
+						symbol : 'image://bluesky/contact_big.png',
+						symbolSize: function(v){
+							return 12;
+						},                
+		                data:objConnect
+					}
+				},{
+					name : '四川断开基站',
+					type : 'map',
+					mapType : 'none',			
+					data : [],
+					geoCoord : obj,
+					markPoint : {
+						symbol : 'image://bluesky/break_big.png',
+						symbolSize: function(v){
+							return 12;
+						},	                
+		                data:objBreak
 					}
 				}, {
-					name : '基站',
+					name : '闪烁效果基站',
 					type : 'map',
 					mapType : 'none',
 					data : [],
@@ -1142,7 +896,7 @@ function init(data,markData) {
 						symbol : 'image://',//'emptyCircle'
 						
 						symbolSize : function(v) {
-							return 12
+							return 12;
 						},
 						effect : {
 							show : true,
@@ -1174,67 +928,24 @@ function init(data,markData) {
 		myMap.on('zoom-end', function() {
 			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
-				if (myMap.getZoom() >= 10) {
-					myMap.removeLayer(gLayer);
-					myMap.removeLayer(gLayermiddle);
-					myMap.addLayer(gLayerbig);
-					option.series[0].markPoint.symbol='image://';
-					option.series[0].markPoint.symbolSize=32;
-					overlay.setOption(option);
-				} else if (myMap.getZoom() >= 7 && myMap.getZoom() <= 9) {
-					myMap.removeLayer(gLayer);
-					myMap.removeLayer(gLayerbig);
-					myMap.addLayer(gLayermiddle);
-					option.series[0].markPoint.symbol='image://';
-					option.series[0].markPoint.symbolSize=24;
-					overlay.setOption(option);
-				} else if(myMap.getZoom() <= 6){
-					myMap.removeLayer(gLayermiddle);
-					myMap.removeLayer(gLayerbig);
-					myMap.removeLayer(gLayer);
-					option.series[0].markPoint.symbol='pin';
-					option.series[0].markPoint.symbolSize=8;
-					overlay.setOption(option);
-				}
-			}
-			
+				option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
+				option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+				overlay.setOption(option);
+			}			
 		});
 		
-		//左侧图层选择事件
+		//图层选择事件
 		$(function() {
 			$("#bsInfo").click(function() {
 				if ($(this).prop("checked") == true) {
-					if (myMap.getZoom() >= 10) {
-						myMap.removeLayer(gLayer);
-						myMap.removeLayer(gLayermiddle);
-						myMap.addLayer(gLayerbig);
-						option.series[0].markPoint.symbolSize=32;
-						option.series[0].markPoint.data=objAll;
-						option.series[1].markPoint.data=objTemp;
-						overlay.setOption(option);
-					} else if (myMap.getZoom() >= 7 && myMap.getZoom() <= 9) {
-						myMap.removeLayer(gLayer);
-						myMap.removeLayer(gLayerbig);
-						myMap.addLayer(gLayermiddle);
-						option.series[0].markPoint.symbolSize=24;
-						option.series[0].markPoint.data=objAll;
-						option.series[1].markPoint.data=objTemp;
-						overlay.setOption(option);
-					} else {
-						myMap.removeLayer(gLayermiddle);
-						myMap.removeLayer(gLayerbig);
-						myMap.addLayer(gLayer);
-						option.series[0].markPoint.symbolSize=16;
-						option.series[0].markPoint.data=objAll;
-						option.series[1].markPoint.data=objTemp;
-						overlay.setOption(option);
-					}
+					option.series[0].markPoint.data=objConnect;
+					option.series[1].markPoint.data=objBreak;
+					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+					overlay.setOption(option);
 				} else {
 					var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
 					myMap.centerAndZoom(point, 6);
-					myMap.removeLayer(gLayer);
-					myMap.removeLayer(gLayermiddle);
-					myMap.removeLayer(gLayerbig);
 					option.series[0].markPoint.data=[];
 					option.series[1].markPoint.data=[];
 					overlay.setOption(option);
@@ -1257,7 +968,7 @@ function init(data,markData) {
 					myMap.destroy();
 					chooseLayer=1;
 					getData();
-					setTimeout("tempCenterAndZoom()","3000");
+					setTimeout("tempCenterAndZoom()","2000");
 									
 				} else {
 					
@@ -1367,16 +1078,30 @@ $(document).ready(
 
 //基本效果数据处理调用的函数
 function baseMark(data){
+	var objBoth = [];
 	var k;
-	var objAll = [];
+	var objConnect = [];
+	var objBreak = [];
 	for (k = 0; k < data.length; k++) {
-		var y = {
-			name : data[k].name,
-			value : data[k].bsId
-		};
-		objAll.push(y);
+		if(data[k].bsStatus==0){
+			var y = {
+				name : data[k].name,
+				id : data[k].bsId,
+				bsStatus : data[k].bsStatus
+				};
+			objConnect.push(y);
+		}else if(data[k].bsStatus==1){
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objBreak.push(y);
+		}			
 	}
-	return objAll;
+	objBoth.push(objConnect);
+	objBoth.push(objBreak);
+	return objBoth;
 }
 
 //闪烁效果需求数据处理调用的函数
@@ -1388,7 +1113,7 @@ function flashMark(markData){
 		for (j = 0; j < markData.length; j++) {
 			var x = {
 				name : markData[j].name,
-				value : markData[j].bsId
+				id : markData[j].bsId
 			};
 			objTemp.push(x);
 		}
@@ -1396,328 +1121,4 @@ function flashMark(markData){
 	return objTemp;
 }
 
-//highcharts
-function highChart(data) {
-	
-	//温度计
-    $('#temperature').highcharts({
-    	credits: {
-    		enabled:false
-    	},
-    	exporting: { 
-    		enabled:false 
-    	},
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false
-        },
-        title: {
-            text: '温度仪'
-        },
-        pane: {
-            startAngle: -150,
-            endAngle: 150,
-            background: [{
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#FFF'],
-                        [1, '#333']
-                    ]
-                },
-                borderWidth: 0,
-                outerRadius: '109%'
-            }, {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#333'],
-                        [1, '#FFF']
-                    ]
-                },
-                borderWidth: 1,
-                outerRadius: '107%'
-            }, {
-                // default background
-            }, {
-                backgroundColor: '#DDD',
-                borderWidth: 0,
-                outerRadius: '105%',
-                innerRadius: '103%'
-            }]
-        },
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 80,
-            minorTickInterval: 'auto',
-            minorTickWidth: 1,
-            minorTickLength: 10,
-            minorTickPosition: 'inside',
-            minorTickColor: '#666',
-            tickPixelInterval: 30,
-            tickWidth: 2,
-            tickPosition: 'inside',
-            tickLength: 10,
-            tickColor: '#666',
-            labels: {
-                step: 2,
-                rotation: 'auto'
-            },
-            title: {
-                text: '℃'
-            },
-            plotBands: [{
-                from: 0,
-                to: 30,
-                color: '#55BF3B' // green
-            }, {
-                from: 30,
-                to: 60,
-                color: '#DDDF0D' // yellow
-            }, {
-                from: 50,
-                to: 80,
-                color: '#DF5353' // red
-            }]
-        },
-        series: [{
-            name: '温度',
-            data: [/*data[0]["017301"]*1*/28.32],
-            tooltip: {
-                valueSuffix: ' ℃'
-            }
-        }]
-    });
-    
-    
-    //湿度计
-    $('#humidity').highcharts({
-    	credits: {
-    		enabled:false
-    	},
-    	exporting: { 
-    		enabled:false 
-    	},
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false
-        },
-        title: {
-            text: '湿度计'
-        },
-        pane: {
-            startAngle: -150,
-            endAngle: 150,
-            background: [{
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#FFF'],
-                        [1, '#333']
-                    ]
-                },
-                borderWidth: 0,
-                outerRadius: '109%'
-            }, {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#333'],
-                        [1, '#FFF']
-                    ]
-                },
-                borderWidth: 1,
-                outerRadius: '107%'
-            }, {
-                // default background
-            }, {
-                backgroundColor: '#DDD',
-                borderWidth: 0,
-                outerRadius: '105%',
-                innerRadius: '103%'
-            }]
-        },
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 120,
-            minorTickInterval: 'auto',
-            minorTickWidth: 1,
-            minorTickLength: 10,
-            minorTickPosition: 'inside',
-            minorTickColor: '#666',
-            tickPixelInterval: 30,
-            tickWidth: 2,
-            tickPosition: 'inside',
-            tickLength: 10,
-            tickColor: '#666',
-            labels: {
-                step: 2,
-                rotation: 'auto'
-            },
-            title: {
-                text: '℃'
-            },
-            plotBands: [{
-                from: 0,
-                to: 40,
-                color: '#DDDF0D' // yellow
-            }, {
-                from: 40,
-                to: 80,
-                color: '#55BF3B' // green
-            }, {
-                from: 80,
-                to: 120,
-                color: '#DF5353' // red
-            }]
-        },
-        series: [{
-            name: '湿度',
-            data: [/*data[1]["017302"]*1*/37.63],
-            tooltip: {
-                valueSuffix: ' ℃'
-            }
-        }]
-    });
-    
-    //伏压图
-    $('#Current_voltage').highcharts({
-    	credits: {
-    		enabled:false
-    	},
-    	exporting: { 
-    		enabled:false 
-    	},
-        chart: {
-            type: 'gauge',
-            plotBorderWidth: 1,
-            plotBackgroundColor: {
-                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3: 1 },
-                stops: [
-                    [0, '#FFF4C6'],
-                    [0.3, '#FFFFFF'],
-                    [1, '#FFF4C6']
-                ]
-            },
-            plotBackgroundImage: null,
-            height: 200
-        },
-        title: {
-            text: '电流/电压图'
-        },
-        pane: [{
-            startAngle: -45,
-            endAngle: 45,
-            background: null,
-            center: ['18%', '115%'],
-            size: 200
-        }, {
-            startAngle: -45,
-            endAngle: 45,
-            background: null,
-            center: ['52%', '115%'],
-            size: 200
-        },{
-            startAngle: -45,
-            endAngle: 45,
-            background: null,
-            center: ['85%', '115%'],
-            size: 200
-        }],
-        yAxis: [{
-            min: -20,
-            max: 6,
-            minorTickPosition: 'outside',
-            tickPosition: 'outside',
-            labels: {
-                rotation: 'auto',
-                distance: 20
-            },
-            plotBands: [{
-                from: 0,
-                to: 6,
-                color: '#C02316',
-                innerRadius: '100%',
-                outerRadius: '105%'
-            }],
-            pane: 0,
-            title: {
-                text: 'V<br/><span style="font-size:8px">电压</span>',
-                y: -40
-            }
-        }, {
-            min: -20,
-            max: 6,
-            minorTickPosition: 'outside',
-            tickPosition: 'outside',
-            labels: {
-                rotation: 'auto',
-                distance: 20
-            },
-            plotBands: [{
-                from: 0,
-                to: 6,
-                color: '#C02316',
-                innerRadius: '100%',
-                outerRadius: '105%'
-            }],
-            pane: 1,
-            title: {
-                text: 'V<br/><span style="font-size:8px">电压</span>',
-                y: -40
-            }
-        },{
-            min: -20,
-            max: 6,
-            minorTickPosition: 'outside',
-            tickPosition: 'outside',
-            labels: {
-                rotation: 'auto',
-                distance: 20
-            },
-            plotBands: [{
-                from: 0,
-                to: 6,
-                color: '#C02316',
-                innerRadius: '100%',
-                outerRadius: '105%'
-            }],
-            pane: 2,
-            title: {
-                text: 'A<br/><span style="font-size:8px">电流</span>',
-                y: -40
-            }
-        }],
-        plotOptions: {
-            gauge: {
-                dataLabels: {
-                    enabled: false
-                },
-                dial: {
-                    radius: '100%'
-                }
-            }
-        },
-        series: [{
-            data: [-20],
-            yAxis: 0
-        }, {
-            data: [-20],
-            yAxis: 1
-        },{
-            data: [-20],
-            yAxis: 2
-        }]
-    });
-    
-    
-}
 
