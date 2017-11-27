@@ -134,9 +134,9 @@
 											<tr ng-repeat="x in data">
 												<!-- <td>{{$index+1}}</td> -->
 												<td >
-												<div class="td-danger" ng-if="x.neType==2 && x.modType==1000 && x.subModType==1 && x.code==2">主要告警</div>
+												<!-- <div class="td-danger" ng-if="x.neType==2 && x.modType==1000 && x.subModType==1 && x.code==2">主要告警</div> -->
 												
-												<!-- <span ng-if="x.neType==1">基站</span>
+												<span ng-if="x.neType==1">基站</span>
 												<span ng-if="x.neType==2">交换中心</span>
 												<span ng-if="x.neType==3">调度台</span>
 												<span ng-if="x.neType==4">网管</span>
@@ -163,7 +163,7 @@
 												<span ng-if="x.neType==29">以太网E1网桥</span>
 												<span ng-if="x.neType==30">桥接中心</span>
 												<span ng-if="x.neType==32">媒体服务器</span>
-												</td> -->
+												</td>
 												<td>{{x.neId}}</td>
 												<td>{{x.severity}}</td>
 												<td>{{x.description}}</td>

@@ -129,23 +129,13 @@ xh.map = function() {
 				data : [ '基站异常' ]
 			},
 			dataRange : {
-				  orient: 'horizontal',
-			        x: 'right',
-			        min: 0,
-			        max: 1000,
-			        color:['orange','yellow'],
-			        text:['高','低'],           // 文本，默认为数值文本
-			        splitNumber:0
-				/*min : 0,
+				min : 0,
 				max : 500,
 				x : 'left',
 				y : 'bottom',
-				orient: 'horizontal',
-			    x: 'right',
-                color:['yellow','red'],
-             
-				text : [ '低', '高' ], // 文本，默认为数值文本
-				calculable : true*/
+				color:['red','skyblue'],
+				text : [ '高', '低' ], // 文本，默认为数值文本
+				calculable : true
 			},
 			/*roamController : {
 				show : true,
@@ -171,13 +161,7 @@ xh.map = function() {
 						}
 					}
 				},
-				data : [ {
-					name : '青羊区',
-					value : Math.round(Math.random() * 1000)
-				}, {
-					name : '平武县',
-					value : Math.round(Math.random() * 1000)
-				}]
+				data : []
 			} ]
 		};
 		
