@@ -103,10 +103,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			/*xh.maskShow();*/
 			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status).
 			success(function(response){
-				xh.maskHide();
+				/*xh.maskHide();*/
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
@@ -141,6 +141,9 @@ xh.load = function() {
 			});
 			
 		};
+		setInterval(function(){
+			$scope.search(1);
+			}, 10000);
 		
 		
 	});
