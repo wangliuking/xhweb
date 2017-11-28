@@ -49,8 +49,8 @@ public class EMHListener implements ServletContextListener {
 		timer1 = new Timer(true);
 		timer2 = new Timer(true);
 		timer.schedule(new timerTaskForLogin(), 8 * 60 * 1000, 8 * 60 * 1000);// 心跳任务
-		timer1.schedule(new timerTaskForData(), 60 * 1000, 60 * 1000);//定时获取数据任务
-		//timer2.schedule(new timerTaskForTimeCheck(),2 * 60 * 1000,60 * 60 * 1000);//
+		timer1.schedule(new timerTaskForData(), 5 * 60 * 1000, 60 * 1000);//定时获取数据任务
+		timer2.schedule(new timerTaskForTimeCheck(),10 * 60 * 1000,60 * 60 * 1000);//
 		// 时间同步（一次）
 
 		// timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
