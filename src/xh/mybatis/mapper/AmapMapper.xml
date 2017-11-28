@@ -43,11 +43,11 @@
 	
 	<!-- 根据基站id查询基站业务信息 -->
 	<select id="businessByBsId" parameterType="String" resultType="java.util.List" useCache="true">
-		select count(num1) from 
-		(select COUNT(*) as num1 from xhgmnet_operations_userstatus where bsId=#{bsId} GROUP BY userId) as temp1
-		union
-		select count(num2) from 
-		(select COUNT(*) as num2 from xhgmnet_operations_userstatus where bsId=#{bsId} GROUP BY TGid) as temp2
+		select * from (select count(num1) as userNum from 
+		(select COUNT(*) as num1 from xhgmnet_operations_userstatus where bsId=#{bsId} GROUP BY userId) as temp1) as tempA
+		JOIN 
+		(select COUNT(num2) as groupNum from
+		(select COUNT(*) as num2 from xhgmnet_operations_userstatus where bsId=#{bsId} GROUP BY TGid) as temp2) as tempB
 	</select>
 
 </mapper>

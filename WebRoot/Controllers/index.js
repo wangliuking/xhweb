@@ -65,6 +65,7 @@ xh.load = function() {
 				}
 			});
 		};
+
 		$scope.alarmCount();
 		$scope.alarmInfo();
 		setInterval(function(){
@@ -72,6 +73,7 @@ xh.load = function() {
 			$scope.alarmChange();
 			$scope.alarmInfo();
 			}, 10000);  //每隔 10 秒 
+
 		
 		
 

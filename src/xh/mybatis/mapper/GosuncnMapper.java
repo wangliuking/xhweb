@@ -13,6 +13,11 @@ public interface GosuncnMapper {
 	public int insertLogin(Map<String,String> map)throws Exception;
 	
 	/**
+	 * 根据fsuId更新注册信息
+	 */
+	public int updateLogin(Map<String,String> map)throws Exception;
+	
+	/**
 	 * 查询注册信息用于维持心跳
 	 */
 	public List<Map<String,String>> selectForGetLogin();
@@ -79,10 +84,5 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public int countEMHAlarm(Map<String,Object> map)throws Exception;
-	
-	/**
-	 * 根据基站id查询摄像头IP
-	 */
-	public List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map)throws Exception;
 	
 }

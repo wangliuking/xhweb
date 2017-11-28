@@ -303,9 +303,15 @@ app.controller("map", function($scope, $http) {
 			var tempData=response.items;	
 			//添加模拟数据 start
 			for(var i=0;i<tempData.length;i++){
-				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
-				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
-				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+				if(tempData[i].bsStatus == 0){
+					tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
+					tempData[i].testnum2=parseInt(Math.random()*(300-100+1) + 100);
+					tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+				}else{
+					tempData[i].testnum1=0;
+					tempData[i].testnum2=0;
+					tempData[i].testnum3=0;
+				}			
 			}
 			//添加模拟数据 end
 			$scope.dataRectangle = tempData;		
@@ -487,11 +493,10 @@ function floor(data) {
 	esri.symbols = esri.symbol;
 	myMap = new esri.Map("mapDiv", options);// 在mapDiv中创建map地图对象
 	// 创建底图图层对象,http://10.190.230.165/arcgisditu/rest/services/NEWMAP/MapServer为政务外网底图服务地址,
-	console.log(chooseLayer);
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer/378
+				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	}else if(chooseLayer==1){
 		testDemo = new
@@ -499,6 +504,15 @@ function floor(data) {
 				"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
+	/*var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/gongyuanguangchang/MapServer");
+	myMap.addLayer(park);*/
+	/*var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/sanjiajijiu/MapServer");
+	myMap.addLayer(park);
+	var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/xiangzhenzhengfu/MapServer");
+	myMap.addLayer(park);
+	var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/zhongdiangaoxiao/MapServer");
+	myMap.addLayer(park);*/
+	
 	/*test = new
 	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer/1");///动态服务
 	myMap.addLayer(test);*/// 将底图图层对象添加到地图中
@@ -863,7 +877,6 @@ function init(data,markData) {
 		window.onresize = myChart.onresize;
 		// 为echarts绑定事件
 		myChart.on('click', function(params) {
-			console.log(params);
 			/* 基站图标设置模态框并获取显示数据 */
 			$('#myModal').modal();
 			var appElement = document.querySelector('[ng-controller=map]');
@@ -877,25 +890,36 @@ function init(data,markData) {
 				tooltip: {
 					formatter: function (params) {
 						var res;
-						$.ajax({
+						/*$.ajax({
 							type : "GET",
 							url : "amap/map/businessByBsId",
 							dataType : "json",
 							async : false,
 							success : function(dataMap) {							
-		                        var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
-		                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
-		                        var temp3 = parseInt(Math.random()*(99-5+1) + 7);
-		                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
-		                        res = '基站ID：'+params["5"].id+
-		                        '<br/>'+'基站名称：'+params["1"]+
-		                        '<br/>'+'信道占用率：'+ temp1 +
-		                        '<br/>'+'注册组数：'+ temp2 +
-		                        '<br/>'+'注册用户数：'+ temp3 +
-		                        '<br/>'+'排队数：' + temp4;
+		                        
 		                        
 							}
-						});   
+						});*/   
+						for(var a=0;a<data.length;a++){
+							if(data[a].bsId == params[5].id && data[a].bsStatus == 0){
+								var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
+		                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
+		                        var temp3 = parseInt(Math.random()*(300-100+1) + 100);
+		                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
+							}else if(data[a].bsId == params[5].id && data[a].bsStatus != 0){
+								var temp1 = 0;
+		                        var temp2 = 0;
+		                        var temp3 = 0;
+		                        var temp4 = 0;
+							}
+						}
+						
+                        res = '基站ID：'+params["5"].id+
+                        '<br/>'+'基站名称：'+params["1"]+
+                        '<br/>'+'信道占用率：'+ temp1 +
+                        '<br/>'+'注册组数：'+ temp2 +
+                        '<br/>'+'注册用户数：'+ temp3 +
+                        '<br/>'+'排队数：' + temp4;
 						return res;
                     },
                     show: true,
@@ -978,7 +1002,6 @@ function init(data,markData) {
 	    	console.log(e.mapPoint.x ,e.mapPoint.y);
 	  	  });
 		myMap.on('zoom-end', function() {
-			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
 				option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
 				option.series[1].markPoint.symbolSize=myMap.getZoom()*2;

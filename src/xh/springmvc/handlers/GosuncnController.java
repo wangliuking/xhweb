@@ -3,28 +3,19 @@ package xh.springmvc.handlers;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.chinamobile.fsuservice.Test;
-
 import xh.func.plugin.FlexJSON;
-import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.BsstationBean;
-import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.GosuncnService;
-
+import xh.org.listeners.EMHListener;
 /**
  * 动环设备处理类
  * @author 12878
@@ -35,12 +26,8 @@ import xh.mybatis.service.GosuncnService;
 public class GosuncnController {
 	private boolean success;
 	private String message;
-	private FunUtil funUtil=new FunUtil();
 	protected final Log log = LogFactory.getLog(GosuncnController.class);
-	private FlexJSON json=new FlexJSON();
-	private BsstationBean bsstationBean=new BsstationBean();
-	private WebLogBean webLogBean=new WebLogBean();
-	
+	private FlexJSON json=new FlexJSON();	
 	
 	/**
 	 * 获取动环相关信息
@@ -76,30 +63,6 @@ public class GosuncnController {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * 获取摄像头ip
-	 */
-	@RequestMapping("/cameraIp")
-	public void selectCameraIpByBsId(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
-		String bsId = request.getParameter("bsId");
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("bsId", bsId);
-		List<Map<String,String>> list = GosuncnService.selectCameraIpByBsId(map);
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("items", list);
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * 根据FSUID删除配置信息(保持最新的配置信息)
 	 */
@@ -131,6 +94,14 @@ public class GosuncnController {
 			return "failure";
 		}
 		
+	}
+	
+	/**
+	 * 根据fsuId修改注册信息
+	 */
+	public static boolean updateLogin(Map<String,String> map){
+		int count = GosuncnService.updateLogin(map);
+		return count>0?true:false;
 	}
 	
 	/**
@@ -204,45 +175,6 @@ public class GosuncnController {
 			}
 		}else{
 			return "none data";
-		}
-		
-	}
-	
-	
-	/*
-	 * 环控告警页面部分
-	 */
-	/**
-	 * 查询所有告警信息
-	 */
-	@RequestMapping(value="/alarmlist",method = RequestMethod.GET)
-	public void bsInfo(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
-		String temp=request.getParameter("deviceIds");	
-		List<String> list=null;
-		if(temp!=null && !"".equals(temp)){
-			list = Arrays.asList(temp.split(","));		
-		}
-		
-		String alarmlevel=request.getParameter("alarmLevel");
-		int start=funUtil.StringToInt(request.getParameter("start"));
-		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("alarmlevel", alarmlevel);
-		map.put("start", start);
-		map.put("limit", limit);
-		map.put("deviceIds", list);
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("totals",GosuncnService.countEMHAlarm(map));
-		result.put("items", GosuncnService.selectEMHAlarm(map));
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 	}

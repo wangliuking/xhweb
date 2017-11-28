@@ -10,6 +10,11 @@
 		values(#{FSUID},#{FSUIP},#{FSUMAC},#{FSUVER})
 	</insert>
 	
+	<!-- 根据fsuId更新注册信息 -->
+	<update id="updateLogin" parameterType="map">
+		update xhgmnet_emh_login set fsuIp=#{FSUIP},fsuMac=#{FSUMAC},fsuVer=#{FSUVER} where fsuId=#{FSUID}
+	</update>
+	
 	<!-- 查询注册信息用于维持心跳 -->
 	<select id="selectForGetLogin" resultType="map">
 		select fsuId,fsuIp from xhgmnet_emh_login group by fsuId
@@ -115,10 +120,6 @@
 		</if>
 	</select>
 	
-	<!-- 根据基站id查询摄像头IP -->
-	<select id="selectCameraIpByBsId" parameterType="map" resultType="map">
-		select * from xhgmnet_emh_camera where bsId=#{bsId}
-	</select>
 
 
 </mapper>

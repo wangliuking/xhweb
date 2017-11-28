@@ -76,11 +76,13 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				Element e = (Element)list.get(i);
 				map.put(e.getName(), e.getText());			
 			}
-			String result = GosuncnController.insertLogin(map);
-			if("success".equals(result)){
-				log.info("啦啦啦一个FSU注册成功！");
-			}
-			
+			boolean result = GosuncnController.updateLogin(map);
+			if(result){
+				log.info("啦啦啦一个FSU注册更新成功！");			
+			}else{
+				GosuncnController.insertLogin(map);
+				log.info("啦啦啦一个FSU注册添加成功！");
+			}			
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
 			//上报动环设置配置
