@@ -7,7 +7,7 @@
 					<div class="panel-tools">
 						<!-- <a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 							class="closebox"><i class="fa fa-times"></i></a> -->
-							<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
+							<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
 					</div>
 					开关量
 				</div>
@@ -77,7 +77,7 @@
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
-						<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
 					</div> 
 					温湿度
 				</div>
@@ -125,7 +125,7 @@
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
-						<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
 					</div>
 					电量监测
 				</div>
@@ -183,7 +183,7 @@
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
-						<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
 					</div>
 					EPS配电设备
 				</div>
@@ -243,7 +243,7 @@
 			<div class="hpanel">
 				<div class="panel-heading hbuilt">
 					<div class="panel-tools">
-						<span style="color:blue;">数据采集时间：{{emhData.time}}</span>
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
 					</div>
 					智能电表
 				</div>
@@ -335,11 +335,11 @@
 						</tr>
 						<tr ng-repeat="x in emhAlarm">
 							<td>
-							{{x.deviceName}}
+							{{x.NodeAttribute}}
 							</td>
-							<td>{{x.singleValue}}</td>
+							<td>{{x.value}}</td>
 							<td class="td-danger">
-							<span>{{x.AlarmEX}}</span>							
+							<span>{{x.DevName}}.{{x.NodeAttribute}}.{{x.AlarmEX}}</span>							
 							</td>
 						</tr>
 					</tbody>

@@ -168,9 +168,7 @@ public class BsStatusService {
 				if (map.get("008408") != null) {
 					result.put("ups5",
 							Float.parseFloat(map.get("008408").toString()));// 电池方式工作状态
-
 				}
-
 				// FSU
 
 				if (map.get("076002") != null) {

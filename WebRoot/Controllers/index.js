@@ -15,11 +15,13 @@ xh.load = function() {
 		
 		});
 		
-		$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
-			$scope.alarm=response.items;
-			$scope.totals=response.totals;
-		
-		});
+		$scope.alarmInfo=function(){
+			$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
+				$scope.alarm=response.items;
+				$scope.totals=response.totals;
+			
+			});
+		}
 		$scope.hideMenu=function(){
 			$("body").toggleClass("hide-menu");
 		};
@@ -64,9 +66,11 @@ xh.load = function() {
 			});
 		};
 		$scope.alarmCount();
+		$scope.alarmInfo();
 		setInterval(function(){
 			$scope.alarmCount();
-			$scope.alarmChange();          
+			$scope.alarmChange();
+			$scope.alarmInfo();
 			}, 10000);  //每隔 10 秒 
 		
 		

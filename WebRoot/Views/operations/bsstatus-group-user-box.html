@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>基站状态</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
+<![endif]-->
+
+<style type="text/css">
+.bs-div {
+	float: left;
+	margin: 5px;
+	min-width: 200px;
+	line-height: 30px;
+	border: 1px solid gray;
+	/* border-left:10px solid gray; */
+	background: #fff;
+	border-radius：50px;
+}
+
+.bs-div-check {
+	background: black !important;
+}
+#table-div .hpanel{
+ float: left;
+ min-width:100%;
+}
+html,body{
+ margin:0;
+ padding:0;
+ overflow-x:hidden;
+}
+#wrapper{
+ margin:0;
+ padding:0px 20px 0px 20px;
+ overflow-x:hidden;
+}
+.page-box .page-info{
+padding:10px;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+
+		<div class="row" id="table-div">
+			<div>
+				<div class="hpanel">
+					<div class="panel-heading"
+						style="color:#000;border-left:2px solid green">基站下的注册组</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">当前基站下注册组总计：{{groupTotals}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+
+								<table id="tb-info" class="xh-table table-hover">
+									<thead>
+										<tr class="tr-img-gray">
+											<th width="50px">序号</th>
+											<th width="100px">组ID</th>
+											<th>名称</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="groupTotals==0">
+											<td colspan="3" class="text-center">没有记录！</td>
+										</tr>
+										<tr ng-repeat="x in groupData">
+											<td>{{$index+1}}</td>
+											<td>{{x.TGid}}</td>
+											<td>{{x.name}}</td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<div class="page-box" ng-show="groupTotals>0">
+									<div class="page-info">
+										每页显示 <select id="page-limit-group" ng-change="refresh()"
+											ng-model="count">
+											<option value="10">10</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+										</select> 条, <span ng-model="index">显示{{groupStart}}-</span><span
+											ng-model="lastIndex">{{groupLastIndex}}条,</span> <span
+											ng-model="totals">总计{{groupTotals}}条</span>
+									</div>
+									<div class="page-paging-group"></div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- col-md-12 -->
+			<div >
+				<div class="hpanel hbuilt">
+					<div class="panel-heading"
+						style="color:#000;border-left:2px solid green">基站下的注册终端</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">当前基站下注册终端总计：{{radioTotals}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<table id="tb-info" class="xh-table table-hover">
+									<thead>
+										<tr class="tr-img-gray">
+											<th width="50px">序号</th>
+											<th width="100px">终端ID</th>
+											<th>名称</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="radioTotals==0">
+											<td colspan="3" class="text-center">没有记录！</td>
+										</tr>
+										<tr ng-repeat="x in radioData">
+											<td>{{$index+1}}</td>
+											<td>{{x.userId}}</td>
+											<td>{{x.name}}</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="page-box" ng-show="radioTotals>0">
+									<div class="page-info">
+										每页显示 <select id="page-limit" ng-change="refresh()"
+											ng-model="count">
+											<option value="10">10</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+										</select> 条, <span ng-model="index">显示{{start}}-</span><span
+											ng-model="lastIndex">{{lastIndex}}条,</span> <span
+											ng-model="totals">总计{{totals}}条</span>
+									</div>
+									<div class="page-paging"></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 底部内容体 -->
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsstatus-group-user-box.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

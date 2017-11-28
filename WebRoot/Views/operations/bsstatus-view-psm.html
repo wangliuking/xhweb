@@ -31,11 +31,13 @@
 						<tr ng-repeat="x in psmData">
 							<td>{{x.Id}}</td>
 							<td ng-if="x.working==0" class="td-success">正常</td>
-							<td ng-if="x.working==1" class="td-success">正常运行</td>
-							<td ng-if="x.working==2" class="td-success">正常运行</td>
-							<td>{{x.fan1}}</td>
-							<td>{{x.fan2}}</td>
-							<td>{{x.fan3}}</td>
+							<td ng-if="x.working!=0" class="td-danger">异常</td>
+							<td ng-if="x.fan1==2" class="td-success">正常</td>
+							<td ng-if="x.fan1!=2" class="td-danger">异常</td>
+							<td ng-if="x.fan2==2" class="td-success">正常</td>
+							<td ng-if="x.fan2!=2" class="td-danger">异常</td>
+							<td ng-if="x.fan3==2" class="td-success">正常</td>
+							<td ng-if="x.fan3!=2" class="td-danger">异常</td>
 							<td>{{x.ad}}</td>
 							<td>{{x.bdTmp1/2}}</td>
 							<td>{{x.bdTmp2/2}}</td>

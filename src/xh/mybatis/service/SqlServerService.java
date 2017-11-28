@@ -84,7 +84,7 @@ public class SqlServerService {
 		return result;
 	}
 	/**
-	 * 3期某个基站告警列表
+	 * 3期某个基站告警列表  tb_Dev
 	 * @param bsId
 	 * @return
 	 */
@@ -100,8 +100,12 @@ public class SqlServerService {
 		} else {
 			table = table + "0" + bsId;
 		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
 		Map<String, Object> paraMap=new HashMap<String, Object>();
 		paraMap.put("dbname", table);
+		paraMap.put("time", str_date1);
 		try {
 			list = mapper.bsmonitorAlarmList(paraMap);
 			sqlSession.close();

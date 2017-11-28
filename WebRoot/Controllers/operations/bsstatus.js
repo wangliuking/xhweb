@@ -4,11 +4,11 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
-require.config({
+/*require.config({
 	paths : {
 		echarts : '../../lib/echarts'
 	}
-});
+});*/
 var background="#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=userstatus]');
@@ -61,26 +61,21 @@ xh.load = function() {
 			var period=$scope.data[index].period;
 			window.location.href = "bsstatus-view.html?bsId=" + bsId+"&period="+period;
 		};
-		
-		$scope.asd=function(){
-				/*layer.closeAll();*/
-		
-				
-				var html={
-						  type: 2,
-						  title:'语音播放器',
-						  area: ['340px', '200px'],
-						  shade: 0,
-						  /*skin: 'layui-layer-rim', //加上边框*/					  
-						  content: ["../../Views/operations/play.jsp?playerID=", 'no']
-						};
-				layer.open(html);
-				
-			};
-		
-	
-		
-		
+		$scope.showGroupUser=function(index){
+			var dd=$scope.data[index];
+			
+			var html={
+					  type: 2,
+					  title:dd.bsId+"-"+dd.name+":注册组/注册终端",
+					  area: ['500px', '400px'],
+					  shade: 0,
+					  maxmin:true,
+					  
+					  /*skin: 'layui-layer-rim', //加上边框*/					  
+					  content: ["../../Views/operations/bsstatus-group-user-box.html?bsId="+dd.bsId, 'no']
+					};
+			layer.open(html);
+		}
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {

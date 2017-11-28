@@ -7,9 +7,15 @@
      select DevNode,NodeID,NodeAttribute,value,AlarmValue from ${dbname}
     </select>
     <!--查询三期基站环控告警列表-->
-    <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+    <!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
      select DevName as deviceName,value as singleValue,AlarmEX  from ${dbname} where AlarmState=1
-    </select> 
+    </select>  -->
+   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+     select NodeAttribute,DevName,value,AlarmEX,AlarmGrade from ${dbname} where AlarmState=1
+    </select>
+   <!--   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+     select AlarmText,AlarmDate,AlarmTime from tb_AlarmRecording where State='报警' and JFNode=#{bsId} and AlarmDate=#{time}
+    </select> -->
     
     <!-- 三期环控交流电告警 -->
     <select id="bsJiAlarm" parameterType="String" resultType="map" useCache="true">
