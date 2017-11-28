@@ -27,5 +27,12 @@ public interface RadioStatusMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap<String,Object>>oneBsGroup(Map<String,Object> map) throws Exception;
+	
+	/**
+	 * 查询基站下的注册组总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int oneBsGroupCount(int bsId) throws Exception;
 
 }

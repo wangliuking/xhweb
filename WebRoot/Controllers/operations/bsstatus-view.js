@@ -48,12 +48,7 @@ xh.load = function() {
 		$scope.period = $location.search().period;
 		
 
-		$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
-				function(response) {
-					$scope.emhData = response;
-					$scope.emhAlarm = response.alarmItems;
-					
-				});
+		
 		
 
 		var bsId = $scope.bsId;
@@ -63,15 +58,10 @@ xh.load = function() {
 					$scope.bsinfoData = response.items[0];
 				});*/
 		
+	
+		
 
-		// 获取环控设备状态
-
-		$scope.emh = function() {
-			$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
-					function(response) {
-						$scope.emhData = response;
-					});
-		};
+	
 		
 		//环控摄像头
 		$scope.initCamera = function(){
@@ -89,7 +79,7 @@ xh.load = function() {
 		$scope.radioUser = function() {
 			var bsId = $scope.bsId;
 			frist = 0;
-			var pageSize = $("#page-limit").val();
+			var pageSize =  $("#page-limit").val();
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + bsId
 							+ "&start=0&limit=" + pageSize).success(
@@ -102,13 +92,15 @@ xh.load = function() {
 		// 基站下的注册组
 		$scope.bsGroup = function() {
 			var bsId = $scope.bsId;
-			var pageSize = $("#page-limit").val();
+			frist = 0;
+			var pageSize = $("#page-limit-group").val();
 			$http.get(
 					"../../radio/status/oneBsGroup?bsId=" + bsId
 							+ "&start=0&limit=" + pageSize).success(
 					function(response) {
 						$scope.groupData = response.items;
 						$scope.groupTotals = response.totals;
+						xh.groupPagging(1, parseInt($scope.groupTotals), $scope);
 					});
 		};
 		$scope.business=function(){
@@ -435,7 +427,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+		
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + $scope.bsId
 							+ "&start=" + start + "&limit=" + pageSize)
@@ -457,7 +449,62 @@ xh.load = function() {
 					});
 
 		};
+		// 注册组分页点击
+		$scope.groupPageClick = function(page, totals, totalPages) {
+			var pageSize = $("#page-limit-group").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			
+			$http.get(
+					"../../radio/status/oneBsGroup?bsId=" + $scope.bsId
+							+ "&start=" + start + "&limit=" + pageSize)
+					.success(function(response) {
+						xh.maskHide();
+
+						$scope.groupStart = (page - 1) * pageSize + 1;
+						$scope.groupLastIndex = page * pageSize;
+						if (page == totalPages) {
+							if (totals > 0) {
+								$scope.groupLastIndex = totals;
+							} else {
+								$scope.groupStart = 0;
+								$scope.lastIndex = 0;
+							}
+						}
+						$scope.groupData = response.items;
+						$scope.groupTotals = response.totals;
+					});
+
+		};
+		// 获取环控设备状态
+
+		$scope.emh=function(){
+			$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
+					function(response) {
+						$scope.emhData = response;
+						$scope.emhAlarm = response.alarmItems;
+						
+					});
+			
+			
+		}
+		$scope.emh();
+		$scope.loadTemp();
+		$scope.loadDamp();
 		$scope.equip();
+		setInterval(function(){
+			
+			$scope.equip();
+			$scope.emh();
+			$scope.loadTemp();
+			$scope.loadDamp();
+			/*$scope.business();*/
+			}, 5000);
 
 	});
 };
@@ -879,7 +926,6 @@ xh.loadPow = function() {
 	});
 };
 
-/* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
@@ -907,6 +953,40 @@ xh.pagging = function(currentPage, totals, $scope) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+xh.groupPagging = function(currentPage, totals, $scope) {
+	var pageSize = $("#page-limit-group").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.groupStart = start;
+	$scope.groupLastIndex = end;
+	$scope.groupTotals = totals;
+	if (totals > 0) {
+		$(".page-paging-group").html('<ul class="pagination"></ul>');
+		$('.pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 3,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.groupPageClick(page, totals, totalPages);
 				}
 				frist = 1;
 

@@ -56,7 +56,6 @@ public class InfoDeviceController {
 		
 		int count=InfoDeviceService.bsInfoDeviceListCount(Integer.parseInt(bean.getBsId()));
 		int rlt=0;
-		log.info("count==>"+count);
 		if(count==0){
 			rlt=InfoDeviceService.insertBsDevice(bean);
 		}else{

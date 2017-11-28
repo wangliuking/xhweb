@@ -67,8 +67,8 @@ public class RadioStatusController {
 	@ResponseBody
 	public void oneBsGroup(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		int start=0;
-		int limit=50;
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		int bsId=funUtil.StringToInt(request.getParameter("bsId"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("bsId", bsId);
@@ -76,7 +76,7 @@ public class RadioStatusController {
 		map.put("limit", limit);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",RadioStatusService.oneBsGroup(map).size());
+		result.put("totals",RadioStatusService.oneBsGroupCount(bsId));
 		result.put("items", RadioStatusService.oneBsGroup(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

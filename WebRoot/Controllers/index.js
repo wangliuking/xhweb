@@ -15,11 +15,13 @@ xh.load = function() {
 		
 		});
 		
-		$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
-			$scope.alarm=response.items;
-			$scope.totals=response.totals;
-		
-		});
+		$scope.alarmInfo=function(){
+			$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
+				$scope.alarm=response.items;
+				$scope.totals=response.totals;
+			
+			});
+		}
 		$scope.hideMenu=function(){
 			$("body").toggleClass("hide-menu");
 		};
@@ -27,7 +29,6 @@ xh.load = function() {
 		$scope.alarmCount=function(){
 			$http.get("bsstatus/bsOffVoiceCount").success(function(response) {
 				$scope.AlarmTotals=response.totals;
-				console.log("bsss-->"+$scope.AlarmTotals)
 				if($scope.AlarmTotals>0){
 					xh.playMap3();
 				}else{
@@ -64,11 +65,15 @@ xh.load = function() {
 				}
 			});
 		};
-		/*$scope.alarmCount();
+
+		$scope.alarmCount();
+		$scope.alarmInfo();
 		setInterval(function(){
 			$scope.alarmCount();
-			$scope.alarmChange();          
-			}, 10000);*/  //每隔 10 秒 
+			$scope.alarmChange();
+			$scope.alarmInfo();
+			}, 10000);  //每隔 10 秒 
+
 		
 		
 

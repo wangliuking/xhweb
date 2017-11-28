@@ -106,5 +106,24 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public int updateAlarmStatus() throws Exception;
+	
+	/**
+	 * 基站异常统计
+	 * @return
+	 * @throws Exception
+	 */
+	public int MapBsOfflineCount() throws Exception;
+	/**
+	 * 交换中心异常统计
+	 * @return
+	 * @throws Exception
+	 */
+	public int MapMscAlarmCount() throws Exception;
+	/**
+	 * 调度台异常统计
+	 * @return
+	 * @throws Exception
+	 */
+	public int MapDispatchAlarmCount() throws Exception;
 
 }

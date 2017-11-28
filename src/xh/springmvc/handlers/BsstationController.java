@@ -214,6 +214,58 @@ public class BsstationController {
 		}
 		
 	}
+	/**
+	/**
+	 * 修改基站切换参数
+	 * @param request
+	 * @param response
+	 */
+	
+	@RequestMapping(value="/updateBsHandover",method = RequestMethod.POST)
+	public void  updateBsHandover(HttpServletRequest request, HttpServletResponse response){
+		int bsId=Integer.parseInt(request.getParameter("bsId"));
+		String minVol =request.getParameter("minVol");
+		String slowReelectThreshold=request.getParameter("slowReelectThreshold");
+		String fastReelectThreshold=request.getParameter("fastReelectThreshold");
+		String slowReelectDelay=request.getParameter("slowReelectDelay");
+		String fastReelectDelay=request.getParameter("fastReelectDelay");
+		Map<String,Object> paramMap=new HashMap<String, Object>();
+		paramMap.put("bsId", bsId);
+		paramMap.put("minVol", minVol);
+		paramMap.put("slowReelectThreshold", slowReelectThreshold);
+		paramMap.put("fastReelectThreshold", fastReelectThreshold);
+		paramMap.put("slowReelectDelay",slowReelectDelay);
+		paramMap.put("fastReelectDelay",fastReelectDelay);
+		
+		int rslt=0;
+		
+		List<Map<String,Object>> list=BsstationService.handoverByBsId(bsId);
+		
+		if(list.size()>0){
+			rslt=BsstationService.updateBsHandover(paramMap);
+		}else{
+			rslt=BsstationService.addBsHandover(paramMap);
+		}
+		if(rslt==1){
+			this.message="基站切换参数修改成功";
+			this.success=true;
+		}else{
+			this.message="修改失败";
+			this.success=true;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	/**
 	 * 添加基站

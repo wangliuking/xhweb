@@ -528,5 +528,34 @@ public class BsStatusController {
 		}
 
 	}
+	/**
+	 * 基站map实时监测
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/bsMapCount", method = RequestMethod.GET)
+	@ResponseBody
+	public void bsMapCount(HttpServletRequest request, HttpServletResponse response) {
+		int count1=BsStatusService.MapBsOfflineCount();
+		int count2=BsStatusService.MapDispatchAlarmCount();
+		int count3=BsStatusService.MapMscAlarmCount();
+		
+		int count4=SqlServerService.MapEmhAlarmCount();
+		try {
+
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("bsOffline", count1);
+			result.put("dispatchOffline", count2);
+			result.put("mscOffline", count3);
+			result.put("emhAlarm", count4);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
 
 }

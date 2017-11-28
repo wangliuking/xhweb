@@ -10,10 +10,10 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
-<script type="text/javascript"
-	src="../../Resources/js/xhbootstrap-css.js"></script>
+<script type="text/javascript" src="../../Resources/js/xhbootstrap-css.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="../../lib/layer-master/src/theme/layer.css">
+
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -175,44 +175,57 @@
 				<div class="col-md-12">
 					<div ng-if="totals==0">未找到相关数据</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
-						status-value="{{x.status}}" ng-click="bsView($index)">
+						status-value="{{x.status}}">
 
 
-						<div ng-if="x.status==1 && x.link!=0" class="td-danger bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0" class="td-warning bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0" class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null" class="td-success bs-info">【{{x.bsId}}】{{x.name}}</div>
-						<div class="td-gray bs-info" ng-if="x.status==0">【{{x.bsId}}】{{x.name}}</div>
-						<!-- <div>
-						<table style="width:100%;">
-								<tbody>
-									<tr>
-										<td>注册组</td>
-										<td>{{x.groupSum}}</td>
-										<td>终端</td>
-										<td>{{x.userSum}}</td>
-									</tr>
-									<tr>
-										<td>设备状态</td>
-										<td>0</td>
-										<td>环控告警</td>
-										<td>0</td>
-									</tr>
-								</tbody>
-							</table>
-						</div> -->
-						<div>
-						<span ng-if='x.groupSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;0</span>
-						<span ng-if='x.groupSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;注册组:&nbsp;{{x.groupSum}}</span>
-						&nbsp;&nbsp;
-						<span ng-if='x.userSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
-						<span ng-if='x.userSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;{{x.userSum}}</span>
-						
+						<div style="cursor: pointer;" ng-if="x.status==1 && x.link!=0" class="td-danger bs-info"  ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
+						<div style="cursor: pointer;"  ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0"
+							class="td-warning bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
+						<div style="cursor: pointer;" ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0"
+							class="td-success bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
+						<div style="cursor: pointer;" ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null"
+							class="td-success bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
+						<div style="cursor: pointer;" class="td-gray bs-info" ng-if="x.status==0">【{{x.bsId}}】{{x.name}}</div>
+						<div  ng-if="x.status==1 &&x.link==0">
+							<div style="cursor: pointer;"  ng-click="showGroupUser($index)" >
+							
+							注册组/终端:&nbsp;
+							<span ng-if='x.groupSum==null' style="color:blue">[0]</span>
+							<span ng-if='x.groupSum!=null' style="color:blue">[{{x.groupSum}}]</span>/
+							<span ng-if='x.userSum==null' style="color:blue">[0]</span>
+							<span ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}}]</span>
+							
+							
+								<!-- <span ng-if='x.groupSum==null'>注册组/终端:&nbsp;0</span>
+								<span ng-if='x.groupSum!=null'>注册组/终端:&nbsp;{{x.groupSum}}</span>
+								<span ng-if='x.userSum==null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;0</span>
+								<span ng-if='x.userSum!=null'>&nbsp;&nbsp;&nbsp;&nbsp;终端:&nbsp;{{x.userSum}}</span> -->
+
+							</div>
+							<div>
+								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
+									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
+								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+							</div>
+
 						</div>
-						<div>
-						<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> 
-						<span ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
-						<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> --></div>
+							<div ng-if="x.status==1 &&x.link!=0">
+
+							<div>
+
+								注册组/终端:&nbsp;<span style="color:blue">0/0</span>
+
+							</div>
+							<div>
+								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
+									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;0</span>
+								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+							</div>
+
+						</div>
+
+
+
 
 					</div>
 					<!-- <div class="hpanel bs-box" ng-repeat="x in data"
@@ -241,30 +254,17 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<!-- 添加用户 -->
-	<!-- <div ng-include="'user-add.html'"></div> -->
-	<!-- 编辑基用户-->
-	<!-- <div ng-include="'user-edit.html'"></div> -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
+	<!-- <script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
-	<script type="text/javascript"
-		src="../../lib/layer-master/src/layer.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script> -->
 	<script type="text/javascript"
 		src="../../Controllers/operations/bsstatus.js"></script>
+	<script type="text/javascript"
+		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
-		$("body").delegate(".bs-div", "click", function() {
-			/* $(this).children(".bs-info").toggleClass("bs-div-check");
-			if ($(".bs-div-check").length > 4) {
-				alert("只能选择4个基站");
-				$(this).children(".bs-info").toggleClass("bs-div-check");
-				return;
-			} */
-
-		});
 	</script>
 </body>
 </html>

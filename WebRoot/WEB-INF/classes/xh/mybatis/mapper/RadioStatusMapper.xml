@@ -22,4 +22,9 @@
 		 and a.TGid !=0 group by a.TGid
 		limit #{start},#{limit}
 	</select>
+	<!--查询基站下的注册组总数 -->
+	<select id="oneBsGroupCount" parameterType="int" resultType="int"
+		useCache="true">
+		select count(distinct TGid) from xhgmnet_operations_userstatus where TGid !=0 bsId=#{bsId}
+	</select>
 </mapper>

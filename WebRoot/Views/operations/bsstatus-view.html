@@ -24,6 +24,9 @@
 #divPlugin{
 	z-index:1000!important;
 }
+.page-box .page-info{
+padding:10px;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
@@ -100,6 +103,7 @@
 								<div class="tab-pane fade in active" id="equip">
 
 									<div ng-include="'bsstatus-view-bsc.html'"></div>
+									
 									<div ng-include="'bsstatus-view-bsr.html'"></div>
 									<div ng-include="'bsstatus-view-dpx.html'"></div>
 									<div ng-include="'bsstatus-view-psm.html'"></div>
@@ -126,14 +130,14 @@
 	<!-- <div ng-include="'user-edit.html'"></div> -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+		<script src="../../demo/codebase/webVideoCtrl.js"></script>
+	<script src="../../demo/cn/demo.js"></script>
 	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/operations/bsstatus-view.js"></script>
 	<script type="text/javascript">
 		xh.load();
-		$(".closePanel").click(function() {
+		/* $(".closePanel").click(function() {
 			$("#bs-status-right").fadeToggle("fast");
 
 		});
@@ -143,9 +147,8 @@
 			xh.bsNature(bsId);
 
 			// TODO
-		});
+		}); */
 	</script>
-	<script src="../../demo/codebase/webVideoCtrl.js"></script>
-	<script src="../../demo/cn/demo.js"></script>
+	
 </body>
 </html>
