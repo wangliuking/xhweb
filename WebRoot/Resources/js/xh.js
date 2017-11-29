@@ -346,10 +346,20 @@ xh.maskShow = function() {
 	$("body").append(html);
 }
 xh.maskShow = function(message) {
+	var msg="数据处理中...";
+	if(message==null){
+		message=msg;
+	}else{
+		/*html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+		html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+		html += "<i class=''>"+message+"</i>";
+		html += "</div>";*/
+	}
 	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
 	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
 	html += "<i class=''>"+message+"</i>";
 	html += "</div>";
+	
 	$("body").append(html);
 }
 /* 关闭网页遮罩层 */
