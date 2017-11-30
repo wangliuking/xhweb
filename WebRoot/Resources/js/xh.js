@@ -124,6 +124,12 @@ $(document).ready(function() {
 			hpanel.find('[id^=map-]').resize();
 		}, 50);
 	});
+	
+	$(".search-hide").on('click',function(event){
+		event.preventDefault();
+		var search=$("#search-panel");
+		search.slideToggle(200);
+	})
 
 	// Function for close hpanel
 	$('.closebox').on('click', function(event) {
