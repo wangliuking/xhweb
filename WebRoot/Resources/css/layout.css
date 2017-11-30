@@ -72,6 +72,28 @@
 	border-bottom-width: 2px;
 	border-bottom-color: green;
 }
+.content-menu a{
+text-decoration:none;
+
+  color:blue;
+}
+.content-menu label{
+ margin-right:30px;
+ line-height: 20px;
+ padding:5px;
+}
+.menu_active {
+	background: #fff;
+	
+	border-bottom: 2px solid green;
+	padding: 10px;
+	
+}
+.menu_active a{
+	color:blue;
+
+	
+}
 /* 网页logo图标和标题布局 */
 #logo ul li {
 	float: left;
