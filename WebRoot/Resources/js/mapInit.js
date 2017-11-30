@@ -142,9 +142,9 @@ app.controller("map", function($scope, $http) {
 			});
 	/* 级别选择 */
 	var level={
-			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"6"},
-			"2":{"lat":"30.819648358042055","lng":"104.08952561793008","zoom":"6"},
-			"3":{"lat":"30.680790171160506","lng":"103.91492175917804","zoom":"5"}
+			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"3"},
+			"2":{"lat":"30.69982302288963","lng":"104.06099782211035","zoom":"3"},
+			"3":{"lat":"30.694667397139078","lng":"104.04991322674667","zoom":"2"}
 	}
 	$scope.levelChoose=function(params){
 		if ($(".levelChoose input[value="+params+"]").prop("checked") == true) {
@@ -155,7 +155,7 @@ app.controller("map", function($scope, $http) {
 			$http.get("amap/map/bsByLevel?level="+t).success(
 					function(response) {					
 						var tempData = response.items;	
-						var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
+						var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 						myMap.centerAndZoom(point,level[params].zoom*1);
 						option.series[0].markPoint.data=baseMark(tempData)[0];
 						option.series[1].markPoint.data=baseMark(tempData)[1];
@@ -178,7 +178,7 @@ app.controller("map", function($scope, $http) {
 				$http.get("amap/map/bsByLevel?level="+t).success(
 						function(response) {
 							var tempData = response.items;
-							var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1);
+							var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 							myMap.centerAndZoom(point,level[params].zoom*1);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
@@ -189,29 +189,29 @@ app.controller("map", function($scope, $http) {
 	} 
 	/* 区域选择 */
 	var area={
-			"简阳":{"lat":"30.425071133933102","lng":"104.55696901931353","zoom":"7"},
-			"双流":{"lat":"30.52955848247763","lng":"103.93520055379688","zoom":"7"},
-			"都江堰":{"lat":"31.041683973699183","lng":"103.62070738301315","zoom":"7"},
-			"天府新区":{"lat":"30.406854589614476","lng":"104.08540111732965","zoom":"7"},
-			"温江":{"lat":"30.665323293908852","lng":"103.83758737291974","zoom":"8"},
-			"龙泉驿":{"lat":"30.60345578490222","lng":"104.29884402340252","zoom":"8"},
-			"金堂":{"lat":"30.73097159513254","lng":"104.59133985765051","zoom":"7"},
-			"青白江":{"lat":"30.79112056222232","lng":"104.34421353000737","zoom":"8"},
-			"新都":{"lat":"30.837177485593934","lng":"104.10602362033183","zoom":"8"},
-			"彭州":{"lat":"31.13998457134305","lng":"103.89636150647604","zoom":"7"},
-			"郫都区":{"lat":"30.838552319127412","lng":"103.88123833760777","zoom":"8"},
-			"崇州":{"lat":"30.644357082523264","lng":"103.64957888721625","zoom":"7"},
-			"大邑":{"lat":"30.60998624418625","lng":"103.36705059608597","zoom":"7"},
-			"邛崃":{"lat":"30.39070029559608","lng":"103.38079893142077","zoom":"7"},
-			"蒲江":{"lat":"30.23775006499635","lng":"103.48941078056576","zoom":"8"},
-			"新津":{"lat":"30.427820801000056","lng":"103.81799599506768","zoom":"8"},
-			"高新区":{"lat":"30.56891309237351","lng":"104.07165278199483","zoom":"9"},
-			"成华区":{"lat":"30.693163672961827","lng":"104.14314412573583","zoom":"9"},
-			"武侯区":{"lat":"30.62682795497139","lng":"104.0120193774801","zoom":"9"},
-			"金牛区":{"lat":"30.728737490640643","lng":"104.09227528499704","zoom":"9"},
-			"锦江区":{"lat":"30.60553707749492","lng":"104.11306964219092","zoom":"9"},
-			"青羊区":{"lat":"30.68010275439376","lng":"103.98581161324812","zoom":"9"},
-			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"9"}		
+			"简阳":{"lat":"30.41963624512105","lng":"104.54442366332056","zoom":"3"},
+			"双流":{"lat":"30.537055621589893","lng":"103.93902430956187","zoom":"3"},
+			"都江堰":{"lat":"31.041683973699183","lng":"103.62070738301315","zoom":"3"},
+			"天府新区":{"lat":"30.406854589614476","lng":"104.08540111732965","zoom":"3"},
+			"温江":{"lat":"30.71928551009797","lng":"103.82968208010224","zoom":"3"},
+			"龙泉驿":{"lat":"30.603112076518848","lng":"104.29987514855263","zoom":"3"},
+			"金堂":{"lat":"30.73097159513254","lng":"104.59133985765051","zoom":"3"},
+			"青白江":{"lat":"30.789402020305467","lng":"104.34112015455703","zoom":"3"},
+			"新都":{"lat":"30.833396693376862","lng":"104.13489512453494","zoom":"3"},
+			"彭州":{"lat":"31.13998457134305","lng":"103.89636150647604","zoom":"3"},
+			"郫都区":{"lat":"30.839583444277523","lng":"103.88433171305809","zoom":"3"},
+			"崇州":{"lat":"30.644357082523264","lng":"103.64957888721625","zoom":"3"},
+			"大邑":{"lat":"30.60998624418625","lng":"103.36705059608597","zoom":"3"},
+			"邛崃":{"lat":"30.39070029559608","lng":"103.38079893142077","zoom":"3"},
+			"蒲江":{"lat":"30.23775006499635","lng":"103.48941078056576","zoom":"3"},
+			"新津":{"lat":"30.427820801000056","lng":"103.81799599506768","zoom":"3"},
+			"高新区":{"lat":"30.56369302130108","lng":"104.06275932757514","zoom":"4"},
+			"成华区":{"lat":"30.692648110386774","lng":"104.14297227154415","zoom":"4"},
+			"武侯区":{"lat":"30.62682795497139","lng":"104.0120193774801","zoom":"4"},
+			"金牛区":{"lat":"30.739048742141744","lng":"104.05481107120971","zoom":"4"},
+			"锦江区":{"lat":"30.606052640069976","lng":"104.11650672602464","zoom":"4"},
+			"青羊区":{"lat":"30.680736466725598","lng":"103.98889424781146","zoom":"4"},
+			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"4"}		
 	};
 	$scope.areaChoose=function(params){
 		if ($(".areaChoose input[value="+params+"]").prop("checked") == true) {
@@ -222,7 +222,7 @@ app.controller("map", function($scope, $http) {
 			$http.get("bs/map/bsByArea?zone="+t).success(
 					function(response) {
 						var tempData = response.items;	
-						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1);
+						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 						myMap.centerAndZoom(point,area[params].zoom*1);
 						option.series[0].markPoint.data=baseMark(tempData)[0];
 						option.series[1].markPoint.data=baseMark(tempData)[1];
@@ -486,6 +486,8 @@ var rectangle;
 var test;
 var testDemo;
 var chooseLayer=0;
+
+var daolukakou,gongyeyuan,gongyuanguangchang,guojiajijingdian,huiyizhongxin,jiaoguanjigou,jiaotongshuniu,jiedaoban,jiudian,sanjiajijiu,wuzicangku,xiangzhenzhengfu,xiaofang,zaihaiyifadian,zhongdiangaoxiao,gonganju;
 function floor(data) {
 	var options = {
 		logo : false
@@ -496,7 +498,7 @@ function floor(data) {
 	if(chooseLayer==0){
 		myTiledMapServiceLayer = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:801/services/MapServer/map2d");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer
+				"http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer");// 底图切片服务 http://125.70.9.194:801/services/MapServer/map2d http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer
 		myMap.addLayer(myTiledMapServiceLayer);// 将底图图层对象添加到地图中
 	}else if(chooseLayer==1){
 		testDemo = new
@@ -504,26 +506,30 @@ function floor(data) {
 				"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
-	/*var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/gongyuanguangchang/MapServer");
-	myMap.addLayer(park);*/
-	/*var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/sanjiajijiu/MapServer");
-	myMap.addLayer(park);
-	var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/xiangzhenzhengfu/MapServer");
-	myMap.addLayer(park);
-	var park = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/zhongdiangaoxiao/MapServer");
-	myMap.addLayer(park);*/
-	
-	/*test = new
-	esri.layers.ArcGISDynamicMapServiceLayer("http://125.70.9.194:6080/arcgis/rest/services/800M/MAP20170920/MapServer/1");///动态服务
-	myMap.addLayer(test);*/// 将底图图层对象添加到地图中
+	daolukakou = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/daolukakou/MapServer");//道路卡口	
+	gongyeyuan = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/gongyeyuan/MapServer");//工业园
+	gongyuanguangchang = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/gongyuanguangchang/MapServer");//公园广场
+	guojiajijingdian = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/guojiajijingdian/MapServer");//国家级景点
+	huiyizhongxin = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/huiyizhongxin/MapServer");//会议中心
+	jiaoguanjigou = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/jiaoguanjigou/MapServer");//交管机构
+	jiaotongshuniu = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/jiaotongshuniu/MapServer");//交通枢纽
+	jiedaoban = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/jiedaoban/MapServer");//街道办
+	jiudian = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/jiudian/MapServer");//四星级以上酒店
+	sanjiajijiu = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/sanjiajijiu/MapServer");//三甲急救
+	wuzicangku = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/wuzicangku/MapServer");//物资仓库
+	xiangzhenzhengfu = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/xiangzhenzhengfu/MapServer");//乡镇政府
+	xiaofang = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/xiaofang/MapServer");//消防
+	zaihaiyifadian = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/zaihaiyifadian/MapServer");//灾害易发点
+	zhongdiangaoxiao = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/zhongdiangaoxiao/MapServer");//重点高校
+	gonganju = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/gonganju/MapServer");//公安局
 	
 	levelLayer = new esri.layers.GraphicsLayer({id:"基站级别"});
 	areaLayer = new esri.layers.GraphicsLayer({id:"基站区域"});
 	roadtest = new esri.layers.GraphicsLayer({id:"路测数据"});
 	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
-	var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
-	myMap.centerAndZoom(point, 6);// 地图首次加载显示的位置和放大级别
+	var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
+	myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
 	//myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
@@ -617,7 +623,7 @@ function floor(data) {
           var groupData=[];
           //循环data找出包含的基站
           for(var i=0;i<data.length;i++){
-        	  var tempPoint = new esri.geometry.Point(data[i].lng, data[i].lat);
+        	  var tempPoint = new esri.geometry.Point(data[i].lng, data[i].lat,new esri.SpatialReference({wkid:parseInt(4490)}));
               var result = contain(tempPoint,polygon);
               if(result == "yes"){
             	  groupData.push(data[i].bsId);
@@ -686,8 +692,8 @@ var areaRef={
 		"新津":{name:"新津",color:"#FF1493"},
 		"高新区":{name:"高新区",color:"#191970"},
 		"成华区":{name:"成华区",color:"#0000FF"},
-		"武侯区":{name:"武侯区",color:"#006400"},
-		"金牛区":{name:"金牛区",color:"#FF00FF"},
+		"武侯区":{name:"武侯区",color:"#000000"},
+		"金牛区":{name:"金牛区",color:"#191970"},
 		"锦江区":{name:"锦江区",color:"#8B658B"},
 		"青白江":{name:"青白江",color:"#8B008B"},
 		"青羊区":{name:"青羊区",color:"#FF0000"}
@@ -733,7 +739,7 @@ function areaRingsCreate(data,params){
 	require(["esri/Color"], function(Color) {	
 		var line = new esri.geometry.Polyline({
 			   "paths": data,
-			   "spatialReference": { "wkid": 4326 }
+			   "spatialReference": { "wkid": 4490 }
 			});
 		var lineSymbol = new esri.symbol.CartographicLineSymbol(
 			  esri.symbol.CartographicLineSymbol.STYLE_SOLID,
@@ -776,7 +782,7 @@ function roadtestCreate(data){
 				  "size": 8,
 				  "type": "simplemarkersymbol"
 			});
-			var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1);// 创建点对象
+			var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
 			var attr = {
 				"db" : data[i].db,
 				"lng" : data[i].lng,
@@ -809,7 +815,7 @@ function roadtestCreate(data){
 			temp = "bluesky/break_small.png";
 		}
 		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
-		var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1);// 创建点对象
+		var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
 		var attr = {
 			"Xcoord" : data[i].lng,
 			"Ycoord" : data[i].lat,
@@ -826,6 +832,7 @@ var overlay,option
 function init(data,markData) {
 	require([ "esri/map", "src/EchartsLayer", "dojo/domReady!" ], function(Map,
 			EchartsLayer) {
+		console.log(data);
 		floor(data);
 		// 处理data数据
 		var i;
@@ -863,6 +870,14 @@ function init(data,markData) {
 					};
 				objConnect.push(y);
 			}else if(data[k].bsStatus==1){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objBreak.push(y);
+			}else{
+				//未标示基站bsStatuss
 				var y = {
 						name : data[k].name,
 						id : data[k].bsId,
@@ -1002,9 +1017,10 @@ function init(data,markData) {
 	    	console.log(e.mapPoint.x ,e.mapPoint.y);
 	  	  });
 		myMap.on('zoom-end', function() {
+			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
-				option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
-				option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+				option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
+				option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
 				overlay.setOption(option);
 			}			
 		});
@@ -1015,12 +1031,12 @@ function init(data,markData) {
 				if ($(this).prop("checked") == true) {
 					option.series[0].markPoint.data=objConnect;
 					option.series[1].markPoint.data=objBreak;
-					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
-					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
+					option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
 					overlay.setOption(option);
 				} else {
-					var point = new esri.geometry.Point(104.06340378079395, 30.66016766815829);
-					myMap.centerAndZoom(point, 6);
+					var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
+					myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
 					option.series[0].markPoint.data=[];
 					option.series[1].markPoint.data=[];
 					overlay.setOption(option);
@@ -1030,7 +1046,7 @@ function init(data,markData) {
 			$("#roadtestInfo").click(function() {
 				if ($(this).prop("checked") == true) {
 					myMap.addLayer(roadtest);
-					var point = new esri.geometry.Point(104.53166109531142*1, 30.36990593840218*1);
+					var point = new esri.geometry.Point(104.53166109531142*1, 30.36990593840218*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 					myMap.centerAndZoom(point,10*1);
 					 
 				} else {
@@ -1043,11 +1059,137 @@ function init(data,markData) {
 					myMap.destroy();
 					chooseLayer=1;
 					getData();
-					setTimeout("tempCenterAndZoom()","2000");
-									
-				} else {
-					
+					setTimeout("tempCenterAndZoom()","2000");									
+				} else {					
 					window.location.href="map.html"; 
+				}
+			});
+			
+			$("#daolukakou").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(daolukakou);				 
+				} else {
+					myMap.removeLayer(daolukakou);
+				}
+			});
+			
+			$("#gongyeyuan").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(gongyeyuan);				 
+				} else {
+					myMap.removeLayer(gongyeyuan);
+				}
+			});
+			
+			$("#gongyuanguangchang").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(gongyuanguangchang);				 
+				} else {
+					myMap.removeLayer(gongyuanguangchang);
+				}
+			});
+			
+			$("#guojiajijingdian").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(guojiajijingdian);				 
+				} else {
+					myMap.removeLayer(guojiajijingdian);
+				}
+			});
+			
+			$("#huiyizhongxin").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(huiyizhongxin);					 
+				} else {
+					myMap.removeLayer(huiyizhongxin);
+				}
+			});
+			
+			$("#jiaoguanjigou").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(jiaoguanjigou);				 
+				} else {
+					myMap.removeLayer(jiaoguanjigou);
+				}
+			});
+			
+			$("#jiaotongshuniu").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(jiaotongshuniu);				 
+				} else {
+					myMap.removeLayer(jiaotongshuniu);
+				}
+			});
+			
+			$("#jiedaoban").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(jiedaoban);				 
+				} else {
+					myMap.removeLayer(jiedaoban);
+				}
+			});
+			
+			$("#jiudian").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(jiudian);				 
+				} else {
+					myMap.removeLayer(jiudian);
+				}
+			});
+			
+			$("#sanjiajijiu").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(sanjiajijiu);				 
+				} else {
+					myMap.removeLayer(sanjiajijiu);
+				}
+			});
+			
+			$("#wuzicangku").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(wuzicangku);				 
+				} else {
+					myMap.removeLayer(wuzicangku);
+				}
+			});
+			
+			$("#xiangzhenzhengfu").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(xiangzhenzhengfu);				 
+				} else {
+					myMap.removeLayer(xiangzhenzhengfu);
+				}
+			});
+			
+			$("#xiaofang").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(xiaofang);				 
+				} else {
+					myMap.removeLayer(xiaofang);
+				}
+			});
+			
+			$("#zaihaiyifadian").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(zaihaiyifadian);				 
+				} else {
+					myMap.removeLayer(zaihaiyifadian);
+				}
+			});
+			
+			$("#zhongdiangaoxiao").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(zhongdiangaoxiao);				 
+				} else {
+					myMap.removeLayer(zhongdiangaoxiao);
+				}
+			});
+			
+			$("#gonganju").click(function() {
+				if ($(this).prop("checked") == true) {
+					myMap.addLayer(gonganju);				 
+				} else {
+					myMap.removeLayer(gonganju);
 				}
 			});
 			
@@ -1057,7 +1199,7 @@ function init(data,markData) {
 }
 
 function tempCenterAndZoom(){
-	var point = new esri.geometry.Point(103.99742132710227, 30.62468990456136);
+	var point = new esri.geometry.Point(103.99742132710227, 30.62468990456136,new esri.SpatialReference({wkid:parseInt(4490)}));
 	myMap.centerAndZoom(point,1);//定位地图位置
 }
 
@@ -1172,7 +1314,15 @@ function baseMark(data){
 					bsStatus : data[k].bsStatus
 					};
 			objBreak.push(y);
-		}			
+		}else{
+			//为表示基站bsStatus
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objBreak.push(y);
+		}		
 	}
 	objBoth.push(objConnect);
 	objBoth.push(objBreak);

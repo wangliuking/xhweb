@@ -85,4 +85,9 @@ public interface GosuncnMapper {
 	 */
 	public int countEMHAlarm(Map<String,Object> map)throws Exception;
 	
+	/**
+	 * 根据基站id查询摄像头IP
+	 */
+	public List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map)throws Exception;
+	
 }

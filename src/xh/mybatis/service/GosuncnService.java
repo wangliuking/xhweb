@@ -243,7 +243,22 @@ public class GosuncnService {
 		return result;
 	}
 	
-	
+	/**
+	 * 根据基站id查询摄像头ip
+	 */
+	public static List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,String>> list = null;
+		try {
+			list = mapper.selectCameraIpByBsId(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	
 	
