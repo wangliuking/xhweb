@@ -124,6 +124,12 @@ $(document).ready(function() {
 			hpanel.find('[id^=map-]').resize();
 		}, 50);
 	});
+	
+	$(".search-hide").on('click',function(event){
+		event.preventDefault();
+		var search=$("#search-panel");
+		search.slideToggle(200);
+	})
 
 	// Function for close hpanel
 	$('.closebox').on('click', function(event) {
@@ -169,13 +175,6 @@ $(document).ready(function() {
 	// tooltip
 	$("[data-toggle='tooltip']").tooltip();
 	$("[data-toggle='popover']").popover();
-	/*
-	 * dwr.engine.setActiveReverseAjax(true); dwr.engine.setAsync(false);//同步步
-	 * //设置在页面关闭时，通知服务端销毁会话 dwr.engine.setNotifyServerOnPageUnload( true);
-	 * xh.dwr(); dwr.engine.setErrorHandler(function(){
-	 * window.location.href="/RTU/index.html"
-	 *  })
-	 */
 });
 
 function fixWrapperHeight() {
@@ -346,10 +345,20 @@ xh.maskShow = function() {
 	$("body").append(html);
 }
 xh.maskShow = function(message) {
+	var msg="数据处理中...";
+	if(message==null){
+		message=msg;
+	}else{
+		/*html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+		html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+		html += "<i class=''>"+message+"</i>";
+		html += "</div>";*/
+	}
 	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
 	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
 	html += "<i class=''>"+message+"</i>";
 	html += "</div>";
+	
 	$("body").append(html);
 }
 /* 关闭网页遮罩层 */

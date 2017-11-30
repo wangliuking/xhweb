@@ -9,22 +9,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.DispatchBean;
 import xh.mybatis.mapper.DispatchStatusMapper;
 import xh.mybatis.tools.MoreDbTools;
+import xh.org.listeners.SingLoginListener;
 
 public class DispatchStatusService {
-	
+	protected final static Log log = LogFactory.getLog(DispatchStatusService.class);
 	/**
 	 * 调度台列表
 	 * @return
 	 */
-	public static List<Map<String, String>> dispatchstatus(){
+	public static List<Map<String, Object>> dispatchstatus(){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
-		List<Map<String, String>> list=new ArrayList<Map<String,String>>();
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
 		try {
 			list = mapper.dispatchstatus();
 			session.close();
@@ -169,27 +172,27 @@ public class DispatchStatusService {
 	
 	//ping 调度台
 	public static boolean ping(String ipAddress) throws Exception {
-        int  timeOut =  5000 ;  //超时应该在3钞以上        
+        int  timeOut =  3000 ;  //超时应该在3钞以上        
         boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);     // 当返回值是true时，说明host是可用的，false则不可。
         return status;
     }
 	public static void changePingStatus() throws Exception{
     	SqlSession session= MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
     	DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
-    	List<Map<String, String>> list=new ArrayList<Map<String,String>>();
+    	List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
     	try {
 			list = mapper.dispatchstatus();
 			for(int i=0;i<list.size();i++){
-				Map<String, String> map=list.get(i);
+				Map<String, Object> map=list.get(i);
 				int flag=0;
 				if(ping(map.get("IP").toString())){
 					flag=1;
 				}else{
 					flag=0;
 				}
-				Map<String, String> map2=new HashMap<String, String>();
-				map2.put("dstId", map.get("dstId"));
-				map2.put("flag", String.valueOf(flag));
+				Map<String, Object> map2=new HashMap<String, Object>();
+				map2.put("dstId", map.get("dstId").toString());
+				map2.put("flag", flag);
 				mapper.updateDispatchStatus(map2);
 				
 			}

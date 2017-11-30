@@ -72,6 +72,34 @@
 	border-bottom-width: 2px;
 	border-bottom-color: green;
 }
+.content-menu{
+	height:27px;
+}
+.content-menu a{
+text-decoration:none;
+
+  color:blue;
+}
+.content-menu span{
+ margin-right:30px;
+ line-height: 33px;
+ padding:5px;
+}
+.menu_active {
+	background: #fff;
+	
+	border-bottom: 2px solid green;
+	padding: 10px;
+	
+}
+.menu_active a{
+	color:#5FB878;
+
+	
+}
+#search-panel{
+	display: none;
+}
 /* 网页logo图标和标题布局 */
 #logo ul li {
 	float: left;

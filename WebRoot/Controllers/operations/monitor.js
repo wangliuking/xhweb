@@ -61,10 +61,6 @@ xh.map = function() {
 		chart.clear();
 		chart.dispose();
 	}
-
-	
-	
-
 	require([ 'echarts', 'echarts/chart/map' ], function(ec) {
 		chart = ec.init(document.getElementById('map'));
 		chart.showLoading({
@@ -72,6 +68,7 @@ xh.map = function() {
 		});
 		var cityMap = {
 			    "成都市": "510100",
+			    /*"简阳市": "51000",*/
 			    /*"自贡市": "510300",
 			    "攀枝花市": "510400",
 			    "泸州市": "510500",

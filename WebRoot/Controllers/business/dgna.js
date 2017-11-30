@@ -129,6 +129,8 @@ xh.load = function() {
 		};
 		$scope.start=function(){
 			var opreation=$("input[name='operation']:checked").val();
+			var cou=$("input[name='cou']:checked").val();
+			var attached=$("input[name='attached']:checked").val();
 			var data=[];
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
@@ -138,7 +140,7 @@ xh.load = function() {
 				data.push(record.userId);
 			});
 			$.ajax({
-				url : '../../tools/dgna',
+				url : '../../ucm/dgna',
 				type : 'POST',
 				dataType : "json",
 				traditional :true,  //注意这个参数是必须的
@@ -146,11 +148,13 @@ xh.load = function() {
 				data:{
 					operation:opreation,
 					groupId:$("#groupId").val(),
+					cou:cou,
+					attached:attached,
 					data:data.join(",")
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
+					if (data.success) {
 						toastr.success(data.message, '提示');
 					} else {
 						toastr.error(data.message, '提示');
@@ -164,95 +168,7 @@ xh.load = function() {
 		
 	});
 };
-/* 添加设备 */
-xh.add = function() {
-	$.ajax({
-		url : '../../business/insertAsset',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
 
-			if (data.result ==1) {
-				$('#addForm')[0].reset();
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-				
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 修改 */
-xh.update = function() {
-	$.ajax({
-		url : '../../business/updateAsset',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-			if (data.result === 1) {
-				$('#updateForm')[0].reset();
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
-				
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function(){
-		}
-	});
-};
-/* 批量删除基站 */
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../business/deleteAsset',
-		type : 'post',
-		dataType : "json",
-		data : {
-			deleteIds : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				xh.refresh();
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 
 // 刷新数据
 xh.refresh = function() {

@@ -16,9 +16,11 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+
+</style>
 </head>
-<body ng-app="app" ng-controller="bsAlarm"
-	class="fixed-iframe">
+<body ng-app="app" ng-controller="bsAlarm" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="splash-title">
@@ -51,9 +53,9 @@
 		</div>
 		<div class="content animate-panel">
 			<div class="row">
-				<div class="col-md-2">
+				<div class="col-md-12">
 					<div class="hpanel">
-					<div class="panel-heading hbuilt">
+						<div class="panel-heading hbuilt">
 							<!-- <div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
@@ -61,7 +63,16 @@
 							<i class="fa fa-reorder"></i> 菜单列表
 						</div>
 						<div class="panel-body">
-							<ul class="mailbox-list" style="height:200px;">
+						
+						<div class="content-menu"> 
+						
+						<span class="menu_active"><a href="bsAlarm.html" target="_self">Tetra系统告警</a></span>
+						<span><a href="emhAlarm.html" target="_self">环控告警</a></span> 
+						
+						</div>
+
+							
+							<!-- <ul class="mailbox-list" style="height:200px;">
 								<li style="margin-bottom:10px;"><a href="emhAlarm.html"
 									target="_self"><i
 										class="fa fa-sitemap text-success"></i>环控告警</a></li>
@@ -69,62 +80,36 @@
 								<li class="active"><a href="bsAlarm.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>Tetra系统告警</a></li>
 
-							</ul>
+							</ul> -->
 						</div>
 
 					</div>
 				</div>
-				<div class="col-md-10">
+				<div class="col-md-12">
 
 					<div class="row">
 						<div class="col-md-12">
 
 							<div class="hpanel">
-							<div class="panel-heading hbuilt">
-									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; --><span>告警信息</span>
+								<div class="panel-heading hbuilt">
+									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; -->
+									<span>告警信息</span>
 								</div>
 								<div class="panel-body">
 									<table id="tb-info" class="xh-table table-hover">
 										<thead>
 											<tr class="tr-gray">
-												<!-- <th width="50px">#</th> -->
-	<!-- 											('1', '基站');
-('2', '交换中心');
-('3', '调度台');
-('4', '网管');
-('5', '分组中心');
-('6', '综合业务网关');
-('7', 'INIGW');
-('8', '短信中心');
-('9', 'PDT');
-('10', '鉴权中心');
-('11', '录音');
-('12', '模拟网关');
-('13', 'MPT基站');
-('14', 'NTP服务器');
-('15', '路由器');
-('16', '数字交叉连接设备');
-('17', '同播服务器');
-('18', 'DSGW');
-('19', '以太网交换机');
-('20', 'WEB调度服务器');
-('21', '短信业务网关');
-('22', '室外基站');
-('23', 'PDT室外基站');
-('24', '桥接基站');
-('29', '以太网E1网桥');
-('30', '桥接中心');
-('32', '媒体服务器'); -->
 
 												<!-- <th width="100px">网元类型</th> -->
 												<!-- <th>网元ID</th> -->
+												<th width="150px">告警时间</th>
 												<th>告警级别</th>
 												<th>故障定位</th>
 												<th>告警描述</th>
+
+
 												
-												
-												<th>告警时间</th>
-											
+
 												<!-- <th>操作</th> -->
 											</tr>
 										</thead>
@@ -166,17 +151,14 @@
 												<span ng-if="x.neType==32">媒体服务器</span>
 												</td> -->
 												<!-- <td>{{x.neId}}</td> -->
-												<td ng-if="x.severity==2 " class="td-danger">
-												严重告警
-												</td>
-												<td ng-if="x.severity==1 " class="td-danger">
-												主要告警
-												</td>
+												<td>{{x.time}}</td>
+												<td ng-if="x.severity==2 " class="td-danger">严重告警</td>
+												<td ng-if="x.severity==1 " class="td-warning">主要告警</td>
 												<td>{{x.location}}</td>
 												<td>{{x.description}}</td>
+
 												
-												<td>{{x.time}}</td>
-												
+
 												<!-- <td><a href="#" ng-click="showDetails($index)"><i
 														class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a></td> -->
 											</tr>
@@ -203,7 +185,7 @@
 
 
 					</div>
-<!-- 
+					<!-- 
 					<div class="row">
 						col-md-9 end
 						右侧放查询栏以及图表展示 col-md-3
