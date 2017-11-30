@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="handoverWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
@@ -18,31 +18,31 @@
 									style="color:#000;border-left:2px solid green">基本设备信息</div> -->
 								<div class="panel-body">
 								<div ng-show="false"><input type="text" name="bsId" ng-model="bsData.bsId"/></div>
-									<div class="col-md-3">
+									<div class="col-md-12">
 										<div class="form-group col-md-12">
 											<label>最小接入电平</label> <input type="text" 
 												class="form-control" name="minVol" ng-model="handoverData.minVol">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-12">
 										<div class="form-group col-md-12">
 											<label>慢速重选门限</label> <input type="text" 
-												class="form-control" name="manufacturer" ng-model="handoverData.slowReelectThreshold">
+												class="form-control" name="slowReelectThreshold" ng-model="handoverData.slowReelectThreshold">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-12">
 										<div class="form-group col-md-12">
 											<label>快速重选门限</label> <input type="text" 
 												class="form-control" name="fastReelectThreshold" ng-model="handoverData.fastReelectThreshold">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-12">
 										<div class="form-group col-md-12">
 											<label>慢速重选滞后</label> <input type="text" 
 												class="form-control" name="slowReelectDelay" ng-model="handoverData.slowReelectDelay">
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-12">
 										<div class="form-group col-md-12">
 											<label>快速重选滞后</label> <input type="text" ng-model="handoverData.fastReelectDelay"
 												class="form-control" name="fastReelectDelay" value=2>
