@@ -25,9 +25,10 @@ public class PingDispatchListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		if(timer==null){
-			//timer.schedule(new pingTask(), 10*1000, 60*1000);
-		}
+		/*if(timer==null){
+			timer.schedule(new pingTask(), 10*1000, 60*1000);
+		}*/
+		timer.schedule(new pingTask(), 5*1000, 3*60*1000);
 	}
 
 }
@@ -36,7 +37,7 @@ class pingTask extends TimerTask{
 	@Override
 	public void run() {
 		try {
-			log.info("ping调度台状态线程开始运行");
+			/*log.info("ping调度台状态线程开始运行");*/
 			DispatchStatusService.changePingStatus();
 			
 		} catch (Exception e) {

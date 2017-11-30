@@ -16,7 +16,7 @@
     </select> 
     <!-- 修改调度台状态  -->
     <update id="updateDispatchStatus" parameterType="map">
-     update xhgmnet_dispatch set set flag=#{flag} where dstId=#{dstId}
+     update xhgmnet_dispatch set flag=#{flag} where dstId=#{dstId}
     </update> 
     <!-- 新增调度台 -->
     <insert id="addDispatch" keyProperty="dstId" useGeneratedKeys="false" parameterType="xh.mybatis.bean.DispatchBean">

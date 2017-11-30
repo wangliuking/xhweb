@@ -169,13 +169,6 @@ $(document).ready(function() {
 	// tooltip
 	$("[data-toggle='tooltip']").tooltip();
 	$("[data-toggle='popover']").popover();
-	/*
-	 * dwr.engine.setActiveReverseAjax(true); dwr.engine.setAsync(false);//同步步
-	 * //设置在页面关闭时，通知服务端销毁会话 dwr.engine.setNotifyServerOnPageUnload( true);
-	 * xh.dwr(); dwr.engine.setErrorHandler(function(){
-	 * window.location.href="/RTU/index.html"
-	 *  })
-	 */
 });
 
 function fixWrapperHeight() {

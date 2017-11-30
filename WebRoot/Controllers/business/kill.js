@@ -119,7 +119,7 @@ xh.load = function() {
 			}, function(isConfirm) {
 			if (isConfirm) {
 			$.ajax({
-				url : '../../tools/open',
+				url : '../../ucm/radioOpen',
 				type : 'POST',
 				dataType : "json",
 				traditional :true,  //注意这个参数是必须的
@@ -129,7 +129,7 @@ xh.load = function() {
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
+					if (data.success) {
 						toastr.success(data.message, '提示');
 					} else {
 						toastr.error(data.message, '提示');
@@ -161,7 +161,7 @@ xh.load = function() {
 			}, function(isConfirm) {
 			if (isConfirm) {
 			$.ajax({
-				url : '../../tools/kill',
+				url : '../../ucm/kill',
 				type : 'POST',
 				dataType : "json",
 				traditional :true,  //注意这个参数是必须的

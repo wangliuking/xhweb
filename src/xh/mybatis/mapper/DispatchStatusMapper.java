@@ -12,7 +12,7 @@ public interface DispatchStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,String>> dispatchstatus() throws Exception;
+	public List<Map<String,Object>> dispatchstatus() throws Exception;
 	
 	/**
 	 * 已经安装的调度台
@@ -55,7 +55,7 @@ public interface DispatchStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int updateDispatchStatus(Map<String,String> map) throws Exception;
+	public int updateDispatchStatus(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 添加调度台

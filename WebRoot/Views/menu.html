@@ -1,55 +1,60 @@
 <!-- 左侧导航菜单 -->
 <aside id="menu">
 	<ul class="nav" id="side-menu">
-		<li ng-show="menu.m_1"><a href="map.html" target="mainframe"><span class="nav-label">
-					<i class="fa fa-life-bouy"></i>
-					<!-- <img alt="" src="Resources/images/icon/16/bricks.png"> -->&nbsp;
+		<li ng-show="menu.m_1"><a href="map.html" target="mainframe"><span
+				class="nav-label"> <i class="fa fa-life-bouy"></i> <!-- <img alt="" src="Resources/images/icon/16/bricks.png"> -->&nbsp;
 					系统状态
-			</span></a>
-			</li>
+			</span></a></li>
 
-		<li ng-show="menu.m_2"><a href="#"> <span class="nav-label"> <i
-					class="fa fa-adjust"></i> <!-- <img alt="" src="Resources/images/menu/web.png"> -->&nbsp;
+		<li ng-show="menu.m_2"><a href="#"> <span class="nav-label">
+					<i class="fa fa-adjust"></i> <!-- <img alt="" src="Resources/images/menu/web.png"> -->&nbsp;
 					运维管理
 			</span><span class="fa arrow"></span>
 		</a>
 			<ul class="nav">
 
-				<li ng-show="menu.m_21"><a href="#" > <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;实时监测
+				<li ng-show="menu.m_21"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;实时监测
 					</span> <span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-					
+
 						<li class="active" ng-show="menu.m_211"><a
 							href="Views/operations/serverstatus.html" target="mainframe"><i
 								class="fa fa-sitemap"></i>&nbsp;交换中心状态 </a></li>
-						<li ng-show="menu.m_212"><a href="Views/operations/bsstatus.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;基站状态
+						<li ng-show="menu.m_212"><a
+							href="Views/operations/bsstatus.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;基站状态
 						</a></li>
-						<li ng-show="menu.m_213"><a href="Views/operations/dispatchstatus.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;调度台状态
+						<li ng-show="menu.m_213"><a
+							href="Views/operations/dispatchstatus.html" target="mainframe">
+								<i class="fa fa-sitemap"></i>&nbsp;调度台状态
 						</a></li>
-						<li ng-show="menu.m_214"><a href="Views/operations/bsAlarm.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;故障告警
+						<li ng-show="menu.m_214"><a
+							href="Views/operations/bsAlarm.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;故障告警
 						</a></li>
 					</ul></li>
-				<li ng-show="menu.m_22"><a href="#"> <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;日常监管
+				<li ng-show="menu.m_22"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;日常监管
 					</span> <span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-						<li ng-show="menu.m_221"><a href="Views/operations/reportCheck.html" target="mainframe"> <i
-								class="fa fa-sitemap"></i>&nbsp;报告审核
+						<li ng-show="menu.m_221"><a
+							href="Views/operations/reportCheck.html" target="mainframe">
+								<i class="fa fa-sitemap"></i>&nbsp;报告审核
 						</a></li>
-						<li ng-show="menu.m_222"><a href="Views/business/qualitycheck.html" target="mainframe"> <i
+						<li ng-show="menu.m_222"><a
+							href="Views/business/qualitycheck.html" target="mainframe"> <i
 								class="fa fa-sitemap"></i>&nbsp;服务抽检
 						</a></li>
-						<li ng-show="menu.m_223"><a href="Views/business/optimizenet.html" target="mainframe"> <i
+						<li ng-show="menu.m_223"><a
+							href="Views/business/optimizenet.html" target="mainframe"> <i
 								class="fa fa-sitemap"></i>&nbsp;网络优化
 						</a></li>
-						
-						<li ng-show="menu.m_224"><a href="Views/business/emergency.html" target="mainframe"> <i
+
+						<li ng-show="menu.m_224"><a
+							href="Views/business/emergency.html" target="mainframe"> <i
 								class="fa fa-sitemap"></i>&nbsp;应急处置演练
 						</a></li>
 						<!-- <li><a href="" target="mainframe"> <i
@@ -58,138 +63,202 @@
 						<!-- <li><a href="" target="mainframe"> <i
 								class="fa fa-sitemap"></i>&nbsp;全网路测
 						</a></li> -->
-						<li ng-show="menu.m_225"><a href="Views/operations/work.html" target="mainframe"> <i
-								class="fa fa-sitemap"></i>&nbsp;工作记录
+						<li ng-show="menu.m_225"><a href="Views/operations/work.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;工作记录
 						</a></li>
 					</ul></li>
-				<li ng-show="menu.m_23"><a href="#"> <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;资产管理
+				<li ng-show="menu.m_23"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;资产管理
 					</span> <span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-						<li ng-show="menu.m_231"><a href="Views/business/asset-count.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;资产概况
+						<li ng-show="menu.m_231"><a
+							href="Views/business/asset-count.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;资产概况
 						</a></li>
-						<li ng-show="menu.m_232"><a href="Views/business/asset-info.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;资产明细
+						<li ng-show="menu.m_232"><a
+							href="Views/business/asset-info.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;资产明细
 						</a></li>
-						<li ng-show="menu.m_233"><a href="Views/business/assetCheck.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;变更管理
+						<li ng-show="menu.m_233"><a
+							href="Views/business/assetCheck.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;变更管理
 						</a></li>
 					</ul></li>
-				<li ng-show="menu.m_24"><a href="#"> <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;系统运维
+				<li ng-show="menu.m_24"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;系统运维
 					</span> <span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-						<li ng-show="menu.m_241"><a href="Views/monitor/ordermanage.html" target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;故障处理
+						<li ng-show="menu.m_241"><a
+							href="Views/monitor/ordermanage.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;故障处理
 						</a></li>
-						<li ng-show="menu.m_242"><a href="Views/operations/duty.html" target="mainframe"> <i class="fa fa-sitemap"></i>;&nbsp;运维值班
+						<li ng-show="menu.m_242"><a href="Views/operations/duty.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>;&nbsp;运维值班
 						</a></li>
-						<li ng-show="menu.m_243"><a href="Views/operations/inspection.html" target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;运维巡检
+						<li ng-show="menu.m_243"><a
+							href="Views/operations/inspection.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;运维巡检
 						</a></li>
-						<li ng-show="menu.m_244"><a href="Views/operations/eventReport.html" target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;事件上报
+						<li ng-show="menu.m_244"><a
+							href="Views/operations/eventReport.html" target="mainframe">
+								<i class="fa fa-sitemap"></i>&nbsp;事件上报
 						</a></li>
-						<li ng-show="menu.m_245"><a href="Views/operations/bsInfo.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;资源配置
+						<li ng-show="menu.m_245"><a
+							href="Views/operations/bsInfo.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;资源配置
 						</a></li>
 					</ul></li>
 			</ul></li>
 
-		<li ng-show="menu.m_3"><a href="#"> <span class="nav-label"> <i
-					class="fa fa-suitcase"></i>&nbsp; 业务管理
+		<li ng-show="menu.m_3"><a href="#"> <span class="nav-label">
+					<i class="fa fa-suitcase"></i>&nbsp; 业务管理
 			</span><span class="fa arrow"></span>
 		</a>
 			<ul class="nav ">
 
-				<li ng-show="menu.m_31"><a href="#"> <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;用户服务
+				<li ng-show="menu.m_31"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;用户服务
 					</span> <span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-						<li ng-show="menu.m_311"><a href="Views/business/joinnet.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;入网
+						<li ng-show="menu.m_311"><a
+							href="Views/business/joinnet.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;入网
 						</a></li>
-						<li ng-show="menu.m_312"><a href="Views/business/quitnet.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;退网
+						<li ng-show="menu.m_312"><a
+							href="Views/business/quitnet.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;退网
 						</a></li>
-						<li ng-show="menu.m_313"><a href="Views/business/devicemanage.html" target="mainframe"> <i
+						<li ng-show="menu.m_313"><a
+							href="Views/business/devicemanage.html" target="mainframe"> <i
 								class="fa fa-sitemap"></i>&nbsp;业务变更
 						</a></li>
-						<li ng-show="menu.m_314"><a href="Views/business/fault.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;故障申报
+						<li ng-show="menu.m_314"><a href="Views/business/fault.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;故障申报
 						</a></li>
-						<li ng-show="menu.m_315"><a href="Views/business/communicationsupport.html"
+						<li ng-show="menu.m_315"><a
+							href="Views/business/communicationsupport.html"
 							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;通信保障
 						</a></li>
-						<li ng-show="menu.m_316"><a href="Views/business/lend.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;设备租借
+						<li ng-show="menu.m_316"><a href="Views/business/lend.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;设备租借
 						</a></li>
 					</ul></li>
-				<li ng-show="menu.m_32"><a href="#"> <span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;数据管理
+				<li ng-show="menu.m_32"><a href="#"> <span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;数据管理
 					</span><span class="fa arrow"></span>
 				</a>
 					<ul class="nav nav-three-level">
-						<li ng-show="menu.m_321"><a href="Views/business/radiouser.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;基础数据
+						<li ng-show="menu.m_321"><a
+							href="Views/business/radiouser.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;基础数据
 						</a></li>
 						<!-- <li><a href="Views/business/talkgroup.html" target="mainframe">用户组 </a></li> -->
 						<!-- <li><a href="Views/business/vpn.html" target="mainframe">组织结构 </a></li> -->
-						<li ng-show="menu.m_322"><a href="Views/operations/audio.html" target="mainframe">
-								<i class="fa fa-sitemap"></i>&nbsp;业务数据
+						<li ng-show="menu.m_322"><a
+							href="Views/operations/audio.html" target="mainframe"> <i
+								class="fa fa-sitemap"></i>&nbsp;业务数据
 
 						</a></li>
-						<li ng-show="menu.m_323"><a href="Views/business/radiouserbusiness.html"
-							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;权限模板
+						<li ng-show="menu.m_323"><a
+							href="Views/business/radiouserbusiness.html" target="mainframe">
+								<i class="fa fa-sitemap"></i>&nbsp;权限模板
+						</a></li>
+						<!-- <li><a href="Views/business/dgna.html" target="mainframe">其他 </a></li> -->
+					</ul></li>
+					<li ng-show="menu.m_32"><a href="#"> <span class="nav-label"> <i
+							class="fa fa-sitemap"></i>&nbsp;终端管理
+					</span><span class="fa arrow"></span>
+				</a>
+					<ul class="nav nav-three-level">
+						<li ng-show="menu.m_321"><a href="Views/business/dgna.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;动态重组
+						</a></li>
+						<!-- <li><a href="Views/business/talkgroup.html" target="mainframe">用户组 </a></li> -->
+						<!-- <li><a href="Views/business/vpn.html" target="mainframe">组织结构 </a></li> -->
+						<li ng-show="menu.m_322"><a href="Views/business/kill.html" target="mainframe">
+								<i class="fa fa-sitemap"></i>&nbsp;遥启遥毙
+
+						</a></li>
+						<li ng-show="menu.m_323"><a href="Views/business/gpsset.html"
+							target="mainframe"> <i class="fa fa-sitemap"></i>&nbsp;gps参数设置
 						</a></li>
 						<!-- <li><a href="Views/business/dgna.html" target="mainframe">其他 </a></li> -->
 					</ul></li>
 			</ul></li>
-		<li ng-show="menu.m_4"><a href="#"> <span class="nav-label"> <i
-					class="fa fa-pie-chart"></i>&nbsp; 统计分析
+
+		<li ng-show="menu.m_4"><a href="#"> <span class="nav-label">
+					<i class="fa fa-pie-chart"></i>&nbsp; 统计分析
 			</span><span class="fa arrow"></span>
 		</a>
 			<ul class="nav ">
-				<li ng-show="menu.m_41"><a href="Views/operations/audio-chart.html" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 话务统计 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/b25e9f61-05a0-4baf-813f-3529717e6083" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站风险指数 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/4c0088ff-c9b2-4393-aff1-99d4765563b5" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 交换中心基站健康度 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/5ec06798-ff00-4852-886d-d0224a3a7654" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 全网热度分析</a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/542fba76-9007-4870-9445-21921f67d3f6" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 单位行为分析 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/48468ae6-4bcb-4253-beaa-cf8ddeaf8126" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 区域热度分析 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/316e833b-69d7-44fc-97bd-e7ad550667db" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站热度分析 </a></li>
-			    <li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/56560bcd-02d7-45d4-9451-bc8cee7e2860" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站画像 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/695e0299-8a6c-425b-b2cf-bab38b1aec87" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 交换中心画像 </a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/410c7cbc-8396-497a-b432-d44365a326c6" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 各终端离网趋势预测</a></li>
-				<li ng-show="menu.m_41"><a href="http://192.168.120.157:8888/analystrunner/67d536a7-0ce7-4b25-820e-6ee746ce391e" target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 用户聚焦分析 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="Views/operations/audio-chart.html" target="mainframe"><i
+						class="fa fa-sitemap"></i>&nbsp; 话务统计 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/b25e9f61-05a0-4baf-813f-3529717e6083"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站风险指数 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/4c0088ff-c9b2-4393-aff1-99d4765563b5"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
+						交换中心基站健康度 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/5ec06798-ff00-4852-886d-d0224a3a7654"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 全网热度分析</a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/542fba76-9007-4870-9445-21921f67d3f6"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 单位行为分析 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/48468ae6-4bcb-4253-beaa-cf8ddeaf8126"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 区域热度分析 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/316e833b-69d7-44fc-97bd-e7ad550667db"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站热度分析 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/56560bcd-02d7-45d4-9451-bc8cee7e2860"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 基站画像 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/695e0299-8a6c-425b-b2cf-bab38b1aec87"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 交换中心画像 </a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/410c7cbc-8396-497a-b432-d44365a326c6"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
+						各终端离网趋势预测</a></li>
+				<li ng-show="menu.m_41"><a
+					href="http://192.168.120.157:8888/analystrunner/67d536a7-0ce7-4b25-820e-6ee746ce391e"
+					target="mainframe"><i class="fa fa-sitemap"></i>&nbsp; 用户聚焦分析 </a></li>
 
 			</ul></li>
-		<li ng-show="menu.m_5"><a href="#"> <span class="nav-label"> <i
-					class="fa fa-desktop"></i>&nbsp; 平台管理
+		<li ng-show="menu.m_5"><a href="#"> <span class="nav-label">
+					<i class="fa fa-desktop"></i>&nbsp; 平台管理
 			</span><span class="fa arrow"></span>
 		</a>
 			<ul class="nav ">
-				<li ng-show="menu.m_51"><a href="Views/web/role.html" target="mainframe"><span
-						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;角色管理
+				<li ng-show="menu.m_51"><a href="Views/web/role.html"
+					target="mainframe"><span class="nav-label"> <i
+							class="fa fa-sitemap"></i>&nbsp;角色管理
 					</span> </a></li>
-				<li ng-show="menu.m_52"><a href="Views/web/user.html" target="mainframe"><span
-						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;用户管理
+				<li ng-show="menu.m_52"><a href="Views/web/user.html"
+					target="mainframe"><span class="nav-label"> <i
+							class="fa fa-sitemap"></i>&nbsp;用户管理
 					</span> </a></li>
-				<li ng-show="menu.m_53"><a href="Views/web/log.html" target="mainframe"> <span
-						class="nav-label" target="mainframe"> <i
-							class="fa fa-sitemap"></i>&nbsp;日志管理
+				<li ng-show="menu.m_53"><a href="Views/web/log.html"
+					target="mainframe"> <span class="nav-label" target="mainframe">
+							<i class="fa fa-sitemap"></i>&nbsp;日志管理
 					</span>
 				</a></li>
-				<li ng-show="menu.m_54"><a href="Views/web/event.html" target="mainframe"><span
-						class="nav-label" target="mainframe"> <i
-							class="fa fa-sitemap"></i>&nbsp;计划任务
+				<li ng-show="menu.m_54"><a href="Views/web/event.html"
+					target="mainframe"><span class="nav-label" target="mainframe">
+							<i class="fa fa-sitemap"></i>&nbsp;计划任务
 					</span> </a></li>
-				<li ng-show="menu.m_55"><a href="Views/business/access-user.html"
-					target="mainframe"><span class="nav-label"> <i
-							class="fa fa-sitemap"></i>&nbsp;接入用户
+				<li ng-show="menu.m_55"><a
+					href="Views/business/access-user.html" target="mainframe"><span
+						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;接入用户
 					</span> </a></li>
 			</ul></li>
-		
+
 	</ul>
 </aside>
 <script type="text/javascript">
