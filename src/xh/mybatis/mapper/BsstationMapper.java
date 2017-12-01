@@ -24,6 +24,13 @@ public interface BsstationMapper {
 	public List<HashMap<String, Object>> bsstatusInfo(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 基站断站列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> monitorBsofflineList()throws Exception;
+	
+	/**
 	 * 根据基站ID,判断该基站相邻小区是否存在
 	 * @param map
 	 * @return

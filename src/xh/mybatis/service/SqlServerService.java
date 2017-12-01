@@ -116,6 +116,27 @@ public class SqlServerService {
 		return list;
 	}
 	/**
+	 * 三期所有基站环控告警列表
+	 * @param bsId
+	 * @return
+	 */
+	public static List<Map<String, Object>> EmhAlarmList() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		try {
+			list = mapper.EmhAlarmList(str_date1);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
 	 * 基站交流电断开
 	 * @return
 	 */

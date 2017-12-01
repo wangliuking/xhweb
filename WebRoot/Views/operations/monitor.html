@@ -53,12 +53,49 @@
 transform
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 :rotate(-360deg)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ;
 }
 }
+</style>
+<style>
+/* table tbody {
+	display: block;
+	max-height: 195px;
+	overflow-y: scroll;
+}
+
+table thead,tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+} */
 </style>
 </head>
 <body ng-app="app" ng-controller="monitor" class="fixed-iframe">
@@ -100,19 +137,25 @@ transform
 								<div class="col-md-12">
 									<div class="img">
 										<div class="img-font">基站断站</div>
-										<div class="img-number"><span id="bs"></span></div>
+										<div class="img-number">
+											<span id="bs"></span>
+										</div>
 									</div>
 
 
 									<div class="img">
 										<div class="img-font">交换中心异常</div>
-										<div class="img-number"><span id="msc"></span></div>
+										<div class="img-number">
+											<span id="msc"></span>
+										</div>
 									</div>
 
 
 									<div class="img">
 										<div class="img-font">调度台异常</div>
-										<div class="img-number"><span id="dispatch"></span></div>
+										<div class="img-number">
+											<span id="dispatch"></span>
+										</div>
 									</div>
 
 
@@ -123,7 +166,9 @@ transform
 
 									<div class="img">
 										<div class="img-font">环控告警</div>
-										<div class="img-number"><span id="emh"></span></div>
+										<div class="img-number">
+											<span id="emh"></span>
+										</div>
 									</div>
 
 								</div>
@@ -135,18 +180,122 @@ transform
 			</div>
 			<!-- row -->
 			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
-					<div class="panel-heading hbuilt">
-							系统告警实时监测
+				<div class="col-md-4">
+
+					<div class="row">
+						<div class="col-md-12">
+
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+								基站断站告警列表</div>
+								<div class="panel-body">
+									<table id="tb-info" class="xh-table table-hover">
+										
+										<tbody>
+											<tr ng-if="bsTotals==0">
+												<td colspan="2" class="text-center">没有告警记录！</td>
+											</tr>
+											<tr ng-repeat="x in bs">
+												<td class="td-danger">{{x.bsId}}-{{x.name}}</td>
+												<td>{{x.time}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
 						</div>
+
+					</div>
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+								调度台连接失败告警列表</div>
+								<div class="panel-body">
+									<table id="tb-info" class="xh-table table-hover">
+										<tbody>
+											<tr ng-if="dispatchTotals==0">
+												<td colspan="9" class="text-center">没有告警记录！</td>
+											</tr>
+											<tr ng-repeat="x in dispatch">
+
+												<td class="td-danger">{{x.dstId}}-{{x.name}}</td>
+												<td>{{x.updateTime}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- col-md-4 -->
+				 <div class="col-md-4">
+				 <div class="col-md-12">
+				 <div class="hpanel">
+						<div class="panel-heading hbuilt">各区域基站异常统计</div>
+						<div class="panel-body">
+							<div id="bs-bar"></div>
+						</div>
+
+					</div>
+				 </div>
+				<!--  <div class="col-md-12">
+				 <div class="hpanel">
+						<div class="panel-heading hbuilt">各区域基站异常统计</div>
 						<div class="panel-body">
 							<div id="map"></div>
 						</div>
 
 					</div>
+				 </div> -->
+				 
+					
+
+				</div> 
+				<!-- col-md-4 -->
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+						<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+						环控告警列表</div>
+						<div class="panel-body">
+							<table id="tb-info" class="xh-table table-hover">
+
+								<tbody>
+									<tr ng-if="threeEmhTotals==0">
+										<td colspan="9" class="text-center">没有告警记录！</td>
+									</tr>
+									<tr ng-repeat="x in threeEmh">
+
+										<td class="td-warning">{{x.dstId}}-{{x.name}}</td>
+										<td>{{x.updateTime}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
 
 				</div>
+
+               
+			</div>
+			<!-- row -->
+			<div class="row">
+				
 			</div>
 			<!-- row -->
 		</div>

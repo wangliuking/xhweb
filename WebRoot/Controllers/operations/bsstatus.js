@@ -35,20 +35,29 @@ xh.load = function() {
 	        return text+"$$";
 	    };
 	});*/
+	app.config([ '$locationProvider', function($locationProvider) {
+		$locationProvider.html5Mode({
+			enabled : true,
+			requireBase : false
+		});
+	} ]);
+
 	
-	app.controller("userstatus", function($scope, $http) {
+	app.controller("userstatus", function($scope, $http, $location) {
 		xh.maskShow();
 		$scope.count = "10";//每页数据显示默认值
+		$scope.zone = $location.search().zone;
 		var type=$("select[name='type']").val();
-		var zone=$("select[name='zone']").val();
+		var zone=$scope.zone==null?"全部":$scope.zone;
 		var link=$("select[name='link']").val();
 		var status=$("select[name='status']").val();
+		var usergroup=$("input[name='usergroup']").val();
 		$http.get("../../bs/map/area").success(
 				function(response) {
 					$scope.zoneData = response.items;
 				});
 		/*获取信息*/
-		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status).
+		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -89,6 +98,7 @@ xh.load = function() {
 			var link=$("select[name='link']").val();
 			var status=$("select[name='status']").val();
 			var pageSize = $("#page-limit").val();
+			var usergroup=$("input[name='usergroup']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -99,7 +109,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			/*xh.maskShow();*/
-			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status).
+			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup).
 			success(function(response){
 				/*xh.maskHide();*/
 				$scope.data = response.items;

@@ -1113,6 +1113,7 @@ body.fullscreen-panel-mode {
 }
 
 .xh-table tr td {
+	word-wrap:break-word;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -1253,6 +1254,8 @@ body.fullscreen-panel-mode {
 	color: #000;
 }
 
+
+
 .xh-table.tr-hover tr:hover {
 	cursor: pointer;
 }
@@ -1261,6 +1264,12 @@ body.fullscreen-panel-mode {
 	background-color: #87b87f;
 	color: #fff;
 }
+
+
+
+
+
+
 /* 分页 */
 .float-left {
 	position: relative;

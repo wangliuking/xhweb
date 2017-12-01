@@ -56,9 +56,10 @@ public class BsStatusService {
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
 				if(map.get("value")==null){
-					
-					list.remove(i);
-					i--;
+					map.put("value", 0);
+					list.set(i, map);
+					/*list.remove(i);
+					i--;*/
 				}
 				
 			}

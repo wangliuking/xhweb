@@ -4,6 +4,7 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
+
 require.config({
 	paths : {
 		echarts : '../../lib/echarts'
@@ -14,11 +15,31 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	app.controller("monitor", function($scope, $http) {
 
+		$(window).resize(function () {          //当浏览器大小变化时
+			xh.map()
+		});
 		$scope.hideMenu = function() {
 			$("body").toggleClass("hide-menu");
 		};
 		// xh.bsChart();
-		xh.map();
+		//xh.map();
+		xh.bsBar();
+		
+		
+	   //系统告警模块
+		$scope.alarmModel=function(){
+			$http.get("../../monitor/bsoffline").success(function(response) {
+				$scope.bs = response.bsList;
+				$scope.bsTotals = response.bsListCount;
+				
+				$scope.dispatch=response.dispatchList;
+				$scope.dispatchTotals=response.dispatchListCount;
+				
+				$scope.threeEmh=response.threeEmhList;
+				$scope.threeEmhTotals=response.threeEmhListCount;
+				
+			});
+		}
 
 		// 更新基站断站告警状态
 		$scope.bsMapCount = function() {
@@ -39,10 +60,13 @@ xh.load = function() {
 			});
 		};
 		
-		$scope.bsMapCount(); 
+		$scope.bsMapCount();
+		$scope.alarmModel();
 		setInterval(function(){
 			$scope.bsMapCount();
-			xh.map();
+			$scope.alarmModel();
+			//xh.map();
+			xh.bsBar();
 			}, 10000);
 
 	});
@@ -215,13 +239,116 @@ xh.map = function() {
 	
 
 };
-xh.bsChart = function() {
+xh.bsBar = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
+		$("#bs-bar").width(parseInt($("#bs-bar").parent().width())+70);
+		$("#bs-bar").height(500);
+	};
+	resizeBarContainer();
+
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/bar' ], function(ec) {
+		chart = ec.init(document.getElementById('bs-bar'));
+		/*chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});*/
+		
+		
+	
+		var option = {
+			   /* title : {
+			        text: '世界人口总量',
+			        subtext: '数据来自网络'
+			    },*/
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['设备工作状态异常的基站数量']
+			    },
+			    calculable : false,
+			    xAxis : [
+			        {
+			            type : 'value',
+			            splitLine:{show: false},//去除网格线
+			            boundaryGap : [0, 0.01]
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'category',
+			            splitLine:{show: false},//去除网格线
+			            splitArea : {show : true},//保留网格区域
+			            data : []
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'设备工作状态异常的基站数量',
+			            itemStyle:{
+			            	normal:{
+			            		color:'red',
+			            		barBorderWidth:30,
+			            		barRorderRadius:4,
+			            		cursor:'pointer'
+			            	}},
+			            type:'bar',
+			            data:[]
+			        }
+			    ]
+			};
+		
+		$.ajax({
+			url : '../../bsstatus/bsZoneAlarm',
+			type : 'GET',
+			dataType : "json",
+			async : true,
+			data:{
+			},
+			success : function(response) {
+
+				/*var data = response.items;
+				option.series[0].data = data;*/
+				var data = response.items;
+				var y=[],x=[];
+				
+				for(var i=0;i<data.length;i++){
+					y.push(data[i].name);
+					x.push(data[i].value);
+					
+				}
+				option.yAxis[0].data=y;
+				option.series[0].data=x;
+				
+				//chart.hideLoading();
+				chart.setOption(option);
+				chart.on('click',function(params){
+					var name=params.name;
+					window.location.href="bsstatus.html?zone="+name;
+				})
+			},
+			error : function() {
+			}
+		});
+
+	});
+	
+
+};
+
+xh.bsChart = function() {
+	// 设置容器宽高
+	var resizeBsContainer = function() {
 		$("#bs-chart").width(parseInt($("#bs-chart").parent().width()));
 		$("#bs-chart").height(300);
 	};
-	resizeBarContainer();
+	resizeBsContainer();
 
 	// 基于准备好的dom，初始化echarts实例
 	var chart = null;

@@ -18,6 +18,13 @@ public interface SqlServerMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> bsmonitorAlarmList(Map<String,Object> map) throws Exception;
+	/**
+	 * 三期所有基站环控告警列表
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> EmhAlarmList(String time) throws Exception;
 	
 	/**
 	 * 交流电断开报警
