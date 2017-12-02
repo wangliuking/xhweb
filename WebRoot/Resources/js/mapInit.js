@@ -104,8 +104,9 @@ app.controller("map", function($scope, $http) {
 	$scope.radioUser = function() {
 		var bsId = $scope.bsId;
 		frist = 0;
-		var pageSize = $("#page-limit").val();
-		$http.get("radio/status/oneBsRadio?bsId=" + bsId
+		var pageSize =  $("#page-limit").val();
+		$http.get(
+				"radio/status/oneBsRadio?bsId=" + bsId
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
 					$scope.radioData = response.items;
@@ -116,13 +117,20 @@ app.controller("map", function($scope, $http) {
 	// 基站下的注册组
 	$scope.bsGroup = function() {
 		var bsId = $scope.bsId;
-		var pageSize = $("#page-limit").val();
-		$http.get("radio/status/oneBsGroup?bsId=" + bsId
+		frist = 0;
+		var pageSize = $("#page-limit-group").val();
+		$http.get(
+				"radio/status/oneBsGroup?bsId=" + bsId
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
 					$scope.groupData = response.items;
 					$scope.groupTotals = response.totals;
+					xh.groupPagging(1, parseInt($scope.groupTotals), $scope);
 				});
+	};
+	$scope.business=function(){
+		$scope.radioUser();
+		$scope.bsGroup();
 	};
 	
 	/**
@@ -350,6 +358,38 @@ app.controller("map", function($scope, $http) {
 				});
 
 	};
+	// 注册组分页点击
+	$scope.groupPageClick = function(page, totals, totalPages) {
+		var pageSize = $("#page-limit-group").val();
+		var start = 1, limit = pageSize;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		
+		$http.get("radio/status/oneBsGroup?bsId=" + $scope.bsId
+						+ "&start=" + start + "&limit=" + pageSize)
+				.success(function(response) {
+					xh.maskHide();
+
+					$scope.groupStart = (page - 1) * pageSize + 1;
+					$scope.groupLastIndex = page * pageSize;
+					if (page == totalPages) {
+						if (totals > 0) {
+							$scope.groupLastIndex = totals;
+						} else {
+							$scope.groupStart = 0;
+							$scope.lastIndex = 0;
+						}
+					}
+					$scope.groupData = response.items;
+					$scope.groupTotals = response.totals;
+				});
+
+	};
+	
 	//分页点击,圈选
 	$scope.pageClickChoose = function(page, totals, totalPages, params) {		
 		var pageSize = $("#page-limitChoose").val();
@@ -432,6 +472,41 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 };
 
+xh.groupPagging = function(currentPage, totals, $scope) {
+	var pageSize = $("#page-limit-group").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.groupStart = start;
+	$scope.groupLastIndex = end;
+	$scope.groupTotals = totals;
+	if (totals > 0) {
+		$(".page-paging-group").html('<ul class="pagination"></ul>');
+		$('.pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 3,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.groupPageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+
 /* 数据分页 圈选 */
 xh.paggingChoose = function(currentPage, totals, $scope, params) {
 	var pageSize = $("#page-limitChoose").val();
@@ -490,7 +565,10 @@ var chooseLayer=0;
 var daolukakou,gongyeyuan,gongyuanguangchang,guojiajijingdian,huiyizhongxin,jiaoguanjigou,jiaotongshuniu,jiedaoban,jiudian,sanjiajijiu,wuzicangku,xiangzhenzhengfu,xiaofang,zaihaiyifadian,zhongdiangaoxiao,gonganju;
 function floor(data) {
 	var options = {
-		logo : false
+		maxZoom:11,//最大空间等级  
+		minZoom:1,//最小空间等级  
+		slider:false,//隐藏比例尺控件  
+		logo:false,//隐藏logo
 	};
 	esri.symbols = esri.symbol;
 	myMap = new esri.Map("mapDiv", options);// 在mapDiv中创建map地图对象

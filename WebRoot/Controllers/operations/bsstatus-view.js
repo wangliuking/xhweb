@@ -74,6 +74,11 @@ xh.load = function() {
 					});
 			
 		};
+		//停止预览
+		$scope.clickStopRealPlay = function(){
+			clickStopRealPlay();
+		};
+		
 
 		// 基站下的注册终端
 		$scope.radioUser = function() {
@@ -601,6 +606,7 @@ xh.groupPagging = function(currentPage, totals, $scope) {
 /**
  * 摄像头相关配置
  */
+var g_iWndIndex = 0;
 function cameraConfig(cameraIp){
 	// 检查插件是否已经安装过
     var iRet = WebVideoCtrl.I_CheckPluginInstall();
@@ -622,7 +628,7 @@ function cameraConfig(cameraIp){
         bWndFull: true,//是否支持单窗口双击全屏，默认支持 true:支持 false:不支持
         iWndowType: 1,
 		cbSelWnd: function (xmlDoc) {
-			
+			g_iWndIndex = $(xmlDoc).find("SelectWnd").eq(0).text();
 		}
 	});
 	WebVideoCtrl.I_InsertOBJECTPlugin("divPlugin");
@@ -660,5 +666,20 @@ function cameraConfig(cameraIp){
 	$(window).unload(function () {
 		WebVideoCtrl.I_Stop();
 	});
+}
+
+//停止预览
+function clickStopRealPlay() {
+	var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex),
+		szInfo = "";
+
+	if (oWndInfo != null) {
+		var iRet = WebVideoCtrl.I_Stop();
+		if (0 == iRet) {
+			szInfo = "停止预览成功！";
+		} else {
+			szInfo = "停止预览失败！";
+		}
+	}
 }
 
