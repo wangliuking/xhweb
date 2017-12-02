@@ -110,10 +110,9 @@ html,body {
 			</button>
 			<div class="dropdown-menu pre-scrollable" role="menu">
 				<ul ng-repeat="x in levelData">
-					<li ng-if="x.level!=0">
-					<label class="levelChoose"><input type="checkbox"
-							ng-click="levelChoose(x.level)" ng-value="x.level">{{x.level}}级基站</label>
-					</li>
+					<li ng-if="x.level!=0"><label class="levelChoose"><input
+							type="checkbox" ng-click="levelChoose(x.level)"
+							ng-value="x.level">{{x.level}}级基站</label></li>
 				</ul>
 			</div>
 
@@ -142,37 +141,37 @@ html,body {
 						id="roadtestInfo" type="checkbox" value="">路测信息图</label></li>
 				<li style="padding-left:36px;"><label><input
 						id="testDemo" type="checkbox" value="">基站覆盖仿真图</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="daolukakou" type="checkbox" value="">道路卡口</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="gongyeyuan" type="checkbox" value="">工业园</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="gongyuanguangchang" type="checkbox" value="">公园广场</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="guojiajijingdian" type="checkbox" value="">国家级景点</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="huiyizhongxin" type="checkbox" value="">会议中心</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="jiaoguanjigou" type="checkbox" value="">交管机构</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="jiaotongshuniu" type="checkbox" value="">交通枢纽</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="jiedaoban" type="checkbox" value="">街道办</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="jiudian" type="checkbox" value="">四星级以上酒店</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="sanjiajijiu" type="checkbox" value="">三甲急救</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="wuzicangku" type="checkbox" value="">物资仓库</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="xiangzhenzhengfu" type="checkbox" value="">乡镇政府</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="xiaofang" type="checkbox" value="">消防</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="zaihaiyifadian" type="checkbox" value="">灾害易发点</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="zhongdiangaoxiao" type="checkbox" value="">重点高校</label></li>
-						<li style="padding-left:36px;"><label><input
+				<li style="padding-left:36px;"><label><input
 						id="gonganju" type="checkbox" value="">公安，派出所</label></li>
 			</ul>
 		</div>
@@ -191,7 +190,7 @@ html,body {
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
+						aria-hidden="true">&times;</button>
 					<div class="message_move">圈选查询</div>
 				</div>
 				<div class="modal-body">
@@ -278,7 +277,7 @@ html,body {
 						<li><a href="#config" data-toggle="tab" ng-click='config()'>配置信息</a></li>
 
 						<li><a href="#business" data-toggle="tab"
-							ng-click='bsGroup()'> 业务信息</a></li>
+							ng-click='business()'> 业务信息</a></li>
 					</ul>
 					<div class="tab-content" style="padding:20px">
 						<div class="tab-pane fade in active" id="info">
@@ -312,55 +311,54 @@ html,body {
 								</div>
 							</div>
 						</div>
+
+
 					</div>
-
-
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">关闭</button>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default btn-sm"
-						data-dismiss="modal">关闭</button>
-				</div>
+				<!-- /.modal-content -->
 			</div>
-			<!-- /.modal-content -->
+			<!-- /.modal -->
 		</div>
-		<!-- /.modal -->
-	</div>
-	<!-- 模态框（Modal）end -->
-	<script>
-		var dojoConfig = {
-			parseOnLoad : true,
-			packages : [ {
-				"name" : "src",
-				"location" : "/axis2"
-			} ]
-		};
-		/* location.pathname.replace(/\/[^/]+$/, '') */
-	</script>
+		<!-- 模态框（Modal）end -->
+		<script>
+			var dojoConfig = {
+				parseOnLoad : true,
+				packages : [ {
+					"name" : "src",
+					"location" : "/axis2"
+				} ]
+			};
+			/* location.pathname.replace(/\/[^/]+$/, '') */
+		</script>
 
 
 
-	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="echarts.source.js"></script>
-	<script src="http://125.70.9.194:801/3.15/init.js"></script>
+		<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+		<script type="text/javascript"
+			src="lib/metisMenu/dist/metisMenu.min.js"></script>
+		<script type="text/javascript" src="echarts.source.js"></script>
+		<script src="http://125.70.9.194:801/3.15/init.js"></script>
 
-	<!-- highcharts -->
-	<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
-	<script type="text/javascript" src="lib/highcharts/highcharts-more.js"></script>
-	<script type="text/javascript"
-		src="lib/highcharts/modules/exporting.js"></script>
-	<script type="text/javascript"
-		src="lib/highcharts/themes/grid-light.js"></script>
-	<script type="text/javascript" src="Resources/js/mapInit.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$("testChooseLevel li a").click(function() {
-				console.log("aaa");
+		<!-- highcharts -->
+		<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="lib/highcharts/highcharts-more.js"></script>
+		<script type="text/javascript"
+			src="lib/highcharts/modules/exporting.js"></script>
+		<script type="text/javascript"
+			src="lib/highcharts/themes/grid-light.js"></script>
+		<script type="text/javascript" src="Resources/js/mapInit.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("testChooseLevel li a").click(function() {
+					console.log("aaa");
 
+				});
 			});
-		});
-	</script>
+		</script>
 </body>
 
 </html>
