@@ -65,7 +65,11 @@ transform
 
 
 
+
+
 :rotate(-360deg)
+
+
 
 
 
@@ -180,20 +184,23 @@ table thead,tbody tr {
 			</div>
 			<!-- row -->
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 
 					<div class="row">
 						<div class="col-md-12">
 
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
-								<div class="panel-tools">
-								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
-							</div>
-								基站断站告警列表</div>
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+									</div>
+									基站断站告警列表
+								</div>
 								<div class="panel-body">
+								<div style="min-height:214px;max-height:214px;overflow: scroll;">
+								
 									<table id="tb-info" class="xh-table table-hover">
-										
+
 										<tbody>
 											<tr ng-if="bsTotals==0">
 												<td colspan="2" class="text-center">没有告警记录！</td>
@@ -205,6 +212,7 @@ table thead,tbody tr {
 										</tbody>
 									</table>
 								</div>
+								</div>
 							</div>
 
 						</div>
@@ -215,11 +223,13 @@ table thead,tbody tr {
 						<div class="col-md-12">
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
-								<div class="panel-tools">
-								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
-							</div>
-								调度台连接失败告警列表</div>
+									<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+									</div>
+									调度台连接失败告警列表
+								</div>
 								<div class="panel-body">
+								<div style="min-height:214px;max-height:214px;overflow: scroll;">
 									<table id="tb-info" class="xh-table table-hover">
 										<tbody>
 											<tr ng-if="dispatchTotals==0">
@@ -227,11 +237,12 @@ table thead,tbody tr {
 											</tr>
 											<tr ng-repeat="x in dispatch">
 
-												<td class="td-danger">{{x.dstId}}-{{x.name}}</td>
+												<td>{{x.dstId}}-{{x.name}}</td>
 												<td>{{x.updateTime}}</td>
 											</tr>
 										</tbody>
 									</table>
+								</div>
 								</div>
 
 							</div>
@@ -240,17 +251,20 @@ table thead,tbody tr {
 					</div>
 				</div>
 				<!-- col-md-4 -->
-				 <div class="col-md-4">
-				 <div class="col-md-12">
-				 <div class="hpanel">
-						<div class="panel-heading hbuilt">各区域基站异常统计</div>
-						<div class="panel-body">
-							<div id="bs-bar"></div>
-						</div>
+				<div class="col-md-6">
+					<div class="col-md-12">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+										<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+									</div>各区域基站异常统计</div>
+							<div class="panel-body">
+								<div id="bs-bar"></div>
+							</div>
 
+						</div>
 					</div>
-				 </div>
-				<!--  <div class="col-md-12">
+					<!--  <div class="col-md-12">
 				 <div class="hpanel">
 						<div class="panel-heading hbuilt">各区域基站异常统计</div>
 						<div class="panel-body">
@@ -259,43 +273,83 @@ table thead,tbody tr {
 
 					</div>
 				 </div> -->
-				 
-					
 
-				</div> 
+
+
+				</div>
 				<!-- col-md-4 -->
-				<div class="col-md-4">
+				
+			</div>
+			<!-- row -->
+			<div class="row">
+			<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-						<div class="panel-tools">
+							<div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
 							</div>
-						环控告警列表</div>
+							环控告警列表
+						</div>
 						<div class="panel-body">
+						<div style="min-height:250px;max-height:450px;overflow: scroll;">
 							<table id="tb-info" class="xh-table table-hover">
 
 								<tbody>
-									<tr ng-if="threeEmhTotals==0">
+									<tr ng-if="emhTotals==0">
 										<td colspan="9" class="text-center">没有告警记录！</td>
 									</tr>
-									<tr ng-repeat="x in threeEmh">
+									<tr ng-repeat="x in emh">
 
-										<td class="td-warning">{{x.dstId}}-{{x.name}}</td>
-										<td>{{x.updateTime}}</td>
+                                        <td>{{x.bsId}}</td>
+                                        <td>{{x.DevName}}</td>
+										<td>{{x.AlarmText}}</td>
+										
+										<td>{{x.time}}</td>
+										<!-- <td><span ng-if="x.singleId=='017010'">
+												温度过高告警</span> <span ng-if="x.singleId=='017011'">温度高告警</span> <span
+											ng-if="x.singleId=='017012'">温度过低告警</span> <span
+											ng-if="x.singleId=='017013'">湿度过高告警</span> <span
+											ng-if="x.singleId=='017014'">湿度过低告警</span> <span
+											ng-if="x.singleId=='017001'">水浸告警</span> <span
+											ng-if="x.singleId=='017002'">烟雾告警</span> <span
+											ng-if="x.singleId=='017004'">红外告警</span> <span
+											ng-if="x.singleId=='017020'">门打开</span> <span
+											ng-if="x.singleId=='092001'">市电停电</span> <span
+											ng-if="x.singleId=='092002'">市电缺相</span> <span
+											ng-if="x.singleId=='092004'">交流电压过高告警</span> <span
+											ng-if="x.singleId=='092005'">交流电压过低告警</span> <span
+											ng-if="x.singleId=='076002'">非智能设备采集器通信状态告警</span> <span
+											ng-if="x.singleId=='076501'">开关电源通信状态告警</span> <span
+											ng-if="x.singleId=='076507'">UPS设备通信状态告警</span> <span
+											ng-if="x.singleId=='076509'">智能电表通信状态告警</span></td>
+										<td>{{x.updateTime}}</td> -->
 									</tr>
 								</tbody>
 							</table>
+							</div>
+							<!-- <div class="page">
+								<div class="page-info-emh">
+									每页显示 <select id="page-limit-emh" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div> -->
 						</div>
 
 					</div>
 
 				</div>
 
-               
-			</div>
-			<!-- row -->
-			<div class="row">
-				
+
+
+              <!--  col-md-12 -->
 			</div>
 			<!-- row -->
 		</div>

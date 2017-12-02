@@ -129,6 +129,18 @@ public class SqlServerService {
 		String str_date1 = format.format(currentTime); //将日期时间格式化 
 		try {
 			list = mapper.EmhAlarmList(str_date1);
+			for(int i=0;i<list.size();i++){
+				Map<String, Object> map=list.get(i);
+				Map<String, Object> map2=new HashMap<String, Object>();
+				map2.put("bsId", Integer.parseInt(map.get("JFNode").toString()));
+				map2.put("DevName", map.get("DevName"));
+				map2.put("AlarmText", Integer.parseInt(map.get("JFNode").toString())+"-"+map.get("AlarmText"));
+				map2.put("time", map.get("AlarmDate").toString().split(" ")[0]+" "+map.get("AlarmTime"));
+				list.set(i, map2);
+				
+			}
+		
+			
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

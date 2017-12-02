@@ -64,11 +64,29 @@
 		ORDER BY a.deviceId ASC , a.singleId ASC
 		LIMIT 0 , 100
 	</select>
+	<!--4期所有基站环控告警 -->
+	<select id="fourEmhAlarmList" parameterType="map" resultType="map"
+		useCache="true">
+		SELECT a.fsuId, a.deviceId, a.singleId, a.singleType, a.singleValue,
+		a.level, a.updateTime,b.deviceName,b.siteId,b.siteName
+		FROM xhgmnet_emh_sensor_status as a
+		left join xhgmnet_emh_config as b on a.deviceId=b.deviceId and a.fsuId=b.fsuId
+		WHERE a.singleType=0 and a.singleValue!=0
+		ORDER BY a.deviceId ASC , a.singleId ASC
+		LIMIT #{start} , #{limit}
+	</select>
+		<!--4期所有基站环控告警 -->
+	<select id="fourEmhAlarmListCount" parameterType="map" resultType="int"
+		useCache="true">
+		SELECT count(*) from  xhgmnet_emh_sensor_status
+		WHERE  singleType=0 and singleValue!=0
+	</select>
 	<!--4期基站环控告警数目 -->
-	<select id="bsEmhNowAlarmCount" parameterType="String" resultType="xh.mybatis.bean.EmhBean"
+	<!-- <select id="bsEmhNowAlarmCount" parameterType="String" resultType="xh.mybatis.bean.EmhBean"
 		useCache="true">
 		SELECT count(*) WHERE singleType=0 and singleValue!=0 and singleId='092001'
-	</select>
+	</select> -->
+
 	<!--基站下的bsc状态 -->
 	<select id="bsc" parameterType="int" resultType="map" useCache="true">
 		SELECT *

@@ -28,15 +28,15 @@ xh.load = function() {
 		
 	   //系统告警模块
 		$scope.alarmModel=function(){
-			$http.get("../../monitor/bsoffline").success(function(response) {
+			$http.get("../../monitor/bsoffline?emhstart=0&emhlimit=500").success(function(response) {
 				$scope.bs = response.bsList;
 				$scope.bsTotals = response.bsListCount;
 				
 				$scope.dispatch=response.dispatchList;
 				$scope.dispatchTotals=response.dispatchListCount;
 				
-				$scope.threeEmh=response.threeEmhList;
-				$scope.threeEmhTotals=response.threeEmhListCount;
+				$scope.emh=response.emhList;
+				$scope.emhTotals=response.emhListCount;
 				
 			});
 		}
@@ -75,7 +75,7 @@ xh.map = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
 		$("#map").width(parseInt($("#map").parent().width()));
-		$("#map").height(500);
+		$("#map").height(600);
 	};
 	resizeBarContainer();
 
@@ -243,7 +243,7 @@ xh.bsBar = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
 		$("#bs-bar").width(parseInt($("#bs-bar").parent().width())+70);
-		$("#bs-bar").height(500);
+		$("#bs-bar").height(503);
 	};
 	resizeBarContainer();
 
@@ -284,7 +284,7 @@ xh.bsBar = function() {
 			        {
 			            type : 'category',
 			            splitLine:{show: false},//去除网格线
-			            splitArea : {show : true},//保留网格区域
+			            splitArea : {show : false},//保留网格区域
 			            data : []
 			        }
 			    ],
@@ -293,7 +293,7 @@ xh.bsBar = function() {
 			            name:'设备工作状态异常的基站数量',
 			            itemStyle:{
 			            	normal:{
-			            		color:'red',
+			            		color:'skyblue',
 			            		barBorderWidth:30,
 			            		barRorderRadius:4,
 			            		cursor:'pointer'

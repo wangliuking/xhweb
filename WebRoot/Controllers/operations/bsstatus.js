@@ -47,6 +47,9 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "10";//每页数据显示默认值
 		$scope.zone = $location.search().zone;
+		if($scope.zone==null){
+			$scope.zone="全部"
+		}
 		var type=$("select[name='type']").val();
 		var zone=$scope.zone==null?"全部":$scope.zone;
 		var link=$("select[name='link']").val();
@@ -95,6 +98,7 @@ xh.load = function() {
 			var $scope = angular.element(appElement).scope();
 			var type=$("select[name='type']").val();
 			var zone=$("select[name='zone']").val();
+			var zone=$scope.zone==null?$("select[name='zone']").val():$scope.zone;
 			var link=$("select[name='link']").val();
 			var status=$("select[name='status']").val();
 			var pageSize = $("#page-limit").val();

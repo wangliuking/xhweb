@@ -30,6 +30,7 @@ import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.bsLinkConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
+import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.DispatchStatusService;
@@ -53,16 +54,33 @@ public class MonitorController {
 	 */
 	@RequestMapping(value="/bsoffline",method = RequestMethod.GET)
 	public void bsInfo(HttpServletRequest request, HttpServletResponse response){
+		int emhstart=funUtil.StringToInt(request.getParameter("emhstart"));
+		int emhlimit=funUtil.StringToInt(request.getParameter("emhlimit"));
+		
+		Map<String,Object> emhParamMap=new HashMap<String, Object>();
+		emhParamMap.put("start", emhstart);
+		emhParamMap.put("limit", emhlimit);
+		
+		
 		List<Map<String,Object>>  bs=BsstationService.monitorBsofflineList();
 		List<Map<String,Object>>  dispatch=DispatchStatusService.dispatchOffAlarm();
-		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList();		
+		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList();
+		List<Map<String,Object>>  fourEmh=BsStatusService.fourEmhAlarmList(emhParamMap);
+		List<Map<String,Object>> emh=new ArrayList<Map<String,Object>>();
+		for (Map<String, Object> map : threeEmh) {
+			emh.add(map);
+		}
+		for (Map<String, Object> map : fourEmh) {
+			emh.add(map);
+		}
+		
 		HashMap result = new HashMap();
 		result.put("bsList", bs);
 		result.put("bsListCount", bs.size());
 		result.put("dispatchList", dispatch);
 		result.put("dispatchListCount", dispatch.size());
-		result.put("threeEmhList", threeEmh);
-		result.put("threeEmhListCount", threeEmh.size());
+		result.put("emhList", emh);
+		result.put("emhListCount", emh.size());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

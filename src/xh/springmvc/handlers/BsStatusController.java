@@ -540,7 +540,7 @@ public class BsStatusController {
 		int count2=BsStatusService.MapDispatchAlarmCount();
 		int count3=BsStatusService.MapMscAlarmCount();
 		
-		int count4=SqlServerService.MapEmhAlarmCount();
+		int count4=SqlServerService.MapEmhAlarmCount()+BsStatusService.fourEmhAlarmListCount();
 		try {
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
