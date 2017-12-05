@@ -42,6 +42,47 @@ public class AmapService {
 
 	
 	/**
+	 * 不规则圈选基站查询
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> polyline(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper = sqlSession.getMapper(AmapMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.polyline(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 不规则圈选基站总数
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int polylineCount(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper = sqlSession.getMapper(AmapMapper.class);
+		int count = 0;
+		try {
+			count = mapper.polylineCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
 	 * 圈选基站查询
 	 * 
 	 * @param root
@@ -81,26 +122,7 @@ public class AmapService {
 		}
 		return count;
 	}
-	
-	/**
-	 * 根据基站id查询注册组和注册用户
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static int businessByBsId(Map<String, Object> map) {
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AmapMapper mapper = sqlSession.getMapper(AmapMapper.class);
-		int count = 0;
-		try {
-			count = mapper.rectangleCount(map);
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return count;
-	}
+
 	
 
 }
