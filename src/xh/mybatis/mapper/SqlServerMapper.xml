@@ -38,9 +38,14 @@
     and DevNode ='0051' and NodeID='1003' and flag=0)
     </update>
    <!-- 环控告警统计 -->
-	<select id="MapEmhAlarmCount" resultType="int" useCache="true">
+	<select id="MapEmhAlarmCount" parameterType="String" resultType="int" useCache="true">
 		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
 		and State='报警'
+	</select>
+	<!-- 三期所有基站环控告警列表 -->
+	<select id="EmhAlarmList" parameterType="String" resultType="map" useCache="true">
+		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 
+		and State='报警' order by JFNode asc
 	</select>
 
     

@@ -142,6 +142,12 @@ xh.load = function() {
 			});
 			
 		};
+		//邮件连接跳转
+		$scope.tolocation=function(title){
+			var url="";
+			if(title=="入网申请"){url="../business/joinnet.html";}
+			window.location.href=url;
+		}
 	});
 };
 /* 添加用户*/

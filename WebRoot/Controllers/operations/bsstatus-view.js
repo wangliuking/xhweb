@@ -512,7 +512,7 @@ xh.load = function() {
 			/*$scope.loadTemp();
 			$scope.loadDamp();*/
 			/*$scope.business();*/
-			}, 5000);
+			}, 20000);
 
 	});
 };

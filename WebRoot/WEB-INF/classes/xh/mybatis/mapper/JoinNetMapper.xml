@@ -39,7 +39,7 @@
 	</select>
 	<!--查询最新一条有线接入ID -->
 	<select id="YXMAXID" resultType="int" useCache="true">
-		SELECT max(ID) ID FROM `xhgmnet_business_net` where serviceType='有线接入';
+		SELECT max(id) ID FROM `xhgmnet_business_net` where serviceType='有线接入';
 	</select>
 	<!--查询该入网流程所添加的用户C_ID -->
 	<select id="getUserCIDByID" parameterType="int" resultType="int" useCache="true">
@@ -75,6 +75,12 @@
 		update xhgmnet_business_net set
 		user2=#{user2},time2=#{time2},note2=#{note2},
 		user3=#{user3},checked=#{checked} where id=#{id}
+	</update>
+	<!--领导通知经办人上传资源配置方案-->
+	<update id="checked100" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		user3=#{user3},time2=#{time2},note3=#{note3},
+		checked=#{checked} where id=#{id}
 	</update>
 	<!--上传编组方案 -->
 	<update id="uploadFile" parameterType="xh.mybatis.bean.JoinNetBean">
@@ -119,9 +125,25 @@
 	</update>
 	<!--上传采购设备信息 -->
 	<update id="uploadFileCG" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set fileName_CG=#{fileNameCG},filePath_CG=#{filePathCG},checked=8 where
+		update xhgmnet_business_net set fileName_CG=#{fileNameCG},filePath_CG=#{filePathCG},time7=#{time7}, checked=8 where
 		id=#{id}
 	</update>
+	<!--经办人交付终端 -->	
+	<update id="updateCheck10" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time8=#{time8} where id=#{id}
+	</update>	
+	<!--用户确认接收终端 -->	
+	<update id="updateCheck11" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time9=#{time9} where id=#{id}
+	</update>
+	<!--经办人通知培训完成 -->	
+	<update id="updateCheck12" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time10=#{time10} where id=#{id}
+	</update>
+	<!--用户确认培训是否完成 -->	
+	<update id="updateCheck13" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time11=#{time11} where id=#{id}
+	</update>	
 	<!--更新流程 -->
 	<update id="updateCheckById" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set checked=#{checked} where id=#{id}
@@ -132,7 +154,7 @@
 	</update>
 	<!--有线-应用接入 -->
 	<update id="applicationAccess" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
+		update xhgmnet_business_net set user4=#{user4}, result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
 	</update>
 
 	<!--通知培训-->

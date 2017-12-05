@@ -301,7 +301,8 @@ xh.load = function() {
 		$scope.handoverByBsId = function(bsId) {
 			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
 					function(response) {
-						$scope.handoverData = response.items;
+						$scope.handoverData = response.items[0];
+						$scope.handoverD = response.items;
 						$scope.handoverTotals = response.totals;
 					});
 		};

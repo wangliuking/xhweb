@@ -56,9 +56,10 @@ public class BsStatusService {
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
 				if(map.get("value")==null){
-					
-					list.remove(i);
-					i--;
+					map.put("value", 0);
+					list.set(i, map);
+					/*list.remove(i);
+					i--;*/
 				}
 				
 			}
@@ -69,6 +70,109 @@ public class BsStatusService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	
+	
+	/**
+	 * 4期所有基站环控告警
+	 * @return
+	 */
+	public static List<Map<String, Object>> fourEmhAlarmList(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.fourEmhAlarmList(map);
+			
+			for(int i=0;i<list.size();i++){
+				Map<String, Object> map2=list.get(i);
+				Map<String, Object> map3=new HashMap<String, Object>();
+				String AlarmText="";
+				map3.put("bsId", map2.get("siteId").toString());
+				map3.put("DevName", map2.get("deviceName"));
+				if(map2.get("singleId").toString().equals("017010") || map2.get("singleId").toString().equals("017011")){
+					AlarmText="温度高告警";
+				}
+				if(map2.get("singleId").toString().equals("017012")){
+					AlarmText="温度过低告警";
+				}
+				if(map2.get("singleId").toString().equals("017013")){
+					AlarmText="湿度过高告警";
+				}
+				if(map2.get("singleId").toString().equals("017014")){
+					AlarmText="湿度过低告警";
+				}
+				if(map2.get("singleId").toString().equals("017001")){
+					AlarmText="水浸告警";
+				}
+				if(map2.get("singleId").toString().equals("017002")){
+					AlarmText="烟雾告警";
+				}
+				if(map2.get("singleId").toString().equals("017004")){
+					AlarmText="红外告警";
+				}
+				if(map2.get("singleId").toString().equals("017020")){
+					AlarmText="门打开";
+				}
+				if(map2.get("singleId").toString().equals("092001")){
+					AlarmText="市电停电";
+				}
+				if(map2.get("singleId").toString().equals("092002")){
+					AlarmText="市电缺相";
+				}
+				if(map2.get("singleId").toString().equals("092004")){
+					AlarmText="交流电压过高告警";
+				}
+				if(map2.get("singleId").toString().equals("092005")){
+					AlarmText="交流电压过低告警";
+				}
+				if(map2.get("singleId").toString().equals("076002")){
+					AlarmText="非智能设备采集器通信状态告警";
+				}
+				if(map2.get("singleId").toString().equals("076501")){
+					AlarmText="开关电源通信状态告警";
+				}
+				if(map2.get("singleId").toString().equals("076507")){
+					AlarmText="UPS设备通信状态告警";
+				}
+				if(map2.get("singleId").toString().equals("076509")){
+					AlarmText="智能电表通信状态告警";
+				}
+				
+				map3.put("AlarmText", map2.get("siteId").toString()+"-"+map2.get("siteName")+". "+map2.get("deviceName")+". "+AlarmText);
+				map3.put("time", map2.get("updateTime").toString());
+				list.set(i, map3);
+				
+			}
+			
+			
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 4期所有基站环控告警数目
+	 * @return
+	 */
+	public static int fourEmhAlarmListCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count = mapper.fourEmhAlarmListCount();
+			
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	/**

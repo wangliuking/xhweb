@@ -80,12 +80,12 @@
 
 			</div> -->
 			<div class="row" ng-show=true>
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
 
 							<div class="row">
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<label>基站级别:</label> <select name="type" class="form-control"
 										onchange="xh.refresh()">
 										<option value="0" selected="selected">全部</option>
@@ -95,16 +95,16 @@
 									</select>
 
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<label>基站区域:</label> <select name="zone" class="form-control"
-										onchange="xh.refresh()">
+										onchange="xh.refresh()" ng-model="zone">
 										<option value="全部" selected="selected">全部</option>
 										<option ng-repeat="x in zoneData" value="{{x.zone}}">{{x.zone}}</option>
 
 									</select>
 
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<label>连接状态:</label> <select name="link" class="form-control"
 										onchange="xh.refresh()">
 										<option value="2" selected="selected">全部</option>
@@ -113,7 +113,7 @@
 									</select>
 
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<label>启用状态:</label> <select name="status" class="form-control"
 										onchange="xh.refresh()">
 										<option value="2" selected="selected">全部</option>
@@ -122,6 +122,12 @@
 									</select>
 
 								</div>
+								<div class="col-md-2">
+									<label>注册终端/组</label> <input name="usergroup" class="form-control"
+										 placeholder="终端、组号码" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"/>
+
+								</div>
+								
 								<div class="col-md-3" ng-show=false>
 									<button class="btn btn-danger btn-sm" ng-disabled=""
 										onclick="xh.excelToBsstatus()">
@@ -189,11 +195,11 @@
 						<div  ng-if="x.status==1 &&x.link==0">
 							<div style="cursor: pointer;"  ng-click="showGroupUser($index)" >
 							
-							注册组/终端:&nbsp;
-							<span ng-if='x.groupSum==null' style="color:blue">[0]</span>
-							<span ng-if='x.groupSum!=null' style="color:blue">[{{x.groupSum}}]</span>/
-							<span ng-if='x.userSum==null' style="color:blue">[0]</span>
-							<span ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}}]</span>
+							注册组/终端数量:&nbsp;
+							<span ng-if='x.groupSum==null' style="color:blue">[0 ]</span>
+							<span ng-if='x.groupSum!=null' style="color:blue">[{{x.groupSum}} ]</span>/
+							<span ng-if='x.userSum==null' style="color:blue">[0 ]</span>
+							<span ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}} ]</span>
 							
 							
 								<!-- <span ng-if='x.groupSum==null'>注册组/终端:&nbsp;0</span>
@@ -203,9 +209,8 @@
 
 							</div>
 							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
-									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
-								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
+									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;{{x.deviceAlarmSum}} </span>
 							</div>
 
 						</div>
@@ -213,13 +218,12 @@
 
 							<div>
 
-								注册组/终端:&nbsp;<span style="color:blue">0/0</span>
+								注册组/终端数量:&nbsp;<span style="color:blue">0/0</span>
 
 							</div>
 							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
-									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;0</span>
-								<!-- &nbsp;&nbsp;<span>环控告警:&nbsp;<span class="text-danger">20</span></span> -->
+								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
+									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;0 </span>
 							</div>
 
 						</div>
@@ -266,5 +270,26 @@
 	<script type="text/javascript">
 		xh.load();
 	</script>
+	<script type="text/javascript">
+    // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnInput (event) {
+            //alert ("The new content: " + event.target.value);
+            xh.refresh()
+        }
+    // Internet Explorer
+        function OnPropChanged (event) {
+            if (event.propertyName.toLowerCase () == "value") {
+               // alert ("The new content: " + event.srcElement.value);
+               xh.refresh()
+            }
+        }
+        $(function(){
+            $("input[name='usergroup']").bind('input propertychange',function(){
+                
+                var val = $(this).val();              
+                xh.refresh()
+            })
+        });
+    </script>
 </body>
 </html>

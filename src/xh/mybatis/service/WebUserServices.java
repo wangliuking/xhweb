@@ -88,6 +88,26 @@ public class WebUserServices {
 		return  list;	
 	}
 	/**
+	 * 根据权限字段查找用户
+	 * @param fieldstr
+	 * @return
+	 */
+	public static List<Map<String,Object>>userPowerListByType(Map<String,Object> map) {
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+
+		try {
+			list=mapper.userPowerListByType(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;	
+	}
+	
+	/**
 	 * 根据用户权限+RoleID获取用户
 	 * @param powerstr
 	 * @return

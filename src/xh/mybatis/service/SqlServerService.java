@@ -116,6 +116,39 @@ public class SqlServerService {
 		return list;
 	}
 	/**
+	 * 三期所有基站环控告警列表
+	 * @param bsId
+	 * @return
+	 */
+	public static List<Map<String, Object>> EmhAlarmList() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		Date currentTime = new Date();//得到当前系统时间
+		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		try {
+			list = mapper.EmhAlarmList(str_date1);
+			for(int i=0;i<list.size();i++){
+				Map<String, Object> map=list.get(i);
+				Map<String, Object> map2=new HashMap<String, Object>();
+				map2.put("bsId", Integer.parseInt(map.get("JFNode").toString()));
+				map2.put("DevName", map.get("DevName"));
+				map2.put("AlarmText", Integer.parseInt(map.get("JFNode").toString())+"-"+map.get("AlarmText"));
+				map2.put("time", map.get("AlarmDate").toString().split(" ")[0]+" "+map.get("AlarmTime"));
+				list.set(i, map2);
+				
+			}
+		
+			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
 	 * 基站交流电断开
 	 * @return
 	 */

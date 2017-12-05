@@ -36,6 +36,23 @@ public interface BsStatusMapper {
 	public List<EmhBean> bsEmhAlarm(String fsuId) throws Exception;
 	
 	/**
+	 * 4期所有基站环控告警
+	 * @param fsuId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> fourEmhAlarmList(Map<String,Object> map) throws Exception;
+	/**
+	 * 4期所有基站环控告警数目
+	 * @param fsuId
+	 * @return
+	 * @throws Exception
+	 */
+	public int fourEmhAlarmListCount() throws Exception;
+	
+	
+	
+	/**
 	 * 基站下的环控fsuId 
 	 * @param siteId
 	 * @return

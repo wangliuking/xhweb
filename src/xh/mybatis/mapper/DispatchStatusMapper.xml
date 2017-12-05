@@ -33,7 +33,7 @@
     </delete> 
     <!-- 调度台断开报警 -->
     <select id="dispatchOffAlarm" resultType="map" useCache="true">
-    SELECT dstId as bsId,dstName as name,dstId  FROM  xhgmnet_dispatch where setupStatus=1 and flag=0
+    SELECT dstId as bsId,dstName as name,dstId,updateTime FROM  xhgmnet_dispatch where setupStatus=1 and flag=0
     </select> 
     <!-- 调度台断开声音报警数目 -->
     <select id="dispatchOffAlarmCount" resultType="int" useCache="true">

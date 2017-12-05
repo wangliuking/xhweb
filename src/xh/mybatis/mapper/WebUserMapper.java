@@ -37,6 +37,14 @@ public interface WebUserMapper {
 	public List<Map<String,Object>> userlistByPower(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 根据权限字段查找用户
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> userPowerListByType(Map<String,Object> map)throws Exception;
+	
+	/**
 	 * 根据用户权限+RoleID获取用户
 	 * @param powerstr
 	 * @return

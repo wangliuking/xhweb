@@ -117,6 +117,36 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int updateCheckById(JoinNetBean bean)throws Exception;
+	
+	
+	/**
+	 * 经办人交付终端
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateCheck10(JoinNetBean bean)throws Exception;
+	/**
+	 * 用户确认接收付终端
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateCheck11(JoinNetBean bean)throws Exception;
+	/**
+	 * 经办人通知培训完成 
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateCheck12(JoinNetBean bean)throws Exception;
+	/**
+	 * 用户确认培训是否完成
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateCheck13(JoinNetBean bean)throws Exception;
  
 	/**
 	 * 有线-主管部门审核
@@ -172,6 +202,15 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int signFile(JoinNetBean bean)throws Exception;
+	
+	
+	/**
+	 * 领导通知经办人上传资源配置方案
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checked100(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 经办人签署协议

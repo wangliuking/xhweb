@@ -33,17 +33,26 @@
 		</if>
 		order by a.bsId asc
 	</select>
+	<!--基站断站列表-->
+	<select id="monitorBsofflineList"  resultType="map"
+		useCache="true">
+		select a.bsId,a.time,b.name from view_bsstatus as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		 where link=1
+	</select>
 	<!--查询所有基站 -->
 	<select id="allBsInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select
-		a.bsId,a.name,a.status,a.type,a.level,a.period,b.link,c.userSum,c.groupSum,d.deviceAlarmSum
+		a.bsId,a.name,a.status,a.type,a.level,a.period,b.link,c.userSum,e.groupSum,d.deviceAlarmSum
 		from xhgmnet_bs_station as a
 		left join view_bsstatus as b on a.bsId=b.bsId
-		left join (select count(distinct TGid) as groupSum ,count(distinct userId)
-		as userSum ,
-		bsId from xhgmnet_operations_userstatus group by bsId) as c on
-		a.bsId=c.bsId
+		left join (select count(distinct userId) as userSum ,bsId from xhgmnet_operations_userstatus group by bsId) 
+		  as c on a.bsId=c.bsId
+		
+		left join (select count(distinct TGid) as groupSum ,bsId from xhgmnet_operations_userstatus where TGid!=0 group by bsId) 
+		  as e on a.bsId=e.bsId 
+		
 		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
 		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
 		union all
@@ -55,6 +64,7 @@
 		) as temp group by bsId) as d on a.bsId=d.bsId
 
 		where 1=1
+		<if test="usergroup==null or usergroup==''">
 		<if test="type!=0">
 			and a.level=#{type}
 		</if>
@@ -67,6 +77,10 @@
 		<if test="link!=2">
 			and a.bsId in(select bsId from view_bsstatus where
 			link=#{link})
+		</if>
+		</if>
+		<if test="usergroup!=null and usergroup!=''">
+		    and a.bsId in (select bsId from xhgmnet_operations_userstatus where userId=${usergroup} or TGid=${usergroup})
 		</if>
 		order by a.bsId asc
 	</select>

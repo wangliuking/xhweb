@@ -193,11 +193,13 @@ public class BsstationController {
 		String zone=request.getParameter("zone");
 		int link=Integer.parseInt(request.getParameter("link"));
 		int status=Integer.parseInt(request.getParameter("status"));
+		String usergroup=request.getParameter("usergroup");
 		Map<String,Object> paramMap=new HashMap<String, Object>();
 		paramMap.put("type", type);
 		paramMap.put("zone", zone);
 		paramMap.put("link", link);
 		paramMap.put("status",status);
+		paramMap.put("usergroup",usergroup);
 		
 		
 		List<HashMap> list=	 BsstationService.allBsInfo(paramMap);

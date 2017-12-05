@@ -533,13 +533,15 @@ text-decoration:none;
 	margin: 0;
 }
 
+
+
 /*webkit内核浏览器滚动条*/
 ::-webkit-scrollbar-track-piece {
 	background: #fff;
 }
 
 ::-webkit-scrollbar {
-	width: 5px;
+	width: 10px;
 	height: 8px;
 }
 
