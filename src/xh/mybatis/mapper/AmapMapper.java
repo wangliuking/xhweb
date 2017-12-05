@@ -16,6 +16,20 @@ public interface AmapMapper {
 	 */
 	public List<HashMap<String,String>> bsByLevel(List<String> level) throws Exception;
 	/**
+	 * 不规则圈选基站查询
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String,String>> polyline(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 不规则圈选基站总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int polylineCount(Map<String,Object> map)throws Exception;
+
+	/**
 	 * 圈选基站查询
 	 * @return
 	 * @throws Exception
@@ -27,13 +41,5 @@ public interface AmapMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int  rectangleCount(Map<String,Object> map)throws Exception;
-	
-	/**
-	 * 根据基站id查询注册组和注册用户
-	 * @return
-	 * @throws Exception
-	 */
-	public int  businessByBsId(List<String> list)throws Exception;
-	
+	public int rectangleCount(Map<String,Object> map)throws Exception;
 }
