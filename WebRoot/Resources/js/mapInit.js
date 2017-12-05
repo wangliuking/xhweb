@@ -229,7 +229,13 @@ app.controller("map", function($scope, $http) {
 			});
 			$http.get("bs/map/bsByArea?zone="+t).success(
 					function(response) {
-						var tempData = response.items;	
+						var tempData = response.items;
+						console.log(tempData);
+						//首页下方数据展示start
+						$scope.areaDataNum = tempData.length;
+						$scope.areaDatazone = params;
+						$('#areaTable').show();
+						//首页下方数据展示end
 						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 						myMap.centerAndZoom(point,area[params].zoom*1);
 						option.series[0].markPoint.data=baseMark(tempData)[0];
@@ -246,6 +252,9 @@ app.controller("map", function($scope, $http) {
 				$http.get("bs/map/data").success(
 						function(response) {
 							var tempData = response.items;
+							//首页下方数据展示start
+							$('#areaTable').hide();
+							//首页下方数据展示end
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
@@ -255,6 +264,9 @@ app.controller("map", function($scope, $http) {
 				$http.get("bs/map/bsByArea?zone="+t).success(
 						function(response) {
 							var tempData = response.items;
+							//首页下方数据展示start
+							$('#areaTable').hide();
+							//首页下方数据展示end
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
@@ -292,7 +304,7 @@ app.controller("map", function($scope, $http) {
 	};
 	
 	
-	/* 查询数据  圈选*/
+	/* 查询数据  不规则圈选*/
 	$scope.searchChoose = function(page) {
 		var params = $scope.groupData;
 		var pageSize = $("#page-limitChoose").val();
@@ -306,7 +318,7 @@ app.controller("map", function($scope, $http) {
 			start = (page - 1) * pageSize;
 		}
 		
-		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+limit).
+		$http.get("amap/polyline?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
 			var tempData=response.items;	
 			//添加模拟数据 start
@@ -327,6 +339,37 @@ app.controller("map", function($scope, $http) {
 			xh.paggingChoose(page, parseInt($scope.totalsChoose), $scope,params);
 		});
 	};
+	
+	/* 查询数据  矩形圈选*/
+	$scope.searchChooseRec = function(page,params) {
+		var pageSize = $("#page-limitChoose").val();
+		var start = 1, limit = pageSize;
+		frist = 0;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		console.log(params);
+		$http.get("amap/rectangle?params="+params+"&start="+start+"&limit="+limit).
+		success(function(response){
+			var tempData=response.items;	
+			console.log(tempData);
+			//添加模拟数据 start
+			for(var i=0;i<tempData.length;i++){
+				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+			}
+			//添加模拟数据 end
+			$scope.dataRectangle = tempData;		
+			$scope.totalsChoose = response.totals;
+			xh.paggingChooseRec(page, parseInt($scope.totalsChoose), $scope,params);
+		});
+	};
+	
 	//分页点击，业务
 	$scope.pageClick = function(page, totals, totalPages) {
 		var pageSize = $("#page-limit").val();
@@ -390,7 +433,7 @@ app.controller("map", function($scope, $http) {
 
 	};
 	
-	//分页点击,圈选
+	//分页点击,不规则圈选
 	$scope.pageClickChoose = function(page, totals, totalPages, params) {		
 		var pageSize = $("#page-limitChoose").val();
 		var start = 1, limit = pageSize;
@@ -400,7 +443,43 @@ app.controller("map", function($scope, $http) {
 		} else {
 			start = (page - 1) * pageSize;
 		}
-		$http.get("bs/rectangle?params="+params+"&start="+start+"&limit="+pageSize).
+		$http.get("amap/polyline?params="+params+"&start="+start+"&limit="+pageSize).
+		success(function(response){
+			$scope.startChoose = (page - 1) * pageSize + 1;
+			$scope.lastIndexChoose = page * pageSize;
+			if (page == totalPages) {
+				if (totals > 0) {
+					$scope.lastIndexChoose = totals;
+				} else {
+					$scope.startChoose = 0;
+					$scope.lastIndexChoose = 0;
+				}
+			}
+			var tempData=response.items;
+			//添加模拟数据 start			
+			for(var i=0;i<tempData.length;i++){
+				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
+				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
+			}
+			//添加模拟数据 end
+			$scope.dataRectangle = tempData;
+			$scope.totalsChoose = response.totals;
+		});
+		
+	};
+	
+	//分页点击,矩形圈选
+	$scope.pageClickChooseRec = function(page, totals, totalPages, params) {		
+		var pageSize = $("#page-limitChoose").val();
+		var start = 1, limit = pageSize;
+		page = parseInt(page);
+		if (page <= 1) {
+			start = 0;
+		} else {
+			start = (page - 1) * pageSize;
+		}
+		$http.get("amap/rectangle?params="+params+"&start="+start+"&limit="+pageSize).
 		success(function(response){
 			$scope.startChoose = (page - 1) * pageSize + 1;
 			$scope.lastIndexChoose = page * pageSize;
@@ -507,7 +586,7 @@ xh.groupPagging = function(currentPage, totals, $scope) {
 	}
 };
 
-/* 数据分页 圈选 */
+/* 数据分页 不规则圈选 */
 xh.paggingChoose = function(currentPage, totals, $scope, params) {
 	var pageSize = $("#page-limitChoose").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
@@ -535,6 +614,43 @@ xh.paggingChoose = function(currentPage, totals, $scope, params) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.pageClickChoose(page, totals, totalPages, params);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+
+};
+
+/* 数据分页 矩形圈选 */
+xh.paggingChooseRec = function(currentPage, totals, $scope, params) {
+	var pageSize = $("#page-limitChoose").val();
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.startChoose = start;
+	$scope.lastIndexChoose = end;
+	$scope.totalsChoose = totals;
+	if (totals > 0) {
+		$(".page-pagingChoose").html('<ul class="paginationChoose"></ul>');
+		$('.paginationChoose').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.pageClickChooseRec(page, totals, totalPages, params);
 				}
 				frist = 1;
 
@@ -581,7 +697,7 @@ function floor(data) {
 	}else if(chooseLayer==1){
 		testDemo = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:6080/common/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
+				"http://125.70.9.194:6080/arcgis/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
 	daolukakou = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/daolukakou/MapServer");//道路卡口	
@@ -642,7 +758,7 @@ function floor(data) {
 		});
 	});
 	//区域圈选
-	var toolbar, symbol, geomTask;
+	var toolbar, symbol, geomTask,chooseType;
     require([
       "esri/map", 
       "esri/toolbars/draw",
@@ -658,6 +774,7 @@ function floor(data) {
       SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
       parser, registry
     ) {  
+    	
       // loop through all dijits, connect onClick event
       // listeners for buttons to activate drawing tools
       registry.forEach(function(d) {
@@ -667,57 +784,101 @@ function floor(data) {
             d.on("click", activateTool);
           }
         });
+      var params;      
       function activateTool() {
-    	  toolbar = new Draw(myMap);
-          toolbar.on("draw-end", addToMap);
-          var temp = "POLYGON";//RECTANGLE
-    	  var tool = temp.replace(/ /g, "_");
-          toolbar.activate(Draw[tool]);
-          myMap.hideZoomSlider();
+    	  var d = this.label.toUpperCase();
+    	  createToolbar();
+    	  if(d == "不规则圈选"){  	
+    		  $("#mapDiv").attr("title","单击鼠标左键开始圈选，双击结束圈选");
+    		  chooseType=1;
+              var temp = "POLYGON";//RECTANGLE
+        	  var tool = temp.replace(/ /g, "_");
+              toolbar.activate(Draw[tool]);
+    	  }else if(d == "矩形圈选"){
+    		  $("#mapDiv").attr("title","按住鼠标左键开始圈选，松开结束圈选");
+        	  //开启鼠标监听
+    		  chooseType=2;
+        	  params = mouseEvents();
+              var temp = "RECTANGLE";
+        	  var tool = temp.replace(/ /g, "_");
+              toolbar.activate(Draw[tool]);
+    	  }	  
       }
+
+        function createToolbar(themap) {
+          toolbar = new Draw(myMap);
+          toolbar.on("draw-end", addToMap);
+        }
 
       function addToMap(evt) {
-    	  var geometry = evt.geometry;
-    	  var symbol;
-          toolbar.deactivate();
-          myMap.showZoomSlider();
-          switch (evt.geometry.type) {
-            case "point":
-            case "multipoint":
-              symbol = new SimpleMarkerSymbol();
-              break;
-            case "polyline":
-              symbol = new SimpleLineSymbol();
-              break;
-            default:
-              symbol = new SimpleFillSymbol();
-              break;
-          }
-          var graphic = new Graphic(evt.geometry, symbol);
-
-          if (graphic.geometry.type === "polygon") {  
-              var polygon = new esri.geometry.Polygon({"rings":geometry.rings,"spatialReference":geometry.spatialReference});  
-          }
-          var groupData=[];
-          //循环data找出包含的基站
-          for(var i=0;i<data.length;i++){
-        	  var tempPoint = new esri.geometry.Point(data[i].lng, data[i].lat,new esri.SpatialReference({wkid:parseInt(4490)}));
-              var result = contain(tempPoint,polygon);
-              if(result == "yes"){
-            	  groupData.push(data[i].bsId);
+    	  if(chooseType==1){
+    		  var geometry = evt.geometry;
+        	  var symbol;
+              toolbar.deactivate();
+              switch (evt.geometry.type) {
+                case "point":
+                case "multipoint":
+                  symbol = new SimpleMarkerSymbol();
+                  break;
+                case "polyline":
+                  symbol = new SimpleLineSymbol();
+                  break;
+                default:
+                  symbol = new SimpleFillSymbol();
+                  break;
               }
-          }  
-          rectangle.add(graphic);
-          $('#rectangle').modal();
-          var appElement = document.querySelector('[ng-controller=map]');
-      	  var $scope = angular.element(appElement).scope();
-      	  //把圈选包含基站的id放入groupData
-      	  $scope.groupData=groupData;
-      	  $scope.searchChoose(1);
+              var graphic = new Graphic(evt.geometry, symbol);
+
+              if (graphic.geometry.type === "polygon") {  
+                  var polygon = new esri.geometry.Polygon({"rings":geometry.rings,"spatialReference":geometry.spatialReference});  
+              }
+              var groupData=[];
+              //循环data找出包含的基站
+              for(var i=0;i<data.length;i++){
+            	  var tempPoint = new esri.geometry.Point(data[i].lng, data[i].lat,new esri.SpatialReference({wkid:parseInt(4490)}));
+                  var result = contain(tempPoint,polygon);
+                  if(result == "yes"){
+                	  groupData.push(data[i].bsId);
+                  }
+              }  
+              rectangle.add(graphic);
+              $('#rectangle').modal();
+              var appElement = document.querySelector('[ng-controller=map]');
+          	  var $scope = angular.element(appElement).scope();
+          	  //把圈选包含基站的id放入groupData
+          	  $scope.groupData=groupData;
+          	  $scope.searchChoose(1);
+    	  }else if(chooseType==2){
+    		  var symbol;
+              toolbar.deactivate();
+              switch (evt.geometry.type) {
+                case "point":
+                case "multipoint":
+                  symbol = new SimpleMarkerSymbol();
+                  break;
+                case "polyline":
+                  symbol = new SimpleLineSymbol();
+                  break;
+                default:
+                  symbol = new SimpleFillSymbol();
+                  break;
+              }
+              var graphic = new Graphic(evt.geometry, symbol);
+              graphic.attributes=params;
+              rectangle.add(graphic);
+              $('#rectangle').modal();
+              var appElement = document.querySelector('[ng-controller=map]');
+          	  var $scope = angular.element(appElement).scope();
+          	  $scope.searchChooseRec(1,params);
+    	  }
+    	  
+    	  $("#mapDiv").attr("title","");
       }
+
       
     });
 }
+
 
 //验证包含的方法，注意传入参数的类型是Point和Polygon，不是geometry。  
 function contain(point,polygon) {  

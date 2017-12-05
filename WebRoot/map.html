@@ -176,13 +176,38 @@ html,body {
 			</ul>
 		</div>
 		<div class="btn-group">
-			<button data-dojo-type="dijit/form/Button"
-				class="btn btn-primary btn-sm dropdown-toggle">圈选</button>
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				圈选 <span class="caret"></span>
+			</button>
+			<div class="dropdown-menu pre-scrollable" role="menu">
+				<ul>
+					<li><button type="button" data-dojo-type="dijit/form/Button">不规则圈选</button></li>
+					<li><button type="button" data-dojo-type="dijit/form/Button">矩形圈选</button></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
 
 	<div id="mapDiv"></div>
+	<div class="navbar-fixed-bottom" id="areaTable"
+		style="width:360px;height:auto;z-index:9999;border:1px solid blue;left:35%;background: rgba(255,255,255,0.8);display:none;">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>当前区域</th>
+					<th>基站数量</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{areaDatazone}}</td>
+					<td>{{areaDataNum}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	<!-- 模态框（圈选） start-->
 	<div class="modal fade" id="rectangle" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">

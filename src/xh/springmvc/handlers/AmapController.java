@@ -90,11 +90,11 @@ public class AmapController {
 	
 	
 	/**
-	 * 圈选功能查询
+	 * 不规则圈选功能查询
 	 */
-	@RequestMapping("/rectangle")
+	@RequestMapping("/polyline")
 	@ResponseBody
-	public void rectangle(HttpServletRequest request, HttpServletResponse response){
+	public void polyline(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		String params=request.getParameter("params");
 		String [] strArray= params.split(",");
@@ -103,6 +103,57 @@ public class AmapController {
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("groupData", groupData);
+		map.put("start", start);
+		map.put("limit", limit);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",AmapService.polylineCount(map));
+		result.put("items", AmapService.polyline(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 圈选功能查询
+	 */
+	@RequestMapping("/rectangle")
+	@ResponseBody
+	public void rectangle(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String params=request.getParameter("params");
+		String [] temp= params.split(",");
+		String smallLng;
+		String bigLng;
+		String smallLat;
+		String bigLat;
+		if(Double.parseDouble(temp[0])<Double.parseDouble(temp[2])){
+			smallLng = temp[0];
+			bigLng = temp[2];
+		}else{
+			smallLng = temp[2];
+			bigLng = temp[0];
+		}
+		if(Double.parseDouble(temp[1])<Double.parseDouble(temp[3])){
+			smallLat = temp[1];
+			bigLat = temp[3];
+		}else{
+			smallLat = temp[3];
+			bigLat = temp[1];
+		}
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("smallLng", smallLng);
+		map.put("bigLng", bigLng);
+		map.put("smallLat", smallLat);
+		map.put("bigLat", bigLat);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
