@@ -76,6 +76,8 @@ public class UploadController {
 	public void fileUpload(@RequestParam("pathName") CommonsMultipartFile file,
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		
+		
 
 		String path = request.getSession().getServletContext().getRealPath("")
 				+ "/Resources/upload/";
@@ -125,6 +127,50 @@ public class UploadController {
 			HttpServletResponse response) throws Exception {
 		String filePath = request.getParameter("filePath");
 		String fileName = request.getParameter("fileName");
+		String path = request.getSession().getServletContext()
+				.getRealPath(filePath);
+
+		String downPath = path;
+		log.info("下载连接："+path);
+
+		File file = new File(downPath);
+		if (!file.exists()) {
+			this.success = false;
+			this.message = "文件不存在";
+		}
+		// 设置响应头和客户端保存文件名
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("multipart/form-data");
+		response.setHeader("Content-Disposition", "attachment;fileName="
+				+ new String(fileName.getBytes("gbk"), "iso-8859-1"));
+		// 用于记录以完成的下载的数据量，单位是byte
+		long downloadedLength = 0l;
+		try {
+			// 打开本地文件流
+			InputStream inputStream = new FileInputStream(downPath);
+			// 激活下载操作
+			OutputStream os = response.getOutputStream();
+
+			// 循环写入输出流
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+				downloadedLength += b.length;
+			}
+
+			// 这里主要关闭。
+			os.close();
+			inputStream.close();
+		} catch (Exception e) {
+			throw e;
+		}
+		// 存储记录
+	}
+/*	public void downFile(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String filePath = request.getParameter("filePath");
+		String fileName = request.getParameter("fileName");
 		String path = request
 				.getSession()
 				.getServletContext()
@@ -171,7 +217,7 @@ public class UploadController {
 			throw e;
 		}
 		// 存储记录
-	}
+	}*/
 
 	@RequestMapping(value = "/downfile", method = RequestMethod.GET)
 	public void downFile2(HttpServletRequest request,

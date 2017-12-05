@@ -189,10 +189,11 @@ xh.load = function() {
 			});
 			//上传技术方案
 			if(type == 1){
+				/*$("#checkForm11 input").val('');*/
+				$(".span_result_GH").html('');
 				$scope.maxIDinsert = $scope.checkData.id;
 				$scope.divTitle = "上传技术方案"
-				$("#checkForm11 input").val('');
-				$(".span_result_GH").html('');
+				
 				$("#checkWin11").modal('show');
 			}
 			//主管部门指定经办人
@@ -207,7 +208,7 @@ xh.load = function() {
 			else if (type == 4) {
 				$("#checkWin14").modal('show');
 			}
-			//上传编制资源配置技术方案
+			//上传资源配置技术方案
 			else if (type == 5) {
 				$("#checkWin15").modal('show');
 			}
@@ -222,6 +223,10 @@ xh.load = function() {
 			//审核全部文件
 			else if (type == 8) {
 				$("#checkWin18").modal('show');
+			}
+			//审核全部文件
+			else if (type == 100) {
+				$("#checkWin100").modal('show');
 			}
 		}
 		
@@ -363,6 +368,7 @@ xh.load = function() {
 			});
 
 		};
+		
 	});
 
 };
@@ -395,10 +401,15 @@ xh.addJoinNet = function() {
 					},function(){
 						$scope.maxIDinsert = data.maxID;
 						$scope.divTitle = "上传技术方案"
-						$("#checkForm11 input").val('');
+							
+						$("#checkForm11 input[name='id']").val(data.maxID);
 						$(".span_result_GH").html('');
 						$("#checkWin11").modal('show');
 					});
+				}else{
+					$('#addJoinNet').modal('hide');
+					xh.refresh();
+					toastr.success(data.message, '提示');
 				}
 				
 
@@ -614,6 +625,7 @@ xh.check8 = function() {
 		}
 	});
 };
+
 /* 审核样机入网送检申请（合同附件） */
 xh.check9 = function() {
 	$.ajax({
@@ -693,6 +705,7 @@ xh.updateCheckById = function(id,checkedNum,sendUser) {
 };
 /* 上传技术方案 */
 xh.check11 = function() {
+	var $scope = angular.element(appElement).scope();
 	if (parseInt($("input[name='result']").val()) !== 1) {
 		toastr.error("你还没有上传文件不能提交", '提示');
 		return;
@@ -702,10 +715,11 @@ xh.check11 = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data :{ 
+		data :$("#checkForm11").serializeArray(),
+		/*data :{ 
 			Jsondata : $("#checkForm11").serializeArray(),
 			mid:$scope.maxIDinsert
-			},
+			},*/
 		success : function(data) {
 
 			if (data.result == 1) {
@@ -907,8 +921,39 @@ xh.check19 = function() {
 		}
 	});
 };
+
+/* 领导通知经办人上传资源配置方案*/
+xh.check100 = function() {
+	$.ajax({
+		url : '../../net/checked100',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : $("#checkForm100").serializeArray(),
+		success : function(data) {
+
+			if (data.result == 1) {
+				$('#checkWin100').modal('hide');
+				xh.refresh();
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "success"
+				});
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+
 /* 上传文件 */
 xh.upload = function(index) {
+	var $scope = angular.element(appElement).scope();
 	if (index == 1) {
 		path = 'filePathBZ';
 		note = 'uploadResultBZ';
@@ -957,6 +1002,7 @@ xh.upload = function(index) {
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
 		type : 'POST',
+		
 		success : function(data, status) // 服务器成功响应处理函数
 		{
 			// var result=jQuery.parseJSON(data);
@@ -1101,7 +1147,7 @@ xh.download = function(id,type) {
 			filename = $scope.checkData.fileName_CG;
 		}
 	}
-	var filepath = "/Resources/upload/" + filename;
+	var filepath = "/Resources/upload/net/" + filename;
 	console.log("filename=>" + filename);
 	//var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
 	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;

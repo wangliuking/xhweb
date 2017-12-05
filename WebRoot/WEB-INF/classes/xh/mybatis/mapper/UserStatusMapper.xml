@@ -23,10 +23,10 @@
          and userId=#{userId}
      </if>
      <if test="regStatus==0">
-         and (a.regStatus=0 or a.regStatus=4)
+         and (regStatus=0 or regStatus=4)
      </if>
      <if test="regStatus==1">
-         and (a.regStatus=1 or a.regStatus=2 or a.regStatus=3)
+         and (regStatus=1 or regStatus=2 or regStatus=3)
      </if>
     </select> 
     <!--终端在线状态统计 -->

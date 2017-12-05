@@ -34,24 +34,28 @@ xh.load = function() {
 	var regStatus=$("#regStatus").val();
 	var pageSize = $("#page-limit").val();
 	app.controller("userstatus", function($scope, $http) {
-		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
-		$scope.operationMenu=true; //菜单变色
 		/* 终端状态统计图 */
 		xh.loadUserStatusPie();
-		/*获取日志信息*/
-		$http.get("../../operations/data/userstatus?userId="+userId+"&regStatus="+regStatus+"" +
-				"&start=0&limit="+pageSize).
-		success(function(response){
-			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals),$scope);
-		});
+		
+	
+		/*获取终端状态*/
+		$scope.userstatus=function(){
+			$http.get("../../operations/data/userstatus?userId="+userId+"&regStatus="+regStatus+"" +
+					"&start=0&limit="+pageSize).
+			success(function(response){
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				$scope.currentPage=1;
+				xh.pagging($scope.currentPage, parseInt($scope.totals),$scope);
+			});
+		}
 		/* 刷新数据 */
 		$scope.refresh = function() {
+			$scope.currentPage=1;
 			$scope.search(1);
 		};
+		
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -123,7 +127,6 @@ xh.load = function() {
 		};
 		/* 查询数据 */
 		$scope.search = function(page) {
-			var $scope = angular.element(appElement).scope();
 			var userId=$("#userId").val();
 			var regStatus=$("#regStatus").val();
 			var pageSize = $("#page-limit").val();
@@ -136,11 +139,9 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
 			$http.get("../../operations/data/userstatus?userId="+userId+"&regStatus="+regStatus+"" +
 					"&start="+start+"&limit="+pageSize).
 			success(function(response){
-				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals),$scope);
@@ -158,11 +159,9 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
 			$http.get("../../operations/data/userstatus?userId="+userId+"&regStatus="+regStatus+"" +
 					"&start="+start+"&limit="+pageSize).
 			success(function(response){
-				xh.maskHide();
 				
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -179,101 +178,15 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.userstatus();
+		setInterval(function(){
+			$scope.search($scope.currentPage);
+			xh.loadUserStatusPie();
+		},10000);
 	});
 };
-/* 添加用户*/
-xh.add = function() {
-	$.ajax({
-		url : '../../web/user/add',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : $("#addForm").serializeArray(),
-		success : function(data) {
 
-			if (data.success) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
 
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 修改基站信息 */
-xh.update = function() {
-	$.ajax({
-		url : '../../web/user/update',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data : $("#editForm").serializeArray(),
-		success : function(data) {
-			if (data.success) {
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
-
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 批量删除用户*/
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../web/user/del',
-		type : 'post',
-		dataType : "json",
-		data : {
-			userId : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success("删除用户成功", '提示');
-				xh.refresh();
-			} else {
-				swal({
-					title : "提示",
-					text : "失败",
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
@@ -380,6 +293,7 @@ xh.loadUserStatusPie = function() {
 };
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
+	var $scope = angular.element(appElement).scope();
 	var pageSize = $("#page-limit").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
@@ -406,6 +320,7 @@ xh.pagging = function(currentPage,totals, $scope) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.pageClick(page, totals, totalPages);
+					$scope.currentPage=page;
 				}
 				frist = 1;
 

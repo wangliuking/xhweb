@@ -399,7 +399,7 @@
 										class="cd-date text-danger">等待办理</span> <span
 										ng-if="progressData.checked>=8"
 										class="cd-date text-success font-bold">用户已上传;
-										时间：{{progressData.time6}}</span>
+										时间：{{progressData.time7}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -414,7 +414,22 @@
 										class="cd-date text-danger">等待办理</span> <span
 										ng-if="progressData.checked>=10"
 										class="cd-date text-success font-bold">终端已交付;
-										时间：{{progressData.time6}}</span>
+										时间：{{progressData.time8}}</span>
+								</div>
+							</div>
+								<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<11"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=11"></div>
+								<div class="cd-timeline-content">
+									<h2>用户确认接收终端</h2>
+									<span ng-if="progressData.checked<11"
+										class="cd-date text-danger">等待用户确认</span> <span
+										ng-if="progressData.checked>=11"
+										class="cd-date text-success font-bold">用户已经确认收到终端，
+										时间：{{progressData.time9}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -429,15 +444,35 @@
 										class="cd-date text-danger">等待办理</span> <span
 										ng-if="progressData.checked>=12"
 										class="cd-date text-success font-bold">培训完成 ;
-										时间：{{progressData.time6}}</span>
+										时间：{{progressData.time10}}</br>
+										培训地点：{{progressData.pxAddress}}</br>
+										培训时间：{{progressData.pxTime}}</br>
+										培训人数：{{progressData.pxNumOfPeople}}
+										</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<13"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=13"></div>
+								<div class="cd-timeline-content">
+									<h2>等待用户确认培训培训</h2>
+									<span ng-if="progressData.checked<13"
+										class="cd-date text-danger">等待办理</span> <span
+										ng-if="progressData.checked>=13"
+										class="cd-date text-success font-bold">用户已经确认 ;</br>
+										时间：{{progressData.time10}}</br>
+										</span>
 								</div>
 							</div>
 						<!-- cd-timeline-block end-->
 						<div class="cd-timeline-block">
 							<div class="cd-timeline-img-first cd-gray"
-								ng-if="progressData.checked<12">结束</div>
+								ng-if="progressData.checked<13">结束</div>
 							<div class="cd-timeline-img-first cd-green"
-								ng-if="progressData.checked>=12">结束</div>
+								ng-if="progressData.checked>=13">结束</div>
 						</div>
 					</div>
 				</div>
@@ -459,5 +494,6 @@
 			</button>
 		</div>
 	</div>
+</div>
 </div>
 

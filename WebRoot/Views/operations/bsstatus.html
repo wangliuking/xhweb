@@ -195,11 +195,11 @@
 						<div  ng-if="x.status==1 &&x.link==0">
 							<div style="cursor: pointer;"  ng-click="showGroupUser($index)" >
 							
-							注册组/终端:&nbsp;
-							<span ng-if='x.groupSum==null' style="color:blue">[0]</span>
-							<span ng-if='x.groupSum!=null' style="color:blue">[{{x.groupSum}}]</span>/
-							<span ng-if='x.userSum==null' style="color:blue">[0]</span>
-							<span ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}}]</span>
+							注册组/终端数量:&nbsp;
+							<span ng-if='x.groupSum==null' style="color:blue">[0 ]</span>
+							<span ng-if='x.groupSum!=null' style="color:blue">[{{x.groupSum}} ]</span>/
+							<span ng-if='x.userSum==null' style="color:blue">[0 ]</span>
+							<span ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}} ]</span>
 							
 							
 								<!-- <span ng-if='x.groupSum==null'>注册组/终端:&nbsp;0</span>
@@ -209,8 +209,8 @@
 
 							</div>
 							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
-									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;{{x.deviceAlarmSum}}</span>
+								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
+									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;{{x.deviceAlarmSum}} </span>
 							</div>
 
 						</div>
@@ -218,12 +218,12 @@
 
 							<div>
 
-								注册组/终端:&nbsp;<span style="color:blue">0/0</span>
+								注册组/终端数量:&nbsp;<span style="color:blue">0/0</span>
 
 							</div>
 							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备状态:&nbsp;0</span> <span
-									ng-if="x.deviceAlarmSum!=null">设备状态:&nbsp;0</span>
+								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
+									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;0 </span>
 							</div>
 
 						</div>

@@ -61,6 +61,14 @@
 		left join xhgmnet_web_user_action as b on a.userId=b.userId
 	    where user=#{user}
 	</select>
+	<!--根据权限字段查找用户 -->
+	<select id="userPowerListByType" parameterType="map"
+		resultType="map">
+		select a.userId,b.user from  xhgmnet_web_user_action as a
+		  
+		left join xhgmnet_web_user as b on a.userId=b.userId
+	    where a.${fieldstr}="on"
+	</select>	
 	<!--根据登录用户名查找登录用户 -->
 	<select id="selectUserByUser" parameterType="String" resultMap="webUserMap"
 		useCache="true">
@@ -211,7 +219,7 @@
 	
 	<!--根据用户权限+RoleID获取用户 -->
 	<select id="userlistByPowerAndRoleId" parameterType="map" resultType="java.util.HashMap"
-		useCache="true" statementType="STATEMENT">
+		useCache="true">
 		SELECT a.userId,c.`user`,b.roleId FROM xhgmnet_web_user_action AS a 
 		LEFT JOIN xhgmnet_web_role_user AS b ON a.userId = b.userId 
 		LEFT JOIN xhgmnet_web_user AS c ON a.userId=c.userId 

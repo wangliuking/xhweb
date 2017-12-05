@@ -87,7 +87,7 @@
 										<th width="150px">标题</th>
 										<th>内容</th>
 										<th width="100px">发件时间</th>
-										<th width="130px">操作详情</th>
+										<th width="130px">操作</th>
 										<!-- <th width="150px">操作</th> -->
 									</tr>
 								</thead>
@@ -102,11 +102,20 @@
 										<td ng-if="x.status==1"><i class="fa fa-envelope"></i>&nbsp;已读</td>
 										<td>{{x.sendUser}}</td>
 										<td>{{x.title}}</td>
-										<td><a href="#"
-											ng-click="detail($index)" data-toggle="modal"
-											data-target="#detail"  style="color:blue">{{x.content}}</a></td>
+										<td>
+										<a href="#" style="color:blue" ng-click="tolocation(x.title)">{{x.content}}</a>
+										
+										</td>
 										<td>{{x.time}}</td>
-										<td style="width:20px;text-align:center"><a href="#"
+										<td style="width:20px;text-align:center">
+										
+										<a href="#"
+											ng-click="detail($index)" data-toggle="modal"
+											data-target="#detail" >
+											<i class="fa fa-file-text-o text-success"></i>&nbsp;详情
+											</a>
+										
+										<a href="#"
 											ng-click="del(x.id)"><i
 												class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 									</tr>
