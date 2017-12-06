@@ -174,5 +174,23 @@ public class MenuService {
 		}
 		return result;
 	}
+	/**
+	 * 删除菜单
+	 * @return
+	 */
+	public static int deleteMenu(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.deleteMenu(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

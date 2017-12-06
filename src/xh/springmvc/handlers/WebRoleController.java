@@ -105,8 +105,9 @@ public class WebRoleController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("新增web角色，role="+role);
 			WebLogService.writeLog(webLogBean);
-			if(MenuService.menuExists(roleId)==0){
-				if(MenuService.addMenu()==1){
+			if(MenuService.menuExists(roleId)==0){			
+				int a=MenuService.addMenu();			
+				if(a>1){
 					MenuService.updateMenuRoleId(roleId);
 				}
 			}
@@ -199,6 +200,9 @@ public class WebRoleController {
 			list.add(str);
 		}
 		int rslt=WebRoleService.deleteByRoleId(list);
+		if(rslt>0){
+			MenuService.deleteMenu(list);
+		}
 		webLogBean.setOperator(funUtil.loginUser(request));
 		webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 		webLogBean.setStyle(3);

@@ -42,6 +42,14 @@ public interface MenuMapper {
 	public int menuExists(int roleId) throws Exception;
 	
 	/**
+	 * 删除菜单
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteMenu(List<String> list) throws Exception;
+	
+	/**
 	 * 添加菜单
 	 * @return
 	 * @throws Exception

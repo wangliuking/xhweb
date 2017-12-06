@@ -326,11 +326,15 @@ public class JoinNetController {
 		bean.setFileName(fileName);
 		bean.setFilePath(filePath);
 		
+		
 		int rst=0;
 
 		if (type == 1) {
 			bean.setChecked(4);
-			rst = JoinNetService.uploadFile(bean);
+			bean.setTime5(funUtil.nowDate());
+			bean.setNote4(note3);
+			rst = JoinNetService.uploadFile4(bean);
+			
 			if (rst == 1) {
 				this.message = "上传资源配置方案成功";
 				webLogBean.setOperator(funUtil.loginUser(request));
@@ -403,18 +407,21 @@ public class JoinNetController {
 		String backUser = request.getParameter("backUser");
 		String sendUser = request.getParameter("sendUser");
 		String managerUser = request.getParameter("managerUser");
+		
 
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setTime4(funUtil.nowDate());
 		bean.setNote4(note4);
 		bean.setNote5(note4);
+		int rst=0;
 		if (type == 0) {
 			if (checked == 1) {
 				bean.setChecked(4);
 			} else {
 				bean.setChecked(2);
 			}
+			rst = JoinNetService.checkFile(bean);
 		} else {
 			if (!loginUser.equals(sendUser)) {
 				if (checked == 1) {
@@ -422,6 +429,8 @@ public class JoinNetController {
 				} else {
 					bean.setChecked(3);
 				}
+				bean.setTime6(funUtil.nowDate());
+				rst = JoinNetService.checkFile5(bean);
 			} else {
 				if (checked == 1) {
 					bean.setChecked(7);
@@ -429,19 +438,13 @@ public class JoinNetController {
 				} else {
 					bean.setChecked(3);
 				}
+				bean.setTime7(funUtil.nowDate());
+				rst = JoinNetService.checkFile7(bean);
 			}
 		}
 
-		int rst = JoinNetService.checkFile(bean);
+		
 		if (rst == 1) {
-			
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(5);
-			webLogBean.setContent("审核编组方案，data=" + bean.toString());
-			WebLogService.writeLog(webLogBean);
-			
-			
 			if(type==0){
 				if (checked == 1) {
 					sendNotifytoSingle(sendUser, "入网申请信息审核，编组方案已审核，请确认"
@@ -450,8 +453,23 @@ public class JoinNetController {
 					sendNotifytoSingle(backUser, bean.getNote4(), request);
 				}
 				this.message = "审核编组方案成功";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(5);
+				webLogBean.setContent("审核编组方案");
+				WebLogService.writeLog(webLogBean);
 			}else{
-				sendNotifytoSingle(backUser, "用户已经确认资源配置文件", request);
+				
+				if(bean.getChecked()==5){
+					sendNotifytoSingle(backUser, "领导已经审核资源配置文件，等待用户确认", request);
+					sendNotifytoSingle(sendUser, "领导已经审核资源配置文件，等待用户确认", request);
+				}else if(bean.getChecked()==7){
+					sendNotifytoSingle(backUser, "用户已经确认资源配置文件", request);
+				}else{
+					sendNotifytoSingle(backUser, "资源配置文件审核不通过", request);
+				}
+				
+				
 				this.message = "确认资源配置文件成功";
 			}
 
@@ -718,13 +736,14 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("joinNetId"));
 		int isSuccess = 1;
 		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/Resources/upload";
+				+ "/Resources/upload/net/template/";
 		String fileName = files[0].getOriginalFilename();
 		log.info("path==>" + path);
 		log.info("fileName==>" + fileName);
+		log.info("文件--id---"+id);
 		List<Integer> list = JoinNetService.getUserCIDByID(id);
-		if (funUtil.isInteger(fileName.split("\\.")[0])) {
-			if (list.contains(Integer.parseInt(fileName.split("\\.")[0]))) {
+		if (funUtil.isInteger(fileName.split(".")[0])) {
+			if (list.contains(Integer.parseInt(fileName.split(".")[0]))) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("id_JoinNet", request.getParameter("joinNetId"));
 				map.put("fileName", fileName);
@@ -738,6 +757,7 @@ public class JoinNetController {
 				try {
 					files[0].transferTo(targetFile);
 					int rst = JoinNetService.insertProgramingTemplate(map);
+					log.info("文件map--->"+map);
 					this.success = true;
 					this.message = "文件上传成功";
 				} catch (Exception e) {
@@ -835,20 +855,24 @@ public class JoinNetController {
 		bean.setId(id);
 		bean.setFileNameNote(fileName);
 		bean.setFilePathNote(filePath);
+		int rst=0;
 		if (type == 1) {
 			bean.setChecked(2);
 			bean.setUser2(user2);
+			bean.setTime2(funUtil.nowDate());
 			bean.setNote2_suggest(note2_suggest);
+			rst = JoinNetService.uploadFile100(bean);
 			// ----发送通知邮件
 			sendNotifytoSingle(managerId, "评估意见已上报,请审核。。。", request);
 			// ----END
 		} else {
 			bean.setChecked(1);
+			rst = JoinNetService.uploadFileNote(bean);
 		}
 
 		System.out.println("保存通知函:" + fileName);
 
-		int rst = JoinNetService.uploadFileNote(bean);
+		
 		if (rst == 1) {
 			this.message = "上传成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -1059,7 +1083,7 @@ public class JoinNetController {
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setChecked(checked);
-		bean.setTime2(funUtil.nowDate());
+		bean.setTime3(funUtil.nowDate());
 		bean.setNote2(note2);
 
 		int rst = JoinNetService.YXcheckedOne(bean);
@@ -1068,10 +1092,10 @@ public class JoinNetController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
-			webLogBean.setContent("通知经办人处理(入网申请)，data=" + bean.toString());
+			webLogBean.setContent("主管部门领导审核评估技术方案");
 			WebLogService.writeLog(webLogBean);
 			if (checked == 3) {
-				sendNotifytoSingle(operator, "入网申请信息审核，请上传资源配置技术方案。。。", request);
+				sendNotifytoSingle(operator, "有线申请评估技术方案审核通过，请上传资源配置技术方案。。。", request);
 			} else {
 				sendNotifytoSingle(proposer, bean.getNote2(), request);
 			}
@@ -1126,12 +1150,17 @@ public class JoinNetController {
 		bean.setId(id);
 		bean.setNote6(note6);
 		bean.setResult(resultNote);
+		int rst=0;
 		if (loginUserRoleId == 10002 && checkId == 7) {
 			bean.setChecked(8);
+			bean.setTime8(funUtil.nowDate());
+			rst = JoinNetService.applicationAccess8(bean);
 		} else if (loginUserRoleId == 10003 && checkId == 8) {
 			bean.setUser4(funUtil.loginUser(request));
-			bean.setNote6(note6A);
+			bean.setNote7(note6A);
 			bean.setChecked(9);
+			bean.setTime9(funUtil.nowDate());
+			rst = JoinNetService.applicationAccess9(bean);
 		} else if (loginUserRoleId == 10002 && checkId == 9) {
 			bean.setResult(resultNoteA);
 			bean.setNote6(note6A);
@@ -1139,11 +1168,13 @@ public class JoinNetController {
 				bean.setChecked(10);
 			} else if (verifyId == 0) {
 				bean.setChecked(8);
-				bean.setNote6(note6B);
+				bean.setNote8(note6B);
 			}
+			bean.setTime10(funUtil.nowDate());
+			rst = JoinNetService.applicationAccess10(bean);
 		}
 
-		int rst = JoinNetService.applicationAccess(bean);
+		
 		if (rst == 1) {
 			this.message = "处理成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -1260,7 +1291,7 @@ public class JoinNetController {
 		bean.setId(id);
 		bean.setChecked(100);
 		bean.setUser3(user3);
-		bean.setTime2(funUtil.nowDate());
+		bean.setTime4(funUtil.nowDate());
 		bean.setNote3(note3);
 
 		int rst = JoinNetService.checked100(bean);

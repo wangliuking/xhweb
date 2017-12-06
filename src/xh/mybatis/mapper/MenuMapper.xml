@@ -27,6 +27,13 @@
 		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
 		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_menu
 	</insert>
+	<delete id="deleteMenu" parameterType="java.util.List">
+		delete from xhgmnet_web_role_menu where roleId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
 	<!-- 更新 -->
    <!--  <update id="updateMenu" parameterType="map">     
      update xhgmnet_web_role_menu set checked=#{checked} where id=#{id} and roleId=#{roleId}    
