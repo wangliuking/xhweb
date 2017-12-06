@@ -2,24 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.AmapMapper">
 	<!--根据区域信息查询所有基站wlk -->
-	<select id="bsByArea" resultType="java.util.HashMap"
-		parameterType="java.util.List" useCache="true">
+	<select id="bsByBoth" resultType="java.util.HashMap"
+		parameterType="map" useCache="true">
 		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where a.zone in (
-		<foreach collection="list" item="z" separator=",">
+		xhgmnet_bsstatus as b on a.bsId=b.bsId where 1=1
+		<if test="level!=null and level.size()>0">
+		and a.level in (
+		<foreach collection="level" item="t" separator=",">
+			#{t}
+		</foreach>
+		)
+		</if>
+		<if test="zone!=null and zone.size()>0">
+		and a.zone in (
+		<foreach collection="zone" item="z" separator=",">
 			#{z}
 		</foreach>
-		) group by a.bsId
-	</select>
-	<!--根据级别信息查询所有基站wlk -->
-	<select id="bsByLevel" resultType="java.util.HashMap"
-		parameterType="java.util.List" useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where a.level in (
-		<foreach collection="list" item="z" separator=",">
-			#{z}
-		</foreach>
-		) group by a.bsId
+		)
+		</if>
+		group by a.bsId
 	</select>
 
 	<!--不规则区域圈选查询 -->

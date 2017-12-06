@@ -148,54 +148,12 @@ app.controller("map", function($scope, $http) {
 			function(response) {
 				$scope.levelData = response.items;
 			});
-	/* 级别选择 */
+	/* 级别和区域选择 */
 	var level={
 			"1":{"lat":"30.6670418358257","lng":"104.07508986582853","zoom":"3"},
 			"2":{"lat":"30.69982302288963","lng":"104.06099782211035","zoom":"3"},
 			"3":{"lat":"30.694667397139078","lng":"104.04991322674667","zoom":"2"}
 	}
-	$scope.levelChoose=function(params){
-		if ($(".levelChoose input[value="+params+"]").prop("checked") == true) {
-			var t=[];
-			$(".levelChoose input:checked").each(function(i){
-				t.push($(this).val());
-			});
-			$http.get("amap/map/bsByLevel?level="+t).success(
-					function(response) {					
-						var tempData = response.items;	
-						var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
-						myMap.centerAndZoom(point,level[params].zoom*1);
-						option.series[0].markPoint.data=baseMark(tempData)[0];
-						option.series[1].markPoint.data=baseMark(tempData)[1];
-						overlay.setOption(option);
-					});
-		} else {
-			var t=[];
-			$(".levelChoose input:checked").each(function(i){
-				t.push($(this).val());
-			});
-			if(t.length==0){
-				$http.get("bs/map/data").success(
-						function(response) {
-							var tempData = response.items;
-							option.series[0].markPoint.data=baseMark(tempData)[0];
-							option.series[1].markPoint.data=baseMark(tempData)[1];
-							overlay.setOption(option);
-						});
-			}else{
-				$http.get("amap/map/bsByLevel?level="+t).success(
-						function(response) {
-							var tempData = response.items;
-							var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
-							myMap.centerAndZoom(point,level[params].zoom*1);
-							option.series[0].markPoint.data=baseMark(tempData)[0];
-							option.series[1].markPoint.data=baseMark(tempData)[1];
-							overlay.setOption(option);
-						});
-			}
-		}
-	} 
-	/* 区域选择 */
 	var area={
 			"简阳":{"lat":"30.41963624512105","lng":"104.54442366332056","zoom":"3"},
 			"双流":{"lat":"30.537055621589893","lng":"103.93902430956187","zoom":"3"},
@@ -221,61 +179,112 @@ app.controller("map", function($scope, $http) {
 			"青羊区":{"lat":"30.680736466725598","lng":"103.98889424781146","zoom":"4"},
 			"金牛区":{"lat":"30.73784576279995","lng":"104.05910742600184","zoom":"4"}		
 	};
-	$scope.areaChoose=function(params){
-		if ($(".areaChoose input[value="+params+"]").prop("checked") == true) {
+	$scope.bothChoose=function(params){
+		if ($(".levelChoose input[value="+params+"]").prop("checked") == true || $(".areaChoose input[value="+params+"]").prop("checked") == true) {
 			var t=[];
-			$(".areaChoose input:checked").each(function(i){
+			$(".levelChoose input:checked").each(function(i){
 				t.push($(this).val());
 			});
-			$http.get("bs/map/bsByArea?zone="+t).success(
+			var z=[];
+			$(".areaChoose input:checked").each(function(i){
+				z.push($(this).val());
+			});
+			$http.get("amap/map/bsByBoth?level="+t+"&zone="+z).success(
 					function(response) {
-						var tempData = response.items;
-						console.log(tempData);
-						//首页下方数据展示start
-						$scope.areaDataNum = tempData.length;
-						$scope.areaDatazone = params;
-						$('#areaTable').show();
-						//首页下方数据展示end
-						var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
-						myMap.centerAndZoom(point,area[params].zoom*1);
-						option.series[0].markPoint.data=baseMark(tempData)[0];
-						option.series[1].markPoint.data=baseMark(tempData)[1];
-						overlay.setOption(option);
-						areaRingsData(params);
+						//判断是级别还是区域
+						if(!isNaN(params)){
+							var tempData = response.items;	
+							//首页下方数据展示start
+							var a = z.join(",");
+							var b = t.join(",");
+							$scope.areaDataZone = a;
+							$scope.areaDataNum = tempData.length;
+							$scope.areaDataLevel = b;
+							$('#areaTable').show();
+							//首页下方数据展示end
+							var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
+							myMap.centerAndZoom(point,level[params].zoom*1);
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
+							overlay.setOption(option);
+						}else{
+							var tempData = response.items;
+							//首页下方数据展示start
+							var a = z.join(",");
+							var b = t.join(",");
+							$scope.areaDataZone = a;
+							$scope.areaDataNum = tempData.length;
+							$scope.areaDataLevel = b;
+							$('#areaTable').show();
+							//首页下方数据展示end
+							var point = new esri.geometry.Point(area[params].lng*1, area[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
+							myMap.centerAndZoom(point,area[params].zoom*1);
+							option.series[0].markPoint.data=baseMark(tempData)[0];
+							option.series[1].markPoint.data=baseMark(tempData)[1];
+							overlay.setOption(option);
+							areaRingsData(params);
+						}					
 					});
 		} else {
 			var t=[];
-			$(".areaChoose input:checked").each(function(i){
+			$(".levelChoose input:checked").each(function(i){
 				t.push($(this).val());
 			});
-			if(t.length==0){
+			var z=[];
+			$(".areaChoose input:checked").each(function(i){
+				z.push($(this).val());
+			});
+			if(t.length==0 && z.length==0){
 				$http.get("bs/map/data").success(
 						function(response) {
 							var tempData = response.items;
-							//首页下方数据展示start
-							$('#areaTable').hide();
-							//首页下方数据展示end
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
-							areaRingsClear(params);
+							if(isNaN(params)){
+								areaRingsClear(params);
+							}
+							$('#areaTable').hide();
 						});
 			}else{
-				$http.get("bs/map/bsByArea?zone="+t).success(
+				$http.get("amap/map/bsByBoth?level="+t+"&zone="+z).success(
 						function(response) {
-							var tempData = response.items;
-							//首页下方数据展示start
-							$('#areaTable').hide();
-							//首页下方数据展示end
-							option.series[0].markPoint.data=baseMark(tempData)[0];
-							option.series[1].markPoint.data=baseMark(tempData)[1];
-							overlay.setOption(option);
-							areaRingsClear(params);
+							//判断是级别还是区域
+							if(!isNaN(params)){
+								var tempData = response.items;
+								//首页下方数据展示start
+								var a = z.join(",");
+								var b = t.join(",");
+								$scope.areaDataZone = a;
+								$scope.areaDataNum = tempData.length;
+								$scope.areaDataLevel = b;
+								$('#areaTable').show();
+								//首页下方数据展示end
+								var point = new esri.geometry.Point(level[params].lng*1, level[params].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
+								myMap.centerAndZoom(point,level[params].zoom*1);
+								option.series[0].markPoint.data=baseMark(tempData)[0];
+								option.series[1].markPoint.data=baseMark(tempData)[1];
+								overlay.setOption(option);
+							}else{
+								var tempData = response.items;
+								//首页下方数据展示start
+								var a = z.join(",");
+								var b = t.join(",");
+								$scope.areaDataZone = a;
+								$scope.areaDataNum = tempData.length;
+								$scope.areaDataLevel = b;
+								$('#areaTable').show();
+								//首页下方数据展示end
+								option.series[0].markPoint.data=baseMark(tempData)[0];
+								option.series[1].markPoint.data=baseMark(tempData)[1];
+								overlay.setOption(option);
+								areaRingsClear(params);
+							}							
 						});
 			}
 		}
-		
 	} 
+
 	/* 刷新数据  业务*/
 	$scope.refresh = function() {
 		$scope.search(1);
@@ -789,12 +798,14 @@ function floor(data) {
     	  var d = this.label.toUpperCase();
     	  createToolbar();
     	  if(d == "不规则圈选"){  	
+    		  $("#testpro").css({display:'block'});
     		  $("#mapDiv").attr("title","单击鼠标左键开始圈选，双击结束圈选");
     		  chooseType=1;
               var temp = "POLYGON";//RECTANGLE
         	  var tool = temp.replace(/ /g, "_");
               toolbar.activate(Draw[tool]);
     	  }else if(d == "矩形圈选"){
+    		  $("#testpro").css({display:'block'});
     		  $("#mapDiv").attr("title","按住鼠标左键开始圈选，松开结束圈选");
         	  //开启鼠标监听
     		  chooseType=2;
@@ -804,11 +815,18 @@ function floor(data) {
               toolbar.activate(Draw[tool]);
     	  }	  
       }
+      
+      $('#testpro').mouseover(function(){
+    	 $("#testpro").css({display:'none'});
+    	 $("#mapDiv").removeAttr("title");
+    	 toolbar.deactivate(); 
+      });
 
-        function createToolbar(themap) {
+      function createToolbar(themap) {
+          console.log("aaabbb");
           toolbar = new Draw(myMap);
           toolbar.on("draw-end", addToMap);
-        }
+      }
 
       function addToMap(evt) {
     	  if(chooseType==1){
@@ -871,8 +889,6 @@ function floor(data) {
           	  var $scope = angular.element(appElement).scope();
           	  $scope.searchChooseRec(1,params);
     	  }
-    	  
-    	  $("#mapDiv").attr("title","");
       }
 
       
@@ -891,6 +907,8 @@ function contain(point,polygon) {
 
 //圈选模态框消失后清除图层
 $("#rectangle").on("hide.bs.modal",function(){
+	$("#testpro").css({display:'none'});
+	$("#mapDiv").removeAttr("title");
 	rectangle.clear();
 });
 

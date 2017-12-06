@@ -9,11 +9,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebLogBean;
@@ -31,23 +33,35 @@ public class AmapController {
 	private WebLogBean webLogBean=new WebLogBean();
 	
 	/**
-	 * 根据所选区域查询所有基站信息
+	 * 根据所选条件查询所有基站信息
 	 * @author wlk
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/map/bsByArea")
+	@RequestMapping("/map/bsByBoth")
 	@ResponseBody
-	public void bsByArea(HttpServletRequest request, HttpServletResponse response){	
+	public void bsByBoth(HttpServletRequest request, HttpServletResponse response){	
 		try {
 			HashMap map = new HashMap();
+			Map<String,List<String>> tempMap = new HashMap<String,List<String>>();
+			List<String> level = null;
+			List<String> zone = null;
 			AmapService AmapService = new AmapService();
-			String temp = request.getParameter("zone");			
-			//byte[] b=temp.getBytes("ISO-8859-1");
-			//String test=new String(b,"utf-8");
-			String[] zonetemp = temp.split(",");
-			List<String> zone = Arrays.asList(zonetemp);
-			List<HashMap<String, String>> listMap = AmapService.bsByArea(zone);
+			String temp1 = request.getParameter("level");	
+			if(!"".equals(temp1)){
+				String[] leveltemp = temp1.split(",");
+				level = Arrays.asList(leveltemp);
+			}
+						
+			String temp2 = request.getParameter("zone");
+			if(!"".equals(temp2)){
+				String[] zonetemp = temp2.split(",");
+				zone = Arrays.asList(zonetemp);	
+			}
+				
+			tempMap.put("level", level);
+			tempMap.put("zone", zone);
+			List<HashMap<String, String>> listMap = AmapService.bsByBoth(tempMap);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
@@ -58,36 +72,6 @@ public class AmapController {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * 根据所选级别查询所有基站信息
-	 * @author wlk
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/map/bsByLevel")
-	@ResponseBody
-	public void bsByLevel(HttpServletRequest request, HttpServletResponse response){	
-		try {
-			HashMap map = new HashMap();
-			AmapService AmapService = new AmapService();
-			String temp = request.getParameter("level");			
-			//byte[] b=temp.getBytes("ISO-8859-1");
-			//String test=new String(b,"utf-8");
-			String[] leveltemp = temp.split(",");
-			List<String> zone = Arrays.asList(leveltemp);
-			List<HashMap<String, String>> listMap = AmapService.bsByLevel(zone);
-			map.put("items", listMap);
-			String dataMap = FlexJSON.Encode(map);
-			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.write(dataMap);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	
 	/**
 	 * 不规则圈选功能查询

@@ -6,35 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+
 import xh.mybatis.mapper.AmapMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class AmapService {
 	/**
-	 * 根据所选区域查询所有基站
+	 * 根据所选条件查询所有基站
 	 * @author wlk
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String, String>> bsByArea(List<String> zone) throws Exception{
+	public List<HashMap<String, String>> bsByBoth(Map<String,List<String>> map) throws Exception{
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AmapMapper mapper=session.getMapper(AmapMapper.class);
-		List<HashMap<String, String>> Amap=mapper.bsByArea(zone);
-	        session.commit();  
-	        session.close();
-	        return Amap;   
-	}
-	
-	/**
-	 * 根据所选级别查询所有基站
-	 * @author wlk
-	 * @return
-	 * @throws Exception
-	 */
-	public List<HashMap<String, String>> bsByLevel(List<String> level) throws Exception{
-		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		AmapMapper mapper=session.getMapper(AmapMapper.class);
-		List<HashMap<String, String>> Amap=mapper.bsByLevel(level);
+		List<HashMap<String, String>> Amap=mapper.bsByBoth(map);
 	        session.commit();  
 	        session.close();
 	        return Amap;   
