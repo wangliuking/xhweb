@@ -79,7 +79,7 @@ html,body {
 	top: -10000px !important;
 }
 
-#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar {
+#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar,#dijit_form_Button_1>span.dijitReset.dijitToggleButtonIconChar {
 	display: none;
 }
 /*右上角工具栏*/
@@ -97,10 +97,38 @@ html,body {
 .chooseLevel {
 	color: red;
 }
+.tooltiptest{
+	position:absolute;
+	border:1px solid #333;
+	border-radius:8px;
+	box-shadow:0 0 3px rgba(000,000,000,0.8);
+	background:rgba(247,245,209,0.8);
+	padding:3px;
+	color:#333;
+	z-index: 9999;
+	display:none;
+}
+#testpro{
+	position:absolute;
+	top:0;
+	right:40%;
+	border:1px solid #333;
+	border-radius:8px;
+	box-shadow:0 0 3px rgba(000,000,000,0.8);
+	background:rgba(247,245,209,0.7);
+	padding:3px;
+	color:#333;
+	z-index: 9999;
+	font-size:22px;
+	display:none;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="map" class="fixed-iframe">
-
+<button type="button" class="btn btn-default" data-toggle="tooltip" id="testpro"
+        data-placement="bottom" title="点击可取消">
+    已进入圈选模式,移入鼠标可取消圈选
+</button>
 	<!-- 右上角显示框 -->
 	<div class="info_right">
 		<div class="btn-group">
@@ -111,7 +139,7 @@ html,body {
 			<div class="dropdown-menu pre-scrollable" role="menu">
 				<ul ng-repeat="x in levelData">
 					<li ng-if="x.level!=0"><label class="levelChoose"><input
-							type="checkbox" ng-click="levelChoose(x.level)"
+							type="checkbox" ng-click="bothChoose(x.level)"
 							ng-value="x.level">{{x.level}}级基站</label></li>
 				</ul>
 			</div>
@@ -125,7 +153,7 @@ html,body {
 			<div class="dropdown-menu pre-scrollable" role="menu">
 				<ul ng-repeat="x in data">
 					<li><label class="areaChoose"><input type="checkbox"
-							ng-click="areaChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
+							ng-click="bothChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
 				</ul>
 			</div>
 		</div>
@@ -175,34 +203,36 @@ html,body {
 						id="gonganju" type="checkbox" value="">公安，派出所</label></li>
 			</ul>
 		</div>
-		<div class="btn-group">
+		<div class="btn-group active">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
 				data-toggle="dropdown">
 				圈选 <span class="caret"></span>
 			</button>
 			<div class="dropdown-menu pre-scrollable" role="menu">
 				<ul>
-					<li><button type="button" data-dojo-type="dijit/form/Button">不规则圈选</button></li>
-					<li><button type="button" data-dojo-type="dijit/form/Button">矩形圈选</button></li>
+					<li><button type="button" data-dojo-type="dijit/form/Button" >不规则圈选</button></li>
+					<li><button type="button" data-dojo-type="dijit/form/Button" >矩形圈选</button></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 
 
-	<div id="mapDiv"></div>
+	<div id="mapDiv" class="mapinit"></div>
 	<div class="navbar-fixed-bottom" id="areaTable"
 		style="width:360px;height:auto;z-index:9999;border:1px solid blue;left:35%;background: rgba(255,255,255,0.8);display:none;">
-		<table class="table">
+		<table class="table table-striped">
 			<thead>
-				<tr>
-					<th>当前区域</th>
+				<tr class="info">
+					<th>当前选择</th>
 					<th>基站数量</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>{{areaDatazone}}</td>
+				<tr class="success">
+					<td><span ng-if="areaDataLevel!=''">{{areaDataLevel}}级基站</span>
+					<span ng-if="areaDataZone!=''">{{areaDataZone}}</span>
+					</td>
 					<td>{{areaDataNum}}</td>
 				</tr>
 			</tbody>
@@ -377,12 +407,35 @@ html,body {
 			src="lib/highcharts/themes/grid-light.js"></script>
 		<script type="text/javascript" src="Resources/js/mapInit.js"></script>
 		<script type="text/javascript">
-			$(function() {
-				$("testChooseLevel li a").click(function() {
-					console.log("aaa");
-
-				});
-			});
+		$(document).ready(function() {
+						var x=10;
+						var y=20;
+				$(".mapinit").mouseover(function(e){
+						//alert(e.pageX);
+						if(typeof($(this).attr('title'))!='undefined' && $(this).attr('title')!=''){ // 判断标签中是否有定义title属性
+						this.my_tit=this.title;
+						this.title='';
+						var tooltip="<div class='tooltiptest'>"+this.my_tit+"</div>";
+						$("body").append(tooltip);
+						$(".tooltiptest").css({
+								display:'block',
+								left: e.pageX+x,
+								top: e.pageY+y
+								})
+							};
+					}).mouseout(function(){
+						if(typeof($(this).attr('title'))!='undefined'){
+						this.title=this.my_tit;
+						$(".tooltiptest").remove();
+							};
+						}).mousemove(function(e){// 鼠标移动时跟随
+							$(".tooltiptest").css({
+									left: e.pageX+x,
+									top: e.pageY+y
+								})
+							})
+		});
+		 $(function () { $("[data-toggle='tooltip']").tooltip(); });
 		</script>
 </body>
 
