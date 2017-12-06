@@ -238,15 +238,22 @@
 										 		class="fa fa-group text-success"></i>&nbsp;添加无线用户组</a>
 										 <!-- 无线接入操作控制 -->
 										 
+										 
+										 
+										 
+										 
 										<!-- 有线接入操作控制 -->
 										<!-- 上传技术方案 -->		
 										<a ng-if="x.serviceType=='有线接入' && loginUser == x.userName && (x.checked==-1 ||x.checked==-2)"
 											href="#" ng-click="checkWinYX($index,1)">| <i
 												class="fa fa-upload text-danger"></i>&nbsp;上传技术方案</a>
-										<!-- 主管部门指定经办人 -->
+												
+												
+										<!-- 主管部门受理技术方案并通知管理部门领导 -->
 										<a ng-if="loginUserRoleId==10001 && x.checked==0 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,2)">| <i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;受理</a>
+												
 										<!-- 经办人审核 -->
 										<a ng-if="loginUserRoleId==10002 && x.checked==1 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,3)">| <i
@@ -299,7 +306,7 @@
 											href="#" ng-click="checkWinYX($index,8)">| <i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核</a>
 										<!-- 管理方上传协议文件-->
-										<a ng-if="loginUser==x.user2 && x.checked==10 && x.serviceType=='有线接入'"
+										<a ng-if="loginUser==x.user3 && x.checked==10 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,7)">| <i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传协议文件</a>
 										<!-- 有线接入操作控制 -->

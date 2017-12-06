@@ -15,7 +15,7 @@
 					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
 				</ul>
 				<div class="tab-content" style="padding: 20px">
-					<div class="tab-pane fade in active text-danger" id="info">
+					<div class="tab-pane fade in active" id="info">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
@@ -140,94 +140,177 @@
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-block">
 									<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<0"></div>
+									ng-if="progressData.checked<1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=0"></div>
+									ng-if="progressData.checked>=1"></div>
 									<div class="cd-timeline-content">
-										<h2>主管部门审核</h2>
+										<h2>主管部门受理技术方案并通知主管部门领导</h2>
 										<p>
 											<span>备注：</span><span>{{progressData.note1}}</span>
 										</p>
-										<span ng-if="progressData.checked==0"
+										<span ng-if="progressData.checked<1"
 											class="cd-date text-danger">等待审核！</span> <span
-											ng-if="progressData.checked>0"
+											ng-if="progressData.checked>=1"
 											class="cd-date text-success font-bold text-x">已经审核;
 											审核时间：{{progressData.time1}}</span>
 									</div>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
+								<div class="cd-timeline-block">
+									<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<2"></div>
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=2"></div>
+									<div class="cd-timeline-content">
+										<h2>主管部门领导上传评估技术方案</h2>
+										<p>
+											<span>备注：</span><span>{{progressData.note1}}</span>
+										</p>
+										<span ng-if="progressData.checked<2"
+											class="cd-date text-danger">等待审核！</span> <span
+											ng-if="progressData.checked>=2"
+											class="cd-date text-success font-bold text-x">已经审核;
+											审核时间：{{progressData.time2}}</span>
+									</div>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<3"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
-									<h2>经办人评估技术方案</h2>
-									<p ng-if="progressData.checked>=2">
+									<h2>主管部门领导审核评估技术方案</h2>
+									<p ng-if="progressData.checked>=3">
 											<span>查看评估方案：</span>
 											<a href="#" title="点击下载文件" onclick="xh.download(-1,-3)" style="color: red">{{progressData.fileName_Note}}</a>
 									</p>
 									<p>
 										<span>备注：</span><span>{{progressData.note2_suggest}}</span>
 									</p>
-									<span ng-if="progressData.checked<2"
+									<span ng-if="progressData.checked<3"
 										class="cd-date text-danger">等待处理！</span> <span
-										ng-if="progressData.checked>=2"
+										ng-if="progressData.checked>=3"
 										class="cd-date text-success font-bold">已上传评估附件;
-										时间：{{progressData.time6}}</span>
+										时间：{{progressData.time3}}</span>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<4"></div>
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=4"></div>
 								<div class="cd-timeline-content">
-									<h2>主管部门审核评估技术方案</h2>
+									<h2>管理部门领导通知经办人上传资源配置文件</h2>
+									
 									<p>
-										<span>备注：</span><span>{{progressData.note2}}</span>
+										<span>备注：</span><span>{{progressData.note3}}</span>
 									</p>
 									<span ng-if="progressData.checked<4"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=4"
-										class="cd-date text-success font-bold">通过审核评估附件;
-										</span>
+										class="cd-date text-success font-bold">已通知处理;
+										时间：{{progressData.time4}}</span>
 								</div>
 							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>经办人上传资源配置文件</h2>
+									<p ng-if="progressData.checked>=4">
+											<span>查看资源配置文件：</span>
+											<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color: red">{{progressData.fileName}}</a>
+									</p>
+									
+									<p>
+										<span>备注：</span><span>{{progressData.note4}}</span>
+									</p>
+									<span ng-if="progressData.checked<4"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.checked>=4"
+										class="cd-date text-success font-bold">已上传文件;
+										时间：{{progressData.time5}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<5"></div>
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=5"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方上传资源配置方案</h2>
-									<p ng-if="progressData.checked>=5">
-											<span>查看资源配置方案：</span>
-											<a href="#" title="点击下载文件" onclick="xh.download(-1,0)" style="color: red">{{progressData.fileName}}</a>
-									</p>
+									<h2>管理部门领导审核资源配置文件</h2>
 									<p>
-										<span>备注：</span><span>{{progressData.note2}}</span>
+										<span>备注：</span><span>{{progressData.note5}}</span>
 									</p>
 									<span ng-if="progressData.checked<5"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=5"
-										class="cd-date text-success font-bold">已上传资源配置方案;
+										class="cd-date text-success font-bold">文件已经审核;
+										时间：{{progressData.time6}}
+										</span>
+								</div>
+							</div>
+							
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<7"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=7"></div>
+								<div class="cd-timeline-content">
+									<h2>用户确认资源配置方案</h2>
+									<span ng-if="progressData.checked<7"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.checked>=7"
+										class="cd-date text-success font-bold">用户已经确认;
+										时间：{{progressData.time7}}
 										</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<6"></div>
+									ng-if="progressData.checked<8"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=6"></div>
+									ng-if="progressData.checked>=8"></div>
 								<div class="cd-timeline-content">
-									<h2>用户确认资源配置方案</h2>
-									<span ng-if="progressData.checked<6"
+									<h2>管理部门经办人通知服务提供方进行应用接入</h2>
+									
+									<p>
+										<span>备注：</span><span>{{progressData.note6}}</span>
+									</p>
+									<span ng-if="progressData.checked<8"
 										class="cd-date text-danger">等待处理！</span> <span
-										ng-if="progressData.checked>=6"
-										class="cd-date text-success font-bold">用户确认资源配置方案完成;
-										</span>
+										ng-if="progressData.checked>=8"
+										class="cd-date text-success font-bold">已通知处理;
+										时间：{{progressData.time8}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<9"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=9"></div>
+								<div class="cd-timeline-content">
+									<h2>服务方安排应用接入</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note7}}</span>
+									</p>
+									<span ng-if="progressData.checked<9"
+										class="cd-date text-danger">等待处理！</span> <span
+										ng-if="progressData.checked>=9"
+										class="cd-date text-success font-bold">应用接入完成;
+										时间：{{progressData.time9}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -237,20 +320,27 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=10"></div>
 								<div class="cd-timeline-content">
-									<h2>等待服务方安排应用接入</h2>
+									<h2>应用接入工作已经完成，等待管理方验收</h2>
+									<p ng-if="progressData.fileName_HT!=null">
+											<span>查看协议文件：</span>
+											<a href="#" title="点击下载文件" onclick="xh.download(-1,-1)" style="color: red">{{progressData.fileName_HT}}</a>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note8}}</span>
+									</p>
 									<span ng-if="progressData.checked<10"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=10"
-										class="cd-date text-success font-bold">应用接入完成;
-										</span>
+										class="cd-date text-success font-bold">已经验收;
+										时间：{{progressData.time10}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.checked<12">结束</div>
+									ng-if="progressData.checked<10">结束</div>
 								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.checked>=12">结束</div>
+									ng-if="progressData.checked>=10">结束</div>
 							</div>
 						</div>
 					</div>

@@ -79,13 +79,24 @@
 	<!--领导通知经办人上传资源配置方案-->
 	<update id="checked100" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
-		user3=#{user3},time2=#{time2},note3=#{note3},
+		user3=#{user3},time4=#{time4},note3=#{note3},
 		checked=#{checked} where id=#{id}
 	</update>
 	<!--上传编组方案 -->
 	<update id="uploadFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set fileName=#{fileName},filePath=#{filePath},
 		time3=#{time3},note3=#{note3},user4=#{user4},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--经办人上传资源配置文件 -->
+	<update id="uploadFile4" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName=#{fileName},filePath=#{filePath},
+		time5=#{time5},note4=#{note4},checked=#{checked} where
+		id=#{id}
+	</update>	
+	<!--管理方评估技术方案 -->
+	<update id="uploadFile100" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set time2=#{time2}, fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked},user2=#{user2},note2_suggest=#{note2_suggest} where
 		id=#{id}
 	</update>
 	<!--上传公函 -->
@@ -113,6 +124,16 @@
 		update xhgmnet_business_net set
 		time4=#{time4},note4=#{note4},note5=#{note5},checked=#{checked} where id=#{id}
 	</update>
+	<!--领导审核资源配置方案 -->
+	<update id="checkFile5" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time6=#{time6},note5=#{note5},checked=#{checked} where id=#{id}
+	</update>
+	<!--用户确认资源配置方案 -->
+	<update id="checkFile7" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time7=#{time7},checked=#{checked} where id=#{id}
+	</update>		
 	<!--用户确认编组方案 -->
 	<update id="sureFile" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set
@@ -150,13 +171,24 @@
 	</update>
 	<!--有线-主管部门审核 -->
 	<update id="YXcheckedOne" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set checked=#{checked},time2=#{time2},note2=#{note2} where id=#{id}
+		update xhgmnet_business_net set checked=#{checked},time3=#{time3},note2=#{note2} where id=#{id}
 	</update>
 	<!--有线-应用接入 -->
 	<update id="applicationAccess" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set user4=#{user4}, result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
 	</update>
-
+	<!--通知服务提供方开始应用接入 -->
+	<update id="applicationAccess8" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set user4=#{user4}, result=#{result},note6=#{note6},time8=#{time8},checked=#{checked} where id=#{id}
+	</update>
+	<!--服务提供方完成应用接入 -->
+	<update id="applicationAccess9" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set note7=#{note7},time9=#{time9},checked=#{checked} where id=#{id}
+	</update>
+	<!--管理方审核应用接入 -->
+	<update id="applicationAccess10" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set note8=#{note8},time10=#{time10},checked=#{checked} where id=#{id}
+	</update>
 	<!--通知培训-->
 	<update id="training" parameterType="xh.mybatis.bean.JoinNetBean">
 		update xhgmnet_business_net set

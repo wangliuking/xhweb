@@ -37,6 +37,14 @@
 .bs-div-check {
 	background: black !important;
 }
+	.bsList .bs-litter-box{
+ float: left;
+/*  margin: 5px; */
+	min-width: 250px;
+	line-height: 18px;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
@@ -126,6 +134,10 @@
 									<label>注册终端/组</label> <input name="usergroup" class="form-control"
 										 placeholder="终端、组号码" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"/>
 
+								</div>
+								<div class="col-md-2" style="cursor: pointer;" ng-click="showBsModal()">
+								<i class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">基站筛选</span>
 								</div>
 								
 								<div class="col-md-3" ng-show=false>
@@ -253,7 +265,17 @@
 			<!-- row-end -->
 		</div>
 	</div>
-
+	
+	<aside id="aside-right" class="animated fadeInLeft">
+	<div class="bsList">
+	<div class="bs-litter-box" ng-repeat="x in bs_search_data" ng-click="bssearch()">
+	<input id="bs-{{x.bsId}}" class="magic-checkbox" type="checkbox" name="bsIds" value="{{x.bsId}}" style="margin-top:30px;"> 
+	<label for="bs-{{x.bsId}}"><span>{{x.name}}</span></label>
+	
+	</div>
+	</div>
+	
+	</aside>
 	<!-- 底部内容体 -->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>

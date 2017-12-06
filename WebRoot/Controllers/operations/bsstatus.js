@@ -60,12 +60,16 @@ xh.load = function() {
 					$scope.zoneData = response.items;
 				});
 		/*获取信息*/
+	
+		
 		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = $scope.data.length;
+			$scope.bs_search_data = response.items;
 		});
+		
 		
 		
 		$scope.bsView=function(index){
@@ -87,6 +91,22 @@ xh.load = function() {
 					  content: ["../../Views/operations/bsstatus-group-user-box.html?bsId="+dd.bsId, 'no']
 					};
 			layer.open(html);
+		}
+		
+		$scope.showBsModal=function(){
+			$("#aside-right").fadeToggle("fast");
+		}
+	
+		
+		$scope.bssearch=function(){
+			var checkbox=$("#aside-right").find("[type='checkbox']");
+			var bsIds=[];
+			for(var i=0;i<checkbox.length;i++){
+				if(checkbox[i].checked==true){
+					
+				}
+			}
+			console.log("bsIds===>"+bsIds.join(","));
 		}
 		
 		/* 刷新数据 */
@@ -150,6 +170,7 @@ xh.load = function() {
 			});
 			
 		};
+		
 		setInterval(function(){
 			$scope.search(1);
 			}, 10000);

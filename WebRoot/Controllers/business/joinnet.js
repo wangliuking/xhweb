@@ -1122,6 +1122,8 @@ xh.download = function(id,type) {
 	else if(type==-4){
 		filename = $scope.checkData.fileName_HT;
 	}
+
+	
 	else{
 		//如果type为1 那么表示下载公函。
 		if(id >= 0){

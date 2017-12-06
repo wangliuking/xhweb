@@ -45,7 +45,7 @@
 	<!-- 三期所有基站环控告警列表 -->
 	<select id="EmhAlarmList" parameterType="String" resultType="map" useCache="true">
 		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 
-		and State='报警' order by JFNode asc
+		and State='报警' order by AlarmTime desc
 	</select>
 
     

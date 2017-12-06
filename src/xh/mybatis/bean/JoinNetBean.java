@@ -42,6 +42,9 @@ public class JoinNetBean {
 	private String note4;
 	private String note5;
 	private String note6;
+	private String note7;
+	private String note8;
+	private String note9;
 	private String fileName;
 	private String filePath;
 	private String fileNameGH;
@@ -453,6 +456,25 @@ public class JoinNetBean {
 	}
 	public void setTime11(String time11) {
 		this.time11 = time11;
+	}
+	
+	public String getNote7() {
+		return note7;
+	}
+	public void setNote7(String note7) {
+		this.note7 = note7;
+	}
+	public String getNote8() {
+		return note8;
+	}
+	public void setNote8(String note8) {
+		this.note8 = note8;
+	}
+	public String getNote9() {
+		return note9;
+	}
+	public void setNote9(String note9) {
+		this.note9 = note9;
 	}
 	@Override
 	public String toString() {

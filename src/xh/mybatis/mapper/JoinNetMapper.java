@@ -71,12 +71,28 @@ public interface JoinNetMapper {
 	public int checkedTwo(JoinNetBean bean)throws Exception;
 	
 	/**
+	 * 管理方评估技术方案 
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFile100(JoinNetBean bean)throws Exception;
+	
+	/**
 	 * 上传编组方案
 	 * @param bean
 	 * @return
 	 * @throws Exception
 	 */
 	public int uploadFile(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 经办人上传资源配置文件
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int uploadFile4(JoinNetBean bean)throws Exception;
 	
 	/**
 	 * 上传公函
@@ -163,8 +179,32 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int applicationAccess(JoinNetBean bean)throws Exception;
+	
+	
+	
+	/**
+	 * 有线-通知服务提供方开始应用接入
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int applicationAccess8(JoinNetBean bean)throws Exception;
 
-
+	/**
+	 * 有线-服务提供方完成应用接入
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int applicationAccess9(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 有线-管理方审核应用接入
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int applicationAccess10(JoinNetBean bean)throws Exception;
 	/**
 	 * 保存采购文档
 	 * @param bean
@@ -180,6 +220,23 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int checkFile(JoinNetBean bean)throws Exception;
+	
+	/**
+	 * 领导审核资源配置方案 
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkFile5(JoinNetBean bean)throws Exception;
+	
+	
+	/**
+	 * 用户确认资源配置方案
+	 * @param bean
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkFile7(JoinNetBean bean)throws Exception;
 	/**
 	 * 用户确认编组方案
 	 * @param bean

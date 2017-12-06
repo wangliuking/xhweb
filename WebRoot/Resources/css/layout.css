@@ -28,6 +28,26 @@
 	right:0;
 	overflow-y: auto;
 }
+#aside-right {
+	 background-color:rgba(0,0,0, .8); /* #8bc34a */
+	 border:1px solid #e4e5e7;
+    /*  border-left: 1px solid #e4e5e7; */
+     color:#fff;
+	width: 80%;
+	/* height: 500px;  */
+	position : fixed;
+	top: 0px;
+	left: 0;
+	bottom: 0;
+	z-index: 1050;
+	display: none;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	outline: 0;
+	/* filter:alpha(Opacity=90);
+	-moz-opacity:1;
+	opacity: 1; */
+}
 /* 网页头部 #428bca*/
 #header {
 	background-image: url("../images/img/ocean.jpg");

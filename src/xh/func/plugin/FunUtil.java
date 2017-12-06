@@ -347,8 +347,10 @@ public class FunUtil {
 
 	//判断是否为数字字符串
 	public boolean isInteger(String str) {  
-        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  
+        /*Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");*/  
+		Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();  
+        
   }
 
 }
