@@ -50,8 +50,10 @@
 		left join (select count(distinct userId) as userSum ,bsId from xhgmnet_operations_userstatus group by bsId) 
 		  as c on a.bsId=c.bsId
 		
-		left join (select count(distinct TGid) as groupSum ,bsId from xhgmnet_operations_userstatus where TGid!=0 group by bsId) 
-		  as e on a.bsId=e.bsId 
+		left join (select count(gourpId) as groupSum ,bsId from xhgmnet_bs_groupstatus group by bsId) 
+		  as e on a.bsId=e.bsId
+		<!-- left join (select count(distinct TGid) as groupSum ,bsId from xhgmnet_operations_userstatus where TGid!=0 group by bsId) 
+		  as e on a.bsId=e.bsId  -->
 		
 		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
 		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
