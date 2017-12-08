@@ -298,11 +298,13 @@ app.controller("map", function($scope, $http) {
 		page = parseInt(page);
 		if (page <= 1) {
 			start = 0;
+
 		} else {
 			start = (page - 1) * pageSize;
 		}
 		xh.maskShow();
-		$http.get("radio/status/oneBsRadio?bsId=" + $scope.bsId
+		$http.get(
+				"radio/status/oneBsRadio?bsId=" + $scope.bsId
 						+ "&start=" + start + "&limit=" + pageSize)
 				.success(function(response) {
 					xh.maskHide();
@@ -389,8 +391,9 @@ app.controller("map", function($scope, $http) {
 		} else {
 			start = (page - 1) * pageSize;
 		}
-		xh.maskShow();
-		$http.get("radio/status/oneBsRadio?bsId=" + $scope.bsId
+	
+		$http.get(
+				"radio/status/oneBsRadio?bsId=" + $scope.bsId
 						+ "&start=" + start + "&limit=" + pageSize)
 				.success(function(response) {
 					xh.maskHide();
@@ -421,7 +424,8 @@ app.controller("map", function($scope, $http) {
 			start = (page - 1) * pageSize;
 		}
 		
-		$http.get("radio/status/oneBsGroup?bsId=" + $scope.bsId
+		$http.get(
+				"radio/status/oneBsGroup?bsId=" + $scope.bsId
 						+ "&start=" + start + "&limit=" + pageSize)
 				.success(function(response) {
 					xh.maskHide();
@@ -559,7 +563,6 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 };
-
 xh.groupPagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit-group").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
@@ -952,7 +955,6 @@ var areaRef={
 		"武侯区":{name:"武侯区",color:"#000000"},
 		"金牛区":{name:"金牛区",color:"#191970"},
 		"锦江区":{name:"锦江区",color:"#8B658B"},
-		"青白江":{name:"青白江",color:"#8B008B"},
 		"青羊区":{name:"青羊区",color:"#FF0000"}
 }
 //区域边界图层数据 
@@ -977,8 +979,9 @@ function areaRingsData(param){
 			areaRingsCreate(tempData,params);
 		}
 	});*/
-	$.getJSON("Resources/js/mapArea.json", function (dataMap){
-		var data = dataMap[areaInfo].results[0].geometry.rings[0];
+	var areaUrl = "mapArea/" + param +".json"
+	$.getJSON(areaUrl, function (dataMap){
+		var data = dataMap.results[0].geometry.rings[0];
 		var temp=[];
 		var tempData=[];
 		var i;
@@ -1162,36 +1165,38 @@ function init(data,markData) {
 				tooltip: {
 					formatter: function (params) {
 						var res;
-						/*$.ajax({
+						var radioTotals;
+						var groupTotals;
+						var numtotals;
+						$.ajax({
 							type : "GET",
-							url : "amap/map/businessByBsId",
+							url : "amap/map/numtotals?bsId=" + params["5"].id,
 							dataType : "json",
 							async : false,
-							success : function(dataMap) {							
-		                        
-		                        
+							success : function(response) {	
+								console.log(response);
+								var dataTemp = response.items;
+								if(dataTemp[0]!=null){
+									numtotals = dataTemp[0].numtotals;
+								}
+								numtotals="暂无"; 
+								radioTotals = response.radioTotals;
+								groupTotals = response.groupTotals;
 							}
-						});*/   
+						});
 						for(var a=0;a<data.length;a++){
-							if(data[a].bsId == params[5].id && data[a].bsStatus == 0){
-								var temp1 = parseInt(Math.random()*(99-5+1) + 5)+"%";
-		                        var temp2 = parseInt(Math.random()*(99-5+1) + 6);
-		                        var temp3 = parseInt(Math.random()*(300-100+1) + 100);
-		                        var temp4 = parseInt(Math.random()*(0-5+1) + 5);
-							}else if(data[a].bsId == params[5].id && data[a].bsStatus != 0){
-								var temp1 = 0;
-		                        var temp2 = 0;
-		                        var temp3 = 0;
-		                        var temp4 = 0;
+							if(data[a].bsId == params[5].id && data[a].bsStatus != 0){
+		                        var radioTotals = 0;
+		                        var groupTotals = 0;
+		                        var numtotals = 0;
 							}
 						}
 						
                         res = '基站ID：'+params["5"].id+
                         '<br/>'+'基站名称：'+params["1"]+
-                        '<br/>'+'信道占用率：'+ temp1 +
-                        '<br/>'+'注册组数：'+ temp2 +
-                        '<br/>'+'注册用户数：'+ temp3 +
-                        '<br/>'+'排队数：' + temp4;
+                        '<br/>'+'注册组数：'+ groupTotals +
+                        '<br/>'+'注册用户数：'+ radioTotals +
+                        '<br/>'+'排队数：' + numtotals;
 						return res;
                     },
                     show: true,

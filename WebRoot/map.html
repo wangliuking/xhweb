@@ -79,7 +79,8 @@ html,body {
 	top: -10000px !important;
 }
 
-#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar,#dijit_form_Button_1>span.dijitReset.dijitToggleButtonIconChar {
+#dijit_form_Button_0>span.dijitReset.dijitToggleButtonIconChar,#dijit_form_Button_1>span.dijitReset.dijitToggleButtonIconChar
+	{
 	display: none;
 }
 /*右上角工具栏*/
@@ -91,36 +92,87 @@ html,body {
 }
 
 .dropdown-menu {
-	background: rgba(255, 255, 255, 0.6);
+	background: rgba(255, 255, 255, 0.7);
 }
 
 .chooseLevel {
 	color: red;
 }
-.tooltiptest{
-	position:absolute;
-	border:1px solid #333;
-	border-radius:8px;
-	box-shadow:0 0 3px rgba(000,000,000,0.8);
-	background:rgba(247,245,209,0.8);
-	padding:3px;
-	color:#333;
+
+.tooltiptest {
+	position: absolute;
+	border: 1px solid #333;
+	border-radius: 8px;
+	box-shadow: 0 0 3px rgba(000, 000, 000, 0.8);
+	background: rgba(247, 245, 209, 0.8);
+	padding: 3px;
+	color: #333;
 	z-index: 9999;
-	display:none;
+	display: none;
 }
-#testpro{
-	position:absolute;
-	top:0;
-	right:40%;
-	border:1px solid #333;
-	border-radius:8px;
-	box-shadow:0 0 3px rgba(000,000,000,0.8);
-	background:rgba(247,245,209,0.7);
-	padding:3px;
-	color:#333;
+
+#testpro {
+	position: absolute;
+	top: 0;
+	right: 40%;
+	border: 1px solid #333;
+	border-radius: 8px;
+	box-shadow: 0 0 3px rgba(000, 000, 000, 0.8);
+	background: rgba(247, 245, 209, 0.7);
+	padding: 3px;
+	color: #333;
 	z-index: 9999;
-	font-size:22px;
-	display:none;
+	font-size: 22px;
+	display: none;
+}
+
+/*下拉跟多级菜单效果*/
+.dropdown-submenu {
+	position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+	top: 0;
+	left: 100%;
+	margin-top: -6px;
+	margin-left: -1px;
+	-webkit-border-radius: 0 6px 6px 6px;
+	-moz-border-radius: 0 6px 6px;
+	border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+	display: block;
+}
+
+.dropdown-submenu>a:after {
+	display: block;
+	content: " ";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #ccc;
+	margin-top: 5px;
+	margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+	border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+	float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+	left: -100%;
+	margin-left: 10px;
+	-webkit-border-radius: 6px 0 6px 6px;
+	-moz-border-radius: 6px 0 6px 6px;
+	border-radius: 6px 0 6px 6px;
 }
 </style>
 </head>
@@ -131,6 +183,67 @@ html,body {
 </button>
 	<!-- 右上角显示框 -->
 	<div class="info_right">
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				data-toggle="dropdown">
+				图层 <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li class="dropdown-submenu"><a href="#">基站图层</a>
+					<ul class="dropdown-menu pull-right">
+						<li><label><input id="bsInfo" type="checkbox"
+								value="" checked>基站信息图</label></li>
+						<li><label><input id="roadtestInfo" type="checkbox"
+								value="">路测信息图</label></li>
+						<li><label><input id="testDemo" type="checkbox"
+								value="">基站覆盖仿真图</label></li>
+					</ul></li>
+				<li class="dropdown-submenu"><a href="#">政府服务</a>
+					<ul class="dropdown-menu pull-right">
+						<li><label><input id="gonganju" type="checkbox"
+								value="">公安，派出所</label></li>
+						<li><label><input id="jiedaoban" type="checkbox"
+								value="">街道办</label></li>
+						<li><label><input id="jiaoguanjigou" type="checkbox"
+								value="">交管机构</label></li>
+						<li><label><input id="xiangzhenzhengfu"
+								type="checkbox" value="">乡镇政府</label></li>
+						<li><label><input id="xiaofang" type="checkbox"
+								value="">消防</label></li>
+					</ul></li>
+				<li class="dropdown-submenu"><a href="#">应急资源</a>
+					<ul class="dropdown-menu pull-right">
+						<li><label><input id="sanjiajijiu" type="checkbox"
+								value="">三甲急救</label></li>
+						<li><label><input id="wuzicangku" type="checkbox"
+								value="">物资仓库</label></li>
+						<li><label><input id="zaihaiyifadian" type="checkbox"
+								value="">灾害易发点</label></li>
+					</ul></li>
+				<li class="dropdown-submenu"><a href="#">公共区域</a>
+					<ul class="dropdown-menu pull-right">
+						<li><label><input id="gongyeyuan" type="checkbox"
+								value="">工业园</label></li>
+						<li><label><input id="gongyuanguangchang"
+								type="checkbox" value="">公园广场</label></li>
+						<li><label><input id="guojiajijingdian"
+								type="checkbox" value="">国家级景点</label></li>
+						<li><label><input id="huiyizhongxin" type="checkbox"
+								value="">会议中心</label></li>
+						<li><label><input id="jiudian" type="checkbox"
+								value="">四星级以上酒店</label></li>
+						<li><label><input id="zhongdiangaoxiao"
+								type="checkbox" value="">重点高校</label></li>
+					</ul></li>
+				<li class="dropdown-submenu"><a href="#">交通类别</a>
+					<ul class="dropdown-menu pull-right">
+						<li><label><input id="daolukakou" type="checkbox"
+								value="">道路卡口</label></li>
+						<li><label><input id="jiaotongshuniu" type="checkbox"
+								value="">交通枢纽</label></li>
+					</ul></li>
+			</ul>
+		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
 				data-toggle="dropdown">
@@ -156,52 +269,6 @@ html,body {
 							ng-click="bothChoose(x.zone)" ng-value="x.zone">{{x.zone}}</label></li>
 				</ul>
 			</div>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-				data-toggle="dropdown">
-				图层 <span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu pre-scrollable" role="menu">
-				<li style="padding-left:36px;"><label><input
-						id="bsInfo" type="checkbox" value="" checked>基站信息图</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="roadtestInfo" type="checkbox" value="">路测信息图</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="testDemo" type="checkbox" value="">基站覆盖仿真图</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="daolukakou" type="checkbox" value="">道路卡口</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="gongyeyuan" type="checkbox" value="">工业园</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="gongyuanguangchang" type="checkbox" value="">公园广场</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="guojiajijingdian" type="checkbox" value="">国家级景点</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="huiyizhongxin" type="checkbox" value="">会议中心</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="jiaoguanjigou" type="checkbox" value="">交管机构</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="jiaotongshuniu" type="checkbox" value="">交通枢纽</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="jiedaoban" type="checkbox" value="">街道办</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="jiudian" type="checkbox" value="">四星级以上酒店</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="sanjiajijiu" type="checkbox" value="">三甲急救</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="wuzicangku" type="checkbox" value="">物资仓库</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="xiangzhenzhengfu" type="checkbox" value="">乡镇政府</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="xiaofang" type="checkbox" value="">消防</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="zaihaiyifadian" type="checkbox" value="">灾害易发点</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="zhongdiangaoxiao" type="checkbox" value="">重点高校</label></li>
-				<li style="padding-left:36px;"><label><input
-						id="gonganju" type="checkbox" value="">公安，派出所</label></li>
-			</ul>
 		</div>
 		<div class="btn-group active">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
@@ -266,7 +333,6 @@ html,body {
 										<th>基站级别</th>
 										<th>话务量</th>
 										<th>排队数</th>
-										<th>信道占用率</th>
 										<th>是否启用</th>
 										<th>状态</th>
 									</tr>
@@ -278,10 +344,9 @@ html,body {
 									<tr ng-repeat="x in dataRectangle">
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
-										<td>{{x.level}}</td>
-										<td>{{x.testnum1}}</td>
-										<td>{{x.testnum2}}</td>
-										<td>{{x.testnum3}}</td>
+										<td>{{x.level}}</td>										
+										<td>{{x.num}}</td>
+										<td>{{x.queTotals}}</td>
 										<td ng-if="x.status==0" class="td-gray"><span
 											style="color:#fff">停用</span></td>
 										<td ng-if="x.status==1" class="td-success"><span
