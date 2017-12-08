@@ -50,6 +50,7 @@ xh.load = function() {
 		if($scope.zone==null){
 			$scope.zone="全部"
 		}
+		$scope.bsIds="";
 		var type=$("select[name='type']").val();
 		var zone=$scope.zone==null?"全部":$scope.zone;
 		var link=$("select[name='link']").val();
@@ -62,12 +63,13 @@ xh.load = function() {
 		/*获取信息*/
 	
 		
-		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup).
+		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsIds="+$scope.bsIds).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = $scope.data.length;
 			$scope.bs_search_data = response.items;
+			$scope.bs_search_totals = $scope.data.length;
 		});
 		
 		
@@ -103,10 +105,18 @@ xh.load = function() {
 			var bsIds=[];
 			for(var i=0;i<checkbox.length;i++){
 				if(checkbox[i].checked==true){
-					
+					bsIds.push(checkbox[i].value)
 				}
 			}
-			console.log("bsIds===>"+bsIds.join(","));
+			if(bsIds.length>0){
+				console.log("bsIds===>"+bsIds.join(","));
+				$scope.bsIds=bsIds.join(",");
+				$scope.search(1);
+			}else{
+				$scope.bsIds="";
+				$scope.search(1);
+			}
+			
 		}
 		
 		/* 刷新数据 */
@@ -115,7 +125,6 @@ xh.load = function() {
 		};
 		/* 查询数据 */
 		$scope.search = function(page) {
-			var $scope = angular.element(appElement).scope();
 			var type=$("select[name='type']").val();
 			var zone=$("select[name='zone']").val();
 			var zone=$scope.zone==null?$("select[name='zone']").val():$scope.zone;
@@ -133,7 +142,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			/*xh.maskShow();*/
-			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup).
+			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsIds="+$scope.bsIds).
 			success(function(response){
 				/*xh.maskHide();*/
 				$scope.data = response.items;

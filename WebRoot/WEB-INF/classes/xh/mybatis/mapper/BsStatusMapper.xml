@@ -72,7 +72,7 @@
 		FROM xhgmnet_emh_sensor_status as a
 		left join xhgmnet_emh_config as b on a.deviceId=b.deviceId and a.fsuId=b.fsuId
 		WHERE a.singleType=0 and a.singleValue!=0
-		ORDER BY a.deviceId ASC , a.singleId ASC
+		ORDER BY a.updateTime desc
 		LIMIT #{start} , #{limit}
 	</select>
 		<!--4期所有基站环控告警 -->

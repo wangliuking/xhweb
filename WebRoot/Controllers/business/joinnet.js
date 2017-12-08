@@ -1032,17 +1032,21 @@ xh.addUser = function() {
 		type : 'POST',
 		dataType : "json",
 		async : false,
-		data : $("#addUserForm").serializeArray(),
+		data:{
+			formData:xh.serializeJson($("#addUserForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		/*data : $("#addUserForm").serializeArray(),*/
 		success : function(data) {
-			if (data.result >= 1) {
+			if (data.success) {
 				$('#add').modal('hide');
-				toastr.success("添加无线用户成功", '提示');
+				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error("添加无线用户失败", '提示');
+				toastr.error(data.message, '提示');
 			}
 		},
 		error : function() {
+			toastr.error("响应服务器失败", '提示');
 		}
 	});
 }
@@ -1056,17 +1060,12 @@ xh.addTGroup = function() {
 		data : $("#addTalkGroupForm").serializeArray(),
 		success : function(data) {
 
-			if (data.result >= 1) {
+			if (data.success) {
 				$('#addTalkGroup').modal('hide');
-				if(data.result == 1){
-					toastr.success("添加用户组成功", '提示');
-				}
-				else{
-					toastr.success("批量添加用户组成功", '提示');
-				}
+				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error("添加用户组失败", '提示');
+				toastr.error(data.message, '提示');
 			}
 		},
 		error : function() {

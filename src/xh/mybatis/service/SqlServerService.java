@@ -132,8 +132,23 @@ public class SqlServerService {
 			for(int i=0;i<list.size();i++){
 				Map<String, Object> map=list.get(i);
 				Map<String, Object> map2=new HashMap<String, Object>();
+				String DevName=map.get("DevName").toString();
+				if(map.get("DevNode").toString().equals("0011")&&map.get("NodeID").toString().equals("1001")){
+					DevName="烟感";
+				}
+				if(map.get("DevNode").toString().equals("0011")&&map.get("NodeID").toString().equals("1002")){
+					DevName="门磁";
+				}
+				if(map.get("DevNode").toString().equals("0011")&&map.get("NodeID").toString().equals("1003")){
+					DevName="水浸";
+				}
+				if(map.get("DevNode").toString().equals("0011")&&map.get("NodeID").toString().equals("1004")){
+					DevName="消防";
+				}
+				
+				
 				map2.put("bsId", Integer.parseInt(map.get("JFNode").toString()));
-				map2.put("DevName", map.get("DevName"));
+				map2.put("DevName", DevName);
 				map2.put("AlarmText", Integer.parseInt(map.get("JFNode").toString())+"-"+map.get("AlarmText"));
 				map2.put("time", map.get("AlarmDate").toString().split(" ")[0]+" "+map.get("AlarmTime"));
 				list.set(i, map2);

@@ -16,13 +16,17 @@
 		,b.unitType as unitType1
 		,b.userType as userType1
 		from xhgmnet_business_net as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
-		<choose>
+		
+		and (a.userName=#{user} or a.user1=#{user} or a.user2=#{user} or a.user3=#{user} or a.user4=#{user})
+		
+		
+		<!-- <choose>
 			<when test="roleId &gt;10003 || roleId &lt;10000">
 				and a.userName=#{user} and checked!=99
 			</when>
 			<otherwise>
 			</otherwise>
-		</choose>
+		</choose> -->
 
 		order by id desc limit #{start},#{limit}
 	</select>

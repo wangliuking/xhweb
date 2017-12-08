@@ -7,213 +7,191 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">添加组</small>
-				<button type="button"
-						class="btn btn-warning btn-sm" id="pldr" onclick="clk_add_btn();">
-						<i class="fa fa-plus"></i>&nbsp;批量导入
-				</button>
-				<label for="piliangtianjia" style="float:right">批量添加用户组</label>
-				<input type="checkbox" id="piliangtianjia" ng-model="isChecked1" style="float:right"/>
+				<small class="font-bold">添加通话组组</small> <input id="piliangtianjia"
+					class="magic-checkbox" type="checkbox" name="moregroup"
+					ng-model="isChecked1" style="float:right"> <label
+					for="piliangtianjia" style="float:right"><span>批量新增通话组</span></label>
+
+
 			</div>
-			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+			<div class="modal-body pad-0"
+				style=" max-height:80%;overflow: scroll;">
 				<form action="#" id="addTalkGroupForm" onSubmit="return false">
-					<!-- 					<div class="text-center m-b-md" id="wizardControl_add">
-
-						<a class="btn btn-primary" href="#step1" data-toggle="tab">第一步</a>
-						<a class="btn btn-default" href="#step2" data-toggle="tab">第二步</a>
-					</div> -->
-
-					<div class="p-m tab-pane active">
-						<div class="row" ng-show="false">
-							<div class="col-md-12">
-								<div class="form-group col-md-12">
-									<label>入网流程ID</label>&nbsp;<span class="text-danger">[*]</span>
-									<input type="text" value="" class="form-control"
-										name="id_joinNet" required="required"
-										ng-model="joinNetProcessId">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12" ng-if="!isChecked1">
-									<label>通话组ID</label> <input type="number" value=""
-										class="form-control" name="TalkgroupID" id="TalkgroupID"
-										oninput="if(value.length>20)value=value.slice(0,20)"
-										required="required">
-								</div>
-								<div class="form-group col-md-12" ng-if="isChecked1">
-							    	<div class="col-md-5">
-								    	<label for="sb" >通话组ID</label>
-								    	<input type="number" value=""
-										class="form-control" name="TalkgroupIDS" id="TalkgroupID"
-										oninput="if(value.length>20)value=value.slice(0,20)"
-										required="required">
-									</div>
-									<div class="col-md-2 text-center">
-										<div style="width:10px;height:1px;background-color:gray;margin-top: 37px;display:inline-block"></div>
-									</div>
-									<div class="col-md-5">
-										<label style="visibility:hidden;">1</label>
-										<input type="number" value=""
-										class="form-control" name="TalkgroupIDE" id="TalkgroupID"
-										oninput="if(value.length>20)value=value.slice(0,20)"
-										required="required">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>通话组名称</label> <input type="text" value=""
-										oninput="if(value.length>16)value=value.slice(0,16)"
-										class="form-control" name="E_name" id="E_name"
-										required="required">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>通话组别名</label> <input type="text" value=""
-										oninput="if(value.length>8)value=value.slice(0,8)"
-										class="form-control" name="E_alias" id="E_alias"
-										required="required">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>交换中心唯一标识</label>
-										<select class="form-control" id="E_mscId"
-										name="E_mscId" ng-model="mscName">
-										<option ng-repeat="x in msc" value="{{x.vpnId}}">{{x.name}}</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>VPN标识</label>
-										<select class="form-control" id="E_vpnId"
-										name="E_vpnId" ng-model="vpnName">
-										<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
-										</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>直拨号码</label> <input type="text" value=""
-										oninput="if(value.length>16)value=value.slice(0,16)"
-										class="form-control" name="E_directDial" id="E_directDial"
-										required="required">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>用户虚拟专网属性标识</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_vaId" id="E_vaId"
-										required="required">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>用户组类型</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_radioType" id="E_radioType"
-										required="required">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>通话组/通播组互联属性</label> <select class="form-control"
-										id="E_iaId" name="E_iaId" ng-model="userseriaName">
-										<option ng-repeat="x in userseriaData" value="{{x.id}}">{{x.name}}</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>通播组业务属性</label> <select class="form-control" id="E_saId"
-										name="E_saId" ng-model="userbusinessName">
-										<option ng-repeat="x in userbusinessData" value="{{x.id}}">{{x.name}}</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>预占使能</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_preempt" id="E_preempt"
-										required="required">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>重组使能</label> <input type="number" value=""
-										oninput="if(value.length>20)value=value.slice(0,20)"
-										class="form-control" name="E_regroupable" id="E_regroupable" required="required">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>pdt类型(0或581)</label> <input type=number value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_pdtType" id="E_pdtType"
-										required="required">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>np类型(0-1000)</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_npType" id="E_npType"
-										required="required">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>组使能</label> <input type="number" value=""
-										oninput="if(value.length>11)value=value.slice(0,11)"
-										class="form-control" name="E_enabled" id="E_enabled" required="required">
-								</div>
-							</div>
-						</div>
-						<div class="text-right m-t-xs">
-							<button type="button" class="btn btn-danger btn-sm"
-								data-dismiss="modal">
-								<i class="fa fa-remove"></i>&nbsp;关闭
-							</button>
-							<button type="button" ng-disabled="form.$invalid"
-								class="btn btn-success btn-sm" id="add_group_btn">
-								<i class="fa fa-plus"></i>&nbsp;添加
-							</button>
-						</div>
+					<div class="col-md-12 form-heading form-heading-white">基本信息</div>
+					<div class="form-group col-md-12" ng-show="false">
+						<label>入网流程ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+							type="text" value="" class="form-control" name="id_joinNet"
+							required="required" ng-model="joinNetProcessId">
 					</div>
+					<div class="col-md-12">
+						<span>用户类型 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="tak1" value="0" name="E_radioType"
+								checked="true"> <label for="tak1">TETRA </label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="tak2" value="1" name="E_radioType">
+							<label for="tak2">PDT</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="tak3" value="2" name="E_radioType">
+							<label for="tak3">DMR </label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="tak4" value="3" name="E_radioType">
+							<label for="tak4">MPT1327</label>
+						</div>
+
+					</div>
+					<div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>ID</label> <input type="number" class="form-control"
+							name="TalkgroupID"
+							oninput="if(value.length>20)value=value.slice(0,20)"
+							required="required">
+					</div>
+					<div class="form-group col-md-6" ng-if="isChecked1">
+						<label class="text-primary">起始ID</label> <input type="number"
+							class="form-control" name="TalkgroupIDS"
+							oninput="if(value.length>20)value=value.slice(0,20)">
+					</div>
+					<div class="form-group col-md-6" ng-if="isChecked1">
+						<label class="text-primary">结束ID</label> <input type="number"
+							class="form-control" name="TalkgroupIDE"
+							oninput="if(value.length>20)value=value.slice(0,20)">
+					</div>
+					<div class="form-group col-md-6">
+						<label>通话组名称</label> <input type="text" class="form-control"
+							name="E_name">
+					</div>
+					<div class="form-group col-md-6">
+						<label>通话组别名</label> <input type="text" class="form-control"
+							name="E_alias">
+					</div>
+					<div class="form-group col-md-6">
+						<label>交换中心唯一标识</label> <select class="form-control"
+							name="E_mscId" ng-model="mscName">
+							<option ng-repeat="x in msc" value="{{x.vpnId}}">{{x.name}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-6">
+						<label>虚拟专网名</label> <select class="form-control" id="E_vpnId"
+							name="E_vpnId" ng-model="vpnName">
+							<option ng-repeat="x in vpn" value="{{x.vpnId}}">{{x.name}}</option>
+						</select>
+					</div>
+					<!-- 基本信息 -->
+					<div class="col-md-12 form-heading form-heading-white">属性信息</div>
+					<div class="form-group col-md-12">
+						<label>通话组/通播组业务属性</label> <select class="form-control"
+							name="E_saId" ng-model="userbusinessName">
+							<option ng-repeat="x in userbusinessData" value="{{x.id}}">{{x.name}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-12">
+						<label>通话组/通播组互联属性</label> <select class="form-control"
+							name="E_iaId" ng-model="userseriaName">
+							<option ng-repeat="x in userseriaData" value="{{x.id}}">{{x.name}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-12">
+						<label>用户虚拟专网属性名</label> <input type="number" value=""
+							oninput="if(value.length>11)value=value.slice(0,11)"
+							class="form-control" name="E_vaId">
+					</div>
+					<div class="form-group col-md-12">
+						<span>允许预占 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_preempt1" value="1" name="E_preempt"
+								checked="true"> <label for="E_preempt1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_preempt2" value="0" name="E_preempt">
+							<label for="E_preempt2">否</label>
+						</div>
+
+
+					</div>
+					<!-- 属性信息 -->
+					<div class="col-md-12 form-heading form-heading-white">鉴权参数</div>
+
+					<div class="form-group col-md-12">
+						<span>允许重组 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_regroupable1" value="1"
+								name="E_regroupable" checked="true"> <label
+								for="E_regroupable1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_regroupable2" value="0"
+								name="E_regroupable"> <label for="E_regroupable2">否</label>
+						</div>
+
+
+					</div>
+					<div class="form-group col-md-12">
+						<span>组使能 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_enabled1" value="1" name="E_enabled"
+								checked="true"> <label for="E_enabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="E_enabled2" value="0" name="E_enabled">
+							<label for="E_enabled2">否</label>
+						</div>
+
+
+
+					</div>
+					<div class="form-group col-md-12">
+						<label>直拨号码</label> <input type="text" value=""
+							oninput="if(value.length>16)value=value.slice(0,16)"
+							class="form-control" name="E_directDial">
+					</div>
+					<!-- 鉴权参数 -->
+
 				</form>
 			</div>
-			<div class="modal-footer"></div>
+			<div class="modal-footer">
+			<button type="button"
+					class="btn btn-success btn-sm" id="add_group_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 	$("#add_group_btn").click(function() {
+		 if($("input[name='moregroup']").is(':checked')){
+				if($("input[name='TalkgroupIDE']").val()-$("input[name='TalkgroupIDS']").val()<0){
+					toastr.error("ID范围不正确", '提示');
+					return;
+				}
+				
+			}else{
+				if($("input[name='TalkgroupID']").val()<0){
+					toastr.error("ID不正确", '提示');
+					return;
+				}
+				
+			} 
 		$('#addTalkGroupForm').submit();
 		xh.addTGroup();
-		
+
 	});
 	/* var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
@@ -223,7 +201,7 @@
 	$('#addTalkGroupForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		fields : {
-			C_ID : {
+			TalkgroupID : {
 				validators : {
 					notEmpty : {
 						message : '通话组ID号不能为空'

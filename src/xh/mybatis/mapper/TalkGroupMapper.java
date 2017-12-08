@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.TalkGroup;
+import xh.mybatis.bean.TalkGroupBean;
 
 public interface TalkGroupMapper {
 	/**
@@ -30,11 +31,19 @@ public interface TalkGroupMapper {
 	public int  Count(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 根据通话组ID判断组是否存在
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public int  isExists(int id)throws Exception;
+	
+	/**
 	 * 增加组
 	 * @return
 	 * @throws Exception
 	 */
-	public int  insertTalkGroup(Map<String,Object> map)throws Exception;
+	public int  insertTalkGroup(TalkGroupBean bean)throws Exception;
 	
 	/**
 	 * 获取交换中心标识列表 

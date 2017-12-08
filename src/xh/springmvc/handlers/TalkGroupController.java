@@ -6,15 +6,20 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.service.RadioUserSeriaService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
@@ -114,33 +119,45 @@ public class TalkGroupController {
 	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		int count = 0;
+		int resultCode=0;
 		int userId=funUtil.loginUserId(request);
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		Enumeration rnames=request.getParameterNames();
-		for (Enumeration e = rnames ; e.hasMoreElements() ;) {
-			String thisName=e.nextElement().toString();
-			String thisValue=request.getParameter(thisName);
-			map.put(thisName, thisValue);
-		}
-		map.put("userId",userId);
-		map.put("time",funUtil.nowDate());
-		if(map.get("TalkgroupID") == null
-				&& map.get("TalkgroupIDS")!=null && map.get("TalkgroupIDE")!=null
-				&& Integer.parseInt(map.get("TalkgroupIDS").toString())<Integer.parseInt(map.get("TalkgroupIDE").toString())){
-			int TalkgroupIDS = Integer.parseInt(map.get("TalkgroupIDS").toString());
-			int TalkgroupIDE = Integer.parseInt(map.get("TalkgroupIDE").toString());
-			for(int i = TalkgroupIDS;i <= TalkgroupIDE; i++){
-				map.put("TalkgroupID",i);
-				count+=TalkGroupService.insertTalkGroup(map);
+		
+		String formData=request.getParameter("formData");
+		TalkGroupBean groupbean=GsonUtil.json2Object(formData, TalkGroupBean.class);
+		
+		groupbean.setTime(funUtil.nowDate());
+		
+		if(groupbean.getTalkgroupIDE()==0 || groupbean.getTalkgroupIDS()==0){
+			if(TalkGroupService.isExists(groupbean.getTalkgroupID())>0){
+				this.success=true;
+				this.message="改通话组已经存在";
+			}else{
+				resultCode=TalkGroupService.insertTalkGroup(groupbean);
+				if(resultCode>0){
+					this.success=true;
+					this.message="通话组添加成功";
+				}else{
+					this.success=false;
+					this.message="添加失败，请检查参数是否合法";
+				}
 			}
-		}
-		else {
-			count=TalkGroupService.insertTalkGroup(map);
-			System.out.println("------" + count);
+		}else{
+			String name=groupbean.getE_name();
+			for(int i=groupbean.getTalkgroupIDS();i<groupbean.getTalkgroupIDE();i++){
+				groupbean.setTalkgroupID(i);
+				groupbean.setE_name(name+i);
+				resultCode=TalkGroupService.insertTalkGroup(groupbean);
+				if(resultCode>0){
+					this.success=true;
+					this.message="添加成功";
+				}
+			}
+			
 		}
 			HashMap result = new HashMap();
 			result.put("success", success);
-			result.put("result",count);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
 			String jsonstr = json.Encode(result);
 			try {
 				response.getWriter().write(jsonstr);

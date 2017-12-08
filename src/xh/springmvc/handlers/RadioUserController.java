@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.JoinNetBean;
+import xh.mybatis.bean.RadioUserBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.JoinNetService;
@@ -79,52 +81,55 @@ public class RadioUserController {
 	 */
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
-		int userId=funUtil.loginUserId(request);
-		int count = 0;
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		Enumeration rnames=request.getParameterNames();
-		for (Enumeration e = rnames ; e.hasMoreElements() ;) {
-			String thisName=e.nextElement().toString();
-			String thisValue=request.getParameter(thisName);
-			map.put(thisName, thisValue);
-		}
-		map.put("userId",userId);
-		map.put("time",funUtil.nowDate());
-		if(map.get("C_ID") == null
-				&& map.get("C_IDS")!=null && map.get("C_IDE")!=null
-				&& Integer.parseInt(map.get("C_IDS").toString())<Integer.parseInt(map.get("C_IDE").toString())){
-			int C_IDS = Integer.parseInt(map.get("C_IDS").toString());
-			int C_IDE = Integer.parseInt(map.get("C_IDE").toString());
-			for(int i = C_IDS;i <= C_IDE; i++){
-				map.put("C_ID",i);
-				count+=RadioUserService.insertRadioUser(map);
-			}
-		}
-		else {
-			count=RadioUserService.insertRadioUser(map);
-		}
 		
-		/*	Enumeration rnames=request.getParameterNames();
-			for (Enumeration e = rnames ; e.hasMoreElements() ;) {
-			         String thisName=e.nextElement().toString();
-			        String thisValue=request.getParameter(thisName);
-			        map.put(thisName, thisValue);
+		String formData=request.getParameter("formData");
+		int resultCode=0;
+		
+		RadioUserBean userbean=GsonUtil.json2Object(formData, RadioUserBean.class);
+		
+		userbean.setTime(funUtil.nowDate());
+		if(userbean.getC_IDE()==0 || userbean.getC_IDS()==0){
+			if(RadioUserService.radioUserIsExists(userbean.getC_ID())>0){
+				this.success=false;
+				this.message="该用户已经存在";
+			}else{
+				resultCode=RadioUserService.insertRadioUser(userbean);
+				if(resultCode>0){
+					this.success=true;
+					this.message="用户添加";
+					JoinNetBean bean = new JoinNetBean();
+					bean.setId(userbean.getId_JoinNet());
+					bean.setChecked(9);
+					JoinNetService.updateCheckById(bean);
+				}else{
+					this.success=false;
+					this.message="添加失败，请检查填写的参数是否合法";
+				}
+				
 			}
-			map.put("userId", userId);*/
-			//如果通过入网流程添加，则改变入网流程check
-			int rst = 0;
-			if(map.get("id_JoinNet") != null){
-				JoinNetBean bean = new JoinNetBean();
-				bean.setId(Integer.parseInt((String) map.get("id_JoinNet")));
-				bean.setChecked(9);
-				rst = JoinNetService.updateCheckById(bean);
+		}else{
+			String name=userbean.getE_name();
+			for(int i=userbean.getC_IDS();i<=userbean.getC_IDE();i++){
+				if(RadioUserService.radioUserIsExists(i)<1){
+					userbean.setC_ID(i);
+					userbean.setE_name(name+i);
+					resultCode=RadioUserService.insertRadioUser(userbean);
+					if(resultCode>0){
+						this.success=true;
+						this.message="用户添加成功";
+						JoinNetBean bean = new JoinNetBean();
+						bean.setId(userbean.getId_JoinNet());
+						bean.setChecked(9);
+						JoinNetService.updateCheckById(bean);
+					}
+				}
 			}
-			
-			//rst += RadioUserService.insertRadioUser(map);
+		}
+	
 			HashMap result = new HashMap();
 			result.put("success", success);
-			result.put("result",rst + count);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
 			String jsonstr = json.Encode(result);
 			try {
 				response.getWriter().write(jsonstr);
