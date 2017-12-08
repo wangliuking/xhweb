@@ -22,16 +22,27 @@
 		</if>
 		group by a.bsId
 	</select>
+	
+	<!-- 查询单个基站的排队数 -->
+	<select id="selectNumTotalsByBsId" resultType="java.util.HashMap"
+		parameterType="String" useCache="true">
+		select bsId,sum(queuedAllocReq) as numtotals from xhgmnet_bs_channel_info where bsId=#{bsId}
+	</select>
 
 	<!--不规则区域圈选查询 -->
 	<select id="polyline" parameterType="map"
 		resultType="java.util.HashMap" useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where a.bsId in 
+		select a.*,b.link as bsStatus,c.queTotals,d.num from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
+		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as c on a.bsId=c.bsId LEFT JOIN 
+		(select bsId,name,count(Call_TS_Id) as num from ${currentMonth} as a
+		left join xhgmnet.xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id) as d 
+		on a.bsId=d.bsId where a.bsId in
 		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
          #{item}
         </foreach>
-		group by a.bsId order by bsId asc limit #{start},#{limit}
+		group by a.bsId order by a.bsId asc limit #{start},#{limit}
 	</select>
 	<!--不规则区域圈选总数 -->
 	<select id="polylineCount" parameterType="map" resultType="int"
@@ -45,8 +56,14 @@
 	<!--区域圈选查询 -->
 	<select id="rectangle" parameterType="map"
 		resultType="map" useCache="true">
-		select a.*,b.link as bsStatus from xhgmnet_bs_station as a left join
-		xhgmnet_bsstatus as b on a.bsId=b.bsId where lng between #{smallLng} and #{bigLng} and lat
+		select a.*,b.link as bsStatus,c.queTotals,d.num from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
+		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as c on a.bsId=c.bsId LEFT JOIN 
+		(select bsId,name,count(Call_TS_Id) as num from ${currentMonth} as a
+		left join xhgmnet.xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id) as d 
+		on a.bsId=d.bsId 
+		where lng between #{smallLng} and #{bigLng} and lat
 		between #{smallLat} and #{bigLat}
 		GROUP BY a.bsId order by a.bsId asc limit #{start},#{limit}
 	</select>
@@ -56,5 +73,6 @@
 		select count(*) from xhgmnet_bs_station where lng between
 		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
 	</select>
+	
 
 </mapper>
