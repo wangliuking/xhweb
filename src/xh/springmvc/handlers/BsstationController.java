@@ -194,12 +194,25 @@ public class BsstationController {
 		int link=Integer.parseInt(request.getParameter("link"));
 		int status=Integer.parseInt(request.getParameter("status"));
 		String usergroup=request.getParameter("usergroup");
+		String bsId=request.getParameter("bsIds");
+		List<String> bslist=new ArrayList<String>();
+		int size=0;
+		if(bsId!=""){
+			String[] bsIds=bsId.split(",");
+			for (String string : bsIds) {
+				bslist.add(string);
+			}
+			size=bslist.size();
+		}
+		
 		Map<String,Object> paramMap=new HashMap<String, Object>();
 		paramMap.put("type", type);
 		paramMap.put("zone", zone);
 		paramMap.put("link", link);
 		paramMap.put("status",status);
 		paramMap.put("usergroup",usergroup);
+		paramMap.put("bslist",bslist);
+		paramMap.put("size",size);
 		
 		
 		List<HashMap> list=	 BsstationService.allBsInfo(paramMap);

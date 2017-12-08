@@ -46,7 +46,7 @@
 				<property name="url" value="${xh.master.url}" />
 				<property name="username" value="${xh.master.username}" />
 				<property name="password" value="${xh.master.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -64,7 +64,7 @@
 				<property name="url" value="${xh.slave.url}" />
 				<property name="username" value="${xh.slave.username}" />
 				<property name="password" value="${xh.slave.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -83,7 +83,7 @@
 				<property name="url" value="${xh.gps_voice_master.url}" />
 				<property name="username" value="${xh.gps_voice_master.username}" />
 				<property name="password" value="${xh.gps_voice_master.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -102,7 +102,7 @@
 				<property name="url" value="${xh.gps_voice_slave.url}" />
 				<property name="username" value="${xh.gps_voice_slave.username}" />
 				<property name="password" value="${xh.gps_voice_slave.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -116,7 +116,7 @@
 				<property name="url" value="${xh.emh.url}" />
 				<property name="username" value="${xh.emh.username}" />
 				<property name="password" value="${xh.emh.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -130,7 +130,7 @@
 				<property name="url" value="${xh.mysql.url}" />
 				<property name="username" value="${xh.mysql.username}" />
 				<property name="password" value="${xh.mysql.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
+				<property name="poolPingQuery" value="SELECT 1" />
               <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
@@ -145,7 +145,7 @@
 				<property name="url" value="${sqlserver.url}" />
 				<property name="username" value="${sqlserver.username}" />
 				<property name="password" value="${sqlserver.password}" />
-				<!-- <property name="poolPingQuery" value="SELECT NOW()" /> -->
+				<!-- <property name="poolPingQuery" value="SELECT 1" /> -->
 				<property name="poolMaximumActiveConnections" value="50" />
             <!--   <property name="poolPingEnabled" value="true" /> -->
 			</dataSource>

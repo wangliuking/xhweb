@@ -37,7 +37,7 @@
 	<select id="monitorBsofflineList"  resultType="map"
 		useCache="true">
 		select a.bsId,a.time,b.name from view_bsstatus as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId order by a.time desc
 		 where link=1
 	</select>
 	<!--查询所有基站 -->
@@ -66,24 +66,37 @@
 		) as temp group by bsId) as d on a.bsId=d.bsId
 
 		where 1=1
+		<if test="size==0">
+		
 		<if test="usergroup==null or usergroup==''">
-		<if test="type!=0">
+		   <if test="type!=0">
 			and a.level=#{type}
-		</if>
-		<if test="status!=2">
+		   </if>
+		   <if test="status!=2">
 			and a.status=#{status}
-		</if>
-		<if test="zone!='全部'">
+		   </if>
+		   <if test="zone!='全部'">
 			and a.zone=#{zone}
-		</if>
-		<if test="link!=2">
+		   </if>
+		   <if test="link!=2">
 			and a.bsId in(select bsId from view_bsstatus where
 			link=#{link})
-		</if>
+		    </if>
 		</if>
 		<if test="usergroup!=null and usergroup!=''">
 		    and a.bsId in (select bsId from xhgmnet_operations_userstatus where userId=${usergroup} or TGid=${usergroup})
 		</if>
+		
+		</if>
+		
+		<if test="size>0">
+		    and a.bsId in (
+		    <foreach collection="bslist" item="id" separator=",">
+			#{id}
+		   </foreach>
+		    )
+		</if>
+		
 		order by a.bsId asc
 	</select>
 	<!--根据基站ID,判断该基站相邻小区是否存在 -->

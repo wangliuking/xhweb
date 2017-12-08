@@ -3,8 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.mapper.RadioUserMapper;
 import xh.mybatis.mapper.TalkGroupMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -91,6 +93,24 @@ public class TalkGroupService {
 		return count;
 	}
 	/**
+	 * 根据通话组ID判断组是否存在
+	 * @param id
+	 * @return
+	 */
+	public static int isExists(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		int count = 0;
+		try {
+			count = mapper.isExists(id);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
 	 * 根据ID获取组名称
 	 * @param id
 	 * @return
@@ -115,13 +135,13 @@ public class TalkGroupService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static int insertTalkGroup(HashMap<String,Object> map) {
+	public static int insertTalkGroup(TalkGroupBean bean) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
 		int count = 0;
 		try {
 			if (count == 0) {
-				mapper.insertTalkGroup(map);
+				mapper.insertTalkGroup(bean);
 			}
 			sqlSession.commit();
 			sqlSession.close();

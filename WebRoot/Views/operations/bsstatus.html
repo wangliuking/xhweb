@@ -40,7 +40,7 @@
 	.bsList .bs-litter-box{
  float: left;
 /*  margin: 5px; */
-	min-width: 250px;
+	min-width: 270px;
 	line-height: 18px;
 	border-top: 1px solid gray;
 	border-right: 1px solid gray;
@@ -268,9 +268,11 @@
 	
 	<aside id="aside-right" class="animated fadeInLeft">
 	<div class="bsList">
+	
+	<div ng-if="bs_search_totals==0">没有基站相关数据</div>
 	<div class="bs-litter-box" ng-repeat="x in bs_search_data" ng-click="bssearch()">
-	<input id="bs-{{x.bsId}}" class="magic-checkbox" type="checkbox" name="bsIds" value="{{x.bsId}}" style="margin-top:30px;"> 
-	<label for="bs-{{x.bsId}}"><span>{{x.name}}</span></label>
+	<input id="bs-{{x.bsId}}"  class="magic-checkbox" type="checkbox" name="bsIds" value="{{x.bsId}}" style="margin-top:30px;"> 
+	<label for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
 	
 	</div>
 	</div>

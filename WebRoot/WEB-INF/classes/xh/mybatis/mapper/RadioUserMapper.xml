@@ -8,6 +8,11 @@
 		useCache="true">
 		select * from xhgmnet_radiouser
 	</select>
+	<!--根据无线用户ID判断用户是否存在 -->
+	<select id="radioUserIsExists" parameterType="int" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser where C_ID=#{id}
+	</select>
 	<!--根据无线用户ID，名称查找相关记录 -->
 	<select id="radiouserById" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
@@ -41,7 +46,7 @@
 
 	<!--增加无线用户 -->
 	<insert id="insertRadioUser" useGeneratedKeys="true" keyProperty="id"
-		parameterType="java.util.Map">
+		parameterType="xh.mybatis.bean.RadioUserBean">
 		insert into
 		xhgmnet_radiouser(C_ID,M_RadioUserAlias,M_SecurityGroup,M_EmergencyAlarmComments,M_InterconnectEnabled,M_PacketDataEnabled,
 		M_ShortDataEnabled,M_FullDuplexEnabled,M_ExtendedBandchannelscanbeassigned,M_RadioUserCapabilityProfileAlias,
@@ -51,12 +56,12 @@
 		M_QAMDataEnabled,M_StoreandForwardEnabled,E_name,E_alias,E_mscId,E_vpnId,E_sn,E_company,E_type,E_enabled,E_shortData,E_fullDuple,
 		E_radioType,E_anycall,E_saId,E_iaId,E_vaId,E_rutgId,E_ip,E_PrimaryTGId,E_ambienceMonitoring,E_packetData,E_ambienceInitiation,
 		E_directDial,E_PSTNAccess,E_pabxAccess,E_clir,E_clirOverride,E_killed,E_msType,E_status,pdtType,npType,
-		esn,subscriberClass,brdgFrdEnabled,authRequired,txPriority,serialNum,tei,id_JoinNet)
+		esn,subscriberClass,brdgFrdEnabled,authRequired,txPriority,serialNum,tei,id_JoinNet,time,userType)
 		values(#{C_ID}, '', '', '', 0, 0, 0, 0, 0, '', '', '', 0, 0, '', '', 0, 0, 0, 0, 0, '', 0, 0, '', 0, 0, 0, 0,
 		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_sn},#{E_company},#{E_type},#{E_enabled},#{E_shortData},#{E_fullDuple},
 		#{E_radioType},#{E_anycall},#{E_saId},#{E_iaId},#{E_vaId},#{E_rutgId},#{E_ip},#{E_PrimaryTGId},#{E_ambienceMonitoring},#{E_packetData},#{E_ambienceInitiation},
 		#{E_directDial},#{E_PSTNAccess},#{E_pabxAccess},#{E_clir},#{E_clirOverride},#{E_killed},#{E_msType},#{E_status},#{pdtType},#{npType},
-		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{userId})
+		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{id_JoinNet},#{time},#{userType})
 	</insert>
 
 	<!--更新无线用户 -->

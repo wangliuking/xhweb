@@ -1814,6 +1814,20 @@ body.fullscreen-panel-mode {
 	vertical-align: bottom
 }
 /* /* 弹出框  */
+
+.form-heading{
+	border-radius: 0;
+	border: 1px;
+	padding: 10px 2em 10px 15px;
+	/* position: relative; */
+	height:40px;
+	margin-bottom:10px;
+}
+.form-heading-white{
+	background-color: #fafafa;
+	border-left: 3px solid #648e33;
+	color: #000
+}
 .alert {
 	border-radius: 0;
 	border: 0;
@@ -1917,6 +1931,19 @@ line-height
 
 .alert-info .close,.alert-info .alert-link {
 	color: #fff
+}
+
+
+
+.alert-white {
+	background-color: #fafafa;
+	border-color: transparent;
+	border-left: 3px solid #648e33;
+	color: #000
+}
+
+.alert-success .close,.alert-success .alert-link {
+	color: #000
 }
 
 .alert-success {
@@ -3335,4 +3362,8 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	border: none;
 }
 /* zTree样式 */
+
+.modal-llg{
+	width:1200px;
+}
 

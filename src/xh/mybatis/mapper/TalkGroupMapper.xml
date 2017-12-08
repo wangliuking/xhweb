@@ -34,6 +34,11 @@
 		useCache="true">
 		select E_name from xhgmnet_talkgroup where TalkgroupID=#{id} limit 1
   </select>
+  <!-- 根据通话组ID判断组是否存在 -->
+  <select id="isExists" parameterType="int" resultType="int"
+		useCache="true">
+		select count(id) from xhgmnet_talkgroup where TalkgroupID=#{id}
+  </select>  
   <select id="ById" parameterType="map" resultMap="BaseResultMap"
 		useCache="true">
 		select * from xhgmnet_talkgroup where 1=1
@@ -57,7 +62,7 @@
 		</if>
 	</select>
   <!-- 增加组 --><insert id="insertTalkGroup" useGeneratedKeys="true" keyProperty="id"
-		parameterType="java.util.Map">
+		parameterType="xh.mybatis.bean.TalkGroupBean">
 		insert into
 		xhgmnet_talkgroup(TalkgroupID,M_TalkgroupAlias,M_SecurityGroup,M_ConsoleTGMGCapabilityProfileAlias,M_TGMGCapabilityProfileAlias,M_TGMGValidSitesProfileAlias,
 		M_PreemptCapable,M_ExtendedBandchannelscanbeassigned,M_TalkgroupRegroupable,M_GroupEnable,

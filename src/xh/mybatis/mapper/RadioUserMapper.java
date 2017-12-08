@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.RadioUserBean;
+
 public interface RadioUserMapper {
 	/**
 	 * 查询无线用户信息
@@ -10,6 +12,14 @@ public interface RadioUserMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap<String,String>> radiouserById(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据无线用户ID判断用户是否存在
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int  radioUserIsExists(int id)throws Exception;
 	
 	/**
 	 * 无线用户总数
@@ -23,7 +33,7 @@ public interface RadioUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int  insertRadioUser(Map<String,Object> map)throws Exception;
+	public int  insertRadioUser(RadioUserBean bean)throws Exception;
 	/**
 	 * 根据无线用户ID修改用户
 	 * @return

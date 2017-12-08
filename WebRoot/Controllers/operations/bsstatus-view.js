@@ -46,23 +46,8 @@ xh.load = function() {
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		$scope.period = $location.search().period;
-		
-
-		
-		
-
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		/*$http.get("../../bs/map/dataById?bsId=" + bsId).success(
-				function(response) {
-					$scope.bsinfoData = response.items[0];
-				});*/
-		
-	
-		
-
-	
-		
 		//环控摄像头
 		$scope.initCamera = function(){
 			//查询环控设备的IP
