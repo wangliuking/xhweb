@@ -3,6 +3,7 @@ package xh.springmvc.handlers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.AmapService;
+import xh.mybatis.service.RadioStatusService;
 
 
 @Controller
@@ -74,12 +76,51 @@ public class AmapController {
 	}
 	
 	/**
+	 * 根据bsId查询单个基站的排队数及其他（注册组和注册用户）
+	 */
+	@RequestMapping("/map/numtotals")
+	@ResponseBody
+	public void selectNumTotalsByBsId(HttpServletRequest request, HttpServletResponse response){
+		try {
+			AmapService AmapService = new AmapService();
+			String bsId = request.getParameter("bsId");
+			HashMap map = new HashMap();
+			List<HashMap<String, String>> listMap = AmapService.selectNumTotalsByBsId(bsId);
+			int radioTotals = RadioStatusService.oneBsRadioCount(Integer.parseInt(bsId));
+			int groupTotals = RadioStatusService.oneBsGroupCount(Integer.parseInt(bsId));
+			map.put("items", listMap);
+			map.put("radioTotals", radioTotals);
+			map.put("groupTotals", groupTotals);
+			response.setContentType("application/json;charset=utf-8");
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
 	 * 不规则圈选功能查询
 	 */
 	@RequestMapping("/polyline")
 	@ResponseBody
 	public void polyline(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		//判断当前时间查询话务量
+		Calendar cal = Calendar.getInstance();
+		int temp = cal.get(Calendar.MONTH)+1;
+		String currentMonth;
+		if(temp<10){
+			currentMonth="0"+temp;
+		}else{
+			currentMonth=Integer.toString(temp);
+		}
+		currentMonth="xhgmnet_gps_voice.xhgmnet_calllist"+currentMonth;
+		
 		String params=request.getParameter("params");
 		String [] strArray= params.split(",");
 		List<String> groupData = Arrays.asList(strArray);
@@ -87,6 +128,7 @@ public class AmapController {
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("groupData", groupData);
+		map.put("currentMonth", currentMonth);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
@@ -110,7 +152,18 @@ public class AmapController {
 	@RequestMapping("/rectangle")
 	@ResponseBody
 	public void rectangle(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
+		this.success = true;
+		// 判断当前时间查询话务量
+		Calendar cal = Calendar.getInstance();
+		int tempTime = cal.get(Calendar.MONTH) + 1;
+		String currentMonth;
+		if (tempTime < 10) {
+			currentMonth = "0" + tempTime;
+		} else {
+			currentMonth = Integer.toString(tempTime);
+		}
+		currentMonth = "xhgmnet_gps_voice.xhgmnet_calllist" + currentMonth;
+		
 		String params=request.getParameter("params");
 		String [] temp= params.split(",");
 		String smallLng;
@@ -134,6 +187,7 @@ public class AmapController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("currentMonth", currentMonth);
 		map.put("smallLng", smallLng);
 		map.put("bigLng", bigLng);
 		map.put("smallLat", smallLat);

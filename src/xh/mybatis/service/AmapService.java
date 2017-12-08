@@ -25,6 +25,18 @@ public class AmapService {
 	        session.close();
 	        return Amap;   
 	}
+	
+	/**
+	 * 根据基站id查询单个基站的排队数
+	 */
+	public List<HashMap<String, String>> selectNumTotalsByBsId(String bsId) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> Amap=mapper.selectNumTotalsByBsId(bsId);
+	        session.commit();  
+	        session.close();
+	        return Amap;   
+	}
 
 	
 	/**

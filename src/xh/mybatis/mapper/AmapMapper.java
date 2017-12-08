@@ -10,6 +10,12 @@ public interface AmapMapper {
 	 * @author wlk
 	 */
 	public List<HashMap<String,String>> bsByBoth(Map<String,List<String>> map) throws Exception;
+	
+	/**
+	 * 根据bsId查询单个基站的排队数
+	 */
+	public List<HashMap<String,String>> selectNumTotalsByBsId(String bsId) throws Exception;
+	
 	/**
 	 * 不规则圈选基站查询
 	 * @return
