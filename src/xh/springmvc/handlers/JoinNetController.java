@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -742,8 +743,21 @@ public class JoinNetController {
 		log.info("fileName==>" + fileName);
 		log.info("文件--id---"+id);
 		List<Integer> list = JoinNetService.getUserCIDByID(id);
-		if (funUtil.isInteger(fileName.split(".")[0])) {
-			if (list.contains(Integer.parseInt(fileName.split(".")[0]))) {
+		
+		
+		log.info("编程底板：=>"+Arrays.toString(list.toArray()));
+		
+		
+		
+		
+		
+		if (funUtil.isInteger(fileName.split("\\.")[0])) {
+			
+			log.info("编程底板123：=>"+fileName.split("\\.")[0]);
+			
+			
+			
+			if (list.contains(Integer.parseInt(fileName.split("\\.")[0]))) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("id_JoinNet", request.getParameter("joinNetId"));
 				map.put("fileName", fileName);

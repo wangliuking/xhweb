@@ -147,6 +147,7 @@ public class JoinNetService {
 		int result=0;
 		try {
 			result=mapper.insertProgramingTemplate(map);
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

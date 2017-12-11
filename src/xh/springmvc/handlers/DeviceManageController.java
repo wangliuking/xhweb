@@ -119,11 +119,13 @@ public class DeviceManageController {
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(1);
-            webLogBean.setContent("业务变更申请信息，data=" + bean.toString());
+            webLogBean.setContent("业务变更申请信息，["+bean.getRequest()+"]");
             WebLogService.writeLog(webLogBean);
+            
+            log.info("发送邮件");
 
             //----发送通知邮件
-            sendNotifytoGroup("b_check_devicemanage", "业务变更申请信息已经成功提交,请审核。。。", request);
+            sendNotifytoGroup("b_check_businesschange",10002, "业务变更申请信息，["+bean.getRequest()+"]请审核!", request);
             //----END
         } else {
             this.message = "业务变更申请信息提交失败";
@@ -174,11 +176,11 @@ public class DeviceManageController {
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("审核遥控申请，data=" + bean.toString());
+            webLogBean.setContent("通知经办人处理(业务变更申请)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotifytoSingle(user, "业务变更信息审核，请管理部门领导审核并处理。。。", request);
+            sendNotifytoSingle(user, "业务变更申请，请及时处理处理!", request);
             //----END
         } else {
             this.message = "审核提交失败";
@@ -212,7 +214,8 @@ public class DeviceManageController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
-        String user3 = request.getParameter("user");
+        String user = request.getParameter("userName");
+        String user1 = request.getParameter("user1");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
         if(checked == 2){
@@ -233,7 +236,8 @@ public class DeviceManageController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotifytoSingle(user3, "业务变更完成,通知用户确认。。。", request);
+            sendNotifytoSingle(user, "业务变更完成,请确认。。。", request);
+            sendNotifytoSingle(user1, "业务变更完成,已通知用户确认。。。", request);
             //----END
         } else {
             this.message = "通知用户确认失败";
@@ -265,6 +269,8 @@ public class DeviceManageController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note3 = request.getParameter("note3");
+        String user1 = request.getParameter("user1");
+        String user2 = request.getParameter("user2");
         DeviceManageBean bean = new DeviceManageBean();
         bean.setId(id);
         bean.setTime3(funUtil.nowDate());
@@ -272,12 +278,16 @@ public class DeviceManageController {
         bean.setChecked(3);
         int rst = DeviceManageService.sureFile(bean);
         if (rst == 1) {
-            this.message = "确认遥控完成信息成功";
+            this.message = "确认业务变更完成信息成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("确认遥控完成信息，data=" + bean.toString());
+            webLogBean.setContent("确认业务变更完成信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+            
+            //----发送通知邮件
+            sendNotifytoSingle(user1, "用户已确认业务变更信息", request);
+            sendNotifytoSingle(user2, "用户已确认业务变更信息  ", request);
 
 
         } else {
@@ -304,7 +314,7 @@ public class DeviceManageController {
      * @param recvUser	邮件接收者
      * @param content	邮件内容
      * @param request
-     */
+     *//*
     public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
         //----发送通知邮件
         EmailBean emailBean = new EmailBean();
@@ -316,12 +326,12 @@ public class DeviceManageController {
         EmailService.insertEmail(emailBean);
         //----END
     }
-    /**
+    *//**
      * 发送邮件(指定权限)--保障申请
      * @param
      * @param content	邮件内容
      * @param request
-     */
+     *//*
     public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
         List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
         for(Map<String,Object> map : list){
@@ -335,6 +345,57 @@ public class DeviceManageController {
             EmailService.insertEmail(emailBean);
             //----END
         }
-    }
+    }*/
+    
+    /**
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle("业务变更申请");
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(funUtil.loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(funUtil.nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
+
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("业务变更申请");
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
 
 }

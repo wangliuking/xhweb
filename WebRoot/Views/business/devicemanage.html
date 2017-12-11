@@ -35,10 +35,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- 头部文件 -->
-	<div ng-include="'../top.html'"></div>
-	<!-- 系统菜单 -->
-	<div ng-include="'../menu/business-menu.html'"></div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -56,53 +52,34 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
+			
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-body" style="padding-top:5px">
-							<!-- row -->
-							<div class="row">
-								<div class="col-md-12" ng-model="loginUserRoleId">
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
-									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId < 1000 || loginUserRoleId > 10002" disabled="disabled">
+					<div class="panel-heading hbuilt">
+							<!-- <div class="panel-tools">
+										<a class="search-hide"> <i
+											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">筛选查询</span>
+										</a>
+									</div> -->
+							<i class="fa fa-indent text-danger"></i>&nbsp;业务变更申请列表
+						</div>
+						<div class="panel-body">
+						<div class="btn-group" ng-model="loginUserRoleId">
+
+									<button class="btn btn-success btn-sm" data-toggle="modal"
+										data-target="#add"
+										ng-if="loginUserRoleId == 10002 || loginUserRoleId == 1000">
 										<i class="fa fa-plus-circle"></i>&nbsp;业务申请变更
 									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10002 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;业务申请变更
-									</button>
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
-										<i class="fa fa-plus-circle"></i>&nbsp;
-									</button> -->
-									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改记录
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除记录
-									</button> -->
+
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
 										<i class="fa fa-refresh"></i>&nbsp;刷新
 									</button>
 								</div>
-							</div>
-							<!-- row -->
-						</div>
-						<!-- panel-body--end -->
-					</div>
-					<!-- hpanel --end-->
-				</div>
-				<!-- col-md-12--end -->
-			</div>
-			<!-- row/ -->
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-body">
+						
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
 								<thead>
@@ -126,34 +103,27 @@
 										<td>{{x.time}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
 										<td ng-if="x.checked==0" class="td-warning">等待管理方领导审核业务变更信息</td>
-										<td ng-if="x.checked==1" class="td-warning">等待管理方处理业务变更</td>
+										<td ng-if="x.checked==1" class="td-warning">经办人处理业务变更中！</td>
 										<td ng-if="x.checked==2" class="td-warning">等待用户单位确认</td>
 										<td ng-if="x.checked==3" class="td-success">流程结束</td>
-										<td style="text-align:center">
-
-										<a href="#"
+										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
-										</a> 
-
-										<a ng-if="loginUserRoleId==10002 && x.checked==0"
+												class="fa fa-file-text-o text-success"> </i>&nbsp;详情 </a> <a
+											ng-if="loginUserRoleId==10002 && x.checked==0 && up.b_check_businesschange=='on'" href="#"
+											ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a> <a
+											ng-if="	loginUserRoleId==10002 && x.checked==1 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
-										
-										<a ng-if="	loginUserRoleId==10002 && x.checked==1 && loginUser == x.checkUser"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
-										
-										<a class="text-danger"
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知用户确认</a> <a
+											class="text-danger"
 											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认</a>
-
-										</td>
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认
+										</a></td>
 									</tr>
 								</tbody>
 							</table>
-							<div class="page">
+							<div class="page" ng-if="totals>0">
 								<div class="page-info">
 									每页显示 <select id="page-limit" ng-change="refresh()"
 										ng-model="count">
@@ -174,9 +144,6 @@
 							</div>
 							<!-- row -->
 						</div>
-						<!-- panel-body--end -->
-						<div class="panel-footer"></div>
-						<!-- hpanel --end-->
 					</div>
 					<!-- col-md-12--end -->
 				</div>
@@ -184,7 +151,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -200,7 +167,8 @@
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/devicemanage.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/devicemanage.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">

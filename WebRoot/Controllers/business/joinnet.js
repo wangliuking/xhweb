@@ -1057,7 +1057,10 @@ xh.addTGroup = function() {
 		type : 'POST',
 		dataType : "json",
 		async : false,
-		data : $("#addTalkGroupForm").serializeArray(),
+		data:{
+			formData:xh.serializeJson($("#addTalkGroupForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		/*data : $("#addTalkGroupForm").serializeArray(),*/
 		success : function(data) {
 
 			if (data.success) {
@@ -1069,6 +1072,7 @@ xh.addTGroup = function() {
 			}
 		},
 		error : function() {
+			toastr.error("参数错误", '提示');
 		}
 	});
 }

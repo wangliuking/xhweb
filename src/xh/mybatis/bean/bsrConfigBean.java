@@ -4,11 +4,6 @@ public class bsrConfigBean {
 	private int  id; 
 	private String  bsId; 
 	private String  name; 
-	private String  bscId; 
-	private String  bscVersion; 
-	private String  bscIp; 
-	private String  bscIsEnable; 
-	private String  bscComment; 
 	private String  bsrId; 
 	private String  bsrIsEnable; 
 	private String  poweOne; 
@@ -33,36 +28,7 @@ public class bsrConfigBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBscId() {
-		return bscId;
-	}
-	public void setBscId(String bscId) {
-		this.bscId = bscId;
-	}
-	public String getBscVersion() {
-		return bscVersion;
-	}
-	public void setBscVersion(String bscVersion) {
-		this.bscVersion = bscVersion;
-	}
-	public String getBscIp() {
-		return bscIp;
-	}
-	public void setBscIp(String bscIp) {
-		this.bscIp = bscIp;
-	}
-	public String getBscIsEnable() {
-		return bscIsEnable;
-	}
-	public void setBscIsEnable(String bscIsEnable) {
-		this.bscIsEnable = bscIsEnable;
-	}
-	public String getBscComment() {
-		return bscComment;
-	}
-	public void setBscComment(String bscComment) {
-		this.bscComment = bscComment;
-	}
+	
 	public String getBsrId() {
 		return bsrId;
 	}

@@ -26,24 +26,22 @@
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
 									<label>联系人</label> <input type="text"
-										ng-model="editData.userUnit" class="form-control" name="userUnit"
-										required="required">
+										ng-model="editData.userUnit" class="form-control"
+										name="userUnit" required="required">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group col-md-12">
-									<label>联系人</label> <input type="text"
-										ng-model="editData.tel" class="form-control" name="tel"
-										required="required">
+									<label>联系人</label> <input type="text" ng-model="editData.tel"
+										class="form-control" name="tel" required="required">
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
-									<label>申请时间</label> <input type="text"
-										ng-model="editData.time" class="form-control" name="time"
-										required="required">
+									<label>申请时间</label> <input type="text" ng-model="editData.time"
+										class="form-control" name="time" required="required">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -63,11 +61,11 @@
 							<div class="col-md-3">
 								<div class="form-group col-md-12">
 									<label>变更原因</label> <input type="text"
-										ng-model="editData.reason" class="form-control"
-										name="request" required="required">
+										ng-model="editData.reason" class="form-control" name="request"
+										required="required">
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 					<!-- tab-pane--end -->
@@ -122,14 +120,14 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方处理请求中</h2>
+									<h2>经办人处理请求中</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
 									<span ng-if="progressData.checked==1"
-										class="cd-date text-danger">等待管理方处理请求！</span>
-									<span ng-if="progressData.checked>=2"
-										class="cd-date text-success font-bold text-x">管理方处理完成！
+										class="cd-date text-danger">等待经办人处理请求！</span> <span
+										ng-if="progressData.checked>=2"
+										class="cd-date text-success font-bold text-x">经办人处理完成！
 										处理时间：{{progressData.time2}}</span>
 								</div>
 							</div>
@@ -140,7 +138,7 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方处理请求成功，等待用户确认</h2>
+									<h2>用户确认</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note3}}</span>
 									</p>
@@ -150,18 +148,19 @@
 										class="cd-date text-success font-bold">用户确认，流程结束：{{progressData.time3}}</span>
 								</div>
 							</div>
-						<!-- cd-timeline-block end-->
-						<div class="cd-timeline-block">
-							<div class="cd-timeline-img-first cd-gray"
-								ng-if="progressData.checked<3">结束</div>
-							<div class="cd-timeline-img-first cd-green"
-								ng-if="progressData.checked>=3">结束</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.checked<3">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.checked>=3">结束</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	<!-- <div class="modal-footer">
+	
+		<!-- <div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-dismiss="modal">
 				<i class="fa fa-remove"></i>&nbsp;关闭
@@ -181,6 +180,6 @@
 				ng-if="loginUserRoleId != 10002">
 				<i class="fa fa-plus"></i>&nbsp;保存
 			</button> -->
-		</div>
+		</div></div>
 	</div>
 </div>

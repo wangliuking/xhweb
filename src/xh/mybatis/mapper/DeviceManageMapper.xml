@@ -13,13 +13,14 @@
         ,b.unitType as initType1
         ,b.userType as userType1
         from xhgmnet_bs_devicemanage as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
-        <choose>
+        and (a.userName=#{user} or a.user1=#{user} or a.user2=#{user})
+        <!-- <choose>
             <when test="roleId &gt;10002 || roleId &lt;10000">
                 and a.userName=#{user}
             </when>
             <otherwise>
             </otherwise>
-        </choose>
+        </choose> -->
 
         order by id desc limit #{start},#{limit}
     </select>

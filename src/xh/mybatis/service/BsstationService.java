@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
 import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.tools.DbTools;
@@ -288,6 +289,25 @@ public class BsstationService {
 	}
 	
 	/**
+	 * 根据基站ID,bscId判断该基站bsc是否存在
+	 * @param map
+	 * @return
+	 */
+	public static int bscconfigExists(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count = 0;
+		try {
+			count = mapper.bscconfigExists(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
 	 *  新增基站bsr
 	 * @param map
 	 * @return
@@ -308,6 +328,26 @@ public class BsstationService {
 	}
 	
 	/**
+	 *  新增基站bsc
+	 * @param map
+	 * @return
+	 */
+	public static int addBscconfig(bscConfigBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.addBscconfig(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	/**
 	 * 删除基站bsr
 	 * @param map
 	 * @return
@@ -318,6 +358,26 @@ public class BsstationService {
 		int rslt = 0;
 		try {
 			rslt = mapper.delBsrconfig(id);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rslt;
+	}
+	
+	/**
+	 * 删除基站bsc
+	 * @param map
+	 * @return
+	 */
+	public static int delBscconfig(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int rslt = 0;
+		try {
+			rslt = mapper.delBscconfig(id);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -454,6 +514,25 @@ public class BsstationService {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		try {
 			list=mapper.bsrconfigByBsId(bsId);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据基站ID查找基站BSC配置信息
+	 * @return
+	 */
+	public static List<Map<String,Object>>  bscconfigByBsId(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list=mapper.bscconfigByBsId(bsId);
 			sqlSession.close();
 			
 		} catch (Exception e) {

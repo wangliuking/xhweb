@@ -7,6 +7,7 @@ import java.util.Map;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
 
 public interface BsstationMapper {
@@ -99,12 +100,20 @@ public interface BsstationMapper {
 	
 	
 	/**
-	 * 根据基站ID,bscId,bsrId判断该基站bsr是否存在 
+	 * 根据基站ID,bsrId判断该基站bsr是否存在 
 	 * @param map
 	 * @return
 	 * @throws Exception
 	 */
 	public int bsrconfigExists(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据基站ID,bscId判断该基站bsc是否存在 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int bscconfigExists(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 新增基站bsr
@@ -114,6 +123,15 @@ public interface BsstationMapper {
 	 */
 	public int addBsrconfig(bsrConfigBean bean)throws Exception;
 	
+	
+	/**
+	 * 新增基站bsc
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int addBscconfig(bscConfigBean bean)throws Exception;
+	
 	/**
 	 * 删除基站bsr
 	 * @param map
@@ -121,6 +139,14 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public int delBsrconfig(int id)throws Exception;
+	
+	/**
+	 * 删除基站bsc
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int delBscconfig(int id)throws Exception;
 	
 	/**
 	 * 查询基站断站列表
@@ -174,6 +200,13 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>>  bsrconfigByBsId(int bsId)throws Exception;
+	
+	/**
+	 * 根据基站ID查找基站BSC配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  bscconfigByBsId(int bsId)throws Exception;
 	/**
 	 * 根据基站ID查找基站传输配置信息
 	 * @return

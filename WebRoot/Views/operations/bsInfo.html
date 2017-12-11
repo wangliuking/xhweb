@@ -132,39 +132,43 @@
 
 
 										<button class="btn btn-success btn-sm" data-toggle="modal"
-											data-target="#add" ng-disabled="">
+											data-target="#add" ng-disabled="" style="margin-top:5px;">
 											<i class="fa fa-plus-circle"></i>&nbsp;添加基站
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showEditModel()">
+											ng-click="showEditModel()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;修改基站
 										</button>
 										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-											ng-disabled="">
+											ng-disabled="" style="margin-top:5px;">
 											<i class="fa fa-trash"></i>&nbsp;批量删除基站
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showNeighborWin()">
+											ng-click="showNeighborWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;相邻小区配置
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
 											ng-click="showEditModel()" ng-show=false>
 											<i class="fa fa-edit"></i>&nbsp;切换参数配置
 										</button>
-										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showBsrConfigWin()">
+										<button class="btn btn-danger btn-sm" ng-disabled=""
+											ng-click="showBsrConfigWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;BSR配置
 										</button>
+										<button class="btn btn-danger btn-sm" ng-disabled=""
+											ng-click="showBscConfigWin()" style="margin-top:5px;">
+											<i class="fa fa-edit"></i>&nbsp;BSC配置
+										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showLinkConfigWin()">
+											ng-click="showLinkConfigWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;传输配置
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showDeviceWin()">
+											ng-click="showDeviceWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;基站设备信息配置
 										</button>
-										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showHandoverWin()">
+										<button class="btn btn-success btn-sm" ng-disabled=""
+											ng-click="showHandoverWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;基站切换参数配置
 										</button>
 										<!-- <button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -275,6 +279,7 @@
 	<div ng-include="'bsInfo-edit.html'"></div>
 	<div ng-include="'bsInfo-neighbor.html'"></div>
 	<div ng-include="'bsInfo-bsrconfig.html'"></div>
+	<div ng-include="'bsInfo-bscconfig.html'"></div>
 	<div ng-include="'bsInfo-linkconfig.html'"></div>
 	<div ng-include="'bsInfo-device.html'"></div>
 	<div ng-include="'bsInfo-detail.html'"></div>

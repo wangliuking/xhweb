@@ -264,6 +264,49 @@ xh.load = function() {
 				}
 			});
 		};
+		/* 删除基站bsc */
+		$scope.delBscconfig = function(id) {
+			var deldata=$scope.bscconfigData[id];
+			swal({
+				title : "提示",
+				text : "确定要删除bsc配置吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bs/delBscconfig',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : deldata.id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.bscconfigByBsId(deldata.bsId);
+							} else {
+								swal({
+									title : "提示",
+									text : data.message,
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							
+						}
+					});
+				}
+			});
+		};
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -313,6 +356,15 @@ xh.load = function() {
 					function(response) {
 						$scope.bsrconfigData = response.items;
 						$scope.bsrconfigTotals = response.totals;
+					});
+		};
+		// 根据基站ID查找基站BSC配置信息
+		$scope.bscconfigByBsId= function(bsId) {
+			
+			$http.get("../../bs/bscconfigByBsId?bsId=" + bsId).success(
+					function(response) {
+						$scope.bscconfigData = response.items;
+						$scope.bscconfigTotals = response.totals;
 					});
 		};
 		// 根据基站ID查找基站传输配置信息
@@ -389,6 +441,27 @@ xh.load = function() {
 			$("#bsrconfigWin").modal("show");
 			$scope.bslist();
 		};
+		//显示BSC配置信息
+		$scope.showBscConfigWin=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length != 1) {
+				swal({
+					title : "提示",
+					text : "只能选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			$scope.bsData = $scope.data[parseInt(checkVal[0])];
+			$scope.bscconfigByBsId($scope.bsData.bsId);
+			$("#bscconfigWin").modal("show");
+			$scope.bslist();
+		};
 		//显示传输配置信息
 		$scope.showLinkConfigWin=function(){
 			var checkVal = [];
@@ -460,6 +533,7 @@ xh.load = function() {
 			$scope.bsinfoData=$scope.data[index];
 			$scope.neighborByBsId(bsId);
 			$scope.bsrconfigByBsId(bsId);
+			$scope.bscconfigByBsId(bsId);
 			$scope.linkconfigByBsId(bsId);
 		};
 		//分页点击
@@ -676,6 +750,34 @@ xh.addBsrconfig=function(){
 				toastr.success(data.message, '提示');
 				$scope.bsrconfigByBsId($scope.bsData.bsId);
 				$("#addBsrconfigWin").modal("hide");
+			} else {
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
+			}
+		},
+		error : function() {
+		}
+	});
+};
+//添加基站bsc
+xh.addBscconfig=function(){
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../bs/addBscconfig',
+		type : 'post',
+		dataType : "json",
+		data:{
+			formData:xh.serializeJson($("#addBscconfigForm").serializeArray()) //将表单序列化为JSON对象
+		},
+		async : false,
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.bscconfigByBsId($scope.bsData.bsId);
+				$("#addBscconfigWin").modal("hide");
 			} else {
 				swal({
 					title : "提示",
