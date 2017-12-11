@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.mapper.AmapMapper;
+import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class AmapService {
@@ -119,6 +120,36 @@ public class AmapService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	
+	/**
+	 * 查询所有路测基站
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> selectAllRoad() throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> roadList =mapper.selectAllRoad();
+	        session.commit();  
+	        session.close();
+	        return roadList;   
+	}
+	
+	/**
+	 * 路测数据查询
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> selectRoadById(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> roadList=mapper.selectRoadById(map);
+	        session.commit();  
+	        session.close();
+	        return roadList;   
 	}
 
 	

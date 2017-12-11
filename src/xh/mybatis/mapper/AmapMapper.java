@@ -43,4 +43,17 @@ public interface AmapMapper {
 	 * @throws Exception
 	 */
 	public int rectangleCount(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 查询所有路测基站
+	 */
+	public List<HashMap<String,String>> selectAllRoad() throws Exception;
+	
+	/**
+	 * 路测数据查询
+	 * @author wlk
+	 */
+	public List<HashMap<String,String>> selectRoadById(Map<String,Object> map) throws Exception;
+	
+	
 }

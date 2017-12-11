@@ -36,9 +36,10 @@
 		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
 		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as c on a.bsId=c.bsId LEFT JOIN 
-		(select bsId,name,count(Call_TS_Id) as num from ${currentMonth} as a
-		left join xhgmnet.xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id) as d 
-		on a.bsId=d.bsId where a.bsId in
+		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
+		(select Call_TS_Id,count(Call_TS_Id) as num from 
+		xhgmnet_gps_voice.xhgmnet_calllist12 group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		as d on a.bsId=d.bsId where a.bsId in
 		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
          #{item}
         </foreach>
@@ -60,9 +61,10 @@
 		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
 		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as c on a.bsId=c.bsId LEFT JOIN 
-		(select bsId,name,count(Call_TS_Id) as num from ${currentMonth} as a
-		left join xhgmnet.xhgmnet_bs_station as b on a.Call_TS_Id=b.bsId group by Call_TS_Id) as d 
-		on a.bsId=d.bsId 
+		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
+		(select Call_TS_Id,count(Call_TS_Id) as num from 
+		xhgmnet_gps_voice.xhgmnet_calllist12 group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		as d on a.bsId=d.bsId 
 		where lng between #{smallLng} and #{bigLng} and lat
 		between #{smallLat} and #{bigLat}
 		GROUP BY a.bsId order by a.bsId asc limit #{start},#{limit}
@@ -74,5 +76,21 @@
 		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
 	</select>
 	
-
+	
+	<!-- 所有路测基站查询 -->
+	<select id="selectAllRoad" resultType="java.util.HashMap"
+		useCache="true">
+		select a.bsId,a.name from 
+		(select positionArea from xhgmnet_road_test01 GROUP BY positionArea) as b
+		LEFT JOIN xhgmnet_bs_station as a on a.bsId=b.positionArea
+	</select>
+	
+	<!-- 首页路测数据查询 -->
+	<select id="selectRoadById" resultType="java.util.HashMap"
+		parameterType="map" useCache="true">
+		select * from xhgmnet_road_test01 where positionArea in 
+		<foreach item="item" index="index" collection="bsIds" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+	</select>
 </mapper>

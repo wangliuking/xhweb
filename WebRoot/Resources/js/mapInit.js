@@ -136,9 +136,6 @@ app.controller("map", function($scope, $http) {
 	/**
 	 * 首页弹出模态框数据获取和设置end
 	 */
-	
-		
-	//设置圈选的默认显示条数
 	$scope.countChoose = "10";
 	$http.get("bs/map/area").success(
 			function(response) {
@@ -147,6 +144,11 @@ app.controller("map", function($scope, $http) {
 	$http.get("bs/map/level").success(
 			function(response) {
 				$scope.levelData = response.items;
+			});
+	$http.get("amap/map/road").success(
+			function(response) {			
+				$scope.roadData = response.items;
+				console.log(response.items);
 			});
 	/* 级别和区域选择 */
 	var level={
@@ -284,6 +286,36 @@ app.controller("map", function($scope, $http) {
 			}
 		}
 	} 
+	
+	//路测选择
+	$scope.roadChoose=function(params){
+		if ($(".roadChoose input[value="+params+"]").prop("checked") == true) {
+			var t=[];
+			$(".roadChoose input:checked").each(function(i){
+				t.push($(this).val());
+			});
+			$http.get("amap/map/roadById?bsId="+t).success(
+					function(response) {
+						var roadData = response.items;
+						console.log(t+"-----"+roadData);
+						roadtestCreate(roadData);
+					});
+		} else {
+			var t=[];
+			$(".roadChoose input:checked").each(function(i){
+				t.push($(this).val());
+			});
+			roadtest.clear();
+			if(t.length!=0 || z.length!=0){
+				$http.get("amap/map/roadById?bsId="+t).success(
+						function(response) {
+							var roadData = response.items;
+							roadtestCreate(roadData);
+						});
+			}
+		}
+	} 
+	
 
 	/* 刷新数据  业务*/
 	$scope.refresh = function() {
@@ -363,11 +395,9 @@ app.controller("map", function($scope, $http) {
 		} else {
 			start = (page - 1) * pageSize;
 		}
-		console.log(params);
 		$http.get("amap/rectangle?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
 			var tempData=response.items;	
-			console.log(tempData);
 			//添加模拟数据 start
 			for(var i=0;i<tempData.length;i++){
 				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
@@ -740,6 +770,7 @@ function floor(data) {
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
 	myMap.addLayer(rectangle);
+	myMap.addLayer(roadtest);
 	// 创建点的显示样式对象
 	/*
 	 * var pSymbol = new esri.symbols.SimpleMarkerSymbol(); pSymbol.style =
@@ -747,16 +778,6 @@ function floor(data) {
 	 * pSymbol.setSize(12); //设置点的大小为12像素 pSymbol.setColor(new
 	 * dojo.Color("#FFFFCC"));
 	 */
-	//路测数据创建图层
-	$.ajax({
-		type : "GET",
-		url : "bs/map/roadtest",
-		dataType : "json",
-		success : function(dataMap) {
-			var data = dataMap.items;
-			roadtestCreate(data);
-		}
-	});
 	
 	// 添加控件
 	// 比例尺
@@ -826,7 +847,6 @@ function floor(data) {
       });
 
       function createToolbar(themap) {
-          console.log("aaabbb");
           toolbar = new Draw(myMap);
           toolbar.on("draw-end", addToMap);
       }
@@ -1092,7 +1112,6 @@ var overlay,option
 function init(data,markData) {
 	require([ "esri/map", "src/EchartsLayer", "dojo/domReady!" ], function(Map,
 			EchartsLayer) {
-		console.log(data);
 		floor(data);
 		// 处理data数据
 		var i;
@@ -1174,12 +1193,12 @@ function init(data,markData) {
 							dataType : "json",
 							async : false,
 							success : function(response) {	
-								console.log(response);
 								var dataTemp = response.items;
 								if(dataTemp[0]!=null){
 									numtotals = dataTemp[0].numtotals;
-								}
-								numtotals="暂无"; 
+								}else{
+									numtotals="暂无";
+								}								 
 								radioTotals = response.radioTotals;
 								groupTotals = response.groupTotals;
 							}
@@ -1279,7 +1298,6 @@ function init(data,markData) {
 	    	console.log(e.mapPoint.x ,e.mapPoint.y);
 	  	  });
 		myMap.on('zoom-end', function() {
-			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
 				option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
 				option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
@@ -1302,17 +1320,6 @@ function init(data,markData) {
 					option.series[0].markPoint.data=[];
 					option.series[1].markPoint.data=[];
 					overlay.setOption(option);
-				}
-			});
-			
-			$("#roadtestInfo").click(function() {
-				if ($(this).prop("checked") == true) {
-					myMap.addLayer(roadtest);
-					var point = new esri.geometry.Point(104.53166109531142*1, 30.36990593840218*1,new esri.SpatialReference({wkid:parseInt(4490)}));
-					myMap.centerAndZoom(point,10*1);
-					 
-				} else {
-					myMap.removeLayer(roadtest);
 				}
 			});
 			
