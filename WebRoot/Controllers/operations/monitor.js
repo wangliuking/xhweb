@@ -71,7 +71,7 @@ xh.load = function() {
 
 	});
 };
-xh.map = function() {
+/*xh.map = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
 		$("#map").width(parseInt($("#map").parent().width()));
@@ -92,13 +92,13 @@ xh.map = function() {
 		});
 		var cityMap = {
 			    "成都市": "510100",
-			    /*"简阳市": "51000",*/
-			    /*"自贡市": "510300",
+			    "简阳市": "51000",
+			    "自贡市": "510300",
 			    "攀枝花市": "510400",
 			    "泸州市": "510500",
-			    "德阳市": "510600",*/
-			   /* "绵阳市": "510700",*/
-			    /*"广元市": "510800",
+			    "德阳市": "510600",
+			    "绵阳市": "510700",
+			    "广元市": "510800",
 			    "遂宁市": "510900",
 			    "内江市": "511000",
 			    "乐山市": "511100",
@@ -112,7 +112,7 @@ xh.map = function() {
 			    "资阳市": "512000",
 			    "阿坝藏族羌族自治州": "513200",
 			    "甘孜藏族自治州": "513300",
-			    "凉山彝族自治州": "513400",*/
+			    "凉山彝族自治州": "513400",
 			};
 		var curIndx = 0;
 		var mapType = [];
@@ -130,7 +130,7 @@ xh.map = function() {
 		        })(city)
 		    };
 		}
-	/*	var ecConfig = require('echarts/config');
+		var ecConfig = require('echarts/config');
 		var zrEvent = require('zrender/tool/event');
 		
 		document.getElementById('map').onmousewheel = function (e){
@@ -144,7 +144,7 @@ xh.map = function() {
 		    option.title.subtext = mt + ' （滚轮或点击切换）';
 		    chart.setOption(option, true);
 		    zrEvent.stop(event);
-		};*/
+		};
 	
 		var option = {
 			title : {
@@ -172,13 +172,13 @@ xh.map = function() {
 				text : [ '高', '低' ], // 文本，默认为数值文本
 				calculable : true
 			},
-			/*roamController : {
+			roamController : {
 				show : true,
 				x : 'right',
 				mapTypeControl : {
 					'china' : true
 				}
-			},*/
+			},
 			series : [ {
 				name : '基站异常',
 				type : 'map',
@@ -220,7 +220,7 @@ xh.map = function() {
 				var data = response.items;
 				// option.xAxis[0].data = xAxisData;
 				option.series[0].data = data;
-				/* option.title.subtext="当前基站总数:"+response.totals; */
+				 option.title.subtext="当前基站总数:"+response.totals; 
 				chart.hideLoading();
 				chart.setOption(option);
 			},
@@ -238,7 +238,7 @@ xh.map = function() {
 	
 	
 
-};
+};*/
 xh.bsBar = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {

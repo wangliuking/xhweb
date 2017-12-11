@@ -29,6 +29,7 @@ import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.bsLinkConfigBean;
+import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
@@ -132,6 +133,28 @@ public class BsstationController {
 		HashMap result = new HashMap();
 		result.put("totals",BsstationService.bsrconfigByBsId(bsId).size());
 		result.put("items", BsstationService.bsrconfigByBsId(bsId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 根据基站ID查找基站BSC配置信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bscconfigByBsId",method = RequestMethod.GET)
+	public void bscconfigByBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int bsId=Integer.parseInt(request.getParameter("bsId"));		
+		HashMap result = new HashMap();
+		result.put("totals",BsstationService.bscconfigByBsId(bsId).size());
+		result.put("items", BsstationService.bscconfigByBsId(bsId));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -506,7 +529,6 @@ public class BsstationController {
 		bsrConfigBean bean=GsonUtil.json2Object(formData, bsrConfigBean.class);
 				Map<String,Object> paramterMap=new HashMap<String, Object>();
 		paramterMap.put("bsId", bean.getBsId());
-		paramterMap.put("bscId", bean.getBscId());
 		paramterMap.put("bsrId", bean.getBsrId());
 		int rslt=-1;
 		if (BsstationService.bsrconfigExists(paramterMap)==0) {
@@ -526,6 +548,53 @@ public class BsstationController {
 			
 		}else{
 			this.message="该基站bsr配置已经存在";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 *  新增基站bsc
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/addBscconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void addBscconfig(HttpServletRequest request, HttpServletResponse response){
+		String formData=request.getParameter("formData");
+		bscConfigBean bean=GsonUtil.json2Object(formData, bscConfigBean.class);
+				Map<String,Object> paramterMap=new HashMap<String, Object>();
+		paramterMap.put("bsId", bean.getBsId());
+		paramterMap.put("bscId", bean.getBscId());
+		int rslt=-1;
+		if (BsstationService.bscconfigExists(paramterMap)==0) {
+			rslt=BsstationService.addBscconfig(bean);
+			if(rslt==1){
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("新增基站bsc配置");
+				WebLogService.writeLog(webLogBean);
+				this.success=true;
+				this.message="基站bsc配置添加成功";
+			}else{
+				this.message="添加失败";
+				this.success=false;
+			}
+			
+		}else{
+			this.message="该基站bsc配置已经存在";
 			this.success=false;
 		}
 		HashMap result = new HashMap();
@@ -577,6 +646,48 @@ public class BsstationController {
 		}
 		
 	}
+	
+	/**
+	 * 删除基站bsc
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/delBscconfig",method = RequestMethod.POST)
+	@ResponseBody
+	public void delBscconfig(HttpServletRequest request, HttpServletResponse response){
+		int id=funUtil.StringToInt(request.getParameter("id"));
+
+		int rslt=BsstationService.delBscconfig(id);
+		if (rslt==1) {
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(3);
+			webLogBean.setContent(" 删除基站bsc，id="+id);
+			WebLogService.writeLog(webLogBean);
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="删除失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 修改基站
 	 * @param request
