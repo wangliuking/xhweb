@@ -208,4 +208,59 @@ public class AmapController {
 		}
 		
 	}
+	
+	/**
+	 * 查询所有路测基站
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/road")
+	@ResponseBody
+	public void selectAllRoad(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			AmapService amapService = new AmapService();
+			List<HashMap<String, String>> listMap = amapService.selectAllRoad();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询路测数据
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/roadById")
+	@ResponseBody
+	public void selectRoadById(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			HashMap<String,Object> tempmap = new HashMap<String,Object>();
+			String temp = request.getParameter("bsId");	
+			String[] roadtemp = temp.split(",");
+			List<String> bsIds = Arrays.asList(roadtemp);
+			tempmap.put("bsIds", bsIds);
+			AmapService amapService = new AmapService();
+			List<HashMap<String, String>> listMap = amapService.selectRoadById(tempmap);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
