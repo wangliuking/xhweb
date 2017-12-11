@@ -155,7 +155,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 									    <td>{{x.fileType}}</td>
@@ -179,7 +179,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<div class="page">
+							<div class="page" ng-if="totals>0">
 								<div class="page-info">
 									每页显示 <select id="page-limit" ng-change="refresh()"
 										ng-model="count">

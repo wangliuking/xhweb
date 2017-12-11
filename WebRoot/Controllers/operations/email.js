@@ -146,6 +146,11 @@ xh.load = function() {
 		$scope.tolocation=function(title){
 			var url="";
 			if(title=="入网申请"){url="../business/joinnet.html";}
+			else if(title=="业务变更申请"){
+				url="../business/devicemanage.html";
+			}else{
+				
+			}
 			window.location.href=url;
 		}
 	});

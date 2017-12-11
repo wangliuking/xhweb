@@ -43,7 +43,6 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http,$location) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.businessMenu=true; //菜单变色
 		
 		//获取登录用户
 		$http.get("../../web/loginUserInfo").
@@ -51,6 +50,12 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
+			
+		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
 		});
 		
 		/*获取申请记录表*/
@@ -75,7 +80,7 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
-			$("#table-checkbox").prop("checked", false);
+			/*$("#table-checkbox").prop("checked", false);*/
 		};
 
 		/*跳转到进度页面*/
@@ -340,6 +345,7 @@ xh.refresh = function() {
 
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
+	
 	var pageSize = $("#page-limit").val();
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
