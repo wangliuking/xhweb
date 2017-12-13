@@ -38,7 +38,7 @@
 		as c on a.bsId=c.bsId LEFT JOIN 
 		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
 		(select Call_TS_Id,count(Call_TS_Id) as num from 
-		xhgmnet_gps_voice.xhgmnet_calllist12 group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		${currentMonth} group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
 		as d on a.bsId=d.bsId where a.bsId in
 		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
          #{item}
@@ -63,7 +63,7 @@
 		as c on a.bsId=c.bsId LEFT JOIN 
 		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
 		(select Call_TS_Id,count(Call_TS_Id) as num from 
-		xhgmnet_gps_voice.xhgmnet_calllist12 group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		${currentMonth} group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
 		as d on a.bsId=d.bsId 
 		where lng between #{smallLng} and #{bigLng} and lat
 		between #{smallLat} and #{bigLat}
