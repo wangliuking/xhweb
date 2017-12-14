@@ -40,6 +40,38 @@
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.link=1 order by a.time desc
 		 
 	</select>
+	<!--基站限制列表-->
+	<select id="bslimitList" parameterType="map"  resultType="map"
+		useCache="true">
+		select a.bsIds,b.name from xhgmnet_stationalarm as a
+		left join xhgmnet_bs_station as b on a.bsIds=b.bsId  limit #{start},#{limit}		 
+	</select>
+		<!--基站限制列表是否存在-->
+	<select id="bslimitExistis" parameterType="int"  resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_stationalarm where bsIds=${bsId}	 
+	</select>
+    <!--基站限制列表总数-->
+	<select id="bslimitListCount"  resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_stationalarm 	 
+	</select>
+	<!-- 新增限制列表 -->
+	<insert id="addBsLimit" keyProperty="bsIds" parameterType="java.util.List">
+	
+	insert IGNORE into xhgmnet_stationalarm (bsIds) values
+	<foreach collection="list" item="item" index="index" separator="," >  
+        (#{item})  
+    </foreach>  
+	
+	</insert>
+	<!-- 删除限制列表 -->
+	<delete id="deleteBsLimit" parameterType="java.util.List">
+	 delete from  xhgmnet_stationalarm where bsIds in	 
+	 <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+     </foreach>
+	</delete>
 	<!--查询所有基站 -->
 	<select id="allBsInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">

@@ -72,6 +72,85 @@ public class BsstationService {
 	}
 	
 	/**
+	 * 基站限制列表
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String, Object>> bslimitList(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bslimitList(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 基站限制列表总数
+	 * @param map
+	 * @return
+	 */
+	public static int bslimitListCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count=0;
+		try {
+			count = mapper.bslimitListCount();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 新增限制列表
+	 * @param map
+	 * @return
+	 */
+	public static int addBsLimit(List<String> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count=0;
+		try {
+			count = mapper.addBsLimit(list);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 删除限制列表
+	 * @param map
+	 * @return
+	 */
+	public static int deleteBsLimit(List<String> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count=0;
+		try {
+			count = mapper.deleteBsLimit(list);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
 	 * 查询基站断站列表
 	 * @return
 	 */
