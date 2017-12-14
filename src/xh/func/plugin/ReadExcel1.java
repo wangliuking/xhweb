@@ -3,7 +3,9 @@ package xh.func.plugin;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -14,7 +16,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-import xh.mybatis.bean.OtherBean;
 
 /**
  * Excel处理函数
@@ -55,9 +56,9 @@ public class ReadExcel1 {
 	 * @param fielName
 	 * @return
 	 */
-	public List<OtherBean> getExcelInfo(MultipartFile mFile) {
+	public List getExcelInfo(MultipartFile mFile) {
 		String fileName = mFile.getOriginalFilename();// 获取文件名
-		List<OtherBean> OtherBeanList = null;
+		List OtherBeanList = null;
 		try {
 			if (!validateExcel(fileName)) {// 验证文件名是否合格
 				return null;
@@ -83,8 +84,8 @@ public class ReadExcel1 {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<OtherBean> createExcel(InputStream is, boolean isExcel2003) {
-		List<OtherBean> OtherBeanList = null;
+	public List createExcel(InputStream is, boolean isExcel2003) {
+		List OtherBeanList = null;
 		try {
 			Workbook wb = null;
 			if (isExcel2003) {// 当excel是2003时,创建excel2003
@@ -105,7 +106,7 @@ public class ReadExcel1 {
 	 * @param wb
 	 * @return
 	 */
-	private List<OtherBean> readExcelValue(Workbook wb) {
+	private List readExcelValue(Workbook wb) {
 		// 得到第一个shell
 		Sheet sheet = wb.getSheetAt(0);
 		// 得到Excel的行数
@@ -114,43 +115,32 @@ public class ReadExcel1 {
 		if (totalRows > 1 && sheet.getRow(0) != null) {
 			this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
 		}
-		List<OtherBean> OtherBeanList = new ArrayList<OtherBean>();
+		List finalList = new ArrayList();
 		// 循环Excel行数
-		Row tempRow = sheet.getRow(0);
 		for (int r = 1; r < totalRows; r++) {
 			Row row = sheet.getRow(r);
 			if (row == null) {
 				continue;
 			}
-			String temp = "";
-			String tempName = "";
+			List<String> tempList = new ArrayList<String>();
 			// 循环Excel的列
-			for (int c = 0; c < this.totalCells; c++) {			
+			for (int c = 0; c < this.totalCells; c++) {	
 				Cell cell = row.getCell(c);
 				if (null != cell) {
 					if (c == 0) {
-						tempName = String.valueOf(cell.getStringCellValue());
-					} else if (c == 3) {
-						String tempData = String.valueOf(cell.getNumericCellValue());
-						temp = tempData.substring(0, tempData.length()-2>0?tempData.length()-2:1);
-					} else if (c > 3) {
-						String positionArea = String.valueOf(cell.getStringCellValue());
-						if ("V".equals(positionArea)) {
-							OtherBean OtherBean = new OtherBean();
-							OtherBean.setBsId(temp);
-							OtherBean.setName(tempName);
-							String a = String.valueOf(tempRow.getCell(c).getNumericCellValue());
-							String adjacentCellId = a.substring(0, a.length()-2>0?a.length()-2:1);
-							OtherBean.setAdjacentCellId(adjacentCellId);
-							OtherBeanList.add(OtherBean);
-						}
+						String tempA = String.valueOf(cell.getNumericCellValue());
+						String a = tempA.substring(0, tempA.length()-2>0?tempA.length()-2:1);
+						tempList.add(a);
+					} else if (c == 28) {
+						String tempB = String.valueOf(cell.getNumericCellValue());
+						String b = tempB.substring(0, tempB.length()-2>0?tempB.length()-2:1);
+						tempList.add(b);
 					}
-
-				}
+				}					
 			}
-			
+			finalList.add(tempList);
 		}
-		return OtherBeanList;
+		return finalList;
 	}
 
 	/**
