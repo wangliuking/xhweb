@@ -84,9 +84,12 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
+			
 			$scope.progressData = $scope.checkData;
 			
 			$("#progress").modal('show');
+            $('#xh-tabs a:first').tab('show');
+			
 		};
 		
 		
@@ -1153,8 +1156,6 @@ xh.download = function(id,type) {
 		}
 	}
 	var filepath = "/Resources/upload/net/" + filename;
-	console.log("filename=>" + filename);
-	//var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
 	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');

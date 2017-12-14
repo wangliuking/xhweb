@@ -13,26 +13,29 @@
         ,b.unitType as initType1
         ,b.userType as userType1
         from xhgmnet_business_quitnet as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
-        <choose>
+        
+        and (a.userName=#{user} or a.user1=#{user} or a.checkUser=#{user})
+       <!--  <choose>
             <when test="roleId &gt;10003 || roleId &lt;10000">
                 and a.userName=#{user}
             </when>
             <otherwise>
             </otherwise>
-        </choose>
+        </choose> -->
 
         order by id desc limit #{start},#{limit}
     </select>
     <!--查询退网申请所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_business_quitnet where 1=1
-        <choose>
+         and  (userName=#{user} or user1=#{user} or checkUser=#{user})
+        <!-- <choose>
             <when test="roleId &gt;10003 || roleId &lt;10000">
                 and userName=#{user}
             </when>
             <otherwise>
             </otherwise>
-        </choose>
+        </choose> -->
     </select>
     <!--查询退网申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"
@@ -63,7 +66,7 @@
     <!--管理方领导指派 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.QuitNetBean">
         update xhgmnet_business_quitnet set
-        user2=#{user2},quit=#{quit},time1=#{time2},note2=#{note2},checkUser=#{checkUser} where id=#{id}
+        user2=#{checkUser},quit=#{quit},time2=#{time2},note2=#{note2},checkUser=#{checkUser} where id=#{id}
     </update>
 
     <!-- 有线-->

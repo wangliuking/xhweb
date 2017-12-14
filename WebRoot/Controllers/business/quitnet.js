@@ -54,10 +54,15 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../quitnet/loginUser").
+		/*$http.get("../../quitnet/loginUser").
 		success(function(response){
 			xh.maskHide();
 			$scope.quitNumber = response;
+		});*/
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
 		});
 
 		/*获取申请记录表*/
@@ -91,15 +96,12 @@ xh.load = function() {
 		
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
+		
 			$scope.editData = $scope.data[id];
 			$scope.checkData=$scope.editData;
-			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
-			success(function(response){
-				$scope.progressData = response.items;
-				
-			});*/
 			$scope.progressData=$scope.editData;
 			$("#quitprogress").modal('show');
+			$('#xh-tabs a:first').tab('show');
 	    };
 
 		/*显示审核窗口*/
@@ -543,24 +545,23 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(){
+xh.download=function(type){
 	var $scope = angular.element(appElement).scope();
+	/*var $scope = angular.element(appElement).scope();
 	var quit = $scope.checkData.quit;
-	var quitModal = $scope.checkedData.quitModal;
+	var quitModal = $scope.checkedData.quitModal;*/
 	var fileName = null;
-	if(quit != -1){
-		if(quit == 3 && quitModal == 1 && $scope.checkData.fileName1!=null){
-			fileName = $scope.checkData.fileName1;
-		}
-		else if(quit == 5 && quitModal == 1 && $scope.checkData.fileName2!=null){
-			fileName = $scope.checkData.fileName2;
-		}
-		else if(quit == 3 && quitModal == -1 && $scope.checkData.fileName3!=null){
-			fileName = $scope.checkData.fileName3;
-		}
+	
+	if(type==1){
+		fileName = $scope.checkData.fileName1;
 	}
+	if(type==2){
+		fileName = $scope.checkData.fileName2;
+	}
+	
+	var filepath = "/Resources/upload/quitnet/" + fileName;
 	console.log("filename=>" + fileName);
-	var downUrl = "../../optimizenet/download?fileName=" + fileName;
+	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

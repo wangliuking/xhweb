@@ -27,13 +27,7 @@
     <!--查询申请所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_bs_devicemanage where 1=1
-        <choose>
-            <when test="roleId &gt;10002 || roleId &lt;10000">
-                and userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
+       and (userName=#{user} or user1=#{user} or user2=#{user})
     </select>
 
     <!--查询申请进度 -->

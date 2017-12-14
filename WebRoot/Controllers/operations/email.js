@@ -152,6 +152,8 @@ xh.load = function() {
 				url="../business/fault.html";
 			}else if(title=="租借设备"){
 				url="../business/lend.html";
+			}else if(title=="退网申请"){
+				url="../business/quitnet.html";
 			}else{
 				
 			}

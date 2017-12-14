@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -426,8 +429,14 @@ public class OptimizeNetController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(@RequestParam("filePath") MultipartFile file,
                        HttpServletRequest request,HttpServletResponse response) {
+    	
+
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
         String path = request.getSession().getServletContext()
-                .getRealPath("")+"/Resources/upload";
+                .getRealPath("")+"/Resources/upload/optimizenet";
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
@@ -441,6 +450,9 @@ public class OptimizeNetController {
             file.transferTo(targetFile);
             this.success=true;
             this.message="文件上传成功";
+            fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -451,7 +463,7 @@ public class OptimizeNetController {
         result.put("success", success);
         result.put("message", message);
         result.put("fileName", fileName);
-        result.put("filePath", path+"/"+fileName);
+        result.put("filePath", "/Resources/upload/optimizenet/"+fileName);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);

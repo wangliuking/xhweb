@@ -32,14 +32,15 @@
 	</select>
 	<!--查询入网申请所有记录总数 -->
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
+	and (userName=#{user} or user1=#{user} or user2=#{user} or user3=#{user} or user4=#{user})
 		select count(id) from xhgmnet_business_net where 1=1
-		<choose>
+		<!-- <choose>
 			<when test="roleId &gt;10003 || roleId &lt;10000">
 				and userName=#{user}
 			</when>
 			<otherwise>
 			</otherwise>
-		</choose>
+		</choose> -->
 	</select>
 	<!--查询最新一条有线接入ID -->
 	<select id="YXMAXID" resultType="int" useCache="true">

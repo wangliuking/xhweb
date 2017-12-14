@@ -496,7 +496,8 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	console.log("filename=>" + fileName);
+	var filepath = "/Resources/upload/optimizenet/" + fileName;
+	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	var downUrl = "../../optimizenet/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');

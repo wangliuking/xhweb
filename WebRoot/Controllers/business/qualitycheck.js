@@ -49,6 +49,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		/*获取申请记录表*/
 		$http.get("../../qualitycheck/selectAll?start=0&limit=" + pageSize).
@@ -447,8 +452,9 @@ xh.download=function(type){
 		fileName = $scope.checkData.fileName3;
 		filePath = $scope.checkData.filePath3;
 	}
+	var filepath = "/Resources/upload/servicecheck/" + fileName;
 	console.log("filename=>" + fileName);
-	var downUrl = "../../qualitycheck/download?fileName=" + fileName+"&filePath="+filePath;
+	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

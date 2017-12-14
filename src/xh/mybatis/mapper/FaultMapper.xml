@@ -14,26 +14,22 @@
 		,b.unitType as initType1
 		,b.userType as userType1
 		from xhgmnet_business_fault as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
-		<choose>
+		
+		 and (a.userName=#{user} or a.user1=#{user} or a.user2=#{user} or a.checkUser=#{user})
+		<!-- <choose>
 			<when test="roleId &gt;10003 || roleId &lt;10000">
 				and a.userName=#{user}
 			</when>
 			<otherwise>
 			</otherwise>
-		</choose>
+		</choose> -->
 		order by id desc limit #{start},#{limit}
 	</select>
 
 	<!--查询故障申请所有记录总数 -->
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_fault where 1=1
-		<choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-			  and userName=#{user}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
+		and (userName=#{user} or user1=#{user} or user2=#{user} or checkUser=#{user})
 	</select>
 
 	<!--查询故障申请进度 -->

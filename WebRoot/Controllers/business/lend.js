@@ -89,6 +89,7 @@ xh.load = function() {
 				$scope.lendTotals = response.totals;
 			});
 			$("#progress").modal('show');
+			$('#xh-tabs a:first').tab('show');
 	    };
 	    
 	    $scope.checkedChange=function(issure){
