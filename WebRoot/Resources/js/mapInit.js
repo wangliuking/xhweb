@@ -148,7 +148,6 @@ app.controller("map", function($scope, $http) {
 	$http.get("amap/map/road").success(
 			function(response) {			
 				$scope.roadData = response.items;
-				console.log(response.items);
 			});
 	/* 级别和区域选择 */
 	var level={
@@ -195,7 +194,8 @@ app.controller("map", function($scope, $http) {
 					function(response) {
 						//判断是级别还是区域
 						if(!isNaN(params)){
-							var tempData = response.items;	
+							var tempD = response.items;	
+							var tempData = dataWithoutZero(tempD);
 							//首页下方数据展示start
 							var a = z.join(",");
 							var b = t.join(",");
@@ -210,7 +210,8 @@ app.controller("map", function($scope, $http) {
 							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
 						}else{
-							var tempData = response.items;
+							var tempD = response.items;	
+							var tempData = dataWithoutZero(tempD);
 							//首页下方数据展示start
 							var a = z.join(",");
 							var b = t.join(",");
@@ -239,7 +240,8 @@ app.controller("map", function($scope, $http) {
 			if(t.length==0 && z.length==0){
 				$http.get("bs/map/data").success(
 						function(response) {
-							var tempData = response.items;
+							var tempD = response.items;	
+							var tempData = dataWithoutZero(tempD);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
 							overlay.setOption(option);
@@ -253,7 +255,8 @@ app.controller("map", function($scope, $http) {
 						function(response) {
 							//判断是级别还是区域
 							if(!isNaN(params)){
-								var tempData = response.items;
+								var tempD = response.items;	
+								var tempData = dataWithoutZero(tempD);
 								//首页下方数据展示start
 								var a = z.join(",");
 								var b = t.join(",");
@@ -268,7 +271,8 @@ app.controller("map", function($scope, $http) {
 								option.series[1].markPoint.data=baseMark(tempData)[1];
 								overlay.setOption(option);
 							}else{
-								var tempData = response.items;
+								var tempD = response.items;	
+								var tempData = dataWithoutZero(tempD);
 								//首页下方数据展示start
 								var a = z.join(",");
 								var b = t.join(",");
@@ -297,7 +301,6 @@ app.controller("map", function($scope, $http) {
 			$http.get("amap/map/roadById?bsId="+t).success(
 					function(response) {
 						var roadData = response.items;
-						console.log(t+"-----"+roadData);
 						roadtestCreate(roadData);
 					});
 		} else {
@@ -819,7 +822,8 @@ function floor(data) {
         });
       var params;      
       function activateTool() {
-    	  var d = this.label.toUpperCase();
+    	  var d = this.label.toUpperCase();    	  
+    	  
     	  createToolbar();
     	  if(d == "不规则圈选"){  	
     		  $("#testpro").css({display:'block'});
@@ -1108,7 +1112,7 @@ function roadtestCreate(data){
 	}
 }*/
 
-var overlay,option
+var overlay,option,myChart
 function init(data,markData) {
 	require([ "esri/map", "src/EchartsLayer", "dojo/domReady!" ], function(Map,
 			EchartsLayer) {
@@ -1167,7 +1171,7 @@ function init(data,markData) {
 		}
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
-		var myChart = overlay.initECharts(chartsContainer);
+		myChart = overlay.initECharts(chartsContainer);
 		window.onresize = myChart.onresize;
 		// 为echarts绑定事件
 		myChart.on('click', function(params) {
@@ -1175,6 +1179,15 @@ function init(data,markData) {
 			$('#myModal').modal();
 			var appElement = document.querySelector('[ng-controller=map]');
 			var $scope = angular.element(appElement).scope();
+			//默认选中第一个
+			$("#xh-tabs li").siblings().removeClass('active');
+			$("#xh-tabs li:first").addClass('active');
+			$("#info").removeClass();
+			$("#info").addClass('tab-pane fade in active');
+			$("#config").removeClass();
+			$("#config").addClass('tab-pane fade');
+			$("#business").removeClass();
+			$("#business").addClass('tab-pane fade');			
 			$scope.bsId=params.data.id;
 			$scope.bsInformation();
 		});
@@ -1194,6 +1207,7 @@ function init(data,markData) {
 							async : false,
 							success : function(response) {	
 								var dataTemp = response.items;
+								console.log(dataTemp);
 								if(dataTemp[0]!=null){
 									numtotals = dataTemp[0].numtotals;
 								}else{
@@ -1205,9 +1219,9 @@ function init(data,markData) {
 						});
 						for(var a=0;a<data.length;a++){
 							if(data[a].bsId == params[5].id && data[a].bsStatus != 0){
-		                        var radioTotals = 0;
-		                        var groupTotals = 0;
-		                        var numtotals = 0;
+		                        var radioTotals = "";
+		                        var groupTotals = "";
+		                        var numtotals = "";
 							}
 						}
 						
@@ -1229,7 +1243,6 @@ function init(data,markData) {
                     padding: 10,    // [5, 10, 15, 20] 内边距
                     position: function (p) {
                         // 位置回调
-                        // console.log && console.log(p);
                         return [p[0] + 10, p[1] - 10];
                     }  
                 },
@@ -1479,15 +1492,8 @@ function getData() {
 		url : "bs/map/data",
 		dataType : "json",
 		success : function(dataMap) {
-			var data = dataMap.items;
-			//减少部分数据
-			/*var dataTemp=[];
-			var i;
-			for(i=0;i<data.length;i++){
-				if(i%2==0){
-					dataTemp.push(data[i]);
-				}
-			}*/
+			var tempData = dataMap.items;
+			var data = dataWithoutZero(tempData);
 			var markData=[];
 			init(data,markData);
 		}
@@ -1613,6 +1619,24 @@ function flashMark(markData){
 		}
 	}
 	return objTemp;
+}
+//去除经纬度为0的数据
+function dataWithoutZero(data){
+	var newData = [];
+	for(var i=0;i<data.length;i++){
+		if(data[i].lat!=0 && data[i].lng!=0){
+			newData.push(data[i]);
+		}
+	}
+	return newData;
+}
+
+function displayProp(obj){      
+    var names="";         
+    for(var name in obj){         
+       names+=name+": "+obj[name]+", ";    
+    }    
+    console.log(names);    
 }
 
 
