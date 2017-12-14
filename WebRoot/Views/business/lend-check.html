@@ -79,17 +79,18 @@
 										ng-model="checkData.note" disabled="disabled"></textarea>
 								</div>
 							</div>
-							
+
 						</div>
 						<div class="row">
-						<div class="col-md-12">
-							<legend></legend>
-							<div class="form-group col-md-12">
-								<label>领导备注</label>
-								<textarea ng-model="checkData.note1" disabled="disabled" rows="4" cols="10" class="form-control"></textarea>
+							<div class="col-md-12">
+								<legend></legend>
+								<div class="form-group col-md-12">
+									<label>领导备注</label>
+									<textarea ng-model="checkData.note1" disabled="disabled"
+										rows="4" cols="10" class="form-control"></textarea>
+								</div>
 							</div>
 						</div>
-					</div>
 						<!-- row-------end -->
 					</div>
 				</div>
@@ -150,7 +151,8 @@
 							<div class="form-group col-md-12">
 								<label>指定经办人</label>&nbsp;<span class="text-danger">[*]</span> <select
 									class="form-control" name="user2" ng-model="user">
-									<option ng-repeat="x in userData" value="{{x.user}}" ng-if="x.user != loginUser">{{x.userName}}</option>
+									<option ng-repeat="x in userData" value="{{x.user}}"
+										ng-if="x.user != loginUser">{{x.userName}}</option>
 								</select>
 							</div>
 						</div>
@@ -184,6 +186,20 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>user</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="user"
+									required="required" ng-model="checkData.user">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>user2</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="user2"
+									required="required" ng-model="checkData.user2">
 							</div>
 						</div>
 					</div>
@@ -223,33 +239,40 @@
 <!-- 租借清单-->
 <div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog ">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="color-line"></div>
+
+			<!-- <div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加用户</small>
+			</div> -->
 			<div class="modal-header ">
-				<button type="button" class="btn btn-danger btn-sm"
-						data-dismiss="modal">
-						<i class="fa fa-remove"></i>&nbsp;关闭
-				</button>
-				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn3" onclick="clk_check_btn3();" ng-if="loginUser==checkData.user && checkData.checked!=5">
-						<i class="fa fa-remove"></i>&nbsp;批量归还设备
-				</button>
-				<button type="button"
-						class="btn btn-warning btn-sm" id="check_btn4" onclick="clk_check_btn4();" ng-if="loginUser==checkData.user1 && checkData.checked!=5">
-						<i class="fa fa-remove"></i>&nbsp;批量确认归还设备
-				</button>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">用户租借设备清单</small>
+
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="btn-group">
+					<button type="button" class="btn btn-success btn-sm"
+						id="check_btn3" onclick="clk_check_btn3();"
+						ng-if="loginUser==checkData.user && checkData.checked!=5">批量归还设备
+					</button>
+					<button type="button" class="btn btn-success btn-sm"
+						id="check_btn4" onclick="clk_check_btn4();"
+						ng-if="loginUser==checkData.user1 && checkData.checked!=5">批量确认归还设备
+					</button>
+				</div>
 				<form action="#" id="checkForm3" onSubmit="return false">
-					<div>
-						<span>用户租借设备清单</span>
-					</div>
+
 					<table id="tb-info" class="xh-table table-hover">
 						<thead>
 							<tr class="tr-gray">
-								<th width="30px"><input type="checkbox"
-									id="table-checkbox" class="table-check" ng-model="selectAll" ng-click="all(selectAll)"/></th>
+								<th width="30px"><input type="checkbox" id="table-checkbox"
+									class="table-check" ng-model="selectAll"
+									ng-click="all(selectAll)" /></th>
 								<th>设备类别</th>
 								<th>名称</th>
 								<th>型号</th>
@@ -264,36 +287,43 @@
 							</tr>
 							<tr ng-repeat="x in dataLend">
 								<td><input type="checkbox" name="tb-check"
-										value="{{x.serialNumber}}" index="{{$index}}" ng-if="(x.status==1 && loginUser==checkData.user) || (x.status==3 && loginUser==checkData.user1)"
-										ng-checked="selectAll" ng-model="dataItem.state"/></td>
-								<td>{{x.type}}</td>
+									value="{{x.serialNumber}}" index="{{$index}}"
+									ng-if="(x.status==1 && loginUser==checkData.user) || (x.status==3 && loginUser==checkData.user1)"
+									ng-checked="selectAll" ng-model="dataItem.state" /></td>
+								<td>
+								<span ng-if="x.type==1">交换控制中心（MSO）设备</span>
+								<span ng-if="x.type==2">远端调度台设备</span>
+								<span ng-if="x.type==3">基站设备</span>
+								<span ng-if="x.type==4">用户台设备</span>
+								<span ng-if="x.type==5">备件</span>
+								<span ng-if="x.type==6">附件</span>
+								<span ng-if="x.type==7">其他</span>
+								</td>
 								<td>{{x.name}}</td>
 								<td>{{x.model}}</td>
 								<td>{{x.serialNumber}}</td>
 								<td ng-if="x.status==-1">等待领导审核</td>
 								<td ng-if="x.status==0">已归还</td>
 								<td ng-if="x.status==1">在借</td>
-								<td ng-if="x.status==2">等待验收</td>
+								<td ng-if="x.status==2">待确认</td>
 								<td ng-if="x.status==3">归还审核中</td>
-								<td><a ng-if="x.status==2 && loginUser==checkData.user" href="#"
-										ng-click="checkSuccess($index,1)"><i
-										class="fa fa-check text-success"></i>验收 </a>
-									<a ng-if="x.status==1 && loginUser==checkData.user" href="#"
-										ng-click="checkSuccess($index,3)"><i
-										class="fa fa-check text-success"></i>归还设备</a>
-									<a ng-if="x.status==3 && loginUser==checkData.user1" href="#"
-										ng-click="checkSuccess($index,0)"><i
-										class="fa fa-check text-success"></i>确认归还设备</a>
-									<a ng-if="x.status==0" href="#">#</a>
-								</td>
+								<td><a ng-if="x.status==2 && loginUser==checkData.user"
+									href="#" ng-click="checkSuccess($index,1)"><i
+										class="fa fa-check text-success"></i>确认 </a> <a
+									ng-if="x.status==1 && loginUser==checkData.user" href="#"
+									ng-click="checkSuccess($index,3)"><i
+										class="fa fa-check text-success"></i>归还</a> <a
+									ng-if="x.status==3 && loginUser==checkData.user2" href="#"
+									ng-click="checkSuccess($index,0)"><i
+										class="fa fa-check text-success"></i>确认归还</a> <a
+									ng-if="x.status==0" href="#">#</a></td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<div class="btn-group">
-				</div>
+				<div class="btn-group"></div>
 			</div>
 		</div>
 	</div>
@@ -359,23 +389,22 @@
 	</div>
 </div> -->
 <script>
-	function clk_check_btn3(){
+	function clk_check_btn3() {
 		var checkIds = '';
 		$("input[name='tb-check']:checked").each(function() {
 			checkIds += $(this).val() + ","
 		});
 		checkIds = checkIds.substring(0, checkIds.length - 1);
-		xh.check5(checkIds,3);
+		xh.check5(checkIds, 3);
 	}
-	function clk_check_btn4(){
+	function clk_check_btn4() {
 		var checkIds = '';
 		$("input[name='tb-check']:checked").each(function() {
 			checkIds += $(this).val() + ","
 		});
 		checkIds = checkIds.substring(0, checkIds.length - 1);
-		xh.check5(checkIds,0);
+		xh.check5(checkIds, 0);
 	}
-	
 </script>
 
 <script type="text/javascript">
@@ -390,7 +419,7 @@
 	$("#check_btn5").click(function() {
 		$('#checkForm5').submit();
 	});
-	
+
 	/* $("#check_btn3").click(function() {
 		alert(123);
 		var checkIds = '';
@@ -400,7 +429,7 @@
 		checkIds = checkIds.substring(0, checkIds.length - 1);
 		xh.check5(checkIds);
 	}); */
-	
+
 	/* $("#check_btn4").click(function() {
 		alert(123);
 		var checkIds = '';
@@ -415,7 +444,7 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {}
-	    }).on('success.form.bv', function(e, data) {
+	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check2();
 	});
@@ -424,7 +453,7 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {}
-	    }).on('success.form.bv', function(e, data) {
+	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		xh.check6();
 	});

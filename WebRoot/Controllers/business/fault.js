@@ -61,6 +61,11 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		/*获取管理方人员列表*/
 		$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
@@ -506,23 +511,20 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(){
+xh.download=function(type){
 	var $scope = angular.element(appElement).scope();
 	var checked = $scope.checkData.checked;
-	var fileName = null;
-	if(checked!= -1){
-		if(checked == 2 && $scope.checkData.fileName_Request !=null){
-			fileName = $scope.checkData.fileName_Request;
-			filePath = $scope.checkData.filePath_Request;
-		}
-		else if(checked == 4 && $scope.checkData.fileName_Finish !=null){
-			fileName = $scope.checkData.fileName_Finish;
-			filePath = $scope.checkData.filePath_Finish;
-		}
+	var fileName = null,filePath=null;
+	
+	if(type==1){
+		fileName = $scope.checkData.fileName_Request;
+	}else{
+		fileName = $scope.checkData.fileName_Finish;
 	}
+	filePath = "/Resources/upload/fault/" + fileName;
 	console.log("filename=>" + fileName);
 	console.log("filename=>" + filePath);
-	var downUrl = "../../uploadFile/downfile?fileName=" + fileName + "&filePath=" + filePath;
+	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filePath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

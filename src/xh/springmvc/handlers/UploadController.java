@@ -127,8 +127,7 @@ public class UploadController {
 			HttpServletResponse response) throws Exception {
 		String filePath = request.getParameter("filePath");
 		String fileName = request.getParameter("fileName");
-		String path = request.getSession().getServletContext()
-				.getRealPath(filePath);
+		String path = request.getSession().getServletContext().getRealPath(filePath);
 
 		String downPath = path;
 		log.info("下载连接："+path);

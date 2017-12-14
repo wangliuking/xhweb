@@ -148,6 +148,10 @@ xh.load = function() {
 			if(title=="入网申请"){url="../business/joinnet.html";}
 			else if(title=="业务变更申请"){
 				url="../business/devicemanage.html";
+			}else if(title=="故障申报"){
+				url="../business/fault.html";
+			}else if(title=="租借设备"){
+				url="../business/lend.html";
 			}else{
 				
 			}

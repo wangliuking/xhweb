@@ -28,6 +28,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.LendService;
 import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.WebUserServices;
 
 @Controller
 @RequestMapping(value = "/business")
@@ -50,7 +51,7 @@ public class LendController {
 		this.success = true;
 		int start = funUtil.StringToInt(request.getParameter("start"));
 		int limit = funUtil.StringToInt(request.getParameter("limit"));
-		String user = request.getParameter("user");
+		String user = funUtil.loginUser(request);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
@@ -124,7 +125,7 @@ public class LendController {
 			webLogBean.setContent("租借设备，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotify(bean.getManager(), "设备租借申请，请审核", request);
+			sendNotifytoGroup("b_check_lend",10002, "用户申请租借设备，请审核", request);
 			// ----END
 		} else {
 			this.message = "申请失败";
@@ -157,9 +158,11 @@ public class LendController {
 		String leaderUser = request.getParameter("leaderUser");
 		LendBean bean = new LendBean();
 		bean.setId(id);
-		bean.setUser1(loginUser);
+		bean.setUser2(loginUser);
 		bean.setChecked(2);
-		bean.setTime1(funUtil.nowDate());
+		bean.setTime2(funUtil.nowDate());
+		
+	
 
 		int rst = LendService.checkedSend(bean);
 		if (rst == 1) {
@@ -170,7 +173,7 @@ public class LendController {
 			webLogBean.setContent("提交至领导审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotify(leaderUser, "设备租借清单，请领导审核", request);
+			sendNotifytoSingle(leaderUser, "设备租借清单，请领导审核", request);
 			// ----END
 		} else {
 			this.message = "提交至用户审核租借清单失败";
@@ -212,7 +215,7 @@ public class LendController {
 			webLogBean.setContent("租借设备审核成功，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotify(bean.getUser2(), "设备租借申请，请经办人办理", request);
+			sendNotifytoSingle(bean.getUser2(), "用户提交了租借设备申请，请根据相应要求准备设备清单", request);
 			// ----END
 		} else {
 			this.message = "审核失败";
@@ -365,7 +368,7 @@ public class LendController {
 			webLogBean.setContent("提交至领导审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotify(manager, "设备租借清单，请领导审核", request);
+			sendNotifytoSingle(manager, "设备租借清单，请领导审核", request);
 			// ----END
 		} else {
 			this.message = "提交至领导审核租借清单失败";
@@ -399,6 +402,7 @@ public class LendController {
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note2 = request.getParameter("note2");
 		String user = request.getParameter("user");
+		String user2 = request.getParameter("user2");
 		LendBean bean = new LendBean();
 		bean.setId(id);
 		bean.setChecked(checked);
@@ -421,7 +425,8 @@ public class LendController {
 			webLogBean.setContent("审核租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotify(user, "审核租借清单完成，请用户确认", request);
+			sendNotifytoSingle(user, "租借清单完成，请确认", request);
+			sendNotifytoSingle(user2, "租借清单审核通过！等用户确认", request);
 			// ----END
 		} else {
 			this.message = "审核租借清单失败";
@@ -452,10 +457,14 @@ public class LendController {
 	public void sureOrder(HttpServletRequest request, HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("lendId"));
+		String user1=request.getParameter("user1");
+		String user2=request.getParameter("user2");
 		int checked = 4;
 		LendBean bean = new LendBean();
 		bean.setId(id);
 		bean.setChecked(checked);
+		bean.setUser1(user1);
+		bean.setUser2(user2);
 		bean.setTime4(funUtil.nowDate());
 
 		int rst = LendService.sureOrder(bean);
@@ -531,7 +540,7 @@ public class LendController {
 			} else if(status == 0){
 				this.message = "设备已归还";
 				// ----发送通知邮件
-				//sendNotify(manager, "归还设备，请审核", request);
+				//sendNotifytoSingle(manager, "归还设备，请审核", request);
 				// ----END
 			}
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -558,8 +567,9 @@ public class LendController {
 
 	}
 
+
 	/**
-	 * 发送邮件--租借设备
+	 * 发送邮件(指定收件人)--入网申请
 	 * 
 	 * @param recvUser
 	 *            邮件接收者
@@ -567,7 +577,8 @@ public class LendController {
 	 *            邮件内容
 	 * @param request
 	 */
-	public void sendNotify(String recvUser, String content, HttpServletRequest request) {
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
 		// ----发送通知邮件
 		EmailBean emailBean = new EmailBean();
 		emailBean.setTitle("租借设备");
@@ -577,6 +588,36 @@ public class LendController {
 		emailBean.setTime(funUtil.nowDate());
 		EmailService.insertEmail(emailBean);
 		// ----END
+	}
+
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("租借设备");
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
 	}
 
 }

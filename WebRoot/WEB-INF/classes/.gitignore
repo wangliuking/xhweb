@@ -1,3 +1,4 @@
+/xh
 /com
 /conf.xml
 /log4j.properties
@@ -5,4 +6,4 @@
 /mysql.properties
 /rebel.xml
 /redis.properties
-/xh
+/springmvc.xml
