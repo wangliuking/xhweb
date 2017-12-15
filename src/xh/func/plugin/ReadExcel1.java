@@ -131,9 +131,9 @@ public class ReadExcel1 {
 						String tempA = String.valueOf(cell.getNumericCellValue());
 						String a = tempA.substring(0, tempA.length()-2>0?tempA.length()-2:1);
 						tempList.add(a);
-					} else if (c == 28) {
-						String tempB = String.valueOf(cell.getNumericCellValue());
-						String b = tempB.substring(0, tempB.length()-2>0?tempB.length()-2:1);
+					} else if (c == 62) {
+						String tempB = String.valueOf(cell.getStringCellValue());
+						String b = tempB;
 						tempList.add(b);
 					}
 				}					

@@ -318,6 +318,158 @@ app.controller("map", function($scope, $http) {
 			}
 		}
 	} 
+
+	//检索
+	$scope.chooseLayerType=function(param){
+		$scope.choosedLayerType=param;	
+		$('.navform').css({display:'block'});
+		var areaUrl = "mapLayer/" + param + ".json"
+		var temp = [];
+		if(param=="固定基站"){
+			// 使用ajax获取后台所有基站数据
+			$.ajax({
+				type : "GET",
+				url : "bs/map/data",
+				dataType : "json",
+				success : function(dataMap) {
+					var tempData = dataMap.items;
+					var data = dataWithoutZero(tempData);
+					for(var i=0;i<data.length;i++){
+						temp.push(data[i].bsId+":"+data[i].name);
+					}
+				}
+			});
+		}else{
+			$.getJSON(areaUrl, function(dataMap) {
+				var data = dataMap.features;				
+				for (var i=0;i<data.length;i++) {
+					temp.push(data[i].attributes.Name);
+				}
+			});
+		}
+		$("#search_kw").autocomplete({
+			source : temp
+		});
+	}
+	
+	//点击搜索定位
+	$scope.changePositionForSearch=function(){
+		var temp = $("#search_kw").val();
+		if($scope.choosedLayerType=="固定基站"){
+			$.ajax({
+				type : "GET",
+				url : "bs/map/data",
+				dataType : "json",
+				success : function(dataMap) {
+					var tempData = dataMap.items;
+					var data = dataWithoutZero(tempData);
+					var idAndName = temp.split(":")
+					var lat,lng
+					for(var i=0;i<data.length;i++){
+						if(data[i].bsId == idAndName[0]){
+							lng = data[i].lng;
+							lat = data[i].lat;
+							break;
+						}
+					}
+					var point = new esri.geometry.Point(lng*1, lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
+					myMap.centerAndZoom(point,6);
+					$('#search_kw').val('');
+					$('.navform').hide();
+				}
+			});
+		}else{
+			var areaUrl = "mapLayer/" + $scope.choosedLayerType + ".json"
+			$.getJSON(areaUrl, function(dataMap) {
+				var data = dataMap.features;	
+				var lat,lng;
+				for (var i=0;i<data.length;i++) {
+					if(data[i].attributes.Name == temp){
+						lng = data[i].geometry.x;
+						lat = data[i].geometry.y;
+						break;
+					}
+				}
+				
+				//加载所选图层，并让checkbox选中
+				var param = $scope.choosedLayerType;
+				switch (param)
+				{
+				case "道路卡口":
+					$("#daolukakou").attr("checked",true);
+					myMap.addLayer(daolukakou);
+					break;
+				case "工业园":
+					$("#gongyeyuan").attr("checked",true);
+					myMap.addLayer(gongyeyuan);
+					break;
+				case "公园广场":
+					$("#gongyuanguangchang").attr("checked",true);
+					myMap.addLayer(gongyuanguangchang);
+					break;
+				case "国家级景点":
+					$("#guojiajijingdian").attr("checked",true);
+					myMap.addLayer(guojiajijingdian);
+					break;
+				case "会议中心":
+					$("#huiyizhongxin").attr("checked",true);
+					myMap.addLayer(huiyizhongxin);
+					break;
+				case "交管机构":
+					$("#jiaoguanjigou").attr("checked",true);
+					myMap.addLayer(jiaoguanjigou);
+					break;
+				case "交通枢纽":
+					$("#jiaotongshuniu").attr("checked",true);
+					myMap.addLayer(jiaotongshuniu);
+					break;
+				case "街道办":
+					$("#jiedaoban").attr("checked",true);
+					myMap.addLayer(jiedaoban);
+					break;
+				case "四星级以上酒店":
+					$("#jiudian").attr("checked",true);
+					myMap.addLayer(jiudian);
+					break;
+				case "三甲急救":
+					$("#sanjiajijiu").attr("checked",true);
+					myMap.addLayer(sanjiajijiu);
+					break;
+				case "物资仓库":
+					$("#wuzicangku").attr("checked",true);
+					myMap.addLayer(wuzicangku);
+					break;
+				case "乡镇政府":
+					$("#xiangzhenzhengfu").attr("checked",true);
+					myMap.addLayer(xiangzhenzhengfu);
+					break;
+				case "消防":
+					$("#xiaofang").attr("checked",true);
+					myMap.addLayer(xiaofang);
+					break;
+				case "灾害易发点":
+					$("#zaihaiyifadian").attr("checked",true);
+					myMap.addLayer(zaihaiyifadian);
+					break;
+				case "重点高校":
+					$("#zhongdiangaoxiao").attr("checked",true);
+					myMap.addLayer(zhongdiangaoxiao);
+					break;
+				case "公安局":
+					$("#gonganju").attr("checked",true);
+					myMap.addLayer(gonganju);
+					break;		
+				}
+				
+				var point = new esri.geometry.Point(lng*1, lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
+				myMap.centerAndZoom(point,10);
+				$('#search_kw').val('');
+				$('.navform').hide();
+			});
+		}
+		
+		
+	}
 	
 
 	/* 刷新数据  业务*/
@@ -761,7 +913,7 @@ function floor(data) {
 	zaihaiyifadian = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/zaihaiyifadian/MapServer");//灾害易发点
 	zhongdiangaoxiao = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/zhongdiangaoxiao/MapServer");//重点高校
 	gonganju = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/gonganju/MapServer");//公安局
-	
+
 	levelLayer = new esri.layers.GraphicsLayer({id:"基站级别"});
 	areaLayer = new esri.layers.GraphicsLayer({id:"基站区域"});
 	roadtest = new esri.layers.GraphicsLayer({id:"路测数据"});
@@ -1063,8 +1215,8 @@ function roadtestCreate(data){
 			}
 			var symbol = new esri.symbol.SimpleMarkerSymbol({
 				"color": temp,
-				  "size": 8,
-				  "type": "simplemarkersymbol"
+				"size": 8,
+				"type": "simplemarkersymbol"
 			});
 			var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
 			var attr = {

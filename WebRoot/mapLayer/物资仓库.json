@@ -1,0 +1,156 @@
+{
+ "displayFieldName": "Name",
+ "fieldAliases": {
+  "Name": "Name"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkid": 4490,
+  "latestWkid": 4490
+ },
+ "fields": [
+  {
+   "name": "Name",
+   "type": "esriFieldTypeString",
+   "alias": "Name",
+   "length": 254
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "Name": "粮油储备点"
+   },
+   "geometry": {
+    "x": 104.23099999999999,
+    "y": 30.562999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "帐篷储备点"
+   },
+   "geometry": {
+    "x": 104.245,
+    "y": 30.57
+   }
+  },
+  {
+   "attributes": {
+    "Name": "干粮储备点"
+   },
+   "geometry": {
+    "x": 104.26000000000001,
+    "y": 30.559999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "生活用品储备点"
+   },
+   "geometry": {
+    "x": 104.28700000000001,
+    "y": 30.568999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "应急用品储备点"
+   },
+   "geometry": {
+    "x": 104.252,
+    "y": 30.581
+   }
+  },
+  {
+   "attributes": {
+    "Name": "安装设备储备点"
+   },
+   "geometry": {
+    "x": 104.271,
+    "y": 30.588999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "医药用品储备点"
+   },
+   "geometry": {
+    "x": 104.175,
+    "y": 30.593
+   }
+  },
+  {
+   "attributes": {
+    "Name": "都江堰八角庙储备库"
+   },
+   "geometry": {
+    "x": 103.619,
+    "y": 30.991800000000001
+   }
+  },
+  {
+   "attributes": {
+    "Name": "都江堰宝莲仓库"
+   },
+   "geometry": {
+    "x": 103.655,
+    "y": 30.980599999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "成都万通仓库"
+   },
+   "geometry": {
+    "x": 103.66,
+    "y": 30.992999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "都江堰救灾物资储备库"
+   },
+   "geometry": {
+    "x": 103.65000000000001,
+    "y": 30.992000000000001
+   }
+  },
+  {
+   "attributes": {
+    "Name": "成都市中央级物资储备库"
+   },
+   "geometry": {
+    "x": 103.95,
+    "y": 30.556799999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "龙泉粮油储备点"
+   },
+   "geometry": {
+    "x": 104.247,
+    "y": 30.5566
+   }
+  },
+  {
+   "attributes": {
+    "Name": "都江堰协议粮食储备点"
+   },
+   "geometry": {
+    "x": 103.624,
+    "y": 30.998999999999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "青城山临时物资仓库"
+   },
+   "geometry": {
+    "x": 103.59,
+    "y": 30.8751
+   }
+  }
+ ]
+}

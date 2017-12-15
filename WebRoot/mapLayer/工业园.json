@@ -1,0 +1,75 @@
+{
+ "displayFieldName": "ELEMID",
+ "fieldAliases": {
+  "Name": "Name"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkid": 4490,
+  "latestWkid": 4490
+ },
+ "fields": [
+  {
+   "name": "Name",
+   "type": "esriFieldTypeString",
+   "alias": "Name",
+   "length": 254
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "Name": "蒲江电商创业园"
+   },
+   "geometry": {
+    "x": 103.546443682,
+    "y": 30.220859794999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "蒲江县青年（大学生）创业园"
+   },
+   "geometry": {
+    "x": 103.546443682,
+    "y": 30.220859794999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "青羊工业集中区Ｅ区北门"
+   },
+   "geometry": {
+    "x": 103.950273938,
+    "y": 30.686991519999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "青羊工业集中区Ｎ区"
+   },
+   "geometry": {
+    "x": 103.953062813,
+    "y": 30.685613754999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "青羊工业集中区Ｂ区"
+   },
+   "geometry": {
+    "x": 103.954680947,
+    "y": 30.683508553999999
+   }
+  },
+  {
+   "attributes": {
+    "Name": "迈德科技园"
+   },
+   "geometry": {
+    "x": 103.99285757,
+    "y": 30.463352921999999
+   }
+  }
+ ]
+}
