@@ -66,6 +66,11 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		
 		/* 刷新数据 */

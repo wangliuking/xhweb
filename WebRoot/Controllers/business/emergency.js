@@ -49,6 +49,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		/*获取申请记录表*/
 		$http.get("../../emergency/selectAll?start=0&limit=" + pageSize).
@@ -495,8 +500,8 @@ xh.download=function(type){
 	else if(type == 3){
 		fileName = $scope.checkData.fileName3;
 	}
-	console.log("filename=>" + fileName);
-	var downUrl = "../../emergency/download?fileName=" + fileName;
+	var filepath = "/Resources/upload/emergency/" + fileName;
+	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

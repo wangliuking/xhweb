@@ -6,21 +6,37 @@
 		useCache="true">
 		SELECT a.*,b.status as  num FROM xhgmnet_business_lend as a
 		left join (select count(status) as status,lendId from xhgmnet_business_lend_info  where status=3 group by lendId) as b
-		on a.id=b.lendId where 1=1 and (a.user=#{user} or a.user1=#{user} or a.user2=#{user})
-		<!-- <choose>
-			<when test="user != 'all'">
-				and a.user=#{user}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose> -->
+		on a.id=b.lendId where 1=1 
+		<choose>
+		<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003"> and a.user=#{user}</when>
+		<when test="roleId ==10002"> 		
+		<if test="power=='on'">
+		 and a.checked>=0 
+		</if>
+		<if test="power!='on'">
+		and a.checked>=1  and a.user2=#{user}
+		</if>
+		</when>
+		
+		</choose>
 	    order by a.time desc limit #{start},#{limit}
 	</select>
 	<!--租借申请总数 -->
-	<!-- <select id="lendlistCount" resultType="int" useCache="true">
-		select
-		count(*) from xhgmnet_business_lend
-	</select> -->
+	<select id="lendlistCount" resultType="int" useCache="true">
+		select count(*) from xhgmnet_business_lend where 1=1
+		<choose>
+		<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003"> and user=#{user}</when>
+		<when test="roleId ==10002"> 		
+		<if test="power=='on'">
+		 and checked>=0 
+		</if>
+		<if test="power!='on'">
+		and checked>=1  and user2=#{user}
+		</if>
+		</when>
+		
+		</choose>
+	</select>
 	<!--租借 -->
 	<insert id="lend" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.LendBean">

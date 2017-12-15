@@ -52,6 +52,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		/*获取申请记录表*/
 		$http.get("../../optimizenet/selectAll?start=0&limit=" + pageSize).
@@ -114,6 +119,7 @@ xh.load = function() {
 				$("#checkWin2").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
+				$scope.dropnet="-1";
 				$("#checkWin3").modal('show');
 			}
 			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
@@ -498,7 +504,6 @@ xh.download=function(){
 	}
 	var filepath = "/Resources/upload/optimizenet/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
-	var downUrl = "../../optimizenet/download?fileName=" + fileName;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');
 };

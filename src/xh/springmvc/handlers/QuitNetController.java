@@ -45,6 +45,7 @@ import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.QuitNetService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/quitnet")
@@ -71,11 +72,14 @@ public class QuitNetController {
 		String user=funUtil.loginUser(request);
 		WebUserBean userbean=WebUserServices.selectUserByUser(user);
 		int roleId=userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
+		map.put("power", power.get("b_check_quitnet"));
 		map.put("roleId", roleId);
+	
 		
 		HashMap result = new HashMap();
 		result.put("success", success);

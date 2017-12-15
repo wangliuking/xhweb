@@ -37,6 +37,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.FaultService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/fault")
@@ -62,12 +63,15 @@ public class FaultController {
 		String user=funUtil.loginUser(request);
 		WebUserBean userbean=WebUserServices.selectUserByUser(user);
 		int roleId=userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
+	    map.put("power", power.get("b_check_fault"));
 		map.put("roleId", roleId);
+		log.info("查询条件=>"+map);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -336,9 +340,13 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			if(!user2.endsWith(null)){
+			/*if(!user2.endsWith(null)){
+				sendNotifytoSingle(user2, "故障报告审核通过", request);
+			}*/
+			if(user2!=null || user2!=""){
 				sendNotifytoSingle(user2, "故障报告审核通过", request);
 			}
+			
 			sendNotifytoSingle(user, "故障处理已完成，请回访确认！", request);
 			//----END
 		} else {
@@ -419,6 +427,7 @@ public class FaultController {
 		bean.setId(id);
 		bean.setChecked(checked);
 		bean.setCheckUser(user);
+		bean.setUser1(funUtil.loginUser(request));
 //		bean.setUser4(funUtil.loginUser(request));
 		int rst = FaultService.checkedEight(bean);
 		if (rst == 1) {

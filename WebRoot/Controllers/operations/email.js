@@ -154,6 +154,12 @@ xh.load = function() {
 				url="../business/lend.html";
 			}else if(title=="退网申请"){
 				url="../business/quitnet.html";
+			}else if(title=="应急处置演练"){
+				url="../business/emergency.html";
+			}else if(title=="服务抽检"){
+				url="../business/qualitycheck.html";
+			}else if(title=="网络优化"){
+				url="../business/optimizenet.html";
 			}else{
 				
 			}

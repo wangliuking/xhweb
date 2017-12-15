@@ -46,6 +46,7 @@ import xh.mybatis.service.EmergencyService;
 import xh.mybatis.service.QualityCheckService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/qualitycheck")
@@ -73,12 +74,15 @@ public class QualityCheckController {
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
 		int roleId = userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
-		map.put("roleId", roleId);
+		 map.put("power", power.get("o_check_service"));
+		    map.put("roleId", roleId);
+			log.info("查询条件=>"+map);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -592,7 +596,7 @@ public class QualityCheckController {
 		for (Map<String, Object> item : items) {
 			// ----发送通知邮件
 			EmailBean emailBean = new EmailBean();
-			emailBean.setTitle("入网申请");
+			emailBean.setTitle("服务抽检");
 			emailBean.setRecvUser(item.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent(content);

@@ -63,7 +63,7 @@
 						<div class="panel-body">
 						<div class="btn-group">
 									
-									<button class="btn btn-success btn-sm" data-toggle="modal" ng-if="loginUserRoleId <=1000">
+									<button class="btn btn-success btn-sm" data-target="#add" data-toggle="modal" ng-if="loginUserRoleId <=10000">
 										<i class="fa fa-plus-circle"></i>&nbsp;租借设备
 									</button>
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -110,7 +110,7 @@
 											<a href="#" ng-if="x.checked>=2 " ng-click="checkWin($index,-2)">| <i
 												class="fa fa-file-text-o text-success"></i>租借清单</a>
 											 
-											<a ng-if="loginUserRoleId==10002 && x.checked==0"
+											<a ng-if="loginUserRoleId==10002 && x.checked==0 && up.b_check_lend=='on'"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核</a>
 											<a ng-if="x.checked==1 && x.user2==loginUser"

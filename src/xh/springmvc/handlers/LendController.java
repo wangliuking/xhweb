@@ -23,12 +23,14 @@ import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.JoinNetBean;
 import xh.mybatis.bean.LendBean;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.EmailService;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.LendService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/business")
@@ -52,15 +54,19 @@ public class LendController {
 		int start = funUtil.StringToInt(request.getParameter("start"));
 		int limit = funUtil.StringToInt(request.getParameter("limit"));
 		String user = funUtil.loginUser(request);
+		WebUserBean userbean=WebUserServices.selectUserByUser(user);
+		int roleId=userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user.trim());
+	    map.put("power", power.get("b_check_lend"));
+	    map.put("roleId", roleId);
 		HashMap result = new HashMap();
 		result.put("success", success);
-		List<Map<String,Object>> list = LendService.lendlist(map);
-		result.put("totals", list.size());
-		result.put("items", list);
+		result.put("totals", LendService.lendlistCount(map));
+		result.put("items", LendService.lendlist(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

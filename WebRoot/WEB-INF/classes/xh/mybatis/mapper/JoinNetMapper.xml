@@ -17,30 +17,44 @@
 		,b.userType as userType1
 		from xhgmnet_business_net as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
 		
-		and (a.userName=#{user} or a.user1=#{user} or a.user2=#{user} or a.user3=#{user} or a.user4=#{user})
+		<choose>
+		<when test="roleId &lt;10000"> and a.userName=#{user}</when>
+		<when test="roleId ==10002"> 
 		
+		<if test="power=='on'">
+		and a.checked>=1 
+		</if>
+		<if test="power!='on'">
+		and a.checked>=2  and a.user3=#{user}
+		</if>
 		
-		<!-- <choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-				and a.userName=#{user} and checked!=99
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose> -->
+		</when>
+		<when test="roleId ==10003">
+		and a.serviceType='有线接入' and a.checked>=8
+		</when>
+		</choose>
 
 		order by id desc limit #{start},#{limit}
 	</select>
 	<!--查询入网申请所有记录总数 -->
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
-	and (userName=#{user} or user1=#{user} or user2=#{user} or user3=#{user} or user4=#{user})
 		select count(id) from xhgmnet_business_net where 1=1
-		<!-- <choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-				and userName=#{user}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose> -->
+		<choose>
+		<when test="roleId &lt;10000"> and userName=#{user}</when>
+		<when test="roleId ==10002"> 
+		
+		<if test="power=='on'">
+		and checked>=1 
+		</if>
+		<if test="power!='on'">
+		and checked>=2  and user3=#{user}
+		</if>
+		
+		</when>
+		<when test="roleId ==10003">
+		and serviceType='有线接入' and checked>=8
+		</when>
+		</choose>
 	</select>
 	<!--查询最新一条有线接入ID -->
 	<select id="YXMAXID" resultType="int" useCache="true">

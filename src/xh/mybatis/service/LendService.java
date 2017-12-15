@@ -35,12 +35,12 @@ public class LendService {
 	 * 数量
 	 * @return
 	 */
-	public static int lendlistCount(){
+	public static int lendlistCount(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
 		int count=0;
 		try {
-			count=mapper.lendlistCount();
+			count=mapper.lendlistCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

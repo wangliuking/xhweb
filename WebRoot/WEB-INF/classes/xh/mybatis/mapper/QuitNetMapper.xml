@@ -14,28 +14,42 @@
         ,b.userType as userType1
         from xhgmnet_business_quitnet as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
         
-        and (a.userName=#{user} or a.user1=#{user} or a.checkUser=#{user})
-       <!--  <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10000">
-                and a.userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose> -->
+        <choose>
+		<when test="roleId &lt;10000"> and a.userName=#{user}</when>
+		<when test="roleId ==10002"> 
+		
+		<if test="power=='on'">
+		and a.quit>=1 
+		</if>
+		<if test="power!='on'">
+		and a.quit>=2  and a.checkUser=#{user}
+		</if>		
+		</when>
+		<when test="roleId ==10003">
+		 and a.quitModal ==1 and a.quit>=3
+		</when>
+		</choose>
 
         order by id desc limit #{start},#{limit}
     </select>
     <!--查询退网申请所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_business_quitnet where 1=1
-         and  (userName=#{user} or user1=#{user} or checkUser=#{user})
-        <!-- <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10000">
-                and userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose> -->
+         <choose>
+		<when test="roleId &lt;10000"> and userName=#{user}</when>
+		<when test="roleId ==10002"> 
+		
+		<if test="power=='on'">
+		and quit>=1 
+		</if>
+		<if test="power!='on'">
+		and quit>=2  and checkUser=#{user}
+		</if>		
+		</when>
+		<when test="roleId ==10003">
+		 and quitModal ==1 and quit>=3
+		</when>
+		</choose>
     </select>
     <!--查询退网申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"
@@ -66,7 +80,7 @@
     <!--管理方领导指派 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.QuitNetBean">
         update xhgmnet_business_quitnet set
-        user2=#{checkUser},quit=#{quit},time2=#{time2},note2=#{note2},checkUser=#{checkUser} where id=#{id}
+        user2=#{user2},quit=#{quit},time2=#{time2},note2=#{note2},checkUser=#{checkUser} where id=#{id}
     </update>
 
     <!-- 有线-->

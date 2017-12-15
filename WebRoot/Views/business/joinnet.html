@@ -35,7 +35,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -52,30 +52,31 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
-			
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-					<div class="panel-heading hbuilt">
-									<!-- <div class="panel-tools">
+						<div class="panel-heading hbuilt">
+							<!-- <div class="panel-tools">
 										<a class="search-hide"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">筛选查询</span>
 										</a>
 									</div> -->
-									<i class="fa fa-indent text-danger"></i>&nbsp;入网列表
-								</div>
+							<i class="fa fa-indent text-danger"></i>&nbsp;入网列表
+						</div>
 						<div class="panel-body">
-						<div class="btn-group">
-									<button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#addJoinNet" ng-show="loginUserRoleId >= 1000 && loginUserRoleId < 10000">
-										<i class="fa fa-plus-circle"></i>&nbsp;申请入网
-									</button>
-									
-									<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
-								</div>
+							<div class="btn-group">
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#addJoinNet"
+									ng-show="loginUserRoleId >= 1000 && loginUserRoleId < 10000">
+									<i class="fa fa-plus-circle"></i>&nbsp;申请入网
+								</button>
+
+								<button class="btn btn-warning btn-sm" ng-click="refresh()">
+									<i class="fa fa-refresh"></i>&nbsp;刷新
+								</button>
+							</div>
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
 								<thead>
@@ -101,215 +102,216 @@
 										<td>{{x.nettime}}</td>
 										<td ng-if="x.checked==99" class="td-gray">已退网</td>
 										<!-- 无线接入流程 -->
-										<td ng-if="x.checked==-3 && x.serviceType=='无线接入'" class="td-danger">用户样机入网送检申请（合同附件）方案未通过，请用户重新提交</td>
-										<td ng-if="x.checked==-2 && x.serviceType=='无线接入'" class="td-danger">用户确认编组方案未通过，请经办人重新提交</td>
-										<td ng-if="x.checked==-1 && x.serviceType=='无线接入'" class="td-danger">主管部门审核未通过，请重新申请</td>
-										<td ng-if="x.checked==0 && x.serviceType=='无线接入'" class="td-danger">等待主管部门审核</td>
-										<td ng-if="x.checked==1 && x.serviceType=='无线接入'" class="td-danger">主管部门审核通过，管理部门领导审核</td>
-										<td ng-if="x.checked==2 && x.serviceType=='无线接入'" class="td-danger">等待经办人提交编组方案</td>
-										<td ng-if="x.checked==3 && x.serviceType=='无线接入'" class="td-danger">等待领导审核编组方案</td>
-										<td ng-if="x.checked==4 && x.serviceType=='无线接入'" class="td-danger">请用户确认编组方案</td>
+										<td ng-if="x.checked==-3 && x.serviceType=='无线接入'"
+											class="td-danger">用户样机入网送检申请（合同附件）方案未通过，请用户重新提交</td>
+										<td ng-if="x.checked==-2 && x.serviceType=='无线接入'"
+											class="td-danger">用户确认编组方案未通过，请经办人重新提交</td>
+										<td ng-if="x.checked==-1 && x.serviceType=='无线接入'"
+											class="td-danger">主管部门审核未通过，请重新申请</td>
+										<td ng-if="x.checked==0 && x.serviceType=='无线接入'"
+											class="td-danger">等待主管部门审核</td>
+										<td ng-if="x.checked==1 && x.serviceType=='无线接入'"
+											class="td-danger">主管部门审核通过，管理部门领导审核</td>
+										<td ng-if="x.checked==2 && x.serviceType=='无线接入'"
+											class="td-danger">等待经办人提交编组方案</td>
+										<td ng-if="x.checked==3 && x.serviceType=='无线接入'"
+											class="td-danger">等待领导审核编组方案</td>
+										<td ng-if="x.checked==4 && x.serviceType=='无线接入'"
+											class="td-danger">请用户确认编组方案</td>
 										<!-- <td ng-if="x.checked==5 && x.serviceType=='无线接入'" class="td-danger">请用户发送合同附件</td> -->
-										<td ng-if="x.checked==6 && x.serviceType=='无线接入'" class="td-danger">请经办人处理（请用户先将入网样机送至软件中心测试）</td>
-										<td ng-if="x.checked==7 && x.serviceType=='无线接入'" class="td-danger">等待用户上传采购设备信息</td>
-										<td ng-if="x.checked==8 && x.serviceType=='无线接入'" class="td-danger">用户已上传采购设备信息，等待管理方添加用户</td>
-										<td ng-if="x.checked==9 && x.serviceType=='无线接入'" class="td-danger">用户已上传采购设备信息，等待交付终端</td>
-										<td ng-if="x.checked==10 && x.serviceType=='无线接入'" class="td-danger">管理方已交付终端，等待用户确认</td>
-										<td ng-if="x.checked==11 && x.serviceType=='无线接入'" class="td-danger">终端已交付，等待培训</td>
-										<td ng-if="x.checked==12 && x.serviceType=='无线接入'" class="td-danger">培训已完成，等待用户确认</td>
-										<td ng-if="x.checked==13 && x.serviceType=='无线接入'" class="td-success">无线接入完成</td>
-										
+										<td ng-if="x.checked==6 && x.serviceType=='无线接入'"
+											class="td-danger">请经办人处理（请用户先将入网样机送至软件中心测试）</td>
+										<td ng-if="x.checked==7 && x.serviceType=='无线接入'"
+											class="td-danger">等待用户上传采购设备信息</td>
+										<td ng-if="x.checked==8 && x.serviceType=='无线接入'"
+											class="td-danger">用户已上传采购设备信息，等待管理方添加用户</td>
+										<td ng-if="x.checked==9 && x.serviceType=='无线接入'"
+											class="td-danger">用户已上传采购设备信息，等待交付终端</td>
+										<td ng-if="x.checked==10 && x.serviceType=='无线接入'"
+											class="td-danger">管理方已交付终端，等待用户确认</td>
+										<td ng-if="x.checked==11 && x.serviceType=='无线接入'"
+											class="td-danger">终端已交付，等待培训</td>
+										<td ng-if="x.checked==12 && x.serviceType=='无线接入'"
+											class="td-danger">培训已完成，等待用户确认</td>
+										<td ng-if="x.checked==13 && x.serviceType=='无线接入'"
+											class="td-success">无线接入完成</td>
+
 										<!-- 有线接入流程 -->
-										<td ng-if="x.checked==-2 && x.serviceType=='有线接入'" class="td-danger">主管部门拒绝技术方案，请重新上传</td>
-										<td ng-if="x.checked==-1 && x.serviceType=='有线接入'" class="td-danger">有线接入申请已提交，请上传技术方案</td>
-										<td ng-if="x.checked==0 && x.serviceType=='有线接入'" class="td-danger">等待主管部门审核</td>
-										<td ng-if="x.checked==1 && x.serviceType=='有线接入'" class="td-danger">主管部门审核通过，等待管理方审核</td>
-										<td ng-if="x.checked==2 && x.serviceType=='有线接入'" class="td-danger">管理方已上报评估意见，等待主管部门审核</td>
-										<td ng-if="x.checked==3 && x.serviceType=='有线接入'" class="td-danger">管理方领导通知经办人上传资源配置方案</td>
-										<td ng-if="x.checked==100 && x.serviceType=='有线接入'" class="td-danger">等待经办人上传资源配置方案</td>
-										
-										
-										<td ng-if="x.checked==4 && x.serviceType=='有线接入'" class="td-danger">等待管理方内审资源配置方案</td>
-										<td ng-if="x.checked==5 && x.serviceType=='有线接入'" class="td-danger">等待用户确认资源配置方案</td>
-										<td ng-if="x.checked==6 && x.serviceType=='有线接入'" class="td-danger">等待用户上传（签署协议）</td>
-										<td ng-if="x.checked==7 && x.serviceType=='有线接入'" class="td-danger">等待管理方通知</td>
-										<td ng-if="x.checked==8 && x.serviceType=='有线接入'" class="td-danger">应用接入中，请等待</td>
-										<td ng-if="x.checked==9 && x.serviceType=='有线接入'" class="td-danger">应用接入完成，请等待管理方审核</td>
-										<td ng-if="x.checked==10 && x.serviceType=='有线接入'" class="td-success">有线接入完成，请管理方上传协议文件记录</td>
-										<td ng-if="x.checked==11 && x.serviceType=='有线接入'" class="td-success">有线接入完成，完成记录</td>
-										<td style="text-align:center">										
-										
-										<!-- 无线接入操作控制 -->
-										<a href="#"
-											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;申请详情及进度</a>
-										<!-- 上传公函 -->		
-										<!-- <a ng-if="loginUser==x.userName && x.checked==0 && (x.fileName_GH == '' || x.fileName_GH == null) && x.serviceType=='无线接入'"
+										<td ng-if="x.checked==-2 && x.serviceType=='有线接入'"
+											class="td-danger">主管部门拒绝技术方案，请重新上传</td>
+										<td ng-if="x.checked==-1 && x.serviceType=='有线接入'"
+											class="td-danger">有线接入申请已提交，请上传技术方案</td>
+										<td ng-if="x.checked==0 && x.serviceType=='有线接入'"
+											class="td-danger">等待主管部门审核</td>
+										<td ng-if="x.checked==1 && x.serviceType=='有线接入'"
+											class="td-danger">主管部门审核通过，等待管理方审核</td>
+										<td ng-if="x.checked==2 && x.serviceType=='有线接入'"
+											class="td-danger">管理方已上报评估意见，等待主管部门审核</td>
+										<td ng-if="x.checked==3 && x.serviceType=='有线接入'"
+											class="td-danger">管理方领导通知经办人上传资源配置方案</td>
+										<td ng-if="x.checked==100 && x.serviceType=='有线接入'"
+											class="td-danger">等待经办人上传资源配置方案</td>
+
+
+										<td ng-if="x.checked==4 && x.serviceType=='有线接入'"
+											class="td-danger">等待管理方内审资源配置方案</td>
+										<td ng-if="x.checked==5 && x.serviceType=='有线接入'"
+											class="td-danger">等待用户确认资源配置方案</td>
+										<td ng-if="x.checked==6 && x.serviceType=='有线接入'"
+											class="td-danger">等待用户上传（签署协议）</td>
+										<td ng-if="x.checked==7 && x.serviceType=='有线接入'"
+											class="td-danger">等待管理方通知</td>
+										<td ng-if="x.checked==8 && x.serviceType=='有线接入'"
+											class="td-danger">应用接入中，请等待</td>
+										<td ng-if="x.checked==9 && x.serviceType=='有线接入'"
+											class="td-danger">应用接入完成，请等待管理方审核</td>
+										<td ng-if="x.checked==10 && x.serviceType=='有线接入'"
+											class="td-success">有线接入完成，请管理方上传协议文件记录</td>
+										<td ng-if="x.checked==11 && x.serviceType=='有线接入'"
+											class="td-success">有线接入完成，完成记录</td>
+										<td style="text-align:center">
+											<!-- 无线接入操作控制 --> <a href="#" ng-click="toProgress($index)"><i
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度</a> <!-- 上传公函 -->
+											<!-- <a ng-if="loginUser==x.userName && x.checked==0 && (x.fileName_GH == '' || x.fileName_GH == null) && x.serviceType=='无线接入'"
 											href="#" ng-click="checkWin($index)">| <i
 												class="fa fa-upload text-danger"></i>&nbsp;上传公函（可选）</a> -->
-										<!-- 查看公函 -->
-										<a ng-if="(loginUser==x.userName||loginUserRoleId==10001) && x.checked<=2 && (x.fileName_GH != '' && x.fileName_GH != null)&& x.serviceType=='无线接入'"
+											<!-- 查看公函 --> <a
+											ng-if="(loginUser==x.userName||loginUserRoleId==10001) && x.checked<=2 && (x.fileName_GH != '' && x.fileName_GH != null)&& x.serviceType=='无线接入'"
 											href="#" ng-click="download($index,1)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;查看公函</a>
-										<!-- 上传通知函 -->
-										<a ng-if="loginUser==x.user1 && x.checked==1 && (x.fileName_Note == '' || x.fileName_Note == null)&& x.serviceType=='无线接入'"
+												class="fa fa-download text-danger"></i>&nbsp;查看公函
+										</a> <!-- 上传通知函 --> <a
+											ng-if="loginUser==x.user1 && x.checked==1 && (x.fileName_Note == '' || x.fileName_Note == null)&& x.serviceType=='无线接入'"
 											href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-upload text-danger"></i>&nbsp;上传通知函（可选）</a>
-										<!-- 查看通知函 -->
-										<a ng-if="(loginUserRoleId==10001 || loginUserRoleId==10002) && x.checked<4 && (x.fileName_Note != '' && x.fileName_Note != null)&& x.serviceType=='无线接入'"
+												class="fa fa-upload text-danger"></i>&nbsp;上传通知函（可选）
+										</a> <!-- 查看通知函 --> <a
+											ng-if="(loginUserRoleId==10001 || loginUserRoleId==10002) && x.checked<4 && (x.fileName_Note != '' && x.fileName_Note != null)&& x.serviceType=='无线接入'"
 											href="#" ng-click="download($index,2)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;查看通知函</a>
-												
-										<a ng-if="loginUserRoleId==10001 && x.checked==0 && x.serviceType=='无线接入' 
+												class="fa fa-download text-danger"></i>&nbsp;查看通知函
+										</a> <a
+											ng-if="loginUserRoleId==10001 && x.checked==0 && x.serviceType=='无线接入' 
 										|| loginUserRoleId==10002 && x.checked==1 && x.serviceType=='无线接入'
 										|| loginUserRoleId==10002 && loginUser==x.user3 && (x.checked==2||x.checked==-2) && x.serviceType=='无线接入'
 										|| loginUserRoleId==10002 && loginUser==x.user2 && x.checked==3 && x.serviceType=='无线接入'"
-											href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;
-												<span ng-if="x.checked==0">审核</span>
-												<span ng-if="x.checked==1">处理</span>
-												<span ng-if="x.checked==2">上传编组方案</span>
-												<span ng-if="x.checked==3">审核编组方案</span>
-												
-												</a>
-										<!-- 确认编组方案 -->
-										<a class="text-danger"
+											href="#" ng-click="checkWin($index)"> <span
+												ng-if="x.checked==0 && up.b_check_joinnet=='on'"> | <i
+													class="fa fa-hand-o-down text-danger"></i>&nbsp; 审核
+											</span> <span ng-if="x.checked==1 && up.b_check_joinnet=='on'">| <i
+													class="fa fa-hand-o-down text-danger"></i>&nbsp;通知经办人
+											</span> <span ng-if="x.checked==2">| <i
+													class="fa fa-hand-o-down text-danger"></i>&nbsp;上传编组方案
+											</span> <span ng-if="x.checked==3">| <i
+													class="fa fa-hand-o-down text-danger"></i>&nbsp;审核编组方案
+											</span>
+
+										</a> <!-- 确认编组方案 --> <a class="text-danger"
 											ng-if="loginUser==x.userName && x.checked==4 && x.serviceType=='无线接入'"
 											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案</a>
-										<!-- 上传样机入网送检申请（合同附件） -->
-										<!-- <a ng-if="loginUser==x.userName && (x.checked==5 || x.checked==-3) && x.serviceType=='无线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认编组方案
+										</a> <!-- 上传样机入网送检申请（合同附件） --> <!-- <a ng-if="loginUser==x.userName && (x.checked==5 || x.checked==-3) && x.serviceType=='无线接入'"
 										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-upload text-danger"></i>&nbsp;上传样机入网送检申请（合同附件）</a> -->	
-										<!-- 查看样机入网送检申请（合同附件） -->
-										<!-- <a ng-if="loginUser==x.userName && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
+												class="fa fa-upload text-danger"></i>&nbsp;上传样机入网送检申请（合同附件）</a> -->
+											<!-- 查看样机入网送检申请（合同附件） --> <!-- <a ng-if="loginUser==x.userName && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
 										href="#" ng-click="download($index,4)">| <i
 												class="fa fa-download text-danger"></i>&nbsp;查看样机入网送检申请（合同附件）</a> -->
-										<!-- 审核样机入网送检申请（合同附件） -->
-										<a ng-if="loginUser==x.user3 && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;办理样机入网送检申请（合同附件）</a>		
-
-										<!-- 上传采购设备信息 -->
-										<a ng-if="loginUser==x.userName && x.checked==7 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-upload text-danger"></i>&nbsp;上传采购设备信息</a>
-										<!-- 查看采购设备信息 -->
-										<a ng-if="(loginUser==x.userName || loginUser==x.user3) && x.checked==8 && x.serviceType=='无线接入'"
-										href="#" ng-click="download($index,5)">| <i
-												class="fa fa-download text-danger"></i>&nbsp;查看采购设备信息</a>
-										<!-- 交付终端-->
-										<a ng-if="loginUser==x.user3 && x.checked==9 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-right text-danger"></i>&nbsp;交付终端</a>
-										<!-- 确认交付终端-->
-										<a ng-if="loginUser==x.userName && x.checked==10 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-right text-danger"></i>&nbsp;终端接收确认</a>
-										<!-- 用户使用培训完成请求-->
-										<a ng-if="loginUser==x.user3 && x.checked==11 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-right text-danger"></i>&nbsp;用户使用培训完成</a>
-										<!-- 培训完成确认-->
-										<a ng-if="loginUser==x.userName && x.checked==12 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-right text-danger"></i>&nbsp;培训完成确认</a>
-										<!-- 上传“编程底板”文件-->
-										<a ng-if="loginUser==x.user3 && x.checked==13 && x.serviceType=='无线接入'"
-										href="#" ng-click="checkWin($index)">| <i
-												class="fa fa-hand-o-right text-danger"></i>&nbsp;上传编程底板</a>
-												
-										<!-- 签署协议 -->
-										<!-- <a ng-if="loginUserRoleId==10002 && x.checked==12 && x.serviceType=='无线接入'"
+											<!-- 审核样机入网送检申请（合同附件） --> <a
+											ng-if="loginUser==x.user3 && x.checked==6 && (x.fileName_HT != '' || x.fileName_HT != null) && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-download text-danger"></i>&nbsp;办理样机入网送检申请（合同附件）
+										</a> <!-- 上传采购设备信息 --> <a
+											ng-if="loginUser==x.userName && x.checked==7 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-upload text-danger"></i>&nbsp;上传采购设备信息
+										</a> <!-- 查看采购设备信息 --> <a
+											ng-if="(loginUser==x.userName || loginUser==x.user3) && x.checked==8 && x.serviceType=='无线接入'"
+											href="#" ng-click="download($index,5)">| <i
+												class="fa fa-download text-danger"></i>&nbsp;查看采购设备信息
+										</a> <!-- 交付终端--> <a
+											ng-if="loginUser==x.user3 && x.checked==9 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-right text-danger"></i>&nbsp;交付终端
+										</a> <!-- 确认交付终端--> <a
+											ng-if="loginUser==x.userName && x.checked==10 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-right text-danger"></i>&nbsp;终端接收确认
+										</a> <!-- 用户使用培训完成请求--> <a
+											ng-if="loginUser==x.user3 && x.checked==11 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-right text-danger"></i>&nbsp;用户使用培训完成
+										</a> <!-- 培训完成确认--> <a
+											ng-if="loginUser==x.userName && x.checked==12 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-right text-danger"></i>&nbsp;培训完成确认
+										</a> <!-- 上传“编程底板”文件--> <a
+											ng-if="loginUser==x.user3 && x.checked==13 && x.serviceType=='无线接入'"
+											href="#" ng-click="checkWin($index)">| <i
+												class="fa fa-hand-o-right text-danger"></i>&nbsp;上传编程底板
+										</a> <!-- 签署协议 --> <!-- <a ng-if="loginUserRoleId==10002 && x.checked==12 && x.serviceType=='无线接入'"
 										href="#" ng-click="checkSign($index)">| <i
-												class="fa fa-pencil-square-o text-warning"></i>&nbsp;签署</a> -->			
-										<!-- 下载签署协议 -->
-										<!-- <a ng-if="loginUser==x.userName && x.checked==13 && x.serviceType=='无线接入'"
+												class="fa fa-pencil-square-o text-warning"></i>&nbsp;签署</a> -->
+											<!-- 下载签署协议 --> <!-- <a ng-if="loginUser==x.userName && x.checked==13 && x.serviceType=='无线接入'"
 										href="#" ng-click="download($index,3)">| <i
 												class="fa fa-download text-warning"></i>&nbsp;下载签署协议</a> -->
-										
-										<!-- 添加用户 -->
-										<a ng-if="loginUser==x.user3 && x.checked>=8 && x.serviceType =='无线接入'"
+
+											<!-- 添加用户 --> <a
+											ng-if="loginUser==x.user3 && x.checked>=8 && x.serviceType =='无线接入'"
 											href="#" ng-click="addUser($index)">|<i
-										 		class="fa fa-user text-success"></i>&nbsp;添加无线用户</a>
-										 <!-- 添加无线用户组 -->
-										 <a ng-if="loginUser==x.user3 && x.checked>=8 && x.serviceType  =='无线接入'""
-										 	href="#" ng-click="addGroup($index)">|<i
-										 		class="fa fa-group text-success"></i>&nbsp;添加无线用户组</a>
-										 <!-- 无线接入操作控制 -->
-										 
-										 
-										 
-										 
-										 
-										<!-- 有线接入操作控制 -->
-										<!-- 上传技术方案 -->		
-										<a ng-if="x.serviceType=='有线接入' && loginUser == x.userName && (x.checked==-1 ||x.checked==-2)"
+												class="fa fa-user text-success"></i>&nbsp;添加无线用户
+										</a> <!-- 添加无线用户组 --> <a
+											ng-if="loginUser==x.user3 && x.checked>=8 && x.serviceType  =='无线接入'"
+											href="#" ng-click="addGroup($index)">|<i
+												class="fa fa-group text-success"></i>&nbsp;添加无线用户组
+										</a> <!-- 无线接入操作控制 --> <!-- 有线接入操作控制 --> <!-- 上传技术方案 --> <a
+											ng-if="x.serviceType=='有线接入' && loginUser == x.userName && (x.checked==-1 ||x.checked==-2)"
 											href="#" ng-click="checkWinYX($index,1)">| <i
-												class="fa fa-upload text-danger"></i>&nbsp;上传技术方案</a>
-												
-												
-										<!-- 主管部门受理技术方案并通知管理部门领导 -->
-										<a ng-if="loginUserRoleId==10001 && x.checked==0 && x.serviceType=='有线接入'"
+												class="fa fa-upload text-danger"></i>&nbsp;上传技术方案
+										</a> <!-- 主管部门受理技术方案并通知管理部门领导 --> <a
+											ng-if="loginUserRoleId==10001 && x.checked==0 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,2)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;受理</a>
-												
-										<!-- 经办人审核 -->
-										<a ng-if="loginUserRoleId==10002 && x.checked==1 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;受理
+										</a> <!-- 经办人审核 --> <a
+											ng-if="loginUserRoleId==10002 && x.checked==1 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,3)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;评估技术方案</a>
-										<!-- 主管部门审核 -->
-										<a ng-if="loginUser==x.user1 && x.checked==2 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;评估技术方案
+										</a> <!-- 主管部门审核 --> <a
+											ng-if="loginUser==x.user1 && x.checked==2 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,4)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核</a>
-												
-												
-												
-										<!-- 上传编制资源配置技术方案 -->
-										<a ng-if="loginUser==x.user2 && x.checked==3 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核
+										</a> <!-- 上传编制资源配置技术方案 --> <a
+											ng-if="loginUser==x.user2 && x.checked==3 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,100)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知经办人上传资源配置方案</a>
-												
-												
-												
-												
-										<!-- 上传编制资源配置技术方案 -->
-										<a ng-if="loginUser==x.user3 && x.checked==100 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知经办人上传资源配置方案
+										</a> <!-- 上传编制资源配置技术方案 --> <a
+											ng-if="loginUser==x.user3 && x.checked==100 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,5)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传资源配置技术方案</a>
-												
-												
-										<!-- 内审资源配置技术方案 -->
-										<a ng-if="loginUser==x.user2 && x.checked==4 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传资源配置技术方案
+										</a> <!-- 内审资源配置技术方案 --> <a
+											ng-if="loginUser==x.user2 && x.checked==4 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,6)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核资源配置技术方案</a>
-										<!-- 用户审核资源配置技术方案 -->
-										<a ng-if="loginUser==x.userName && x.checked==5 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核资源配置技术方案
+										</a> <!-- 用户审核资源配置技术方案 --> <a
+											ng-if="loginUser==x.userName && x.checked==5 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,6)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认资源配置技术方案</a>
-										<!-- 用户审核资源配置技术方案 -->
-										<!-- <a ng-if="loginUser==x.userName && x.checked==6 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认资源配置技术方案
+										</a> <!-- 用户审核资源配置技术方案 --> <!-- <a ng-if="loginUser==x.userName && x.checked==6 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,7)">| <i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传协议文件</a> -->
-										<!-- 通知服务方安排应用接入-->
-										<a ng-if="loginUser==x.user3 && x.checked==7 && x.serviceType=='有线接入'"
+											<!-- 通知服务方安排应用接入--> <a
+											ng-if="loginUser==x.user3 && x.checked==7 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,8)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知服务方安排应用接入</a>
-												
-												
-										<!-- 通知服务方安排应用接入-->
-										<a ng-if="loginUserRoleId==10003 && x.checked==8 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知服务方安排应用接入
+										</a> <!-- 通知服务方安排应用接入--> <a
+											ng-if="loginUserRoleId==10003 && x.checked==8 && x.serviceType=='有线接入' && up.b_check_joinnet=='on'"
 											href="#" ng-click="checkWinYX($index,8)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知管理方接入完成</a>
-										<!-- 审核应用接入-->
-										<a ng-if="loginUser==x.user3 && x.checked==9 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;通知管理方接入完成
+										</a> <!-- 审核应用接入--> <a
+											ng-if="loginUser==x.user3 && x.checked==9 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,8)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核</a>
-										<!-- 管理方上传协议文件-->
-										<a ng-if="loginUser==x.user3 && x.checked==10 && x.serviceType=='有线接入'"
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;审核
+										</a> <!-- 管理方上传协议文件--> <a
+											ng-if="loginUser==x.user3 && x.checked==10 && x.serviceType=='有线接入'"
 											href="#" ng-click="checkWinYX($index,7)">| <i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传协议文件</a>
-										<!-- 有线接入操作控制 -->
+												class="fa fa-hand-o-down text-danger"></i>&nbsp;上传协议文件
+										</a> <!-- 有线接入操作控制 -->
 									</tr>
 								</tbody>
 							</table>
@@ -344,7 +346,7 @@
 		</div>
 	</div>
 	<!-- 中间内容体 /-->
-	
+
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -363,7 +365,7 @@
 
 	<script type="text/javascript"
 		src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-	<script 
+	<script
 		src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>

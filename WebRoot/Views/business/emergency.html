@@ -53,57 +53,30 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
+			
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-body" style="padding-top:5px">
-							<!-- row -->
-							<div class="row">
-								<div class="col-md-12" ng-model="loginUserRoleId">
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 && loginUserRoleId < 1000 " disabled="disable">
-									<i class="fa fa-plus-circle"></i>&nbsp;故障申报 -->
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10003 || loginUserRoleId < 10002" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;应急处置演练
-									</button>
+					<div class="panel-heading hbuilt">
+							<i class="fa fa-indent text-danger"></i>&nbsp;应急处置演练列表
+						</div>
+						<div class="panel-body">
+						<div class="btn-group" ng-model="loginUserRoleId">
+									
 									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10003 || loginUserRoleId == 10002">
 										<i class="fa fa-plus-circle"></i>&nbsp;应急处置演练
 									</button>
-									<!-- <button class="btn btn-success btn-sm" data-toggle="modal"
-										data-target="#add" ng-disabled="">
-										<i class="fa fa-plus-circle"></i>&nbsp;
-									</button> -->
-									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改记录
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除记录
-									</button> -->
+								
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
 										<i class="fa fa-refresh"></i>&nbsp;刷新
 									</button>
 								</div>
-							</div>
-							<!-- row -->
-						</div>
-						<!-- panel-body--end -->
-					</div>
-					<!-- hpanel --end-->
-				</div>
-				<!-- col-md-12--end -->
-			</div>
-			<!-- row/ -->
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-body">
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
+									    <th>单位</th>
 										<th>联系人</th>
 										<th>联系方式</th>
 										<th>请求内容</th>
@@ -115,16 +88,17 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="6" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
+									    <th style="color:#000;">{{x.unit1}}</th>
 										<td>{{x.applicant}}</td>
 										<td>{{x.tel}}</td>
 										<td>应急处置演练</td>
 										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
 										<!-- <td ng-if="x.checked==0" class="td-warning">等待服务提供方确认</td> -->
-										<td ng-if="x.checked==0" class="td-warning">等待服务方上传命演练计划</td>
+										<td ng-if="x.checked==0" class="td-warning">等待服务方上传演练计划</td>
 										<td ng-if="x.checked==1" class="td-warning">等待管理方审核</td>
 										<td ng-if="x.checked==2" class="td-warning">等待服务方上传演练报告</td>
 										<td ng-if="x.checked==3" class="td-warning">等待管理方确认 </td>
@@ -133,18 +107,25 @@
 
 										<a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a> 
+										
+										<a ng-if="loginUserRoleId==10003 && x.checked==0 && up.o_check_emergency=='on'" href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传演练计划</a>
+										
+										<a ng-if="loginUserRoleId==10002 && x.checked==1 && up.o_check_emergency=='on'"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核演练计划</a>
+										
+										<a ng-if="loginUserRoleId==10003 && x.checked==2 && up.o_check_emergency=='on'"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传演练报告</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==1
-												||loginUserRoleId==10002 && x.checked==3"
+										<a ng-if="loginUserRoleId==10002 && x.checked==3 && up.o_check_emergency=='on'"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核演练报告</a>
 											
-										<a ng-if="loginUserRoleId==10003 && x.checked==0
-												||loginUserRoleId==10003 && x.checked==2"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
+										
 
 										</td>
 									</tr>

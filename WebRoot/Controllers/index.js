@@ -68,11 +68,11 @@ xh.load = function() {
 
 		$scope.alarmCount();
 		$scope.alarmInfo();
-		/*setInterval(function(){
+		setInterval(function(){
 			$scope.alarmCount();
 			$scope.alarmChange();
 			$scope.alarmInfo();
-			}, 10000);*/ //每隔 10 秒 
+			}, 10000); //每隔 10 秒 
 
 		
 		

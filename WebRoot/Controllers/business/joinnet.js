@@ -49,6 +49,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 
 		/* 获取申请记录表 */
 		$http.get("../../net/selectAll?start=0&limit="+ pageSize).success(function(response) {

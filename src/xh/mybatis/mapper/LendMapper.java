@@ -18,7 +18,7 @@ public interface LendMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int lendlistCount()throws Exception;
+	public int lendlistCount(Map<String,Object> map)throws Exception;
 	/**
 	 * 租借
 	 * @param bean
