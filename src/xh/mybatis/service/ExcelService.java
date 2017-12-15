@@ -3,6 +3,7 @@ package xh.mybatis.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.List;
 
@@ -66,14 +67,25 @@ public class ExcelService {
         for(int i=0;i<excelList.size();i++){
         	List l = (List) excelList.get(i);
         	String a = (String) l.get(0);
-        	String b = (String) l.get(1);
+        	String c = (String) l.get(1);
+        	//String b = "'" + c +"'";
+        	String b = "";
+        	if("移动/正常".equals(c) || "自备/正常".equals(c) || "自备/正常".equals(c) || "移动/异常".equals(c) || "自备/正常".equals(c)){
+        		b="1";
+        	}else{
+        		b="null";
+        	}
+        	/*String b = "";
+        	if("楼顶铁塔".equals(c)){
+        		b = "0";
+        	}else if("抱杆".equals(c)){
+        		b = "1";
+        	}else if("地面铁塔".equals(c)){
+        		b = "2";
+        	}*/
+        	
         	finalStr = finalStr+" WHEN "+a+" THEN "+b;
         }
-        
-        /*String tempStr = excelList.toString();
-        String strs = tempStr.substring(1, tempStr.length()-1);
-        String strA = strs.replaceAll("\\[", "(");
-        String finalStr = strA.replaceAll("\\]", ")");*/
         writeStringToFile(finalStr);        
         return result;
     }
@@ -84,12 +96,13 @@ public class ExcelService {
      */
     public void writeStringToFile(String str) {
         try {
-            File file = new File("D://test.txt");
-            PrintStream ps = new PrintStream(new FileOutputStream(file));
-            ps.println(str);// 往文件里写入字符串
-            ps.close();
-            //ps.append("http://www.jb51.net");// 在已有的基础上添加字符串
-        } catch (FileNotFoundException e) {
+        	//中文输出
+            FileOutputStream fos = new FileOutputStream("D://test.txt");
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+            osw.write(str);
+            osw.flush();
+            osw.close();
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

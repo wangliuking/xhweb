@@ -129,7 +129,7 @@ public class ParseXml {
 			Element temp = (Element)list.get(i);
 			String DeviceID = temp.attributeValue("DeviceID");
 			String DeviceName = temp.attributeValue("DeviceName");
-			String SiteID = temp.attributeValue("SiteID");	
+			String SiteID = temp.attributeValue("RoomName");	
 			String SiteName = temp.attributeValue("SiteName");
 			map.put("fsuId", FSUID);
 			map.put("deviceId", DeviceID);
