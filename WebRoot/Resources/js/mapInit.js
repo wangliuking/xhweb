@@ -320,42 +320,21 @@ app.controller("map", function($scope, $http) {
 	} 
 
 	//检索
-	$scope.chooseLayerType=function(param){
-		$scope.choosedLayerType=param;	
-		$('.navform').css({display:'block'});
-		var areaUrl = "mapLayer/" + param + ".json"
-		var temp = [];
-		if(param=="固定基站"){
-			// 使用ajax获取后台所有基站数据
-			$.ajax({
-				type : "GET",
-				url : "bs/map/data",
-				dataType : "json",
-				success : function(dataMap) {
-					var tempData = dataMap.items;
-					var data = dataWithoutZero(tempData);
-					for(var i=0;i<data.length;i++){
-						temp.push(data[i].bsId+":"+data[i].name);
-					}
-				}
-			});
+	$scope.chooseLayerType=function(param){	
+		var display =$('.navform').css('display');
+		if(display == 'none'){
+			$('.navform').css({display:'block'});
 		}else{
-			$.getJSON(areaUrl, function(dataMap) {
-				var data = dataMap.features;				
-				for (var i=0;i<data.length;i++) {
-					temp.push(data[i].attributes.Name);
-				}
-			});
-		}
-		$("#search_kw").autocomplete({
-			source : temp
-		});
+			$('.navform').css({display:'none'});
+		}	
 	}
 	
 	//点击搜索定位
 	$scope.changePositionForSearch=function(){
 		var temp = $("#search_kw").val();
-		if($scope.choosedLayerType=="固定基站"){
+		var str = ":";
+		//判断temp是否包含:，如果包含则为基站类数据
+		if(temp.indexOf(str)>=0){
 			$.ajax({
 				type : "GET",
 				url : "bs/map/data",
@@ -375,16 +354,19 @@ app.controller("map", function($scope, $http) {
 					var point = new esri.geometry.Point(lng*1, lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 					myMap.centerAndZoom(point,6);
 					$('#search_kw').val('');
-					$('.navform').hide();
+					//$('.navform').hide();
 				}
 			});
 		}else{
-			var areaUrl = "mapLayer/" + $scope.choosedLayerType + ".json"
+			var str = temp.split("[");
+			var tempStr = str[1].split("]");
+			var finalStr = tempStr[0];
+			var areaUrl = "mapLayer/" + finalStr + ".json"
 			$.getJSON(areaUrl, function(dataMap) {
 				var data = dataMap.features;	
 				var lat,lng;
 				for (var i=0;i<data.length;i++) {
-					if(data[i].attributes.Name == temp){
+					if(data[i].attributes.Name == str[0]){
 						lng = data[i].geometry.x;
 						lat = data[i].geometry.y;
 						break;
@@ -392,7 +374,7 @@ app.controller("map", function($scope, $http) {
 				}
 				
 				//加载所选图层，并让checkbox选中
-				var param = $scope.choosedLayerType;
+				var param = finalStr;
 				switch (param)
 				{
 				case "道路卡口":
@@ -464,7 +446,7 @@ app.controller("map", function($scope, $http) {
 				var point = new esri.geometry.Point(lng*1, lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));
 				myMap.centerAndZoom(point,10);
 				$('#search_kw').val('');
-				$('.navform').hide();
+				//$('.navform').hide();
 			});
 		}
 		
@@ -1670,8 +1652,59 @@ var oldP = {
 	"top" : 0
 };
 var moveTartet;
+//文档加载完执行
 $(document).ready(
 		function() {
+			//检索数据源
+			var area = ["道路卡口",
+			            "工业园",
+			            "公安局",
+			            "公园广场",
+			            "国家级景点",
+			            "会议中心",
+			            "交管机构",
+			            "交通枢纽",
+			            "街道办",
+			            "三甲急救",
+			            "四星级以上酒店",
+			            "物资仓库",
+			            "乡镇政府",
+			            "消防",
+			            "重点高校"
+			               ]
+			
+			var temp = [];
+			//设置ajax同步
+			$.ajaxSettings.async = false;
+			for(var i=0;i<area.length;i++){
+				var areaUrl = "mapLayer/" + area[i] + ".json";
+				$.getJSON(areaUrl, function(dataMap) {
+					var data = dataMap.features;				
+					for (var j=0;j<data.length;j++) {
+						temp.push(data[j].attributes.Name+"["+area[i]+"]");
+					}
+				});
+			}
+			//恢复ajax异步
+			$.ajaxSettings.async = true;
+			// 使用ajax获取后台所有基站数据
+			$.ajax({
+				type : "GET",
+				url : "bs/map/data",
+				dataType : "json",
+				success : function(dataMap) {
+					var tempData = dataMap.items;
+					var data = dataWithoutZero(tempData);
+					for(var i=0;i<data.length;i++){
+						temp.push(data[i].bsId+":"+data[i].name);
+					}
+				}
+			});
+			
+			$("#search_kw").autocomplete({
+				source : temp
+			});
+			
 			$(document).on("mousedown", ".modal-header", function(e) {
 				if ($(e.target).hasClass("close"))// 点关闭按钮不能移动对话框
 					return;

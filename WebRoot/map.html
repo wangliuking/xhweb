@@ -88,7 +88,7 @@ html,body {
 .info_right {
 	position: fixed;
 	top: 0;
-	right: 6%;
+	left: 70%;
 	z-index: 1000;
 }
 
@@ -191,7 +191,7 @@ html,body {
 	border:1px solid blue;
 	position:fixed;
 	top:32px;
-	right:17%;
+	left:70%;
 	z-index:900;
 	display:none;
 }
@@ -206,43 +206,9 @@ html,body {
 	<div class="info_right">
 		<div class="btn-group active">		
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
-				data-toggle="dropdown">
+				ng-click="chooseLayerType()">
 				检索 <span class="caret"></span>
 			</button>
-			<ul class="dropdown-menu">
-				<li class="dropdown-submenu"><a href="#">基站信息</a>
-					<ul class="dropdown-menu pull-right">
-						<li><label><a href="" ng-click="chooseLayerType('固定基站')" >固定基站</a></label></li>
-					</ul></li>
-				<li class="dropdown-submenu"><a href="#">政府服务</a>
-					<ul class="dropdown-menu pull-right">
-						<li><label><a href="" ng-click="chooseLayerType('公安局')" >公安，派出所</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('街道办')" >街道办</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('交管机构')" >交管机构</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('乡镇政府')" >乡镇政府</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('消防')" >消防</a></label></li>
-					</ul></li>
-				<li class="dropdown-submenu"><a href="#">应急资源</a>
-					<ul class="dropdown-menu pull-right">
-						<li><label><a href="" ng-click="chooseLayerType('三甲急救')" >三甲急救</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('物资仓库')" >物资仓库</a></label></li>
-						<!-- <li><label><a href="" ng-click="chooseLayerType('灾害易发点')" >灾害易发点</a></label></li> -->
-					</ul></li>
-				<li class="dropdown-submenu"><a href="#">公共区域</a>
-					<ul class="dropdown-menu pull-right">
-						<li><label><a href="" ng-click="chooseLayerType('工业园')" >工业园</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('公园广场')" >公园广场</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('国家级景点')" >国家级景点</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('会议中心')" >会议中心</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('四星级以上酒店')" >四星级以上酒店</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('重点高校')" >重点高校</a></label></li>
-					</ul></li>
-				<li class="dropdown-submenu"><a href="#">交通类别</a>
-					<ul class="dropdown-menu pull-right">
-						<li><label><a href="" ng-click="chooseLayerType('道路卡口')" >道路卡口</a></label></li>
-						<li><label><a href="" ng-click="chooseLayerType('交通枢纽')" >交通枢纽</a></label></li>
-					</ul></li>
-			</ul>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
