@@ -25,12 +25,51 @@ public interface BsstationMapper {
 	public List<HashMap<String, Object>> bsstatusInfo(Map<String,Object> map)throws Exception;
 	
 	/**
+	 *
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> bsInfolimit()throws Exception;
+	
+	/**
 	 * 基站断站列表
 	 * @return
 	 * @throws Exception
 	 */
 	public List<Map<String, Object>> monitorBsofflineList()throws Exception;
 	
+	/**
+	 * 基站限制列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> bslimitList(Map<String, Object> map)throws Exception;
+	/**
+	 * 基站限制列表总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int bslimitListCount()throws Exception;
+	
+	/**
+	 * 基站限制列表是否存在
+	 * @return
+	 * @throws Exception
+	 */
+	public int bslimitExistis(int bsId)throws Exception;
+	/**
+	 * 新增限制列表
+	 * @return
+	 * @throws Exception
+	 */
+	public int addBsLimit(List<String> list)throws Exception;
+	/**
+	 * 删除限制列表
+	 * @return
+	 * @throws Exception
+	 */
+	public int  deleteBsLimit(List<String> list)throws Exception;
 	/**
 	 * 根据基站ID,判断该基站相邻小区是否存在
 	 * @param map

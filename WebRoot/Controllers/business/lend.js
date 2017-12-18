@@ -30,7 +30,6 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.businessMenu=true; //菜单变色
 		
 		//获取登录用户
 		$http.get("../../web/loginUserInfo").
@@ -38,8 +37,8 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
-			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
-				/*获取申请记录表*/
+			/*if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
+				获取申请记录表
 				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
 				success(function(response){
 					xh.maskHide();
@@ -49,7 +48,7 @@ xh.load = function() {
 				});
 				
 			}else{
-				/*获取申请记录表*/
+				获取申请记录表
 				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=all").
 				success(function(response){
 					xh.maskHide();
@@ -57,7 +56,20 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
-			}
+			}*/
+		});
+		/*获取申请记录表*/
+		$http.get("../../business/lend/list?start=0&limit=" + pageSize ).
+		success(function(response){
+			xh.maskHide();
+			$scope.data = response.items;
+			$scope.totals = response.totals;
+			xh.pagging(1, parseInt($scope.totals), $scope);
+		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
 		});
 		
 		
@@ -82,6 +94,7 @@ xh.load = function() {
 				$scope.lendTotals = response.totals;
 			});
 			$("#progress").modal('show');
+			$('#xh-tabs a:first').tab('show');
 	    };
 	    
 	    $scope.checkedChange=function(issure){
@@ -104,17 +117,17 @@ xh.load = function() {
 				},
 				success : function(data) {
 					if (data.result) {
-						$("#checkWin3").modal('hide');
+						//$("#checkWin3").modal('hide');
 						xh.refresh();
 						//$scope.checkWin($scope.ch)
 						//设备清单列表
-						/*$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
+						$http.get("../../business/lend/lendInfoList?lendId="+$scope.checkData.id).
 						success(function(response){
 							xh.maskHide();
 							$scope.dataLend = response.items;
 							$scope.lendTotals = response.totals;
 						});
-						$("#checkWin3").modal('show');*/
+						
 						toastr.success(data.message, '提示');
 
 					} else {
@@ -188,6 +201,24 @@ xh.load = function() {
 			    };  
 				$("#checkWin3").modal('show');
 			}
+			if(type==3){
+				swal({
+					title : "提示",
+					text : "确认清单无误吗？",
+					type : "info",
+					showCancelButton : true,
+					confirmButtonColor : "#DD6B55",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消"
+				/*
+				 * closeOnConfirm : false, closeOnCancel : false
+				 */
+				}, function(isConfirm) {
+					if (isConfirm) {
+						xh.check4();
+					}
+				});
+			}
 			
 			//领导审核并指定经办人
 			else if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
@@ -214,7 +245,8 @@ xh.load = function() {
 						$scope.user=$scope.userData[0].user;
 					}
 				});
-				$("#checkWin1").modal('show');
+				 xh.check1($scope.checkData.id);
+				//$("#checkWin1").modal('show');
 			}
 			//if($scope.loginUserRoleId==10002 && $scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
 			else if($scope.loginUser==$scope.checkData.user || $scope.loginUser==$scope.checkData.user2 && $scope.checkData.checked==1){
@@ -234,9 +266,11 @@ xh.load = function() {
 			              $scope.dataItem[i].state=false;  
 			          }  
 			        }  
-			    };  
+			    }; 
+			   
 				$("#checkWin3").modal('show');
 			}
+			
 
 			
 	    };
@@ -341,8 +375,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
-				/*获取申请记录表*/
+			/*if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
+				获取申请记录表
 				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
 				success(function(response){
 					xh.maskHide();
@@ -352,7 +386,7 @@ xh.load = function() {
 				});
 				
 			}else{
-				/*获取申请记录表*/
+				获取申请记录表
 				$http.get("../../business/lend/list?start=0&limit=" + pageSize + "&user=all").
 				success(function(response){
 					xh.maskHide();
@@ -360,14 +394,14 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
-			}
-			/*$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
+			}*/
+			$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
-			});*/
+			});
 		};
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
@@ -400,6 +434,12 @@ xh.load = function() {
 		};
 	});
 	
+};
+//刷新数据
+xh.refresh = function() {
+	var $scope = angular.element(appElement).scope();
+	// 调用$scope中的方法
+	$scope.refresh();
 };
 xh.checkedChange=function(){
 	var $scope = angular.element(appElement).scope();
@@ -472,9 +512,10 @@ xh.check6 = function() {
 		async : true,
 		data:{
 			lendId:$scope.checkData.id,
-			checked:3,
 			user:$scope.checkData.user,
-			note2:$("#checkForm5").find("input[name='note2']").val()
+			user2:$scope.checkData.user2,
+			checked:3,
+			note2:$("#checkForm5").find("textarea[name='note2']").val()
 		},
 		success : function(data) {
 
@@ -501,7 +542,9 @@ xh.check4 = function() {
 		dataType : "json",
 		async : true,
 		data:{
-			lendId:$scope.checkData.id
+			lendId:$scope.checkData.id,
+			user1:$scope.checkData.user1,
+			user2:$scope.checkData.user2
 		},
 		success : function(data) {
 

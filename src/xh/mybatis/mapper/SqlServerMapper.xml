@@ -19,7 +19,7 @@
     
     <!-- 三期环控交流电告警 -->
     <select id="bsJiAlarm" parameterType="String" resultType="map" useCache="true">
-    select T.JFNode as bsId,T.AlarmText as name from 
+    select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime from 
     (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
       from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
       and DevNode='0051' and NodeID='1003' ) as T1) as T 

@@ -177,6 +177,18 @@ public class SqlServerService {
 		
 		try {
 			list=mapper.bsJiAlarm(str_date1);
+			for(int i=0;i<list.size();i++){
+				Map<String, Object> map =list.get(i);
+				
+				String time=map.get("AlarmDate").toString().split(" ")[0]+" "+map.get("AlarmTime").toString();
+				map.put("time", time);
+				map.remove("AlarmDate");
+				map.remove("AlarmTime");
+				list.set(i, map);
+			}
+			
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,11 +14,9 @@
         ,b.userType as userType1
         from xhgmnet_bs_optimizenet as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
         <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10002">
-                and a.userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
+        <when test="roleId &lt; 10000">
+         and a.userName=#{user}
+        </when>    
         </choose>
 
         order by id desc limit #{start},#{limit}
@@ -27,11 +25,9 @@
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_bs_optimizenet where 1=1
         <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10002">
-                and userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
+        <when test="roleId &lt; 10000">
+         and userName=#{user}
+        </when>   
         </choose>
     </select>
     <!--查询申请进度 -->

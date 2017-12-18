@@ -15,12 +15,12 @@
 		,b.userType as userType1
         from xhgmnet_bs_emergency as u LEFT JOIN xhgmnet_web_user as b on u.userName=b.user where 1=1
         <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10000">
-                and u.userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
+		<when test="roleId &lt;10000 || roleId ==10001"> and u.userName=#{user}</when>
+		<when test="roleId ==10002 || roleId ==10003"> 		
+		and u.checked>=0 
+		</when>
+		
+		</choose>
 
         order by id desc limit #{start},#{limit}
     </select>
@@ -28,12 +28,12 @@
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_bs_emergency where 1=1
         <choose>
-            <when test="roleId &gt;10003 || roleId &lt;10000">
-                and userName=#{user}
-            </when>
-            <otherwise>
-            </otherwise>
-        </choose>
+		<when test="roleId &lt;10000 || roleId ==10001"> and userName=#{user}</when>
+		<when test="roleId ==10002 || roleId ==10003"> 		
+		and checked>=0 
+		</when>
+		
+		</choose>
     </select>
     <!--查询申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"

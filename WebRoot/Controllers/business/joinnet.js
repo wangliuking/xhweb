@@ -49,6 +49,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 
 		/* 获取申请记录表 */
 		$http.get("../../net/selectAll?start=0&limit="+ pageSize).success(function(response) {
@@ -84,9 +89,12 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
+			
 			$scope.progressData = $scope.checkData;
 			
 			$("#progress").modal('show');
+            $('#xh-tabs a:first').tab('show');
+			
 		};
 		
 		
@@ -1153,8 +1161,6 @@ xh.download = function(id,type) {
 		}
 	}
 	var filepath = "/Resources/upload/net/" + filename;
-	console.log("filename=>" + filename);
-	//var downUrl = "../../net/download?fileName=" + filename + "&type=" + type;
 	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
 	window.open(downUrl, '_self',
 			'width=1,height=1,toolbar=no,menubar=no,location=no');

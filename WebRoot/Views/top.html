@@ -14,7 +14,7 @@
 	<nav role="navigation">
 		<div class="font-white">
 			<ul class="navbar-right">
-			<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
+				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
 					href="Views/operations/monitor.html" target="mainframe" title="控制台"><i
 						class="fa fa-desktop fa-x font-white" style="font-size:10pt"></i>
 				</a></li>
@@ -29,54 +29,64 @@
 						class="badge badge-header badge-warning" id="alarmcount">{{totals}}</span>
 				</a> <!-- animated flipInX -->
 
-					<div class="dropdown-menu hdropdown notification animated bounceInLeft">
-						<div class="row"
-							style="max-height:400px;overflow: auto;">
+					<div class="dropdown-menu hdropdown">
+						<div class="row" style="max-height:400px;overflow: auto;">
 
 							<div class="col-md-12">
-							
-							<table id="tb-info" class="xh-table table-hover" style="margin-top:0px;">
-								<!-- <thead>
-									<tr class="tr-warning">
-										<th>ID</th>
-										<th>告警描述</th>
-									</tr>
-								</thead> -->
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="2" class="text-center" style="color:#000;">无告警记录！</td>
-									</tr>
-									<tr ng-repeat="x in alarm" class="td-danger">
-										<td>
-										
-										<span ng-if="x.dstId>0">[{{x.bsId}}]号调度台</span>
-										<span ng-if="x.link==1">[{{x.bsId}}]号基站</span>
-										<span ng-if="x.link==null && x.dstId==null">[{{x.bsId}}]号基站</span>
-										
-										</td>
-										<td>
-										<span ng-if="x.dstId>0">{{x.name}},【连接失败】</span>
-										<span ng-if="x.link==1">{{x.name}},【断开连接】</span>
-										<span ng-if="x.link==null && x.dstId==null">{{x.name}}</span>
-										</td>		
-									</tr>
-								</tbody>
-							</table>
+
+								<table id="tb-info" class="xh-table table-hover"
+									style="margin-top:0px;color:#000;">
+									<thead>
+										<tr class="tr-img-gray">
+											<th>基站</th>
+											<th>告警描述</th>
+											<th>时间</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-if="totals==0">
+											<td colspan="2" class="text-center" style="color:#000;">无告警记录！</td>
+										</tr>
+										<tr ng-repeat="x in alarm">
+											<td>[{{x.bsId}}]-基站</td>
+											<td ng-if="x.link==1" class="td-danger"><span>{{x.name}},【断开连接】</span>
+											</td>
+											<td ng-if="x.link==null" class="td-warning"><span>{{x.name}}</span>
+											</td>
+
+											<td>{{x.time}}</td>
+										</tr>
+									</tbody>
+								</table>
 
 							</div>
 
 
 						</div>
-						<div class="row" ng-show="totals>0">
-							<div class="col-md-12 ">
-								<a href="#" onclick="xh.stopMap3()" class="btn btn-success btn-sm"><i
+						<div class="row" ng-show="totals>0" style="margin-top:5px;">
+							<div class="col-md-4 ">
+								<a href="#" onclick="xh.stopMap3()"
+									class="btn btn-success btn-sm"><i
 									class="fa fa-bell-slash-o"></i>解除声音</a>
 							</div>
+							<div class="col-md-8">
+							<div class="pull-right">
+							<span style="color:#000;">声音告警提示选项:&nbsp;&nbsp;</span> <input id="alarmbs"
+									class="magic-checkbox" type="checkbox" name="alarmbs" value="2"  ng-checked="true" onclick="xh.aa()">
+								<label for="alarmbs"><span style="color:#000;">断站</span></label>
+								<input id="alarmji" class="magic-checkbox" type="checkbox"
+									name="alarmji" value="1"  ng-checked="true" onclick="xh.aa()"> <label for="alarmji"><span
+									style="color:#000;">交流电</span></label>
+							</div>
+
+								
+							</div>
+
 						</div>
 
 
 
-					</div>
+					</div></li>
 				<li class="member-center">
 					<div class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
@@ -138,5 +148,4 @@
 		error : function() {
 		}
 	});
-	
 </script>

@@ -16,15 +16,11 @@ xh.load = function() {
 	app.controller("monitor", function($scope, $http) {
 
 		$(window).resize(function () {          //当浏览器大小变化时
-			xh.map()
+			xh.bsBar();
 		});
 		$scope.hideMenu = function() {
 			$("body").toggleClass("hide-menu");
 		};
-		// xh.bsChart();
-		//xh.map();
-		xh.bsBar();
-		
 		
 	   //系统告警模块
 		$scope.alarmModel=function(){
@@ -32,36 +28,33 @@ xh.load = function() {
 				$scope.bs = response.bsList;
 				$scope.bsTotals = response.bsListCount;
 				
-				$scope.dispatch=response.dispatchList;
-				$scope.dispatchTotals=response.dispatchListCount;
+				$scope.msc=response.mscList;
+				$scope.mscTotals=response.mscCount;
 				
 				$scope.emh=response.emhList;
 				$scope.emhTotals=response.emhListCount;
 				
 			});
 		}
-
-		// 更新基站断站告警状态
+		
 		$scope.bsMapCount = function() {
-			$.ajax({
-				url : '../../bsstatus/bsMapCount',
-				type : 'GET',
-				dataType : "json",
-				data : {},
-				async : false,
-				success : function(data) {
-					$("#bs").html(data.bsOffline);
-					$("#dispatch").html(data.dispatchOffline);
-					$("#msc").html(data.mscOffline);
-					$("#emh").html(data.emhAlarm);
-				},
-				error : function() {
-				}
+			$http.get("../../bsstatus/bsMapCount").success(function(data) {
+				$scope.countData=data;
+				$scope.bsOffline=data.bsOffline;
+				console.log("bbb-->"+$scope.bsOffline)
+				/*$("#bs").html(data.bsOffline);
+				$("#msc").html(data.mscOffline);
+				$("#emh").html(data.emhAlarm);*/
+				
 			});
+			
 		};
+
+	
 		
 		$scope.bsMapCount();
 		$scope.alarmModel();
+		xh.bsBar();
 		setInterval(function(){
 			$scope.bsMapCount();
 			$scope.alarmModel();
@@ -261,28 +254,30 @@ xh.bsBar = function() {
 		
 		
 	
-		var option = {
-			   /* title : {
+		/*var option = {
+			    title : {
 			        text: '世界人口总量',
 			        subtext: '数据来自网络'
-			    },*/
+			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
 			        data:['设备工作状态异常的基站数量']
 			    },
-			    calculable : false,
+			    calculable : true,
 			    xAxis : [
 			        {
 			            type : 'value',
+			            type : 'category',
+			            data:[]
 			            splitLine:{show: false},//去除网格线
 			            boundaryGap : [0, 0.01]
 			        }
 			    ],
 			    yAxis : [
 			        {
-			            type : 'category',
+			            type : 'value',
 			            splitLine:{show: false},//去除网格线
 			            splitArea : {show : false},//保留网格区域
 			            data : []
@@ -293,13 +288,58 @@ xh.bsBar = function() {
 			            name:'设备工作状态异常的基站数量',
 			            itemStyle:{
 			            	normal:{
-			            		color:'skyblue',
+			            		color:'green',
 			            		barBorderWidth:30,
 			            		barRorderRadius:4,
 			            		cursor:'pointer'
 			            	}},
 			            type:'bar',
 			            data:[]
+			        }
+			    ]
+			};*/
+		var option = {
+			    title : {
+			        text: '某个区域下设备工作状态异常的基站数量'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['设备工作状态异常的基站数量']
+			    },
+			    
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            
+			            data : []
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'设备工作状态异常的基站数量',
+			            type:'bar',
+			            barWidth: 30,//固定柱子宽度
+			            data:[],
+			            itemStyle:{
+			            	normal:{
+			            		color:'green',
+			            		cursor:'pointer'
+			            	}},
+			            
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            }
 			        }
 			    ]
 			};
@@ -323,10 +363,8 @@ xh.bsBar = function() {
 					x.push(data[i].value);
 					
 				}
-				option.yAxis[0].data=y;
+				option.xAxis[0].data=y;
 				option.series[0].data=x;
-				
-				//chart.hideLoading();
 				chart.setOption(option);
 				chart.on('click',function(params){
 					var name=params.name;

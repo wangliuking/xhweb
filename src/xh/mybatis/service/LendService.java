@@ -1,6 +1,7 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +35,12 @@ public class LendService {
 	 * 数量
 	 * @return
 	 */
-	public static int lendlistCount(){
+	public static int lendlistCount(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		LendMapper mapper = sqlSession.getMapper(LendMapper.class);
 		int count=0;
 		try {
-			count=mapper.lendlistCount();
+			count=mapper.lendlistCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -135,6 +136,15 @@ public class LendService {
 		try {
 			result=mapper.sureOrder(bean);
 			sqlSession.commit();
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("status", 1);
+			map.put("id", bean.getId());
+			if(result>0){
+				mapper.updateOrderList(map);
+				sqlSession.commit();
+			}
+			
+			
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -142,6 +152,7 @@ public class LendService {
 		}
 		return result;
 	}
+	
 	/**
 	 * 用户完全归还设备
 	 * @param bean

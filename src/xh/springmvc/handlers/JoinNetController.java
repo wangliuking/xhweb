@@ -41,6 +41,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/net")
@@ -67,12 +68,17 @@ public class JoinNetController {
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
 		int roleId = userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
+		
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
+		map.put("power", power.get("b_check_joinnet"));
 		map.put("roleId", roleId);
+		
+		
 
 		HashMap result = new HashMap();
 		List<JoinNetBean> selectall_rst = JoinNetService.selectAll(map);

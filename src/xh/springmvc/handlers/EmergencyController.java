@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,7 +141,7 @@ public class EmergencyController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(bean.getUser_MainManager(), "应急演练申请信息已经成功提交,请审核。。。", request);
+            sendNotifytoGroup("o_check_emergency",10003, "应急演练任务", request);
             //----END
         } else {
             this.message = "应急演练申请信息提交失败";
@@ -170,7 +173,7 @@ public class EmergencyController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         //int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
-        String user = request.getParameter("user");
+        String user = request.getParameter("userName");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
         EmergencyBean bean = new EmergencyBean();
@@ -181,8 +184,6 @@ public class EmergencyController {
         bean.setChecked(1);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
-        System.out.println("应急处置演练计划:" + fileName);
-
         int rst = EmergencyService.checkedOne(bean);
         if (rst == 1) {
             this.message = "上传应急处置演练计划成功";
@@ -191,6 +192,7 @@ public class EmergencyController {
             webLogBean.setStyle(5);
             webLogBean.setContent("上传应急处置演练计划，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+            sendNotifytoSingle(user, "演练计划已上传，请审核！", request);
         } else {
             this.message = "上传应急处置演练计划失败";
         }
@@ -222,7 +224,7 @@ public class EmergencyController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note3 = request.getParameter("note3");
-        String user = request.getParameter("user");
+        String user = request.getParameter("user1");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
@@ -244,9 +246,15 @@ public class EmergencyController {
             webLogBean.setContent("通知服务管理方处理(应急处置演练计划)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 
-            //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理应急处置演练任务消息。。。", request);
-            //----END
+            if(checked==2){
+            	//----发送通知邮件
+                sendNotifytoSingle(user, "应急处置演练计划已经审核通过", request);
+                //----END
+            }else{
+            	//----发送通知邮件
+                sendNotifytoSingle(user, "应急处置演练计划审核不通过", request);
+                //----END
+            }
         } else {
             this.message = "通知服务管理方处理应急处置演练任务消息失败";
         }
@@ -278,6 +286,7 @@ public class EmergencyController {
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
         String note3 = request.getParameter("note3");
+        String user = request.getParameter("userName");
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(3);
@@ -296,6 +305,9 @@ public class EmergencyController {
             webLogBean.setStyle(5);
             webLogBean.setContent("上传演练报告，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+          //----发送通知邮件
+            sendNotifytoSingle(user, "应急处置演练报告已经上传", request);
+            //----END
         } else {
             this.message = "上传演练报告失败";
         }
@@ -326,7 +338,7 @@ public class EmergencyController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         //String note3 = request.getParameter("note3");
-        String user = request.getParameter("user");
+        String user = request.getParameter("user1");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         int level = funUtil.StringToInt(request.getParameter("level"));
         EmergencyBean bean = new EmergencyBean();
@@ -336,6 +348,7 @@ public class EmergencyController {
         bean.setTime4(funUtil.nowDate());
         bean.setLevel(level);
         int rst = EmergencyService.checkedFour(bean);
+        String ll="";
         if (rst == 1) {
             this.message = "通知服务方处理方案评审成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -343,9 +356,18 @@ public class EmergencyController {
             webLogBean.setStyle(5);
             webLogBean.setContent("通知服务管理方处理(方案评审消息)，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
-
+            
+            if(bean.getLevel()==1){
+            	ll="优";
+            }else if(bean.getLevel()==2){
+            	ll="良";
+            }else if(bean.getLevel()==3){
+            	ll="中";
+            }else if(bean.getLevel()==4){
+            	ll="差";
+            }
             //----发送通知邮件
-            sendNotify(user, "服务方请查看处理方案结果消息。。。", request);
+            sendNotifytoSingle(user, "应急处置演练报告已经查阅  评级：（"+ll+"）", request);
             //----END
         } else {
             this.message = "通知服务方处理方案评审消息失败";
@@ -529,8 +551,13 @@ public class EmergencyController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(@RequestParam("filePath") MultipartFile file,
                        HttpServletRequest request,HttpServletResponse response) {
+    	
+    	// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
         String path = request.getSession().getServletContext()
-                .getRealPath("")+"/Resources/upload";
+                .getRealPath("")+"/Resources/upload/emergency";
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
@@ -544,6 +571,9 @@ public class EmergencyController {
             file.transferTo(targetFile);
             this.success=true;
             this.message="文件上传成功";
+            fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -554,7 +584,7 @@ public class EmergencyController {
         result.put("success", success);
         result.put("message", message);
         result.put("fileName", fileName);
-        result.put("filePath", path+"/"+fileName);
+        result.put("filePath", "/Resources/upload/emergency/"+fileName);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -622,21 +652,55 @@ public class EmergencyController {
     }
 
     /**
-     * 发送邮件
-     * @param recvUser	邮件接收者
-     * @param content	邮件内容
-     * @param request
-     */
-    public void sendNotify(String recvUser,String content,HttpServletRequest request){
-        //----发送通知邮件
-        EmailBean emailBean = new EmailBean();
-        emailBean.setTitle("应急处置演练");
-        emailBean.setRecvUser(recvUser);
-        emailBean.setSendUser(funUtil.loginUser(request));
-        emailBean.setContent(content);
-        emailBean.setTime(funUtil.nowDate());
-        EmailService.insertEmail(emailBean);
-        //----END
-    }
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle("应急处置演练");
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(funUtil.loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(funUtil.nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
+
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("应急处置演练");
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
 
 }

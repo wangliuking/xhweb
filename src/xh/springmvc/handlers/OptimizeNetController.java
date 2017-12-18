@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +152,7 @@ public class OptimizeNetController {
             webLogBean.setContent("网络优化申请信息，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
 //            //----发送通知邮件
-//            sendNotify(bean.getUser_MainManager(), "网络优化申请信息已经成功提交,请审核。。。", request);
+           sendNotifytoGroup("o_check_netoptimize",10003, "网络优化任务下达", request);
 //            //----END
         } else {
             this.message = "网络优化申请信息提交失败";
@@ -181,7 +184,7 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
-        String user = request.getParameter("user");
+        String user = request.getParameter("userName");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
         bean.setChecked(1);
@@ -198,10 +201,9 @@ public class OptimizeNetController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "网络优化信息审核，请服务提供方方人员审核并尽快处理", request);
+            sendNotifytoSingle(user, "服务提供方已收到信息，我们将尽快上传优化方案", request);
             //----EN
         }
-        log.info("data==>" + bean.toString());
 
         HashMap result = new HashMap();
         result.put("success", success);
@@ -232,23 +234,26 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
+        String user = request.getParameter("userName");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
         bean.setChecked(2);
         bean.setFileName2(fileName);
         bean.setFilePath2(filePath);
-        System.out.println("方案总结消息消息:" + fileName);
 
         int rst = OptimizeNetService.checkedTwo(bean);
         if (rst == 1) {
-            this.message = "上传方案总结消息成功";
+            this.message = "上传优化方案成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传方案总结消息，data=" + bean.toString());
+            webLogBean.setContent("上传优化方案，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+            //----发送通知邮件
+            sendNotifytoSingle(user, "请审核网络优化方案", request);
+            //----EN
         } else {
-            this.message = "上传方案总结消息失败";
+            this.message = "上传优化方案失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -276,7 +281,7 @@ public class OptimizeNetController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note3 = request.getParameter("note3");
-        String user = request.getParameter("user");
+        String user = request.getParameter("user2");
         int dropnet = funUtil.StringToInt(request.getParameter("dropnet"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
@@ -291,18 +296,26 @@ public class OptimizeNetController {
         bean.setNote3(note3);
         int rst = OptimizeNetService.checkedThree(bean);
         if (rst == 1) {
-            this.message = "通知服务管理方处理成功";
+            this.message = "优化方案审核成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(方案总结消息)，data=" + bean.toString());
+            webLogBean.setContent("优化方案审核，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+            
+            if(dropnet==-1){
+            	//----发送通知邮件
+                sendNotifytoSingle(user, "优化方案已经审核", request);
+                //----END
+            }else{
+            	//----发送通知邮件
+                sendNotifytoSingle(user, "网络优化流程已经中断，后续工作停止进行", request);
+                //----END
+            }
 
-            //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理方案总结消息。。。", request);
-            //----END
+            
         } else {
-            this.message = "通知服务管理方处理方案总结消息失败";
+            this.message = "审核优化方案失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -332,23 +345,25 @@ public class OptimizeNetController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
+        String user = request.getParameter("userName");
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
         bean.setChecked(4);
         bean.setFileName3(fileName);
         bean.setFilePath3(filePath);
-        System.out.println("总结审核消息:" + fileName);
-
         int rst = OptimizeNetService.checkedFour(bean);
         if (rst == 1) {
-            this.message = "上传总结审核消息成功";
+            this.message = "上传总结报告成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
-            webLogBean.setContent("上传总结审核消息，data=" + bean.toString());
+            webLogBean.setContent("上传了总结报告，data=" + bean.toString());
             WebLogService.writeLog(webLogBean);
+          //----发送通知邮件
+            sendNotifytoSingle(user, "上传了总结报告，请审核", request);
+            //----END
         } else {
-            this.message = "上传总结审核消息失败";
+            this.message = "上传总结报告失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -376,7 +391,7 @@ public class OptimizeNetController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note4 = request.getParameter("note4");
-        String user = request.getParameter("user");
+        String user = request.getParameter("user2");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         OptimizeNetBean bean = new OptimizeNetBean();
         bean.setId(id);
@@ -390,7 +405,7 @@ public class OptimizeNetController {
         bean.setNote4(note4);
         int rst = OptimizeNetService.checkedFive(bean);
         if (rst == 1) {
-            this.message = "通知服务管理方处理总结审核消息成功";
+            this.message = "总结报告审核成功";
             webLogBean.setOperator(funUtil.loginUser(request));
             webLogBean.setOperatorIp(funUtil.getIpAddr(request));
             webLogBean.setStyle(5);
@@ -398,10 +413,10 @@ public class OptimizeNetController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotify(user, "服务管理方请重新处理总结审核消息。。。", request);
+            sendNotifytoSingle(user, "总结报告已审核", request);
             //----END
         } else {
-            this.message = "通知服务管理方处理总结审核消息失败";
+            this.message = "总结报告审核失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -426,8 +441,14 @@ public class OptimizeNetController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(@RequestParam("filePath") MultipartFile file,
                        HttpServletRequest request,HttpServletResponse response) {
+    	
+
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
         String path = request.getSession().getServletContext()
-                .getRealPath("")+"/Resources/upload";
+                .getRealPath("")+"/Resources/upload/optimizenet";
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
@@ -441,6 +462,9 @@ public class OptimizeNetController {
             file.transferTo(targetFile);
             this.success=true;
             this.message="文件上传成功";
+            fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -451,7 +475,7 @@ public class OptimizeNetController {
         result.put("success", success);
         result.put("message", message);
         result.put("fileName", fileName);
-        result.put("filePath", path+"/"+fileName);
+        result.put("filePath", "/Resources/upload/optimizenet/"+fileName);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -519,21 +543,54 @@ public class OptimizeNetController {
     }
 
     /**
-     * 发送邮件
-     * @param recvUser	邮件接收者
-     * @param content	邮件内容
-     * @param request
-     */
-    public void sendNotify(String recvUser,String content,HttpServletRequest request){
-        //----发送通知邮件
-        EmailBean emailBean = new EmailBean();
-        emailBean.setTitle("网络优化");
-        emailBean.setRecvUser(recvUser);
-        emailBean.setSendUser(funUtil.loginUser(request));
-        emailBean.setContent(content);
-        emailBean.setTime(funUtil.nowDate());
-        EmailService.insertEmail(emailBean);
-        //----END
-    }
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle("入网申请");
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(funUtil.loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(funUtil.nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
 
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("网络优化");
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
 }

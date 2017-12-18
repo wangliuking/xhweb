@@ -92,35 +92,19 @@
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked==0"></div>
+									ng-if="progressData.checked<1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>0"></div>
+									ng-if="progressData.checked>=1"></div>
 								<div class="cd-timeline-content">
 									<h2>领导审核，并指定经办人</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
-									<span ng-if="progressData.checked==0"
-										class="cd-date text-danger">等待审核！</span> <span
-										ng-if="progressData.checked>0"
-										class="cd-date text-success font-bold text-x">已经审核;
-										审核时间：{{progressData.time1}}</span>
-								</div>
-							</div>
-							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<1"></div>
-								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=1"></div>
-								<div class="cd-timeline-content">
-									<h2>经办人整理设备清单</h2>
-
 									<span ng-if="progressData.checked<1"
-										class="cd-date text-danger">等待处理！</span> <span
+										class="cd-date text-danger">等待审核！</span> <span
 										ng-if="progressData.checked>=1"
-										class="cd-date text-success font-bold">租借清单已经整理，等待领导审核;
-										时间：{{progressData.time2}}</span>
+										class="cd-date text-success font-bold text-x">已经审核;
+										</br>时间：{{progressData.time1}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -130,15 +114,13 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>领导审核租借清单</h2>
-									<p>
-										<span>备注：</span><span>{{progressData.note2}}</span>
-									</p>
+									<h2>经办人整理设备清单</h2>
+
 									<span ng-if="progressData.checked<2"
 										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=2"
-										class="cd-date text-success font-bold">等待用户审核租借清单;
-										时间：{{progressData.time3}}</span>
+										class="cd-date text-success font-bold">租借清单已经整理，等待领导审核;</br>
+										时间：{{progressData.time2}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -148,12 +130,31 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=3"></div>
 								<div class="cd-timeline-content">
-									<h2>设备处理流程中</h2>
-
+									<h2>领导审核租借清单</h2>
+									<p>
+										<span>备注：</span><span>{{progressData.note2}}</span>
+									</p>
 									<span ng-if="progressData.checked<3"
-										class="cd-date text-danger">等待确认</span> <span
+										class="cd-date text-danger">等待处理！</span> <span
 										ng-if="progressData.checked>=3"
-										class="cd-date text-success font-bold">设备处理流程中;
+										class="cd-date text-success font-bold">清单审核用过等待用户确认租借清单;</br>
+										时间：{{progressData.time3}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>用户确认租借清单</h2>
+
+									<span ng-if="progressData.checked<4"
+										class="cd-date text-danger">等待确认</span> <span
+										ng-if="progressData.checked>=4"
+										class="cd-date text-success font-bold">已经确认;</br>
+										时间：{{progressData.time4}}
 										</span>
 								</div>
 							</div>

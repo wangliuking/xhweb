@@ -15,11 +15,18 @@
 		,b.userType as userType1
 		from xhgmnet_business_fault as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
 		<choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-				and a.userName=#{user}
-			</when>
-			<otherwise>
-			</otherwise>
+		<when test="roleId &lt;10000 || roleId ==10001"> and a.userName=#{user}</when>
+		<when test="roleId ==10002"> 		
+		<if test="power=='on'">
+		 and a.checked>=0 
+		</if>
+		<if test="power!='on'">
+		and a.checked>=1  and a.checkUser=#{user}
+		</if>
+		</when>
+		<when test="roleId ==10003">
+		 and a.checked>=3  and a.faultType=1
+		</when>
 		</choose>
 		order by id desc limit #{start},#{limit}
 	</select>
@@ -28,11 +35,18 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_fault where 1=1
 		<choose>
-			<when test="roleId &gt;10003 || roleId &lt;10000">
-			  and userName=#{user}
-			</when>
-			<otherwise>
-			</otherwise>
+		<when test="roleId &lt;10000 || roleId ==10001"> and userName=#{user}</when>
+		<when test="roleId ==10002"> 		
+		<if test="power=='on'">
+		 and checked>=0 
+		</if>
+		<if test="power!='on'">
+		and checked>=1  and checkUser=#{user}
+		</if>
+		</when>
+		<when test="roleId ==10003">
+		 and checked>=3  and faultType=1
+		</when>
 		</choose>
 	</select>
 
@@ -51,13 +65,13 @@
 
 	<update id="checkedEight" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		checked=#{checked},checkUser=#{checkUser} where id=#{id}
+		checked=#{checked},checkUser=#{checkUser},user1=#{user1} where id=#{id}
 	</update>
 
 	<!--管理方审核 -->
 	<update id="checkedOne" parameterType="xh.mybatis.bean.FaultBean">
 		update xhgmnet_business_fault set
-		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked},
+		time1=#{time1},note1=#{note1},checked=#{checked},
 		faultType=#{faultType} where id=#{id}
 	</update>
 	

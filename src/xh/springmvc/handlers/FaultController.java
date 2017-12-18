@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.FaultService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/fault")
@@ -60,12 +63,15 @@ public class FaultController {
 		String user=funUtil.loginUser(request);
 		WebUserBean userbean=WebUserServices.selectUserByUser(user);
 		int roleId=userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
+	    map.put("power", power.get("b_check_fault"));
 		map.put("roleId", roleId);
+		log.info("查询条件=>"+map);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -129,7 +135,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoGroup("b_check_fault", "故障申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoGroup("b_check_fault",10002, "用户故障申报,请审核。。。", request);
 			//----END
 		} else {
 			this.message = "故障申请信息提交失败";
@@ -218,7 +224,7 @@ public class FaultController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String note2 = request.getParameter("note2");
-		String user = request.getParameter("user");
+		String user = request.getParameter("checkUser");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
 		bean.setChecked(4);
@@ -235,7 +241,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoSingle(user, "故障申请信息审核，请确认。。。", request);
+			sendNotifytoSingle(user, "服务提供方已经收到故障处理信息", request);
 			//----END
 		} else {
 			this.message = "通知经办人处理失败";
@@ -316,7 +322,8 @@ public class FaultController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String note4 = request.getParameter("note4");
-		String user = request.getParameter("user");
+		String user = request.getParameter("userName");
+		String user2 = request.getParameter("user2");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
 		bean.setChecked(7);
@@ -333,7 +340,14 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "故障完成信息审核，请确认。。。", request);
+			/*if(!user2.endsWith(null)){
+				sendNotifytoSingle(user2, "故障报告审核通过", request);
+			}*/
+			if(user2!=null || user2!=""){
+				sendNotifytoSingle(user2, "故障报告审核通过", request);
+			}
+			
+			sendNotifytoSingle(user, "故障处理已完成，请回访确认！", request);
 			//----END
 		} else {
 			this.message = "通知用户回访处理失败";
@@ -364,6 +378,7 @@ public class FaultController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String UserVisit = request.getParameter("UserVisit");
 		String note = request.getParameter("note");
+		String checkUser = request.getParameter("checkUser");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);	
 		bean.setTime(funUtil.nowDate());
@@ -379,7 +394,7 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			//sendNotify(bean.getUser_MainManager(), "申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoSingle(checkUser, "用户已确认故障申报结果", request);
 			//----END
 		} else {
 			this.message = "确认失败";
@@ -400,6 +415,7 @@ public class FaultController {
 
 	}
 
+	//管理方领导审核
 	@RequestMapping(value = "/checkedEight", method = RequestMethod.POST)
 	public void checkedEight(HttpServletRequest request,
 							HttpServletResponse response) {
@@ -411,10 +427,11 @@ public class FaultController {
 		bean.setId(id);
 		bean.setChecked(checked);
 		bean.setCheckUser(user);
+		bean.setUser1(funUtil.loginUser(request));
 //		bean.setUser4(funUtil.loginUser(request));
 		int rst = FaultService.checkedEight(bean);
 		if (rst == 1) {
-			this.message = "通知用户回访处理成功";
+			this.message = "故障申报审核成功";
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(5);
@@ -422,10 +439,10 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "故障完成信息审核，请确认。。。", request);
+			sendNotifytoSingle(user, "用户提交了故障申请信息，请尽快做出相应处理", request);
 			//----END
 		} else {
-			this.message = "通知用户回访处理失败";
+			this.message = "故障申报审核失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -450,8 +467,16 @@ public class FaultController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void upload(@RequestParam("filePath") MultipartFile file,
 					   HttpServletRequest request,HttpServletResponse response) {
+		
+		
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
+		
+		
 		String path = request.getSession().getServletContext()
-				.getRealPath("")+"/Resources/upload";
+				.getRealPath("")+"/Resources/upload/fault";
 		String fileName = file.getOriginalFilename();
 		//String fileName = new Date().getTime()+".jpg";
 		log.info("path==>"+path);
@@ -465,6 +490,10 @@ public class FaultController {
 			file.transferTo(targetFile);
 			this.success=true;
 			this.message="文件上传成功";
+			
+			fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -475,7 +504,7 @@ public class FaultController {
 		result.put("success", success);
 		result.put("message", message);
 		result.put("fileName", fileName);
-		result.put("filePath", path+"/"+fileName);
+		result.put("filePath", "/Resources/upload/fault/" + fileName);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
@@ -514,6 +543,8 @@ public class FaultController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传故障请求信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
+			
+			sendNotifytoGroup("b_check_fault",10003, "故障请求信息，请知悉！", request);
 		} else {
 			this.message = "上传故障请求信息失败";
 		}
@@ -542,6 +573,7 @@ public class FaultController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String fileName = request.getParameter("fileName");
+		String user = request.getParameter("checkUser");
 		String path = request.getParameter("path");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
@@ -558,6 +590,11 @@ public class FaultController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传故障完成信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
+			
+			//----发送通知邮件
+			sendNotifytoSingle(user, "服务提供方上传了故障处理报告，请审核", request);
+			//----END
+			
 		} else {
 			this.message = "上传故障完成信息失败";
 		}
@@ -621,12 +658,67 @@ public class FaultController {
 		}
 		//存储记录
 	}
+	
+
 	/**
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle("故障申报");
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(funUtil.loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(funUtil.nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
+
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("故障申报");
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(funUtil.loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(funUtil.nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
+	
+	
+/*	*//**
 	 * 发送邮件(指定收件人)--保障申请
 	 * @param recvUser	邮件接收者
 	 * @param content	邮件内容
 	 * @param request
-	 */
+	 *//*
 	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
 		//----发送通知邮件
 		EmailBean emailBean = new EmailBean();
@@ -638,12 +730,12 @@ public class FaultController {
 		EmailService.insertEmail(emailBean);
 		//----END
 	}
-	/**
+	*//**
 	 * 发送邮件(指定权限)--保障申请
 	 * @param
 	 * @param content	邮件内容
 	 * @param request
-	 */
+	 *//*
 	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
 		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
 		for(Map<String,Object> map : list){
@@ -657,5 +749,5 @@ public class FaultController {
 			EmailService.insertEmail(emailBean);
 			//----END
 		}
-	}
+	}*/
 }

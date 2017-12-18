@@ -78,6 +78,28 @@ public class BsstationController {
 		
 	}
 	/**
+	 * 查询基站信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsInfolimit",method = RequestMethod.GET)
+	public void bsInfolimit(HttpServletRequest request, HttpServletResponse response){
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",BsstationService.bsInfolimit().size());
+		result.put("items", BsstationService.bsInfolimit());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
 	 * 根据基站ID查找基站相邻小区
 	 * @param request
 	 * @param response
@@ -242,6 +264,105 @@ public class BsstationController {
 		HashMap result = new HashMap();
 		result.put("totals", list.size());
 		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 基站限制列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bslimitList",method = RequestMethod.GET)
+	public void bslimitList(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",BsstationService.bslimitListCount());
+		result.put("items", BsstationService.bslimitList(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 基站限制列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/addBsLimit",method = RequestMethod.POST)
+	public void addBsLimit(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String[] bsIds=request.getParameter("bsIds").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : bsIds) {
+			list.add(string);
+		}
+		BsstationService.deleteBsLimit(list);
+        int resultCode=BsstationService.addBsLimit(list);
+        if(resultCode>0){
+        	this.success=true;
+        	this.message="添加成功";
+        }else{
+        	this.message="添加失败";
+        	this.success=false;
+        }
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 基站限制列表
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/deleteBsLimit",method = RequestMethod.POST)
+	public void deleteBsLimit(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String[] bsIds=request.getParameter("bsIds").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : bsIds) {
+			list.add(string);
+		}
+        int resultCode=BsstationService.deleteBsLimit(list);
+        if(resultCode>0){
+        	this.success=true;
+        	this.message="删除成功";
+        }else{
+        	this.message="删除失败";
+        	this.success=false;
+        }
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

@@ -45,6 +45,7 @@ import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.DispatchStatusService;
+import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
 
 @Controller
@@ -321,7 +322,7 @@ public class BsStatusController {
 			e1.printStackTrace();
 		}		
 		List<Map<String,Object>> list2=SqlServerService.bsJiAlarm();
-		List<Map<String, Object>> list3=DispatchStatusService.dispatchOffAlarm();
+		//List<Map<String, Object>> list3=DispatchStatusService.dispatchOffAlarm();
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		
 		for (Map<String, Object> map : list1) {
@@ -330,9 +331,9 @@ public class BsStatusController {
 		for (Map<String, Object> map2 : list2) {
 			list.add(map2);
 		}
-		for (Map<String, Object> map3 : list3) {
+		/*for (Map<String, Object> map3 : list3) {
 			list.add(map3);
-		}		
+		}*/		
 		result.put("items", list);
 		result.put("totals", list.size());
 		
@@ -357,13 +358,14 @@ public class BsStatusController {
 	public void bsOffVoiceCount(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
 		
 		int bsCount=BsStatusService.bsOffVoiceCount();
-		int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
+		//int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
 		int jiCount=SqlServerService.bsJiAlarmCount();
 		
 		
 		
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		result.put("totals", bsCount+dispatchCount+jiCount);
+		result.put("bsbreakTotals", bsCount);
+		result.put("jiTotals", jiCount);
 		
 		 response.setContentType("application/json;charset=utf-8"); 
 		 String jsonstr = json.Encode(result); 
@@ -537,15 +539,15 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsMapCount(HttpServletRequest request, HttpServletResponse response) {
 		int count1=BsStatusService.MapBsOfflineCount();
-		int count2=BsStatusService.MapDispatchAlarmCount();
-		int count3=BsStatusService.MapMscAlarmCount();
+		/*int count2=BsStatusService.MapDispatchAlarmCount();*/
+		int count3=ServerStatusService.unusualStatus().size();
 		
 		int count4=SqlServerService.MapEmhAlarmCount()+BsStatusService.fourEmhAlarmListCount();
 		try {
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("bsOffline", count1);
-			result.put("dispatchOffline", count2);
+			/*result.put("dispatchOffline", count2);*/
 			result.put("mscOffline", count3);
 			result.put("emhAlarm", count4);
 			response.setContentType("application/json;charset=utf-8");

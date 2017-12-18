@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,7 @@ import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.QuitNetService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/quitnet")
@@ -68,11 +72,14 @@ public class QuitNetController {
 		String user=funUtil.loginUser(request);
 		WebUserBean userbean=WebUserServices.selectUserByUser(user);
 		int roleId=userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("user", user);
+		map.put("power", power.get("b_check_quitnet"));
 		map.put("roleId", roleId);
+	
 		
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -143,7 +150,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoGroup("b_check_quitnet", "退网申请信息已经成功提交,请审核。。。", request);
+			sendNotifytoGroup("b_check_quitnet",10001, "用户提交退网申请,请审核。。。", request);
 			//----END
 		} else {
 			this.message = "退网申请信息提交失败";
@@ -193,7 +200,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件
-			sendNotifytoSingle(user, "退网申请信息审核，请审核。。。", request);
+			sendNotifytoGroup("b_check_quitnet",10002,  "用户申请退网，请办理相应手续", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -241,7 +248,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "退网申请信息审核，请管理方领导指派人员处理。。。", request);
+			sendNotifytoSingle(user, "用户提交退网信息，请尽快处理", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";
@@ -290,7 +297,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "处理方案审核，请服务提供方处理。。。", request);
+			sendNotifytoGroup("b_check_quitnet",10003, "请服务提供方根据处理方案做相应处理", request);
 			//----END
 		} else {
 			this.message = "处理方案上传失败";
@@ -362,14 +369,13 @@ public class QuitNetController {
 							 HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		String user = request.getParameter("user");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
+		String checkUser=request.getParameter("checkUser");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setUser5(funUtil.loginUser(request));
 		bean.setId(id);
 		bean.setQuit(5);
-		bean.setCheckUser(user);
 		bean.setFileName2(fileName);
 		bean.setFilePath2(filePath);
 		bean.setTime5(funUtil.nowDate());
@@ -385,7 +391,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "实施方案上传成功，请管理方人员审核。。。", request);
+			sendNotifytoSingle(checkUser, "实施方案上传成功，请管理方人员审核。。。", request);
 			//----END
 		} else {
 			this.message = "实施方案上传失败";
@@ -555,8 +561,14 @@ public class QuitNetController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void upload(@RequestParam("filePath") MultipartFile file,
 					   HttpServletRequest request,HttpServletResponse response) {
+		
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
+		
 		String path = request.getSession().getServletContext()
-				.getRealPath("")+"/Resources/upload";
+				.getRealPath("")+"/Resources/upload/quitnet";
 		String fileName = file.getOriginalFilename();
 		//String fileName = new Date().getTime()+".jpg";
 		log.info("path==>"+path);
@@ -570,6 +582,10 @@ public class QuitNetController {
 			file.transferTo(targetFile);
 			this.success=true;
 			this.message="文件上传成功";
+			
+			fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -580,7 +596,7 @@ public class QuitNetController {
 		result.put("success", success);
 		result.put("message", message);
 		result.put("fileName", fileName);
-		result.put("filePath", path+"/"+fileName);
+		result.put("filePath", "/Resources/upload/quitnet/"+fileName);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
@@ -647,13 +663,17 @@ public class QuitNetController {
 		//存储记录
 	}
 	/**
-	 * 发送邮件(指定收件人)--保障申请
-	 * @param recvUser	邮件接收者
-	 * @param content	邮件内容
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
 	 * @param request
 	 */
-	public void sendNotifytoSingle(String recvUser,String content,HttpServletRequest request){
-		//----发送通知邮件
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
 		EmailBean emailBean = new EmailBean();
 		emailBean.setTitle("退网申请");
 		emailBean.setRecvUser(recvUser);
@@ -661,26 +681,36 @@ public class QuitNetController {
 		emailBean.setContent(content);
 		emailBean.setTime(funUtil.nowDate());
 		EmailService.insertEmail(emailBean);
-		//----END
+		// ----END
 	}
+
 	/**
-	 * 发送邮件(指定权限)--保障申请
-	 * @param
-	 * @param content	邮件内容
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
 	 * @param request
 	 */
-	public void sendNotifytoGroup(String powerstr,String content,HttpServletRequest request){
-		List<Map<String,Object>> list = WebUserServices.userlistByPower(powerstr);
-		for(Map<String,Object> map : list){
-			//----发送通知邮件
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
 			EmailBean emailBean = new EmailBean();
 			emailBean.setTitle("退网申请");
-			emailBean.setRecvUser(map.get("user").toString());
+			emailBean.setRecvUser(item.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent(content);
 			emailBean.setTime(funUtil.nowDate());
 			EmailService.insertEmail(emailBean);
-			//----END
+			// ----END
 		}
 	}
 

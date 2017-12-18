@@ -30,6 +30,7 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.*;
 import xh.mybatis.service.*;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value = "/devicemanage")
@@ -56,12 +57,15 @@ public class DeviceManageController {
         String user=funUtil.loginUser(request);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
         int roleId=userbean.getRoleId();
+        Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("start", start);
         map.put("limit", limit);
         map.put("user", user);
+        map.put("power", power.get("b_check_businesschange"));
         map.put("roleId", roleId);
+    	
 
         HashMap result = new HashMap();
         result.put("success", success);

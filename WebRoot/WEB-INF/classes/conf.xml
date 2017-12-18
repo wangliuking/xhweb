@@ -4,6 +4,9 @@
 <web>
     <cookie_prefix>xhgmnet_</cookie_prefix>
     <session_prefix>xhgmnet_</session_prefix>
+    <cpu>70</cpu>
+    <mem>70</mem>
+    <disk>70</disk>
 </web>
 <emh>
     <ip>192.168.1.7</ip>

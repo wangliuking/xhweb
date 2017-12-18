@@ -173,15 +173,30 @@
 									<tr ng-repeat="x in data">
 										<td>{{$index+1}}</td>
 										<td>{{x.userId}}</td>
-										<td>ID:{{x.bsId}}-{{x.name}}</td>
-										<td>{{x.TGid}}</td>
 										<td>
-										<span class="label arrowed-in label-sm label-success" ng-if="x.regStatus==1 || x.regStatus==2 || x.regStatus==3">在线</span>
-										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==0 || x.regStatus==4">离线</span>
+										
+										<span class="label arrowed-in label-sm label-success" ng-if="x.regStatus==1 || x.regStatus==2 || x.regStatus==3">{{x.bsId}}-{{x.name}}</span>
+										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==0 || x.regStatus==4"></span>
+										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==7"></span>
+										</td>
+										
+										<td>
+										<span ng-if="x.TGid>0">{{x.TGid}}</span>
 										</td>
 										<td>
+										<span ng-if="x.regStatus==1 || x.regStatus==2 || x.regStatus==3">在线</span>
+										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==0 || x.regStatus==4">离线</span>
+										<span class="label arrowed label-sm label-danger" ng-if="x.regStatus==7">未使用过</span>
+										</td>
+										<td>
+
+										<span ng-if="x.regStatus==1 || x.regStatus==2 || x.regStatus==3">
 										<span class="label arrowed-right label-sm label-success" ng-if="x.callStatus==1">正在通话</span>
 										<span class="label arrowed-right label-sm label-success" ng-if="x.callStatus==0">空闲</span>
+										</span>
+										
+										
+										
 										</td>
 										<td>{{x.time}}</td>
 										<!-- <td style="width:20px;text-align:center"><a href="#"

@@ -11,6 +11,8 @@
      time,type from xhgmnet_eastcom_server -->
      
      select server_name as name,
+      cpuLoad,
+      typeId,
       diskSize/(1024*1024*1024) as diskSize,
       diskUsed/(1024*1024*1024) as diskUsed,
       memSize/(1024*1024*1024) as memSize,

@@ -148,6 +148,18 @@ xh.load = function() {
 			if(title=="入网申请"){url="../business/joinnet.html";}
 			else if(title=="业务变更申请"){
 				url="../business/devicemanage.html";
+			}else if(title=="故障申报"){
+				url="../business/fault.html";
+			}else if(title=="租借设备"){
+				url="../business/lend.html";
+			}else if(title=="退网申请"){
+				url="../business/quitnet.html";
+			}else if(title=="应急处置演练"){
+				url="../business/emergency.html";
+			}else if(title=="服务抽检"){
+				url="../business/qualitycheck.html";
+			}else if(title=="网络优化"){
+				url="../business/optimizenet.html";
 			}else{
 				
 			}

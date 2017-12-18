@@ -52,47 +52,27 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
+
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-body" style="padding-top:5px">
-							<!-- row -->
-							<div class="row">
-								<div class="col-md-12" ng-model="loginUserRoleId">
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#quit"  ng-if="loginUserRoleId > 10000 || loginUserRoleId < 1000" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;退网申请
-									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#quit"  ng-if="loginUserRoleId == 10000 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;退网申请
-									</button>
-									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改设备记录
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除记录
-									</button> -->
-									<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
-								</div>
-							</div>
-							<!-- row -->
+						<div class="panel-heading hbuilt">
+
+							<i class="fa fa-indent text-danger"></i>&nbsp;退网列表
 						</div>
-						<!-- panel-body--end -->
-					</div>
-					<!-- hpanel --end-->
-				</div>
-				<!-- col-md-12--end -->
-			</div>
-			<!-- row/ -->
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
 						<div class="panel-body">
+							<div class="btn-group" ng-model="loginUserRoleId">
+
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#quit" ng-if="loginUserRoleId <= 1000">
+									<i class="fa fa-plus-circle"></i>&nbsp;退网申请
+								</button>
+
+								<button class="btn btn-warning btn-sm" ng-click="refresh()">
+									<i class="fa fa-refresh"></i>&nbsp;刷新
+								</button>
+							</div>
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
 								<thead>
@@ -118,7 +98,7 @@
 										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
 										<td ng-if="x.quit==0" class="td-warning">等待经信委受理</td>
 										<td ng-if="x.quit==1" class="td-warning">等待管理方领导审核并指派处理</td>
-										<td ng-if="x.quit==2 && x.quitModal ==1 " class="td-warning">等待管理方上传处理方案通知服务提供方</td>
+										<td ng-if="x.quit==2 && x.quitModal ==1 " class="td-warning">等待经办人上传处理方案通知服务提供方</td>
 										<td ng-if="x.quit==3 && x.quitModal ==1 " class="td-warning">等待服务提供方处理方案</td>
 										<td ng-if="x.quit==4 && x.quitModal ==1 " class="td-warning">等待服务提供方上传实施报告</td>
 										<td ng-if="x.quit==5 && x.quitModal ==1 " class="td-warning">等待管理方审核实施报告</td>
@@ -128,25 +108,30 @@
 										<td ng-if="x.quit==3 && x.quitModal ==-1 " class="td-warning">管理部门领导审核</td>
 										<td ng-if="x.quit==4 && x.quitModal ==-1 " class="td-success">流程结束</td>
 
-										<td style="text-align:center">
-										<a href="#" ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
-												
-										<a ng-if="loginUserRoleId==10001 && x.quit==0
-												||loginUserRoleId==10002 && x.quit==3 && x.quitModal==-1 && loginUser == x.user2"
+										<td style="text-align:center"><a href="#"
+											ng-click="toProgress($index)"><i
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请信息及进度</a> <a
+											ng-if="loginUserRoleId==10001 && x.quit==0 && up.b_check_quitnet=='on'" href="#"
+											ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知管理部门</a> <a
+											ng-if="loginUserRoleId==10002 && x.quit==1 && up.b_check_quitnet=='on'"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知经办人</a> <a
+											ng-if="loginUserRoleId==10002 && x.quit==2 && loginUser == x.checkUser"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传处理方案</a> <a
+											ng-if="loginUserRoleId==10003 && x.quit==3 && up.b_check_quitnet=='on'"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认通知</a> <a
+											ng-if="loginUserRoleId==10003 && x.quit==4 && x.quitModal == 1 && up.b_check_quitnet=='on'"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传实施报告</a> <a
+											ng-if="loginUserRoleId==10002 && x.quit==5 && loginUser == x.checkUser"
+											href="#" ng-click="checkWin($index)"><i
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认实施报告</a> <a
+											ng-if="loginUserRoleId==10002 && x.quit==3 && x.quitModal==-1 && loginUser == x.user2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
-
-										<a ng-if="loginUserRoleId==10002 && x.quit==1
-												||loginUserRoleId==10003 && x.quit==3
-												||loginUserRoleId==10002 && x.quit==5 && loginUser == x.checkUser"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
-
-										<a ng-if="loginUserRoleId==10002 && x.quit==2 && loginUser == x.checkUser
-												||loginUserRoleId==10003 && x.quit==4 && x.quitModal == 1"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 									</tr>
 								</tbody>
 							</table>
@@ -191,19 +176,19 @@
 	<div ng-include="'quitnet-quit.html'"></div>
 	<!-- 进程-->
 	<div ng-include="'quitnet-progress.html'"></div>
-	
-	<div >
 
-	<script type="text/javascript"
-		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript"
-		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript"
-		src="../../Controllers/business/quitnet.js"></script>
-	<script type="text/javascript">
-		xh.load();
-	</script>
+	<div>
+
+		<script type="text/javascript"
+			src="../../Resources/js/xhbootstrap-js.js"></script>
+		<script type="text/javascript"
+			src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+		<script type="text/javascript"
+			src="../../Resources/js/ajaxfileupload.js"></script>
+		<script type="text/javascript"
+			src="../../Controllers/business/quitnet.js"></script>
+		<script type="text/javascript">
+			xh.load();
+		</script>
 </body>
 </html>
