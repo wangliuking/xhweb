@@ -1,28 +1,18 @@
 package xh.org.listeners;
 
 import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import xh.springmvc.handlers.GosuncnController;
-
 import com.chinamobile.fsuservice.Test;
-import com.chinamobile.lscservice.LSCServiceSkeleton;
 
 /**
  * 启动项目时开启动环定时获取
@@ -48,14 +38,26 @@ public class EMHListener implements ServletContextListener {
 		timer = new Timer(true);
 		timer1 = new Timer(true);
 		timer2 = new Timer(true);
-		timer.schedule(new timerTaskForLogin(), 8 * 60 * 1000, 8 * 60 * 1000);// 心跳任务
-		timer1.schedule(new timerTaskForData(), 5 * 60 * 1000, 60 * 1000);//定时获取数据任务
-		timer2.schedule(new timerTaskForTimeCheck(),10 * 60 * 1000,60 * 60 * 1000);//
-		// 时间同步（一次）
-
-		// timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
+		//timer.schedule(new timerTaskForLogin(), 8 * 60 * 1000, 8 * 60 * 1000);// 心跳任务
+		//timer1.schedule(new timerTaskForData(), 5 * 60 * 1000, 60 * 1000);//定时获取数据任务
+		//timer2.schedule(new timerTaskForTimeCheck(),10 * 60 * 1000,60 * 60 * 1000);//时间同步（一次）
+		//timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
+		timer.schedule(new dwrTest(), 30 * 1000, 10 * 1000);
 	}
 
+}
+
+/**
+ * dwr测试
+ */
+class dwrTest extends TimerTask {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
 
 /**

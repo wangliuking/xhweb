@@ -3,7 +3,6 @@
     xmlns="http://java.sun.com/xml/ns/javaee"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     id="WebApp_ID" version="2.5">
-    
     <!-- 配置DispatchcerServlet -->
     <servlet>
         <servlet-name>springDispatcherServlet</servlet-name>
@@ -63,9 +62,9 @@ xh.org.listeners.SingLoginListener
 </listener>
 
 <!-- 启动定时器，定时获取动环数据-->
-<!-- <listener>
+<listener>
 <listener-class>xh.org.listeners.EMHListener</listener-class>
-</listener> -->
+</listener>
 <!--Axis2 config start -->
 	<servlet>  
       <servlet-name>AxisServlet</servlet-name>  
