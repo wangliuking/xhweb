@@ -332,9 +332,8 @@ app.controller("map", function($scope, $http) {
 	//点击搜索定位
 	$scope.changePositionForSearch=function(){
 		var temp = $("#search_kw").val();
-		var str = ":";
 		//判断temp是否包含:，如果包含则为基站类数据
-		if(temp.indexOf(str)>=0){
+		if(temp.indexOf(":")>=0){
 			$.ajax({
 				type : "GET",
 				url : "bs/map/data",
@@ -357,7 +356,7 @@ app.controller("map", function($scope, $http) {
 					//$('.navform').hide();
 				}
 			});
-		}else{
+		}else if(temp.indexOf("[")>=0){
 			var str = temp.split("[");
 			var tempStr = str[1].split("]");
 			var finalStr = tempStr[0];
@@ -448,6 +447,8 @@ app.controller("map", function($scope, $http) {
 				$('#search_kw').val('');
 				//$('.navform').hide();
 			});
+		}else{
+			alert("未找到搜索结果");
 		}
 		
 		
