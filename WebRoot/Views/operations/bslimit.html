@@ -110,16 +110,42 @@
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
 							</div>
-							基站限制列表
+							禁止告警基站列表[<span style="color:red">提示：选中表示该基站不在声音告警提示</span>]
 						</div>
 						<div class="panel-body">
+						<div class="row">
+				<div class="col-md-12">
+					<div class="btn-group" style="padding-bottom:2px;">
+						<button class="btn btn-success btn-sm" id="selectAll">全选
+						</button>
+						<button class="btn btn-info btn-sm" id="selectNo">全不选
+						</button>
+						<button class="btn btn-danger btn-sm" id="selectOther">反选
+						</button>
+						<button class="btn btn-warning btn-sm" ng-click="save()">保存配置</button>
+					</div>
+				</div></div>
+				<div class="row">
+						<div class="col-md-12">
+							<div class="bsList"> <!-- style="max-height:400px; overflow-y: scroll; overflow-x: hidden;" -->
+								<!-- <div ng-if="bs_search_totals==0">没有基站相关数据</div> -->
+								
+								<div class="form-group col-md-3" ng-repeat="x in bs_search_data">
+										<input id="bs-{{x.bsId}}" class="magic-checkbox" type="checkbox"
+											name="bsIds" value="{{x.bsId}}" ng-checked="x.bsIds!=null"> 
+											<label for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
+									</div>
+								 
+							</div>
+						</div>
+					</div>
 							<!-- row -->
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-12">
 									<div class="btn-group" style="padding-top:10px;">
 										<button class="btn btn-success btn-sm"
 											ng-click="showBsModal()">
-											<i class="fa fa-plus-circle"></i>&nbsp;添加基站
+											<i class="fa fa-plus-circle"></i>&nbsp;编辑禁止告警基站
 										</button>
 
 										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
@@ -131,9 +157,9 @@
 										</button>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<!-- row -->
-							<table id="tb-info" class="xh-table table-hover">
+							<!-- <table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
@@ -174,7 +200,7 @@
 										ng-model="totals">总计{{totals}}条</span>
 								</div>
 								<div class="page-paging"></div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -200,21 +226,33 @@
 					<small class="font-bold">基站列表</small>
 				</div>
 				<div class="modal-body pad-0">
-					<div class="row">
+				<!-- <div class="row">
+				<div class="col-md-12">
+					<div class="btn-group" style="padding-bottom:2px;">
+						<button class="btn btn-success btn-sm" id="selectAll">全选
+						</button>
+						<button class="btn btn-info btn-sm" id="selectNo">全不选
+						</button>
+						<button class="btn btn-danger btn-sm" id="selectOther">反选
+						</button>
+						<button class="btn btn-warning btn-sm" ng-click="save()">保存配置</button>
+					</div>
+				</div>
+			</div> -->
+					<!-- <div class="row">
 						<div class="col-md-12">
-							<div class="bsList">
+							<div class="bsList" style="max-height:400px; overflow-y: scroll; overflow-x: hidden;">
 								<div ng-if="bs_search_totals==0">没有基站相关数据</div>
-								<div class="bs-litter-box radio radio-info radio-inline"
-									ng-repeat="x in bs_search_data" ng-click="bssearch()">
-
-									<input id="bs-{{x.bsId}}" type="radio" name="bsIds"
-										value="{{x.bsId}}" style="margin-top:30px;"> <label
-										for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
-
-								</div>
+								
+								<div class="form-group col-md-3" ng-repeat="x in bs_search_data">
+										<input id="bs-{{x.bsId}}" class="magic-checkbox" type="checkbox"
+											name="bsIds" value="{{x.bsId}}" ng-checked="x.bsIds!=null"> 
+											<label for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
+									</div>
+								 
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 
 

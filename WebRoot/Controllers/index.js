@@ -4,6 +4,8 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
+var alarmbs=true;
+var alarmji=true;
 var appElement = document.querySelector('[ng-controller=index]');
 xh.load = function() {
 	var app = angular.module("app", []);
@@ -25,11 +27,22 @@ xh.load = function() {
 		$scope.hideMenu=function(){
 			$("body").toggleClass("hide-menu");
 		};
+	
 		//系统告警数目
 		$scope.alarmCount=function(){
 			$http.get("bsstatus/bsOffVoiceCount").success(function(response) {
 				$scope.AlarmTotals=response.totals;
-				if($scope.AlarmTotals>0){
+				var bs_count=response.bsbreakTotals;
+				var ji_count=response.jiTotals;
+				var count=0;
+				if(alarmbs){
+					count+=bs_count
+				}
+				if(alarmji){
+					count+=ji_count
+				}
+				
+				if(count>0){
 					xh.playMap3();
 				}else{
 					xh.stopMap3();
@@ -72,6 +85,7 @@ xh.load = function() {
 			$scope.alarmCount();
 			$scope.alarmChange();
 			$scope.alarmInfo();
+			
 			}, 10000); //每隔 10 秒 
 
 		
@@ -93,4 +107,8 @@ xh.stopMap3=function() {
 	audio.currentTime = 0;
 	$scope.updateAlarm();
 };
+xh.aa=function(){
+	alarmbs=$("input[name='alarmbs']").is(':checked');
+	alarmji=$("input[name='alarmji']").is(':checked');
+}
 

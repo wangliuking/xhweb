@@ -34,6 +34,7 @@ import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.DispatchStatusService;
+import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
 import xh.mybatis.service.WebLogService;
 @Controller
@@ -63,7 +64,7 @@ public class MonitorController {
 		
 		
 		List<Map<String,Object>>  bs=BsstationService.monitorBsofflineList();
-		List<Map<String,Object>>  dispatch=DispatchStatusService.dispatchOffAlarm();
+		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus();
 		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList();
 		List<Map<String,Object>>  fourEmh=BsStatusService.fourEmhAlarmList(emhParamMap);
 		List<Map<String,Object>> emh=new ArrayList<Map<String,Object>>();
@@ -77,8 +78,8 @@ public class MonitorController {
 		HashMap result = new HashMap();
 		result.put("bsList", bs);
 		result.put("bsListCount", bs.size());
-		result.put("dispatchList", dispatch);
-		result.put("dispatchListCount", dispatch.size());
+		result.put("mscList", msc);
+		result.put("mscCount", msc.size());
 		result.put("emhList", emh);
 		result.put("emhListCount", emh.size());
 		response.setContentType("application/json;charset=utf-8");

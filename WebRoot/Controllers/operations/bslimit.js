@@ -37,12 +37,18 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
+		$http.get("../../bs/bsInfolimit").
+		success(function(response){
+			xh.maskHide();
+			$scope.bs_search_data = response.items;
+			$scope.bs_search_totals = $scope.data.length;
+		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
 		$scope.showBsModal=function(){
-			$http.get("../../bs/allBsInfo?type=0&zone=全部&link=2&status=2&usergroup=&bsIds=").
+			$http.get("../../bs/bsInfolimit").
 			success(function(response){
 				xh.maskHide();
 				$scope.bs_search_data = response.items;
@@ -52,26 +58,39 @@ xh.load = function() {
 			/*$("#aside-right").fadeToggle("fast");*/
 			$("#add").modal('show');
 		}
-		$scope.bssearch=function(){
-			//var checkbox=$("#aside-right").find("[type='checkbox']");
+		$scope.save=function(){
+			var checkbox=$(".bsList").find("[type='checkbox']");
 			
-			var bsIds=$("input[name='bsIds']:checked").val();
+			
+			var bsIds=[];
+			for(var i=0;i<checkbox.length;i++){
+				if(checkbox[i].checked==true){
+					bsIds.push(checkbox[i].value)
+				}
+			}
+			if(bsIds.length>0){
+				
+			}else{
+				$scope.bsIds="";
+			}
 			
 			$.ajax({
 				url : '../../bs/addBsLimit',
 				type : 'post',
 				dataType : "json",
 				data : {
-					bsIds:bsIds
+					bsIds:bsIds.join(",")
 				},
 				async : false,
 				success : function(data) {
-					if (data.success) {
+					toastr.success("配置成功", '提示');
+					$scope.refresh();
+					/*if (data.success) {
 						toastr.success(data.message, '提示');
 						$scope.refresh();
 					} else {
 						//toastr.error(data.message, '提示');
-					}
+					}*/
 				},
 				error : function() {
 					$scope.refresh();
@@ -80,21 +99,7 @@ xh.load = function() {
 			
 			
 			
-			/*var bsIds=[];
-			for(var i=0;i<checkbox.length;i++){
-				if(checkbox[i].checked==true){
-					bsIds.push(checkbox[i].value)
-				}
-			}
-			if(bsIds.length>0){
-				console.log("bsIds===>"+bsIds.join(","));
 			
-				
-				
-			}else{
-				$scope.bsIds="";
-				$scope.search(1);
-			}*/
 			
 		}
 	   
@@ -175,10 +180,34 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
+			
 
 		};
 	});
 };
+$("#selectAll").bind("click", function() {
+	$(".bsList").find("[type='checkbox']").prop("checked", true);// 全选
+});
+$("#selectNo").bind("click", function() {
+	$(".bsList").find("[type='checkbox']").prop("checked", false);// 反选
+});
+$("#selectOther").bind("click", function() {
+	var checkbox=$(".bsList").find("[type='checkbox']");
+	
+	for(var i=0;i<checkbox.length;i++){
+		if(checkbox[i].checked==true){
+			checkbox[i].checked=false;
+		}else{
+			checkbox[i].checked=true;
+		}
+	}
+	
+	/*if($("#form").find("[type='checkbox']").is(':checked')){
+		$("#form").find("[type='checkbox']").prop("checked", false);
+	}else{
+		$("#form").find("[type='checkbox']").prop("checked", true);
+	}*/
+});
 
 /* 批量删除 */
 xh.delMore = function() {

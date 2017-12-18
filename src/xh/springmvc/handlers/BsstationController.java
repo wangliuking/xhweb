@@ -78,6 +78,28 @@ public class BsstationController {
 		
 	}
 	/**
+	 * 查询基站信息
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/bsInfolimit",method = RequestMethod.GET)
+	public void bsInfolimit(HttpServletRequest request, HttpServletResponse response){
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",BsstationService.bsInfolimit().size());
+		result.put("items", BsstationService.bsInfolimit());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
 	 * 根据基站ID查找基站相邻小区
 	 * @param request
 	 * @param response
@@ -293,6 +315,7 @@ public class BsstationController {
 		for (String string : bsIds) {
 			list.add(string);
 		}
+		BsstationService.deleteBsLimit(list);
         int resultCode=BsstationService.addBsLimit(list);
         if(resultCode>0){
         	this.success=true;

@@ -25,6 +25,14 @@ public interface BsstationMapper {
 	public List<HashMap<String, Object>> bsstatusInfo(Map<String,Object> map)throws Exception;
 	
 	/**
+	 *
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> bsInfolimit()throws Exception;
+	
+	/**
 	 * 基站断站列表
 	 * @return
 	 * @throws Exception

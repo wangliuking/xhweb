@@ -13,7 +13,8 @@
 		</a>
 			<ul class="nav">
 
-				<li ng-show="menu.m_21"><a href="#"> <span
+				<li ng-show="menu.m_21" id="monitor">
+				<a href="#" > <span
 						class="nav-label"> <i class="fa fa-sitemap"></i>&nbsp;实时监测
 					</span> <span class="fa arrow"></span>
 				</a>
@@ -263,4 +264,8 @@
 </aside>
 <script type="text/javascript">
 	$('#side-menu').metisMenu();
+	$("#monitor").on('click',function(){
+			document.getElementById("mainframe").src="Views/operations/monitor.html";
+		
+	})
 </script>

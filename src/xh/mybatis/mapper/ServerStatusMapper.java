@@ -10,6 +10,6 @@ public interface ServerStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,String>> serverstatus() throws Exception;
+	public List<Map<String,Object>> serverstatus() throws Exception;
 
 }
