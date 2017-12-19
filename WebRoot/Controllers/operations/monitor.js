@@ -41,7 +41,6 @@ xh.load = function() {
 			$http.get("../../bsstatus/bsMapCount").success(function(data) {
 				$scope.countData=data;
 				$scope.bsOffline=data.bsOffline;
-				console.log("bbb-->"+$scope.bsOffline)
 				/*$("#bs").html(data.bsOffline);
 				$("#msc").html(data.mscOffline);
 				$("#emh").html(data.emhAlarm);*/
@@ -300,7 +299,7 @@ xh.bsBar = function() {
 			};*/
 		var option = {
 			    title : {
-			        text: '某个区域下设备工作状态异常的基站数量'
+			        text: '各区域设备工作状态异常的基站数量'
 			    },
 			    tooltip : {
 			        trigger: 'axis'

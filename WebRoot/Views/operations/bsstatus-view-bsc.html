@@ -27,13 +27,23 @@
 						</tr>
 						<tr ng-repeat="x in bscData">
 							<td>{{x.Id}}</td>
-							<td ng-if="x.working==0" class="td-success">正常</td>
-							<td ng-if="x.working!=0" class="td-danger">异常</td>
+							<td>
+							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
+							<span ng-if="x.working==1" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开</span>
+							<span ng-if="x.working==2" class="label arrowed label-sm label-danger">温度异常</span>
+							<span ng-if="x.working==3" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开并且温度异常</span>
+							<span ng-if="x.working==4" class="label arrowed label-sm label-danger">CPU太忙</span>
+							<span ng-if="x.working==5" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开同时CPU太忙</span>
+							<span ng-if="x.working==6" class="label arrowed label-sm label-danger">温度异常，同时CPU太忙</span>
+							<span ng-if="x.working==7" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开，并且温度异常，CPU太忙</span>
+							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
+							 </td>
+							
 							<td>{{x.online}}</td>
 							<td>{{x.mode}}</td>
 							<td>{{x.master}}</td>
 							<td>{{x.time}}</td>
-							<td>{{x.runtime}}</td>
+							<td>{{x.runtime |timeFormate}}</td>
 							<td>{{x.updateTime}}</td>
 						</tr>
 					</tbody>
