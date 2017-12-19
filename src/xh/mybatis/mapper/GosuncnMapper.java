@@ -90,4 +90,9 @@ public interface GosuncnMapper {
 	 */
 	public List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map)throws Exception;
 	
+	/**
+	 * 根据fsuId修改无限摄像头IP
+	 */
+	public int updataCameraIpByFSUID(Map<String,String> map)throws Exception;
+	
 }

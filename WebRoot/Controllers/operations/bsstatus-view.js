@@ -54,8 +54,8 @@ xh.load = function() {
 			$http.get("../../gonsuncn/cameraIp?bsId=" + $scope.bsId).success(
 					function(response) {
 						var tempData = response.items;
-						var cameraIp = tempData[0].deviceIP;
-						cameraConfig(cameraIp);
+						var cameraInfo = tempData[0];
+						cameraConfig(cameraInfo);
 					});
 			
 		};
@@ -592,11 +592,12 @@ xh.groupPagging = function(currentPage, totals, $scope) {
  * 摄像头相关配置
  */
 var g_iWndIndex = 0;
-function cameraConfig(cameraIp){
+function cameraConfig(cameraInfo){
+	console.log(cameraInfo.deviceIP+"==="+cameraInfo.devicePort+"==="+cameraInfo.loginName+"==="+cameraInfo.password)
 	// 检查插件是否已经安装过
     var iRet = WebVideoCtrl.I_CheckPluginInstall();
 	if (-2 == iRet) {
-		alert("您的Chrome浏览器版本过高，不支持NPAPI插件！");
+		alert("您的浏览器不支持NPAPI插件！");
 		return;
 	} else if (-1 == iRet) {
         alert("您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装！");
@@ -626,10 +627,10 @@ function cameraConfig(cameraIp){
 
 	var oLiveView = {
 		iProtocol: 1,			// protocol 1：http, 2:https
-		szIP: cameraIp,	// protocol ip
-		szPort: "80",			// protocol port
-		szUsername: "admin",	// device username
-		szPassword: "gosuncn123",	// device password
+		szIP: cameraInfo.deviceIP,	// protocol ip
+		szPort: cameraInfo.devicePort,			// protocol port
+		szUsername: cameraInfo.loginName,	// device username
+		szPassword: cameraInfo.password,	// device password
 		iStreamType: 1,			// stream 1：main stream  2：sub-stream  3：third stream  4：transcode stream
 		iChannelID: 1,			// channel no
 		bZeroChannel: false		// zero channel

@@ -260,7 +260,21 @@ public class GosuncnService {
 		return list;
 	}
 	
-	
+	/**
+	 * 根据fsuId修改简阳无线IP
+	 */
+	public static void updataCameraIpByFSUID(Map<String,String> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		try {
+			mapper.updataCameraIpByFSUID(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
