@@ -35,6 +35,11 @@ xh.load = function() {
 			return text - 15;
 		};
 	});
+	app.filter('timeFormate', function() { // 可以注入依赖
+		return function(text) {
+			return xh.secondsFormatDay(text);
+		};
+	});
 	app.config([ '$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode({
 			enabled : true,
@@ -48,28 +53,27 @@ xh.load = function() {
 		$scope.period = $location.search().period;
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		//环控摄像头
-		$scope.initCamera = function(){
-			//查询环控设备的IP
+		// 环控摄像头
+		$scope.initCamera = function() {
+			// 查询环控设备的IP
 			$http.get("../../gonsuncn/cameraIp?bsId=" + $scope.bsId).success(
 					function(response) {
 						var tempData = response.items;
 						var cameraInfo = tempData[0];
 						cameraConfig(cameraInfo);
 					});
-			
+
 		};
-		//停止预览
-		$scope.clickStopRealPlay = function(){
+		// 停止预览
+		$scope.clickStopRealPlay = function() {
 			clickStopRealPlay();
 		};
-		
 
 		// 基站下的注册终端
 		$scope.radioUser = function() {
 			var bsId = $scope.bsId;
 			frist = 0;
-			var pageSize =  $("#page-limit").val();
+			var pageSize = $("#page-limit").val();
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + bsId
 							+ "&start=0&limit=" + pageSize).success(
@@ -90,10 +94,12 @@ xh.load = function() {
 					function(response) {
 						$scope.groupData = response.items;
 						$scope.groupTotals = response.totals;
-						xh.groupPagging(1, parseInt($scope.groupTotals), $scope);
+						xh
+								.groupPagging(1, parseInt($scope.groupTotals),
+										$scope);
 					});
 		};
-		$scope.business=function(){
+		$scope.business = function() {
 			$scope.radioUser();
 			$scope.bsGroup();
 		};
@@ -152,7 +158,7 @@ xh.load = function() {
 					});
 		};
 		// 根据基站ID查找基站BSR配置信息
-		$scope.bsrconfigByBsId= function() {
+		$scope.bsrconfigByBsId = function() {
 			var bsId = $scope.bsId;
 			$http.get("../../bs/bsrconfigByBsId?bsId=" + bsId).success(
 					function(response) {
@@ -176,15 +182,13 @@ xh.load = function() {
 			$scope.dpx();
 			$scope.psm();
 		};
-		//基站配置参数
+		// 基站配置参数
 		$scope.config = function() {
 			$scope.neighborByBsId();
 			$scope.handoverByBsId();
 			$scope.bsrconfigByBsId();
 			$scope.linkconfigByBsId();
 		};
-		
-
 
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -417,7 +421,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-		
+
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + $scope.bsId
 							+ "&start=" + start + "&limit=" + pageSize)
@@ -449,7 +453,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			
+
 			$http.get(
 					"../../radio/status/oneBsGroup?bsId=" + $scope.bsId
 							+ "&start=" + start + "&limit=" + pageSize)
@@ -473,34 +477,100 @@ xh.load = function() {
 		};
 		// 获取环控设备状态
 
-		$scope.emh=function(){
-			$http.get("../../bsstatus/bsEmh?siteId=" + $scope.bsId+"&period="+$scope.period).success(
-					function(response) {
-						$scope.emhData = response;
-						$scope.emhAlarm = response.alarmItems;
-						
-						$scope.loadTemp();
-						$scope.loadDamp();
-						
-						
-					});
-			
-			
+		$scope.emh = function() {
+			$http.get(
+					"../../bsstatus/bsEmh?siteId=" + $scope.bsId + "&period="
+							+ $scope.period).success(function(response) {
+				$scope.emhData = response;
+				$scope.emhAlarm = response.alarmItems;
+
+				$scope.loadTemp();
+				$scope.loadDamp();
+
+			});
+
 		}
-		
+
 		$scope.equip();
 		$scope.emh();
-		setInterval(function(){
-			
+		setInterval(function() {
+
 			$scope.equip();
 			$scope.emh();
-			/*$scope.loadTemp();
-			$scope.loadDamp();*/
-			/*$scope.business();*/
-			}, 20000);
+			/*
+			 * $scope.loadTemp(); $scope.loadDamp();
+			 */
+			/* $scope.business(); */
+		}, 20000);
 
 	});
 };
+// 时间格式化
+xh.getTime = function(time) {
+	var datetime = "";
+	var tt = parseInt(time);
+	var datah = Math.floor(tt * 3600);
+	var datem = Math.floor(tt * 3600);
+	var dates = tt % 60;
+	if (datem < 10) {
+		datem = "0" + datem
+	}
+	if (dates < 10) {
+		dates = "0" + dates
+	}
+	datetime = datem + ":" + dates;
+	return datetime;
+}
+xh.formatSeconds = function(value) {
+	var theTime = parseInt(value);// 秒
+	var theTime1 = 0;// 分
+	var theTime2 = 0;// 小时
+	// alert(theTime);
+	if (theTime > 60) {
+		theTime1 = parseInt(theTime / 60);
+		theTime = parseInt(theTime % 60);
+		// alert(theTime1+"-"+theTime);
+		if (theTime1 > 60) {
+			theTime2 = parseInt(theTime1 / 60);
+			theTime1 = parseInt(theTime1 % 60);
+		}
+	}
+	var result = "" + parseInt(theTime) + "秒";
+	if (theTime1 > 0) {
+		result = "" + parseInt(theTime1) + "分" + result;
+	}
+	if (theTime2 > 0) {
+		result = "" + parseInt(theTime2) + "小时" + result;
+	}
+	return result;
+}
+
+xh.secondsFormatDay = function( second_time ){  
+	  
+	var time = parseInt(second_time) + "秒";  
+	if( parseInt(second_time )> 60){  
+	  
+	    var second = parseInt(second_time) % 60;  
+	    var min = parseInt(second_time / 60);  
+	    time = min + "分" + second + "秒";  
+	      
+	    if( min > 60 ){  
+	        min = parseInt(second_time / 60) % 60;  
+	        var hour = parseInt( parseInt(second_time / 60) /60 );  
+	        time = hour + "小时" + min + "分" + second + "秒";  
+	  
+	        if( hour > 24 ){  
+	            hour = parseInt( parseInt(second_time / 60) /60 ) % 24;  
+	            var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );  
+	            time = day + "天" + hour + "小时" + min + "分" + second + "秒";  
+	        }  
+	    }  
+	      
+	  
+	}  
+	  
+	return time;          
+	}  
 /* 基站属性 */
 xh.bsNature = function(bsId) {
 	var $scope = angular.element(appElement).scope();
@@ -517,7 +587,6 @@ xh.refresh = function() {
 xh.excelToBsstatus = function() {
 	window.location.href = "../../bsstatus/ExcelToStationStatus";
 };
-
 
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();
@@ -595,25 +664,26 @@ var g_iWndIndex = 0;
 function cameraConfig(cameraInfo){
 	console.log(cameraInfo.deviceIP+"==="+cameraInfo.devicePort+"==="+cameraInfo.loginName+"==="+cameraInfo.password)
 	// 检查插件是否已经安装过
-    var iRet = WebVideoCtrl.I_CheckPluginInstall();
+	var iRet = WebVideoCtrl.I_CheckPluginInstall();
 	if (-2 == iRet) {
 		alert("您的浏览器不支持NPAPI插件！");
 		return;
 	} else if (-1 == iRet) {
-        alert("您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装！");
+		alert("您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装！");
 		return;
-    }
+	}
 
 	var oPlugin = {
-		iWidth: 800,			// plugin width
-		iHeight: 420			// plugin height
+		iWidth : 800, // plugin width
+		iHeight : 420
+	// plugin height
 	};
-	
+
 	// 初始化插件参数及插入插件
 	WebVideoCtrl.I_InitPlugin(oPlugin.iWidth, oPlugin.iHeight, {
-        bWndFull: true,//是否支持单窗口双击全屏，默认支持 true:支持 false:不支持
-        iWndowType: 1,
-		cbSelWnd: function (xmlDoc) {
+		bWndFull : true,// 是否支持单窗口双击全屏，默认支持 true:支持 false:不支持
+		iWndowType : 1,
+		cbSelWnd : function(xmlDoc) {
 			g_iWndIndex = $(xmlDoc).find("SelectWnd").eq(0).text();
 		}
 	});
@@ -637,27 +707,27 @@ function cameraConfig(cameraInfo){
 	};
 
 	// 登录设备
-	WebVideoCtrl.I_Login(oLiveView.szIP, oLiveView.iProtocol, oLiveView.szPort, oLiveView.szUsername, oLiveView.szPassword, {
-		success: function (xmlDoc) {
-			// 开始预览
-			WebVideoCtrl.I_StartRealPlay(oLiveView.szIP, {
-				iStreamType: oLiveView.iStreamType,
-				iChannelID: oLiveView.iChannelID,
-				bZeroChannel: oLiveView.bZeroChannel
+	WebVideoCtrl.I_Login(oLiveView.szIP, oLiveView.iProtocol, oLiveView.szPort,
+			oLiveView.szUsername, oLiveView.szPassword, {
+				success : function(xmlDoc) {
+					// 开始预览
+					WebVideoCtrl.I_StartRealPlay(oLiveView.szIP, {
+						iStreamType : oLiveView.iStreamType,
+						iChannelID : oLiveView.iChannelID,
+						bZeroChannel : oLiveView.bZeroChannel
+					});
+				}
 			});
-		}
-	});
 
 	// 关闭浏览器
-	$(window).unload(function () {
+	$(window).unload(function() {
 		WebVideoCtrl.I_Stop();
 	});
 }
 
-//停止预览
+// 停止预览
 function clickStopRealPlay() {
-	var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex),
-		szInfo = "";
+	var oWndInfo = WebVideoCtrl.I_GetWindowStatus(g_iWndIndex), szInfo = "";
 
 	if (oWndInfo != null) {
 		var iRet = WebVideoCtrl.I_Stop();
@@ -668,4 +738,3 @@ function clickStopRealPlay() {
 		}
 	}
 }
-

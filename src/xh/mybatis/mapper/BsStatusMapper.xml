@@ -89,21 +89,27 @@
 
 	<!--基站下的bsc状态 -->
 	<select id="bsc" parameterType="int" resultType="map" useCache="true">
-		SELECT *
+	 
+	SELECT *
 		FROM xhgmnet_bs_bsc
 		WHERE bsId = #{bsId}
 		ORDER BY Id ASC
 		LIMIT 0,
-		30
+		30 
 	</select>
 	<!--基站下的bsr状态 -->
 	<select id="bsr" parameterType="int" resultType="map" useCache="true">
-		SELECT *
+	 select a.bsrIsEnable,b.* from xhgmnet_bs_bsr_config as a 
+	  left join xhgmnet_bs_bsr as b on a.bsrId=b.Id and a.bsId=b.bsId
+	  WHERE a.bsId = #{bsId} order by a.bsrId asc
+	
+	
+		<!-- SELECT *
 		FROM xhgmnet_bs_bsr
 		WHERE bsId = #{bsId}
 		ORDER BY Id ASC
 		LIMIT 0,
-		30
+		30 -->
 	</select>
 	<!--基站下的dpx状态 -->
 	<select id="dpx" parameterType="int" resultType="map" useCache="true">
@@ -148,13 +154,21 @@
 		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
 		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
 		union all
-		select bsId, count(working) as alarmSum from xhgmnet_bs_bsr where working>0 and working!=255 group by bsId
+		select a.bsId,count(a.bsrId) as alarmSum  from xhgmnet_bs_bsr_config as a
+        left join xhgmnet_bs_bsr as b on a.bsId=b.bsId and a.bsrId=b.Id 
+        where  a.bsrIsEnable =1 and b.working>0 and b.working !=255 group by a.bsId
 		union all
 		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255 group by bsId
 		union all
-		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where working>0 and working!=255 group by bsId
-		) as temp group by bsId) as d on a.bsId=d.bsId
-		) as tem where deviceAlarmSum>0 group by zone 
+		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where dc12=1 or dc301=1 or dc302=1 or runStatus=1 or tempStatus=1 or linkStatus=1 group by bsId
+		) as temp group by bsId ) as d on a.bsId=d.bsId
+		) as tem where deviceAlarmSum>0 and link=0 group by zone 
+		
+		
+		
+		
+		
+		
 		
 		
 		
