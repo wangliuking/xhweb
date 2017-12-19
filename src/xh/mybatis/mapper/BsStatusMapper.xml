@@ -131,8 +131,9 @@
 	</select>
 	<!--基站断站列表 -->
 	<select id="bsOffList" parameterType="int" resultType="map" useCache="true">
-		select a.bsId,a.link,a.time,b.name from view_bsstatus as a 
+		select a.bsId,a.link,b.name,c.time_break as time from view_bsstatus as a 
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		left join (select * from xhgmnet_bsstatus_history where time_restore is null and link=1) as c on a.bsId=c.bsId
 		where a.link!=0 and  a.bsId not in (select bsIds from xhgmnet_stationalarm)
 	</select>
 	<!--基站断站,声音告警数目 -->

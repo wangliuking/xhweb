@@ -22,6 +22,8 @@
 .server-table{
   border:0px;
   width:100%;
+  table-layout: fixed;
+
 }
 .server-table td{
   border:0px;
@@ -90,122 +92,64 @@ width: calc( 100% - 1em )
 							服务器运行状态
 						</div>
 						<div class="panel-body">
-
-							<!--  <div class="row"  ng-repeat="x in data">
-						 <div class="col-md-12">
-						  <div id="pie-{{x.typeId}}" style="height:200px;width:200px;">123</div>
-						 </div>
-						 </div> -->
-
-							<table class="server-table" border="0">
-							
-									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td style="min-width:150px;text-align: center;"><i
-											ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1 ||x.memper>50 || x.diskper>50 ]"></i>
-											<br> {{x.name}}</td>
-										<!-- <td>
-
-											<div id="pie-{{x.typeId}}" style="height:100px;width:100px;"></div>
-										</td> -->
+						<div ng-if="totals==0">没有记录！</div>
+						<div class="col-md-6" ng-repeat="x in data">
+						<table class="server-table" border="0">							
+									<tr>
+										<td style="text-align: center;background:#fafafa; width:150px;word-wrap:break-word；"><i
+											ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1 ||x.memper>90 || x.diskper>90 ]"></i>
+											<br> {{x.name}}
+										</td>
+									
 										
-										
-										
-										<td style="min-width:200px;" ng-if="x.status==0">
+										<td style="width:250px" ng-if="x.status==0">
 											<div>内存使用</div>
 											<div class="progress progress-striped active">
 
-												<div ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.memper<50]"
+												<div ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.memper<90]"
 												    class="progress-bar progress-bar-success" 
 												    role="progressbar"
 													aria-valuenow="{{x.memUsed |number:2}}" 
 													aria-valuemin="0" 
 													aria-valuemax="{{x.memSize |number:0}}"
 													style="width: {{x.memper}}%">
-													<!-- <span class="sr-only">40% 完成</span> -->
+													<span>{{x.memper}}%</span>
 												</div>
 
 											</div>
-											<div>已使用内存{{x.memUsed |number:2}}GB &nbsp;&nbsp;&nbsp;&nbsp; 共{{x.memSize |number:0}}GB</div>
-										</td>
-										
-										<!-- <td>{{x.diskUsed |number:2}}</td> -->
-										<td style="min-width:300px;" ng-if="x.status==0">
+											<span>已用{{x.memUsed |number:2}}GB &nbsp;&nbsp;&nbsp;&nbsp; 共{{x.memSize |number:0}}GB</span>
 											<div>磁盘空间</div>
 											<div class="progress progress-striped active">
 
-												<div ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.diskper<50]"
+												<div ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.diskper<90]"
 												    class="progress-bar progress-bar-success" 
 												    role="progressbar"
 													aria-valuenow="{{x.diskUsed |number:2}}" 
 													aria-valuemin="0" 
 													aria-valuemax="{{x.diskSize |number:0}}"
 													style="width: {{x.diskper}}%" id="disk-{{x.typeId}}">
-													<!-- <span class="sr-only">40% 完成</span> -->
+													<span>{{x.diskper}}%</span>
 												</div>
 
 											</div>
-											<div>已使用空间{{x.diskUsed |number:2}}GB &nbsp;&nbsp;&nbsp;&nbsp; 共{{x.diskSize |number:0}}GB</div>
+											<span>已用{{x.diskUsed |number:2}}GB &nbsp;&nbsp;&nbsp;&nbsp; 共{{x.diskSize |number:0}}GB</span>
 										</td>
+										
 										<td ng-if="x.status==0">
-											<div id="cpu-{{x.typeId}}" style="height:150px;width:150px;"></div>
+											<div id="cpu-{{x.typeId}}" style="height:140px;width:140px;"></div>
 										</td>
-										<td>
-											<span>更新时间：{{x.time}}</span>
-										</td>
+										
 									
 
 									</tr>
+									<tr>
+									<td colspan="4"><i class="fa fa-history text-success"></i>更新时间：{{x.time}}</td>
+									</tr>
 								
 							</table>
-
-
-							<!-- row -->
-
-							<!-- row -->
-							<!-- <table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th width="50px">#</th>
-										<th>服务器名称</th>
-										<th>磁盘大小（单位：G）</th>
-										<th>磁盘已用空间（单位：G）</th>
-										<th>内存大小（单位：G）</th>
-										<th>内存已用空间（单位：G）</th>
-										<th>运行状态</th>
-										<th>更新时间</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{$index+1}}</td>
-										<td>
-										<i ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1]" ></i>
-										<br>
-										{{x.name}}</td>
-										<td>{{x.diskSize |number:2}}</td>
-										<td>{{x.diskUsed |number:2}}</td>
-										<td>{{x.memSize |number:2}}</td>
-										<td>{{x.memUsed |number:2}}</td>
-										<td ng-if="x.type==0 && x.status==1"><span
-											class="label arrowed-in label-sm label-success">正常</span></td>
-										<td ng-if="x.type==0 && x.status==0"><span
-											class="label arrowed-in label-sm label-success">无法连接</span></td>
-										<td ng-if="x.type==1 && x.status==0"><span
-											class="label arrowed-in label-sm label-success">正常</span></td>
-										<td ng-if="x.type==1 && x.status==1"><span
-											class="label arrowed label-sm label-danger">无法连接</span></td>
-										
-										<td>{{x.time}}</td>
-								
-									</tr>
-								</tbody>
-							</table> -->
+						</div>
+						
+							
 
 						</div>
 					</div>

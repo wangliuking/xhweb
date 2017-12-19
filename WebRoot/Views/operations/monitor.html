@@ -273,7 +273,9 @@ table thead,tbody tr {
 										</tr>
 										<tr ng-repeat="x in msc">
 
-											<td>{{x.name}}</td>
+											<td ng-if="typeId==1" class="td-danger">{{x.name}}</td>
+											<td ng-if="typeId!=1" >{{x.name}}</td>
+											
 											<td>{{x.info}}</td>
 											<td>{{x.time}}</td>
 										</tr>
