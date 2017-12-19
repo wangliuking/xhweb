@@ -15,7 +15,7 @@
 <body>
 	<button type="submit" class="btn btn-sm btn-danger" data-toggle="modal"
 		data-target="#upload">
-		<i class="fa fa-upload"></i>&nbsp;&nbsp;ä¸ä¼ excelæä»¶
+		<i class="fa fa-upload"></i>&nbsp;&nbsp;上传excel文件
 	</button>
 	<div class="modal fade" id="upload" tabindex="-1" role="dialog"
 		aria-hidden="true">
@@ -25,7 +25,7 @@
 				<div class="modal-header ">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<small class="font-bold">æ·»å excelæä»¶</small>
+					<small class="font-bold">添加excel文件</small>
 				</div>
 				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 					<form enctype="multipart/form-data" id="batchUpload" action=""
@@ -33,14 +33,14 @@
 						<!-- <div class="row">
 							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>è·¯æµåºç«ID</label>&nbsp;<span class="text-info">[*]</span> <input
+									<label>路测基站ID</label>&nbsp;<span class="text-info">[*]</span> <input
 										type="number" value="" class="form-control" name="bsId"
 										id="bsId" required="required">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group col-md-12">
-									<label>æµè¯æ¶é´</label>&nbsp;<span class="text-warning">[*]</span>
+									<label>测试时间</label>&nbsp;<span class="text-warning">[*]</span>
 									<input type="text" value="" class="form-control"
 										name="roadTime" id="roadTime" required="required"
 										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
@@ -49,7 +49,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<label>å¤æ³¨ä¿¡æ¯</label>&nbsp;<span class="text-info">[*]</span>
+								<label>备注信息</label>&nbsp;<span class="text-info">[*]</span>
 								<textarea
 									style="width:560px;height:150px;max-width:560px;max-height:260px;"
 									id="note" name="note"></textarea>
@@ -58,12 +58,12 @@
 						<div class="row">
 							<div class="col-md-2" style="padding-right:0px;margin-right:0px;">
 								<button class="btn btn-success btn-xs" id="uploadEventBtn"
-									style="height:26px;" type="button">éæ©æä»¶</button>
+									style="height:26px;" type="button">选择文件</button>
 							</div>
 							<div class="col-md-4" style="padding-left:0px;margin-left:0px;">
 								<input type="file" name="file" style="width:0px;height:0px;"
 									id="uploadEventFile"> <input id="uploadEventPath"
-									disabled="disabled" type="text" placeholder="è¯·éæ©excelè¡¨"
+									disabled="disabled" type="text" placeholder="请选择excel表"
 									style="border: 1px solid #e6e6e6; height: 26px;width: 200px;">
 							</div>
 
@@ -73,7 +73,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger btn-sm"
-						onclick="uploadBtn()">ä¸ä¼ </button>
+						onclick="uploadBtn()">上传</button>
 				</div>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript">
 		var init = function() {
-			//æ¨¡æä¸ä¼ excel  
+			//模拟上传excel  
 			$("#uploadEventBtn").unbind("click").bind("click", function() {
 				$("#uploadEventFile").click();
 			});
@@ -94,13 +94,13 @@
 
 		};
 		init();
-		//ç¹å»ä¸ä¼ æé®  
+		//点击上传按钮  
 		var uploadBtn = function() {
 			var uploadEventFile = $("#uploadEventFile").val();
 			if (uploadEventFile == '') {
-				alert("è¯·éæ©excel,åä¸ä¼ ");
-			} else if (uploadEventFile.lastIndexOf(".xls") < 0) {//å¯å¤æ­ä»¥.xlså.xlsxç»å°¾çexcel  
-				alert("åªè½ä¸ä¼ Excelæä»¶");
+				alert("请选择excel,再上传");
+			} else if (uploadEventFile.lastIndexOf(".xls") < 0) {//可判断以.xls和.xlsx结尾的excel  
+				alert("只能上传Excel文件");
 			} else {
 				var url = "excel/uploadOther";
 				var formData = new FormData($('#batchUpload')[0]);
@@ -114,10 +114,10 @@
 				data : data,
 				success : function(result) {
 					$('#upload').modal('hide');
-					toastr.success("æ·»å æå", 'æç¤º');
+					toastr.success("添加成功", '提示');
 				},
 				error : function() {
-					alert("excelä¸ä¼ å¤±è´¥");
+					alert("excel上传失败");
 				},
 				cache : false,
 				contentType : false,
@@ -125,17 +125,18 @@
 			});
 		};
 	</script>
-<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
-<script type="text/javascript">
+	<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+	<script type="text/javascript">
         var goEasy = new GoEasy({
              appkey: 'BC-88e3350dfcc3428ba5abd490e095402e'
         });
+        
         goEasy.subscribe({
             channel: 'alarmPush',
             onMessage: function(message){
                 alert('收到：'+message.content);
             }
         });
-</script>
+	</script>
 </body>
 </html>

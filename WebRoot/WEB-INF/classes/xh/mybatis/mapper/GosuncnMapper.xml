@@ -123,5 +123,10 @@
 	<select id="selectCameraIpByBsId" parameterType="map" resultType="map">
 		select * from xhgmnet_emh_camera where bsId=#{bsId}
 	</select>
+	
+	<!-- 更新简阳无线传输的vpnIp -->
+	<update id="updataCameraIpByFSUID" parameterType="map">
+		update xhgmnet_emh_camera set deviceIP=#{FSUIP} where fsuId=#{FSUID}
+	</update>
 
 </mapper>

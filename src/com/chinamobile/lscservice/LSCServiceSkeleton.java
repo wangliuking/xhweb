@@ -88,7 +88,12 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			}else{
 				GosuncnController.insertLogin(map);
 				log.info("啦啦啦一个FSU注册添加成功！");
-			}			
+			}	
+			//判断版本号为2.06的简阳基站，更新无线ip
+			if("2.06".equals(map.get("FSUVER"))){
+				GosuncnController.updataCameraIpByFSUID(map);
+				log.info("啦啦啦一个无线ip修改成功！");
+			}
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
 			//上报动环设置配置

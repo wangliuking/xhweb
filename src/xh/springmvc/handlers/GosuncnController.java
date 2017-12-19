@@ -96,6 +96,13 @@ public class GosuncnController {
 	}
 	
 	/**
+	 * 根据FSUID更新简阳无线ip
+	 */
+	public static void updataCameraIpByFSUID(Map<String,String> map){
+		GosuncnService.updataCameraIpByFSUID(map);
+	}
+	
+	/**
 	 * 根据FSUID删除配置信息(保持最新的配置信息)
 	 */
 	public static String deleteConfigByFSUID(String FSUID){
