@@ -22,11 +22,12 @@
 <p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
 <![endif]-->
 <style>
-#divPlugin{
-	z-index:1000!important;
+#divPlugin {
+	z-index: 1000 !important;
 }
-.page-box .page-info{
-padding:10px;
+
+.page-box .page-info {
+	padding: 10px;
 }
 </style>
 </head>
@@ -71,24 +72,14 @@ padding:10px;
 					<div class="hpanel">
 						<div class="panel-body">
 							<ul id="xh-tabs" class="nav nav-tabs">
-								<!-- <li class="active"><a href="#info" data-toggle="tab" ng-click=''>
-										告警信息 </a></li> -->
-								
-								
-							
-
-								<li class="active"><a href="#equip" data-toggle="tab" ng-click='equip()'>
-										设备状态 </a></li>
+								<li class="active"><a href="#equip" data-toggle="tab"
+									ng-click='equip()'> 设备状态 </a></li>
 								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
 										环控状态</a></li>
 								<li><a href="#business" data-toggle="tab"
 									ng-click='business()'> 业务信息</a></li>
 							</ul>
 							<div class="tab-content" style="padding:20px">
-
-								<!-- <div class="tab-pane fade in active" id="info">
-									<div ng-include="'bsstatus-view-info.html'"></div>
-								</div> -->
 								<div class="tab-pane fade" id="emh">
 									<div ng-include="'bsstatus-view-emh.html'"></div>
 								</div>
@@ -104,16 +95,17 @@ padding:10px;
 								<div class="tab-pane fade in active" id="equip">
 
 									<div ng-include="'bsstatus-view-bsc.html'"></div>
-									
+
 									<div ng-include="'bsstatus-view-bsr.html'"></div>
 									<div ng-include="'bsstatus-view-dpx.html'"></div>
 									<div ng-include="'bsstatus-view-psm.html'"></div>
 								</div>
-								
+
 
 							</div>
 						</div>
 					</div>
+				<!-- panel -->
 				</div>
 			</div>
 			<!-- row---end -->
@@ -131,7 +123,7 @@ padding:10px;
 	<!-- <div ng-include="'user-edit.html'"></div> -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-		<script src="../../demo/codebase/webVideoCtrl.js"></script>
+	<script src="../../demo/codebase/webVideoCtrl.js"></script>
 	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/operations/bsstatus-view.js"></script>
@@ -149,6 +141,6 @@ padding:10px;
 			// TODO
 		}); */
 	</script>
-	
+
 </body>
 </html>

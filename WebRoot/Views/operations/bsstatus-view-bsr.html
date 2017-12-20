@@ -53,13 +53,13 @@
 							<span ng-if="x.working==128" class="label arrowed label-sm label-danger">功放关闭</span>
 							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
 							</td>
-							<td>{{x.freq}}</td>
-							<td>{{x.freq2}}</td>
-							<td>{{x.freq3}}</td>
-							<td>{{x.freq4}}</td>
+							<td>{{x.freq |freqFormat}}</td>
+							<td>{{x.freq2 |freqFormat}}</td>
+							<td>{{x.freq3 |freqFormat}}</td>
+							<td>{{x.freq4 |freqFormat}}</td>
 							<td>{{x.master}}</td>
-							<td ng-if="x.power>45">{{x.power-15}}</td>
-							<td ng-if="x.power<=45">{{x.power}}</td>
+							<td ng-if="x.power>45">{{x.power-15}}W</td>
+							<td ng-if="x.power<=45">{{x.power}}W</td>
 							<td>{{x.updateTime}}</td>
 						</tr>
 						<tr ng-repeat="x in bsrData" ng-if="x.bsrIsEnable==0">

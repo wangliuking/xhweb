@@ -48,7 +48,7 @@ public class ServerStatusService {
 	 * 交换中心异常
 	 * @return
 	 */
-	public static List<Map<String,Object> > unusualStatus(){
+	public static List<Map<String,Object> > unusualStatus(int type){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
 		List<Map<String,Object>> list=serverstatus();
@@ -79,10 +79,65 @@ public class ServerStatusService {
 				   map2.put("name", map.get("name"));
 				   map2.put("info", text);
 				   map2.put("time", map.get("time"));
-				   list2.add(map2);
+				   if(type==0){
+					   list2.add(map2);
+				   }else{
+					   if(map.get("typeId").toString().equals("1")){
+						   list2.add(map2);
+					   }
+				   }
 			   }
 		}
+		session.close();
 		return list2;
+	}
+	/**
+	 * 更新交换中心告警标志
+	 * @return
+	 */
+	public static void updateAlarmStatus(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
+		
+		try {
+			mapper.updateAlarmStatus();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 解除报警 
+	 * @return
+	 */
+	public static void offAlarmStatus(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
+		
+		try {
+			mapper.offAlarmStatus();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/*
+	 * 声音告警数目
+	 */
+	public static int alarmNum(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
+		int count=0;
+		try {
+			count=mapper.alarmNum();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

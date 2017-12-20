@@ -40,6 +40,36 @@ xh.load = function() {
 			return xh.secondsFormatDay(text);
 		};
 	});
+	app.filter('freqFormat', function() { // 可以注入依赖
+		return function(text) {
+			/*console.log("频点："+parseInt(text))*/
+			
+			if(parseInt(text)>0){
+				var fr=(parseInt(text)/1000000).toFixed(2)+"MHz";
+				return fr
+			}else{
+				return "";
+			}
+		};
+	});
+	app.filter('retLoss',function(){
+		return function(text){
+			if(text>0){
+				return text+'dB';
+			}else{
+				return "";
+			}
+		}
+	})
+	app.filter('fwdPa',function(){
+		return function(text){
+			if(text>0){
+				return text+'W';
+			}else{
+				return "";
+			}
+		}
+	})
 	app.config([ '$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode({
 			enabled : true,

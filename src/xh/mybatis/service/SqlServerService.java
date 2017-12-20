@@ -80,7 +80,7 @@ public class SqlServerService {
 					result.put("ji", Float.parseFloat(map.get("value").toString()));
 				}
 			}
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		} catch(NoRouteToHostException e){
@@ -91,6 +91,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return result;
 	}
 	/**
@@ -118,7 +119,7 @@ public class SqlServerService {
 		paraMap.put("time", str_date1);
 		try {
 			list = mapper.bsmonitorAlarmList(paraMap);
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		} catch(NoRouteToHostException e){
@@ -129,6 +130,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return list;
 	}
 	/**
@@ -172,7 +174,7 @@ public class SqlServerService {
 			}
 		
 			
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		}catch(NoRouteToHostException e){
@@ -183,6 +185,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return list;
 	}
 	/**
@@ -208,7 +211,7 @@ public class SqlServerService {
 				map.remove("AlarmTime");
 				list.set(i, map);
 			}
-			sqlSession.close();
+		
 			
 			
 			
@@ -222,6 +225,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return list;
 		
 	}
@@ -239,7 +243,7 @@ public class SqlServerService {
 		
 		try {
 			count=mapper.bsJiAlarmCount(str_date1);
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		}catch(NoRouteToHostException e){
@@ -250,6 +254,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return count;
 		
 	}
@@ -267,7 +272,7 @@ public class SqlServerService {
 		
 		try {
 			count=mapper.MapEmhAlarmCount(str_date1);
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		} catch(NoRouteToHostException e){
@@ -278,6 +283,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		return count;
 		
 	}
@@ -298,7 +304,7 @@ public class SqlServerService {
 		try {
 			mapper.updateAlarmStatus(map);
 			sqlSession.commit();
-			sqlSession.close();
+			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
 		}catch(NoRouteToHostException e){
@@ -309,6 +315,7 @@ public class SqlServerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sqlSession.close();
 		
 	}
 
