@@ -89,7 +89,7 @@ public class BsStatusService {
 				Map<String, Object> map2=list.get(i);
 				Map<String, Object> map3=new HashMap<String, Object>();
 				String AlarmText="";
-				map3.put("bsId", map2.get("siteId").toString());
+				map3.put("bsId", map2.get("siteId")!=null?map2.get("siteId").toString():"");
 				map3.put("DevName", map2.get("deviceName"));
 				if(map2.get("singleId").toString().equals("017010") || map2.get("singleId").toString().equals("017011")){
 					AlarmText="温度高告警";
@@ -140,7 +140,7 @@ public class BsStatusService {
 					AlarmText="智能电表通信状态告警";
 				}
 				
-				map3.put("AlarmText", map2.get("siteId").toString()+"-"+map2.get("siteName")+". "+map2.get("deviceName")+". "+AlarmText);
+				map3.put("AlarmText", (map2.get("siteId")!=null?map2.get("siteId").toString():"")+"-"+map2.get("siteName")+". "+map2.get("deviceName")+". "+AlarmText);
 				map3.put("time", map2.get("updateTime").toString());
 				list.set(i, map3);
 				
@@ -149,6 +149,9 @@ public class BsStatusService {
 			
 			sqlSession.close();
 
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

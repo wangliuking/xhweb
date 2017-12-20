@@ -1,5 +1,7 @@
 package xh.mybatis.service;
 
+import java.net.NoRouteToHostException;
+import java.sql.SQLTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.mapper.SqlServerMapper;
@@ -77,7 +81,13 @@ public class SqlServerService {
 				}
 			}
 			sqlSession.close();
-		} catch (Exception e) {
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		} catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -109,7 +119,13 @@ public class SqlServerService {
 		try {
 			list = mapper.bsmonitorAlarmList(paraMap);
 			sqlSession.close();
-		} catch (Exception e) {
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		} catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -157,6 +173,12 @@ public class SqlServerService {
 		
 			
 			sqlSession.close();
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		}catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,9 +208,16 @@ public class SqlServerService {
 				map.remove("AlarmTime");
 				list.set(i, map);
 			}
+			sqlSession.close();
 			
 			
 			
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		}catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -210,6 +239,13 @@ public class SqlServerService {
 		
 		try {
 			count=mapper.bsJiAlarmCount(str_date1);
+			sqlSession.close();
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		}catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -231,7 +267,14 @@ public class SqlServerService {
 		
 		try {
 			count=mapper.MapEmhAlarmCount(str_date1);
-		} catch (Exception e) {
+			sqlSession.close();
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		} catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -240,7 +283,7 @@ public class SqlServerService {
 	}
 	
 	/**
-	 * 基站交流电断开数目
+	 * 更新基站交流电断开数目
 	 * @return
 	 */
 	public static void updateAlarmStatus(){
@@ -254,6 +297,14 @@ public class SqlServerService {
 		
 		try {
 			mapper.updateAlarmStatus(map);
+			sqlSession.commit();
+			sqlSession.close();
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+		}catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

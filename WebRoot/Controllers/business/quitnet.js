@@ -562,8 +562,11 @@ xh.download=function(type){
 	var filepath = "/Resources/upload/quitnet/" + fileName;
 	console.log("filename=>" + fileName);
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
 };
 
 // 刷新数据
