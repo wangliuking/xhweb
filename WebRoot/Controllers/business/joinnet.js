@@ -393,6 +393,7 @@ xh.addJoinNet = function() {
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
+			$("#add_btn").button('reset');
 			if (data.result >= 1) {
 				if(data.result >= 2){
 					$('#addJoinNet').modal('hide');
@@ -426,7 +427,9 @@ xh.addJoinNet = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
+		
 	});
 };
 /* 主管部门审核 */

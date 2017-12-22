@@ -301,7 +301,7 @@ xh.quit = function() {
 			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
-
+			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#quit').modal('hide');
 				xh.refresh();
@@ -312,6 +312,7 @@ xh.quit = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };

@@ -266,6 +266,7 @@ xh.add = function() {
 		async : true,
 		data : $("#addForm").serializeArray(),
 		success : function(data) {
+			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				$("input[name='result']").val(1);
@@ -276,6 +277,7 @@ xh.add = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };

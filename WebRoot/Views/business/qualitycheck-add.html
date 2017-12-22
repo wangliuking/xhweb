@@ -132,6 +132,7 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
+		$("#add_btn").button('loading');
 		xh.add();
 	});
 </script>

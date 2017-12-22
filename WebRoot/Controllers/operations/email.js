@@ -160,6 +160,8 @@ xh.load = function() {
 				url="../business/qualitycheck.html";
 			}else if(title=="网络优化"){
 				url="../business/optimizenet.html";
+			}else if(title=="通信保障申请"){
+				url="../business/communicationsupport.html";
 			}else{
 				
 			}
