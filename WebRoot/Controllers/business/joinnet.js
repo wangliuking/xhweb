@@ -393,6 +393,7 @@ xh.addJoinNet = function() {
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
+			$("#add_btn").button('reset');
 			if (data.result >= 1) {
 				if(data.result >= 2){
 					$('#addJoinNet').modal('hide');
@@ -426,7 +427,9 @@ xh.addJoinNet = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
+		
 	});
 };
 /* 主管部门审核 */
@@ -1162,8 +1165,12 @@ xh.download = function(id,type) {
 	}
 	var filepath = "/Resources/upload/net/" + filename;
 	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
+	
 };
 
 // 刷新数据

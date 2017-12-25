@@ -23,6 +23,7 @@
   border:0px;
   width:100%;
   table-layout: fixed;
+  min-height:200px;
 
 }
 .server-table td{
@@ -98,7 +99,10 @@ width: calc( 100% - 1em )
 									<tr>
 										<td style="text-align: center;background:#fafafa; width:150px;word-wrap:break-word；"><i
 											ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1 ||x.memper>90 || x.diskper>90 ]"></i>
-											<br> {{x.name}}
+											<div style="background:blue;color:#fff;padding:5px; border-radius:10px;">{{x.name}}</div>
+										</td>
+										<td ng-if="x.status!=0" colspan="2">
+										服务器离线！！！！！
 										</td>
 									
 										

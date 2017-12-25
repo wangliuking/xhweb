@@ -45,6 +45,18 @@ xh.load = function() {
 	    }
 	  };
 	});
+	app.filter('freqFormat', function() { // 可以注入依赖
+		return function(text) {
+			/*console.log("频点："+parseInt(text))*/
+			
+			if(parseInt(text)>0){
+				var fr=(parseInt(text)/1000000).toFixed(2)+"MHz";
+				return fr
+			}else{
+				return "";
+			}
+		};
+	});
 
 	app.controller("bs", function($scope, $http) {
 		xh.maskShow();

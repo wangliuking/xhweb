@@ -24,7 +24,7 @@ toastr.options = {
 };
 xh.load = function() {
 	var app = angular.module("app", []);
-	var pageSize = $("#page-limit").val();
+	var pageSize = 1000;
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
@@ -133,7 +133,7 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
-			var pageSize = $("#page-limit").val();
+			var pageSize = 1000;
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -155,7 +155,7 @@ xh.load = function() {
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
-			var pageSize = $("#page-limit").val();
+			var pageSize = 1000;
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {

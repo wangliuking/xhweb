@@ -324,6 +324,7 @@ public class BsStatusController {
 		List<Map<String,Object>> list2=SqlServerService.bsJiAlarm();
 		//List<Map<String, Object>> list3=DispatchStatusService.dispatchOffAlarm();
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus(1);
 		
 		for (Map<String, Object> map : list1) {
 			list.add(map);
@@ -331,9 +332,9 @@ public class BsStatusController {
 		for (Map<String, Object> map2 : list2) {
 			list.add(map2);
 		}
-		/*for (Map<String, Object> map3 : list3) {
+		for (Map<String, Object> map3 : msc) {
 			list.add(map3);
-		}*/		
+		}		
 		result.put("items", list);
 		result.put("totals", list.size());
 		
@@ -360,11 +361,12 @@ public class BsStatusController {
 		int bsCount=BsStatusService.bsOffVoiceCount();
 		//int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
 		int jiCount=SqlServerService.bsJiAlarmCount();
+		int msc=ServerStatusService.alarmNum();
 		
 		
 		
 		HashMap<String, Object> result = new HashMap<String, Object>();
-		result.put("bsbreakTotals", bsCount);
+		result.put("bsbreakTotals", bsCount+msc);
 		result.put("jiTotals", jiCount);
 		
 		 response.setContentType("application/json;charset=utf-8"); 
@@ -412,6 +414,7 @@ public class BsStatusController {
 	public void bsOffVoiceChange(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
 		
 		BsStatusService.bsOffVoiceChange();
+		ServerStatusService.updateAlarmStatus();
 
 	}
 	
@@ -419,9 +422,10 @@ public class BsStatusController {
 	@ResponseBody
 	public void updateAlarm(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
 		
-		DispatchStatusService.updateDispatchAlarmStatus();
+		/*DispatchStatusService.updateDispatchAlarmStatus();*/
 		BsStatusService.updateAlarmStatus();
 		SqlServerService.updateAlarmStatus();
+		ServerStatusService.offAlarmStatus();
 
 	}
 
@@ -540,7 +544,7 @@ public class BsStatusController {
 	public void bsMapCount(HttpServletRequest request, HttpServletResponse response) {
 		int count1=BsStatusService.MapBsOfflineCount();
 		/*int count2=BsStatusService.MapDispatchAlarmCount();*/
-		int count3=ServerStatusService.unusualStatus().size();
+		int count3=ServerStatusService.unusualStatus(0).size();
 		
 		int count4=SqlServerService.MapEmhAlarmCount()+BsStatusService.fourEmhAlarmListCount();
 		try {

@@ -174,7 +174,7 @@
 										    	<label for="sb" >手台</label>
 										    </div>
 										    <div class="col-md-8">
-										    	<input type="number" class="form-control" name="apply0" required="required">
+										    	<input type="number" class="form-control" name="apply0" value="0">
 										 	</div>
 									 	</div>
 									</div>
@@ -184,7 +184,7 @@
 										    	<label for="cz" >车载台</label>
 										    </div>
 										    <div class="col-md-8">
-										    	<input type="number" class="form-control" name="apply1" required="required">
+										    	<input type="number" class="form-control" name="apply1" value="0">
 										 	</div>
 										 </div>
 									</div>
@@ -194,7 +194,7 @@
 										    	<label for="dd" >调度台</label>
 										    </div>
 										    <div class="col-md-8">
-										    	<input type="number" class="form-control" name="apply2" required="required" >
+										    	<input type="number" class="form-control" name="apply2" value="0" >
 										 	</div>
 										 </div>
 									</div>
@@ -204,7 +204,7 @@
 										    	<label for="dd" >二次应用开发</label>
 										    </div>
 										    <div class="col-md-8">
-										    	<input type="number" class="form-control" name="apply3" required="required" >
+										    	<input type="number" class="form-control" name="apply3" value="0">
 										 	</div>
 										 </div>
 									</div>
@@ -295,22 +295,24 @@
 <script type="text/javascript">
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
-		xh.addJoinNet();
+		
+		
 	});
 
-	/* var faIcon = {
+	 var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
 	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' , '#terminalType'],
-		/* feedbackIcons: faIcon,
+		 feedbackIcons: faIcon,
 		fields : {}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
+		$("#add_btn").button('loading')
 		xh.addJoinNet();
-	});  */
+	});  
 </script>
 <script>
 	$(function() {

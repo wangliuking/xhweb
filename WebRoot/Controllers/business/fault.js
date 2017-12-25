@@ -272,6 +272,7 @@ xh.add = function() {
 			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
+			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				xh.refresh();
@@ -282,6 +283,7 @@ xh.add = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };
@@ -526,8 +528,11 @@ xh.download=function(type){
 	console.log("filename=>" + fileName);
 	console.log("filename=>" + filePath);
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filePath;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	if(xh.isfile(filePath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
 };
 
 // 刷新数据

@@ -38,7 +38,7 @@
 									style="margin-top:0px;color:#000;">
 									<thead>
 										<tr class="tr-img-gray">
-											<th>基站</th>
+											<th>告警位置</th>
 											<th>告警描述</th>
 											<th>时间</th>
 										</tr>
@@ -47,11 +47,18 @@
 										<tr ng-if="totals==0">
 											<td colspan="3" class="text-center" style="color:#000;">无告警记录！</td>
 										</tr>
-										<tr ng-repeat="x in alarm">
-											<td>[{{x.bsId}}]-基站</td>
-											<td ng-if="x.link==1" class="td-danger"><span>{{x.name}},【断开连接】</span>
+										<tr ng-repeat="x in alarm" ng-if="x.bsId!=null">
+											<td>{{x.bsId}}-{{x.name}}</td>
+											<td ng-if="x.link==1" class="td-danger"><span>【断开连接】</span>
 											</td>
 											<td ng-if="x.link==null" class="td-warning"><span>{{x.name}}</span>
+											</td>
+
+											<td>{{x.time}}</td>
+										</tr>
+										<tr ng-repeat="x in alarm" ng-if="x.bsId==null">
+											<td>[{{x.name}}]</td>
+											<td class="td-danger"><span>{{x.info}}</span>
 											</td>
 
 											<td>{{x.time}}</td>
@@ -63,17 +70,12 @@
 
 
 						</div>
-						<div class="row" ng-show="totals>0" style="margin-top:5px;">
-							<div class="col-md-4 ">
-								<a href="#" onclick="xh.stopMap3()"
-									class="btn btn-success btn-sm"><i
-									class="fa fa-bell-slash-o"></i>解除声音</a>
-							</div>
-							<div class="col-md-8">
-							<div class="pull-right">
-							<span style="color:#000;">声音告警提示选项:&nbsp;&nbsp;</span> <input id="alarmbs"
+						<div class="row" ng-show="totals>0" style="margin-top:5px;margin-bottom:5px;">
+						<div class="col-md-9">
+							<div style="padding-top:10px;">
+							<span style="color:#000;">提示[<span class="text-danger">勾选即声音提示告警记录</span>]&nbsp;&nbsp;</span> <input id="alarmbs"
 									class="magic-checkbox" type="checkbox" name="alarmbs" value="2"  ng-checked="true" onclick="xh.aa()">
-								<label for="alarmbs"><span style="color:#000;">断站</span></label>
+								<label for="alarmbs"><span style="color:#000;">断站及交换中心</span></label>
 								<input id="alarmji" class="magic-checkbox" type="checkbox"
 									name="alarmji" value="1"  ng-checked="true" onclick="xh.aa()"> <label for="alarmji"><span
 									style="color:#000;">交流电</span></label>
@@ -81,6 +83,12 @@
 
 								
 							</div>
+							<div class="col-md-3 ">
+								<a href="#" onclick="xh.stopMap3()"
+									class="btn btn-success btn-sm"><i
+									class="fa fa-bell-slash-o"></i>解除声音</a>
+							</div>
+							
 
 						</div>
 

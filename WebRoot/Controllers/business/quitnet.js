@@ -301,7 +301,7 @@ xh.quit = function() {
 			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
-
+			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#quit').modal('hide');
 				xh.refresh();
@@ -312,6 +312,7 @@ xh.quit = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };
@@ -562,8 +563,11 @@ xh.download=function(type){
 	var filepath = "/Resources/upload/quitnet/" + fileName;
 	console.log("filename=>" + fileName);
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
 };
 
 // 刷新数据

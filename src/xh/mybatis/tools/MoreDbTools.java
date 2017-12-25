@@ -2,17 +2,21 @@ package xh.mybatis.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.NoRouteToHostException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.poi.util.IOUtils;
 import org.springframework.util.ObjectUtils;
+
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import xh.springmvc.handlers.BsstationController;
 
@@ -29,7 +33,9 @@ public class MoreDbTools {
      */  
     public static SqlSessionFactory getSqlSessionFactory(DataSourceEnvironment environment) {  
           
-        SqlSessionFactory sqlSessionFactory = SQLSESSIONFACTORYS.get(environment);  
+        SqlSessionFactory sqlSessionFactory = SQLSESSIONFACTORYS.get(environment); 
+      
+       
         if (!ObjectUtils.isEmpty(sqlSessionFactory))  
             return sqlSessionFactory;  
         else {  
@@ -39,17 +45,23 @@ public class MoreDbTools {
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, environment.name());  
                   
                 logger.info("Get {"+environment.name()+"} SqlSessionFactory successfully.");  
-            } catch (IOException e) {  
-                logger.warn("Get {"+environment.name()+"} SqlSessionFactory error.");  
-                logger.error(e.getMessage(), e);  
-            }  
+            }catch(NoRouteToHostException e){
+    			logger.info("到主机的TCP/IP连接失败");
+    		} catch(PersistenceException e){
+    			logger.info("数据库连接失败");
+    		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
             finally {  
                 IOUtils.closeQuietly(inputStream);  
             }  
               
             SQLSESSIONFACTORYS.put(environment, sqlSessionFactory);  
             return sqlSessionFactory;  
-        }  
+        } 
+     	
+        
     }  
       
     /**

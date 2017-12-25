@@ -14,7 +14,7 @@
 							<th>载频ID</th>
 							<th>工作状态</th>
 							<th>在线状态</th>
-							<th>联网状态</th>
+							<th>工作模式</th>
 							<th>主备状态</th>
 							<th>外部时钟状态</th>
 							<th>运行时长</th>
@@ -39,9 +39,19 @@
 							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
 							 </td>
 							
-							<td>{{x.online}}</td>
-							<td>{{x.mode}}</td>
-							<td>{{x.master}}</td>
+							<td>
+							<span ng-if="x.online==2" class="label arrowed label-sm label-success">在线</span>
+							<span ng-if="x.online!=2" class="label arrowed-in label-sm label-danger">离线</span>
+							</td>
+							<td>
+							<span ng-if="x.model==1" class="label arrowed label-sm label-success">单站</span>
+							<span ng-if="x.online==2" class="label arrowed-in label-sm label-success">联网</span>
+							<span ng-if="x.online==0" class="label arrowed-in label-sm label-info">未知</span>
+							</td>
+							<td>
+							<span ng-if="x.model==0" class="label arrowed label-sm label-info">备用</span>
+							<span ng-if="x.online==2" class="label arrowed-in label-sm label-success">主用</span>
+							</td>
 							<td>{{x.time}}</td>
 							<td>{{x.runtime |timeFormate}}</td>
 							<td>{{x.updateTime}}</td>

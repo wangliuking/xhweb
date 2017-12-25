@@ -97,11 +97,15 @@
 						</tr>
 						<tr ng-repeat="x in bsrconfigData">
 							<td>{{x.bsrId}}</td>
-							<td>{{x.bsrIsEnable}}</td>
-							<td>{{x.poweOne}}</td>
-							<td>{{x.poweTwo}}</td>
-							<td>{{x.freqOne}}</td>
-							<td>{{x.freqTwo}}</td>
+							
+							<td>
+							<span ng-if="x.bsrIsEnable==1" class="label arrowed label-sm label-success">启用</span>
+							<span ng-if="x.bsrIsEnable==0" class="label arrowed label-sm label-danger">未启用</span>
+							</td>
+							<td>{{x.poweOne}}W</td>
+							<td>{{x.poweTwo}}W</td>
+							<td>{{x.freqOne |freqFormat}}</td>
+							<td>{{x.freqTwo |freqFormat}}</td>
 							
 						</tr>
 					</tbody>
@@ -154,7 +158,7 @@
 
 
 <!-- 传输配置信息 -->
-<!-- <div class="row">
+<div class="row">
 	<div class="col-md-12">
 		<div class="hpanel">
 			<div class="panel-heading" style="color:#000;border-left:2px solid green">
@@ -201,4 +205,4 @@
 			</div>
 		</div>
 	</div>
-</div> -->
+</div>

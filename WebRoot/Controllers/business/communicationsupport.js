@@ -49,6 +49,11 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 		/*获取申请记录表*/
 		$http.get("../../support/selectAll?start=0&limit=" + pageSize).
@@ -92,14 +97,9 @@ xh.load = function() {
 			$("#progress").modal('show');
 	    };
 	    /*跳转到进度页面*/
-		$scope.toDownload = function (id) {
+		$scope.toPrint = function (id) {
 			$scope.editData = $scope.data[id];
 			$scope.checkData=$scope.editData;
-			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
-			success(function(response){
-				$scope.progressData = response.items;
-				
-			});*/
 			$scope.progressData=$scope.editData;
 			if($scope.checkData.checked==17){
 				$("#download").modal('show');
@@ -120,15 +120,16 @@ xh.load = function() {
 			if($scope.loginUserRoleId==10001 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
-				$http.get("../../web/user/getUserList?roleId=10002").
-				success(function(response){
-				$scope.userData = response.items;
-				$scope.userTotals = response.totals;
-				if($scope.userTotals>0){
-					$scope.user=$scope.userData[0].user;
-				}
-			});
+			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){				
+				$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser)
+				.success(function(response) {
+					$scope.userData = response.items;
+					$scope.userTotals = response.totals;
+					if ($scope.userTotals > 0) {
+						$scope.user = $scope.userData[0].user;
+					}
+				});
+			
 				$("#checkWin17").modal('show');
 			}
 			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
@@ -319,8 +320,10 @@ xh.add = function() {
 			} else {
 				toastr.error(data.message, '提示');
 			}
+			$("#add_btn").button('reset');
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };
@@ -777,7 +780,7 @@ xh.upload = function(index) {
 
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../net/upload', // 用于文件上传的服务器端请求地址
+		url : '../../support/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -836,10 +839,28 @@ xh.download = function() {
 		else if(checked == 15 && $scope.checkData.fileName7 != null && $scope.checkData.fileName7 != ''){
 			filename = $scope.checkData.fileName7;
 		}
-	console.log("filename=>" + filename);
-	var downUrl = "../../net/download?fileName=" + filename;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	var filepath = "/Resources/upload/communicationsupport/" + filename;
+	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
+};
+
+var WebPrinter; //声明为全局变量 
+xh.CreatePrintPage=function() {
+
+	javascript:PreviewMytable();
+	
+	/*try{ 
+	    var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM')); 
+		if ((LODOP!=null)&&(typeof(LODOP.VERSION)!="undefined")) alert("本机已成功安装过Lodop控件!\n  版本号:"+LODOP.VERSION); 
+	 }catch(err){ 
+		//alert("Error:本机未安装或需要升级!"); 
+	 } */
+	
+    
 };
 
 // 刷新数据
