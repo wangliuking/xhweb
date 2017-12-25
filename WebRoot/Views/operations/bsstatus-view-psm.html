@@ -7,11 +7,11 @@
 				PSM状态
 			</div>
 			<div class="panel-body">
-				<table id="tb-info" class="xh-table table-hover">
+				<table id="tb-info" class="xh-table table-hover xh-table-fixed">
 					<thead>
 						<tr class="tr-img-gray">
 							<th>ID</th>
-							<th>工作状态</th>
+							<th >工作状态</th>
 							<th>风扇1状态</th>
 							<th>风扇2状态</th>
 							<th>风扇3状态</th>
@@ -21,7 +21,7 @@
 							<th>温度3(℃)</th>
 							<th>AC/DC电压(V)</th>
 							<th>AC/DC电流(A)</th>
-							<th>更新时间</th>
+							<th style="width:150px;">更新时间</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -40,19 +40,42 @@
 							<span ng-if="x.linkStatus==0 && x.dc12==0 && x.dc301==0 && x.dc302==0 &&x.runStatus==0 && x.tempStatus==0" class="label arrowed label-sm label-success">正常</span>
 							</td>
 							
+							<td>
+							<span ng-if="x.fan1==2" class="label arrowed label-sm label-success">正常</span>
+							<span ng-if="x.fan1!=2" class="label arrowed label-sm label-danger">异常</span>
+							</td>
+							<td>
+							<span ng-if="x.fan2==2" class="label arrowed label-sm label-success">正常</span>
+							<span ng-if="x.fan2!=2" class="label arrowed label-sm label-danger">异常</span>
+							</td>
+							<td>
+							<span ng-if="x.fan3==2" class="label arrowed label-sm label-success">正常</span>
+							<span ng-if="x.fan3!=2" class="label arrowed label-sm label-danger">异常</span>
+							</td>
 							
-							<td ng-if="x.fan1==2" class="td-success">正常</td>
-							<td ng-if="x.fan1!=2" class="td-danger">异常</td>
-							<td ng-if="x.fan2==2" class="td-success">正常</td>
-							<td ng-if="x.fan2!=2" class="td-danger">异常</td>
-							<td ng-if="x.fan3==2" class="td-success">正常</td>
-							<td ng-if="x.fan3!=2" class="td-danger">异常</td>
-							<td>{{x.ad}}</td>
-							<td>{{x.bdTmp1/2}}</td>
-							<td>{{x.bdTmp2/2}}</td>
-							<td>{{x.bdTmp3/2}}</td>
-							<td>{{x.acdcVol/10}}</td>
-							<td>{{x.acdcCur/10}}</td>
+							<td>
+							<span ng-if="x.ad==2" class="label arrowed label-sm label-success">正常</span>
+							<span ng-if="x.ad!=2" class="label arrowed label-sm label-danger">异常</span>
+							</td>
+							
+							
+							<td>
+							<span ng-if="(x.bdTmp1/2)>0">{{x.bdTmp1/2}} ℃</span>
+							</td>
+							<td>
+							<span ng-if="(x.bdTmp2/2)>0">{{x.bdTmp1/2}} ℃</span>
+							</td>
+							<td>
+							<span ng-if="(x.bdTmp3/2)>0">{{x.bdTmp1/2}} ℃</span>
+							</td>
+							
+							<td>
+							<span ng-if="(x.acdcVol/10)>0">{{x.acdcVol/10}} V</span>
+							</td>
+							<td>
+							<span ng-if="(x.acdcCur/10)>0">{{x.acdcCur/10}} A</span>
+							</td>
+						
 							<td>{{x.updateTime}}</td>
 						</tr>
 					</tbody>

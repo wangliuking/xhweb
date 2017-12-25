@@ -21,7 +21,26 @@
       (memSize-memUsed)/(1024*1024*1024) as memResidue,
       runStatus as status,
       time,type from xhgmnet_eastcom_server
-    </select>  
+    </select> 
+    
+    <!-- 更新交换中心告警标志 -->
+	<update id="updateAlarmStatus">
+	  update xhgmnet_eastcom_server set alarmStatus=0  
+	  where (memUsed/(1024*1024*1024))/(memSize/(1024*1024*1024)) &lt; 0.9 
+	  and (diskUsed/(1024*1024*1024))/(diskSize/(1024*1024*1024)) &lt; 0.9
+	</update> 
+	 <!-- 解除报警 -->
+	<update id="offAlarmStatus">
+	  update xhgmnet_eastcom_server set alarmStatus=1
+	  where (memUsed/(1024*1024*1024))/(memSize/(1024*1024*1024)) &gt;= 0.9 
+	  or (diskUsed/(1024*1024*1024))/(diskSize/(1024*1024*1024)) &gt;= 0.9
+	</update>
+	<!-- 告警数目 -->
+	 <select id="alarmNum" resultType="int" useCache="true">
+     select count(*) from xhgmnet_eastcom_server
+     where ((memUsed/(1024*1024*1024))/(memSize/(1024*1024*1024))&gt;=0.9 
+	  or (diskUsed/(1024*1024*1024))/(diskSize/(1024*1024*1024))&gt;=0.9) and typeId=1 and alarmStatus=0
+    </select> 
    
    
 </mapper>

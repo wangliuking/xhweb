@@ -20,6 +20,12 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+	classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
+
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -36,7 +42,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -54,137 +60,167 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
+
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-body" style="padding-top:5px">
-							<!-- row -->
-							<div class="row">
-								<div class="col-md-12" ng-model="loginUserRoleId">
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId > 10000 || loginUserRoleId < 1000" disabled="disabled">
-										<i class="fa fa-plus-circle"></i>&nbsp;保障申请
-									</button>
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleId == 10000 || loginUserRoleId == 1000">
-										<i class="fa fa-plus-circle"></i>&nbsp;保障申请
-									</button>
-									<!-- <button class="btn btn-info btn-sm" ng-disabled=""
-										ng-click="showEditModel()">
-										<i class="fa fa-edit"></i>&nbsp;修改设备记录
-									</button>
-									<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-										ng-disabled="">
-										<i class="fa fa-trash"></i>&nbsp;批量删除记录
-									</button> -->
-									<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
-								</div>
-							</div>
-							<!-- row -->
+						<div class="panel-heading hbuilt">
+
+							<i class="fa fa-indent text-danger"></i>&nbsp;通信保障列表
 						</div>
-						<!-- panel-body--end -->
-					</div>
-					<!-- hpanel --end-->
-				</div>
-				<!-- col-md-12--end -->
-			</div>
-			<!-- row/ -->
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
 						<div class="panel-body">
-							<table id="tb-info" class="xh-table table-hover"
-								ng-model="loginUser">
-								<thead>
-									<tr class="tr-gray">
-										<th width="100px">申请单位</th>
-										<th width="150px">联系人</th>
-										<th width="100px">保障时间</th>
-										<th width="300px">审核状态</th>
-										<th width="200px">操作详情</th>
-									</tr>
-								</thead>
-								<tbody ng-model="loginUserRoleId">
-									<tr ng-if="totals==0">
-										<td colspan="5" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{x.unit1}}</td>
-										<td>{{x.person}}</td>
-										<td>{{x.supportTime}}</td>
-										<!-- <td ng-if="x.checked<16" class="td-worning">等待处理</td>
+							<div class="btn-group" ng-model="loginUserRoleId">
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#add"
+									ng-if="loginUserRoleId == 10000 || loginUserRoleId == 1000">
+									<i class="fa fa-plus-circle"></i>&nbsp;保障申请
+								</button>
+								<button class="btn btn-warning btn-sm" ng-click="refresh()">
+									<i class="fa fa-refresh"></i>&nbsp;刷新
+								</button>
+
+							</div>
+
+
+							<div>
+
+								<table id="tb-info" class="xh-table table-hover"
+									ng-model="loginUser">
+									<thead>
+										<tr class="tr-gray">
+											<th width="100px">申请单位</th>
+											<th width="150px">联系人</th>
+											<th width="100px">保障时间</th>
+											<th width="300px">审核状态</th>
+											<th width="200px">操作详情</th>
+										</tr>
+									</thead>
+									<tbody ng-model="loginUserRoleId">
+										<tr ng-if="totals==0">
+											<td colspan="5" class="text-center">没有记录！</td>
+										</tr>
+										<tr ng-repeat="x in data">
+											<td>{{x.unit1}}</td>
+											<td>{{x.person}}</td>
+											<td>{{x.supportTime}}</td>
+											<!-- <td ng-if="x.checked<16" class="td-worning">等待处理</td>
 										<td ng-if="x.checked==16" class="td-success">流程结束</td> -->
-										<!-- <td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> -->
-										<td ng-if="x.checked==0" class="td-warning">等待主管方审核</td>
-										<!-- <td ng-if="x.checked==1" class="td-warning">等待主管方记录信息</td> -->
-										<td ng-if="x.checked==1" class="td-warning">等待管理方领导给管理方分配任务</td>	
-										<td ng-if="x.checked==2" class="td-warning">等待管理方向用户发送确认信息</td>		
-										<td ng-if="x.checked==3" class="td-warning">等待用户核实</td>
-										<td ng-if="x.checked==4" class="td-warning">等待管理方根据通信保障类型发送消息通知亚光</td>
-										<td ng-if="x.checked==5" class="td-warning">等待亚光审核消息</td>
-										<td ng-if="x.checked==6" class="td-warning">亚光发送审核请求消息给管理方</td><td ng-if="x.checked==7" class="td-warning">等待管理方对消息内容审核</td>
-										<td ng-if="x.checked==8" class="td-warning">等待管理方通知用户单位</td>
-										<td ng-if="x.checked==9" class="td-warning">等待用户单位确认</td>
-										<td ng-if="x.checked==10" class="td-warning">等待亚光发送保障准备信息给管理方</td>
-										<td ng-if="x.checked==11" class="td-warning">等待管理方确认保障准备信息</td>
-										<td ng-if="x.checked==12" class="td-warning">等待管理方发送保障准备信息给用户单位</td>
-										<td ng-if="x.checked==13" class="td-warning">等待用户单位确认保障准备信息</td>
-										<td ng-if="x.checked==14" class="td-warning">等待亚光发送保障完成信息给管理方</td>
-										<td ng-if="x.checked==15" class="td-warning">等待管理方确认保障完成信息</td>
+											<!-- <td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> -->
+											<td ng-if="x.checked==0" class="td-warning">等待主管方通知管理部门</td>
+											<!-- <td ng-if="x.checked==1" class="td-warning">等待主管方记录信息</td> -->
+											<td ng-if="x.checked==1" class="td-warning">等待管理方领导通知经办人处理</td>
+											<td ng-if="x.checked==2" class="td-warning">等待经办人向用户发送确认文件信息</td>
+											<td ng-if="x.checked==3" class="td-warning">等待用户确认通信保障文件</td>
+											<td ng-if="x.checked==4" class="td-warning">等待管理方根据通信保障类型发送消息通知服务提供商</td>
+											<td ng-if="x.checked==5" class="td-warning">等待服务提供方确认消息</td>
+											<td ng-if="x.checked==6" class="td-warning">服务提供方上传保障方案给管理方</td>
+											<td ng-if="x.checked==7" class="td-warning">等待管理方对消息内容审核</td>
+											<td ng-if="x.checked==8" class="td-warning">等待管理方通知用户单位确认保障方案</td>
 
-										<td ng-if="x.checked==16" class="td-warning">等待用户评价</td>
-										<td ng-if="x.checked==17" class="td-success">保障流程结束</td>
-										<td style="text-align:center">
-										<a href="#"
-											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a>
-										
-										<a ng-if="loginUserRoleId==10001 && x.checked==0
-												||loginUserRoleId==10003 && x.checked==5
-												||loginUserRoleId==10002 && x.checked==7 && loginUser == x.checkUser"
+
+
+											<!-- <td ng-if="x.checked==9" class="td-warning">等待用户单位确认保障方案</td> -->
+
+
+
+
+
+											<td ng-if="x.checked==10" class="td-warning">等待服务提供方发送保障准备情况说明信息给管理方</td>
+											<td ng-if="x.checked==11" class="td-warning">等待管理方确认保障准备信息</td>
+											<td ng-if="x.checked==12" class="td-warning">等待管理方发送保障准备信息给用户单位</td>
+											<!-- <td ng-if="x.checked==13" class="td-warning">等待用户单位确认保障准备信息</td> -->
+
+
+
+											<td ng-if="x.checked==14" class="td-warning">等待服务提供方处理保障任务，并发送保障完成信息给管理方</td>
+											<td ng-if="x.checked==15" class="td-warning">等待管理方确认保障完成信息</td>
+
+											<td ng-if="x.checked==16" class="td-warning">通信保障任务完成,等待用户评价</td>
+											<td ng-if="x.checked==17" class="td-success">结束</td>
+											<td style="text-align:center"><a href="#"
+												ng-click="toProgress($index)"><i
+													class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度</a> <a
+												ng-if="loginUserRoleId==10001 && x.checked==0 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知管理部门</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==1 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知经办人</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==2 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>|
+													&nbsp;上传保障需求确认文件</a> <a class="text-danger"
+												ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==3"
+												href="#" ng-click="checkWin($index)">|<i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认保障文件
+											</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==4 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>|
+													&nbsp;上传通信保障需求文件通知服务商</a> <a
+												ng-if="loginUserRoleId==10003 && x.checked==5 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认消息</a> <a
+												ng-if="loginUserRoleId==10003 && x.checked==6 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传保障方案</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==7 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==8 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知用户</a> <!-- <a ng-if="loginUserRoleId==1000  && x.checked==9 && loginUser==x.userName"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
-											
-										<a ng-if="loginUserRoleId==10002 && x.checked==4 && loginUser == x.checkUser
-												||loginUserRoleId==10002 && x.checked==1"
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认</a> -->
+
+
+												<a
+												ng-if="loginUserRoleId==10003 && x.checked==10 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>|
+													&nbsp;上传保障准备情况说明文件</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==11 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>|
+													&nbsp;审核保障准备情况说明文件</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==12 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知用户单位</a> <!-- <a ng-if="loginUserRoleId==1000  && x.checked==13 && loginUser==x.userName"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认</a>	 -->
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==2 && loginUser == x.checkUser
-												||loginUserRoleId==10003 && x.checked==6
-												||loginUserRoleId==10002 && x.checked==8 && loginUser == x.checkUser
-												||loginUserRoleId==10003 && x.checked==10
-												||loginUserRoleId==10002 && x.checked==12 && loginUser == x.checkUser
-												||loginUserRoleId==10003 && x.checked==14"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==11 && loginUser == x.checkUser
-												||loginUserRoleId==1000  && x.checked==9
-												||loginUserRoleId==1000  && x.checked==13
-												||loginUserRoleId==10002 && x.checked==15 && loginUser == x.checkUser"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认</a>
+												<a
+												ng-if="loginUserRoleId==10003 && x.checked==14 && up.b_check_communicationsupport=='on'"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>|
+													&nbsp;上传保障完成文档说明</a> <a
+												ng-if="loginUserRoleId==10002 && x.checked==15 && loginUser == x.checkUser"
+												href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认保障完成消息</a>
 
-										<a class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
-											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;核实</a>
-										
-										<a class="text-danger"
-											ng-if="loginUserRoleId==1000 && x.checked==16"
-											href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>&nbsp;评价</a>
 
-										<a class="text-danger"
-											ng-if="x.checked==17"
-											href="#" ng-click="toDownload($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;下载</a></td>		
-									</tr>
-								</tbody>
-							</table>
+
+
+
+
+
+
+
+												<a class="text-danger"
+												ng-if="loginUserRoleId==1000 && x.checked==16" href="#"
+												ng-click="checkWin($index)">|<i
+													class="fa fa-hand-o-down text-danger"></i>&nbsp;评价
+											</a> <!-- ng-click="toDownload($index)" --> <a
+												class="text-danger" ng-if="x.checked==17" href="#"
+												ng-click="toPrint($index)">|<i
+													class="fa fa-print text-danger"></i> &nbsp;打印
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 							<div class="page">
 								<div class="page-info">
 									每页显示 <select id="page-limit" ng-change="refresh()"
@@ -195,7 +231,7 @@
 										<option value="40">40</option>
 										<option value="50">50</option>
 									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-								 		ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
 										ng-model="totals">总计{{totals}}条</span>
 								</div>
 								<div class="page-paging"></div>
@@ -236,10 +272,67 @@
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/communicationsupport.js"></script>
+	<script type="text/javascript" src="../../Resources/js/51WebPrinter.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>
+	<script language="javascript" type="text/javascript">
+		var LODOP; //声明为全局变量
+		var iRadioValue = 1;
+		function PrintOneURL() {
+			LODOP = getLodop();
+			LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_按网址打印表格");
+			LODOP.ADD_PRINT_TBURL(46, 90, 800, 300, document
+					.getElementById("T1").value);
+			LODOP.SET_PRINT_STYLEA(0, "HOrient", 3);
+			LODOP.SET_PRINT_STYLEA(0, "VOrient", 3);
+			LODOP.PREVIEW();
+		};
+		function PreviewMytable() {
+			LODOP = getLodop();
+			LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_预览打印表格");
+			LODOP.ADD_PRINT_TABLE(100, 5, 800, 480, document
+					.getElementById("print").innerHTML);
+			LODOP.SET_PRINT_STYLEA(0, "TableHeightScope", iRadioValue);
+			LODOP.PREVIEW();
+		};
+		function DesignMytable() {
+			LODOP = getLodop();
+			LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_打印设计表格");
+			LODOP.ADD_PRINT_TABLE(100, 5, 500, 280, document
+					.getElementById("div1").innerHTML);
+			LODOP.SET_PRINT_STYLEA(0, "TableHeightScope", iRadioValue);
+			LODOP.PRINT_DESIGN();
+		};
+		function PrintInFullPage() {
+			LODOP = getLodop();
+			LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_整页表格");
+			LODOP.SET_PRINT_PAGESIZE(2, 0, 0, "A4");
+			LODOP.ADD_PRINT_TABLE("2%", "1%", "96%", "98%", document
+					.getElementById("div1").innerHTML);
+			LODOP.SET_PREVIEW_WINDOW(0, 0, 0, 800, 600, "");
+			LODOP.PREVIEW();
+		};
+		function PrintNoBorderTable() {
+			LODOP = getLodop();
+			LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_无边线表格");
+			LODOP.ADD_PRINT_TABLE(50, 10, "50%", 220, document
+					.getElementById("div2").innerHTML);
+			//LODOP.SET_PRINT_STYLEA(0,"Top2Offset",-40); //这句可让次页起点向上移
+			LODOP
+					.ADD_PRINT_HTM(
+							2,
+							0,
+							"50%",
+							200,
+							"<body style='margin-top:0'>表格后面用<font color=blue>ADD_PRINT_HTM</font>附加其它备注</body>");
+
+			LODOP.SET_PRINT_STYLEA(0, "LinkedItem", -1);
+			LODOP.PREVIEW();
+		};
+	</script>
+
 </body>
 </html>

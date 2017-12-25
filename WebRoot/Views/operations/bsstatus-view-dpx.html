@@ -30,8 +30,8 @@
 					<span ng-if="x.working==3" class="label arrowed label-sm label-danger">放大器电流异常,放大器与 BSC通讯状态异常</span>
 					<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
 					</td>
-					<td>{{x.retLoss/10}}</td>
-					<td>{{x.fwdPa/10}}</td>
+					<td>{{x.retLoss/10 |retLoss}}</td>
+					<td>{{x.fwdPa/10 |fwdPa}}</td>
 					<td>{{x.updateTime}}</td>
 				</tr>
 			</tbody>

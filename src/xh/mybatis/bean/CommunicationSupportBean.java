@@ -17,14 +17,31 @@ public class CommunicationSupportBean {
 	private String note1;
 	private String note2;
 	private String note;
-	private String user2;
-	private String time2;
 	private String note3;
 	private String note4;
 	private String note5;
 	private String note6;
 	private String note7;
 	private String note8;
+	private String note9;
+	private String note10;
+	private String note11;
+	private String note12;
+	private String note13;
+	private String note14;
+	private String note15;
+	private String note16;
+	private String note17;
+	private String note18;
+	private String note19;
+	private String user2;
+	private String user3;
+	private String user4;
+	private String user5;
+	private String user6;
+	private String user7;
+	private String user8;
+	private String time2;
 	private String fileName1;
 	private String filePath1;
 	private String fileName2;
@@ -45,7 +62,67 @@ public class CommunicationSupportBean {
 	private String time6;
 	private String time7;
 	private String time8;
+	private String time9;
+	private String time10;
+	private String time11;
+	private String time12;
+	private String time13;
+	private String time14;
+	private String time15;
+	private String time16;
+	private String time17;
+	private String time18;
+	private String time19;
 	private String checkUser;
+	
+	public String getUser3() {
+		return user3;
+	}
+
+	public void setUser3(String user3) {
+		this.user3 = user3;
+	}
+
+	public String getUser4() {
+		return user4;
+	}
+
+	public void setUser4(String user4) {
+		this.user4 = user4;
+	}
+
+	public String getUser5() {
+		return user5;
+	}
+
+	public void setUser5(String user5) {
+		this.user5 = user5;
+	}
+
+	public String getUser6() {
+		return user6;
+	}
+
+	public void setUser6(String user6) {
+		this.user6 = user6;
+	}
+
+	public String getUser7() {
+		return user7;
+	}
+
+	public void setUser7(String user7) {
+		this.user7 = user7;
+	}
+
+	public String getUser8() {
+		return user8;
+	}
+
+	public void setUser8(String user8) {
+		this.user8 = user8;
+	}
+
 
 	public String getCheckUser() {
 		return checkUser;
@@ -436,5 +513,182 @@ public class CommunicationSupportBean {
 	public void setStar(int star) {
 		this.star = star;
 	}
+
+	public String getNote9() {
+		return note9;
+	}
+
+	public void setNote9(String note9) {
+		this.note9 = note9;
+	}
+
+	public String getNote10() {
+		return note10;
+	}
+
+	public void setNote10(String note10) {
+		this.note10 = note10;
+	}
+
+	public String getNote11() {
+		return note11;
+	}
+
+	public void setNote11(String note11) {
+		this.note11 = note11;
+	}
+
+	public String getNote12() {
+		return note12;
+	}
+
+	public void setNote12(String note12) {
+		this.note12 = note12;
+	}
+
+	public String getNote13() {
+		return note13;
+	}
+
+	public void setNote13(String note13) {
+		this.note13 = note13;
+	}
+
+	public String getNote14() {
+		return note14;
+	}
+
+	public void setNote14(String note14) {
+		this.note14 = note14;
+	}
+
+	public String getTime9() {
+		return time9;
+	}
+
+	public void setTime9(String time9) {
+		this.time9 = time9;
+	}
+
+	public String getTime10() {
+		return time10;
+	}
+
+	public void setTime10(String time10) {
+		this.time10 = time10;
+	}
+
+	public String getTime11() {
+		return time11;
+	}
+
+	public void setTime11(String time11) {
+		this.time11 = time11;
+	}
+
+	public String getTime12() {
+		return time12;
+	}
+
+	public void setTime12(String time12) {
+		this.time12 = time12;
+	}
+
+	public String getTime13() {
+		return time13;
+	}
+
+	public void setTime13(String time13) {
+		this.time13 = time13;
+	}
+
+	public String getTime14() {
+		return time14;
+	}
+
+	public void setTime14(String time14) {
+		this.time14 = time14;
+	}
+
+	public String getNote15() {
+		return note15;
+	}
+
+	public void setNote15(String note15) {
+		this.note15 = note15;
+	}
+
+	public String getNote16() {
+		return note16;
+	}
+
+	public void setNote16(String note16) {
+		this.note16 = note16;
+	}
+
+	public String getNote17() {
+		return note17;
+	}
+
+	public void setNote17(String note17) {
+		this.note17 = note17;
+	}
+
+	public String getNote18() {
+		return note18;
+	}
+
+	public void setNote18(String note18) {
+		this.note18 = note18;
+	}
+
+	public String getNote19() {
+		return note19;
+	}
+
+	public void setNote19(String note19) {
+		this.note19 = note19;
+	}
+
+	public String getTime15() {
+		return time15;
+	}
+
+	public void setTime15(String time15) {
+		this.time15 = time15;
+	}
+
+	public String getTime16() {
+		return time16;
+	}
+
+	public void setTime16(String time16) {
+		this.time16 = time16;
+	}
+
+	public String getTime17() {
+		return time17;
+	}
+
+	public void setTime17(String time17) {
+		this.time17 = time17;
+	}
+
+	public String getTime18() {
+		return time18;
+	}
+
+	public void setTime18(String time18) {
+		this.time18 = time18;
+	}
+
+	public String getTime19() {
+		return time19;
+	}
+
+	public void setTime19(String time19) {
+		this.time19 = time19;
+	}
+	
 
 }

@@ -64,7 +64,7 @@ public class MonitorController {
 		
 		
 		List<Map<String,Object>>  bs=BsstationService.monitorBsofflineList();
-		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus();
+		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus(0);
 		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList();
 		List<Map<String,Object>>  fourEmh=BsStatusService.fourEmhAlarmList(emhParamMap);
 		List<Map<String,Object>> emh=new ArrayList<Map<String,Object>>();

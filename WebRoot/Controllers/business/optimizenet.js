@@ -266,6 +266,7 @@ xh.add = function() {
 		async : true,
 		data : $("#addForm").serializeArray(),
 		success : function(data) {
+			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				$("input[name='result']").val(1);
@@ -276,6 +277,7 @@ xh.add = function() {
 			}
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };
@@ -504,8 +506,11 @@ xh.download=function(){
 	}
 	var filepath = "/Resources/upload/optimizenet/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
-	window.open(downUrl, '_self',
-			'width=1,height=1,toolbar=no,menubar=no,location=no');
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
 };
 
 // 刷新数据
