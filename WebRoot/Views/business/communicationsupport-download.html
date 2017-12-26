@@ -3,95 +3,79 @@
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="color-line"></div>
-			<div class="modal-header ">
-				<!-- <button type="button" class="close" data-dismiss="modal"
-                    aria-hidden="true">&times;</button> -->
-				<small class="font-bold"></small>
-				<button type="button" class="btn btn-success" aria-hidden="true"
-					onClick="PreviewMytable()">打印</button>
+			
+			<div class="modal-body pad-0">
+			<div class="btn-group" style="margin-bottom:5px;">
+			<button type="button" class="btn btn-sm btn-success"
+					aria-hidden="true" onClick="PreviewMytable()">
+					<i class="fa fa-print"></i> 打印
+				</button>
 			</div>
-			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;"
-				id="print">
-				<div class="tab-content" style="padding: 20px">
-					<div class="tab-pane fade in active text-danger" id="info">
-						<p>
-							<span style=";font-family:宋体;font-size:14px">&nbsp;</span>
-						</p>
-						<style type="text/css">
-                         #print_table tr td {
-	                       border: 1px solid #000;
-	                       width: 100%;
-	                       border-collapse: collapse;
-                         }
-                        </style>
+				<div id="print">
+					<style type="text/css">
+#print_table tr td {
+	border: 1px solid #000;
+	/* width: 100%; */
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+</style>
 
-						<table id="print_table">
-							<tbody>
-								<tr style="height:63px" class="firstRow">
-									<td style="width:200px;">
-										<strong><span style="font-family: 宋体;font-size: 12px">申请时间</span></strong>
-									</td>
-									<td width="109">{{editData.supportTime}}</td>
-									<td width="56">
-										<strong><span
-												style="font-family: 宋体;font-size: 12px">受理人</span></strong>
-									</td>
-									<td width="72">{{editData.user}}</td>
-									<td width="63">
-										<p>
-											<strong><span
-												style="font-family: 宋体;font-size: 12px">用户单位</span></strong>
-										</p>
-									</td>
-									<td width="76">{{editData.unit}}</td>
-									<td width="106">
-										<p>
-											<strong><span
-												style="font-family: 宋体;font-size: 12px">&nbsp;单位联系人</span></strong>
-										</p>
-									</td>
-									<td width="91">{{editData.person}}</td>
-								</tr>
-								<tr style="height:21px">
-									<td width="75" valign="center" rowspan="3">
-										<p>
-											<strong><span
-												style="font-family: 宋体;font-size: 12px">保障需求</span></strong>
-										</p>
-									</td>
-									<td width="574" valign="center" colspan="7" rowspan="3">
-										{{editData.need}}</td>
-								</tr>
-								<tr style="height:21px"></tr>
-								<tr style="height:21px"></tr>
-								<tr style="height:67px">
-									<td width="75" valign="center">
-										<p>
-											<strong><span
-												style="font-family: 宋体;font-size: 12px">保障事由</span></strong>
-										</p>
-									</td>
-									<td width="574" valign="center" colspan="7">
-										{{editData.reason}}</td>
-								</tr>
-								<tr style="height:78px">
-									<td width="75" valign="center">
-										<p>
-											<strong><span
-												style="font-family: 宋体;font-size: 12px">用户评价</span></strong>
-										</p>
-									</td>
-									<td width="574" valign="center" colspan="7">
-										<p>{{editData.note17}}</p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<p>
-							<br />
-						</p>
-					</div>
+
+					<table id="print_table">
+						<tbody>
+							<tr style="height:40px">
+								<td width="120px"><strong><span
+										style="font-family: 宋体;font-size: 12px">用户单位</span></strong></td>
+								<td width="200px">{{editData.unit1}}</td>
+
+
+								<td width="100px"><strong><span
+										style="font-family: 宋体;font-size: 12px">申请时间</span></strong></td>
+								<td width="180px">{{editData.supportTime}}</td>
+								<td width="100px"><strong><span
+										style="font-family: 宋体;font-size: 12px">受理人</span></strong></td>
+								<td width="100px">{{editData.user1}}</td>
+
+								<td width="100px"><strong><span
+										style="font-family: 宋体;font-size: 12px">&nbsp;单位联系人</span></strong></td>
+								<td width="100px">{{editData.person}}</td>
+							</tr>
+							<!-- tr -->
+							<tr style="height:70px">
+								<td width="120px">
+									<strong><span style="font-family: 宋体;font-size: 12px">保障时间范围</span></strong>
+								</td>
+								<td colspan="7" rowspan="1">保障开始时间：{{editData.supportTime}}； 保障结束时间：{{editData.endTime}}</td>
+
+							</tr>
+							<!-- tr -->
+							<tr style="height:70px">
+								<td width="120px">
+									<strong><span style="font-family: 宋体;font-size: 12px">保障需求</span></strong>
+								</td>
+								<td  colspan="7" rowspan="1">{{editData.need}}</td>
+							</tr>
+							<!-- tr -->
+							<tr style="height:70px">
+								<td width="120px">
+									<strong><span style="font-family: 宋体;font-size: 12px">保障事由</span></strong>
+								</td>
+								<td  colspan="7" rowspan="1">{{editData.reason}}</td>
+							</tr>
+							<!-- tr -->
+							<tr style="height:70px">
+								<td width="120px">
+									<strong><span style="font-family: 宋体;font-size: 12px">用户评价</span></strong>
+								</td>
+								<td  colspan="7" rowspan="1">{{editData.note17}}</td>
+							</tr>
+							<!-- tr -->
+							
+						
+							
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
