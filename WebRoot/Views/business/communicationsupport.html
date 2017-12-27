@@ -213,7 +213,7 @@
 												ng-click="checkWin($index)">|<i
 													class="fa fa-hand-o-down text-danger"></i>&nbsp;评价
 											</a> <!-- ng-click="toDownload($index)" --> <a
-												class="text-danger" ng-if="x.checked==17" href="#"
+												class="text-danger" ng-if="x.checked==17 || loginUserRoleId>10000" href="#"
 												ng-click="toPrint($index)">|<i
 													class="fa fa-print text-danger"></i> &nbsp;打印
 											</a></td>

@@ -95,6 +95,7 @@ xh.load = function() {
 			});*/
 			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
+			$('#xh-tabs a:first').tab('show');
 	    };
 	    /*跳转到进度页面*/
 		$scope.toPrint = function (id) {
