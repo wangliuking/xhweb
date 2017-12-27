@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>excelTest</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+</head>
+<body>
+	<button type="submit" id="temp1">维持心跳</button>
+	<button type="submit" id="temp2">获取数据</button>
+	<button type="submit" id="temp3">时间同步</button>
+	<button type="submit" id="time1">定时维持心跳</button>
+	<button type="submit" id="time2">定时获取数据</button>
+	<button type="submit" id="time3">定时时间同步</button>
+	<div>
+  	<button type="submit" id="stopTimers">停止定时获取数据</button>
+  	</div>
+  	<div>
+  	<button type="submit" id="testFFmpeg">视频流开启测试</button>
+  	<button type="submit" id="testFFmpegStop">视频流停止测试</button>
+  	</div>
+	<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+	<script type="text/javascript">	
+	$('#sendRun').click(function(){
+		var fsuIpRun = $('#fsuIpRun');
+		var fsuIdRun = $('#fsuIdRun');
+		var i="";
+		if($.trim(fsuIpRun.val())==""){
+			i = "ip不能为空";
+			fsuIpRun.focus();
+		}else if($.trim(fsuIdRun.val()) == ""){
+			i = "id不能为空";
+			fsuIdRun.focus();
+		}
+
+		if(i != ""){
+			alert(i);
+			return false;
+		}else{
+			$.ajax({
+				type : "GET",
+				url : "getData/onceData?value="+4+"&fsuIpRun="+fsuIpRun+"&fsuIdRun="+fsuIdRun,
+				dataType : "json",
+				success : function(result) {
+					alert("success!!!");
+				}
+			});
+		}
+	});
+	
+	$('#sendStop').click(function(){
+		var fsuIpStop = $('#fsuIpStop');
+		var fsuIdStop = $('#fsuIdStop');
+		var i="";
+		if($.trim(fsuIpStop.val())==""){
+			i = "ip不能为空";
+			fsuIpStop.focus();
+		}else if($.trim(fsuIdStop.val()) == ""){
+			i = "id不能为空";
+			fsuIdStop.focus();
+		}
+
+		if(i != ""){
+			alert(i);
+			return false;
+		}else{
+			$.ajax({
+				type : "GET",
+				url : "getData/onceData?value="+5+"&fsuIpStop="+fsuIpStop+"&fsuIdStop="+fsuIdStop,
+				dataType : "json",
+				success : function(result) {
+					alert("success!!!");
+				}
+			});
+		}
+	});
+	
+	$('#temp1').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+1,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#temp2').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+2,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#temp3').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+3,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#time1').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+7,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#time2').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+8,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#time3').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+9,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#stopTimers').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+0,
+			dataType : "json",
+			success : function(result) {
+				alert("success!!!");
+			}
+		});
+	});
+	$('#testFFmpeg').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+11,
+			dataType : "json",
+			success : function(result) {
+			}
+		});
+	});
+	$('#testFFmpegStop').click(function(){
+		$.ajax({
+			type : "GET",
+			url : "getData/onceData?value="+12,
+			dataType : "json",
+			success : function(result) {
+			}
+		});
+	});
+	
+	</script>
+</body>
+</html>
