@@ -80,19 +80,22 @@ xh.load = function() {
 	app.controller("userstatus", function($scope, $http, $location) {
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
+		//发起请求开启当前基站视频流
+		$.ajax({
+			type : "GET",
+			url : "../../camera/startById?bsId=" + $scope.bsId,
+			dataType : "json",
+			success : function(result) {
+			}
+		});
+		//end
 		$scope.period = $location.search().period;
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
-		// 环控摄像头
-		$scope.initCamera = function() {
-			// 查询环控设备的IP
-			$http.get("../../gonsuncn/cameraIp?bsId=" + $scope.bsId).success(
-					function(response) {
-						var tempData = response.items;
-						var cameraInfo = tempData[0];
-						cameraConfig(cameraInfo);
-					});
-
+		// 摄像头编号
+		$scope.cameraId = function() {
+			var bsId = $scope.bsId;
+			return bsId;
 		};
 		// 停止预览
 		$scope.clickStopRealPlay = function() {

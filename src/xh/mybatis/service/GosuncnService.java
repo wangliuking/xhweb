@@ -246,10 +246,10 @@ public class GosuncnService {
 	/**
 	 * 根据基站id查询摄像头ip
 	 */
-	public static List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map){
+	public static List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
-		List<Map<String,String>> list = null;
+		List<Map<String,Object>> list = null;
 		try {
 			list = mapper.selectCameraIpByBsId(map);
 			sqlSession.close();

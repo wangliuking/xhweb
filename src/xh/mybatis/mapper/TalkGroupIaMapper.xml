@@ -16,7 +16,7 @@
 		<if test="name !=null and name !=''">
 			and name like concat('%',#{name},'%')
 		</if>
-		order by id asc limit #{start},#{limit}
+		limit #{start},#{limit}
 	</select>
 
 	<select id="Count" parameterType="map" resultType="int"
