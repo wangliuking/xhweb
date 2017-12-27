@@ -79,9 +79,9 @@ public class GosuncnController {
 	public void selectCameraIpByBsId(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		String bsId = request.getParameter("bsId");
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("bsId", bsId);
-		List<Map<String,String>> list = GosuncnService.selectCameraIpByBsId(map);
+		List<Map<String,Object>> list = GosuncnService.selectCameraIpByBsId(map);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", list);

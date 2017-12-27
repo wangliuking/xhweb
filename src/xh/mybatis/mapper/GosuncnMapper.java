@@ -88,7 +88,7 @@ public interface GosuncnMapper {
 	/**
 	 * 根据基站id查询摄像头IP
 	 */
-	public List<Map<String,String>> selectCameraIpByBsId(Map<String,String> map)throws Exception;
+	public List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 根据fsuId修改无限摄像头IP

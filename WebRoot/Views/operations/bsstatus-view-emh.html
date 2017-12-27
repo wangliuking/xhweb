@@ -110,7 +110,7 @@
 							视频监控
 						</div>
 						<div class="panel-body">
-							<div id="divPlugin" class="plugin"
+							<div id="mediaspace" class=""
 								style="width:600px;height:426px;"></div>
 
 						</div>
@@ -508,4 +508,17 @@
 	/* xh.loadTemp(); */
 	/* 湿度*/
 	/* xh.loadDamp(); */
+</script>
+<script type='text/javascript' src='jwplayer.js'></script>
+<script type='text/javascript'>
+var $scope = angular.element(appElement).scope();
+var bsId = $scope.cameraId();
+  jwplayer('mediaspace').setup({
+    'flashplayer': 'player.swf',
+    'file': 'camera'+bsId,
+    'streamer': 'rtmp://183.221.117.37:7790/oflaDemo',
+    'controlbar': 'bottom',
+    'width': '600',
+    'height': '360'
+  });
 </script>

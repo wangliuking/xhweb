@@ -23,7 +23,7 @@
 		<if test="E_name !=null and E_name !=''">
 			and E_name like concat('%',#{E_name},'%')
 		</if>
-		order by id asc limit #{start},#{limit}
+		limit #{start},#{limit}
 	</select>
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
 	<select id="radiouserCount" parameterType="map" resultType="int"
@@ -95,7 +95,7 @@
 		<if test="E_name !=null and E_name !=''">
 			and E_name like concat('%',#{E_name},'%')
 		</if>
-		and E_vpnId=#{vpnId} order by id asc limit #{start},#{limit}
+		and E_vpnId=#{vpnId} limit #{start},#{limit}
 	</select>
 	<!--总数 -->
 	<select id="CountByVpnId" parameterType="map" resultType="int"
