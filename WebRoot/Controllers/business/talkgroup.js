@@ -55,6 +55,7 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$('#edit').modal('show');
 			$scope.editData = $scope.data[id];
+			console.log($scope.editData);
 		};
 		
 		/* 查询数据 */

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.RadioUserMapper">
-	<!-- 自定义返回结果集 -->
 
 	<!--查询所有无线用户 -->
 	<select id="allRadioUser" resultType="java.util.HashMap"
@@ -23,7 +22,7 @@
 		<if test="E_name !=null and E_name !=''">
 			and E_name like concat('%',#{E_name},'%')
 		</if>
-		limit #{start},#{limit}
+		order by C_ID limit #{start},#{limit}
 	</select>
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
 	<select id="radiouserCount" parameterType="map" resultType="int"
@@ -67,18 +66,18 @@
 	<!--更新无线用户 -->
 	<update id="updateByRadioUserId" parameterType="java.util.Map">
 		update
-		xhgmnet_radiouser set C_ID=#{C_ID},E_name=#{E_name},E_alias=#{E_alias},E_mscId=#{E_mscId},E_vpnId=#{E_vpnId},E_sn=#{E_sn},E_company=#{E_company},E_type=#{E_type},
+		xhgmnet_radiouser set E_name=#{E_name},E_alias=#{E_alias},E_mscId=#{E_mscId},E_vpnId=#{E_vpnId},E_sn=#{E_sn},E_company=#{E_company},E_type=#{E_type},
 		E_enabled=#{E_enabled},E_shortData=#{E_shortData},E_fullDuple=#{E_fullDuple},E_radioType=#{E_radioType},E_anycall=#{E_anycall},E_saId=#{E_saId},E_iaId=#{E_iaId},
 		E_vaId=#{E_vaId},E_rutgId=#{E_rutgId},E_ip=#{E_ip},E_PrimaryTGId=#{E_PrimaryTGId},E_ambienceMonitoring=#{E_ambienceMonitoring},E_packetData=#{E_packetData},
 		E_ambienceInitiation=#{E_ambienceInitiation},E_directDial=#{E_directDial},E_PSTNAccess=#{E_PSTNAccess},E_pabxAccess=#{E_pabxAccess},E_clir=#{E_clir},
 		E_clirOverride=#{E_clirOverride},E_killed=#{E_killed},E_msType=#{E_msType},E_status=#{E_status},saName=#{saName},iaName=#{iaName},pdtType=#{pdtType},npType=#{npType},
 		esn=#{esn},subscriberClass=#{subscriberClass},brdgFrdEnabled=#{brdgFrdEnabled},
-		authRequired=#{authRequired},txPriority=#{txPriority},serialNum=#{serialNum},tei=#{tei},time=#{time} where id=#{id} 
+		authRequired=#{authRequired},txPriority=#{txPriority},serialNum=#{serialNum},tei=#{tei},userType=#{userType},time=#{time} where C_ID=#{C_ID}
 	</update>
 
 	<!--删除无线用户 -->
 	<delete id="deleteBsByRadioUserId" parameterType="java.util.List">
-		delete from xhgmnet_radiouser where id in(
+		delete from xhgmnet_radiouser where C_ID in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
 		</foreach>

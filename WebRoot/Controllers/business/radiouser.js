@@ -46,6 +46,41 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
+		// 获取无线用户业务属性
+		$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize).success(
+			function(response) {
+				$scope.userbusinessData = response.items;
+				$scope.userbusinessTotals = response.totals;
+				if ($scope.userbusinessTotals > 0) {
+					$scope.userbusinessName = $scope.userbusinessData[0].id;
+				}
+			});
+		// 获取无线用户互联属性
+		$http.get("../../radiouserseria/list?start=0&limit="+ pageSize).success(function(response) {
+			$scope.userseriaData = response.items;
+			$scope.userseriaTotals = response.totals;
+			if ($scope.userseriaTotals > 0) {
+				$scope.userseriaName = $scope.userseriaData[0].name;
+			}
+		});
+		// 获取msclist
+		$http.get("../../talkgroup/mscList").success(function(response) {
+			$scope.msc = response.items;
+			$scope.mscNum = response.totals;
+			if ($scope.mscNum > 0) {
+				$scope.mscName = $scope.msc[0].name;
+			}
+		});
+		// 获取vpnList
+		$http.get("../../talkgroup/vpnList").success(function(response) {
+			$scope.vpn = response.items;
+			$scope.vpnNum = response.totals;
+			if ($scope.vpnNum > 0) {
+				$scope.vpnName = $scope.vpn[0].name;
+			}
+		});
+		
+		
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#C_ID").val("");
@@ -238,35 +273,51 @@ xh.update = function() {
 };
 /* 批量删除基站 */
 xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		toastr.error("批量删除无线用户失败", '提示');
-		return;
-	}
-	$.ajax({
-		url : '../../radiouser/del',
-		type : 'post',
-		dataType : "json",
-		data : {
-			id : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success("删除无线用户成功", '提示');
-				xh.refresh();
-			} else {
-				toastr.error("删除无线用户失败", '提示');
+	swal({
+		title : "提示",
+		text : "确定要删除该无线用户信息吗？",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消"
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length < 1) {
+				toastr.error("批量删除无线用户失败", '提示');
+				return;
 			}
-		},
-		error : function() {
+			$.ajax({
+				url : '../../radiouser/del',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : checkVal.join(",")
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success("删除无线用户成功", '提示');
+						xh.refresh();
+					} else {
+						toastr.error("删除无线用户失败", '提示');
+					}
+				},
+				error : function() {
+				}
+			});
 		}
 	});
+
 };
 
 // 刷新数据
