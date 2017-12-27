@@ -109,6 +109,14 @@
 											</button>
 										</div>
 									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+												ng-disabled="">
+												<i class="fa fa-trash"></i>&nbsp;批量删除
+											</button>
+										</div>
+									</div>
 								</form>
 							</div>
 
@@ -116,6 +124,8 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th>
 										<th>通话组ID</th>
 										<th>名称</th>
 										<th>别名</th>
@@ -132,6 +142,8 @@
 										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.talkgroupid}}" index="{{$index}}" /></td>
 										<td>{{x.talkgroupid}}</td>
 										<td>{{x.eName}}</td>
 										<td>{{x.eAlias}}</td>
@@ -140,10 +152,10 @@
 										<td>{{x.eSaid}}</td>
 										<td>{{x.eIaid}}</td>
 										<td>{{x.eVaid}}</td>
-										<td><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i
-												class="fa fa-edit text-success"></i>&nbsp;显示详情
-										</a></td>
+										<td><a href="#" ng-click="editModel($index)" data-toggle="modal"> <i
+											class="fa fa-edit text-success"></i>&nbsp;修改
+											</a>| <a href="#" ng-click="delBs(x.talkgroupid)"><i
+											class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 									</tr>
 								</tbody>
 							</table>
