@@ -83,10 +83,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		} catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,10 +125,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		} catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,10 +183,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		}catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,10 +226,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		}catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -246,10 +258,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		}catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -275,10 +290,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		} catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,10 +325,13 @@ public class SqlServerService {
 			
 		}catch(SQLTimeoutException e){
 			log.info("获取三期环控数据超时");
+			sqlSession.close();
 		}catch(NoRouteToHostException e){
 			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -162,6 +162,8 @@ xh.load = function() {
 				url="../business/optimizenet.html";
 			}else if(title=="通信保障申请"){
 				url="../business/communicationsupport.html";
+			}else if(title=="资产变更申请"){
+				url="../business/assetCheck.html";
 			}else{
 				
 			}

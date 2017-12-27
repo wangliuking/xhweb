@@ -144,19 +144,23 @@ table thead,tbody tr {
 			data-effect="fadeInDown">
 			<div class="row" ng-model="countData">
 				<div class="col-md-12">
+				    
 					<div class="hpanel">
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">
+								
 									<div style="width:200px; margin-top:10px;"
 										ng-class="{true:'panel-card hbgreen',false:'panel-card hbgred'}[countData.bsOffline==0]">
 										<div class="card-img">
 											<i class="fa fa-wifi fa-3x"></i>
 										</div>
 										<div class="card-info">
-											<label>基站断站[数量]</label></br> <span>{{countData.bsOffline}}</span>
+											<label>基站断站[数量]</label></br>
+											<a class="page-scroll text-white" href="#page-bs" style="cursor: pointer;"> <span>{{countData.bsOffline}}</span></a>
 										</div>
 									</div>
+									
 								</div>
 								<div class="col-md-3">
 									<div style="width:200px; margin-top:10px;"
@@ -165,7 +169,8 @@ table thead,tbody tr {
 											<i class="fa fa-tasks fa-3x"></i>
 										</div>
 										<div class="card-info">
-											<label>交换中心异常[数量]</label></br> <span>{{countData.mscOffline}}</span>
+											<label>交换中心异常[数量]</label></br> 
+											<a class="page-scroll text-white" href="#page-bs" style="cursor: pointer;"><span>{{countData.mscOffline}}</span></a>
 										</div>
 									</div>
 								</div>
@@ -176,7 +181,8 @@ table thead,tbody tr {
 											<i class="fa fa-futbol-o fa-3x"></i>
 										</div>
 										<div class="card-info">
-											<label>Tera系统告警[数量]</label></br> <span>120</span>
+											<label>Tera系统告警[数量]</label></br> 
+											<a class="page-scroll text-white" href="#" style="cursor: pointer;"><span>120</span></a>
 										</div>
 									</div>
 								</div>
@@ -187,7 +193,8 @@ table thead,tbody tr {
 											<i class="fa fa-fire fa-3x"></i>
 										</div>
 										<div class="card-info">
-											<label>环控告警[数量]</label></br> <span>{{countData.emhAlarm}}</span>
+											<label>环控告警[数量]</label></br> 
+											<a class="page-scroll text-white" href="#page-emh" style="cursor: pointer;"><span>{{countData.emhAlarm}}</span></a>
 										</div>
 									</div>
 								</div>
@@ -215,6 +222,7 @@ table thead,tbody tr {
 			</div>
 			<!-- row -->
 			<!-- row -->
+			<section id="page-bs">
 			<div class="row">
 				 <div class="col-md-6">
 					<div class="hpanel">
@@ -291,8 +299,10 @@ table thead,tbody tr {
 
 		</div>
 		<!-- row -->
+	
+		</section>
 
-
+       <section id="page-emh">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="hpanel">
@@ -371,6 +381,7 @@ table thead,tbody tr {
 			<!--  col-md-12 -->
 		</div>
 		<!-- row -->
+		</section>
 	</div>
 	</div>
 

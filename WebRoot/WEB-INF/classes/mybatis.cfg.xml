@@ -83,8 +83,10 @@
 				<property name="url" value="${xh.gps_voice_master.url}" />
 				<property name="username" value="${xh.gps_voice_master.username}" />
 				<property name="password" value="${xh.gps_voice_master.password}" />
+				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+              
 			</dataSource>
 		</environment>
 		
@@ -102,8 +104,9 @@
 				<property name="url" value="${xh.gps_voice_slave.url}" />
 				<property name="username" value="${xh.gps_voice_slave.username}" />
 				<property name="password" value="${xh.gps_voice_slave.password}" />
+				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
 			</dataSource>
 		</environment>
 		
@@ -116,8 +119,9 @@
 				<property name="url" value="${xh.emh.url}" />
 				<property name="username" value="${xh.emh.username}" />
 				<property name="password" value="${xh.emh.password}" />
+				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
 			</dataSource>
 		</environment>
 		
@@ -130,8 +134,9 @@
 				<property name="url" value="${xh.mysql.url}" />
 				<property name="username" value="${xh.mysql.username}" />
 				<property name="password" value="${xh.mysql.password}" />
+				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
 			</dataSource>
 		</environment>
 		
@@ -145,9 +150,9 @@
 				<property name="url" value="${sqlserver.url}" />
 				<property name="username" value="${sqlserver.username}" />
 				<property name="password" value="${sqlserver.password}" />
-				<!-- <property name="poolPingQuery" value="SELECT 1" /> -->
-				<property name="poolMaximumActiveConnections" value="50" />
-            <!--   <property name="poolPingEnabled" value="true" /> -->
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingQuery" value="SELECT 1" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
 			</dataSource>
 		</environment>
 

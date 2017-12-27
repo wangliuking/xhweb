@@ -30,34 +30,30 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.businessMenu=true; //菜单变色
 		
-		//获取登录用户
-		$http.get("../../web/loginUserInfo").
-		success(function(response){
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleId = response.roleId;	
-			if($scope.loginUserRoleId>=1000 && $scope.loginUserRoleId<10000){
-				/*获取申请记录表*/
-				$http.get("../../asset/assetCheckList?start=0&limit=" + pageSize + "&user=" + $scope.loginUser).
-				success(function(response){
-					xh.maskHide();
-					$scope.data = response.items;
-					$scope.totals = response.totals;
-					xh.pagging(1, parseInt($scope.totals), $scope);
-				});
-				
-			}else{
-				/*获取申请记录表*/
-				$http.get("../../asset/assetCheckList?start=0&limit=" + pageSize).
-				success(function(response){
-					xh.maskHide();
-					$scope.data = response.items;
-					$scope.totals = response.totals;
-					xh.pagging(1, parseInt($scope.totals), $scope);
-				});
-			}
+			$scope.loginUserRoleId = response.roleId;
+			console.log("user->"+$scope.loginUser );
+			console.log("userRoleId->"+$scope.loginUserRoleId)
+		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+					console.log("up->"+$scope.up.o_check_change)
+		});
+
+		
+		/*获取申请记录表*/
+		$http.get("../../asset/assetCheckList?start=0&limit=" + pageSize).
+		success(function(response){
+			xh.maskHide();
+			$scope.data = response.items;
+			$scope.totals = response.totals;
+			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
 		
@@ -77,13 +73,14 @@ xh.load = function() {
 			$("#progress").modal('show');
 	    };
 		/*下载工作记录*/
-		$scope.download = function(path) {
-			var index=path.lastIndexOf("/");
-			var name=path.substring(index+1,path.length);	
-			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
-			if(xh.isfile(path)){
-				window.open(downUrl, '_self',
-				'width=1,height=1,toolbar=no,menubar=no,location=no');
+		$scope.download = function(name) {
+			/*var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);	*/
+			var filename=name
+			var filepath = "/Resources/upload/assetCheck/" + filename;
+			var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
+			if(xh.isfile(filepath)){
+				window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
 			}else{
 				toastr.error("文件不存在", '提示');
 			}
@@ -263,7 +260,7 @@ xh.upload = function() {
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../net/upload', //用于文件上传的服务器端请求地址
+		url : '../../asset/upload', //用于文件上传的服务器端请求地址
 		secureuri : false, //是否需要安全协议，一般设置为false
 		fileElementId : 'filePath', //文件上传域的ID
 		dataType : 'json', //返回值类型 一般设置为json
@@ -290,9 +287,14 @@ xh.upload = function() {
 xh.download=function(){
 	var $scope = angular.element(appElement).scope();
 	var filename=$scope.checkData.fileName;
-	console.log("filename=>"+filename);
-	var downUrl="../../net/download?fileName="+filename;
-	window.open(downUrl,'_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	var filepath = "/Resources/upload/assetCheck/" + filename;
+	var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
+	if(xh.isfile(filepath)){
+		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+	}else{
+		toastr.error("文件不存在", '提示');
+	}
+	
 };
 
 // 刷新数据

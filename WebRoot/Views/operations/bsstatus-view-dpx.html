@@ -21,7 +21,7 @@
 				<tr ng-if="dpxTotals==0">
 					<td colspan="5" class="text-center">没有记录！</td>
 				</tr>
-				<tr ng-repeat="x in dpxData">
+				<tr ng-repeat="x in dpxData" ng-if="x.retLoss>0 && x.fwdPa>0">
 					<td>{{x.Id}}</td>
 					<td>
 					<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>

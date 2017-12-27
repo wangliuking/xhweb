@@ -105,7 +105,9 @@ html,body {
 									<tr ng-repeat="x in groupData">
 										<td>{{$index+1}}</td>
 										<td>{{x.gourpId}}</td>
-										<td>{{x.name}}</td>
+										<td><span ng-if="x.talkgroupName==null">[通播组]{{x.multigroupName}}</span>
+					                        <span ng-if="x.talkgroupName!=null">{{x.talkgroupName}}</span>
+					                    </td>
 									</tr>
 								</tbody>
 							</table>

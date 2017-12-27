@@ -59,7 +59,7 @@
 										<span>备注：</span><span>{{progressData.note}}</span>
 									</p>
 									<span class="cd-date text-success font-bold text-x">
-										提交时间：{{progressData.applyTime}}</span>
+										</br>时间：{{progressData.applyTime}}</span>
 								</div>
 							</div>
 						
@@ -82,7 +82,7 @@
 								 <span
 										ng-if="progressData.status>=1"
 										class="cd-date text-success font-bold">审核
-										时间：{{progressData.time1}}</span>
+										</br>时间：{{progressData.time1}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
@@ -93,12 +93,12 @@
 									ng-if="progressData.status>=2"></div>
 								<div class="cd-timeline-content">
 									<h2>资产管理员确认资产核查完成</h2>
-                                    <h2><a href="#" ng-click="download(progressData.filePath)">{{progressData.fileName}}</a></h2>
+                                    <h2><a href="#" ng-click="download(progressData.fileName)">{{progressData.fileName}}</a></h2>
 									<span ng-if="progressData.status<2"
 										class="cd-date text-danger">等待确认</span> <span
 										ng-if="progressData.status>=2"
 										class="cd-date text-success font-bold">资产管理员已确认;
-										时间：{{progressData.time2}}</span>
+										</br>时间：{{progressData.time2}}</span>
 								</div>
 							</div>
 							

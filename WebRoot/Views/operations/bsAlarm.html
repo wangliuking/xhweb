@@ -102,11 +102,12 @@
 											<tr class="tr-gray">
 
 												<!-- <th width="100px">网元类型</th> -->
-												<!-- <th>网元ID</th> -->
-												<th width="150px">告警时间</th>
+												<th>告警级别</th>
+												
 												<th>告警级别</th>
 												<th>故障定位</th>
 												<th>告警描述</th>
+												<th width="150px">告警时间</th>
 
 
 												
@@ -120,7 +121,7 @@
 											</tr>
 											<tr ng-repeat="x in data">
 												<!-- <td>{{$index+1}}</td> -->
-												<!-- <td >
+												<td >
 												
 												
 												<span ng-if="x.neType==1">基站</span>
@@ -150,13 +151,14 @@
 												<span ng-if="x.neType==29">以太网E1网桥</span>
 												<span ng-if="x.neType==30">桥接中心</span>
 												<span ng-if="x.neType==32">媒体服务器</span>
-												</td> -->
+												</td>
 												<!-- <td>{{x.neId}}</td> -->
-												<td>{{x.time}}</td>
+												
 												<td ng-if="x.severity==2 " class="td-danger">严重告警</td>
 												<td ng-if="x.severity==1 " class="td-warning">主要告警</td>
 												<td>{{x.location}}</td>
 												<td>{{x.description}}</td>
+												<td>{{x.time}}</td>
 
 												
 

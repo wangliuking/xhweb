@@ -1,8 +1,12 @@
 package xh.springmvc.handlers;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +16,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -19,6 +26,7 @@ import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetCheckBean;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.bean.WorkBean;
 import xh.mybatis.service.AssetCheckServices;
 import xh.mybatis.service.BusinessService;
@@ -26,6 +34,7 @@ import xh.mybatis.service.EmailService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/asset")
@@ -50,10 +59,17 @@ public class AssetCheckController {
 		int status=funUtil.StringToInt(request.getParameter("status"));*/
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		int roleId = userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("user", user);
+		map.put("power", power.get("o_check_change"));
+		map.put("roleId", roleId);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -89,12 +105,7 @@ public class AssetCheckController {
 			webLogBean.setContent("资产核查申请提交");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("资产核查申请");
-			emailBean.setRecvUser(String.valueOf(10002));
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("请审核资产核查申请");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			sendNotifytoGroup("o_check_change", 10002, "请审核资产核查申请", request);
 			
 			
 		}else{
@@ -280,101 +291,122 @@ public class AssetCheckController {
 		
 	}
 	/**
-	 * 新增工作记录
+	 * 上传文件
+	 * 
+	 * @param file
 	 * @param request
-	 * @param response
-	 *//*
-	@RequestMapping("/addwork")
-	public void addwork(HttpServletRequest request, HttpServletResponse response){
-		String formData=request.getParameter("formData");	
-		WorkBean bean=GsonUtil.json2Object(formData, WorkBean.class);
-		EmailBean emailBean=new EmailBean();
-		bean.setUploadUser(funUtil.loginUser(request));
-		log.info(bean.toString());		
-		int rlt=WorkServices.addwork(bean);
+	 */
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void upload(@RequestParam("filePath") MultipartFile file,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+		String data = funUtil.MD5(sdf.format(d));
+
 		
-		if(rlt==1){
-			this.success=true;
-			this.message="工作记录提交成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("上传工作记录");
-			WebLogService.writeLog(webLogBean);
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/Resources/upload/assetCheck/";
+		String fileName = file.getOriginalFilename();
+		
+		/*File de=new File(fileName);
+		file.renameTo(new   File(name+".jpg"));   //改名  
+*/		
+		
+		// String fileName = new Date().getTime()+".jpg";
+		log.info("path==>" + path);
+		log.info("fileName==>" + fileName);
+		System.out.println("fileName==>" + fileName);
+		File targetFile = new File(path, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			this.success = true;
+			this.message = "文件上传成功";
+			fileName=data+"-"+fileName;
+			File rename = new File(path,fileName);
+			targetFile.renameTo(rename);
 			
-			emailBean.setTitle("签收工作记录");
-			emailBean.setRecvUser(bean.getRecvUser());
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("请签收工作记录");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
 			
 			
-		}else{
-			this.success=false;
-			this.message="工作记录提交失败";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.message = "文件上传失败";
 		}
 
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("result", rlt);
-		result.put("message",message);
+		result.put("message", message);
+		result.put("fileName", fileName);
+		result.put("filePath", path + "/" + fileName);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-	*//**
-	 * 签收工作记录
+
+	
+	/**
+	 * 发送邮件(指定收件人)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
 	 * @param request
-	 * @param response
-	 *//*
-	@RequestMapping("/signwork")
-	public void signWork(HttpServletRequest request, HttpServletResponse response){
-		int id=Integer.parseInt(request.getParameter("id"));
-		String recvUser=request.getParameter("recvUser");
-		int rlt=WorkServices.signWork(id);
-		EmailBean emailBean=new EmailBean();
-		
-		if(rlt==1){
-			this.success=true;
-			this.message="签收成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(5);
-			webLogBean.setContent("签收工作记录，id=" +id);
-			WebLogService.writeLog(webLogBean);
-			
-			emailBean.setTitle("工作记录已经签收");
-			emailBean.setRecvUser(recvUser);
+	 */
+	public void sendNotifytoSingle(String recvUser, String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle("资产变更申请");
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(funUtil.loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(funUtil.nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
+
+	/**
+	 * 发送邮件(指定权限)--入网申请
+	 * 
+	 * @param recvUser
+	 *            邮件接收者
+	 * @param content
+	 *            邮件内容
+	 * @param request
+	 */
+	public void sendNotifytoGroup(String powerstr, int roleId, String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleId", roleId);
+		List<Map<String, Object>> items = WebUserServices
+				.userlistByPowerAndRoleId(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle("资产变更申请");
+			emailBean.setRecvUser(item.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("工作记录已经签收");
+			emailBean.setContent(content);
 			emailBean.setTime(funUtil.nowDate());
 			EmailService.insertEmail(emailBean);
-			
-		}else{
-			this.success=false;
-			this.message="签收失败";
+			// ----END
 		}
-
-		HashMap result = new HashMap();
-		result.put("success", success);
-		result.put("result", rlt);
-		result.put("message",message);
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}*/
+	}
 
 }
