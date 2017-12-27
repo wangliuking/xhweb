@@ -25,7 +25,7 @@
 						<tr ng-if="bscTotals==0">
 							<td colspan="8" class="text-center">没有记录！</td>
 						</tr>
-						<tr ng-repeat="x in bscData">
+						<tr ng-repeat="x in bscData" ng-if="x.Id<=2">
 							<td>{{x.Id}}</td>
 							<td>
 							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>

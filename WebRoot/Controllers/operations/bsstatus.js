@@ -77,7 +77,8 @@ xh.load = function() {
 		$scope.bsView=function(index){
 			var bsId=$scope.data[index].bsId;
 			var period=$scope.data[index].period;
-			window.location.href = "bsstatus-view.html?bsId=" + bsId+"&period="+period;
+			var bsName=$scope.data[index].name;
+			window.location.href = "bsstatus-view.html?bsId=" + bsId+"&period="+period+"&bsName="+bsName;
 		};
 		$scope.showGroupUser=function(index){
 			var dd=$scope.data[index];

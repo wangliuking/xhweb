@@ -67,12 +67,12 @@
 							<div class="form-group col-md-10" style="padding-right:0px;">
 
 								<label>资产核查反馈文件</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="file" name="pathName" id="pathName"
+								<input type="file" name="filePath" id="filePath"
 									class="form-control" />
 
 							</div>
 							<div class="form-group col-md-2" style="padding-left:0px;">
-								<button type="button" ng-disabled="form.$invalid"
+								<button type="button"
 									class="btn btn-info btn-sm" style="margin-top:23px;"
 									id="uploadfile">
 									<i class="fa fa-plus-circle"></i>点击上传
@@ -92,7 +92,7 @@
 							<div class="form-group col-md-12">
 								<input type="text" value="" class="form-control" name="id" required="required" ng-model="checkData.id"> 
 								<input type="hidden" name="fileName" value="" /> 
-								<input type="hidden" name="filePath" value="" /> 
+								<input type="hidden" name="path" value="" /> 
 								<input type="hidden" name="result" value="" />
 							</div>
 						</div>
@@ -164,15 +164,15 @@
 </script>
 <script>
 	$("#uploadfile").click(function() {
-		if ($('#pathName').val() == "") {
+		if ($('#filePath').val() == "") {
 			alert("请选择需要上传的文件！");
 			return false;
 		}
 		$("input[name='result']").val(2);
 		$.ajaxFileUpload({
-			url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+			url : '../../asset/upload', //用于文件上传的服务器端请求地址
 			secureuri : false, //是否需要安全协议，一般设置为false
-			fileElementId : 'pathName', //文件上传域的ID
+			fileElementId : 'filePath', //文件上传域的ID
 			dataType : 'json', // 返回值类型 一般设置为json
 			type : 'POST',
 			success : function(data, status) //服务器成功响应处理函数
@@ -180,7 +180,7 @@
 				if (data.success) {
 					$("input[name='result']").val(1);
 					$("input[name='fileName']").val(data.fileName);
-					$("input[name='filePath']").val(data.filePath);
+					$("input[name='path']").val(data.filePath);
 					$("#uploadResult").html("文件上传成功");
 					toastr.success("文件上传成功", '提示');
 				} else {

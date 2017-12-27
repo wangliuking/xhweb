@@ -63,7 +63,7 @@
 								<div class="col-md-12">
 									
 									<button class="btn btn-success btn-sm" data-toggle="modal" 
-									data-target="#apply">
+									data-target="#apply" ng-if="loginUserRoleId==10002">
 										<i class="fa fa-plus-circle"></i>&nbsp;资产核查申请
 									</button>
 									<button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -90,10 +90,10 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>申请人</th>
-										<th>联系方式</th>
+										<th width="180px">联系方式</th>
 										<th>状态</th>
-										<th width="150px">申请时间</th>
-										<th width="100px">操作详情</th>
+										<th width="170px">申请时间</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -105,19 +105,23 @@
 										<td>{{x.tel}}</td>
 										<td ng-if="x.status==-1" class="td-primary">申请拒绝</td>
 										<td ng-if="x.status==0" class="td-danger">等待审核</td>
-										<td ng-if="x.status==1" class="td-success">审核通过</td>
+										<td ng-if="x.status==1" class="td-danger">已审核，等待资产管理员核查资产</td>
 										<td ng-if="x.status==2" class="td-success">核查完成</td>
 										<td>{{x.applyTime}}</td>
-										<td style="text-align:center"><a href="#"
+										<td style="text-align:center">
+										
+										<a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;详情&nbsp;</a> 
-											<a href="#" ng-click="checkWin($index)">|<i
-												class="fa fa-hand-o-down text-danger"></i>审核</a>
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度&nbsp;</a> 
+										<a href="#" ng-click="checkWin($index)" ng-if="x.status==0 && loginUserRoleId==10002 && up.o_check_change=='on'">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核</a>		
+												
+											
 											<a ng-if="loginUser==x.account && x.status==1" href="assetCheck-info.html">|<i
-												class="fa fa-hand-o-down text-danger"></i>核查</a>
+												class="fa fa-hand-o-down text-danger" ng-if="x.status==1 && loginUserRoleId==10002 && loginUser==x.account"></i>开始核查资产</a>
 											<a ng-if="loginUser==x.account && x.status==1" href="#" ng-click="checkWin2($index)">| <i
-												class="fa fa-hand-o-down text-danger"></i>完成</a>
-											<a ng-if="x.status==2" href="#" ng-click="download(x.filePath)">| <i
+												class="fa fa-hand-o-down text-danger" ng-if="x.status==1 && loginUserRoleId==10002 && loginUser==x.account"></i>核查完成</a>
+											<a ng-if="x.status==2" href="#" ng-click="download(x.fileName )">| <i
 												class="fa fa-download text-danger"></i>核查反馈文件</a>
 												
 										</td>

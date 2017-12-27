@@ -80,6 +80,7 @@ xh.load = function() {
 	app.controller("userstatus", function($scope, $http, $location) {
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
+		$scope.bsName = $location.search().bsName;
 		//发起请求开启当前基站视频流
 		$.ajax({
 			type : "GET",

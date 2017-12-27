@@ -17,8 +17,10 @@
 	<!--查询基站下的注册组列表 -->
 	<select id="oneBsGroup" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select a.gourpId,a.bsId,b.E_name as name from xhgmnet_bs_groupstatus as a
-		left join xhgmnet_talkgroup as b on a.gourpId=b.TalkgroupID where a.bsId=#{bsId}
+		select a.gourpId,a.bsId,b.E_name as talkgroupName,c.E_name as multigroupName from xhgmnet_bs_groupstatus as a
+		left join xhgmnet_talkgroup as b on a.gourpId=b.TalkgroupID 
+		left join xhgmnet_multigroup as c on a.gourpId=c.C_MultigroupID 
+		where a.bsId=#{bsId}
 		limit #{start},#{limit}
 		<!-- select a.TGid,a.bsId,b.E_name as name from xhgmnet_operations_userstatus as a
 		left join xhgmnet_talkgroup as b on a.TGid=b.TalkgroupID where a.bsId=#{bsId}
