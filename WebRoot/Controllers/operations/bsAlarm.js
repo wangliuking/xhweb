@@ -39,9 +39,7 @@ xh.load = function() {
 		$scope.operationMenu = true; // 菜单变色
 
 		//加载故障等级统计图
-		/*xh.loadbsAlarmLevelPie();
-		//加载故障类型统计图
-		xh.loadbsAlarmTypePie()*/
+		xh.bsBar();
 		/*
 		 * 获取基站告警信息 "../../bslarm/list?bsId=" + bsId + "&name=" + bsName +
 		 * "&dealEn=0" + "&start=0&limit=" + pageSize
@@ -62,6 +60,13 @@ xh.load = function() {
 			$("#bsAlarmDetails").modal('show');
 			$scope.bsAlarmData=$scope.data[id];
 		};
+		$scope.alarmType=function(){
+			$http.get("../../bsAlarm/data/bsAlarmLevelChart").success(
+					function(response) {
+					
+						$scope.alarmTypeData = response.items;
+					});
+		}
 		/* 查询历史告警数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -160,6 +165,7 @@ xh.load = function() {
 					});
 
 		};
+		$scope.alarmType();
 	});
 };
 // 刷新数据
@@ -173,93 +179,102 @@ xh.refresh = function() {
 /**
  * 故障等级统计图 
  */
-xh.loadbsAlarmLevelPie = function(){
+xh.bsBar = function() {
 	// 设置容器宽高
-	var resizeBarContainer = function(){
-		$("#bsAlarm-level-pie").width(parseInt($("#bsAlarm-level-pie").parent().width()));
-		$("#bsAlarm-level-pie").height(300);
-	}
+	var resizeBarContainer = function() {
+		$("#bs-bar").width(parseInt($("#bs-bar").parent().width())+70);
+		$("#bs-bar").height(200);
+	};
 	resizeBarContainer();
-	
+
 	// 基于准备好的dom，初始化echarts实例
 	var chart = null;
-	if(chart != null){
+	if (chart != null) {
 		chart.clear();
 		chart.dispose();
 	}
-	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
-		chart = ec.init(document.getElementById('bsAlarm-level-pie'));
-		chart.showLoading({
-			text : '正在努力的读取数据中...'
-		});
+	require([ 'echarts', 'echarts/chart/bar' ], function(ec) {
+		chart = ec.init(document.getElementById('bs-bar'));
 		var option = {
-			title : {
-				x : 'center',
-				text : '故障等级统计图 ',
-				subtext : '',
-				textStyle : {
-					color : '#fff'
-				}
-			},
-			tooltip : {
-				trigger : 'item',
-				formatter : "{a} <br/>{b} : {c} ({d}%)"
-			},
-			legend : {
-				orient : 'vertical',
-				x : 'left',
-				data : [ '一级故障', '二级故障', '三级故障' ]
-			},
+			    title : {
+			        text: 'Tera系统告警类型统计'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['Tera系统告警类型统计']
+			    },
+			    
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            
+			            data : []
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'Tera系统告警类型统计',
+			            type:'bar',
+			            barWidth: 30,//固定柱子宽度
+			            data:[],
+			            itemStyle:{
+			            	normal:{
+			            		color:'green',
+			            		cursor:'pointer'
+			            	}},
+			            
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            }
+			        }
+			    ]
+			};
 		
-			calculable : false,
-			backgroundColor : background,
-			series : [ {
-				name : '等级',
-				type : 'pie',
-				radius : '50%',
-				center : [ '50%', '60%' ],
-				itemStyle : {
-					normal : {
-						color : function(params) {
-							// build a color map as your need.
-							var colorList = [ '#86BEC4', '#576874', '#DB5F5B' ];
-							return colorList[params.dataIndex];
-						},
-						label : {
-							show : true,
-							position : 'top',
-							formatter : '{b}\n{c}'
-						}
-					}
-				},
-				data : []
-			} ]
-		};
-
 		$.ajax({
-			url : '../../bsAlarm/data/bsAlarmLevelChart',
-			data : {},
-			type : 'get',
+			url : '../../bsAlarm/data/bsAlarmTypeChart',
+			type : 'GET',
 			dataType : "json",
-			async : false,
-			success : function(response) {
-				var data = response.items;
-				// option.xAxis[0].data = xAxisData;
-				option.series[0].data = data;
-				chart.hideLoading();
-				chart.setOption(option);
-
+			async : true,
+			data:{
 			},
-			failure : function(response) {
+			success : function(response) {
+
+				/*var data = response.items;
+				option.series[0].data = data;*/
+				var data = response.items;
+				var y=[],x=[];
+				
+				for(var i=0;i<data.length;i++){
+					y.push(data[i].neType);
+					x.push(data[i].num);
+					
+				}
+				option.xAxis[0].data=y;
+				option.series[0].data=x;
+				chart.setOption(option);
+				chart.on('click',function(params){
+					var name=params.name;
+					window.location.href="bsstatus.html?zone="+name;
+				})
+			},
+			error : function() {
 			}
 		});
 
 	});
-	// 用于使chart自适应高度和宽度
-	window.onresize = function() {
-		// 重置容器高宽
-		chart.resize();
-	};
+	
+
 };
 /**
  * 故障类型统计

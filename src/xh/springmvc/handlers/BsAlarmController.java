@@ -93,30 +93,34 @@ public class BsAlarmController {
 		this.success = true;
 
 		List<HashMap> list = new ArrayList<HashMap>();
+		
+		
 		list = BsAlarmService.bsAlarmLevelChart();
+		/*HashMap<String, Object> map2=new HashMap<String, Object>();
+		for (HashMap map : list) {
+			map2.put(map.get("severity").toString(),map.get("num"));
+		}*/
+		HashMap mapResult = new HashMap();
 		for (int i = 0; i < list.size(); i++) {
-			String status = list.get(i).get("name").toString();
-			HashMap mapResult = new HashMap();
+			String status = list.get(i).get("severity").toString();
+			
 			if (status.equals("1")) {
-				mapResult.put("name", "一级故障");
-				mapResult.put("value", list.get(i).get("value").toString());
-				list.set(i, mapResult);
+				mapResult.put("v_1", list.get(i).get("num").toString());
+
 			}
 			if (status.equals("2")) {
-				mapResult.put("name", "二级故障");
-				mapResult.put("value", list.get(i).get("value").toString());
-				list.set(i, mapResult);
+				mapResult.put("v_2", list.get(i).get("num").toString());
+				
 			}
 			if (status.equals("3")) {
-				mapResult.put("name", "三级故障");
-				mapResult.put("value", list.get(i).get("value").toString());
-				list.set(i, mapResult);
+				mapResult.put("v_3", list.get(i).get("num").toString());
+				
 			}
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals", "");
-		result.put("items", list);
+		result.put("items", mapResult);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
@@ -141,12 +145,26 @@ public class BsAlarmController {
 		this.success = true;
 
 		List<HashMap> list = new ArrayList<HashMap>();
+		List<HashMap> list2 = new ArrayList<HashMap>();
 		list = BsAlarmService.bsAlarmTypeChart();
-		for (int i = 0; i < list.size(); i++) {
-			String status = list.get(i).get("name").toString();
+		HashMap<String, Object> map2=new HashMap<String, Object>();
+		for (HashMap map : list) {
+			map2.put("v_"+map.get("severity").toString(),map.get("num"));
+		}
+		
+		
+		for (int i = 1; i <=32; i++) {
 			HashMap mapResult = new HashMap();
-			mapResult.put("name", status);
-			mapResult.put("value", list.get(i).get("value").toString());
+			if(i!=25 && i!=26 && i!=27 && i!=28 && i!=31){
+			if(map2.get("v_"+i)==null){
+				mapResult.put("name", alarmText(i));
+				mapResult.put("value", 0);
+			}else{
+				mapResult.put("name", alarmText(i));
+				mapResult.put("value", map2.get("v_"+i));
+			}
+			}
+			
 			list.set(i, mapResult);
 		}
 		HashMap result = new HashMap();
@@ -163,6 +181,67 @@ public class BsAlarmController {
 			e.printStackTrace();
 		}
 
+	}
+	public String alarmText(int type){
+		String text="未知";
+		if(type==1){
+			text="基站";
+		}else if(type==2){
+			text="交换中心";
+		}else if(type==3){
+			text="调度台";
+		}else if(type==4){
+			text="网管";
+		}else if(type==5){
+			text="分组中心";
+		}else if(type==6){
+			text="综合业务网关";
+		}else if(type==7){
+			text="INIGW";
+		}else if(type==8){
+			text="短信中心";
+		}else if(type==9){
+			text="PDT";
+		}else if(type==10){
+			text="鉴权中心";
+		}else if(type==11){
+			text="录音";
+		}else if(type==12){
+			text="模拟网关";
+		}else if(type==13){
+			text="MPT基站";
+		}else if(type==14){
+			text="NTP服务器";
+		}else if(type==15){
+			text="路由器";
+		}else if(type==16){
+			text="数字交叉连接设备";
+		}else if(type==17){
+			text="同播服务器";
+		}else if(type==18){
+			text="DSGW";
+		}else if(type==19){
+			text="以太网交换机";
+		}else if(type==20){
+			text="WEB调度服务器";
+		}else if(type==21){
+			text="短信业务网关";
+		}else if(type==22){
+			text="室外基站";
+		}else if(type==23){
+			text="PDT室外基站";
+		}else if(type==24){
+			text="桥接基站";
+		}else if(type==29){
+			text="以太网E1网桥";
+		}else if(type==30){
+			text="桥接中心";
+		}else if(type==32){
+			text="媒体服务器";
+		}else{
+			
+		}
+		return text;
 	}
 	/**
 	 * 确认告警信息

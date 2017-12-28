@@ -87,6 +87,42 @@
 					</div>
 				</div>
 				<div class="col-md-12">
+				<div class="row" ng-show="false">
+				       <div class="col-md-2">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级统计</span>
+								</div>
+								<div class="panel-body" ng-model="alarmTypeData">
+									<div style="width:100%">
+									<div class="bg-red" style="padding:7px;border-bottom:1px solid gray;margin-top:5px;">
+									<span>严重告警</span>
+									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#fff;">【{{alarmTypeData.v_1}}】次</span>
+									</div>
+									<div class="bg-salmon" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
+									<span>重要告警</span>
+									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#fff;">【{{alarmTypeData.v_2}}】次</span>
+									</div>
+									<div class="bg-gold" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
+									<span>一般告警</span>
+									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#green;">【{{alarmTypeData.v_3}}】次</span>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-10">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级统计</span>
+								</div>
+								<div class="panel-body">
+								<div id="bs-bar"></div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
 
 					<div class="row">
 						<div class="col-md-12">
@@ -154,8 +190,12 @@
 												</td>
 												<!-- <td>{{x.neId}}</td> -->
 												
-												<td ng-if="x.severity==2 " class="td-danger">严重告警</td>
-												<td ng-if="x.severity==1 " class="td-warning">主要告警</td>
+												<td>
+												<span ng-if="x.severity==1" class="block bg-red">严重告警</span>
+												<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
+												<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
+												</td>
+												
 												<td>{{x.location}}</td>
 												<td>{{x.description}}</td>
 												<td>{{x.time}}</td>
@@ -188,33 +228,6 @@
 
 
 					</div>
-					<!-- 
-					<div class="row">
-						col-md-9 end
-						右侧放查询栏以及图表展示 col-md-3
-						<div class="col-md-6">
-							<div class="hpanel">
-								<div class="panel-heading hbuilt">
-									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级分析</span>
-								</div>
-								<div class="panel-body">
-									<div id="bsAlarm-level-pie"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="hpanel">
-								<div class="panel-heading hbuilt">
-									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障类型（程度）分析</span>
-								</div>
-								<div class="panel-body">
-									<div id="bsAlarm-type-pie"></div>
-								</div>
-							</div>
-						</div>
-						col-md-3 end
-					</div>
- -->
 
 				</div>
 			</div>

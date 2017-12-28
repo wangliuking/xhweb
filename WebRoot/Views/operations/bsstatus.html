@@ -188,8 +188,8 @@
 						status-value="{{x.status}}">
 
 
-						<div style="cursor: pointer;" ng-if="x.status==1 && x.link!=0"
-							class="td-danger bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
+						<div  ng-if="x.status==1 && x.link!=0"
+							class="td-danger bs-info">【{{x.bsId}}】{{x.name}}</div>
 						<div style="cursor: pointer;"
 							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0"
 							class="td-warning bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>

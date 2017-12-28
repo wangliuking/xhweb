@@ -112,6 +112,7 @@
 											value="{{x.roleId}}" index="{{$index}}" /></td>
 										<td>{{x.roleId}}</td>
 										<td>{{x.role}}</td>
+										<td ng-if="x.roleType==0">超级管理员</td>
 										<td ng-if="x.roleType==1">市经信委</td>
 										<td ng-if="x.roleType==2">软件产业中心</td>
 										<td ng-if="x.roleType==3">亚光运维</td>

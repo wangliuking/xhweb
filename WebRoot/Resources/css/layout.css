@@ -553,6 +553,37 @@ text-decoration:none;
 	margin: 0;
 }
 
+.block{
+	padding:5px;
+	border-radius:5px;
+	margin:0;
+}
+.bg-red{
+	background-color: red !important;
+	color:#000;
+}
+.bg-orangered{
+	background-color: OrangeRed !important;
+	color:#fff;
+}
+
+.bg-salmon{
+	background-color: Salmon !important;
+	color:#000;
+}
+.bg-gold{
+	background-color: Yellow !important;
+	color:#000;
+}
+.bg-green{
+	background-color: green !important;
+	color:#fff;
+}
+.bg-darkgreen{
+	background-color: darkgreen !important;
+	color:#fff;
+}
+
 
 
 /*webkit内核浏览器滚动条*/

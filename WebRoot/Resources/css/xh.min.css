@@ -715,8 +715,8 @@ li.divider {
 }
 
 .hpanel>.panel-title.title-danger {
-	background-color: #d15b47 !important;
-	border-color: #d15b47
+	background-color: OrangeRed !important;
+	border-color: OrangeRed
 }
 
 .hpanel>.panel-title.title-primary {
@@ -746,7 +746,7 @@ li.divider {
 	color:#fff;
 }
 .panel-heading.head-red{
-	background:#d15b47;
+	background:OrangeRed;
 	color:#fff;
 }
 .panel-heading.head-blue{
@@ -1164,7 +1164,7 @@ body.fullscreen-panel-mode {
 .xh-table .tr-gray th {
 	background:url("../images/img/column-header-over-bg.gif");
 	/* background: #4f99c6; */
-	/* #d15b47-danger ,#e59729-wraing ,#629959=success*/
+	/* OrangeRed-danger ,#e59729-wraing ,#629959=success*/
 	color: #263238;
 	font-weight: bold;
 	text-align: center;
@@ -1173,7 +1173,7 @@ body.fullscreen-panel-mode {
 .xh-table .tr-img-gray th {
 	background:url("../images/table/column-header-over-bg.gif");
 	/* background: #4f99c6; */
-	/* #d15b47-danger ,#e59729-wraing ,#629959=success*/
+	/* OrangeRed-danger ,#e59729-wraing ,#629959=success*/
 	color: #263238;
 	font-weight: bold;
 	text-align: center;
@@ -1367,11 +1367,11 @@ body.fullscreen-panel-mode {
 }
 
 .label-danger,.badge-danger {
-	background-color: #d15b47 !important
+	background-color: OrangeRed !important
 }
 
 .label-important,.badge-important {
-	background-color: #d15b47 !important
+	background-color: OrangeRed !important
 }
 
 .label-inverse,.badge-inverse {
@@ -1512,35 +1512,34 @@ body.fullscreen-panel-mode {
 }
 
 .label-important.arrowed:before {
-	border-right-color: #d15b47
+	border-right-color: OrangeRed
 }
 
 .label-important.arrowed-in:before {
-	border-color: #d15b47
+	border-color: OrangeRed
 }
 
 .label-important.arrowed-right:after {
-	border-left-color: #d15b47
+	border-left-color: OrangeRed
 }
-
 .label-important.arrowed-in-right:after {
-	border-color: #d15b47
+	border-color: OrangeRed
 }
 
 .label-danger.arrowed:before {
-	border-right-color: #d15b47
+	border-right-color: OrangeRed
 }
 
 .label-danger.arrowed-in:before {
-	border-color: #d15b47
+	border-color: OrangeRed
 }
 
 .label-danger.arrowed-right:after {
-	border-left-color: #d15b47
+	border-left-color: OrangeRed
 }
 
 .label-danger.arrowed-in-right:after {
-	border-color: #d15b47
+	border-color: OrangeRed
 }
 
 .label-inverse.arrowed:before {
