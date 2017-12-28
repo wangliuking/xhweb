@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.TalkGroupBean;
-import xh.mybatis.mapper.RadioUserMapper;
 import xh.mybatis.mapper.TalkGroupMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -150,6 +149,48 @@ public class TalkGroupService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	
+	/**
+	 * 修改通话组
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int update(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		int count = 0;
+		try {
+			count = mapper.update(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	/**
+	 * 删除通话组
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static void delete(List<String> list) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		try {
+			mapper.delete(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

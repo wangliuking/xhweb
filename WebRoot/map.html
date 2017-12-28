@@ -436,7 +436,7 @@ html,body {
 					<ul id="xh-tabs" class="nav nav-tabs">
 						<li class="active"><a href="#info" data-toggle="tab"
 							ng-click=''> 基本信息 </a></li>
-						<li><a href="#config" data-toggle="tab" ng-click='config()'>配置信息</a></li>
+						<li><a href="#equip" data-toggle="tab" ng-click='equip()'>配置信息</a></li>
 
 						<li><a href="#business" data-toggle="tab"
 							ng-click='business()'> 业务信息</a></li>
@@ -445,8 +445,11 @@ html,body {
 						<div class="tab-pane fade in active" id="info">
 							<div ng-include="'Views/operations/bsstatus-view-info.html'"></div>
 						</div>
-						<div class="tab-pane fade" id="config">
-							<div ng-include="'Views/operations/bsstatus-view-config.html'"></div>
+						<div class="tab-pane fade" id="equip">
+							<div ng-include="'Views/operations/bsstatus-view-bsc.html'"></div>
+							<div ng-include="'Views/operations/bsstatus-view-bsr.html'"></div>
+							<div ng-include="'Views/operations/bsstatus-view-dpx.html'"></div>
+							<div ng-include="'Views/operations/bsstatus-view-psm.html'"></div>
 						</div>
 						<div class="tab-pane fade" id="business">
 							<div class="row">

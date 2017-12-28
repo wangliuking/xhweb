@@ -21,7 +21,6 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.service.RadioUserSeriaService;
-import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
 
 @Controller
@@ -165,5 +164,60 @@ public class TalkGroupController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	
+	/**
+	 * 更新通话组
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/update",method = RequestMethod.POST)
+	public void updateByRadioUserId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		Enumeration rnames=request.getParameterNames();
+		for (Enumeration e = rnames ; e.hasMoreElements() ;) {
+		         String thisName=e.nextElement().toString();
+		        String thisValue=request.getParameter(thisName);
+		        map.put(thisName, thisValue);
+		}
+		int count=TalkGroupService.update(map);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result",count);
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 删除通话组
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/del",method = RequestMethod.POST)
+	public void deleteBsByRadioUserId(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("id");
+		List<String> list = new ArrayList<String>();
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			list.add(str);
+		}
+		TalkGroupService.delete(list);
+		HashMap result = new HashMap();
+		this.success=true;
+		result.put("success", success);
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
