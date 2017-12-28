@@ -1,6 +1,46 @@
 
 var app = angular.module("app", []);
 var appElement = document.querySelector('[ng-controller=map]');
+app.filter('power', function() { // 可以注入依赖
+	return function(text) {
+		return text - 15;
+	};
+});
+app.filter('timeFormate', function() { // 可以注入依赖
+	return function(text) {
+		return xh.secondsFormatDay(text);
+	};
+});
+app.filter('freqFormat', function() { // 可以注入依赖
+	return function(text) {
+		/*console.log("频点："+parseInt(text))*/
+		
+		if(parseInt(text)>0){
+			var fr=(parseInt(text)/1000000).toFixed(2)+"MHz";
+			return fr
+		}else{
+			return "";
+		}
+	};
+});
+app.filter('retLoss',function(){
+	return function(text){
+		if(text>0){
+			return text+'dB';
+		}else{
+			return "";
+		}
+	}
+})
+app.filter('fwdPa',function(){
+	return function(text){
+		if(text>0){
+			return text+'W';
+		}else{
+			return "";
+		}
+	}
+})
 app.controller("map", function($scope, $http) {
 	/**
 	 * 首页弹出模态框数据获取和设置start
@@ -1321,8 +1361,8 @@ function init(data,markData) {
 			$("#info").addClass('tab-pane fade in active');
 			$("#config").removeClass();
 			$("#config").addClass('tab-pane fade');
-			$("#business").removeClass();
-			$("#business").addClass('tab-pane fade');			
+			$("#equip").removeClass();
+			$("#equip").addClass('tab-pane fade');			
 			$scope.bsId=params.data.id;
 			$scope.bsInformation();
 		});
@@ -1824,5 +1864,32 @@ function displayProp(obj){
     }    
     console.log(names);    
 }
+
+xh.secondsFormatDay = function( second_time ){  
+	  
+	var time = parseInt(second_time) + "秒";  
+	if( parseInt(second_time )> 60){  
+	  
+	    var second = parseInt(second_time) % 60;  
+	    var min = parseInt(second_time / 60);  
+	    time = min + "分" + second + "秒";  
+	      
+	    if( min > 60 ){  
+	        min = parseInt(second_time / 60) % 60;  
+	        var hour = parseInt( parseInt(second_time / 60) /60 );  
+	        time = hour + "小时" + min + "分" + second + "秒";  
+	  
+	        if( hour > 24 ){  
+	            hour = parseInt( parseInt(second_time / 60) /60 ) % 24;  
+	            var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );  
+	            time = day + "天" + hour + "小时" + min + "分" + second + "秒";  
+	        }  
+	    }  
+	      
+	  
+	}  
+	  
+	return time;          
+	}  
 
 

@@ -46,6 +46,20 @@ public interface TalkGroupMapper {
 	public int  insertTalkGroup(TalkGroupBean bean)throws Exception;
 	
 	/**
+	 * 根据ID修改通话组
+	 * @return
+	 * @throws Exception
+	 */
+	public int  update(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 删除用户组
+	 * @return
+	 * @throws Exception
+	 */
+	public void delete(List<String> list)throws Exception;
+	
+	/**
 	 * 获取交换中心标识列表 
 	 * @return
 	 * @throws Exception
@@ -59,15 +73,5 @@ public interface TalkGroupMapper {
 	 */
 	public List<HashMap<String, String>> vpnList2()throws Exception;
 	
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(TalkGroup record);
-
-    int insertSelective(TalkGroup record);
-
-    TalkGroup selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TalkGroup record);
-
-    int updateByPrimaryKey(TalkGroup record);
+    
 }
