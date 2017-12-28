@@ -109,14 +109,12 @@ xh.load = function() {
 		};
 		 /*禁用账号*/
 	    $scope.lockUser = function(id) {
-			$scope.editData = $scope.data[id];
 			$.ajax({
 				url : '../../web/user/lock',
 				type : 'post',
 				dataType : "json",
 				data : {
 					userId :id,
-					user:$scope.editData.user,
 					lock:0
 				},
 				async : false,
