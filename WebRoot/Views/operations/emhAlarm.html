@@ -141,11 +141,9 @@
 													</div>
 													<div class="form-group" style="width:120px;">												
 															<div class="pull-right">
-																<select class="form-control" id="alarmLv" ng-change="refresh(x)" ng-model="x">
-																<option value="0" selected>全部告警</option>
-																<option value="1">一级告警</option>
-																<option value="2">二级告警</option>
-																<option value="3">三级告警</option>
+																<select class="form-control" id="alarmLv" ng-change="refresh(x)" ng-model="prov.id" ng-init="prov.id='0'">
+																<option value="" selected hidden></option>
+																<option ng-repeat="prov in provs" value={{prov.id}}>{{prov.name}}</option>
 																</select>
 															</div>
 													</div>

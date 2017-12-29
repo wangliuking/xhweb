@@ -44,6 +44,41 @@ xh.load = function() {
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
+		
+		// 获取无线用户业务属性
+		$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize)
+				.success(function(response) {
+					$scope.userbusinessData = response.items;
+					$scope.userbusinessTotals = response.totals;
+					if ($scope.userbusinessTotals > 0) {
+						$scope.userbusinessName = $scope.userbusinessData[0].id;
+					}
+				});
+		// 获取无线用户互联属性
+		$http.get("../../radiouserseria/list?start=0&limit="+ pageSize)
+				.success(function(response) {
+						$scope.userseriaData = response.items;
+						$scope.userseriaTotals = response.totals;
+						if ($scope.userseriaTotals > 0) {
+							$scope.userseriaName = $scope.userseriaData[0].name;
+						}
+					});
+		// 获取msclist
+		$http.get("../../talkgroup/mscList").success(function(response) {
+			$scope.msc = response.items;
+			$scope.mscNum = response.totals;
+			if ($scope.mscNum > 0) {
+				$scope.mscName = $scope.msc[0].name;
+			}
+		});
+		// 获取vpnList
+		$http.get("../../talkgroup/vpnList").success(function(response) {
+			$scope.vpn = response.items;
+			$scope.vpnNum = response.totals;
+			if ($scope.vpnNum > 0) {
+				$scope.vpnName = $scope.vpn[0].name;
+			}
+		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#talkgroupid").val("");
@@ -56,6 +91,49 @@ xh.load = function() {
 			$('#edit').modal('show');
 			$scope.editData = $scope.data[id];
 			console.log($scope.editData);
+		};
+		
+		/* 删除单个通话组 */
+		$scope.delBs = function(id) {
+			swal({
+				title : "提示",
+				text : "确定要删除该通话组吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../talkgroup/del',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : id
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success("删除通话组成功", '提示');
+								$scope.refresh();
+							} else {
+								swal({
+									title : "提示",
+									text : "删除通话组失败",
+									type : "error"
+								});
+							}
+						},
+						error : function() {
+							$scope.refresh();
+						}
+					});
+				}
+			});
 		};
 		
 		/* 查询数据 */
@@ -120,6 +198,77 @@ xh.load = function() {
 	});
 };
 
+/* 修改基站信息 */
+xh.update = function() {
+	$.ajax({
+		url : '../../talkgroup/update',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#updateTalkGroupForm").serializeArray(),
+		success : function(data) {
+			if (data.result === 1) {
+				$('#edit').modal('hide');
+				toastr.success("更新无线用户成功", '提示');
+				xh.refresh();
+			} else {
+				toastr.error("添加无线用户失败", '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+
+/* 批量删除基站 */
+xh.delMore = function() {
+	swal({
+		title : "提示",
+		text : "确定要删除该通话组信息吗？",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消"
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length < 1) {
+				toastr.error("批量删除通话组失败", '提示');
+				return;
+			}
+			$.ajax({
+				url : '../../talkgroup/del',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : checkVal.join(",")
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success("删除通话组成功", '提示');
+						xh.refresh();
+					} else {
+						toastr.error("删除通话组失败", '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+		}
+	});
+
+};
+
 // 刷新数据
 xh.refresh = function() {
 	var appElement = document.querySelector('[ng-controller=talkgroup]');
@@ -165,12 +314,4 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-/*
- * $http({ method : "POST", url : "../../bs/list", data : { bsId : bsId, name :
- * name, start : start, limit : pageSize }, headers : { 'Content-Type' :
- * 'application/x-www-form-urlencoded' }, transformRequest : function(obj) { var
- * str = []; for ( var p in obj) { str.push(encodeURIComponent(p) + "=" +
- * encodeURIComponent(obj[p])); } return str.join("&"); }
- * }).success(function(response) { xh.maskHide(); $scope.data = response.items;
- * $scope.totals = response.totals; });
- */
+
