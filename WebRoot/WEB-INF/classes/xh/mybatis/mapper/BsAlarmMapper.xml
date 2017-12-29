@@ -23,25 +23,25 @@
 		显示告警列表，列表中只显示没有处理的告警；显示列表时联合查询基站列表显示基站名称，等级。
 	-->
     <select id="selectBsAlarmList" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     	select * from xhgmnet_eastcom_alarminfo 
+     	select * from xhgmnet_eastcom_alarminfo  where modType!=4
 		order by time desc limit #{start},#{limit}
     </select>
     <!-- 告警总数 -->
         <select id="BsAlarmCount" parameterType="map" resultType="int" useCache="true">
-     	select count(*) from xhgmnet_eastcom_alarminfo 
+     	select count(*) from xhgmnet_eastcom_alarminfo  where modType!=4
 
     </select>
     
     <!--警告等级统计 -->
 	<select id="bsAlarmLevelChart" resultType="java.util.HashMap"
 		useCache="true">
-		select count(id) as num,severity from xhgmnet_eastcom_alarminfo
+		select count(id) as num,severity from xhgmnet_eastcom_alarminfo where modType!=4
 		group by severity order by severity asc
 	</select>  
 	<!--警告类型统计 -->
 	<select id="bsAlarmTypeChart" resultType="java.util.HashMap"
 		useCache="true">
-		select neType,count(id) as num from xhgmnet_eastcom_alarminfo
+		select neType,count(id) as num from xhgmnet_eastcom_alarminfo where modType!=4
 		group by neType order by neType asc
 	</select>
 	
