@@ -165,12 +165,12 @@ public class BsAlarmController {
 			}
 			}
 			
-			list.set(i, mapResult);
+			list2.add(mapResult);
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals", "");
-		result.put("items", list);
+		result.put("totals",list2.size());
+		result.put("items", list2);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
