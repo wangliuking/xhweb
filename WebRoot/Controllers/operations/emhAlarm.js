@@ -47,6 +47,10 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals),$scope);
 		});
+		/*告警级别*/
+		console.log("aaaaa");
+		$scope.provs = [{"id":"0","name":"全部告警"},{"id":"1","name":"一级告警"},{"id":"2","name":"二级告警"},{"id":"3","name":"三级告警"}];
+		console.log($scope.provs);
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
