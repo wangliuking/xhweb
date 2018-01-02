@@ -23,6 +23,16 @@ public interface GosuncnMapper {
 	public List<Map<String,String>> selectForGetLogin();
 	
 	/**
+	 * 根据流水号删除对应告警
+	 */
+	public int deleteBySerialNo(String serialNo);
+	
+	/**
+	 * 增加告警前查询是否有相同流水号的告警
+	 */
+	public List<Map<String,String>> selectBySerialNo(String serialNo);
+	
+	/**
 	 * 添加告警信息
 	 */
 	public int insertAlarm(List<Map<String,String>> list);

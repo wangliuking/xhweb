@@ -62,6 +62,46 @@ public class GosuncnService {
 	}
 	
 	/**
+	 * 根据流水号删除对应告警
+	 * @param map
+	 * @return
+	 */
+	public static int deleteBySerialNo(String serialNo){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			result=mapper.deleteBySerialNo(serialNo);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 增加告警前查询是否有相同流水号的告警
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String, String>> selectBySerialNo(String serialNo){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectBySerialNo(serialNo);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 添加告警信息
 	 * @param map
 	 * @return

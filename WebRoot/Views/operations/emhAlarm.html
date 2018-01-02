@@ -93,12 +93,11 @@
 										<div class="panel-body">
 											<div id="search-div">
 												<form class="form-inline" role="form">
-
 													<div class="form-group" style="width:120px;">
 														<div class="list-group-item">
 															<div class="pull-right">
 																<input id="device1" class="toggle-switch" type="checkbox" value="170100000000001"
-																	ng-click="refresh(1)" checked> <label for="device1"></label>
+																	ng-click="refresh(1)" > <label for="device1"></label>
 															</div>
 															温度
 														</div>
@@ -107,7 +106,7 @@
 														<div class="list-group-item">
 															<div class="pull-right">
 																<input id="device2" class="toggle-switch" type="checkbox" value="170200000000001"
-																	ng-click="refresh(1)" checked> <label for="device2"></label>
+																	ng-click="refresh(1)" > <label for="device2"></label>
 															</div>
 															湿度
 														</div>
@@ -116,7 +115,7 @@
 														<div class="list-group-item">
 															<div class="pull-right">
 																<input id="device3" class="toggle-switch" type="checkbox" value="080200000000001"
-																	ng-click="refresh(1)" checked> <label for="device3"></label>
+																	ng-click="refresh(1)" > <label for="device3"></label>
 															</div>
 															UPS
 														</div>
@@ -125,27 +124,76 @@
 														<div class="list-group-item">
 															<div class="pull-right">
 																<input id="device4" class="toggle-switch" type="checkbox" value="920100000000001"
-																	ng-click="refresh(1)" checked> <label for="device4"></label>
+																	ng-click="refresh(1)" > <label for="device4"></label>
 															</div>
 															电表
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="pull-right">
+															<select class="form-control" id="alarmFlags"
+																ng-change="refresh(x)" ng-model="alarmS.id"
+																ng-init="alarmS.id='0'">
+																<option value="" selected hidden></option>
+																<option ng-repeat="alarmS in alarmStatus" value={{alarmS.id}}>{{alarmS.name}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="pull-right">
+															<select class="form-control" id="alarmLv"
+																ng-change="refresh(x)" ng-model="prov.id"
+																ng-init="prov.id='0'">
+																<option value="" selected hidden></option>
+																<option ng-repeat="prov in provs" value={{prov.id}}>{{prov.name}}</option>
+															</select>
+														</div>
+													</div>
+													<br/>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="device6" class="toggle-switch" type="checkbox" value="170300000000001"
+																	ng-click="refresh(1)" > <label for="device6"></label>
+															</div>
+															水浸
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="device7" class="toggle-switch" type="checkbox" value="170400000000001"
+																	ng-click="refresh(1)" > <label for="device7"></label>
+															</div>
+															烟雾
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="device8" class="toggle-switch" type="checkbox" value="170500000000001"
+																	ng-click="refresh(1)" > <label for="device8"></label>
+															</div>
+															红外
+														</div>
+													</div>
+													<div class="form-group" style="width:120px;">
+														<div class="list-group-item">
+															<div class="pull-right">
+																<input id="device9" class="toggle-switch" type="checkbox" value="170700000000001"
+																	ng-click="refresh(1)" > <label for="device9"></label>
+															</div>
+															门磁
 														</div>
 													</div>
 													<div class="form-group" style="width:120px;">
 														<div class="list-group-item">
 															<div class="pull-right">
 																<input id="device5" class="toggle-switch" type="checkbox" value="760300000000001"
-																	ng-click="refresh(1)" checked> <label for="device5"></label>
+																	ng-click="refresh(1)" > <label for="device5"></label>
 															</div>
 															FSU
 														</div>
-													</div>
-													<div class="form-group" style="width:120px;">												
-															<div class="pull-right">
-																<select class="form-control" id="alarmLv" ng-change="refresh(x)" ng-model="prov.id" ng-init="prov.id='0'">
-																<option value="" selected hidden></option>
-																<option ng-repeat="prov in provs" value={{prov.id}}>{{prov.name}}</option>
-																</select>
-															</div>
 													</div>
 												</form>
 											</div>

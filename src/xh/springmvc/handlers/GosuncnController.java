@@ -234,10 +234,19 @@ public class GosuncnController {
 		}
 		
 		String alarmlevel=request.getParameter("alarmLevel");
+		String alarmFlag=request.getParameter("alarmFlag");
+		if(!"".equals(alarmFlag) && "0".equals(alarmFlag)){
+			alarmFlag="";
+		}else if("1".equals(alarmFlag)){
+			alarmFlag="BEGIN";
+		}else if("2".equals(alarmFlag)){
+			alarmFlag="END";
+		}
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("alarmlevel", alarmlevel);
+		map.put("alarmFlag", alarmFlag);
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("deviceIds", list);
