@@ -40,17 +40,17 @@ xh.load = function() {
 			deviceIds.push($(this).val());
 		});
 		var alarmLevel = $("#alarmLv  option:selected").val();
-		$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel).
+		var alarmFlag = $("#alarmFlags option:selected").val();
+		$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals),$scope);
 		});
-		/*告警级别*/
-		console.log("aaaaa");
-		$scope.provs = [{"id":"0","name":"全部告警"},{"id":"1","name":"一级告警"},{"id":"2","name":"二级告警"},{"id":"3","name":"三级告警"}];
-		console.log($scope.provs);
+		/*告警级别 告警状态*/
+		$scope.provs = [{"id":"0","name":"告警级别"},{"id":"1","name":"一级告警"},{"id":"2","name":"二级告警"},{"id":"3","name":"三级告警"}];
+		$scope.alarmStatus = [{"id":"0","name":"告警状态"},{"id":"1","name":"告警中"},{"id":"2","name":"告警结束"}];
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -96,7 +96,7 @@ xh.load = function() {
 				deviceIds.push($(this).val());
 			});
 			var alarmLevel = $("#alarmLv  option:selected").val();
-			
+			var alarmFlag = $("#alarmFlags option:selected").val();
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -108,7 +108,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -118,8 +118,15 @@ xh.load = function() {
 		};
 		//分页点击
 		$scope.pageClick = function(page,totals, totalPages) {
-			/*var userId=$("#userId").val();
-			var regStatus=$("#regStatus").val();*/
+			var $scope = angular.element(appElement).scope();
+			/*获取选中的checkbox和告警等级*/
+			var deviceIds=[];
+			$(".form-inline input:checked").each(function(i){
+				deviceIds.push($(this).val());
+			});
+			var alarmLevel = $("#alarmLv  option:selected").val();
+			var alarmFlag = $("#alarmFlags option:selected").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -129,7 +136,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
 			success(function(response){
 				xh.maskHide();
 				

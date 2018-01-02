@@ -32,6 +32,7 @@ import org.dom4j.io.SAXReader;
 
 import com.chinamobile.fsuservice.ParseXml;
 
+import xh.mybatis.service.GosuncnService;
 import xh.springmvc.handlers.GosuncnController;
 
 /**
@@ -124,6 +125,16 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					for(int j=0;j<list.size();j++){					
 						Element e = (Element)list.get(j);
 						map.put(e.getName(), e.getText());	
+						//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
+						String serialNo = map.get("SerialNo");
+						List<Map<String,String>> serialList = GosuncnService.selectBySerialNo(serialNo);
+						if(serialList!=null){
+							String startTime = serialList.get(0).get("alarmTime");
+							map.put("startTime", startTime);
+							GosuncnService.deleteBySerialNo(serialNo);
+						}else{
+							map.put("startTime", null);
+						}
 					}							
 					map.put("FSUID", FSUID);
 					dataList.add(map);
