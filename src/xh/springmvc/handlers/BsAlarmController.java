@@ -3,6 +3,7 @@ package xh.springmvc.handlers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,15 +56,26 @@ public class BsAlarmController {
 		BsAlarmService bsAlarmService = new BsAlarmService();
 		try {
 			request.setCharacterEncoding("utf-8");
-			/*String bsId=request.getParameter("bsId");
-			String name=request.getParameter("name");
-			String dealEn=request.getParameter("dealEn");*/
+			String startTime=request.getParameter("startTime");
+			String endTime=request.getParameter("endTime");
+			String[] level=request.getParameter("level").split(",");
+			String[] type=request.getParameter("type").split(",");
 			int start=funUtil.StringToInt(request.getParameter("start"));
 			int limit=funUtil.StringToInt(request.getParameter("limit"));
+			List<String> a=new ArrayList<String>();
+			List<String> b=new ArrayList<String>();
+			for (String str : level) {
+				a.add(str);
+			}
+			for (String str : type) {
+				b.add(str);
+			}
+			
 			Map<String, Object> map=new HashMap<String, Object>();
-			/*map.put("bsId", bsId);
-			map.put("name", name);
-			map.put("dealEn", dealEn);*/
+			map.put("startTime", startTime);
+			map.put("endTime", endTime);
+			map.put("level", a);
+			map.put("type", b);
 			map.put("start", start);
 			map.put("limit", limit);
 			
@@ -93,14 +105,46 @@ public class BsAlarmController {
 		this.success = true;
 
 		List<HashMap> list = new ArrayList<HashMap>();
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String[] level=request.getParameter("level").split(",");
+		String[] type=request.getParameter("type").split(",");
+		List<String> a=new ArrayList<String>();
+		List<String> b=new ArrayList<String>();
+		for (String str : level) {
+			a.add(str);
+		}
+		for (String str : type) {
+			b.add(str);
+		}
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("level", a);
+		map.put("type", b);
 		
 		
-		list = BsAlarmService.bsAlarmLevelChart();
-		/*HashMap<String, Object> map2=new HashMap<String, Object>();
-		for (HashMap map : list) {
-			map2.put(map.get("severity").toString(),map.get("num"));
-		}*/
-		HashMap mapResult = new HashMap();
+		list = BsAlarmService.bsAlarmLevelChart(map);
+		
+		/*log.info("告警列表->"+Arrays.toString(list.toArray()));*/
+	
+		for(int i=0;i<list.size();i++){
+			HashMap map2 = new HashMap();
+			map2=list.get(i);
+			if(map2.get("name").toString().equals("1")){
+				map2.put("name", "严重告警");
+			}
+			if(map2.get("name").toString().equals("2")){
+				map2.put("name", "主要告警");
+			}
+			if(map2.get("name").toString().equals("3")){
+				map2.put("name", "一般告警");
+			}
+			list.set(i, map2);
+		}
+	
+		/*HashMap mapResult = new HashMap();
 		for (int i = 0; i < list.size(); i++) {
 			String status = list.get(i).get("severity").toString();
 			
@@ -116,11 +160,11 @@ public class BsAlarmController {
 				mapResult.put("v_3", list.get(i).get("num").toString());
 				
 			}
-		}
+		}*/
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals", "");
-		result.put("items", mapResult);
+		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);
@@ -146,16 +190,35 @@ public class BsAlarmController {
 
 		List<HashMap> list = new ArrayList<HashMap>();
 		List<HashMap> list2 = new ArrayList<HashMap>();
-		list = BsAlarmService.bsAlarmTypeChart();
+		
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String[] level=request.getParameter("level").split(",");
+		String[] type=request.getParameter("type").split(",");
+		List<String> a=new ArrayList<String>();
+		List<String> b=new ArrayList<String>();
+		for (String str : level) {
+			a.add(str);
+		}
+		for (String str : type) {
+			b.add(str);
+		}
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("level", a);
+		map.put("type", b);
+		
+		list = BsAlarmService.bsAlarmTypeChart(map);
 		HashMap<String, Object> map2=new HashMap<String, Object>();
-		for (HashMap map : list) {
-			map2.put("v_"+map.get("severity").toString(),map.get("num"));
+		for (HashMap mapx : list) {
+			map2.put("v_"+mapx.get("neType").toString(),mapx.get("num"));
 		}
 		
 		
-		for (int i = 1; i <=32; i++) {
+		for (int i = 1; i <=4; i++) {
 			HashMap mapResult = new HashMap();
-			if(i!=25 && i!=26 && i!=27 && i!=28 && i!=31){
 			if(map2.get("v_"+i)==null){
 				mapResult.put("name", alarmText(i));
 				mapResult.put("value", 0);
@@ -163,9 +226,9 @@ public class BsAlarmController {
 				mapResult.put("name", alarmText(i));
 				mapResult.put("value", map2.get("v_"+i));
 			}
-			}
-			
 			list2.add(mapResult);
+			
+			
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);

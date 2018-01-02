@@ -555,12 +555,12 @@ text-decoration:none;
 
 .block{
 	padding:5px;
-	border-radius:5px;
+	/* border-radius:5px; */
 	margin:0;
 }
 .bg-red{
 	background-color: red !important;
-	color:#000;
+	color:#fff;
 }
 .bg-orangered{
 	background-color: OrangeRed !important;
@@ -569,7 +569,7 @@ text-decoration:none;
 
 .bg-salmon{
 	background-color: Salmon !important;
-	color:#000;
+	color:#fff;
 }
 .bg-gold{
 	background-color: Yellow !important;

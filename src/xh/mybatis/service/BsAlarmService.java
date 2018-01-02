@@ -65,12 +65,12 @@ public class BsAlarmService {
 	 * 告警等级统计
 	 * @return
 	 */
-	public static List<HashMap> bsAlarmLevelChart() {
+	public static List<HashMap> bsAlarmLevelChart(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {
-			list = mapper.bsAlarmLevelChart();
+			list = mapper.bsAlarmLevelChart(map);
 			sqlSession.close();
 
 		} catch (Exception e) {
@@ -84,12 +84,12 @@ public class BsAlarmService {
 	 * 告警类型统计
 	 * @return
 	 */
-	public static List<HashMap> bsAlarmTypeChart() {
+	public static List<HashMap> bsAlarmTypeChart(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {
-			list = mapper.bsAlarmTypeChart();
+			list = mapper.bsAlarmTypeChart(map);
 			sqlSession.close();
 
 		} catch (Exception e) {
