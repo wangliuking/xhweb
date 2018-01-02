@@ -33,14 +33,14 @@ public interface BsAlarmMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap> bsAlarmLevelChart() throws Exception;
+	public List<HashMap> bsAlarmLevelChart(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 警告类型统计查询
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap> bsAlarmTypeChart() throws Exception;
+	public List<HashMap> bsAlarmTypeChart(Map<String,Object> map) throws Exception;
 
 	/**
 	 * 确认告警信息

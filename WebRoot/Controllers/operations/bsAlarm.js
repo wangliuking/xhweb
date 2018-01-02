@@ -30,21 +30,37 @@ toastr.options = {
 };
 xh.load = function() {
 	var app = angular.module("app", []);
+	app.filter('alarmLocation', function() { //可以注入依赖
+	    return function(text) {
+	    	
+	    	if(text.indexOf("交换中心")==0){
+	    		return text.split(".")[4]+"."+text.split(".")[5];
+	    	}else{
+	    		return text;
+	    	}
+	        
+	    };
+	});
 	/*var bsId = $("#bsId").val();
 	var bsName = $("#name").val();*/
 	var pageSize = $("#page-limit").val();
 	app.controller("bsAlarm", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
-		$scope.operationMenu = true; // 菜单变色
-
 		//加载故障等级统计图
+		xh.loadbsAlarmTypePie();
 		xh.bsBar();
-		/*
-		 * 获取基站告警信息 "../../bslarm/list?bsId=" + bsId + "&name=" + bsName +
-		 * "&dealEn=0" + "&start=0&limit=" + pageSize
-		 */
-		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize).success(
+		var startTime=$("input[name='startTime']").val();
+		var endTime=$("input[name='endTime']").val();
+		var level_value =[],type_value=[]; 
+		$('input[name="level"]:checked').each(function(){ 
+		level_value.push($(this).val()); 
+		}); 
+		$('input[name="type"]:checked').each(function(){ 
+			type_value.push($(this).val()); 
+		});
+		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize+"&type="+type_value.join(",")+
+				"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.data;
@@ -60,19 +76,25 @@ xh.load = function() {
 			$("#bsAlarmDetails").modal('show');
 			$scope.bsAlarmData=$scope.data[id];
 		};
-		$scope.alarmType=function(){
+		/*$scope.alarmType=function(){
 			$http.get("../../bsAlarm/data/bsAlarmLevelChart").success(
 					function(response) {
 					
 						$scope.alarmTypeData = response.items;
 					});
-		}
+		}*/
 		/* 查询历史告警数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			/*var bsId = $("#bsId").val();
-			var bsName = $("#name").val();
-			var dealEn = $("#dealEn").val();*/
+			var startTime=$("input[name='startTime']").val();
+			var endTime=$("input[name='endTime']").val();
+			var level_value =[],type_value=[]; 
+			$('input[name="level"]:checked').each(function(){ 
+			level_value.push($(this).val()); 
+			}); 
+			$('input[name="type"]:checked').each(function(){ 
+				type_value.push($(this).val()); 
+			});
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -83,7 +105,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize).success(
+			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
+					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.data;
@@ -136,8 +159,15 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			/*var bsId = $("#bsId").val();
-			var bsName = $("#name").val();*/
+			var startTime=$("input[name='startTime']").val();
+			var endTime=$("input[name='endTime']").val();
+			var level_value =[],type_value=[]; 
+			$('input[name="level"]:checked').each(function(){ 
+			level_value.push($(this).val()); 
+			}); 
+			$('input[name="type"]:checked').each(function(){ 
+				type_value.push($(this).val()); 
+			});
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -146,9 +176,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get(
-					"../../bsAlarm/list?start="+start+"&limit=" + pageSize)
-					.success(function(response) {
+			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
+					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(function(response) {
 						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;
 						$scope.lastIndex = page * pageSize;
@@ -165,7 +194,32 @@ xh.load = function() {
 					});
 
 		};
-		$scope.alarmType();
+		//显示查询框
+		$scope.showSearchWin=function(){
+			$("#search").modal('toggle');
+			//$(".modal-backdrop").remove();//删除class值为modal-backdrop的标签，可去除阴影
+		}
+		/*$scope.alarmType();*/
+		$('input[name="level"]').on('click',function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		});
+		$('input[name="type"]').on('click',function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		}); 
+		$('input[name="startTime"]').blur(function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		});
+		$('input[name="endTime"]').blur(function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		});
 	});
 };
 // 刷新数据
@@ -186,6 +240,15 @@ xh.bsBar = function() {
 		$("#bs-bar").height(200);
 	};
 	resizeBarContainer();
+	var startTime=$("input[name='startTime']").val();
+	var endTime=$("input[name='endTime']").val();
+	var level_value =[],type_value=[]; 
+	$('input[name="level"]:checked').each(function(){ 
+	level_value.push($(this).val()); 
+	}); 
+	$('input[name="type"]:checked').each(function(){ 
+		type_value.push($(this).val()); 
+	});
 
 	// 基于准备好的dom，初始化echarts实例
 	var chart = null;
@@ -197,13 +260,13 @@ xh.bsBar = function() {
 		chart = ec.init(document.getElementById('bs-bar'));
 		var option = {
 			    title : {
-			        text: 'Tera系统告警类型统计'
+			        /*text: 'Tera系统[基站，交换中心，网管，调度台]告警统计'*/
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['Tera系统告警类型统计']
+			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计']
 			    },
 			    
 			    calculable : true,
@@ -211,23 +274,24 @@ xh.bsBar = function() {
 			        {
 			            type : 'category',
 			            
-			            data : []
+			            data : ["交换中心","网管"]
 			        }
 			    ],
 			    yAxis : [
 			        {
 			            type : 'value'
+			            
 			        }
 			    ],
 			    series : [
 			        {
-			            name:'Tera系统告警类型统计',
+			            name:'Tera系统[基站，交换中心，网管，调度台]告警统计',
 			            type:'bar',
 			            barWidth: 30,//固定柱子宽度
-			            data:[],
+			            data:[2,5],
 			            itemStyle:{
 			            	normal:{
-			            		color:'green',
+			            		color:'#B22222',
 			            		cursor:'pointer'
 			            	}},
 			            
@@ -247,6 +311,10 @@ xh.bsBar = function() {
 			dataType : "json",
 			async : true,
 			data:{
+				startTime:startTime,
+				endTime:endTime,
+				level:level_value.join(","),
+				type:type_value.join(",")
 			},
 			success : function(response) {
 
@@ -256,17 +324,17 @@ xh.bsBar = function() {
 				var y=[],x=[];
 				
 				for(var i=0;i<data.length;i++){
-					y.push(data[i].neType);
-					x.push(data[i].num);
+					y.push(data[i].name);
+					x.push(data[i].value);
 					
 				}
 				option.xAxis[0].data=y;
 				option.series[0].data=x;
 				chart.setOption(option);
-				chart.on('click',function(params){
+				/*chart.on('click',function(params){
 					var name=params.name;
 					window.location.href="bsstatus.html?zone="+name;
-				})
+				})*/
 			},
 			error : function() {
 			}
@@ -282,10 +350,19 @@ xh.bsBar = function() {
 xh.loadbsAlarmTypePie = function(){
 	// 设置容器宽高
 	var resizeBarContainer = function(){
-		$("#bsAlarm-type-pie").width(parseInt($("#bsAlarm-type-pie").parent().width()));
-		$("#bsAlarm-type-pie").height(300);
+		$("#bs-pie").width(parseInt($("#bs-pie").parent().width()));
+		$("#bs-pie").height(200);
 	}
 	resizeBarContainer();
+	var startTime=$("input[name='startTime']").val();
+	var endTime=$("input[name='endTime']").val();
+	var level_value =[],type_value=[]; 
+	$('input[name="level"]:checked').each(function(){ 
+	level_value.push($(this).val()); 
+	}); 
+	$('input[name="type"]:checked').each(function(){ 
+		type_value.push($(this).val()); 
+	});
 	
 	// 基于准备好的dom，初始化echarts实例
 	var chart = null;
@@ -294,7 +371,7 @@ xh.loadbsAlarmTypePie = function(){
 		chart.dispose();
 	}
 	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
-		chart = ec.init(document.getElementById('bsAlarm-type-pie'));
+		chart = ec.init(document.getElementById('bs-pie'));
 		chart.showLoading({
 			text : '正在努力的读取数据中...'
 		});
@@ -314,21 +391,21 @@ xh.loadbsAlarmTypePie = function(){
 			legend : {
 				orient : 'vertical',
 				x : 'left',
-				data : [ '一般', '紧急', '非常紧急' ]
+				data : [ '严重告警', '主要告警', '一般告警' ]
 			},
 		
-			calculable : false,
+			calculable : true,
 			backgroundColor : background,
 			series : [ {
 				name : '类型',
 				type : 'pie',
 				radius : '50%',
-				center : [ '50%', '60%' ],
+				center : [ '70%', '55%' ],
 				itemStyle : {
 					normal : {
 						color : function(params) {
 							// build a color map as your need.
-							var colorList = [ '#EC706B', '#DC3C37', '#852422' ];
+							var colorList = [ 'red', '#B22222', 'yellowgreen' ];
 							return colorList[params.dataIndex];
 						},
 						label : {
@@ -343,14 +420,25 @@ xh.loadbsAlarmTypePie = function(){
 		};
 
 		$.ajax({
-			url : '../../bsAlarm/data/bsAlarmTypeChart',
-			data : {},
+			url : '../../bsAlarm/data/bsAlarmLevelChart',
+			data : {
+				startTime:startTime,
+				endTime:endTime,
+				level:level_value.join(","),
+				type:type_value.join(",")
+			},
 			type : 'get',
 			dataType : "json",
 			async : false,
 			success : function(response) {
 				var data = response.items;
-				// option.xAxis[0].data = xAxisData;
+				var y=[],x=[];	
+				for(var i=0;i<data.length;i++){
+					y.push(data[i].name);
+					x.push(data[i].value);
+					
+				}
+				/*option.xAxis[0].data = y;*/
 				option.series[0].data = data;
 				chart.hideLoading();
 				chart.setOption(option);
@@ -361,11 +449,11 @@ xh.loadbsAlarmTypePie = function(){
 		});
 
 	});
-	// 用于使chart自适应高度和宽度
+	/*// 用于使chart自适应高度和宽度
 	window.onresize = function() {
 		// 重置容器高宽
 		chart.resize();
-	};
+	};*/
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {

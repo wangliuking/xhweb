@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
@@ -26,14 +27,13 @@
 <style type="text/css">
 .bs-div {
 	float: left;
-	margin: 1px;
-	min-width: 40px;
+	margin: 5px;
+	min-width: 200px;
 	line-height: 30px;
-	border: 0px solid gray;
-	text-align: center;
+	border: 1px solid gray;
 	/* border-left:10px solid gray; */
 	background: #fff;
-	border-radius：5px;
+	border-radius：50px;
 }
 
 .bs-div-check {
@@ -73,7 +73,7 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li><span><a href="monitor.html" target="_self">实时监测</a></span></li>
+							<li><span>实时监测</span></li>
 							<li class="active"><span>基站状态</span></li>
 						</ol>
 					</div>
@@ -185,23 +185,23 @@
 				<div class="col-md-12">
 					<div ng-if="totals==0">未找到相关数据</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
-						status-value="{{x.status}}" data-toggle='tooltip' title="{{x.name}}" data-placement="top">
+						status-value="{{x.status}}">
 
 
 						<div  ng-if="x.status==1 && x.link!=0"
-							class="td-danger bs-info">{{x.bsId}}</div>
+							class="td-danger bs-info">【{{x.bsId}}】{{x.name}}</div>
 						<div style="cursor: pointer;"
 							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0"
-							class="td-warning bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
+							class="td-warning bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
 						<div style="cursor: pointer;"
 							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0"
-							class="td-success bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
+							class="td-success bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
 						<div style="cursor: pointer;"
 							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null"
-							class="td-success bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
+							class="td-success bs-info" ng-click="bsView($index)">【{{x.bsId}}】{{x.name}}</div>
 						<div style="cursor: pointer;" class="td-gray bs-info"
-							ng-if="x.status==0">{{x.bsId}}</div>
-						<!-- <div ng-if="x.status==1 &&x.link==0">
+							ng-if="x.status==0">【{{x.bsId}}】{{x.name}}</div>
+						<div ng-if="x.status==1 &&x.link==0">
 							<div style="cursor: pointer;" ng-click="showGroupUser($index)">
 
 								注册组/终端数量:&nbsp; <span ng-if='x.groupSum==null'
@@ -231,7 +231,7 @@
 									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;0 </span>
 							</div>
 
-						</div> -->
+						</div>
 
 
 
@@ -272,7 +272,6 @@
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
-		/* $("[data-toggle='tooltip']").tooltip(); */
 	</script>
 	<script type="text/javascript">
 		// Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9

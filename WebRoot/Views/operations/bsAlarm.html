@@ -18,7 +18,13 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
-
+.search input {
+	float: left;
+}
+.modal-backdrop {
+  opacity: 0 !important;
+  filter: alpha(opacity=0) !important;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="bsAlarm" class="fixed-iframe">
@@ -64,15 +70,16 @@
 							<i class="fa fa-reorder"></i> 菜单列表
 						</div>
 						<div class="panel-body">
-						
-						<div class="content-menu"> 
-						
-						<span class="menu_active"><a href="bsAlarm.html" target="_self">Tetra系统告警</a></span>
-						<span><a href="emhAlarm.html" target="_self">环控告警</a></span> 
-						
-						</div>
 
-							
+							<div class="content-menu">
+
+								<span class="menu_active"><a href="bsAlarm.html"
+									target="_self">Tetra系统告警</a></span> <span><a
+									href="emhAlarm.html" target="_self">环控告警</a></span>
+
+							</div>
+
+
 							<!-- <ul class="mailbox-list" style="height:200px;">
 								<li style="margin-bottom:10px;"><a href="emhAlarm.html"
 									target="_self"><i
@@ -87,41 +94,42 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-				<div class="row" ng-show="true">
-				       <div class="col-md-2">
+					<div class="row" ng-show="true">
+						<div class="col-md-4">
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
 									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级统计</span>
 								</div>
 								<div class="panel-body" ng-model="alarmTypeData">
-									<div style="width:100%">
+									<div id="bs-pie"></div>
+									<!-- <div style="width:100%">
 									<div class="bg-red" style="padding:7px;border-bottom:1px solid gray;margin-top:5px;">
 									<span>严重告警</span>
-									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#fff;">【{{alarmTypeData.v_1}}】次</span>
+									<span class="pull-right" style="color:#fff;">【{{alarmTypeData.v_1}}】次</span>
 									</div>
 									<div class="bg-salmon" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
 									<span>重要告警</span>
-									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#fff;">【{{alarmTypeData.v_2}}】次</span>
+									<span class="pull-right" style="color:#fff;">【{{alarmTypeData.v_2}}】次</span>
 									</div>
 									<div class="bg-gold" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
 									<span>一般告警</span>
-									<span class="pull-right" style="font-weight: 800;font-size: 12pt;color:#green;">【{{alarmTypeData.v_3}}】次</span>
+									<span class="pull-right" style="color:#green;">【{{alarmTypeData.v_3}}】次</span>
 									</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
-						<div class="col-md-10">
+						<div class="col-md-8">
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
-									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>故障等级统计</span>
+									<i class="fa fa-bar-chart text-danger"></i>&nbsp;<span>Tera系统[基站，交换中心，网管，调度台]告警统计</span>
 								</div>
 								<div class="panel-body">
-								<div id="bs-bar"></div>
+									<div id="bs-bar"></div>
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 
 					<div class="row">
@@ -129,6 +137,12 @@
 
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<a ng-click="showSearchWin()"> <i
+											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">筛选查询</span>
+										</a>
+									</div>
 									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; -->
 									<span>告警信息</span>
 								</div>
@@ -138,15 +152,15 @@
 											<tr class="tr-gray">
 
 												<!-- <th width="100px">网元类型</th> -->
-												<th>告警级别</th>
-												
+												<th>告警类型</th>
+
 												<th>告警级别</th>
 												<th>故障定位</th>
 												<th>告警描述</th>
 												<th width="150px">告警时间</th>
 
 
-												
+
 
 												<!-- <th>操作</th> -->
 											</tr>
@@ -157,50 +171,41 @@
 											</tr>
 											<tr ng-repeat="x in data">
 												<!-- <td>{{$index+1}}</td> -->
-												<td >
-												
-												
-												<span ng-if="x.neType==1">基站</span>
-												<span ng-if="x.neType==2">交换中心</span>
-												<span ng-if="x.neType==3">调度台</span>
-												<span ng-if="x.neType==4">网管</span>
-												<span ng-if="x.neType==5">分组中心</span>
-												<span ng-if="x.neType==6">综合业务网关</span>
-												<span ng-if="x.neType==7">INIGW</span>
-												<span ng-if="x.neType==8">短信中心</span>
-												<span ng-if="x.neType==9">PDT</span>
-												<span ng-if="x.neType==10">鉴权中心</span>
-												<span ng-if="x.neType==11">录音</span>
-												<span ng-if="x.neType==12">模拟网关</span>
-												<span ng-if="x.neType==13">MPT基站</span>
-												<span ng-if="x.neType==14">NTP服务器</span>
-												<span ng-if="x.neType==15">路由器</span>
-												<span ng-if="x.neType==16">数字交叉连接设备</span>
-												<span ng-if="x.neType==17">同播服务器</span>
-												<span ng-if="x.neType==18">DSGW</span>
-												<span ng-if="x.neType==19">以太网交换机</span>
-												<span ng-if="x.neType==20">WEB调度服务器</span>
-												<span ng-if="x.neType==21">短信业务网关</span>
-												<span ng-if="x.neType==22">室外基站</span>
-												<span ng-if="x.neType==23">PDT室外基站</span>
-												<span ng-if="x.neType==24">桥接基站</span>
-												<span ng-if="x.neType==29">以太网E1网桥</span>
-												<span ng-if="x.neType==30">桥接中心</span>
-												<span ng-if="x.neType==32">媒体服务器</span>
+												<td><span ng-if="x.neType==1">基站</span> <span
+													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
+													<span ng-if="x.neType==4">网管</span> <span
+													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
+													<span ng-if="x.neType==7">INIGW</span> <span
+													ng-if="x.neType==8">短信中心</span> <span ng-if="x.neType==9">PDT</span>
+													<span ng-if="x.neType==10">鉴权中心</span> <span
+													ng-if="x.neType==11">录音</span> <span ng-if="x.neType==12">模拟网关</span>
+													<span ng-if="x.neType==13">MPT基站</span> <span
+													ng-if="x.neType==14">NTP服务器</span> <span
+													ng-if="x.neType==15">路由器</span> <span ng-if="x.neType==16">数字交叉连接设备</span>
+													<span ng-if="x.neType==17">同播服务器</span> <span
+													ng-if="x.neType==18">DSGW</span> <span ng-if="x.neType==19">以太网交换机</span>
+													<span ng-if="x.neType==20">WEB调度服务器</span> <span
+													ng-if="x.neType==21">短信业务网关</span> <span
+													ng-if="x.neType==22">室外基站</span> <span ng-if="x.neType==23">PDT室外基站</span>
+													<span ng-if="x.neType==24">桥接基站</span> <span
+													ng-if="x.neType==29">以太网E1网桥</span> <span
+													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
 												</td>
 												<!-- <td>{{x.neId}}</td> -->
-												
-												<td>
-												<span ng-if="x.severity==1" class="block bg-red">严重告警</span>
-												<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
-												<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
-												</td>
-												
-												<td>{{x.location}}</td>
+
+												<!-- <td><span ng-if="x.severity==1" class="block bg-red">严重告警</span>
+													<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
+													<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
+												</td> -->
+												<td ng-if="x.severity==1" class="block bg-red">严重告警</td>
+													<td ng-if="x.severity==2" class="block bg-salmon">主要告警</td>
+													<td ng-if="x.severity==3" class="block bg-gold">一般告警</td>
+
+												<td>{{x.location |alarmLocation}}</td>
 												<td>{{x.description}}</td>
 												<td>{{x.time}}</td>
 
-												
+
 
 												<!-- <td><a href="#" ng-click="showDetails($index)"><i
 														class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a></td> -->
@@ -239,8 +244,81 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 告警详情 -->
-	<div ng-include="'bsAlarm-show.html'"></div>
+	<!-- <div ng-include="'bsAlarm-show.html'"></div> -->
 
+
+	<!-- 告警查询 -->
+	<div class="modal fade" id="search" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">数据筛选</small>
+				</div>
+				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<div class="row">
+						
+
+						<div class="col-md-12">
+							<div class="form-group col-md-12 search" style="margin-top:10px;">
+								<label>严重程度</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+									id="level1" class="magic-checkbox" type="checkbox" name="level"
+									value="1" checked> <label for="level1"><span>严重告警</span></label>
+
+								<input id="level2" class="magic-checkbox" type="checkbox"
+									name="level" value="2" checked> <label for="level2"><span>主要告警</span></label>
+
+								<input id="level3" class="magic-checkbox" type="checkbox"
+									name="level" value="3" checked> <label for="level3"><span>一般告警</span></label>
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12 search" style="margin-top:5px;">
+								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="type1"
+									class="magic-checkbox" type="checkbox" name="type" value="1"
+									checked> <label for="type1"><span>基站</span></label> <input
+									id="type2" class="magic-checkbox" type="checkbox" name="type"
+									value="2" checked> <label for="type2"><span>交换中心</span></label>
+
+								<input id="type3" class="magic-checkbox" type="checkbox"
+									name="type" value="3" checked> <label for="type3"><span>调度台</span></label>
+
+								<input id="type4" class="magic-checkbox" type="checkbox"
+									name="type" value="4" checked> <label for="type4"><span>网管</span></label>
+							</div>
+
+						</div>
+						<!-- col-md -->
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="startTime"
+									required="required"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+							</div>
+						</div>
+						<!-- col-md -->
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="endTime"
+									required="required"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+				</div>
+				<!-- <div class="modal-footer">
+					
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<!-- /告警查询 -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
