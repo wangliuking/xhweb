@@ -24,7 +24,7 @@ public interface SqlServerMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> EmhAlarmList(String time) throws Exception;
+	public List<Map<String,Object>> EmhAlarmList(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 交流电断开报警

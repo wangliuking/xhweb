@@ -72,6 +72,33 @@
 		FROM xhgmnet_emh_sensor_status as a
 		left join xhgmnet_emh_config as b on a.deviceId=b.deviceId and a.fsuId=b.fsuId
 		WHERE a.singleType=0 and a.singleValue!=0
+		<if test="door==0">
+		and a.deviceId!='170700000000001'
+		</if>
+		<if test="smoke==0">
+		and a.deviceId!='170400000000001'
+		</if>
+		<if test="red==0">
+		and a.deviceId!='170500000000001'
+		</if>
+		<if test="water==0">
+		and a.deviceId!='170300000000001'
+		</if>
+		<if test="temp==0">
+		and a.deviceId!='170100000000001' and a.deviceId!='170200000000001'
+		</if>
+		<if test="ups==0">
+		and a.deviceId!='060100000000001'
+		</if>
+		<if test="i==0">
+		and a.deviceId!='920100000000001'
+		</if>
+		<if test="fsu==0">
+		and a.deviceId!='760300000000001'
+		</if>
+		
+		
+		
 		ORDER BY a.updateTime desc
 		LIMIT #{start} , #{limit}
 	</select>
@@ -80,6 +107,30 @@
 		useCache="true">
 		SELECT count(*) from  xhgmnet_emh_sensor_status
 		WHERE  singleType=0 and singleValue!=0
+		<if test="door==0">
+		and deviceId!='170700000000001'
+		</if>
+		<if test="smoke==0">
+		and deviceId!='170400000000001'
+		</if>
+		<if test="red==0">
+		and deviceId!='170500000000001'
+		</if>
+		<if test="water==0">
+		and deviceId!='170300000000001'
+		</if>
+		<if test="temp==0">
+		and deviceId!='170100000000001' and deviceId!='170200000000001'
+		</if>
+		<if test="ups==0">
+		and deviceId!='060100000000001'
+		</if>
+		<if test="i==0">
+		and deviceId!='920100000000001'
+		</if>
+		<if test="fsu==0">
+		and deviceId!='760300000000001'
+		</if>
 	</select>
 	<!--4期基站环控告警数目 -->
 	<!-- <select id="bsEmhNowAlarmCount" parameterType="String" resultType="xh.mybatis.bean.EmhBean"

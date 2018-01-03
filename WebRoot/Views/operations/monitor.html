@@ -97,18 +97,14 @@ transform
 }
 }
 </style>
-<style>
-/* table tbody {
-	display: block;
-	max-height: 195px;
-	overflow-y: scroll;
+<style type="text/css">
+.search input {
+	float: left;
 }
-
-table thead,tbody tr {
-	display: table;
-	width: 100%;
-	table-layout: fixed;
-} */
+.modal-backdrop {
+  opacity: 0 !important;
+  filter: alpha(opacity=0) !important;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="monitor" class="fixed-iframe">
@@ -308,12 +304,45 @@ table thead,tbody tr {
 				<div class="hpanel">
 					<div class="panel-heading hbuilt">
 						<div class="panel-tools">
-							<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							<!-- <a class="showhide"><i class="fa fa-chevron-up"></i></a> -->
+							<!-- <a ng-click="showSearchWin()" data-toggle="modal" data-target="#search"> <i
+											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">筛选查询</span>
+										</a> -->
 						</div>
 						环控告警列表
 					</div>
 					<div class="panel-body">
 						<div style="min-height:250px;max-height:450px;overflow: scroll;">
+					
+						<div class="col-md-12">
+							<div class="form-group col-md-12 search" style="margin-top:15px;">
+							
+							  <input id="type1" class="magic-checkbox" type="checkbox" name="type"
+									value="1" checked> <label for="type1"><span>门磁</span></label>
+
+								<input id="type2" class="magic-checkbox" type="checkbox"
+									name="type" value="2" checked> <label for="type2"><span>烟感</span></label>
+
+								<input id="type3" class="magic-checkbox" type="checkbox"
+									name="type" value="3" checked> <label for="type3"><span>红外</span></label>
+								
+								<input id="type4" class="magic-checkbox" type="checkbox"
+									name="type" value="4" checked> <label for="type4"><span>水浸</span></label>
+								
+								<input id="type5" class="magic-checkbox" type="checkbox"
+									name="type" value="5" checked> <label for="type5"><span>温湿度</span></label>
+															
+								
+								<input id="type6" class="magic-checkbox" type="checkbox"
+									name="type" value="6" checked> <label for="type6"><span>UPS</span></label>
+									
+								<input id="type7" class="magic-checkbox" type="checkbox"
+									name="type" value="7" checked> <label for="type7"><span>电表</span></label>
+								<input id="type8" class="magic-checkbox" type="checkbox" name="type" value="8"
+									checked> <label for="type8"><span>FSU</span></label> 
+							</div>
+						
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
@@ -384,6 +413,7 @@ table thead,tbody tr {
 		</section>
 	</div>
 	</div>
+	<!-- /告警查询 -->
 
 	<!-- 底部内容体 -->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">

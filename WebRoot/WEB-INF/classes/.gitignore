@@ -1,3 +1,5 @@
+/springmvc.xml
+/xh
 /cc
 /conf.xml
 /loadFFmpeg.properties
@@ -6,6 +8,4 @@
 /mysql.properties
 /rebel.xml
 /redis.properties
-/springmvc.xml
-/xh
 /com

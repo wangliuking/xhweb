@@ -144,15 +144,16 @@ public class SqlServerService {
 	 * @param bsId
 	 * @return
 	 */
-	public static List<Map<String, Object>> EmhAlarmList() {
+	public static List<Map<String, Object>> EmhAlarmList(Map<String,Object> mappara) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
 		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		Date currentTime = new Date();//得到当前系统时间
 		String str_date1 = format.format(currentTime); //将日期时间格式化 
+		mappara.put("time", str_date1);
 		try {
-			list = mapper.EmhAlarmList(str_date1);
+			list = mapper.EmhAlarmList(mappara);
 			for(int i=0;i<list.size();i++){
 				Map<String, Object> map=list.get(i);
 				Map<String, Object> map2=new HashMap<String, Object>();

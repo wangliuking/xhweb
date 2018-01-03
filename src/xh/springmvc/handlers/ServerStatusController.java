@@ -42,5 +42,20 @@ public class ServerStatusController {
 		}
 		
 	}
+	@RequestMapping(value="/icpStatus",method = RequestMethod.GET)
+	public void icpStatus(HttpServletRequest request, HttpServletResponse response){	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		result.put("totals",ServerStatusService.icpStatus().size());
+		result.put("items", ServerStatusService.icpStatus());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

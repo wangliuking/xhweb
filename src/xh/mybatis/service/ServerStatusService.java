@@ -45,6 +45,23 @@ public class ServerStatusService {
 		return list;
 	}
 	/**
+	 * 基站传输状态
+	 * @return
+	 */
+	public static List<Map<String,Object> > icpStatus(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.icpStatus();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
 	 * 交换中心异常
 	 * @return
 	 */
