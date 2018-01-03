@@ -46,9 +46,36 @@
 		and State='报警'
 	</select>
 	<!-- 三期所有基站环控告警列表 -->
-	<select id="EmhAlarmList" parameterType="String" resultType="map" useCache="true" timeout="1">
-		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 
-		and State='报警' order by AlarmTime desc
+	<select id="EmhAlarmList" parameterType="map" resultType="map" useCache="true" timeout="1">
+		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 	
+		and State='报警' 
+		
+		<if test="door==0">
+		and DevNode!='0011' and NodeID!='1002'
+		</if>
+		<if test="smoke==0">
+		and DevNode!='0011' and NodeID!='1001'
+		</if>
+		<if test="red==0">
+		and DevNode!='0011' and NodeID!='1004'
+		</if>
+		<if test="water==0">
+		and DevNode!='0011' and NodeID!='1003'
+		</if>
+		<if test="temp==0">
+		and DevNode!='0021'
+		</if>
+		<if test="ups==0">
+		and DevNode!='0051' and NodeID!='1002'
+		</if>
+		<if test="i==0">
+		and DevNode='0000'
+		</if>
+		<if test="fsu==0">
+		and DevNode='0000'
+		</if>
+		
+		order by AlarmTime desc
 	</select>
 
     

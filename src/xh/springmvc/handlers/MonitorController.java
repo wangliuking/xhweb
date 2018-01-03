@@ -58,14 +58,36 @@ public class MonitorController {
 		int emhstart=funUtil.StringToInt(request.getParameter("emhstart"));
 		int emhlimit=funUtil.StringToInt(request.getParameter("emhlimit"));
 		
+		String[] type=request.getParameter("type").split(",");
+		List<String> list=new ArrayList<String>();
+		int door=0,smoke=0,red=0,water=0,temp=0,ups=0,i=0,fsu=0;
+		for (String str : type) {
+			if(str.equals("1")){door=1;}
+			if(str.equals("2")){smoke=1;}
+			if(str.equals("3")){red=1;}
+			if(str.equals("4")){water=1;}
+			if(str.equals("5")){temp=1;}
+			if(str.equals("6")){ups=1;}
+			if(str.equals("7")){i=1;}
+			if(str.equals("8")){fsu=1;}
+		}
+		
 		Map<String,Object> emhParamMap=new HashMap<String, Object>();
 		emhParamMap.put("start", emhstart);
 		emhParamMap.put("limit", emhlimit);
+		emhParamMap.put("door", door);
+		emhParamMap.put("smoke",smoke );
+		emhParamMap.put("red", red);
+		emhParamMap.put("water",water );
+		emhParamMap.put("temp",temp );
+		emhParamMap.put("ups",ups );
+		emhParamMap.put("i",i );
+		emhParamMap.put("fsu",fsu);
 		
 		
 		List<Map<String,Object>>  bs=BsstationService.monitorBsofflineList();
 		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus(0);
-		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList();
+		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList(emhParamMap);
 		List<Map<String,Object>>  fourEmh=BsStatusService.fourEmhAlarmList(emhParamMap);
 		List<Map<String,Object>> emh=new ArrayList<Map<String,Object>>();
 		for (Map<String, Object> map : threeEmh) {

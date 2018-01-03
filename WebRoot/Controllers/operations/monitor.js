@@ -21,10 +21,14 @@ xh.load = function() {
 		$scope.hideMenu = function() {
 			$("body").toggleClass("hide-menu");
 		};
-		
+	
 	   //系统告警模块
 		$scope.alarmModel=function(){
-			$http.get("../../monitor/bsoffline?emhstart=0&emhlimit=500").success(function(response) {
+			var type=[];
+			$('input[name="type"]:checked').each(function(){ 
+				type.push($(this).val()); 
+			}); 
+			$http.get("../../monitor/bsoffline?emhstart=0&emhlimit=500&type="+type.join(",")).success(function(response) {
 				$scope.bs = response.bsList;
 				$scope.bsTotals = response.bsListCount;
 				
@@ -36,6 +40,8 @@ xh.load = function() {
 				
 			});
 		}
+
+		
 		
 		$scope.bsMapCount = function() {
 			$http.get("../../bsstatus/bsMapCount").success(function(data) {
@@ -54,6 +60,10 @@ xh.load = function() {
 		$scope.bsMapCount();
 		$scope.alarmModel();
 		xh.bsBar();
+		$('input[name="type"]').on('click',function(){ 
+			$scope.alarmModel();
+			
+		});
 		setInterval(function(){
 			$scope.bsMapCount();
 			$scope.alarmModel();
