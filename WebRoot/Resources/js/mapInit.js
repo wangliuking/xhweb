@@ -1486,10 +1486,17 @@ function init(data,markData) {
 	    	console.log(e.mapPoint.x ,e.mapPoint.y);
 	  	  });
 		myMap.on('zoom-end', function() {
+			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
-				option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
-				option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
-				overlay.setOption(option);
+				if(myMap.getZoom()<=4){
+					option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
+					option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
+					overlay.setOption(option);
+				}else{
+					option.series[0].markPoint.symbolSize=24;
+					option.series[1].markPoint.symbolSize=24;
+					overlay.setOption(option);
+				}				
 			}			
 		});
 		

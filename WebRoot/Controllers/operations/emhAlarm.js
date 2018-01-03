@@ -156,6 +156,9 @@ xh.load = function() {
 			
 		};
 	});
+	
+	xh.loadPieDev();
+	xh.loadPieLv();
 };
 
 // 刷新数据
@@ -165,12 +168,12 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
-/* 终端状态统计图 */
-xh.loadUserStatusPie = function() {
+/* 传感器统计图 */
+xh.loadPieDev = function() {
 	// 设置容器宽高
 	 var resizeBarContainer = function() {
-	  $("#userStatus-pie").width(parseInt($("#userStatus-pie").parent().width()));
-	  $("#userStatus-pie").height(300);
+	  $("#alarmPie").width(parseInt($("#alarmPie").parent().width()));
+	  $("#alarmPie").height(200);
 	  };
 	  resizeBarContainer();
 	 
@@ -181,77 +184,202 @@ xh.loadUserStatusPie = function() {
 		chart.dispose();
 	}
 	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
-		chart = ec.init(document.getElementById('userStatus-pie'));
+		chart = ec.init(document.getElementById('alarmPie'));
 		chart.showLoading({
 			text : '正在努力的读取数据中...'
 		});
 		var option = {
-			/*title : {
-				x : 'center',
-				text : '终端状态统计图',
-				subtext : '',
-				textStyle : {
-					color : '#fff'
-				}
-			},*/
-			tooltip : {
-				trigger : 'item',
-				formatter : "{a} <br/>{b} : {c} ({d}%)"
-			},
-			legend : {
-				orient : 'vertical',
-				x : 'left',
-				textStyle : {
-					color : '#ccc'
-				},
-				data : [ '离线', '在线' ]
-			},
-			/*
-			 * toolbox : { show : true, feature : { dataView : { show : true,
-			 * readOnly : false }, restore : { show : true }, saveAsImage : {
-			 * show : true } } },
-			 */
-			calculable : false,
-			backgroundColor : background,
-			series : [ {
-				name : '数量',
-				type : 'pie',
-				radius : '55%',
-				center : [ '50%', '60%' ],
-				itemStyle : {
-					normal : {
-						color : function(params) {
-							// build a color map as your need.
-							var colorList = [ '#C1232B', 'green', '#FCCE10' ];
-							return colorList[params.dataIndex];
-						},
-						label : {
-							show : true,
-							position : 'top',
-							formatter : '{b}\n{c}'
-						}
-					}
-				},
-				data : []
-			} ]
-		};
-
+			    /*title : {
+			        text: '基站环控告警统计',
+			        subtext: '传感器分类',
+			        x:'center'
+			    },*/
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			        orient : 'vertical',
+			        x : 'left',
+			        data:[]
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            /*mark : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            magicType : {
+			                show: true, 
+			                type: ['pie', 'funnel'],
+			                option: {
+			                    funnel: {
+			                        x: '25%',
+			                        width: '50%',
+			                        funnelAlign: 'left',
+			                        max: 1548
+			                    }
+			                }
+			            },*/
+			            restore : {show: true}
+			            /*saveAsImage : {show: true}*/
+			        }
+			    },
+			    calculable : true,
+			    series : [
+			        {
+			            name:'告警传感器',
+			            type:'pie',
+			            radius : '55%',
+			            center: ['50%', '55%'],
+			            data:[
+			                {value:752, name:'温度'},
+			                {value:899, name:'湿度'},
+			                {value:567, name:'UPS'},
+			                {value:118, name:'电表'},
+			                {value:442, name:'水浸'},
+			                {value:335, name:'烟雾'},
+			                {value:310, name:'红外'},
+			                {value:234, name:'门磁'},
+			                {value:1548, name:'FSU'}
+			            ]
+			        }
+			    ]
+			};
 		$.ajax({
-			url : '../../operations/data/userstatusChart',
-			data : {},
-			type : 'get',
+			type : "GET",
+			url : "../../gonsuncn/alarmForDev",
 			dataType : "json",
-			async : false,
-			success : function(response) {
-				var data = response.items;
-				// option.xAxis[0].data = xAxisData;
-				option.series[0].data = data;
-				/* option.title.subtext="当前基站总数:"+response.totals; */
+			success : function(dataMap) {
+				var tempData = dataMap.alarmDevice;
+				var legendData = [];
+				var seriesData = [];
+				for(var i=0;i<tempData.length;i++){
+					legendData.push(tempData[i].deviceName);	
+					var tempMap = {value:tempData[i].alarmNum, name:tempData[i].deviceName};
+					seriesData.push(tempMap);
+				}
+				option.legend.data=legendData;
+				option.series[0].data=seriesData;
+				
 				chart.hideLoading();
 				chart.setOption(option);
+			}
+		});
+		
 
-			},
-			failure : function(response) {
+	});
+	// 用于使chart自适应高度和宽度
+	window.onresize = function() {
+		// 重置容器高宽
+		chart.resize();
+	};
+};
+/* 级别统计图 */
+xh.loadPieLv = function() {
+	// 设置容器宽高
+	 var resizeBarContainer = function() {
+	  $("#alarmLevs").width(parseInt($("#alarmLevs").parent().width()));
+	  $("#alarmLevs").height(200);
+	  };
+	  resizeBarContainer();
+	 
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
+		chart = ec.init(document.getElementById('alarmLevs'));
+		chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});
+		var option = {
+				/*title : {
+			        text: '基站环控告警统计',
+			        subtext: '级别分类',
+			        x:'center'
+			    },*/
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			        orient : 'vertical',
+			        x : 'left',
+			        data:[]
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            /*mark : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            magicType : {
+			                show: true, 
+			                type: ['pie', 'funnel'],
+			                option: {
+			                    funnel: {
+			                        x: '25%',
+			                        width: '50%',
+			                        funnelAlign: 'center',
+			                        max: 1548
+			                    }
+			                }
+			            },*/
+			            restore : {show: true}
+			            /*saveAsImage : {show: true}*/
+			        }
+			    },
+			    calculable : true,
+			    series : [
+			        {
+			            name:'告警级别',
+			            type:'pie',
+			            radius : ['50%', '60%'],
+			            center: ['50%', '55%'],
+			            itemStyle : {
+			                normal : {
+			                    label : {
+			                        show : false
+			                    },
+			                    labelLine : {
+			                        show : false
+			                    }
+			                },
+			                emphasis : {
+			                    label : {
+			                        show : true,
+			                        position : 'center',
+			                        textStyle : {
+			                            fontSize : '18',
+			                            fontWeight : 'bold'
+			                        }
+			                    }
+			                }
+			            },
+			            data:[]
+			        }
+			    ]
+			};
+		
+		$.ajax({
+			type : "GET",
+			url : "../../gonsuncn/alarmForLevel",
+			dataType : "json",
+			success : function(dataMap) {
+				var tempData = dataMap.alarmLevel;
+				var legendData = [];
+				var seriesData = [];
+				for(var i=0;i<tempData.length;i++){
+					legendData.push(tempData[i].alarmlevel+"级告警");	
+					var tempMap = {value:tempData[i].alarmNum, name:tempData[i].alarmlevel+"级告警"};
+					seriesData.push(tempMap);
+				}
+				option.legend.data=legendData;
+				option.series[0].data=seriesData;
+				
+				chart.hideLoading();
+				chart.setOption(option);
 			}
 		});
 
@@ -262,6 +390,7 @@ xh.loadUserStatusPie = function() {
 		chart.resize();
 	};
 };
+
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
 	var pageSize = $("#page-limit").val();
