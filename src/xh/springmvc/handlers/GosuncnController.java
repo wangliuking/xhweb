@@ -265,4 +265,45 @@ public class GosuncnController {
 		
 	}
 	
+	/**
+	 * 查询环控传感器告警统计
+	 */
+	@RequestMapping(value="/alarmForDev",method = RequestMethod.GET)
+	public void selectByDev(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("alarmDevice",GosuncnService.selectByDevice());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 查询环控级别告警统计
+	 */
+	@RequestMapping(value="/alarmForLevel",method = RequestMethod.GET)
+	public void selectByLevel(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("alarmLevel", GosuncnService.selectByAlarmLevel());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 }
