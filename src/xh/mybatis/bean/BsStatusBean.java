@@ -21,6 +21,8 @@ public class BsStatusBean{
 	private String rx1;
 	private String rx2;
 	private String enbRunTime;
+	private String psm1runtime;
+	private String psm2runtime;
 	public int getBsId() {
 		return bsId;
 	}
@@ -104,6 +106,18 @@ public class BsStatusBean{
 	}
 	public void setEnbRunTime(String enbRunTime) {
 		this.enbRunTime = enbRunTime;
+	}
+	public String getPsm1runtime() {
+		return psm1runtime;
+	}
+	public void setPsm1runtime(String psm1runtime) {
+		this.psm1runtime = psm1runtime;
+	}
+	public String getPsm2runtime() {
+		return psm2runtime;
+	}
+	public void setPsm2runtime(String psm2runtime) {
+		this.psm2runtime = psm2runtime;
 	}
 	
 

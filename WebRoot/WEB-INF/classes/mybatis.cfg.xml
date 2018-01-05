@@ -110,6 +110,25 @@
 				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
 			</dataSource>
 		</environment>
+	<!-- eastcom -->
+		<environment id="eastcom">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.eastcom.driver}" />
+				<property name="url" value="${xh.eastcom.url}" />
+				<property name="username" value="${xh.eastcom.username}" />
+				<property name="password" value="${xh.eastcom.password}" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingQuery" value="SELECT 1" />
+				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+			</dataSource>
+		</environment>		
 		
 		<!-- 动环监控 -->
 		<environment id="emh">
