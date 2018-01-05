@@ -45,8 +45,8 @@ xh.load = function() {
 	var bsName = $("#name").val();*/
 	var pageSize = $("#page-limit").val();
 	app.controller("bsAlarm", function($scope, $http) {
-		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
+		$scope.page=1;
 		//加载故障等级统计图
 		xh.loadbsAlarmTypePie();
 		xh.bsBar();
@@ -62,7 +62,6 @@ xh.load = function() {
 		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize+"&type="+type_value.join(",")+
 				"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 				function(response) {
-					xh.maskHide();
 					$scope.data = response.data;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
@@ -95,6 +94,7 @@ xh.load = function() {
 			$('input[name="type"]:checked').each(function(){ 
 				type_value.push($(this).val()); 
 			});
+			$scope.page=page;
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -104,11 +104,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+		
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
 					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 					function(response) {
-						xh.maskHide();
 						$scope.data = response.data;
 						$scope.totals = response.totals;
 						xh.pagging(page, parseInt($scope.totals), $scope);
@@ -175,10 +174,11 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			$scope.page=page;
+			
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
 					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(function(response) {
-						xh.maskHide();
+						
 						$scope.start = (page - 1) * pageSize + 1;
 						$scope.lastIndex = page * pageSize;
 						if (page == totalPages) {
@@ -220,6 +220,11 @@ xh.load = function() {
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
 		});
+		setInterval(function(){
+			$scope.search($scope.page);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		}, 5000)
 	});
 };
 // 刷新数据

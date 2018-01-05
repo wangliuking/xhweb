@@ -48,10 +48,53 @@
 	-moz-opacity:1;
 	opacity: 1; */
 }
+#aside-right-bottom {
+	 background-color:rgba(0,0,0, .8); /* #8bc34a */
+	 border:1px solid #e4e5e7;
+    /*  border-left: 1px solid #e4e5e7; */
+     color:#fff;
+	width: 300px;
+	height:200px;
+	position : fixed;
+	/* top: 0px; */
+	right: 0;
+	bottom: 0;
+	z-index: 1050;
+	display: none;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	outline: 0;
+	/* filter:alpha(Opacity=90);
+	-moz-opacity:1;
+	opacity: 1; */
+}
+.header-top5{
+	position:fixed;
+	left:250px;
+	top:-10px;
+	min-width:85%;
+	height:70px;
+	z-index: 2000;
+	
+}
+.header-top5 div{
+	margin:0;
+}
+.marq-top5{
+	background-image: url("../images/img/ocean.jpg")!important;
+	/* background-position:50px; */
+	border-radius:5px;
+	border:0px solid #fff;
+	height:58px;
+	/* box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.4); */
+	text-shadow: 0 -1px 0 #333333;
+	color:#fff;
+	
+}
 /* 网页头部 #428bca*/
 #header {
-	background-image: url("../images/img/ocean.jpg");
-	/* 	background-color: #1874CD; */
+	background-image: url("../images/img/ocean.jpg")!important;
+	background-color: #1874CD;
 	display: block;
 	height: 60px;
 	margin: 0;
@@ -121,6 +164,9 @@ text-decoration:none;
 	display: none;
 }
 /* 网页logo图标和标题布局 */
+/* #logo{
+	background:green;
+} */
 #logo ul li {
 	float: left;
 	margin: 0 0 0 20px;
@@ -142,7 +188,7 @@ text-decoration:none;
 }
 
 #logo .small-logo {
-	padding-top: 5px;
+	padding-top: 0px;
 	padding-left: 0px;
 	margin-left: 0;
 	margin-top: 0;
@@ -592,7 +638,7 @@ text-decoration:none;
 }
 
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 5px;
 	height: 8px;
 }
 

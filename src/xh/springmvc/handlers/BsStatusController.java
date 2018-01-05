@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jxl.CellView;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
@@ -39,6 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import xh.func.plugin.FlexJSON;
+import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.service.BsStatusService;
@@ -79,7 +81,7 @@ public class BsStatusController {
 		try {
 			String saveDir = request.getSession().getServletContext()
 					.getRealPath("/upload");
-			String pathname = saveDir + "/日常维护-基站.xls";
+			String pathname = saveDir + "/基站运行记录.xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -99,9 +101,9 @@ public class BsStatusController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 10,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
 					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
-					Colour.RED);
+					Colour.BLACK);
 			// 应用字体
 			WritableCellFormat fontFormat_h = new WritableCellFormat(
 					font_header);
@@ -109,7 +111,7 @@ public class BsStatusController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.YELLOW);// 背景色
+			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -133,7 +135,7 @@ public class BsStatusController {
 
 			Label title = new Label(0, 0, "设备信息", fontFormat);
 
-			WritableSheet sheet = book.createSheet("日常维护-基站", 0);
+			WritableSheet sheet = book.createSheet("基站运行记录", 0);
 			// sheet.mergeCells(0,0,3,0);
 
 			Label label_1 = new Label(0, 0, "基站ID", fontFormat_h);// 创建单元格
@@ -147,8 +149,10 @@ public class BsStatusController {
 			Label label_9 = new Label(8, 0, "主控信道底噪查询", fontFormat_h);
 			Label label_10 = new Label(9, 0, "ENB运行时间（telnet 10.1.基站ID.1)",
 					fontFormat_h);
+			Label label_11 = new Label(10, 0, "psm1运行时长", fontFormat_h);
+			Label label_12 = new Label(11, 0, "psm2运行时长", fontFormat_h);
 
-			sheet.setRowView(0, 500);
+			sheet.setRowView(0, 300);
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 20);
 			sheet.setColumnView(2, 20);
@@ -159,6 +163,8 @@ public class BsStatusController {
 			sheet.setColumnView(7, 20);
 			sheet.setColumnView(8, 20);
 			sheet.setColumnView(9, 50);
+			sheet.setColumnView(10, 50);
+			sheet.setColumnView(11, 50);
 
 			sheet.addCell(label_1);
 			sheet.addCell(label_2);
@@ -170,8 +176,245 @@ public class BsStatusController {
 			sheet.addCell(label_8);
 			sheet.addCell(label_9);
 			sheet.addCell(label_10);
+			sheet.addCell(label_11);
+			sheet.addCell(label_12);
 			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
 			for (int i = 0; i < list.size(); i++) {
+				BsStatusBean bean = (BsStatusBean) list.get(i);
+				int icpS = bean.getStatus();
+				int bscS = bean.getStatus();
+				String stationClock = bean.getClock_status();
+				String dpx1 = bean.getReturnloss1();
+				String dpx2 = bean.getReturnloss2();
+				String bscRunTime = bean.getBscRuntime();
+				String enbRunTime = bean.getEnbRunTime();
+				Label value_1 = new Label(0, i + 1, String.valueOf(bean
+						.getBsId()), fontFormat_Content);
+				Label value_2 = new Label(1, i + 1, bean.getName(),
+						fontFormat_Content);
+				Label value_3 = new Label(2, i + 1, icpS == 1 ? "NO" : "OK",
+						fontFormat_Content);
+				Label value_4 = new Label(3, i + 1, bscS == 1 ? "NO" : "OK",
+						fontFormat_Content); // 格式化数值
+				Label value_5 = new Label(4, i + 1, stationClock == ""
+						|| stationClock == null ? "NA" : stationClock,
+						fontFormat_Content);
+				Label value_6 = new Label(5, i + 1, dpx1 == "" || dpx1 == null
+						&& dpx2 == "" || dpx2 == null ? "NA" : "DPX1="
+						+ bean.getReturnloss1() + "dB" + " DPX2="
+						+ bean.getReturnloss2() + "dB", fontFormat_Content);
+				Label value_7 = new Label(6, i + 1, bscRunTime == ""
+						|| bscRunTime == null ? "NA" : bscRunTime,
+						fontFormat_Content);
+				Label value_8 = new Label(7, i + 1, "NA", fontFormat_Content);
+				Label value_9 = new Label(8, i + 1, "NA", fontFormat_Content);
+				Label value_10 = new Label(9, i + 1, enbRunTime == ""
+						|| enbRunTime == null ? "NA" : enbRunTime,
+						fontFormat_Content);
+				Label value_11 = new Label(10, i + 1, bean.getPsm1runtime(),fontFormat_Content);
+				Label value_12 = new Label(11, i + 1, bean.getPsm2runtime(),fontFormat_Content);
+				sheet.setRowView(i + 1, 400);
+				sheet.addCell(value_1);
+				sheet.addCell(value_2);
+				sheet.addCell(value_3);
+				sheet.addCell(value_4);
+				sheet.addCell(value_5);
+				sheet.addCell(value_6);
+				sheet.addCell(value_7);
+				sheet.addCell(value_8);
+				sheet.addCell(value_9);
+				sheet.addCell(value_10);
+				sheet.addCell(value_11);
+				sheet.addCell(value_12);
+				// System.out.println(assetbean.getNumber());
+			}
+
+			book.write();
+			book.close();
+			System.out.print("导出成功");
+			DownExcelFile(response, pathname);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+	//基站故障记录登记表
+	@RequestMapping(value = "/ExcelToBsAlarm", method = RequestMethod.GET)
+	public void ExcelToBsAlarm(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			String saveDir = request.getSession().getServletContext()
+					.getRealPath("/upload");
+			String pathname = saveDir + "/基站故障记录登记表.xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 12, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.WHITE);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.PINK);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.NONE,
+					Colour.DARK_GREEN);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(
+					font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(false);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					10, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+		
+ 
+            WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,  
+                    WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,  
+                    jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色 
+            
+            WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义 
+            
+        	WritableCellFormat fontFormat_Content = new WritableCellFormat(
+					font_Content);
+            
+            
+			// 设置其他样式
+        	
+        	wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
+        	wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+        	wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+        	wcf_title.setBackground(Colour.WHITE);// 背景色
+        	wcf_title.setWrap(false);// 不自动换行
+        	
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(false);// 不自动换行
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+
+			Label title = new Label(0, 0, "设备信息", fontFormat);
+
+			WritableSheet sheet = book.createSheet("基站故障记录", 0);
+			// sheet.mergeCells(0,0,3,0);
+			
+			Label label_h1 = new Label(0, 0, "基站信息", wcf_title);// 创建单元格
+			Label label_h2 = new Label(5, 0, "故障情况", wcf_title);// 创建单元格
+			
+
+			Label label_1 = new Label(0, 1, "基站编号", fontFormat_h);// 创建单元格
+			Label label_2 = new Label(1, 1, "基站名称", fontFormat_h);
+			Label label_3 = new Label(2, 1, "基站分级", fontFormat_h);
+			Label label_4 = new Label(3, 1, "使用状态", fontFormat_h);
+			Label label_5 = new Label(4, 1, "星期", fontFormat_h);
+			Label label_6 = new Label(5, 1, "故障发生时间", fontFormat_h);
+			Label label_7 = new Label(6, 1, "报障来源", fontFormat_h);
+			Label label_8 = new Label(7, 1, "故障等级", fontFormat_h);
+			Label label_9 = new Label(8, 1, "故障类别", fontFormat_h);
+			Label label_10 = new Label(9, 1, "故障原因",fontFormat_h);
+			Label label_11 = new Label(10, 1, "目前处理情况",fontFormat_h);
+			Label label_12 = new Label(11, 1, "是否影响业务",fontFormat_h);
+			Label label_13 = new Label(12, 1, "故障处理结果",fontFormat_h);
+			Label label_14 = new Label(13, 1, "故障恢复时间",fontFormat_h);
+			Label label_15= new Label(14, 1, "故障历时",fontFormat_h);
+			Label label_16 = new Label(15, 1, "备注",fontFormat_h);
+			Label label_17 = new Label(16, 1, "故障处理人员",fontFormat_h);
+			Label label_18 = new Label(17, 1, "故障记录人员",fontFormat_h);
+			Label label_19 = new Label(18, 1, "基站归属",fontFormat_h);
+			
+			
+			CellView cellView = new CellView();  
+			cellView.setAutosize(true); //设置自动大小    
+			 
+
+			sheet.setRowView(0, 300);
+			sheet.setColumnView(0, 10); //基站编号
+			sheet.setColumnView(1, cellView); //基站名称
+			sheet.setColumnView(2, 10); //基站分级
+			sheet.setColumnView(3, 10); //使用状态
+			sheet.setColumnView(4, 10); //星期
+			sheet.setColumnView(5, 20); //故障发生时间
+			sheet.setColumnView(6, 10); //报障来源
+			sheet.setColumnView(7, cellView); //故障等级
+			sheet.setColumnView(8, cellView); //故障类别
+			sheet.setColumnView(9, cellView); //故障原因
+			sheet.setColumnView(10, 40);//目前处理情况
+			sheet.setColumnView(11, 10);//是否影响业务
+			sheet.setColumnView(12, 50);     //故障处理结果
+			sheet.setColumnView(13, 20);      //故障恢复时间
+			sheet.setColumnView(14, 20);      //故障历时
+			sheet.setColumnView(15, 50);     //备注
+			sheet.setColumnView(16, 15);      //故障处理人员
+			sheet.setColumnView(17, 15);      //故障记录人员
+			sheet.setColumnView(18, 10);      //基站归属
+			/*sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			sheet.setColumnView(2, 20);
+			sheet.setColumnView(3, 20);
+			sheet.setColumnView(4, 20);
+			sheet.setColumnView(5, 30);
+			sheet.setColumnView(6, 50);
+			sheet.setColumnView(7, 20);
+			sheet.setColumnView(8, 20);
+			sheet.setColumnView(9, 50);
+			sheet.setColumnView(10, 50);
+			sheet.setColumnView(11, 50);
+			sheet.setColumnView(12, 50);
+			sheet.setColumnView(13, 50);
+			sheet.setColumnView(14, 50);
+			sheet.setColumnView(15, 200);
+			sheet.setColumnView(16, 50);*/
+
+			sheet.addCell(label_1);
+			sheet.addCell(label_2);
+			sheet.addCell(label_3);
+			sheet.addCell(label_4);
+			sheet.addCell(label_5);
+			sheet.addCell(label_6);
+			sheet.addCell(label_7);
+			sheet.addCell(label_8);
+			sheet.addCell(label_9);
+			sheet.addCell(label_10);
+			sheet.addCell(label_11);
+			sheet.addCell(label_12);
+			sheet.addCell(label_13);
+			sheet.addCell(label_14);
+			sheet.addCell(label_15);
+			sheet.addCell(label_16);
+			sheet.addCell(label_17);
+			sheet.addCell(label_18);
+			sheet.addCell(label_19);
+			sheet.addCell(label_h1);
+			sheet.addCell(label_h2);
+			
+			
+			// ws.mergeCells(0, 0, 0, 1);//合并单元格，第一个参数：要合并的单元格最左上角的列号，第二个参数：要合并的单元格最左上角的行号，第三个参数：要合并的单元格最右角的列号，第四个参数：要合并的单元格最右下角的行号，
+	            //合： 第1列第1行  到 第13列第1行  
+			sheet.mergeCells(0, 0, 3, 0); 
+			sheet.mergeCells(5, 0, 14, 0);  
+			
+			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
+			/*for (int i = 0; i < list.size(); i++) {
 				BsStatusBean bean = (BsStatusBean) list.get(i);
 				int icpS = bean.getStatus();
 				int bscS = bean.getStatus();
@@ -215,17 +458,141 @@ public class BsStatusController {
 				sheet.addCell(value_9);
 				sheet.addCell(value_10);
 				// System.out.println(assetbean.getNumber());
-			}
+			}*/
 
 			book.write();
 			book.close();
-			System.out.print("导出成功");
+			System.out.print("基站故障记录登记表");
 			DownExcelFile(response, pathname);
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 	}
+	//基站状态检查表
+		@RequestMapping(value = "/ExcelToBsStatus", method = RequestMethod.GET)
+		public void ExcelToBsStatus(HttpServletRequest request,
+				HttpServletResponse response) {
+			try {
+				String saveDir = request.getSession().getServletContext()
+						.getRealPath("/upload");
+				String pathname = saveDir + "/基站状态检查表.xls";
+				File Path = new File(saveDir);
+				if (!Path.exists()) {
+					Path.mkdirs();
+				}
+				File file = new File(pathname);
+				WritableWorkbook book = Workbook.createWorkbook(file);
+				WritableFont font = new WritableFont(
+						WritableFont.createFont("微软雅黑"), 12, WritableFont.NO_BOLD,
+						false, UnderlineStyle.NO_UNDERLINE, Colour.WHITE);
+				WritableCellFormat fontFormat = new WritableCellFormat(font);
+				fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+				fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+				fontFormat.setWrap(true); // 自动换行
+				fontFormat.setBackground(Colour.PINK);// 背景颜色
+				fontFormat.setBorder(Border.ALL, BorderLineStyle.NONE,
+						Colour.DARK_GREEN);
+				fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+				// 设置头部字体格式
+				WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+						WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+						Colour.BLACK);
+				// 应用字体
+				WritableCellFormat fontFormat_h = new WritableCellFormat(
+						font_header);
+				// 设置其他样式
+				fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+				fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+				fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+				fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+				fontFormat_h.setWrap(false);// 不自动换行
+
+				// 设置主题内容字体格式
+				WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+						10, WritableFont.NO_BOLD, false,
+						UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+				// 应用字体
+			
+	 
+	            WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,  
+	                    WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,  
+	                    jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色 
+	            
+	            WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义 
+	            
+	        	WritableCellFormat fontFormat_Content = new WritableCellFormat(
+						font_Content);
+	            
+	            
+				// 设置其他样式
+	        	
+	        	wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
+	        	wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+	        	wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+	        	wcf_title.setBackground(Colour.WHITE);// 背景色
+	        	wcf_title.setWrap(false);// 不自动换行
+	        	
+				fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+				fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+				fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+				fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+				fontFormat_Content.setWrap(false);// 不自动换行
+
+				// 设置数字格式
+				jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+
+				WritableSheet sheet = book.createSheet("基站状态检查表", 0);
+				Label label_1 = new Label(0, 0, "基站编号", fontFormat_h);// 创建单元格
+				Label label_2 = new Label(1, 0, "基站名称", fontFormat_h);
+				Label label_3 = new Label(2, 0, "基站归属", fontFormat_h);
+				Label label_4 = new Label(3, 0, "基站状态", fontFormat_h);
+				Label label_5 = new Label(4, 0, "备注", fontFormat_h);
+
+				CellView cellView = new CellView();  
+				cellView.setAutosize(true); //设置自动大小    
+				 
+
+				sheet.setRowView(0, 300);
+				sheet.setColumnView(0, 10); //基站编号
+				sheet.setColumnView(1, 30); //基站名称
+				sheet.setColumnView(2, 10); //基站归属
+				sheet.setColumnView(3, 10); //基站状态
+				sheet.setColumnView(4, cellView); //备注
+
+				sheet.addCell(label_1);
+				sheet.addCell(label_2);
+				sheet.addCell(label_3);
+				sheet.addCell(label_4);
+				sheet.addCell(label_5);
+				
+				List<BsRunStatusBean> list = BsStatusService.excelToBsRunStatus();
+				for (int i = 0; i < list.size(); i++) {
+					BsRunStatusBean bean = (BsRunStatusBean) list.get(i);
+					
+					Label value_1 = new Label(0, i + 1, String.valueOf(bean.getBsId()), fontFormat_Content);
+					Label value_2 = new Label(1, i + 1, bean.getName(),fontFormat_Content);
+					Label value_3 = new Label(2, i + 1, bean.getHometype(),fontFormat_Content);
+					Label value_4 = new Label(3, i + 1, bean.getLink()==1?"OK":"NO",fontFormat_Content);
+					Label value_5 = new Label(4, i + 1, bean.getNote(),fontFormat_Content);
+					sheet.setRowView(i + 1, 300);
+					sheet.addCell(value_1);
+					sheet.addCell(value_2);
+					sheet.addCell(value_3);
+					sheet.addCell(value_4);
+					sheet.addCell(value_5);
+				}
+
+				book.write();
+				book.close();
+				System.out.print("基站状态检查表");
+				DownExcelFile(response, pathname);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
 
 	public void DownExcelFile(HttpServletResponse response, String filePath)
 			throws Exception {

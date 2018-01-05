@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.mapper.BsStatusMapper;
@@ -38,6 +39,20 @@ public class BsStatusService {
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		List<BsStatusBean> list = mapper.excelToBsStatus();
+		session.close();
+		return list;
+	}
+	/**
+	 * 导出现网基站的运行状态
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<BsRunStatusBean> excelToBsRunStatus() throws Exception {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		List<BsRunStatusBean> list = mapper.excelToBsRunStatus();
 		session.close();
 		return list;
 	}

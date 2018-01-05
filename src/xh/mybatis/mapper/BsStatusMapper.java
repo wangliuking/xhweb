@@ -3,6 +3,7 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 
@@ -18,6 +19,13 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<BsStatusBean> excelToBsStatus() throws Exception;
+	
+	/**
+	 * 导出现网基站的运行状态
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BsRunStatusBean> excelToBsRunStatus() throws Exception;
 	
 	/**
 	 * 基站下的环控状态

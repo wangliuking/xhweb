@@ -24,7 +24,7 @@
 		useCache="true">
 		select
 		a.bsId,a.name,a.status,
-		b.clock_status,b.Returnloss1,b.Returnloss2,b.runtime as bscRuntime,
+		b.clock_status,b.Returnloss1,b.Returnloss2,b.runtime as bscRuntime,b.psm1runtime,b.psm2runtime,
 		c.runtime as enbRuntime
 		from xhgmnet_bs_station a
 		left join
@@ -33,6 +33,13 @@
 		xhgmnet_enbstatus c on b.bsId=c.enbId
 		where a.bsId not in(select bsIds
 		from xhgmnet_stationalarm) order by a.bsId
+		asc;
+	</select>
+		<!--导出现网基站的运行状态 -->
+	<select id="excelToBsRunStatus" resultType="xh.mybatis.bean.BsRunStatusBean"
+		useCache="true">
+		select a.bsId,a.name,a.hometype,b.link from xhgmnet_bs_station as a
+		left join view_bsstatus as b on a.bsId=b.bsId  order by a.bsId
 		asc;
 	</select>
 	<!--基站下的环控fsuId -->
