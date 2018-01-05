@@ -188,6 +188,116 @@ xh.load = function() {
 		
 	});
 };
+xh.tree=function(){
+	xh.loadbsAlarmTypePie = function(){
+		// 设置容器宽高
+		var resizeBarContainer = function(){
+			$("#bs-pie").width(parseInt($("#bs-pie").parent().width()));
+			$("#bs-pie").height(200);
+		}
+		resizeBarContainer();
+		var startTime=$("input[name='startTime']").val();
+		var endTime=$("input[name='endTime']").val();
+		var level_value =[],type_value=[]; 
+		$('input[name="level"]:checked').each(function(){ 
+		level_value.push($(this).val()); 
+		}); 
+		$('input[name="type"]:checked').each(function(){ 
+			type_value.push($(this).val()); 
+		});
+		
+		// 基于准备好的dom，初始化echarts实例
+		var chart = null;
+		if(chart != null){
+			chart.clear();
+			chart.dispose();
+		}
+		require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
+			chart = ec.init(document.getElementById('bs-pie'));
+			chart.showLoading({
+				text : '正在努力的读取数据中...'
+			});
+			var option = {
+				title : {
+					x : 'center',
+					text : '故障类型统计图 ',
+					subtext : '',
+					textStyle : {
+						color : '#fff'
+					}
+				},
+				tooltip : {
+					trigger : 'item',
+					formatter : "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend : {
+					orient : 'vertical',
+					x : 'left',
+					data : [ '严重告警', '主要告警', '一般告警' ]
+				},
+			
+				calculable : true,
+				backgroundColor : background,
+				series : [ {
+					name : '类型',
+					type : 'pie',
+					radius : '50%',
+					center : [ '70%', '55%' ],
+					itemStyle : {
+						normal : {
+							color : function(params) {
+								// build a color map as your need.
+								var colorList = [ 'red', '#B22222', 'yellowgreen' ];
+								return colorList[params.dataIndex];
+							},
+							label : {
+								show : true,
+								position : 'top',
+								formatter : '{b}\n{c}'
+							}
+						}
+					},
+					data : []
+				} ]
+			};
+
+			$.ajax({
+				url : '../../bsAlarm/data/bsAlarmLevelChart',
+				data : {
+					startTime:startTime,
+					endTime:endTime,
+					level:level_value.join(","),
+					type:type_value.join(",")
+				},
+				type : 'get',
+				dataType : "json",
+				async : false,
+				success : function(response) {
+					var data = response.items;
+					var y=[],x=[];	
+					for(var i=0;i<data.length;i++){
+						y.push(data[i].name);
+						x.push(data[i].value);
+						
+					}
+					/*option.xAxis[0].data = y;*/
+					option.series[0].data = data;
+					chart.hideLoading();
+					chart.setOption(option);
+
+				},
+				failure : function(response) {
+				}
+			});
+
+		});
+		/*// 用于使chart自适应高度和宽度
+		window.onresize = function() {
+			// 重置容器高宽
+			chart.resize();
+		};*/
+	};
+}
 
 // 刷新数据
 xh.refresh = function() {

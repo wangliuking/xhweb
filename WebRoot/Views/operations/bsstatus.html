@@ -183,6 +183,7 @@
 			 <div class="row">
 
 				<div class="col-md-12">
+				 <!-- <div id="tree"></div> -->
 					<div ng-if="totals==0">未找到相关数据</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
 						status-value="{{x.status}}" data-toggle='tooltip' title="{{x.name}}" data-placement="top">
@@ -201,42 +202,10 @@
 							class="td-success bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
 						<div style="cursor: pointer;" class="td-gray bs-info"
 							ng-if="x.status==0">{{x.bsId}}</div>
-						<!-- <div ng-if="x.status==1 &&x.link==0">
-							<div style="cursor: pointer;" ng-click="showGroupUser($index)">
-
-								注册组/终端数量:&nbsp; <span ng-if='x.groupSum==null'
-									style="color:blue">[0 ]</span> <span ng-if='x.groupSum!=null'
-									style="color:blue">[{{x.groupSum}} ]</span>/ <span
-									ng-if='x.userSum==null' style="color:blue">[0 ]</span> <span
-									ng-if='x.userSum!=null' style="color:blue">[{{x.userSum}}
-									]</span>
-
-							</div>
-							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
-									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;{{x.deviceAlarmSum}}
-								</span>
-							</div>
-
-						</div>
-						<div ng-if="x.status==1 &&x.link!=0">
-
-							<div>
-
-								注册组/终端数量:&nbsp;<span style="color:blue">0/0</span>
-
-							</div>
-							<div>
-								<span ng-if="x.deviceAlarmSum==null">设备异常统计数量:&nbsp;0 </span> <span
-									ng-if="x.deviceAlarmSum!=null">设备异常统计数量:&nbsp;0 </span>
-							</div>
-
-						</div> -->
 
 
 
-
-					</div>
+					</div> 
 				</div>
 			</div>
 			<!-- row-end -->

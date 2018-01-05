@@ -12,6 +12,9 @@ public interface ServerStatusMapper {
 	 */
 	public List<Map<String,Object>> serverstatus() throws Exception;
 	
+	/*基站传输*/
+	public List<Map<String,Object>> icpStatus() throws Exception;
+	
 	/* <!-- 更新交换中心告警标志 -->*/
 	/**
 	 * 更新交换中心告警标志

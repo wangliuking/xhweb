@@ -1,0 +1,339 @@
+
+<div ng-show="emhData.totals>0">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<div class="panel-tools">
+						<!-- <a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+							class="closebox"><i class="fa fa-times"></i></a> -->
+							<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
+					</div>
+					开关量
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div style="width:200px;"
+								ng-class="{'panel-card hbgreen':emhData.door==0,'panel-card hbgred':emhData.door==1}">
+								<div class="card-img">
+									<i class="fa fa-bell fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>门磁传感器</label></br> <i class="fa fa-check-square-o"
+										ng-if="emhData.door==0"></i> <i class="fa fa-close"
+										ng-if="emhData.door==1"></i> <span ng-if="emhData.door==0">门关闭</span>
+									<span ng-if="emhData.door==1">门打开</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div style="width:200px;"
+								ng-class="{'panel-card hbgreen':emhData.smoke==0,'panel-card hbgred':emhData.smoke==1}">
+								<div class="card-img">
+									<i class="fa fa-fire fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>烟雾传感器</label></br> <i class="fa fa-check-square-o"
+										ng-if="emhData.smoke==0"></i> <i class="fa fa-close"
+										ng-if="emhData.smoke==1"></i> <span ng-if="emhData.smoke==0">正常</span>
+									<span ng-if="emhData.smoke==1">异常</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div style="width:200px;"
+								ng-class="{'panel-card hbgreen':emhData.red==0,'panel-card hbgred':emhData.red==1}">
+								<div class="card-img">
+									<i class="fa fa-magic fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>红外传感器</label></br> <i class="fa fa-check-square-o"
+										ng-if="emhData.red==0"></i> <i class="fa fa-close"
+										ng-if="emhData.red==1"></i> <span ng-if="emhData.red==0">正常</span>
+									<span ng-if="emhData.red==1">异常</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div style="width:200px;"
+								ng-class="{'panel-card hbgreen':emhData.water==0,'panel-card hbgred':emhData.water==1}">
+								<div class="card-img">
+									<i class="fa fa-tint fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>水浸传感器</label></br> <i class="fa fa-check-square-o"
+										ng-if="emhData.water==0"></i> <i class="fa fa-close"
+										ng-if="emhData.water==1"></i> <span ng-if="emhData.water==0">正常</span>
+									<span ng-if="emhData.water==1">异常</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<div class="panel-tools">
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
+					</div> 
+					温湿度
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div id="temp-div"
+								style="height:200px;background:#fff; width:200px;color:#fff;margin:0;padding:0"></div>
+						</div>
+						<div class="col-md-6">
+							<div id="damp-div"
+								style="height:200px;background:#fff; width:200px;color:#fff;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+				</div>
+
+			</div>
+		</div> 
+	</div>
+	<!-- row -->
+
+	<!-- row -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<div class="panel-tools">
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
+					</div>
+					EPS配电设备
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12 div-left">
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输入相电压</label></br> <span>{{emhData.ups1}}V</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输出相电压</label></br> <span>{{emhData.ups2}}V</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>输出频率</label></br> <span>{{emhData.ups3}}Hz</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>电池组电压</label></br> <span>{{emhData.ups4}}V</span>
+
+								</div>
+							</div>
+						</div>
+						<!-- col-md-3 -->
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- row -->
+	
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<div class="panel-tools">
+						<span style="color:blue;" ng-show="emhData.period==4">数据采集时间：{{emhData.time}}</span>
+					</div>
+					智能电表
+				</div>
+				<div class="panel-body">
+					<div class="row">
+					
+					
+						<div class="col-md-12 div-left" >
+							
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>电压</label></br> <span>{{emhData.e1}}V</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>电流</label></br> <span>{{emhData.e2}}A</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>功率因数</label></br> <span>{{emhData.e3}}</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>电表度数</label></br> <span>{{emhData.e4}}KWH</span>
+
+								</div>
+							</div>
+							<div class="panel-card hbgreen">
+								<div class="card-img">
+									<i class="fa fa-cube fa-3x"></i>
+								</div>
+								<div class="card-info">
+									<label>频率</label></br> <span>{{emhData.e5}}Hz</span>
+
+								</div>
+							</div>
+						</div>
+						<!-- col-md-3 -->
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- row -->
+	
+	<!-- row -->
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="hpanel">
+				<div class="panel-heading hbuilt">
+					<!-- <div class="panel-tools">
+						<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+							class="closebox"><i class="fa fa-times"></i></a>
+					</div> -->
+					交换中心环控告警列表
+				</div>
+				<div class="panel-body">
+					<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-img-gray">
+							
+							<th>告警类型</th>
+							<th>告警值</th>
+							<th>告警描述</th>
+							<th>告警时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="emhData.alarmTotals==0">
+							<td colspan="4" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in emhAlarm">
+							<td>
+							{{x.deviceName}}
+							 <!-- <span ng-if="x.deviceId=='170200000000001'"> 温湿度</span>
+							 <span ng-if="x.deviedId=='170100000000001'"> 温湿度</span>
+							 <span ng-if="x.deviceId=='170300000000001'"> 水浸传感器</span>
+							 <span ng-if="x.deviceId=='170400000000001'"> 烟雾</span>
+							 <span ng-if="x.deviceId=='170500000000001'"> 红外</span>
+							 <span ng-if="x.deviceId=='170700000000001'"> 门磁</span>
+							 <span ng-if="x.deviceId=='080200000000001'"> 电源</span>
+							 <span ng-if="x.deviceId=='760300000000001'"> 环控采集器</span>
+							 <span ng-if="x.deviceId=='920100000000001'"> 智能电表</span> -->
+							</td>
+							<td>{{x.singleValue}}</td>
+							<td class="td-danger">
+							<span ng-if="x.singleId=='017010'"> 温度过高告警</span>
+							<span ng-if="x.singleId=='017011'">温度高告警</span>
+							<span ng-if="x.singleId=='017012'">温度过低告警</span>
+							<span ng-if="x.singleId=='017013'">湿度过高告警</span>
+							<span ng-if="x.singleId=='017014'">湿度过低告警</span>
+							<span ng-if="x.singleId=='017001'">水浸告警</span>
+							<span ng-if="x.singleId=='017002'">烟雾告警</span>
+							<span ng-if="x.singleId=='017004'">红外告警</span>
+							<span ng-if="x.singleId=='017020'">门碰告警</span>
+							<span ng-if="x.singleId=='092001'">市电停电</span>
+							<span ng-if="x.singleId=='092002'">市电缺相</span>
+							<span ng-if="x.singleId=='092004'">交流电压过高告警</span>
+							<span ng-if="x.singleId=='092005'">交流电压过低告警</span>
+							<span ng-if="x.singleId=='076002'">非智能设备采集器通信状态告警</span>
+							<span ng-if="x.singleId=='076501'">开关电源通信状态告警</span>
+							<span ng-if="x.singleId=='076507'">UPS设备通信状态告警</span>
+							<span ng-if="x.singleId=='076509'">智能电表通信状态告警</span>
+							
+							</td>
+							<td>{{x.updateTime}}</td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- row -->
+	
+
+
+</div>
+
+<div ng-show="emhData.totals<=0">
+	<div class="error-container" style="margin:0 auto;text-align: center;">
+		<h1>
+			<i class="fa fa-question-circle-o fa-3x text-success"></i>
+		</h1>
+		<h2>该站点下的环境监控设备未找到！</h2>
+	</div>
+</div>
+
+
+<!-- row -->
+<script src="../../demo/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+	var $scope = angular.element(appElement).scope();
+	$scope.loadTemp();
+	$scope.loadDamp();
+	/* 温度*/
+	/* xh.loadTemp(); */
+	/* 湿度*/
+	/* xh.loadDamp(); */
+</script>
+<script type='text/javascript' src='jwplayer.js'></script>
+

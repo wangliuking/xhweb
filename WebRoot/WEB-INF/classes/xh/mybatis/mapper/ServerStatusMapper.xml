@@ -41,6 +41,12 @@
      where ((memUsed/(1024*1024*1024))/(memSize/(1024*1024*1024))&gt;=0.9 
 	  or (diskUsed/(1024*1024*1024))/(diskSize/(1024*1024*1024))&gt;=0.9) and typeId=1 and alarmStatus=0
     </select> 
+    <!-- 基站传输 -->
+    <select id="icpStatus" resultType="map" useCache="true">
+    select a.bsId,a.icp_status,b.name,b.period from xhgmnet_bs_main_info as a
+    left join xhgmnet_bs_station as b on a.bsId=b.bsId  where a.icp_status=1
+    order by a.bsId asc
+    </select>
    
    
 </mapper>
