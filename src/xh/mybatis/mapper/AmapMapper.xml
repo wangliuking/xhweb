@@ -93,4 +93,61 @@
          #{item}
         </foreach>
 	</select>
+	
+	<!-- gis显示配置 -->
+	
+	<!-- 根据不同用户查询gisView显示表的数目，用于同bsstation比对 -->
+	<select id="gisViewCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_gisView where userId=#{userId}	
+	</select>
+	
+	<!-- 删除该用户的所有显示基站 -->
+	<delete id="deleteByUserId" parameterType="map">
+		delete from xhgmnet_bs_gisView where userId=#{userId}
+	</delete>
+	
+	<!-- 为该用户添加默认显示所有基站 -->
+	<insert id="insertByUserId" parameterType="map">
+		insert into xhgmnet_bs_gisview (userId,bsId,name,level,zone) 
+		select #{userId} as userId,a.bsId,a.name,a.level,a.zone from xhgmnet_bs_station as a
+	</insert>
+	
+	<!-- 根据用户查询gisView -->
+	<select id="gisViewByUserId" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	
+	</select>
+	
+	<!-- 根据用户查询需要显示的基站 -->
+	<select id="gisViewByUserIdForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	and showStatus=1
+	</select>
+	
+	<!-- 根据区域查询该用户的基站显示情况 -->
+	<select id="gisViewByUserIdAndZoneForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	and zone=#{zone}
+	</select>
+	
+	<!-- 根据级别查询该用户的基站显示情况 -->
+	<select id="gisViewByUserIdAndLevelForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	and level=#{level}
+	</select>
+	
+	<!-- 根据用户和基站id更新显示的配置 -->
+	<update id="updateBatch" parameterType="map">
+        update xhgmnet_bs_gisView
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="showStatus = case" suffix="end,">
+                <foreach collection="listMap" item="item" index="index">
+                     when bsId=#{item.bsId} then #{item.showStatus}
+                </foreach>
+            </trim>
+        </trim>
+        where userId=#{userId}
+    </update>
+	
 </mapper>

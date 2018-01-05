@@ -151,7 +151,130 @@ public class AmapService {
 	        session.close();
 	        return roadList;   
 	}
+	
+	/**
+	 * gis显示部分
+	 */
+	
+	/**
+	 * 根据不同用户查询gisView显示表的数目，用于同bsstation比对
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public int gisViewCount(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		int count = mapper.gisViewCount(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
+	
+	/**
+	 * 删除该用户的所有显示基站
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteByUserId(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		int count = mapper.deleteByUserId(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
+	
+	/**
+	 * 为该用户添加默认显示所有基站
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertByUserId(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		int count = mapper.insertByUserId(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
+	
+	/**
+	 * 根据用户查询gisView
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> gisViewByUserId(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> list = mapper.gisViewByUserId(map);
+	        session.commit();  
+	        session.close();
+	        return list;   
+	}
 
+	/**
+	 * 根据用户查询需要显示的基站
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> gisViewByUserIdForShow(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> list = mapper.gisViewByUserIdForShow(map);
+	        session.commit();  
+	        session.close();
+	        return list;   
+	}
+	
+	/**
+	 * 根据区域查询该用户的基站显示情况
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> gisViewByUserIdAndZoneForShow(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> list = mapper.gisViewByUserIdAndZoneForShow(map);
+	        session.commit();  
+	        session.close();
+	        return list;   
+	}
+	
+	/**
+	 * 根据级别查询该用户的基站显示情况
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String, String>> gisViewByUserIdAndLevelForShow(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		List<HashMap<String, String>> list = mapper.gisViewByUserIdAndLevelForShow(map);
+	        session.commit();  
+	        session.close();
+	        return list;   
+	}
+	
+	/**
+	 * 根据用户和基站id更新显示的配置
+	 * @author wlk
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateBatch(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=session.getMapper(AmapMapper.class);
+		int count = mapper.updateBatch(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
 	
 
 }
