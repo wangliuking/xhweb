@@ -66,7 +66,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 		return response;
 	}
 	
-	public static String parseXml(String xml) throws DocumentException{
+	public static String parseXml(String xml) throws DocumentException {
 		SAXReader reader = new SAXReader();
 		reader.setEncoding("GBK");
 		Document document = null;
@@ -126,7 +126,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 						Element e = (Element)list.get(j);
 						map.put(e.getName(), e.getText());	
 						//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
-						String serialNo = map.get("SerialNo");
+						/*String serialNo = map.get("SerialNo");
 						List<Map<String,String>> serialList = GosuncnService.selectBySerialNo(serialNo);
 						if(serialList!=null){
 							String startTime = serialList.get(0).get("alarmTime");
@@ -134,7 +134,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 							GosuncnService.deleteBySerialNo(serialNo);
 						}else{
 							map.put("startTime", null);
-						}
+						}*/
 					}							
 					map.put("FSUID", FSUID);
 					dataList.add(map);

@@ -284,6 +284,40 @@ public class GosuncnService {
 	}
 	
 	/**
+	 * 查询不同传感器的告警 
+	 */
+	public static List<Map<String, String>> selectByDevice(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectByDevice();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 查询不同级别的告警 
+	 */
+	public static List<Map<String, String>> selectByAlarmLevel(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectByAlarmLevel();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 根据基站id查询摄像头ip
 	 */
 	public static List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map){

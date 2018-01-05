@@ -96,6 +96,20 @@ public interface GosuncnMapper {
 	public int countEMHAlarm(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 查询不同传感器的告警 
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectByDevice()throws Exception;
+	
+	/**
+	 * 查询不同级别的告警
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectByAlarmLevel()throws Exception;
+	
+	/**
 	 * 根据基站id查询摄像头IP
 	 */
 	public List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map)throws Exception;
