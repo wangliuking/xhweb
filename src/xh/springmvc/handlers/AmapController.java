@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +22,9 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.AmapService;
+import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.RadioStatusService;
+import xh.org.listeners.SingLoginListener;
 
 
 @Controller
@@ -251,6 +254,52 @@ public class AmapController {
 			tempmap.put("bsIds", bsIds);
 			AmapService amapService = new AmapService();
 			List<HashMap<String, String>> listMap = amapService.selectRoadById(tempmap);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * gis显示基站查询
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/gisView")
+	@ResponseBody
+	public void gisView(HttpServletRequest request, HttpServletResponse response, HttpSession session){	
+		try {
+			FunUtil funUtil = new FunUtil();
+			String userId = funUtil.loginUser(request);
+			System.out.println(userId);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("bsId", null);
+			map.put("name", null);
+			int bsTableNum = BsstationService.bsCount(map);
+			AmapService amapService = new AmapService();
+			
+			Map<String, Object> temp = new HashMap<String, Object>();
+			temp.put("userId", userId);
+			int gisViewTableNum = amapService.gisViewCount(map);
+			
+			//比较bsTableNum和gisViewTableNum，若不一致则需要更新该用户的gisView
+			if(bsTableNum == gisViewTableNum){
+				
+			}else{
+				//更新前删除该用户的gisView
+				amapService.deleteByUserId(temp);
+				//与bsstation同步
+				amapService.insertByUserId(temp);
+			}
+			
+
+			List<HashMap<String, String>> listMap = null;
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
