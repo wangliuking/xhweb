@@ -13,9 +13,8 @@
     <!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
 
     <!-- Vendor styles -->
-    <link rel="stylesheet" href="Homer/vendor/fontawesome/css/font-awesome.css" />
     <link rel="stylesheet" href="Homer/vendor/animate.css/animate.css" />
-    <link rel="stylesheet" href="Homer/vendor/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
 
     <link rel="stylesheet" href="Homer/styles/style.css">
     <style type="text/css">
@@ -76,9 +75,8 @@
                 并且将所有用户的业务应用（主要包括GPS/SMS信息上传业务、
                 系统录音业务、系统设备管理、语音调度业务）进行了统一接入和集中管理。<br>
                 系统规模：
-               基站： 	772个 ,	用户：10万；	通话组：5000
-               GPS数据： 180条/秒；同步时钟：GPS/北斗/NTP/内部高稳晶振
-               API接口：GPS/SMS、UCM、录音、调度、设备信息等功能接口
+               基站（772个） ,	用户（10万），通话组（5000个）<br>
+               API接口：GPS/SMS、UCM、录音、调度等功能接口
                 
             </p>
             <!-- <a href="#" class="btn btn-success btn-sm">Learn more</a> -->
@@ -100,19 +98,43 @@
 <section>
     <div class="container">
     <div class="row">
+     <div class="col-md-4">
+            <h4>网络安全</h4>
+            <p>应用网络防火墙增强平台网络安全</p>
+            <p>应用CA认证对用户进行登录验证</p>
+            <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
+        </div>
+       
         <div class="col-md-4">
-            <h4>电子流程</h4>
-            <p>平台采用“无纸化”方针，在平时业务办理中采取“申请-审核-记录”等方式进行业务流转</p>
+            <h4>GIS应用</h4>
+            <p>基于政务云平台获取在线GIS地图</p>
+            <p>提供基站分布，告警，多维度图层管理等GIS应用</p>
             <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
         </div>
         <div class="col-md-4">
-            <h4>智能运维</h4>
-            <p>系统告警第一时间通知运维服务人员，实时声音告警提示，智能分析告警信息，并提供自动生成故障分析报告</p>
+            <h4>大数据分析及可视化</h4>
+            <p>采用人工智能技术对平台数据进行分析、统计</p>
+            <p>对交换中心的健康度、基站风险进行可视化展示</p>
+            <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>应用服务器集群</h4>
+            <p>用于部署GPS、SMS、UCM、录音、语音调度等业务</p>
+            <p>动态可扩展</p>
             <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
         </div>
         <div class="col-md-4">
-            <h4>大数据分析</h4>
-            <p>采用人工智能分析平台数据，统计，分析，实现大数据可视化，展示交换中心的健康度，基站风险等</p>
+            <h4>运维智能化</h4>
+            <p>系统告警实时声音告警提示</p>
+            <p>智能分析告警信息，并提供自动生成故障分析报告</p>
+            <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
+        </div>
+        <div class="col-md-4">
+            <h4>融合通信</h4>
+            <p>对多个通信网络进行统一接入管理</p>
+            <p>提供不同通信网络的语音及数据业务的互联互通能力</p>
             <!-- <p><a class="navy-link btn btn-sm" href="#" role="button">Learn more</a></p> -->
         </div>
     </div>
@@ -131,42 +153,7 @@
                 <p>系统采用CA认证方式实现单点登录</p>
             </div>
         </div>
-        <!-- <div class="row m-t-md">
-            <div class="col-md-12">
-                <img src="Homer/images/landing/p1.png" class="img-responsive">
-            </div>
-        </div> -->
-        <div class="row m-t-xl">
-           <div class="col-md-6">
-           <h4 class="m-t-xxl">融合通信</h4>
-           <p class="text-muted">
-                               融合通信交换：
-                                 不同厂家TETRA互联：一二期Motorola和三四期东信系统；
-                               地面与地下系统互联：地铁1--4，7、10号线应急通信网与现网交换中心对接；
-                               不同通信体制互联：800MHz和350MHz MPT1327模拟集群、数字PDT集群互联互通；
-                               扩展：具备统一接口及接入能力，未来考虑接入LTE及APP等。
-
-                            </p>
-            </div>
-           <div class="col-md-6">
-                <img src="Homer/images/landing/s1.png" class="img-responsive">
-                <p> </p>
-            </div>
-        </div>
         <!-- row -->
-         <div class="row">
-            
-            <div class="col-md-4">
-                <img src="Homer/images/landing/s2.png" class="img-responsive">
-            </div>
-            <div class="col-md-4">
-                <img src="Homer/images/landing/s3.png" class="img-responsive">
-            </div>
-            <div class="col-lg-4">
-                 <h4 class="m-t-xxl">大数据可视化及分析</h4>
-                <p>采用人工智能分析平台数据，统计，分析，实现大数据可视化</p>
-            </div>
-        </div>
          <div class="row m-t-xl">
            <div class="col-md-4">
            <h4 class="m-t-xxl">GIS应用</h4>
@@ -181,6 +168,53 @@
             </div>
             <div class="col-md-4">
                 <img src="Homer/images/landing/s5.png" class="img-responsive">
+                <p> </p>
+            </div>
+        </div>
+        <!-- row -->
+        
+         <div class="row">
+            
+            <div class="col-md-4">
+                <img src="Homer/images/landing/s2.png" class="img-responsive">
+            </div>
+            <div class="col-md-4">
+                <img src="Homer/images/landing/s3.png" class="img-responsive">
+            </div>
+            <div class="col-lg-4">
+                 <h4 class="m-t-xxl">大数据可视化及分析</h4>
+                <p>采用人工智能分析平台数据，统计，分析，实现大数据可视化</p>
+            </div>
+        </div>
+        <!-- row -->
+     <!--      <div class="row m-t-xl">
+           <div class="col-md-6">
+           <h4 class="m-t-xxl">运维智能化</h4>
+           <p class="text-muted">
+                 系统告警第一时间通知运维服务人员，实时声音告警提示，智能分析告警信息，并提供自动生成故障分析报告
+
+           </p>
+            </div>
+           <div class="col-md-6">
+                <img src="Homer/images/landing/s6.png" class="img-responsive">
+                <p> </p>
+            </div>
+        </div> -->
+        <!-- row -->
+        <div class="row m-t-xl">
+           <div class="col-md-6">
+           <h4 class="m-t-xxl">融合通信</h4>
+           <p class="text-muted">
+                               融合通信交换：
+                                 不同厂家TETRA互联：一二期Motorola和三四期东信系统；
+                               地面与地下系统互联：地铁1--4，7、10号线应急通信网与现网交换中心对接；
+                               不同通信体制互联：800MHz和350MHz MPT1327模拟集群、数字PDT集群互联互通；
+                               扩展：具备统一接口及接入能力，未来考虑接入LTE及APP等。
+
+                            </p>
+            </div>
+           <div class="col-md-6">
+                <img src="Homer/images/landing/s1.png" class="img-responsive">
                 <p> </p>
             </div>
         </div>
@@ -244,13 +278,14 @@
 </section>
 
 <!-- Vendor scripts -->
-<script src="Homer/vendor/jquery/dist/jquery.min.js"></script>
-<script src="Homer/vendor/jquery-ui/jquery-ui.min.js"></script>
-<script src="Homer/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="Resources/js/jquery-2.2.3.min.js"></script>
 <script src="Homer/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="Homer/vendor/metisMenu/dist/metisMenu.min.js"></script>
 <script src="Homer/vendor/iCheck/icheck.min.js"></script>
 <script src="Homer/vendor/sparkline/index.js"></script>
+
+<!-- App scripts -->
+<script src="Homer/scripts/homer.js"></script>
 
 
 <!-- Local script for menu handle -->
