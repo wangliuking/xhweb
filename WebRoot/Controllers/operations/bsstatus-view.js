@@ -45,7 +45,7 @@ xh.load = function() {
 			/*console.log("频点："+parseInt(text))*/
 			
 			if(parseInt(text)>0){
-				var fr=(parseInt(text)/1000000).toFixed(2)+"MHz";
+				var fr=(parseInt(text)/1000000).toFixed(6)+"MHz";
 				return fr
 			}else{
 				return "";
@@ -55,7 +55,7 @@ xh.load = function() {
 	app.filter('retLoss',function(){
 		return function(text){
 			if(text>0){
-				return text+'dB';
+				return text+'db';
 			}else{
 				return "";
 			}
@@ -64,7 +64,7 @@ xh.load = function() {
 	app.filter('fwdPa',function(){
 		return function(text){
 			if(text>0){
-				return text+'W';
+				return text+'db';
 			}else{
 				return "";
 			}
@@ -87,6 +87,7 @@ xh.load = function() {
 			url : "../../camera/startById?bsId=" + $scope.bsId,
 			dataType : "json",
 			success : function(result) {
+				
 			}
 		});
 		//end
@@ -144,6 +145,18 @@ xh.load = function() {
 					function(response) {
 						$scope.bscData = response.items;
 						$scope.bscTotals = response.totals;
+						
+						var record=0;
+						for(var i=0;i<$scope.bscTotals;i++){
+							if($scope.bscData[i].Id<=2 && $scope.bscData[i].online!=2){
+								record++;
+							}
+						}
+					
+					   $scope.bscExists=record;
+						
+						
+						
 					});
 		};
 		// 基站下的bsr状态
@@ -228,8 +241,13 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
-		$scope.loadTemp = function() {
-
+		$scope.loadTemp = function(temp) {
+			if(temp==null){
+				$("#temp-div").html("<span style='color:red;font-weight:700;'>温度数据获取失败</span>");
+				return;
+			}else{
+				$("#temp-div").html("");
+			}
 			// 基于准备好的dom，初始化echarts实例
 			var chart = null;
 			if (chart != null) {
@@ -314,7 +332,7 @@ xh.load = function() {
 							}
 						},
 						data : [ {
-							value : $scope.emhData.temp,
+							value : temp,
 							name : '温度'
 						} ]
 					} ]
@@ -325,8 +343,14 @@ xh.load = function() {
 			});
 		};
 		/* 湿度 */
-		$scope.loadDamp = function() {
-			// 基于准备好的dom，初始化echarts实例
+		$scope.loadDamp = function(damp) {
+			if(damp==null){
+				$("#damp-div").html("<span style='color:red;font-weight:700;'>湿度数据获取失败</span>");
+				return;
+			}else{
+				$("#damp-div").html("");
+			}
+			
 			var chart = null;
 			if (chart != null) {
 				chart.clear();
@@ -518,8 +542,8 @@ xh.load = function() {
 				$scope.emhData = response;
 				$scope.emhAlarm = response.alarmItems;
 
-				$scope.loadTemp();
-				$scope.loadDamp();
+				$scope.loadTemp($scope.emhData.temp);
+				$scope.loadDamp($scope.emhData.damp);
 
 			});
 

@@ -25,7 +25,7 @@
 						<tr ng-if="bsrTotals==0">
 							<td colspan="9" class="text-center">没有记录！</td>
 						</tr>
-						<tr ng-repeat="x in bsrData" ng-if="x.bsrIsEnable==1">
+						<tr ng-repeat="x in bsrData" ng-if="bscExists<2 &&x.bsrIsEnable==1">
 							<td>{{x.Id}}</td>
 							<td style="/* max-width: 100px;word-wrap:break-word; *//* word-break:break-all; */ ">
 							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
@@ -57,16 +57,27 @@
 							<td>{{x.freq2 |freqFormat}}</td>
 							<td>{{x.freq3 |freqFormat}}</td>
 							<td>{{x.freq4 |freqFormat}}</td>
-							<td>{{x.master}}</td>
-							<td ng-if="x.power>45">{{x.power-15}}W</td>
-							<td ng-if="x.power<=45">{{x.power}}W</td>
+							<td>
+							<span ng-if="x.master==0">未知</span>
+							<span ng-if="x.master==1">否</span>
+							<span ng-if="x.master==2">是</span>
+							</td>
+							<td ng-if="x.power>47">{{x.power-15}}db</td>
+							<td ng-if="x.power<=47">{{x.power}}db</td>
 							<td>{{x.updateTime}}</td>
 						</tr>
-						<tr ng-repeat="x in bsrData" ng-if="x.bsrIsEnable==0">
+						<tr ng-repeat="x in bsrData" ng-if="bscExists<2 && x.bsrIsEnable==0">
 							<td>{{x.Id}}</td>
 							
 							<td colspan="7">未启用</td>
 							<td>{{x.updateTime}}</td>
+						</tr>
+						<tr ng-if="bscExists>=2">
+							
+							<td colspan="9">
+							    获取设备数据失败！！！！！！
+							 </td>
+							
 						</tr>
 					</tbody>
 				</table>

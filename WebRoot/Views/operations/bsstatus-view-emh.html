@@ -15,12 +15,14 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div style="width:200px;"
-								ng-class="{'panel-card hbgreen':emhData.door==0,'panel-card hbgred':emhData.door==1}">
+								ng-class="{'panel-card hbgreen':emhData.door==0,'panel-card hbgred':emhData.door==1,'panel-card td-warning':emhData.door==null}">
 								<div class="card-img">
 									<i class="fa fa-bell fa-3x"></i>
 								</div>
 								<div class="card-info">
-									<label>门磁传感器</label></br> <i class="fa fa-check-square-o"
+									<label>门磁传感器</label></br> 
+									<span ng-if="emhData.door==null">数据获取失败！！</span>
+									<i class="fa fa-check-square-o"
 										ng-if="emhData.door==0"></i> <i class="fa fa-close"
 										ng-if="emhData.door==1"></i> <span ng-if="emhData.door==0">门关闭</span>
 									<span ng-if="emhData.door==1">门打开</span>
@@ -29,12 +31,14 @@
 						</div>
 						<div class="col-md-6">
 							<div style="width:200px;"
-								ng-class="{'panel-card hbgreen':emhData.smoke==0,'panel-card hbgred':emhData.smoke==1}">
+								ng-class="{'panel-card hbgreen':emhData.smoke==0,'panel-card hbgred':emhData.smoke==1,'panel-card td-warning':emhData.smoke==null}">
 								<div class="card-img">
 									<i class="fa fa-fire fa-3x"></i>
 								</div>
 								<div class="card-info">
-									<label>烟雾传感器</label></br> <i class="fa fa-check-square-o"
+									<label>烟雾传感器</label></br> 
+									<span ng-if="emhData.smoke==null">数据获取失败！！</span>
+									<i class="fa fa-check-square-o"
 										ng-if="emhData.smoke==0"></i> <i class="fa fa-close"
 										ng-if="emhData.smoke==1"></i> <span ng-if="emhData.smoke==0">正常</span>
 									<span ng-if="emhData.smoke==1">异常</span>
@@ -45,12 +49,14 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div style="width:200px;"
-								ng-class="{'panel-card hbgreen':emhData.red==0,'panel-card hbgred':emhData.red==1}">
+								ng-class="{'panel-card hbgreen':emhData.red==0,'panel-card hbgred':emhData.red==1,'panel-card td-warning':emhData.red==null}">
 								<div class="card-img">
 									<i class="fa fa-magic fa-3x"></i>
 								</div>
 								<div class="card-info">
-									<label>红外传感器</label></br> <i class="fa fa-check-square-o"
+									<label>红外传感器</label></br> 
+									<span ng-if="emhData.red==null">数据获取失败！！</span>
+									<i class="fa fa-check-square-o"
 										ng-if="emhData.red==0"></i> <i class="fa fa-close"
 										ng-if="emhData.red==1"></i> <span ng-if="emhData.red==0">正常</span>
 									<span ng-if="emhData.red==1">异常</span>
@@ -59,12 +65,14 @@
 						</div>
 						<div class="col-md-6">
 							<div style="width:200px;"
-								ng-class="{'panel-card hbgreen':emhData.water==0,'panel-card hbgred':emhData.water==1}">
+								ng-class="{'panel-card hbgreen':emhData.water==0,'panel-card hbgred':emhData.water==1 ,'panel-card td-warning':emhData.water==null}">
 								<div class="card-img">
 									<i class="fa fa-tint fa-3x"></i>
 								</div>
 								<div class="card-info">
-									<label>水浸传感器</label></br> <i class="fa fa-check-square-o"
+									<label>水浸传感器</label></br> 
+									<span ng-if="emhData.water==null">数据获取失败！！</span>
+									<i class="fa fa-check-square-o"
 										ng-if="emhData.water==0"></i> <i class="fa fa-close"
 										ng-if="emhData.water==1"></i> <span ng-if="emhData.water==0">正常</span>
 									<span ng-if="emhData.water==1">异常</span>

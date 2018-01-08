@@ -47,10 +47,8 @@ body {
 <style>
 body {
 	color: #fff;
-	background: #fff;
 	font-family: "微软雅黑";
 	font-size: 14px;
-	font-family: "微软雅黑";
 }
 
 .wrap1 {
@@ -70,8 +68,8 @@ body {
 	text-align: left;
 	float: none;
 	border-radius: 8px;
-	width: 400px;
-	background: #fff;
+	width:400px;
+	background:#fff;
 }
 
 .form-group {
@@ -139,144 +137,22 @@ body {
 	/* Firefox 3.6 - 15 */
 	background: linear-gradient(#4990c1, #52a3d2, #6186a3); /* 标准的语法 */
 }
-
-.login-div {
-	margin: 50px auto;
-	width: 1005px;
-	height: 500px;
-	/* background:#fff; */
-	
-}
-
-.login-title {
-	height: 60px;
-	padding: 10px;
-	color:#fff;
-}
-
-.login-footer {
-	height: 60px;
-	padding-top:30px;
-	color:#fff;
-}
-
-.login-content {
-	height: 380px;
-	width: 100%;
-	/* border:1px solid #ccc; */
-	
-}
-
-.login-content .v {
-	float: left;
-}
-
-.login-img {
-	width: 648px;
-	height: 100%;
-	/* background-image: url("../Resources/images/img/main3.jpg"); */
-}
-
-.login-info {
-	width: 348px;
-	height: 100%;
-	border:2px solid #ccc;
-	
-	/* border-radius:5px; */
-	
-	color:#000;
-}
-.form-control2{
-border:1px solid #fafafa;
-
-}
 </style>
 
 <!--[if lt IE 9]>   
 <script src="../Resources/js/respond.min.js"></script>
 <script src="../Resources/js/html5shiv.js"></script> 
-<![endif]-->
+<![endif]-->  
 
 </head>
-<body style="background:url(../Resources/images/img/main2.jpg) repeat-x;">
-	<div class="login-div">
+<body style="background:url(../Resources/images/img/ocean.jpg) no-repeat;">
 
-		<div class="login-title">
-			<h3>欢迎登录综合应用与管理平台</h3>
-		</div>
-
-		<div class="login-content">
-			<div class="login-img v">
-			<img src="../Resources/images/img/main6.jpg" width="648" height="100%"/>
-			</div>
-
-			<div class="login-info v">
-			
-			<div class="hpanel">
-					
-					<div class="panel-body" style="padding:20px 20px 20px 20px;height:378px;border:0px;background:#ccc;">
-					
-					<form action="#" id="loginForm" onSubmit="return false"
-				style="color:#000;">
-				<div class="form-group mg-t20">
-				<label>用户名</label>
-					<i class="fa fa-user icon_font"></i> <input class="login_input"
-						type="text" placeholder="请输入用户名" title="Please enter you username"
-						required="" value="" name="username" id="username"
-						class=".form-control2">
-				</div>
-				<div class="form-group mg-t20">
-				<label>密&nbsp;码</label>
-					<i class="fa fa-lock icon_font"></i> <input class="login_input"
-						type="password" title="Please enter your password"
-						placeholder="请输入密码" required="" value="" name="password"
-						id="password" class="form-control">
-				</div>
-				<!-- <div class="form-group mg-t20">
-				<label>数字证书</label>
-					<select title="请选择数字证书" name="CertList" id="CertList"
-						class="form-control">
-
-					</select><input id="ToSign"
-						name="ToSign" type="hidden" value=1501489194199> <input
-						name="Signature" type="hidden" id="Signature" class="form-control" style="height:30px;">
-
-				</div> -->
-				
-				<button class="btn btn-block btn-success" id="login-btn" style="margin-top:60px;">登录</button>
-			</form>
-					</div>
-				</div>
-			
-			</div>
-		</div>
-		<div class="login-footer">
-			<div class="row">
-				<div class="col-md-12 text-center" style="margin-top:10px">
-					<strong>powered by</strong> 成都亚光电子股份有限公司
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-
-	<!-- container wrap1 -->
-	<!-- <div class="" style="height:450px;">
-		<div class="row">
-			<div class="col-md-6">
-			<img alt="" src="../Resources/images/img/main.jpg" height="400px" width="600px">
-			</div>
-			<div class="col-md-6">
-				<div class="hpanel">
-					<div class="panel-heading hbuilt">
-						登录
-					</div>
-					<div class="panel-body">
-					
-					<form action="#" id="loginForm" onSubmit="return false"
-				style="color:#000;">
+	<div class="container wrap1" style="height:450px;">
+		<!-- <h2 class="mg-b20 text-center">综合应用与管理平台</h2> -->
+		<div class="col-sm-8 col-md-5 center-auto pd-sm-50 main_content">
+			<h3 class="mg-b20 text-center" style="color:#000;">综合应用与管理平台</h3>
+			<p class="text-center font16" style="color:#000;">登录</p>
+			<form action="#" id="loginForm" onSubmit="return false" style="color:#000;">
 				<div class="form-group mg-t20">
 					<i class="fa fa-user icon_font"></i> <input class="login_input"
 						type="text" placeholder="请输入用户名" title="Please enter you username"
@@ -289,44 +165,87 @@ border:1px solid #fafafa;
 						placeholder="请输入密码" required="" value="" name="password"
 						id="password" class="form-control">
 				</div>
-				<div class="form-group">
-					<select title="请选择数字证书" name="CertList" id="CertList"
-						class="form-control">
+				<!-- <div class="form-group">
+						<select title="请选择数字证书" name="CertList" id="CertList"
+							class="form-control">
 
-					</select> <span class="help-block small">数字证书</span> <input id="ToSign"
-						name="ToSign" type="hidden" value=1501489194199> <input
-						name="Signature" type="hidden" id="Signature">
+						</select> <span class="help-block small">数字证书</span> <input id="ToSign"
+							name="ToSign" type="hidden" value=1501489194199>
+						出于安全考虑，必须使用随机字符串
+						<input name="Signature" type="hidden" id="Signature">
 
-				</div>
-				 <div class=" mg-b25">
+					</div> -->
+				<!--  <div class=" mg-b25">
                         <label>
                             <input type="checkbox" />记住我的登录信息
                         </label>
-                    </div>
+                    </div> -->
 				<button class="btn btn-block btn-success" id="login-btn">登录</button>
 			</form>
-					</div>
-				</div>
-
-			</div>
-		</div> -->
-
-
-
-
-	<!-- <h2 class="mg-b20 text-center">综合应用与管理平台</h2> -->
-	<!-- <div class="col-sm-8 col-md-5 center-auto pd-sm-50 main_content">
-			<h3 class="mg-b20 text-center" style="color:#000;">综合应用与管理平台</h3>
-			<p class="text-center font16" style="color:#000;">登录</p>
-			
 		</div>
-		row end
+		<!--row end-->
 		<div class="row">
 			<div class="col-md-12 text-center" style="margin-top:10px">
 				<strong>powered by</strong> 成都亚光电子股份有限公司
 			</div>
-		</div> -->
-	<!-- </div> -->
+		</div>
+	</div>
+	<!--container end-->
+
+
+	<!-- <div class="login-container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-center m-b-md" style="margin-bottom:40px;">
+					<h3>综合应用与管理平台</h3>
+					<small>欢迎登录 ！</small>
+				</div>
+
+				class="form-inline"
+				<form form action="#" id="loginForm" onSubmit="return false">
+					<div class="form-group">
+						<label class="control-label" for="username">用户名</label> 
+						<input type="text" placeholder="用户名"
+							title="Please enter you username" required="" value=""
+							name="username" id="username" class="form-control">
+						<span
+									class="help-block small">Your unique username to system</span>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="password">密&nbsp;&nbsp;码</label> 
+						<input type="password" title="Please enter your password"
+							placeholder="******" required="" value="" name="password"
+							id="password" class="form-control">
+						<span
+									class="help-block small">Yur strong password</span>
+					</div>
+					<div class="form-group">
+						<select title="请选择数字证书" name="CertList" id="CertList"
+							class="form-control">
+
+						</select> <span class="help-block small">数字证书</span> <input id="ToSign"
+							name="ToSign" type="hidden" value=1501489194199>
+						出于安全考虑，必须使用随机字符串
+						<input name="Signature" type="hidden" id="Signature">
+
+					</div>
+					<div class="form-group">
+								<label class="control-label" for="password">验证码</label>
+								<input type="text" name="code" class="form-control" placeholder="请输入验证码" /><img id="codevalidate"
+								src="../code/0.3479" onclick="changeUrl()" alt="点击刷新验证码" style="margin-top:5px;" />
+							</div>
+
+					<button class="btn  btn-success btn-block" id="login-btn">登录</button>
+				</form>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-center" style="margin-top:10px">
+				<strong>powered by</strong> 成都亚光电子股份有限公司
+			</div>
+		</div>
+	</div> -->
 
 	<script type="text/javascript" src="../Resources/js/xhbootstrap-js.js"></script>
 

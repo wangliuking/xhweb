@@ -28,7 +28,7 @@
 						<tr ng-if="psmTotals==0">
 							<td colspan="12" class="text-center">没有记录！</td>
 						</tr>
-						<tr ng-repeat="x in psmData" ng-if="x.bdTmp1>0 && x.bdTmp2>0 && x.bdTmp3>0">
+						<tr ng-repeat="x in psmData" ng-if="bscExists<2 && (x.bdTmp1>0 || x.bdTmp2>0 || x.bdTmp3>0)">
 							<td>{{x.Id}}</td>
 							<td>
 							<span ng-if="x.dc12==1" class="label arrowed label-sm label-danger">DC12V异常</span>
@@ -60,13 +60,13 @@
 							
 							
 							<td>
-							<span ng-if="(x.bdTmp1/2)>0">{{x.bdTmp1/2}} ℃</span>
+							<span ng-if="(x.bdTmp1/2)>1">{{x.bdTmp1/2}} ℃</span>
 							</td>
 							<td>
-							<span ng-if="(x.bdTmp2/2)>0">{{x.bdTmp1/2}} ℃</span>
+							<span ng-if="(x.bdTmp2/2)>1">{{x.bdTmp2/2}} ℃</span>
 							</td>
 							<td>
-							<span ng-if="(x.bdTmp3/2)>0">{{x.bdTmp1/2}} ℃</span>
+							<span ng-if="(x.bdTmp3/2)>1">{{x.bdTmp3/2}} ℃</span>
 							</td>
 							
 							<td>
@@ -77,6 +77,13 @@
 							</td>
 						
 							<td>{{x.updateTime}}</td>
+						</tr>
+						<tr ng-if="bscExists>=2">
+							
+							<td colspan="12">
+							    获取设备数据失败！！！！！！
+							 </td>
+							
 						</tr>
 					</tbody>
 				</table>
