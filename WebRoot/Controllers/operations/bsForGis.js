@@ -36,36 +36,37 @@ xh.load = function() {
 		
 		$scope.selectForArea = function (zone){
 			/* 获取信息 */
-			$http.get("../../bs/map/bsByArea?zone="+zone).success(
+			$http.get("../../amap/map/gisViewByUserIdAndZoneForShow?zone="+zone).success(
 					function(response) {
+						console.log(response.items);
 						$scope.bs_search_data = response.items;
-						$scope.selectedArea = zone[0];
+						$scope.selectedArea = zone;
 					});
 		}		
 		//保存
 		$scope.save=function(){
 			var checkbox=$(".bsList").find("[type='checkbox']");			
-			var bsIds=[];
+			var listMap=[];
 			for(var i=0;i<checkbox.length;i++){
 				if(checkbox[i].checked==true){
-					bsIds.push(checkbox[i].value);
+					var tempMap = {"bsId":checkbox[i].value,"showStatus":"1"};
+					listMap.push(tempMap);
+				}else{
+					var tempMap = {"bsId":checkbox[i].value,"showStatus":"0"};
+					listMap.push(tempMap);
 				}
-			}
-			if(bsIds.length>0){
-				
-			}else{
-				$scope.bsIds="";
-			}			
+			}	
+			console.log(listMap);
 			$.ajax({
 				url : '../../amap/map/gisViewSave',
 				type : 'post',
 				dataType : "json",
-				data : {
-					bsIds:bsIds.join(",")
-				},
-				async : false,
+				contentType: "application/json",
+				data : JSON.stringify(listMap),
 				success : function(data) {
+					$('#myModal').hide();
 					toastr.success("配置成功", '提示');
+					
 				},
 				error : function() {
 					toastr.error("配置失败", '提示');
@@ -116,12 +117,9 @@ xh.loadMap = function(data) {
 		chart.showLoading({
 			text : '正在努力的读取数据中...'
 		});
-		var cityMap = {
-			    
+		var cityMap = {			    
 			    "成都市": "510100"
 			};
-
-
 			var curIndx = 0;
 			var mapType = [];
 			var mapGeoData = require('echarts/util/mapData/params');
@@ -142,12 +140,11 @@ xh.loadMap = function(data) {
 			var zrEvent = require('zrender/tool/event');
 			
 			chart.on('click', function(params) {
+				var appElement = document.querySelector('[ng-controller=bsForGis]');
 				var $scope = angular.element(appElement).scope();
-				var zone = [];
-				zone.push(params.name)
+				var zone = params.name;
 				$scope.selectForArea(zone);
 				$('#myModal').modal();
-				
 			});
 			
 			var option = {

@@ -18,7 +18,7 @@ public class AmapService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String, String>> bsByBoth(Map<String,List<String>> map) throws Exception{
+	public List<HashMap<String, String>> bsByBoth(Map<String,Object> map) throws Exception{
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AmapMapper mapper=session.getMapper(AmapMapper.class);
 		List<HashMap<String, String>> Amap=mapper.bsByBoth(map);

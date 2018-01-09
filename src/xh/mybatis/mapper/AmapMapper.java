@@ -9,7 +9,7 @@ public interface AmapMapper {
 	 * 根据所选条件查询所有基站
 	 * @author wlk
 	 */
-	public List<HashMap<String,String>> bsByBoth(Map<String,List<String>> map) throws Exception;
+	public List<HashMap<String,String>> bsByBoth(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 根据bsId查询单个基站的排队数

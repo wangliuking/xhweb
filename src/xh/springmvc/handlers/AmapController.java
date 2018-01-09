@@ -15,7 +15,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
@@ -48,7 +50,7 @@ public class AmapController {
 	public void bsByBoth(HttpServletRequest request, HttpServletResponse response){	
 		try {
 			HashMap map = new HashMap();
-			Map<String,List<String>> tempMap = new HashMap<String,List<String>>();
+			Map<String,Object> tempMap = new HashMap<String,Object>();
 			List<String> level = null;
 			List<String> zone = null;
 			AmapService AmapService = new AmapService();
@@ -63,9 +65,13 @@ public class AmapController {
 				String[] zonetemp = temp2.split(",");
 				zone = Arrays.asList(zonetemp);	
 			}
-				
+			
+			FunUtil funUtil = new FunUtil();
+			String userId = funUtil.loginUser(request);
+			tempMap.put("userId", userId);
 			tempMap.put("level", level);
 			tempMap.put("zone", zone);
+			System.out.println(tempMap);
 			List<HashMap<String, String>> listMap = AmapService.bsByBoth(tempMap);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
@@ -130,6 +136,9 @@ public class AmapController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		FunUtil funUtil = new FunUtil();
+		String userId = funUtil.loginUser(request);
+		map.put("userId", userId);
 		map.put("groupData", groupData);
 		map.put("currentMonth", currentMonth);
 		map.put("start", start);
@@ -190,6 +199,9 @@ public class AmapController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		FunUtil funUtil = new FunUtil();
+		String userId = funUtil.loginUser(request);
+		map.put("userId", userId);
 		map.put("currentMonth", currentMonth);
 		map.put("smallLng", smallLng);
 		map.put("bigLng", bigLng);
@@ -286,12 +298,11 @@ public class AmapController {
 			
 			Map<String, Object> temp = new HashMap<String, Object>();
 			temp.put("userId", userId);
-			int gisViewTableNum = amapService.gisViewCount(map);
+			int gisViewTableNum = amapService.gisViewCount(temp);
 			
 			//比较bsTableNum和gisViewTableNum，若不一致则需要更新该用户的gisView
-			if(bsTableNum == gisViewTableNum){
-				
-			}else{
+			System.out.println("bsTableNum:"+bsTableNum+"====="+"gisViewTableNum:"+gisViewTableNum);
+			if(bsTableNum != gisViewTableNum){
 				//更新前删除该用户的gisView
 				amapService.deleteByUserId(temp);
 				//与bsstation同步
@@ -300,6 +311,92 @@ public class AmapController {
 			
 
 			List<HashMap<String, String>> listMap = null;
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据区域查询该用户的基站显示情况
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/gisViewByUserIdAndZoneForShow")
+	@ResponseBody
+	public void gisViewByUserIdAndZoneForShow(HttpServletRequest request, HttpServletResponse response, HttpSession session){	
+		try {
+			FunUtil funUtil = new FunUtil();
+			String userId = funUtil.loginUser(request);
+			String zone = request.getParameter("zone");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userId", userId);
+			map.put("zone", zone);
+			AmapService amapService = new AmapService();
+			List<HashMap<String, String>> listMap = amapService.gisViewByUserIdAndZoneForShow(map);
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据用户和基站id更新显示的配置
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/map/gisViewSave",method=RequestMethod.POST)
+	@ResponseBody
+	public void gisViewSave(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody List<Map<String,Object>> listMap){	
+		try {
+			System.out.println(listMap);			
+			FunUtil funUtil = new FunUtil();
+			String userId = funUtil.loginUser(request);
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("userId", userId);
+			tempMap.put("listMap", listMap);
+			AmapService amapService = new AmapService();
+			int result = amapService.updateBatch(tempMap);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("success", "success");
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 根据用户查询需要显示的基站
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/gisViewByUserIdForShow")
+	@ResponseBody
+	public void gisViewByUserIdForShow(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			FunUtil funUtil = new FunUtil();
+			String userId = funUtil.loginUser(request);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userId", userId);
+			AmapService amapService = new AmapService();
+			List<HashMap<String, String>> listMap = amapService.gisViewByUserIdForShow(map);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");

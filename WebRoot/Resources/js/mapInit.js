@@ -235,7 +235,9 @@ app.controller("map", function($scope, $http) {
 						//判断是级别还是区域
 						if(!isNaN(params)){
 							var tempD = response.items;	
+							console.log(response);
 							var tempData = dataWithoutZero(tempD);
+							
 							//首页下方数据展示start
 							var a = z.join(",");
 							var b = t.join(",");
@@ -252,6 +254,12 @@ app.controller("map", function($scope, $http) {
 						}else{
 							var tempD = response.items;	
 							var tempData = dataWithoutZero(tempD);
+							var tempArr = [];
+							for(var i=0;i<tempData.length;i++){
+								var temp = tempData[i].lng+","+tempData[i].lat;
+								tempArr.push(temp);
+							}
+							console.log(tempArr);
 							//首页下方数据展示start
 							var a = z.join(",");
 							var b = t.join(",");
@@ -278,7 +286,7 @@ app.controller("map", function($scope, $http) {
 				z.push($(this).val());
 			});
 			if(t.length==0 && z.length==0){
-				$http.get("bs/map/data").success(
+				$http.get("amap/map/gisViewByUserIdForShow").success(
 						function(response) {
 							var tempD = response.items;	
 							var tempData = dataWithoutZero(tempD);
@@ -1671,7 +1679,7 @@ function getData() {
 	// 使用ajax获取后台所有基站数据
 	$.ajax({
 		type : "GET",
-		url : "bs/map/data",
+		url : "amap/map/gisViewByUserIdForShow",
 		dataType : "json",
 		success : function(dataMap) {
 			var tempData = dataMap.items;
