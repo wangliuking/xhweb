@@ -47,6 +47,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "10";//每页数据显示默认值
 		$scope.zone = $location.search().zone;
+		$scope.nowDate=xh.getOneDay();
 		if($scope.zone==null){
 			$scope.zone="全部"
 		}
@@ -245,12 +246,23 @@ xh.excelToBsRun=function(){
 //基站故障记录
 xh.excelToBsAlarm=function(){
 	xh.maskShow();
-	$("#btn-write").button('loading')
+	$("#btn-write").button('loading');
+	var startTime=$("input[name='startTime']").val();
+	var endTime=$("input[name='endTime']").val();
+	if(startTime=="" || endTime==""){
+		toastr.error("时间范围不能为空", '提示');
+		$("#btn-write").button('reset');
+		xh.maskHide();
+		return;
+	}
+	
 	$.ajax({
 		url : '../../bsstatus/ExcelToBsAlarm',
 		type : 'get',
 		dataType : "json",
 		data : {
+			startTime:startTime,
+			endTime:endTime
 		},
 		async : false,
 		success : function(data) {
@@ -299,6 +311,29 @@ xh.excelToBsstatus=function(){
 		}
 	});
 };
+xh.getOneDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"23:59:59";   
+    return  strYesterday;
+}
 
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {

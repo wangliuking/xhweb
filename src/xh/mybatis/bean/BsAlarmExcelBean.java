@@ -8,7 +8,7 @@ public class BsAlarmExcelBean {
 	private String weekly;//星期
 	private String time;//故障发生时间
 	private String from="网管";//报障来源
-	private int severity;//故障等级
+	private String severity="一般故障";//故障等级
 	private String type;//故障类别
 	private String reason;//故障原因
 	private String nowDeal;//目前处理情况
@@ -65,10 +65,11 @@ public class BsAlarmExcelBean {
 	public void setFrom(String from) {
 		this.from = from;
 	}
-	public int getSeverity() {
+	
+	public String getSeverity() {
 		return severity;
 	}
-	public void setSeverity(int severity) {
+	public void setSeverity(String severity) {
 		this.severity = severity;
 	}
 	public String getType() {

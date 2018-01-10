@@ -270,11 +270,11 @@
 	</select>
 	<!-- tera系统告警基站部分  导出excel -->
 	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
-		select a.subModId as bsId,a.time,a.description as reason,b.name,b.level,b.status,b.hometype 
+		select a.subModId as bsId,a.time,b.name,b.level,b.status,b.hometype 
 		from (select * from xhgmnet_eastcom_alarminfo order by time asc)  as a
 		left join xhgmnet_bs_station as b on a.subModId=b.bsId
 		
-		where a.modId=4 group by a.subModId order by time desc
+		where a.modId=4 and time between #{startTime} and #{endTime} group by a.subModId order by time desc
 	</select>	
 
 </mapper>

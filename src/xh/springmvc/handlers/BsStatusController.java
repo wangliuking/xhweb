@@ -257,6 +257,9 @@ public class BsStatusController {
 	@RequestMapping(value = "/ExcelToBsAlarm", method = RequestMethod.GET)
 	public void ExcelToBsAlarm(HttpServletRequest request,
 			HttpServletResponse response) {
+		
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
 		try {
 			String saveDir = request.getSession().getServletContext()
 					.getRealPath("/upload");
@@ -412,6 +415,8 @@ public class BsStatusController {
 			sheet.mergeCells(5, 0, 14, 0);  
 			
 			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("startTime", startTime);
+			map.put("endTime", endTime);
 			
 			List<BsAlarmExcelBean> list = BsStatusService.bsAlarmExcel(map);
 			for (int i = 0; i < list.size(); i++) {
@@ -423,7 +428,7 @@ public class BsStatusController {
 				Label value_5 = new Label(4, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
 				Label value_6 = new Label(5, i + 2,bean.getTime() ,fontFormat_Content);
 				Label value_7 = new Label(6, i + 2,bean.getFrom(),fontFormat_Content);
-				Label value_8 = new Label(7, i + 2, "",fontFormat_Content);
+				Label value_8 = new Label(7, i + 2, bean.getSeverity(),fontFormat_Content);
 				Label value_9 = new Label(8, i + 2, bean.getType(),fontFormat_Content);
 				Label value_10 = new Label(9, i + 2, bean.getReason(),fontFormat_Content);
 				Label value_11 = new Label(10, i + 2, bean.getNowDeal(),fontFormat_Content);
