@@ -58,5 +58,12 @@ public interface SqlServerMapper {
 	 * @throws Exception
 	 */
 	public int updateAlarmStatus(Map<String,Object> map) throws Exception;
-
+	
+	/**
+	 * 查询三期基站环控通断状态 wlk
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> selectConnectStatusForEMH3() throws Exception;
 }

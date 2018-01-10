@@ -350,6 +350,23 @@ public class GosuncnService {
 		}
 	}
 	
+	/**
+	 * 查询4期所有站的环控通断情况 
+	 */
+	public static List<Map<String, String>> selectFor4EMH(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectFor4EMH();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 	
 }

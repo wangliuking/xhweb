@@ -35,7 +35,7 @@ public class ADataController {
 	private Timer timer2 = new Timer();	
 	
 	/**
-	 * 获取动环相关信息
+	 * 开启视频流
 	 */
 	@RequestMapping("/startById")
 	public void oneBsInfo(HttpServletRequest request, HttpServletResponse response){

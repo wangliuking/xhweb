@@ -32,22 +32,80 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	var pageSize = $("#page-limit").val();
 	app.controller("gonsuncn", function($scope, $http) {
-		xh.maskShow();
-		$scope.count = "20";//每页数据显示默认值
-		$scope.operationMenu=true; //菜单变色
-		var deviceIds=[];
-		$(".form-inline input:checked").each(function(i){
-			deviceIds.push($(this).val());
-		});
-		var alarmLevel = $("#alarmLv  option:selected").val();
-		var alarmFlag = $("#alarmFlags option:selected").val();
-		$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
+		//xh.maskShow();
+		//34环控通断情况
+		$scope.selectForEMH = function() {
+			$http.get("../../gonsuncn/selectForEMH").
+			success(function(response){
+				xh.maskHide();
+				var emhData4 = response.items4;
+				var emhData3 = response.items3;
+				for(var i=0;i<emhData4.length;i++){
+					for(var j=0;j<emhData3.length;j++){
+						if(emhData4[i].bsId==parseInt(emhData3[j].JFNode)){
+							var tempState = emhData3[j].State.toLocaleLowerCase();
+							if("true"==tempState){
+								emhData4[i].siteId=emhData4[i].bsId;
+							}
+						}				
+					}
+				}
+				$scope.emhData4 = emhData4;
+				console.log(response.items.length);
+			});
+		}		
+		/*//4期环控通断情况
+		$http.get("../../gonsuncn/selectFor4EMH").
 		success(function(response){
 			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals),$scope);
+			$scope.emhData4 = response.items;
+			console.log(response.items.length);
 		});
+		//3期环控通断情况
+		$http.get("../../gonsuncn/selectFor3EMH").
+		success(function(response){
+			xh.maskHide();
+			$scope.emhData3 = response.items;
+			console.log(response.items);
+		});*/
+		
+		//显示当前鼠标移入的基站名称
+		$scope.showMouseChoosedBsName = function(bsName) {
+			$scope.choosedBsNameTitle = "当前基站名称："
+			$scope.choosedBsName = bsName;
+		}
+		//隐藏鼠标移出时的基站显示
+		$scope.hideMouseChoosedBsName = function() {
+			$scope.choosedBsNameTitle = ""
+			$scope.choosedBsName = "";
+		}
+		//点击跳转环控数据页面
+		$scope.emhView=function(index){
+			var bsId=$scope.emhData4[index].bsId;
+			var period=$scope.emhData4[index].period;
+			var bsName=$scope.emhData4[index].name;
+			window.location.href = "emhData.html?bsId=" + bsId+"&period="+period+"&bsName="+bsName;
+		};
+		
+		$scope.alarmlist = function() {
+			$scope.count = "10";//每页数据显示默认值
+			$scope.operationMenu=true; //菜单变色
+			var deviceIds=[];
+			$(".form-inline input:checked").each(function(i){
+				deviceIds.push($(this).val());
+			});
+			var alarmLevel = $("#alarmLv  option:selected").val();
+			var alarmFlag = $("#alarmFlags option:selected").val();
+			$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
+			success(function(response){
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(1, parseInt($scope.totals),$scope);
+			});
+		}
+		
+		
 		/*告警级别 告警状态*/
 		$scope.provs = [{"id":"0","name":"告警级别"},{"id":"1","name":"一级告警"},{"id":"2","name":"二级告警"},{"id":"3","name":"三级告警"}];
 		$scope.alarmStatus = [{"id":"0","name":"告警状态"},{"id":"1","name":"告警中"},{"id":"2","name":"告警结束"}];
@@ -155,19 +213,21 @@ xh.load = function() {
 			});
 			
 		};
+		
+		$scope.selectForEMH();
+		$scope.alarmlist();
+		xh.loadPieDev();
+		xh.loadPieLv();
+		/*setInterval(function() {
+			$scope.selectForEMH();
+			$scope.alarmlist();
+		}, 20000);*/
+		
 	});
 	
-	xh.loadPieDev();
-	xh.loadPieLv();
+	
 };
 
-// 刷新数据
-xh.refresh = function() {
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
-
-};
 /* 传感器统计图 */
 xh.loadPieDev = function() {
 	// 设置容器宽高
@@ -254,10 +314,11 @@ xh.loadPieDev = function() {
 				var legendData = [];
 				var seriesData = [];
 				for(var i=0;i<tempData.length;i++){
-					legendData.push(tempData[i].deviceName);	
+					legendData.push(tempData[i].deviceName);
 					var tempMap = {value:tempData[i].alarmNum, name:tempData[i].deviceName};
 					seriesData.push(tempMap);
-				}
+				};
+				
 				option.legend.data=legendData;
 				option.series[0].data=seriesData;
 				

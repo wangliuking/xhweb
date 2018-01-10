@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>环控数据情况</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
+<![endif]-->
+<style>
+#divPlugin {
+	z-index: 1000 !important;
+}
+
+.page-box .page-info {
+	padding: 10px;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>实时监测</span></li>
+							<li><a href="emhAlarm.html" target="_self"><span>环控告警</span></a></li>
+							<li class="active font-blod"><span style="color:red">【{{bsId}}-{{bsName}}】 环控状态</span></li>
+						</ol>
+					</div>
+					<div class="pull-right btn-group">
+						<a class="btn btn-success btn-sm" href="emhAlarm.html"
+							target="_self">返回</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel" data-effect="fadeInDown">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<ul id="xh-tabs" class="nav nav-tabs">
+								<li class="active"><a href="#emh" data-toggle="tab" >
+										环控状态</a></li>
+							</ul>
+							<div class="tab-content" style="padding:20px">
+								<div class="tab-pane fade in active" id="emh">
+									<div ng-include="'bsstatus-view-emh.html'"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<!-- panel -->
+				</div>
+			</div>
+			<!-- row---end -->
+
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加用户 -->
+	<!-- <div ng-include="'user-add.html'"></div> -->
+	<!-- 编辑基用户-->
+	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script src="../../demo/codebase/webVideoCtrl.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/emhData.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

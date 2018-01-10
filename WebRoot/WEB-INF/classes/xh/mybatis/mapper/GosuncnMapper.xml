@@ -161,5 +161,14 @@
 	<update id="updataCameraIpByFSUID" parameterType="map">
 		update xhgmnet_emh_camera set deviceIP=#{FSUIP} where fsuId=#{FSUID}
 	</update>
+	
+	<!-- 查询所有站的环控通断情况 -->
+	<select id="selectFor4EMH" resultType="map" useCache="true">
+	<![CDATA[
+		select a.*,b.fsuId,b.siteId,b.fsuIp from xhgmnet_bs_station as a LEFT JOIN 
+		(select x.fsuId,y.siteId,y.siteName,x.fsuIp from xhgmnet_emh_login as x LEFT JOIN xhgmnet_emh_config as y 
+		on x.fsuId=y.fsuId GROUP BY x.fsuId) as b on a.bsId=b.siteId where a.lat !=0 and a.bsId<=2038
+	]]>
+	</select>
 
 </mapper>

@@ -77,7 +77,10 @@
 		
 		order by AlarmTime desc
 	</select>
-
+	<!--  查询三期基站环控通断状态  wlk-->
+	<select id="selectConnectStatusForEMH3" resultType="map" useCache="true">
+		select * from tb_JFConnect
+	</select>
     
 
 </mapper>

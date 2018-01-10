@@ -119,4 +119,11 @@ public interface GosuncnMapper {
 	 */
 	public int updataCameraIpByFSUID(Map<String,String> map)throws Exception;
 	
+	/**
+	 * 查询4期所有站的环控通断情况
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectFor4EMH()throws Exception;
+	
 }
