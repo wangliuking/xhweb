@@ -340,5 +340,35 @@ public class SqlServerService {
 		sqlSession.close();
 		
 	}
+	
+	/**
+	 * 查询三期基站环控通断状态 wlk
+	 * @param bsId
+	 * @return
+	 */
+	public static List<Map<String, Object>> selectConnectStatusForEMH3() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.selectConnectStatusForEMH3();
+			
+		}catch(SQLTimeoutException e){
+			log.info("获取三期环控数据超时");
+			sqlSession.close();
+		}catch(NoRouteToHostException e){
+			log.info("到主机的TCP/IP连接失败");
+			sqlSession.close();
+		} catch(PersistenceException e){
+			log.info("三期环控数据库连接失败");
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sqlSession.close();
+		return list;
+	}
+	
 
 }

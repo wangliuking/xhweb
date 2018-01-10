@@ -22,6 +22,7 @@ import com.chinamobile.fsuservice.Test;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.GosuncnService;
+import xh.mybatis.service.SqlServerService;
 import xh.org.listeners.EMHListener;
 /**
  * 动环设备处理类
@@ -303,6 +304,76 @@ public class GosuncnController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * 查询所有站的环控通断情况
+	 */
+	@RequestMapping(value="/selectFor4EMH",method = RequestMethod.GET)
+	public void selectFor4EMH(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		List<Map<String, String>> listEMH4 = GosuncnService.selectFor4EMH();				
+		result.put("success", success);
+		result.put("items", listEMH4);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 查询所有站的环控通断情况
+	 */
+	@RequestMapping(value="/selectForEMH",method = RequestMethod.GET)
+	public void selectForEMH(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		List<Map<String, String>> listEMH4 = GosuncnService.selectFor4EMH();
+		List<Map<String,Object>> listEMH3 = SqlServerService.selectConnectStatusForEMH3();
+		/*for(int i=0;i<listEMH4.size();i++){
+			Map<String,String> temp4Map = listEMH4.get(i);
+			for(int j=0;j<listEMH3.size();j++){
+				Map<String, Object> temp3Map = listEMH3.get(j);
+				String tempbsId = temp4Map.get("bsId");
+				String tempJFNode = (String) temp3Map.get("JFNode");
+				int bsId = Integer.parseInt(tempbsId);
+				int JFNode = Integer.parseInt(tempJFNode);
+				if(bsId==JFNode){
+					String State = (String) temp3Map.get("State");
+					if("true".equalsIgnoreCase(State)){
+						temp4Map.remove("siteId");
+						temp4Map.put("siteId", tempbsId);
+					}else{
+						temp4Map.remove("siteId");
+						temp4Map.put("siteId", "");
+					}
+				}
+			}
+		}*/
+		result.put("success", success);
+		result.put("items4", listEMH4);
+		result.put("items3", listEMH3);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		String s= "ABC";
+		String a = "abc";
+		System.out.println(a.equalsIgnoreCase(s));
 	}
 	
 	

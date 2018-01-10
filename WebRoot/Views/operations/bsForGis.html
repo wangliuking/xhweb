@@ -102,7 +102,7 @@
 												ng-repeat="x in bs_search_data">
 												<input id="bs-{{x.bsId}}" class="magic-checkbox"
 													type="checkbox" name="bsIds" value="{{x.bsId}}"
-													ng-checked="x.bsIds!=null"> <label
+													ng-checked="x.showStatus==1"> <label
 													for="bs-{{x.bsId}}"><span>{{x.bsId}}-{{x.name}}</span></label>
 											</div>
 										</div>
