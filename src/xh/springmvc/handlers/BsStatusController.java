@@ -40,6 +40,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import xh.func.plugin.FlexJSON;
+import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
@@ -55,6 +57,7 @@ import xh.mybatis.service.SqlServerService;
 public class BsStatusController {
 	protected final Log log = LogFactory.getLog(BsStatusController.class);
 	private FlexJSON json = new FlexJSON();
+	private boolean success;
 
 	@RequestMapping(value = "/index/ajax_table2", method = RequestMethod.GET)
 	@ResponseBody
@@ -231,12 +234,24 @@ public class BsStatusController {
 
 			book.write();
 			book.close();
-			System.out.print("导出成功");
-			DownExcelFile(response, pathname);
+			log.info("导出基站运行记录表");
+			/*DownExcelFile(response, pathname);*/
+			this.success=true;
+			 HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
+		
+		
+		
+		
 	}
 	//基站故障记录登记表
 	@RequestMapping(value = "/ExcelToBsAlarm", method = RequestMethod.GET)
@@ -349,15 +364,15 @@ public class BsStatusController {
 
 			sheet.setRowView(0, 300);
 			sheet.setColumnView(0, 10); //基站编号
-			sheet.setColumnView(1, cellView); //基站名称
+			sheet.setColumnView(1, 25); //基站名称
 			sheet.setColumnView(2, 10); //基站分级
 			sheet.setColumnView(3, 10); //使用状态
 			sheet.setColumnView(4, 10); //星期
 			sheet.setColumnView(5, 20); //故障发生时间
 			sheet.setColumnView(6, 10); //报障来源
-			sheet.setColumnView(7, cellView); //故障等级
-			sheet.setColumnView(8, cellView); //故障类别
-			sheet.setColumnView(9, cellView); //故障原因
+			sheet.setColumnView(7, 20); //故障等级
+			sheet.setColumnView(8, 20); //故障类别
+			sheet.setColumnView(9, 30); //故障原因
 			sheet.setColumnView(10, 40);//目前处理情况
 			sheet.setColumnView(11, 10);//是否影响业务
 			sheet.setColumnView(12, 50);     //故障处理结果
@@ -367,23 +382,6 @@ public class BsStatusController {
 			sheet.setColumnView(16, 15);      //故障处理人员
 			sheet.setColumnView(17, 15);      //故障记录人员
 			sheet.setColumnView(18, 10);      //基站归属
-			/*sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 20);
-			sheet.setColumnView(2, 20);
-			sheet.setColumnView(3, 20);
-			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 30);
-			sheet.setColumnView(6, 50);
-			sheet.setColumnView(7, 20);
-			sheet.setColumnView(8, 20);
-			sheet.setColumnView(9, 50);
-			sheet.setColumnView(10, 50);
-			sheet.setColumnView(11, 50);
-			sheet.setColumnView(12, 50);
-			sheet.setColumnView(13, 50);
-			sheet.setColumnView(14, 50);
-			sheet.setColumnView(15, 200);
-			sheet.setColumnView(16, 50);*/
 
 			sheet.addCell(label_1);
 			sheet.addCell(label_2);
@@ -413,40 +411,31 @@ public class BsStatusController {
 			sheet.mergeCells(0, 0, 3, 0); 
 			sheet.mergeCells(5, 0, 14, 0);  
 			
-			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
-			/*for (int i = 0; i < list.size(); i++) {
-				BsStatusBean bean = (BsStatusBean) list.get(i);
-				int icpS = bean.getStatus();
-				int bscS = bean.getStatus();
-				String stationClock = bean.getClock_status();
-				String dpx1 = bean.getReturnloss1();
-				String dpx2 = bean.getReturnloss2();
-				String bscRunTime = bean.getBscRuntime();
-				String enbRunTime = bean.getEnbRunTime();
-				Label value_1 = new Label(0, i + 1, String.valueOf(bean
-						.getBsId()), fontFormat_Content);
-				Label value_2 = new Label(1, i + 1, bean.getName(),
-						fontFormat_Content);
-				Label value_3 = new Label(2, i + 1, icpS == 1 ? "NO" : "OK",
-						fontFormat_Content);
-				Label value_4 = new Label(3, i + 1, bscS == 1 ? "NO" : "OK",
-						fontFormat_Content); // 格式化数值
-				Label value_5 = new Label(4, i + 1, stationClock == ""
-						|| stationClock == null ? "NA" : stationClock,
-						fontFormat_Content);
-				Label value_6 = new Label(5, i + 1, dpx1 == "" || dpx1 == null
-						&& dpx2 == "" || dpx2 == null ? "NA" : "DPX1="
-						+ bean.getReturnloss1() + "dB" + " DPX2="
-						+ bean.getReturnloss2() + "dB", fontFormat_Content);
-				Label value_7 = new Label(6, i + 1, bscRunTime == ""
-						|| bscRunTime == null ? "NA" : bscRunTime,
-						fontFormat_Content);
-				Label value_8 = new Label(7, i + 1, "NA", fontFormat_Content);
-				Label value_9 = new Label(8, i + 1, "NA", fontFormat_Content);
-				Label value_10 = new Label(9, i + 1, enbRunTime == ""
-						|| enbRunTime == null ? "NA" : enbRunTime,
-						fontFormat_Content);
-				sheet.setRowView(i + 1, 400);
+			Map<String,Object> map=new HashMap<String, Object>();
+			
+			List<BsAlarmExcelBean> list = BsStatusService.bsAlarmExcel(map);
+			for (int i = 0; i < list.size(); i++) {
+				BsAlarmExcelBean bean =list.get(i);
+				Label value_1 = new Label(0, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
+				Label value_2 = new Label(1, i + 2, bean.getName(),fontFormat_Content);
+				Label value_3 = new Label(2, i + 2, bean.getLevel(),fontFormat_Content);
+				Label value_4 = new Label(3, i + 2, bean.getStatus()==1?"在用":"未使用",fontFormat_Content);		
+				Label value_5 = new Label(4, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
+				Label value_6 = new Label(5, i + 2,bean.getTime() ,fontFormat_Content);
+				Label value_7 = new Label(6, i + 2,bean.getFrom(),fontFormat_Content);
+				Label value_8 = new Label(7, i + 2, "",fontFormat_Content);
+				Label value_9 = new Label(8, i + 2, bean.getType(),fontFormat_Content);
+				Label value_10 = new Label(9, i + 2, bean.getReason(),fontFormat_Content);
+				Label value_11 = new Label(10, i + 2, bean.getNowDeal(),fontFormat_Content);
+				Label value_12 = new Label(11, i + 2, bean.getImbusiness(),fontFormat_Content);
+				Label value_13 = new Label(12, i + 2, bean.getDealResult(),fontFormat_Content);
+				Label value_14= new Label(13, i + 2, bean.getFaultRecoveryTime(),fontFormat_Content);
+				Label value_15 = new Label(14, i + 2, bean.getFaultTimeTotal(),fontFormat_Content);
+				Label value_16 = new Label(15, i + 2, bean.getContent(),fontFormat_Content);
+				Label value_17 = new Label(16, i + 2,bean.getFaultHandlePerson() ,fontFormat_Content);
+				Label value_18 = new Label(17, i + 2, bean.getFaultRecordPerson(),fontFormat_Content);
+				Label value_19 = new Label(18, i + 2, bean.getHometype(),fontFormat_Content);
+				sheet.setRowView(i + 2, 300);
 				sheet.addCell(value_1);
 				sheet.addCell(value_2);
 				sheet.addCell(value_3);
@@ -457,13 +446,28 @@ public class BsStatusController {
 				sheet.addCell(value_8);
 				sheet.addCell(value_9);
 				sheet.addCell(value_10);
-				// System.out.println(assetbean.getNumber());
-			}*/
+				sheet.addCell(value_11);
+				sheet.addCell(value_12);
+				sheet.addCell(value_13);
+				sheet.addCell(value_14);
+				sheet.addCell(value_15);
+				sheet.addCell(value_16);
+				sheet.addCell(value_17);
+				sheet.addCell(value_18);
+				sheet.addCell(value_19);
+			}
 
 			book.write();
 			book.close();
-			System.out.print("基站故障记录登记表");
-			DownExcelFile(response, pathname);
+			log.info("基站故障记录登记表");
+			/*DownExcelFile(response, pathname);*/
+			this.success=true;
+			 HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -500,14 +504,21 @@ public class BsStatusController {
 						WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 						Colour.BLACK);
 				// 应用字体
-				WritableCellFormat fontFormat_h = new WritableCellFormat(
-						font_header);
+				WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+				
+				WritableCellFormat fontFormat_alarm = new WritableCellFormat(font_header);
 				// 设置其他样式
 				fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 				fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 				fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 				fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
 				fontFormat_h.setWrap(false);// 不自动换行
+				
+				fontFormat_alarm.setAlignment(Alignment.CENTRE);// 水平对齐
+				fontFormat_alarm.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+				fontFormat_alarm.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+				fontFormat_alarm.setBackground(Colour.YELLOW2);// 背景色
+				fontFormat_alarm.setWrap(false);// 不自动换行
 
 				// 设置主题内容字体格式
 				WritableFont font_Content = new WritableFont(WritableFont.TIMES,
@@ -559,7 +570,7 @@ public class BsStatusController {
 				sheet.setColumnView(1, 30); //基站名称
 				sheet.setColumnView(2, 10); //基站归属
 				sheet.setColumnView(3, 10); //基站状态
-				sheet.setColumnView(4, cellView); //备注
+				sheet.setColumnView(4, 50); //备注
 
 				sheet.addCell(label_1);
 				sheet.addCell(label_2);
@@ -571,35 +582,59 @@ public class BsStatusController {
 				for (int i = 0; i < list.size(); i++) {
 					BsRunStatusBean bean = (BsRunStatusBean) list.get(i);
 					
-					Label value_1 = new Label(0, i + 1, String.valueOf(bean.getBsId()), fontFormat_Content);
-					Label value_2 = new Label(1, i + 1, bean.getName(),fontFormat_Content);
-					Label value_3 = new Label(2, i + 1, bean.getHometype(),fontFormat_Content);
-					Label value_4 = new Label(3, i + 1, bean.getLink()==1?"OK":"NO",fontFormat_Content);
-					Label value_5 = new Label(4, i + 1, bean.getNote(),fontFormat_Content);
-					sheet.setRowView(i + 1, 300);
-					sheet.addCell(value_1);
-					sheet.addCell(value_2);
-					sheet.addCell(value_3);
-					sheet.addCell(value_4);
-					sheet.addCell(value_5);
+					if(bean.getLink()==0){
+						Label value_1 = new Label(0, i + 1, String.valueOf(bean.getBsId()), fontFormat_Content);
+						Label value_2 = new Label(1, i + 1, bean.getName(),fontFormat_Content);
+						Label value_3 = new Label(2, i + 1, bean.getHometype(),fontFormat_Content);
+						Label value_4 = new Label(3, i + 1, bean.getLink()==0?"OK":"NO",fontFormat_Content);
+						Label value_5 = new Label(4, i + 1, bean.getLink()==0?"OK":"基站断站",fontFormat_Content);
+						sheet.setRowView(i + 1, 300);
+						sheet.addCell(value_1);
+						sheet.addCell(value_2);
+						sheet.addCell(value_3);
+						sheet.addCell(value_4);
+						sheet.addCell(value_5);
+					}else{
+						Label value_1 = new Label(0, i + 1, String.valueOf(bean.getBsId()), fontFormat_alarm);
+						Label value_2 = new Label(1, i + 1, bean.getName(),fontFormat_alarm);
+						Label value_3 = new Label(2, i + 1, bean.getHometype(),fontFormat_alarm);
+						Label value_4 = new Label(3, i + 1, bean.getLink()==0?"OK":"NO",fontFormat_alarm);
+						Label value_5 = new Label(4, i + 1, bean.getLink()==0?"":"基站断站",fontFormat_alarm);
+						sheet.setRowView(i + 1, 300);
+						sheet.addCell(value_1);
+						sheet.addCell(value_2);
+						sheet.addCell(value_3);
+						sheet.addCell(value_4);
+						sheet.addCell(value_5);
+					}
+					
+					
 				}
 
 				book.write();
 				book.close();
-				System.out.print("基站状态检查表");
-				DownExcelFile(response, pathname);
+				log.info("基站状态检查表");
+				/*DownExcelFile(response, pathname);*/
+				this.success=true;
+				 HashMap<String, Object> result = new HashMap<String, Object>();
+				 result.put("success", success);
+				 result.put("pathName", pathname);
+				 response.setContentType("application/json;charset=utf-8"); 
+				 String jsonstr = json.Encode(result); 
+				 response.getWriter().write(jsonstr);
 			} catch (Exception e) {
 				e.printStackTrace();
 
 			}
 		}
-
-	public void DownExcelFile(HttpServletResponse response, String filePath)
+		@RequestMapping(value = "/downExcel", method = RequestMethod.GET)
+	     public void DownExcelFile(HttpServletRequest request,HttpServletResponse response)
 			throws Exception {
-		File file = new File(filePath);
-		String fileName = "";
-		response.setContentType("text/plain;charset=utf-8");
-		if (file.exists()) {
+			String filePath=request.getParameter("filePath");
+		    File file = new File(filePath);
+		    String fileName = "";
+		    response.setContentType("text/plain;charset=utf-8");
+		    if (file.exists()) {
 			try {
 				// 要用servlet 来打开一个 EXCEL 文档，需要将 response 对象中 header 的
 				// contentType 设置成"application/x-msexcel"。

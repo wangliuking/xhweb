@@ -410,7 +410,7 @@ xh.loadbsAlarmTypePie = function(){
 					normal : {
 						color : function(params) {
 							// build a color map as your need.
-							var colorList = [ 'red', '#B22222', 'yellowgreen' ];
+							var colorList = [ '#FF0000', '#FF1493', '#FFD700' ];
 							return colorList[params.dataIndex];
 						},
 						label : {

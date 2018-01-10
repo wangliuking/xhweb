@@ -105,7 +105,16 @@
 		select a.*,b.roleId,c.role from xhgmnet_web_user as a left join
 		xhgmnet_web_role_user as b on
 		a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
+		
+		<if test="roleId!=10000">
+		where a.userId in (select userId from xhgmnet_web_role_user where roleId=#{roleId})
+		</if>
+		
 		order by b.roleId asc limit #{start},#{limit}
+		<!-- select a.*,b.roleId,c.role from xhgmnet_web_user as a left join
+		xhgmnet_web_role_user as b on
+		a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
+		order by b.roleId asc limit #{start},#{limit} -->
 	</select>
 	<!--用户记录总数 -->
 	<select id="userAllCount" resultType="int" useCache="true">

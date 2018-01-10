@@ -3,6 +3,7 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
@@ -150,5 +151,13 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public int MapDispatchAlarmCount() throws Exception;
+	
+	/**
+	 * tera系统告警基站部分  导出excel
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BsAlarmExcelBean> bsAlarmExcel(Map<String,Object> map) throws Exception;
 
 }

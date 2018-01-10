@@ -268,6 +268,13 @@
 		select bsId, count(working) as alarmSum from xhgmnet_bs_psm where working>0 and working!=255 group by bsId
 		) as temp group by bsId) as d on a.bsId=d.bsId
 	</select>
-	
+	<!-- tera系统告警基站部分  导出excel -->
+	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
+		select a.subModId as bsId,a.time,a.description as reason,b.name,b.level,b.status,b.hometype 
+		from (select * from xhgmnet_eastcom_alarminfo order by time asc)  as a
+		left join xhgmnet_bs_station as b on a.subModId=b.bsId
+		
+		where a.modId=4 group by a.subModId order by time desc
+	</select>	
 
 </mapper>

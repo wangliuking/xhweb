@@ -26,14 +26,39 @@
 <style type="text/css">
 .bs-div {
 	float: left;
+	margin: 1px;
+	min-width: 40px;
+	line-height: 30px;
+	border: 0px solid gray;
+	text-align: center;
+	background: #fafafa;
+	border: 1px solid #ccc;
+}
+
+.width-1 {
+	width: 200px;
+}
+
+.bs-div .zone-div {
+	min-width: 100%;
+	background: #ccc;
+	color: #000;
+	font-weight: 700;
+	padding: 0;
+}
+
+.bs-info div {
+	float: left;
 	margin: 2px;
 	min-width: 40px;
 	line-height: 30px;
 	border: 0px solid gray;
 	text-align: center;
-	/* border-left:10px solid gray; */
 	background: #fff;
-	border-radius：5px;
+}
+
+.bs-info {
+	float: left;
 }
 
 .bs-div-check {
@@ -53,14 +78,15 @@
 	position: fixed;
 	right: 20px;
 	top: 32px;
-	padding:0px;
+	padding: 0px;
 }
+
 .showInfo {
 	position: fixed;
 	left: 0;
 	top: 32px;
-	padding-top:5px;
-	padding-left:15px;
+	padding-top: 5px;
+	padding-left: 15px;
 }
 
 .bs-line {
@@ -207,58 +233,31 @@ color
 		<div class="content animate-panel" data-child="hpanel"
 			data-effect="fadeInDown">
 			<div class="top-search btn-group">
-			<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#search">
-			<i class="fa fa-search fa-x"></i>查询
-			</button>
-			<button class="btn btn-info btn-sm" ng-click="showBsModal()">
+				<button class="btn btn-success btn-sm" data-toggle="modal"
+					data-target="#search">
+					<i class="fa fa-search fa-x"></i>查询
+				</button>
+				<!-- <button class="btn btn-info btn-sm" ng-click="showBsModal()">
 			<i class="fa fa-support fa-x"></i>重要基站
-			</button>
-			<button class="btn btn-danger btn-sm" onclick="xh.excelToBsRun()">
-			<i class="fa fa-file-excel-o"></i>&nbsp;基站运行记录表
-			</button>
-			<button class="btn btn-danger btn-sm" onclick="xh.excelToBsstatus()">
-			<i class="fa fa-file-excel-o"></i>&nbsp;基站状态检查表
-			</button>
-			<button class="btn btn-danger btn-sm" onclick="xh.excelToBsAlarm()">
-			<i class="fa fa-file-excel-o"></i>&nbsp;基站故障记录登记表
-			</button>
+			</button> -->
+				<button class="btn btn-danger btn-sm" onclick="xh.excelToBsRun()" id="btn-run" type="button">
+					<i class="fa fa-file-excel-o"></i>&nbsp;基站运行记录表
+				</button>
+				<button class="btn btn-danger btn-sm" onclick="xh.excelToBsstatus()" id="btn-status" type="button">
+					<i class="fa fa-file-excel-o"></i>&nbsp;基站状态检查表
+				</button>
+				<button class="btn btn-danger btn-sm" onclick="xh.excelToBsAlarm()" id="btn-write" type="button">
+					<i class="fa fa-file-excel-o"></i>&nbsp;基站故障记录登记表
+				</button>
 			</div>
 			<div class="showInfo">
-			当前基站：<span class="bs-name text-danger" style="font-weight: 700"></span>  
-			<span style="margin-left:30px;">注册组：</span><span class="bs-group text-danger" style="font-weight: 700;"></span>
-			<span style="margin-left:30px;">注册终端：</span><span class="bs-user text-danger" style="font-weight: 700;"></span>
+				当前基站：<span class="bs-name text-danger" style="font-weight: 700"></span>
+				<span style="margin-left:30px;">注册组：</span><span
+					class="bs-group text-danger" style="font-weight: 700;"></span> <span
+					style="margin-left:30px;">注册终端：</span><span
+					class="bs-user text-danger" style="font-weight: 700;"></span>
 			</div>
-			
-			<!-- <div class="row" style="margin-bottom:30px;">
-				<div class="col-md-12">
-					<div class="bs-line" ng-repeat="x in data">
-						<div class="loader-container done">
-							<div class="meter">{{x.bsId}}</div>
-						</div>
-					</div>
-					
 
-
-				</div>
-			</div> -->
-			
-			<!-- row---end -->
-			<!-- 	<div class="row">
-				<div class="col-md-2" ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
-						status-value="{{x.status}}">
-					<div class="hpanel hbggreen">
-						<div class="panel-body">
-							<div class="text-center">
-								<h3>{{x.name}}</h3>
-								<small>注册组/终端数量: </small></br>
-								<small>设备异常统计数量: </small>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-			</div> -->
 			<!-- row-end -->
 			<div class="row" style="margin-top:30px;">
 
@@ -266,33 +265,78 @@ color
 					<!-- <div id="tree"></div> -->
 					<div ng-if="totals==0">未找到相关数据</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
-						status-value="{{x.status}}" title="{{x.name}}" ng-mouseover="bsHover($index)">
+						status-value="{{x.status}}"
+						 ng-if="x.total<=11"
+						style="width:250px;height:130px;">
+						<div class="bs-info zone-div">{{x.zone}}</div>
+						<div ng-repeat="y in x.item" class="bs-info">
 
+							<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info" style="cursor: pointer;" 
+							ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" title="{{y.name}}" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
+								class="td-warning bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;" class="td-gray bs-info"
+								ng-if="y.status==0" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
 
-						<div ng-if="x.status==1 && x.link!=0" class="td-danger bs-info">{{x.bsId}}</div>
-						<div style="cursor: pointer;"
-							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum>0"
-							class="td-warning bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
-						<div style="cursor: pointer;"
-							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==0"
-							class="td-success bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
-						<div style="cursor: pointer;"
-							ng-if="x.status==1 &&x.link==0 && x.deviceAlarmSum==null"
-							class="td-success bs-info" ng-click="bsView($index)">{{x.bsId}}</div>
-						<div style="cursor: pointer;" class="td-gray bs-info"
-							ng-if="x.status==0">{{x.bsId}}</div>
-
-
-
+						</div>
 					</div>
+					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
+						status-value="{{x.status}}" 
+						ng-if="x.total>11 && x.total<=20"
+						style="width:502px;">
+						<div class="bs-info zone-div">{{x.zone}}</div>
+						<div ng-repeat="y in x.item" class="bs-info">
+							<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info" style="cursor: pointer;" title="{{y.name}}"
+							ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
+								class="td-warning bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;" class="td-gray bs-info"
+								ng-if="y.status==0" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
+						</div>
+					</div>
+					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
+						status-value="{{x.status}}" 
+						ng-if="x.total>20"
+						style="width:502px;height:170px;">
+						<div class="bs-info zone-div">{{x.zone}}</div>
+						<div ng-repeat="y in x.item" class="bs-info">
+							<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info" style="cursor: pointer;" title="{{y.name}}" 
+							ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
+								class="td-warning bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
+								class="td-success bs-info" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;" class="td-gray bs-info"
+								ng-if="y.status==0" title="{{y.name}}" ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 			<!-- row-end -->
 		</div>
 	</div>
 	<aside id="aside-right-bottom" class="animated fadeInLeft">
-	1233
-	</aside>
+		1233</aside>
 
 	<aside id="aside-right" class="animated fadeInLeft">
 		<div class="bsList">
@@ -308,7 +352,7 @@ color
 		</div>
 
 	</aside>
-		<div class="modal fade" id="search" tabindex="-1" role="dialog"
+	<div class="modal fade" id="search" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
@@ -319,65 +363,65 @@ color
 				</div>
 				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 					<div class="row" ng-show=true>
-				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-body">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-body">
 
-							<div class="row">
-								<div class="col-md-12">
-									<label>基站级别:</label> <select name="type" class="form-control"
-										onchange="xh.refresh()">
-										<option value="0" selected="selected">全部</option>
-										<option value="1">一级基站</option>
-										<option value="2">二级基站</option>
-										<option value="3">三级基站</option>
-									</select>
+									<div class="row">
+										<div class="col-md-12">
+											<label>基站级别:</label> <select name="type" class="form-control"
+												onchange="xh.refresh()">
+												<option value="0" selected="selected">全部</option>
+												<option value="1">一级基站</option>
+												<option value="2">二级基站</option>
+												<option value="3">三级基站</option>
+											</select>
+
+										</div>
+										<div class="col-md-12">
+											<label>基站区域:</label> <select name="zone" class="form-control"
+												onchange="xh.refresh()" ng-model="zone">
+												<option value="全部" selected="selected">全部</option>
+												<option ng-repeat="x in zoneData" value="{{x.zone}}">{{x.zone}}</option>
+
+											</select>
+
+										</div>
+										<div class="col-md-12">
+											<label>连接状态:</label> <select name="link" class="form-control"
+												onchange="xh.refresh()">
+												<option value="2" selected="selected">全部</option>
+												<option value="0">连接</option>
+												<option value="1">断开</option>
+											</select>
+
+										</div>
+										<div class="col-md-12">
+											<label>启用状态:</label> <select name="status"
+												class="form-control" onchange="xh.refresh()">
+												<option value="2" selected="selected">全部</option>
+												<option value="1">启用</option>
+												<option value="0">未启用</option>
+											</select>
+
+										</div>
+										<div class="col-md-12">
+											<label>注册终端/组</label> <input name="usergroup"
+												class="form-control" placeholder="终端、组号码"
+												oninput="OnInput (event)"
+												onpropertychange="OnPropChanged (event)" />
+
+										</div>
+
+
+
+									</div>
+
 
 								</div>
-								<div class="col-md-12">
-									<label>基站区域:</label> <select name="zone" class="form-control"
-										onchange="xh.refresh()" ng-model="zone">
-										<option value="全部" selected="selected">全部</option>
-										<option ng-repeat="x in zoneData" value="{{x.zone}}">{{x.zone}}</option>
-
-									</select>
-
-								</div>
-								<div class="col-md-12">
-									<label>连接状态:</label> <select name="link" class="form-control"
-										onchange="xh.refresh()">
-										<option value="2" selected="selected">全部</option>
-										<option value="0">连接</option>
-										<option value="1">断开</option>
-									</select>
-
-								</div>
-								<div class="col-md-12">
-									<label>启用状态:</label> <select name="status" class="form-control"
-										onchange="xh.refresh()">
-										<option value="2" selected="selected">全部</option>
-										<option value="1">启用</option>
-										<option value="0">未启用</option>
-									</select>
-
-								</div>
-								<div class="col-md-12">
-									<label>注册终端/组</label> <input name="usergroup"
-										class="form-control" placeholder="终端、组号码"
-										oninput="OnInput (event)"
-										onpropertychange="OnPropChanged (event)" />
-
-								</div>
-								
-
-
 							</div>
-							
-
 						</div>
 					</div>
-				</div>
-			</div>
 				</div>
 				<!-- <div class="modal-footer">
 					

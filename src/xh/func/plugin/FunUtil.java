@@ -207,6 +207,23 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
+	//获取星期
+	public static String formateWeekly(String datetime) {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        Calendar cal = Calendar.getInstance(); // 获得一个日历
+        Date datet = null;
+        try {
+            datet = f.parse(datetime);
+            cal.setTime(datet);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1; // 指示一个星期中的某天。
+        if (w < 0)
+            w = 0;
+        return weekDays[w];
+	}
 
 	// 读取xml文档
 	public static String readXml(String str1, String str2) {

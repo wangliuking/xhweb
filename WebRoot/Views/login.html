@@ -243,7 +243,7 @@ border:1px solid #fafafa;
 
 				</div> -->
 				
-				<button class="btn btn-block btn-success" id="login-btn" style="margin-top:60px;">登录</button>
+				<button class="btn btn-block btn-success" id="login-btn" style="margin-top:60px;" type="buttom">登录</button>
 			</form>
 					</div>
 				</div>
@@ -433,7 +433,7 @@ border:1px solid #fafafa;
 				return;
 			}
 			//sign();
-			$("#login-btn").val("登录中。。。");
+			$("#login-btn").button("登录中。。。");
 			xh.login();
 		});
 	</script>
