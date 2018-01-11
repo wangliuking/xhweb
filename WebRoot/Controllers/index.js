@@ -9,6 +9,28 @@ var alarmji=true;
 var appElement = document.querySelector('[ng-controller=index]');
 xh.load = function() {
 	var app = angular.module("app", []);
+	app.filter('bsName', function() { // 可以注入依赖
+		return function(text) {
+			
+			if(text.indexOf(",")>0){
+				return text.split(",")[0];
+			}else{
+				return text;
+			}
+			
+		};
+	});
+	app.filter('alarmContent', function() { // 可以注入依赖
+		return function(text) {
+			
+			if(text.indexOf(",")>0){
+				return text.split(",")[2];
+			}else{
+				return text;
+			}
+			
+		};
+	});
 	app.controller("index", function($scope, $http) {
 		$scope.totals=0;
 		

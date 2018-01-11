@@ -39,7 +39,15 @@ public interface WebRoleMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WebRoleBean> roleByAll()throws Exception;
+	public List<WebRoleBean> roleByAll(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 查询一个角色
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public WebRoleBean roleOne(String roleId)throws Exception;
 	/**
 	 * 添加角色
 	 * @param name

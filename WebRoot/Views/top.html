@@ -63,10 +63,10 @@
 											<td colspan="3" class="text-center" style="color:#000;">无告警记录！</td>
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId!=null">
-											<td>{{x.bsId}}-{{x.name}}</td>
+											<td>{{x.bsId}}-{{x.name |bsName}}</td>
 											<td ng-if="x.link==1" class="td-danger"><span>【断开连接】</span>
 											</td>
-											<td ng-if="x.link==null" class="td-warning"><span>{{x.name}}</span>
+											<td ng-if="x.link==null" class="td-warning"><span>{{x.name |alarmContent}}</span>
 											</td>
 
 											<td>{{x.time}}</td>

@@ -133,12 +133,15 @@ public class BsAlarmController {
 			HashMap map2 = new HashMap();
 			map2=list.get(i);
 			if(map2.get("name").toString().equals("1")){
-				map2.put("name", "严重告警");
+				map2.put("name", "紧急告警");
 			}
 			if(map2.get("name").toString().equals("2")){
 				map2.put("name", "主要告警");
 			}
 			if(map2.get("name").toString().equals("3")){
+				map2.put("name", "次要告警");
+			}
+			if(map2.get("name").toString().equals("4")){
 				map2.put("name", "一般告警");
 			}
 			list.set(i, map2);

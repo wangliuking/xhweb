@@ -92,9 +92,10 @@ public class WebUserController {
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("roleId",roleId);
+		map.put("parentId",userbean.getParentId());
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WebUserServices.userList(map).size());
+		result.put("totals",WebUserServices.userAllCount(map));
 		result.put("items", WebUserServices.userList(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

@@ -151,7 +151,7 @@
 											<tr class="tr-gray">
 
 												<!-- <th width="100px">网元类型</th> -->
-												<th>告警类型</th>
+												<th>网元类型</th>
 
 												<th>告警级别</th>
 												<th>故障定位</th>
@@ -196,9 +196,10 @@
 													<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
 													<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
 												</td> -->
-												<td ng-if="x.severity==1" class="block bg-red">严重告警</td>
-													<td ng-if="x.severity==2" class="block bg-salmon">主要告警</td>
-													<td ng-if="x.severity==3" class="block bg-gold">一般告警</td>
+												<td ng-if="x.severity==1" class="block" style="background:red;color:#fff;">紧急告警</td>
+													<td ng-if="x.severity==2" class="block" style="background:#B22222;color:#fff;">主要告警</td>
+													<td ng-if="x.severity==3" class="block" style="background:#FF8C00;color:#fff;">次要告警</td>
+													<td ng-if="x.severity==3" class="block" style="background:#EEEE00;color:#fff;">一般告警</td>
 
 												<td>{{x.location |alarmLocation}}</td>
 												<td>{{x.description}}</td>
@@ -264,13 +265,16 @@
 							<div class="form-group col-md-12 search" style="margin-top:10px;">
 								<label>严重程度</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
 									id="level1" class="magic-checkbox" type="checkbox" name="level"
-									value="1" checked> <label for="level1"><span>严重告警</span></label>
+									value="1" checked> <label for="level1"><span>紧急告警</span></label>
 
 								<input id="level2" class="magic-checkbox" type="checkbox"
 									name="level" value="2" checked> <label for="level2"><span>主要告警</span></label>
 
 								<input id="level3" class="magic-checkbox" type="checkbox"
-									name="level" value="3" checked> <label for="level3"><span>一般告警</span></label>
+									name="level" value="3" checked> <label for="level3"><span>次要告警</span></label>
+								
+								<input id="level4" class="magic-checkbox" type="checkbox"
+									name="level" value="4" checked> <label for="level4"><span>一般告警</span></label>
 							</div>
 
 						</div>

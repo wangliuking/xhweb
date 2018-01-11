@@ -583,6 +583,14 @@ public class BsStatusController {
 				sheet.addCell(label_4);
 				sheet.addCell(label_5);
 				
+				/*CellRangeAddressList regions = new CellRangeAddressList(i+1,i+1,18,18);    
+                //生成下拉框内容    
+                DVConstraint constraint = DVConstraint.createExplicitListConstraint(currentStatuses);    
+                //绑定下拉框和作用区域    
+                HSSFDataValidation data_validation = new HSSFDataValidation(regions,constraint);    
+                //对sheet页生效    
+                sheet.addValidationData(data_validation); */
+				
 				List<BsRunStatusBean> list = BsStatusService.excelToBsRunStatus();
 				for (int i = 0; i < list.size(); i++) {
 					BsRunStatusBean bean = (BsRunStatusBean) list.get(i);
@@ -592,7 +600,7 @@ public class BsStatusController {
 						Label value_2 = new Label(1, i + 1, bean.getName(),fontFormat_Content);
 						Label value_3 = new Label(2, i + 1, bean.getHometype(),fontFormat_Content);
 						Label value_4 = new Label(3, i + 1, bean.getLink()==0?"OK":"NO",fontFormat_Content);
-						Label value_5 = new Label(4, i + 1, bean.getLink()==0?"OK":"基站断站",fontFormat_Content);
+						Label value_5 = new Label(4, i + 1, bean.getLink()==0?"":"基站断站",fontFormat_Content);
 						sheet.setRowView(i + 1, 300);
 						sheet.addCell(value_1);
 						sheet.addCell(value_2);

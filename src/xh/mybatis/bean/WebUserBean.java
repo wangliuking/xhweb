@@ -15,6 +15,9 @@ public class WebUserBean {
 	private String userType;
 	private String createTime;
 	
+	private int roleType;
+	private int parentId;
+	
 	
 	public WebUserBean(){}
 	
@@ -112,6 +115,22 @@ public class WebUserBean {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public int getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(int roleType) {
+		this.roleType = roleType;
+	}
+
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
 	

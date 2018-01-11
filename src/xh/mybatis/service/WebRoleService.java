@@ -17,12 +17,27 @@ public class WebRoleService {
 	 * 查询所有角色
 	 * @return
 	 */
-	public static List<WebRoleBean> roleByAll(){
+	public static List<WebRoleBean> roleByAll(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
 		List<WebRoleBean> list=new ArrayList<WebRoleBean>();
 		try {
-			list=mapper.roleByAll();			
+			list=mapper.roleByAll(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+		
+		
+	}
+	public static WebRoleBean roleOne(String roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		WebRoleBean list=new WebRoleBean();
+		try {
+			list=mapper.roleOne(roleId);			
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

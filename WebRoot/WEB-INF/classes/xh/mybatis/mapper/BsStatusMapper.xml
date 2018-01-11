@@ -274,7 +274,7 @@
 		from (select * from xhgmnet_eastcom_alarminfo order by time asc)  as a
 		left join xhgmnet_bs_station as b on a.subModId=b.bsId
 		
-		where a.modId=4 and time between #{startTime} and #{endTime} group by a.subModId order by time desc
+		where a.modId=4 and time between #{startTime} and #{endTime} group by a.subModId order by time asc
 	</select>	
 
 </mapper>

@@ -122,7 +122,7 @@ public interface WebUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int userAllCount()throws Exception;
+	public int userAllCount(Map<String, Object> map)throws Exception;
 	/**
 	 * 根据用户ID删除用户
 	 * @return

@@ -296,7 +296,7 @@ xh.bsBar = function() {
 			            data:[2,5],
 			            itemStyle:{
 			            	normal:{
-			            		color:'#B22222',
+			            		color:'#9ACD32',
 			            		cursor:'pointer'
 			            	}},
 			            
@@ -396,7 +396,7 @@ xh.loadbsAlarmTypePie = function(){
 			legend : {
 				orient : 'vertical',
 				x : 'left',
-				data : [ '严重告警', '主要告警', '一般告警' ]
+				data : [ '紧急告警', '主要告警', '次要告警', '一般告警' ]
 			},
 		
 			calculable : true,
@@ -410,7 +410,7 @@ xh.loadbsAlarmTypePie = function(){
 					normal : {
 						color : function(params) {
 							// build a color map as your need.
-							var colorList = [ '#FF0000', '#FF1493', '#FFD700' ];
+							var colorList = [ 'red', '#B22222', '#FF8C00','#EEEE00' ];
 							return colorList[params.dataIndex];
 						},
 						label : {
