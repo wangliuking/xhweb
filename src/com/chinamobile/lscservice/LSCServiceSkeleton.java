@@ -111,6 +111,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			}		
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_DEV_CONF_DATA_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Response>";
 		}else if("SEND_ALARM".equals(temp)){
+			//log.info(xml);
 			//上报告警信息
 			Element nameElem = root.element("Info").element("FSUID");
 			String FSUID = nameElem.getText();
@@ -125,17 +126,25 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					for(int j=0;j<list.size();j++){					
 						Element e = (Element)list.get(j);
 						map.put(e.getName(), e.getText());	
-						//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
-						/*String serialNo = map.get("SerialNo");
-						List<Map<String,String>> serialList = GosuncnService.selectBySerialNo(serialNo);
-						if(serialList!=null){
-							String startTime = serialList.get(0).get("alarmTime");
-							map.put("startTime", startTime);
-							GosuncnService.deleteBySerialNo(serialNo);
-						}else{
-							map.put("startTime", null);
-						}*/
-					}							
+					}
+					//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
+					/*String serialNo = map.get("SerialNo");
+					System.out.println("序列号为： "+serialNo);
+					List<Map<String,String>> serialList = GosuncnService.selectBySerialNo(serialNo);
+					System.out.println("serialList为： "+serialList);
+					if(serialList.size()==0 || "".equals(serialList) || serialList==null){
+						System.out.println("进入第一通道！！！");
+						map.put("startTime", "");
+					}else{
+						System.out.println("进入第二通道！！！");	
+						Map<String,String> testMap = serialList.get(0);
+						System.out.println("testMap为： "+testMap);
+						String startTime = testMap.get("alarmTime");
+						System.out.println("startTime为： "+startTime);
+						map.put("startTime", startTime);
+						GosuncnService.deleteBySerialNo(serialNo);
+						System.out.println("success!!!!!!!!!!!!!!!!!成功了！！！！！！！！！！！！！！");
+					}*/
 					map.put("FSUID", FSUID);
 					dataList.add(map);
 				}

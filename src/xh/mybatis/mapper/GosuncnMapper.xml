@@ -97,14 +97,15 @@
 	<!--根据不同传感器查找告警记录-->
 	<select id="selectEMHAlarm" parameterType="map" resultType="map"
 		useCache="true">
-		select * from 
+		select otherTab.*,conf.siteId,station.name,station.level,station.zone from 
 		(select * from (select a.*,b.deviceName from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId
-		order by alarmTime desc) as c GROUP BY serialNo ORDER BY alarmTime desc) as otherTab where 1=1
+		order by alarmTime desc) as c GROUP BY serialNo ORDER BY alarmTime desc) as otherTab LEFT JOIN xhgmnet_emh_config as conf on otherTab.fsuId=conf.fsuId LEFT JOIN 
+		xhgmnet_bs_station as station on conf.siteId=station.bsId where 1=1
 		<if test="deviceIds ==null or deviceIds ==''">
 			and 1=0
 		</if>
 		<if test="deviceIds !=null and deviceIds !=''">
-			and deviceId in
+			and otherTab.deviceId in
 			<foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
       			#{item}
    			</foreach>
@@ -114,6 +115,12 @@
 		</if>
 		<if test="alarmFlag !=null and alarmFlag !=''">
 			and alarmFlag=#{alarmFlag}
+		</if>
+		<if test="bsLevel !=null and bsLevel !=0">
+			and level=#{bsLevel}
+		</if>
+		<if test="bsArea !=null and bsArea !=tempArea">
+			and zone=#{bsArea}
 		</if>
 		limit #{start},#{limit}
 	</select>
@@ -122,12 +129,13 @@
 		useCache="true">
 		select count(*) from 
 		(select * from (select a.*,b.deviceName from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId
-		order by alarmTime desc) as c GROUP BY serialNo ORDER BY alarmTime desc) as otherTab where 1=1
+		order by alarmTime desc) as c GROUP BY serialNo ORDER BY alarmTime desc) as otherTab LEFT JOIN xhgmnet_emh_config as conf on otherTab.fsuId=conf.fsuId LEFT JOIN 
+		xhgmnet_bs_station as station on conf.siteId=station.bsId where 1=1
 		<if test="deviceIds ==null or deviceIds ==''">
 			and 1=0
 		</if>
 		<if test="deviceIds !=null and deviceIds !=''">
-			and deviceId in
+			and otherTab.deviceId in
 			<foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
       			#{item}
    			</foreach>
@@ -137,6 +145,12 @@
 		</if>
 		<if test="alarmFlag !=null and alarmFlag !=''">
 			and alarmFlag=#{alarmFlag}
+		</if>
+		<if test="bsLevel !=null and bsLevel !=0">
+			and level=#{bsLevel}
+		</if>
+		<if test="bsArea !=null and bsArea !=tempArea">
+			and zone=#{bsArea}
 		</if>
 	</select>	
 	
