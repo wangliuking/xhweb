@@ -85,12 +85,17 @@ public class WebUserController {
 		this.success=true;
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		int roleId = userbean.getRoleId();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("roleId",roleId);
+		map.put("parentId",userbean.getParentId());
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("totals",WebUserServices.userAllCount());
+		result.put("totals",WebUserServices.userAllCount(map));
 		result.put("items", WebUserServices.userList(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

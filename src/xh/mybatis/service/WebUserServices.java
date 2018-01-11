@@ -309,12 +309,12 @@ public class WebUserServices {
 	 * 用户总数
 	 * @return
 	 */
-	public static int userAllCount(){
+	public static int userAllCount(Map<String, Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
 		int count=0;
 		try {
-			count=mapper.userAllCount();
+			count=mapper.userAllCount(map);
 			//sqlSession.commit();		
 			sqlSession.close();
 		} catch (Exception e) {

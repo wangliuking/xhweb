@@ -33,6 +33,12 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 				});
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
+			xh.maskHide();
+			$scope.loginUser = response.user;
+			$scope.loginUserRoleId = response.roleId;
+		});
 		/*获取信息*/
 		$http.get("../../web/role/allRoleList").
 		success(function(response){

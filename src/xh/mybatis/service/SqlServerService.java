@@ -217,6 +217,8 @@ public class SqlServerService {
 				
 				String time=map.get("AlarmDate").toString().split(" ")[0]+" "+map.get("AlarmTime").toString();
 				map.put("time", time);
+				//map.put("name", map.get("name").toString().split(",")[0]);
+				map.put("bsId", Integer.parseInt(map.get("bsId").toString()));
 				map.remove("AlarmDate");
 				map.remove("AlarmTime");
 				list.set(i, map);

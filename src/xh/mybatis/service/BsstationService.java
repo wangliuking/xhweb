@@ -547,19 +547,44 @@ public class BsstationService {
 	 * 查询所有基站
 	 * @return
 	 */
-	public static List<HashMap> allBsInfo(Map<String,Object> map) {
+	public static List<HashMap<String, Object>> allBsInfo(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
+		List<HashMap<String, Object>> result =new ArrayList<HashMap<String,Object>>();
+		
 		try {
 			list=mapper.allBsInfo(map);
+			List<HashMap<String, String>> area =selectAllArea();
+			
+			
+			
+			for (HashMap<String, String> map1 : area) {
+				List<HashMap<String, String>> list1=new ArrayList<HashMap<String,String>>();
+				HashMap<String, Object> map3=new HashMap<String, Object>();
+				for (HashMap<String, String> map2 : list) {
+					if(map1.get("zone").toString().equals(map2.get("zone").toString())){
+						list1.add(map2);
+					}
+				}
+				
+				if(list1.size()>0){
+					map3.put("zone", map1.get("zone"));
+					map3.put("total", list1.size());
+					map3.put("item", list1);
+					result.add(map3);
+				}
+				
+				
+			}
+			
 			sqlSession.close();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return result;
 	}
 	/**
 	 * 根据基站ID查找基站相邻小区
@@ -691,7 +716,7 @@ public class BsstationService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String, String>> selectAllArea() throws Exception{
+	public static List<HashMap<String, String>> selectAllArea() throws Exception{
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
 		List<HashMap<String, String>> BsStation=mapper.selectAllArea();

@@ -39,7 +39,9 @@ public interface MenuMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int menuExists(int roleId) throws Exception;
+	public int menuExists(Map<String,Object> map) throws Exception;
+	
+	public int menuExistsByParentId(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 删除菜单
@@ -54,6 +56,8 @@ public interface MenuMapper {
 	 * @return
 	 * @throws Exception
 	 */
+	
 	public int addMenu() throws Exception;
+	public int addParentMenu(String roleId) throws Exception;
 
 }

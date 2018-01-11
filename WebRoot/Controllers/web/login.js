@@ -28,8 +28,9 @@ xh.login = function() {
 		data : $("#loginForm").serializeArray(),
 		async : false,
 		success : function(data) {
+			$("#login-btn").button("reset");
 			if (data.success) {
-				window.location.href = "../index.html";
+				window.location.href = "../main.html";
 			} else {
 				toastr.error(data.message, '提示');
 				/*swal({
@@ -37,14 +38,15 @@ xh.login = function() {
 					text : "用户名或者密码错误!",
 					type : "error"
 				});*/
-				$("#login-btn").val("登录");
-				$("#login-btn").toggleClass("disabled");
+				/*$("#login-btn").val("登录");
+				$("#login-btn").toggleClass("disabled");*/
 			}
 		},
 		error : function() {
 			toastr.error("登录超时", '提示');
-			$("#login-btn").val("登录");
-			$("#login-btn").toggleClass("disabled");
+			$("#login-btn").button("reset");
+			/*$("#login-btn").val("登录");
+			$("#login-btn").toggleClass("disabled");*/
 
 		}
 	});

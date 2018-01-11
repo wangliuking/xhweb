@@ -260,7 +260,7 @@ public class BsstationController {
 		paramMap.put("size",size);
 		
 		
-		List<HashMap> list=	 BsstationService.allBsInfo(paramMap);
+		List<HashMap<String, Object>> list=	 BsstationService.allBsInfo(paramMap);
 		HashMap result = new HashMap();
 		result.put("totals", list.size());
 		result.put("items", list);

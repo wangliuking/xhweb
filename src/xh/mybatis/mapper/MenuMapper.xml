@@ -9,9 +9,13 @@
 		 limit 100
 	</select>
 	<!-- 获取菜单子项 -->
-	<select id="menuExists" parameterType="int" resultType="int"
+	<select id="menuExists" parameterType="map" resultType="int"
 		useCache="true">
 		select count(id) from xhgmnet_web_role_menu where roleId=#{roleId}
+	</select>
+	<select id="menuExistsByParentId" parameterType="map" resultType="int"
+		useCache="true">
+		select count(id) from xhgmnet_web_role_menu where roleId=#{parentId}
 	</select>
 	<!-- 获取菜单子项 -->
 	<select id="menuChild" parameterType="map" resultType="map"
@@ -26,6 +30,11 @@
 	<insert id="addMenu" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
 		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_menu
+	</insert>
+		<!-- 新增菜单 -->
+	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="String">
+		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
+		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_role_menu where roleId=#{roleId}
 	</insert>
 	<delete id="deleteMenu" parameterType="java.util.List">
 		delete from xhgmnet_web_role_menu where roleId in(

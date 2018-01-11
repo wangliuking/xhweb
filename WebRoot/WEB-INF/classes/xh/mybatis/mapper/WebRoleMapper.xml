@@ -28,12 +28,20 @@
     </select>
    <!--查询所有角色role-->
     <select id="roleByAll"  resultType="xh.mybatis.bean.WebRoleBean" useCache="true">
-     select * from xhgmnet_web_role order by roleType asc
+     select * from xhgmnet_web_role 
+     <if test="roleId!=10000">
+     where parentId=#{roleId} or roleId=#{roleId}
+     </if>
+     order by roleType asc,roleId asc
+    </select> 
+      <!--查询角色role-->
+    <select id="roleOne"  resultType="xh.mybatis.bean.WebRoleBean" useCache="true" parameterType="String">
+     select * from xhgmnet_web_role where roleId=#{roleId}
     </select> 
     <!--添加角色-->    
     <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="xh.mybatis.bean.WebRoleBean">
-      insert into xhgmnet_web_role(roleId,role,createTime,roleType)
-      values(#{roleId},#{role},#{createTime},#{roleType})
+      insert into xhgmnet_web_role(roleId,role,createTime,roleType,parentId)
+      values(#{roleId},#{role},#{createTime},#{roleType},#{parentId})
     </insert> 
     <!--更新角色-->
     <update id="updateByroleId" parameterType="xh.mybatis.bean.WebRoleBean">

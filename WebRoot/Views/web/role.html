@@ -105,7 +105,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="4" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input ng-if="x.roleId<=1000" type="checkbox" name="tb-check"
@@ -118,8 +118,8 @@
 										<td ng-if="x.roleType==3">亚光运维</td>
 										<td ng-if="x.roleType==4">普通企业</td>
 										<td>{{x.createTime}}</td>
-										<td style="width:20px;text-align:center">
-										<a href="#" ng-if="up.p_update=='on'?true:false"
+										<td style="width:20px;text-align:center" ng-if="loginUserRoleId>=10000">
+										<a href="#" ng-if="loginUserRoleId==10000"
 										ng-click="menu($index)">
 										<i class="fa fa-bars text-success"></i>&nbsp;菜单编辑
 									    </a>
@@ -128,7 +128,9 @@
 											ng-click="editModel($index)" data-toggle="modal"
 											data-target="#edit" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a><a href="#" ng-click="del(x.roleId)" ng-if="x.roleId<10000" ng-show="up.p_delete=='on'?true:false">|<i
-												class="fa fa-trash text-success" ></i>&nbsp;删除</a></td>
+												class="fa fa-trash text-success" ></i>&nbsp;删除</a>
+										</td>
+										<td ng-if="loginUserRoleId<10000"></td>
 									</tr>
 								</tbody>
 							</table>
