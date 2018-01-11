@@ -46,10 +46,15 @@ public class WebRoleController {
 	@RequestMapping("/role/allRoleList")
 	public void allRoleList(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		Map<String,Object> paraMap = new HashMap<String,Object>();
+		paraMap.put("roleId", userbean.getRoleId());
+		paraMap.put("parentId", userbean.getParentId());
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals","");
-		result.put("items", WebRoleService.roleByAll());
+		result.put("items", WebRoleService.roleByAll(paraMap));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -91,12 +96,15 @@ public class WebRoleController {
 		String role=request.getParameter("role");
 		int roleId=funUtil.StringToInt(request.getParameter("roleId"));
 		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
 		String createTime=funUtil.nowDate();
 		WebRoleBean bean=new WebRoleBean();
 		
 		bean.setRoleType(roleType);
 		bean.setRoleId(roleId);
 		bean.setRole(role);
+		bean.setParentId(userbean.getRoleId());
 		bean.setCreateTime(createTime);
 		int flag=WebRoleService.addRole(bean);
 		if (flag==0) {						
@@ -105,10 +113,26 @@ public class WebRoleController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("新增web角色，role="+role);
 			WebLogService.writeLog(webLogBean);
-			if(MenuService.menuExists(roleId)==0){			
-				int a=MenuService.addMenu();			
-				if(a>1){
+			WebRoleBean roleBean=WebRoleService.roleOne(String.valueOf(roleId));
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("roleId", roleId);
+			map.put("parentId", roleBean.getParentId());
+			log.info("add group->"+map);
+			if(MenuService.menuExistsByParentId(map)==0){	
+				log.info("add group  parent menu   is not have->"+map);
+				if(MenuService.menuExists(map)==0){
+					log.info("add group  parent menu 1->"+map);
+					MenuService.addMenu();
 					MenuService.updateMenuRoleId(roleId);
+				}
+			}else{
+				log.info("add group  parent menu  is have->"+map);
+				if(MenuService.menuExists(map)==0){
+					log.info("add group  parent menu 2->"+map);
+					MenuService.addParentMenu(String.valueOf(roleBean.getParentId()));
+					MenuService.updateMenuRoleId(roleId);
+				}else{
+					
 				}
 			}
 			
@@ -137,7 +161,7 @@ public class WebRoleController {
 		
 	}
 	/**
-	 * 修改用户
+	 * 修改角色
 	 * @param request
 	 * @param response
 	 */
@@ -153,6 +177,7 @@ public class WebRoleController {
 		bean.setRole(role);
 		bean.setCreateTime(createTime);
 		int flag=WebRoleService.updateByroleId(bean);
+		WebRoleBean roleBean=WebRoleService.roleOne(roleId);
 		if (flag==1) {
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -161,11 +186,23 @@ public class WebRoleController {
 			webLogBean.setContent("修改web角色，role="+role);
 			webLogBean.setCreateTime(createTime);
 			WebLogService.writeLog(webLogBean);
-			if(MenuService.menuExists(Integer.parseInt(roleId))==0){
-				
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("roleId", roleBean.getRoleId());
+			map.put("parentId", roleBean.getParentId());
+			
+
+			if(MenuService.menuExistsByParentId(map)==0){			
+				if(MenuService.menuExists(map)==0){
 					MenuService.addMenu();
 					MenuService.updateMenuRoleId(Integer.parseInt(roleId));
-				
+				}
+			}else{
+				if(MenuService.menuExists(map)==0){
+					MenuService.addParentMenu(String.valueOf(roleBean.getParentId()));
+					MenuService.updateMenuRoleId(Integer.parseInt(roleId));
+				}else{
+					
+				}
 			}
 			this.message="修改角色成功";
 		}else {

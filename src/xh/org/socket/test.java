@@ -7,6 +7,7 @@ import cn.com.scca.signgw.api.SccaGwSDK;
 
 public class test {
 	public static void main(String[] args) {
+		
 
 	}
 

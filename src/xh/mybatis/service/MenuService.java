@@ -143,12 +143,25 @@ public class MenuService {
 	 * 判断菜单是否存在
 	 * @return
 	 */
-	public static int menuExists(int roleId){
+	public static int menuExists(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		int result=-1;
 		try {
-			result=mapper.menuExists(roleId);
+			result=mapper.menuExists(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static int menuExistsByParentId(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.menuExistsByParentId(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -166,6 +179,20 @@ public class MenuService {
 		int result=-1;
 		try {
 			result=mapper.addMenu();
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static int addParentMenu(String roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		int result=-1;
+		try {
+			result=mapper.addParentMenu(roleId);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

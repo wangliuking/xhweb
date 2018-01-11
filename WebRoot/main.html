@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>首页</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
+<!-- <link rel="stylesheet" type="text/css"
+	href="lib/zTree_v3/css/zTreeStyle/zTreeStyle.css"> -->
+<link rel="stylesheet" href="lib/zTree_v3/css/metroStyle/metroStyle.css" type="text/css">
+<!--[if lte IE 9]>
+<script src="Resources/js/jquery-1.8.3.min.js"></script>
+<script src="Resources/js/respond.min.js"></script>
+<script src="Resources/js/html5shiv.js"></script>
+<![endif]-->
+<script type="text/javascript">
+if (top.location !== self.location) {
+	top.location.href = location.href;
+}
+</script>
+<style type="text/css">
+html,body{
+  
+ margin:0;
+ padding:0;
+ overflow: hidden;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="index"
+	class="fixed-navbar fixed-sidebar">
+	<!-- 头部文件 -->
+	<div ng-include="'Views/top.html'"></div>
+	<!-- 系统菜单 -->
+	<div ng-include="'Views/menu.html'"></div>
+	<!-- 缩放 -->
+	<!-- <div id="left-bar"></div> -->
+
+	<!-- 中间内容体 -->
+	<iframe src="map.html" id="mainframe" name="mainframe" frameborder="0"
+			scrolling="no" ></iframe>
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	 <div ng-include="'Views/footer.html'"></div>
+	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+	src="Resources/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript"
+	src="lib/zTree_v3/js/jquery.ztree.core-3.5.min.js"></script>
+	<script type="text/javascript"
+		src="lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="Controllers/index.js"></script>
+	<script type="text/javascript">
+	
+
+</script>
+	<script type="text/javascript">
+		xh.load();
+		/* $("[data-toggle='tooltip']").tooltip(); */
+		/* function changeFrameHeight(){
+			$("#mainframe").height(document.documentElement.clientHeight-80);
+			$("#mainframe").width(document.documentElement.clientWidth-190);
+		}
+		function changeFrameHeight2(){
+			$("#mainframe").height(document.documentElement.clientHeight-80);
+			$("#mainframe").width(document.documentElement.clientWidth-10);
+		}
+		window.onresize=function(){ 
+			/* changeFrameHeight2(); */ 
+			/* if($("body").hasClass("hide-menu")){
+				changeFrameHeight2(); 
+			}else{
+				changeFrameHeight(); 
+			} */
+		      
+		//}; 
+	</script>
+</body>
+</html>

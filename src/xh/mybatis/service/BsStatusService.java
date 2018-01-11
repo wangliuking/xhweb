@@ -2,12 +2,14 @@ package xh.mybatis.service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
@@ -559,6 +561,31 @@ public class BsStatusService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	/**
+	 * tera系统告警基站部分  导出excel
+	 * @param map
+	 * @return
+	 */
+	public static List<BsAlarmExcelBean> bsAlarmExcel(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<BsAlarmExcelBean> list = new ArrayList<BsAlarmExcelBean>();
+		try {
+			list = mapper.bsAlarmExcel(map);
+			
+			/*System.out.println(Arrays.toString(list.toArray()));*/
+			
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

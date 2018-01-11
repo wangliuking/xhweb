@@ -72,9 +72,11 @@
 	<!--根据登录用户名查找登录用户 -->
 	<select id="selectUserByUser" parameterType="String" resultMap="webUserMap"
 		useCache="true">
-		select a.*,b.roleId from xhgmnet_web_user as a left join
-		xhgmnet_web_role_user as b on
-		a.userId=b.userId where user=#{user}
+		select a.*,b.roleId,c.role,c.roleType,c.parentId from xhgmnet_web_user as a left join
+		xhgmnet_web_role_user as b on a.userId=b.userId 
+		left join xhgmnet_web_role as c on b.roleId=c.roleId
+		
+		where user=#{user}
 	</select>
 	<!--根据用户名查找用户是否存在 -->
 	<select id="userIsExists" parameterType="String" resultType="int"
@@ -105,11 +107,25 @@
 		select a.*,b.roleId,c.role from xhgmnet_web_user as a left join
 		xhgmnet_web_role_user as b on
 		a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
+		
+		<if test="roleId!=10000">
+		where a.userId in (select userId from xhgmnet_web_role_user 
+		where roleId in(select roleId from xhgmnet_web_role where roleId=#{roleId} or parentId=#{roleId}))
+		</if>
+		
 		order by b.roleId asc limit #{start},#{limit}
+		<!-- select a.*,b.roleId,c.role from xhgmnet_web_user as a left join
+		xhgmnet_web_role_user as b on
+		a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
+		order by b.roleId asc limit #{start},#{limit} -->
 	</select>
 	<!--用户记录总数 -->
-	<select id="userAllCount" resultType="int" useCache="true">
-		select count(*) from xhgmnet_web_user
+	<select id="userAllCount" resultType="int" useCache="true" parameterType="map">
+		select count(*) from xhgmnet_web_user 
+		<if test="roleId!=10000">
+		where userId in (select userId from xhgmnet_web_role_user 
+		where roleId in(select roleId from xhgmnet_web_role where roleId=#{roleId} or parentId=#{roleId}))
+		</if>
 	</select>
 	<!--判断用户权限是否存在 -->
 	<select id="existsUserPower" parameterType="int" resultType="int"

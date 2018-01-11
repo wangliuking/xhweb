@@ -50,7 +50,7 @@
   </filter>
   <filter-mapping>
     <filter-name>checkLogin</filter-name>
-    <url-pattern>/index.html</url-pattern>
+    <url-pattern>/main.html</url-pattern>
     <url-pattern>/Views/*</url-pattern>
   </filter-mapping> 
   
