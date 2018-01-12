@@ -84,8 +84,8 @@
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-							<span>环控通断</span>
-							<span style="color:#458B74;margin-left:40%;">{{choosedBsNameTitle}}</span><span style="color:#191970;">{{choosedBsName}}</span>
+							<span>环控通断</span> <span style="color:#458B74;margin-left:40%;">{{choosedBsNameTitle}}</span><span
+								style="color:#191970;">{{choosedBsName}}</span>
 						</div>
 						<div class="panel-body" style="padding-left:20px;padding-right:20px;">
 							<div class="row">
@@ -140,7 +140,32 @@
 														</div>
 													</div>
 													<br/>
-													
+													<div class="form-group"
+														style="width:120px;margin-bottom:7px;">
+														<div class="pull-left">
+															<select class="form-control" id="bsLevel"
+																ng-change="refresh(x)" ng-model="bsL.id"
+																ng-init="bsL.id='0'">
+																<option value="" selected hidden></option>
+																<option ng-repeat="bsL in bsLevel"
+																	value={{bsL.id}}>{{bsL.name}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group"
+														style="width:120px;margin-bottom:7px;">
+														<div class="pull-left">
+															<select class="form-control" id="bsArea"
+																ng-change="refresh(x)" ng-model="bsA.name"
+																ng-init="bsA.name='全部区域'">
+																<option value="" selected hidden></option>
+																<option ng-repeat="bsA in bsArea"
+																	value={{bsA.name}}>{{bsA.name}}</option>
+															</select>
+														</div>
+													</div>
+													<br/>
+
 													<div class="form-group" style="width:120px;margin-bottom:7px;">
 														<div class="list-group-item">
 															<div class="pull-right">
@@ -265,23 +290,29 @@
 												<thead>
 													<tr class="tr-gray">
 														<th width="6%">序号</th>
-														<th width="12%">监控中心ID</th>
+														<th width="6%">基站ID</th>
+														<th width="9%">基站名称</th>
+														<th width="6%">基站分级</th>
+														<th width="6%">基站区域</th>
 														<th width="8%">告警编号</th>
 														<th width="15%">告警描述</th>
 														<th width="8%">设备名称</th>
 														<th width="8%">告警标志</th>
 														<th width="8%">告警触发值</th>														
 														<th width="8%">告警级别</th>
-														<th width="16%">告警时间</th>
+														<th width="12%">告警时间</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr ng-if="totals==0">
-														<td colspan="9" class="text-center">没有记录！</td>
+														<td colspan="12" class="text-center">没有记录！</td>
 													</tr>
 													<tr ng-repeat="x in data">
 														<td>{{$index+1}}</td>
-														<td>{{x.fsuId}}</td>
+														<td>{{x.siteId}}</td>
+														<td>{{x.name}}</td>
+														<td>{{x.level}}</td>
+														<td>{{x.zone}}</td>
 														<td>{{x.alarmId}}</td>
 														<td>{{x.alarmDesc}}</td>
 														<td>{{x.deviceName}}</td>

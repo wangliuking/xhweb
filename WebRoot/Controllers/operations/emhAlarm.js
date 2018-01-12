@@ -51,7 +51,6 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
-				console.log(response.items.length);
 			});
 		}		
 		/*//4期环控通断情况
@@ -96,7 +95,9 @@ xh.load = function() {
 			});
 			var alarmLevel = $("#alarmLv  option:selected").val();
 			var alarmFlag = $("#alarmFlags option:selected").val();
-			$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
+			var bsLevel = $("#bsLevel  option:selected").val();
+			var bsArea = "全部区域";
+			$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -106,9 +107,19 @@ xh.load = function() {
 		}
 		
 		
-		/*告警级别 告警状态*/
+		/*告警筛选*/
 		$scope.provs = [{"id":"0","name":"告警级别"},{"id":"1","name":"一级告警"},{"id":"2","name":"二级告警"},{"id":"3","name":"三级告警"}];
+		
 		$scope.alarmStatus = [{"id":"0","name":"告警状态"},{"id":"1","name":"告警中"},{"id":"2","name":"告警结束"}];
+		
+		$scope.bsLevel = [{"id":"0","name":"全部级别"},{"id":"1","name":"一级基站"},{"id":"2","name":"二级基站"},{"id":"3","name":"三级基站"}];
+		
+		$scope.bsArea = [{"id":"0","name":"全部区域"},{"id":"1","name":"简阳"},{"id":"2","name":"双流"},{"id":"e","name":"都江堰"},
+		                 {"id":"4","name":"天府新区"},{"id":"5","name":"温江"},{"id":"6","name":"龙泉驿"},{"id":"7","name":"金堂"},
+		                 {"id":"8","name":"青白江"},{"id":"9","name":"新都"},{"id":"10","name":"彭州"},{"id":"11","name":"郫都区"},
+		                 {"id":"12","name":"崇州"},{"id":"13","name":"大邑"},{"id":"14","name":"邛崃"},{"id":"15","name":"蒲江"},
+		                 {"id":"16","name":"新津"},{"id":"17","name":"高新区"},{"id":"18","name":"成华区"},{"id":"19","name":"武侯区"},
+		                 {"id":"20","name":"金牛区"},{"id":"21","name":"锦江区"},{"id":"22","name":"青羊区"},{"id":"23","name":"金牛区"}];
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -155,6 +166,9 @@ xh.load = function() {
 			});
 			var alarmLevel = $("#alarmLv  option:selected").val();
 			var alarmFlag = $("#alarmFlags option:selected").val();
+			var bsLevel = $("#bsLevel  option:selected").val();
+			var bsArea = $("#bsArea  option:selected").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -166,7 +180,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -184,6 +198,8 @@ xh.load = function() {
 			});
 			var alarmLevel = $("#alarmLv  option:selected").val();
 			var alarmFlag = $("#alarmFlags option:selected").val();
+			var bsLevel = $("#bsLevel  option:selected").val();
+			var bsArea = $("#bsArea  option:selected").val();
 			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
@@ -194,7 +210,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
 			success(function(response){
 				xh.maskHide();
 				

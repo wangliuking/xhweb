@@ -236,6 +236,8 @@ public class GosuncnController {
 		
 		String alarmlevel=request.getParameter("alarmLevel");
 		String alarmFlag=request.getParameter("alarmFlag");
+		String bsLevel = request.getParameter("bsLevel");
+		String bsArea = request.getParameter("bsArea");
 		if(!"".equals(alarmFlag) && "0".equals(alarmFlag)){
 			alarmFlag="";
 		}else if("1".equals(alarmFlag)){
@@ -246,8 +248,13 @@ public class GosuncnController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		String tempArea = "全部区域";
+		map.put("tempArea", tempArea);
+		
 		map.put("alarmlevel", alarmlevel);
 		map.put("alarmFlag", alarmFlag);
+		map.put("bsLevel", bsLevel);
+		map.put("bsArea", bsArea);
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("deviceIds", list);
@@ -373,7 +380,7 @@ public class GosuncnController {
 	public static void main(String[] args) {
 		String s= "ABC";
 		String a = "abc";
-		System.out.println(a.equalsIgnoreCase(s));
+		System.out.println("测试编码问题啊啊啊！！！");
 	}
 	
 	
