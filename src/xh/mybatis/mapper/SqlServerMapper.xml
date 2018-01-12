@@ -50,6 +50,7 @@
 		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 	
 		and State='报警' 
 		
+		
 		<if test="door==0">
 		and DevNode!='0011' and NodeID!='1002'
 		</if>

@@ -8,7 +8,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -803,19 +805,80 @@ public class BsStatusController {
 	@RequestMapping(value = "/bsZoneAlarm", method = RequestMethod.GET)
 	@ResponseBody
 	public void bsZoneAlarm(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
+		
+		/*String[] periods=request.getParameter("period").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : periods) {
+			list.add(string);
+		}*/
+		List<String> list=new ArrayList<String>();
 	
+		List<Map<String, Object>> r=BsStatusService.bsZoneAlarm(list);
+		List<Object> data3=new ArrayList<Object>();
+		List<Object> data4=new ArrayList<Object>();
+		List<Object> data=new ArrayList<Object>();
+		List<Object> name=new ArrayList<Object>();
+		List<Map<String, Object>> zone=new ArrayList<Map<String, Object>>();
+		Map<String, Object> m3=new HashMap<String, Object>();
+		Map<String, Object> m4=new HashMap<String, Object>();
 		
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		result.put("items", BsStatusService.bsZoneAlarm());
-		
-		 response.setContentType("application/json;charset=utf-8"); 
-		 String jsonstr = json.Encode(result); 
-		 try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (Map<String, Object> map : r) {
+			if(Integer.parseInt(map.get("period").toString())==4){
+				m3.put("m3-"+map.get("name"), map.get("value"));
+			}else{
+				m4.put("m4-"+map.get("name"), map.get("value"));
+			}
+			Map<String, Object> m=new HashMap<String, Object>();
+			m.put("zone", map.get("name"));
+			zone.add(m);
+			
 		}
+		HashSet h  = new HashSet(zone);
+		zone.clear();
+		zone.addAll(h);
+		try {
+			for (Map<String, Object> hashMap : zone) {
+				int a3=0,a4=0;
+				name.add(hashMap.get("zone"));
+				if(m3.get("m3-"+hashMap.get("zone"))!=null){
+					a3=Integer.parseInt(m3.get("m3-"+hashMap.get("zone")).toString());
+					data3.add(a3);
+					
+				}else{
+					data3.add(0);
+					a3=0;
+				}
+				if(m4.get("m4-"+hashMap.get("zone"))!=null){
+					a4=Integer.parseInt(m4.get("m4-"+hashMap.get("zone")).toString());
+					data4.add(a4);
+					
+				}else{
+					data4.add(0);
+					a4=0;
+				}
+				
+				/*if((a3+a4)>0){
+					
+				}*/
+				data.add(a3+a4);
+			}
+			
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("name", name);	
+			 result.put("list", data);
+			 result.put("list3", data3);
+			 result.put("list4", data4);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
 
 	}
 	/**

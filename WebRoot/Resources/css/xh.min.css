@@ -3324,6 +3324,8 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	height:60px;
 	color:#fff;
 	background:#fafafa;
+	border-radius:10px;
+	box-shadow:0 0 20px #ccc;
 }
 .panel-card .card-img{
 	padding:auto;
@@ -3349,8 +3351,23 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	color: #fff;
 	border: none;
 }
+.hbblue{
+	background:#0000FF;
+	color:#fff;
+	border:none;
+}
+.hbmagenta{
+	background:#FF00FF;
+	color:#fff;
+	border:none;
+}
+.hbchocolate{
+	background:#D2691E;
+	color:#fff;
+	border:none;
+}
 .hbgreen{
-	background: #629b58;
+	background: green;
 	color: #fff;
 	border: none;
 }
