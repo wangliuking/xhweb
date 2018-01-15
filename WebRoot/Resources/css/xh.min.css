@@ -3327,6 +3327,21 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	border-radius:10px;
 	box-shadow:0 0 20px #ccc;
 }
+/* .card-filter{
+  background-color: rgba(0,0,0,0.5);IE9、标准浏览器、IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂
+}
+
+@media \0screen\,screen\9 {只支持IE6、7、8
+  .card-filter{
+    background-color:#000000;
+    filter:Alpha(opacity=50);
+    position:static; IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值
+    *zoom:1; 激活IE6、7的haslayout属性，让它读懂Alpha
+  }
+  .card-filter span{
+    position: relative;设置子元素为相对定位，可让子元素不继承Alpha值
+  }  
+} */
 .panel-card .card-img{
 	padding:auto;
 	margin:auto;
@@ -3340,6 +3355,14 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	margin-top:10px;
 	height:100%;
 
+}
+.panel-card .card-info span{
+	padding:3px;
+	max-height:30px;
+	max-width:30px;
+	margin-right:2px;
+	background:#000;
+	border:1px solid #ccc;
 }
 .panel-card .card-img i{
 	margin-top:10px;

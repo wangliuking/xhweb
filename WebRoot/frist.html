@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>首页</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript" src="Resources/js/xhbootstrap-css.js"></script>
+<!-- <link rel="stylesheet" type="text/css"
+	href="lib/zTree_v3/css/zTreeStyle/zTreeStyle.css"> -->
+<link rel="stylesheet" href="lib/zTree_v3/css/metroStyle/metroStyle.css"
+	type="text/css">
+<!--[if lte IE 9]>
+<script src="Resources/js/jquery-1.8.3.min.js"></script>
+<script src="Resources/js/respond.min.js"></script>
+<script src="Resources/js/html5shiv.js"></script>
+<![endif]-->
+<script type="text/javascript">
+	if (top.location !== self.location) {
+		top.location.href = location.href;
+	}
+</script>
+<style type="text/css">
+html,body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="frist"
+	class="fixed-navbar fixed-sidebar">
+
+	<!-- 中间内容体 -->
+	<div class="lgData-content">
+		<div class="row">
+			<div class="col-md-3">
+
+				<div style="width:200px; margin-top:10px;"
+					class="panel-card hbmagenta card-filter">
+					<div class="card-img">
+						<i class="fa fa-user fa-3x"></i>
+					</div>
+					<div class="card-info">
+						<label>在线用户[数量]</label></br> <span>1</span><span>2</span><span>0</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-3">
+				<div style="width:200px; margin-top:10px;"
+					class="panel-card hbblue card-filter">
+					<div class="card-img">
+						<i class="fa fa-user fa-3x"></i>
+					</div>
+					<div class="card-info">
+						<label>终端[数量]</label></br> <span>8</span><span>2</span><span>0</span><span>0</span><span>0</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<div style="width:200px;margin-top:10px;"
+					class="panel-card hbchocolate card-filter">
+					<div class="card-img">
+						<i class="fa fa-bar-chart fa-3x"></i>
+					</div>
+					<div class="card-info">
+						<label>基站[数量]</label></br> <span>1</span><span>2</span><span>0</span></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div style="width:200px;margin-top:10px;"
+					class="panel-card hbgred card-filter">
+					<div class="card-img">
+						<i class="fa fa-wifi fa-3x"></i>
+					</div>
+					<div class="card-info">
+						<label>断站[数量]</label></br> <span>0</span><span>2</span><span>0</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 lg-left">
+				<div class="row">
+					<div class="col-md-12">
+						<p>基站呼叫TOP5</p>
+						<div id="call-top5"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12" style="width:300px;margin-top:0px;">
+						<p>基站注册组TOP5</p>
+						<div id="group-top5"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12" style="width:300px;margin-top:0px;">
+						<p>基站注册终端TOP5</p>
+						<div id="user-top5"></div>
+					</div>
+				</div>
+			</div>
+			<!-- lg-left -->
+			<div class="col-md-5 lg-center">
+				<div class="row">
+					<div class="col-md-12">
+						<div id="map"></div>
+					</div>
+				</div>
+			</div>
+			<!-- lg-center-->
+			<div class="col-md-4 lg-right">
+				<div class="row">
+					<div class="col-md-12">
+						<p>今日全网呼叫实时统计</p>
+						<div id="call-bar" style="padding:0;"></div>
+					</div>
+				</div>
+				<div>
+					<div class="row">
+					<div class="col-md-2"></div>
+						<div class="col-md-8">
+							<div>环控告警（10）</div>
+							<div class="progress progress-striped active" style="height:5px;">
+								<div class="progress-bar progress-bar progress-bar-danger" role="progressbar"
+									aria-valuenow="2" aria-valuemin="0"
+									aria-valuemax="10000000"
+									style="width:30%">
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+					<div class="col-md-2"></div>
+						<div class="col-md-8">
+							<div>Tera系统告警（200）</div>
+							<div class="progress progress-striped active" style="height:5px;">
+								<div class="progress-bar progress-bar progress-bar-warning" role="progressbar"
+									aria-valuenow="2" aria-valuemin="0"
+									aria-valuemax="10000000"
+									style="width:50%;">
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+					<div class="col-md-2"></div>
+						<div class="col-md-8">
+							<div>交换中心告警（2）</div>
+							<div class="progress progress-striped active" style="height:5px;">
+								<div class="progress-bar progress-bar progress-bar-success" role="progressbar"
+									aria-valuenow="2" aria-valuemin="0"
+									aria-valuemax="10000000"
+									style="width:70%">
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+					
+				</div>
+			</div>
+			<!-- lg-right -->
+		</div>
+		<!-- row -->
+	</div>
+
+	<!-- 中间内容体 /-->
+	<!-- 底部内容体 -->
+	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript" src="Resources/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="lib/echarts/echarts.js"></script>
+	<script type="text/javascript" src="Controllers/frist.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>
