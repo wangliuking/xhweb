@@ -44,6 +44,7 @@ public class BusinessVpnController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", BusinessVpnService.assetInfo());
+		result.put("ParentVpnId", BusinessVpnService.selectParentVpnId());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -78,25 +79,20 @@ public class BusinessVpnController {
 	 */
 	@RequestMapping("/updateByVpnId")
 	public void updateByVpnId(HttpServletRequest request, HttpServletResponse response){
+		String vpnId = request.getParameter("vpnId");
+		String nametemp = request.getParameter("name");
+		/*byte[] b=nametemp.getBytes("ISO-8859-1");
+		String name=new String(b,"utf-8");*/
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", BusinessVpnService.updateByVpnId(vpnId, nametemp));
+		String jsonstr = json.Encode(result);
 		try {
-			String vpnId = request.getParameter("vpnId");
-			String nametemp = request.getParameter("name");
-			byte[] b=nametemp.getBytes("ISO-8859-1");
-			String name=new String(b,"utf-8");
-			this.success=true;
-			HashMap result = new HashMap();
-			result.put("success", success);
-			result.put("items", BusinessVpnService.updateByVpnId(vpnId, name));
-			String jsonstr = json.Encode(result);
-			try {
-				response.getWriter().write(jsonstr);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (UnsupportedEncodingException e1) {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	

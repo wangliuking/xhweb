@@ -75,7 +75,6 @@
 		<if test="fsu==0">
 		and DevNode='0000'
 		</if>
-		
 		order by AlarmTime desc
 	</select>
 	<!--  查询三期基站环控通断状态  wlk-->

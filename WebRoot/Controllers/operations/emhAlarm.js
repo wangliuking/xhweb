@@ -68,6 +68,35 @@ xh.load = function() {
 			console.log(response.items);
 		});*/
 		
+		//三期告警
+		$scope.alarmModel=function(){
+			var type=[];
+			$('input[name="type"]:checked').each(function(){ 
+				type.push($(this).val()); 
+			}); 
+			$http.get("../../monitor/bsoffline?emhstart=0&emhlimit=500&type="+type.join(",")).success(function(response) {
+				$scope.bs = response.bsList;
+				$scope.bsTotals = response.bsListCount;
+				
+				$scope.msc=response.mscList;
+				$scope.mscTotals=response.mscCount;
+				
+				$scope.emh=response.emhList;
+				$scope.emhTotals=response.emhListCount;
+				
+			});
+		}
+		
+		$scope.alarmModel();
+		$('input[name="type"]').on('click',function(){ 
+			$scope.alarmModel();
+			
+		});
+		
+		setInterval(function(){
+			$scope.alarmModel();
+			}, 30000);
+		
 		//显示当前鼠标移入的基站名称
 		$scope.showMouseChoosedBsName = function(bsName) {
 			$scope.choosedBsNameTitle = "当前基站名称："

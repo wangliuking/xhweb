@@ -50,7 +50,8 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>业务管理</span></li>
-							<li><span>虚拟专网</span></li>
+							<li><span>数据管理</span></li>
+							<li><span>基础数据</span></li>
 							<li class="active"><span>组织结构</span></li>
 						</ol>
 					</div>
@@ -67,8 +68,7 @@
 							<ul id="treeDemo" class="ztree" style="height:500px;width:100%;overflow:auto;">
 
 							</ul>
-<!-- 							<button class="btn btn-xs btn-info" style="width:40px;float:right;overflow:hidden;" data-toggle="modal"
-											data-target="#add" ng-disabled="">新增</button> -->
+							
 						</div>
 						
 						<div class="panel-footer">
@@ -105,10 +105,20 @@
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button class="btn btn-warning btn-sm" ng-click="refresh()">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
-									</button>
+												<i class="fa fa-refresh"></i>&nbsp;刷新
+											</button>
 										</div>
 									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button class="btn btn-success btn-sm" ng-disabled=""
+												ng-click="showAddModel()">
+												<i class="fa fa-plus-circle"></i>&nbsp;添加二级部门
+											</button>
+										</div>
+									</div>
+
+
 								</form>
 							</div>
 							

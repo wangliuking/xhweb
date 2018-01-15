@@ -34,6 +34,15 @@ xh.load = function() {
 			dataForTree = response.items;
 			start(dataForTree);
 		});
+		
+		/* 显示model */
+		$scope.showAddModel = function(id) {
+			$http.get("../../vpn/list").success(function(response) {
+				$scope.ParentVpnId = response.ParentVpnId;
+				console.log(response.ParentVpnId);
+			});
+			$('#add').modal('show');
+		};
 
 		xh.select = function(vpnId) {
 			var C_ID = $("#C_ID").val();
@@ -149,12 +158,17 @@ var start = function(dataForTree) {
 		}
 	};
 	// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-	var zNodes = [ {
+	/*var zNodes = [ {
 		name : "组织名称",
 		open : true,
 		"checked" : "true",
 		children : dataForTree
-	} ];
+	} ];*/
+	var zNodes = [];
+	for(var i=0;i<dataForTree.length;i++){
+		var tempMap = {"id":dataForTree[i].vpnId,"pId":dataForTree[i].pId,"name":dataForTree[i].name};
+		zNodes.push(tempMap);
+	}
 
 	var log,className = "dark";
 	function beforeDrag(treeId, treeNodes) {
@@ -173,7 +187,7 @@ var start = function(dataForTree) {
 				+ treeNode.name);
 		$.ajax({
             type: "POST",
-            url: "../../vpn/deleteByVpnId?vpnId="+treeNode.vpnId,
+            url: "../../vpn/deleteByVpnId?vpnId="+treeNode.id,
             data: {},
             dataType: "json",
             success: function(data){
@@ -183,6 +197,7 @@ var start = function(dataForTree) {
 	}
 	var tempnewName;
 	function beforeRename(treeId, treeNode, newName) {
+		console.log(treeNode+"==="+treeNode.name+"==="+treeNode.id);
 		tempnewName=newName;
 		className = (className === "dark" ? "" : "dark");
 		showLog("[ " + getTime() + " beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; "
@@ -202,7 +217,7 @@ var start = function(dataForTree) {
 				+ treeNode.name);
 		$.ajax({
             type: "POST",
-            url: "../../vpn/updateByVpnId?vpnId="+treeNode.vpnId+"&name="+tempnewName,
+            url: "../../vpn/updateByVpnId?vpnId="+treeNode.id+"&name="+tempnewName,
             data: {},
             dataType: "json",
             success: function(data){
@@ -230,7 +245,7 @@ var start = function(dataForTree) {
 	});
 	// 为每个节点添加点击事件
 	function zTreeOnClick(event, treeId, treeNode) {
-		xh.select(treeNode.vpnId);
+		xh.select(treeNode.id);
 	}
 	;
 };

@@ -46,4 +46,9 @@ public interface VpnMapper {
 	 * 根据vpnId判断是否有重复的
 	 */
 	public int countByVpnId(String vpnId)throws Exception;
+	/**
+	 * 查询所有一级单位
+	 */
+	public List<Map<String,Object>> selectParentVpnId()throws Exception;
+	
 }

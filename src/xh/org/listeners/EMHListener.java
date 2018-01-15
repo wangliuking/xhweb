@@ -127,18 +127,13 @@ class timerTaskForData extends TimerTask {
 					String FSUID = map.get("fsuId");
 					String url = "http://" + map.get("fsuIp")
 							+ ":8080/services/FSUService";
-					try {
-						List<Map<String, String>> listData = Test.getDataForDB(url, FSUID);
-						// 插入前查询实时表里面有无数据,有则删除
-						GosuncnController.updateFSUID(FSUID);
-						// 插入实时数据
-						String result = GosuncnController.insertData(listData);
-						// 插入历史数据
-						GosuncnController.insertHData(listData);
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						log.info("获取数据失败！！！" + FSUID + "get data failure!!!");
-					}
+					List<Map<String, String>> listData = Test.getDataForDB(url, FSUID);
+					// 插入前查询实时表里面有无数据,有则删除
+					GosuncnController.updateFSUID(FSUID);
+					// 插入实时数据
+					String result = GosuncnController.insertData(listData);
+					// 插入历史数据
+					GosuncnController.insertHData(listData);
 				}
 			});
 		}

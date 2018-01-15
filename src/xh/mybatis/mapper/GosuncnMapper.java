@@ -30,7 +30,7 @@ public interface GosuncnMapper {
 	/**
 	 * 增加告警前查询是否有相同流水号的告警
 	 */
-	public List<Map<String,String>> selectBySerialNo(String serialNo);
+	public List<Map<String,Object>> selectBySerialNo(String serialNo);
 	
 	/**
 	 * 添加告警信息

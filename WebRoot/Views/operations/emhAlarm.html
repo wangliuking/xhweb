@@ -351,6 +351,116 @@
 						</div>
 					</div>
 				</div>
+
+
+				<section id="page-emh">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">
+									<div class="panel-tools">
+										<!-- <a class="showhide"><i class="fa fa-chevron-up"></i></a> -->
+										<!-- <a ng-click="showSearchWin()" data-toggle="modal" data-target="#search"> <i
+											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">筛选查询</span>
+										</a> -->
+									</div>
+									三期环控告警
+								</div>
+								<div class="panel-body">
+									<div
+										style="min-height:250px;max-height:450px;overflow: scroll;">
+
+										<div class="col-md-12">
+											<div class="form-group col-md-12 search"
+												style="margin-top:15px;">
+
+												<input id="type1" class="magic-checkbox" type="checkbox"
+													name="type" value="1" checked> <label for="type1"><span>门磁</span></label>
+
+												<input id="type2" class="magic-checkbox" type="checkbox"
+													name="type" value="2" checked> <label for="type2"><span>烟感</span></label>
+
+												<input id="type3" class="magic-checkbox" type="checkbox"
+													name="type" value="3" checked> <label for="type3"><span>红外</span></label>
+
+												<input id="type4" class="magic-checkbox" type="checkbox"
+													name="type" value="4" checked> <label for="type4"><span>水浸</span></label>
+
+												<input id="type5" class="magic-checkbox" type="checkbox"
+													name="type" value="5" checked> <label for="type5"><span>温湿度</span></label>
+
+
+												<input id="type6" class="magic-checkbox" type="checkbox"
+													name="type" value="6" checked> <label for="type6"><span>UPS</span></label>
+
+												<input id="type7" class="magic-checkbox" type="checkbox"
+													name="type" value="7" checked> <label for="type7"><span>电表</span></label>
+												<input id="type8" class="magic-checkbox" type="checkbox"
+													name="type" value="8" checked> <label for="type8"><span>FSU</span></label>
+											</div>
+
+											<table id="tb-info" class="xh-table table-hover">
+												<thead>
+													<tr class="tr-gray">
+														<th>基站ID</th>
+														<th>告警类型</th>
+														<th>告警描述</th>
+														<th>时间</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-if="emhTotals==0">
+														<td colspan="9" class="text-center">没有告警记录！</td>
+													</tr>
+													<tr ng-repeat="x in emh">
+
+														<td>{{x.bsId}}</td>
+														<td>{{x.DevName}}</td>
+														<td>{{x.AlarmText}}</td>
+
+														<td>{{x.time}}</td>
+														<!-- <td><span ng-if="x.singleId=='017010'">
+												温度过高告警</span> <span ng-if="x.singleId=='017011'">温度高告警</span> <span
+											ng-if="x.singleId=='017012'">温度过低告警</span> <span
+											ng-if="x.singleId=='017013'">湿度过高告警</span> <span
+											ng-if="x.singleId=='017014'">湿度过低告警</span> <span
+											ng-if="x.singleId=='017001'">水浸告警</span> <span
+											ng-if="x.singleId=='017002'">烟雾告警</span> <span
+											ng-if="x.singleId=='017004'">红外告警</span> <span
+											ng-if="x.singleId=='017020'">门打开</span> <span
+											ng-if="x.singleId=='092001'">市电停电</span> <span
+											ng-if="x.singleId=='092002'">市电缺相</span> <span
+											ng-if="x.singleId=='092004'">交流电压过高告警</span> <span
+											ng-if="x.singleId=='092005'">交流电压过低告警</span> <span
+											ng-if="x.singleId=='076002'">非智能设备采集器通信状态告警</span> <span
+											ng-if="x.singleId=='076501'">开关电源通信状态告警</span> <span
+											ng-if="x.singleId=='076507'">UPS设备通信状态告警</span> <span
+											ng-if="x.singleId=='076509'">智能电表通信状态告警</span></td>
+										<td>{{x.updateTime}}</td> -->
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<!-- <div class="page">
+								<div class="page-info-emh">
+									每页显示 <select id="page-limit-emh" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
 			</div>
 		</div>
 		<!--   row--end -->

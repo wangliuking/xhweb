@@ -7,24 +7,29 @@
   </resultMap>
   
   <select id="selectAllName" resultType="java.util.HashMap">
-  	select * from xhgmnet_business_vpn
+  	select vpnId,pId,name from xhgmnet_vpn
   </select>
   
   <delete id="deleteByVpnId" parameterType="java.lang.String">
-  	delete from xhgmnet_business_vpn where vpnId=#{vpnId}
+  	delete from xhgmnet_vpn where vpnId=#{vpnId}
   </delete>
   
   <update id="updateByVpnId" parameterType="map">
-  	update xhgmnet_business_vpn set name=#{name} where vpnId=#{vpnId}
+  	update xhgmnet_vpn set name=#{name} where vpnId=#{vpnId}
   </update>
   
   <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
-  	insert into xhgmnet_business_vpn(vpnId,name) values(#{vpnId},#{name})
+  	insert into xhgmnet_vpn(vpnId,pId,name,sn,time) values(#{vpnId},#{pId},#{name},#{sn},#{time})
   </insert>
   
   <!-- 添加之前查询vpnId是否重复 -->
   <select id="countByVpnId" resultType="int" parameterType="java.lang.String">
-  	select count(*) from xhgmnet_business_vpn where vpnId=#{vpnId}
+  	select count(*) from xhgmnet_vpn where vpnId=#{vpnId}
+  </select>
+  
+  <!-- 查询所有一级单位 -->
+  <select id="selectParentVpnId" resultType="map">
+  	select vpnId,name from xhgmnet_vpn where pId=0
   </select>
   
 </mapper>
