@@ -147,9 +147,15 @@ public class Test {
 	 * 
 	 */
 	public static List<Map<String, String>> getDataForDB(String url,
-			String FSUID) throws AxisFault{
+			String FSUID){
 		log.info("开始获取数据！！！");
-		FSUServiceStub stub = new FSUServiceStub(url);
+		FSUServiceStub stub = null;
+		try {
+			stub = new FSUServiceStub(url);
+		} catch (AxisFault e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		Invoke invoke = new Invoke();
 		org.apache.axis2.databinding.types.soapencoding.String enc = new org.apache.axis2.databinding.types.soapencoding.String();
 		List<Map<String, String>> list1 = null;

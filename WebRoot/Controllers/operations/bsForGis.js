@@ -64,7 +64,7 @@ xh.load = function() {
 				contentType: "application/json",
 				data : JSON.stringify(listMap),
 				success : function(data) {
-					$('#myModal').hide();
+					$('#myModal').modal('hide');
 					toastr.success("配置成功", '提示');
 					
 				},
@@ -188,7 +188,7 @@ xh.loadMap = function(data) {
 							},
 							itemStyle : {
 								normal : {
-									color : 'yellow'
+									color : 'black'
 								},
 								emphasis : {
 									color : 'yellow'

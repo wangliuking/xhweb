@@ -71,7 +71,6 @@ public class AmapController {
 			tempMap.put("userId", userId);
 			tempMap.put("level", level);
 			tempMap.put("zone", zone);
-			System.out.println(tempMap);
 			List<HashMap<String, String>> listMap = AmapService.bsByBoth(tempMap);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
@@ -289,7 +288,6 @@ public class AmapController {
 		try {
 			FunUtil funUtil = new FunUtil();
 			String userId = funUtil.loginUser(request);
-			System.out.println(userId);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("bsId", null);
 			map.put("name", null);
@@ -301,7 +299,6 @@ public class AmapController {
 			int gisViewTableNum = amapService.gisViewCount(temp);
 			
 			//比较bsTableNum和gisViewTableNum，若不一致则需要更新该用户的gisView
-			System.out.println("bsTableNum:"+bsTableNum+"====="+"gisViewTableNum:"+gisViewTableNum);
 			if(bsTableNum != gisViewTableNum){
 				//更新前删除该用户的gisView
 				amapService.deleteByUserId(temp);
@@ -360,8 +357,7 @@ public class AmapController {
 	@RequestMapping(value="/map/gisViewSave",method=RequestMethod.POST)
 	@ResponseBody
 	public void gisViewSave(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody List<Map<String,Object>> listMap){	
-		try {
-			System.out.println(listMap);			
+		try {		
 			FunUtil funUtil = new FunUtil();
 			String userId = funUtil.loginUser(request);
 			Map<String, Object> tempMap = new HashMap<String, Object>();

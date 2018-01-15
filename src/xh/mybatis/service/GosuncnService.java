@@ -86,10 +86,10 @@ public class GosuncnService {
 	 * @param map
 	 * @return
 	 */
-	public static List<Map<String, String>> selectBySerialNo(String serialNo){
+	public static List<Map<String, Object>> selectBySerialNo(String serialNo){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
-		List<Map<String, String>> result=null;
+		List<Map<String, Object>> result=null;
 		try {
 			result=mapper.selectBySerialNo(serialNo);
 			sqlSession.commit();

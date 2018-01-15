@@ -106,7 +106,22 @@ public class BusinessVpnService {
 		}	
 		return count;
 	}
-	
+	/**
+	 * 查询所有一级单位
+	 */
+	public static List<Map<String,Object>> selectParentVpnId(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		List<Map<String,Object>> list = null;
+		try {
+			list = mapper.selectParentVpnId();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	
 }
