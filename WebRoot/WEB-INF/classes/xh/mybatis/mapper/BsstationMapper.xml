@@ -33,6 +33,7 @@
 		</if>
 		order by a.bsId asc
 	</select>
+     
 		<select id="bsInfolimit"  resultType="map"
 		useCache="true">
 		select a.bsId,a.name,b.bsIds from xhgmnet_bs_station  as a

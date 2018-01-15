@@ -89,7 +89,7 @@ public interface BsStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> bsZoneAlarm() throws Exception;
+	public List<Map<String,Object>> bsZoneAlarm(List<String> list) throws Exception;
 	/**
 	 * 基站下的bs状态
 	 * @param bsId

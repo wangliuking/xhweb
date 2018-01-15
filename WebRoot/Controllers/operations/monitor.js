@@ -69,178 +69,11 @@ xh.load = function() {
 			$scope.alarmModel();
 			//xh.map();
 			xh.bsBar();
-			}, 10000);
+			}, 60000);
 
 	});
 };
-/*xh.map = function() {
-	// 设置容器宽高
-	var resizeBarContainer = function() {
-		$("#map").width(parseInt($("#map").parent().width()));
-		$("#map").height(600);
-	};
-	resizeBarContainer();
 
-	// 基于准备好的dom，初始化echarts实例
-	var chart = null;
-	if (chart != null) {
-		chart.clear();
-		chart.dispose();
-	}
-	require([ 'echarts', 'echarts/chart/map' ], function(ec) {
-		chart = ec.init(document.getElementById('map'));
-		chart.showLoading({
-			text : '正在努力的读取数据中...'
-		});
-		var cityMap = {
-			    "成都市": "510100",
-			    "简阳市": "51000",
-			    "自贡市": "510300",
-			    "攀枝花市": "510400",
-			    "泸州市": "510500",
-			    "德阳市": "510600",
-			    "绵阳市": "510700",
-			    "广元市": "510800",
-			    "遂宁市": "510900",
-			    "内江市": "511000",
-			    "乐山市": "511100",
-			    "南充市": "511300",
-			    "眉山市": "511400",
-			    "宜宾市": "511500",
-			    "广安市": "511600",
-			    "达州市": "511700",
-			    "雅安市": "511800",
-			    "巴中市": "511900",
-			    "资阳市": "512000",
-			    "阿坝藏族羌族自治州": "513200",
-			    "甘孜藏族自治州": "513300",
-			    "凉山彝族自治州": "513400",
-			};
-		var curIndx = 0;
-		var mapType = [];
-		var mapGeoData = require('echarts/util/mapData/params');
-		console.log(mapGeoData);
-		for (var city in cityMap) {
-		    mapType.push(city);
-		    // 自定义扩展图表类型
-		    mapGeoData.params[city] = {
-		        getGeoJson: (function (c) {
-		            var geoJsonName = cityMap[c];
-		            return function (callback) {
-		                $.getJSON('../../lib/echarts/util/mapData/params/' + geoJsonName + '.json', callback);
-		            };
-		        })(city)
-		    };
-		}
-		var ecConfig = require('echarts/config');
-		var zrEvent = require('zrender/tool/event');
-		
-		document.getElementById('map').onmousewheel = function (e){
-		    var event = e || window.event;
-		    curIndx += zrEvent.getDelta(event) > 0 ? (-1) : 1;
-		    if (curIndx < 0) {
-		        curIndx = mapType.length - 1;
-		    }
-		    var mt = mapType[curIndx % mapType.length];
-		    option.series[0].mapType = mt;
-		    option.title.subtext = mt + ' （滚轮或点击切换）';
-		    chart.setOption(option, true);
-		    zrEvent.stop(event);
-		};
-	
-		var option = {
-			title : {
-				subtext : '',
-				x : 'center'
-			},
-			tooltip : {
-				trigger : 'item'
-			},
-			legend : {
-				orient : 'vertical',
-				x : 'left',
-				data : [ '基站异常' ]
-			},
-		
-			dataRange : {
-				min : 0,
-				max : 100,
-				x : 'left',
-				y : 'bottom',
-				color:['red','red'],
-				itemStyle:{
-					color:'#fff'
-				},
-				text : [ '高', '低' ], // 文本，默认为数值文本
-				calculable : true
-			},
-			roamController : {
-				show : true,
-				x : 'right',
-				mapTypeControl : {
-					'china' : true
-				}
-			},
-			series : [ {
-				name : '基站异常',
-				type : 'map',
-				mapType : '成都市',
-				roam : false,
-				itemStyle : {
-					normal : {
-						label : {
-							show : true,
-							textStyle: {
-								  color: "#fff"
-								}
-						}
-					},
-					emphasis : {
-						label : {
-							show : true,
-							 textStyle: {
-								  color: "#fff"
-								}
-						},
-						areaStyle:{
-							color:'green'},
-					}
-				},
-				data : []
-			} ]
-		};
-		
-		$.ajax({
-			url : '../../bsstatus/bsZoneAlarm',
-			type : 'GET',
-			dataType : "json",
-			async : true,
-			data:{
-			},
-			success : function(response) {
-
-				var data = response.items;
-				// option.xAxis[0].data = xAxisData;
-				option.series[0].data = data;
-				 option.title.subtext="当前基站总数:"+response.totals; 
-				chart.hideLoading();
-				chart.setOption(option);
-			},
-			error : function() {
-			}
-		});
-		
-		
-		
-		
-		
-		
-
-	});
-	
-	
-
-};*/
 xh.bsBar = function() {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
@@ -260,53 +93,6 @@ xh.bsBar = function() {
 		/*chart.showLoading({
 			text : '正在努力的读取数据中...'
 		});*/
-		
-		
-	
-		/*var option = {
-			    title : {
-			        text: '世界人口总量',
-			        subtext: '数据来自网络'
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data:['设备工作状态异常的基站数量']
-			    },
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'value',
-			            type : 'category',
-			            data:[]
-			            splitLine:{show: false},//去除网格线
-			            boundaryGap : [0, 0.01]
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value',
-			            splitLine:{show: false},//去除网格线
-			            splitArea : {show : false},//保留网格区域
-			            data : []
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'设备工作状态异常的基站数量',
-			            itemStyle:{
-			            	normal:{
-			            		color:'green',
-			            		barBorderWidth:30,
-			            		barRorderRadius:4,
-			            		cursor:'pointer'
-			            	}},
-			            type:'bar',
-			            data:[]
-			        }
-			    ]
-			};*/
 		var option = {
 			    title : {
 			        text: '各区域设备工作状态异常的基站数量'
@@ -315,7 +101,7 @@ xh.bsBar = function() {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['设备工作状态异常的基站数量']
+			        data:['三期','四期','三四期']
 			    },
 			    
 			    calculable : true,
@@ -323,7 +109,17 @@ xh.bsBar = function() {
 			        {
 			            type : 'category',
 			            
-			            data : []
+			            data : [],
+			          //设置字体倾斜  
+	                    axisLabel:{  
+	                        interval:0,  
+	                        rotate:45,//倾斜度 -90 至 90 默认为0  
+	                        margin:2,  
+	                        textStyle:{  
+	                            fontWeight:"bolder",  
+	                            color:"#000000"  
+	                        }  
+	                    }
 			        }
 			    ],
 			    yAxis : [
@@ -333,22 +129,76 @@ xh.bsBar = function() {
 			    ],
 			    series : [
 			        {
-			            name:'设备工作状态异常的基站数量',
+			            name:'三期',
 			            type:'bar',
-			            barWidth: 30,//固定柱子宽度
+			            barWidth: 17,//固定柱子宽度
 			            data:[],
+			            /*barGap:'10%',*/
+			            barCategoryGap:'40%',
 			            itemStyle:{
 			            	normal:{
-			            		color:'green',
-			            		cursor:'pointer'
-			            	}},
+			            		color:'#0000FF',
+			            		cursor:'pointer',
+			            		label: {  
+		                                show: true,//是否展示  
+		                                textStyle: {  
+		                                    fontWeight:'bolder',  
+		                                    fontSize : '12',  
+		                                    fontFamily : '微软雅黑',  
+		                                }  
+		                            }
+			            	}}/*,
 			            
 			            markPoint : {
 			                data : [
 			                    {type : 'max', name: '最大值'},
 			                    {type : 'min', name: '最小值'}
 			                ]
-			            }
+			            }*/
+			        },
+			        {
+			            name:'四期',
+			            type:'bar',
+			            barWidth: 17,//固定柱子宽度
+			            data:[],
+			            /*barGap:'10%',*/
+			           /* barCategoryGap:50,*/
+			            itemStyle:{
+			            	normal:{
+			            		color:'#FF00FF',
+			            		cursor:'pointer',
+			            		label: {  
+		                                show: true,//是否展示  
+		                                textStyle: {  
+		                                    fontWeight:'bolder',  
+		                                    fontSize : '12',  
+		                                    fontFamily : '微软雅黑',  
+		                                }  
+		                            }
+			            	}}
+			        },
+			        {
+			            name:'三四期',
+			            type:'bar',
+			            barWidth: 17,//固定柱子宽度
+			            data:[],
+			            /*barGap:2,*/
+			            /*barCategoryGap:2,*/
+			            itemStyle:{
+			            	normal:{
+			            		color:'#D2691E',
+			            		cursor:'pointer',
+			            		
+			            		label: {  
+		                                show: true,//是否展示 ,
+		                             
+		                                textStyle: {  
+		                                    fontWeight:'bolder',  
+		                                    fontSize : '12',  
+		                                    fontFamily : '微软雅黑',  
+		                                }  
+		                            }
+			            	}}
 			        }
 			    ]
 			};
@@ -359,21 +209,24 @@ xh.bsBar = function() {
 			dataType : "json",
 			async : true,
 			data:{
+				//period:type.join(",")
 			},
 			success : function(response) {
 
 				/*var data = response.items;
 				option.series[0].data = data;*/
-				var data = response.items;
+				/*var data = response.items;
 				var y=[],x=[];
 				
 				for(var i=0;i<data.length;i++){
 					y.push(data[i].name);
 					x.push(data[i].value);
 					
-				}
-				option.xAxis[0].data=y;
-				option.series[0].data=x;
+				}*/
+				option.xAxis[0].data=response.name;
+				option.series[0].data=response.list3;
+				option.series[1].data=response.list4;
+				option.series[2].data=response.list;
 				chart.setOption(option);
 				chart.on('click',function(params){
 					var name=params.name;

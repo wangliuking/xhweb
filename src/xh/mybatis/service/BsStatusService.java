@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
+import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.EmhBean;
 import xh.mybatis.mapper.BsStatusMapper;
 import xh.mybatis.mapper.BsstationMapper;
@@ -64,12 +65,12 @@ public class BsStatusService {
 	 * @param map
 	 * @return
 	 */
-	public static List<Map<String, Object>> bsZoneAlarm() {
+	public static List<Map<String, Object>> bsZoneAlarm(List<String> period) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		try {
-			list = mapper.bsZoneAlarm();
+			list = mapper.bsZoneAlarm(period);
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
 				if(map.get("value")==null){
@@ -575,6 +576,14 @@ public class BsStatusService {
 			list = mapper.bsAlarmExcel(map);
 			
 			/*System.out.println(Arrays.toString(list.toArray()));*/
+			Map<String, Object> map2=new HashMap<String, Object>();
+			map2.put("bsId", "");
+			map2.put("name", "");
+			map2.put("start", 0);
+			map2.put("limit", 500);
+			List<BsstationBean> bs = BsstationService.bsInfo(map2);
+			
+			
 			
 			sqlSession.close();
 

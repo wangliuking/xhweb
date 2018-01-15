@@ -147,8 +147,9 @@ xh.load = function() {
 								}
 							},
 							pointer : { // 分隔线
-								shadowColor : '#FF00FF', // 默认透明
-								shadowBlur : 5
+								shadowColor : '#000', // 默认透明
+								shadowBlur : 5,
+								width:4
 							},
 							title : {
 								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
@@ -245,8 +246,9 @@ xh.load = function() {
 								}
 							},
 							pointer : { // 分隔线
-								shadowColor : '#FF4500', // 默认透明
-								shadowBlur : 5
+								shadowColor : '#000', // 默认透明
+								shadowBlur : 5,
+								width:4
 							},
 							title : {
 								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE

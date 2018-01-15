@@ -110,8 +110,11 @@ GB18030-2000 和 GB18030-2005 都不支持单字节的欧元符号
 	top: 51px;
 	transition: all 0.4s ease 0s;
 	border: 0px solid green;
-	background-image: url("../images/img/ocean.jpg");
-	/* background:#fafafa; */
+	/* font-size: 11pt; */
+	font-family: "微软雅黑";
+	background-image: url("../images/img/main2.jpg");
+	background-position: right;
+    background:#263238;
 }
 #left-bar {
 	width: 5px;

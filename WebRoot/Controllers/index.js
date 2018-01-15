@@ -12,8 +12,8 @@ xh.load = function() {
 	app.filter('bsName', function() { // 可以注入依赖
 		return function(text) {
 			
-			if(text.indexOf(",")>0){
-				return text.split(",")[0];
+			if(text.indexOf("，")>0){
+				return text.split("，")[0];
 			}else{
 				return text;
 			}
@@ -23,8 +23,8 @@ xh.load = function() {
 	app.filter('alarmContent', function() { // 可以注入依赖
 		return function(text) {
 			
-			if(text.indexOf(",")>0){
-				return text.split(",")[2];
+			if(text.indexOf("，")>0){
+				return text.split("，")[2];
 			}else{
 				return text;
 			}

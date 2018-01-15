@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +62,7 @@ public class MonitorController {
 		
 		String[] type=request.getParameter("type").split(",");
 		List<String> list=new ArrayList<String>();
-		int door=0,smoke=0,red=0,water=0,temp=0,ups=0,i=0,fsu=0;
+		int door=0,smoke=0,red=0,water=0,temp=0,ups=0,i=0,fsu=0,period3=0,period4=0;
 		for (String str : type) {
 			if(str.equals("1")){door=1;}
 			if(str.equals("2")){smoke=1;}
@@ -70,6 +72,8 @@ public class MonitorController {
 			if(str.equals("6")){ups=1;}
 			if(str.equals("7")){i=1;}
 			if(str.equals("8")){fsu=1;}
+			if(str.equals("9")){period3=1;}
+			if(str.equals("10")){period4=1;}
 		}
 		
 		Map<String,Object> emhParamMap=new HashMap<String, Object>();
@@ -90,12 +94,19 @@ public class MonitorController {
 		List<Map<String,Object>>  threeEmh=SqlServerService.EmhAlarmList(emhParamMap);
 		List<Map<String,Object>>  fourEmh=BsStatusService.fourEmhAlarmList(emhParamMap);
 		List<Map<String,Object>> emh=new ArrayList<Map<String,Object>>();
-		for (Map<String, Object> map : threeEmh) {
-			emh.add(map);
+		if(period3==1){
+			for (Map<String, Object> map : threeEmh) {
+				emh.add(map);
+			}
 		}
-		for (Map<String, Object> map : fourEmh) {
-			emh.add(map);
+		
+		if(period4==1){
+			for (Map<String, Object> map : fourEmh) {
+				emh.add(map);
+			}
 		}
+		
+		Collections.sort(emh,new MapComparator());
 		
 		HashMap result = new HashMap();
 		result.put("bsList", bs);
@@ -116,4 +127,17 @@ public class MonitorController {
 	}
 
 	
+}
+class MapComparator implements Comparator<Map<String,Object>> {
+	 
+    public int compare(Map<String,Object> o1, Map<String,Object> o2) {
+        // TODO Auto-generated method stub
+        String b1 = o1.get("time").toString();
+        String b2 = o2.get("time").toString();
+        if (b2 != null) {
+            return b2.compareTo(b1);
+        }
+        return 0;
+    }
+
 }
