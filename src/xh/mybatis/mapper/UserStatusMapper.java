@@ -25,5 +25,7 @@ public interface UserStatusMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap> userStatusByChart()throws Exception;
+	
+	public int userOnline()throws Exception;
 
 }

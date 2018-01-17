@@ -34,6 +34,11 @@
 		useCache="true">
 		select regStatus as name,count(userId) as value from xhgmnet_operations_userstatus
 		group by regStatus order by regStatus asc
-	</select>  
+	</select> 
+	<!--终端在线统计 -->
+	<select id="userOnline" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_userstatus where regStatus in(1,2,3)
+	</select> 
 
 </mapper>

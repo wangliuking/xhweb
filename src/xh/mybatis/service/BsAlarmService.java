@@ -42,6 +42,21 @@ public class BsAlarmService {
 	        return BsAlarm;   
 	}
 	
+	public static List<Map<String,Object>> selectTop5(){
+		SqlSession session=DbTools.getSession();
+		BsAlarmMapper mapper=session.getMapper(BsAlarmMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.selectTop5();
+			session.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	/**
 	 * 告警总数
 	 * @return

@@ -19,6 +19,25 @@
 		select name,a.status,updateTime from xhgmnet_bs_status as
 		a,xhgmnet_bs_station as b where a.bsId=b.bsId
 	</select>
+	<!-- 基站离线总计 -->
+	<select id="bsOfflineCount" resultType="int"
+		useCache="true">
+		select count(*) from  view_bsstatus where link!=0
+	</select>
+	<!-- 基站注册组 -->
+	<select id="bsGroupTop5" resultType="map"
+		useCache="true">
+		SELECT a.bsId,count(a.gourpId) as value,b.name FROM `xhgmnet_bs_groupstatus` as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		  group by a.bsId order by  value desc limit 5
+	</select>
+	<!-- 基站注册终端 -->
+	<select id="bsRadioTop5" resultType="map"
+		useCache="true">
+		SELECT a.bsId,count(a.userId) as value,b.name FROM `xhgmnet_operations_userstatus` as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		  group by a.bsId order by  value desc limit 5
+	</select>
 	<!--导出现网基站的运行记录 -->
 	<select id="excelToBsStatus" resultType="xh.mybatis.bean.BsStatusBean"
 		useCache="true">

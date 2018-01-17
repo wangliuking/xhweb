@@ -52,6 +52,8 @@ public interface BsstationMapper {
 	 */
 	public int bslimitListCount()throws Exception;
 	
+	public int bsTotal()throws Exception;
+	
 	/**
 	 * 基站限制列表是否存在
 	 * @return
