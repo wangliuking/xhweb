@@ -123,6 +123,21 @@ public class BsstationService {
 		}
 		return count;
 	}
+	//基站总数
+	public static int bsTotal() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count=0;
+		try {
+			count = mapper.bsTotal();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	/**
 	 * 新增限制列表
 	 * @param map

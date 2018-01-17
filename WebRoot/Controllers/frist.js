@@ -14,14 +14,15 @@ var alarmji=true;
 var appElement = document.querySelector('[ng-controller=frist]');
 xh.load = function() {
 	var app = angular.module("app", []);
-	app.filter('bsName', function() { // 可以注入依赖
+	app.filter('formatNum', function() { // 可以注入依赖
 		return function(text) {
-			
-			if(text.indexOf("，")>0){
-				return text.split("，")[0];
-			}else{
-				return text;
+			var str="";
+			var a=text.toString();
+			for(var i=0;i<a.length;i++){
+				str+="<span>"+a.charAt(i)+"</span>";
 			}
+			return str;
+			
 			
 		};
 	});
@@ -36,21 +37,79 @@ xh.load = function() {
 			
 		};
 	});
+	app.filter('alarmLocation', function() { //可以注入依赖
+	    return function(text) {
+	    	
+	    	if(text.indexOf("交换中心")==0){
+	    		return text.split(".")[4]+"."+text.split(".")[5];
+	    	}else{
+	    		return text;
+	    	}
+	        
+	    };
+	});
 	app.controller("frist", function($scope, $http) {
-		xh.map();
-		xh.callTop5();
-		xh.groupTop5();
-		xh.userTop5();
+		
+		$scope.info=function(){
+			$http.get("dataView/show").
+			success(function(response){
+				xh.maskHide();
+				$scope.useOnlineCount=response.useOnlineCount;
+				$scope.userCount=response.userCount;
+				$scope.bsCount=response.bsCount;
+				$scope.bsOffline=response.bsOffline;
+				$scope.group=response.group;
+				$scope.radio=response.radio;
+				$scope.emh=response.emh;
+				$scope.mscCount=response.mscCount;
+				$scope.geoCoord=response.geoCoord;
+				$scope.bsNames=response.bsNames;
+				$scope.tera=response.tera;
+				
+				$("#userOnline").html(xh.formatNum($scope.useOnlineCount));
+				$("#userCount").html(xh.formatNum($scope.userCount));
+				$("#bsCount").html(xh.formatNum($scope.bsCount));
+				$("#bsOffline").html(xh.formatNum($scope.bsOffline));
+				$("#emh").html($scope.emh);
+				$("#msc").html($scope.mscCount);
+				xh.groupTop5($scope.group);
+				xh.userTop5($scope.radio);
+				xh.callTop5($scope.radio);
+				xh.map($scope.geoCoord,$scope.bsNames);
+				
+			});
+		}
+		
+		
+	/*	xh.call();*/
+		
 		xh.callInfo();
+		$scope.info();
+		
+		setInterval(function(){
+			xh.callInfo();
+			$scope.info();
+		}, 20000)
 
 	});
 };
 
-xh.map=function(){
+xh.formatNum=function(text){
+	var str="";
+	var a=text.toString();
+	for(var i=0;i<a.length;i++){
+		str+="<span>"+a.charAt(i)+"</span>";
+	}
+	return str;
+	
+}
+xh.map=function(data,name){
 	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
-		$("#map").width(600);
-		$("#map").height(500);
+		$("#map").width((width/12)*5);
+		$("#map").height(height-115);
 	};
 	resizeBarContainer();
 
@@ -73,13 +132,14 @@ xh.map=function(){
 		var option = {
 			    backgroundColor: '',
 			    color: ['gold','aqua','lime'],
+			  
 			 
 			    textStyle:{
                 	color:'#fff'
                 },
 			    tooltip : {
 			        trigger: 'item',
-			        formatter: '{b}'
+			        formatter: '{b}-》链路断开'
 			    },
 			   /* legend: {
 			        orient: 'vertical',
@@ -95,11 +155,11 @@ xh.map=function(){
 			        }
 			    },*/
 			  
-			   /* dataRange: {
+			 /*  dataRange: {
 			        min : 0,
-			        max : 100,
+			        max : 1,
 			        calculable : true,
-			        color: ['#ff3333', 'orange', 'yellow','lime','aqua'],
+			        color: ['red', 'red'],
 			        textStyle:{
 			            color:'#fff'
 			        }
@@ -116,22 +176,30 @@ xh.map=function(){
 			                	label:{
 			                		show:true,
 			                		textStyle:{
-			    			            color:'#fff'
+			    			            color:'#fff',
+			    			            fontSize:11
 			    			        }
 			                		} ,
-			                    borderColor:'#fff',
-			                    borderWidth:0.5,
+			                    borderColor:'green',
+			                    borderWidth:1,
 			                    areaStyle:{
-			                        color: '#4B0082'
+			                        /*color: '#1b1b1b',*/
+			                        color:'',
+			                        visibility: 'off'
 			                    },
 			                    
 			                    emphasis:{label:{show:true}} 
 			                }
 			            },
+			            geoCoord: {
+			                '彭州市2': [103.927345,30.663843],
+			                '大邑青霞镇': [103.53239, 30.67419]
+			                
+			            },
 			        
 		                
 			            data:[],
-			            markLine : {
+			            /*markLine : {
 			                smooth:true,
 			                symbol: ['none', 'circle'],  
 			                symbolSize : 1,
@@ -143,15 +211,37 @@ xh.map=function(){
 			                    }
 			                },
 			                data : [
-			                    [{name:'北京'},{name:'包头'}]
-			                ],
-			            },
-			            geoCoord: {
-			                '上海': [121.4648,31.2891]
+			                        [{name:'锦江区'}, {name:'测试基站',value:0}],
+			                ]
+			            },*/
+			            markPoint:{
+			            	symbol:'emptyCircle',
+			               /* symbolSize : function (v){
+			                    return 10 + v/10
+			                },*/
+			                effect : {
+			                    show: true,
+			                    shadowBlur : 40,
+			                    
+			                    color:'red'
+			                },
+			                itemStyle:{
+			                    normal:{
+			                        label:{show:true}
+			                    },
+			                    emphasis: {
+			                        label:{position:'bottom'}
+			                    }
+			                },
+			                data : name
 			            }
+			            
 			        }
 			    ]
 			};
+		 for (var i in data) {
+             option.series[0].geoCoord[data[i].name] = [parseFloat(data[i].lng), parseFloat(data[i].lat)];
+         }
 		
 		chart.setOption(option);
 
@@ -162,11 +252,160 @@ xh.map=function(){
 	};*/
 	
 }
-xh.callTop5=function(){
+xh.call = function() {
 	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
-		$("#call-top5").width(450);
-		$("#call-top5").height(150);
+		$("#call-bar").width((width/12)*4);
+		$("#call-bar").height(height-350);
+	};
+	  resizeBarContainer();
+	 
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/bar','echarts/chart/line' ], function(ec) {
+		chart = ec.init(document.getElementById('call-bar'));
+		var option = {
+			    title : {
+			        text: ''/*,
+			        subtext: '纯属虚构'*/
+			    },
+			    /*tooltip : {
+			        trigger: 'axis'
+			    },*/
+			    tooltip : {
+					trigger : 'item'/*,
+					formatter: function (params, ticket, callback) {  
+						
+						
+			            //x轴名称  
+			            var name = params.name; 
+			            //图表title名称  
+			            var seriesName = params.seriesName;  
+			            //值  
+			            var value = params.data;  
+			            var valueFliter = xh.formatTime(parseInt(value)); 
+			            return name + '<br />' + seriesName + '<br />' + valueFliter; 
+			           
+			        }*/
+				},
+			    legend: {
+			        data:['呼叫时长','呼叫次数']
+			    },
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : [],
+			          //设置字体倾斜  
+	                    axisLabel:{  
+	                        interval:0,  
+	                        rotate:45,//倾斜度 -90 至 90 默认为0  
+	                        margin:2,  
+	                        textStyle:{  
+	                            fontWeight:"bolder",  
+	                            color:"#fff"  
+	                        }  
+	                    }
+			        }
+			    ],
+			    yAxis : [
+			      {
+                    type: 'value',
+                    name: '呼叫时长',
+                    min: 0,
+                    
+                    position: 'left',
+                    axisLabel: {
+                        formatter: '{value} （分钟）',
+                        textStyle:{
+                        	color:'#fff'
+                        }
+                    }
+                    },{
+	                    type: 'value',
+	                    name: '呼叫次数',
+	                    min: 0,
+	                  
+	                    position: 'right',
+	                    axisLabel: {
+	                        formatter: '{value} （次）'
+	                    }
+	                }
+			    ],
+			    series : [
+			        {
+			            name:'呼叫时长',
+			            type:'bar',
+			            data:[],
+			            itemStyle:{normal:{color:'green'}}
+			        },{
+			            name:'呼叫次数',
+			            type:'line',
+			            yAxisIndex:1,
+			            itemStyle:{normal:{color:'#d14a61'}},
+			            data:[]
+			        }
+			    ]
+			};
+
+		$.ajax({
+			url : 'call/chart',
+			type : 'POST',
+			dataType : "json",
+			async : false,
+			data:{
+				bsId:0,
+				time:'2017-11-21',
+				type:'hour'
+			},
+			success : function(response) {
+				var data = response.time;
+				var num = response.num;
+				var xData=[],yData=[],yData2=[];
+				
+				for(var i=0;i<data.length;i++){
+					xData.push(data[i].label);
+					yData.push(data[i].time);
+					yData2.push(num[i].num);
+				}
+				var bsId=parseInt($("select[name='bsId']").val());
+				var text="";
+				
+				option.series[0].data = yData;
+				option.series[1].data = yData2;
+				option.xAxis[0].data = xData;
+				chart.setOption(option);
+				xh.maskHide();
+
+			},
+			failure : function(response) {
+				xh.maskHide();
+			}
+		});
+		
+		chart.setOption(option);
+
+	});
+	
+	// 用于使chart自适应高度和宽度
+	window.onresize = function() {
+		// 重置容器高宽
+		 resizeBarContainer();
+	};
+};
+xh.callTop5=function(data){
+	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
+	var resizeBarContainer = function() {
+		$("#call-top5").width((width/12)*3);
+		$("#call-top5").height((height-200)/3);
 	};
 	resizeBarContainer();
 
@@ -181,7 +420,10 @@ xh.callTop5=function(){
 	
 	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
 		chart = ec.init(document.getElementById('call-top5'));
-		
+		var leglend=[]
+		for(var i=0;i<data.length;i++){
+			leglend.push(data[i].name);
+		}
 		var option = {
 			    tooltip : {
 			        trigger: 'item',
@@ -193,7 +435,7 @@ xh.callTop5=function(){
 			        textStyle:{
 			        	color:'#fff',
 			        },
-			        data:['测试基站1','测试基站2','测试基站3','测试基站4','测试基站5']
+			        data:leglend
 			    },
 			  
 			    calculable : false,
@@ -202,7 +444,7 @@ xh.callTop5=function(){
 			            name:'基站呼叫TOP5',
 			            type:'pie',
 			            radius : ['50%', '70%'],
-			            center : ['200', 60],
+			            center : ['50%', '40%'],
 			            itemStyle : {
 			                normal : {
 			                    label : {
@@ -223,13 +465,7 @@ xh.callTop5=function(){
 			                    }
 			                }
 			            },
-			            data:[
-			                {value:335, name:'测试基站1'},
-			                {value:310, name:'测试基站2'},
-			                {value:234, name:'测试基站3'},
-			                {value:135, name:'测试基站4'},
-			                {value:154, name:'测试基站5'}
-			            ]
+			            data:data
 			        }
 			    ]
 			};
@@ -242,11 +478,13 @@ xh.callTop5=function(){
 	};*/
 	
 }
-xh.groupTop5=function(){
+xh.groupTop5=function(data){
 	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
-		$("#group-top5").width(300);
-		$("#group-top5").height(150);
+		$("#group-top5").width((width/12)*3);
+		$("#group-top5").height((height-200)/3);
 	};
 	resizeBarContainer();
 
@@ -261,6 +499,10 @@ xh.groupTop5=function(){
 	
 	require([ 'echarts', 'echarts/chart/funnel' ], function(ec) {
 		chart = ec.init(document.getElementById('group-top5'));
+		var leglend=[]
+		for(var i=0;i<data.length;i++){
+			leglend.push(data[i].name);
+		}
 		
 		var option = {
 			    
@@ -275,7 +517,7 @@ xh.groupTop5=function(){
 				        textStyle:{
 				        	color:'#fff',
 				        },
-			        data : ['测试基站1','测试基站2','测试基站3','测试基站4','测试基站5']
+			        data : leglend
 			    },
 			    calculable : false,
 			    series : [
@@ -286,13 +528,7 @@ xh.groupTop5=function(){
 			            height:'80%',
 			            x:'40%',
 			            y:10,
-			            data:[
-			                {value:60, name:'测试基站1'},
-			                {value:40, name:'测试基站2'},
-			                {value:20, name:'测试基站3'},
-			                {value:80, name:'测试基站4'},
-			                {value:100, name:'测试基站5'}
-			            ]
+			            data:data
 			        }
 			    ]
 			};
@@ -305,11 +541,13 @@ xh.groupTop5=function(){
 	};*/
 	
 }
-xh.userTop5=function(){
+xh.userTop5=function(data){
 	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
-		$("#user-top5").width(300);
-		$("#user-top5").height(130);
+		$("#user-top5").width((width/12)*3);
+		$("#user-top5").height((height-150)/3);
 	};
 	resizeBarContainer();
 
@@ -324,7 +562,10 @@ xh.userTop5=function(){
 	
 	require([ 'echarts', 'echarts/chart/funnel' ], function(ec) {
 		chart = ec.init(document.getElementById('user-top5'));
-		
+		var leglend=[]
+		for(var i=0;i<data.length;i++){
+			leglend.push(data[i].name);
+		}
 		var option = {
 			    
 			    tooltip : {
@@ -338,7 +579,7 @@ xh.userTop5=function(){
 				        textStyle:{
 				        	color:'#fff',
 				        },
-			        data : ['测试基站1','测试基站2','测试基站3','测试基站4','测试基站5']
+			        data :leglend
 			    },
 			    calculable : false,
 			    series : [
@@ -349,13 +590,7 @@ xh.userTop5=function(){
 			            height:'80%',
 			            x:'40%',
 			            y:10,
-			            data:[
-			                {value:60, name:'测试基站1'},
-			                {value:40, name:'测试基站2'},
-			                {value:20, name:'测试基站3'},
-			                {value:80, name:'测试基站4'},
-			                {value:100, name:'测试基站5'}
-			            ]
+			            data:data
 			        }
 			    ]
 			};
@@ -370,9 +605,11 @@ xh.userTop5=function(){
 }
 xh.callInfo=function(){
 	// 设置容器宽高
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
-		$("#call-bar").width(500);
-		$("#call-bar").height(200);
+		$("#call-bar").width((width/12)*4-40);
+		$("#call-bar").height(height-350);
 	};
 	resizeBarContainer();
 
@@ -385,22 +622,19 @@ xh.callInfo=function(){
 	
 	
 	
-	require([ 'echarts', 'echarts/chart/bar' ], function(ec) {
+	require([ 'echarts', 'echarts/chart/bar','echarts/chart/line' ], function(ec) {
 		chart = ec.init(document.getElementById('call-bar'));
 		
 		var option = {
-			    /*title : {
-			       text: '今日全网呼叫实时统计',
-			       textStyle:{
-			    	   color:'#fff'
-			       }
-			    },*/
 			    tooltip : {
 			        trigger: 'axis'
 			    },
-			    /*legend: {
-			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计']
-			    },*/
+			    legend: {
+			    	data:['呼叫时长','呼叫次数'],
+			    	textStyle:{
+			    		color:'#fff'
+			    	}
+			    },
 			    
 			    calculable : true,
 			    xAxis : [
@@ -420,48 +654,108 @@ xh.callInfo=function(){
 			                    "18","19","20","21","22","23"]
 			        }
 			    ],
-			    yAxis : [
-			        {
-			            type : 'value',
-			            splitLine:{show: false},//去除网格线
-			            splitArea : {show : false},//去除网格区域
-			            axisLabel : {
-                            formatter: '{value}',
-                            textStyle: {
-                                color: '#fff'
-                            }
+			    yAxis : [ {
+                    type: 'value',
+                    name: '呼叫时长',
+                    min: 0,
+                    
+                    position: 'left',
+                    axisLabel: {
+                        formatter: '{value} （分钟）',
+                        textStyle:{
+                        	color:'#fff'
                         }
-			            
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'呼叫信息',
-			            type:'bar',
-			            barWidth: 5,//固定柱子宽度
-			            data:[2,5,7,8,9,10,11,12,13,14,15,14,45,34,45,46,56,56,56,3,2,34,55,54],
-			            itemStyle:{
-			            	normal:{
-			            		color:'#9ACD32',
-			            		cursor:'pointer'
-			            	}},
-			            
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            }
-			        }
+                    }
+                    },{
+	                    type: 'value',
+	                    name: '呼叫次数',
+	                    min: 0,
+	                  
+	                    position: 'right',
+	                    axisLabel: {
+	                        formatter: '{value} （次）',
+	                        textStyle:{
+	                        	color:'#fff'
+	                        }
+	                    }
+	                }],
+			    series : [{
+		            name:'呼叫时长',
+		            type:'bar',
+		            data:[],
+		            itemStyle:{normal:{color:'#FF00FF'}}
+		        },{
+		            name:'呼叫次数',
+		            type:'line',
+		            yAxisIndex:1,
+		            itemStyle:{normal:{color:'yellow'}},
+		            data:[]
+		        }
 			    ]
 			};
 		
-		chart.setOption(option);
+		$.ajax({
+			url : 'call/chart',
+			type : 'POST',
+			dataType : "json",
+			async : false,
+			data:{
+				bsId:0,
+				time:'2017-11-21',
+				type:'hour'
+			},
+			success : function(response) {
+				var data = response.time;
+				var num = response.num;
+				var xData=[],yData=[],yData2=[];
+				
+				for(var i=0;i<data.length;i++){
+					xData.push(data[i].label);
+					yData.push(data[i].time);
+					yData2.push(num[i].num);
+				}
+				option.series[0].data = yData;
+				option.series[1].data = yData2;
+				option.xAxis[0].data = xData;
+				chart.setOption(option);
+				xh.maskHide();
+
+			},
+			failure : function(response) {
+				xh.maskHide();
+			}
+		});
+		
+		
 
 	});
+		
 	/*window.onresize = function() {
 		// 重置容器高宽
 		chart.resize();
 	};*/
 	
+}
+xh.getOneDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay;   
+    return  strYesterday;
 }

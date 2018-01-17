@@ -20,6 +20,8 @@ public interface BsAlarmMapper {
 	 */
 	public List<BsAlarmBean> selectBsAlarmList(Map<String,Object> map) throws Exception;
 	
+	public List<Map<String,Object>> selectTop5() throws Exception;
+	
 	/**
 	 *  告警总数
 	 * @param map

@@ -21,6 +21,12 @@ public interface BsStatusMapper {
 	 */
 	public List<BsStatusBean> excelToBsStatus() throws Exception;
 	
+	public int bsOfflineCount() throws Exception;
+	
+	public List<Map<String,Object>> bsGroupTop5() throws Exception;
+	
+	public List<Map<String,Object>> bsRadioTop5() throws Exception;
+	
 	/**
 	 * 导出现网基站的运行状态
 	 * @return

@@ -90,6 +90,49 @@ public class BsStatusService {
 		return list;
 	}
 	
+	public static List<Map<String, Object>> bsGroupTop5() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bsGroupTop5();
+			for (int i=0;i<list.size();i++) {
+				Map<String, Object> map=list.get(i);
+				map.put("name", map.get("bsId")+"-"+map.get("name"));
+				map.remove("bsId");
+				list.set(i, map);
+				
+			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String, Object>> bsRadioTop5() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bsRadioTop5();
+			for (int i=0;i<list.size();i++) {
+				Map<String, Object> map=list.get(i);
+				map.put("name", map.get("bsId")+"-"+map.get("name"));
+				map.remove("bsId");
+				list.set(i, map);
+				
+			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	
 	
 	/**
@@ -186,6 +229,21 @@ public class BsStatusService {
 		int count = 0;
 		try {
 			count = mapper.fourEmhAlarmListCount();
+			
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int bsOfflineCount() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count = 0;
+		try {
+			count = mapper.bsOfflineCount();
 			
 			sqlSession.close();
 

@@ -30,7 +30,7 @@ xh.login = function() {
 		success : function(data) {
 			$("#login-btn").button("reset");
 			if (data.success) {
-				window.location.href = "../main.html";
+				window.location.href = "../index.html";
 			} else {
 				toastr.error(data.message, '提示');
 				/*swal({

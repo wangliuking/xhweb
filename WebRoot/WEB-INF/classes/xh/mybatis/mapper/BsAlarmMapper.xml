@@ -44,6 +44,10 @@
      	
 		order by time desc limit #{start},#{limit}
     </select>
+       <select id="selectTop5" parameterType="map" resultType="map" useCache="true">
+     	select * from xhgmnet_eastcom_alarminfo  where  neType in(1,2,3,4)
+		order by time desc limit 6
+    </select>
     <!-- 告警总数 -->
         <select id="BsAlarmCount" parameterType="map" resultType="int" useCache="true">
      	select count(*) from xhgmnet_eastcom_alarminfo  where  1=1

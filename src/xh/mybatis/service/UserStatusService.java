@@ -69,5 +69,19 @@ public class UserStatusService {
 		}
 		return list;
 	}
+	public static int userOnline() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		UserStatusMapper mapper = sqlSession.getMapper(UserStatusMapper.class);
+		int count = 0;
+		try {
+			count = mapper.userOnline();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

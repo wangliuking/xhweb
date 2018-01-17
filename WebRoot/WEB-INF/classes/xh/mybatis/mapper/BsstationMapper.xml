@@ -40,10 +40,14 @@
 		left join xhgmnet_stationalarm as b on a.bsId=b.bsIds
 		order by a.bsId asc
 	</select>
+	<!-- 基站总数 -->
+	<select id="bsTotal" useCache="true" resultType="int">
+	 select count(*) from xhgmnet_bs_station
+	</select>
 	<!--基站断站列表-->
 	<select id="monitorBsofflineList"  resultType="map"
 		useCache="true">
-		select a.bsId,a.time,b.name from view_bsstatus as a
+		select a.bsId,a.time,b.name,b.lat,b.lng,b.period from view_bsstatus as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.link=1 order by a.time desc
 		 
 	</select>

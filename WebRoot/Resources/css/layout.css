@@ -222,7 +222,16 @@ text-decoration:none;
 	color:#fff;
 }
 .lg-box{
-	border:1px dotted #008B8B;
+	/* border:1px dotted #008B8B; */
+	/* background:#000; */
+}
+.lg-box p{
+	/* background:green; */
+	
+	padding:5px;
+	border-radius:3px;
+	box-shadow:0 0 38px #ccc;
+	border-left:8px solid blue
 }
 /* 网页中间内容体 wrapper */
 #wrapper {
