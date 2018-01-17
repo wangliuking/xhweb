@@ -890,7 +890,12 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-
+//基站显示配置
+$(function(){
+	$("#confGis").click(function(){
+		window.location.href="bsForGis.html";
+	});
+});
 /*$http({
 method : "POST",
 url : "../../bs/list",

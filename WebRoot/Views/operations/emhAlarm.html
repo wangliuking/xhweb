@@ -299,8 +299,8 @@
 														<th width="8%">设备名称</th>
 														<th width="8%">告警标志</th>
 														<th width="8%">告警触发值</th>														
-														<th width="8%">告警级别</th>
-														<th width="12%">告警时间</th>
+														<th width="10%">告警时间</th>
+														<th width="10%">恢复时间</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -323,8 +323,12 @@
 													class="label  label-sm label-success"><i
 														class="fa fa-plus"></i>结束</span></td>
 														<td>{{x.eventValue}}</td>
-														<td>{{x.alarmlevel}}</td>
-														<td>{{x.alarmTime}}</td>
+														
+														<td ng-if="x.alarmFlag=='BEGIN'">{{x.alarmTime}}</td>
+														<td ng-if="x.alarmFlag=='END'">{{x.startTime}}</td>
+														
+														<td ng-if="x.alarmFlag=='BEGIN'"><span style="color:red;">告警中</span></td>
+														<td ng-if="x.alarmFlag=='END'">{{x.alarmTime}}</td>
 													</tr>
 												</tbody>
 											</table>
@@ -352,75 +356,73 @@
 					</div>
 				</div>
 
-
 				<section id="page-emh">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="hpanel">
-								<div class="panel-heading hbuilt">
-									<div class="panel-tools">
-										<!-- <a class="showhide"><i class="fa fa-chevron-up"></i></a> -->
-										<!-- <a ng-click="showSearchWin()" data-toggle="modal" data-target="#search"> <i
-											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
-											class="text-black">筛选查询</span>
-										</a> -->
-									</div>
-									三期环控告警
+				<div class="row">
+					<div class="col-md-12">
+						<div class="hpanel">
+							<div class="panel-heading hbuilt">
+								<div class="panel-tools">
+									<div class="search">
+								            <!-- magic-checkbox -->
+									        <input id="period1" class="toggle-switch" type="checkbox"
+												name="type" value="9" checked hidden> <label for="period1"><span>三期基站</span></label>
+
+                                            <input id="period2" class="toggle-switch" type="checkbox"
+												name="type" value="10" hidden> <label for="period2"><span>四期基站</span></label>
+											<input id="type1" class="toggle-switch" type="checkbox"
+												name="type" value="1" checked> <label for="type1"><span>门磁</span></label>
+
+											<input id="type2" class="toggle-switch" type="checkbox"
+												name="type" value="2" checked> <label for="type2"><span>烟感</span></label>
+
+											<input id="type3" class="toggle-switch" type="checkbox"
+												name="type" value="3" checked> <label for="type3"><span>红外</span></label>
+
+											<input id="type4" class="toggle-switch" type="checkbox"
+												name="type" value="4" checked> <label for="type4"><span>水浸</span></label>
+
+											<input id="type5" class="toggle-switch" type="checkbox"
+												name="type" value="5" checked> <label for="type5"><span>温湿度</span></label>
+
+
+											<input id="type6" class="toggle-switch" type="checkbox"
+												name="type" value="6" checked> <label for="type6"><span>UPS</span></label>
+
+											<input id="type7" class="toggle-switch" type="checkbox"
+												name="type" value="7" checked> <label for="type7"><span>电表</span></label>
+											<input id="type8" class="toggle-switch" type="checkbox"
+												name="type" value="8" checked> <label for="type8"><span>FSU</span></label>
+										</div>
 								</div>
-								<div class="panel-body">
-									<div
-										style="min-height:250px;max-height:450px;overflow: scroll;">
+								环控告警列表
+							</div>
+							<div class="panel-body">
+								<div style="min-height:250px;max-height:450px;overflow: scroll;">
 
-										<div class="col-md-12">
-											<div class="form-group col-md-12 search"
-												style="margin-top:15px;">
+									<div class="col-md-12">
+										
 
-												<input id="type1" class="magic-checkbox" type="checkbox"
-													name="type" value="1" checked> <label for="type1"><span>门磁</span></label>
+										<table id="tb-info" class="xh-table table-hover">
+											<thead>
+												<tr class="tr-gray">
+													<th>基站ID</th>
+													<th>告警类型</th>
+													<th>告警描述</th>
+													<th>时间</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-if="emhTotals==0">
+													<td colspan="9" class="text-center">没有告警记录！</td>
+												</tr>
+												<tr ng-repeat="x in emh">
 
-												<input id="type2" class="magic-checkbox" type="checkbox"
-													name="type" value="2" checked> <label for="type2"><span>烟感</span></label>
+													<td>{{x.bsId}}</td>
+													<td>{{x.DevName}}</td>
+													<td>{{x.AlarmText}}</td>
 
-												<input id="type3" class="magic-checkbox" type="checkbox"
-													name="type" value="3" checked> <label for="type3"><span>红外</span></label>
-
-												<input id="type4" class="magic-checkbox" type="checkbox"
-													name="type" value="4" checked> <label for="type4"><span>水浸</span></label>
-
-												<input id="type5" class="magic-checkbox" type="checkbox"
-													name="type" value="5" checked> <label for="type5"><span>温湿度</span></label>
-
-
-												<input id="type6" class="magic-checkbox" type="checkbox"
-													name="type" value="6" checked> <label for="type6"><span>UPS</span></label>
-
-												<input id="type7" class="magic-checkbox" type="checkbox"
-													name="type" value="7" checked> <label for="type7"><span>电表</span></label>
-												<input id="type8" class="magic-checkbox" type="checkbox"
-													name="type" value="8" checked> <label for="type8"><span>FSU</span></label>
-											</div>
-
-											<table id="tb-info" class="xh-table table-hover">
-												<thead>
-													<tr class="tr-gray">
-														<th>基站ID</th>
-														<th>告警类型</th>
-														<th>告警描述</th>
-														<th>时间</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-if="emhTotals==0">
-														<td colspan="9" class="text-center">没有告警记录！</td>
-													</tr>
-													<tr ng-repeat="x in emh">
-
-														<td>{{x.bsId}}</td>
-														<td>{{x.DevName}}</td>
-														<td>{{x.AlarmText}}</td>
-
-														<td>{{x.time}}</td>
-														<!-- <td><span ng-if="x.singleId=='017010'">
+													<td>{{x.time}}</td>
+													<!-- <td><span ng-if="x.singleId=='017010'">
 												温度过高告警</span> <span ng-if="x.singleId=='017011'">温度高告警</span> <span
 											ng-if="x.singleId=='017012'">温度过低告警</span> <span
 											ng-if="x.singleId=='017013'">湿度过高告警</span> <span
@@ -438,11 +440,11 @@
 											ng-if="x.singleId=='076507'">UPS设备通信状态告警</span> <span
 											ng-if="x.singleId=='076509'">智能电表通信状态告警</span></td>
 										<td>{{x.updateTime}}</td> -->
-													</tr>
-												</tbody>
-											</table>
-										</div>
-										<!-- <div class="page">
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- <div class="page">
 								<div class="page-info-emh">
 									每页显示 <select id="page-limit-emh" ng-change="refresh()"
 										ng-model="count">
@@ -456,11 +458,20 @@
 								</div>
 								<div class="page-paging"></div>
 							</div> -->
-									</div>
 								</div>
+
 							</div>
+
 						</div>
-				</section>
+					</div>
+
+
+
+					<!--  col-md-12 -->
+				</div>
+				<!-- row -->
+			</section>
+				
 			</div>
 		</div>
 		<!--   row--end -->

@@ -1436,10 +1436,18 @@ function init(data,markData) {
 					data : [],
 					geoCoord : obj,
 					markPoint : {
-						symbol : 'image://bluesky/contact_big.png',
+						symbol : 'pin',
 						symbolSize: function(v){
-							return 12;
-						},                
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'green'
+							},
+							emphasis : {
+								
+							}
+						},               
 		                data:objConnect
 					}
 				},{
@@ -1449,10 +1457,18 @@ function init(data,markData) {
 					data : [],
 					geoCoord : obj,
 					markPoint : {
-						symbol : 'image://bluesky/break_big.png',
+						symbol : 'pin',
 						symbolSize: function(v){
-							return 12;
-						},	                
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'red'
+							},
+							emphasis : {
+								
+							}
+						},
 		                data:objBreak
 					}
 				}, {
@@ -1497,12 +1513,16 @@ function init(data,markData) {
 			console.log(myMap.getZoom());
 			if ($("#bsInfo").prop("checked") == true){
 				if(myMap.getZoom()<=4){
-					option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
-					option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
+					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[0].markPoint.symbol="pin";
+					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[1].markPoint.symbol="pin"
 					overlay.setOption(option);
 				}else{
-					option.series[0].markPoint.symbolSize=24;
-					option.series[1].markPoint.symbolSize=24;
+					option.series[0].markPoint.symbolSize=18;
+					option.series[0].markPoint.symbol="image://bluesky/contact_big.png";					
+					option.series[1].markPoint.symbolSize=18;
+					option.series[1].markPoint.symbol="image://bluesky/break_big.png";
 					overlay.setOption(option);
 				}				
 			}			
