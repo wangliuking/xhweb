@@ -111,6 +111,7 @@
 							<div class="panel-tools">
 							</div>
 							视频监控
+							<!-- <button type="button" ng-click="changeNet()">切换网络设置</button> -->
 						</div>
 						<div class="panel-body">
 							<div id="mediaspace" class=""
@@ -516,10 +517,11 @@
 <script type='text/javascript'>
 var $scope = angular.element(appElement).scope();
 var bsId = $scope.cameraId();
+var IP = $scope.getChangeNet();
   jwplayer('mediaspace').setup({
     'flashplayer': 'player.swf',
     'file': 'camera'+bsId,
-    'streamer': 'rtmp://183.221.117.37:7790/oflaDemo',
+    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
     'controlbar': 'bottom',
     'width': '560',
     'height': '360'

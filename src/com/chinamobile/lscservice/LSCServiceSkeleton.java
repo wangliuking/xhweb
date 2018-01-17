@@ -128,29 +128,19 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 						map.put(e.getName(), e.getText());	
 					}
 					//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
-					/*String serialNo = map.get("SerialNo");
-					System.out.println("序列号为： "+serialNo);
+					String serialNo = map.get("SerialNo");
 					List<Map<String,Object>> serialList = GosuncnService.selectBySerialNo(serialNo);
-					System.out.println("serialList为： "+serialList);
 					if(serialList.size()==0 || "".equals(serialList) || serialList==null){
-						System.out.println("进入第一通道！！！");
 						map.put("startTime", "");
 					}else{
-						System.out.println("进入第二通道！！！");	
 						Map<String,Object> testMap = serialList.get(0);
-						System.out.println("testMap为： "+testMap);
-						String serialNo1 = (String) testMap.get("serialNo");
-						System.out.println("serialNo为： "+serialNo1);
 						String startTime = testMap.get("alarmTime").toString();
-						System.out.println("startTime为： "+startTime);
 						map.put("startTime", startTime);
 						GosuncnService.deleteBySerialNo(serialNo);
-						System.out.println("success!!!!!!!!!!!!!!!!!成功了！！！！！！！！！！！！！！");
-					}*/
+					}
 					map.put("FSUID", FSUID);
 					dataList.add(map);
 				}
-				
 			}			
 			GosuncnController.insertAlarm(dataList);
 			log.info("啦啦啦一条告警信息已经添加！");

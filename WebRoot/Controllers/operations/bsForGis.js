@@ -188,7 +188,7 @@ xh.loadMap = function(data) {
 							},
 							itemStyle : {
 								normal : {
-									color : 'black'
+									color : 'yellow'
 								},
 								emphasis : {
 									color : 'yellow'
