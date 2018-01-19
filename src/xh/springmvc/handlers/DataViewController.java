@@ -1,10 +1,13 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +24,7 @@ import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
+import xh.mybatis.service.EastComService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
@@ -52,6 +56,9 @@ public class DataViewController {
 		List<Map<String, Object>> group=BsStatusService.bsGroupTop5();
 		//基站注册终端TOP5
 		List<Map<String, Object>> radio=BsStatusService.bsRadioTop5();
+		//基站信道排队TOP5
+		
+		List<Map<String, Object>> channelQueueTop5=EastComService.queueTop5(ss());
 		//环控告警		
 		/*int emh=200;*/
 		//交换中心
@@ -65,7 +72,7 @@ public class DataViewController {
 		
 		for (Map<String, Object> map : bsOfflineList) {
 			Map<String,Object> name=new HashMap<String, Object>();
-			name.put("name", map.get("name"));
+			name.put("name", map.get("bsId")+"-"+map.get("name"));
 			bsName.add(name);
 			
 		}
@@ -79,7 +86,7 @@ public class DataViewController {
 		map.put("bsOffline",bsOffline);
 		map.put("group", group);
 		map.put("radio", radio);
-		/*map.put("tera", tera);*/
+		map.put("channelQueueTop5", channelQueueTop5);
 		map.put("geoCoord",bsOfflineList);
 		map.put("bsNames",bsName);
 		response.setContentType("application/json;charset=utf-8");
@@ -91,6 +98,24 @@ public class DataViewController {
 			e.printStackTrace();
 		}
 		
+	}
+	public String ss(){
+
+		SimpleDateFormat timeF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		timeF.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));		
+		Date d=new Date();
+		String dateStr = timeF.format(d.getTime()-10*60*1000);
+		String[] time=dateStr.split(" ")[1].split(":");
+		String rtime=dateStr.split(" ")[0];
+		int a=Integer.parseInt(time[1]);
+		int c=a%5;
+		int x=a-c;
+		if(x>=10){
+			rtime+=" "+time[0]+":"+x+":00";
+		}else{
+			rtime+=" "+time[0]+":0"+x+":00";
+		}
+		return rtime;
 	}
 
 }

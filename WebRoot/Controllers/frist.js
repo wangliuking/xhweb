@@ -65,6 +65,8 @@ xh.load = function() {
 				$scope.geoCoord=response.geoCoord;
 				$scope.bsNames=response.bsNames;
 				$scope.tera=response.tera;
+				$scope.channelQueueTop5=response.channelQueueTop5;
+
 				
 				$("#userOnline").html(xh.formatNum($scope.useOnlineCount));
 				$("#userCount").html(xh.formatNum($scope.userCount));
@@ -74,7 +76,7 @@ xh.load = function() {
 				$("#msc").html($scope.mscCount);
 				xh.groupTop5($scope.group);
 				xh.userTop5($scope.radio);
-				xh.callTop5($scope.radio);
+				xh.callTop5($scope.channelQueueTop5);
 				xh.map($scope.geoCoord,$scope.bsNames);
 				
 			});
@@ -139,7 +141,7 @@ xh.map=function(data,name){
                 },
 			    tooltip : {
 			        trigger: 'item',
-			        formatter: '{b}-》链路断开'
+			        formatter: '{b}'
 			    },
 			   /* legend: {
 			        orient: 'vertical',
@@ -240,7 +242,7 @@ xh.map=function(data,name){
 			    ]
 			};
 		 for (var i in data) {
-             option.series[0].geoCoord[data[i].name] = [parseFloat(data[i].lng), parseFloat(data[i].lat)];
+             option.series[0].geoCoord[data[i].bsId+"-"+data[i].name] = [parseFloat(data[i].lng), parseFloat(data[i].lat)];
          }
 		
 		chart.setOption(option);
@@ -415,6 +417,10 @@ xh.callTop5=function(data){
 		chart.clear();
 		chart.dispose();
 	}
+	if(data.length<1){
+		$("#call-top5").html("数据还没生成!!! 请等几分钟再关注");
+		return;
+	}
 	
 	
 	
@@ -427,7 +433,7 @@ xh.callTop5=function(data){
 		var option = {
 			    tooltip : {
 			        trigger: 'item',
-			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			        formatter: "{b}<br/> 呼叫总数 {c}"
 			    },
 			    legend: {
 			        orient : 'vertical',
@@ -444,7 +450,7 @@ xh.callTop5=function(data){
 			            name:'基站呼叫TOP5',
 			            type:'pie',
 			            radius : ['50%', '70%'],
-			            center : ['50%', '40%'],
+			            center : ['60%', '40%'],
 			            itemStyle : {
 			                normal : {
 			                    label : {
@@ -524,9 +530,9 @@ xh.groupTop5=function(data){
 			        {
 			            name:'漏斗图',
 			            type:'funnel',
-			            width: '20%',
+			            width: 80,
 			            height:'80%',
-			            x:'40%',
+			            x:'48%',
 			            y:10,
 			            data:data
 			        }
@@ -547,7 +553,7 @@ xh.userTop5=function(data){
 	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
 		$("#user-top5").width((width/12)*3);
-		$("#user-top5").height((height-150)/3);
+		$("#user-top5").height((height-200)/3);
 	};
 	resizeBarContainer();
 
@@ -586,9 +592,9 @@ xh.userTop5=function(data){
 			        {
 			            name:'漏斗图',
 			            type:'funnel',
-			            width: '20%',
+			            width: 30,
 			            height:'80%',
-			            x:'40%',
+			            x:'50%',
 			            y:10,
 			            data:data
 			        }
@@ -701,7 +707,7 @@ xh.callInfo=function(){
 			async : false,
 			data:{
 				bsId:0,
-				time:'2017-11-21',
+				time:xh.getOneDay(),
 				type:'hour'
 			},
 			success : function(response) {

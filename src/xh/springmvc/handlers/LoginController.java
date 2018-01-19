@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.scca.signgw.api.SccaGwSDK;
+import xh.func.plugin.EncryptUtil;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.GlobalVarBean;
@@ -45,13 +46,14 @@ public class LoginController {
 	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session) throws UnsupportedEncodingException {
+			HttpSession session) throws Exception {
 		this.username = request.getParameter("username");
-		this.password = request.getParameter("password");
-		
-		
+		this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));
+
 		
 		String toSign = request.getParameter("ToSign");
+		
+		
 		String signedData = request.getParameter("Signature");
 		
 		
@@ -65,7 +67,7 @@ public class LoginController {
 	/*	String projectId = "test";
 		String opType = "系统登陆";
 		String reqId = "1";
-		SccaGwSDK.init("http://125.69.77.63:6080/sign-gw");
+		SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
         String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
 		int startPos = rs.indexOf("code");
 		int endPos = 0 ;
