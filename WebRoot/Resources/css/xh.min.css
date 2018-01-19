@@ -1228,9 +1228,9 @@ body.fullscreen-panel-mode {
 	background: #e74c3c;
 	text-align: center;
 }
-
+/* #5cb45b */
 .td-success {
-	background: #5cb45b !important;
+	background: green !important;
 	color: #fff;
 }
 
@@ -3320,7 +3320,7 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .radio-success input[type="radio"]:checked + label::after {
     background-color: #5cb85c; }
 .panel-card{
-	width:150px;
+	min-width:150px;
 	height:60px;
 	color:#fff;
 	background:#fafafa;

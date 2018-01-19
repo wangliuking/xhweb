@@ -88,10 +88,10 @@ xh.load = function() {
 		xh.callInfo();
 		$scope.info();
 		
-		setInterval(function(){
+		/*setInterval(function(){
 			xh.callInfo();
 			$scope.info();
-		}, 20000)
+		}, 20000)*/
 
 	});
 };
@@ -530,9 +530,11 @@ xh.groupTop5=function(data){
 			        {
 			            name:'漏斗图',
 			            type:'funnel',
-			            width: 80,
+			            width: 160,
 			            height:'80%',
-			            x:'48%',
+			            maxSize: '30%',
+			          
+			            x:'35%',
 			            y:10,
 			            data:data
 			        }
@@ -594,6 +596,17 @@ xh.userTop5=function(data){
 			            type:'funnel',
 			            width: 30,
 			            height:'80%',
+			            maxSize: '30%',
+			            sort: 'descending', //数据排序，如果是：ascending，则是金字塔状 
+			            gap: 2, //数据图像间距 
+			            itemStyle: {//图像样式 
+			                normal: { 
+			                    borderColor: '#fff', //描边颜色 
+			                    borderWidth: 1  //描边宽度 
+			                } 
+			            },
+			  
+			            
 			            x:'50%',
 			            y:10,
 			            data:data
@@ -601,6 +614,8 @@ xh.userTop5=function(data){
 			    ]
 			};
 		chart.setOption(option);
+		
+		
 
 	});
 	/*window.onresize = function() {
