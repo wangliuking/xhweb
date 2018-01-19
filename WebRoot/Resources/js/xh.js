@@ -2,6 +2,7 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 var powerData=null;
+var aesstr="2f6DhqPBNoK3f2A7";
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */

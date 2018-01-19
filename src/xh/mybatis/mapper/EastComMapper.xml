@@ -3,9 +3,16 @@
 <mapper namespace="xh.mybatis.mapper.EastComMapper">
 
 <!-- 基站信道排队top5 -->
-<select id="queueCount" resultType="map" useCache="true" parameterType="map">
-select queueCount,bsId where bsid=1 limit 3
+<select id="queueTop5" resultType="map" useCache="true" parameterType="String" >
+select TotalActiveCalls as value,bsId  from pef_newbstotal where  starttime>=#{time}  order by TotalActiveCalls desc limit 5
 </select>
-
+<!-- 基站信道排队top5 -->
+<select id="queueTopBsName" resultType="map" useCache="true" parameterType="List" >
+select name,bsId  from xhgmnet_bs_station where  bsId in(
+ <foreach collection="list" item="id" separator=",">
+ #{id}
+ </foreach>
+)
+</select>
 
 </mapper>
