@@ -120,6 +120,7 @@ public class BsStatusService {
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
 				map.put("name", map.get("bsId")+"-"+map.get("name"));
+				/*map.put("value", Integer.parseInt(map.get("value").toString())+500);*/
 				map.remove("bsId");
 				list.set(i, map);
 				

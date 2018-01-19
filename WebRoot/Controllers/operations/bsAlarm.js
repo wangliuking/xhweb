@@ -75,6 +75,10 @@ xh.load = function() {
 			$("#bsAlarmDetails").modal('show');
 			$scope.bsAlarmData=$scope.data[id];
 		};
+		//派单
+		$scope.showOrderWin = function(){
+			$("#order").modal('show');
+		};
 		/*$scope.alarmType=function(){
 			$http.get("../../bsAlarm/data/bsAlarmLevelChart").success(
 					function(response) {

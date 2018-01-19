@@ -20,10 +20,10 @@
 .search input {
 	float: left;
 }
-.modal-backdrop {
+/* .modal-backdrop {
   opacity: 0 !important;
   filter: alpha(opacity=0) !important;
-}
+} */
 </style>
 </head>
 <body ng-app="app" ng-controller="bsAlarm" class="fixed-iframe">
@@ -140,6 +140,12 @@
 										<a ng-click="showSearchWin()"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">筛选查询</span>
+											
+										</a>
+										<a ng-click="showOrderWin()"> <i
+											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
+											class="text-black">派单</span>
+											
 										</a>
 									</div>
 									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; -->
@@ -243,6 +249,7 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
+	<div ng-include="'bsAlarm-order.html'"></div>
 	<!-- 告警详情 -->
 	<!-- <div ng-include="'bsAlarm-show.html'"></div> -->
 
