@@ -111,7 +111,7 @@
 							<div class="panel-tools">
 							</div>
 							视频监控
-							<!-- <button type="button" ng-click="changeNet()">切换网络设置</button> -->
+						<button type="submit" id="changeNet">切换网络设置</button>
 						</div>
 						<div class="panel-body">
 							<div id="mediaspace" class=""
@@ -517,13 +517,44 @@
 <script type='text/javascript'>
 var $scope = angular.element(appElement).scope();
 var bsId = $scope.cameraId();
-var IP = $scope.getChangeNet();
+var IP = "183.221.117.37";
+console.log(bsId+"==="+IP);
   jwplayer('mediaspace').setup({
     'flashplayer': 'player.swf',
     'file': 'camera'+bsId,
     'streamer': 'rtmp://'+IP+':7790/oflaDemo',
     'controlbar': 'bottom',
-    'width': '560',
+    'width': '640',
     'height': '360'
   });
+  
+$(function(){
+	$("#changeNet").click(function(){
+		jwplayer('mediaspace').remove();
+		if("183.221.117.37"==IP){
+			IP="192.168.120.150";
+			console.log(IP);
+			jwplayer('mediaspace').setup({
+			    'flashplayer': 'player.swf',
+			    'file': 'camera'+bsId,
+			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
+			    'controlbar': 'bottom',
+			    'width': '640',
+			    'height': '360'
+			  });
+		}else{
+			IP="183.221.117.37";
+			console.log(IP);
+			jwplayer('mediaspace').setup({
+			    'flashplayer': 'player.swf',
+			    'file': 'camera'+bsId,
+			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
+			    'controlbar': 'bottom',
+			    'width': '640',
+			    'height': '360'
+			  });
+		}
+	});
+})
+
 </script>

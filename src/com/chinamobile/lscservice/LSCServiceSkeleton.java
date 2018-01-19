@@ -31,6 +31,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.chinamobile.fsuservice.ParseXml;
+import com.goeasy.TestGoEasy;
 
 import xh.mybatis.service.GosuncnService;
 import xh.springmvc.handlers.GosuncnController;
@@ -142,6 +143,10 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					dataList.add(map);
 				}
 			}			
+			//调用goeasy推送至服务器
+			String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
+			TestGoEasy.sendAlarmWeb(alarmDesc);
+			
 			GosuncnController.insertAlarm(dataList);
 			log.info("啦啦啦一条告警信息已经添加！");
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_ALARM_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
