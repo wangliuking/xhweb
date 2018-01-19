@@ -51,8 +51,51 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
+				console.log(emhData4);
 			});
-		}		
+		}
+		//查询环控通断情况
+		$scope.selectForStatus = function(id) {
+			$http.get("../../gonsuncn/selectForEMH").
+			success(function(response){
+				xh.maskHide();
+				var emhData4 = response.items4;
+				var emhData3 = response.items3;
+				for(var i=0;i<emhData4.length;i++){
+					for(var j=0;j<emhData3.length;j++){
+						if(emhData4[i].bsId==parseInt(emhData3[j].JFNode)){
+							var tempState = emhData3[j].State.toLocaleLowerCase();
+							if("true"==tempState){
+								emhData4[i].siteId=emhData4[i].bsId;
+							}
+						}				
+					}
+				}
+				console.log(id);
+				if(id==1){
+					var tempData = [];
+					for(var i=0;i<emhData4.length;i++){
+						if(emhData4[i].siteId==emhData4[i].bsId && emhData4[i].envMonitor!=2){
+							tempData.push(emhData4[i]);
+						}
+					}
+					$scope.emhData4 = tempData;
+				}else if(id==2){
+					var tempData = [];
+					for(var i=0;i<emhData4.length;i++){
+						if(emhData4[i].siteId!=emhData4[i].bsId && emhData4[i].envMonitor!=2){
+							tempData.push(emhData4[i]);
+						}
+					}
+					$scope.emhData4 = tempData;
+				}else{
+					$scope.emhData4 = emhData4;
+				}
+
+			});
+		}
+		
+		
 		/*//4期环控通断情况
 		$http.get("../../gonsuncn/selectFor4EMH").
 		success(function(response){
@@ -87,7 +130,7 @@ xh.load = function() {
 			});
 		}
 		
-		$scope.alarmModel();
+		
 		$('input[name="type"]').on('click',function(){ 
 			$scope.alarmModel();
 			
@@ -134,6 +177,8 @@ xh.load = function() {
 				xh.pagging(1, parseInt($scope.totals),$scope);
 			});
 		}
+		/*通断筛选*/
+		$scope.selectAlarmStatus = [{"id":"0","name":"全部"},{"id":"1","name":"连接中"},{"id":"2","name":"已断开"}];
 		
 		
 		/*告警筛选*/
@@ -261,12 +306,16 @@ xh.load = function() {
 		
 		$scope.selectForEMH();
 		$scope.alarmlist();
+		$scope.alarmModel();
+		
 		xh.loadPieDev();
 		xh.loadPieLv();
-		/*setInterval(function() {
-			$scope.selectForEMH();
-			$scope.alarmlist();
-		}, 20000);*/
+		setInterval(function() {
+			$scope.refresh();
+			var selectAlarmStatus = $("#selectAlarmStatus  option:selected").val();
+			$scope.selectForStatus(selectAlarmStatus);
+			$scope.alarmModel();
+		}, 60000);
 		
 	});
 	

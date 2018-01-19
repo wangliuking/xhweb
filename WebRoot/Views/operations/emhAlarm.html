@@ -84,26 +84,55 @@
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-							<span>环控通断</span> <span style="color:#458B74;margin-left:40%;">{{choosedBsNameTitle}}</span><span
-								style="color:#191970;">{{choosedBsName}}</span>
+							<div class="row">
+								<div class="col-md-4">
+									<span>环控通断</span>
+								</div>
+								<div class="col-md-4">
+									<span style="color:#458B74;margin-left:40%;">{{choosedBsNameTitle}}</span><span
+										style="color:#191970;">{{choosedBsName}}</span>
+								</div>
+								<div class="col-md-4">
+									<div class="pull-right" style="margin:0px;">
+										<select class="form-control" id="selectAlarmStatus"
+											ng-change="selectForStatus(alarmS.id)" ng-model="alarmS.id"
+											ng-init="alarmS.id='0'">
+											<option value="" selected hidden></option>
+											<option ng-repeat="alarmS in selectAlarmStatus"
+												value={{alarmS.id}}>{{alarmS.name}}</option>
+										</select>
+									</div>								
+								</div>
+							</div>
 						</div>
-						<div class="panel-body" style="padding-left:20px;padding-right:20px;">
+						<div class="panel-body"
+							style="padding-left:20px;padding-right:20px;">
 							<div class="row">
 								<div ng-repeat="x in emhData4">
 									<div
 										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;"
-										ng-if="x.siteId!=x.bsId" class="td-danger pull-left"
+										ng-if="x.siteId!=x.bsId && x.envMonitor!=2"
+										class="td-danger pull-left"
 										ng-mouseover="showMouseChoosedBsName(x.name)"
-										ng-mouseout="hideMouseChoosedBsName()" ng-click="emhView($index)">{{x.bsId}}</div>
+										ng-mouseout="hideMouseChoosedBsName()"
+										ng-click="emhView($index)">{{x.bsId}}</div>
 									<div
 										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;"
-										ng-if="x.siteId==x.bsId" class="td-success pull-left"
+										ng-if="x.siteId==x.bsId && x.envMonitor!=2"
+										class="td-success pull-left"
 										ng-mouseover="showMouseChoosedBsName(x.name)"
-										ng-mouseout="hideMouseChoosedBsName()" ng-click="emhView($index)">{{x.bsId}}</div>
+										ng-mouseout="hideMouseChoosedBsName()"
+										ng-click="emhView($index)">{{x.bsId}}</div>
+									<div
+										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;background-color:#DCDCDC;"
+										ng-if="x.envMonitor==2" class="pull-left"
+										ng-mouseover="showMouseChoosedBsName(x.name)"
+										ng-mouseout="hideMouseChoosedBsName()"
+										ng-click="emhView($index)">{{x.bsId}}</div>
 								</div>
 							</div>
 						</div>
-					</div>	
+					</div>
 				</div>
 				
 				<!-- col-md-3 -->
@@ -485,6 +514,20 @@
 	<!-- <div ng-include="'user-add.html'"></div> -->
 	<!-- 编辑基用户-->
 	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<!-- <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+	<script type="text/javascript">
+		var goEasy = new GoEasy({
+			appkey : 'BC-88e3350dfcc3428ba5abd490e095402e'
+		});
+
+		goEasy.subscribe({
+			channel : 'alarmPush',
+			onMessage : function(message) {
+				alert('收到：' + message.content);
+			}
+		});
+	</script> -->
+	
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

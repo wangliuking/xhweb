@@ -41,8 +41,6 @@ xh.load = function() {
 		
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
-		
-		console.log($scope.bsId +"====="+$scope.bsName)
 		//发起请求开启当前基站视频流
 		$.ajax({
 			type : "GET",

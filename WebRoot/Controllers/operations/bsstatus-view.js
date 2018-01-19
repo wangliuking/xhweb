@@ -99,23 +99,6 @@ xh.load = function() {
 			var bsId = $scope.bsId;
 			return bsId;
 		};
-		// 网络配置
-		$scope.NetIP = "183.221.117.37";
-		$scope.changeNet = function() {
-			if("183.221.117.37"==$scope.NetIP){
-				$scope.NetIP = "192.168.120.150";
-			}else{
-				$scope.NetIP = "183.221.117.37";
-			}
-		};
-		$scope.getChangeNet = function() {
-			return $scope.NetIP;
-		};
-		
-		// 停止预览
-		$scope.clickStopRealPlay = function() {
-			clickStopRealPlay();
-		};
 
 		// 基站下的注册终端
 		$scope.radioUser = function() {
