@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tcpBean.ErrProTable;
+import com.tcpServer.ServerDemo;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -88,6 +89,39 @@ public class OrderController {
 
 		HashMap result = new HashMap();
 		result.put("success",success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value="/rewriteOrder", method = RequestMethod.POST)
+	public void rewriteOrder(HttpServletRequest request, HttpServletResponse response) {
+		String fromData=request.getParameter("formData");
+		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
+		bean.setSerialnumber(FunUtil.RandomWord(8));
+		
+		log.info("ErrProTab->"+bean.toString());
+		
+		if(ServerDemo.getmThreadList().size()>0){
+			ServerDemo.startMessageThread(funUtil.loginUser(request), bean);
+			this.message="发送成功";
+			this.success=true;
+		}else{
+			this.message="没有找到用户";
+			this.success=false;
+		}
+		
+		
+		this.success=true;
+
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message",message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

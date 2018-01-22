@@ -24,7 +24,7 @@ public class TcpServerListenner implements ServletContextListener{
 		// TODO Auto-generated method stub
 		
 		try {
-			Thread.sleep(1000 * 30);
+			
 			ServerDemo server = new ServerDemo();
 			server.start();
 		} catch (Exception e) {

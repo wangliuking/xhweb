@@ -66,7 +66,7 @@ xh.load = function() {
 			
 			var formData=$scope.data[index];
 			$.ajax({
-				url : '../../order/writeOrder',
+				url : '../../order/rewriteOrder',
 				data : {
 					formData:JSON.stringify(formData)
 					
