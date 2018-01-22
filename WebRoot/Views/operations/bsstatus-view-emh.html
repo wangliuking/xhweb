@@ -110,8 +110,8 @@
 						<div class="panel-heading hbuilt">
 							<div class="panel-tools">
 							</div>
-							视频监控
-						<button type="submit" id="changeNet">切换网络设置</button>
+							视频监控   当前网络模式：<span class="currentNet">外网</span>
+						<button type="submit" id="changeNet">切换网络</button>
 						</div>
 						<div class="panel-body">
 							<div id="mediaspace" class=""
@@ -532,6 +532,7 @@ $(function(){
 	$("#changeNet").click(function(){
 		jwplayer('mediaspace').remove();
 		if("183.221.117.37"==IP){
+			$(".currentNet").text("内网");
 			IP="192.168.120.150";
 			console.log(IP);
 			jwplayer('mediaspace').setup({
@@ -543,6 +544,7 @@ $(function(){
 			    'height': '360'
 			  });
 		}else{
+			$(".currentNet").text("外网");
 			IP="183.221.117.37";
 			console.log(IP);
 			jwplayer('mediaspace').setup({

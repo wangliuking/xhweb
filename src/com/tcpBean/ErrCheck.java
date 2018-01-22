@@ -15,6 +15,8 @@ public class ErrCheck {
 	private String cmdtype = "errcheck";
 	private String serialnumber;
 	private String userid;
+	private String longitude;
+	private String latitude;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -33,10 +35,23 @@ public class ErrCheck {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 	@Override
 	public String toString() {
 		return "ErrCheck [cmdtype=" + cmdtype + ", serialnumber="
-				+ serialnumber + ", userid=" + userid + "]";
+				+ serialnumber + ", userid=" + userid + ", longitude="
+				+ longitude + ", latitude=" + latitude + "]";
 	}
 	
 }

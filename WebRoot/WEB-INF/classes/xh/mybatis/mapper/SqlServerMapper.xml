@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.SqlServerMapper">
+   
+    <!--查询基站环控列表-->
+    <select id="bsmonitorList" parameterType="map" resultType="map" useCache="true" timeout="1">
+     select DevNode,NodeID,NodeAttribute,value,AlarmValue from ${dbname}
+    </select>
+    <!--查询三期基站环控告警列表-->
+    <!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+     select DevName as deviceName,value as singleValue,AlarmEX  from ${dbname} where AlarmState=1
+    </select>  -->
+   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true" timeout="1">
+     select NodeAttribute,DevName,value,AlarmEX,AlarmGrade from ${dbname} where AlarmState=1
+    </select>
+   <!--   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
+     select AlarmText,AlarmDate,AlarmTime from tb_AlarmRecording where State='报警' and JFNode=#{bsId} and AlarmDate=#{time}
+    </select> -->
+    
+    <!-- 三期环控交流电告警 -->
+    <select id="bsJiAlarm" parameterType="String" resultType="map" useCache="true" timeout="1">
+    <!-- select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime from 
+    (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
+      from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
+      and DevNode='0051' and NodeID='1003' ) as T1) as T  -->
+      select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime from tb_AlarmRecording as T  
+      where AlarmDate=#{time} and state='报警' 
+      and DevNode='0051' and NodeID='1003' 
+    </select>
+    
+    <!-- 三期环控交流电告警数目 -->
+    <select id="bsJiAlarmCount" parameterType="String" resultType="int" useCache="true" timeout="1"> 
+		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
+		and State='报警' and DevNode ='0051' and NodeID='1003' and flag=0
+    </select>
+    
+    <!--更新告警状态  -->
+    <update id="updateAlarmStatus" parameterType="map" timeout="1">
+    update  tb_AlarmRecording set flag=1 
+    where id in(select id from tb_AlarmRecording where AlarmDate=#{time} and State='报警' 
+    and DevNode ='0051' and NodeID='1003' and flag=0)
+    </update>
+   <!-- 环控告警统计 -->
+	<select id="MapEmhAlarmCount" parameterType="String" resultType="int" useCache="true" timeout="1">
+		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
+		and State='报警'
+	</select>
+	<!-- 三期所有基站环控告警列表 -->
+	<select id="EmhAlarmList" parameterType="map" resultType="map" useCache="true" timeout="1">
+		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 	
+		and State='报警' 
+		
+		
+		<if test="door==0">
+		and DevNode!='0011' and NodeID!='1002'
+		</if>
+		<if test="smoke==0">
+		and DevNode!='0011' and NodeID!='1001'
+		</if>
+		<if test="red==0">
+		and DevNode!='0011' and NodeID!='1004'
+		</if>
+		<if test="water==0">
+		and DevNode!='0011' and NodeID!='1003'
+		</if>
+		<if test="temp==0">
+		and DevNode!='0021'
+		</if>
+		<if test="ups==0">
+		and DevNode!='0051' and NodeID!='1002'
+		</if>
+		<if test="i==0">
+		and DevNode='0000'
+		</if>
+		<if test="fsu==0">
+		and DevNode='0000'
+		</if>
+		order by AlarmTime desc
+	</select>
+	<!--  查询三期基站环控通断状态  wlk-->
+	<select id="selectConnectStatusForEMH3" resultType="map" useCache="true">
+		select * from tb_JFConnect
+	</select>
+    
+
+</mapper>
