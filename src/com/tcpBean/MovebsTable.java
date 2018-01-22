@@ -32,6 +32,8 @@ public class MovebsTable {
 	private String checkman;
 	private String bstype;
 	private String date;
+	private String longitude;
+	private String latitude;
 	private List<Map<String,Object>> message;
 	private String remainwork;
 	public String getCmdtype() {
@@ -100,12 +102,26 @@ public class MovebsTable {
 	public void setRemainwork(String remainwork) {
 		this.remainwork = remainwork;
 	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 	@Override
 	public String toString() {
 		return "MovebsTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", bsname=" + bsname
 				+ ", bsid=" + bsid + ", bslevel=" + bslevel + ", checkman="
 				+ checkman + ", bstype=" + bstype + ", date=" + date
+				+ ", longitude=" + longitude + ", latitude=" + latitude
 				+ ", message=" + message + ", remainwork=" + remainwork + "]";
 	}
+	
 }

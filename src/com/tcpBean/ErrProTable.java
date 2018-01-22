@@ -39,6 +39,8 @@ public class ErrProTable {
 	private String proresult;
 	private String workman;
 	private String auditor;
+	private String longitude;
+	private String latitude;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -129,6 +131,18 @@ public class ErrProTable {
 	public void setAuditor(String auditor) {
 		this.auditor = auditor;
 	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 	@Override
 	public String toString() {
 		return "ErrProTable [cmdtype=" + cmdtype + ", serialnumber="
@@ -138,6 +152,8 @@ public class ErrProTable {
 				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
 				+ ", errslovetime=" + errslovetime + ", progress=" + progress
 				+ ", proresult=" + proresult + ", workman=" + workman
-				+ ", auditor=" + auditor + "]";
+				+ ", auditor=" + auditor + ", longitude=" + longitude
+				+ ", latitude=" + latitude + "]";
 	}
+	
 }

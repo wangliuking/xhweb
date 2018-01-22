@@ -27,6 +27,8 @@ public class NetManagerTable {
 	private String managerplace;
 	private String date;
 	private String checkman;
+	private String longitude;
+	private String latitude;
 	private List<Map<String,Object>> message;
 	public String getCmdtype() {
 		return cmdtype;
@@ -76,12 +78,25 @@ public class NetManagerTable {
 	public void setMessage(List<Map<String, Object>> message) {
 		this.message = message;
 	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
 	@Override
 	public String toString() {
 		return "NetManagerTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", managername="
 				+ managername + ", managerplace=" + managerplace + ", date="
-				+ date + ", checkman=" + checkman + ", message=" + message
-				+ "]";
+				+ date + ", checkman=" + checkman + ", longitude=" + longitude
+				+ ", latitude=" + latitude + ", message=" + message + "]";
 	}
+	
 }

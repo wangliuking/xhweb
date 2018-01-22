@@ -62,8 +62,13 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
-		$scope.loadTemp = function() {
-
+		$scope.loadTemp = function(temp) {
+			if(temp==null){
+				$("#temp-div").html("<span style='color:red;font-weight:700;'>温度数据获取失败</span>");
+				return;
+			}else{
+				$("#temp-div").html("");
+			}
 			// 基于准备好的dom，初始化echarts实例
 			var chart = null;
 			if (chart != null) {
@@ -76,91 +81,99 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-					backgroundColor : '#1b1b1b',
-					tooltip : {
-						formatter : "{a} <br/>{b} : {c}℃"
-					},
-					series : [ {
-						name : '温度',
-						type : 'gauge',
-						min : 0,
-						max : 90,
-						splitNumber : 10, // 分割段数，默认为5
+						backgroundColor : '#fff',
+						tooltip : {
+							formatter : "{a} <br/>{b} : {c}℃"
+						},
+						series : [ {
+							name : '温度',
+							type : 'gauge',
+							min : 0,
+							max : 90,
+							splitNumber : 10, // 分割段数，默认为5
 
-						axisLine : { // 坐标轴线
-							lineStyle : { // 属性lineStyle控制线条样式
-								color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
-										[ 1, '#ff4500' ] ],
-								width : 4,
+							axisLine : { // 坐标轴线橙红色
+								lineStyle : { // 属性lineStyle控制线条样式
+									/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
+											[ 1, '#ff4500' ] ],*/
+									color:'#FF00FF',
+									width : 3,
+									/*shadowColor : '#FF00FF', // 默认透明
+	*/								shadowBlur : 10
+								}
+							},
+							axisTick : { // 坐标轴小标记
+								length : 10, // 属性length控制线长
+								lineStyle : { // 属性lineStyle控制线条样式
+									color : 'auto',
+									shadowColor : '#FF00FF', // 默认透明
+									shadowBlur : 10
+								}
+							},
+							axisLabel : { // 坐标轴小标记
+								textStyle : { // 属性lineStyle控制线条样式
+									fontWeight : 'bolder',
+									color : '#000',
+									shadowColor : '#FF00FF', // 默认透明
+									shadowBlur : 10
+								}
+							},
+							splitLine : { // 分隔线
+								length : 15, // 属性length控制线长
+								lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
+									width : 2,
+									color : '#FF00FF',
+									shadowColor : '#FF00FF', // 默认透明
+									shadowBlur : 10
+								}
+							},
+							pointer : { // 分隔线
+								shadowColor : '#000', // 默认透明
+								shadowBlur : 2,
+								width:4
+							},
+							title : {
+								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+									fontWeight : 'bolder',
+									fontSize : 20,
+									fontStyle : 'italic',
+									color : '#000',
+									shadowColor : '#fff', // 默认透明
+									shadowBlur : 10
+								}
+							},
+							detail : {
+								backgroundColor : 'rgba(30,144,255,0.8)',
+								borderWidth : 1,
+								borderColor : '#fff',
 								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
-							}
-						},
-						axisTick : { // 坐标轴小标记
-							length : 10, // 属性length控制线长
-							lineStyle : { // 属性lineStyle控制线条样式
-								color : 'auto',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
-							}
-						},
-						axisLabel : { // 坐标轴小标记
-							textStyle : { // 属性lineStyle控制线条样式
-								fontWeight : 'bolder',
-								color : '#fff',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
-							}
-						},
-						splitLine : { // 分隔线
-							length : 15, // 属性length控制线长
-							lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
-								width : 3,
-								color : '#fff',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
-							}
-						},
-						pointer : { // 分隔线
-							shadowColor : '#fff', // 默认透明
-							shadowBlur : 5
-						},
-						title : {
-							textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-								fontWeight : 'bolder',
-								fontSize : 20,
-								fontStyle : 'italic',
-								color : '#fff',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
-							}
-						},
-						detail : {
-							backgroundColor : 'rgba(30,144,255,0.8)',
-							borderWidth : 1,
-							borderColor : '#fff',
-							shadowColor : '#fff', // 默认透明
-							shadowBlur : 5,
-							offsetCenter : [ 0, '50%' ], // x, y，单位px
-							textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-								/* fontWeight: 'bolder', */
-								color : '#fff'
-							}
-						},
-						data : [ {
-							value : $scope.emhData.temp,
-							name : '温度'
+								shadowBlur : 5,
+								offsetCenter : [ 0, '50%' ], // x, y，单位px
+								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+									/* fontWeight: 'bolder', */
+									color : '#000'
+								}
+							},
+							data : [ {
+								value : $scope.emhData.temp,
+								name : '温度'
+							} ]
 						} ]
-					} ]
-				};
+					};
 
 				chart.setOption(option);
 
 			});
 		};
 		/* 湿度 */
-		$scope.loadDamp = function() {
-			// 基于准备好的dom，初始化echarts实例
+		$scope.loadDamp = function(damp) {
+			if(damp==null){
+				$("#damp-div").html("<span style='color:red;font-weight:700;'>湿度数据获取失败</span>");
+				return;
+			}else{
+				$("#damp-div").html("");
+			}
+			
 			var chart = null;
 			if (chart != null) {
 				chart.clear();
@@ -172,9 +185,9 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-					backgroundColor : '#1b1b1b',
+					backgroundColor : '#fff',
 					tooltip : {
-						formatter : "{a} <br/>{b} : {c}℃"
+						formatter : "{a} <br/>{b} : {c}"
 					},
 					series : [ {
 						name : '湿度',
@@ -183,50 +196,53 @@ xh.load = function() {
 						max : 90,
 						splitNumber : 10, // 分割段数，默认为5
 
-						axisLine : { // 坐标轴线
+						axisLine : { // 坐标轴线橙红色
 							lineStyle : { // 属性lineStyle控制线条样式
-								color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
-										[ 1, '#ff4500' ] ],
-								width : 4,
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 10
+								/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
+										[ 1, '#ff4500' ] ],*/
+								color:'#FF4500',
+								width : 3,
+								/*shadowColor : '#FF4500', // 默认透明
+*/								shadowBlur : 10
 							}
 						},
 						axisTick : { // 坐标轴小标记
 							length : 10, // 属性length控制线长
 							lineStyle : { // 属性lineStyle控制线条样式
 								color : 'auto',
-								shadowColor : '#fff', // 默认透明
+								shadowColor : '#FF4500', // 默认透明
 								shadowBlur : 10
 							}
 						},
 						axisLabel : { // 坐标轴小标记
 							textStyle : { // 属性lineStyle控制线条样式
 								fontWeight : 'bolder',
-								color : '#fff',
-								shadowColor : '#fff', // 默认透明
+								color : '#000',
+								shadowColor : '#FF4500', // 默认透明
 								shadowBlur : 10
 							}
 						},
 						splitLine : { // 分隔线
 							length : 15, // 属性length控制线长
 							lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
-								width : 3,
-								color : '#fff',
-								shadowColor : '#fff', // 默认透明
+								width : 2,
+								color : '#FF4500',
+								shadowColor : '#FF4500', // 默认透明
 								shadowBlur : 10
 							}
 						},
 						pointer : { // 分隔线
-							shadowColor : '#fff', // 默认透明
-							shadowBlur : 5
+							shadowColor : '#000', // 默认透明
+	
+							shadowBlur : 5,
+							width:4
 						},
 						title : {
 							textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 								fontWeight : 'bolder',
 								fontSize : 20,
 								fontStyle : 'italic',
-								color : '#fff',
+								color : '#000',
 								shadowColor : '#fff', // 默认透明
 								shadowBlur : 10
 							}
@@ -240,7 +256,7 @@ xh.load = function() {
 							offsetCenter : [ 0, '50%' ], // x, y，单位px
 							textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 								/* fontWeight: 'bolder', */
-								color : '#fff'
+								color : '#000'
 							}
 						},
 						data : [ {
@@ -262,8 +278,8 @@ xh.load = function() {
 							+ $scope.period).success(function(response) {
 				$scope.emhData = response;
 				$scope.emhAlarm = response.alarmItems;
-				$scope.loadTemp();
-				$scope.loadDamp();
+				$scope.loadTemp($scope.emhData.temp);
+				$scope.loadDamp($scope.emhData.damp);
 
 			});
 
