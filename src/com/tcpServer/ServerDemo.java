@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.sf.json.JSONObject;
+
 import com.tcpBean.ErrProTable;
 import com.tcpBean.UserLogin;
 
@@ -64,7 +66,7 @@ public class ServerDemo {
 		}
 	}
 
-	public void startMessageThread(final String userId, final Object object) {
+	public static void startMessageThread(String userId, Object object) {
 		try {
 			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
 				if (st.socket == null || st.socket.isClosed())
@@ -74,6 +76,8 @@ public class ServerDemo {
 					continue;
 				// 根据userId模拟服务端向不同的客户端推送消息
 				if (st.userId.equals(userId)) {
+					ErrProTable errProTable = (ErrProTable) object;
+					String serialNum = errProTable.getSerialnumber();
 					BufferedWriter writer = st.writer;
 					BufferedReader reader = st.reader;
 					String sendMessage = Util.Object2Json(object) + "\n";
@@ -86,6 +90,12 @@ public class ServerDemo {
 						if (reader.ready()) {
 							System.out.println("收到消息，准备解析:");
 							String data = reader.readLine();
+							JSONObject jsonObject=JSONObject.fromObject(data);
+							String receiveNum = (String) jsonObject.get("serialnumber");
+							String ack = (String) jsonObject.get("ack");
+							if(serialNum.equals(receiveNum) && "0".equals(ack)){
+								Service.updateUserStatus(userId);
+							}						
 							System.out.println("接受到回复：" + data);
 							result = false;
 						}
