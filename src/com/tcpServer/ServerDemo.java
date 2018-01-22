@@ -64,46 +64,42 @@ public class ServerDemo {
 		}
 	}
 
-	public void startMessageThread(final String userId,final Object object) {
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					System.out.println("已进入");
-					for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
-						if (st.socket == null || st.socket.isClosed())
-							continue;
-						System.out.println("客户端的userId：" + st.userId);
-						if (st.userId == null || "".equals(st.userId))// 如果暂时没有确定Socket对应的用户Id先不发
-							continue;
-						// 根据userId模拟服务端向不同的客户端推送消息
-						if (st.userId.equals(userId)) {							
-							BufferedWriter writer = st.writer;
-							BufferedReader reader = st.reader;
-							String sendMessage = Util.Object2Json(object) + "\n";
-							writer.write(sendMessage);
-							writer.flush();
-							System.out.println("向客户端" + st.socket.getInetAddress() + "发送了消息" + sendMessage);
-							boolean result = true;
-							while (result) {
-								if (reader.ready()) {
-									System.out.println("收到消息，准备解析:");
-									String data = reader.readLine();
-									System.out.println("接受到回复：" + data);
-									result=false;
-								}
-							}				
-						} else
-							continue;
-					}								
-				} catch (IOException e) {
-					// TODO Auto-generated catch blockl
-					e.printStackTrace();
-				}
-
+	public void startMessageThread(final String userId, final Object object) {
+		try {
+			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
+				if (st.socket == null || st.socket.isClosed())
+					continue;
+				System.out.println("客户端的userId：" + st.userId);
+				if (st.userId == null || "".equals(st.userId))// 如果暂时没有确定Socket对应的用户Id先不发
+					continue;
+				// 根据userId模拟服务端向不同的客户端推送消息
+				if (st.userId.equals(userId)) {
+					BufferedWriter writer = st.writer;
+					BufferedReader reader = st.reader;
+					String sendMessage = Util.Object2Json(object) + "\n";
+					writer.write(sendMessage);
+					writer.flush();
+					System.out.println("向客户端" + st.socket.getInetAddress()
+							+ "发送了消息" + sendMessage);
+					boolean result = true;
+					while (result) {
+						if (reader.ready()) {
+							System.out.println("收到消息，准备解析:");
+							String data = reader.readLine();
+							System.out.println("接受到回复：" + data);
+							result = false;
+						}
+					}
+				} else
+					continue;
 			}
-		}, 1000 * 1);//此处设置定时器目的是模仿服务端向客户端推送消息，假定每隔30秒推送一条消息
+		} catch (IOException e) {
+			// TODO Auto-generated catch blockl
+			e.printStackTrace();
+		}
+
 	}
+
 
 	/**
 	 * 关闭与SocketThread所代表的客户端的连接
