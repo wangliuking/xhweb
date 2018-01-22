@@ -41,7 +41,7 @@ public class TcpServerListenner implements ServletContextListener{
 }
 
 /**
- * 维持心跳
+ * tcp服务器开启线程
  */
 class TcpServerThread extends TimerTask {
 	@Override
