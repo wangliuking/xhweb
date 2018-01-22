@@ -77,6 +77,8 @@ xh.load = function() {
 		};
 		//派单
 		$scope.showOrderWin = function(){
+			
+			$scope.nowDate=xh.nowDate();
 			$("#order").modal('show');
 		};
 		/*$scope.alarmType=function(){
@@ -500,3 +502,77 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+xh.order=function(){
+	var formData={
+		dispatchtime:$("div[name='dispatchtime']").html(),
+		dispatchman:$("div[name='dispatchman']").html(),
+		errtype:$("div[name='errtype']").html(),
+		errlevel:$("div[name='errlevel']").html(),
+		errfoundtime:$("div[name='errfoundtime']").html(),
+		errslovetime:$("div[name='errslovetime']").html(),
+		progress:$("div[name='progress']").html(),
+		proresult:$("div[name='proresult']").html(),
+		workman:$("div[name='workman']").html(),
+		auditor:$("div[name='auditor']").html(),
+	}
+	$.ajax({
+		url : '../../order/writeOrder',
+		data : {
+			formData:JSON.stringify(formData)
+			
+		},
+		type : 'post',
+		dataType : "json",
+		async : false,
+		success : function(response) {
+			var data = response;
+			if(data.success){
+				toastr.success("派单成功", '提示');
+			}else{
+				toastr.error("派单失败", '提示');
+			}
+			
+
+		},
+		failure : function(response) {
+			toastr.error("派单失败", '提示');
+		}
+	});
+}
+xh.nowDate=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+    
+    var h=yesterday.getHours();
+    var m=yesterday.getMinutes();
+    var s=yesterday.getSeconds();
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    
+    if(h<10){
+    	h="0"+h;
+    }
+    if(m<10){
+    	m="0"+m;
+    }
+    if(s<10){
+    	s="0"+s;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+h+":"+m+":"+s;   
+    return  strYesterday;
+}

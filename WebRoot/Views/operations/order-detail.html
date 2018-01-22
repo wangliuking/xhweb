@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="order" tabindex="-1" role="dialog"
+<div class="modal fade" id="orderWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -20,43 +20,28 @@
 					</thead> -->
 						<tbody>
 							<tr>
-								<td colspan="4" style="text-align: center;">故障处理跟踪单</td>
+								<td colspan="4" style="text-align: center;">【<span style="color:blue;font-weight: 700;">{{editData.bsid}}-{{editData.bsname}}</span>】故障处理跟踪单</td>
 							</tr>
 							<tr>
 								<td style="height:40px;width:130px;">派单时间</td>
-								<td style="height:40px;width:250px;"><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="dispatchtime">{{nowDate}}</div></td>
+								<td style="height:40px;width:250px;"><div contenteditable="true" class="input-div">{{editData.dispatchtime}}</div></td>
 								<td style="height:40px;width:130px;">派单人</td>
-								<td><div contenteditable="true" class="input-div" name="dispatchman"></div></td>
+								<td><div contenteditable="true" class="input-div" name="dispatchman">{{editData.dispatchman}}</div></td>
 							</tr>
 							<tr style="height:60px;">
 								<td>故障类型</td>
 								<td>
-									<div contenteditable="true" class="input-div" name="errtype"></div> 
+									<div contenteditable="true" class="input-div" name="errtype">{{editData.errtype}}</div> 
 								
-									<div class="type-div">
-										<ul id="type-ul">
-											<li>断站故障</li>
-											<li>隐患故障</li>
-											<li>机房配套问题</li>
-										</ul>
-									</div>
 								</td>
 								<td colspan="2">1、断站故障 2、隐患故障 3、机房配套问题</td>
 							</tr>
 							<tr style="height:80px;">
 								<td>故障等级</td>
 								<td>
-								<div contenteditable="true" class="input-div" name="errlevel"></div> 
+								<div contenteditable="true" class="input-div" name="errlevel">{{editData.errlevel}}</div> 
 								
-									<div class="level-div">
-										<ul id="level-ul">
-											<li>A级</li>
-											<li>B级</li>
-											<li>C级</li>
-											<li>D级</li>
-										</ul>
-									</div>
+									
 								</td>
 								<td colspan="2">
 									<p>A级，包括一级基站断站，2小时内处理恢复；</p>
@@ -68,15 +53,15 @@
 							<tr>
 								<td>故障发现时间</td>
 								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errfoundtime"></div></td>
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errfoundtime">{{editData.errfoundtime}}</div></td>
 								<td>故障恢复时间</td>
 								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errslovetime"></div></td>
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errslovetime">{{editData.errslovetime}}</div></td>
 							</tr>
 							<tr>
 								<td>处理进展</td>
 								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="progress"></div></td>
+										class="textarea-div" name="progress">{{editData.progress}}</div></td>
 							</tr>
 							<tr>
 								<td colspan="4" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
@@ -84,13 +69,13 @@
 							<tr>
 								<td>处理结果</td>
 								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="proresult"></div></td>
+										class="textarea-div" name="proresult">{{editData.proresult}}</div></td>
 							</tr>
 							<tr>
 								<td>处理人</td>
-								<td><div contenteditable="true" class="input-div" name="workman"></div></td>
+								<td><div contenteditable="true" class="input-div" name="workman">{{editData.workman}}</div></td>
 								<td>审核人</td>
-								<td><div contenteditable="true" class="input-div" name="auditor"></div></td>
+								<td><div contenteditable="true" class="input-div" name="auditor">{{editData.auditor}}</div></td>
 							</tr>
 						</tbody>
 					</table>
@@ -100,10 +85,7 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success btn-sm"
-					data-dismiss="modal" id="order-btn">
-					<i class="fa fa-remove"></i>&nbsp;派单
-				</button>
+				
 			</div>
 		</div>
 	</div>
