@@ -108,7 +108,8 @@ public class OrderController {
 		log.info("ErrProTab->"+bean.toString());
 		
 		if(ServerDemo.getmThreadList().size()>0){
-			ServerDemo.startMessageThread(funUtil.loginUser(request), bean);
+			ServerDemo demo=new ServerDemo();
+			demo.startMessageThread(funUtil.loginUser(request), bean);
 			this.message="发送成功";
 			this.success=true;
 		}else{

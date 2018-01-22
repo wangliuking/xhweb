@@ -81,5 +81,20 @@ public class Service {
 	}
 	
 	
+	/**
+	 * 更新派单状态为处理中
+	 */
+	public static void updateUserStatus(String userId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		try{
+			mapper.updateUserStatus(userId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

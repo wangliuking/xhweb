@@ -11,5 +11,10 @@ public interface TcpMapper {
 	 * 
 	 */
 	public List<Map<String,Object>> selectByAppUser(String userId)throws Exception;
+	
+	/**
+	 * 更新派单状态为处理中
+	 */
+	public int updateUserStatus(String userId)throws Exception;
 
 }

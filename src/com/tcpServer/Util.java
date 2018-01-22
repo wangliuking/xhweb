@@ -101,9 +101,6 @@ public class Util {
 				UserInfoAck userInfoAck = Service.appUserInfo(userInfo);
 				map.put("returnMessage", Object2Json(userInfoAck));
 				return map;			
-			}else if("errprotableack".equals(cmdtype)){
-				errProTableAck = (ErrProTableAck) JSONObject.toBean(jsonObject, ErrProTableAck.class);
-				
 			}
 						
 		} catch (JSONException e) {
