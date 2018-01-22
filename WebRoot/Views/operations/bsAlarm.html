@@ -20,6 +20,80 @@
 .search input {
 	float: left;
 }
+.order-table td{
+padding:0;
+}
+.order-form{
+ width:100%;
+ line-height:100%;
+ border:0;
+ padding:6px;
+ /* line-height:100%; */
+}
+.order-form:FOCUS {
+	border:0;
+}
+.textarea-div{
+ width: 100%;
+    height: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    border: 0px solid #a0b3d6;
+    font-size: 12px;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+ 
+    /* border-color: rgba(82, 168, 236, 0.8); */
+    /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
+}
+.input-div{
+ width: 100%;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    border: 0px solid #a0b3d6;
+    font-size: 12px;
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+ 
+    /* border-color: rgba(82, 168, 236, 0.8); */
+    /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
+}
+/* CSS部分 */
+#type-ul { list-style:none; margin:0; padding:0; text-align:center; background:#fafafa; color:#000; -webkit-transform:scaleY(0); -webkit-transform-origin:0 0; }
+#type-ul li { padding:0; margin:0; }
+.type-div { width:100px; }
+.type-div ul li{
+cursor: pointer;
+padding:3px;
+border:1px solid #ccc;
+}
+.type-div:hover ul { -webkit-animation:ulShow 0.4s; -webkit-animation-fill-mode:forwards; -webkit-animation-timing-function: cubic-bezier(0,0.8,0.9,1); }
+type-div { height:30px; line-height:30px; text-align:center; /* background-color:#FC0; */ }
+@-webkit-keyframes ulShow {
+    from { -webkit-transform:scaleY(0); }
+    to { -webkit-transform:scaleY(1); }
+}
+#level-ul { list-style:none; margin:0; padding:0; text-align:center; background:#fafafa; color:#000; -webkit-transform:scaleY(0); -webkit-transform-origin:0 0; }
+#level-ul li { padding:0; margin:0; }
+.level-div { width:100px; }
+.level-div ul li{
+cursor: pointer;
+padding:3px;
+border:1px solid #ccc;
+}
+.level-div:hover ul { -webkit-animation:ulShow 0.4s; -webkit-animation-fill-mode:forwards; -webkit-animation-timing-function: cubic-bezier(0,0.8,0.9,1); }
+level-div { height:30px; line-height:30px; text-align:center; /* background-color:#FC0; */ }
+@-webkit-keyframes ulShow {
+    from { -webkit-transform:scaleY(0); }
+    to { -webkit-transform:scaleY(1); }
+}
 /* .modal-backdrop {
   opacity: 0 !important;
   filter: alpha(opacity=0) !important;
