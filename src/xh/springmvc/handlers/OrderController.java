@@ -22,6 +22,7 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.OrderService;
+import xh.mybatis.service.WebLogService;
 
 
 @Controller
@@ -35,6 +36,7 @@ public class OrderController {
 	private WebLogBean webLogBean = new WebLogBean();
 	
 	
+	
 	//派单列表
 	@RequestMapping(value="/orderlist", method = RequestMethod.GET)
 	public void orderlist(HttpServletRequest request, HttpServletResponse response) {
@@ -45,10 +47,25 @@ public class OrderController {
 		/*map.put("loginuser", funUtil.loginUser(request));*/
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("type", -1);
+		map.put("type", 10);
 		HashMap result = new HashMap();
 		result.put("items",OrderService.orderList(map));
 		result.put("totals", OrderService.orderListCount(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	//用户列表
+	@RequestMapping(value="/userlist", method = RequestMethod.GET)
+	public void userlist(HttpServletRequest request, HttpServletResponse response) {
+		HashMap result = new HashMap();
+		result.put("items",OrderService.userList());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -86,6 +103,22 @@ public class OrderController {
 		
 		log.info("ErrProTab->"+bean.toString());
 		this.success=true;
+		
+		int code=OrderService.addOrder(bean);
+		
+		if(code>0){
+			this.success=true;
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("派单");
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+			ServerDemo demo=new ServerDemo();
+			demo.startMessageThread(bean.getUserid(), bean);
+		}else{
+			this.success=false;
+		}
 
 		HashMap result = new HashMap();
 		result.put("success",success);
@@ -109,7 +142,7 @@ public class OrderController {
 		
 		if(ServerDemo.getmThreadList().size()>0){
 			ServerDemo demo=new ServerDemo();
-			demo.startMessageThread(funUtil.loginUser(request), bean);
+			demo.startMessageThread(bean.getUserid(), bean);
 			this.message="发送成功";
 			this.success=true;
 		}else{

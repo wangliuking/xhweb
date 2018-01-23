@@ -10,90 +10,118 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="order">
-				<form action="" onsubmit="false" id="order-form">
-					<table id="order-table"
-						style="width:100%;border-collapse: collapse;">
-						<!-- <thead>
+					<form action="" onsubmit="false" id="order-form">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;">
+							<!-- <thead>
 					<tr>
 					<th></th>
 					</tr>
 					</thead> -->
-						<tbody>
-							<tr>
-								<td colspan="4" style="text-align: center;">故障处理跟踪单</td>
-							</tr>
-							<tr>
-								<td style="height:40px;width:130px;">派单时间</td>
-								<td style="height:40px;width:250px;"><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="dispatchtime">{{nowDate}}</div></td>
-								<td style="height:40px;width:130px;">派单人</td>
-								<td><div contenteditable="true" class="input-div" name="dispatchman"></div></td>
-							</tr>
-							<tr style="height:60px;">
-								<td>故障类型</td>
-								<td>
-									<div contenteditable="true" class="input-div" name="errtype"></div> 
-								
-									<div class="type-div">
-										<ul id="type-ul">
-											<li>断站故障</li>
-											<li>隐患故障</li>
-											<li>机房配套问题</li>
-										</ul>
-									</div>
-								</td>
-								<td colspan="2">1、断站故障 2、隐患故障 3、机房配套问题</td>
-							</tr>
-							<tr style="height:80px;">
-								<td>故障等级</td>
-								<td>
-								<div contenteditable="true" class="input-div" name="errlevel"></div> 
-								
-									<div class="level-div">
-										<ul id="level-ul">
-											<li>A级</li>
-											<li>B级</li>
-											<li>C级</li>
-											<li>D级</li>
-										</ul>
-									</div>
-								</td>
-								<td colspan="2">
-									<p>A级，包括一级基站断站，2小时内处理恢复；</p>
-									<p>B级，包括二级基站断站，3小时内处理恢复；</p>
-									<p>C级，包括三级基站断站，5小时内处理恢复；</p>
-									<p>D级，包括隐患故障和机房配套问题，3天内处理恢复</p>
-								</td>
-							</tr>
-							<tr>
-								<td>故障发现时间</td>
-								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errfoundtime"></div></td>
-								<td>故障恢复时间</td>
-								<td><div contenteditable="true" class="input-div"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="errslovetime"></div></td>
-							</tr>
-							<tr>
-								<td>处理进展</td>
-								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="progress"></div></td>
-							</tr>
-							<tr>
-								<td colspan="4" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
-							</tr>
-							<tr>
-								<td>处理结果</td>
-								<td colspan="3"><div contenteditable="true"
-										class="textarea-div" name="proresult"></div></td>
-							</tr>
-							<tr>
-								<td>处理人</td>
-								<td><div contenteditable="true" class="input-div" name="workman"></div></td>
-								<td>审核人</td>
-								<td><div contenteditable="true" class="input-div" name="auditor"></div></td>
-							</tr>
-						</tbody>
-					</table>
+							<tbody>
+								<tr>
+									<td colspan="6" style="text-align: center;">故障处理任务单</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;">派单时间</td>
+									<td style="height:40px;width:250px;"><div
+											contenteditable="true" class="input-div"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											name="dispatchtime">{{nowDate}}</div></td>
+									<td style="height:40px;width:100px;">派单人</td>
+									<td style="height:40px;width:140px;"><div
+											contenteditable="true" class="input-div" name="dispatchman"></div></td>
+									<td style="width:80px;">接单人</td>
+									<td>
+
+										<div class="slDiv">
+											<span id="btnSelect">点击搜索</span>
+											<span id="userid" name="userid" ng-show=false></span>
+											<div class="ulDiv">
+												<ul>
+													<li ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</li>
+												</ul>
+											</div>
+										</div> <!-- <div contenteditable="true" class="input-div">
+								<select class="form-control" name="userid">
+								    <optgroup label="用户">
+								     <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+								    </optgroup>
+								   
+								</select>
+								</div> -->
+									</td>
+								</tr>
+								<tr style="height:60px;">
+									<td>故障类型</td>
+									<td>
+										<div contenteditable="true" class="input-div" name="errtype"></div>
+
+										<div class="type-div">
+											<ul id="type-ul">
+												<li>断站故障</li>
+												<li>隐患故障</li>
+												<li>机房配套问题</li>
+											</ul>
+										</div>
+									</td>
+									<td colspan="4">1、断站故障 2、隐患故障 3、机房配套问题</td>
+								</tr>
+								<tr style="height:80px;">
+									<td>故障等级</td>
+									<td>
+										<div contenteditable="true" class="input-div" name="errlevel"></div>
+
+										<div class="level-div">
+											<ul id="level-ul">
+												<li>A级</li>
+												<li>B级</li>
+												<li>C级</li>
+												<li>D级</li>
+											</ul>
+										</div>
+									</td>
+									<td colspan="4">
+										<p>A级，包括一级基站断站，2小时内处理恢复；</p>
+										<p>B级，包括二级基站断站，3小时内处理恢复；</p>
+										<p>C级，包括三级基站断站，5小时内处理恢复；</p>
+										<p>D级，包括隐患故障和机房配套问题，3天内处理恢复</p>
+									</td>
+								</tr>
+								<tr>
+									<td>故障发现时间</td>
+									<td><div contenteditable="true" class="input-div"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											name="errfoundtime"></div></td>
+									<td>故障恢复时间</td>
+									<td colspan="3"><div contenteditable="true"
+											class="input-div"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+											name="errslovetime"></div></td>
+								</tr>
+								<tr>
+									<td>处理进展</td>
+									<td colspan="5"><div contenteditable="true"
+											class="textarea-div" name="progress"></div></td>
+								</tr>
+								<tr>
+									<td colspan="6" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
+								</tr>
+								<tr>
+									<td>处理结果</td>
+									<td colspan="5"><div contenteditable="true"
+											class="textarea-div" name="proresult"></div></td>
+								</tr>
+								<tr>
+									<td>处理人</td>
+									<td colspan="2"><div contenteditable="true"
+											class="input-div" name="workman"></div></td>
+									<td>审核人</td>
+									<td colspan="2"><div contenteditable="true"
+											class="input-div" name="auditor"></div></td>
+								</tr>
+							</tbody>
+						</table>
 					</form>
 				</div>
 
@@ -109,12 +137,23 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(".type-div>ul>li").on('click',function(){
-	$("div[name='errtype']").html($(this).html())
-})
-$(".level-div>ul>li").on('click',function(){
-	$("div[name='errlevel']").html($(this).html())
-})
+	$(".type-div>ul>li").on('click', function() {
+		$("div[name='errtype']").html($(this).html())
+	})
+	$(".level-div>ul>li").on('click', function() {
+		$("div[name='errlevel']").html($(this).html())
+	})
+	$('.slDiv #btnSelect').on('click',function(){  
+			  $(this).siblings('.ulDiv').toggleClass('ulShow');  
+			});  
+			$('.slDiv .ulDiv ul').delegate('li','click',function(){  
+			  var selTxt=$(this).text();
+			  var userid=$(this).attr("value");
+			 
+			  $('.slDiv #btnSelect').text(selTxt); 
+			  $('.slDiv #userid').text(userid); 
+			  $('.ulDiv').removeClass('ulShow');  
+			}); 
 </script>
 <script type="text/javascript">
 	$("#order-btn").click(function() {

@@ -62,6 +62,7 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+	
 		$scope.resend=function(index){
 			
 			var formData=$scope.data[index];
@@ -93,7 +94,9 @@ xh.load = function() {
 		/*显示详细信息*/
 		$scope.editModel = function(id) {
 			$("#orderWin").modal('show');
+			
 			$scope.editData = $scope.data[id];
+			
 		};
 		/*下载工作记录*/
 		$scope.download = function(path) {

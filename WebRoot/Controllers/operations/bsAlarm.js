@@ -70,6 +70,14 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+		/*用户列表*/
+		$scope.userList=function(){
+			$http.get("../../order/userlist").success(
+					function(response) {
+						$scope.userData = response.items;
+						console.log("11")
+					});
+		}
 		/* 显示警告详情 */
 		$scope.showDetails = function(id){
 			$("#bsAlarmDetails").modal('show');
@@ -79,8 +87,10 @@ xh.load = function() {
 		$scope.showOrderWin = function(){
 			
 			$scope.nowDate=xh.nowDate();
+			$scope.userList();
 			$("#order").modal('show');
 		};
+		
 		/*$scope.alarmType=function(){
 			$http.get("../../bsAlarm/data/bsAlarmLevelChart").success(
 					function(response) {
@@ -503,17 +513,25 @@ xh.pagging = function(currentPage, totals, $scope) {
 
 };
 xh.order=function(){
+	var userid=$("span[name='userid']").text()
+	if(userid==""){
+		toastr.error("接单人不能为空", '提示');
+		return;
+	}
 	var formData={
-		dispatchtime:$("div[name='dispatchtime']").html(),
-		dispatchman:$("div[name='dispatchman']").html(),
-		errtype:$("div[name='errtype']").html(),
-		errlevel:$("div[name='errlevel']").html(),
-		errfoundtime:$("div[name='errfoundtime']").html(),
-		errslovetime:$("div[name='errslovetime']").html(),
-		progress:$("div[name='progress']").html(),
-		proresult:$("div[name='proresult']").html(),
-		workman:$("div[name='workman']").html(),
-		auditor:$("div[name='auditor']").html(),
+		bsid:1,
+		bsname:'政府三办',
+		userid:userid,
+		dispatchtime:$("div[name='dispatchtime']").text(),
+		dispatchman:$("div[name='dispatchman']").text(),
+		errtype:$("div[name='errtype']").text(),
+		errlevel:$("div[name='errlevel']").text(),
+		errfoundtime:$("div[name='errfoundtime']").text(),
+		errslovetime:$("div[name='errslovetime']").text(),
+		progress:$("div[name='progress']").text(),
+		proresult:$("div[name='proresult']").text(),
+		workman:$("div[name='workman']").text(),
+		auditor:$("div[name='auditor']").text(),
 	}
 	$.ajax({
 		url : '../../order/writeOrder',
