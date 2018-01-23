@@ -35,7 +35,7 @@ public class TcpServerListenner implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
 		timer = new Timer(true);
-		timer.schedule(new TcpServerThread(), 60 * 1000);
+		timer.schedule(new TcpServerThread(), 20 * 1000);
 	}
 
 }

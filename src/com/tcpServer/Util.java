@@ -35,6 +35,7 @@ public class Util {
 	//接收用对象
 	private static UserLogin userLogin;
 	private static UserInfo userInfo;
+	private static ErrProTable errProTable;
 	private static ErrProTableAck errProTableAck;
 	private static ErrCheck errCheck;
 	private static NetManagerTable netManagerTable;
@@ -101,6 +102,22 @@ public class Util {
 				UserInfoAck userInfoAck = Service.appUserInfo(userInfo);
 				map.put("returnMessage", Object2Json(userInfoAck));
 				return map;			
+			}else if("errprotableack".equals(cmdtype)){
+				errProTableAck = (ErrProTableAck) JSONObject.toBean(jsonObject, ErrProTableAck.class);
+				String userId = errProTableAck.getUserid();
+				Service.updateUserStatus(userId);
+				map.put("returnMessage", "");
+				return map;
+			}else if("errcheck".equals(cmdtype)){
+				errCheck = (ErrCheck) JSONObject.toBean(jsonObject, ErrCheck.class);
+				ErrCheckAck errCheckAck = Service.appErrCheck(errCheck);
+				map.put("returnMessage", Object2Json(errCheckAck));
+				return map;
+			}else if("errprotable".equals(cmdtype)){
+				errProTable = (ErrProTable) JSONObject.toBean(jsonObject, ErrProTable.class);
+				ErrProTableAck errProTableAck = Service.appProTableAck(errProTable);
+				map.put("returnMessage", Object2Json(errProTableAck));
+				return map;
 			}
 						
 		} catch (JSONException e) {

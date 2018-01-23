@@ -16,8 +16,10 @@ import xh.mybatis.tools.MoreDbTools;
 import xh.org.listeners.SingLoginListener;
 
 import com.tcpBean.DispatchTableAck;
+import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
+import com.tcpBean.ErrProTableAck;
 import com.tcpBean.LoginAck;
 import com.tcpBean.MovebsTableAck;
 import com.tcpBean.NetManagerTableAck;
@@ -31,6 +33,7 @@ public class Service {
 	private static LoginAck loginAck = new LoginAck();
 	private static UserInfoAck userInfoAck = new UserInfoAck();
 	private static ErrProTable errProTable = new ErrProTable();
+	private static ErrProTableAck errProTableAck = new ErrProTableAck();
 	private static ErrCheckAck errCheckAck = new ErrCheckAck();
 	private static NetManagerTableAck netManagerTableAck = new NetManagerTableAck();
 	private static DispatchTableAck dispatchTableAck = new DispatchTableAck();
@@ -94,6 +97,25 @@ public class Service {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 派单确认请求
+	 */
+	public static ErrCheckAck appErrCheck(ErrCheck errCheck){
+		errCheckAck.setSerialnumber(errCheck.getSerialnumber());
+		errCheckAck.setUserid(errCheck.getUserid());
+		errCheckAck.setResult("0");
+		return errCheckAck;
+	}
+	
+	/**
+	 * 派单完结
+	 */
+	public static ErrProTableAck appProTableAck(ErrProTable errProTable){
+		errProTableAck.setSerialnumber(errProTable.getSerialnumber());
+		errProTableAck.setUserid(errProTable.getUserid());
+		return errProTableAck;
 	}
 	
 	

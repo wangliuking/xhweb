@@ -51,37 +51,26 @@ public class ServerDemo {
 			SocketThread thread = new SocketThread(socket, socketID++);
 			thread.start();
 			mThreadList.add(thread);
-			setmThreadList(mThreadList);
-			try {
-				Thread.sleep(1000*10);
-				ErrProTable errProTable = new ErrProTable();
-				startMessageThread("test",errProTable);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 		}
 	}
 
-	public void startMessageThread(final String userId, final Object object) {
+	public static void startMessageThread(final String userId, final Object object) {
 		try {
 			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
 				if (st.socket == null || st.socket.isClosed())
 					continue;
-				System.out.println("客户端的userId：" + st.userId);
 				if (st.userId == null || "".equals(st.userId))// 如果暂时没有确定Socket对应的用户Id先不发
 					continue;
 				// 根据userId模拟服务端向不同的客户端推送消息
 				if (st.userId.equals(userId)) {
 					BufferedWriter writer = st.writer;
-					BufferedReader reader = st.reader;
+					//BufferedReader reader = st.reader;
 					String sendMessage = Util.Object2Json(object) + "\n";
 					writer.write(sendMessage);
 					writer.flush();
-					System.out.println("向客户端" + st.socket.getInetAddress()
+					System.out.println("向客户端" + st.userId + "===" + st.socket.getInetAddress()
 							+ "发送了消息" + sendMessage);
-					boolean result = true;
+					/*boolean result = true;
 					while (result) {
 						if (reader.ready()) {
 							System.out.println("收到消息，准备解析:");
@@ -89,7 +78,7 @@ public class ServerDemo {
 							System.out.println("接受到回复：" + data);
 							result = false;
 						}
-					}
+					}*/
 				} else
 					continue;
 			}
@@ -154,9 +143,9 @@ public class ServerDemo {
 					}*/
 					if (reader.ready()) {
 						lastTime = System.currentTimeMillis();
-						System.out.println("收到消息，准备解析:");
-						
+						System.out.println("收到消息，准备解析:");					
 						String data = reader.readLine();
+						System.out.println("接收到的数据为："+data);
 						Map<String, String> tempMap = Util.parseJson(data);
 						if(tempMap.containsKey("userId")){
 							this.userId=tempMap.get("userId");
@@ -164,9 +153,11 @@ public class ServerDemo {
 						System.out.println("当前SocketThread的userId为："+userId);
 						
 						String returnMessage = tempMap.get("returnMessage");
-						System.out.println("返回的消息为："+returnMessage);
-						writer.write(returnMessage+"\n");
-						writer.flush();
+						if(!"".equals(returnMessage) && returnMessage!=null){
+							System.out.println("返回的消息为："+returnMessage);
+							writer.write(returnMessage+"\n");
+							writer.flush();
+						}						
 						
 						
 						/*SocketMessage from = Util.parseJson(data);
