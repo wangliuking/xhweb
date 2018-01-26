@@ -127,45 +127,23 @@ xh.load = function() {
 			/**/
 			
 		};
-		$scope.check=function(){
-			var checkVal = [];
-			$("[name='roleType']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("id"));
-				}
-			});
-			if (checkVal.length <1) {
-				swal({
-					title : "提示",
-					text : "必须至少选择一个组发送通知",
-					type : "error"
-				});
-				return;
-			}
+		//确认派单完成
+		$scope.check=function(id){
 			$.ajax({
-				url : '../../duty/sign',
+				url : '../../order/updateOrder',
 				type : 'POST',
 				dataType : "json",
 				async : true,
 				data:{
-					id:$("#checkForm1").find('input[name="id"]').val(),
-					check:$("#checkForm1").find('select[name="checked1"]').val(),
-					note:$("#checkForm1").find('textarea[name="note1"]').val(),
-					roleType:checkVal.join(","),
-					recvUser:$scope.checkData.uploadUser
+					id:$scope.data[id].id
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
-						xh.refresh();
-						toastr.success(data.message, '提示');
-						$("#checkWin1").modal('hide');
+					if (data.success) {
+						$scope.refresh();
+						toastr.success("已确认改派单中的故障处理意见", '提示');
 					} else {
-						swal({
-							title : "提示",
-							text : data.message,
-							type : "error"
-						});
+						toastr.success("确认失败", '提示');
 					}
 				},
 				error : function() {

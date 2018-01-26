@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.BsAlarmBean;
+import xh.mybatis.bean.BsAlarmExcelBean;
 
 public interface BsAlarmMapper {
 	/**
@@ -21,6 +22,10 @@ public interface BsAlarmMapper {
 	public List<BsAlarmBean> selectBsAlarmList(Map<String,Object> map) throws Exception;
 	
 	public List<Map<String,Object>> selectTop5() throws Exception;
+	/*实时添加基站断站记录*/
+	public int addBsFault(BsAlarmExcelBean bean) throws Exception;
+	/*判断基站断站记录是否存在*/
+	public int bsFaultIsHave(int bsId) throws Exception;
 	
 	/**
 	 *  告警总数

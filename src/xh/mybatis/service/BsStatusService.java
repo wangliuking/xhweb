@@ -1,14 +1,18 @@
 package xh.mybatis.service;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
@@ -81,6 +85,33 @@ public class BsStatusService {
 				}
 				
 			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/* tera系统告警基站部分,获取当前的断站列表*/
+	public static List<BsAlarmExcelBean> bsFaultInfo() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<BsAlarmExcelBean> list = new ArrayList<BsAlarmExcelBean>();
+		
+		try {
+			SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time=f.format(new Date(System.currentTimeMillis()-1*24*60*60*1000));
+			
+			/*Calendar c = Calendar.getInstance();
+	        c.setTime(new Date());
+	        c.add(Calendar.MONTH, -3);
+	        Date m3 = c.getTime();
+	        String mon3 = f.format(m3);*/
+			list = mapper.bsFaultInfo(time);
+			
+			
+
 			sqlSession.close();
 
 		} catch (Exception e) {
@@ -635,12 +666,12 @@ public class BsStatusService {
 			list = mapper.bsAlarmExcel(map);
 			
 			/*System.out.println(Arrays.toString(list.toArray()));*/
-			Map<String, Object> map2=new HashMap<String, Object>();
+			/*Map<String, Object> map2=new HashMap<String, Object>();
 			map2.put("bsId", "");
 			map2.put("name", "");
 			map2.put("start", 0);
 			map2.put("limit", 500);
-			List<BsstationBean> bs = BsstationService.bsInfo(map2);
+			List<BsstationBean> bs = BsstationService.bsInfo(map2);*/
 			
 			
 			
@@ -654,6 +685,58 @@ public class BsStatusService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public static List<Map<String,Object>> bsFaultList(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.bsFaultList(map);
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static int bsFaultListCount(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count=0;
+		try {
+			count = mapper.bsFaultListCount(map);
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/*更新基站故障表 */
+	public static int editBsFault(BsAlarmExcelBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count=0;
+		try {
+			count = mapper.editBsFault(bean);
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

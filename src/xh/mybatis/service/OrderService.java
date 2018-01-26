@@ -58,7 +58,7 @@ public class OrderService {
 	}
 	//新增派单
 	public static int addOrder(ErrProTable bean){
-			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 			OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
 			int count=0;
 			try{
@@ -70,6 +70,36 @@ public class OrderService {
 				e.printStackTrace();
 			}
 			return count;
-		}
+	}
+	//修改确认派单
+	public static int updateOrder(Map<String,Object> map){
+			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+			OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+			int count=0;
+			try{
+				count=mapper.updateOrder(map);
+				sqlSession.commit();
+				sqlSession.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return count;
+	}
+	//更新基站故障状态记录
+	public static int updateBsFault(Map<String,Object> map){
+			SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+			OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+			int count=0;
+			try{
+				count=mapper.updateBsFault(map);
+				sqlSession.commit();
+				sqlSession.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return count;
+	}
 
 }

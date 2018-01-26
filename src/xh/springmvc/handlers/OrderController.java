@@ -95,11 +95,49 @@ public class OrderController {
 
 	}
 	
+	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
+	public void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+		int id=FunUtil.StringToInt(request.getParameter("id"));
+		this.success=true;
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("status", 2);
+		map.put("id", id);
+		
+		int code=OrderService.updateOrder(map);
+		
+		if(code>0){
+			this.success=true;
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("确认派单已解决");
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+		}else{
+			this.success=false;
+		}
+
+		HashMap result = new HashMap();
+		result.put("success",success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	@RequestMapping(value="/writeOrder", method = RequestMethod.POST)
 	public void writeOrder(HttpServletRequest request, HttpServletResponse response) {
 		String fromData=request.getParameter("formData");
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
 		bean.setSerialnumber(FunUtil.RandomWord(8));
+		
+		int id=bean.getId();
 		
 		log.info("ErrProTab->"+bean.toString());
 		this.success=true;
@@ -114,8 +152,17 @@ public class OrderController {
 			webLogBean.setContent("派单");
 			webLogBean.setCreateTime(funUtil.nowDate());
 			WebLogService.writeLog(webLogBean);
+			
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("status", 1);
+			map.put("id", id);
+			log.info("id->"+id);
+			OrderService.updateBsFault(map);
+			
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
+			
+			
 		}else{
 			this.success=false;
 		}

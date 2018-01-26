@@ -32,7 +32,14 @@
      #{dispatchtime},#{dispatchman}, #{errtype},#{errlevel}, 
     #{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid})
     </insert> 
-    
+    <!-- 更新拍单记录 -->
+    <update id="updateOrder" parameterType="map">
+    update xhgmnet_operations_fault_task_order set status=#{status} where id=#{id}
+    </update>
+    <!-- 更新基站故障状态记录 -->
+    <update id="updateBsFault" parameterType="map">
+    update xhgmnet_operations_bsfault set status=#{status} where id=#{id}
+    </update>
     <!--用户列表-->
     <select id="userList" resultType="map" useCache="true">
      select a.userId,a.user,a.userName,b.role from xhgmnet_web_user as a

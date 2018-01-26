@@ -20,8 +20,14 @@
 					</thead> -->
 							<tbody>
 								<tr>
-									<td colspan="6" style="text-align: center;">故障处理任务单</td>
+									<td colspan="6" style="text-align: center;">
+									基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}&nbsp;&nbsp;&nbsp;故障处理任务单
+									<div contenteditable="true" class="input-div" name="id" ng-show="false">{{orderData.id}}</div>
+									<div contenteditable="true" class="input-div" name="bsId" ng-show="false">{{orderData.bsId}}</div>
+									<div contenteditable="true" class="input-div" name="name" ng-show="false">{{orderData.name}}</div>
+									</td>
 								</tr>
+								
 								<tr>
 									<td style="height:40px;width:130px;">派单时间</td>
 									<td style="height:40px;width:250px;"><div

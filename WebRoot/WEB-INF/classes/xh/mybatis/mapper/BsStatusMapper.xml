@@ -27,14 +27,14 @@
 	<!-- 基站注册组 -->
 	<select id="bsGroupTop5" resultType="map"
 		useCache="true">
-		SELECT a.bsId,count(a.gourpId) as value,b.name FROM `xhgmnet_bs_groupstatus` as a
+		SELECT a.bsId,count(a.gourpId) as value,b.name FROM xhgmnet_bs_groupstatus as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		  group by a.bsId order by  value desc limit 5
 	</select>
 	<!-- 基站注册终端 -->
 	<select id="bsRadioTop5" resultType="map"
 		useCache="true">
-		SELECT a.bsId,count(a.userId) as value,b.name FROM `xhgmnet_operations_userstatus` as a
+		SELECT a.bsId,count(a.userId) as value,b.name FROM xhgmnet_operations_userstatus as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		  group by a.bsId order by  value desc limit 5
 	</select>
@@ -295,11 +295,32 @@
 	</select>
 	<!-- tera系统告警基站部分  导出excel -->
 	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
-		select a.subModId as bsId,a.time,b.name,b.level,b.status,b.hometype 
-		from (select * from xhgmnet_eastcom_alarminfo order by time asc)  as a
-		left join xhgmnet_bs_station as b on a.subModId=b.bsId
+		select a.*,b.name,b.level,b.status,b.hometype 
+		from xhgmnet_operations_bsfault  as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		
-		where a.modId=4 and time between #{startTime} and #{endTime} group by a.subModId order by time asc
+		where a.time between #{startTime} and #{endTime} group by a.bsId order by a.time asc
+	</select>
+	<select id="bsFaultList" resultType="map" useCache="true" parameterType="map">
+		select a.*,b.name,b.level,b.status,b.hometype 
+		from xhgmnet_operations_bsfault  as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId  order by a.time asc 
+		limit #{start},#{limit}
 	</select>	
-
+	<select id="bsFaultListCount" resultType="int" useCache="true" parameterType="map">
+		select count(*) from xhgmnet_operations_bsfault 
+	</select>	
+	<!-- tera系统告警基站部分,获取当前的断站列表 -->
+	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
+		select a.subModId as bsId,a.time
+		from (select * from xhgmnet_eastcom_alarminfo order by time desc)  as a 	
+		where a.modId=4 and a.time >#{time} group by a.subModId order by time asc
+	</select>
+	<!-- 更新基站故障表 -->
+	<update id="editBsFault" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
+	    update xhgmnet_operations_bsfault set weekly=#{weekly},time=#{time},`from`=#{from}, severity=#{severity}, 
+	    type=#{type}, reason=#{reason}, nowDeal=#{nowDeal}, imbusiness=#{imbusiness}, dealResult=#{dealResult}, 
+	    faultRecoveryTime=#{faultRecoveryTime}, faultTimeTotal=#{faultTimeTotal}, content=#{content}, 
+	    faultHandlePerson=#{faultHandlePerson}, faultRecordPerson=#{faultRecordPerson} where id=#{id}
+	</update>
 </mapper>
