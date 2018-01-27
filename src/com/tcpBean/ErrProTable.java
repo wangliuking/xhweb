@@ -4,6 +4,7 @@ package com.tcpBean;
  * app故障处理任务单(根据表单填写内容)
  * 
  * cmdtype(errprotable)
+ * id
  * serialnumber		--流水号
  * userid
  * bsid
@@ -28,6 +29,7 @@ package com.tcpBean;
 
 public class ErrProTable {
 	private String cmdtype = "errprotable";
+	private String id;
 	private String serialnumber;
 	private String userid;
 	private String bsid;
@@ -50,6 +52,13 @@ public class ErrProTable {
 	}
 	public void setCmdtype(String cmdtype) {
 		this.cmdtype = cmdtype;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getSerialnumber() {
 		return serialnumber;
@@ -155,15 +164,16 @@ public class ErrProTable {
 	}
 	@Override
 	public String toString() {
-		return "ErrProTable [cmdtype=" + cmdtype + ", serialnumber="
-				+ serialnumber + ", userid=" + userid + ", bsid=" + bsid
-				+ ", bsname=" + bsname + ", dispatchtime=" + dispatchtime
-				+ ", dispatchman=" + dispatchman + ", errtype=" + errtype
-				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
-				+ ", errslovetime=" + errslovetime + ", progress=" + progress
-				+ ", proresult=" + proresult + ", workman=" + workman
-				+ ", auditor=" + auditor + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", address=" + address + "]";
+		return "ErrProTable [cmdtype=" + cmdtype + ", id=" + id
+				+ ", serialnumber=" + serialnumber + ", userid=" + userid
+				+ ", bsid=" + bsid + ", bsname=" + bsname + ", dispatchtime="
+				+ dispatchtime + ", dispatchman=" + dispatchman + ", errtype="
+				+ errtype + ", errlevel=" + errlevel + ", errfoundtime="
+				+ errfoundtime + ", errslovetime=" + errslovetime
+				+ ", progress=" + progress + ", proresult=" + proresult
+				+ ", workman=" + workman + ", auditor=" + auditor
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + "]";
 	}
 	
 	
