@@ -11,8 +11,11 @@ import java.util.Map;
  * userid
  * dispatchname			--网管名称
  * dispatchplace		--地点
- * date					--日期
+ * commitdate			--日期
  * checkman				--巡检人
+ * longitude			--GPS经度坐标
+ * latitude				--GPS纬度坐标
+ * address
  * message				--调度台巡检数组，每组包含3个字段，分别为检查状况、问题描述、处理状况及遗留问题,每组具体内容与巡检表对应
  * 
  * @author 12878
@@ -25,9 +28,12 @@ public class DispatchTable {
 	private String userid;
 	private String dispatchname;
 	private String dispatchplace;
-	private String date;
+	private String commitdate;
 	private String checkman;
-	private List<Map<String,Object>> message;
+	private String longitude;
+	private String latitude;
+	private String address;
+	private List<Map<String,String>> message;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -58,11 +64,11 @@ public class DispatchTable {
 	public void setDispatchplace(String dispatchplace) {
 		this.dispatchplace = dispatchplace;
 	}
-	public String getDate() {
-		return date;
+	public String getCommitdate() {
+		return commitdate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setCommitdate(String commitdate) {
+		this.commitdate = commitdate;
 	}
 	public String getCheckman() {
 		return checkman;
@@ -70,19 +76,38 @@ public class DispatchTable {
 	public void setCheckman(String checkman) {
 		this.checkman = checkman;
 	}
-	public List<Map<String, Object>> getMessage() {
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public List<Map<String, String>> getMessage() {
 		return message;
 	}
-	public void setMessage(List<Map<String, Object>> message) {
+	public void setMessage(List<Map<String, String>> message) {
 		this.message = message;
 	}
 	@Override
 	public String toString() {
 		return "DispatchTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", dispatchname="
-				+ dispatchname + ", dispatchplace=" + dispatchplace + ", date="
-				+ date + ", checkman=" + checkman + ", message=" + message
-				+ "]";
+				+ dispatchname + ", dispatchplace=" + dispatchplace
+				+ ", commitdate=" + commitdate + ", checkman=" + checkman
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + ", message=" + message + "]";
 	}
 	
 }

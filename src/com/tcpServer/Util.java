@@ -79,7 +79,7 @@ public class Util {
 	}
 
 	/**
-	 * 解析Json数据（需重写，待定）
+	 * 解析Json数据
 	 *
 	 * @param json
 	 * @return
@@ -104,8 +104,8 @@ public class Util {
 				return map;			
 			}else if("errprotableack".equals(cmdtype)){
 				errProTableAck = (ErrProTableAck) JSONObject.toBean(jsonObject, ErrProTableAck.class);
-				String userId = errProTableAck.getUserid();
-				Service.updateUserStatus(userId);
+				String serialNum = errProTableAck.getSerialnumber();
+				Service.updateUserStatus(serialNum);
 				map.put("returnMessage", "");
 				return map;
 			}else if("errcheck".equals(cmdtype)){
@@ -117,6 +117,41 @@ public class Util {
 				errProTable = (ErrProTable) JSONObject.toBean(jsonObject, ErrProTable.class);
 				ErrProTableAck errProTableAck = Service.appProTableAck(errProTable);
 				map.put("returnMessage", Object2Json(errProTableAck));
+				return map;
+			}else if("movebstable".equals(cmdtype)){
+				Map<String, Class> classMap = new HashMap<String, Class>();
+				classMap.put("message", Map.class);
+				
+				movebsTable = (MovebsTable) JSONObject.toBean(jsonObject, MovebsTable.class, classMap);
+				MovebsTableAck movebsTableAck = Service.appMovebsTableAck(movebsTable);
+				map.put("returnMessage", Object2Json(movebsTableAck));
+				return map;
+			}else if("ownbstable".equals(cmdtype)){
+				Map<String, Class> classMap = new HashMap<String, Class>();
+				classMap.put("message", Map.class);
+				
+				ownbsTable = (OwnbsTable) JSONObject.toBean(jsonObject, OwnbsTable.class, classMap);
+				OwnbsTableAck ownbsTableAck = Service.appOwnbsTable(ownbsTable);
+				map.put("returnMessage", Object2Json(ownbsTableAck));
+				return map;
+			}else if("dispatchtable".equals(cmdtype)){
+				Map<String, Class> classMap = new HashMap<String, Class>();
+				classMap.put("message", Map.class);
+				
+				dispatchTable = (DispatchTable) JSONObject.toBean(jsonObject, DispatchTable.class, classMap);
+				DispatchTableAck dispatchTableAck = Service.appDispatchTableAck(dispatchTable);
+				map.put("returnMessage", Object2Json(dispatchTableAck));
+				return map;
+			}else if("netmanagertable".equals(cmdtype)){
+				Map<String, Class> classMap = new HashMap<String, Class>();
+				classMap.put("message", Map.class);
+				
+				netManagerTable = (NetManagerTable) JSONObject.toBean(jsonObject, NetManagerTable.class, classMap);
+				NetManagerTableAck netManagerTableAck = Service.appNetManagerTableAck(netManagerTable);
+				map.put("returnMessage", Object2Json(netManagerTableAck));
+				return map;
+			}else if("heartbeat".equals(cmdtype)){
+				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");
 				return map;
 			}
 						
