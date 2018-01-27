@@ -6,6 +6,9 @@ package com.tcpBean;
  * cmdtype(errcheck)
  * serialnumber
  * userid
+ * longitude		--GPS经度坐标
+ * latitude			--GPS纬度坐标
+ * address			--地址
  * 
  * @author 12878
  *
@@ -17,6 +20,7 @@ public class ErrCheck {
 	private String userid;
 	private String longitude;
 	private String latitude;
+	private String address;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -47,11 +51,19 @@ public class ErrCheck {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "ErrCheck [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", longitude="
-				+ longitude + ", latitude=" + latitude + "]";
+				+ longitude + ", latitude=" + latitude + ", address=" + address
+				+ "]";
 	}
+	
 	
 }

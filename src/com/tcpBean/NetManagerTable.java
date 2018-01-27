@@ -11,8 +11,11 @@ import java.util.Map;
  * userid
  * managername			--网管名称
  * managerplace			--地点
- * date					--日期
+ * commitdata			--日期
  * checkman				--巡检人
+ * longitude			--GPS经度坐标
+ * latitude				--GPS纬度坐标
+ * address
  * message				--网管巡检数组，每组包含3个字段，分别为检查状况、问题描述、处理状况及遗留问题,每组具体内容与巡检表对应
  * 
  * @author 12878
@@ -25,11 +28,12 @@ public class NetManagerTable {
 	private String userid;
 	private String managername;
 	private String managerplace;
-	private String date;
+	private String commitdata;
 	private String checkman;
 	private String longitude;
 	private String latitude;
-	private List<Map<String,Object>> message;
+	private String address;
+	private List<Map<String,String>> message;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -60,23 +64,17 @@ public class NetManagerTable {
 	public void setManagerplace(String managerplace) {
 		this.managerplace = managerplace;
 	}
-	public String getDate() {
-		return date;
+	public String getCommitdata() {
+		return commitdata;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setCommitdata(String commitdata) {
+		this.commitdata = commitdata;
 	}
 	public String getCheckman() {
 		return checkman;
 	}
 	public void setCheckman(String checkman) {
 		this.checkman = checkman;
-	}
-	public List<Map<String, Object>> getMessage() {
-		return message;
-	}
-	public void setMessage(List<Map<String, Object>> message) {
-		this.message = message;
 	}
 	public String getLongitude() {
 		return longitude;
@@ -90,13 +88,26 @@ public class NetManagerTable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public List<Map<String, String>> getMessage() {
+		return message;
+	}
+	public void setMessage(List<Map<String, String>> message) {
+		this.message = message;
+	}
 	@Override
 	public String toString() {
 		return "NetManagerTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", managername="
-				+ managername + ", managerplace=" + managerplace + ", date="
-				+ date + ", checkman=" + checkman + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", message=" + message + "]";
+				+ managername + ", managerplace=" + managerplace
+				+ ", commitdata=" + commitdata + ", checkman=" + checkman
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + ", message=" + message + "]";
 	}
 	
 }
