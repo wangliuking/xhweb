@@ -95,12 +95,15 @@ function getLodop(oOBJECT,oEMBED){
             //=====Lodop插件未安装时提示下载地址:==========
             if ((LODOP==null)||(typeof(LODOP.VERSION)=="undefined")) {
                  if (navigator.userAgent.indexOf('Chrome')>=0)
-                     document.documentElement.innerHTML=strHtmChrome+document.documentElement.innerHTML;
+                     //document.documentElement.innerHTML=strHtmChrome+document.documentElement.innerHTML;
+                	 sweet();
                  if (navigator.userAgent.indexOf('Firefox')>=0)
-                     document.documentElement.innerHTML=strHtmFireFox+document.documentElement.innerHTML;
-                 if (is64IE) document.write(strHtm64_Install); else
-                 if (isIE)   document.write(strHtmInstall);    else
-                     document.documentElement.innerHTML=strHtmInstall+document.documentElement.innerHTML;
+                     //document.documentElement.innerHTML=strHtmFireFox+document.documentElement.innerHTML;
+                	 sweet();
+                 if (is64IE) {sweet();}/*document.write(strHtm64_Install);*/ else
+                 if (isIE)   {sweet();}/*document.write(strHtmInstall);*/    else
+                     //document.documentElement.innerHTML=strHtmInstall+document.documentElement.innerHTML;
+                	 sweet();
                  return LODOP;
             };
         };
