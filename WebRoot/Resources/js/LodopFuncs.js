@@ -66,13 +66,15 @@ function getLodop(oOBJECT,oEMBED){
 	    if (!LODOP && document.readyState!=="complete") {alert("C-Lodop没准备好，请稍后再试！"); return;};
             if (!LODOP) {
 		 if (isIE) document.write(strCLodopInstall); else
-		 document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+		// document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+			 sweet()
                  return;
             } else {
 
 	         if (CLODOP.CVERSION<"2.1.6.3") { 
 			if (isIE) document.write(strCLodopUpdate); else
-			document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
+			//document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
+				sweet()
 		 };
 		 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
 		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);	
@@ -109,9 +111,10 @@ function getLodop(oOBJECT,oEMBED){
         };
         if (LODOP.VERSION<"6.2.1.8") {
             if (!needCLodop()){
-            	if (is64IE) document.write(strHtm64_Update); else
+            	/*if (is64IE) document.write(strHtm64_Update); else
             	if (isIE) document.write(strHtmUpdate); else
-            	document.documentElement.innerHTML=strHtmUpdate+document.documentElement.innerHTML;
+            	document.documentElement.innerHTML=strHtmUpdate+document.documentElement.innerHTML;*/
+            	sweet();
 	    };
             return LODOP;
         };
@@ -124,7 +127,7 @@ function getLodop(oOBJECT,oEMBED){
 function sweet(){
 	swal({
 		  title: "插件安装",
-		  text: "你还没有安装打印插件，安装后请刷新页面或重新进入",
+		  text: "你还没有安装打印插件,或者安装后没有启动插件，安装后请刷新页面或重新进入",
 		  
 		  showCancelButton : true,
 		confirmButtonColor : "#DD6B55",
