@@ -6,41 +6,53 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">800M移动基站巡检表</small>
+				<!-- <small class="font-bold">800M移动基站巡检表</small> -->
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="btn-group">
-							<button type="button" class="btn btn-success btn-sm">
-								<i class="fa fa-remove"></i>&nbsp;打印
+							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_mbs()">
+								<i class="fa fa-print"></i>&nbsp;打印
 							</button>
-							<button type="button" class="btn btn-danger btn-sm">
-								<i class="fa fa-remove"></i>&nbsp;导出
-							</button>
-						</div>
+							<!-- <a href="../../Resources/CLodop_Setup_for_Win32NT.exe">123</a> -->
+							<!-- <button type="button" class="btn btn-danger btn-sm">
+								<i class="fa fa-file-excel-o"></i>&nbsp;导出
+							</button> -->
+						</div> 
 					</div>
 				</div>
-				<div class="row" style="margin-top:5px;">
+				<div class="row" style="margin-top:5px;" id="print_mbs">
+				<style type="text/css" id="style1">
+.table-view{border-collapse:collapse;}
+.table-view td{border:1px solid #ccc;border-collapse:collapse;}
+</style>
 					<div class="col-md-12">
-				<table style="width:100%;border-collapse: collapse;">
+				<table style="width:100%;border-collapse: collapse;" class="table-view">
 					<tbody>
 						<tr>
-							<td colspan="8" style="text-align: center;">800M移动基站巡检表</td>
+							<td colspan="8" style="text-align: center;">移动基站巡检表</td>
 						</tr>
 						<tr>
 							<td style="width:130px;">基站名称</td>
-							<td style="width:250px;color:blue">{{mbsOneData.bsname}}</td>
+							<td style="color:blue" colspan="3">{{mbsOneData.bsname}}</td>
 							<td style="width:130px;">基站ID</td>
 							<td style="width:250px;color:blue">{{mbsOneData.bsid}}</td>
 							<td style="width:130px;">基站级别</td>
 							<td style="width:250px;color:blue">{{mbsOneData.bslevel}}</td>
+							
+						</tr>
+						<tr>
+							<td style="width:130px;">机房类型</td>
+							<td style="color:blue">{{mbsOneData.bstype}}</td>
+							<td style="width:180px;">巡检时间</td>
+							<td style="color:blue" colspan="3">{{mbsOneData.commitdate}}</td>
 							<td style="width:100px;">巡检人</td>
 							<td style="width:250px;color:blue">{{mbsOneData.checkman}}</td>
 						</tr>
 						<tr style="font-weight: 700;">
-							<td style="width:130px;">巡检项目</td>
-							<td style="width:250px;">具体项目</td>
+							<td>巡检项目</td>
+							<td>具体项目</td>
 							<td style="width:130px;" colspan="4">具体操作</td>
 							<td style="width:250px;">执行情况</td>
 							<td style="width:130px;">备注</td>
@@ -48,7 +60,7 @@
 						<tr>
 							<td rowspan="2">天面</td>
 							<td>防倾斜</td>
-							<td style="height:40px;width:130px;" colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
+							<td colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
 							<td><input id="1-1" class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d1=='有'"> <label><span>有</span></label>
 								<input id="1-2" class="magic-checkbox" type="checkbox"
@@ -58,7 +70,7 @@
 						</tr>
 						<tr>
 							<td>防雷情况</td>
-							<td style="height:40px;width:130px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
+							<td style="height:40px;width:330px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d2=='有'" ng-checked="mbsOneData.d2=='有'"> <label><span>有</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d2=='无'">
@@ -76,7 +88,7 @@
 							<td style="height:40px;width:130px;">{{mbsOneData.c3}}</td>
 						</tr>
 						<tr>
-							<td style="height:40px;width:130px;" colspan="4">门、窗、锁是否完好</td>
+							<td colspan="4">门、窗、锁是否完好</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d4=='是'"> <label><span>是</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d4=='否'">
@@ -84,7 +96,7 @@
 							<td style="height:40px;width:130px;">{{mbsOneData.c4}}</td>
 						</tr>
 						<tr>
-							<td style="height:40px;width:130px;" colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
+							<td  colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d5=='是'"> <label><span>是</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d5=='否'">
@@ -92,7 +104,7 @@
 							<td style="height:40px;width:130px;">{{mbsOneData.c5}}</td>
 						</tr>
 						<tr>
-							<td style="height:40px;width:130px;" colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
+							<td colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d6=='是'"> <label><span>是</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d6=='否'">
@@ -101,7 +113,7 @@
 						</tr>
 						<tr>
 							<td>机房温度</td>
-							<td style="height:40px;width:130px;" colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
+							<td  colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d7=='是'"> <label><span>是</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d7=='否'">
@@ -121,7 +133,7 @@
 							<td style="height:40px;width:130px;">{{mbsOneData.c8}}</td>
 						</tr>
 						<tr>
-							<td style="height:40px;width:130px;" colspan="4">机房有无裂缝、渗水、漏水等情况</td>
+							<td colspan="4">机房有无裂缝、渗水、漏水等情况</td>
 							<td><input class="magic-checkbox" type="checkbox"
 								ng-checked="mbsOneData.d9=='正常'"> <label><span>正常</span></label> <input
 								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d9=='异常'">
@@ -299,64 +311,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$(".type-div>ul>li").on('click', function() {
-		$("div[name='errtype']").html($(this).html())
-	})
-	$(".level-div>ul>li").on('click', function() {
-		$("div[name='errlevel']").html($(this).html())
-	})
-	$('.slDiv #btnSelect').on('click', function() {
-		$(this).siblings('.ulDiv').toggleClass('ulShow');
-	});
-	$('.slDiv .ulDiv ul').delegate('li', 'click', function() {
-		var selTxt = $(this).text();
-		var userid = $(this).attr("value");
-
-		$('.slDiv #btnSelect').text(selTxt);
-		$('.slDiv #userid').text(userid);
-		$('.ulDiv').removeClass('ulShow');
-	});
-</script>
-<script type="text/javascript">
-	$("#order-btn").click(function() {
-		$('#order-form').submit();
-	});
-	var faIcon = {
-		valid : 'fa fa-check-circle fa-lg text-success',
-		invalid : 'fa fa-times-circle fa-lg',
-		validating : 'fa fa-refresh'
-	};
-	$('#order-form').bootstrapValidator({
-		excluded : [ ':disabled' ],
-		/* feedbackIcons: faIcon, */
-		fields : {
-			user : {
-				validators : {
-					notEmpty : {
-						message : '用户名不能为空'
-					}
-				}
-			},
-			roleId : {
-				validators : {
-					notEmpty : {
-						message : '角色不能为空'
-					}
-				}
-			},
-			userPass : {
-				validators : {
-					notEmpty : {
-						message : '密码不能为空'
-					}
-				}
-			}
-
-		}
-	}).on('success.form.bv', function(e, data) {
-		e.preventDefault();
-		/* xh.add(); */
-		xh.order();
-	});
-</script>
