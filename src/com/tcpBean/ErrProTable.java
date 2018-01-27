@@ -18,6 +18,9 @@ package com.tcpBean;
  * proresult		--处理结果
  * workman			--处理人
  * auditor			--审核人
+ * longitude		--GPS经度坐标
+ * latitude			--GPS纬度坐标
+ * address			--地址
  * 
  * @author 12878
  *
@@ -41,6 +44,7 @@ public class ErrProTable {
 	private String auditor;
 	private String longitude;
 	private String latitude;
+	private String address;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -143,6 +147,12 @@ public class ErrProTable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "ErrProTable [cmdtype=" + cmdtype + ", serialnumber="
@@ -153,7 +163,8 @@ public class ErrProTable {
 				+ ", errslovetime=" + errslovetime + ", progress=" + progress
 				+ ", proresult=" + proresult + ", workman=" + workman
 				+ ", auditor=" + auditor + ", longitude=" + longitude
-				+ ", latitude=" + latitude + "]";
+				+ ", latitude=" + latitude + ", address=" + address + "]";
 	}
+	
 	
 }

@@ -14,9 +14,12 @@ import java.util.Map;
  * bslevel
  * checkman
  * bstype
- * date
- * message	--移动基站巡检数组，每组包含2个字段，分别为执行情况、备注，每组具体内容与巡检表对应
- * remainwork	--遗留问题
+ * commitdate
+ * longitude			--GPS经度坐标	
+ * latitude				--GPS纬度坐标
+ * address	
+ * message				--移动基站巡检数组，每组包含2个字段，分别为执行情况、备注，每组具体内容与巡检表对应
+ * remainwork			--遗留问题
  * 
  * @author 12878
  *
@@ -31,10 +34,11 @@ public class MovebsTable {
 	private String bslevel;
 	private String checkman;
 	private String bstype;
-	private String date;
+	private String commitdate;
 	private String longitude;
 	private String latitude;
-	private List<Map<String,Object>> message;
+	private String address;
+	private List<Map<String,String>> message;
 	private String remainwork;
 	public String getCmdtype() {
 		return cmdtype;
@@ -84,16 +88,10 @@ public class MovebsTable {
 	public void setBstype(String bstype) {
 		this.bstype = bstype;
 	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public List<Map<String, Object>> getMessage() {
+	public List<Map<String, String>> getMessage() {
 		return message;
 	}
-	public void setMessage(List<Map<String, Object>> message) {
+	public void setMessage(List<Map<String, String>> message) {
 		this.message = message;
 	}
 	public String getRemainwork() {
@@ -114,14 +112,27 @@ public class MovebsTable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getCommitdate() {
+		return commitdate;
+	}
+	public void setCommitdate(String commitdate) {
+		this.commitdate = commitdate;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "MovebsTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", bsname=" + bsname
 				+ ", bsid=" + bsid + ", bslevel=" + bslevel + ", checkman="
-				+ checkman + ", bstype=" + bstype + ", date=" + date
-				+ ", longitude=" + longitude + ", latitude=" + latitude
-				+ ", message=" + message + ", remainwork=" + remainwork + "]";
+				+ checkman + ", bstype=" + bstype + ", commitdate="
+				+ commitdate + ", longitude=" + longitude + ", latitude="
+				+ latitude + ", address=" + address + ", message=" + message
+				+ ", remainwork=" + remainwork + "]";
 	}
 	
 }

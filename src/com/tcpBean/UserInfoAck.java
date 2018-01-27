@@ -21,7 +21,7 @@ public class UserInfoAck {
 	private String userid;
 	private String username;
 	private String serialnumber;
-	private List<Map<String,Object>> bslist;
+	private List<Map<String,String>> bslist;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -46,10 +46,10 @@ public class UserInfoAck {
 	public void setSerialnumber(String serialnumber) {
 		this.serialnumber = serialnumber;
 	}
-	public List<Map<String, Object>> getBslist() {
+	public List<Map<String, String>> getBslist() {
 		return bslist;
 	}
-	public void setBslist(List<Map<String, Object>> bslist) {
+	public void setBslist(List<Map<String, String>> bslist) {
 		this.bslist = bslist;
 	}
 	@Override
@@ -58,6 +58,7 @@ public class UserInfoAck {
 				+ ", username=" + username + ", serialnumber=" + serialnumber
 				+ ", bslist=" + bslist + "]";
 	}
+
 	
 	
 }

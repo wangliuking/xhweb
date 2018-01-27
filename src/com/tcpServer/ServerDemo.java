@@ -132,15 +132,14 @@ public class ServerDemo {
 				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				//循环监控读取客户端发来的消息
-				while (isStartServer) {
+				while (isStartServer) { 					
 					// 超出了发送心跳包规定时间，说明客户端已经断开连接了这时候要断开与该客户端的连接
-					/*long interval = System.currentTimeMillis() - lastTime;
-					if (interval >= (Custom.SOCKET_ACTIVE_TIME * 1000 * 4)) {
-						System.out.println("客户端发包间隔时间严重延迟，可能已经断开了interval：" + interval);
-						System.out.println("Custom.SOCKET_ACTIVE_TIME * 1000:" + Custom.SOCKET_ACTIVE_TIME * 1000);
+					long interval = System.currentTimeMillis() - lastTime;
+					if (interval >= (Custom.SOCKET_ACTIVE_TIME * 1000 * 3)) {
+						System.out.println("客户端发包间隔时间严重延迟，可能已经断开了：" + interval);
 						closeSocketClient(this);
 						break;
-					}*/
+					}
 					if (reader.ready()) {
 						lastTime = System.currentTimeMillis();
 						System.out.println("收到消息，准备解析:");					
@@ -150,7 +149,7 @@ public class ServerDemo {
 						if(tempMap.containsKey("userId")){
 							this.userId=tempMap.get("userId");
 						}
-						System.out.println("当前SocketThread的userId为："+userId);
+						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
 						
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){

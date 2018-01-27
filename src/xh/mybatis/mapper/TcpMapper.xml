@@ -3,11 +3,69 @@
 <mapper namespace="xh.mybatis.mapper.TcpMapper">
     <!-- app根据userId查询负责的基站 -->
 	<select id="selectByAppUser" parameterType="String" resultType="map" useCache="true">
-		select bsId,name from xhgmnet_bs_station where appUser=#{userId}
+		select bsId as bsid,name as bsname,level as bslevel from xhgmnet_bs_station where appUser=#{userId}
 	</select>
 	
 	<!-- 更新派单状态为处理中 -->
 	<update id="updateUserStatus" parameterType="map">
-		update xhgmnet_operations_fault_task_order set status=1 where userid=#{userId}
+		update xhgmnet_operations_fault_task_order set status=1 where serialnumber=#{serialNum}
 	</update>
+	
+	<!-- 查询派单处理情况 -->
+	<select id="selectOrderStatus" parameterType="String" resultType="map" useCache="true">
+		select status from xhgmnet_operations_fault_task_order where serialnumber=#{serialNum}
+	</select>
+	
+	<!-- 派单完成前删除原派单信息 -->
+	<delete id="deleteBySerialNum" parameterType="String">
+		delete from xhgmnet_operations_fault_task_order where serialnumber=#{serialNum}
+	</delete>
+	
+	<!-- 插入故障派单 -->
+	<insert id="insertFaultOrder" parameterType="List">
+		INSERT INTO xhgmnet_operations_fault_task_order VALUES(id,
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+	
+	<!-- 插入移动基站巡检表数据 -->
+	<insert id="insertMoveBsTable" parameterType="List">
+		INSERT INTO xhgmnet_operations_inspection_movebs VALUES(id,
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+	<!-- 插入自建基站巡检表数据 -->
+	<insert id="insertOwnBsTable" parameterType="List">
+		INSERT INTO xhgmnet_operations_inspection_selfbs VALUES(id,
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+	<!-- 插入网管巡检作业表 -->
+	<insert id="insertNetTable" parameterType="List">
+		INSERT INTO xhgmnet_operations_inspection_net VALUES(id,
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+	<!-- 插入调度台作业表 -->
+	<insert id="insertDispatchTable" parameterType="List">
+		INSERT INTO xhgmnet_operations_inspection_dispatch VALUES(id,
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+	</insert>
+	
 </mapper>

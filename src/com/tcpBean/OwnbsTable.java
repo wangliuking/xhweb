@@ -14,8 +14,11 @@ import java.util.Map;
  * bslevel
  * checkman
  * bstype
- * date
+ * commitdate
  * ammeternumber		--电表数
+ * longitude			--GPS经度坐标
+ * latitude				--GPS纬度坐标
+ * address
  * message				--自建基站巡检数组，每组包含2个字段，分别为执行情况、备注，每组具体内容与巡检表对应
  * remainwork			--遗留问题
  * 
@@ -32,11 +35,12 @@ public class OwnbsTable {
 	private String bslevel;
 	private String checkman;
 	private String bstype;
-	private String date;
+	private String commitdate;
 	private String ammeternumber;
 	private String longitude;
 	private String latitude;
-	private List<Map<String,Object>> message;
+	private String address;
+	private List<Map<String,String>> message;
 	private String remainwork;
 	public String getCmdtype() {
 		return cmdtype;
@@ -86,29 +90,17 @@ public class OwnbsTable {
 	public void setBstype(String bstype) {
 		this.bstype = bstype;
 	}
-	public String getDate() {
-		return date;
+	public String getCommitdate() {
+		return commitdate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setCommitdate(String commitdate) {
+		this.commitdate = commitdate;
 	}
 	public String getAmmeternumber() {
 		return ammeternumber;
 	}
 	public void setAmmeternumber(String ammeternumber) {
 		this.ammeternumber = ammeternumber;
-	}
-	public List<Map<String, Object>> getMessage() {
-		return message;
-	}
-	public void setMessage(List<Map<String, Object>> message) {
-		this.message = message;
-	}
-	public String getRemainwork() {
-		return remainwork;
-	}
-	public void setRemainwork(String remainwork) {
-		this.remainwork = remainwork;
 	}
 	public String getLongitude() {
 		return longitude;
@@ -122,14 +114,33 @@ public class OwnbsTable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getRemainwork() {
+		return remainwork;
+	}
+	public void setRemainwork(String remainwork) {
+		this.remainwork = remainwork;
+	}
+	public List<Map<String, String>> getMessage() {
+		return message;
+	}
+	public void setMessage(List<Map<String, String>> message) {
+		this.message = message;
+	}
 	@Override
 	public String toString() {
 		return "OwnbsTable [cmdtype=" + cmdtype + ", serialnumber="
 				+ serialnumber + ", userid=" + userid + ", bsname=" + bsname
 				+ ", bsid=" + bsid + ", bslevel=" + bslevel + ", checkman="
-				+ checkman + ", bstype=" + bstype + ", date=" + date
-				+ ", ammeternumber=" + ammeternumber + ", longitude="
-				+ longitude + ", latitude=" + latitude + ", message=" + message
+				+ checkman + ", bstype=" + bstype + ", commitdate="
+				+ commitdate + ", ammeternumber=" + ammeternumber
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + ", message=" + message
 				+ ", remainwork=" + remainwork + "]";
 	}
 	
