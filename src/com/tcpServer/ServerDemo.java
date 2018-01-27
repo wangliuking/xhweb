@@ -38,7 +38,7 @@ public class ServerDemo {
 	 */
 	public void start() throws IOException {
 		// 启动服务ServerSocket，设置端口号
-		ServerSocket ss = new ServerSocket(9001);
+		ServerSocket ss = new ServerSocket(7788);
 		System.out.println("服务端已开启，等待客户端连接:");
 		isStartServer = true;
 		int socketID = 0;
