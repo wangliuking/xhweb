@@ -16,7 +16,7 @@ public class Custom {
 
 	// 定义服务器的ip和端口号
 	public static final String SERVER_HOST = "";
-	public static final int SERVER_PORT = 9001;
+	public static final int SERVER_PORT = 7788;
 
 	public static final int SOCKET_CONNECT_TIMEOUT = 6;// 设置Socket连接超时为6秒
 	public static final int SOCKET_ACTIVE_TIME = 5;// 发送心跳包的时间间隔为60秒需要与客户端一致

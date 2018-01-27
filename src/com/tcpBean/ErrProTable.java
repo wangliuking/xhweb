@@ -177,5 +177,4 @@ public class ErrProTable {
 				+ ", address=" + address + "]";
 	}
 	
-	
 }
