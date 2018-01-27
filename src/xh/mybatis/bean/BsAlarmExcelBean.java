@@ -1,6 +1,7 @@
 package xh.mybatis.bean;
 
 public class BsAlarmExcelBean {
+	private int id;
 	private String bsId;//基站编号
 	private String name;//基站名称
 	private String level;//基站分级
@@ -22,6 +23,15 @@ public class BsAlarmExcelBean {
 	private String hometype;//基站归属
 	
 	
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getBsId() {
 		return bsId;
 	}
@@ -137,6 +147,20 @@ public class BsAlarmExcelBean {
 	}
 	public void setFaultRecoveryTime(String faultRecoveryTime) {
 		this.faultRecoveryTime = faultRecoveryTime;
+	}
+	@Override
+	public String toString() {
+		return "BsAlarmExcelBean [id=" + id + ", bsId=" + bsId + ", name="
+				+ name + ", level=" + level + ", status=" + status
+				+ ", weekly=" + weekly + ", time=" + time + ", from=" + from
+				+ ", severity=" + severity + ", type=" + type + ", reason="
+				+ reason + ", nowDeal=" + nowDeal + ", imbusiness="
+				+ imbusiness + ", dealResult=" + dealResult
+				+ ", faultRecoveryTime=" + faultRecoveryTime
+				+ ", faultTimeTotal=" + faultTimeTotal + ", content=" + content
+				+ ", faultHandlePerson=" + faultHandlePerson
+				+ ", faultRecordPerson=" + faultRecordPerson + ", hometype="
+				+ hometype + "]";
 	}
 	
 	

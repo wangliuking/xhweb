@@ -22,6 +22,7 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.OrderService;
+import xh.mybatis.service.WebLogService;
 
 
 @Controller
@@ -35,6 +36,7 @@ public class OrderController {
 	private WebLogBean webLogBean = new WebLogBean();
 	
 	
+	
 	//派单列表
 	@RequestMapping(value="/orderlist", method = RequestMethod.GET)
 	public void orderlist(HttpServletRequest request, HttpServletResponse response) {
@@ -45,10 +47,25 @@ public class OrderController {
 		/*map.put("loginuser", funUtil.loginUser(request));*/
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("type", -1);
+		map.put("type", 10);
 		HashMap result = new HashMap();
 		result.put("items",OrderService.orderList(map));
 		result.put("totals", OrderService.orderListCount(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	//用户列表
+	@RequestMapping(value="/userlist", method = RequestMethod.GET)
+	public void userlist(HttpServletRequest request, HttpServletResponse response) {
+		HashMap result = new HashMap();
+		result.put("items",OrderService.userList());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -78,14 +95,77 @@ public class OrderController {
 
 	}
 	
+	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
+	public void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+		int id=FunUtil.StringToInt(request.getParameter("id"));
+		this.success=true;
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("status", 2);
+		map.put("id", id);
+		
+		int code=OrderService.updateOrder(map);
+		
+		if(code>0){
+			this.success=true;
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("确认派单已解决");
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+		}else{
+			this.success=false;
+		}
+
+		HashMap result = new HashMap();
+		result.put("success",success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	@RequestMapping(value="/writeOrder", method = RequestMethod.POST)
 	public void writeOrder(HttpServletRequest request, HttpServletResponse response) {
 		String fromData=request.getParameter("formData");
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
 		bean.setSerialnumber(FunUtil.RandomWord(8));
 		
+		int id=bean.getId();
+		
 		log.info("ErrProTab->"+bean.toString());
 		this.success=true;
+		
+		int code=OrderService.addOrder(bean);
+		
+		if(code>0){
+			this.success=true;
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("派单");
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+			
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("status", 1);
+			map.put("id", id);
+			log.info("id->"+id);
+			OrderService.updateBsFault(map);
+			
+			ServerDemo demo=new ServerDemo();
+			demo.startMessageThread(bean.getUserid(), bean);
+			
+			
+		}else{
+			this.success=false;
+		}
 
 		HashMap result = new HashMap();
 		result.put("success",success);

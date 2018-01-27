@@ -43,6 +43,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
@@ -60,6 +61,57 @@ public class BsStatusController {
 	protected final Log log = LogFactory.getLog(BsStatusController.class);
 	private FlexJSON json = new FlexJSON();
 	private boolean success;
+	
+	
+	//更新基站故障表
+	@RequestMapping(value="/editBsFault",method = RequestMethod.POST)
+	public void editBsFault(HttpServletRequest request, HttpServletResponse response){
+		
+		String formData=request.getParameter("formData");
+		BsAlarmExcelBean bean=GsonUtil.json2Object(formData, BsAlarmExcelBean.class);
+		
+		int code=BsStatusService.editBsFault(bean);
+		if(code>0){
+			this.success=true;
+		}else{
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	//基站故障列表
+	@RequestMapping(value="/bsFaultList",method = RequestMethod.GET)
+	public void bsFaultList(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int start=FunUtil.StringToInt(request.getParameter("start"));
+		int limit=FunUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items",BsStatusService.bsFaultList(map));
+		result.put("totals", BsStatusService.bsFaultListCount(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	@RequestMapping(value = "/index/ajax_table2", method = RequestMethod.GET)
 	@ResponseBody

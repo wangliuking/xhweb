@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.AppInspectionMapper">
+    <!--查询800M移动基站巡检表-->
+    <select id="mbsinfo" parameterType="map" resultType="map" useCache="true">
+     select * from xhgmnet_operations_inspection_movebs where 1=1
+     order by commitdate desc limit #{start},#{limit}
+    </select>   
+    <!--查询800M移动基站巡检表总数-->
+    <select id="mbsinfoCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_operations_inspection_movebs 
+    </select>
+    
+    
+    
+    <!--自建基站巡检表-->
+    <select id="sbsinfo" parameterType="map" resultType="map" useCache="true">
+     select * from xhgmnet_operations_inspection_selfbs where 1=1
+     order by commitdate desc limit #{start},#{limit}
+    </select>   
+    <!--自建基站巡检表总数-->
+    <select id="sbsinfoCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_operations_inspection_selfbs
+    </select>  
+    
+    <!--网管巡检表-->
+    <select id="netinfo" parameterType="map" resultType="map" useCache="true">
+     select * from xhgmnet_operations_inspection_net where 1=1
+     order by commitdate desc limit #{start},#{limit}
+    </select>   
+    <!--网管巡检表总数-->
+    <select id="netinfoCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_operations_inspection_net
+    </select>  
+    
+    <!--调度台巡检表-->
+    <select id="dispatchinfo" parameterType="map" resultType="map" useCache="true">
+     select * from xhgmnet_operations_inspection_dispatch where 1=1
+     order by commitdate desc limit #{start},#{limit}
+    </select>   
+    <!--调度台巡检表总数-->
+    <select id="dispatchinfoCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_operations_inspection_dispatch
+    </select> 
+</mapper>
