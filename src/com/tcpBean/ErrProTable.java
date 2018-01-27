@@ -42,6 +42,7 @@ public class ErrProTable {
 	private String auditor;
 	private String longitude;
 	private String latitude;
+	private String  address;
 	
 	
 	public int getId() {
@@ -152,6 +153,13 @@ public class ErrProTable {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "ErrProTable [id=" + id + ", cmdtype=" + cmdtype
@@ -162,7 +170,8 @@ public class ErrProTable {
 				+ errfoundtime + ", errslovetime=" + errslovetime
 				+ ", progress=" + progress + ", proresult=" + proresult
 				+ ", workman=" + workman + ", auditor=" + auditor
-				+ ", longitude=" + longitude + ", latitude=" + latitude + "]";
+				+ ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", address=" + address + "]";
 	}
 	
 }

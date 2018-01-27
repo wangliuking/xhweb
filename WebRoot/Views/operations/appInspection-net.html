@@ -1,0 +1,151 @@
+
+<div class="modal fade" id="netWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="btn-group">
+							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_net()">
+								<i class="fa fa-print"></i>&nbsp;打印
+							</button>
+						</div> 
+					</div>
+				</div>
+				<div class="row" style="margin-top:5px;" id="print_net">
+				<style type="text/css" id="style1">
+                .table-view{border-collapse:collapse;text-align: center;word-break: break-word;}
+                .table-view td{border:1px solid #ccc;border-collapse:collapse;}
+                </style>
+					<div class="col-md-12">
+						<table style="width:100%" class="table-view">
+						
+								<tr>
+									<td colspan="8" style="text-align: center;">网管巡检表</td>
+								</tr>
+								<tr>
+									<td style="width:10%;">网管名称</td>
+									<td style="width:20%;color:blue">{{netOneData.managername}}</td>
+									<td style="width:15%;">地点</td>
+									<td style="width:10%;color:blue">{{netOneData.managerplace}}</td>
+									<td style="width:10%;">巡检时间</td>
+									<td style="width:15%;color:blue">{{netOneData.commitdate}}</td>
+									<td style="width:10%;">巡检人</td>
+									<td style="width:10%;color:blue">{{netOneData.checkman}}</td>
+
+								</tr>
+
+								 <tr style="font-weight:700;">
+									<td>序号</td>
+									<td>检查类容</td>
+									<td colspan="2">备注</td>
+									<td>检查情况</td>
+									<td>问题描述</td>
+									<td colspan="2">处理情况及遗留问题</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>网管安装环境是否完成正常</td>
+									<td colspan="2">{{netOneData.comment1}}</td>
+									<td>{{netOneData.d1}}</td>
+									<td>{{netOneData.p1}}</td>
+									<td colspan="2">{{netOneData.r1}}</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>网管电源是否正常开启</td>
+									<td colspan="2">{{netOneData.comment2}}</td>
+									<td>{{netOneData.d2}}</td>
+									<td>{{netOneData.p2}}</td>
+									<td colspan="2">{{netOneData.r2}}</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>网管是否正常登录</td>
+									<td colspan="2">{{netOneData.comment3}}</td>
+									<td>{{netOneData.d3}}</td>
+									<td>{{netOneData.p3}}</td>
+									<td colspan="2">{{netOneData.r3}}</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>配置管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment4}}</td>
+									<td>{{netOneData.d4}}</td>
+									<td>{{netOneData.p4}}</td>
+									<td colspan="2">{{netOneData.r4}}</td>
+								</tr>
+								 <tr>
+									<td>5</td>
+									<td>用户管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment5}}</td>
+									<td>{{netOneData.d5}}</td>
+									<td>{{netOneData.p5}}</td>
+									<td colspan="2">{{netOneData.r5}}</td>
+								</tr>
+								
+								<tr>
+									<td>6</td>
+									<td>故障管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment6}}</td>
+									<td>{{netOneData.d6}}</td>
+									<td>{{netOneData.p6}}</td>
+									<td colspan="2">{{netOneData.r6}}</td>
+								</tr>
+								<tr>
+									<td>7</td>
+									<td>安全管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment7}}</td>
+									<td>{{netOneData.d7}}</td>
+									<td>{{netOneData.p7}}</td>
+									<td colspan="2">{{netOneData.r7}}</td>
+								</tr>
+								
+								<tr>
+									<td>8</td>
+									<td>辅助管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment8}}</td>
+									<td>{{netOneData.d8}}</td>
+									<td>{{netOneData.p8}}</td>
+									<td colspan="2">{{netOneData.r8}}</td>
+								</tr>
+								<tr>
+									<td>9</td>
+									<td>性能管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment9}}</td>
+									<td>{{netOneData.d9}}</td>
+									<td>{{netOneData.p9}}</td>
+									<td colspan="2">{{netOneData.r9}}</td>
+								</tr>
+								<tr>
+									<td>10</td>
+									<td>拓扑管理查看是否正常</td>
+									<td colspan="2">{{netOneData.comment10}}</td>
+									<td>{{netOneData.d10}}</td>
+									<td>{{netOneData.p10}}</td>
+									<td colspan="2">{{netOneData.r10}}</td>
+								</tr>
+								<tr>
+									<td>11</td>
+									<td>环境温度是否工作正常</td>
+									<td colspan="2">{{netOneData.comment11}}</td>
+									<td>{{netOneData.d11}}</td>
+									<td>{{netOneData.p11}}</td>
+									<td colspan="2">{{netOneData.r11}}</td>
+								</tr> 
+							
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
