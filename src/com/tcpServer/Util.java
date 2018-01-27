@@ -105,6 +105,7 @@ public class Util {
 			}else if("errprotableack".equals(cmdtype)){
 				errProTableAck = (ErrProTableAck) JSONObject.toBean(jsonObject, ErrProTableAck.class);
 				String serialNum = errProTableAck.getSerialnumber();
+				System.out.println("serialNum为："+serialNum);
 				Service.updateUserStatus(serialNum);
 				map.put("returnMessage", "");
 				return map;
