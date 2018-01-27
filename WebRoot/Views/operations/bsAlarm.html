@@ -94,6 +94,16 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
     from { -webkit-transform:scaleY(0); }
     to { -webkit-transform:scaleY(1); }
 }
+
+.slDiv{float:left;margin-top:5px;position:relative;}  
+.slDiv #btnSelect{min-width:125px;display:inline-block;text-indent:10px;}  
+.slDiv .ulDiv{display:none;width:125px;border:1px solid #EEEEEE;border-radius:1px;background:#FFF;margin-top:9px;position:absolute;z-index:100;}  
+.slDiv .ulDiv.ulShow{display:block;}  
+.slDiv .ulDiv ul li{text-indent:10px;cursor:pointer;}  
+.slDiv .ulDiv ul li:hover{background:#cbebf6;} 
+
+.slDiv .ulDiv ul,.slDiv .ulDiv li{margin:5px 0px;padding:0px;}  
+
 /* .modal-backdrop {
   opacity: 0 !important;
   filter: alpha(opacity=0) !important;

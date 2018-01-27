@@ -191,7 +191,7 @@ public class FunUtil {
 	}
 
 	// 获取当前时间
-	public String nowDate() {
+	public static String nowDate() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());
@@ -204,7 +204,7 @@ public class FunUtil {
 		return date;
 	}
 	// 获取当前时间
-	public String nowDateNoTime() {
+	public static String nowDateNoTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());

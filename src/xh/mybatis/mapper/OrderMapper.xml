@@ -4,7 +4,8 @@
 
     <!--派单记录-->
     <select id="orderList" parameterType="map" resultType="map" useCache="true">
-     select * from xhgmnet_operations_fault_task_order where 1=1
+     select a.*,b.userName from xhgmnet_operations_fault_task_order as a
+      left join xhgmnet_web_user as b on a.userid=b.user where 1=1
    
      order by dispatchtime desc limit #{start},#{limit}
     </select> 
@@ -17,12 +18,37 @@
      <if test="type==1">
      and status=1
      </if>
-     <if test="type=2">
+     <if test="type==2">
      and status=2
      </if>
      <if test="type==3">
      and status!=2
      </if>
-    </select>   
+    </select> 
+    <!-- 添加派单 --> 
+    <insert id="addOrder" parameterType="com.tcpBean.ErrProTable" useGeneratedKeys="true" keyProperty="id">
+    insert into xhgmnet_operations_fault_task_order(bsid, bsname, dispatchtime, dispatchman, errtype, errlevel, 
+    errfoundtime, errslovetime, progress, proresult, workman, auditor,serialnumber, userid)values(#{bsid}, #{bsname},
+     #{dispatchtime},#{dispatchman}, #{errtype},#{errlevel}, 
+    #{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid})
+    </insert> 
+    <!-- 更新拍单记录 -->
+    <update id="updateOrder" parameterType="map">
+    update xhgmnet_operations_fault_task_order set status=#{status} where id=#{id}
+    </update>
+    <!-- 更新基站故障状态记录 -->
+    <update id="updateBsFault" parameterType="map">
+    update xhgmnet_operations_bsfault set status=#{status} where id=#{id}
+    </update>
+    <!--用户列表-->
+    <select id="userList" resultType="map" useCache="true">
+     select a.userId,a.user,a.userName,b.role from xhgmnet_web_user as a
+     left join (select x.userId,x.roleId,y.role from xhgmnet_web_role_user as x 
+               left join xhgmnet_web_role as y on x.roleId=y.roleId) as b
+     on a.userId=b.userId 
+     where a.userId in(select userId from xhgmnet_web_role_user 
+     where roleId in(select roleId from xhgmnet_web_role where roleType=3 and roleId!=10003))
+     order by user asc
+    </select>
 
 </mapper>

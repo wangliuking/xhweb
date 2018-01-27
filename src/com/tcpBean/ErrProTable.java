@@ -27,6 +27,7 @@ package com.tcpBean;
  */
 
 public class ErrProTable {
+	private int id;
 	private String cmdtype = "errprotable";
 	private String serialnumber;
 	private String userid;
@@ -44,7 +45,7 @@ public class ErrProTable {
 	private String auditor;
 	private String longitude;
 	private String latitude;
-	private String address;
+
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -155,15 +156,7 @@ public class ErrProTable {
 	}
 	@Override
 	public String toString() {
-		return "ErrProTable [cmdtype=" + cmdtype + ", serialnumber="
-				+ serialnumber + ", userid=" + userid + ", bsid=" + bsid
-				+ ", bsname=" + bsname + ", dispatchtime=" + dispatchtime
-				+ ", dispatchman=" + dispatchman + ", errtype=" + errtype
-				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
-				+ ", errslovetime=" + errslovetime + ", progress=" + progress
-				+ ", proresult=" + proresult + ", workman=" + workman
-				+ ", auditor=" + auditor + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", address=" + address + "]";
+
 	}
 	
 	

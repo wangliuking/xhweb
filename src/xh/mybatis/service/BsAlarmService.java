@@ -8,12 +8,32 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.BsAlarmBean;
+import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.mapper.BsAlarmMapper;
 import xh.mybatis.mapper.UserStatusMapper;
 import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
 
 public class BsAlarmService {
+	
+	/*实时添加基站断站记录 */
+	public static int addBsFault(BsAlarmExcelBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int code=-1;
+		try {
+			if(mapper.bsFaultIsHave(Integer.parseInt(bean.getBsId()))<1){
+				code=mapper.addBsFault(bean);
+				sqlSession.commit();
+			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return code;
+	}
 
 	/**
 	 * 查询所有告警信息

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>巡检记录</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+	classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>系统管理</span></li>
+							<li class="active"><span>巡检记录</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<ul id="xh-tabs" class="nav nav-tabs">
+								<li class="active"><a href="#mbs" data-toggle="tab"
+									ng-click='mbs_refresh()'>移动基站巡检</a></li>
+								<li><a href="#sbs" data-toggle="tab" ng-click='sbs_refresh()'>
+										自建基站巡检</a></li>
+								<li><a href="#net" data-toggle="tab"
+									ng-click='net_refresh()'> 网管巡检</a></li>
+								<li><a href="#dispatch" data-toggle="tab"
+									ng-click='dispatch_refresh()()'> 调度台巡检</a></li>
+							</ul>
+							<div class="tab-content" style="padding:20px">
+								<div class="tab-pane fade in active" id="mbs">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-img-gray">
+																<th>基站</th>
+																<th>基站级别</th>
+																<th>机房类型</th>
+																<th>遗留问题</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th>GPS定位</th>
+																<th width="120">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="mbsTotals==0">
+																<td colspan="8" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in mbsData">
+																<td>{{x.bsid}}-{{x.bsname}}</td>
+
+																<td>{{x.bslevel}}</td>
+																<td>{{x.bstype}}</td>
+																<td>{{x.remainwork}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td>{{x.address}}</td>
+																<td><a href="#" ng-click="showMbsWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+													
+												</div>
+											    <div class="panel-footer">
+											    <div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit" ng-change="mbs_refresh()"
+																ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{mbs_start}}-</span>
+															<span>{{mbs_lastIndex}}条,</span> 
+															<span>总计{{mbsTotals}}条</span>
+														</div>
+														<div class="page-paging mbs-page-paging"></div>
+													</div>
+											    </div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<!-- group -->
+								<div class="tab-pane fade" id="sbs">
+								<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-img-gray">
+																<th>基站</th>
+																<th>基站级别</th>
+																<th>机房类型</th>
+																<th>遗留问题</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th>GPS定位</th>
+																<th width="120">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="sbsTotals==0">
+																<td colspan="9" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in sbsData">
+																<td>{{x.bsid}}-{{x.bsname}}</td>
+
+																<td>{{x.bslevel}}</td>
+																<td>{{x.bstype}}</td>
+																<td>{{x.remainwork}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td>{{x.address}}</td>
+																<td><a href="#" ng-click="showSbsWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+													
+												</div>
+											    <div class="panel-footer">
+											    <div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-sbs" ng-change="mbs_refresh()"
+																ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span ng-model="index">显示{{sbs_start}}-</span>
+															<span>{{sbs_lastIndex}}条,</span> 
+															<span>总计{{sbsTotals}}条</span>
+														</div>
+														<div class="page-paging sbs-page-paging"></div>
+													</div>
+											    </div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="net">
+								<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-img-gray">
+																<th>网管名称</th>
+																<th>地点</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th>GPS定位</th>
+																<th width="120">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="netTotals==0">
+																<td colspan="5" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in netData">
+																<td>{{x.managername}}</td>
+
+																<td>{{x.managerplace}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td>{{x.address}}</td>
+																<td><a href="#" ng-click="showNetWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+													
+												</div>
+											    <div class="panel-footer">
+											    <div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-net" ng-change="net_refresh()"
+																ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{net_start}}-</span>
+															<span>{{net_lastIndex}}条,</span> 
+															<span>总计{{netTotals}}条</span>
+														</div>
+														<div class="page-paging net-page-paging"></div>
+													</div>
+											    </div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<!-- radio -->
+								<div class="tab-pane fade" id="dispatch">
+								<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-img-gray">
+																<th>调度台名称</th>
+																<th>地点</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th>GPS定位</th>
+																<th width="120">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="dispatchTotals==0">
+																<td colspan="5" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in dispatchData">
+																<td>{{x.dispatchname}}</td>
+
+																<td>{{x.dispatchplace}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td>{{x.address}}</td>
+																<td><a href="#" ng-click="showDispatchWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+													
+												</div>
+											    <div class="panel-footer">
+											    <div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-dispatch" ng-change="dispatch_refresh()"
+																ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{dispatch_start}}-</span>
+															<span>{{dispatch_lastIndex}}条,</span> 
+															<span>总计{{dispatchTotals}}条</span>
+														</div>
+														<div class="page-paging dispatch-page-paging"></div>
+													</div>
+											    </div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+					<!-- panel -->
+				</div>
+			</div>
+			<!-- row---end -->
+
+		</div>
+
+
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div ng-include="'appInspection-movebs.html'"></div>
+	<div ng-include="'appInspection-selfbs.html'"></div>
+	<div ng-include="'appInspection-net.html'"></div>
+	<div ng-include="'appInspection-dispatch.html'"></div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/appInspection.js"></script>
+	<!-- <script type="text/javascript" src="../../Resources/js/51WebPrinter.js"></script> -->
+	
+	<script type="text/javascript">
+		xh.load();
+	</script>
+	<script language="javascript" type="text/javascript">
+		
+	</script>
+</body>
+</html>

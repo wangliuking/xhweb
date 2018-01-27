@@ -9,6 +9,9 @@ import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
 
 public interface BsStatusMapper {
+	
+	/*tera系统告警基站部分,获取当前的断站列表*/
+	public List<BsAlarmExcelBean> bsFaultInfo(String time) throws Exception;
 	/**
 	 * 查询所有告警信息
 	 */
@@ -165,5 +168,12 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<BsAlarmExcelBean> bsAlarmExcel(Map<String,Object> map) throws Exception;
+	
+	public List<Map<String,Object>> bsFaultList(Map<String,Object> map) throws Exception;
+	
+	public int bsFaultListCount(Map<String,Object> map) throws Exception;
+	
+	 /*更新基站故障表*/
+	public int editBsFault(BsAlarmExcelBean bean) throws Exception;
 
 }
