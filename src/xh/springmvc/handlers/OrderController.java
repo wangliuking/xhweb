@@ -183,12 +183,12 @@ public class OrderController {
 	public void rewriteOrder(HttpServletRequest request, HttpServletResponse response) {
 		String fromData=request.getParameter("formData");
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
-		bean.setSerialnumber(FunUtil.RandomWord(8));
+		//bean.setSerialnumber(FunUtil.RandomWord(8));
 		
 		log.info("ErrProTab->"+bean.toString());
-		
-		if(ServerDemo.getmThreadList().size()>0){
-			ServerDemo.startMessageThread(bean.getUserid(), bean);
+		ServerDemo demo=new ServerDemo();
+		if(demo.getmThreadList().size()>0){
+			demo.startMessageThread(bean.getUserid(), bean);
 			this.message="发送成功";
 			this.success=true;
 		}else{

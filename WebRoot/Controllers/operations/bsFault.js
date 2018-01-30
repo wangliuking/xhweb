@@ -28,8 +28,9 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.starttime=xh.getBeforeDay(7);
-		$scope.endtime=xh.getOneDay();
+		/*$scope.starttime=xh.getBeforeDay(7);
+		$scope.endtime=xh.getOneDay();*/
+		$scope.nowDate=xh.getOneDay();
 		/*获取日志信息*/
 		$http.get("../../bsstatus/bsFaultList?start=0&limit="+pageSize).
 		success(function(response){
@@ -290,6 +291,45 @@ xh.pagging = function(currentPage,totals, $scope) {
 		});
 	}
 };
+//基站故障记录
+xh.excelToBsAlarm=function(){
+	xh.maskShow();
+	$("#btn-write").button('loading');
+	var startTime=$("input[name='startTime']").val();
+	var endTime=$("input[name='endTime']").val();
+	if(startTime=="" || endTime==""){
+		toastr.error("时间范围不能为空", '提示');
+		$("#btn-write").button('reset');
+		xh.maskHide();
+		return;
+	}
+	
+	$.ajax({
+		url : '../../bsstatus/ExcelToBsAlarm',
+		type : 'get',
+		dataType : "json",
+		data : {
+			startTime:startTime,
+			endTime:endTime
+		},
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			$("#btn-write").button('reset');
+			if (data.success) {
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#btn-write").button('reset');
+			xh.maskHide();
+			toastr.error("导出失败", '提示');
+		}
+	});
+};
 xh.nowDate=function()   
 {   
     var   today=new Date();      
@@ -327,4 +367,28 @@ xh.nowDate=function()
     var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+h+":"+m+":"+s;   
     return  strYesterday;
 }
+xh.getOneDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"23:59:59";   
+    return  strYesterday;
+}
+
 

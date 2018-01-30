@@ -183,7 +183,7 @@ public class BsStatusController {
 			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
-			fontFormat_Content.setWrap(false);// 不自动换行
+			fontFormat_Content.setWrap(true);// 自动换行
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
@@ -208,6 +208,8 @@ public class BsStatusController {
 					fontFormat_h);
 			Label label_11 = new Label(10, 0, "psm1运行时长", fontFormat_h);
 			Label label_12 = new Label(11, 0, "psm2运行时长", fontFormat_h);
+			
+		
 
 			sheet.setRowView(0, 300);
 			sheet.setColumnView(0, 10);
@@ -379,7 +381,7 @@ public class BsStatusController {
 			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
-			fontFormat_Content.setWrap(false);// 不自动换行
+			fontFormat_Content.setWrap(true);// 自动换行
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
@@ -608,7 +610,7 @@ public class BsStatusController {
 				fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 				fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 				fontFormat_Content.setBackground(Colour.WHITE);// 背景色
-				fontFormat_Content.setWrap(false);// 不自动换行
+				fontFormat_Content.setWrap(true);// 自动换行
 
 				// 设置数字格式
 				jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式

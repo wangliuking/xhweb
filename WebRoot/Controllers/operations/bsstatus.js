@@ -243,45 +243,7 @@ xh.excelToBsRun=function(){
 	});
 	
 };
-//基站故障记录
-xh.excelToBsAlarm=function(){
-	xh.maskShow();
-	$("#btn-write").button('loading');
-	var startTime=$("input[name='startTime']").val();
-	var endTime=$("input[name='endTime']").val();
-	if(startTime=="" || endTime==""){
-		toastr.error("时间范围不能为空", '提示');
-		$("#btn-write").button('reset');
-		xh.maskHide();
-		return;
-	}
-	
-	$.ajax({
-		url : '../../bsstatus/ExcelToBsAlarm',
-		type : 'get',
-		dataType : "json",
-		data : {
-			startTime:startTime,
-			endTime:endTime
-		},
-		async : false,
-		success : function(data) {
-			xh.maskHide();
-			$("#btn-write").button('reset');
-			if (data.success) {
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
-			} else {
-				toastr.error("导出失败", '提示');
-			}
-		},
-		error : function() {
-			$("#btn-write").button('reset');
-			xh.maskHide();
-			toastr.error("导出失败", '提示');
-		}
-	});
-};
+
 
 //基站状态检查表
 xh.excelToBsstatus=function(){

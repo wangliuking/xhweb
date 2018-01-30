@@ -14,18 +14,36 @@
 	<nav role="navigation">
 		<div class="font-white">
 			<ul class="navbar-right">
-			    <li class="dropdown" style="padding: 8px 8px 1px 15px;"><a
+				<li class="dropdown" style="padding: 8px 8px 1px 15px;"><a
 					href="index.html" target="_self" title="首页"><i
-						class="fa fa-home fa-2x font-white" style="font-size:13pt"></i>
-				</a></li>
-				
+						class="fa fa-home fa-2x font-white" style="font-size:13pt"></i> </a></li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					href="Views/operations/email.html" target="mainframe"><i
+					class="dropdown-toggle" href="#" data-toggle="dropdown"
+					title="点我扫一扫"> <i class="fa fa-qrcode fa-x font-white"
+						style="font-size:11pt"></i>
+				</a> <!-- animated flipInX -->
+
+					<div class="dropdown-menu ">
+						<div class="row"
+							style="max-height:400px;overflow: auto;padding:20px;">
+
+							<div class="col-md-12">
+								<p style="color:#000;">运维APP 安卓版下载链接,扫一扫</p>
+								<img alt="" src="Resources/app/apk.png">
+							</div>
+						</div>
+
+
+
+					</div></li>
+
+				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
+					href="Views/operations/email.html" target="mainframe" title="站内信"><i
 						class="fa fa-envelope-o fa-x font-white" style="font-size:11pt"></i>
 						<span class="badge badge-header badge-danger" id="emailcount">0</span>
 				</a></li>
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
-					class="dropdown-toggle" href="#" data-toggle="dropdown"> <i
+					class="dropdown-toggle" href="#" data-toggle="dropdown" title="基站断站告警"> <i
 						class="fa fa-bell-o fa-x font-white" style="font-size:11pt"></i> <span
 						class="badge badge-header badge-warning" id="alarmcount">{{totals}}</span>
 				</a> <!-- animated flipInX -->
@@ -52,8 +70,8 @@
 											<td>{{x.bsId}}-{{x.name |bsName}}</td>
 											<td ng-if="x.link==1" class="td-danger"><span>【断开连接】</span>
 											</td>
-											<td ng-if="x.link==null" class="td-warning"><span>{{x.name |alarmContent}}</span>
-											</td>
+											<td ng-if="x.link==null" class="td-warning"><span>{{x.name
+													|alarmContent}}</span></td>
 
 											<td>{{x.time}}</td>
 										</tr>

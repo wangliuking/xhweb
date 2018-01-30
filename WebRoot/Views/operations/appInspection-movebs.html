@@ -12,299 +12,313 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="btn-group">
-							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_mbs()">
+							<button type="button" class="btn btn-success btn-sm"
+								onclick="xh.print_mbs()">
 								<i class="fa fa-print"></i>&nbsp;打印
+							</button>
+							<button class="btn btn-danger btn-sm"
+								onclick="xh.excelToMbs()" id="btn-status" type="button">
+								<i class="fa fa-file-excel-o"></i>&nbsp;导出
 							</button>
 							<!-- <a href="../../Resources/CLodop_Setup_for_Win32NT.exe">123</a> -->
 							<!-- <button type="button" class="btn btn-danger btn-sm">
 								<i class="fa fa-file-excel-o"></i>&nbsp;导出
 							</button> -->
-						</div> 
+						</div>
 					</div>
 				</div>
 				<div class="row" style="margin-top:5px;" id="print_mbs">
-				<style type="text/css" id="style1">
-.table-view{border-collapse:collapse;}
-.table-view td{border:1px solid #ccc;border-collapse:collapse;}
+					<style type="text/css" id="style1">
+.table-view {
+	border-collapse: collapse;
+}
+
+.table-view td {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
 </style>
 					<div class="col-md-12">
-				<table style="width:100%;border-collapse: collapse;" class="table-view">
-					<tbody>
-						<tr>
-							<td colspan="8" style="text-align: center;">移动基站巡检表</td>
-						</tr>
-						<tr>
-							<td style="width:130px;">基站名称</td>
-							<td style="color:blue" colspan="3">{{mbsOneData.bsname}}</td>
-							<td style="width:130px;">基站ID</td>
-							<td style="width:250px;color:blue">{{mbsOneData.bsid}}</td>
-							<td style="width:130px;">基站级别</td>
-							<td style="width:250px;color:blue">{{mbsOneData.bslevel}}</td>
-							
-						</tr>
-						<tr>
-							<td style="width:130px;">机房类型</td>
-							<td style="color:blue">{{mbsOneData.bstype}}</td>
-							<td style="width:180px;">巡检时间</td>
-							<td style="color:blue" colspan="3">{{mbsOneData.commitdate}}</td>
-							<td style="width:100px;">巡检人</td>
-							<td style="width:250px;color:blue">{{mbsOneData.checkman}}</td>
-						</tr>
-						<tr style="font-weight: 700;">
-							<td>巡检项目</td>
-							<td>具体项目</td>
-							<td style="width:130px;" colspan="4">具体操作</td>
-							<td style="width:250px;">执行情况</td>
-							<td style="width:130px;">备注</td>
-						</tr>
-						<tr>
-							<td rowspan="2">天面</td>
-							<td>防倾斜</td>
-							<td colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
-							<td><input id="1-1" class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d1=='有'"> <label><span>有</span></label>
-								<input id="1-2" class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d1=='无'"> <label><span>无</span></label>
-							</td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c1}}</td>
-						</tr>
-						<tr>
-							<td>防雷情况</td>
-							<td style="height:40px;width:330px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d2=='有'" ng-checked="mbsOneData.d2=='有'"> <label><span>有</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d2=='无'">
-								<label><span>无</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c2}}</td>
-						</tr>
-						<tr>
-							<td rowspan="7">防雷情况</td>
-							<td rowspan="4">机房安全</td>
-							<td style="height:40px;width:130px;" colspan="4">灭火设备是否完好</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d3=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d3=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c3}}</td>
-						</tr>
-						<tr>
-							<td colspan="4">门、窗、锁是否完好</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d4=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d4=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c4}}</td>
-						</tr>
-						<tr>
-							<td  colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d5=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d5=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c5}}</td>
-						</tr>
-						<tr>
-							<td colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d6=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d6=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c6}}</td>
-						</tr>
-						<tr>
-							<td>机房温度</td>
-							<td  colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d7=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d7=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c7}}</td>
-						</tr>
+						<table style="width:100%;border-collapse: collapse;"
+							class="table-view">
+							<tbody>
+								<tr>
+									<td colspan="8" style="text-align: center;">移动基站巡检表</td>
+								</tr>
+								<tr>
+									<td style="width:130px;">基站名称</td>
+									<td style="color:blue" colspan="3">{{mbsOneData.bsname}}</td>
+									<td style="width:130px;">基站ID</td>
+									<td style="width:250px;color:blue">{{mbsOneData.bsid}}</td>
+									<td style="width:130px;">基站级别</td>
+									<td style="width:250px;color:blue">{{mbsOneData.bslevel}}</td>
+
+								</tr>
+								<tr>
+									<td style="width:130px;">机房类型</td>
+									<td style="color:blue">{{mbsOneData.bstype}}</td>
+									<td style="width:180px;">巡检时间</td>
+									<td style="color:blue" colspan="3">{{mbsOneData.commitdate}}</td>
+									<td style="width:100px;">巡检人</td>
+									<td style="width:250px;color:blue">{{mbsOneData.checkman}}</td>
+								</tr>
+								<tr style="font-weight: 700;">
+									<td>巡检项目</td>
+									<td>具体项目</td>
+									<td style="width:130px;" colspan="4">具体操作</td>
+									<td style="width:250px;">执行情况</td>
+									<td style="width:130px;">备注</td>
+								</tr>
+								<tr>
+									<td rowspan="2">天面</td>
+									<td>防倾斜</td>
+									<td colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
+									<td><input id="1-1" class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d1=='有'"> <label><span>有</span></label>
+										<input id="1-2" class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d1=='无'"> <label><span>无</span></label>
+									</td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c1}}</td>
+								</tr>
+								<tr>
+									<td>防雷情况</td>
+									<td style="height:40px;width:330px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d2=='有'"
+										ng-checked="mbsOneData.d2=='有'"> <label><span>有</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d2=='无'"> <label><span>无</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c2}}</td>
+								</tr>
+								<tr>
+									<td rowspan="7">防雷情况</td>
+									<td rowspan="4">机房安全</td>
+									<td style="height:40px;width:130px;" colspan="4">灭火设备是否完好</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d3=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d3=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c3}}</td>
+								</tr>
+								<tr>
+									<td colspan="4">门、窗、锁是否完好</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d4=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d4=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c4}}</td>
+								</tr>
+								<tr>
+									<td colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d5=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d5=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c5}}</td>
+								</tr>
+								<tr>
+									<td colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d6=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d6=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c6}}</td>
+								</tr>
+								<tr>
+									<td>机房温度</td>
+									<td colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d7=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d7=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c7}}</td>
+								</tr>
 
 
 
-						<tr>
-							<td rowspan="2">积水情况</td>
-							<td style="height:40px;width:130px;" colspan="4">空调有无漏水情况</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d8=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d8=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c8}}</td>
-						</tr>
-						<tr>
-							<td colspan="4">机房有无裂缝、渗水、漏水等情况</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d9=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d9=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c9}}</td>
-						</tr>
+								<tr>
+									<td rowspan="2">积水情况</td>
+									<td style="height:40px;width:130px;" colspan="4">空调有无漏水情况</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d8=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d8=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c8}}</td>
+								</tr>
+								<tr>
+									<td colspan="4">机房有无裂缝、渗水、漏水等情况</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d9=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d9=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c9}}</td>
+								</tr>
 
-						<tr>
-							<td style="height:40px;width:130px;" rowspan="6">电源配套</td>
-							<td style="height:40px;width:130px;">逆变器</td>
-							<td colspan="4">逆变器运行是否正常，有无挂死隐患</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d10=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d10=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c10}}</td>
-						</tr>
-						<tr>
-							<td style="height:40px;width:130px;">电源线</td>
-							<td colspan="4">电源线是否老化，连接是否正常，有无短路隐患</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d11=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d11=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c11}}</td>
-						</tr>
-						<tr>
-							<td style="height:40px;width:130px;" rowspan="2">配电箱</td>
-							<td colspan="4">直流配电柜运行是否正常，空开有无跳闸隐患，电压是否稳定</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d12=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d12=='异常'">
-								<label><span>正常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c12}}</td>
-						</tr>
-						<tr>
-							<td colspan="4">交流配电柜运行是否正常，空开有无跳闸隐患，电压是否稳定</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d13=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d13=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c13}}</td>
-						</tr>
-						<tr>
-							<td style="height:40px;width:130px;">照明</td>
-							<td colspan="4">机房照明设施是否完好</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d14=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d14=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c14}}</td>
-						</tr>
-						<tr>
-							<td style="height:40px;width:130px;">插座</td>
-							<td colspan="4">机房插座是否有电</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d15=='是'"> <label><span>是</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d15=='否'">
-								<label><span>否</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c15}}</td>
-						</tr>
-						<tr>
-							<td rowspan="5">主体设备</td>
-							<td>单板状态</td>
-							<td colspan="4">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d16=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d16=='正常'">
-								<label><span>正常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c16}}</td>
-						</tr>
-						<tr>
-							<td>告警确认</td>
-							<td colspan="4">通过与监控后台联系确认设备有无告警</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d17=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d17=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c17}}</td>
-						</tr>
-						<tr>
-							<td>连线状态</td>
-							<td colspan="4">电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d18=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d18=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c18}}</td>
-						</tr>
-						<tr>
-							<td>设备加固</td>
-							<td colspan="4">设备安装是否牢固</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d19=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d18=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c19}}</td>
-						</tr>
-						<tr>
-							<td>设备温度</td>
-							<td colspan="4">设备是否有高温、异味</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d20=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d20=='正常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c20}}</td>
-						</tr>
-						<tr>
-							<td rowspan="3">动环监控</td>
-							<td>环境监测</td>
-							<td colspan="4">查看温湿度、漏水是否正常(需值班人员配合完成)</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d21=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d21=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c21}}</td>
-						</tr>
-						<tr>
-							<td>安全监测</td>
-							<td colspan="4">查看门磁、烟感、摄像头是否正常(需值班人员配合完成)</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d22=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d22=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c22}}</td>
-						</tr>
-						<tr>
-							<td>交直流电流电压</td>
-							<td colspan="4">查看交直流是否正常(需值班人员配合完成)</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d23=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d23=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c23}}</td>
-						</tr>
-						<tr>
-							<td rowspan="2">清洁</td>
-							<td>机房清洁</td>
-							<td colspan="4">清洁机房内门窗、地面、墙面卫生</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d24=='已执行'"> <label><span>已执行</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d24=='未执行'">
-								<label><span>未执行</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c24}}</td>
-						</tr>
-						<tr>
-							<td>设备除尘</td>
-							<td colspan="4">清洁设备表面、内部、主体设备滤网</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d25=='已执行'"> <label><span>已执行</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d25=='未执行'">
-								<label><span>未执行</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c25}}</td>
-						</tr>
-						<tr>
-							<td>功能</td>
-							<td>呼叫功能</td>
-							<td colspan="4">沿途呼叫测试</td>
-							<td><input class="magic-checkbox" type="checkbox"
-								ng-checked="mbsOneData.d26=='正常'"> <label><span>正常</span></label> <input
-								class="magic-checkbox" type="checkbox" ng-checked="mbsOneData.d26=='异常'">
-								<label><span>异常</span></label></td>
-							<td style="height:40px;width:130px;">{{mbsOneData.c26}}</td>
-						</tr>
-						<tr>
-							<td rowspan="2">遗留问题</td>
-							<td rowspan="2" colspan="7" style="color:blue">{{mbsOneData.remainwork}}</td>
-						</tr>
-					</tbody>
-				</table>
-				</div></div>
+								<tr>
+									<td style="height:40px;width:130px;" rowspan="6">电源配套</td>
+									<td style="height:40px;width:130px;">逆变器</td>
+									<td colspan="4">逆变器运行是否正常，有无挂死隐患</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d10=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d10=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c10}}</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;">电源线</td>
+									<td colspan="4">电源线是否老化，连接是否正常，有无短路隐患</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d11=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d11=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c11}}</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;" rowspan="2">配电箱</td>
+									<td colspan="4">直流配电柜运行是否正常，空开有无跳闸隐患，电压是否稳定</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d12=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d12=='异常'"> <label><span>正常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c12}}</td>
+								</tr>
+								<tr>
+									<td colspan="4">交流配电柜运行是否正常，空开有无跳闸隐患，电压是否稳定</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d13=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d13=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c13}}</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;">照明</td>
+									<td colspan="4">机房照明设施是否完好</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d14=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d14=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c14}}</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:130px;">插座</td>
+									<td colspan="4">机房插座是否有电</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d15=='是'"> <label><span>是</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d15=='否'"> <label><span>否</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c15}}</td>
+								</tr>
+								<tr>
+									<td rowspan="5">主体设备</td>
+									<td>单板状态</td>
+									<td colspan="4">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d16=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d16=='正常'"> <label><span>正常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c16}}</td>
+								</tr>
+								<tr>
+									<td>告警确认</td>
+									<td colspan="4">通过与监控后台联系确认设备有无告警</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d17=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d17=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c17}}</td>
+								</tr>
+								<tr>
+									<td>连线状态</td>
+									<td colspan="4">电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d18=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d18=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c18}}</td>
+								</tr>
+								<tr>
+									<td>设备加固</td>
+									<td colspan="4">设备安装是否牢固</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d19=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d19=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c19}}</td>
+								</tr>
+								<tr>
+									<td>设备温度</td>
+									<td colspan="4">设备是否有高温、异味</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d20=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d20=='正常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c20}}</td>
+								</tr>
+								<tr>
+									<td rowspan="3">动环监控</td>
+									<td>环境监测</td>
+									<td colspan="4">查看温湿度、漏水是否正常(需值班人员配合完成)</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d21=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d21=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c21}}</td>
+								</tr>
+								<tr>
+									<td>安全监测</td>
+									<td colspan="4">查看门磁、烟感、摄像头是否正常(需值班人员配合完成)</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d22=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d22=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c22}}</td>
+								</tr>
+								<tr>
+									<td>交直流电流电压</td>
+									<td colspan="4">查看交直流是否正常(需值班人员配合完成)</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d23=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d23=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c23}}</td>
+								</tr>
+								<tr>
+									<td rowspan="2">清洁</td>
+									<td>机房清洁</td>
+									<td colspan="4">清洁机房内门窗、地面、墙面卫生</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d24=='已执行'"> <label><span>已执行</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d24=='未执行'"> <label><span>未执行</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c24}}</td>
+								</tr>
+								<tr>
+									<td>设备除尘</td>
+									<td colspan="4">清洁设备表面、内部、主体设备滤网</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d25=='已执行'"> <label><span>已执行</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d25=='未执行'"> <label><span>未执行</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c25}}</td>
+								</tr>
+								<tr>
+									<td>功能</td>
+									<td>呼叫功能</td>
+									<td colspan="4">沿途呼叫测试</td>
+									<td><input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d26=='正常'"> <label><span>正常</span></label>
+										<input class="magic-checkbox" type="checkbox"
+										ng-checked="mbsOneData.d26=='异常'"> <label><span>异常</span></label></td>
+									<td style="height:40px;width:130px;">{{mbsOneData.c26}}</td>
+								</tr>
+								<tr>
+									<td rowspan="2">遗留问题</td>
+									<td rowspan="2" colspan="7" style="color:blue">{{mbsOneData.remainwork}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 
 			</div>
 			<div class="modal-footer"></div>

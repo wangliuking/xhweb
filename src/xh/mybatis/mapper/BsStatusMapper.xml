@@ -302,7 +302,7 @@
 		where a.time between #{startTime} and #{endTime} group by a.bsId order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true" parameterType="map">
-		select a.*,b.name,b.level,b.status,b.hometype 
+		select a.*,b.name,b.level,b.status as tag,b.hometype 
 		from xhgmnet_operations_bsfault  as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId  order by a.time asc 
 		limit #{start},#{limit}

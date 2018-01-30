@@ -197,6 +197,12 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 						</div>
 						
 						<div class="panel-body">
+						<div class="top-search btn-group">
+		
+				<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#faultRecord">
+					<i class="fa fa-file-excel-o"></i>&nbsp;导出基站故障记录登记表
+				</button>
+			</div>
 							
 							<table id="tb-info" class="xh-table table-hover"
 								style="table-layout:fixed">
@@ -215,7 +221,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
@@ -223,8 +229,8 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 										<td>{{x.bsId}}-{{x.name}}</td>
 										<td>{{x.level}}</td>
 										<td>
-										<span ng-if="x.status==0">停用</span>
-										<span ng-if="x.status==1">启用</span>
+										<span ng-if="x.tag==0">停用</span>
+										<span ng-if="x.tag==1">启用</span>
 										</td>
 										<td>{{x.weekly}}</td>
 										<td>{{x.time}}</td>
@@ -263,6 +269,53 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
+	
+	<div class="modal fade" id="faultRecord" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">数据筛选：时间范围</small>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-body">
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group col-md-12">
+												<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span>
+												<input type="text" value="" class="form-control"
+													name="startTime" required="required"
+													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+											</div>
+										</div>
+                                        <div class="col-md-12">
+											<div class="form-group col-md-12">
+												<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span>
+												<input type="text" value="" class="form-control"
+													name="endTime" required="required" ng-model="nowDate"
+													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger btn-sm" type="button" id="btn-write" onclick="xh.excelToBsAlarm()">
+					<i class="fa fa-file-excel-o"></i>&nbsp;导出
+				</button>
+				</div> 
+			</div>
+		</div>
+	</div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
