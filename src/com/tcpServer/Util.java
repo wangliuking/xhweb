@@ -9,6 +9,10 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetMovebsInfo;
+import com.tcpBean.GetMovebsInfoAck;
+import com.tcpBean.GetOwnbsInfo;
+import com.tcpBean.GetOwnbsInfoAck;
 import com.tcpBean.LoginAck;
 import com.tcpBean.MovebsTable;
 import com.tcpBean.MovebsTableAck;
@@ -42,7 +46,8 @@ public class Util {
 	private static DispatchTable dispatchTable;
 	private static MovebsTable movebsTable;
 	private static OwnbsTable ownbsTable;
-	
+	private static GetMovebsInfo getMovebsInfo;
+	private static GetOwnbsInfo getOwnbsInfo;
 	
 	/**
 	 * 测试用主方法
@@ -150,6 +155,16 @@ public class Util {
 				netManagerTable = (NetManagerTable) JSONObject.toBean(jsonObject, NetManagerTable.class, classMap);
 				NetManagerTableAck netManagerTableAck = Service.appNetManagerTableAck(netManagerTable);
 				map.put("returnMessage", Object2Json(netManagerTableAck));
+				return map;
+			}else if("getmovebsinfo".equals(cmdtype)){
+				getMovebsInfo = (GetMovebsInfo) JSONObject.toBean(jsonObject, GetMovebsInfo.class);
+				GetMovebsInfoAck getMovebsInfoAck = Service.appGetMovebsInfoAck(getMovebsInfo);
+				map.put("returnMessage", Object2Json(getMovebsInfoAck));
+				return map;
+			}else if("getownbsinfo".equals(cmdtype)){
+				getOwnbsInfo = (GetOwnbsInfo) JSONObject.toBean(jsonObject, GetOwnbsInfo.class);
+				GetOwnbsInfoAck getOwnbsInfoAck = Service.appGetOwnbsInfoAck(getOwnbsInfo);
+				map.put("returnMessage", Object2Json(getOwnbsInfoAck));
 				return map;
 			}else if("heartbeat".equals(cmdtype)){
 				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");

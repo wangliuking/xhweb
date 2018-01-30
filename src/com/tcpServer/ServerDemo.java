@@ -153,7 +153,7 @@ public class ServerDemo {
 						
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
-							System.out.println("返回的消息为："+returnMessage);
+							System.out.println("返回的消息为："+returnMessage);							
 							writer.write(returnMessage+"\n");
 							writer.flush();
 						}						

@@ -22,6 +22,10 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetMovebsInfo;
+import com.tcpBean.GetMovebsInfoAck;
+import com.tcpBean.GetOwnbsInfo;
+import com.tcpBean.GetOwnbsInfoAck;
 import com.tcpBean.LoginAck;
 import com.tcpBean.MovebsTable;
 import com.tcpBean.MovebsTableAck;
@@ -44,6 +48,8 @@ public class Service {
 	private static DispatchTableAck dispatchTableAck = new DispatchTableAck();
 	private static MovebsTableAck movebsTableAck = new MovebsTableAck();
 	private static OwnbsTableAck ownbsTableAck = new OwnbsTableAck();
+	private static GetMovebsInfoAck getMovebsInfoAck = new GetMovebsInfoAck();
+	private static GetOwnbsInfoAck getOwnbsInfoAck = new GetOwnbsInfoAck();
 	
 	private static FunUtil funUtil = new FunUtil();
 
@@ -77,15 +83,65 @@ public class Service {
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		userInfoAck.setSerialnumber(userInfo.getSerialnumber());
 		userInfoAck.setUserid(userInfo.getUserid());
-		userInfoAck.setUsername("测试用名称");
 		try{
-			userInfoAck.setBslist(mapper.selectByAppUser(userInfo.getUserid()));
+			Map<String,String> map = mapper.selectUserName(userInfo.getUserid());
+			userInfoAck.setUsername(map.get("userName"));
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return userInfoAck;
+	}
+	
+	/**
+	 * 获取移动基站信息
+	 */
+	public static GetMovebsInfoAck appGetMovebsInfoAck(GetMovebsInfo getMovebsInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getMovebsInfoAck.setUserid(getMovebsInfo.getUserid());
+		getMovebsInfoAck.setBsid(getMovebsInfo.getBsid());
+		try {
+			Map<String,String> map = mapper.selectByBsId(getMovebsInfo.getBsid());
+			if(map.size()>0){
+				getMovebsInfoAck.setBslevel(map.get("bslevel"));
+				getMovebsInfoAck.setBsname(map.get("bsname"));
+				getMovebsInfoAck.setAck("0");
+			}else{
+				getMovebsInfoAck.setAck("1");
+			}
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getMovebsInfoAck;
+	}
+	
+	/**
+	 * 获取自建基站信息
+	 */
+	public static GetOwnbsInfoAck appGetOwnbsInfoAck(GetOwnbsInfo getOwnbsInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getOwnbsInfoAck.setUserid(getOwnbsInfo.getUserid());
+		getOwnbsInfoAck.setBsid(getOwnbsInfo.getBsid());
+		try {
+			Map<String,String> map = mapper.selectByBsId(getOwnbsInfo.getBsid());
+			if(map.size()>0){
+				getOwnbsInfoAck.setBslevel(map.get("bslevel"));
+				getOwnbsInfoAck.setBsname(map.get("bsname"));
+				getOwnbsInfoAck.setAck("0");
+			}else{
+				getOwnbsInfoAck.setAck("1");
+			}
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getOwnbsInfoAck;
 	}
 	
 	
@@ -113,6 +169,7 @@ public class Service {
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		try {
 			Map<String, String> map = mapper.selectOrderStatus(errCheck.getSerialnumber());
+			System.out.println("map为："+map);
 			String status=map.get("status");
 			System.out.println("status为："+status);
 			if("2".equals(status)){
