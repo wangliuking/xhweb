@@ -7,10 +7,15 @@ import java.util.Map;
 public interface TcpMapper {
 	
 	/**
-	 * app根据userId查询负责的基站
+	 * app根据用户id查询用户名称
+	 */
+	public Map<String,String> selectUserName(String userId)throws Exception;
+	
+	/**
+	 * app根据基站id查询基站基本信息
 	 * 
 	 */
-	public List<Map<String,String>> selectByAppUser(String userId)throws Exception;
+	public Map<String,String> selectByBsId(String bsId)throws Exception;
 	
 	/**
 	 * 更新派单状态为处理中
