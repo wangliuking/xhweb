@@ -3,7 +3,7 @@
 <mapper namespace="xh.mybatis.mapper.TcpMapper">
 	<!-- app根据用户id查询用户名称 -->
 	<select id="selectUserName" parameterType="String" resultType="map">
-		select userName from xhgmnet_web_user where user={userId}
+		select userName from xhgmnet_web_user where user=#{userId}
 	</select>
 
     <!-- app根据基站id查询基站基本信息 -->

@@ -15,7 +15,7 @@ public interface TcpMapper {
 	 * app根据基站id查询基站基本信息
 	 * 
 	 */
-	public Map<String,String> selectByBsId(String bsId)throws Exception;
+	public Map<String,Object> selectByBsId(String bsId)throws Exception;
 	
 	/**
 	 * 更新派单状态为处理中
