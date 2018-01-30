@@ -143,9 +143,9 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					dataList.add(map);
 				}
 			}			
-			//调用goeasy推送至服务器
-			String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
-			TestGoEasy.sendAlarmWeb(alarmDesc);
+			//调用goeasy推送至客户端
+			/*String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
+			TestGoEasy.sendAlarmWeb(alarmDesc);*/
 			
 			GosuncnController.insertAlarm(dataList);
 			log.info("啦啦啦一条告警信息已经添加！");
