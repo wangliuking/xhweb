@@ -379,6 +379,37 @@ xh.net_pagging = function(currentPage,totals, $scope,pageSize) {
 		});
 	}
 };
+//移动基站巡检表
+xh.excelToMbs=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/excel_mbs',
+		type : 'post',
+		dataType : "json",
+		data : {
+			excelData:JSON.stringify($scope.mbsOneData)
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			$("#btn-mbs").button('reset');
+			if (data.success) {
+				
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#btn-mbs").button('reset');
+			xh.maskHide();
+			toastr.error("导出失败", '提示');
+		}
+	});
+};
 xh.dispatch_pagging = function(currentPage,totals, $scope,pageSize) {
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);

@@ -4,11 +4,13 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header ">
+			
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
 				<small class="font-bold">故障处理任务单</small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+		
 				<div class="order">
 					<form action="" onsubmit="false" id="order-form">
 						<table id="order-table"
@@ -21,10 +23,15 @@
 							<tbody>
 								<tr>
 									<td colspan="6" style="text-align: center;">
-									基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}&nbsp;&nbsp;&nbsp;故障处理任务单
+									故障处理任务单
 									<div contenteditable="true" class="input-div" name="id" ng-show="false">{{orderData.id}}</div>
 									<div contenteditable="true" class="input-div" name="bsId" ng-show="false">{{orderData.bsId}}</div>
 									<div contenteditable="true" class="input-div" name="name" ng-show="false">{{orderData.name}}</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="6" style="text-align: center;background:#ccc;">
+									基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}
 									</td>
 								</tr>
 								
@@ -88,9 +95,9 @@
 										</div>
 									</td>
 									<td colspan="4">
-										<p>A级，包括一级基站断站，2小时内处理恢复；</p>
-										<p>B级，包括二级基站断站，3小时内处理恢复；</p>
-										<p>C级，包括三级基站断站，5小时内处理恢复；</p>
+										<p>A级，包括一级基站断站，1小时40分钟内处理恢复；</p>
+										<p>B级，包括二级基站断站，2小时40分钟内处理恢复；</p>
+										<p>C级，包括三级基站断站，4小时40分钟内处理恢复；</p>
 										<p>D级，包括隐患故障和机房配套问题，3天内处理恢复</p>
 									</td>
 								</tr>

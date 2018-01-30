@@ -9,10 +9,24 @@
 				<small class="font-bold">故障处理任务单</small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				<div class="order">
+				<div class="row" style="margin-bottom:5px;">
+					<div class="col-md-12">
+						  <div class="btn-group">
+							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_order()">
+								<i class="fa fa-print"></i>&nbsp;打印
+							</button>
+						
+						</div> 
+					</div>
+				</div>
+				<div class="order" id="print_order">
+											<style type="text/css" id="style1">
+.table-view{border-collapse:collapse;}
+.table-view td{border:1px solid #ccc;border-collapse:collapse;}
+</style>
 				<form action="" onsubmit="false" id="order-form">
 					<table id="order-table"
-						style="width:100%;border-collapse: collapse;">
+						style="width:100%;border-collapse: collapse;" class="table-view">
 						<!-- <thead>
 					<tr>
 					<th></th>
@@ -20,8 +34,13 @@
 					</thead> -->
 						<tbody>
 							<tr>
-								<td colspan="4" style="text-align: center;">【<span style="color:blue;font-weight: 700;">{{editData.bsid}}-{{editData.bsname}}</span>】故障处理跟踪单</td>
+								<td colspan="4" style="text-align: center;"><!-- 【<span style="color:blue;font-weight: 700;">{{editData.bsid}}-{{editData.bsname}}</span>】 -->故障处理跟踪单</td>
 							</tr>
+							<tr>
+								<td colspan="6" style="text-align: center;">
+									基站ID：{{editData.bsid}}&nbsp;&nbsp;&nbsp;基站名称：{{editData.bsname}}
+									</td>
+								</tr>
 							<tr>
 								<td style="height:40px;width:130px;">派单时间</td>
 								<td style="height:40px;width:250px;"><div contenteditable="true" class="input-div">{{editData.dispatchtime}}</div></td>
