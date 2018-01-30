@@ -101,17 +101,23 @@ public class Service {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		getMovebsInfoAck.setUserid(getMovebsInfo.getUserid());
-		getMovebsInfoAck.setBsid(getMovebsInfo.getBsid());
+		String bsId = getMovebsInfo.getBsid();
+		getMovebsInfoAck.setBsid(bsId);
 		try {
-			Map<String,String> map = mapper.selectByBsId(getMovebsInfo.getBsid());
-			if(map.size()>0){
-				getMovebsInfoAck.setBslevel(map.get("bslevel"));
-				getMovebsInfoAck.setBsname(map.get("bsname"));
-				getMovebsInfoAck.setAck("0");
+			if(!"".equals(bsId) && bsId!=null){
+				Map<String,Object> map = mapper.selectByBsId(bsId);
+				if(map.size()>0){
+					int bslevel = (Integer) map.get("bslevel");
+					getMovebsInfoAck.setBslevel(String.valueOf(bslevel));
+					getMovebsInfoAck.setBsname(map.get("bsname").toString());
+					getMovebsInfoAck.setAck("0");
+				}else{
+					getMovebsInfoAck.setAck("1");
+				}
+				sqlSession.close();
 			}else{
 				getMovebsInfoAck.setAck("1");
-			}
-			sqlSession.close();
+			}			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -126,17 +132,23 @@ public class Service {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		getOwnbsInfoAck.setUserid(getOwnbsInfo.getUserid());
-		getOwnbsInfoAck.setBsid(getOwnbsInfo.getBsid());
+		String bsId = getOwnbsInfo.getBsid();
+		getOwnbsInfoAck.setBsid(bsId);
 		try {
-			Map<String,String> map = mapper.selectByBsId(getOwnbsInfo.getBsid());
-			if(map.size()>0){
-				getOwnbsInfoAck.setBslevel(map.get("bslevel"));
-				getOwnbsInfoAck.setBsname(map.get("bsname"));
-				getOwnbsInfoAck.setAck("0");
+			if(!"".equals(bsId) && bsId!=null){
+				Map<String,Object> map = mapper.selectByBsId(bsId);
+				if(map.size()>0){
+					int bslevel = (Integer) map.get("bslevel");
+					getOwnbsInfoAck.setBslevel(String.valueOf(bslevel));
+					getOwnbsInfoAck.setBsname(map.get("bsname").toString());
+					getOwnbsInfoAck.setAck("0");
+				}else{
+					getOwnbsInfoAck.setAck("1");
+				}
+				sqlSession.close();
 			}else{
 				getOwnbsInfoAck.setAck("1");
-			}
-			sqlSession.close();
+			}			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
