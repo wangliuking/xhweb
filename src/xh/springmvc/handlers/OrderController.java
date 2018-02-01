@@ -21,8 +21,10 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.OrderService;
 import xh.mybatis.service.WebLogService;
+import xh.mybatis.service.WebUserServices;
 
 
 @Controller
@@ -42,11 +44,16 @@ public class OrderController {
 	public void orderlist(HttpServletRequest request, HttpServletResponse response) {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		int roleId = userbean.getRoleId();
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		/*map.put("loginuser", funUtil.loginUser(request));*/
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("user",user);
+		map.put("roleId", roleId);
 		map.put("type", 10);
 		HashMap result = new HashMap();
 		result.put("items",OrderService.orderList(map));
@@ -80,7 +87,12 @@ public class OrderController {
 	@RequestMapping(value="/orderNoComCount", method = RequestMethod.GET)
 	public void orderNoComCount(HttpServletRequest request, HttpServletResponse response) {		
 		Map<String,Object> map=new HashMap<String, Object>();
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		int roleId = userbean.getRoleId();
 		map.put("type", 3);
+		map.put("user",user);
+		map.put("roleId", roleId);
 		HashMap result = new HashMap();
 		result.put("totals", OrderService.orderListCount(map));
 		
@@ -136,6 +148,7 @@ public class OrderController {
 		String fromData=request.getParameter("formData");
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
 		bean.setSerialnumber(FunUtil.RandomWord(8));
+		bean.setOrderAccount(funUtil.loginUser(request));
 		
 		int id=bean.getId();
 		

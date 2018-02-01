@@ -101,6 +101,14 @@ public class RadioUserController {
 					bean.setId(userbean.getId_JoinNet());
 					bean.setChecked(9);
 					JoinNetService.updateCheckById(bean);
+					
+					
+					
+					
+					
+					
+					
+					
 				}else{
 					this.success=false;
 					this.message="添加失败，请检查填写的参数是否合法";

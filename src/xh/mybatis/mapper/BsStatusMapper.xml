@@ -295,7 +295,7 @@
 	</select>
 	<!-- tera系统告警基站部分  导出excel -->
 	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
-		select a.*,b.name,b.level,b.status,b.hometype 
+		select a.*,b.name,b.level,b.status as tag,b.hometype 
 		from xhgmnet_operations_bsfault  as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		

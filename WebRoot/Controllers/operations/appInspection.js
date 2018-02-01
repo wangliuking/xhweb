@@ -440,6 +440,66 @@ xh.excelToSbs=function(){
 		}
 	});
 };
+//导出网管巡检
+xh.excelToNet=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/excel_net',
+		type : 'post',
+		dataType : "json",
+		data : {
+			excelData:JSON.stringify($scope.netOneData)
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("导出失败", '提示');
+		}
+	});
+};
+//导出调度台巡检
+xh.excelToDispatch=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/excel_dispatch',
+		type : 'post',
+		dataType : "json",
+		data : {
+			excelData:JSON.stringify($scope.dispatchOneData)
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("导出失败", '提示');
+		}
+	});
+};
 xh.dispatch_pagging = function(currentPage,totals, $scope,pageSize) {
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);

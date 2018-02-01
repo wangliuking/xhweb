@@ -31,7 +31,7 @@ xh.load = function() {
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
-		/*获取日志信息*/
+		/*获取故障信息*/
 		$http.get("../../bsstatus/bsFaultList?start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
@@ -48,6 +48,11 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$("#edit").modal('show')
 		};
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		/*用户列表*/
 		$scope.userList=function(){
 			$http.get("../../order/userlist").success(

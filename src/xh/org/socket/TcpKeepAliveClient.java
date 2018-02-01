@@ -107,6 +107,10 @@ public class TcpKeepAliveClient extends Thread {
 				while (connected) {
 					int len = input.read(buf);
 					int recvLen = len;
+					
+					if(len > 0 && len + writeBuf.length >= 4) {
+						
+					
 					byte[] buf2=new byte[len];
 					System.arraycopy(buf, 0, buf2, 0,len);
 					System.arraycopy(buf2, 0, bufH, 0, 2);
@@ -120,6 +124,13 @@ public class TcpKeepAliveClient extends Thread {
 					log.info("收到的数据："+FunUtil.BytesToHexS(buf2));
 					
 					handler(commId,buf2);
+					}else{
+						socket.close();
+						log.info("====TCP connection is closed!!====");
+						log.info("====reconnection now!!====");
+					
+						connected = false;
+					}
 					
 					
 					/*if (len > 0 && len + writeBuf.length >= 4) {

@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.mapper.TalkGroupMapper;
 import xh.mybatis.tools.MoreDbTools;
+import xh.org.socket.TalkGroupStruct;
+import xh.org.socket.TcpKeepAliveClient;
 
 public class TalkGroupService {
 	/**
@@ -139,9 +141,26 @@ public class TalkGroupService {
 		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
 		int count = 0;
 		try {
-			if (count == 0) {
-				mapper.insertTalkGroup(bean);
+			count=mapper.insertTalkGroup(bean);
+			if(count>0 && TcpKeepAliveClient.getSocket().isConnected()){
+				TalkGroupStruct setTalkGroupData = new TalkGroupStruct();
+				setTalkGroupData.setOperation(1);
+				setTalkGroupData.setId(bean.getId());
+				setTalkGroupData.setName(bean.getE_name());
+				setTalkGroupData.setAlias(bean.getE_alias());
+				setTalkGroupData.setMscId(bean.getE_mscId());
+				setTalkGroupData.setVpnId(bean.getE_vpnId());
+				setTalkGroupData.setSaId(bean.getE_said());
+				setTalkGroupData.setIaId(bean.getE_iaid());
+				setTalkGroupData.setVaId(bean.getE_vaid());
+				setTalkGroupData.setPreempt(bean.getE_preempt());
+				setTalkGroupData.setRadioType(Integer.parseInt(bean.getE_radioType()));
+				setTalkGroupData.setRegroupAble(Integer.parseInt(bean.getE_regroupable()));
+				setTalkGroupData.setEnabled(bean.getE_enabled());
+				setTalkGroupData.setDirectDial(bean.getE_directDial());
+				UcmService.sendTalkGroupData(setTalkGroupData);
 			}
+			
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

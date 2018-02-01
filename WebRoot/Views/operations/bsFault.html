@@ -19,76 +19,180 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
-.order-table td{
-padding:0;
+.order-table td {
+	padding: 0;
 }
-.order-form{
- width:100%;
- line-height:100%;
- border:0;
- padding:6px;
- /* line-height:100%; */
+
+.order-form {
+	width: 100%;
+	line-height: 100%;
+	border: 0;
+	padding: 6px;
+	/* line-height:100%; */
 }
+
 .order-form:FOCUS {
-	border:0;
+	border: 0;
 }
-.textarea-div{
- width: 100%;
-    height: 60px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3px;
-    outline: 0;
-    border: 0px solid #a0b3d6;
-    font-size: 12px;
-    word-wrap: break-word;
-    overflow-x: hidden;
-    overflow-y: auto;
- 
-    /* border-color: rgba(82, 168, 236, 0.8); */
-    /* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
+
+.textarea-div {
+	width: 100%;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3px;
+	outline: 0;
+	border: 0px solid #a0b3d6;
+	font-size: 12px;
+	word-wrap: break-word;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	/* border-color: rgba(82, 168, 236, 0.8); */
+	/* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
 }
 /* CSS部分 */
-#type-ul { list-style:none; margin:0; padding:0; text-align:center; background:#fafafa; color:#000; -webkit-transform:scaleY(0); -webkit-transform-origin:0 0; }
-#type-ul li { padding:0; margin:0; }
-.type-div { width:100px; }
-.type-div ul li{
-cursor: pointer;
-padding:3px;
-border:1px solid #ccc;
+#type-ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	background: #fafafa;
+	color: #000;
+	-webkit-transform: scaleY(0);
+	-webkit-transform-origin: 0 0;
 }
-.type-div:hover ul { -webkit-animation:ulShow 0.4s; -webkit-animation-fill-mode:forwards; -webkit-animation-timing-function: cubic-bezier(0,0.8,0.9,1); }
-type-div { height:30px; line-height:30px; text-align:center; /* background-color:#FC0; */ }
-@-webkit-keyframes ulShow {
-    from { -webkit-transform:scaleY(0); }
-    to { -webkit-transform:scaleY(1); }
-}
-#level-ul { list-style:none; margin:0; padding:0; text-align:center; background:#fafafa; color:#000; -webkit-transform:scaleY(0); -webkit-transform-origin:0 0; }
-#level-ul li { padding:0; margin:0; }
-.level-div { width:100px; }
-.level-div ul li{
-cursor: pointer;
-padding:3px;
-border:1px solid #ccc;
-}
-.level-div:hover ul { -webkit-animation:ulShow 0.4s; -webkit-animation-fill-mode:forwards; -webkit-animation-timing-function: cubic-bezier(0,0.8,0.9,1); }
-level-div { height:30px; line-height:30px; text-align:center; /* background-color:#FC0; */ }
-@-webkit-keyframes ulShow {
-    from { -webkit-transform:scaleY(0); }
-    to { -webkit-transform:scaleY(1); }
-}
-.slDiv{float:left;margin-top:5px;position:relative;}  
-.slDiv #btnSelect{min-width:125px;display:inline-block;text-indent:10px;}  
-.slDiv .ulDiv{display:none;width:125px;border:1px solid #EEEEEE;border-radius:1px;background:#FFF;margin-top:9px;position:absolute;z-index:100;}  
-.slDiv .ulDiv.ulShow{display:block;}  
-.slDiv .ulDiv ul li{text-indent:10px;cursor:pointer;}  
-.slDiv .ulDiv ul li:hover{background:#cbebf6;} 
 
-.slDiv .ulDiv ul,.slDiv .ulDiv li{margin:5px 0px;padding:0px;}  
+#type-ul li {
+	padding: 0;
+	margin: 0;
+}
+
+.type-div {
+	width: 100px;
+}
+
+.type-div ul li {
+	cursor: pointer;
+	padding: 3px;
+	border: 1px solid #ccc;
+}
+
+.type-div:hover ul {
+	-webkit-animation: ulShow 0.4s;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-timing-function: cubic-bezier(0, 0.8, 0.9, 1);
+}
+
+type-div {
+	height: 30px;
+	line-height: 30px;
+	text-align: center; /* background-color:#FC0; */
+}
+
+@
+-webkit-keyframes ulShow {from { -webkit-transform:scaleY(0);
+	
+}
+
+to {
+	-webkit-transform: scaleY(1);
+}
+
+}
+#level-ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	background: #fafafa;
+	color: #000;
+	-webkit-transform: scaleY(0);
+	-webkit-transform-origin: 0 0;
+}
+
+#level-ul li {
+	padding: 0;
+	margin: 0;
+}
+
+.level-div {
+	width: 100px;
+}
+
+.level-div ul li {
+	cursor: pointer;
+	padding: 3px;
+	border: 1px solid #ccc;
+}
+
+.level-div:hover ul {
+	-webkit-animation: ulShow 0.4s;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-timing-function: cubic-bezier(0, 0.8, 0.9, 1);
+}
+
+level-div {
+	height: 30px;
+	line-height: 30px;
+	text-align: center; /* background-color:#FC0; */
+}
+
+@
+-webkit-keyframes ulShow {from { -webkit-transform:scaleY(0);
+	
+}
+
+to {
+	-webkit-transform: scaleY(1);
+}
+
+}
+.slDiv {
+	float: left;
+	margin-top: 5px;
+	position: relative;
+}
+
+.slDiv #btnSelect {
+	min-width: 125px;
+	display: inline-block;
+	text-indent: 10px;
+}
+
+.slDiv .ulDiv {
+	display: none;
+	width: 125px;
+	border: 1px solid green;
+	border-radius: 1px;
+	background: #FFF;
+	margin-top: 9px;
+	position: absolute;
+	z-index: 100;
+	max-height:400px;
+	overflow: auto;
+}
+
+.slDiv .ulDiv.ulShow {
+	display: block;
+}
+
+.slDiv .ulDiv ul li {
+	text-indent: 10px;
+	cursor: pointer;
+}
+
+.slDiv .ulDiv ul li:hover {
+	background: #cbebf6;
+}
+
+.slDiv .ulDiv ul,.slDiv .ulDiv li {
+	margin: 5px 0px;
+	padding: 0px;
+}
 </style>
 </head>
-<body ng-app="app" ng-controller="xhcontroller"
-	class="fixed-iframe">
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
 	<div class="splash">
 		<div class="splash-title">
@@ -102,7 +206,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 中间内容体 -->
 	<div id="wrapper">
 		<div class="small-header transition animated fadeIn">
@@ -128,7 +232,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 							<i class="fa fa-search"></i> 查询数据
 						</div>
 						<div class="panel-body">
-						<!-- row -->
+							<!-- row -->
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
@@ -188,22 +292,23 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
 							<div class="panel-tools">
-										<!-- <a class="search-hide"> <i
+								<!-- <a class="search-hide"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">筛选查询</span>
 										</a> -->
-									</div>
-									<i class="fa fa-indent text-danger"></i>&nbsp;基站故障记录登记表
+							</div>
+							<i class="fa fa-indent text-danger"></i>&nbsp;基站故障记录登记表
 						</div>
-						
+
 						<div class="panel-body">
-						<div class="top-search btn-group">
-		
-				<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#faultRecord">
-					<i class="fa fa-file-excel-o"></i>&nbsp;导出基站故障记录登记表
-				</button>
-			</div>
-							
+							<div class="top-search btn-group">
+
+								<button class="btn btn-danger btn-sm" data-toggle="modal"
+									data-target="#faultRecord">
+									<i class="fa fa-file-excel-o"></i>&nbsp;导出基站故障记录登记表
+								</button>
+							</div>
+
 							<table id="tb-info" class="xh-table table-hover"
 								style="table-layout:fixed">
 								<thead>
@@ -228,21 +333,18 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 											value="{{x.id}}" index="{{$index}}" /></td> -->
 										<td>{{x.bsId}}-{{x.name}}</td>
 										<td>{{x.level}}</td>
-										<td>
-										<span ng-if="x.tag==0">停用</span>
-										<span ng-if="x.tag==1">启用</span>
-										</td>
+										<td><span ng-if="x.tag==0">停用</span> <span
+											ng-if="x.tag==1">启用</span></td>
 										<td>{{x.weekly}}</td>
 										<td>{{x.time}}</td>
 										<td>{{x.hometype}}</td>
-										<td style="width:20px;text-align:center">
-										<a href="#" ng-click="editModel($index)"> 
-										<i class="fa fa-edit text-success"></i>&nbsp;编辑 
-										</a>
-										<a href="#" ng-click="showOrderWin($index)" ng-if="x.status==0"> 
-										<i class="fa fa-hand-stop-o text-success"></i>&nbsp;|派单
-										</a> 
-										</td>
+										<td style="width:20px;text-align:center"><a href="#"
+											ng-click="editModel($index)"> <i
+												class="fa fa-edit text-success"></i>&nbsp;编辑
+										</a> <a href="#" ng-click="showOrderWin($index)"
+											ng-if="x.status==0 && up.o_order=='on'"> <i
+												class="fa fa-hand-stop-o text-success"></i>&nbsp;|派单
+										</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -269,7 +371,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-	
+
 	<div class="modal fade" id="faultRecord" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog modal-sm">
@@ -294,7 +396,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 													onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 											</div>
 										</div>
-                                        <div class="col-md-12">
+										<div class="col-md-12">
 											<div class="form-group col-md-12">
 												<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span>
 												<input type="text" value="" class="form-control"
@@ -309,10 +411,11 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-danger btn-sm" type="button" id="btn-write" onclick="xh.excelToBsAlarm()">
-					<i class="fa fa-file-excel-o"></i>&nbsp;导出
-				</button>
-				</div> 
+					<button class="btn btn-danger btn-sm" type="button" id="btn-write"
+						onclick="xh.excelToBsAlarm()">
+						<i class="fa fa-file-excel-o"></i>&nbsp;导出
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -325,7 +428,8 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../Controllers/operations/bsFault.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsFault.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

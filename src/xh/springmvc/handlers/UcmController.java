@@ -48,6 +48,10 @@ public class UcmController {
 		int cou=FunUtil.StringToInt(request.getParameter("cou"));
 		int attached=FunUtil.StringToInt(request.getParameter("attached"));
 		String groupName=DgnaServices.groupNameById(groupId);
+		if(groupName==null){
+			groupName="";
+		}
+		log.info("groupname->"+groupName);
 		
 		String[] data=request.getParameter("data").split(",");
 		if(TcpKeepAliveClient.getSocket().isConnected()){
@@ -64,6 +68,9 @@ public class UcmController {
 			struct.setCou(cou);
 			struct.setOperation(operation);
 			struct.setStatus(0);
+			
+			log.info("struct->"+struct.toString());
+			
 			UcmService.sendDgna(struct);
 			this.message="数据已发送";
 			this.success=true;
