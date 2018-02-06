@@ -22,6 +22,7 @@ import cn.com.scca.signgw.api.SccaGwSDK;
 import xh.func.plugin.EncryptUtil;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.GlobalVarBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
@@ -43,13 +44,16 @@ public class LoginController {
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
-	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/web/login", method = RequestMethod.POST)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws Exception {
 		this.username = request.getParameter("username");
 		this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));
-
+		String codeVar=request.getParameter("code");
+		String codeSession=funUtil.getSession(request, "codeValidate");
+		
+		log.info("验证码：-》"+codeSession);
 		
 		String toSign = request.getParameter("ToSign");
 		
@@ -64,26 +68,30 @@ public class LoginController {
 		String ip = funUtil.readXml("ca", "ip");
 		int port = funUtil.StringToInt(funUtil.readXml("ca", "port"));
 		// 验证
-	/*	String projectId = "test";
-		String opType = "系统登陆";
+		/*String projectId = "yjyypt";
 		String reqId = "1";
 		SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
         String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
-		int startPos = rs.indexOf("code");
-		int endPos = 0 ;
-		String code = rs.substring(startPos + 6 ,startPos + 9);*/
-		/**/
-	/*	log.info("登陆签名验证返回数据如下:");
-		log.info(rs);*/
+		int startPos = rs.indexOf("code");*/
+		/*String code = rs.substring(startPos + 6 ,startPos + 9);*/
+		
 		String code="200";
+		
+		if(!codeVar.isEmpty()){
+			if(!codeVar.toLowerCase().equals(codeSession.toLowerCase())){
+				code="001";//验证码错误
+			}
+		}else{
+			code="002";
+		}
+		
+		
+		
+		/*Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
+		log.info("登陆签名验证返回数据如下:");
+		log.info("camap->"+camap);*/
+		
 		if ( code.equals("200") ) {
-			
-			/*startPos = rs.indexOf("subjectDN");
-			endPos = rs.length();
-			String certCN = rs.substring(startPos + 12 ,endPos - 3);
-			log.info("主题项信息为:"+certCN);*/
-			
-			
 			if (map!=null) {
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
@@ -105,14 +113,21 @@ public class LoginController {
 				this.message = "用户名或者密码错误!";
 
 			}
+		}else if(code.equals("001")){
+			this.message = "验证码输入错误请重新输入!";
+			this.success = false;
+		}else if(code.equals("002")){
+			this.message = "验证码不能为空";
+			this.success = false;
 		}else{
-			this.message = "证书登录验证失败";
-			this.success = true;
+			this.message = "证书登录验证失败!";
+			this.success = false;
 		}
 	
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
+		result.put("code", code);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 
