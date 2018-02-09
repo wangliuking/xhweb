@@ -225,7 +225,7 @@ to {
 		</div>
 		<div class="content animate-panel">
 
-			<div class="row" id="search-panel" ng-show="false">
+			<div class="row" id="search-panel" ng-show="true">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -236,13 +236,13 @@ to {
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label for="caller">操作用户</label>
+										<label for="caller">基站ID</label>
 										<div>
-											<input type="text" class="form-control" id="user"
-												placeholder="登录用户" width="20px">
+											<input type="text" class="form-control" id="bsId"
+												placeholder="基站ID" width="20px">
 										</div>
 									</div>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label for="called">日志类型</label>
 										<div>
 											<select id="type" class="form-control">
@@ -254,7 +254,7 @@ to {
 												<option value="4">其他操作</option>
 											</select>
 										</div>
-									</div>
+									</div> -->
 									<div class="form-group">
 										<label for="starttime">起始时间</label>
 										<div>
@@ -292,10 +292,10 @@ to {
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
 							<div class="panel-tools">
-								<!-- <a class="search-hide"> <i
+								<a class="search-hide"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">筛选查询</span>
-										</a> -->
+										</a>
 							</div>
 							<i class="fa fa-indent text-danger"></i>&nbsp;基站故障记录登记表
 						</div>

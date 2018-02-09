@@ -31,8 +31,11 @@ xh.load = function() {
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
+		var bsId=$("#bsId").val();
+		var starttime=$("#starttime").val();
+		var endtime=$("#endtime").val();
 		/*获取故障信息*/
-		$http.get("../../bsstatus/bsFaultList?start=0&limit="+pageSize).
+		$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -95,6 +98,9 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
 			var pageSize = $("#page-limit").val();
+			var bsId=$("#bsId").val();
+			var starttime=$("#starttime").val();
+			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -105,7 +111,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsstatus/bsFaultList?start="+start+"&limit="+limit).
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -116,6 +122,9 @@ xh.load = function() {
 		//分页点击
 		$scope.pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var bsId=$("#bsId").val();
+			var starttime=$("#starttime").val();
+			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -124,7 +133,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsstatus/bsFaultList?start="+start+"&limit="+limit).
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				
@@ -264,6 +273,7 @@ xh.order=function(){
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
 	var pageSize = $("#page-limit").val();
+	
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
 	var start = (currentPage - 1) * pageSize + 1;

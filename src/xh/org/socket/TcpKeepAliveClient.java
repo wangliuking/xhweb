@@ -108,7 +108,7 @@ public class TcpKeepAliveClient extends Thread {
 					int len = input.read(buf);
 					int recvLen = len;
 					
-					if(len > 0 && len + writeBuf.length >= 4) {
+					/*if(len > 0 && len + writeBuf.length >= 4) {
 						
 					
 					byte[] buf2=new byte[len];
@@ -130,10 +130,15 @@ public class TcpKeepAliveClient extends Thread {
 						log.info("====reconnection now!!====");
 					
 						connected = false;
-					}
+					}*/
+					byte[] buf2=new byte[len];
+					System.arraycopy(buf, 0, buf2, 0,len);
+					
+					log.info("收到的数据："+FunUtil.BytesToHexS(buf2));
+					log.info("收到的数据：len="+len);
 					
 					
-					/*if (len > 0 && len + writeBuf.length >= 4) {
+					if (len > 0 && len + writeBuf.length >= 4) {
 						readBuf = new byte[len + writeBuf.length];
 						System.arraycopy(writeBuf, 0, readBuf, 0,
 								writeBuf.length);
@@ -145,9 +150,9 @@ public class TcpKeepAliveClient extends Thread {
 						if (!packageHeader.equals("c4d7")) {
 							log.error("SocketError1111:>>!c4d7");
 							log.info(packageHeader);
-							 writeBuf=null; 
+							this.writeBuf=new byte[0];
 						} else {
-							int length = dd.BigByteArrayToShort(readBuf, 2);
+							int length = dd.BigByteArrayToShort(readBuf, 4);
 							if (length + 4 > len) {
 								byte[] temp = new byte[writeBuf.length];
 								System.arraycopy(writeBuf, 0, temp, 0,
@@ -159,25 +164,38 @@ public class TcpKeepAliveClient extends Thread {
 										recvLen);
 								// break;
 							} else if (length + 4 == len) {
-								int comId = dd.BigByteArrayToShort(readBuf, 4);
+								
+								
+								/*byte[] buf2=new byte[len];
+								System.arraycopy(buf, 0, buf2, 0,len);
+								System.arraycopy(buf2, 0, bufH, 0, 2);
+					            int dlength=dd.BigByteArrayToShort(buf2,4);*/
+								/*int dlength=dd.BigByteArrayToShort(readBuf,4);*/
+					            int commId=dd.BigByteArrayToShort(readBuf,6);
+					           /* int status=dd.SmallByteArrayToInt(buf, 20);*/
+								
+								
+								
+								/*int comId = dd.BigByteArrayToShort(readBuf, 4);
 								String callid = dd.ByteArraytoString(readBuf,
-										6, 8);
-								comID = comId;
+										6, 8);*/
+								comID = commId;
 
-								callId = dd.ByteArraytoString(readBuf, 6, 8);
-								handler(comId, length + 4, callid, readBuf, len);
+								/*callId = dd.ByteArraytoString(readBuf, 6, 8);*/
+								handler(commId, length + 4,readBuf, len);
 							} else if (len > length + 4) {
 
 								for (int i = 0; i <= len;) {
 
 									System.arraycopy(readBuf, i, realBuf, 0,
 											len - i);
-									length = dd.BigByteArrayToShort(realBuf, 2);
+									length = dd.BigByteArrayToShort(realBuf, 4);
 									dataLen = length + 4;
 									System.arraycopy(realBuf, 0, bufH, 0, 2);
 									packageHeader = HexString(bufH);
 									if (!packageHeader.equals("c4d7")) {
 										log.error("SocketError2:>>!c4d7");
+										this.writeBuf=new byte[0];
 									}
 									if (dataLen > len - i) {
 										writeBuf = new byte[len - i];
@@ -185,7 +203,7 @@ public class TcpKeepAliveClient extends Thread {
 												0, len - i);
 										break;
 									} else {
-										int comId = dd.BigByteArrayToShort(
+										/*int comId = dd.BigByteArrayToShort(
 												realBuf, 4);
 										String callid = dd.ByteArraytoString(
 												realBuf, 6, 8);
@@ -194,11 +212,12 @@ public class TcpKeepAliveClient extends Thread {
 										comID = comId;
 
 										callId = dd.ByteArraytoString(realBuf,
-												6, 8);
-										handler(comId, dataLen, callid,
-												realBuf, len);
+												6, 8);*/
+										
+							            int commId=dd.BigByteArrayToShort(readBuf,6);
+										handler(commId, dataLen,realBuf, len);
 										i += length + 4;
-										writeBuf = null;
+										writeBuf=null;
 									}
 
 								}
@@ -212,9 +231,7 @@ public class TcpKeepAliveClient extends Thread {
 					
 						connected = false;
 					}
-				}*/
 				}
-
 			} catch (SocketException e) {
 				log.info("TCP connection trying");
 				if (socket.isConnected() || socket != null) {
@@ -250,38 +267,63 @@ public class TcpKeepAliveClient extends Thread {
 
 	}
 
-	public void handler(int comId,byte[] buf) throws Exception {
+	public void handler(int comId,int len,byte[] buf,int length) throws Exception {
+		
+		
+		
+		
+		log.info("======================"+comId+"=============================");
+		log.info("DS<-ETRA:comId="+comId+";len="+len+";length="+length);
+		log.info("DS<-ETRA:"+FunUtil.BytesToHexS(buf));
+		log.info("======================/"+comId+"=============================");
+		
+		
 
 		try {
 			switch (comId) {
 			case 154://终端
+				
+				log.info("终端");
 			    break;
 			case 156://终端用户业务属性
+				log.info("终端用户业务属性");
 				break;
 			case 160://通话组
+				log.info("通话组");
 				break;
 			case 162://通播组
+				log.info("通播组");
 				break;
 			case 164://通话组、通播组业务属性
+				log.info("通话组、通播组业务属性");
 				break;
 			case 166://状态集
+				log.info("状态集");
 				break;
 			case 168://调度用户
+				log.info("调度用户");
 				break;
 			case 170://调度用户业务属性
+				log.info("调度用户业务属性");
 				break;
 			case 172://状态集单元
+				log.info("状态集单元");
 				break;
 			case 174://遥毙
+				log.info("遥毙");
 				break;
 			case 178://终端用户业务属性有效站点
+				log.info("终端用户业务属性有效站点");
 				break;
 				
 			case 180://终端用户有效地域
+				log.info("终端用户有效地域");
 				break;
 			case 182://通话组业务属性有效站点
+				log.info("通话组业务属性有效站点");
 				break;
 			case 184://通话组有效地域
+				log.info("通话组有效地域");
 				break;
 							
 			default:

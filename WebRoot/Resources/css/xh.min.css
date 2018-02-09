@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 /*字体图标样式文件*/
-@import "../../lib/font-awesome-4.6.3/css/font-awesome.min.css";
+@import "../../lib/font-awesome-4.7.0/css/font-awesome.min.css";
 /* 动画 */
 @import "animate.css";
 /* 菜单 */
@@ -492,6 +492,11 @@ ul li {
 }
 
 /* badge */
+.badge{
+  border-radius:2px;
+	
+}
+
 .badge-header {
 	position: absolute;
 	font-size: .75em;
@@ -500,7 +505,7 @@ ul li {
 	margin-top: -1.6em;
 	min-width: 0.9em;
 	min-height: 0.9em;
-	padding: 2px 2px;
+	padding: 4px;
 	right: 0px
 }
 /* Badge colors */

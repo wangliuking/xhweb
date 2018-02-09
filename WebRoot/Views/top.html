@@ -8,7 +8,10 @@
 			<li style="margin-top:10px;color:#fff;cursor: pointer;"
 				class="menu-hide"><a href="#" ng-click="hideMenu()"
 				data-toggle='tooltip' title="隐藏左侧菜单" data-placement="top"> <i
-					class="fa fa-bars fa-2x text-white"></i></a></li>
+					class="fa fa-arrow-circle-left fa-2x text-white"></i></a></li>
+			<li>
+              
+			
 		</ul>
 	</div>
 	<nav role="navigation">
@@ -45,7 +48,7 @@
 				<li class="dropdown" style="padding: 10px 8px 1px 15px;"><a
 					class="dropdown-toggle" href="#" data-toggle="dropdown" title="基站断站告警"> <i
 						class="fa fa-bell-o fa-x font-white" style="font-size:11pt"></i> <span
-						class="badge badge-header badge-warning" id="alarmcount">{{totals}}</span>
+						class="badge badge-header badge-danger" id="alarmcount">{{totals}}</span>
 				</a> <!-- animated flipInX -->
 
 					<div class="dropdown-menu hdropdown">
@@ -122,9 +125,11 @@
 				</a></li>
 				<li class="member-center">
 					<div class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> <img
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown"> 
+						<!-- <img
 							src="Resources/images/img/profile.jpg"
-							class="img-circle phote-img" alt="logo"> <!-- <i class=" fa fa-user fa-x"></i><small class="text-white">个人中心 <b class="caret"></b></small> -->
+							class="img-circle phote-img" alt="logo"> --> 
+							<i class="fa fa-user-circle-o fa-3x" style="color:#00BFFF"></i><!-- <small class="text-white">账号控制<b class="caret"></b></small> --> 
 						</a>
 						<ul class="dropdown-menu animated flipInX m-t-xs border-top-white">
 							<li style="color:red;margin-bottom:20px;"><span>欢迎你!</span>&nbsp;&nbsp;<span

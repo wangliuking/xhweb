@@ -94,9 +94,15 @@ public class BsStatusController {
 		this.success=true;
 		int start=FunUtil.StringToInt(request.getParameter("start"));
 		int limit=FunUtil.StringToInt(request.getParameter("limit"));
+		String bsId=request.getParameter("bsId");
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("bsId", bsId);
+		map.put("starttime", starttime);
+		map.put("endtime",endtime);
 		
 		HashMap result = new HashMap();
 		result.put("success", success);

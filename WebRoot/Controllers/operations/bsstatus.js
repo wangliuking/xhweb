@@ -57,6 +57,7 @@ xh.load = function() {
 		var link=$("select[name='link']").val();
 		var status=$("select[name='status']").val();
 		var usergroup=$("input[name='usergroup']").val();
+		var bsId=$("input[name='bsId']").val();
 		$http.get("../../bs/map/area").success(
 				function(response) {
 					$scope.zoneData = response.items;
@@ -64,7 +65,7 @@ xh.load = function() {
 		/*获取信息*/
 	
 		
-		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsIds="+$scope.bsIds).
+		$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsId="+bsId).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -146,6 +147,7 @@ xh.load = function() {
 			var status=$("select[name='status']").val();
 			var pageSize = $("#page-limit").val();
 			var usergroup=$("input[name='usergroup']").val();
+			var bsId=$("input[name='bsId']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -156,7 +158,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			/*xh.maskShow();*/
-			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsIds="+$scope.bsIds).
+			$http.get("../../bs/allBsInfo?type="+type+"&zone="+zone+"&link="+link+"&status="+status+"&usergroup="+usergroup+"&bsId="+bsId).
 			success(function(response){
 				/*xh.maskHide();*/
 				$scope.data = response.items;
