@@ -33,6 +33,18 @@ xh.load = function() {
 	});
 	app.controller("index", function($scope, $http) {
 		$scope.totals=0;
+		$scope.mshow=0;
+		if(xh.getcookie("skin")!=null){
+			$('body').attr('id', xh.getcookie("skin"));
+		}else{
+			$('body').attr('id', "skin-blur-kiwi");
+		}
+		
+		$(".side-menu a").live('click',function(){
+			$scope.mshow=$(this).attr("value");
+		})
+		
+		
 		
 		$http.get("web/webMenu").success(function(response) {
 			$scope.menu=response.items;
@@ -128,6 +140,7 @@ xh.load = function() {
 			$scope.alarmInfo();
 			
 			}, 10000); //每隔 10 秒 
+		
 
 		
 		

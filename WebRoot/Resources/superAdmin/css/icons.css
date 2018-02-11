@@ -47,6 +47,7 @@
 }
 .sa-top-message { background-image: url(../img/icon/message.png); }
 .sa-top-updates { background-image: url(../img/icon/updates.png); }
+.sa-top-home { background-image: url(../img/icon/home.png); }
 
 /* Editor */
 [class*="editor-"] {

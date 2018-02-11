@@ -59,7 +59,7 @@
     outline: none !important;
 }
 
-html {
+/* html {
     overflow-x: hidden\0/;
     -ms-overflow-style: scrollbar;
 }
@@ -71,6 +71,25 @@ html, body {
 body {
     font-family: 'open-sans-light', sans-serif;
     font-size: 12px;
+} */
+html,body {
+	min-width: 300px;
+	/* -ms-overflow-style: scrollbar, */
+	margin:0;
+	padding:0;
+	overflow: hidden;
+}
+
+body {
+	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial,
+		sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-variant: normal;
+	/* color: #758697; */
+	color:#000;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased !important
 }
 
 .ie9 #sidebar {
@@ -283,7 +302,8 @@ blockquote small {
 
 /* Top Menu */
 #top-menu .tm-icon {
-    margin: 0; 
+    margin: 0 20px 0 0;
+     
 }
 
 #top-menu .tm-icon > a {
@@ -390,10 +410,10 @@ blockquote small {
     font-size: 11px;
     position: absolute;
     text-align: center;
-    padding: 2px 3px 3px;
+    padding: 4px;
     border-radius: 2px !important;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.06);
-    margin: 7px 0 0 -13px;
+    margin: 4px 0 0 -8px;
     font-style: normal;
     line-height: 100%;
     -webkit-animation-name: bounceIn;
@@ -475,7 +495,7 @@ ul.menu-item a.active {
 }
 
 .side-widgets {
-    width: 188px;
+    width: 233px;
     float: left;
     position: relative;
 }
@@ -570,10 +590,10 @@ hr {
 
 /* Profile */
 .profile-pic {
-    width: 120px;
+    width: 70px;
     margin: 9px 0 4px;
     border-radius: 100px !important;
-    border: 6px solid rgba(0,0,0,0.2);
+    border: 3px solid rgba(0,0,0,0.2);
 }
 
 .cover img {
@@ -1175,6 +1195,9 @@ hr {
 
 .profile-menu > li {
     position: relative;
+}
+.profile-menu > li > a > span {
+    margin-left:10px;
 }
 
 .profile-menu > li > a {
@@ -1922,7 +1945,7 @@ a.list-group-item.active > .badge,
     
     .profile-menu > li i {
         position: absolute;
-        top: 8px;
+        top: 10px;
         color: #fff;
     }
     

@@ -18,13 +18,13 @@
 }
 
 #mainframe {
-	margin: 0 0 0 190px;
+	margin: 0 0 0 233px;
 	padding: 0;
 	position: fixed;
 	/* width:100%; */
-	width:calc(100% - 190px);
-	height: calc(100% - 80px);
-	top:56px;
+	width:calc(100% - 233px);
+	height: calc(100% - 85px);
+	top:50px;
 	right:0;
 	overflow-y: auto;
 }
@@ -92,7 +92,7 @@
 	
 }
 /* 网页头部 #428bca*/
-#header{
+#header1{
 	/* background-image: url("../images/img/main2.jpg")!important;
 	background-position:center; */
 	background-color: #1874CD;
@@ -404,19 +404,21 @@ text-decoration:none;
 	top: 1px;
 	left: 0;
 	right: 0;
+	
 	margin-left: 1px;
 	z-index: 100;
 }
 /* 网页底部布局 */
 .footer {
 	padding: 10px 18px;
-	background: #ffffff;
-	border-top: 1px solid #e4e5e7;
+	background: transparent;
+	/* border-top: 1px solid #e4e5e7; */
 	transition: all 0.4s ease 0s;
 	position: absolute;
 	bottom: 0;
-	left: 190px;
+	left: 233px;
 	right: 0;
+	color:#fff;
 	text-align: center;
 }
 /* 网页标题导航 */
@@ -461,8 +463,21 @@ text-decoration:none;
 	position: fixed;
 	overflow-x: hidden;
 	overflow-y: auto;
-	width: 190px;
-	top: 57px;
+	width: 233px;
+	top: 50px;
+}
+.fixed-sidebar .side-menu {
+	position: fixed;
+	/* overflow-x: hidden;
+	overflow-y: auto;
+	width: 30px; */
+	top: 50px;
+}
+.fixed-sidebar .side-widgets {
+	position: fixed;
+	/* overflow-x: hidden;
+	overflow-y: auto; */
+	top: 50px;
 }
 
 .fixed-small-header .small-header {

@@ -11,7 +11,7 @@ $(document).ready(function(){
 			    '<div class="modal-content">' +
 				'<div class="modal-header">' +
 				    '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-				    '<h4 class="modal-title">Change Template Skin</h4>' +
+				    '<h4 class="modal-title">选择背景图片</h4>' +
 				'</div>' +
 				'<div class="modal-body">' +
 				    '<div class="row template-skins">' +
@@ -39,9 +39,9 @@ $(document).ready(function(){
 					'<a data-skin="skin-cloth" class="col-sm-2 col-xs-4" href="">' +
 					    '<img src="Resources/superAdmin/img/skin-cloth.jpg" alt="">' +
 					'</a>' +
-					'<a data-skin="skin-tectile" class="col-sm-2 col-xs-4" href="">' +
+					/*'<a data-skin="skin-tectile" class="col-sm-2 col-xs-4" href="">' +
 					    '<img src="Resources/superAdmin/img/skin-tectile.jpg" alt="">' +
-					'</a>' +
+					'</a>' +*/
 					'<a data-skin="skin-blur-chrome" class="col-sm-2 col-xs-4" href="">' +
 					    '<img src="Resources/superAdmin/img/skin-chrome.jpg" alt="">' +
 					'</a>' +
@@ -68,6 +68,7 @@ $(document).ready(function(){
 	e.preventDefault();
 	var skin = $(this).data('skin');
 	$('body').attr('id', skin);
+	setcookie("skin",skin)
 	$('#changeSkin').modal('hide');
     });
     
@@ -132,6 +133,11 @@ $(document).ready(function(){
             e.preventDefault();
             $('html').toggleClass('menu-active');
             $('#sidebar').toggleClass('toggled');
+    		/*if ($(window).width() < 769) {
+    			$("body").toggleClass("show-sidebar");
+    		} else {
+    			$("body").toggleClass("hide-sidebar");
+    		}*/
             //$('#content').toggleClass('m-0');
         });
          
@@ -651,5 +657,27 @@ Date Time Widget
         $("#hours").html(( hours < 10 ? "0" : "" ) + hours);
     }, 1000);
 })();
+
+/* 获取cookie */
+  function getcookie(name) {
+	var strcookie = document.cookie;
+	var arrcookie = strcookie.split(";");
+	for (var i = 0; i < arrcookie.length; i++) {
+		var arr = arrcookie[i].split("=");
+		if (arr[0].match(name) == name)
+			return arr[1];
+	}
+	return "";
+};
+/* 设置cookie */
+  function setcookie(name,value) {
+	//获取当前时间
+	var date=new Date();
+	var expiresDays=10;
+	//将date设置为10天以后的时间
+	date.setTime(date.getTime()+expiresDays*24*3600*1000);
+	//将userId和userName两个cookie设置为10天后过期
+	document.cookie=name+"="+value+"; expires="+date.toGMTString();
+};
 
 
