@@ -11,7 +11,7 @@ toastr.options = {
 	"showDuration" : "300",
 	"hideDuration" : "1000",
 	/* 消失时间 */
-	"timeOut" : "1000",
+	"timeOut" : "3000",
 	"extendedTimeOut" : "2000",
 	"showMethod" : "fadeIn",
 	"hideMethod" : "fadeOut",
@@ -19,22 +19,23 @@ toastr.options = {
 };
 /* 登录系统 */
 xh.login = function() {
-	$("#login-btn").toggleClass("disabled");
+	
 	$.ajax({
 		url : '../web/login',
-		type : 'GET',
+		type : 'POST',
 		dataType : "json",
 		data : {
 			username : $("#loginForm").find("input[name='username']").val(),
-			password : xh.encrypt($("#loginForm").find("input[name='password']").val())/*,
+			password : xh.encrypt($("#loginForm").find("input[name='password']").val()),
+			code:$("#loginForm").find("input[name='code']").val(),
 			ToSign : $("#loginForm").find("input[name='ToSign']").val(),
-			Signature : $("#loginForm").find("input[name='Signature']").val()*/
+			Signature : $("#loginForm").find("input[name='Signature']").val()
 		},
 		/* data : $("#loginForm").serializeArray(), */
 		async : false,
 		success : function(data) {
 			/* $("#login-btn").button("reset"); */
-			$("#login-btn").toggleClass("disabled");
+			/*$("#login-btn").toggleClass("disabled");*/
 			if (data.success) {
 				window.location.href = "../index.html";
 			} else {
@@ -44,7 +45,7 @@ xh.login = function() {
 		error : function() {
 			toastr.error("登录超时", '提示');
 			$("#login-btn").button("reset");
-			$("#login-btn").toggleClass("disabled");
+			/*$("#login-btn").toggleClass("disabled");*/
 
 		}
 	});

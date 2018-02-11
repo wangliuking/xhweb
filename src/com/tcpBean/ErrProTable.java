@@ -32,6 +32,7 @@ public class ErrProTable {
 	private int id;
 	private String serialnumber;
 	private String userid;
+	private String orderAccount;
 	private String bsid;
 	private String bsname;
 	private String dispatchtime;
@@ -162,6 +163,13 @@ public class ErrProTable {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getOrderAccount() {
+		return orderAccount;
+	}
+	public void setOrderAccount(String orderAccount) {
+		this.orderAccount = orderAccount;
 	}
 	@Override
 	public String toString() {

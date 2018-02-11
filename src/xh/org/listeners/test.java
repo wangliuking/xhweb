@@ -9,56 +9,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import xh.func.plugin.FunUtil;
 
 public class test {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		/*SimpleDateFormat timeF = new SimpleDateFormat("mm");
-		timeF.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-		String time = timeF.format(new Date());*/
-		
-	/*	String[] s = new String[] { "1", "2", "3", "4", "5", "6",
-				"7", "8", "9","0", "A", "B", "C", "D", "E", "F", "G", "H", "I",
-				"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-				"V", "W", "X", "Y", "Z","a","b","c","d","e","f","g","h","i","j"
-				,"k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};*/
-		
-		/*SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String a="2017-01-02 12:12:12.0";
-		
-		try {
-			System.out.println(f.format(f.parse(a)));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		Date d=null;
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String time=f.format(new Date(System.currentTimeMillis()-(24*60*60*1000*10)));
-		
-		//过去三个月
-		Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.MONTH, -3);
-        Date m3 = c.getTime();
-        String mon3 = f.format(m3);
-		
-		
-		
-		System.out.println("系统时间--->"+mon3);
-		
-		/*for(int i=0;i<50;i++){
-			System.out.println(RandomWord(8));
-		}*/
-		
-		
-		
-	}
+	
+	 public static void main(String[] args) {   
+         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
+                 new ArrayBlockingQueue<Runnable>(5));
+ 
+         for(int i=0;i<150;i++){
+             MyTask myTask = new MyTask(i);
+             executor.execute(myTask);
+             System.out.println("线程池中线程数目："+executor.getPoolSize()+"，队列中等待执行的任务数目："+
+             executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
+         }
+         executor.shutdown();
+     }
 	
 	public static String RandomWord(int num) {
 		String[] beforeShuffle = new String[] { "1", "2", "3", "4", "5", "6",
@@ -114,4 +86,22 @@ public class test {
 	}
 	
 
+}
+class MyTask implements Runnable {
+    private int taskNum;
+ 
+    public MyTask(int num) {
+        this.taskNum = num;
+    }
+ 
+    @Override
+    public void run() {
+        System.out.println("正在执行task "+taskNum);
+        try {
+            Thread.currentThread().sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("task "+taskNum+"执行完毕");
+    }
 }

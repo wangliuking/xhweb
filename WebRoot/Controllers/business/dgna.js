@@ -56,7 +56,7 @@ xh.load = function() {
 		$scope.addOneUser=function(){
 			var userId=$("#userId").val();
 			var groupId=$("#groupId").val();
-			var record={userId:'',groupId:'',status:0};
+			var record={userId:'',groupId:'',status:"等待发送"};
 			
 			if(userId==""){
 				toastr.error("用户ID不能为空", '提示');
@@ -97,7 +97,7 @@ xh.load = function() {
 				return;
 			}
 			for(var i=0;i<=user2-user1;i++){
-				var record={userId:'',groupId:groupId,status:0};
+				var record={userId:'',groupId:groupId,status:"等待发送"};
 				record.userId=user1+i;	
 				var flag=0;
 				for(var j=0;j<$scope.data.length;j++){
@@ -122,6 +122,9 @@ xh.load = function() {
 			$scope.totals=$scope.data.length;
 			
 		};
+		$scope.refreshData=function(id,str){
+			$scope.data[id].status=str;
+		}
 		/* 清空用户 */
 		$scope.clear = function() {
 			$scope.data.splice(0,$scope.data.length);
@@ -138,33 +141,40 @@ xh.load = function() {
 			}
 			$.each($scope.data,function(i,record){
 				data.push(record.userId);
-			});
-			$.ajax({
-				url : '../../ucm/dgna',
-				type : 'POST',
-				dataType : "json",
-				traditional :true,  //注意这个参数是必须的
-				async : true,
-				data:{
-					operation:opreation,
-					groupId:$("#groupId").val(),
-					cou:cou,
-					attached:attached,
-					data:data.join(",")
-				},
-				success : function(data) {
+				$.ajax({
+					url : '../../ucm/dgna',
+					type : 'POST',
+					dataType : "json",
+					traditional :true,  //注意这个参数是必须的
+					async : false,
+					data:{
+						operation:opreation,
+						groupId:$("#groupId").val(),
+						cou:cou,
+						attached:attached,
+						data:data.join(",")
+					},
+					success : function(data) {
 
-					if (data.success) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
+						if (data.success) {
+							toastr.success(data.message, '提示');
+							$scope.refreshData(i,"已发送")
+							
+							
+						} else {
+							toastr.error(data.message, '提示');
+						}
+					},
+					error : function() {
 					}
-				},
-				error : function() {
-				}
+				});
 			});
-		};
-		
+			
+			
+			
+			
+			
+		};	
 		
 	});
 };

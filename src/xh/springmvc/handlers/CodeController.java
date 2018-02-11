@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CodeController {
 
 	private int width = 90;// 验证码宽度
-	private int height = 30;// 验证码高度
+	private int height = 35;// 验证码高度
 	private int codeCount = 4;// 验证码个数
 	private int lineCount = 19;// 混淆线个数
 	
@@ -55,8 +55,9 @@ public class CodeController {
 		// 得到画笔
 		Graphics g = buffImg.getGraphics();
 		// 1.设置颜色,画边框 1149031036 
-		g.setColor(Color.GRAY);
-		g.fillRect(0, 0, width, height);
+		/*g.setColor(Color.GRAY);
+		g.fillRect(0, 0, width, height);*/
+		
 		//g.drawRect(0, 0, width, height);
 		// 2.设置颜色,填充内部
 		
@@ -80,8 +81,15 @@ public class CodeController {
         }  
 		// 4.设置验证码
 		g.setColor(Color.blue);
+		
+		/* // 创建字体，字体的大小应该根据图片的高度来定。
+	    Font font = new Font("Fixedsys", Font.BOLD, height);
+		// 设置字体。
+		g.setFont(font);
+		*/
+		
 		// 4.1设置验证码字体
-		g.setFont(new Font("宋体", Font.BOLD | Font.ITALIC, 18));
+		g.setFont(new Font("Fixedsys", Font.BOLD | Font.ITALIC, 18));
 		for (int i = 0; i < codeCount; i++) {
 			char c = codeSequence[r.nextInt(codeSequence.length)];
 			builderCode.append(c);

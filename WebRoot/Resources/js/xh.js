@@ -105,7 +105,10 @@ $(document).ready(function() {
 	 */
 
 	// Initialize animate panel function
-	$('.animate-panel').animatePanel();
+	
+	/*if($('div').has(".animate-panel")){
+		$('.animate-panel').animatePanel();
+	}*/
 
 	// Function for collapse hpanel
 	$('.showhide').on('click', function(event) {
@@ -174,8 +177,8 @@ $(document).ready(function() {
 	 *  } });
 	 */
 	// tooltip
-	$("[data-toggle='tooltip']").tooltip();
-	$("[data-toggle='popover']").popover();
+	/*$("[data-toggle='tooltip']").tooltip();
+	$("[data-toggle='popover']").popover();*/
 });
 
 function fixWrapperHeight() {
@@ -412,6 +415,16 @@ xh.getcookie = function(name) {
 			return arr[1];
 	}
 	return "";
+};
+/* 设置cookie */
+xh.setcookie = function(name,value) {
+	//获取当前时间
+	var date=new Date();
+	var expiresDays=10;
+	//将date设置为10天以后的时间
+	date.setTime(date.getTime()+expiresDays*24*3600*1000);
+	//将userId和userName两个cookie设置为10天后过期
+	document.cookie=name+"="+value+"; expires="+date.toGMTString();
 };
 /*utf-8编码*/
 xh.encodeUTF8 = function(str) {

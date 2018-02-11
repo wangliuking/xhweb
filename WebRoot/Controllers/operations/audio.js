@@ -6,6 +6,7 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	var caller = $("#caller").val();
 	var called = $("#called").val();
+	var bsId=$("#Call_TS_Id").val();
 	var pageSize = $("#page-limit").val();
 	$("#starttime").val(xh.getDay());
 	$("#endtime").val(xh.getOneDay());
@@ -14,7 +15,7 @@ xh.load = function() {
 		$scope.count = "20";// 每页数据显示默认值
 		
 		$http.get(
-				"../../call/list?caller=" + caller + "&called=" + called + ""
+				"../../call/list?bsId="+bsId+"&caller=" + caller + "&called=" + called + ""
 						+ "&starttime="+xh.getDay()+"&endtime=" + xh.getOneDay()
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
@@ -109,6 +110,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var caller = $("#caller").val();
 			var called = $("#called").val();
+			var bsId=$("#Call_TS_Id").val();
 			var starttime = $("#starttime").val();
 			var endtime = $("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -122,7 +124,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../call/list?caller=" + caller + "&called=" + called + ""
+					"../../call/list?bsId="+bsId+"&caller=" + caller + "&called=" + called + ""
 					+ "&starttime="+starttime+"&endtime=" + endtime
 					+ "&start=0&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
@@ -137,6 +139,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var caller = $("#caller").val();
 			var called = $("#called").val();
+			var bsId=$("#Call_TS_Id").val();
 			var starttime = $("#starttime").val();
 			var endtime = $("#endtime").val();
 			var start = 1, limit = pageSize;
@@ -148,7 +151,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../call/list?caller=" + caller + "&called=" + called
+					"../../call/list?bsId"+bsId+"&caller=" + caller + "&called=" + called
 							+ "" + "&starttime=" + starttime + "&endtime="
 							+ endtime + "&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
@@ -178,6 +181,7 @@ xh.search = function(page) {
 	var pageSize = $("#page-limit").val();
 	var caller = $("#caller").val();
 	var called = $("#called").val();
+	var bsId=$("#Call_TS_Id").val();
 	var starttime = $("#starttime").val();
 	var endtime = $("#endtime").val();
 	var start = 1, limit = pageSize;
@@ -193,6 +197,7 @@ xh.search = function(page) {
 	$.ajax({
 		url : '../../call/list',
 		data : {
+			bsId:bsId,
 			caller : caller,
 			called : called,
 			starttime : starttime,

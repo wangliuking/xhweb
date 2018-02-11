@@ -20,7 +20,6 @@ public class SendData {
 	/*private static MessageStruct header = new MessageStruct();*/
 
 	public static void DGNA(MessageStruct header,addDgnaStruct bean) throws IOException {
-		MessageStruct m_header = new MessageStruct();
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
 		/* connection(); */

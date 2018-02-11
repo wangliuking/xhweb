@@ -9,8 +9,10 @@
 		select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller, Called,
 		Call_Type,
 		Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result, Call_Path
-		from ${dbname1} where
-		1=1
+		from ${dbname1} where 1=1
+		<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
 		<if test="caller != null and caller !=''">
 			and Caller like concat(#{Caller},'%')
 		</if>
@@ -32,6 +34,9 @@
 			Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result,
 			Call_Path from ${dbname2} where
 			1=1
+			<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
 			<if test="caller != null and caller !=''">
 				and Caller like concat(#{Caller},'%')
 			</if>
@@ -56,6 +61,9 @@
 
 		select sum(num) from(
 		select count(*) as num from ${dbname1} where 1=1
+		<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
 		<if test="caller != null and caller !=''">
 			and Caller like concat(#{Caller},'%')
 		</if>
@@ -78,6 +86,9 @@
 		<if test="dbname2!=''">
 			union all
 			select count(*) as num from ${dbname1} where 1=1
+			<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
 			<if test="caller != null and caller !=''">
 				and Caller like concat(#{Caller},'%')
 			</if>

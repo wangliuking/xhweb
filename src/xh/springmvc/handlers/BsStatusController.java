@@ -94,9 +94,15 @@ public class BsStatusController {
 		this.success=true;
 		int start=FunUtil.StringToInt(request.getParameter("start"));
 		int limit=FunUtil.StringToInt(request.getParameter("limit"));
+		String bsId=request.getParameter("bsId");
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("bsId", bsId);
+		map.put("starttime", starttime);
+		map.put("endtime",endtime);
 		
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -480,7 +486,7 @@ public class BsStatusController {
 				Label value_1 = new Label(0, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
 				Label value_2 = new Label(1, i + 2, bean.getName(),fontFormat_Content);
 				Label value_3 = new Label(2, i + 2, bean.getLevel(),fontFormat_Content);
-				Label value_4 = new Label(3, i + 2, bean.getStatus()==1?"在用":"未使用",fontFormat_Content);		
+				Label value_4 = new Label(3, i + 2, bean.getTag()==1?"在用":"未使用",fontFormat_Content);		
 				Label value_5 = new Label(4, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
 				Label value_6 = new Label(5, i + 2,bean.getTime() ,fontFormat_Content);
 				Label value_7 = new Label(6, i + 2,bean.getFrom(),fontFormat_Content);

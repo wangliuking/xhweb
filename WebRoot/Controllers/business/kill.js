@@ -39,7 +39,7 @@ xh.load = function() {
 		//添加一个用户
 		$scope.addOneUser=function(){
 			var userId=$("#userId").val();
-			var record={userId:'',status:0};
+			var record={userId:'',status:"等待发送"};
 			
 			if(userId==""){
 				toastr.error("用户ID不能为空", '提示');
@@ -68,7 +68,7 @@ xh.load = function() {
 				return;
 			}
 			for(var i=0;i<=user2-user1;i++){
-				var record={userId:'',status:0};
+				var record={userId:'',status:"等待发送"};
 				record.userId=user1+i;	
 				var flag=0;
 				for(var j=0;j<$scope.data.length;j++){
@@ -105,9 +105,6 @@ xh.load = function() {
 				toastr.error("还没有操作数据", '提示');
 				return;
 			}
-			$.each($scope.data,function(i,record){
-				data.push(record.userId);
-			});
 			swal({
 				title : "提示",
 				text : "确定要遥启下列手台吗？",
@@ -118,26 +115,32 @@ xh.load = function() {
 				cancelButtonText : "取消"
 			}, function(isConfirm) {
 			if (isConfirm) {
-			$.ajax({
-				url : '../../ucm/radioOpen',
-				type : 'POST',
-				dataType : "json",
-				traditional :true,  //注意这个参数是必须的
-				async : true,
-				data:{
-					data:data.join(",")
-				},
-				success : function(data) {
+				$.each($scope.data,function(i,record){
+					data.push(record.userId);
+					$.ajax({
+						url : '../../ucm/radioOpen',
+						type : 'POST',
+						dataType : "json",
+						traditional :true,  //注意这个参数是必须的
+						async : false,
+						data:{
+							data:data.join(",")
+						},
+						success : function(data) {
 
-					if (data.success) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
-				}
-			});
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.data[i].status="发送成功";
+							} else {
+								toastr.error(data.message, '提示');
+								$scope.data[i].status="发送失败";
+							}
+						},
+						error : function() {
+						}
+					});
+				});
+			
 			}});
 		};
 		//遥毙
@@ -152,7 +155,7 @@ xh.load = function() {
 			});
 			swal({
 				title : "提示",
-				text : "确定要遥启下列手台吗？",
+				text : "确定要遥晕下列手台吗？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",
@@ -171,7 +174,7 @@ xh.load = function() {
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
+					if (data.success) {
 						toastr.success(data.message, '提示');
 					} else {
 						toastr.error(data.message, '提示');

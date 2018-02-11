@@ -113,10 +113,10 @@ xh.org.listeners.TcpServerListenner
 
 
 <!--emh TCP长连接 -->
- <!-- <listener>
-  <description>emh socket 长连接 </description>
+<listener>
+  <description> socket 长连接 </description>
   <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
-</listener>  -->
+</listener> 
 <!--emh TCP长连接end -->
 
 <!-- ping调度台线程 -->

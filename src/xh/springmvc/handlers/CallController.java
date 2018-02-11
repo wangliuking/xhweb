@@ -38,6 +38,7 @@ public class CallController {
 		this.success=true;
 		String caller=request.getParameter("caller");
 		String called=request.getParameter("called");
+		String bsId=request.getParameter("bsId");
 		String starttime=request.getParameter("starttime");
 		String endtime=request.getParameter("endtime");
 		int start=funUtil.StringToInt(request.getParameter("start"));
@@ -58,6 +59,7 @@ public class CallController {
 		}
 		map.put("caller", caller);
 		map.put("called", called);
+		map.put("bsId", bsId);
 		map.put("starttime", starttime);
 		map.put("endtime", endtime);
 		map.put("start", start);

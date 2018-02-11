@@ -20,6 +20,7 @@ public class UserPowerBean {
 	private String o_check_fault="off"; //'运维管理-故障处理审核',
 	private String o_check_duty="off"; //'运维管理-运维值班文件审核',
 	private String o_check_inspection="off"; //'运维管理-运维巡检文件审核',
+	private String o_order="off"; //'运维管理-运维派单',
 	
 	
 	/*平台管理权限*/
@@ -216,6 +217,13 @@ public class UserPowerBean {
 	}
 	public void setO_check_inspection(String o_check_inspection) {
 		this.o_check_inspection = o_check_inspection;
+	}
+	
+	public String getO_order() {
+		return o_order;
+	}
+	public void setO_order(String o_order) {
+		this.o_order = o_order;
 	}
 	@Override
 	public String toString() {

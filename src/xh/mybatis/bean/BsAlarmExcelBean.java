@@ -5,7 +5,7 @@ public class BsAlarmExcelBean {
 	private String bsId;//基站编号
 	private String name;//基站名称
 	private String level;//基站分级
-	private int status;//使用状态
+	private int tag;//使用状态
 	private String weekly;//星期
 	private String time;//故障发生时间
 	private String from="网管";//报障来源
@@ -49,12 +49,6 @@ public class BsAlarmExcelBean {
 	}
 	public void setLevel(String level) {
 		this.level = level;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
 	}
 	public String getWeekly() {
 		return weekly;
@@ -148,19 +142,25 @@ public class BsAlarmExcelBean {
 	public void setFaultRecoveryTime(String faultRecoveryTime) {
 		this.faultRecoveryTime = faultRecoveryTime;
 	}
+	
+	public int getTag() {
+		return tag;
+	}
+	public void setTag(int tag) {
+		this.tag = tag;
+	}
 	@Override
 	public String toString() {
 		return "BsAlarmExcelBean [id=" + id + ", bsId=" + bsId + ", name="
-				+ name + ", level=" + level + ", status=" + status
-				+ ", weekly=" + weekly + ", time=" + time + ", from=" + from
-				+ ", severity=" + severity + ", type=" + type + ", reason="
-				+ reason + ", nowDeal=" + nowDeal + ", imbusiness="
-				+ imbusiness + ", dealResult=" + dealResult
-				+ ", faultRecoveryTime=" + faultRecoveryTime
-				+ ", faultTimeTotal=" + faultTimeTotal + ", content=" + content
-				+ ", faultHandlePerson=" + faultHandlePerson
-				+ ", faultRecordPerson=" + faultRecordPerson + ", hometype="
-				+ hometype + "]";
+				+ name + ", level=" + level + ", tag=" + tag + ", weekly="
+				+ weekly + ", time=" + time + ", from=" + from + ", severity="
+				+ severity + ", type=" + type + ", reason=" + reason
+				+ ", nowDeal=" + nowDeal + ", imbusiness=" + imbusiness
+				+ ", dealResult=" + dealResult + ", faultRecoveryTime="
+				+ faultRecoveryTime + ", faultTimeTotal=" + faultTimeTotal
+				+ ", content=" + content + ", faultHandlePerson="
+				+ faultHandlePerson + ", faultRecordPerson="
+				+ faultRecordPerson + ", hometype=" + hometype + "]";
 	}
 	
 	

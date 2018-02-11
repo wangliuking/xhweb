@@ -239,7 +239,7 @@ public class BsstationController {
 		int link=Integer.parseInt(request.getParameter("link"));
 		int status=Integer.parseInt(request.getParameter("status"));
 		String usergroup=request.getParameter("usergroup");
-		String bsId=request.getParameter("bsIds");
+		String bsId=request.getParameter("bsId");
 		List<String> bslist=new ArrayList<String>();
 		int size=0;
 		if(bsId!=""){
