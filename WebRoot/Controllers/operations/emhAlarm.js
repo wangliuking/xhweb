@@ -51,7 +51,6 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
-				console.log(emhData4);
 			});
 		}
 		//查询环控通断情况
@@ -412,6 +411,7 @@ xh.loadPieDev = function() {
 					var tempMap = {value:tempData[i].alarmNum, name:tempData[i].deviceName};
 					seriesData.push(tempMap);
 				};
+				console.log(legendData);
 				
 				option.legend.data=legendData;
 				option.series[0].data=seriesData;
