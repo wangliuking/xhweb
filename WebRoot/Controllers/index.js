@@ -37,7 +37,7 @@ xh.load = function() {
 		if(xh.getcookie("skin")!=null){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{
-			$('body').attr('id', "skin-blur-kiwi");
+			$('body').attr('id', "skin-blur-ocean");
 		}
 		
 		$(".side-menu a").live('click',function(){

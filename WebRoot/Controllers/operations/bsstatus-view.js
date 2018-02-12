@@ -256,7 +256,7 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-						backgroundColor : '#fff',
+						/*backgroundColor : '#fff',*/
 						tooltip : {
 							formatter : "{a} <br/>{b} : {c}℃"
 						},
@@ -288,7 +288,7 @@ xh.load = function() {
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#000',
+									color : '#fff',
 									shadowColor : '#FF00FF', // 默认透明
 									shadowBlur : 10
 								}
@@ -360,7 +360,7 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-					backgroundColor : '#fff',
+					/*backgroundColor : '#fff',*/
 					tooltip : {
 						formatter : "{a} <br/>{b} : {c}"
 					},
@@ -392,7 +392,7 @@ xh.load = function() {
 						axisLabel : { // 坐标轴小标记
 							textStyle : { // 属性lineStyle控制线条样式
 								fontWeight : 'bolder',
-								color : '#000',
+								color : '#fff',
 								shadowColor : '#FF4500', // 默认透明
 								shadowBlur : 10
 							}

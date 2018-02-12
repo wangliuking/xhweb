@@ -95,13 +95,21 @@ xh.bsBar = function() {
 		});*/
 		var option = {
 			    title : {
-			        text: '各区域设备工作状态异常的基站数量'
+			        text: '各区域设备工作状态异常的基站数量',
+			        textStyle:{  
+                        /*fontWeight:"bolder", */ 
+                        color:"#fff"  
+                    }
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['三期','四期','三四期']
+			        data:['三期','四期','三四期'],
+			        textStyle:{  
+                        /*fontWeight:"bolder", */ 
+                        color:"#fff"  
+                    }
 			    },
 			    
 			    calculable : true,
@@ -116,8 +124,8 @@ xh.bsBar = function() {
 	                        rotate:45,//倾斜度 -90 至 90 默认为0  
 	                        margin:2,  
 	                        textStyle:{  
-	                            fontWeight:"bolder",  
-	                            color:"#000000"  
+	                            /*fontWeight:"bolder", */ 
+	                            color:"#fff"  
 	                        }  
 	                    }
 			        }

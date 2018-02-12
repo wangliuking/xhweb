@@ -8,6 +8,11 @@ $(document).ready(function() {
 	/* 初始化页面加载动画 */
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
+		if(xh.getcookie("skin")!=null){
+			$('body').attr('id', xh.getcookie("skin"));
+		}else{
+			$('body').attr('id', "skin-blur-ocean");
+		}
 		/*xh.userPower();*/
 	})
 	$("#wrapper-iframe").height($("body").height()-100);

@@ -287,7 +287,11 @@ xh.bsBar = function() {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计']
+			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计'],
+			    textStyle:{  
+                    /*fontWeight:"bolder", */ 
+                    color:"#fff"  
+                }
 			    },
 			    
 			    calculable : true,
@@ -295,12 +299,26 @@ xh.bsBar = function() {
 			        {
 			            type : 'category',
 			            
-			            data : ["交换中心","网管"]
+			            data : ["交换中心","网管"],
+			            axisLabel:{  
+	                        interval:0,   
+	                        margin:2,  
+	                        textStyle:{  
+	                            /*fontWeight:"bolder", */ 
+	                            color:"#fff"  
+	                        }  
+	                    }
 			        }
 			    ],
 			    yAxis : [
 			        {
-			            type : 'value'
+			            type : 'value',
+			            axisLabel:{  
+	                        textStyle:{  
+	                            /*fontWeight:"bolder", */ 
+	                            color:"#fff"  
+	                        }  
+	                    }
 			            
 			        }
 			    ],
@@ -416,7 +434,7 @@ xh.loadbsAlarmTypePie = function(){
 			},
 		
 			calculable : true,
-			backgroundColor : background,
+			backgroundColor : 'rgba(0,0,0,0.5)',
 			series : [ {
 				name : '类型',
 				type : 'pie',

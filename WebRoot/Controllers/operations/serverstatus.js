@@ -100,7 +100,7 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-						backgroundColor : '#fff',
+						/*backgroundColor : '#fff',*/
 						tooltip : {
 							formatter : "{a} <br/>{b} : {c}℃"
 						},
@@ -126,13 +126,13 @@ xh.load = function() {
 								lineStyle : { // 属性lineStyle控制线条样式
 									color : 'auto',
 									shadowColor : '#FF00FF', // 默认透明
-									shadowBlur : 10
+									shadowBlur : 3
 								}
 							},
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#000',
+									color : '#fff',
 									shadowColor : '#FF00FF', // 默认透明
 									shadowBlur : 10
 								}
@@ -199,7 +199,7 @@ xh.load = function() {
 				 * chart.showLoading({ text : '正在努力的读取数据中...' });
 				 */
 				var option = {
-						backgroundColor : '#fff',
+						/*backgroundColor : 'rgba(0,0,0,0.3)',*/
 						tooltip : {
 							formatter : "{a} <br/>{b} : {c}"
 						},
@@ -231,7 +231,7 @@ xh.load = function() {
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#000',
+									color : '#fff',
 									shadowColor : '#FF4500', // 默认透明
 									shadowBlur : 10
 								}
@@ -333,7 +333,7 @@ xh.loadCpu = function(value,id) {
 		 * chart.showLoading({ text : '正在努力的读取数据中...' });
 		 */
 		var option = {
-			backgroundColor : '#fff',
+			/*backgroundColor : 'rgba(0,0,0,0.3)',*/
 			tooltip : {
 				formatter : "cpu占用率 : {c}%"
 			},
@@ -366,7 +366,7 @@ xh.loadCpu = function(value,id) {
 				axisLabel : { // 坐标轴小标记
 					textStyle : { // 属性lineStyle控制线条样式
 						fontWeight : 'bolder',
-						color : '#000',
+						color : '#fff',
 						shadowColor : '#fff', // 默认透明
 						shadowBlur : 10
 					}
@@ -375,14 +375,15 @@ xh.loadCpu = function(value,id) {
 					length : 15, // 属性length控制线长
 					lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
 						width : 3,
-						color : '#000',
+						color : '#fff',
 						shadowColor : '#fff', // 默认透明
 						shadowBlur : 10
 					}
 				},
 				pointer : { // 分隔线
 					shadowColor : '#fff', // 默认透明
-					shadowBlur : 5
+					shadowBlur : 3,
+					width:4
 				},
 				title : {
 					textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
@@ -406,7 +407,8 @@ xh.loadCpu = function(value,id) {
 					offsetCenter : [ 0, '50%' ], // x, y，单位px
 					textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 						 fontWeight: 'bolder',
-						 fontSize:'15'
+						 fontSize:'15',
+						 color:'#fff'
 					}
 				},
 				data : [ {
@@ -442,7 +444,10 @@ xh.bsBar = function(bs3,bs4) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['与交换中心传输断开的基站统计']
+			        data:['与交换中心传输断开的基站统计'],
+			        textStyle:{
+			        	color:'#fff',
+			        }
 			    },
 			    
 			    calculable : true,
@@ -450,12 +455,24 @@ xh.bsBar = function(bs3,bs4) {
 			        {
 			            type : 'category',
 			            
-			            data : ['三期基站','四期基站']
+			            data : ['三期基站','四期基站'],
+			            axisLabel:{    
+	                        textStyle:{  
+	                            /*fontWeight:"bolder", */ 
+	                            color:"#fff"  
+	                        }  
+	                    }
 			        }
 			    ],
 			    yAxis : [
 			        {
-			            type : 'value'
+			            type : 'value',
+			            axisLabel:{    
+	                        textStyle:{  
+	                            /*fontWeight:"bolder", */ 
+	                            color:"#fff"  
+	                        }  
+	                    }
 			        }
 			    ],
 			    series : [
