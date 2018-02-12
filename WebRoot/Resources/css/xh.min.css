@@ -13,7 +13,7 @@
 @import "btn.css";
 /* 图标*/
 @import "icon.css";
-
+@import "../superAdmin/css/style.css";
 /* html body */
 /* html {
 	height: 100%;
@@ -43,7 +43,7 @@ html,body {
 body {
 	/* background-color: #ecf0f5; #0064B3;#2B6474*/
 	/* background: #0064B3; */
-	background-color: #ecf0f5;
+	/* background-color: #ecf0f5; */
 	/* background-image:url("../images/img/ocean.jpg"); */
 	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial,
 		sans-serif;
@@ -781,8 +781,8 @@ li.divider {
 }
 
 .hpanel .panel-body {
-	background: #fff;
-	border: 1px solid #e4e5e7;
+	background-color: rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.3);
 	border-radius: 2px;
 	padding: 5px 5px 5px 5px;
 	position: relative;

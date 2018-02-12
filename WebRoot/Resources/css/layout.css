@@ -343,7 +343,8 @@ text-decoration:none;
 } */
 .content {
 	padding: 15px 10px 10px 10px;
-	background: #fafafa;
+	/* background: transparent; */
+	background-image: url(../superAdmin/img/body/ocean.jpg);
 	min-height: 100%;
 	width: 100%;
 	margin: 30px 0 0 0;
