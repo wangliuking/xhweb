@@ -69,6 +69,8 @@ $(document).ready(function(){
 	var skin = $(this).data('skin');
 	$('body').attr('id', skin);
 	setcookie("skin",skin)
+	/*window.location.reload();*/
+	document.getElementById('mainframe').contentWindow.location.reload(true);  
 	$('#changeSkin').modal('hide');
     });
     

@@ -6,6 +6,7 @@ var aesstr="2f6DhqPBNoK3f2A7";
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
+	xh.setcookie("skin","skin-blur-ocean")
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
 		if(xh.getcookie("skin")!=null){
@@ -111,9 +112,11 @@ $(document).ready(function() {
 
 	// Initialize animate panel function
 	
-	/*if($('div').has(".animate-panel")){
+	
+	
+	if ($("div").hasClass("animate-panel")){
 		$('.animate-panel').animatePanel();
-	}*/
+	}
 
 	// Function for collapse hpanel
 	$('.showhide').on('click', function(event) {
