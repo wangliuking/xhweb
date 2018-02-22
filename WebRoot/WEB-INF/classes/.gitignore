@@ -1,6 +1,4 @@
-/xh
 /cc
-/com
 /conf.xml
 /loadFFmpeg.properties
 /log4j.properties
@@ -9,3 +7,5 @@
 /rebel.xml
 /redis.properties
 /springmvc.xml
+/xh
+/com
