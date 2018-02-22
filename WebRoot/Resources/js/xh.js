@@ -6,14 +6,18 @@ var aesstr="2f6DhqPBNoK3f2A7";
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
+	/*xh.setcookie("skin","skin-blur-ocean");*/
+	if(xh.getcookie("skin")==null || xh.getcookie("skin")==""){
+		xh.setcookie("skin","skin-blur-ocean");
+	}
 	
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
-		if(xh.getcookie("skin")!=null){
+		if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{
 			$('body').attr('id', "skin-blur-ocean");
-			xh.setcookie("skin","skin-blur-ocean");
+			 
 		}
 		/*xh.userPower();*/
 	})
