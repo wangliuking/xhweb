@@ -145,7 +145,7 @@ xh.bsBar = function() {
 			            barCategoryGap:'40%',
 			            itemStyle:{
 			            	normal:{
-			            		color:'#0000FF',
+			            		color:'yellow',
 			            		cursor:'pointer',
 			            		label: {  
 		                                show: true,//是否展示  

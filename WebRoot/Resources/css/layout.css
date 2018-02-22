@@ -16,6 +16,9 @@
 	margin-right:30px;
 	margin-top:5px;
 }
+.modal-body label{
+	color:#000;
+}
 
 #mainframe {
 	margin: 0 0 0 233px;
@@ -782,10 +785,10 @@ text-decoration:none;
 ::-webkit-scrollbar-track,::-webkit-scrollbar-track-piece {
 	background: -webkit-gradient(linear, left);
 }
-
+/* #4f99c6 */
 ::-webkit-scrollbar-thumb,::-webkit-scrollbar-thumb:horizontal {
 	border-radius: 2px;
-	background: #4f99c6;
+	background: rgba(0,0,0,0.6);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -793,7 +796,7 @@ text-decoration:none;
 }
 
 ::-webkit-scrollbar-thumb:active {
-	background: #3498db;
+	background: rgba(0,0,0,0.6);
 }
 
 ::-moz-scrollbar-track-piece {
@@ -815,7 +818,7 @@ text-decoration:none;
 
 ::-moz-scrollbar-thumb,::-moz-scrollbar-thumb:horizontal {
 	border-radius: 2px;
-	background: #4f99c6;
+	background: rgba(0,0,0,0.6);
 }
 
 ::-moz-scrollbar-thumb:hover {

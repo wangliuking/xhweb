@@ -121,7 +121,7 @@
 							<div class="panel-tools">
 										<a class="search-hide"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
-											class="text-black">筛选查询</span>
+											class="text-white">筛选查询</span>
 										</a>
 									</div>
 									<i class="fa fa-indent text-danger"></i>&nbsp;系统日志
@@ -133,8 +133,8 @@
 								style="table-layout:fixed">
 								<thead>
 									<tr class="tr-gray">
-										<th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th>
+										<!-- <th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th> -->
 										<th width="180px">时间</th>
 										<th width="150px">日志类型</th>
 										<th width="160px">操作员</th>
@@ -145,11 +145,11 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="5" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td>
+										<!-- <td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td> -->
 										<td>{{x.createTime}}</td>
 										<!-- <td>{{x.style}}</td> -->
 										<td ng-if="x.style==1"><span>添加数据</span></td>
