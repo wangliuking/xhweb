@@ -37,7 +37,7 @@ xh.load = function() {
 		if(xh.getcookie("skin")!=null){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{
-			$('body').attr('id', "skin-blur-kiwi");
+			$('body').attr('id', "skin-blur-ocean");
 		}
 		
 		$(".side-menu a").live('click',function(){
@@ -157,8 +157,11 @@ xh.stopMap3=function() {
 	var audio = document.getElementById("bgMusic");
 	var $scope = angular.element(appElement).scope();
 	//停止
-	audio.pause();
-	audio.currentTime = 0;
+	if(audio!=null){
+		audio.pause();
+		audio.currentTime = 0;
+	}
+	
 	$scope.updateAlarm();
 };
 xh.aa=function(){

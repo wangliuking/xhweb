@@ -4290,7 +4290,7 @@ hr {
 }
 
 #container .table-hover>tbody>tr:hover {
-	background-color: #f2f4f6
+	background-color: #f2f4f6;
 }
 
 .form-control {

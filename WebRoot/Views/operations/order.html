@@ -150,15 +150,15 @@
 				<div class="text-center" ng-if="totals==0">没有记录！</div>
 				<div class="col-md-3" ng-repeat="x in data">
 
-					<div class="hpanel hgreen contact-panel">
+					<div class="hpanel">
 						<div class="panel-body">
 							<a href="#" ng-click="resend($index)"
-								class="pull-right text-danger" ng-if="x.status==0"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
+								class="pull-right" ng-if="x.status==0" style="color:yellow"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a>
 
 
 							<div class="text-muted font-bold m-b-xs">
-								<a href="" ng-click="editModel($index)" data-toggle="modal">
+								<a href="" ng-click="editModel($index)" data-toggle="modal" style="color:skyblue;">
 									【{{x.bsid}}-{{x.bsname}}】故障处理任务单 </a>
 							</div>
 							<p>
@@ -177,8 +177,8 @@
 						<div class="panel-footer contact-footer">
 							<div class="row">
 								<div class="col-md-4 border-right">
-									<div class="contact-stat">
-										<span>派单人 </span> <strong>{{x.dispatchman}}</strong>
+									<div class="contact-stat"><!-- contact-panel -->
+										<span>派单人 </span> <strong style="color:#fff">{{x.dispatchman}}</strong>
 									</div>
 								</div>
 								<div class="col-md-4 border-right">
@@ -191,7 +191,7 @@
 								</div>
 								<div class="col-md-4">
 									<div class="contact-stat">
-										<span>接单人 </span> <strong>{{x.userName}}</strong>
+										<span>接单人 </span> <strong style="color:#fff">{{x.userName}}</strong>
 									</div>
 								</div>
 							</div>

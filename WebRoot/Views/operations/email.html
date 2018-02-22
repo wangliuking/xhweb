@@ -18,6 +18,9 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+
+</style>
 </head>
 <body ng-app="app" ng-controller="user"
 	class="fixed-iframe">
@@ -36,7 +39,7 @@
 	</div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
-		<div class="small-header transition animated fadeIn">
+		 <div class="small-header transition animated fadeIn">
 			<div class="title-panel">
 				<div class="panel-body">
 					<div id="hbreadcrumb" class="pull-left">
@@ -48,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> 
 		<div class="content animate-panel">
 			<!-- row -->
 			<div class="row">
@@ -104,7 +107,7 @@
 										<td>{{x.sendUser}}</td>
 										<td>{{x.title}}</td>
 										<td>
-										<a href="#" style="color:blue" ng-click="tolocation(x.title)">{{x.content}}</a>
+										<a href="#"  ng-click="tolocation(x.title)">{{x.content}}</a>
 										
 										</td>
 										<td>{{x.time}}</td>

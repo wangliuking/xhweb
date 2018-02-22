@@ -121,7 +121,7 @@ width: calc( 100% - 1em )
 										<table class="server-table" border="0">
 											<tr>
 												<td
-													style="text-align: center;background:#fafafa; width:150px;word-wrap:break-word；"><i
+													style="text-align: center;background:#fafafa; width:120px;word-wrap:break-word；"><i
 													ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1 ||x.memper>90 || x.diskper>90 ]"></i>
 													<div
 														style="background:blue;color:#fff;padding:5px; border-radius:10px;">{{x.name}}</div>
@@ -129,7 +129,7 @@ width: calc( 100% - 1em )
 												<td ng-if="x.status!=0" colspan="2">服务器离线！！！！！</td>
 
 
-												<td style="width:250px" ng-if="x.status==0">
+												<td style="width:200px" ng-if="x.status==0">
 													<div>内存使用</div>
 													<div class="progress progress-striped active">
 

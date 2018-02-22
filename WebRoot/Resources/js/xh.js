@@ -6,8 +6,15 @@ var aesstr="2f6DhqPBNoK3f2A7";
 $(document).ready(function() {
 	/*if (TopESAConfig()){xh.initCertList();}*/
 	/* 初始化页面加载动画 */
+	
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
+		if(xh.getcookie("skin")!=null){
+			$('body').attr('id', xh.getcookie("skin"));
+		}else{
+			$('body').attr('id', "skin-blur-ocean");
+			xh.setcookie("skin","skin-blur-ocean");
+		}
 		/*xh.userPower();*/
 	})
 	$("#wrapper-iframe").height($("body").height()-100);
@@ -106,9 +113,11 @@ $(document).ready(function() {
 
 	// Initialize animate panel function
 	
-	/*if($('div').has(".animate-panel")){
+	
+	
+	if ($("div").hasClass("animate-panel")){
 		$('.animate-panel').animatePanel();
-	}*/
+	}
 
 	// Function for collapse hpanel
 	$('.showhide').on('click', function(event) {
