@@ -30,7 +30,11 @@
                ws.onclose = function()
                { 
                   // 关闭 websocket
-                  alert("连接已关闭..."); 
+                  var msg="";
+                  msg+=navigator.appName+"\n";
+                  msg+=navigator.appVersion+"\n";
+                  msg+=navigator.appCodeName;
+                  alert("连接已关闭...\n"+msg); 
                };
             }
             

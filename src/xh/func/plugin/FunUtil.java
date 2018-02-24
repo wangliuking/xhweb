@@ -210,6 +210,22 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
+	public static long nowTimeMill(String dString) {
+		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		Date date;
+		long time=0;
+		try {
+			date = dd.parse(dString);
+			time=date.getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return time;
+		
+	}
 	//获取星期
 	public static String formateWeekly(String datetime) {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");

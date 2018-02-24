@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Tetra系统警告</title>
+<title>基站闪断</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -135,7 +135,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 							<li><span>运维管理</span></li>
 							<li><span>实时监测</span></li>
 							<li><span>故障管理</span></li>
-							<li class="active"><span>Tetra系统警告</span></li>
+							<li class="active"><span>基站闪断</span></li>
 						</ol>
 					</div>
 				</div>
@@ -156,32 +156,24 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 
 							<div class="content-menu">
 
-								<span class="menu_active"><a href="bsAlarm.html"
+								<span ><a href="bsAlarm.html"
 									target="_self">Tetra系统告警</a></span> <span><a
-									href="emhAlarm.html" target="_self">环控告警</a></span>
-									<span><a
+									href="emhAlarm.html" target="_self">环控告警</a>
+									
+								</span>
+								<span class="menu_active"><a
 									href="bsFlash.html" target="_self">基站闪断</a>
 									
 								</span>
 
 							</div>
 
-
-							<!-- <ul class="mailbox-list" style="height:200px;">
-								<li style="margin-bottom:10px;"><a href="emhAlarm.html"
-									target="_self"><i
-										class="fa fa-sitemap text-success"></i>环控告警</a></li>
-
-								<li class="active"><a href="bsAlarm.html" target="_self"><i
-										class="fa fa-sitemap text-success"></i>Tetra系统告警</a></li>
-
-							</ul> -->
 						</div>
 
 					</div>
 				</div>
 				<div class="col-md-12">
-					<div class="row" ng-show="true">
+					<!-- <div class="row" ng-show="true">
 						<div class="col-md-4">
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
@@ -189,20 +181,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 								</div>
 								<div class="panel-body" ng-model="alarmTypeData">
 									<div id="bs-pie"></div>
-									<!-- <div style="width:100%">
-									<div class="bg-red" style="padding:7px;border-bottom:1px solid gray;margin-top:5px;">
-									<span>严重告警</span>
-									<span class="pull-right" style="color:#fff;">【{{alarmTypeData.v_1}}】次</span>
-									</div>
-									<div class="bg-salmon" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
-									<span>重要告警</span>
-									<span class="pull-right" style="color:#fff;">【{{alarmTypeData.v_2}}】次</span>
-									</div>
-									<div class="bg-gold" style="padding:7px;border-bottom:1px solid gray;margin-top:20px;">
-									<span>一般告警</span>
-									<span class="pull-right" style="color:#green;">【{{alarmTypeData.v_3}}】次</span>
-									</div>
-									</div> -->
+									
 								</div>
 							</div>
 						</div>
@@ -217,7 +196,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 							</div>
 						</div>
 
-					</div>
+					</div> -->
 
 					<div class="row">
 						<div class="col-md-12">
@@ -237,25 +216,20 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 										</a> -->
 									</div>
 									<!-- <i class="fa fa-filter text-danger"></i>&nbsp; -->
-									<span>告警信息</span>
+									<span>基站闪断列表[默认显示当天的数据]</span>
 								</div>
 								<div class="panel-body">
 									<table id="tb-info" class="xh-table table-hover">
 										<thead>
 											<tr class="tr-gray">
+												<th>基站</th>
 
-												<!-- <th width="100px">网元类型</th> -->
-												<th>网元类型</th>
+												<th>断站时间</th>
+												<th>恢复时间</th>
+												<th>历时</th>
+												<th>描述</th>
+												<th>闪断原因</th>
 
-												<th>告警级别</th>
-												<th>故障定位</th>
-												<th>告警描述</th>
-												<th width="150px">告警时间</th>
-
-
-
-
-												<!-- <th>操作</th> -->
 											</tr>
 										</thead>
 										<tbody>
@@ -263,46 +237,17 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<td colspan="6" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
-												<!-- <td>{{$index+1}}</td> -->
-												<td><span ng-if="x.neType==1">基站</span> <span
-													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
-													<span ng-if="x.neType==4">网管</span> <span
-													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
-													<span ng-if="x.neType==7">INIGW</span> <span
-													ng-if="x.neType==8">短信中心</span> <span ng-if="x.neType==9">PDT</span>
-													<span ng-if="x.neType==10">鉴权中心</span> <span
-													ng-if="x.neType==11">录音</span> <span ng-if="x.neType==12">模拟网关</span>
-													<span ng-if="x.neType==13">MPT基站</span> <span
-													ng-if="x.neType==14">NTP服务器</span> <span
-													ng-if="x.neType==15">路由器</span> <span ng-if="x.neType==16">数字交叉连接设备</span>
-													<span ng-if="x.neType==17">同播服务器</span> <span
-													ng-if="x.neType==18">DSGW</span> <span ng-if="x.neType==19">以太网交换机</span>
-													<span ng-if="x.neType==20">WEB调度服务器</span> <span
-													ng-if="x.neType==21">短信业务网关</span> <span
-													ng-if="x.neType==22">室外基站</span> <span ng-if="x.neType==23">PDT室外基站</span>
-													<span ng-if="x.neType==24">桥接基站</span> <span
-													ng-if="x.neType==29">以太网E1网桥</span> <span
-													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
+												<td>{{x.bsId}}-{{x.name}}</td>
+												<td>{{x.time_break}}</td>
+												<td>{{x.time_restore}}</td>
+										
+												<td>{{x.sumtime}}</td>
+												<td>基站闪断</td>
+												<td>
+												<span ng-if="x.period==4 && x.emsTime_break!=null">传输链路中断</span>
+												<span ng-if="x.period==4 && x.emsTime_break==null">传输链路正常，请检查基站设备</span>
+												<span ng-if="x.period==3">三期基站，原因待确认</span>
 												</td>
-												<!-- <td>{{x.neId}}</td> -->
-
-												<!-- <td><span ng-if="x.severity==1" class="block bg-red">严重告警</span>
-													<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
-													<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
-												</td> -->
-												<td ng-if="x.severity==1" class="block" style="background:red;color:#fff;">紧急告警</td>
-													<td ng-if="x.severity==2" class="block" style="background:#B22222;color:#fff;">主要告警</td>
-													<td ng-if="x.severity==3" class="block" style="background:#FF8C00;color:#fff;">次要告警</td>
-													<td ng-if="x.severity==3" class="block" style="background:#EEEE00;color:#fff;">一般告警</td>
-
-												<td>{{x.location |alarmLocation}}</td>
-												<td>{{x.description}}</td>
-												<td>{{x.time}}</td>
-
-
-
-												<!-- <td><a href="#" ng-click="showDetails($index)"><i
-														class="fa fa-file-text-o text-success"> </i>&nbsp;详情</a></td> -->
 											</tr>
 										</tbody>
 									</table>
@@ -345,7 +290,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 	<!-- 告警查询 -->
 	<div class="modal fade" id="search" tabindex="-1" role="dialog"
 		aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header ">
 					<button type="button" class="close" data-dismiss="modal"
@@ -358,72 +303,48 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 
 						<div class="col-md-12">
 							<div class="form-group col-md-12 search" style="margin-top:10px;">
-								<label>严重程度</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
-									id="level1" class="magic-checkbox" type="checkbox" name="level"
-									value="1" checked> <label for="level1"><span>紧急告警</span></label>
-
-								<input id="level2" class="magic-checkbox" type="checkbox"
-									name="level" value="2" checked> <label for="level2"><span>主要告警</span></label>
-
-								<input id="level3" class="magic-checkbox" type="checkbox"
-									name="level" value="3" checked> <label for="level3"><span>次要告警</span></label>
-								
-								<input id="level4" class="magic-checkbox" type="checkbox"
-									name="level" value="4" checked> <label for="level4"><span>一般告警</span></label>
+								<label>基站ID</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+									id="bsId" class="form-control" type="text" name="bsId">
 							</div>
 
 						</div>
-						<div class="col-md-12">
-							<div class="form-group col-md-12 search" style="margin-top:5px;">
-								<label>网元类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="type1"
-									class="magic-checkbox" type="checkbox" name="type" value="1"
-									checked> <label for="type1"><span>基站</span></label> <input
-									id="type2" class="magic-checkbox" type="checkbox" name="type"
-									value="2" checked> <label for="type2"><span>交换中心</span></label>
-
-								<input id="type3" class="magic-checkbox" type="checkbox"
-									name="type" value="3" checked> <label for="type3"><span>调度台</span></label>
-
-								<input id="type4" class="magic-checkbox" type="checkbox"
-									name="type" value="4" checked> <label for="type4"><span>网管</span></label>
-							</div>
-
-						</div>
+					
 						<!-- col-md -->
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="startTime"
 									required="required"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="oneDate">
 							</div>
 						</div>
 						<!-- col-md -->
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="endTime"
 									required="required"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="nowDate">
 							</div>
 						</div>
 					</div>
 					<!-- row -->
 				</div>
-				<!-- <div class="modal-footer">
-					
-				</div> -->
+				<div class="modal-footer">
+					<button type="button"
+					class="btn btn-success btn-sm" ng-click="refresh()">
+					<i class="fa fa-search"></i>&nbsp;查询
+				</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- /告警查询 -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
 	<script type="text/javascript"
-		src="../../Controllers/operations/bsAlarm.js"></script>
+		src="../../Controllers/operations/bsFlash.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

@@ -13,13 +13,14 @@ $(document).ready(function() {
 	
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
-		if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
+		$('body').attr('id', xh.getcookie("skin"));
+		/*if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{
 			$('body').attr('id', "skin-blur-ocean");
+			xh.setcookie("skin","skin-blur-ocean");
 			 
-		}
-		/*xh.userPower();*/
+		}*/
 	})
 	$("#wrapper-iframe").height($("body").height()-100);
 	/* 首页全屏 */
@@ -437,7 +438,7 @@ xh.setcookie = function(name,value) {
 	//将date设置为10天以后的时间
 	date.setTime(date.getTime()+expiresDays*24*3600*1000);
 	//将userId和userName两个cookie设置为10天后过期
-	document.cookie=name+"="+value+"; expires="+date.toGMTString();
+	document.cookie=name+"="+value+"; expires="+date.toGMTString()+";path=/";
 };
 /*utf-8编码*/
 xh.encodeUTF8 = function(str) {
@@ -502,4 +503,4 @@ xh.initCertList=function(){
 			alert("Here is JS Error !!!");
 		}
 	}
-}
+} 

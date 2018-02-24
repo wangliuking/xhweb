@@ -4,37 +4,14 @@
 
 	<div class="media-body">
 		<div class="media" id="top-menu">
-			<div class="pull-left tm-icon">
-				<a href="index.html"
-					target="_self"> <i class="fa fa-home"
-					style="margin-top:15px;float: left;font-size:15pt"></i><span>首页</span>
-				</a>
-			</div>
+			
 
-			<div class="dropdown pull-left tm-icon">
-				<a data-drawer="messages" class="dropdown-toggle" href=""
-					data-toggle="dropdown"> <i class="fa fa-qrcode fa-x font-white"
-					style="margin-top:15px;float: left;font-size:15pt"></i><span>点我扫一扫</span>
-				</a>
-				<div class="dropdown-menu animated flipInX">
-					<div class="row"
-						style="max-height:400px;overflow: auto;padding:20px;">
-
-						<div class="col-md-12">
-							<p style="color:#000;">运维APP 安卓版下载链接,扫一扫</p>
-							<img alt="" src="Resources/app/apk.png">
-						</div>
-					</div>
-
-
-
-				</div>
-			</div>
+		
 
 			<div class="pull-left tm-icon">
 				<a href="Views/operations/email.html" target="mainframe"> <i
 					class="fa fa-envelope-open-o  font-white" style="font-size:15pt;margin-top:15px;float: left;font-weight: 100; "></i> <i class="n-count animated"
-					id="emailcount">0</i> <span>站内信</span>
+					id="emailcount">0</i> <span style="margin-left:10px;">站内信</span>
 				</a>
 			</div>
 			<div class="pull-left tm-icon">
@@ -42,7 +19,7 @@
 					data-toggle="dropdown"> <i
 					class="fa fa-bell-o fa-x font-white"
 					style="font-size:15pt;margin-top:15px;float: left;font-weight: 100; "></i> <i
-					class="n-count animated" id="alarmcount">0</i> <span>告警提示</span>
+					class="n-count animated" id="alarmcount">0</i> <span style="margin-left:10px;">告警提示</span>
 				</a>
 				<div class="dropdown-menu hdropdown animated flipInX ">
 						<div class="row" style="max-height:400px;overflow: auto;">
@@ -116,11 +93,35 @@
 				<a href="Views/operations/order.html" target="mainframe"> <i
 					class="fa fa-paper-plane-o  font-white"
 					style="font-size:15pt;margin-top:15px;float: left;"></i> <i
-					class="n-count animated" >5</i> <span>故障派单</span>
+					class="n-count animated" id="ordercount">0</i> <span style="margin-left:10px;">故障派单</span>
 				</a>
 			</div>
+			<div class="dropdown pull-left tm-icon">
+				<a data-drawer="messages" class="dropdown-toggle" href=""
+					data-toggle="dropdown"> <i class="fa fa-qrcode fa-x font-white"
+					style="margin-top:15px;float: left;font-size:15pt"></i><span style="margin-left:10px;">点我扫一扫</span>
+				</a>
+				<div class="dropdown-menu animated flipInX">
+					<div class="row"
+						style="max-height:400px;overflow: auto;padding:20px;">
+
+						<div class="col-md-12">
+							<p style="color:#000;">运维APP 安卓版下载链接,扫一扫</p>
+							<img alt="" src="Resources/app/apk.png">
+						</div>
+					</div>
 
 
+
+				</div>
+			</div>
+
+            <div class="pull-left tm-icon">
+				<a href="index.html"
+					target="_self"> <i class="fa fa-home"
+					style="margin-top:15px;float: left;font-size:15pt"></i><span>首页</span>
+				</a>
+			</div>
 
 			<div id="time" class="pull-right">
 				<span id="hours"></span> : <span id="min"></span> : <span id="sec"></span>

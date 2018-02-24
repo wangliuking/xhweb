@@ -165,6 +165,83 @@ public class BsStatusService {
 		return list;
 	}
 	
+	/**
+	 * 基站闪断列表
+	 * @return
+	 */
+	public static List<Map<String, Object>> bsflash(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bsflash(map);
+			for(int i=0;i<list.size();i++){
+				Map<String,Object> map2=list.get(i);
+				if(map2.get("time_break")!=null && map2.get("time_restore")!=null){
+					String time1=map2.get("time_break").toString();
+					String time2=map2.get("time_restore").toString();
+					
+					long _time1=FunUtil.nowTimeMill(time1);
+					long _time2=FunUtil.nowTimeMill(time2);
+					map2.put("sumtime", timeStamp(_time1,_time2));
+					list.set(i, map2);
+				}
+				
+				
+			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static String timeStamp(long time1,long time2){ 
+		
+		int second_time=(int) ((time2-time1)/1000);
+		
+		String time = second_time+ "秒";  
+		if( second_time> 60){  	  
+		    int second = second_time% 60;  
+		    int min = second_time / 60;  
+		    time = min + "分" + second + "秒";  
+		      
+		    if( min > 60 ){  
+		        min = (second_time / 60) % 60;  
+		        int hour = (second_time / 60) /60 ;  
+		        time = hour + "小时" + min + "分" + second + "秒";  
+		  
+		        if( hour > 24 ){  
+		            hour =((second_time / 60) /60 ) % 24;  
+		            int day = ((second_time / 60) /60 ) / 24 ;  
+		            time = day + "天" + hour + "小时" + min + "分" + second + "秒";  
+		        }  
+		    }        
+		  
+		}    
+		return time;          
+	} 
+	
+	/**
+	 * 基站闪断列表总数
+	 * @return
+	 */
+	public static int bsflashCount(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count=0;
+		try {
+			count=mapper.bsflashCount(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 	
 	
 	/**

@@ -31,6 +31,20 @@ public interface BsStatusMapper {
 	public List<Map<String,Object>> bsRadioTop5() throws Exception;
 	
 	/**
+	 * 基站闪断列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> bsflash(Map<String,Object> map) throws Exception;
+	
+	/**
+	 * 基站闪断列表总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsflashCount(Map<String,Object> map) throws Exception;
+	
+	/**
 	 * 导出现网基站的运行状态
 	 * @return
 	 * @throws Exception
