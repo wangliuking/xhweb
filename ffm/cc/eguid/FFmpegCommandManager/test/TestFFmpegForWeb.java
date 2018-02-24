@@ -32,6 +32,7 @@ public class TestFFmpegForWeb {
 		Map<String,String> map = new HashMap<String,String>();
 		String input = "rtsp://" + cameraMap.get("loginName") + ":" + cameraMap.get("password") + "@" + cameraMap.get("deviceIP") + ":554/h264/ch1/main/av_stream";		
 		int bsId = (Integer) cameraMap.get("bsId");
+		String window = cameraMap.get("window")+"x360";
 		String cameraId = "camera"+bsId;
 		map.put("appName", cameraId);
 		map.put("input", input);
@@ -39,20 +40,19 @@ public class TestFFmpegForWeb {
 		map.put("codec", "h264");
 		map.put("fmt", "flv");
 		map.put("fps", "25");
-		map.put("rs", "640x360");
+		map.put("rs", window);
 		map.put("twoPart", "2");
-		System.out.println(input);
 		// 执行任务，id就是appName，如果执行失败返回为null
 		String str = new String();
 		str = manager.start(map);
 		hashMap.put(str, str);
-		System.out.println(str);
+		System.out.println("str为："+str);
 		// 通过id查询
 		TaskEntity info = manager.query(str);
-		System.out.println(info);
+		System.out.println("info为："+info);
 		// 查询全部
 		Collection<TaskEntity> infoList = manager.queryAll();
-		System.out.println(infoList);
+		System.out.println("infoList为："+infoList);
 		Thread.sleep(2*60*1000);
 		String cId = bsId+"";
 		stop(cId);

@@ -41,10 +41,12 @@ public class ADataController {
 	public void oneBsInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;		
 		String bsId = request.getParameter("bsId");
+		String window = request.getParameter("window");
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("bsId", bsId);
 		List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
 		Map<String, Object> cameraMap = listMap.get(0);
+		cameraMap.put("window", window);
 		try {
 			TestFFmpegForWeb.test1(cameraMap);
 			//timer.schedule(new timerTaskForStop(), 3*60*1000);

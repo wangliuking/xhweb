@@ -524,7 +524,7 @@ console.log(bsId+"==="+IP);
     'file': 'camera'+bsId,
     'streamer': 'rtmp://'+IP+':7790/oflaDemo',
     'controlbar': 'bottom',
-    'width': '640',
+    'width': $(window).width()/2*0.9,
     'height': '360'
   });
   
@@ -540,7 +540,7 @@ $(function(){
 			    'file': 'camera'+bsId,
 			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
 			    'controlbar': 'bottom',
-			    'width': '640',
+			    'width': $(window).width()/2*0.9,
 			    'height': '360'
 			  });
 		}else{
@@ -552,7 +552,7 @@ $(function(){
 			    'file': 'camera'+bsId,
 			    'streamer': 'rtmp://'+IP+':7790/oflaDemo',
 			    'controlbar': 'bottom',
-			    'width': '640',
+			    'width': $(window).width()/2*0.9,
 			    'height': '360'
 			  });
 		}
