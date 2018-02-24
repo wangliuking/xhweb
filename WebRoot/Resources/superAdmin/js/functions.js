@@ -680,7 +680,7 @@ Date Time Widget
 	//将date设置为10天以后的时间
 	date.setTime(date.getTime()+expiresDays*24*3600*1000);
 	//将userId和userName两个cookie设置为10天后过期
-	document.cookie=name+"="+value+"; expires="+date.toGMTString();
+	document.cookie=name+"="+value+"; expires="+date.toGMTString()+";path=/";
 };
 
 
