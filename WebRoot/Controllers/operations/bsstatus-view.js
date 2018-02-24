@@ -84,7 +84,7 @@ xh.load = function() {
 		//发起请求开启当前基站视频流
 		$.ajax({
 			type : "GET",
-			url : "../../camera/startById?bsId=" + $scope.bsId,
+			url : "../../camera/startById?bsId=" + $scope.bsId + "&window=" + $(window).width()/2*0.9,
 			dataType : "json",
 			success : function(result) {
 				
