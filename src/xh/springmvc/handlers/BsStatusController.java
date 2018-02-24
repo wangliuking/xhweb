@@ -118,6 +118,37 @@ public class BsStatusController {
 		}
 		
 	}
+	//基站闪断列表
+		@RequestMapping(value="/bsflash",method = RequestMethod.GET)
+		public void bsflash(HttpServletRequest request, HttpServletResponse response){
+			this.success=true;
+			int start=FunUtil.StringToInt(request.getParameter("start"));
+			int limit=FunUtil.StringToInt(request.getParameter("limit"));
+			String bsId=request.getParameter("bsId");
+			String starttime=request.getParameter("startTime");
+			String endtime=request.getParameter("endTime");
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("start", start);
+			map.put("limit", limit);
+			map.put("bsId", bsId);
+			map.put("bsflash", Integer.parseInt(FunUtil.readXml("web", "bsflash")));
+			map.put("starttime", starttime);
+			map.put("endtime",endtime);
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("items",BsStatusService.bsflash(map));
+			result.put("totals", BsStatusService.bsflashCount(map));
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 
 	@RequestMapping(value = "/index/ajax_table2", method = RequestMethod.GET)
 	@ResponseBody
