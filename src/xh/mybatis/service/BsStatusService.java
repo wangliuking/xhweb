@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
+import xh.mybatis.bean.BsFlashBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.BsstationBean;
@@ -185,6 +186,34 @@ public class BsStatusService {
 					long _time2=FunUtil.nowTimeMill(time2);
 					map2.put("sumtime", timeStamp(_time1,_time2));
 					list.set(i, map2);
+				}
+				
+				
+			}
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<BsFlashBean> excelToBsflash(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<BsFlashBean> list = new ArrayList<BsFlashBean>();
+		try {
+			list = mapper.excelToBsflash(map);
+			for(int i=0;i<list.size();i++){
+				BsFlashBean bean=list.get(i);
+				if(bean.getTime_break()!="" && bean.getTime_restore()!=""){
+					String time1=bean.getTime_break();
+					String time2=bean.getTime_restore();
+					
+					long _time1=FunUtil.nowTimeMill(time1);
+					long _time2=FunUtil.nowTimeMill(time2);
+					bean.setSumtime(timeStamp(_time1,_time2));
+					list.set(i, bean);
 				}
 				
 				

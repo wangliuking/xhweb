@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.BsAlarmExcelBean;
+import xh.mybatis.bean.BsFlashBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
@@ -36,6 +37,8 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> bsflash(Map<String,Object> map) throws Exception;
+	
+	public List<BsFlashBean> excelToBsflash(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 基站闪断列表总数

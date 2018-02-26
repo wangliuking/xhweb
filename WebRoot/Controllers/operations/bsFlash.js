@@ -219,248 +219,39 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
-/**
- * 故障等级统计图 
- */
-xh.bsBar = function() {
-	// 设置容器宽高
-	var resizeBarContainer = function() {
-		$("#bs-bar").width(parseInt($("#bs-bar").parent().width())+70);
-		$("#bs-bar").height(200);
-	};
-	resizeBarContainer();
+//基站运行记录
+xh.excel=function(){
+	xh.maskShow();
 	var startTime=$("input[name='startTime']").val();
 	var endTime=$("input[name='endTime']").val();
-	var level_value =[],type_value=[]; 
-	$('input[name="level"]:checked').each(function(){ 
-	level_value.push($(this).val()); 
-	}); 
-	$('input[name="type"]:checked').each(function(){ 
-		type_value.push($(this).val()); 
-	});
-
-	// 基于准备好的dom，初始化echarts实例
-	var chart = null;
-	if (chart != null) {
-		chart.clear();
-		chart.dispose();
-	}
-	require([ 'echarts', 'echarts/chart/bar' ], function(ec) {
-		chart = ec.init(document.getElementById('bs-bar'));
-		var option = {
-			    title : {
-			        /*text: 'Tera系统[基站，交换中心，网管，调度台]告警统计'*/
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计'],
-			    textStyle:{  
-                    /*fontWeight:"bolder", */ 
-                    color:"#fff"  
-                }
-			    },
-			    
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            
-			            data : ["交换中心","网管"],
-			            axisLabel:{  
-	                        interval:0,   
-	                        margin:2,  
-	                        textStyle:{  
-	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
-	                        }  
-	                    }
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value',
-			            axisLabel:{  
-	                        textStyle:{  
-	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
-	                        }  
-	                    }
-			            
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'Tera系统[基站，交换中心，网管，调度台]告警统计',
-			            type:'bar',
-			            barWidth: 30,//固定柱子宽度
-			            data:[2,5],
-			            itemStyle:{
-			            	normal:{
-			            		color:'#9ACD32',
-			            		cursor:'pointer'
-			            	}},
-			            
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            }
-			        }
-			    ]
-			};
+	$("#btn-run").button('loading');
+	$.ajax({
+		url : '../../bsstatus/ExcelToBsFlash',
+		type : 'get',
+		dataType : "json",
+		data : {
+			startTime:startTime,
+			endTime:endTime
+		},
+		async : false,
+		success : function(data) {
 		
-		$.ajax({
-			url : '../../bsAlarm/data/bsAlarmTypeChart',
-			type : 'GET',
-			dataType : "json",
-			async : true,
-			data:{
-				startTime:startTime,
-				endTime:endTime,
-				level:level_value.join(","),
-				type:type_value.join(",")
-			},
-			success : function(response) {
-
-				/*var data = response.items;
-				option.series[0].data = data;*/
-				var data = response.items;
-				var y=[],x=[];
+			$("#btn-run").button('reset');
+			xh.maskHide();
+			if (data.success) {
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
 				
-				for(var i=0;i<data.length;i++){
-					y.push(data[i].name);
-					x.push(data[i].value);
-					
-				}
-				option.xAxis[0].data=y;
-				option.series[0].data=x;
-				chart.setOption(option);
-				/*chart.on('click',function(params){
-					var name=params.name;
-					window.location.href="bsstatus.html?zone="+name;
-				})*/
-			},
-			error : function() {
+			} else {
+				toastr.error("导出失败", '提示');
 			}
-		});
-
+		},
+		error : function() {
+			$("#btn-run").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
 	});
 	
-
-};
-/**
- * 故障类型统计
- */
-xh.loadbsAlarmTypePie = function(){
-	// 设置容器宽高
-	var resizeBarContainer = function(){
-		$("#bs-pie").width(parseInt($("#bs-pie").parent().width()));
-		$("#bs-pie").height(200);
-	}
-	resizeBarContainer();
-	var startTime=$("input[name='startTime']").val();
-	var endTime=$("input[name='endTime']").val();
-	var level_value =[],type_value=[]; 
-	$('input[name="level"]:checked').each(function(){ 
-	level_value.push($(this).val()); 
-	}); 
-	$('input[name="type"]:checked').each(function(){ 
-		type_value.push($(this).val()); 
-	});
-	
-	// 基于准备好的dom，初始化echarts实例
-	var chart = null;
-	if(chart != null){
-		chart.clear();
-		chart.dispose();
-	}
-	require([ 'echarts', 'echarts/chart/pie' ], function(ec) {
-		chart = ec.init(document.getElementById('bs-pie'));
-		chart.showLoading({
-			text : '正在努力的读取数据中...'
-		});
-		var option = {
-			title : {
-				x : 'center',
-				text : '故障类型统计图 ',
-				subtext : '',
-				textStyle : {
-					color : '#fff'
-				}
-			},
-			tooltip : {
-				trigger : 'item',
-				formatter : "{a} <br/>{b} : {c} ({d}%)"
-			},
-			legend : {
-				orient : 'vertical',
-				x : 'left',
-				data : [ '紧急告警', '主要告警', '次要告警', '一般告警' ]
-			},
-		
-			calculable : true,
-			backgroundColor : 'rgba(0,0,0,0.5)',
-			series : [ {
-				name : '类型',
-				type : 'pie',
-				radius : '50%',
-				center : [ '70%', '55%' ],
-				itemStyle : {
-					normal : {
-						color : function(params) {
-							// build a color map as your need.
-							var colorList = [ 'red', '#B22222', '#FF8C00','#EEEE00' ];
-							return colorList[params.dataIndex];
-						},
-						label : {
-							show : true,
-							position : 'top',
-							formatter : '{b}\n{c}'
-						}
-					}
-				},
-				data : []
-			} ]
-		};
-
-		$.ajax({
-			url : '../../bsAlarm/data/bsAlarmLevelChart',
-			data : {
-				startTime:startTime,
-				endTime:endTime,
-				level:level_value.join(","),
-				type:type_value.join(",")
-			},
-			type : 'get',
-			dataType : "json",
-			async : false,
-			success : function(response) {
-				var data = response.items;
-				var y=[],x=[];	
-				for(var i=0;i<data.length;i++){
-					y.push(data[i].name);
-					x.push(data[i].value);
-					
-				}
-				/*option.xAxis[0].data = y;*/
-				option.series[0].data = data;
-				chart.hideLoading();
-				chart.setOption(option);
-
-			},
-			failure : function(response) {
-			}
-		});
-
-	});
-	/*// 用于使chart自适应高度和宽度
-	window.onresize = function() {
-		// 重置容器高宽
-		chart.resize();
-	};*/
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {

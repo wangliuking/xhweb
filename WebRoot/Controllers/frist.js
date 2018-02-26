@@ -49,6 +49,30 @@ xh.load = function() {
 	    };
 	});
 	app.controller("frist", function($scope, $http) {
+		$http.get("bsstatus/duty").success(
+				function(response) {
+					$scope.dataOne = response.one;
+					$scope.dataTwo = response.two;
+					$scope.dataThree = response.three;
+				});
+		
+		$scope.updateDuty=function(){
+			$.ajax({
+				url : 'bsstatus/updateDuty',
+				type : 'POST',
+				dataType : "json",
+				data : {
+					duty1:$("input[name='duty1']").val(),
+					duty2:$("input[name='duty2']").val(),
+					duty3:$("input[name='duty3']").val()
+				},
+				async : false,
+				success : function(data) {
+				},
+				error : function() {
+				}
+			});
+		}
 		
 		$scope.info=function(){
 			$http.get("dataView/show").
