@@ -631,7 +631,7 @@ Date Time Widget
     newDate.setDate(newDate.getDate());
 
     // Output the day, date, month and year
-    $('#date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+   // $('#date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
 
     setInterval( function() {
 
@@ -639,9 +639,10 @@ Date Time Widget
         var seconds = new Date().getSeconds();
 
         // Add a leading zero to seconds value
-        $("#sec").html(( seconds < 10 ? "0":"" ) + seconds);
+       // $("#sec").html(( seconds < 10 ? "0":"" ) + seconds);
+        $("#fullTime").html(nowTime());
     },1000);
-
+/*
     setInterval( function() {
 
         // Create a newDate() object and extract the minutes of the current time on the visitor's
@@ -658,7 +659,7 @@ Date Time Widget
 
         // Add a leading zero to the hours value
         $("#hours").html(( hours < 10 ? "0" : "" ) + hours);
-    }, 1000);
+    }, 1000);*/
 })();
 
 /* 获取cookie */
@@ -682,5 +683,17 @@ Date Time Widget
 	//将userId和userName两个cookie设置为10天后过期
 	document.cookie=name+"="+value+"; expires="+date.toGMTString()+";path=/";
 };
+function nowTime(){
+	var date = new Date();
+	this.year = date.getFullYear();
+	this.month = date.getMonth() + 1;
+	this.date = date.getDate();
+	this.day = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")[date.getDay()];
+	this.hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+	this.minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+	this.second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+	var currentTime = this.year + "年" + this.month + "月" + this.date + "日 " + this.hour + ":" + this.minute + ":" + this.second + " " + this.day;
+	return currentTime;
+}
 
 

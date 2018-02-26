@@ -41,7 +41,7 @@ html,body {
 	height: 70px;
 	left: 44%;
 	top: 2px;
-	font-weight:700;
+	font-weight: 700;
 	cursor: pointer;
 	border-radius: 50%;
 	padding-top: 25px;
@@ -62,8 +62,27 @@ html,body {
 }
 
 #goToIndex:HOVER {
-	 border: 3px solid yellow;
-	 box-shadow: 0px 3px 0px rgba(219, 31, 5, 1), 0px 3px 6px rgba(0, 0, 0, .9);
+	border: 3px solid yellow;
+	box-shadow: 0px 3px 0px rgba(219, 31, 5, 1), 0px 3px 6px
+		rgba(0, 0, 0, .9);
+}
+
+.list-group .list-group-item {
+	background: rgba(0, 0, 0, 0.5);
+	border: 0;
+}
+
+.list-group .list-group-item input {
+	margin-left: 20px;
+	background: rgba(0, 0, 0, 0.1);
+	border: 0;
+	color:yellow;
+	font-size: 1.2em;
+}
+.list-group .list-group-item span {
+	color:red;
+	font-weight: 700;
+	font-size: 1.2em
 }
 /* nav ul li{
   background:#ccc;
@@ -171,13 +190,28 @@ html,body {
 					</div>
 				</div>
 				<div>
-					<!-- <div class="row">
+					<div class="row">
+						<div class="col-md-12 lg-box">
+							<p>公告栏</p>
+
+							<ul class="list-group">
+								<li class="list-group-item"><span>今日值班领导:</span><input
+									type="text" name="duty1" ng-model="dataOne" ng-blur="updateDuty()"/></li>
+								<li class="list-group-item"><span>今日值班员:</span><input
+									type="text" name="duty2" ng-model="dataTwo" ng-blur="updateDuty()"/></li>
+								<li class="list-group-item"><span>值班电话:</span><input
+									type="text" name="duty3" ng-model="dataThree" ng-blur="updateDuty()"/></li>
+							</ul>
+						</div>
+					</div>
+					<div>
+						<!-- <div class="row">
 						<div class="col-md-12 lg-box">
 							<p>&nbsp;</p>
 						</div>
 					</div> -->
 
-					<!-- <div class="row">
+						<!-- <div class="row">
 					<div class="col-md-2"></div>
 						<div class="col-md-8">
 						
@@ -224,25 +258,25 @@ html,body {
 					</div>
 					row -->
 
+					</div>
 				</div>
+				<!-- lg-right -->
 			</div>
-			<!-- lg-right -->
+			<!-- row -->
 		</div>
-		<!-- row -->
-	</div>
 
-	<!-- 中间内容体 /-->
-	<!-- 底部内容体 -->
-	<script type="text/javascript" src="Resources/js/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
-	
-	<script type="text/javascript" src="lib/echarts/echarts.js"></script>
-	<script type="text/javascript" src="Controllers/frist.js"></script>
-	<script type="text/javascript">
-		
-	</script>
-	<script type="text/javascript">
-		xh.load();
-	</script>
+		<!-- 中间内容体 /-->
+		<!-- 底部内容体 -->
+		<script type="text/javascript" src="Resources/js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="Resources/js/xhbootstrap-js.js"></script>
+
+		<script type="text/javascript" src="lib/echarts/echarts.js"></script>
+		<script type="text/javascript" src="Controllers/frist.js"></script>
+		<script type="text/javascript">
+			
+		</script>
+		<script type="text/javascript">
+			xh.load();
+		</script>
 </body>
 </html>

@@ -353,6 +353,7 @@
 		order by a.time_break desc
 		limit #{start},#{limit}
 	</select>
+	
 	<!-- 基站闪断列表总数 -->
 	<select id="bsflashCount" resultType="int" useCache="true" parameterType="map">
 		select count(*) from xhgmnet_bsstatus_history 
@@ -363,5 +364,17 @@
 		<if test="endtime!=null and endtime!=''">
 		and time_break between #{starttime} and #{endtime}
 		</if>
+	</select>
+	<!-- 导出基站闪断列表 -->
+	<select id="excelToBsflash" resultType="xh.mybatis.bean.BsFlashBean" useCache="true" parameterType="map">
+		select a.*,TIMESTAMPDIFF(SECOND,a.time_break,a.time_restore) as sumtime ,b.name,b.period from xhgmnet_bsstatus_history as a 
+		left join xhgmnet_bs_station as b
+		on a.bsId=b.bsId
+		where a.time_restore is not null and (TIMESTAMPDIFF(MINUTE,a.time_break,a.time_restore)) &lt;= #{bsflash}
+		<if test="endtime!=null and endtime!=''">
+		and a.time_break between #{starttime} and #{endtime}
+		</if>
+		order by a.time_break desc
+		limit 0,1000
 	</select>
 </mapper>

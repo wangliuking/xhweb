@@ -61,6 +61,7 @@ xh.load = function() {
 		$scope.hideMenu=function(){
 			$("body").toggleClass("hide-menu");
 		};
+		
 	
 		//系统告警数目
 		$scope.alarmCount=function(){

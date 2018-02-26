@@ -209,6 +209,11 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 											class="text-white">筛选查询</span>
 											
 										</a>
+										<a data-toggle="modal" data-target="#excel"> <i
+											class="fa fa-file-excel-o text-white"></i>&nbsp;<span
+											class="text-white">导出数据</span>
+											
+										</a>
 										<!-- <a ng-click="showOrderWin()"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">派单</span>
@@ -334,6 +339,49 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 					<button type="button"
 					class="btn btn-success btn-sm" ng-click="refresh()">
 					<i class="fa fa-search"></i>&nbsp;查询
+				</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="excel" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">数据筛选</small>
+				</div>
+				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<div class="row">
+					
+					
+						<!-- col-md -->
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="startTime"
+									required="required"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="oneDate">
+							</div>
+						</div>
+						<!-- col-md -->
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="endTime"
+									required="required"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="nowDate">
+							</div>
+						</div>
+					</div>
+					<!-- row -->
+				</div>
+				<div class="modal-footer">
+					<button type="button"
+					class="btn btn-success btn-sm" onclick="xh.excel()">
+					<i class="fa fa-file-excel-o"></i>&nbsp;导出
 				</button>
 				</div>
 			</div>
