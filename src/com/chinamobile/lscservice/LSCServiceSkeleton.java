@@ -86,15 +86,15 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			}
 			boolean result = GosuncnController.updateLogin(map);
 			if(result){
-				log.info("啦啦啦一个FSU注册更新成功！");			
+				//log.info("啦啦啦一个FSU注册更新成功！");			
 			}else{
 				GosuncnController.insertLogin(map);
-				log.info("啦啦啦一个FSU注册添加成功！");
+				//log.info("啦啦啦一个FSU注册添加成功！");
 			}	
 			//判断版本号为2.06的简阳基站，更新无线ip
 			if("2.06".equals(map.get("FSUVER"))){
 				GosuncnController.updataCameraIpByFSUID(map);
-				log.info("啦啦啦一个无线ip修改成功！");
+				//log.info("啦啦啦一个无线ip修改成功！");
 			}
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>LOGIN_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}else if("SEND_DEV_CONF_DATA".equals(temp)){
@@ -106,7 +106,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 				configList = ParseXml.getDevConf(xml, FSUID);
 				GosuncnController.deleteConfigByFSUID(FSUID);//删除之前的配置信息，保持最新	
 				GosuncnController.insertConfig(configList);//将配置信息入库
-				log.info("啦啦啦一个FSU已添加配置！");			
+				//log.info("啦啦啦一个FSU已添加配置！");			
 			} catch (DocumentException e) {
 				e.printStackTrace();
 			}		
@@ -148,7 +148,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			TestGoEasy.sendAlarmWeb(alarmDesc);*/
 			
 			GosuncnController.insertAlarm(dataList);
-			log.info("啦啦啦一条告警信息已经添加！");
+			//log.info("啦啦啦一条告警信息已经添加！");
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_ALARM_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Info></Response>";
 		}
 		return null;

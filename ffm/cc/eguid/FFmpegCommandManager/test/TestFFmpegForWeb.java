@@ -32,7 +32,10 @@ public class TestFFmpegForWeb {
 		Map<String,String> map = new HashMap<String,String>();
 		String input = "rtsp://" + cameraMap.get("loginName") + ":" + cameraMap.get("password") + "@" + cameraMap.get("deviceIP") + ":554/h264/ch1/main/av_stream";		
 		int bsId = (Integer) cameraMap.get("bsId");
-		String window = cameraMap.get("window")+"x360";
+		String tempWindow = cameraMap.get("window").toString();
+		String[] strs = tempWindow.split("[.]");
+		String window = strs[0]+"x360";
+		System.out.println("window大小为："+window);
 		String cameraId = "camera"+bsId;
 		map.put("appName", cameraId);
 		map.put("input", input);
