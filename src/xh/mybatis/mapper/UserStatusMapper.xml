@@ -38,7 +38,7 @@
 	<!--终端在线统计 -->
 	<select id="userOnline" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_userstatus where regStatus in(1,2,3) where bsId>0
+		select count(*) from xhgmnet_operations_userstatus where bsId>0 and regStatus in(1,2,3)
 	</select> 
 
 </mapper>
