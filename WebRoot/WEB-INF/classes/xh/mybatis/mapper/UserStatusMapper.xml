@@ -4,7 +4,7 @@
     <!--终端状态-->
     <select id="userstatus" parameterType="map" resultType="java.util.HashMap" useCache="true">
      select a.*,b.name from xhgmnet_operations_userstatus a left join 
-     xhgmnet_bs_station as b on a.bsId=b.bsId where 1=1
+     xhgmnet_bs_station as b on a.bsId=b.bsId where 1=1 and a.bsId>0
      <if test="userId !=null and userId !=''">
          and a.userId=#{userId}
      </if>
@@ -18,7 +18,7 @@
     </select>  
     <!--终端状态数量-->
     <select id="userstatusCount" parameterType="map" resultType="int" useCache="true">
-     select count(userId) from xhgmnet_operations_userstatus where 1=1
+     select count(userId) from xhgmnet_operations_userstatus where 1=1 and bsId>0
      <if test="userId !=null and userId !=''">
          and userId=#{userId}
      </if>
@@ -32,13 +32,13 @@
     <!--终端在线状态统计 -->
 	<select id="userStatusByChart" resultType="java.util.HashMap"
 		useCache="true">
-		select regStatus as name,count(userId) as value from xhgmnet_operations_userstatus
-		group by regStatus order by regStatus asc
+		select regStatus as name,count(userId) as value from xhgmnet_operations_userstatus where bsId>0
+		group by regStatus order by regStatus asc 
 	</select> 
 	<!--终端在线统计 -->
 	<select id="userOnline" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_userstatus where regStatus in(1,2,3)
+		select count(*) from xhgmnet_operations_userstatus where regStatus in(1,2,3) where bsId>0
 	</select> 
 
 </mapper>
