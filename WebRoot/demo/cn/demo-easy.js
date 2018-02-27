@@ -32,10 +32,10 @@ $(function () {
 
 	var oLiveView = {
 		iProtocol: 1,			// protocol 1：http, 2:https
-		szIP: "10.1.65.2",	// protocol ip
+		szIP: "10.17.137.244",	// protocol ip
 		szPort: "80",			// protocol port
 		szUsername: "admin",	// device username
-		szPassword: "gosuncn123",	// device password
+		szPassword: "web12345",	// device password
 		iStreamType: 1,			// stream 1：main stream  2：sub-stream  3：third stream  4：transcode stream
 		iChannelID: 1,			// channel no
 		bZeroChannel: false		// zero channel

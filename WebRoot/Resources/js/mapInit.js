@@ -16,7 +16,7 @@ app.filter('freqFormat', function() { // 可以注入依赖
 		/*console.log("频点："+parseInt(text))*/
 		
 		if(parseInt(text)>0){
-			var fr=(parseInt(text)/1000000).toFixed(2)+"MHz";
+			var fr=(parseInt(text)/1000000).toFixed(6)+"MHz";
 			return fr
 		}else{
 			return "";
@@ -26,7 +26,7 @@ app.filter('freqFormat', function() { // 可以注入依赖
 app.filter('retLoss',function(){
 	return function(text){
 		if(text>0){
-			return text+'dB';
+			return text+'db';
 		}else{
 			return "";
 		}
@@ -35,12 +35,18 @@ app.filter('retLoss',function(){
 app.filter('fwdPa',function(){
 	return function(text){
 		if(text>0){
-			return text+'W';
+			return text+'db';
 		}else{
 			return "";
 		}
 	}
 })
+app.config([ '$locationProvider', function($locationProvider) {
+	$locationProvider.html5Mode({
+		enabled : true,
+		requireBase : false
+	});
+} ]);
 app.controller("map", function($scope, $http) {
 	/**
 	 * 首页弹出模态框数据获取和设置start
@@ -61,6 +67,18 @@ app.controller("map", function($scope, $http) {
 				function(response) {
 					$scope.bscData = response.items;
 					$scope.bscTotals = response.totals;
+					
+					var record=0;
+					for(var i=0;i<$scope.bscTotals;i++){
+						if($scope.bscData[i].Id<=2 && $scope.bscData[i].online!=2){
+							record++;
+						}
+					}
+				
+				   $scope.bscExists=record;
+					
+					
+					
 				});
 	};
 	// 基站下的bsr状态
@@ -1519,10 +1537,10 @@ function init(data,markData) {
 					option.series[1].markPoint.symbol="pin"
 					overlay.setOption(option);
 				}else{
-					option.series[0].markPoint.symbolSize=18;
-					option.series[0].markPoint.symbol="image://bluesky/contact_big.png";					
-					option.series[1].markPoint.symbolSize=18;
-					option.series[1].markPoint.symbol="image://bluesky/break_big.png";
+					option.series[0].markPoint.symbolSize=8;
+					option.series[0].markPoint.symbol="pin";					
+					option.series[1].markPoint.symbolSize=8;
+					option.series[1].markPoint.symbol="pin";
 					overlay.setOption(option);
 				}				
 			}			
