@@ -13,7 +13,7 @@ $(document).ready(function() {
 	
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
-		$('body').attr('id', xh.getcookie("skin"));
+		/*$('body').attr('id', xh.getcookie("skin"));*/
 		/*if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{

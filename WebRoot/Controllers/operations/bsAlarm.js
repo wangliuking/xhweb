@@ -290,7 +290,7 @@ xh.bsBar = function() {
 			        data:['Tera系统[基站，交换中心，网管，调度台]告警统计'],
 			    textStyle:{  
                     /*fontWeight:"bolder", */ 
-                    color:"#fff"  
+                    color:"#000"  
                 }
 			    },
 			    
@@ -305,7 +305,7 @@ xh.bsBar = function() {
 	                        margin:2,  
 	                        textStyle:{  
 	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
+	                            color:"#000"  
 	                        }  
 	                    }
 			        }
@@ -316,7 +316,7 @@ xh.bsBar = function() {
 			            axisLabel:{  
 	                        textStyle:{  
 	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
+	                            color:"#000"  
 	                        }  
 	                    }
 			            
@@ -420,7 +420,7 @@ xh.loadbsAlarmTypePie = function(){
 				text : '故障类型统计图 ',
 				subtext : '',
 				textStyle : {
-					color : '#fff'
+					color : '#000'
 				}
 			},
 			tooltip : {
@@ -434,7 +434,7 @@ xh.loadbsAlarmTypePie = function(){
 			},
 		
 			calculable : true,
-			backgroundColor : 'rgba(0,0,0,0.5)',
+			/*backgroundColor : 'rgba(0,0,0,0.5)',*/
 			series : [ {
 				name : '类型',
 				type : 'pie',

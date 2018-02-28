@@ -20,7 +20,7 @@
     background: rgba(0, 0, 0, 0.25);
     overflow-y: auto;
 } */
-.modal-body label{
+/* .modal-body label{
 	color:#000;
 }
 .form-group{
@@ -37,7 +37,7 @@
 }
 .search-hide span{
 	color:#fff;
-}
+} */
 
 #mainframe {
 	margin: 0 0 0 233px;
@@ -167,7 +167,7 @@
 .content-menu a{
 text-decoration:none;
 
-  color:#fff;
+  color:#000;
 }
 .content-menu span{
  margin-right:30px;
@@ -259,8 +259,8 @@ text-decoration:none;
 #wrapper {
 	margin: 0 0 0 190px;
 	padding: 0;
-	
-	border-left: 1px solid rgba(0,0,0,0.5);
+	background: #f1f3f6;
+	border-left: 1px solid #e4e5e7;
 	transition: all 0.4s ease 0s;
 	position: relative;
 	min-height: 100%;
@@ -417,7 +417,7 @@ text-decoration:none;
 } */
 .content {
 	padding: 15px 10px 10px 10px;
-	/* background: transparent; */
+	background: #fff;
 	
 	min-height: 100%;
 	width: 100%;
@@ -506,14 +506,15 @@ text-decoration:none;
 /* 网页底部布局 */
 .footer {
 	padding: 10px 18px;
-	background: transparent;
-	/* border-top: 1px solid #e4e5e7; */
+	/* background: transparent; */
+	background: #ffffff;
+	border-top: 1px solid #e4e5e7;
 	transition: all 0.4s ease 0s;
 	position: absolute;
 	bottom: 0;
 	left: 233px;
 	right: 0;
-	color:#fff;
+	color:#000;
 	text-align: center;
 }
 /* 网页标题导航 */
@@ -534,8 +535,9 @@ text-decoration:none;
 }
 
 .title-panel .panel-body {
-	background:rgba(0,0,0,0.3);
-	border: 0.5px solid #ccc;
+	background: #fff;
+	border: 1px solid #e4e5e7;
+	color:#000;
 	border-radius: 2px;
 	padding: 2px;
 	position: relative;
@@ -728,8 +730,12 @@ text-decoration:none;
 .page .page-info {
 	float: left;
 	margin-left: 10px;
+	color:#000;
 }
 .page .page-info select{
+	color:#000;
+}
+.page .page-info span{
 	color:#000;
 }
 
@@ -743,16 +749,17 @@ text-decoration:none;
 	padding: 0;
 	margin: 0;
 }
-.page .page-paging .pagination li a{
-	background-color:rgba(0,0,0,0.6);
+/* .page .page-paging .pagination li a{
+	background-color:#fafafa;
 	border:1px solid rgba(0,0,0,0.6);
+	color:#000;
 	
 }
 .page .page-paging-group .pagination li a{
 	background-color:rgba(0,0,0,0.6);
 	border:1px solid rgba(0,0,0,0.6);
 	
-}
+} */
 
 .block{
 	padding:5px;

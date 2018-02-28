@@ -98,7 +98,7 @@ xh.bsBar = function() {
 			        text: '各区域设备工作状态异常的基站数量',
 			        textStyle:{  
                         /*fontWeight:"bolder", */ 
-                        color:"#fff"  
+                        color:"#000"  
                     }
 			    },
 			    tooltip : {
@@ -108,7 +108,7 @@ xh.bsBar = function() {
 			        data:['三期','四期','三四期'],
 			        textStyle:{  
                         /*fontWeight:"bolder", */ 
-                        color:"#fff"  
+                        color:"#000"  
                     }
 			    },
 			    
@@ -145,7 +145,7 @@ xh.bsBar = function() {
 			            barCategoryGap:'40%',
 			            itemStyle:{
 			            	normal:{
-			            		color:'yellow',
+			            		color:'black',
 			            		cursor:'pointer',
 			            		label: {  
 		                                show: true,//是否展示  
