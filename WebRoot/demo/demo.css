@@ -67,12 +67,6 @@ fieldset
 {
 	width:310px;
 }
-.localconfig .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
 .localconfig .sel
 {
 	width:120px;
@@ -92,18 +86,6 @@ fieldset
 {
 	width:130px;
 }
-.login .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
-.login .btn2
-{
-	width:100px;
-	height:22px;
-	line-height:18px;
-}
 .login .sel
 {
 	width:130px;
@@ -118,12 +100,6 @@ fieldset
 	width:480px;
 	padding:10px;
 	border:1px solid #7F9DB9;	
-}
-.ipchannel .btn
-{
-	width:130px;
-	height:22px;
-	line-height:18px;
 }
 .ipchannel .digitaltdiv
 {
@@ -157,18 +133,6 @@ fieldset
 {
 	width:30px;
 }
-.preview .btn
-{
-	width:70px;
-	height:22px;
-	line-height:18px;
-}
-.preview .btn2
-{
-	width:90px;
-	height:22px;
-	line-height:18px;
-}
 .preview .sel
 {
 	width:105px;
@@ -188,18 +152,6 @@ fieldset
 .ptz .txt
 {
 	width:60px;
-}
-.ptz .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
-.ptz .btn2
-{
-    width:60px;
-    height:22px;
-    line-height:18px;
 }
 .ptz .sel
 {
@@ -221,12 +173,6 @@ fieldset
 {
 	width:60px;
 }
-.videoparam .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
 .videoparam .sel
 {
 	width:65px;
@@ -246,18 +192,6 @@ fieldset
 .playback .txt
 {
 	width:140px;
-}
-.playback .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
-.playback .btn2
-{
-	width:70px;
-	height:22px;
-	line-height:18px;
 }
 .playback .sel
 {
@@ -293,18 +227,6 @@ fieldset
 .maintain .txt
 {
 	width:280px;
-}
-.maintain .btn
-{
-	width:45px;
-	height:22px;
-	line-height:18px;
-}
-.maintain .btn2
-{
-	width:100px;
-	height:22px;
-	line-height:18px;
 }
 .maintain .sel
 {
@@ -352,12 +274,6 @@ fieldset
 .ipparse .txt
 {
 	width:130px;
-}
-.ipparse .btn
-{
-	width:90px;
-	height:22px;
-	line-height:18px;
 }
 .ipparse .sel
 {
