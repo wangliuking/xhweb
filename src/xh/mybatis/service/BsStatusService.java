@@ -509,14 +509,14 @@ public class BsStatusService {
 				}
 				if (map.get("076509") != null) {
 					result.put("fsu4",
-							Float.parseFloat(map.get("076509").toString()));// 电池方式工作状态
+							Float.parseFloat(map.get("076509").toString()));// 智能电表通信状态告警
 
 				}
-				if (map.get("008408") != null) {
+				/*if (map.get("008408") != null) {
 					result.put("fsu5",
 							Float.parseFloat(map.get("008408").toString()));// 智能电表通信状态告警
 
-				}
+				}*/
 				// 智能电表
 				if (map.get("092301") != null) {
 					result.put("e1",
