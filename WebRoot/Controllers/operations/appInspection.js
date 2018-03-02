@@ -389,7 +389,7 @@ xh.excelToMbs=function(){
 		type : 'post',
 		dataType : "json",
 		data : {
-			excelData:JSON.stringify($scope.sbsOneData)
+			excelData:JSON.stringify($scope.mbsOneData)
 		},
 		
 		async : false,

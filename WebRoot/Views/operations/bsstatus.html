@@ -282,7 +282,7 @@
 						</div>
 					</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
-						status-value="{{x.status}}" ng-if="x.total>20"
+						status-value="{{x.status}}" ng-if="x.total>20 && x.total!=38"
 						style="width:510px;height:170px;">
 						<div class="bs-info zone-div">{{x.zone}}(<span style="color:#7FFF00">{{x.total}}个基站</span>)</div>
 						<div ng-repeat="y in x.item" class="bs-info">

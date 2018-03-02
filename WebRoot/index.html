@@ -80,9 +80,9 @@ html,body {
 	font-size: 1.2em;
 }
 .list-group .list-group-item span {
-	color:red;
+	color:#fff;
 	font-weight: 700;
-	font-size: 1.2em
+	font-size: 1.1em
 }
 /* nav ul li{
   background:#ccc;
@@ -196,11 +196,11 @@ html,body {
 
 							<ul class="list-group">
 								<li class="list-group-item"><span>今日值班领导:</span><input
-									type="text" name="duty1" ng-model="dataOne" ng-blur="updateDuty()"/></li>
+									type="text" name="duty1" ng-model="dataOne" ng-blur="updateDuty()" ng-readonly="roleType!=3"/></li>
 								<li class="list-group-item"><span>今日值班员:</span><input
-									type="text" name="duty2" ng-model="dataTwo" ng-blur="updateDuty()"/></li>
+									type="text" name="duty2" ng-model="dataTwo" ng-blur="updateDuty()" ng-readonly="roleType!=3"/></li>
 								<li class="list-group-item"><span>值班电话:</span><input
-									type="text" name="duty3" ng-model="dataThree" ng-blur="updateDuty()"/></li>
+									type="text" name="duty3" ng-model="dataThree" ng-blur="updateDuty()" ng-readonly="roleType!=3"/></li>
 							</ul>
 						</div>
 					</div>

@@ -22,7 +22,7 @@ xh.login = function() {
 	
 	$.ajax({
 		url : '../web/login',
-		type : 'POST',
+		type : 'get',
 		dataType : "json",
 		data : {
 			username : $("#loginForm").find("input[name='username']").val(),

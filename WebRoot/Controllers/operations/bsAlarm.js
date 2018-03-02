@@ -417,7 +417,7 @@ xh.loadbsAlarmTypePie = function(){
 		var option = {
 			title : {
 				x : 'center',
-				text : '故障类型统计图 ',
+				/*text : '故障类型统计图 ',*/
 				subtext : '',
 				textStyle : {
 					color : '#000'
@@ -439,7 +439,7 @@ xh.loadbsAlarmTypePie = function(){
 				name : '类型',
 				type : 'pie',
 				radius : '50%',
-				center : [ '70%', '55%' ],
+				center : [ '60%', '50%' ],
 				itemStyle : {
 					normal : {
 						color : function(params) {

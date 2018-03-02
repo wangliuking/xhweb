@@ -18,6 +18,11 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+.hpanel panel-body{
+ background:#000;
+}
+</style>
 <script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
 <object id="LODOP_OB"
 	classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
@@ -153,7 +158,7 @@
 					<div class="hpanel">
 						<div class="panel-body">
 							<a href="#" ng-click="resend($index)"
-								class="pull-right" ng-if="x.status==0" style="color:yellow"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
+								class="pull-right" ng-if="x.status==0" style="color:#FF00FF"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a>
 
 
@@ -178,7 +183,7 @@
 							<div class="row">
 								<div class="col-md-4 border-right">
 									<div class="contact-stat"><!-- contact-panel -->
-										<span>派单人 </span> <strong style="color:#fff">{{x.dispatchman}}</strong>
+										<span>派单人 </span> <strong style="color:#000">{{x.dispatchman}}</strong>
 									</div>
 								</div>
 								<div class="col-md-4 border-right">
@@ -191,7 +196,7 @@
 								</div>
 								<div class="col-md-4">
 									<div class="contact-stat">
-										<span>接单人 </span> <strong style="color:#fff">{{x.userName}}</strong>
+										<span>接单人 </span> <strong style="color:#000">{{x.userName}}</strong>
 									</div>
 								</div>
 							</div>

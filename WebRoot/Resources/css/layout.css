@@ -250,10 +250,12 @@ text-decoration:none;
 .lg-box p{
 	/* background:green; */
 	
-	padding:5px;
-	border-radius:3px;
-	box-shadow:0 0 38px #ccc;
-	border-left:8px solid blue
+	padding:8px;
+	border-radius:1px;
+	box-shadow:0 0 8px #ccc;
+	border-left:4px solid blue;
+	font-weight: 800;
+	color:yellow;
 }
 /* 网页中间内容体 wrapper */
 #wrapper {

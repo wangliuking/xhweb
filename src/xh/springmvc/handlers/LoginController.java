@@ -44,7 +44,7 @@ public class LoginController {
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
-	@RequestMapping(value = "/web/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws Exception {
@@ -52,8 +52,6 @@ public class LoginController {
 		this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));
 		String codeVar=request.getParameter("code");
 		String codeSession=funUtil.getSession(request, "codeValidate");
-		
-		log.info("验证码：-》"+codeSession);
 		
 		String toSign = request.getParameter("ToSign");
 		

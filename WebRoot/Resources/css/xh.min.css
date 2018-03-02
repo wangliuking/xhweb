@@ -3398,8 +3398,8 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 	height:60px;
 	color:#fff;
 	background:#fafafa;
-	border-radius:10px;
-	box-shadow:0 0 20px #ccc;
+	border-radius:5px;
+	box-shadow:0 0 5px #ccc;
 }
 /* .card-filter{
   background-color: rgba(0,0,0,0.5);IE9、标准浏览器、IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂

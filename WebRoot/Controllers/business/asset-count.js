@@ -220,12 +220,12 @@ xh.statusPie = function() {
 			 * show : true } } },
 			 */
 			calculable : false,
-			backgroundColor : background,
+			/*backgroundColor : background,*/
 			series : [ {
 				name : '数量',
 				type : 'pie',
 				radius : '55%',
-				center : [ '50%', '60%' ],
+				center : [ '50%', '50%' ],
 				itemStyle : {
 					normal : {
 						color : function(params) {

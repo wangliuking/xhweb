@@ -29,6 +29,8 @@
 							<td>{{x.Id}}</td>
 							<td style="/* max-width: 100px;word-wrap:break-word; *//* word-break:break-all; */ ">
 							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
+							<div ng-if="x.working>0">
+							<span>异常：</span>
 							<span ng-if="x.working==1" class="label arrowed label-sm label-danger">到BSC的ICP通道断开</span>
 							<span ng-if="x.working==2" class="label arrowed label-sm label-danger">TR异常</span>
 							<span ng-if="x.working==3" class="label arrowed label-sm label-danger">到BSC的ICP通道断开并且TR异常</span>
@@ -52,6 +54,7 @@
 							<span ng-if="x.working==75" class="label arrowed label-sm label-danger">到BSC的ICP通道断开,BBP、DSP、TR状态异常</span>
 							<span ng-if="x.working==128" class="label arrowed label-sm label-danger">功放关闭</span>
 							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
+							</div>
 							</td>
 							<td>{{x.freq |freqFormat}}</td>
 							<td>{{x.freq2 |freqFormat}}</td>
@@ -75,7 +78,7 @@
 						<tr ng-if="bscExists>=2">
 							
 							<td colspan="9">
-							    获取设备数据失败！！！！！！
+							     数据获取中
 							 </td>
 							
 						</tr>

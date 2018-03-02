@@ -104,7 +104,7 @@ public class DataViewController {
 		SimpleDateFormat timeF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		timeF.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));		
 		Date d=new Date();
-		String dateStr = timeF.format(d.getTime()-10*60*1000);
+		String dateStr = timeF.format(d.getTime()-25*60*1000);
 		String[] time=dateStr.split(" ")[1].split(":");
 		String rtime=dateStr.split(" ")[0];
 		int a=Integer.parseInt(time[1]);
@@ -115,6 +115,7 @@ public class DataViewController {
 		}else{
 			rtime+=" "+time[0]+":0"+x+":00";
 		}
+		/*System.out.println("time->"+rtime);*/
 		return rtime;
 	}
 
