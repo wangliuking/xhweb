@@ -143,10 +143,12 @@ body {
 }
 
 .login-div {
-	margin: 50px auto;
-	width: 1005px;
-	height: 500px;
-	/* background:#fff; */
+	margin: 60px auto;
+	padding: 30px, 0px, 0px, 25px;
+	width: 850px;
+	height: 450px;
+	/* box-shadow:0 0 30px #ccc; */
+	/* background:rgba(0,0,0,0.5); */
 }
 
 .login-title {
@@ -172,15 +174,15 @@ body {
 }
 
 .login-img {
-	width: 648px;
+	width: 548px;
 	height: 100%;
 	/* background-image: url("../Resources/images/img/main3.jpg"); */
 }
 
 .login-info {
-	width: 348px;
+	width: 298px;
 	height: 100%;
-	border: 2px solid #ccc;
+	border: 2px solid rgba(0, 0, 0, 0.6);
 	/* border-radius:5px; */
 	color: #000;
 }
@@ -202,6 +204,29 @@ body {
 	float: left;
 	margin-right: 5px;
 }
+
+.form-group label {
+	color: #fff;
+}
+
+html {
+	background: url(../Resources/images/img/main.jpg);
+	background-size: 100% 100%;
+	background-attachment: fixed;
+}
+
+body {
+	height: 100%;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	/* background:rgba(0,0,0,0.5); */
+	background: url(../Resources/images/img/main.jpg);
+	background-size: 100% 100%;
+	background-attachment: fixed;
+}
 </style>
 
 <!--[if lt IE 9]>   
@@ -210,8 +235,7 @@ body {
 <![endif]-->
 
 </head>
-<body
-	style="background:url(../Resources/images/img/main2.jpg) repeat-x;">
+<body>
 	<!-- <div class="login-top"></div> -->
 	<div class="login-div">
 
@@ -221,19 +245,19 @@ body {
 
 		<div class="login-content">
 			<div class="login-img v">
-				<img src="../Resources/images/img/main6.jpg" width="648"
+				<img src="../Resources/images/img/main6.jpg" width="548"
 					height="100%" />
 			</div>
 
 			<div class="login-info v">
 
-				<div class="hpanel">
+				<div class="hpanel" style="border:0;">
 
 					<div class="panel-body"
-						style="padding:20px 20px 20px 20px;height:378px;border:0px;background:#ccc;">
+						style="padding:20px 20px 20px 20px;height:378px;border:0px;background:rgba(0,0,0,0.6);">
 
 						<form action="#" id="loginForm" onSubmit="return false"
-							style="color:#000;">
+							style="color:#fff;">
 							<div class="form-group mg-t20">
 								<label>用户名</label> <i class="fa fa-user icon_font"></i> <input
 									class="login_input" type="text" placeholder="请输入用户名"
@@ -248,12 +272,21 @@ body {
 									class="form-control">
 							</div>
 							<div class="form-group mg-t20">
+								<label>数字证书</label> <select title="请选择数字证书" name="CertList"
+									id="CertList" class="form-control">
+
+								</select><input id="ToSign" name="ToSign" type="hidden"> <input
+									name="Signature" type="hidden" id="Signature"
+									class="form-control" style="height:30px;">
+
+							</div>
+							<div class="form-group mg-t20">
 								<label>验证码</label>
 								<div class="code-div">
 									<div>
 										<input class="login_input" type="text" title="请输入验证码"
 											placeholder="请输入验证码" required="" value="" name="code"
-											id="code" class="form-control">
+											id="code" class="form-control" size="14">
 									</div>
 									<div>
 										<img alt="" src="../code/1596" onclick="changeUrl()"
@@ -264,107 +297,25 @@ body {
 
 								</div>
 							</div>
-							<!-- /input-group -->
-							<!-- <div class="form-group" style="margin-top:10px;">
-										<input id="ck10" class="magic-checkbox" type="checkbox"
-											name="status" value="1" ng-checked="editData.status" > <label for="ck10"><span>是否需要数字证书登录</span></label>
-									</div> -->
-							<!--  <div class="form-group mg-t20">
-				<label>数字证书</label>
-					<select title="请选择数字证书" name="CertList" id="CertList"
-						class="form-control">
-
-					</select><input id="ToSign"
-						name="ToSign" type="hidden"> <input
-						name="Signature" type="hidden" id="Signature" class="form-control" style="height:30px;">
-
-				</div> -->
-
-							<button class="btn btn-block btn-success" id="login-btn"
-								style="margin-top:30px;" type="button" onclick="login()">登录</button>
 						</form>
+						<button class="btn btn-block btn-success" id="login-btn"
+								style="margin-top:30px;" type="button" onclick="login()" data-loading-text="Loading...">登录</button>
 					</div>
+					
 				</div>
 
 			</div>
 		</div>
 		<div class="login-footer">
 			<div class="row">
-				<div class="col-md-12 text-center" style="margin-top:10px">
-					<strong>powered by</strong> 成都亚光电子股份有限公司
+				<div class="col-md-12 text-center"
+					style="margin-top:10px;color:#000;">
+					<strong>powered by</strong> 成都亚光电子股份有限公司  <br><span><a href="../Resources/证书助手（i信）.exe" style="color:blue;font-weight:800;">数字证书助手:【证书助手（i信）.exe】下载</a></span>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-
-
-	<!-- container wrap1 -->
-	<!-- <div class="" style="height:450px;">
-		<div class="row">
-			<div class="col-md-6">
-			<img alt="" src="../Resources/images/img/main.jpg" height="400px" width="600px">
-			</div>
-			<div class="col-md-6">
-				<div class="hpanel">
-					<div class="panel-heading hbuilt">
-						登录
-					</div>
-					<div class="panel-body">
-					
-					<form action="#" id="loginForm" onSubmit="return false"
-				style="color:#000;">
-				<div class="form-group mg-t20">
-					<i class="fa fa-user icon_font"></i> <input class="login_input"
-						type="text" placeholder="请输入用户名" title="Please enter you username"
-						required="" value="" name="username" id="username"
-						class="form-control">
-				</div>
-				<div class="form-group mg-t20">
-					<i class="fa fa-lock icon_font"></i> <input class="login_input"
-						type="password" title="Please enter your password"
-						placeholder="请输入密码" required="" value="" name="password"
-						id="password" class="form-control">
-				</div>
-				<div class="form-group">
-					<select title="请选择数字证书" name="CertList" id="CertList"
-						class="form-control">
-
-					</select> <span class="help-block small">数字证书</span> <input id="ToSign"
-						name="ToSign" type="hidden" value=1501489194199> <input
-						name="Signature" type="hidden" id="Signature">
-
-				</div>
-				 <div class=" mg-b25">
-                        <label>
-                            <input type="checkbox" />记住我的登录信息
-                        </label>
-                    </div>
-				<button class="btn btn-block btn-success" id="login-btn">登录</button>
-			</form>
-					</div>
-				</div>
-
-			</div>
-		</div> -->
-
-
-
-
-	<!-- <h2 class="mg-b20 text-center">综合应用与管理平台</h2> -->
-	<!-- <div class="col-sm-8 col-md-5 center-auto pd-sm-50 main_content">
-			<h3 class="mg-b20 text-center" style="color:#000;">综合应用与管理平台</h3>
-			<p class="text-center font16" style="color:#000;">登录</p>
-			
-		</div>
-		row end
-		<div class="row">
-			<div class="col-md-12 text-center" style="margin-top:10px">
-				<strong>powered by</strong> 成都亚光电子股份有限公司
-			</div>
-		</div> -->
-	<!-- </div> -->
 
 	<script type="text/javascript" src="../Resources/js/xhbootstrap-js.js"></script>
 	<script src="../Resources/ca/topEsa.min.js" type="text/javascript"></script>
@@ -376,10 +327,10 @@ body {
 		src="../lib/CryptoJS-v3.1.2/components/mode-ecb-min.js"></script>
 
 	<script type="text/javascript">
-		/*   $(document).ready(function() {
+		  $(document).ready(function() {
 			if (TopESAConfig())
 				initCertList();
-		});  */
+		});  
 		function initCertList() {
 			try {
 				//var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
@@ -473,6 +424,18 @@ body {
 		          }
 		      }
 		  } */
+		 /*  检查key */
+		  function getFresh(){
+		       //  if(TopESAConfig())   
+		       var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
+		       var certs = CertStore.listAllCerts().byKeyUsage(128); //过滤签名证书
+		       var certs_Validity = CertStore.listAllCerts().byKeyUsage(128).byValidity(); //过滤有效期内的签名证书
+		       //alert(certs.size());
+		        if (certs.size() > 0) {
+		        } else {
+		            alert("key已经拔出");
+		        }
+		    }
 		//签名方法
 		function sign() {
 			try {
@@ -480,12 +443,19 @@ body {
 				var cert = getSelectedCert();
 				var P7 = cert.signLogondata(toSign);
 				$("#Signature").val(P7);
+				xh.login();
 				return true;
 			} catch (e) {
 				if (e instanceof TCACErr) {
-					alert("sss");
+					alert("code:404");
 				} else {
-					alert("没有找到可用的证书");
+					if($("input[name='username']").val()=="admin"){
+						xh.login();
+					}else{
+						alert("没有找到可用的证书");
+					}
+					
+				
 
 				}
 				return false;
@@ -493,26 +463,24 @@ body {
 		}
 	</script>
 	<script type="text/javascript">
-		/* $("#login-btn").click(function(){
-			alert(1)
-			$("#loginForm").submit();
-		}) */
-		function login() {
-			$("#loginForm").submit();
+		function login() { 
+			  $("#loginForm").submit();
+			
 		}
 		$("#loginForm").submit(function() {
-
+			$("button[type='button']").button('loading');
 			if ($("input[name='username']").val() == "") {
 				alert("用户名不能为空");
+				 $("button[type='button']").button('reset')
 				return;
 			}
 			if ($("input[name='password']").val() == "") {
 				alert("密码不能为空");
+				 $("button[type='button']").button('reset')
 				return;
 			}
-			//sign();
-			$("#login-btn").button("登录中。。。");
-			xh.login();
+			sign();
+			
 		});
 	</script>
 </body>

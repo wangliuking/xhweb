@@ -47,6 +47,9 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "10";//每页数据显示默认值
 		$scope.zone = $location.search().zone;
+		
+		$scope.showFlag=1;
+		$scope.btnText="按基站ID显示";
 		$scope.nowDate=xh.getOneDay();
 		if($scope.zone==null){
 			$scope.zone="全部"
@@ -58,6 +61,19 @@ xh.load = function() {
 		var status=$("select[name='status']").val();
 		var usergroup=$("input[name='usergroup']").val();
 		var bsId=$("input[name='bsId']").val();
+		
+		
+		$scope.byBsIdBtn=function(){
+			if($scope.showFlag==1){
+				$scope.showFlag=0;
+				$scope.btnText="按区域显示";
+			}else{
+				$scope.showFlag=1;
+				$scope.btnText="按基站ID显示";
+			}
+		}
+		
+		
 		$http.get("../../bs/map/area").success(
 				function(response) {
 					$scope.zoneData = response.items;
@@ -72,7 +88,24 @@ xh.load = function() {
 			$scope.totals = $scope.data.length;
 			$scope.bs_search_data = response.items;
 			$scope.bs_search_totals = $scope.data.length;
+			var data=[];
+			
+			for(var i=0;i<$scope.totals;i++){
+				var dd=$scope.data[i].item;
+			
+				for(var j=0;j<dd.length;j++){
+					data.push(dd[j]);
+				}
+			}
+			data.sort($scope.sortBsId);
+			$scope.byBsIdData=data;
+			$scope.bsBsIdTotals=data.length;
+		
+			
 		});
+		$scope.sortBsId=function(a,b){  
+		       return a.bsId-b.bsId  
+		    }
 		
 		
 		
@@ -163,6 +196,18 @@ xh.load = function() {
 				/*xh.maskHide();*/
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				var data=[];
+				
+				for(var i=0;i<$scope.totals;i++){
+					var dd=$scope.data[i].item;
+				
+					for(var j=0;j<dd.length;j++){
+						data.push(dd[j]);
+					}
+				}
+				data.sort($scope.sortBsId);
+				$scope.byBsIdData=data;
+				$scope.bsBsIdTotals=data.length;
 			});
 		};
 		//分页点击

@@ -66,14 +66,22 @@ public class LoginController {
 		String ip = funUtil.readXml("ca", "ip");
 		int port = funUtil.StringToInt(funUtil.readXml("ca", "port"));
 		// 验证
-		/*String projectId = "yjyypt";
+		String projectId = "yjyypt";
 		String reqId = "1";
-		SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
-        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
-		int startPos = rs.indexOf("code");*/
-		/*String code = rs.substring(startPos + 6 ,startPos + 9);*/
+		String code="";
+		if(!username.equals("admin")){
+			SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
+	        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
+			int startPos = rs.indexOf("code");
+			code = rs.substring(startPos + 6 ,startPos + 9);
+			Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
+			log.info("登陆签名验证返回数据如下:");
+			log.info("camap->"+camap);
+		}else{
+			code="200";
+			log.info("超级账号免key登录");
+		}
 		
-		String code="200";
 		
 		if(!codeVar.isEmpty()){
 			if(!codeVar.toLowerCase().equals(codeSession.toLowerCase())){
@@ -82,12 +90,8 @@ public class LoginController {
 		}else{
 			code="002";
 		}
+
 		
-		
-		
-		/*Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
-		log.info("登陆签名验证返回数据如下:");
-		log.info("camap->"+camap);*/
 		
 		if ( code.equals("200") ) {
 			if (map!=null) {

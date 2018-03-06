@@ -85,6 +85,8 @@ public class WebUserController {
 		this.success=true;
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String userStr=request.getParameter("user");
+		int roleIdStr=funUtil.StringToInt(request.getParameter("roleId"));
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
 		int roleId = userbean.getRoleId();
@@ -92,6 +94,8 @@ public class WebUserController {
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("roleId",roleId);
+		map.put("roleIdStr",roleIdStr);
+		map.put("userStr",userStr);
 		map.put("parentId",userbean.getParentId());
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -107,6 +111,7 @@ public class WebUserController {
 		}
 		
 	}
+	
 	
 	/**
 	 * 添加用户

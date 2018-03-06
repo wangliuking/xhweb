@@ -28,6 +28,8 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
+		var user=$("input[name='user']").val();
+		var roleId=$("select[name='roleId']").val();
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -35,7 +37,7 @@ xh.load = function() {
 		});
 		
 		/* 获取用户信息 */
-		$http.get("../../web/user/userList?start=0&limit=" + pageSize).success(
+		$http.get("../../web/user/userList?user="+user+"&roleId="+roleId+"&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -178,6 +180,8 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
 			var pageSize = $("#page-limit").val();
+			var user=$("input[name='user']").val();
+			var roleId=$("select[name='roleId']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -189,7 +193,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../web/user/userList?start=0&limit=" + limit)
+			$http.get("../../web/user/userList?user="+user+"&roleId="+roleId+"&start=0&limit=" + limit)
 					.success(function(response) {
 						xh.maskHide();
 						$scope.data = response.items;
@@ -200,6 +204,8 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var user=$("input[name='user']").val();
+			var roleId=$("select[name='roleId']").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -210,7 +216,7 @@ xh.load = function() {
 
 			xh.maskShow();
 			$http.get(
-					"../../web/user/userList?start=" + start + "&limit="
+					"../../web/user/userList?user="+user+"&roleId="+roleId+"&start=" + start + "&limit="
 							+ limit).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
