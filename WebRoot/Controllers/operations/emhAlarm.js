@@ -51,6 +51,7 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
+				$scope.emhData4Num = emhData4.length;
 			});
 		}
 		//查询环控通断情况
@@ -79,6 +80,7 @@ xh.load = function() {
 						}
 					}
 					$scope.emhData4 = tempData;
+					$scope.emhData4Num = tempData.length;
 				}else if(id==2){
 					var tempData = [];
 					for(var i=0;i<emhData4.length;i++){
@@ -87,8 +89,10 @@ xh.load = function() {
 						}
 					}
 					$scope.emhData4 = tempData;
+					$scope.emhData4Num = tempData.length;
 				}else{
 					$scope.emhData4 = emhData4;
+					$scope.emhData4Num = emhData4.length;
 				}
 
 			});
