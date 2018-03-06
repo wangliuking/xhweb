@@ -288,7 +288,7 @@ xh.load = function() {
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#fff',
+									color : '#000',
 									shadowColor : '#FF00FF', // 默认透明
 									shadowBlur : 10
 								}
@@ -392,7 +392,7 @@ xh.load = function() {
 						axisLabel : { // 坐标轴小标记
 							textStyle : { // 属性lineStyle控制线条样式
 								fontWeight : 'bolder',
-								color : '#fff',
+								color : '#000',
 								shadowColor : '#FF4500', // 默认透明
 								shadowBlur : 10
 							}

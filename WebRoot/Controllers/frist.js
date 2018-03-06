@@ -55,6 +55,11 @@ xh.load = function() {
 					$scope.dataTwo = response.two;
 					$scope.dataThree = response.three;
 				});
+		// 获取登录用户
+		$http.get("web/loginUserInfo").success(function(response) {
+			xh.maskHide();
+			$scope.roleType  = response.roleType;
+		});
 		
 		$scope.updateDuty=function(){
 			$.ajax({

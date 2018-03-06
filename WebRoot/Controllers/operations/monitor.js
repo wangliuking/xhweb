@@ -38,6 +38,8 @@ xh.load = function() {
 				$scope.emh=response.emhList;
 				$scope.emhTotals=response.emhListCount;
 				
+				$scope.tera=$scope.mscTotals+$scope.bsTotals;
+				
 			});
 		}
 
@@ -47,6 +49,7 @@ xh.load = function() {
 			$http.get("../../bsstatus/bsMapCount").success(function(data) {
 				$scope.countData=data;
 				$scope.bsOffline=data.bsOffline;
+				
 				/*$("#bs").html(data.bsOffline);
 				$("#msc").html(data.mscOffline);
 				$("#emh").html(data.emhAlarm);*/
@@ -69,7 +72,7 @@ xh.load = function() {
 			$scope.alarmModel();
 			//xh.map();
 			xh.bsBar();
-			}, 60000);
+			}, 300000);
 
 	});
 };
@@ -98,7 +101,7 @@ xh.bsBar = function() {
 			        text: '各区域设备工作状态异常的基站数量',
 			        textStyle:{  
                         /*fontWeight:"bolder", */ 
-                        color:"#fff"  
+                        color:"#000"  
                     }
 			    },
 			    tooltip : {
@@ -108,7 +111,7 @@ xh.bsBar = function() {
 			        data:['三期','四期','三四期'],
 			        textStyle:{  
                         /*fontWeight:"bolder", */ 
-                        color:"#fff"  
+                        color:"#000"  
                     }
 			    },
 			    
@@ -125,7 +128,7 @@ xh.bsBar = function() {
 	                        margin:2,  
 	                        textStyle:{  
 	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
+	                            color:"#000"  
 	                        }  
 	                    }
 			        }
@@ -145,7 +148,7 @@ xh.bsBar = function() {
 			            barCategoryGap:'40%',
 			            itemStyle:{
 			            	normal:{
-			            		color:'yellow',
+			            		color:'black',
 			            		cursor:'pointer',
 			            		label: {  
 		                                show: true,//是否展示  

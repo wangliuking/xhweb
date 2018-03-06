@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-md-12">
 	 <div class="hpanel">
-			<div class="panel-heading" style="color:#fff;border-left:2px solid green">
+			<div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
 				
 				DPX状态
 			</div>
@@ -25,10 +25,13 @@
 					<td>{{x.Id}}</td>
 					<td>
 					<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
+					<div ng-if="x.working>0">
+					<span>异常：</span>
 					<span ng-if="x.working==1" class="label arrowed label-sm label-danger">放大器电流异常</span>
 					<span ng-if="x.working==2" class="label arrowed label-sm label-danger">放大器与 BSC通讯状态异常</span>
 					<span ng-if="x.working==3" class="label arrowed label-sm label-danger">放大器电流异常,放大器与 BSC通讯状态异常</span>
 					<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
+					</div>
 					</td>
 					<td>{{x.retLoss/10 |retLoss}}</td>
 					<td>{{x.fwdPa/10 |fwdPa}}</td>
@@ -37,7 +40,7 @@
 				<tr ng-if="bscExists>=2">
 							
 							<td colspan="5">
-							    获取设备数据失败！！！！！！
+							     数据获取中
 			 </td>
 							
 			   </tr>

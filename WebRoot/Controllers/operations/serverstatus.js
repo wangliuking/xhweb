@@ -132,7 +132,7 @@ xh.load = function() {
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#fff',
+									color : '#000',
 									shadowColor : '#FF00FF', // 默认透明
 									shadowBlur : 10
 								}
@@ -231,7 +231,7 @@ xh.load = function() {
 							axisLabel : { // 坐标轴小标记
 								textStyle : { // 属性lineStyle控制线条样式
 									fontWeight : 'bolder',
-									color : '#fff',
+									color : '#000',
 									shadowColor : '#FF4500', // 默认透明
 									shadowBlur : 10
 								}
@@ -366,7 +366,7 @@ xh.loadCpu = function(value,id) {
 				axisLabel : { // 坐标轴小标记
 					textStyle : { // 属性lineStyle控制线条样式
 						fontWeight : 'bolder',
-						color : '#fff',
+						color : '#000',
 						shadowColor : '#fff', // 默认透明
 						shadowBlur : 10
 					}
@@ -375,7 +375,7 @@ xh.loadCpu = function(value,id) {
 					length : 15, // 属性length控制线长
 					lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
 						width : 3,
-						color : '#fff',
+						color : '#000',
 						shadowColor : '#fff', // 默认透明
 						shadowBlur : 10
 					}
@@ -408,7 +408,7 @@ xh.loadCpu = function(value,id) {
 					textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
 						 fontWeight: 'bolder',
 						 fontSize:'15',
-						 color:'#fff'
+						 color:'#000'
 					}
 				},
 				data : [ {
@@ -446,7 +446,7 @@ xh.bsBar = function(bs3,bs4) {
 			    legend: {
 			        data:['与交换中心传输断开的基站统计'],
 			        textStyle:{
-			        	color:'#fff',
+			        	color:'#000',
 			        }
 			    },
 			    
@@ -459,7 +459,7 @@ xh.bsBar = function(bs3,bs4) {
 			            axisLabel:{    
 	                        textStyle:{  
 	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
+	                            color:"#000"  
 	                        }  
 	                    }
 			        }
@@ -470,7 +470,7 @@ xh.bsBar = function(bs3,bs4) {
 			            axisLabel:{    
 	                        textStyle:{  
 	                            /*fontWeight:"bolder", */ 
-	                            color:"#fff"  
+	                            color:"#000"  
 	                        }  
 	                    }
 			        }

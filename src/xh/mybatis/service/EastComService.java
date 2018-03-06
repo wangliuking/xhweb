@@ -25,13 +25,21 @@ public class EastComService {
 			list=mapper.queueTop5(time);
 			if(list.size()<1){
 				return list;
-			}
-			
-			for (Map<String,Object> map : list) {
-				bsIds.add(map.get("bsId").toString());
-			}
-			
-			
+			}		
+			for (Map<String,Object> map : list){
+				int id=0;
+				if(Integer.parseInt(map.get("bsId").toString())>=1200){
+					id=Integer.parseInt(map.get("bsId").toString())%1000;
+				}else if(Integer.parseInt(map.get("bsId").toString())>1000 && Integer.parseInt(map.get("bsId").toString())<1100){
+					id=Integer.parseInt(map.get("bsId").toString());
+				}else{
+					id=Integer.parseInt(map.get("bsId").toString());
+				}
+				if(id>0){
+					bsIds.add(String.valueOf(id));
+				}
+				
+			}			
 			bsNames=mapper2.queueTopBsName(bsIds);
 			
 			for (Map<String,Object> map2 : bsNames) {
@@ -50,7 +58,16 @@ public class EastComService {
 				}
 			}
 			
-			System.out.println("dddd->"+Arrays.toString(list.toArray()));
+			 for(int j=0;j<list.size();j++){
+             	Map<String,Object> map3=new HashMap<String, Object>();
+             	map3=list.get(j);
+             	if(map3.get("bsId")!=null){
+             		map3.put("name", map3.get("bsId")+"-应急基站");
+             		map3.remove("bsId");
+             		list.set(j, map3);
+             	}
+				}
+			
 			session.close();
 			session2.close();
 

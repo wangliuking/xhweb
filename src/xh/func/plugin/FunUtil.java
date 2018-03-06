@@ -52,8 +52,8 @@ public class FunUtil {
 			user=SingLoginListener.getLogUserMap().get(request.getSession().getId()).toString();
 		} catch (NullPointerException e) {
 			// TODO: handle exception
-			log.info("操作日志写入失败，系统未登录");
-			log.error(e.getMessage(),e);
+			log.info("获取的登录用户失败");
+			
 		}
 		return user;
 		
