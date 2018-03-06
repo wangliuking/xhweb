@@ -117,10 +117,11 @@ xh.load = function() {
 		xh.callInfo();
 		$scope.info();
 		
-		/*setInterval(function(){
+		setInterval(function(){
 			xh.callInfo();
 			$scope.info();
-		}, 20000)*/
+			$scope.updateDuty();
+		}, 20000)
 
 	});
 };

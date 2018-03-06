@@ -19,7 +19,7 @@ toastr.options = {
 };
 /* 登录系统 */
 xh.login = function() {
-	
+	  $("button[type='button']").button('loading')
 	$.ajax({
 		url : '../web/login',
 		type : 'get',
@@ -34,8 +34,7 @@ xh.login = function() {
 		/* data : $("#loginForm").serializeArray(), */
 		async : false,
 		success : function(data) {
-			/* $("#login-btn").button("reset"); */
-			/*$("#login-btn").toggleClass("disabled");*/
+			  $("button[type='button']").button('reset')
 			if (data.success) {
 				window.location.href = "../index.html";
 			} else {
@@ -44,8 +43,7 @@ xh.login = function() {
 		},
 		error : function() {
 			toastr.error("登录超时", '提示');
-			$("#login-btn").button("reset");
-			/*$("#login-btn").toggleClass("disabled");*/
+			  $("button[type='button']").button('reset')
 
 		}
 	});

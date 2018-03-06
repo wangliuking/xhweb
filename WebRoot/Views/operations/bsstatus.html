@@ -36,6 +36,24 @@
 	border-radius:10px;
 	box-shadow:0 0 5px #4169E1;
 }
+/* .bsId-div{
+ float: left;
+ padding:5px;
+ min-width: 40px;
+ line-height: 30px;
+} */
+.bsId-div .bs-info{
+	float: left;
+	margin: 2px 4px 0 1px;
+	min-width: 40px;
+	line-height: 30px;
+	border: 0px solid gray;
+	text-align: center;
+	background: #fff;
+	border-radius:3px;
+	/* box-shadow: 0px 9px 0px #ccc, 0px 9px 25px rgba(0, 0, 0, .7); */
+	/*  box-shadow: 0 0 3px #1b1b1b; rgba(219, 31, 5, 1) */
+}
 
 .width-1 {
 	width: 200px;
@@ -84,7 +102,7 @@
 .top-search {
 	position: fixed;
 	right: 20px;
-	top: 32px;
+	top: 37px;
 	padding: 0px;
 	z-index: 100;
 }
@@ -92,14 +110,14 @@
 .showInfo {
 	position: fixed;
 	left: 0;
-	top: 32px;
+	top: 37px;
 	padding-top: 5px;
 	padding-left: 15px;
 	z-index: 100;
 	background:#000;
 	padding:5px;
 	color:#fff;
-	border-radius:5px;
+	border-radius:2px;
 }
 
 .bs-line {
@@ -187,9 +205,12 @@
 		<div class="content animate-panel" data-child="hpanel"
 			data-effect="fadeInDown">
 			<div class="top-search btn-group">
+			    <button class="btn btn-primary btn-sm" ng-click="byBsIdBtn()">
+					<i class="fa fa-television fa-x"></i>&nbsp;<span >{{btnText}}</span>
+				</button>
 				<button class="btn btn-success btn-sm" data-toggle="modal"
 					data-target="#search">
-					<i class="fa fa-search fa-x"></i>查询
+					<i class="fa fa-search fa-x"></i>&nbsp;查询
 				</button>
 				<!-- <button class="btn btn-info btn-sm" ng-click="showBsModal()">
 			<i class="fa fa-support fa-x"></i>重要基站
@@ -218,8 +239,7 @@
 			<!-- row-end -->
 			<div class="row" style="margin-top:30px;">
 
-				<div class="col-md-12">
-					<!-- <div id="tree"></div> -->
+				<div class="col-md-12" ng-if="showFlag==1">
 					<div ng-if="totals==0">未找到相关数据</div>
 					<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
 						status-value="{{x.status}}" ng-if="x.total<=11"
@@ -310,7 +330,36 @@
 								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
 						</div>
 					</div>
-
+                  
+				</div> 
+				<!-- col-md-12 -->
+				<div class="col-md-12" ng-if="showFlag==0">
+				<div ng-if="byBsIdTotals==0">未找到相关数据</div>
+				<div ng-repeat="y in byBsIdData" class="bsId-div">
+				<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info"
+								style="cursor: pointer;" title="{{y.name}}"
+								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
+								ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
+								class="td-warning bs-info" title="{{y.name}}"
+								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
+								ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
+								class="td-success bs-info" title="{{y.name}}"
+								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
+								ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;"
+								ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
+								class="td-success bs-info" title="{{y.name}}"
+								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
+								ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+							<div style="cursor: pointer;" class="td-gray bs-info"
+								ng-if="y.status==0" title="{{y.name}}"
+								ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
+				</div>
+				
 				</div>
 			</div>
 			<!-- row-end -->

@@ -108,8 +108,18 @@
 		xhgmnet_web_role_user as b on
 		a.userId=b.userId left join xhgmnet_web_role as c on b.roleId=c.roleId
 		
+		where 1=1
+		
+		<if test="userStr!=''">
+		and (a.user like CONCAT(#{userStr},'%') or a.userName like CONCAT(#{userStr},'%'))
+		</if>
+		<if test="roleIdStr>0">
+		 and a.userId in (select userId from xhgmnet_web_role_user 
+		where roleId=#{roleIdStr})
+		</if>
+		
 		<if test="roleId!=10000">
-		where a.userId in (select userId from xhgmnet_web_role_user 
+		 and a.userId in (select userId from xhgmnet_web_role_user 
 		where roleId in(select roleId from xhgmnet_web_role where roleId=#{roleId} or parentId=#{roleId}))
 		</if>
 		
@@ -121,9 +131,18 @@
 	</select>
 	<!--用户记录总数 -->
 	<select id="userAllCount" resultType="int" useCache="true" parameterType="map">
-		select count(*) from xhgmnet_web_user 
+		select count(*) from xhgmnet_web_user  
+		where 1=1
+		
+		<if test="userStr!=''">
+	    and	(user like CONCAT(#{userStr},'%') or userName like CONCAT(#{userStr},'%'))
+		</if>
+		<if test="roleIdStr>0">
+		 and userId in (select userId from xhgmnet_web_role_user 
+		 where roleId=#{roleIdStr})
+		</if>
 		<if test="roleId!=10000">
-		where userId in (select userId from xhgmnet_web_role_user 
+		and userId in (select userId from xhgmnet_web_role_user 
 		where roleId in(select roleId from xhgmnet_web_role where roleId=#{roleId} or parentId=#{roleId}))
 		</if>
 	</select>
