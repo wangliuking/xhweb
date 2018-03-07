@@ -10,26 +10,26 @@
 				<small class="font-bold">添加用户</small>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form  action="#" id="addForm" onSubmit="return false">
+				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>用户名</label>&nbsp;<span class="text-danger">[*]</span> 
-								<input type="text" value="" class="form-control" name="user"
+								<label>用户名</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="user"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>密码</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" value="" class="form-control" name="userPass">
+								<label>密码</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="userPass">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>角色</label>&nbsp;<span class="text-danger">[*]</span> 
-								<select class="form-control" name="roleId">
-								    <option ng-repeat="x in role" value="{{x.roleId}}" >{{x.role}}</option>
+								<label>角色</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="roleId">
+									<option ng-repeat="x in role" value="{{x.roleId}}">{{x.role}}</option>
 								</select>
 							</div>
 						</div>
@@ -43,10 +43,9 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>性别</label> 
-								<select class="form-control" name="sex">
-										<option value="男" selected="selected">男</option>
-										<option value="女">女</option>
+								<label>性别</label> <select class="form-control" name="sex">
+									<option value="男" selected="selected">男</option>
+									<option value="女">女</option>
 								</select>
 							</div>
 						</div>
@@ -54,8 +53,9 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="unit" required="required">
+								<label>用户单位</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="unit"
+									required="required">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -69,8 +69,8 @@
 							</div>
 						</div>
 					</div>
-						<div class="row">
-						
+					<div class="row">
+
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>用户类型</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -82,11 +82,33 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>联系电话</label>
-								<input type="text" value="" class="form-control" name="tel"
-									>
+								<label>联系电话</label> <input type="text" value=""
+									class="form-control" name="tel">
 							</div>
 						</div>
+					</div>
+					<!-- row -->
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>用户VPN</label>&nbsp;
+								<!-- <input type="text" value="" class="form-control" name="vpn"> -->
+								<div class="input-group">
+
+									<input type="text" value="" class="form-control" name="vpn">
+									<span class="input-group-addon" ng-click="showVpnMenu()"><a href="#">点击选择vpn</a></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" ng-show="false">
+							<div class="form-group col-md-12">
+								<label>VPNid</label> <input type="text" value=""
+									class="form-control" name="vpnId">
+							</div>
+						</div>
+
+
 					</div>
 				</form>
 			</div>
@@ -95,7 +117,8 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" ng-disabled="form.$invalid" class="btn btn-success btn-sm" id="add_btn">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="add_btn">
 					<i class="fa fa-plus"></i>&nbsp;添加
 				</button>
 			</div>

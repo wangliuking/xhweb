@@ -130,6 +130,7 @@ public class WebUserController {
 		String unit=request.getParameter("unit");
 		String unitType=request.getParameter("unitType");
 		String userType=request.getParameter("userType");
+		String vpnId=request.getParameter("vpnId");
 		WebUserBean bean=new WebUserBean();
 		WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
 		
@@ -142,6 +143,7 @@ public class WebUserController {
 		bean.setUnitType(unitType);
 		bean.setUserType(userType);
 		bean.setCreateTime(createTime);
+		bean.setVpnId(vpnId);
 		int flag=WebUserServices.insertUser(bean);
 		if (flag==0) {
 			
@@ -202,6 +204,7 @@ public class WebUserController {
 		String unit=request.getParameter("unit");
 		String unitType=request.getParameter("unitType");
 		String userType=request.getParameter("userType");
+		String vpnId=request.getParameter("vpnId");
 		WebUserBean bean=new WebUserBean();
 		bean.setUser(user);
 		bean.setUserPass(userPass);
@@ -212,6 +215,7 @@ public class WebUserController {
 		bean.setUnitType(unitType);
 		bean.setUserType(userType);
 		bean.setCreateTime(createTime);
+		bean.setVpnId(vpnId);
 		int flag=WebUserServices.updateUser(bean);
 		if (flag==1) {
 			this.success=true;

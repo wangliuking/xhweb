@@ -33,6 +33,27 @@ public class MenuController {
 	protected final Log log = LogFactory.getLog(MenuController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
+	
+	
+/*	vpn菜单*/
+	
+	@RequestMapping(value="/vpnMenu", method = RequestMethod.GET)
+	public void vpnMenu(HttpServletRequest request, HttpServletResponse response) {
+		/*int roleId=funUtil.StringToInt(request.getParameter("roleId"));*/
+
+		HashMap result = new HashMap();
+		result.put("items", MenuService.vpnMenu());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 
 	/**
 	 * web角色菜单配置

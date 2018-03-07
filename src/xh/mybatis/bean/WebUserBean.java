@@ -14,6 +14,8 @@ public class WebUserBean {
 	private String unitType;
 	private String userType;
 	private String createTime;
+	private String vpnId;
+	private String vpn;
 	
 	private int roleType;
 	private int parentId;
@@ -131,6 +133,22 @@ public class WebUserBean {
 
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getVpnId() {
+		return vpnId;
+	}
+
+	public void setVpnId(String vpnId) {
+		this.vpnId = vpnId;
+	}
+
+	public String getVpn() {
+		return vpn;
+	}
+
+	public void setVpn(String vpn) {
+		this.vpn = vpn;
 	}
 
 	

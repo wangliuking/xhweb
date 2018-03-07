@@ -3,7 +3,7 @@
 <aside id="menu">
 
 	<!-- Sidbar Widgets -->
-	<div class="side-widgets " style="overflow:auto;height:600px;">
+	<div class="side-widgets" style="height:600px;overflow: auto;" id="menu-h">
 		<!-- Profile Menu -->
 		<div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
 			<a href="" data-toggle="dropdown"> <img
@@ -248,11 +248,11 @@
 							</a>
 								<ul class="nav nav-three-level">
 									<li><a
-										href="http://183.221.117.37:8888/analystrunner/b25e9f61-05a0-4baf-813f-3529717e6083"
+										href="http://183.221.117.37:8888/analystrunner/b25e9f61-05a0-4baf-813f-3529717e6083?vpnId={{loginUserVpnId}}"
 										target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 											交换中心基站风险指数 </a></li>
 									<li><a
-										href="http://183.221.117.37:8888/analystrunner/4c0088ff-c9b2-4393-aff1-99d4765563b5"
+										href="http://183.221.117.37:8888/analystrunner/4c0088ff-c9b2-4393-aff1-99d4765563b5??vpnId={{loginUserVpnId}"
 										target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 											交换中心基站健康度 </a></li>
 								</ul></li>
@@ -262,15 +262,15 @@
 							</a>
 								<ul class="nav nav-three-level">
 									<li><a
-								href="http://183.221.117.37:8888/analystrunner/5ec06798-ff00-4852-886d-d0224a3a7654"
+								href="http://183.221.117.37:8888/analystrunner/5ec06798-ff00-4852-886d-d0224a3a7654?vpnId={{loginUserVpnId}"
 								target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 									全网热度分析</a></li>
 								<li><a
-								href="http://183.221.117.37:8888/analystrunner/316e833b-69d7-44fc-97bd-e7ad550667db"
+								href="http://183.221.117.37:8888/analystrunner/316e833b-69d7-44fc-97bd-e7ad550667db?vpnId={{loginUserVpnId}"
 								target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 									基站热度分析 </a></li>
 								<li><a
-								href="http://183.221.117.37:8888/analystrunner/48468ae6-4bcb-4253-beaa-cf8ddeaf8126"
+								href="http://183.221.117.37:8888/analystrunner/48468ae6-4bcb-4253-beaa-cf8ddeaf8126?vpnId={{loginUserVpnId}"
 								target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 									区域热度分析 </a></li>
 								</ul></li>
@@ -280,7 +280,7 @@
 							</a>
 								<ul class="nav nav-three-level">
 								<li><a
-								href="http://183.221.117.37:8888/analystrunner/542fba76-9007-4870-9445-21921f67d3f6"
+								href="http://183.221.117.37:8888/analystrunner/542fba76-9007-4870-9445-21921f67d3f6?vpnId={{loginUserVpnId}"
 								target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 									单位行为分析 </a></li>
 								</ul></li>
@@ -336,26 +336,6 @@
 
 	</div>
 
-	<!-- <!-- Side Menu -->
-	<!-- 	<ul class="list-unstyled side-menu">
-		<li ng-show="menu.m_1" class="active"><a class="sa-side-widget"
-			href="map.html" target="mainframe"> <span class="menu-item">系统状态</span>
-		</a></li>
-		<li ng-show="menu.m_2"><a class="fa fa-adjust" href="#" value="2">
-				<span class="menu-item">运维管理</span>
-		</a></li>
-		<li><a class="sa-side-folder" href="" value="3"> <span
-				class="menu-item">业务管理</span>
-		</a></li>
-
-		<li><a class="sa-side-chart" href="" value="4"> <span
-				class="menu-item">统计分析</span>
-		</a></li>
-
-		<li><a class="sa-side-page" href="" value="5"> <span
-				class="menu-item">平台管理</span>
-		</a></li>
-	</ul>  -->
 
 </aside>
 <script type="text/javascript">
@@ -372,6 +352,7 @@
 <script type="text/javascript">
 	var user = "";
 	var roleId = 0;
+	$("#menu-h").height(document.documentElement.clientHeight-60);
 	/* 登录用户信息 */
 	$.ajax({
 		url : 'web/loginUserInfo',

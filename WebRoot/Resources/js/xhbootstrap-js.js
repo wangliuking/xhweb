@@ -3,6 +3,8 @@
  */
 (function(){
 	var path=rootPath();
+	document.write('<script type="text/javascript" src="'+path+'Resources/ca/topEsa.min.js"></script>');
+	document.write('<script type="text/javascript" src="'+path+'Resources/ca/clientConf.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'Resources/js/jquery-2.1.4.min.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'Resources/js/paging.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>');
@@ -13,6 +15,8 @@
 	document.write('<script type="text/javascript" src="'+path+'lib/sweetalert/lib/sweet-alert.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'lib/toastr/build/toastr.min.js"></script>');
 	document.write('<script type="text/javascript" src="'+path+'lib/My97DatePicker/WdatePicker.js"></script>');
+	
+
 })()
 function rootPath(){
 	 var scripts = document.getElementsByTagName('script'),
