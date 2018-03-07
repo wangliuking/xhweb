@@ -1899,11 +1899,11 @@ function flashMark(markData){
 	}
 	return objTemp;
 }
-//去除经纬度为0的数据
+//去除经纬度为0以及基站未启用的数据
 function dataWithoutZero(data){
 	var newData = [];
 	for(var i=0;i<data.length;i++){
-		if(data[i].lat!=0 && data[i].lng!=0){
+		if(data[i].lat!=0 && data[i].lng!=0 && data[i].status!=0){
 			newData.push(data[i]);
 		}
 	}
