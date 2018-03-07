@@ -47,8 +47,12 @@
 	<!--基站断站列表-->
 	<select id="monitorBsofflineList"  resultType="map"
 		useCache="true">
-		select a.bsId,a.time,b.name,b.lat,b.lng,b.period from view_bsstatus as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.link=1 order by a.time desc
+		<!-- select a.bsId,a.time,b.name,b.lat,b.lng,b.period from view_bsstatus as a
+		right join xhgmnet_bs_station as b on a.bsId=b.bsId where a.link=1 order by a.time desc -->
+		
+		select a.bsId,a.name,a.lat,a.lng,a.period,b.time from xhgmnet_bs_station as a
+		left join view_bsstatus as b on a.bsId=b.bsId 
+		where a.status=1 and b.link!=0 order by b.time desc
 		 
 	</select>
 	<!--基站限制列表-->

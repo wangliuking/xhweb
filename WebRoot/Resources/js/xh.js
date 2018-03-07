@@ -13,6 +13,8 @@ $(document).ready(function() {
 	
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
+		
+		xh.getFresh();
 		/*$('body').attr('id', xh.getcookie("skin"));*/
 		/*if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
 			$('body').attr('id', xh.getcookie("skin"));
@@ -487,20 +489,64 @@ xh.tableColor=function(o,a,b,c,d){
 	  }
 	 }
 	}
-xh.initCertList=function(){
-	try {
-		var certs = CertStore.listAllCerts().forSign(); //过滤签名证书
-		if (certs.size() > 0) {
-			
-		} else {
-			alert("数字证书不存在");
-			/*window.location.href="../../web/loginOut";*/
-		}
-	} catch (e) {
-		if (e instanceof TCACErr) {
-			alert(e.toStr());
-		} else {
-			alert("Here is JS Error !!!");
-		}
+/*xh.initCertList=function(){
+	if (TopESAConfig()){
+		var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
+	    var certs = CertStore.listAllCerts().byKeyUsage(128); //过滤签名证书
+	    var certs_Validity = CertStore.listAllCerts().byKeyUsage(128).byValidity(); //过滤有效期内的签名证书
+	    //alert(certs.size());
+	     if (certs.size() > 0) {
+	     } else {
+	         alert("key已经拔出，请重新登录")
+	        // window.location.href="../web/loginOut";
+	     }
 	}
-} 
+ 
+	
+} */
+xh.getFresh=function(){
+   
+	if (TopESAConfig()){
+		var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
+	    var certs = CertStore.listAllCerts().byKeyUsage(128); //过滤签名证书
+	    var certs_Validity = CertStore.listAllCerts().byKeyUsage(128).byValidity(); //过滤有效期内的签名证书
+	    //alert(certs.size());
+	     if (certs.size() > 0) {
+	     } else {
+	    	 $.ajax({
+	    			url : xh.rootPath()+'web/loginUserInfo',
+	    			type : 'GET',
+	    			dataType : "json",
+	    			async : false,
+	    			success : function(data) {
+	    				var user=data.user;
+	    				if(user!="admin"){
+	    					alert("key已经拔出，请重新登录");
+	    			         var path=xh.rootPath();
+	    			         window.location.href=path+"web/loginOut";
+	    				}
+	    			},
+	    			error : function() {
+	    			}
+	    		});
+	         
+	     }
+	}
+ }
+xh.rootPath=function(){
+	 var scripts = document.getElementsByTagName('script'),
+   
+    path, i, ln, scriptSrc, match;
+
+for (i = 0, ln = scripts.length; i < ln; i++) {
+    scriptSrc = scripts[i].src;
+
+    match = scriptSrc.match(/xh\.js$/);
+
+    if (match) {
+        path = scriptSrc.substring(0, scriptSrc.length - match[0].length-13);
+        break;
+    }
+}
+return path;
+}

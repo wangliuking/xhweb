@@ -48,6 +48,18 @@ xh.load = function() {
 		$http.get("../../web/role/allRoleList").success(function(response) {
 			$scope.role = response.items;
 		});
+		/* vpn菜单 */
+		$scope.showVpnMenu=function(){
+		
+			$("#vpnMenuWin").modal('show');
+			$http.get("../../web/vpnMenu").success(
+					function(response) {
+						var zNodes = response.items;
+						var t = $("#treeDemo");
+						t = $.fn.zTree.init(t, setting, zNodes);
+			});
+			
+		}
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
@@ -371,4 +383,10 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 
+};
+xh.onClick=function(e, treeId, treeNode) {
+
+	$("input[name='vpn']").val(treeNode.name);
+	$("input[name='vpnId']").val(treeNode.vpnId);
+		
 };

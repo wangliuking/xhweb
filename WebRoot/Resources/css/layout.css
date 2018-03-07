@@ -564,6 +564,8 @@ text-decoration:none;
 	overflow-y: auto;
 	width: 233px;
 	top: 50px;
+	height:100%;
+	bottom:0;
 }
 .fixed-sidebar .side-menu {
 	position: fixed;

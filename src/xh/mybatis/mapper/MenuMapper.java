@@ -4,7 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface MenuMapper {
+	/**
+	 * vpn菜单列表
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
 	
+	public List<Map<String,Object>> vpnMenu(int pId)throws Exception;	
 	
 	/**
 	 * 菜单列表

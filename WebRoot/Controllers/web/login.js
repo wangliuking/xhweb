@@ -1,6 +1,7 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
+var aesstr="2f6DhqPBNoK3f2A7";
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,

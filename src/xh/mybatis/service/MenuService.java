@@ -37,6 +37,36 @@ public class MenuService {
 	}
 	
 	/**
+	 * 获取vpn菜单子项
+	 * @param pId
+	 * @return
+	 */
+	public static List<Map<String,Object>> vpnMenu(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
+		List<Map<String,Object>> list1=new ArrayList<Map<String,Object>>();
+		
+		try {
+			list1=mapper.vpnMenu(0);
+			int index=0;
+			for (Map<String, Object> map : list1) {
+				int pId=Integer.parseInt(map.get("vpnId").toString());
+				List<Map<String,Object>> list2=mapper.vpnMenu(pId);
+				if(list2.size()>0){
+					map.put("children", list2);
+				}
+				list1.set(index, map);
+				index++;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list1;
+	}
+	
+	/**
 	 * 获取菜单子项
 	 * @param pId
 	 * @return

@@ -61,6 +61,12 @@ xh.load = function() {
 		$scope.hideMenu=function(){
 			$("body").toggleClass("hide-menu");
 		};
+		// 获取登录用户
+		$http.get("web/loginUserInfo").success(function(response) {
+			$scope.loginUser = response.user;
+			$scope.loginUserVpnId = response.vpnId;
+			console.log("vpnid="+$scope.loginUserVpnId)
+		});
 		
 	
 		//系统告警数目
