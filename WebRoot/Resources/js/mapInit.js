@@ -268,6 +268,7 @@ app.controller("map", function($scope, $http) {
 							myMap.centerAndZoom(point,level[params].zoom*1);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
+							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 						}else{
 							var tempD = response.items;	
@@ -290,6 +291,7 @@ app.controller("map", function($scope, $http) {
 							myMap.centerAndZoom(point,area[params].zoom*1);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
+							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 							areaRingsData(params);
 						}					
@@ -310,6 +312,7 @@ app.controller("map", function($scope, $http) {
 							var tempData = dataWithoutZero(tempD);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
+							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 							if(isNaN(params)){
 								areaRingsClear(params);
@@ -335,6 +338,7 @@ app.controller("map", function($scope, $http) {
 								myMap.centerAndZoom(point,level[params].zoom*1);
 								option.series[0].markPoint.data=baseMark(tempData)[0];
 								option.series[1].markPoint.data=baseMark(tempData)[1];
+								option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
 								overlay.setOption(option);
 							}else{
 								var tempD = response.items;	
@@ -349,6 +353,7 @@ app.controller("map", function($scope, $http) {
 								//首页下方数据展示end
 								option.series[0].markPoint.data=baseMark(tempData)[0];
 								option.series[1].markPoint.data=baseMark(tempData)[1];
+								option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
 								overlay.setOption(option);
 								areaRingsClear(params);
 							}							
@@ -1329,18 +1334,17 @@ function init(data,markData) {
 			obj[key] = t;
 		}
 		// 闪烁提示基站显示数据	
-		var objTemp = [];
-		if(markData!=null){
-			var j;
-			for (j = 0; j < markData.length; j++) {
+		var j;
+		var objTemp = [];	
+		for (j = 0; j < data.length; j++) {
+			if(data[j].bsStatus!=0 && data[j].zone!="简阳"){
 				var x = {
-					name : markData[j].name,
-					id : markData[j].bsId
-				};
-				objTemp.push(x);
-			}
+						name : data[j].name,
+						id : data[j].bsId
+					};
+					objTemp.push(x);
+			}							
 		}
-
 		// 所有基站显示数据
 		var k;
 		var objConnect = [];
@@ -1495,14 +1499,15 @@ function init(data,markData) {
 					mapType : 'none',
 					data : [],
 					markPoint : {
-						symbol : 'image://',//'emptyCircle'
+						symbol : 'emptyCircle',//'emptyCircle'
 						
 						symbolSize : function(v) {
 							return 12;
 						},
 						effect : {
 							show : true,
-							shadowBlur : 0
+							shadowBlur : 0,
+							color : 'red'
 						},
 						itemStyle : {
 							normal : {
@@ -1520,6 +1525,7 @@ function init(data,markData) {
 					}
 				} ]
 			};
+		console.log("objTemp: "+objTemp);
 		myMap.on('load', function() {
 			overlay.setOption(option);
 		});
@@ -1884,18 +1890,18 @@ function baseMark(data){
 }
 
 //闪烁效果需求数据处理调用的函数
-function flashMark(markData){
+function flashMark(data){
 	// 闪烁提示基站显示数据	
-	var objTemp = [];
-	if(markData!=null){
-		var j;
-		for (j = 0; j < markData.length; j++) {
+	var j;
+	var objTemp = [];	
+	for (j = 0; j < data.length; j++) {
+		if(data[j].bsStatus!=0 && data[j].zone!="简阳"){
 			var x = {
-				name : markData[j].name,
-				id : markData[j].bsId
-			};
-			objTemp.push(x);
-		}
+					name : data[j].name,
+					id : data[j].bsId
+				};
+				objTemp.push(x);
+		}							
 	}
 	return objTemp;
 }
