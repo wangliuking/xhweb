@@ -270,6 +270,52 @@ xh.order=function(){
 		}
 	});
 }
+xh.worder=function(){
+	var userid=$("#worder-form").find("span[name='userid']").text()
+	if(userid==""){
+		toastr.error("接单人不能为空", '提示');
+		return;
+	}
+	var formData={
+		id:$("div[name='id']").text(),
+		bsid:$("div[name='bsId']").text(),
+		bsname:$("div[name='name']").text(),
+		userid:userid,
+		dispatchtime:$("div[name='dispatchtime']").text(),
+		dispatchman:$("div[name='dispatchman']").text(),
+		errtype:$("div[name='errtype']").text(),
+		errlevel:$("div[name='errlevel']").text(),
+		errfoundtime:$("div[name='errfoundtime']").text(),
+		errslovetime:$("div[name='errslovetime']").text(),
+		progress:$("div[name='progress']").text(),
+		proresult:$("div[name='proresult']").text(),
+		workman:$("div[name='workman']").text(),
+		auditor:$("div[name='auditor']").text(),
+	}
+	$.ajax({
+		url : '../../order/writeOrder',
+		data : {
+			formData:JSON.stringify(formData)
+			
+		},
+		type : 'post',
+		dataType : "json",
+		async : false,
+		success : function(response) {
+			var data = response;
+			if(data.success){
+				toastr.success("派单成功", '提示');
+			}else{
+				toastr.error("派单失败", '提示');
+			}
+			
+
+		},
+		failure : function(response) {
+			toastr.error("派单失败", '提示');
+		}
+	});
+}
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
 	var pageSize = $("#page-limit").val();

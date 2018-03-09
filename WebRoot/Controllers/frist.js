@@ -60,6 +60,22 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.roleType  = response.roleType;
 		});
+		$http.get("access/list").
+		success(function(response){
+			var data = response.items;
+			var totals = response.totals;
+			var a=0,b=0;
+			for(var i=0;i<totals;i++){
+				if(data[i].status==1){
+					a++;
+				}else{
+					b++;
+				}
+			}
+			xh.waterstatus(1,totals);
+			xh.waterstatus(2,a);	
+			xh.waterstatus(3,b);	
+		});
 		
 		$scope.updateDuty=function(){
 			$.ajax({
@@ -290,7 +306,7 @@ xh.call = function() {
 	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
 		$("#call-bar").width((width/12)*4);
-		$("#call-bar").height(height-350);
+		$("#call-bar").height(height-430);
 	};
 	  resizeBarContainer();
 	 
@@ -660,7 +676,7 @@ xh.callInfo=function(){
 	var width=document.documentElement.clientWidth;
 	var resizeBarContainer = function() {
 		$("#call-bar").width((width/12)*4-40);
-		$("#call-bar").height(height-350);
+		$("#call-bar").height(height-450);
 	};
 	resizeBarContainer();
 
@@ -786,6 +802,27 @@ xh.callInfo=function(){
 		chart.resize();
 	};*/
 	
+}
+xh.waterstatus=function(id,totals){
+	var vaterColor="blue";
+	if(id==1){
+		vaterColor="#808000";
+	}else if(id==2){
+		vaterColor="#00FF00";
+	}else if(id==3){
+		vaterColor="red";
+	}
+	$('#access'+id).waterbubble({
+		radius : 40,
+		lineWidth : 2,
+		data : 0.7,
+		waterColor : vaterColor,
+		textColor : '#fff',
+		txt : totals.toString(),
+		font : 'bold 20px "Microsoft YaHei"',
+		wave : true,
+		animation : true
+	});
 }
 xh.getOneDay=function()   
 {   
