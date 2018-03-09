@@ -149,10 +149,11 @@ public class OrderController {
 		ErrProTable bean=GsonUtil.json2Object(fromData, ErrProTable.class);
 		bean.setSerialnumber(FunUtil.RandomWord(8));
 		bean.setOrderAccount(funUtil.loginUser(request));
+		log.info("ErrProTab->"+bean.toString());
 		
 		int id=bean.getId();
 		
-		log.info("ErrProTab->"+bean.toString());
+		
 		this.success=true;
 		
 		int code=OrderService.addOrder(bean);
@@ -170,7 +171,10 @@ public class OrderController {
 			map.put("status", 1);
 			map.put("id", id);
 			log.info("id->"+id);
-			OrderService.updateBsFault(map);
+			if(id>0){
+				OrderService.updateBsFault(map);	
+			}
+			
 			
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);

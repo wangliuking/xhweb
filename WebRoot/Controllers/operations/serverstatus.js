@@ -86,221 +86,28 @@ xh.load = function() {
 				
 			});
 		}
-		$scope.loadTemp = function() {
-
-			// 基于准备好的dom，初始化echarts实例
-			var chart = null;
-			if (chart != null) {
-				chart.clear();
-				chart.dispose();
-			}
-			require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
-				chart = ec.init(document.getElementById('temp-div'));
-				/*
-				 * chart.showLoading({ text : '正在努力的读取数据中...' });
-				 */
-				var option = {
-						/*backgroundColor : '#fff',*/
-						tooltip : {
-							formatter : "{a} <br/>{b} : {c}℃"
-						},
-						series : [ {
-							name : '温度',
-							type : 'gauge',
-							min : 0,
-							max : 90,
-							splitNumber : 10, // 分割段数，默认为5
-
-							axisLine : { // 坐标轴线橙红色
-								lineStyle : { // 属性lineStyle控制线条样式
-									/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
-											[ 1, '#ff4500' ] ],*/
-									color:'#FF00FF',
-									width : 3,
-									/*shadowColor : '#FF00FF', // 默认透明
-	*/								shadowBlur : 10
-								}
-							},
-							axisTick : { // 坐标轴小标记
-								length : 10, // 属性length控制线长
-								lineStyle : { // 属性lineStyle控制线条样式
-									color : 'auto',
-									shadowColor : '#FF00FF', // 默认透明
-									shadowBlur : 3
-								}
-							},
-							axisLabel : { // 坐标轴小标记
-								textStyle : { // 属性lineStyle控制线条样式
-									fontWeight : 'bolder',
-									color : '#000',
-									shadowColor : '#FF00FF', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							splitLine : { // 分隔线
-								length : 15, // 属性length控制线长
-								lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
-									width : 2,
-									color : '#FF00FF',
-									shadowColor : '#FF00FF', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							pointer : { // 分隔线
-								shadowColor : '#000', // 默认透明
-								shadowBlur : 5,
-								width:4
-							},
-							title : {
-								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-									fontWeight : 'bolder',
-									fontSize : 20,
-									fontStyle : 'italic',
-									color : '#000',
-									shadowColor : '#fff', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							detail : {
-								backgroundColor : 'rgba(30,144,255,0.8)',
-								borderWidth : 1,
-								borderColor : '#fff',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 5,
-								offsetCenter : [ 0, '50%' ], // x, y，单位px
-								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-									/* fontWeight: 'bolder', */
-									color : '#000'
-								}
-							},
-							data : [ {
-								value : $scope.emhData.temp,
-								name : '温度'
-							} ]
-						} ]
-					};
-
-
-				chart.setOption(option);
-
-			});
-		};
-		/* 湿度 */
-		$scope.loadDamp = function() {
-			// 基于准备好的dom，初始化echarts实例
-			var chart = null;
-			if (chart != null) {
-				chart.clear();
-				chart.dispose();
-			}
-			require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
-				chart = ec.init(document.getElementById('damp-div'));
-				/*
-				 * chart.showLoading({ text : '正在努力的读取数据中...' });
-				 */
-				var option = {
-						/*backgroundColor : 'rgba(0,0,0,0.3)',*/
-						tooltip : {
-							formatter : "{a} <br/>{b} : {c}"
-						},
-						series : [ {
-							name : '湿度',
-							type : 'gauge',
-							min : 0,
-							max : 90,
-							splitNumber : 10, // 分割段数，默认为5
-
-							axisLine : { // 坐标轴线橙红色
-								lineStyle : { // 属性lineStyle控制线条样式
-									/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
-											[ 1, '#ff4500' ] ],*/
-									color:'#FF4500',
-									width : 3,
-									/*shadowColor : '#FF4500', // 默认透明
-	*/								shadowBlur : 10
-								}
-							},
-							axisTick : { // 坐标轴小标记
-								length : 10, // 属性length控制线长
-								lineStyle : { // 属性lineStyle控制线条样式
-									color : 'auto',
-									shadowColor : '#FF4500', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							axisLabel : { // 坐标轴小标记
-								textStyle : { // 属性lineStyle控制线条样式
-									fontWeight : 'bolder',
-									color : '#000',
-									shadowColor : '#FF4500', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							splitLine : { // 分隔线
-								length : 15, // 属性length控制线长
-								lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
-									width : 2,
-									color : '#FF4500',
-									shadowColor : '#FF4500', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							pointer : { // 分隔线
-								shadowColor : '#000', // 默认透明
-								shadowBlur : 5,
-								width:4
-							},
-							title : {
-								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-									fontWeight : 'bolder',
-									fontSize : 20,
-									fontStyle : 'italic',
-									color : '#000',
-									shadowColor : '#fff', // 默认透明
-									shadowBlur : 10
-								}
-							},
-							detail : {
-								backgroundColor : 'rgba(30,144,255,0.8)',
-								borderWidth : 1,
-								borderColor : '#fff',
-								shadowColor : '#fff', // 默认透明
-								shadowBlur : 5,
-								offsetCenter : [ 0, '50%' ], // x, y，单位px
-								textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-									/* fontWeight: 'bolder', */
-									color : '#000'
-								}
-							},
-							data : [ {
-								value : $scope.emhData.damp,
-								name : '湿度'
-							} ]
-						} ]
-					};
-
-				chart.setOption(option);
-
-			});
-		};
-		// 获取环控设备状态
+		/*获取环控设备状态*/
 		$scope.bsId = 132;
 		$scope.bsName = "交换中心";
 		$scope.period=4;
-
 		$scope.emh = function() {
+			
+			
 			$http.get(
 					"../../bsstatus/bsEmh?siteId=" + $scope.bsId + "&period="
 							+ $scope.period).success(function(response) {
 				$scope.emhData = response;
 				$scope.emhAlarm = response.alarmItems;
 
-				$scope.loadTemp();
-				$scope.loadDamp();
+				xh.loadTemp($scope.emhData.temp);
+				xh.loadDamp($scope.emhData.damp);
 
 			});
 
 		}
+		
+		
+	
 		
 		
 		/*setInterval(function(){
@@ -318,6 +125,205 @@ xh.refresh = function() {
 	// 调用$scope中的方法
 	$scope.refresh();
 
+};
+/* 湿度 */
+xh.loadDamp = function(damp) {
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
+		chart = ec.init(document.getElementById('damp-div'));
+		/*
+		 * chart.showLoading({ text : '正在努力的读取数据中...' });
+		 */
+		var option = {
+				/*backgroundColor : 'rgba(0,0,0,0.3)',*/
+				tooltip : {
+					formatter : "{a} <br/>{b} : {c}"
+				},
+				series : [ {
+					name : '湿度',
+					type : 'gauge',
+					min : 0,
+					max : 90,
+					splitNumber : 10, // 分割段数，默认为5
+
+					axisLine : { // 坐标轴线橙红色
+						lineStyle : { // 属性lineStyle控制线条样式
+							/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
+									[ 1, '#ff4500' ] ],*/
+							color:'#FF4500',
+							width : 3,
+							/*shadowColor : '#FF4500', // 默认透明
+*/								shadowBlur : 10
+						}
+					},
+					axisTick : { // 坐标轴小标记
+						length : 10, // 属性length控制线长
+						lineStyle : { // 属性lineStyle控制线条样式
+							color : 'auto',
+							shadowColor : '#FF4500', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					axisLabel : { // 坐标轴小标记
+						textStyle : { // 属性lineStyle控制线条样式
+							fontWeight : 'bolder',
+							color : '#000',
+							shadowColor : '#FF4500', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					splitLine : { // 分隔线
+						length : 15, // 属性length控制线长
+						lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
+							width : 2,
+							color : '#FF4500',
+							shadowColor : '#FF4500', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					pointer : { // 分隔线
+						shadowColor : '#000', // 默认透明
+						shadowBlur : 5,
+						width:4
+					},
+					title : {
+						textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+							fontWeight : 'bolder',
+							fontSize : 20,
+							fontStyle : 'italic',
+							color : '#000',
+							shadowColor : '#fff', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					detail : {
+						backgroundColor : 'rgba(30,144,255,0.8)',
+						borderWidth : 1,
+						borderColor : '#fff',
+						shadowColor : '#fff', // 默认透明
+						shadowBlur : 5,
+						offsetCenter : [ 0, '50%' ], // x, y，单位px
+						textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+							/* fontWeight: 'bolder', */
+							color : '#000'
+						}
+					},
+					data : [ {
+						value :damp,
+						name : '湿度'
+					} ]
+				} ]
+			};
+
+		chart.setOption(option);
+
+	});
+};
+
+
+xh.loadTemp = function(temp) {
+
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/gauge' ], function(ec) {
+		chart = ec.init(document.getElementById('temp-div'));
+		/*
+		 * chart.showLoading({ text : '正在努力的读取数据中...' });
+		 */
+		var option = {
+				/*backgroundColor : '#fff',*/
+				tooltip : {
+					formatter : "{a} <br/>{b} : {c}℃"
+				},
+				series : [ {
+					name : '温度',
+					type : 'gauge',
+					min : 0,
+					max : 90,
+					splitNumber : 10, // 分割段数，默认为5
+
+					axisLine : { // 坐标轴线橙红色
+						lineStyle : { // 属性lineStyle控制线条样式
+							/*color : [ [ 0.2, 'lime' ], [ 0.8, '#1e90ff' ],
+									[ 1, '#ff4500' ] ],*/
+							color:'#FF00FF',
+							width : 3,
+							/*shadowColor : '#FF00FF', // 默认透明
+*/								shadowBlur : 10
+						}
+					},
+					axisTick : { // 坐标轴小标记
+						length : 10, // 属性length控制线长
+						lineStyle : { // 属性lineStyle控制线条样式
+							color : 'auto',
+							shadowColor : '#FF00FF', // 默认透明
+							shadowBlur : 3
+						}
+					},
+					axisLabel : { // 坐标轴小标记
+						textStyle : { // 属性lineStyle控制线条样式
+							fontWeight : 'bolder',
+							color : '#000',
+							shadowColor : '#FF00FF', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					splitLine : { // 分隔线
+						length : 15, // 属性length控制线长
+						lineStyle : { // 属性lineStyle（详见lineStyle）控制线条样式
+							width : 2,
+							color : '#FF00FF',
+							shadowColor : '#FF00FF', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					pointer : { // 分隔线
+						shadowColor : '#000', // 默认透明
+						shadowBlur : 5,
+						width:4
+					},
+					title : {
+						textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+							fontWeight : 'bolder',
+							fontSize : 20,
+							fontStyle : 'italic',
+							color : '#000',
+							shadowColor : '#fff', // 默认透明
+							shadowBlur : 10
+						}
+					},
+					detail : {
+						backgroundColor : 'rgba(30,144,255,0.8)',
+						borderWidth : 1,
+						borderColor : '#fff',
+						shadowColor : '#fff', // 默认透明
+						shadowBlur : 5,
+						offsetCenter : [ 0, '50%' ], // x, y，单位px
+						textStyle : { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+							/* fontWeight: 'bolder', */
+							color : '#000'
+						}
+					},
+					data : [ {
+						value :temp,
+						name : '温度'
+					} ]
+				} ]
+			};
+
+
+		chart.setOption(option);
+
+	});
 };
 /* cpu */
 xh.loadCpu = function(value,id) {
@@ -426,7 +432,7 @@ xh.bsBar = function(bs3,bs4) {
 	// 设置容器宽高
 	var resizeBarContainer = function() {
 		$("#icp-pie").width(350);
-		$("#icp-pie").height(300);
+		$("#icp-pie").height(420);
 	};
 	resizeBarContainer();
 
