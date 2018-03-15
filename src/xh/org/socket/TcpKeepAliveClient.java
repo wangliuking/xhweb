@@ -153,7 +153,9 @@ public class TcpKeepAliveClient extends Thread {
 							this.writeBuf=new byte[0];
 						} else {
 							int length = dd.BigByteArrayToShort(readBuf, 4);
-							if (length + 4 > len) {
+							log.info("数据解析长度="+length);
+							if (length + 6 > len) {
+								log.info("接收数据长度="+length+"小于一包的长度="+len);
 								byte[] temp = new byte[writeBuf.length];
 								System.arraycopy(writeBuf, 0, temp, 0,
 										writeBuf.length);
@@ -163,34 +165,26 @@ public class TcpKeepAliveClient extends Thread {
 								System.arraycopy(buf, 0, writeBuf, temp.length,
 										recvLen);
 								// break;
-							} else if (length + 4 == len) {
+							} else if (length + 6 == len) {
+								log.info("刚好一包数据长度");
 								
-								
-								/*byte[] buf2=new byte[len];
-								System.arraycopy(buf, 0, buf2, 0,len);
-								System.arraycopy(buf2, 0, bufH, 0, 2);
-					            int dlength=dd.BigByteArrayToShort(buf2,4);*/
-								/*int dlength=dd.BigByteArrayToShort(readBuf,4);*/
 					            int commId=dd.BigByteArrayToShort(readBuf,6);
 					           /* int status=dd.SmallByteArrayToInt(buf, 20);*/
-								
-								
-								
 								/*int comId = dd.BigByteArrayToShort(readBuf, 4);
 								String callid = dd.ByteArraytoString(readBuf,
 										6, 8);*/
 								comID = commId;
 
 								/*callId = dd.ByteArraytoString(readBuf, 6, 8);*/
-								handler(commId, length + 4,readBuf, len);
-							} else if (len > length + 4) {
-
+								handler(commId, length + 6,readBuf, len);
+							} else if (len > length + 6) {
+								log.info("接收数据长度="+length+"大于一包的长度="+len);
 								for (int i = 0; i <= len;) {
 
 									System.arraycopy(readBuf, i, realBuf, 0,
 											len - i);
 									length = dd.BigByteArrayToShort(realBuf, 4);
-									dataLen = length + 4;
+									dataLen = length + 6;
 									System.arraycopy(realBuf, 0, bufH, 0, 2);
 									packageHeader = HexString(bufH);
 									if (!packageHeader.equals("c4d7")) {
@@ -216,7 +210,7 @@ public class TcpKeepAliveClient extends Thread {
 										
 							            int commId=dd.BigByteArrayToShort(readBuf,6);
 										handler(commId, dataLen,realBuf, len);
-										i += length + 4;
+										i += length + 6;
 										writeBuf=null;
 									}
 
