@@ -34,6 +34,9 @@
 		<if test="E_name!=null and E_name!=''">
 			and E_name like concat('%',#{E_name},'%')
 		</if>
+		<if test="vpnId!=null and vpnId!=''">
+		 and E_vpnId=#{vpnId}
+		</if>
 	</select>
 
 	<!--根据无线用户ID,查找用户信息 -->

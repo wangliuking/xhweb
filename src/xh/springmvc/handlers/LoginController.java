@@ -69,6 +69,7 @@ public class LoginController {
 		String projectId = "yjyypt";
 		String reqId = "1";
 		String code="";
+		//!username.equals("admin")
 		if(!username.equals("admin")){
 			SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
 	        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	

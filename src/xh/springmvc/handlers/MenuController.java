@@ -40,9 +40,15 @@ public class MenuController {
 	@RequestMapping(value="/vpnMenu", method = RequestMethod.GET)
 	public void vpnMenu(HttpServletRequest request, HttpServletResponse response) {
 		/*int roleId=funUtil.StringToInt(request.getParameter("roleId"));*/
-
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
+		String pId=usermap.get("pId")!=null?usermap.get("pId").toString():"";
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("vpnId", vpnId);
+		map.put("pId", pId);
+		/*log.info("vpnmap---->"+map);*/
 		HashMap result = new HashMap();
-		result.put("items", MenuService.vpnMenu());
+		result.put("items", MenuService.vpnMenu(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

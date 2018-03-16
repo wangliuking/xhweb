@@ -51,9 +51,10 @@
 	<!--根据用户名,查找用户信息 -->
 	<select id="userInfoByName" parameterType="String"
 		resultType="java.util.HashMap">
-		select a.*,b.roleId,c.role,c.roleType from xhgmnet_web_user as a
+		select a.*,b.roleId,c.role,c.roleType,d.pId from xhgmnet_web_user as a
 		left join xhgmnet_web_role_user as b on a.userId=b.userId
 		left join xhgmnet_web_role as c on b.roleId=c.roleId
+		left join xhgmnet_vpn as d on a.vpnId=d.vpnId
 	    where user=#{user}
 	</select>
 		<!--根据用户名,查找用户权限信息 -->

@@ -29,6 +29,7 @@ import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
 import xh.mybatis.service.UserStatusService;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value="/dataView")
@@ -43,10 +44,14 @@ public class DataViewController {
 	@RequestMapping(value="/show",method=RequestMethod.GET)
 	public void show(HttpServletRequest request, HttpServletResponse response){
 		
-		//在线用户
-		int useOnlineCount=UserStatusService.userOnline();
-		//终端数量
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
 		Map<String, Object> user=new HashMap<String, Object>();
+		user.put("vpnId",vpnId);
+		//在线用户
+		int useOnlineCount=UserStatusService.userOnline(user);
+		//终端数量
+		
 		int userCount=RadioUserService.radiouserCount(user);
 		//基站数量
 		int bsCount=BsstationService.bsTotal();
