@@ -67,6 +67,10 @@ public interface RadioUserMapper {
 	 * 根据vpnId查询总数
 	 */
 	public int CountByVpnId(Map<String,Object> map)throws Exception;
-
 	
+	/**
+	 * 根据vpnId查询所有无线用户id
+	 */
+	public List<String> selectCIdByVpnId(Map<String,Object> map)throws Exception;
+
 }

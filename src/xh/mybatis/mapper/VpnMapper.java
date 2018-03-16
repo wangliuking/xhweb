@@ -14,7 +14,7 @@ public interface VpnMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<HashMap<String,String>> selectAllName()throws Exception;
+	public List<HashMap<String,String>> selectAllName(HashMap<String,Object> map)throws Exception;
 	/**
 	 * 总数
 	 * @return

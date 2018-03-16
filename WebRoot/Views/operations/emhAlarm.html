@@ -143,7 +143,9 @@
 								<div class="col-md-4">
 									<div class="hpanel">
 										<div class="panel-heading hbuilt">
-											<span>告警筛选</span>
+											<i class="fa fa-search"></i>
+											<span>告警筛选(四期告警)</span>
+											<button type="button" style="border:1px solid yellow;border-radius:8px;float:right;" class="btn btn-xs btn-danger" ng-click="refresh(1)">点击筛选</button>
 										</div>
 										<div class="panel-body">
 											<div id="search-div">
@@ -151,7 +153,7 @@
 													<div class="form-group" style="width:120px;margin-bottom:7px;">
 														<div class="pull-left">
 															<select class="form-control" id="alarmFlags"
-																ng-change="refresh(x)" ng-model="alarmS.id"
+																ng-model="alarmS.id"
 																ng-init="alarmS.id='0'">
 																<option value="" selected hidden></option>
 																<option ng-repeat="alarmS in alarmStatus" value={{alarmS.id}}>{{alarmS.name}}</option>
@@ -161,7 +163,7 @@
 													<div class="form-group" style="width:120px;margin-bottom:7px;">
 														<div class="pull-left">
 															<select class="form-control" id="alarmLv"
-																ng-change="refresh(x)" ng-model="prov.id"
+																ng-model="prov.id"
 																ng-init="prov.id='0'">
 																<option value="" selected hidden></option>
 																<option ng-repeat="prov in provs" value={{prov.id}}>{{prov.name}}</option>
@@ -173,7 +175,7 @@
 														style="width:120px;margin-bottom:7px;">
 														<div class="pull-left">
 															<select class="form-control" id="bsLevel"
-																ng-change="refresh(x)" ng-model="bsL.id"
+																ng-model="bsL.id"
 																ng-init="bsL.id='0'">
 																<option value="" selected hidden></option>
 																<option ng-repeat="bsL in bsLevel"
@@ -185,7 +187,7 @@
 														style="width:120px;margin-bottom:7px;">
 														<div class="pull-left">
 															<select class="form-control" id="bsArea"
-																ng-change="refresh(x)" ng-model="bsA.name"
+																ng-model="bsA.name"
 																ng-init="bsA.name='全部区域'">
 																<option value="" selected hidden></option>
 																<option ng-repeat="bsA in bsArea"
@@ -194,12 +196,11 @@
 														</div>
 													</div>
 													<br/>
-
 													<div class="form-group" style="width:120px;margin-bottom:7px;">
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device1" class="toggle-switch" type="checkbox" value="170100000000001"
-																	ng-click="refresh(1)" checked> <label for="device1"></label>
+																	checked> <label for="device1"></label>
 															</div>
 															温度
 														</div>
@@ -208,7 +209,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device2" class="toggle-switch" type="checkbox" value="170200000000001"
-																	ng-click="refresh(1)" checked> <label for="device2"></label>
+																	checked> <label for="device2"></label>
 															</div>
 															湿度
 														</div>
@@ -217,7 +218,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device3" class="toggle-switch" type="checkbox" value="080200000000001"
-																	ng-click="refresh(1)" checked> <label for="device3"></label>
+																	checked> <label for="device3"></label>
 															</div>
 															UPS
 														</div>
@@ -227,7 +228,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device4" class="toggle-switch" type="checkbox" value="920100000000001"
-																	ng-click="refresh(1)" checked> <label for="device4"></label>
+																	checked> <label for="device4"></label>
 															</div>
 															电表
 														</div>
@@ -236,7 +237,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device6" class="toggle-switch" type="checkbox" value="170300000000001"
-																	ng-click="refresh(1)" checked> <label for="device6"></label>
+																	checked> <label for="device6"></label>
 															</div>
 															水浸
 														</div>
@@ -245,7 +246,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device7" class="toggle-switch" type="checkbox" value="170400000000001"
-																	ng-click="refresh(1)" checked> <label for="device7"></label>
+																	checked> <label for="device7"></label>
 															</div>
 															烟雾
 														</div>
@@ -255,7 +256,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device8" class="toggle-switch" type="checkbox" value="170500000000001"
-																	ng-click="refresh(1)" checked> <label for="device8"></label>
+																	checked> <label for="device8"></label>
 															</div>
 															红外
 														</div>
@@ -264,7 +265,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device9" class="toggle-switch" type="checkbox" value="170700000000001"
-																	ng-click="refresh(1)" checked> <label for="device9"></label>
+																	checked> <label for="device9"></label>
 															</div>
 															门磁
 														</div>
@@ -273,7 +274,7 @@
 														<div class="list-group-item" style="color:black;">
 															<div class="pull-right">
 																<input id="device5" class="toggle-switch" type="checkbox" value="760300000000001"
-																	ng-click="refresh(1)" checked> <label for="device5"></label>
+																	checked> <label for="device5"></label>
 															</div>
 															FSU
 														</div>
@@ -311,9 +312,10 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="hpanel">
+										<div class="panel-heading hbuilt">
+											<span>四期告警</span>
+										</div>
 										<div class="panel-body">
-											<!-- row -->
-
 											<!-- row -->
 											<table id="tb-info" class="xh-table table-hover">
 												<thead>
@@ -423,7 +425,7 @@
 												name="type" value="8" checked> <label for="type8"><span>FSU</span></label>
 										</div>
 								</div>
-								环控告警列表
+								环控告警列表(三四期合并)
 							</div>
 							<div class="panel-body">
 								<div style="min-height:250px;max-height:450px;overflow: scroll;">

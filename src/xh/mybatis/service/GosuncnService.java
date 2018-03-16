@@ -1,12 +1,15 @@
 package xh.mybatis.service;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.mapper.GosuncnMapper;
+import xh.mybatis.mapper.GpsMapper;
 import xh.mybatis.tools.MoreDbTools;
 import xh.mybatis.tools.MoreDbTools.DataSourceEnvironment;
 
@@ -365,6 +368,46 @@ public class GosuncnService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * 环控历史数据总数
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int emhHistoryCount(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int count = 0;
+		try {
+			count = mapper.emhHistoryCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * 环控历史数据查询
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> emhHistory(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.emhHistory(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 	

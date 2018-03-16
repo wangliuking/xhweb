@@ -17,12 +17,12 @@ public class BusinessVpnService {
 	 * @param root
 	 * @return
 	 */
-	public static List<HashMap<String,String>> assetInfo(){
+	public static List<HashMap<String,String>> assetInfo(HashMap<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
 		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
-			list = mapper.selectAllName();
+			list = mapper.selectAllName(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

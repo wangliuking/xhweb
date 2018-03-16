@@ -1,5 +1,6 @@
 package xh.mybatis.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,5 +126,19 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,String>> selectFor4EMH()throws Exception;
+	
+	/**
+	 * 环控历史数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HashMap<String,String>> emhHistory(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 环控历史数据总数
+	 * @return
+	 * @throws Exception
+	 */
+	public int emhHistoryCount(Map<String,Object> map)throws Exception;
 	
 }

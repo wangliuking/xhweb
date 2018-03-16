@@ -56,7 +56,7 @@ public class TestFFmpegForWeb {
 		// 查询全部
 		Collection<TaskEntity> infoList = manager.queryAll();
 		System.out.println("infoList为："+infoList);
-		Thread.sleep(5*60*1000);
+		Thread.sleep(8*60*1000);
 		String cId = bsId+"";
 		stop(cId);
 	}
