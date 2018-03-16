@@ -108,7 +108,7 @@ xh.bsBar = function() {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['三期','四期','三四期'],
+			        data:['三期','四期'],
 			        textStyle:{  
                         /*fontWeight:"bolder", */ 
                         color:"#000"  
@@ -142,13 +142,13 @@ xh.bsBar = function() {
 			        {
 			            name:'三期',
 			            type:'bar',
-			            barWidth: 17,//固定柱子宽度
+			            /*barWidth: 20,*///固定柱子宽度
 			            data:[],
 			            /*barGap:'10%',*/
 			            barCategoryGap:'40%',
 			            itemStyle:{
 			            	normal:{
-			            		color:'black',
+			            		color:'green',
 			            		cursor:'pointer',
 			            		label: {  
 		                                show: true,//是否展示  
@@ -170,7 +170,7 @@ xh.bsBar = function() {
 			        {
 			            name:'四期',
 			            type:'bar',
-			            barWidth: 17,//固定柱子宽度
+			           /* barWidth: 20,*///固定柱子宽度
 			            data:[],
 			            /*barGap:'10%',*/
 			           /* barCategoryGap:50,*/
@@ -187,14 +187,14 @@ xh.bsBar = function() {
 		                                }  
 		                            }
 			            	}}
-			        },
+			        }/*,
 			        {
 			            name:'三四期',
 			            type:'bar',
 			            barWidth: 17,//固定柱子宽度
 			            data:[],
-			            /*barGap:2,*/
-			            /*barCategoryGap:2,*/
+			            barGap:2,
+			            barCategoryGap:2,
 			            itemStyle:{
 			            	normal:{
 			            		color:'#D2691E',
@@ -210,7 +210,7 @@ xh.bsBar = function() {
 		                                }  
 		                            }
 			            	}}
-			        }
+			        }*/
 			    ]
 			};
 		
@@ -237,7 +237,7 @@ xh.bsBar = function() {
 				option.xAxis[0].data=response.name;
 				option.series[0].data=response.list3;
 				option.series[1].data=response.list4;
-				option.series[2].data=response.list;
+				//option.series[2].data=response.list;
 				chart.setOption(option);
 				chart.on('click',function(params){
 					var name=params.name;

@@ -211,14 +211,15 @@
 		select a.bsId,a.link,b.name,c.time_break as time from view_bsstatus as a 
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		left join (select * from xhgmnet_bsstatus_history where time_restore is null and link=1) as c on a.bsId=c.bsId
-		where a.link!=0 and  a.bsId not in (select bsIds from xhgmnet_stationalarm)
+		where a.link!=0 and  a.bsId not in (select bsIds from xhgmnet_stationalarm) 
+		and b.bsId in(select bsId from xhgmnet_bs_station where status=1)
 	</select>
 	<!--基站断站,声音告警数目 -->
 	<select id="bsOffVoiceCount" resultType="int" useCache="true">
 		select count(bsId) as total from view_bsstatus where 
 		bsId not in (select bsIds from xhgmnet_stationalarm) 
 		and bsId not in(select bsId from xhgmnet_bs_status where stats=1 and link=1)
-		and link=1
+		and link=1 and bsId in(select bsId from xhgmnet_bs_station where status=1)
 		
 	</select>
    <!--基站区域列表告警 -->

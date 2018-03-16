@@ -87,9 +87,9 @@ xh.load = function() {
 			});
 		}
 		/*获取环控设备状态*/
-		$scope.bsId = 132;
+		$scope.bsId = 200;
 		$scope.bsName = "交换中心";
-		$scope.period=4;
+		$scope.period=3;
 		$scope.emh = function() {
 			
 			
@@ -129,6 +129,12 @@ xh.refresh = function() {
 /* 湿度 */
 xh.loadDamp = function(damp) {
 	// 基于准备好的dom，初始化echarts实例
+	if(damp==null){
+		$("#damp-div").html("<span style='color:red;font-weight:700;'>湿度数据获取失败</span>");
+		return;
+	}else{
+		$("#damp-div").html("");
+	}
 	var chart = null;
 	if (chart != null) {
 		chart.clear();
@@ -227,6 +233,12 @@ xh.loadDamp = function(damp) {
 
 
 xh.loadTemp = function(temp) {
+	if(temp==null){
+		$("#temp-div").html("<span style='color:red;font-weight:700;'>温度数据获取失败</span>");
+		return;
+	}else{
+		$("#temp-div").html("");
+	}
 
 	// 基于准备好的dom，初始化echarts实例
 	var chart = null;

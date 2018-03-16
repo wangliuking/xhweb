@@ -69,12 +69,12 @@ public class UserStatusService {
 		}
 		return list;
 	}
-	public static int userOnline() {
+	public static int userOnline(Map<String, Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		UserStatusMapper mapper = sqlSession.getMapper(UserStatusMapper.class);
 		int count = 0;
 		try {
-			count = mapper.userOnline();
+			count = mapper.userOnline(map);
 			sqlSession.close();
 
 		} catch (Exception e) {

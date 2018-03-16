@@ -16,8 +16,10 @@
 	cursor: pointer;
 	vertical-align: middle;
 	margin: 0;
-	position: relative
+	position: relative;
+	/* filter:alpha(opacity+80) */
 }
+
 
 .btn-lg {
 	border-width: 5px;

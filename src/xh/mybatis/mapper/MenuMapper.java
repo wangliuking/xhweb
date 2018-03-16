@@ -11,7 +11,7 @@ public interface MenuMapper {
 	 * @throws Exception
 	 */
 	
-	public List<Map<String,Object>> vpnMenu(int pId)throws Exception;	
+	public List<Map<String,Object>> vpnMenu(Map<String, Object> paramap)throws Exception;	
 	
 	/**
 	 * 菜单列表

@@ -240,8 +240,7 @@ xh.map=function(data,name){
 			                }
 			            },
 			            geoCoord: {
-			                '彭州市2': [103.927345,30.663843],
-			                '大邑青霞镇': [103.53239, 30.67419]
+			                
 			                
 			            },
 			        
@@ -269,7 +268,7 @@ xh.map=function(data,name){
 			                },*/
 			                effect : {
 			                    show: true,
-			                    shadowBlur : 40,
+			                    shadowBlur : 20,
 			                    
 			                    color:'red'
 			                },

@@ -226,6 +226,15 @@ public class WebUserController {
 				webUserRoleBean.setUserId(userId);
 				WebUserRoleService.updateUserRole(webUserRoleBean);
 			}
+			Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
+            while (iter.hasNext()) {  
+                Map.Entry entry = (Map.Entry) iter.next();  
+                Object key = entry.getKey();  
+                Object val = entry.getValue();  
+                if (((String) val).equals(user)) {  
+                	SingLoginListener.getLogUserMap().remove(key);  
+                }  
+            }
 			try {
 				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
 				webLogBean.setOperatorIp(funUtil.getIpAddr(request));

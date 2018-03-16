@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.CallListServices;
+import xh.org.listeners.SingLoginListener;
 @Controller
 @RequestMapping(value="/call")
 public class CallController {
@@ -44,6 +45,12 @@ public class CallController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
+		
+		/*log.info("user->"+usermap.get("user"));
+		log.info("vpnId->"+usermap.get("vpnId"));*/
+		
 		String[] time1=starttime.split("-");
 		String[] time2=endtime.split("-");
 		int a=Integer.parseInt(time1[1]);
@@ -62,6 +69,7 @@ public class CallController {
 		map.put("bsId", bsId);
 		map.put("starttime", starttime);
 		map.put("endtime", endtime);
+		map.put("vpnId", vpnId);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
@@ -154,6 +162,8 @@ public class CallController {
 		
 		String[] date=time.split("-");
 		String dbname="xhgmnet_calllist"+date[1];
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
 	
 		
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -161,6 +171,7 @@ public class CallController {
 		map.put("time", time);
 		map.put("type", type);
 		map.put("bsId",bsId);
+		map.put("vpnId",vpnId);
 		
 		List<Map<String, Object>> resultList=new  ArrayList<Map<String,Object>>();
 		List<Map<String, Object>> listParse=new  ArrayList<Map<String,Object>>();

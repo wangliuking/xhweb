@@ -41,17 +41,53 @@ public class MenuService {
 	 * @param pId
 	 * @return
 	 */
-	public static List<Map<String,Object>> vpnMenu(){
+	public static List<Map<String,Object>> vpnMenu(Map<String, Object> paramap){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		List<Map<String,Object>> list1=new ArrayList<Map<String,Object>>();
 		
 		try {
-			list1=mapper.vpnMenu(0);
+			/*paramap.put("", value)*/
+			
+			String vpnId=paramap.get("vpnId").toString();
+			String pIdstr=paramap.get("pId").toString();
+			Map<String, Object> map1=new HashMap<String, Object>();
+			Map<String, Object> map2=new HashMap<String, Object>();
+		
+			if(!vpnId.equals(null) && !vpnId.equals("")){
+				int id=Integer.parseInt(pIdstr);
+				if(id>0){
+					map1.put("pId", 0);
+					map1.put("vpnId", id);
+				}else{
+					map1.put("pId", 0);
+					map1.put("vpnId", vpnId);
+				}
+			}else{
+				map1.put("pId", 0);
+			}
+			
+			/*log.info("vpnmen-map1:"+map1);*/
+			
+			
+			list1=mapper.vpnMenu(map1);
 			int index=0;
 			for (Map<String, Object> map : list1) {
 				int pId=Integer.parseInt(map.get("vpnId").toString());
-				List<Map<String,Object>> list2=mapper.vpnMenu(pId);
+				if(!vpnId.equals(null) && !vpnId.equals("")){
+					int id=Integer.parseInt(pIdstr);
+					if(id>0){
+						map2.put("pId", pId);
+						map2.put("vpnId", vpnId);
+					}else{
+						map2.put("pId", pId);
+					}
+					
+				}else{
+					map2.put("pId", pId);
+				}
+				/*log.info("vpnmen-map2:"+map2);*/
+				List<Map<String,Object>> list2=mapper.vpnMenu(map2);
 				if(list2.size()>0){
 					map.put("children", list2);
 				}
