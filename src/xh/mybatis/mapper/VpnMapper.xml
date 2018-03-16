@@ -6,8 +6,14 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   
-  <select id="selectAllName" resultType="java.util.HashMap">
-  	select vpnId,pId,name from xhgmnet_vpn
+  <select id="selectAllName" resultType="java.util.HashMap" parameterType="map">
+  	select vpnId,pId,name from xhgmnet_vpn where 1=1
+  	<if test="vpnId !=null and vpnId !='' and pId == '0'">
+  		and pId=#{vpnId} or vpnId=#{vpnId}
+  	</if>
+  	<if test="vpnId !=null and vpnId !='' and pId != '0'">
+  		and pId=#{pId} and vpnId=#{vpnId} or vpnId=#{pId}
+  	</if>
   </select>
   
   <delete id="deleteByVpnId" parameterType="java.lang.String">

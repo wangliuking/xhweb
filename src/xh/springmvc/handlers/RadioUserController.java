@@ -32,6 +32,7 @@ import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
 import xh.mybatis.service.WebLogService;
+import xh.org.listeners.SingLoginListener;
 @Controller
 @RequestMapping(value="/radiouser")
 public class RadioUserController {
@@ -50,6 +51,10 @@ public class RadioUserController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void radiouserById(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		//获取用户的vpnId
+		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId = tempMap.get("vpnId").toString();
+		
 		String C_ID=request.getParameter("C_ID");
 		String E_name=request.getParameter("E_name");
 		int start=funUtil.StringToInt(request.getParameter("start"));
@@ -57,6 +62,7 @@ public class RadioUserController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("C_ID", C_ID);
 		map.put("E_name", E_name);
+		map.put("vpnId", vpnId);
 		map.put("start", start);
 		map.put("limit", limit);
 		

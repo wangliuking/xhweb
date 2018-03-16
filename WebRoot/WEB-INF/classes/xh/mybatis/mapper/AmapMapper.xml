@@ -32,13 +32,11 @@
 	<!--不规则区域圈选查询 -->
 	<select id="polyline" parameterType="map"
 		resultType="java.util.HashMap" useCache="true">
-		select a.*,b.link as bsStatus,c.queTotals,d.num,e.showStatus from xhgmnet_bs_station as a left join
+		select a.*,b.link as bsStatus,c.queTotals,d.bsChannelNum,d.bsTxssiNum,e.showStatus from xhgmnet_bs_station as a left join
 		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
 		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as c on a.bsId=c.bsId LEFT JOIN 
-		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
-		(select Call_TS_Id,count(Call_TS_Id) as num from 
-		${currentMonth} group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		(select *,COUNT(bsId) as bsChannelNum,COUNT(case when txssi!=0 then txssi end) as bsTxssiNum from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as d on a.bsId=d.bsId left join xhgmnet_bs_gisView as e on a.bsId=e.bsId where userId=#{userId} and showStatus=1
 		and a.bsId in
 		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
@@ -58,13 +56,11 @@
 	<!--区域圈选查询 -->
 	<select id="rectangle" parameterType="map"
 		resultType="map" useCache="true">
-		select a.*,b.link as bsStatus,c.queTotals,d.num,e.showStatus from xhgmnet_bs_station as a left join
+		select a.*,b.link as bsStatus,c.queTotals,d.bsChannelNum,d.bsTxssiNum,e.showStatus from xhgmnet_bs_station as a left join
 		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
 		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as c on a.bsId=c.bsId LEFT JOIN 
-		(select a.bsId,a.name,b.num from xhgmnet_bs_station as a LEFT JOIN 
-		(select Call_TS_Id,count(Call_TS_Id) as num from 
-		${currentMonth} group by Call_TS_Id) as b on a.bsId=b.Call_TS_Id) 
+		(select *,COUNT(bsId) as bsChannelNum,COUNT(case when txssi!=0 then txssi end) as bsTxssiNum from xhgmnet_bs_channel_info GROUP BY bsId) 
 		as d on a.bsId=d.bsId left join xhgmnet_bs_gisView as e on a.bsId=e.bsId where userId=#{userId} and showStatus=1
 		and lng between #{smallLng} and #{bigLng} and lat
 		between #{smallLat} and #{bigLat}

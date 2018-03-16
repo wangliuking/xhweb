@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.chinamobile.fsuservice.Test;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.GosuncnService;
+import xh.mybatis.service.GpsService;
 import xh.mybatis.service.SqlServerService;
 import xh.org.listeners.EMHListener;
 /**
@@ -378,8 +380,60 @@ public class GosuncnController {
 		
 	}
 	
-	public static void main(String[] args) {
-		 
+	/**
+	 * 查询环控历史数据
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/emhHistory",method = RequestMethod.GET)
+	public void emhHistory(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		Calendar cal = Calendar.getInstance();
+		int temp = cal.get(Calendar.MONTH)+1;
+		String currentMonth;
+		String nextMonth = "";
+		if(temp<10){
+			currentMonth="0"+temp;
+		}else{
+			currentMonth=Integer.toString(temp);
+		}
+		String bsId=request.getParameter("bsId");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		if(!"".equals(startTime)){
+			currentMonth=startTime.substring(5, 7);
+		}
+		if(!"".equals(startTime) && !"".equals(endTime)){
+			if(!endTime.substring(5, 7).equals(startTime.substring(5, 7))){
+				nextMonth=endTime.substring(5, 7);
+				nextMonth="xhgmnet_emh_sensor_history"+nextMonth;
+			}		
+		}
+		currentMonth="xhgmnet_emh_sensor_history"+currentMonth;
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("currentMonth", currentMonth);
+		map.put("nextMonth", nextMonth);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",GosuncnService.emhHistoryCount(map));
+		result.put("items", GosuncnService.emhHistory(map));
+		response.setContentType("application/json;charset=utf-8");  
+		response.setHeader("Refresh", "1");  
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

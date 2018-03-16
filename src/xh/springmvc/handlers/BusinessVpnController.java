@@ -22,6 +22,7 @@ import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.VpnBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BusinessVpnService;
+import xh.org.listeners.SingLoginListener;
 
 
 @Controller
@@ -41,9 +42,17 @@ public class BusinessVpnController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void vpnInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		//获取用户的vpnId
+		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId = tempMap.get("vpnId").toString();
+		String pId = tempMap.get("pId").toString();
+		
+		HashMap<String,Object> param = new HashMap<String,Object>();
+		param.put("vpnId", vpnId);
+		param.put("pId", pId);	
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("items", BusinessVpnService.assetInfo());
+		result.put("items", BusinessVpnService.assetInfo(param));
 		result.put("ParentVpnId", BusinessVpnService.selectParentVpnId());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

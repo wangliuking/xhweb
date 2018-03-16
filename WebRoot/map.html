@@ -308,10 +308,10 @@ html,body {
 				data-toggle="dropdown">
 				圈选 <span class="caret"></span>
 			</button>
-			<div class="dropdown-menu pre-scrollable" role="menu">
-				<ul>
-					<li><button type="button" data-dojo-type="dijit/form/Button" >不规则圈选</button></li>
-					<li><button type="button" data-dojo-type="dijit/form/Button" >矩形圈选</button></li>
+			<div class="dropdown-menu pre-scrollable" role="menu" style="width:90px!important;">
+				<ul style="padding:0px;width:90px;">
+					<li><button type="button" data-dojo-type="dijit/form/Button" class="btn btn-xs btn-info" style="width:auto;">不规则圈选</button></li>
+					<li><button type="button" data-dojo-type="dijit/form/Button" class="btn btn-xs btn-info" style="width:auto;">矩形圈选</button></li>
 				</ul>
 			</div>
 		</div>
@@ -369,7 +369,7 @@ html,body {
 										<th>基站ID</th>
 										<th>基站名称</th>
 										<th>基站级别</th>
-										<th>话务量</th>
+										<th>信道占用率</th>
 										<th>排队数</th>
 										<th>是否启用</th>
 										<th>状态</th>
@@ -383,8 +383,10 @@ html,body {
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.level}}</td>										
-										<td>{{x.num}}</td>
-										<td>{{x.queTotals}}</td>
+										<td ng-if="x.status==1 && x.bsStatus==0">{{x.bsTxssiNum}}/{{x.bsChannelNum}}</td>
+										<td ng-if="x.status==0 || x.bsStatus!=0"></td>
+										<td ng-if="x.status==1 && x.bsStatus==0">{{x.queTotals}}</td>
+										<td ng-if="x.status==0 || x.bsStatus!=0"></td>
 										<td ng-if="x.status==0" class="td-gray"><span
 											style="color:#fff">停用</span></td>
 										<td ng-if="x.status==1" class="td-success"><span

@@ -32,6 +32,7 @@ xh.load = function() {
 		$scope.systemMenu = true; // 菜单变色
 		$http.get("../../vpn/list").success(function(response) {
 			dataForTree = response.items;
+			console.log(response.items);
 			start(dataForTree);
 		});
 		

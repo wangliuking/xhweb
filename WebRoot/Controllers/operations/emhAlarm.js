@@ -139,10 +139,6 @@ xh.load = function() {
 			
 		});
 		
-		setInterval(function(){
-			$scope.alarmModel();
-			}, 30000);
-		
 		//显示当前鼠标移入的基站名称
 		$scope.showMouseChoosedBsName = function(bsName) {
 			$scope.choosedBsNameTitle = "当前基站名称："

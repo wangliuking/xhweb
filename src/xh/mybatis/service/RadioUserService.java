@@ -237,5 +237,26 @@ public class RadioUserService {
 		}
 		return count;
 	}
+	
+	/**
+	 * 根据vpnId查询所有无线用户id
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<String> selectCIdByVpnId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
+		List<String> list = new ArrayList<String>();
+		try {
+			list = mapper.selectCIdByVpnId(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 }

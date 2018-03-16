@@ -16,6 +16,9 @@
 	<select id="radiouserById" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select * from xhgmnet_radiouser where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
 		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
 			and C_ID like concat('%',#{C_ID},'%')
 		</if>
@@ -28,6 +31,9 @@
 	<select id="radiouserCount" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_radiouser where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
 		<if test="C_ID!=null and C_ID!=''">
 			and C_ID like concat('%',#{C_ID},'%')
 		</if>
@@ -86,6 +92,12 @@
 		</foreach>
 		)
 	</delete>
+	
+	<!-- 根据vpnId查询所有无线用户id -->
+	<select id="selectCIdByVpnId" parameterType="map" resultType="String"
+		useCache="true">
+		select C_ID from xhgmnet_radiouser where E_vpnId=#{vpnId}
+	</select>
 	
 	<!--根据虚拟专网vpnId，查找相关记录 -->
 	<select id="allByVpnId" parameterType="map" resultType="java.util.HashMap"

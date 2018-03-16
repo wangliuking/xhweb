@@ -184,5 +184,49 @@
 		on x.fsuId=y.fsuId GROUP BY x.fsuId) as b on a.bsId=b.siteId where a.lat !=0 and a.bsId<=2038
 	]]>
 	</select>
+	
+	<!--环控历史数据 -->
+	<select id="emhHistory" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select * from ${currentMonth} where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId like concat('%',#{bsId},'%')
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and createTime between #{startTime} and #{endTime}
+		</if>
+		<if test="nextMonth!=null and nextMonth!=''">
+			UNION ALL
+			select * from ${nextMonth} where 1=1
+			<if test="bsId!=null and bsId!=''">
+				and bsId like concat('%',#{bsId},'%')
+			</if>
+			and createTime between #{startTime} and #{endTime}
+		</if>
+		order by createTime desc limit #{start},#{limit}
+	</select>
+	<!--环控历史数据总数 -->
+	<select id="emhHistoryCount" parameterType="map" resultType="int"
+		useCache="true">
+		select SUM(cnt) from (
+		select count(*) cnt from ${currentMonth} where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId like concat('%',#{bsId},'%')
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and createTime between #{startTime} and #{endTime}
+		</if>
+		<if test="nextMonth==null or nextMonth==''">
+			) as tempTable
+		</if>
+		<if test="nextMonth!=null and nextMonth!=''">
+			UNION ALL
+			select count(*) cnt from ${nextMonth} where 1=1
+			<if test="bsId!=null and bsId!=''">
+				and bsId like concat('%',#{bsId},'%')
+			</if>
+			and createTime between #{startTime} and #{endTime}) as tempTable
+		</if>
+	</select>
 
 </mapper>

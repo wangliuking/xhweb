@@ -118,16 +118,6 @@ public class AmapController {
 	@ResponseBody
 	public void polyline(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		//判断当前时间查询话务量
-		Calendar cal = Calendar.getInstance();
-		int temp = cal.get(Calendar.MONTH)+1;
-		String currentMonth;
-		if(temp<10){
-			currentMonth="0"+temp;
-		}else{
-			currentMonth=Integer.toString(temp);
-		}
-		currentMonth="xhgmnet_gps_voice.xhgmnet_calllist"+currentMonth;
 		
 		String params=request.getParameter("params");
 		String [] strArray= params.split(",");
@@ -139,7 +129,6 @@ public class AmapController {
 		String userId = funUtil.loginUser(request);
 		map.put("userId", userId);
 		map.put("groupData", groupData);
-		map.put("currentMonth", currentMonth);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
@@ -165,7 +154,7 @@ public class AmapController {
 	public void rectangle(HttpServletRequest request, HttpServletResponse response){
 		this.success = true;
 		// 判断当前时间查询话务量
-		Calendar cal = Calendar.getInstance();
+		/*Calendar cal = Calendar.getInstance();
 		int tempTime = cal.get(Calendar.MONTH) + 1;
 		String currentMonth;
 		if (tempTime < 10) {
@@ -173,8 +162,7 @@ public class AmapController {
 		} else {
 			currentMonth = Integer.toString(tempTime);
 		}
-		currentMonth = "xhgmnet_gps_voice.xhgmnet_calllist" + currentMonth;
-		
+		currentMonth = "xhgmnet_gps_voice.xhgmnet_calllist" + currentMonth;*/		
 		String params=request.getParameter("params");
 		String [] temp= params.split(",");
 		String smallLng;
@@ -201,7 +189,6 @@ public class AmapController {
 		FunUtil funUtil = new FunUtil();
 		String userId = funUtil.loginUser(request);
 		map.put("userId", userId);
-		map.put("currentMonth", currentMonth);
 		map.put("smallLng", smallLng);
 		map.put("bigLng", bigLng);
 		map.put("smallLat", smallLat);

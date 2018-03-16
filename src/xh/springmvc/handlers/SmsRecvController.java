@@ -25,6 +25,7 @@ import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
+import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.SmsRecvService;
 import xh.mybatis.service.WebLogService;
 import xh.org.listeners.SingLoginListener;
@@ -46,12 +47,21 @@ public class SmsRecvController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void recInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		//获取用户的vpnId	
+		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId = tempMap.get("vpnId").toString();	
+		Map<String, Object> tMap=new HashMap<String, Object>();
+		tMap.put("vpnId", vpnId);
+		List<String> list = RadioUserService.selectCIdByVpnId(tMap);
+		System.out.println(list);
+		
 		String srcId=request.getParameter("srcId");
 		String dstId=request.getParameter("dstId");
 		String writeTime=request.getParameter("writeTime");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("list", list);
 		map.put("srcId", srcId);
 		map.put("dstId", dstId);
 		map.put("writeTime", writeTime);

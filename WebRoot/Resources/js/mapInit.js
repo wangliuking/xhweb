@@ -572,20 +572,7 @@ app.controller("map", function($scope, $http) {
 		
 		$http.get("amap/polyline?params="+params+"&start="+start+"&limit="+limit).
 		success(function(response){
-			var tempData=response.items;	
-			//添加模拟数据 start
-			for(var i=0;i<tempData.length;i++){
-				if(tempData[i].bsStatus == 0){
-					tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
-					tempData[i].testnum2=parseInt(Math.random()*(300-100+1) + 100);
-					tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
-				}else{
-					tempData[i].testnum1=0;
-					tempData[i].testnum2=0;
-					tempData[i].testnum3=0;
-				}			
-			}
-			//添加模拟数据 end
+			var tempData=response.items;
 			$scope.dataRectangle = tempData;		
 			$scope.totalsChoose = response.totals;
 			xh.paggingChoose(page, parseInt($scope.totalsChoose), $scope,params);
@@ -608,11 +595,11 @@ app.controller("map", function($scope, $http) {
 		success(function(response){
 			var tempData=response.items;	
 			//添加模拟数据 start
-			for(var i=0;i<tempData.length;i++){
+			/*for(var i=0;i<tempData.length;i++){
 				tempData[i].testnum1=parseInt(Math.random()*(99-5+1) + 5);
 				tempData[i].testnum2=parseInt(Math.random()*(99-5+1) + 5);
 				tempData[i].testnum3=parseInt(Math.random()*(65-16+1) + 11)+"%";
-			}
+			}*/
 			//添加模拟数据 end
 			$scope.dataRectangle = tempData;		
 			$scope.totalsChoose = response.totals;
@@ -1558,14 +1545,16 @@ function init(data,markData) {
 				if ($(this).prop("checked") == true) {
 					option.series[0].markPoint.data=objConnect;
 					option.series[1].markPoint.data=objBreak;
-					option.series[0].markPoint.symbolSize=myMap.getZoom()*6;
-					option.series[1].markPoint.symbolSize=myMap.getZoom()*6;
+					option.series[2].markPoint.data=objTemp;//闪烁效果
+					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
 					overlay.setOption(option);
 				} else {
 					var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
 					myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
 					option.series[0].markPoint.data=[];
 					option.series[1].markPoint.data=[];
+					option.series[2].markPoint.data=[];//闪烁效果
 					overlay.setOption(option);
 				}
 			});
