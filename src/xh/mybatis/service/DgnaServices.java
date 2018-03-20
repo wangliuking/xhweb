@@ -3,7 +3,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.mapper.DgnaMapper;
 import xh.mybatis.tools.MoreDbTools;
-
+ 
 public class DgnaServices {
 
 	/**

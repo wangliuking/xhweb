@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.CommunicationFault;
 import xh.mybatis.mapper.CommunicationFaultMapper;
 import xh.mybatis.tools.MoreDbTools;
-
+ 
 public class CommunicationFaultService {
 	/**
 	 * 查询质量抽检信息

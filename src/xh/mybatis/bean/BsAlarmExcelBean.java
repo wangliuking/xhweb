@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class BsAlarmExcelBean {
 	private int id;
 	private String bsId;//基站编号

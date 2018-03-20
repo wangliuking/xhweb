@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class BsstationBean {
 	private String bsId;
 	private String name;

@@ -1,5 +1,5 @@
 package com.tcpServer;
-
+ 
 import java.io.Serializable;
 
 /**

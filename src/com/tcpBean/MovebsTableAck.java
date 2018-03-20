@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**
  * app移动基站巡检作业表应答
  * 

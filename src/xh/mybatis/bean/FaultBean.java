@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class FaultBean {
 	private int id;
 	private String unit;

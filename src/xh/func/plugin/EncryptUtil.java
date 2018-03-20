@@ -6,7 +6,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 
 import sun.misc.BASE64Decoder;
-
+ 
 /*import Decoder.BASE64Decoder;*/
 
 public class EncryptUtil {

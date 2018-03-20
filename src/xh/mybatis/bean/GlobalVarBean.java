@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 import java.util.HashMap;
 
 public class GlobalVarBean {

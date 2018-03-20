@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.GpsService;
+import xh.mybatis.service.RadioUserService;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value="/gps")
@@ -36,6 +39,13 @@ public class GpsController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void gpsInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		//获取用户的vpnId	
+		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId = tempMap.get("vpnId").toString();	
+		Map<String, Object> tMap=new HashMap<String, Object>();
+		tMap.put("vpnId", vpnId);
+		List<String> list = RadioUserService.selectCIdByVpnId(tMap);
+		
 		Calendar cal = Calendar.getInstance();
 		int temp = cal.get(Calendar.MONTH)+1;
 		String currentMonth;
@@ -62,6 +72,7 @@ public class GpsController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("list", list);
 		map.put("srcId", srcId);
 		map.put("dstId", dstId);
 		map.put("startTime", startTime);

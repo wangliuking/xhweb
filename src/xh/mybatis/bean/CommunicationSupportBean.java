@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class CommunicationSupportBean {
 	private int id;
 	private String unit;

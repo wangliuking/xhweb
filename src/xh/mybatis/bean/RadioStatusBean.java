@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 import java.io.Serializable;
 
 public class RadioStatusBean implements Serializable{
