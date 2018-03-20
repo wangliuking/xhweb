@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.cache.Cache;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 import redis.clients.jedis.Jedis;
 import xh.func.plugin.RedisUtil;
@@ -22,6 +23,8 @@ public class MybatisRedisCache implements Cache {
     private final String COMMON_CACHE_KEY = "COM:";
     private static final String UTF8 = "utf-8";
     private static  Jedis jedis=null;//非切片额客户端连接
+    private static  JdkSerializationRedisSerializer jdkSerializer=new JdkSerializationRedisSerializer();
+    private static int expireTime=1000*60*60*24;//单位。秒
 
     /**
      * 按照一定规则标识key
@@ -50,7 +53,7 @@ public class MybatisRedisCache implements Cache {
             throw new IllegalArgumentException("必须传入ID");
         }
         jedis=RedisUtil.getJedis();
-        logger.debug(">>>>>>>>>MybatisRedisCache:id=" + id);
+        logger.info(">>>>>>>>>MybatisRedisCache:id=" + id);
         this.id = id;
     }
 
@@ -69,7 +72,7 @@ public class MybatisRedisCache implements Cache {
             if (null != keys && !keys.isEmpty()) {
                 result = keys.size();
             }
-            logger.debug(this.id + "---->>>>总缓存数:" + result);
+            logger.info(this.id + "---->>>>总缓存数:" + result);
         } catch (Exception e) {
             borrowOrOprSuccess = false;
             if (jedis != null)
@@ -87,8 +90,13 @@ public class MybatisRedisCache implements Cache {
         try {
             jedis.select(DB_INDEX);
             byte[] keys = getKey(key).getBytes(UTF8);
-            jedis.set(keys, SerializeUtil.serialize(value));
-            logger.debug("添加缓存--------" + this.id);
+            jedis.set(keys,jdkSerializer.serialize(value));
+            jedis.expire(keys, expireTime);
+            logger.info("-------------------------------------------");
+            logger.info("添加缓存:key->" + this.id);
+            logger.info("过期时间:(seconds)->" + expireTime);
+            logger.info("当前keys:keylength->" + jedis.dbSize());
+            logger.info("-------------------------------------------");
             // getSize();
         } catch (Exception e) {
             borrowOrOprSuccess = false;
@@ -106,8 +114,10 @@ public class MybatisRedisCache implements Cache {
         boolean borrowOrOprSuccess = true;
         try {
             jedis.select(DB_INDEX);
-            value = SerializeUtil.unserialize(jedis.get(getKey(key).getBytes(UTF8)));
-            logger.debug("从缓存中获取-----" + this.id);
+            value = jdkSerializer.deserialize(jedis.get(getKey(key).getBytes(UTF8)));
+            logger.info("-------------------------------------------");
+            logger.info("从缓存中获取数据：key->" + this.id);
+            logger.info("-------------------------------------------");
             // getSize();
         } catch (Exception e) {
             borrowOrOprSuccess = false;
@@ -127,7 +137,7 @@ public class MybatisRedisCache implements Cache {
         try {
             jedis.select(DB_INDEX);
             value = jedis.del(getKey(key).getBytes(UTF8));
-            logger.debug("LRU算法从缓存中移除-----" + this.id);
+            logger.info("LRU算法从缓存中移除-----" + this.id);
             // getSize();
         } catch (Exception e) {
             borrowOrOprSuccess = false;
@@ -147,10 +157,14 @@ public class MybatisRedisCache implements Cache {
             jedis.select(DB_INDEX);
             // 如果有删除操作，会影响到整个表中的数据，因此要清空一个mapper的缓存（一个mapper的不同数据操作对应不同的key）
             Set<byte[]> keys = jedis.keys(getKeys().getBytes(UTF8));
-            logger.debug("出现CUD操作，清空对应Mapper缓存======>" + keys.size());
+            logger.info("-------------------------------------------");
+            logger.info("出现CUD操作，清空对应Mapper缓存======>" + keys.size());
+           
             for (byte[] key : keys) {
                 jedis.del(key);
+                logger.info("正在删除缓存key->"+new String(key, "GB2312"));
             }
+            logger.info("-------------------------------------------");
             // 下面是网上流传的方法，极大的降低系统性能，没起到加入缓存应有的作用，这是不可取的。
             // jedis.flushDB();
             // jedis.flushAll();

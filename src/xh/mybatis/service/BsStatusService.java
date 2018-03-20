@@ -130,7 +130,9 @@ public class BsStatusService {
 			list = mapper.bsGroupTop5();
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
-				map.put("name", map.get("bsId")+"-"+map.get("name"));
+				
+				
+				map.put("name", map.get("bsId")==null?map.get("name"):map.get("bsId")+"-"+map.get("name"));
 				map.remove("bsId");
 				list.set(i, map);
 				
@@ -151,7 +153,7 @@ public class BsStatusService {
 			list = mapper.bsRadioTop5();
 			for (int i=0;i<list.size();i++) {
 				Map<String, Object> map=list.get(i);
-				map.put("name", map.get("bsId")+"-"+map.get("name"));
+				map.put("name", map.get("bsId")==null?map.get("name"):map.get("bsId")+"-"+map.get("name"));
 				/*map.put("value", Integer.parseInt(map.get("value").toString())+500);*/
 				map.remove("bsId");
 				list.set(i, map);
@@ -633,6 +635,7 @@ public class BsStatusService {
 		map2.put("tag", 2);
 		try {
 			mapper.bsOffVoiceChange(map1);
+			session.commit();
 			mapper.bsOffVoiceChange(map2);
 			session.commit();
 		} catch (Exception e) {

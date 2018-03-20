@@ -459,7 +459,7 @@ body {
 				if (e instanceof TCACErr) {
 					alert("code:404");
 				} else {
-					if($("input[name='username']").val()!="admin"){
+					if($("input[name='username']").val()=="admin"){
 						xh.login();
 					}else{
 						alert("没有找到可用的证书");

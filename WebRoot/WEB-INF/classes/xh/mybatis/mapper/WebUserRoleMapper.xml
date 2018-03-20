@@ -7,6 +7,8 @@
         <result property="roleId" column="roleId" javaType="java.lang.Integer"></result>
         <result property="userId" column="userId" javaType="java.lang.Integer"></result>
    </resultMap>
+   <!-- <cache type="xh.mybatis.tools.MybatisRedisCache" eviction="LRU"
+		flushInterval="600" size="1024" readOnly="false" /> -->
     <!--添加用户ID到角色关系表-->    
     <insert id="addUserToRole" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.WebUserRoleBean">
       insert into xhgmnet_web_role_user(userId,roleId)

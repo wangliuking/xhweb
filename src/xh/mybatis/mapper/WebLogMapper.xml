@@ -10,6 +10,8 @@
         <result property="content" column="content" javaType="java.lang.String"></result>
         <result property="createTime" column="createTime" javaType="java.lang.String"></result>
    </resultMap>
+  <!--  <cache type="xh.mybatis.tools.MybatisRedisCache" eviction="LRU"
+		flushInterval="600000" size="1024" readOnly="false" /> -->
     <!--记录日志-->    
     <insert id="insertLog" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.WebLogBean">
       insert into xhgmnet_web_log(operator,operatorIp,style,content,createTime)

@@ -286,14 +286,10 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												</td>
 												<!-- <td>{{x.neId}}</td> -->
 
-												<!-- <td><span ng-if="x.severity==1" class="block bg-red">严重告警</span>
-													<span ng-if="x.severity==2" class="block bg-salmon">主要告警</span>
-													<span ng-if="x.severity==3" class="block bg-gold">一般告警</span>
-												</td> -->
 												<td ng-if="x.severity==1" class="block" style="background:red;color:#fff;">紧急告警</td>
 													<td ng-if="x.severity==2" class="block" style="background:#B22222;color:#fff;">主要告警</td>
 													<td ng-if="x.severity==3" class="block" style="background:#FF8C00;color:#fff;">次要告警</td>
-													<td ng-if="x.severity==3" class="block" style="background:#EEEE00;color:#fff;">一般告警</td>
+													<td ng-if="x.severity==4" class="block" style="background:#EEEE00;color:#fff;">一般告警</td>
 
 												<td>{{x.location |alarmLocation}}</td>
 												<td>{{x.description}}</td>

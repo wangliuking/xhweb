@@ -50,6 +50,9 @@ public class SingLoginListener implements HttpSessionListener{
     public static boolean isLogin(HttpSession session, String sUserName) {  
         boolean flag = false;  
         Map<String, Object> info=WebUserServices.userInfoByName(sUserName);
+        if(info.get("vpnId")==null){
+        	info.put("vpnId", "");
+        }
         // 如果该用户已经登录过，则使上次登录的用户掉线(依据使用户名是否在logUserMap中)  
         if (logUserMap.containsValue(sUserName)) {  
             flag = true;  
