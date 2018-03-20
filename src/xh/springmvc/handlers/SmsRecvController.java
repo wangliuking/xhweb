@@ -53,7 +53,6 @@ public class SmsRecvController {
 		Map<String, Object> tMap=new HashMap<String, Object>();
 		tMap.put("vpnId", vpnId);
 		List<String> list = RadioUserService.selectCIdByVpnId(tMap);
-		System.out.println(list);
 		
 		String srcId=request.getParameter("srcId");
 		String dstId=request.getParameter("dstId");

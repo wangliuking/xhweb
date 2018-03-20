@@ -15,6 +15,15 @@
 		<if test="writeTime!=null and writeTime!=''">
 			and writeTime like concat('%',#{writeTime},'%')
 		</if>
+		
+		<if test="list!=null and list!=''">
+		and srcId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+		</if>
+		
 		order by id asc limit #{start},#{limit}
 	</select>
 	<!--根据源ID，目标ID，接收时间查找基站记录总数 -->
@@ -30,6 +39,15 @@
 		<if test="writeTime!=null and writeTime!=''">
 			and writeTime like concat('%',#{writeTime},'%')
 		</if>
+		
+		<if test="list!=null and list!=''">
+		and srcId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+		</if>
+		
 	</select>
 
 	<!--删除短信 -->
