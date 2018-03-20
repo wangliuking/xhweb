@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**
  * 故障处理表响应
  * 

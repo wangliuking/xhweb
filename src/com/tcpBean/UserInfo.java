@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**
  * app获取用户信息
  * 

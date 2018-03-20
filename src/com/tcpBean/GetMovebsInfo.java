@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**
  * 获取移动基站信息
  * cmdtype(getmovebsinfo)

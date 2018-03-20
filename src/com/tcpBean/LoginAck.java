@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**app登录返回类
  * 
  * cmdtype (userlogin)	--命令类型

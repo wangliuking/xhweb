@@ -1,5 +1,5 @@
 package com.tcpBean;
-
+ 
 /**
  * 获取自建基站信息返回
  * 

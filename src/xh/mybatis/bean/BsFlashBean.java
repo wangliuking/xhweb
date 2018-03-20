@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class BsFlashBean {
 	private String bsId;
 	private String name;

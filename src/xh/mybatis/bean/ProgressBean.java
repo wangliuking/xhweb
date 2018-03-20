@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class ProgressBean {
 	private long bytesRead=0L;   //到目前为止读取文件的比特数
     private long contentLength=0L;  //文件总大小

@@ -2,7 +2,7 @@ package com.tcpServer;
 import java.io.InputStream;  
 import java.io.PrintStream; 
 import org.apache.commons.net.telnet.TelnetClient;  
-
+ 
 public class NetTelnet {  
     private TelnetClient telnet = new TelnetClient();  
     private InputStream in;  

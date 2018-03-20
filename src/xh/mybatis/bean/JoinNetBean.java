@@ -1,5 +1,5 @@
 package xh.mybatis.bean;
-
+ 
 public class JoinNetBean {
 	private int id;
 	private String unitName;
