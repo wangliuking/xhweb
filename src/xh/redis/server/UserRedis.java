@@ -33,7 +33,7 @@ public class UserRedis {
 		// TODO Auto-generated method stub
 		setUp();
 		try {
-			SaveString();
+			//SaveString();
 			//RedisMap();
 			//userSet();
 		
@@ -48,13 +48,13 @@ public class UserRedis {
 		try {
 			//jedis = new Jedis("127.0.0.1", 6379);
 			jedis=RedisUtil.getJedis();
-			//jedis.flushDB();//清空库中的所有数据；
+			jedis.flushDB();//清空库中的所有数据；
 			Set<String> keys = jedis.keys("*"); 
 	        Iterator<String> it=keys.iterator();
 	        System.out.println("=============all keys=============");   
 	        while(it.hasNext()){   
 	            String key = it.next();   
-	            System.out.println(key);   
+	            System.out.println(key+"->"+jedis.get("username")); 
 	        }
 	        System.out.println("=============================="); 
 			

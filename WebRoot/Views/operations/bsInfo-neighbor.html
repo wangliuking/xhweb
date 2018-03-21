@@ -12,7 +12,7 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<div class="btn-group pull-left" style="padding-bottom:5px;">
 					<button class="btn btn-success btn-sm" data-toggle="modal"
-						data-target="#addNeighborWin" ng-disabled="">
+						data-target="#addNeighborWin" ng-disabled="up.o_add=='off'?true:false">
 						<i class="fa fa-plus-circle"></i>&nbsp;添加相邻小区
 					</button>
 
@@ -34,7 +34,7 @@
 							<td>{{$index+1}}</td>
 							<td>{{x.adjacentCellId}}</td>
 							<td>{{x.bsName}}</td>
-							<td><a href="#" ng-click="delBsNeighbor($index)"><i
+							<td><a href="#" ng-click="delBsNeighbor($index)" ng-if="up.o_delete=='on'"><i
 									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 						</tr>
 					</tbody>

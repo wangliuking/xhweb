@@ -43,6 +43,11 @@ xh.load = function() {
 			$scope.bs_search_data = response.items;
 			$scope.bs_search_totals = $scope.data.length;
 		});
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);

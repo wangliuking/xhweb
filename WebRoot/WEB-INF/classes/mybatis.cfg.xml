@@ -2,6 +2,11 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+
+	<!-- poolMaximumActiveConnections：最大活动连接数（默认为10） poolMaximumIdleConnections：最大空闲连接数（默认为5） 
+		poolMaximumCheckoutTime：最大可回收时间，即当达到最大活动链接数时，此时如果有程序获取连接，则检查最先使用的连接，看其是否超出了该时间，如果超出了该时间，则可以回收该连接。（默认20s） 
+		poolTimeToWait：没有连接时，重尝试获取连接以及打印日志的时间间隔（默认20s） poolPingQuery:检查连接正确的语句，默认为"NO 
+		PING QUERY SET"，即没有，使用会导致抛异常 poolPingEnabled：是否开启ping检测，（默认：false） poolPingConnectionsNotUsedFor:设置ping检测时间间隔，通常用于检测超时连接（默认为0，即当开启检测后每次从连接词中获取连接以及放回连接池都需要检测） -->
 	<!-- 引入外部配置文件 -->
 	<properties resource="mysql.properties"></properties>
 	<settings>
@@ -17,7 +22,7 @@
 		<!-- <setting name="enhancementEnabled" value="true"/> -->
 		<!-- 设置超时时间，它决定驱动等待一个数据库响应的时间。 -->
 		<setting name="defaultStatementTimeout" value="5" />
-		<setting name="logImpl" value="LOG4J"/>
+		<setting name="logImpl" value="LOG4J" />
 	</settings>
 
 
@@ -47,8 +52,13 @@
 				<property name="url" value="${xh.master.url}" />
 				<property name="username" value="${xh.master.username}" />
 				<property name="password" value="${xh.master.password}" />
-				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<property name="poolPingQuery" value="select 1 from dual" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
 		<!-- 从数据库 -->
@@ -65,11 +75,16 @@
 				<property name="url" value="${xh.slave.url}" />
 				<property name="username" value="${xh.slave.username}" />
 				<property name="password" value="${xh.slave.password}" />
-				<property name="poolPingQuery" value="SELECT 1" />
-              <property name="poolPingEnabled" value="true" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<property name="poolPingQuery" value="select 1 from dual" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-		
+
 		<!-- gps语音主数据库 -->
 		<environment id="gps_voice_master">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
@@ -84,13 +99,17 @@
 				<property name="url" value="${xh.gps_voice_master.url}" />
 				<property name="username" value="${xh.gps_voice_master.username}" />
 				<property name="password" value="${xh.gps_voice_master.password}" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
-              
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
+
 			</dataSource>
 		</environment>
-		
+
 		<!-- gps语音从数据库 -->
 		<environment id="gps_voice_slave">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
@@ -106,11 +125,16 @@
 				<property name="username" value="${xh.gps_voice_slave.username}" />
 				<property name="password" value="${xh.gps_voice_slave.password}" />
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<property name="poolPingQuery" value="select 1 from dual" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-	<!-- eastcom -->
+		<!-- eastcom -->
 		<environment id="eastcom">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
 			<transactionManager type="JDBC" />
@@ -124,12 +148,16 @@
 				<property name="url" value="${xh.eastcom.url}" />
 				<property name="username" value="${xh.eastcom.username}" />
 				<property name="password" value="${xh.eastcom.password}" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<!-- <property name="poolPingQuery" value="select 1 from xhgmnet_recvsms" /> -->
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
-		</environment>		
-		
+		</environment>
+
 		<!-- 动环监控 -->
 		<environment id="emh">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
@@ -139,12 +167,16 @@
 				<property name="url" value="${xh.emh.url}" />
 				<property name="username" value="${xh.emh.username}" />
 				<property name="password" value="${xh.emh.password}" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-		
+
 		<!--mysql -->
 		<environment id="mysqlDb">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
@@ -154,13 +186,17 @@
 				<property name="url" value="${xh.mysql.url}" />
 				<property name="username" value="${xh.mysql.username}" />
 				<property name="password" value="${xh.mysql.password}" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<!-- <property name="poolPingQuery" value="select 1 from xhgmnet_recvsms" /> -->
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-		
-		
+
+
 		<!--sql server -->
 		<environment id="sqlServer">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
@@ -170,13 +206,15 @@
 				<property name="url" value="${sqlserver.url}" />
 				<property name="username" value="${sqlserver.username}" />
 				<property name="password" value="${sqlserver.password}" />
+				<property name="poolMaximumActiveConnections" value="20" />
+				<property name="poolMaximumIdleConnections" value="10" />
+				<property name="poolMaximumCheckoutTime" value="15" />
+				<property name="poolTimeToWait" value="10" />
+				<!-- <property name="poolPingQuery" value="select 1 from xhgmnet_recvsms" /> -->
 				<property name="poolPingEnabled" value="true" />
-				<property name="poolPingQuery" value="SELECT 1" />
-				<property name="poolPingConnectionsNotUsedFor" value="3600000"/>
+				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-
-
 
 	</environments>
 

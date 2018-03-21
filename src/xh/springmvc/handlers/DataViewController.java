@@ -45,7 +45,7 @@ public class DataViewController {
 	public void show(HttpServletRequest request, HttpServletResponse response){
 		
 		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
-		String vpnId=usermap.get("vpnId").toString();
+		String vpnId=usermap.get("vpnId")==null?"":usermap.get("vpnId").toString();
 		Map<String, Object> user=new HashMap<String, Object>();
 		user.put("vpnId",vpnId);
 		//在线用户

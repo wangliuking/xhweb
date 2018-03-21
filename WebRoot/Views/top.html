@@ -21,7 +21,7 @@
 			</div>
 			<div class="pull-left tm-icon">
 				<a data-drawer="messages" class="dropdown-toggle" href=""
-					data-toggle="dropdown"> <i
+					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i
 					class="fa fa-bell-o fa-x font-white"
 					style="font-size:15pt;margin-top:15px;float: left;font-weight: 100; "></i> <i
 					class="n-count animated" id="alarmcount">0</i> <span style="margin-left:10px;">告警提示</span>
@@ -95,7 +95,7 @@
 					</div>
 			</div>
 			<div class="pull-left tm-icon">
-				<a href="Views/operations/order.html" target="mainframe"> <i
+				<a href="Views/operations/order.html" target="mainframe" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i
 					class="fa fa-paper-plane-o  font-white"
 					style="font-size:15pt;margin-top:15px;float: left;"></i> <i
 					class="n-count animated" id="ordercount">0</i> <span style="margin-left:10px;">故障派单</span>
@@ -103,7 +103,7 @@
 			</div>
 			<div class="dropdown pull-left tm-icon">
 				<a data-drawer="messages" class="dropdown-toggle" href=""
-					data-toggle="dropdown"> <i class="fa fa-qrcode fa-x font-white"
+					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i class="fa fa-qrcode fa-x font-white"
 					style="margin-top:15px;float: left;font-size:15pt"></i><span style="margin-left:10px;">点我扫一扫</span>
 				</a>
 				<div class="dropdown-menu animated flipInX">

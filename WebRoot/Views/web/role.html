@@ -109,7 +109,7 @@
 										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><input ng-if="x.roleId<=1000" type="checkbox" name="tb-check"
+										<td><input ng-if="x.roleId<=1000 && loginUserRoleId!=x.roleId" type="checkbox" name="tb-check"
 											value="{{x.roleId}}" index="{{$index}}" /></td>
 										<td>{{x.roleId}}</td>
 										<td>

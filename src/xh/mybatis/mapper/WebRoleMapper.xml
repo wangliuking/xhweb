@@ -8,6 +8,8 @@
         <result property="role" column="role" javaType="java.lang.String"></result>
         <result property="createTime" column="createTime" javaType="java.lang.String"></result>
    </resultMap>
+ <!--   <cache type="xh.mybatis.tools.MybatisRedisCache" eviction="LRU"
+		flushInterval="600000" size="1024" readOnly="false" /> -->
    <!--根据用户查询角色role-->
     <select id="roleByUser" parameterType="String" resultType="String" useCache="true">
      select role from xhgmnet_web_role where roleId=(select roleId from xhgmnet_web_role_user where 
