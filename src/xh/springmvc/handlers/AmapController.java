@@ -90,11 +90,19 @@ public class AmapController {
 	@ResponseBody
 	public void selectNumTotalsByBsId(HttpServletRequest request, HttpServletResponse response){
 		try {
+			String bsId = request.getParameter("bsId");
+			//获取用户的vpnId	
+			HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+			String vpnId = tempMap.get("vpnId").toString();	
+			Map<String, Object> param=new HashMap<String, Object>();
+			param.put("vpnId", vpnId);
+			param.put("bsId", bsId);
+			
 			AmapService AmapService = new AmapService();
 			HashMap map = new HashMap();
 			List<HashMap<String, String>> listMap = AmapService.selectNumTotalsByBsId(bsId);
-			int radioTotals = RadioStatusService.oneBsRadioCount(paramap);
-			int groupTotals = RadioStatusService.oneBsGroupCount(paramap);
+			int radioTotals = RadioStatusService.oneBsRadioCount(param);
+			int groupTotals = RadioStatusService.oneBsGroupCount(param);
 			map.put("items", listMap);
 			map.put("radioTotals", radioTotals);
 			map.put("groupTotals", groupTotals);
