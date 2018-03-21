@@ -91,14 +91,6 @@ public class AmapController {
 	public void selectNumTotalsByBsId(HttpServletRequest request, HttpServletResponse response){
 		try {
 			AmapService AmapService = new AmapService();
-			String bsId = request.getParameter("bsId");
-			Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
-			String vpnId=usermap.get("vpnId").toString();
-			Map<String, Object> paramap=new HashMap<String, Object>();
-			paramap.put("bsId", bsId);
-			paramap.put("vpnId",vpnId);
-			
-			
 			HashMap map = new HashMap();
 			List<HashMap<String, String>> listMap = AmapService.selectNumTotalsByBsId(bsId);
 			int radioTotals = RadioStatusService.oneBsRadioCount(paramap);

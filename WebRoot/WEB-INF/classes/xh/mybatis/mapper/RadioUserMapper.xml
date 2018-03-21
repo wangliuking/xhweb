@@ -15,7 +15,8 @@
 	<!--根据无线用户ID，名称查找相关记录 -->
 	<select id="radiouserById" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select * from xhgmnet_radiouser where 1=1
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_radiouser as a LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId 
+		LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
 		<if test="vpnId !=null and vpnId !=''">
 			and E_vpnId = #{vpnId}
 		</if>
@@ -30,7 +31,8 @@
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
 	<select id="radiouserCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_radiouser where 1=1
+		select count(*) from xhgmnet_radiouser as a LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId 
+		LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
 		<if test="vpnId !=null and vpnId !=''">
 			and E_vpnId = #{vpnId}
 		</if>

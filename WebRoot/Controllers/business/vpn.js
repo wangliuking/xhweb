@@ -30,6 +30,12 @@ xh.load = function() {
 	app.controller("vpn", function($scope, $http) {
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.systemMenu = true; // 菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		
 		$http.get("../../vpn/list").success(function(response) {
 			dataForTree = response.items;
 			console.log(response.items);

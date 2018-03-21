@@ -32,6 +32,12 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		
 		$http.get("../../sms-recv/list?srcId="+srcId+"&dstId="+dstId+"&writeTime="+writeTime+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();

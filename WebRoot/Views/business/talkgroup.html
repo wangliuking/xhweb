@@ -114,7 +114,7 @@
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-												ng-disabled="">
+												ng-disabled="up.b_delete=='off'?true:false">
 												<i class="fa fa-trash"></i>&nbsp;批量删除
 											</button>
 										</div>
@@ -141,23 +141,27 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="10" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
-											value="{{x.talkgroupid}}" index="{{$index}}" /></td>
-										<td>{{x.talkgroupid}}</td>
-										<td>{{x.eName}}</td>
-										<td>{{x.eAlias}}</td>
-										<td>{{x.eMscid}}</td>
-										<td>{{x.eVpnid}}</td>
-										<td>{{x.eSaid}}</td>
-										<td>{{x.eIaid}}</td>
-										<td>{{x.eVaid}}</td>
-										<td><a href="#" ng-click="editModel($index)" data-toggle="modal"> <i
-											class="fa fa-edit text-success"></i>&nbsp;修改
-											</a>| <a href="#" ng-click="delBs(x.talkgroupid)"><i
-											class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+											value="{{x.TalkgroupID}}" index="{{$index}}" /></td>
+										<td>{{x.TalkgroupID}}</td>
+										<td>{{x.E_name}}</td>
+										<td>{{x.E_alias}}</td>
+										<td>{{x.mscName}}</td>
+										<td>{{x.vpnName}}</td>
+										<td>{{x.E_said}}</td>
+										<td>{{x.E_iaid}}</td>
+										<td>{{x.E_vaid}}</td>
+										<td><a href="#" ng-click="editModel($index)" data-toggle="modal" ng-if="up.b_update=='on'?true:false"> <i
+														class="fa fa-edit text-success"></i>&nbsp;修改
+												</a><a href="#" ng-if="up.b_update=='off'?true:false"> <i
+														class="fa fa-edit text-success"></i>&nbsp;无法修改
+												</a>| <a href="#" ng-click="delBs(x.TalkgroupID)" ng-if="up.b_delete=='on'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;删除</a>
+													<a href="#" ng-if="up.b_delete=='off'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;无法删除</a></td>
 									</tr>
 								</tbody>
 							</table>

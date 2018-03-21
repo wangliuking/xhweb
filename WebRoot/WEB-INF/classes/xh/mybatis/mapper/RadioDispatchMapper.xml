@@ -24,9 +24,10 @@
     <result column="dialString" property="dialstring" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
-   <select id="ById" parameterType="map" resultMap="BaseResultMap"
+   <select id="ById" parameterType="map" resultType="map"
 		useCache="true">
-		select * from xhgmnet_dispatchuser where 1=1
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_dispatchuser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
 		<if test="id !=null and id !='' and id !=0">
 			and id like concat('%',#{id},'%')
 		</if>
@@ -38,7 +39,8 @@
 
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_dispatchuser where 1=1
+		select count(*) from xhgmnet_dispatchuser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
 		<if test="id!=null and id!=''">
 			and id like concat('%',#{id},'%')
 		</if>

@@ -35,6 +35,12 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.systemMenu = true; // 菜单变色
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		
 		$http.get(
 				"../../talkgroup/list?talkgroupid=" + talkgroupid + "&eName=" + eName
 						+ "&start=0&limit=" + pageSize).success(
@@ -198,7 +204,7 @@ xh.load = function() {
 	});
 };
 
-/* 修改基站信息 */
+/* 修改 */
 xh.update = function() {
 	$.ajax({
 		url : '../../talkgroup/update',
@@ -209,10 +215,10 @@ xh.update = function() {
 		success : function(data) {
 			if (data.result === 1) {
 				$('#edit').modal('hide');
-				toastr.success("更新无线用户成功", '提示');
+				toastr.success("更新通话组成功", '提示');
 				xh.refresh();
 			} else {
-				toastr.error("添加无线用户失败", '提示');
+				toastr.error("更新通话组失败", '提示');
 			}
 		},
 		error : function() {
@@ -220,7 +226,7 @@ xh.update = function() {
 	});
 };
 
-/* 批量删除基站 */
+/* 批量删除 */
 xh.delMore = function() {
 	swal({
 		title : "提示",

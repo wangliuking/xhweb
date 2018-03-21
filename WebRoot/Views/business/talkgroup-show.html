@@ -7,7 +7,7 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">修改通话组</small>
+				<small class="font-bold">修改通话组 </small>
 			</div>
 			<div class="modal-body pad-0"
 				style=" max-height:80%;overflow: scroll;">
@@ -17,81 +17,81 @@
 						<span>用户类型 &nbsp;&nbsp;</span>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="tak1" value="0" name="eRadiotype"
-								ng-checked="editData.eRadiotype==0"> <label for="tak1">TETRA </label>
+							<input type="radio" id="tak1" value="0" name="E_radioType"
+								ng-checked="editData.E_radioType==0"> <label for="tak1">TETRA </label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="tak2" value="1" name="eRadiotype"
-								ng-checked="editData.eRadiotype==1"> <label for="tak2">PDT</label>
+							<input type="radio" id="tak2" value="1" name="E_radioType"
+								ng-checked="editData.E_radioType==1"> <label for="tak2">PDT</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="tak3" value="2" name="eRadiotype"
-								ng-checked="editData.eRadiotype==2"> <label for="tak3">DMR </label>
+							<input type="radio" id="tak3" value="2" name="E_radioType"
+								ng-checked="editData.E_radioType==2"> <label for="tak3">DMR </label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="tak4" value="3" name="eRadiotype"
-								ng-checked="editData.eRadiotype==3"> <label for="tak4">MPT1327</label>
+							<input type="radio" id="tak4" value="3" name="E_radioType"
+								ng-checked="editData.E_radioType==3"> <label for="tak4">MPT1327</label>
 						</div>
 
 					</div>
 					<div class="form-group col-md-6">
 						<label>ID</label> <input type="number" class="form-control"
-							name="talkgroupid"
+							name="TalkgroupID"
 							oninput="if(value.length>20)value=value.slice(0,20)"
-							ng-value="editData.talkgroupid" readonly="readonly">
+							ng-value="editData.TalkgroupID" readonly="readonly">
 					</div>
 					<div class="form-group col-md-6">
 						<label>通话组名称</label> <input type="text" class="form-control"
-							name="eName" ng-value="editData.eName">
+							name="E_name" ng-value="editData.E_name">
 					</div>
 					<div class="form-group col-md-6">
 						<label>通话组别名</label> <input type="text" class="form-control"
-							name="eAlias" ng-value="editData.eAlias">
+							name="E_alias" ng-value="editData.E_alias">
 					</div>
 					<div class="form-group col-md-6">
-						<label>交换中心唯一标识</label> <select class="form-control"
-							name="eMscid" ng-model="mscName">
-							<option ng-repeat="x in msc" value="{{x.vpnId}}" ng-selected="editData.eMscid==x.vpnId">{{x.name}}</option>
+						<label>交换中心名称</label> <select class="form-control"
+							name="E_mscId" ng-model="mscName">
+							<option ng-repeat="x in msc" value="{{x.mscId}}" ng-selected="editData.E_mscId==x.mscId">{{x.name}}</option>
 						</select>
 					</div>
 					<div class="form-group col-md-6">
 						<label>虚拟专网名</label> <select class="form-control" id="E_vpnId"
-							name="eVpnid" ng-model="vpnName">
-							<option ng-repeat="x in vpn" value="{{x.vpnId}}" ng-selected="editData.eVpnid==x.vpnId">{{x.name}}</option>
+							name="E_vpnId" ng-model="vpnName">
+							<option ng-repeat="x in vpn" value="{{x.vpnId}}" ng-selected="editData.E_vpnId==x.vpnId">{{x.name}}</option>
 						</select>
 					</div>
 					<!-- 基本信息 -->
 					<div class="col-md-12 form-heading form-heading-white">属性信息</div>
 					<div class="form-group col-md-12">
 						<label>通话组/通播组业务属性</label> <select class="form-control"
-							name="eSaid" ng-model="userbusinessName">
-							<option ng-repeat="x in userbusinessData" value="{{x.id}}" ng-selected="editData.eSaid==x.id">{{x.name}}</option>
+							name="E_said" ng-model="userbusinessName">
+							<option ng-repeat="x in userbusinessData" value="{{x.id}}" ng-selected="editData.E_said==x.id">{{x.name}}</option>
 						</select>
 					</div>
 					<div class="form-group col-md-12">
 						<label>通话组/通播组互联属性</label> <select class="form-control"
-							name="eIaid" ng-model="userseriaName">
-							<option ng-repeat="x in userseriaData" value="{{x.id}}" ng-selected="editData.eIaid==x.id">{{x.name}}</option>
+							name="E_iaid" ng-model="userseriaName">
+							<option ng-repeat="x in userseriaData" value="{{x.id}}" ng-selected="editData.E_iaid==x.id">{{x.name}}</option>
 						</select>
 					</div>
 					<div class="form-group col-md-12">
 						<label>用户虚拟专网属性名</label> <input type="number" value=""
 							oninput="if(value.length>11)value=value.slice(0,11)"
-							class="form-control" name="eVaid" ng-value="editData.eVaid">
+							class="form-control" name="E_vaid" ng-value="editData.E_vaid">
 					</div>
 					<div class="form-group col-md-12">
 						<span>允许预占 &nbsp;&nbsp;</span>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="E_preempt1" value="1" name="ePreempt"
-								ng-checked="editData.ePreempt==1"> <label for="E_preempt1">是</label>
+							<input type="radio" id="E_preempt1" value="1" name="E_preempt"
+								ng-checked="editData.E_preempt==1"> <label for="E_preempt1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="E_preempt2" value="0" name="ePreempt" ng-checked="editData.ePreempt==0">
+							<input type="radio" id="E_preempt2" value="0" name="E_preempt" ng-checked="editData.E_preempt==0">
 							<label for="E_preempt2">否</label>
 						</div>
 
@@ -105,13 +105,13 @@
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="E_regroupable1" value="1"
-								name="eRegroupable" ng-checked="editData.eRegroupable==1"> <label
+								name="E_regroupable" ng-checked="editData.E_regroupable==1"> <label
 								for="E_regroupable1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="E_regroupable2" value="0"
-								name="eRegroupable" ng-checked="editData.eRegroupable==0"> <label for="E_regroupable2">否</label>
+								name="E_regroupable" ng-checked="editData.E_regroupable==0"> <label for="E_regroupable2">否</label>
 						</div>
 
 
@@ -120,12 +120,12 @@
 						<span>组使能 &nbsp;&nbsp;</span>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="E_enabled1" value="1" name="eEnabled"
-								ng-checked="editData.eEnabled==1"> <label for="E_enabled1">是</label>
+							<input type="radio" id="E_enabled1" value="1" name="E_enabled"
+								ng-checked="editData.E_enabled==1"> <label for="E_enabled1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
-							<input type="radio" id="E_enabled2" value="0" name="eEnabled" ng-checked="editData.eEnabled==0">
+							<input type="radio" id="E_enabled2" value="0" name="E_enabled" ng-checked="editData.E_enabled==0">
 							<label for="E_enabled2">否</label>
 						</div>
 
@@ -135,7 +135,7 @@
 					<div class="form-group col-md-12">
 						<label>直拨号码</label> <input type="text" value=""
 							oninput="if(value.length>16)value=value.slice(0,16)"
-							class="form-control" name="eDirectdial" ng-value="editData.eDirectdial">
+							class="form-control" name="E_directDial" ng-value="editData.E_directDial">
 					</div>
 					<!-- 鉴权参数 -->
 
