@@ -21,7 +21,9 @@ import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.service.RadioUserSeriaService;
+import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping(value="/talkgroup")
@@ -40,11 +42,16 @@ public class TalkGroupController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void info(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;	
+		//获取用户的vpnId	
+		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId = tempMap.get("vpnId").toString();	
+		
 		String talkgroupid=request.getParameter("talkgroupid");
 		String eName=request.getParameter("eName");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("vpnId", vpnId);
 		map.put("talkgroupid", talkgroupid);
 		map.put("eName", eName);
 		map.put("start", start);

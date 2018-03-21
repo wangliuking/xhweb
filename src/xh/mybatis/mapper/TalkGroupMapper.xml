@@ -3,30 +3,30 @@
 <mapper namespace="xh.mybatis.mapper.TalkGroupMapper" >
   <resultMap id="BaseResultMap" type="xh.mybatis.bean.TalkGroup" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <id column="TalkgroupID" property="talkgroupid" jdbcType="INTEGER" />
-    <result column="M_TalkgroupAlias" property="mTalkgroupalias" jdbcType="VARCHAR" />
-    <result column="M_SecurityGroup" property="mSecuritygroup" jdbcType="VARCHAR" />
-    <result column="M_ConsoleTGMGCapabilityProfileAlias" property="mConsoletgmgcapabilityprofilealias" jdbcType="VARCHAR" />
-    <result column="M_TGMGCapabilityProfileAlias" property="mTgmgcapabilityprofilealias" jdbcType="VARCHAR" />
-    <result column="M_TGMGValidSitesProfileAlias" property="mTgmgvalidsitesprofilealias" jdbcType="VARCHAR" />
-    <result column="M_PreemptCapable" property="mPreemptcapable" jdbcType="BIT" />
-    <result column="M_ExtendedBandchannelscanbeassigned" property="mExtendedbandchannelscanbeassigned" jdbcType="BIT" />
-    <result column="M_TalkgroupRegroupable" property="mTalkgroupregroupable" jdbcType="BIT" />
-    <result column="M_GroupEnable" property="mGroupenable" jdbcType="BIT" />
-    <result column="E_name" property="eName" jdbcType="VARCHAR" />
-    <result column="E_alias" property="eAlias" jdbcType="VARCHAR" />
-    <result column="E_mscId" property="eMscid" jdbcType="INTEGER" />
-    <result column="E_vpnId" property="eVpnid" jdbcType="BIGINT" />
-    <result column="E_said" property="eSaid" jdbcType="INTEGER" />
-    <result column="E_iaid" property="eIaid" jdbcType="INTEGER" />
-    <result column="E_vaid" property="eVaid" jdbcType="INTEGER" />
-    <result column="E_preempt" property="ePreempt" jdbcType="INTEGER" />
-    <result column="E_radioType" property="eRadiotype" jdbcType="INTEGER" />
-    <result column="E_regroupable" property="eRegroupable" jdbcType="INTEGER" />
-    <result column="E_enabled" property="eEnabled" jdbcType="INTEGER" />
-    <result column="E_directDial" property="eDirectdial" jdbcType="VARCHAR" />
-    <result column="saName" property="saname" jdbcType="VARCHAR" />
-    <result column="iaName" property="ianame" jdbcType="VARCHAR" />
+    <id column="TalkgroupID" property="TalkgroupID" jdbcType="INTEGER" />
+    <result column="M_TalkgroupAlias" property="M_TalkgroupAlias" jdbcType="VARCHAR" />
+    <result column="M_SecurityGroup" property="M_SecurityGroup" jdbcType="VARCHAR" />
+    <result column="M_ConsoleTGMGCapabilityProfileAlias" property="M_ConsoleTGMGCapabilityProfileAlias" jdbcType="VARCHAR" />
+    <result column="M_TGMGCapabilityProfileAlias" property="M_TGMGCapabilityProfileAlias" jdbcType="VARCHAR" />
+    <result column="M_TGMGValidSitesProfileAlias" property="M_TGMGValidSitesProfileAlias" jdbcType="VARCHAR" />
+    <result column="M_PreemptCapable" property="M_PreemptCapable" jdbcType="BIT" />
+    <result column="M_ExtendedBandchannelscanbeassigned" property="M_ExtendedBandchannelscanbeassigned" jdbcType="BIT" />
+    <result column="M_TalkgroupRegroupable" property="M_TalkgroupRegroupable" jdbcType="BIT" />
+    <result column="M_GroupEnable" property="M_GroupEnable" jdbcType="BIT" />
+    <result column="E_name" property="E_name" jdbcType="VARCHAR" />
+    <result column="E_alias" property="E_alias" jdbcType="VARCHAR" />
+    <result column="E_mscId" property="E_mscId" jdbcType="INTEGER" />
+    <result column="E_vpnId" property="E_vpnId" jdbcType="BIGINT" />
+    <result column="E_said" property="E_said" jdbcType="INTEGER" />
+    <result column="E_iaid" property="E_iaid" jdbcType="INTEGER" />
+    <result column="E_vaid" property="E_vaid" jdbcType="INTEGER" />
+    <result column="E_preempt" property="E_preempt" jdbcType="INTEGER" />
+    <result column="E_radioType" property="E_radioType" jdbcType="INTEGER" />
+    <result column="E_regroupable" property="E_regroupable" jdbcType="INTEGER" />
+    <result column="E_enabled" property="E_enabled" jdbcType="INTEGER" />
+    <result column="E_directDial" property="E_directDial" jdbcType="VARCHAR" />
+    <result column="saName" property="saName" jdbcType="VARCHAR" />
+    <result column="iaName" property="iaName" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="TIMESTAMP" />
   </resultMap>
   <!-- 根据通话组ID查找名称 -->
@@ -39,9 +39,15 @@
 		useCache="true">
 		select count(id) from xhgmnet_talkgroup where TalkgroupID=#{id}
   </select>  
-  <select id="ById" parameterType="map" resultMap="BaseResultMap"
+  <select id="ById" parameterType="map" resultType="map"
 		useCache="true">
-		select * from xhgmnet_talkgroup where 1=1
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_talkgroup as a 
+		LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
+		
 		<if test="talkgroupid !=null and talkgroupid !=''">
 			and talkgroupid like concat('%',#{talkgroupid},'%')
 		</if>
@@ -53,7 +59,13 @@
 
 	<select id="Count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_talkgroup where 1=1
+		select count(*) from xhgmnet_talkgroup as a 
+		LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
+		
 		<if test="talkgroupid!=null and talkgroupid!=''">
 			and talkgroupid like concat('%',#{talkgroupid},'%')
 		</if>
@@ -103,31 +115,31 @@
   
   <update id="update" parameterType="map" >
     update xhgmnet_talkgroup
-    set M_TalkgroupAlias = #{mTalkgroupalias},
-      M_SecurityGroup = #{mSecuritygroup},
-      M_ConsoleTGMGCapabilityProfileAlias = #{mConsoletgmgcapabilityprofilealias},
-      M_TGMGCapabilityProfileAlias = #{mTgmgcapabilityprofilealias},
-      M_TGMGValidSitesProfileAlias = #{mTgmgvalidsitesprofilealias},
-      M_PreemptCapable = #{mPreemptcapable},
-      M_ExtendedBandchannelscanbeassigned = #{mExtendedbandchannelscanbeassigned},
-      M_TalkgroupRegroupable = #{mTalkgroupregroupable},
-      M_GroupEnable = #{mGroupenable},
-      E_name = #{eName},
-      E_alias = #{eAlias},
-      E_mscId = #{eMscid},
-      E_vpnId = #{eVpnid},
-      E_said = #{eSaid},
-      E_iaid = #{eIaid},
-      E_vaid = #{eVaid},
-      E_preempt = #{ePreempt},
-      E_radioType = #{eRadiotype},
-      E_regroupable = #{eRegroupable},
-      E_enabled = #{eEnabled},
-      E_directDial = #{eDirectdial},
-      saName = #{saname},
-      iaName = #{ianame},
+    set M_TalkgroupAlias = #{M_TalkgroupAlias},
+      M_SecurityGroup = #{M_SecurityGroup},
+      M_ConsoleTGMGCapabilityProfileAlias = #{M_ConsoleTGMGCapabilityProfileAlias},
+      M_TGMGCapabilityProfileAlias = #{M_TGMGCapabilityProfileAlias},
+      M_TGMGValidSitesProfileAlias = #{M_TGMGValidSitesProfileAlias},
+      M_PreemptCapable = #{M_PreemptCapable},
+      M_ExtendedBandchannelscanbeassigned = #{M_ExtendedBandchannelscanbeassigned},
+      M_TalkgroupRegroupable = #{M_TalkgroupRegroupable},
+      M_GroupEnable = #{M_GroupEnable},
+      E_name = #{E_name},
+      E_alias = #{E_alias},
+      E_mscId = #{E_mscId},
+      E_vpnId = #{E_vpnId},
+      E_said = #{E_said},
+      E_iaid = #{E_iaid},
+      E_vaid = #{E_vaid},
+      E_preempt = #{E_preempt},
+      E_radioType = #{E_radioType},
+      E_regroupable = #{E_regroupable},
+      E_enabled = #{E_enabled},
+      E_directDial = #{E_directDial},
+      saName = #{saName},
+      iaName = #{iaName},
       time = now()
-    where TalkgroupID = #{talkgroupid}
+    where TalkgroupID = #{TalkgroupID}
   </update>
   
   <!--删除通话组 -->

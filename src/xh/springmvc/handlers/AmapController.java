@@ -92,10 +92,17 @@ public class AmapController {
 		try {
 			AmapService AmapService = new AmapService();
 			String bsId = request.getParameter("bsId");
+			//获取用户的vpnId	
+			HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+			String vpnId = tempMap.get("vpnId").toString();	
+			Map<String, Object> tMap=new HashMap<String, Object>();
+			tMap.put("bsId", bsId);
+			tMap.put("vpnId", vpnId);
+			
 			HashMap map = new HashMap();
 			List<HashMap<String, String>> listMap = AmapService.selectNumTotalsByBsId(bsId);
-			int radioTotals = RadioStatusService.oneBsRadioCount(Integer.parseInt(bsId));
-			int groupTotals = RadioStatusService.oneBsGroupCount(Integer.parseInt(bsId));
+			int radioTotals = RadioStatusService.oneBsRadioCount(tMap);
+			int groupTotals = RadioStatusService.oneBsGroupCount(tMap);
 			map.put("items", listMap);
 			map.put("radioTotals", radioTotals);
 			map.put("groupTotals", groupTotals);

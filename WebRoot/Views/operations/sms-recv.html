@@ -160,7 +160,7 @@
 												<div class="btn-group"
 													style="padding-top:0px;padding-bottom:5px;">
 													<button class="btn btn-danger btn-sm"
-														onclick="xh.delMore()" ng-disabled="">
+														onclick="xh.delMore()" ng-disabled="up.b_delete=='off'?true:false">
 														<i class="fa fa-trash"></i>&nbsp;批量删除短信
 													</button>
 													<button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -194,9 +194,11 @@
 												<td>{{x.dstId}}</td>
 												<td>{{x.writeTime}}</td>
 												<td>{{x.content}}</td>
-												<td style="width:20px;text-align:center"><a href="#"
-													ng-click="delBs(x.id)"><i
-														class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+												<td style="width:20px;text-align:center"><a href="#" ng-click="delBs(x.id)" ng-if="up.b_delete=='on'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;删除</a>
+													<a href="#" ng-if="up.b_delete=='off'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;无法删除</a>
+												</td>
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="editModel($index)" data-toggle="modal"> <i
 														class="fa fa-edit text-success"></i>&nbsp;显示详情

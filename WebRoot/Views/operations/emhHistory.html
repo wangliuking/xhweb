@@ -143,10 +143,8 @@
 												<th>温度</th>
 												<th>湿度</th>
 												<th>输入相电压(V)</th>
-												<th>输出相电压(V)</th>
 												<th>输出频率(Hz)</th>
 												<th>电池组电压(V)</th>
-												<th>电池工作状态</th>
 												<th>电压(V)</th>
 												<th>电流(A)</th>
 												<th>功率因数</th>
@@ -157,7 +155,7 @@
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="10" class="text-center">没有记录！</td>
+												<td colspan="17" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td>{{x.bsId}}</td>
@@ -169,10 +167,8 @@
 												<td>{{x.temp}}</td>
 												<td>{{x.damp}}</td>
 												<td>{{x.ups1}}</td>
-												<td>{{x.ups2}}</td>
 												<td>{{x.ups3}}</td>
 												<td>{{x.ups4}}</td>
-												<td>{{x.ups5}}</td>
 												<td>{{x.e1}}</td>
 												<td>{{x.e2}}</td>
 												<td>{{x.e3}}</td>

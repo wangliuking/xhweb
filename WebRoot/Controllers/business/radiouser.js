@@ -37,6 +37,13 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.systemMenu = true; // 菜单变色
+		
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		
 		$http.get(
 				"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name
 						+ "&start=0&limit=" + pageSize).success(
