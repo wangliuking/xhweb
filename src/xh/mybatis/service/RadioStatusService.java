@@ -53,12 +53,12 @@ public class RadioStatusService {
 	 * @param bsId
 	 * @return
 	 */
-	public static int oneBsRadioCount(int bsId){
+	public static int oneBsRadioCount(Map<String, Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioStatusMapper mapper=sqlSession.getMapper(RadioStatusMapper.class);
 		int count=0;
 		 try {
-			count=mapper.oneBsRadioCount(bsId);
+			count=mapper.oneBsRadioCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -71,12 +71,12 @@ public class RadioStatusService {
 	 * @param bsId
 	 * @return
 	 */
-	public static int oneBsGroupCount(int bsId){
+	public static int oneBsGroupCount(Map<String, Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioStatusMapper mapper=sqlSession.getMapper(RadioStatusMapper.class);
 		int count=0;
 		 try {
-			count=mapper.oneBsGroupCount(bsId);
+			count=mapper.oneBsGroupCount(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

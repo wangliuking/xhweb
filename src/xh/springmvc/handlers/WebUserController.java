@@ -152,6 +152,9 @@ public class WebUserController {
 				webUserRoleBean.setRoleId(funUtil.StringToInt(roleId));
 				webUserRoleBean.setUserId(userId);
 				WebUserRoleService.addUserToRole(webUserRoleBean);
+				UserPowerBean powerbean=new UserPowerBean();
+				powerbean.setUserId(userId);
+				WebUserServices.addUserPower(powerbean);
 			}
 			try {
 				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));

@@ -19,6 +19,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.ChartService;
 import xh.mybatis.service.UserStatusService;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/operations")
@@ -41,9 +42,13 @@ public class UserStatusController {
 		int regStatus=funUtil.StringToInt(request.getParameter("regStatus"));
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
 		Map<String, Object> map=new HashMap<String, Object>();
+		
 		map.put("userId", userId);
 		map.put("regStatus", regStatus);
+		map.put("vpnId", vpnId);
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
@@ -73,7 +78,11 @@ public class UserStatusController {
 
 		List<HashMap> list = new ArrayList<HashMap>();
 		List<Map<String,Object>> list1 = new ArrayList<Map<String,Object>>();
-		list = UserStatusService.userStatusByChart();
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
+        Map<String, Object> map=new HashMap<String, Object>();
+		map.put("vpnId", vpnId);
+		list = UserStatusService.userStatusByChart(map);
 		int offline=0,online=0;
 		for (int i = 0; i < list.size(); i++) {
 			String status = list.get(i).get("name").toString();

@@ -12,7 +12,7 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<div class="btn-group pull-left" style="padding-bottom:5px;">
 					<button class="btn btn-success btn-sm" data-toggle="modal"
-						data-target="#addBscconfigWin" ng-disabled="">
+						data-target="#addBscconfigWin" ng-disabled="up.o_add=='off'?true:false">
 						<i class="fa fa-plus-circle"></i>&nbsp;添加BSC配置信息
 					</button>
 
@@ -45,7 +45,7 @@
 							<td>{{x.bscIp}}</td>
 							<td>{{x.bscIsEnable}}</td>
 							<td>{{x.bscComment}}</td>
-							<td><a href="#" ng-click="delBscconfig($index)"><i
+							<td><a href="#" ng-click="delBscconfig($index)" ng-if="up.o_delete=='on'"><i
 									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 
 						</tr>

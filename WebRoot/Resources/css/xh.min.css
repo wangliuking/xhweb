@@ -1177,7 +1177,7 @@ body.fullscreen-panel-mode {
 }
 
 .xh-table,th,td {
-	border: 1px solid #ccc;
+	border: 1px solid #000;
 	border-collapse: collapse;
 	padding: 7px;
 }
@@ -1192,11 +1192,11 @@ body.fullscreen-panel-mode {
 }
 
 .xh-table tr:nth-child(odd) {
-	background-color: #f1f1f1;
+	background-color: #ffffff;
 }
 
 .xh-table tr:nth-child(even) {
-	background-color: #ffffff;
+	background-color: #f1f1f1;
 }
 
 .xh-table tr.tr-click {
@@ -1216,10 +1216,11 @@ body.fullscreen-panel-mode {
 	/* background:url("../images/img/column-header-over-bg.gif"); */
 	/* background: #4f99c6; */
 	/* OrangeRed-danger ,#e59729-wraing ,#629959=success*/
-	background-color: LightSkyBlue;
+	/* background-color: LightSkyBlue; */
 	/* color: #263238; */
-	color:#fff;
-	font-weight: bold;
+	background-color: #f1f1f1;
+	color:#000;
+	font-weight: 900;
 	text-align: center;
 	border: 1px solid #ccc;
 }

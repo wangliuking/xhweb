@@ -34,6 +34,7 @@ import xh.mybatis.bean.bsrConfigBean;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.WebLogService;
+import xh.org.listeners.SingLoginListener;
 @Controller
 @RequestMapping(value="/bs")
 public class BsstationController {
@@ -241,6 +242,8 @@ public class BsstationController {
 		String usergroup=request.getParameter("usergroup");
 		String bsId=request.getParameter("bsId");
 		List<String> bslist=new ArrayList<String>();
+		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		String vpnId=usermap.get("vpnId").toString();
 		int size=0;
 		if(bsId!=""){
 			String[] bsIds=bsId.split(",");
@@ -258,6 +261,7 @@ public class BsstationController {
 		paramMap.put("usergroup",usergroup);
 		paramMap.put("bslist",bslist);
 		paramMap.put("size",size);
+		paramMap.put("vpnId",vpnId);
 		
 		
 		List<HashMap<String, Object>> list=	 BsstationService.allBsInfo(paramMap);

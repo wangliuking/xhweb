@@ -354,6 +354,97 @@ public class TcpKeepAliveClient extends Thread {
 		str = Integer.toHexString(v1) + Integer.toHexString(v2);
 		return str;
 	}
+	//解析无线用户数据
+	public void radioUser(int len,byte[] buf,int length){
+		int status=dd.SmallByteArrayToInt(buf, 20);
+		backMessage(status);
+		if(status==1){
+		RadioUserStruct user=new RadioUserStruct();
+		 user.setId(dd.SmallByteArrayToInt(buf,304));
+       	 user.setName(dd.ByteArraytoString(buf, 308, 16));
+       	 user.setAlias(dd.ByteArraytoString(buf, 324, 8));
+       	 user.setMscId(dd.SmallByteArrayToInt(buf, 332));
+       	 user.setVpnId(dd.SmallByteArrayToLong(buf, 336));
+       	 user.setSn(dd.ByteArraytoString(buf, 344, 32));
+       	 user.setCompany(dd.ByteArraytoString(buf, 376, 32));
+       	 user.setType(dd.ByteArraytoString(buf, 408, 16));
+       	 user.setEnabled(dd.SmallByteArrayToOneInt(buf, 424));
+       	 user.setShortData(dd.SmallByteArrayToOneInt(buf, 425));
+       	 user.setFullDuple(dd.SmallByteArrayToOneInt(buf, 426));
+       	 user.setRadioType(dd.SmallByteArrayToOneInt(buf, 427));
+       	 user.setAnycall(dd.SmallByteArrayToOneInt(buf, 428));
+       	 user.setSaId(dd.SmallByteArrayToInt(buf, 429));
+       	 user.setIaId(dd.SmallByteArrayToInt(buf, 433));
+       	 user.setVaId(dd.SmallByteArrayToInt(buf,437));
+       	 user.setRugId(dd.SmallByteArrayToInt(buf, 441));
+       	 user.setPacketData(String.valueOf(dd.SmallByteArrayToOneInt(buf, 445)));
+       	 user.setIp(dd.ByteArraytoString(buf, 446, 20));
+       	 user.setPrimaryTGId(dd.SmallByteArrayToInt(buf, 466));
+       	 user.setAmbienceMonitoring(String.valueOf(dd.SmallByteArrayToOneInt(buf, 470)));
+       	 user.setAmbienceInitiation(String.valueOf(dd.SmallByteArrayToOneInt(buf, 471)));
+       	 user.setDirectDial(dd.ByteArraytoString(buf, 472, 16));
+       	 user.setPstnAccess(String.valueOf(dd.SmallByteArrayToOneInt(buf, 488)));
+       	 user.setPabxAccess(String.valueOf(dd.SmallByteArrayToOneInt(buf, 489)));
+       	 user.setClir(String.valueOf(dd.SmallByteArrayToOneInt(buf, 490)));
+       	 user.setClirOverride(String.valueOf(dd.SmallByteArrayToOneInt(buf, 491)));
+       	 user.setKilled(String.valueOf(dd.SmallByteArrayToOneInt(buf, 492)));
+       	 user.setMsType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 493)));
+       	 user.toString();
+		}
+		
+		
+	}
+	//解析通话组数据
+	public void talkGroup(int len,byte[] buf,int length){
+		int status=dd.SmallByteArrayToInt(buf, 20);
+		backMessage(status);
+		if(status==1){
+		TalkGroupStruct data=new TalkGroupStruct();
+		data.setMessage(backMessage(status));
+   	    data.setId(dd.SmallByteArrayToInt(buf, 112));
+   	    data.setName(dd.ByteArraytoString(buf, 116, 16));
+   	    data.setAlias(dd.ByteArraytoString(buf, 132, 8));
+   	    data.setMscId(dd.SmallByteArrayToInt(buf, 140));
+   	    data.setVpnId(dd.SmallByteArrayToInt(buf, 144));
+   	    data.setSaId(dd.SmallByteArrayToInt(buf, 148));
+   	    data.setIaId(dd.SmallByteArrayToInt(buf, 152));
+   	    data.setVaId(dd.SmallByteArrayToInt(buf, 156));
+   	    data.setPreempt(dd.SmallByteArrayToOneInt(buf, 160));
+   	    data.setRadioType(dd.SmallByteArrayToOneInt(buf, 161));
+   	    data.setRegroupAble(dd.SmallByteArrayToOneInt(buf, 162));
+   	    data.setEnabled(dd.SmallByteArrayToOneInt(buf, 163));
+   	    data.setDirectDial(dd.ByteArraytoString(buf, 164, 16));
+   	    data.toString();
+		
+		}
+		
+		
+	}
+	
+	public String backMessage(int status){
+		String message="";
+		
+		switch (status) {
+		case 1:
+			message="操作成功";
+			break;
+		case 2:
+			message="参数错误";
+			break;
+		case 3:
+			message="系统错误";
+			break;
+		case 4:
+			message="未知错误";
+
+		default:
+			message="code:"+status+";error!";
+			break;
+		}
+		log.info("操作结果->"+message);
+		return message;
+		
+	}
 
 	public static byte[] getBufferFlag() {
 		return bufferFlag;

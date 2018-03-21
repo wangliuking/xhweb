@@ -65,7 +65,8 @@ xh.load = function() {
 		$http.get("web/loginUserInfo").success(function(response) {
 			$scope.loginUser = response.user;
 			$scope.loginUserVpnId = response.vpnId;
-			console.log("vpnid="+$scope.loginUserVpnId)
+			$scope.roleId = response.roleId ;
+			
 		});
 		
 	
@@ -83,11 +84,15 @@ xh.load = function() {
 					count+=ji_count
 				}
 				
-				if(count>0){
-					xh.playMap3();
-				}else{
-					xh.stopMap3();
+				if($scope.loginUserVpnId==null || $scope.loginUserVpnId==''){
+					if(count>0){
+						xh.playMap3();
+					}else{
+						xh.stopMap3();
+					}
 				}
+				
+				
 			
 			});
 		};

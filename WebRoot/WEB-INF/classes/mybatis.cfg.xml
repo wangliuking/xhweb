@@ -56,7 +56,7 @@
 				<property name="poolMaximumIdleConnections" value="10" />
 				<property name="poolMaximumCheckoutTime" value="15" />
 				<property name="poolTimeToWait" value="10" />
-				<property name="poolPingQuery" value="select 1 from xhgmnet_web_user" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
@@ -79,7 +79,7 @@
 				<property name="poolMaximumIdleConnections" value="10" />
 				<property name="poolMaximumCheckoutTime" value="15" />
 				<property name="poolTimeToWait" value="10" />
-				<property name="poolPingQuery" value="select 1 from xhgmnet_web_user" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
@@ -103,7 +103,7 @@
 				<property name="poolMaximumIdleConnections" value="10" />
 				<property name="poolMaximumCheckoutTime" value="15" />
 				<property name="poolTimeToWait" value="10" />
-				<property name="poolPingQuery" value="select 1 from xhgmnet_recvsms" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 
@@ -129,7 +129,7 @@
 				<property name="poolMaximumIdleConnections" value="10" />
 				<property name="poolMaximumCheckoutTime" value="15" />
 				<property name="poolTimeToWait" value="10" />
-				<property name="poolPingQuery" value="select 1 from xhgmnet_recvsms" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
@@ -171,7 +171,7 @@
 				<property name="poolMaximumIdleConnections" value="10" />
 				<property name="poolMaximumCheckoutTime" value="15" />
 				<property name="poolTimeToWait" value="10" />
-				<property name="poolPingQuery" value="select 1 from xhgmnet_web_user" />
+				<property name="poolPingQuery" value="select 1 from dual" />
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
@@ -215,8 +215,6 @@
 				<property name="poolPingConnectionsNotUsedFor" value="0" />
 			</dataSource>
 		</environment>
-
-
 
 	</environments>
 

@@ -35,6 +35,14 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
+			$scope.loginUser = response.user;
+			$scope.loginUserVpnId = response.vpnId;
+			$scope.roleId = response.roleId ;
+			console.log("vpnid="+$scope.loginUserVpnId)
+			console.log("roleId="+$scope.roleId)
+		});
 		
 		/* 获取用户信息 */
 		$http.get("../../web/user/userList?user="+user+"&roleId="+roleId+"&start=0&limit=" + pageSize).success(
@@ -250,6 +258,13 @@ xh.load = function() {
 };
 /* 添加用户 */
 xh.add = function() {
+	var $scope = angular.element(appElement).scope();
+	if($scope.loginUserVpnId!=null && $scope.loginUserVpnId!=''){
+		if( $("#addForm").find("input[name='vpn']").val()==''){
+			toastr.error("用户VPN虚拟专网名不能为空", '提示');
+			return ;
+		}
+	}
 	$.ajax({
 		url : '../../web/user/add',
 		type : 'POST',
@@ -277,6 +292,13 @@ xh.add = function() {
 };
 /* 修改信息 */
 xh.update = function() {
+	var $scope = angular.element(appElement).scope();
+	if($scope.loginUserVpnId!=null && $scope.loginUserVpnId!=''){
+		if( $("#editForm").find("input[name='vpn']").val()==''){
+			toastr.error("用户VPN虚拟专网名不能为空", '提示');
+			return ;
+		}
+	}
 	$.ajax({
 		url : '../../web/user/update',
 		type : 'POST',

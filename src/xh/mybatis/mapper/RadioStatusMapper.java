@@ -18,7 +18,7 @@ public interface RadioStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int oneBsRadioCount(int bsId) throws Exception;
+	public int oneBsRadioCount(Map<String, Object> map) throws Exception;
 	
 	
 	/**
@@ -33,6 +33,6 @@ public interface RadioStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int oneBsGroupCount(int bsId) throws Exception;
+	public int oneBsGroupCount(Map<String, Object> map) throws Exception;
 
 }

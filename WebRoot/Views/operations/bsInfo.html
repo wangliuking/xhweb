@@ -133,15 +133,15 @@
 
 
 										<button class="btn btn-success btn-sm" data-toggle="modal"
-											data-target="#add" ng-disabled="" style="margin-top:5px;">
+											data-target="#add" ng-disabled="up.o_add=='off'?true:false" style="margin-top:5px;">
 											<i class="fa fa-plus-circle"></i>&nbsp;添加基站
 										</button>
-										<button class="btn btn-info btn-sm" ng-disabled=""
+										<button class="btn btn-info btn-sm" ng-disabled="up.o_update=='off'?true:false"
 											ng-click="showEditModel()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;修改基站
 										</button>
 										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-											ng-disabled="" style="margin-top:5px;">
+											ng-disabled="up.o_delete=='off'?true:false" style="margin-top:5px;">
 											<i class="fa fa-trash"></i>&nbsp;批量删除基站
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
@@ -165,14 +165,14 @@
 											<i class="fa fa-edit"></i>&nbsp;传输配置
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showDeviceWin()" style="margin-top:5px;">
+											ng-click="showDeviceWin()" style="margin-top:5px;" >
 											<i class="fa fa-edit"></i>&nbsp;基站设备信息配置
 										</button>
 										<button class="btn btn-success btn-sm" ng-disabled=""
 											ng-click="showHandoverWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;基站切换参数配置
 										</button>
-										<button class="btn btn-success btn-sm" id="confGis" style="margin-top:5px;" type="submit">
+										<button class="btn btn-success btn-sm"  ng-disabled="up.o_update=='off'?true:false" id="confGis" style="margin-top:5px;" type="submit">
 											<i class="fa fa-edit"></i>&nbsp;GIS显示配置
 										</button>
 										<!-- <button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -242,11 +242,11 @@
 
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="showDetailWin($index)"><i
-														class="fa fa-info text-success"></i>&nbsp;详细| </a> <a href="#"
+														class="fa fa-info text-success"></i>&nbsp;详细 </a> <a href="#"
 													ng-click="editModel($index)" data-toggle="modal"
-													data-target="#edit"> <i class="fa fa-edit text-success"></i>&nbsp;修改|
-												</a> <a href="#" ng-click="delBs(x.bsId)"><i
-														class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+													data-target="#edit"  ng-if="up.o_update=='on'"> <i class="fa fa-edit text-success"></i>| &nbsp;修改
+												</a> <a href="#" ng-click="delBs(x.bsId)"  ng-if="up.o_delete=='on'"><i
+														class="fa fa-trash text-success"></i>|&nbsp;删除</a></td>
 											</tr>
 										</tbody>
 									</table>

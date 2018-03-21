@@ -55,12 +55,12 @@ public class UserStatusService {
 	 * 终端在线状态统计
 	 * @return
 	 */
-	public static List<HashMap> userStatusByChart() {
+	public static List<HashMap> userStatusByChart(Map<String, Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		UserStatusMapper mapper = sqlSession.getMapper(UserStatusMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {
-			list = mapper.userStatusByChart();
+			list = mapper.userStatusByChart(map);
 			sqlSession.close();
 
 		} catch (Exception e) {
