@@ -166,9 +166,6 @@
 											ng-disabled="up.b_delete=='off'?true:false">
 											<i class="fa fa-trash"></i>&nbsp;批量删除记录
 										</button>
-										<button class="btn btn-warning btn-sm" ng-click="refresh()">
-											<i class="fa fa-refresh"></i>&nbsp;刷新
-										</button>
 									</div>
 								</div>
 							</div>
@@ -229,16 +226,17 @@
 							</table>
 							<div class="page">
 								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
+									<span>每页显示</span><select id="page-limit" ng-change="refresh()"
 										ng-model="count">
 										<option value="15">15</option>
 										<option value="20">20</option>
 										<option value="30">30</option>
 										<option value="40">40</option>
 										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+									</select><span>条,</span>  <span ng-model="index">显示{{start}}-</span><span
 										ng-model="lastIndex">{{lastIndex}}条,</span> <span
 										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
 								</div>
 								<div class="page-paging"></div>
 							</div>
