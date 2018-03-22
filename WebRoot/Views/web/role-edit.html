@@ -10,7 +10,7 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form  action="#" id="editForm" onSubmit="return false">
-				<div class="row">
+				<div class="row" ng-show="false">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>角色类型</label>
@@ -40,6 +40,13 @@
 								<label>角色名称</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="text" value="" class="form-control" name="role"
 									required="required" ng-model="editData.role">
+							</div>
+						</div>
+						<div class="col-md-6" ng-show="false">
+							<div class="form-group col-md-12">
+								<label>parentId</label>&nbsp;<span class="text-danger">[*]</span> 
+								<input type="text" value="" class="form-control" name="parentId"
+									required="required" ng-model="editData.parentId">
 							</div>
 						</div>
 						
