@@ -709,9 +709,23 @@ text-decoration:none;
 	padding-top: 10px;
 }
 .page-refresh{
-	width:40px;
-	height:40px;
-	background-image: url("../images/menu/refresh.gif");
+	vertical-align: middle;
+	color:green;
+	border:1px solid #ccc;
+	cursor: pointer;
+	font-size: 16px;
+	/* width:16px;
+	height:16px; 
+	display: inline-block;
+	padding:0;
+	margin-left:5px;
+	position:relative;
+	cursor:pointer;
+	border:1px solid #ccc;
+	background:url("../images/menu/refresh.gif") no-repeat; */
+}
+.page-refresh:HOVER{
+	color:red;
 }
 
 .page-heading {
@@ -723,6 +737,7 @@ text-decoration:none;
 .page-heading .page-info .nowPage {
 	width: 40px;
 	text-align: center;
+	
 }
 
 .page .page-info .nowPage {
@@ -739,13 +754,17 @@ text-decoration:none;
 .page .page-info {
 	float: left;
 	margin-left: 10px;
+	
 	color:#000;
 }
 .page .page-info select{
 	color:#000;
+	
 }
 .page .page-info span{
 	color:#000;
+	vertical-align: middle;
+	/* padding-bottom: 5px； */
 }
 
 .page .page-paging {
