@@ -126,11 +126,9 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
-										<th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th>
 										<th>无线用户ID</th>
 										<th>无线用户名称</th>
-										<th>交换中心唯一标识</th>
+										<th>交换中心名称</th>
 										<th>虚拟专网唯一标识</th>
 										<th>警员编号</th>
 										<th>用户所在单位</th>
@@ -139,15 +137,13 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td>
 										<td>{{x.C_ID}}</td>
 										<td>{{x.E_name}}</td>
-										<td>{{x.E_mscId}}</td>
-										<td>{{x.E_vpnId}}</td>
+										<td>{{x.mscName}}</td>
+										<td>{{x.vpnName}}</td>
 										<td>{{x.E_sn}}</td>
 										<td>{{x.E_company}}</td>
 										<td>{{x.E_type}}</td>
