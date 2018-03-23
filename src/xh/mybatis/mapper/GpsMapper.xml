@@ -7,7 +7,7 @@
 		useCache="true">
 		select * from ${currentMonth} where 1=1
 		
-		<if test="list!=null and list!=''">
+		<if test="list.size()>0">
 		and srcId in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
@@ -43,7 +43,7 @@
 		select SUM(cnt) from (
 		select count(*) cnt from ${currentMonth} where 1=1
 		
-		<if test="list!=null and list!=''">
+		<if test="list.size()>0">
 		and srcId in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
