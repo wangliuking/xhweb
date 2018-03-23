@@ -31,7 +31,7 @@ public class BsStatusService {
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		List<BsStatusBean> BsStatus = mapper.selectAllBsStatus();
-		session.commit();
+		/*session.commit();*/
 		session.close();
 		return BsStatus;
 	}
@@ -109,7 +109,9 @@ public class BsStatusService {
 	        c.add(Calendar.MONTH, -3);
 	        Date m3 = c.getTime();
 	        String mon3 = f.format(m3);*/
-			list = mapper.bsFaultInfo(time);
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("time", time);
+			list = mapper.bsFaultInfo(map);
 			
 			
 

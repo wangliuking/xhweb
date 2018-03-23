@@ -171,10 +171,12 @@ public class WebRoleController {
 		int roleType=funUtil.StringToInt(request.getParameter("roleType"));
 		String role=request.getParameter("role");
 		String createTime=funUtil.nowDate();
+		String parentId=request.getParameter("parentId");
 		WebRoleBean bean=new WebRoleBean();
 		bean.setRoleType(roleType);
 		bean.setRoleId(funUtil.StringToInt(roleId));
 		bean.setRole(role);
+		bean.setParentId(Integer.parseInt(parentId));
 		bean.setCreateTime(createTime);
 		int flag=WebRoleService.updateByroleId(bean);
 		WebRoleBean roleBean=WebRoleService.roleOne(roleId);
@@ -209,7 +211,6 @@ public class WebRoleController {
 			this.success=false;
 			this.message="修改角色失败";
 		}
-		this.success=true;
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
