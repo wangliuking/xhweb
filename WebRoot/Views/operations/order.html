@@ -156,16 +156,26 @@
 				<div class="col-md-3" ng-repeat="x in data">
 
 					<div class="hpanel">
-						<div class="panel-body">
-							<a href="#" ng-click="resend($index)"
-								class="pull-right" ng-if="x.status==0" style="color:#FF00FF"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
+					    <div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a href="#" ng-click="resend($index)"
+								 ng-if="x.status==0" style="color:#FF00FF"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a>
+							<a href="#" ng-click="check($index)"
+								class="text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;已解决
+							</a>
+							</div>
+							<a href="" ng-click="editModel($index)" data-toggle="modal" style="color:blue;">
+									【{{x.bsid}}-{{x.bsname}}】 </a>
+						</div>
+						<div class="panel-body">
+							
 
 
-							<div class="text-muted font-bold m-b-xs">
+							<!-- <div class="text-muted font-bold m-b-xs">
 								<a href="" ng-click="editModel($index)" data-toggle="modal" style="color:skyblue;">
 									【{{x.bsid}}-{{x.bsname}}】故障处理任务单 </a>
-							</div>
+							</div> -->
 							<p>
 								<span style='font-weight:700'>派单时间：</span>&nbsp;<span>{{x.dispatchtime}}</span>
 							</p>
@@ -175,9 +185,7 @@
 							<p>
 								<span style='font-weight:700'>故障等级：</span>&nbsp;<span>{{x.errlevel}}</span>
 							</p>
-							<a href="#" ng-click="check($index)"
-								class="pull-right text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;已解决
-							</a>
+							
 						</div>
 						<div class="panel-footer contact-footer">
 							<div class="row">

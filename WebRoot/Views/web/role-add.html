@@ -10,12 +10,12 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false">
-					<div class="row">
+					<div class="row" ng-show="roleType==0">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>角色类型</label>
 								<div>
-									<select name="roleType" class="form-control">
+									<select name="roleType" class="form-control" ng-model='roleType'>
 									    <option value="0">超级管理员</option>
 									    <option value="1">市经信委</option>
 									    <option value="2">软件产业中心</option>

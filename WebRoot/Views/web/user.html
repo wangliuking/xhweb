@@ -171,14 +171,14 @@
 										
 										<a href="#"
 											ng-click="editModel($index)" data-toggle="modal"
-											data-target="#edit" ng-if="x.roleId!=10000" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改 |
-										</a> <a href="#" ng-click="del(x.userId)" ng-if="x.roleId!=10000" ng-show="up.p_delete=='on'?true:false"><i
+											data-target="#edit"  ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改 |
+										</a> <a href="#" ng-click="del(x.userId)" ng-show="up.p_delete=='on'?true:false"><i
 												class="fa fa-trash text-success"></i>&nbsp;删除</a>
-												<a href="#"  ng-click="power($index)" ng-if="x.roleId!=10000"  ng-show="up.p_power=='on'?true:false"><i
+												<a href="#"  ng-click="power($index)" ng-show="up.p_power=='on'?true:false"><i
 												class="fa fa-wrench text-success"></i>&nbsp;|权限分配</a>
-									  <a href="#" ng-if="x.roleId!=10000 && x.status==0" ng-click="unLockUser(x.userId)" ng-show="up.p_lock=='on'?true:false"><i
+									  <a href="#" ng-if="x.status==0" ng-click="unLockUser(x.userId)" ng-show="up.p_lock=='on'?true:false"><i
 												class="fa fa-lock text-success" ></i>&nbsp;|启用</a>
-									<a href="#"  ng-click="lockUser(x.userId)" ng-if="x.roleId!=10000 && x.status==1" ng-show="up.p_lock=='on'?true:false"><i
+									<a href="#"  ng-click="lockUser(x.userId)" ng-if="x.status==1" ng-show="up.p_lock=='on'?true:false"><i
 												class="fa fa-unlock-alt text-success" ></i>&nbsp;|禁用</a>
 												</div>
 									</td>

@@ -37,6 +37,7 @@ xh.load = function() {
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
+			$scope.roleType = response.roleType.toString();
 			$scope.loginUserRoleId = response.roleId;
 		});
 		/*获取信息*/
@@ -46,8 +47,6 @@ xh.load = function() {
 			$scope.data = response.items;
 			$scope.totals=$scope.data.length;
 		});
-		
-	
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);

@@ -123,7 +123,8 @@
 										<td>{{x.role}}</td>
 										
 										<td>{{x.createTime}}</td>
-										<td style="width:20px;text-align:center" ng-if="loginUserRoleId>=10000">
+										<td style="width:20px;text-align:center">
+										<div ng-if="loginUserRoleId!=x.roleId">
 										<a href="#" ng-if="loginUserRoleId==10000"
 										ng-click="menu($index)">
 										<i class="fa fa-bars text-success"></i>&nbsp;菜单编辑
@@ -134,8 +135,10 @@
 											data-target="#edit" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a><a href="#" ng-click="del(x.roleId)" ng-if="x.roleId<10000" ng-show="up.p_delete=='on'?true:false">|<i
 												class="fa fa-trash text-success" ></i>&nbsp;删除</a>
+										</div>
+										
 										</td>
-										<td ng-if="loginUserRoleId<10000"></td>
+										
 									</tr>
 								</tbody>
 							</table>

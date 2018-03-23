@@ -21,7 +21,7 @@
     </select>    
    <!--根据角色判断角色是否存在-->
     <select id="roleIsExists" parameterType="xh.mybatis.bean.WebRoleBean" resultType="int" useCache="true">
-     select count(*) from xhgmnet_web_role where role=#{role} or roleId=#{roleId}
+     select count(*) from xhgmnet_web_role where roleType=#{roleType} and (roleId=#{roleId} or role= role=#{role}) and parentId=#{parentId}
     </select>
    <!--根据用户查询角色roleId-->
     <select id="roleIdByUser" parameterType="String" resultType="int" useCache="true">
@@ -47,7 +47,8 @@
     </insert> 
     <!--更新角色-->
     <update id="updateByroleId" parameterType="xh.mybatis.bean.WebRoleBean">
-      update xhgmnet_web_role set role=#{role},roleType=#{roleType} where roleId=#{roleId}    
+      update xhgmnet_web_role set role=#{role},roleType=#{roleType} 
+      where roleId=#{roleId} and roleType=#{roleType} and parentId=#{parentId} 
     </update>          
    <!--根据角色ID删除角色-->
     <delete id="deleteByRoleId" parameterType="java.util.List">
