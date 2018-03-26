@@ -28,11 +28,14 @@
 		useCache="true">
 		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_dispatchuser as a 
 		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and a.vpnId = #{vpnId}
+		</if>
 		<if test="id !=null and id !='' and id !=0">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name !=null and name !=''">
-			and name like concat('%',#{name},'%')
+			and a.name like concat('%',#{name},'%')
 		</if>
 		order by id asc limit #{start},#{limit}
 	</select>
@@ -41,11 +44,14 @@
 		useCache="true">
 		select count(*) from xhgmnet_dispatchuser as a 
 		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and a.vpnId = #{vpnId}
+		</if>
 		<if test="id!=null and id!=''">
 			and id like concat('%',#{id},'%')
 		</if>
 		<if test="name!=null and name!=''">
-			and name like concat('%',#{name},'%')
+			and a.name like concat('%',#{name},'%')
 		</if>
 	</select>
   
