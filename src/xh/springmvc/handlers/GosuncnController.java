@@ -413,6 +413,7 @@ public class GosuncnController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
+		System.out.println("startTime为："+startTime+"endTime为："+endTime+"currentMonth为："+currentMonth+"nextMonth为："+nextMonth);
 		map.put("bsId", bsId);
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
