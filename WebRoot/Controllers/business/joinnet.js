@@ -1041,6 +1041,7 @@ xh.addUser = function() {
 	$.ajax({
 		url : '../../radiouser/add',
 		type : 'POST',
+		timeout : 520000, //超时时间设置，单位毫秒
 		dataType : "json",
 		async : false,
 		data:{
@@ -1067,6 +1068,7 @@ xh.addTGroup = function() {
 		url : '../../talkgroup/add',
 		type : 'POST',
 		dataType : "json",
+		timeout : 520000, //超时时间设置，单位毫秒
 		async : false,
 		data:{
 			formData:xh.serializeJson($("#addTalkGroupForm").serializeArray()) //将表单序列化为JSON对象
@@ -1084,7 +1086,12 @@ xh.addTGroup = function() {
 		},
 		error : function() {
 			toastr.error("参数错误", '提示');
-		}
+		}/*,
+		complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数
+		　　　　if(status=='timeout'){//超时,status还有success,error等值的情况
+		 　　　　　toastr.success("系统超时", '提示');
+		　　　　}
+		}*/
 	});
 }
 /* 经办人编写入网登记表 */

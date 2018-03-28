@@ -135,7 +135,10 @@
 													</div>
 												</div>
 												<div class="col-md-4">
-													<div><span>运行时长</span></div>
+													<div>
+													<span ng-if="x.status==1" style="color:green;font-weight:800">运行时长</span>
+													<span ng-if="x.status==0" style="color:red;font-weight:800">离线时长</span>
+													</div>
 													<div class="runtime"> <span>{{x.runTime|timetemp}}</span></div>
 													
 												</div>

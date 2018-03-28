@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 
-<web>
-    <cookie_prefix>xhgmnet_</cookie_prefix>
-    <session_prefix>xhgmnet_</session_prefix>
-    <cpu>70</cpu>
-    <mem>70</mem>
-    <disk>70</disk>
-    <key>2f6DhqPBNoK3f2A7</key>
-    <bsflash>5</bsflash>
-</web>
-<emh>
-    <ip>192.168.1.7</ip>
-    <port>10025</port>
-</emh>
-<gis>
-    <ip>127.0.0.1</ip>
-    <port>10025</port>
-</gis>
-<emhLogin>
-    <account>user1</account>
-    <password>123456</password>
-</emhLogin>
-<wav>
-  <path>D:/wav</path>
-</wav>
-<ca>
-  <ip>125.69.77.63</ip>
-  <port>6080</port>
-</ca>
-<ucm>
-<ip>192.168.120.150</ip>
-<port>60001</port>
-</ucm>
-<duty>
-    <one></one>
-    <two></two>
-    <three></three>
-</duty>
+	<web>
+		<!-- cookie前缀 -->
+		<cookie_prefix>xhgmnet_</cookie_prefix>
+		<!--session前缀 -->
+		<session_prefix>xhgmnet_</session_prefix>
+		<!-- cpu阈值 -->
+		<cpu>70</cpu>
+		<!-- 内存阈值 -->
+		<mem>70</mem>
+		<!--磁盘剩余空间阈值 -->
+		<disk>70</disk>
+		<!-- 加密key -->
+		<key>2f6DhqPBNoK3f2A7</key>
+		<!-- 基站闪断时长判断 单位分钟 -->
+		<bsflash>5</bsflash>
+	</web>
+	<!-- 环控配置 -->
+	<emh>
+		<ip>192.168.1.7</ip>
+		<port>10025</port>
+	</emh>
+	<!-- gis服务器配置 -->
+	<gis>
+		<ip>127.0.0.1</ip>
+		<port>10025</port>
+	</gis>
+	<!-- 环控登录用户 -->
+	<emhLogin>
+		<account>user1</account>
+		<password>123456</password>
+	</emhLogin>
+	<!-- 录音文件存放绝对地址 -->
+	<wav>
+		<path>D:/wav</path>
+	</wav>
+	<!-- ca服务器配置 -->
+	<ca>
+		<ip>125.69.77.63</ip>
+		<port>6080</port>
+	</ca>
+	<!-- ucm服务器配置 -->
+	<ucm>
+		<ip>192.168.120.150</ip>
+		<port>60001</port>
+	</ucm>
+	<!-- gps设置 连接配置 -->
+	<gps>
+		<ip>192.168.120.137</ip>
+		<port>60000</port>
+		<dstId>100267</dstId>
+	</gps>
+	<!-- 运维值班配置 -->
+	<duty>
+		<one></one>
+		<two></two>
+		<three></three>
+	</duty>
 
 </config>

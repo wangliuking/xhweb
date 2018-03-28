@@ -787,7 +787,7 @@ xh.addBscconfig=function(){
 		type : 'post',
 		dataType : "json",
 		data:{
-			formData:xh.serializeJson($("#addBscconfigForm").serializeArray()) //将表单序列化为JSON对象
+			formData:xh.serializeJson($("#addBscconfigForm").serializeArray()) //将表单序列化为JSON对
 		},
 		async : false,
 		success : function(data) {

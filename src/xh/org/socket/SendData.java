@@ -1,25 +1,236 @@
 package xh.org.socket;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.DgnaBean;
 import xh.mybatis.bean.smsBean;
 
 public class SendData {
 	private String message = "";
+	private Socket socket = null;
 	protected static final Log log = LogFactory.getLog(SendData.class);
 
-	/*private static MessageStruct header = new MessageStruct();*/
+	public void connection() {
+		try {
+			socket = new Socket(FunUtil.readXml("gps", "ip"),
+					Integer.parseInt(FunUtil.readXml("gps", "port")));
+			log.info("---------------------------------");
+			log.info("GPS设置客户端已建立链接:");
+			log.info("---------------------------------");
+		} catch (UnknownHostException e) {
+			message = "没有找到主机，请检查端口号或者主机IP地址是否正确";
+			log.info("---------------------------------");
+			log.info("GPS-》" + message);
+			log.info("---------------------------------");
+		} catch (IOException e) {
+			message = "网络无响应";
+			System.out.println(message);
+			log.info("---------------------------------");
+			log.info("GPS-》" + message);
+			log.info("---------------------------------");
+			// e.printStackTrace();
+		}
+		try {
+			socket.setSoTimeout(10000);
+		} catch (SocketException e1) {
+			message = "对方没有应答";
+			log.info("---------------------------------");
+			log.info("GPS设置客户端已经关闭连接");
+			log.info("---------------------------------");
+			e1.printStackTrace();
+		}
+		try {
+			socket.setKeepAlive(true);
+		} catch (SocketException e) {
+			message = "网络已经断开";
+			log.info("---------------------------------");
+			log.info("GPS网络已经断开");
+			log.info("---------------------------------");
+			// e.printStackTrace();
+		}// 开启保持活动状态的套接字
+			// socket.setSoTimeout(10000);
 
-	public static void DGNA(MessageStruct header,addDgnaStruct bean) throws IOException {
+	}
+
+	/* private static MessageStruct header = new MessageStruct(); */
+	/* gps立即请求 */
+	public  String ImmGps(MessageStruct header, GpsSetStruct getData)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		connection();
+
+		// ====================================
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = socket.getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCommandHeader()); // commandHeader 2 命令开始字段
+		dos.writeByte(header.getSegNum());// segNum 1 分片总数
+		dos.writeByte(header.getSegFlag());// segFlag 1 当前分片序号
+		dos.writeShort(header.getLength());// length 2 后接数据长度
+		dos.writeShort(header.getCommandId());// commandId 2 命令ID
+		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
+		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
+		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
+		/**************** content ***********************/
+		// content
+		dos.write(dd.IntToSmallByteArray(getData.getSrcId()));
+		dos.write(dd.IntToSmallByteArray(getData.getDstId()));
+		dos.writeByte(getData.getReferenceNumber());
+		dos.write(dd.IntToSmallByteArray(getData.getLocationDstId()));
+		/**************** content ***********************/
+		dos.writeShort(header.getChecksum());// checksum 2 校验码
+
+		byte[] info = bos.toByteArray();
+		out.write(info);
+		log.info("ImmGps-length:" + info.length);
+		log.info("ImmGps:" + getData.toString());
+		socket.close();
+		log.info("socket连接自动关闭");
+		return"success";
+
+	}
+
+	/* gps使能 */
+	public String GpsEn(MessageStruct header, GpsSetStruct getData)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		connection();
+
+		// ====================================
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = socket.getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCommandHeader()); // commandHeader 2 命令开始字段
+		dos.writeByte(header.getSegNum());// segNum 1 分片总数
+		dos.writeByte(header.getSegFlag());// segFlag 1 当前分片序号
+		dos.writeShort(header.getLength());// length 2 后接数据长度
+		dos.writeShort(header.getCommandId());// commandId 2 命令ID
+		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
+		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
+		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
+		/**************** content ***********************/
+		// content
+		dos.write(dd.IntToSmallByteArray(getData.getSrcId()));
+		dos.write(dd.IntToSmallByteArray(getData.getDstId()));
+		dos.writeByte(getData.getReferenceNumber());
+		dos.writeByte(getData.getEnableFlag());
+		/**************** content ***********************/
+		dos.writeShort(header.getChecksum());// checksum 2 校验码
+
+		byte[] info = bos.toByteArray();
+		out.write(info);
+		log.info("GpsEn-length:" + info.length);
+		log.info("GpsEn:" + getData.toString());
+		socket.close();
+		log.info("socket连接自动关闭");
+		return "success";
+
+	}
+
+	/* gps触发器设置 */
+	public String GpsTrigger(MessageStruct header, GpsSetStruct getData)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		connection();
+
+		// ====================================
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = socket.getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCommandHeader()); // commandHeader 2 命令开始字段
+		dos.writeByte(header.getSegNum());// segNum 1 分片总数
+		dos.writeByte(header.getSegFlag());// segFlag 1 当前分片序号
+		dos.writeShort(header.getLength());// length 2 后接数据长度
+		dos.writeShort(header.getCommandId());// commandId 2 命令ID
+		dos.writeShort(header.getProtocolNo());// protocolNo 2 协议号
+		dos.writeInt(header.getBusinessSN());// businessSN 4 业务流水号
+		dos.writeByte(header.getSrcDevice());// srcDevice 1 源设备类型
+		dos.writeByte(header.getDstDevice());// dstDevice 1 目标设备类型
+		/**************** content ***********************/
+		// content
+		dos.write(dd.IntToSmallByteArray(getData.getSrcId()));
+		dos.write(dd.IntToSmallByteArray(getData.getDstId()));
+		dos.write(dd.IntToSmallByteArray(getData.getLocationDstId()));
+		dos.writeByte(getData.getReferenceNumber());
+		dos.writeByte(getData.getTriggerType());
+		dos.write(dd.IntToSmallByteArray(getData.getTriggerPara()));
+		/**************** content ***********************/
+		dos.writeShort(header.getChecksum());// checksum 2 校验码
+
+		byte[] info = bos.toByteArray();
+		out.write(info);
+		log.info("GpsTrigger-length:" + info.length);
+		log.info("GpsTrigger:" + getData.toString());
+		// 获得服务器发过来的数据，先获得输入流
+
+		InputStream in = socket.getInputStream();
+		DataInputStream din = new DataInputStream(in);
+		message="对方回复超时";
+		try {
+			int comm = 54;
+			byte[] buf = new byte[1024];
+			do {
+				int len = din.read(buf);
+				int head = dd.BigByteArrayToShort(buf, 0);
+				int status = dd.SmallByteArrayToInt(buf, 25);
+				comm = dd.BigByteArrayToShort(buf, 6);
+				String str = "";
+				for (int i = 0; i < len; i++) {
+					System.out.print(buf[i] + " ");
+					str += buf[i] + " ";
+
+				}
+				System.out.print("\n");
+				System.out.println(status);
+				log.info(str);
+				log.info(status);
+				if (status == 0 || status == 24) {
+					message = "success";
+				} else {
+					message = String.valueOf(status) + "操作失败！";
+				}
+				if (head != 0xc4d7) {
+					message = "接收的数据包头不正确";
+				}
+			} while (comm != 54);
+			// 注意：read会产生阻塞
+			socket.close();
+			log.info("socket连接自动关闭");
+		} catch (SocketTimeoutException e) {
+			message="对方回复超时";
+			log.info(message);
+			// TODO: handle exception
+		}
+		
+		return message;
+
+	}
+
+	public static void DGNA(MessageStruct header, addDgnaStruct bean)
+			throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
 		/* connection(); */
@@ -405,7 +616,7 @@ public class SendData {
 		out.write(info);
 		log.info("MultiGroupData-length:" + info.length);
 		log.info("MultiGroupData:" + getData.toString());
-		/*log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info))*/;
+		/* log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info)) */;
 
 	}
 
@@ -462,7 +673,7 @@ public class SendData {
 		out.write(info);
 		log.info("DispatchUserData-length:" + info.length);
 		log.info("DispatchUserData:" + getData.toString());
-		/*log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info));*/
+		/* log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 
@@ -649,7 +860,7 @@ public class SendData {
 		out.write(info);
 		log.info("TalkGroupAttrData-length:" + info.length);
 		log.info("TalkGroupAttrData:" + getData.toString());
-		/*log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info));*/
+		/* log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 

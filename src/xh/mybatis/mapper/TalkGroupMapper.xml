@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xh.mybatis.mapper.TalkGroupMapper" >
   <resultMap id="BaseResultMap" type="xh.mybatis.bean.TalkGroup" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+   <!--  <id column="id" property="id" jdbcType="INTEGER" /> -->
     <id column="TalkgroupID" property="TalkgroupID" jdbcType="INTEGER" />
     <result column="M_TalkgroupAlias" property="M_TalkgroupAlias" jdbcType="VARCHAR" />
     <result column="M_SecurityGroup" property="M_SecurityGroup" jdbcType="VARCHAR" />
@@ -37,7 +37,7 @@
   <!-- 根据通话组ID判断组是否存在 -->
   <select id="isExists" parameterType="int" resultType="int"
 		useCache="true">
-		select count(id) from xhgmnet_talkgroup where TalkgroupID=#{id}
+		select count(*) from xhgmnet_talkgroup where TalkgroupID=#{id}
   </select>  
   <select id="ById" parameterType="map" resultType="map"
 		useCache="true">
@@ -78,10 +78,10 @@
 		insert into
 		xhgmnet_talkgroup(TalkgroupID,M_TalkgroupAlias,M_SecurityGroup,M_ConsoleTGMGCapabilityProfileAlias,M_TGMGCapabilityProfileAlias,M_TGMGValidSitesProfileAlias,
 		M_PreemptCapable,M_ExtendedBandchannelscanbeassigned,M_TalkgroupRegroupable,M_GroupEnable,
-		E_name,E_alias,E_mscId,E_vpnId,E_saId,E_iaId,E_vaId,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet,time)
+		E_name,E_alias,E_mscId,E_vpnId,E_said,E_iaid,E_vaid,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet,time)
 		values(#{TalkgroupID}, '', '', '', '', '', 0, 0, 0, 0,
-		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_saId},#{E_iaId},#{E_vaId},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
-		#{E_pdtType},#{E_npType},#{userId},#{time})
+		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_said},#{E_iaid},#{E_vaid},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
+		#{E_pdtType},#{E_npType},#{id_joinNet},#{time})
 	</insert>
   <sql id="Base_Column_List" >
     id, TalkgroupID, M_TalkgroupAlias, M_SecurityGroup, M_ConsoleTGMGCapabilityProfileAlias, 

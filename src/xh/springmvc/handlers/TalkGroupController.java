@@ -23,7 +23,10 @@ import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.service.RadioUserSeriaService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
+import xh.mybatis.service.UcmService;
 import xh.org.listeners.SingLoginListener;
+import xh.org.socket.TalkGroupStruct;
+import xh.org.socket.TcpKeepAliveClient;
 
 @Controller
 @RequestMapping(value="/talkgroup")
@@ -33,6 +36,7 @@ public class TalkGroupController {
 	private FunUtil funUtil=new FunUtil();
 	protected final Log log = LogFactory.getLog(TalkGroupController.class);
 	private FlexJSON json=new FlexJSON();
+	private static Map<String,Object> ucmMap=new HashMap<String, Object>();
 	
 	/**
 	 * 查询
@@ -122,30 +126,83 @@ public class TalkGroupController {
 	 * @param response
 	 */
 	@RequestMapping(value="/add",method = RequestMethod.POST)
-	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
+	public synchronized void insertTalkGroup(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		int count = 0;
 		int resultCode=0;
-		int userId=funUtil.loginUserId(request);
+		int status=-1;
 		
 		String formData=request.getParameter("formData");
 		TalkGroupBean groupbean=GsonUtil.json2Object(formData, TalkGroupBean.class);
 		
 		groupbean.setTime(funUtil.nowDate());
-		
+		int timeout=0;
 		if(groupbean.getTalkgroupIDE()==0 || groupbean.getTalkgroupIDS()==0){
 			if(TalkGroupService.isExists(groupbean.getTalkgroupID())>0){
 				this.success=true;
 				this.message="改通话组已经存在";
 			}else{
-				resultCode=TalkGroupService.insertTalkGroup(groupbean);
-				if(resultCode>0){
+				//resultCode=TalkGroupService.insertTalkGroup(groupbean);
+				TalkGroupStruct setTalkGroupData = new TalkGroupStruct();
+				setTalkGroupData.setOperation(1);
+				setTalkGroupData.setId(groupbean.getTalkgroupID());
+				setTalkGroupData.setName(groupbean.getE_name());
+				setTalkGroupData.setAlias(groupbean.getE_alias());
+				setTalkGroupData.setMscId(groupbean.getE_mscId());
+				setTalkGroupData.setVpnId(groupbean.getE_vpnId());
+				setTalkGroupData.setSaId(groupbean.getE_said());
+				setTalkGroupData.setIaId(groupbean.getE_iaid());
+				setTalkGroupData.setVaId(groupbean.getE_vaid());
+				setTalkGroupData.setPreempt(groupbean.getE_preempt());
+				setTalkGroupData.setRadioType(FunUtil.StringToInt(groupbean.getE_radioType()));
+				setTalkGroupData.setRegroupAble(FunUtil.StringToInt(groupbean.getE_regroupable()));
+				setTalkGroupData.setEnabled(groupbean.getE_enabled());
+				setTalkGroupData.setDirectDial(groupbean.getE_directDial());
+				UcmService.sendTalkGroupData(setTalkGroupData);
+				
+				 tag:for(;;){
+			          try {
+						Thread.sleep(1000);
+						timeout++;
+						if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()))!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()));
+							status=FunUtil.StringToInt(resultMap.get("status").toString());
+							if(status==1){
+								resultCode=TalkGroupService.insertTalkGroup(groupbean);
+							}
+								
+							if(resultCode>0){
+								this.success=true;
+								this.message="通话组添加成功";
+							}else{
+								this.success=false;
+								this.message=resultMap.get("message").toString();
+							}
+							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(groupbean.getTalkgroupID()));
+							break tag;
+						}else{
+							if(timeout>=50){
+								this.success=false;
+								this.message="三方服务器响应超时";
+								break tag;
+							}
+							
+						}
+						
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+			       }
+				
+				
+				/*if(resultCode>0){
 					this.success=true;
 					this.message="通话组添加成功";
 				}else{
 					this.success=false;
 					this.message="添加失败，请检查参数是否合法";
-				}
+				}*/
 			}
 		}else{
 			String name=groupbean.getE_name();
@@ -153,10 +210,56 @@ public class TalkGroupController {
 				groupbean.setTalkgroupID(i);
 				groupbean.setE_name(name+i);
 				resultCode=TalkGroupService.insertTalkGroup(groupbean);
-				if(resultCode>0){
-					this.success=true;
-					this.message="添加成功";
-				}
+				TalkGroupStruct setTalkGroupData = new TalkGroupStruct();
+				setTalkGroupData.setOperation(1);
+				setTalkGroupData.setId(groupbean.getTalkgroupID());
+				setTalkGroupData.setName(groupbean.getE_name());
+				setTalkGroupData.setAlias(groupbean.getE_alias());
+				setTalkGroupData.setMscId(groupbean.getE_mscId());
+				setTalkGroupData.setVpnId(groupbean.getE_vpnId());
+				setTalkGroupData.setSaId(groupbean.getE_said());
+				setTalkGroupData.setIaId(groupbean.getE_iaid());
+				setTalkGroupData.setVaId(groupbean.getE_vaid());
+				setTalkGroupData.setPreempt(groupbean.getE_preempt());
+				setTalkGroupData.setRadioType(FunUtil.StringToInt(groupbean.getE_radioType()));
+				setTalkGroupData.setRegroupAble(FunUtil.StringToInt(groupbean.getE_regroupable()));
+				setTalkGroupData.setEnabled(groupbean.getE_enabled());
+				setTalkGroupData.setDirectDial(groupbean.getE_directDial());
+				UcmService.sendTalkGroupData(setTalkGroupData);
+				tag:for(;;){
+			          try {
+						Thread.sleep(1000);
+						timeout++;
+						if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()))!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()));
+							status=FunUtil.StringToInt(resultMap.get("status").toString());
+							if(status==1){
+								resultCode=TalkGroupService.insertTalkGroup(groupbean);
+							}
+							if(resultCode>0){
+								this.success=true;
+								this.message="通话组添加成功";
+							}else{
+								this.success=false;
+								this.message=resultMap.get("message").toString();
+							}
+							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(groupbean.getTalkgroupID()));
+							timeout=0;
+							break tag;
+						}else{
+							if(timeout>=50){
+								this.success=false;
+								this.message="三方服务器响应超时";
+								break tag;
+							}
+							
+						}
+						
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+			       }
 			}
 			
 		}
@@ -227,4 +330,14 @@ public class TalkGroupController {
 		}
 		
 	}
+
+	public static Map<String, Object> getUcmMap() {
+		return ucmMap;
+	}
+
+	public static void setUcmMap(Map<String, Object> ucmMap) {
+		TalkGroupController.ucmMap = ucmMap;
+	}
+	
+	
 }

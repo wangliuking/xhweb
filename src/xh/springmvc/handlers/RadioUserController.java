@@ -31,8 +31,11 @@ import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.JoinNetService;
 import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.TalkGroupService;
+import xh.mybatis.service.UcmService;
 import xh.mybatis.service.WebLogService;
 import xh.org.listeners.SingLoginListener;
+import xh.org.socket.RadioUserStruct;
+import xh.org.socket.TcpKeepAliveClient;
 @Controller
 @RequestMapping(value="/radiouser")
 public class RadioUserController {
@@ -90,6 +93,8 @@ public class RadioUserController {
 		
 		String formData=request.getParameter("formData");
 		int resultCode=0;
+		int timeout=0;
+		int status=0;
 		
 		RadioUserBean userbean=GsonUtil.json2Object(formData, RadioUserBean.class);
 		
@@ -99,26 +104,79 @@ public class RadioUserController {
 				this.success=false;
 				this.message="该用户已经存在";
 			}else{
-				resultCode=RadioUserService.insertRadioUser(userbean);
-				if(resultCode>0){
-					this.success=true;
-					this.message="用户添加";
-					JoinNetBean bean = new JoinNetBean();
-					bean.setId(userbean.getId_JoinNet());
-					bean.setChecked(9);
-					JoinNetService.updateCheckById(bean);
-					
-					
-					
-					
-					
-					
-					
-					
-				}else{
-					this.success=false;
-					this.message="添加失败，请检查填写的参数是否合法";
-				}
+				
+				RadioUserStruct setRadioUser = new RadioUserStruct();
+				setRadioUser.setOperation(1);
+
+				setRadioUser.setId(userbean.getC_ID());
+				setRadioUser.setName(userbean.getE_name());
+				setRadioUser.setAlias(userbean.getE_alias());
+				setRadioUser.setMscId(userbean.getE_mscId());
+				setRadioUser.setVpnId(userbean.getE_vpnId());
+				setRadioUser.setSn(userbean.getE_sn());
+				setRadioUser.setCompany(userbean.getE_company());
+				setRadioUser.setType(userbean.getE_type());
+				setRadioUser.setEnabled(userbean.getE_enabled());
+				setRadioUser.setShortData(userbean.getE_shortData());
+				setRadioUser.setFullDuple(userbean.getE_fullDuple());
+				setRadioUser.setRadioType(userbean.getE_radioType());
+				setRadioUser.setAnycall(userbean.getE_anycall());
+				setRadioUser.setSaId(userbean.getE_saId());
+				setRadioUser.setIaId(userbean.getE_iaId());
+				setRadioUser.setVaId(userbean.getE_vaId());
+				setRadioUser.setRugId(userbean.getE_rutgId());
+				setRadioUser.setPacketData(userbean.getE_packetData());
+				setRadioUser.setIp(userbean.getE_ip());
+				setRadioUser.setPrimaryTGId(userbean.getE_PrimaryTGId());
+				setRadioUser.setAmbienceMonitoring(userbean.getE_ambienceMonitoring());
+				setRadioUser.setAmbienceInitiation(userbean.getE_ambienceInitiation());
+				setRadioUser.setDirectDial(userbean.getE_directDial());
+				setRadioUser.setPstnAccess(userbean.getE_PSTNAccess());
+				setRadioUser.setPabxAccess(userbean.getE_pabxAccess());
+				setRadioUser.setClir(userbean.getE_clir());
+				setRadioUser.setClirOverride(userbean.getE_clirOverride());
+				setRadioUser.setKilled(userbean.getE_killed());
+				setRadioUser.setMsType(userbean.getE_msType());
+				UcmService.sendRadioUser(setRadioUser);
+				tag:for(;;){
+			          try {
+						Thread.sleep(1000);
+						timeout++;
+						if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+							status=FunUtil.StringToInt(resultMap.get("status").toString());
+							if(status==1){
+								resultCode=RadioUserService.insertRadioUser(userbean);
+							}
+							if(resultCode>0){
+								this.success=true;
+								this.message="用户添加";
+								JoinNetBean bean = new JoinNetBean();
+								bean.setId(userbean.getId_JoinNet());
+								bean.setChecked(9);
+								JoinNetService.updateCheckById(bean);
+							}else{
+								this.success=false;
+								this.message=resultMap.get("message").toString();
+							}
+							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+							timeout=0;
+							break tag;
+						}else{
+							if(timeout>=50){
+								this.success=false;
+								this.message="三方服务器响应超时";
+								break tag;
+							}
+							
+						}
+						
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+			       }
+			
 				
 			}
 		}else{
@@ -127,15 +185,77 @@ public class RadioUserController {
 				if(RadioUserService.radioUserIsExists(i)<1){
 					userbean.setC_ID(i);
 					userbean.setE_name(name+i);
-					resultCode=RadioUserService.insertRadioUser(userbean);
-					if(resultCode>0){
-						this.success=true;
-						this.message="用户添加成功";
-						JoinNetBean bean = new JoinNetBean();
-						bean.setId(userbean.getId_JoinNet());
-						bean.setChecked(9);
-						JoinNetService.updateCheckById(bean);
-					}
+					RadioUserStruct setRadioUser = new RadioUserStruct();
+					setRadioUser.setOperation(1);
+
+					setRadioUser.setId(userbean.getC_ID());
+					setRadioUser.setName(userbean.getE_name());
+					setRadioUser.setAlias(userbean.getE_alias());
+					setRadioUser.setMscId(userbean.getE_mscId());
+					setRadioUser.setVpnId(userbean.getE_vpnId());
+					setRadioUser.setSn(userbean.getE_sn());
+					setRadioUser.setCompany(userbean.getE_company());
+					setRadioUser.setType(userbean.getE_type());
+					setRadioUser.setEnabled(userbean.getE_enabled());
+					setRadioUser.setShortData(userbean.getE_shortData());
+					setRadioUser.setFullDuple(userbean.getE_fullDuple());
+					setRadioUser.setRadioType(userbean.getE_radioType());
+					setRadioUser.setAnycall(userbean.getE_anycall());
+					setRadioUser.setSaId(userbean.getE_saId());
+					setRadioUser.setIaId(userbean.getE_iaId());
+					setRadioUser.setVaId(userbean.getE_vaId());
+					setRadioUser.setRugId(userbean.getE_rutgId());
+					setRadioUser.setPacketData(userbean.getE_packetData());
+					setRadioUser.setIp(userbean.getE_ip());
+					setRadioUser.setPrimaryTGId(userbean.getE_PrimaryTGId());
+					setRadioUser.setAmbienceMonitoring(userbean.getE_ambienceMonitoring());
+					setRadioUser.setAmbienceInitiation(userbean.getE_ambienceInitiation());
+					setRadioUser.setDirectDial(userbean.getE_directDial());
+					setRadioUser.setPstnAccess(userbean.getE_PSTNAccess());
+					setRadioUser.setPabxAccess(userbean.getE_pabxAccess());
+					setRadioUser.setClir(userbean.getE_clir());
+					setRadioUser.setClirOverride(userbean.getE_clirOverride());
+					setRadioUser.setKilled(userbean.getE_killed());
+					setRadioUser.setMsType(userbean.getE_msType());
+					UcmService.sendRadioUser(setRadioUser);
+					tag:for(;;){
+				          try {
+							Thread.sleep(1000);
+							timeout++;
+							if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
+								Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+								status=FunUtil.StringToInt(resultMap.get("status").toString());
+								if(status==1){
+									resultCode=RadioUserService.insertRadioUser(userbean);
+								}
+								if(resultCode>0){
+									this.success=true;
+									this.message="用户添加";
+									JoinNetBean bean = new JoinNetBean();
+									bean.setId(userbean.getId_JoinNet());
+									bean.setChecked(9);
+									JoinNetService.updateCheckById(bean);
+								}else{
+									this.success=false;
+									this.message=resultMap.get("message").toString();
+								}
+								TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+								timeout=0;
+								break tag;
+							}else{
+								if(timeout>=50){
+									this.success=false;
+									this.message="三方服务器响应超时";
+									break tag;
+								}
+								
+							}
+							
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+				       }
 				}
 			}
 		}

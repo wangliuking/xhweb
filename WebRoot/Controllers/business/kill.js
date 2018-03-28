@@ -98,93 +98,96 @@ xh.load = function() {
 			$scope.data.splice(0,$scope.data.length);
 			$scope.totals=$scope.data.length;	
 		};
-		//遥启
-		$scope.open=function(){
-			var data=[];
-			if($scope.data.length<1){
-				toastr.error("还没有操作数据", '提示');
-				return;
+		
+		var i=0;  var flag=0;var successTag=false;
+		$scope.startBtn=false;
+		$scope.task=function(i,tag){
+			if($scope.start(i,tag)){
+				//$scope.data[i].status="数据发送成功";	
+				flag=0;
+				
+			}else{
+				//$scope.data[i].status="失败！";
+				flag=0;
 			}
-			swal({
-				title : "提示",
-				text : "确定要遥启下列手台吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			}, function(isConfirm) {
-			if (isConfirm) {
-				$.each($scope.data,function(i,record){
-					data.push(record.userId);
-					$.ajax({
-						url : '../../ucm/radioOpen',
-						type : 'POST',
-						dataType : "json",
-						traditional :true,  //注意这个参数是必须的
-						async : false,
-						data:{
-							data:data.join(",")
-						},
-						success : function(data) {
-
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.data[i].status="发送成功";
-							} else {
-								toastr.error(data.message, '提示');
-								$scope.data[i].status="发送失败";
-							}
-						},
-						error : function() {
-						}
-					});
-				});
 			
-			}});
-		};
-		//遥毙
-		$scope.kill=function(){
+		}
+		//设置
+		$scope.start=function(i,tag){
 			var data=[];
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
+				$('button').prop('disabled', true);
 				return;
 			}
-			$.each($scope.data,function(i,record){
-				data.push(record.userId);
-			});
-			swal({
-				title : "提示",
-				text : "确定要遥晕下列手台吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			}, function(isConfirm) {
-			if (isConfirm) {
-			$.ajax({
-				url : '../../ucm/kill',
-				type : 'POST',
-				dataType : "json",
-				traditional :true,  //注意这个参数是必须的
-				async : true,
+			var url='../../ucm/radioOpen';
+			if(tag==1){
+				url='../../ucm/radioOpen';
+			}else{
+				url='../../ucm/kill';
+			}
+			data.push($scope.data[i].userId);
+			$http({
+				method:'post',
+				url : url,
+				headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+				transformRequest: function (data) {
+				    　　return $.param(data);
+				},
 				data:{
 					data:data.join(",")
-				},
-				success : function(data) {
-
-					if (data.success) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
+				}	
+			}).success(function(data){ 
+				if (data.success) {
+					successTag=true;
+					$scope.data[i].status=data.message;
+				} else {
+					successTag=false;
+					$scope.data[i].status=data.message;
 				}
-			});
-			}});
+			}).error(function(e){
+				successTag=false;
+				$scope.data[i].status="服务器响应超时";
+			})
+			return successTag;
 		};
+		$scope.run=function(tag){
+			swal({
+				title : "提示",
+				text : "确定要做该操作吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			}, function(isConfirm) {
+			if (isConfirm) {
+			for(var j=0;j<$scope.totals;j++){
+				$scope.data[j].status="等待执行";
+			}
+			$scope.startBtn=true;
+			$('button').prop('disabled', true);
+			
+			$scope.data[i].status="处理中，请稍等!";
+			var timeout=setInterval(function(){
+				if(flag==0){
+					flag=1;
+					if(i<$scope.totals){					
+						$scope.task(i,tag);
+						i++;
+					}else{
+						clearInterval(timeout);
+						$scope.startBtn=false;
+						$('button').prop('disabled', false);
+						toastr.success("数据发送完成", '提示');
+						
+						i=0;flag=0;successTag=false;
+						
+					}
+				}
+			},1000);
+			}})
+		}
 		
 		
 	});
