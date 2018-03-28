@@ -147,16 +147,16 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="btn-group" style="padding-top:10px;">
-											<button class="btn btn-success btn-sm" ng-disabled=""
+											<button class="btn btn-success btn-sm" ng-disabled="up.b_add=='off'?true:false"
 												ng-click="showAddModel()">
 												<i class="fa fa-plus-circle"></i>&nbsp;添加属性
 											</button>
-											<button class="btn btn-info btn-sm" ng-disabled=""
+											<button class="btn btn-info btn-sm" ng-disabled="up.b_update=='off'?true:false"
 												ng-click="showEditModel()">
 												<i class="fa fa-edit"></i>&nbsp;修改属性
 											</button>
 											<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-												ng-disabled="">
+												ng-disabled="up.b_delete=='off'?true:false">
 												<i class="fa fa-trash"></i>&nbsp;批量删除
 											</button>
 										</div>
@@ -169,11 +169,11 @@
 											<th><input type="checkbox"
 												id="table-checkbox" class="table-check" /></th>
 											<th>序号</th>
-											<th width="20%">通话组/通播组互连属性名</th>
-											<th width="20%">通话组/通播组互连属性名</th>
-											<th width="20%">优先级</th>
-											<th width="20%">时间</th>
-											<th width="10%">操作</th>
+											<th>通话组/通播组互连属性标识</th>
+											<th>通话组/通播组互连属性名</th>
+											<th>优先级</th>
+											<th>时间</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -188,11 +188,14 @@
 											<td>{{x.name}}</td>
 											<td>{{x.prioritylevel}}</td>
 											<td>{{x.time}}</td>
-											<td style="width:20px;text-align:center"><a href="#"
-												ng-disabled="" ng-click="editModel($index)"> <i
-													class="fa fa-edit text-success"></i>&nbsp;修改
-											</a>| <a href="#" ng-click="delBs(x.id)"><i
-													class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+											<td><a href="#" ng-click="editModel($index)" data-toggle="modal" ng-if="up.b_update=='on'?true:false"> <i
+														class="fa fa-edit text-success"></i>&nbsp;修改
+												</a><a href="#" ng-if="up.b_update=='off'?true:false"> <i
+														class="fa fa-edit text-success"></i>&nbsp;无法修改
+												</a>| <a href="#" ng-click="delBs(x.id)" ng-if="up.b_delete=='on'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;删除</a>
+													<a href="#" ng-if="up.b_delete=='off'?true:false"><i
+													class="fa fa-trash text-success"></i>&nbsp;无法删除</a></td>
 										</tr>
 									</tbody>
 								</table>

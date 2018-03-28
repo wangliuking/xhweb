@@ -37,6 +37,13 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.systemMenu = true; // 菜单变色
+		
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		
 		$http.get(
 				"../../radiodispatchbusiness/list?id=" + id + "&name=" + name
 						+ "&start=0&limit=" + pageSize).success(
@@ -214,7 +221,6 @@ xh.update = function() {
 		data : $("#updateForm").serializeArray(),
 		success : function(data) {
 			if (data.result === 1) {
-				$('#updateForm')[0].reset();
 				$('#edit').modal('hide');
 				toastr.success("修改成功！", '提示');
 				xh.refresh();

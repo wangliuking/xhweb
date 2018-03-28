@@ -16,7 +16,7 @@
 			and writeTime like concat('%',#{writeTime},'%')
 		</if>
 		
-		<if test="list!=null and list!=''">
+		<if test="list.size()>0">
 		and srcId in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
@@ -40,7 +40,7 @@
 			and writeTime like concat('%',#{writeTime},'%')
 		</if>
 		
-		<if test="list!=null and list!=''">
+		<if test="list.size()>0">
 		and srcId in(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
