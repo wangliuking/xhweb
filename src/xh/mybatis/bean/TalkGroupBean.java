@@ -16,6 +16,7 @@ public class TalkGroupBean {
 	private String M_GroupEnable;
 	private String E_name;
 	private String E_alias;
+	private String id_joinNet;
 	private int E_mscId;
 	private int E_vpnId;
 	private int E_said;
@@ -226,6 +227,41 @@ public class TalkGroupBean {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	
+	
+	public String getId_joinNet() {
+		return id_joinNet;
+	}
+	public void setId_joinNet(String id_joinNet) {
+		this.id_joinNet = id_joinNet;
+	}
+	@Override
+	public String toString() {
+		return "TalkGroupBean [id=" + id + ", TalkgroupID=" + TalkgroupID
+				+ ", TalkgroupIDS=" + TalkgroupIDS + ", TalkgroupIDE="
+				+ TalkgroupIDE + ", M_TalkgroupAlias=" + M_TalkgroupAlias
+				+ ", M_SecurityGroup=" + M_SecurityGroup
+				+ ", M_ConsoleTGMGCapabilityProfileAlias="
+				+ M_ConsoleTGMGCapabilityProfileAlias
+				+ ", M_TGMGCapabilityProfileAlias="
+				+ M_TGMGCapabilityProfileAlias
+				+ ", M_TGMGValidSitesProfileAlias="
+				+ M_TGMGValidSitesProfileAlias + ", M_PreemptCapable="
+				+ M_PreemptCapable + ", M_ExtendedBandchannelscanbeassigned="
+				+ M_ExtendedBandchannelscanbeassigned
+				+ ", M_TalkgroupRegroupable=" + M_TalkgroupRegroupable
+				+ ", M_GroupEnable=" + M_GroupEnable + ", E_name=" + E_name
+				+ ", E_alias=" + E_alias + ", id_joinNet=" + id_joinNet
+				+ ", E_mscId=" + E_mscId + ", E_vpnId=" + E_vpnId + ", E_said="
+				+ E_said + ", saName=" + saName + ", E_iaid=" + E_iaid
+				+ ", iaName=" + iaName + ", E_vaid=" + E_vaid + ", E_preempt="
+				+ E_preempt + ", E_radioType=" + E_radioType
+				+ ", E_regroupable=" + E_regroupable + ", E_enabled="
+				+ E_enabled + ", E_directDial=" + E_directDial + ", E_pdtType="
+				+ E_pdtType + ", E_npType=" + E_npType + ", int_JoinNet="
+				+ int_JoinNet + ", id_JoinNet=" + id_JoinNet + ", time=" + time
+				+ "]";
 	}
 	
 	

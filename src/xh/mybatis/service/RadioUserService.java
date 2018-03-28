@@ -94,40 +94,7 @@ public class RadioUserService {
 			count = mapper.insertRadioUser(bean);
 			sqlSession.commit();
 			sqlSession.close();
-			if (count > 0 && TcpKeepAliveClient.getSocket().isConnected()) {
-				RadioUserStruct setRadioUser = new RadioUserStruct();
-				setRadioUser.setOperation(1);
-				setRadioUser.setId(bean.getC_ID());
-				setRadioUser.setName(bean.getE_name());
-				setRadioUser.setAlias(bean.getE_alias());
-				setRadioUser.setMscId(bean.getE_mscId());
-				setRadioUser.setVpnId(bean.getE_vpnId());
-				setRadioUser.setSn(bean.getE_sn());
-				setRadioUser.setCompany(bean.getE_company());
-				setRadioUser.setType(bean.getE_type());
-				setRadioUser.setEnabled(bean.getE_enabled());
-				setRadioUser.setShortData(bean.getE_shortData());
-				setRadioUser.setFullDuple(bean.getE_fullDuple());
-				setRadioUser.setRadioType(bean.getE_radioType());
-				setRadioUser.setAnycall(bean.getE_anycall());
-				setRadioUser.setSaId(bean.getE_saId());
-				setRadioUser.setIaId(bean.getE_iaId());
-				setRadioUser.setVaId(bean.getE_vaId());
-				setRadioUser.setRugId(bean.getE_rutgId());
-				setRadioUser.setPacketData(bean.getE_packetData());
-				setRadioUser.setIp(bean.getE_ip());
-				setRadioUser.setPrimaryTGId(bean.getE_PrimaryTGId());
-				setRadioUser.setAmbienceMonitoring(bean.getE_ambienceMonitoring());
-				setRadioUser.setAmbienceInitiation(bean.getE_ambienceInitiation());
-				setRadioUser.setDirectDial(bean.getE_directDial());
-				setRadioUser.setPstnAccess(bean.getE_PSTNAccess());
-				setRadioUser.setPabxAccess(bean.getE_pabxAccess());
-				setRadioUser.setClir(bean.getE_clir());
-				setRadioUser.setClirOverride(bean.getE_clirOverride());
-				setRadioUser.setKilled(bean.getE_killed());
-				setRadioUser.setMsType(bean.getE_msType());
-				UcmService.sendRadioUser(setRadioUser);
-			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

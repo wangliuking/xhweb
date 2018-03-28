@@ -30,6 +30,11 @@ xh.load = function() {
 		
 		$scope.data=[];
 		$scope.totals=0;
+		$scope.trigger=0;
+		
+		$scope.showTrigger=function(){
+			$scope.trigger=$("input[name='operation']:checked").val();
+		}
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
@@ -39,7 +44,7 @@ xh.load = function() {
 		//添加一个用户
 		$scope.addOneUser=function(){
 			var userId=$("#userId").val();
-			var record={userId:'',status:0};
+			var record={userId:'',status:"等待执行"};
 			
 			if(userId==""){
 				toastr.error("用户ID不能为空", '提示');
@@ -67,8 +72,12 @@ xh.load = function() {
 				toastr.error("用户ID区间不正确", '提示');
 				return;
 			}
+			if(user2-user1>50){
+				toastr.error("批量添加最多可以添加50个终端号码", '提示');
+				return;
+			}
 			for(var i=0;i<=user2-user1;i++){
-				var record={userId:'',status:0};
+				var record={userId:'',status:"等待执行"};
 				record.userId=user1+i;	
 				var flag=0;
 				for(var j=0;j<$scope.data.length;j++){
@@ -87,261 +96,109 @@ xh.load = function() {
 			
 		};
 		
-		/* 删除用户 */
+		/* 删除 */
 		$scope.delBs = function(id) {
 			$scope.data.splice(id,1);
 			$scope.totals=$scope.data.length;
 			
 		};
-		/* 清空用户 */
+		/*刷新*/
+		$scope.refresh=function(){
+			$scope.data=$scope.data;
+		}
+		/* 清空 */
 		$scope.clear = function() {
 			$scope.data.splice(0,$scope.data.length);
 			$scope.totals=$scope.data.length;	
 		};
-		//遥启
-		$scope.open=function(){
+		var i=0;  var flag=0;var successTag=false;
+		$scope.startBtn=false;
+		$scope.task=function(i){
+			if($scope.start(i)){
+				//$scope.data[i].status="数据发送成功";	
+				flag=0;
+				
+			}else{
+				//$scope.data[i].status="失败！";
+				flag=0;
+			}
+			
+		}
+		//设置
+		$scope.start=function(i){
 			var data=[];
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
+				$('button').prop('disabled', false);
 				return;
 			}
-			$.each($scope.data,function(i,record){
-				data.push(record.userId);
-			});
-			swal({
-				title : "提示",
-				text : "确定要遥启下列手台吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			}, function(isConfirm) {
-			if (isConfirm) {
-			$.ajax({
-				url : '../../tools/open',
-				type : 'POST',
-				dataType : "json",
-				traditional :true,  //注意这个参数是必须的
-				async : true,
-				data:{
-					data:data.join(",")
-				},
-				success : function(data) {
-
-					if (data.result ==1) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
-				}
-			});
-			}});
-		};
-		//遥毙
-		$scope.kill=function(){
-			var data=[];
-			if($scope.data.length<1){
-				toastr.error("还没有操作数据", '提示');
+			data.push($scope.data[i].userId);
+			var dstId=$("input[name='dstId']").val();
+			var operation=$("input[name='operation']:checked").val();
+			var triggerParaTime=$("input[name='triggerParaTime']").val()==''?30:$("input[name='triggerParaTime']").val();
+			var gpsen=$("input[name='gpsen']:checked").val();
+			if(operation==2 && (triggerParaTime=='' || triggerParaTime<10)){
+				toastr.error("定时触发器设置时间不能小于10秒钟", '提示');
+				$('button').prop('disabled', false);
 				return;
+				
 			}
-			$.each($scope.data,function(i,record){
-				data.push(record.userId);
-			});
-			swal({
-				title : "提示",
-				text : "确定要遥启下列手台吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			}, function(isConfirm) {
-			if (isConfirm) {
-			$.ajax({
-				url : '../../tools/kill',
-				type : 'POST',
-				dataType : "json",
-				traditional :true,  //注意这个参数是必须的
-				async : true,
+			$http({
+				method:'post',
+				url : '../../ucm/gpsset',
+				headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+				transformRequest: function (data) {
+				    　　return $.param(data);
+				},
 				data:{
-					data:data.join(",")
-				},
-				success : function(data) {
-
-					if (data.result ==1) {
-						toastr.success(data.message, '提示');
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
+					data:data.join(","),
+					dstId:dstId,
+					operation:operation,
+					triggerParaTime:triggerParaTime,
+					gpsen:gpsen
+				}	
+			}).success(function(data){ 
+				if (data.success) {
+					successTag=true;
+					$scope.data[i].status=data.message;
+				} else {
+					successTag=false;
+					$scope.data[i].status=data.message;
 				}
-			});
-			}});
+			}).error(function(e){
+				successTag=false;
+				$scope.data[i].status="服务器响应超时";
+			})
+			return successTag;
 		};
+		$scope.run=function(){
+			for(var j=0;j<$scope.totals;j++){
+				$scope.data[j].status="等待执行";
+			}
+			$scope.startBtn=true;
+			$('button').prop('disabled', true);
+			
+			$scope.data[i].status="处理中，请稍等!";
+			var timeout=setInterval(function(){
+				if(flag==0){
+					flag=1;
+					if(i<$scope.totals){					
+						$scope.task(i);
+						i++;
+					}else{
+						clearInterval(timeout);
+						$scope.startBtn=false;
+						$('button').prop('disabled', false);
+						toastr.success("数据发送完成", '提示');
+						
+						i=0;flag=0;successTag=false;
+						
+					}
+				}
+			},1000);
+		}
+		
 		
 		
 	});
 };
-/* 添加设备 */
-xh.add = function() {
-	$.ajax({
-		url : '../../business/insertAsset',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#addForm')[0].reset();
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-				
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 修改 */
-xh.update = function() {
-	$.ajax({
-		url : '../../business/updateAsset',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data:{
-			formData:xh.serializeJson($("#updateForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-			if (data.result === 1) {
-				$('#updateForm')[0].reset();
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
-				
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function(){
-		}
-	});
-};
-/* 批量删除基站 */
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../business/deleteAsset',
-		type : 'post',
-		dataType : "json",
-		data : {
-			deleteIds : checkVal.join(",")
-		},
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				xh.refresh();
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-// 刷新数据
-xh.refresh = function() {
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
-
-};
-/* 数据分页 */
-xh.pagging = function(currentPage, totals, $scope) {
-	var pageSize = $("#page-limit").val();
-	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
-			.ceil(parseInt(totals, 10) / pageSize);
-	var start = (currentPage - 1) * pageSize + 1;
-	var end = currentPage * pageSize;
-	if (currentPage == totalPages) {
-		if (totals > 0) {
-			end = totals;
-		} else {
-			start = 0;
-			end = 0;
-		}
-	}
-	$scope.start = start;
-	$scope.lastIndex = end;
-	$scope.totals = totals;
-	if (totals > 0) {
-		$(".page-paging").html('<ul class="pagination"></ul>');
-		$('.pagination').twbsPagination({
-			totalPages : totalPages,
-			visiblePages : 10,
-			version : '1.1',
-			startPage : currentPage,
-			onPageClick : function(event, page) {
-				if (frist == 1) {
-					$scope.pageClick(page, totals, totalPages);
-				}
-				frist = 1;
-
-			}
-		});
-	}
-
-};
-
-/*$http({
-method : "POST",
-url : "../../bs/list",
-data : {
-	bsId : bsId,
-	name : name,
-	start : start,
-	limit : pageSize
-},
-headers : {
-	'Content-Type' : 'application/x-www-form-urlencoded'
-},
-transformRequest : function(obj) {
-	var str = [];
-	for ( var p in obj) {
-		str.push(encodeURIComponent(p) + "="
-				+ encodeURIComponent(obj[p]));
-	}
-	return str.join("&");
-}
-}).success(function(response) {
-xh.maskHide();
-$scope.data = response.items;
-$scope.totals = response.totals;
-});*/

@@ -8,6 +8,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,6 +17,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.TalkGroupBean;
+import xh.mybatis.service.TalkGroupService;
 
 
 public class TcpKeepAliveClient extends Thread {
@@ -34,6 +38,8 @@ public class TcpKeepAliveClient extends Thread {
 	private static byte[] readBuf;
 	private static int dataLen = 0;
 	private static byte[] writeBuf = {};
+	private static Map<String,Object> ucmGroupMap=new HashMap<String, Object>();
+	private static Map<String,Object> ucmRadioUserMap=new HashMap<String, Object>();
 
 	private boolean connected = false;
 	private NetDataTypeTransform dd = new NetDataTypeTransform();
@@ -278,12 +284,14 @@ public class TcpKeepAliveClient extends Thread {
 			case 154://终端
 				
 				log.info("终端");
+				radioUser(len,buf,length);
 			    break;
 			case 156://终端用户业务属性
 				log.info("终端用户业务属性");
 				break;
 			case 160://通话组
 				log.info("通话组");
+				talkGroup(len,buf,length);
 				break;
 			case 162://通播组
 				log.info("通播组");
@@ -304,7 +312,7 @@ public class TcpKeepAliveClient extends Thread {
 				log.info("状态集单元");
 				break;
 			case 174://遥毙
-				log.info("遥毙");
+				log.info("摇启、遥毙");
 				break;
 			case 178://终端用户业务属性有效站点
 				log.info("终端用户业务属性有效站点");
@@ -358,8 +366,10 @@ public class TcpKeepAliveClient extends Thread {
 	public void radioUser(int len,byte[] buf,int length){
 		int status=dd.SmallByteArrayToInt(buf, 20);
 		backMessage(status);
-		if(status==1){
+		Map<String,Object> map=new HashMap<String, Object>();
 		RadioUserStruct user=new RadioUserStruct();
+		map.put("status", status);
+		map.put("message", backMessage(status));
 		 user.setId(dd.SmallByteArrayToInt(buf,304));
        	 user.setName(dd.ByteArraytoString(buf, 308, 16));
        	 user.setAlias(dd.ByteArraytoString(buf, 324, 8));
@@ -390,7 +400,9 @@ public class TcpKeepAliveClient extends Thread {
        	 user.setKilled(String.valueOf(dd.SmallByteArrayToOneInt(buf, 492)));
        	 user.setMsType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 493)));
        	 user.toString();
-		}
+        ucmRadioUserMap.put(String.valueOf(user.getId()), map);
+		
+		log.info("ucmRadioUserMap->"+ucmRadioUserMap);
 		
 		
 	}
@@ -398,25 +410,28 @@ public class TcpKeepAliveClient extends Thread {
 	public void talkGroup(int len,byte[] buf,int length){
 		int status=dd.SmallByteArrayToInt(buf, 20);
 		backMessage(status);
-		if(status==1){
-		TalkGroupStruct data=new TalkGroupStruct();
-		data.setMessage(backMessage(status));
-   	    data.setId(dd.SmallByteArrayToInt(buf, 112));
-   	    data.setName(dd.ByteArraytoString(buf, 116, 16));
-   	    data.setAlias(dd.ByteArraytoString(buf, 132, 8));
-   	    data.setMscId(dd.SmallByteArrayToInt(buf, 140));
-   	    data.setVpnId(dd.SmallByteArrayToInt(buf, 144));
-   	    data.setSaId(dd.SmallByteArrayToInt(buf, 148));
-   	    data.setIaId(dd.SmallByteArrayToInt(buf, 152));
-   	    data.setVaId(dd.SmallByteArrayToInt(buf, 156));
-   	    data.setPreempt(dd.SmallByteArrayToOneInt(buf, 160));
-   	    data.setRadioType(dd.SmallByteArrayToOneInt(buf, 161));
-   	    data.setRegroupAble(dd.SmallByteArrayToOneInt(buf, 162));
-   	    data.setEnabled(dd.SmallByteArrayToOneInt(buf, 163));
-   	    data.setDirectDial(dd.ByteArraytoString(buf, 164, 16));
-   	    data.toString();
+		Map<String,Object> map=new HashMap<String, Object>();
+		TalkGroupBean data=new TalkGroupBean();
+		map.put("status", status);
+		map.put("message", backMessage(status));
+   	    data.setTalkgroupID(dd.SmallByteArrayToInt(buf, 112));
+   	    data.setE_name(dd.ByteArraytoString(buf, 116, 16));
+   	    data.setE_alias(dd.ByteArraytoString(buf, 132, 8));
+   	    data.setE_mscId(dd.SmallByteArrayToInt(buf, 140));
+   	    data.setE_vpnId(dd.SmallByteArrayToInt(buf, 144));
+   	    data.setE_said(dd.SmallByteArrayToInt(buf, 148));
+   	    data.setE_iaid(dd.SmallByteArrayToInt(buf, 152));
+   	    data.setE_vaid(dd.SmallByteArrayToInt(buf, 156));
+   	    data.setE_preempt(dd.SmallByteArrayToOneInt(buf, 160));
+   	    data.setE_radioType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 161)));
+   	    data.setE_regroupable(String.valueOf(dd.SmallByteArrayToOneInt(buf, 162)));
+   	    data.setE_enabled(dd.SmallByteArrayToOneInt(buf, 163));
+   	    data.setE_directDial(dd.ByteArraytoString(buf, 164, 16));
+   	    log.info("GroupData->"+data.toString());
+
+		ucmGroupMap.put(String.valueOf(data.getTalkgroupID()), map);
 		
-		}
+		log.info("ucmGroupMap->"+ucmGroupMap);
 		
 		
 	}
@@ -539,6 +554,22 @@ public class TcpKeepAliveClient extends Thread {
 
 	public static void setWriteBuf(byte[] writeBuf) {
 		TcpKeepAliveClient.writeBuf = writeBuf;
+	}
+
+	public static Map<String, Object> getUcmGroupMap() {
+		return ucmGroupMap;
+	}
+
+	public static void setUcmGroupMap(Map<String, Object> ucmGroupMap) {
+		TcpKeepAliveClient.ucmGroupMap = ucmGroupMap;
+	}
+
+	public static Map<String, Object> getUcmRadioUserMap() {
+		return ucmRadioUserMap;
+	}
+
+	public static void setUcmRadioUserMap(Map<String, Object> ucmRadioUserMap) {
+		TcpKeepAliveClient.ucmRadioUserMap = ucmRadioUserMap;
 	}
 
 

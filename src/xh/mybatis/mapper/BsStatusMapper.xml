@@ -23,7 +23,7 @@
 	<!-- 基站离线总计 -->
 	<select id="bsOfflineCount" resultType="int"
 		useCache="true">
-		select count(*) from  view_bsstatus  where link!=0 and bsId in(select bsId from xhgmnet_bs_station)
+		select count(*) from  view_bsstatus  where link!=0 and bsId in(select bsId from xhgmnet_bs_station where status=1)
 	</select>
 	<!-- 基站注册组 -->
 	<select id="bsGroupTop5" resultType="map"
@@ -269,8 +269,8 @@
 	 bsId not in (select bsIds from xhgmnet_stationalarm)
 	</update>
 	<!-- 基站断站统计 -->
-	<select id="MapBsOfflineCount" resultType="int" useCache="true">
-		select count(bsId) as total from view_bsstatus where link!=0	
+	<select id="MapBsOfflineCount" resultType="int" useCache="true">	
+		select count(*) from  view_bsstatus  where link!=0 and bsId in(select bsId from xhgmnet_bs_station where status=1)
 	</select>
 	<!-- 交换中心异常统计 -->
 	<select id="MapMscAlarmCount" resultType="int" useCache="true">

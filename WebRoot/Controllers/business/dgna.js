@@ -130,51 +130,88 @@ xh.load = function() {
 			$scope.data.splice(0,$scope.data.length);
 			$scope.totals=$scope.data.length;	
 		};
-		$scope.start=function(){
+			
+		var i=0;  var flag=0;var successTag=false;
+		$scope.startBtn=false;
+		$scope.task=function(i){
+			if($scope.start(i)){
+				//$scope.data[i].status="数据发送成功";	
+				flag=0;
+				
+			}else{
+				//$scope.data[i].status="失败！";
+				flag=0;
+			}
+			
+		}
+		//设置
+		$scope.start=function(i){
 			var opreation=$("input[name='operation']:checked").val();
 			var cou=$("input[name='cou']:checked").val();
 			var attached=$("input[name='attached']:checked").val();
+			var groupId=$("#groupId").val();
 			var data=[];
+			data.push($scope.data[i].userId);
 			if($scope.data.length<1){
 				toastr.error("还没有操作数据", '提示');
+				$('button').prop('disabled', false);
 				return;
 			}
-			$.each($scope.data,function(i,record){
-				data.push(record.userId);
-				$.ajax({
-					url : '../../ucm/dgna',
-					type : 'POST',
-					dataType : "json",
-					traditional :true,  //注意这个参数是必须的
-					async : false,
-					data:{
-						operation:opreation,
-						groupId:$("#groupId").val(),
-						cou:cou,
-						attached:attached,
-						data:data.join(",")
-					},
-					success : function(data) {
-
-						if (data.success) {
-							toastr.success(data.message, '提示');
-							$scope.refreshData(i,"已发送")
-							
-							
-						} else {
-							toastr.error(data.message, '提示');
-						}
-					},
-					error : function() {
+			
+			$http({
+				method:'post',
+				url : '../../ucm/dgna',
+				headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+				transformRequest: function (data) {
+				    　　return $.param(data);
+				},
+				data:{
+					operation:opreation,
+					groupId:$scope.data[i].groupId,
+					cou:cou,
+					attached:attached,
+					data:data.join(",")
+				}	
+			}).success(function(data){ 
+				if (data.success) {
+					successTag=true;
+					$scope.data[i].status=data.message;
+				} else {
+					successTag=false;
+					$scope.data[i].status=data.message;
+				}
+			}).error(function(e){
+				successTag=false;
+				$scope.data[i].status="服务器响应超时";
+			})
+			return successTag;
+		};
+		$scope.run=function(){
+			for(var j=0;j<$scope.totals;j++){
+				$scope.data[j].status="等待执行";
+			}
+			$scope.startBtn=true;
+			$('button').prop('disabled', true);
+			
+			$scope.data[i].status="处理中，请稍等!";
+			var timeout=setInterval(function(){
+				if(flag==0){
+					flag=1;
+					if(i<$scope.totals){					
+						$scope.task(i);
+						i++;
+					}else{
+						clearInterval(timeout);
+						$scope.startBtn=false;
+						$('button').prop('disabled', false);
+						toastr.success("数据发送完成", '提示');
+						
+						i=0;flag=0;successTag=false;
+						
 					}
-				});
-			});
-			
-			
-			
-			
-			
-		};	
+				}
+			},1000);
+		}
 		
 	});
 };

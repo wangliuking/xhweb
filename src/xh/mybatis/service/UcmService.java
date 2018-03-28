@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import xh.org.socket.DispatchUserIAStruct;
 import xh.org.socket.DispatchUserStruct;
+import xh.org.socket.GpsSetStruct;
 import xh.org.socket.KillStruct;
 import xh.org.socket.MessageStruct;
 import xh.org.socket.MultiGroupStruct;
@@ -322,6 +323,76 @@ public class UcmService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	/**
+	 * gps立即请求设置
+	 * @param radiouser
+	 */
+	public static String sendImmGps(GpsSetStruct gpsset){
+		MessageStruct header=new MessageStruct();
+		header.setSegNum((byte)1);
+		header.setSegFlag((byte)1);
+		header.setLength((short)25);
+		header.setCommandId((short)52);
+		header.setSrcDevice((byte)6);
+		header.setDstDevice((byte)2);
+		SendData send=new SendData();
+		String str="";
+		try {
+			str=send.ImmGps(header, gpsset);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+		
+	}
+	/**
+	 * gps使能设置
+	 * @param radiouser
+	 */
+	public static String sendGpsEn(GpsSetStruct gpsset){
+		MessageStruct header=new MessageStruct();
+		header.setSegNum((byte)1);
+		header.setSegFlag((byte)1);
+		header.setLength((short)22);
+		header.setCommandId((short)55);
+		header.setSrcDevice((byte)6);
+		header.setDstDevice((byte)2);
+		SendData send=new SendData();
+		String str="";
+		try {
+			str=send.GpsEn(header, gpsset);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+		
+	}
+	/**
+	 * gps触发器设置
+	 * @param radiouser
+	 */
+	public static String sendGpsTrigger(GpsSetStruct gpsset){
+		MessageStruct header=new MessageStruct();
+		header.setSegNum((byte)1);
+		header.setSegFlag((byte)1);
+		header.setLength((short)30);
+		header.setCommandId((short)53);
+		header.setSrcDevice((byte)6);
+		header.setDstDevice((byte)2);
+		SendData send=new SendData();
+		String str="";
+		try {
+			str=send.GpsTrigger(header, gpsset);
+			return str;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
 		
 	}
 

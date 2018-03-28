@@ -22,6 +22,7 @@ import xh.mybatis.service.DgnaServices;
 import xh.mybatis.service.TalkGroupService;
 import xh.mybatis.service.UcmService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.socket.GpsSetStruct;
 import xh.org.socket.KillStruct;
 import xh.org.socket.SendData;
 import xh.org.socket.TcpKeepAliveClient;
@@ -72,7 +73,7 @@ public class UcmController {
 			log.info("struct->"+struct.toString());
 			
 			UcmService.sendDgna(struct);
-			this.message="数据已发送";
+			this.message="success";
 			this.success=true;
 		}
 		}else{
@@ -108,7 +109,7 @@ public class UcmController {
 				kill.setMsId(1);
 				kill.setKillCmd(0);
 				UcmService.sendKilledData(kill);
-				this.message="数据已发送";
+				this.message="success";
 				this.success=true;
 			}
 			}else{
@@ -139,18 +140,89 @@ public class UcmController {
 		if(TcpKeepAliveClient.getSocket().isConnected()){
 			for(int i=0;i<data.length;i++){
 				KillStruct kill = new KillStruct();
-				kill.setOperation(1);
+				kill.setOperation(3);
 				kill.setUserId(Integer.parseInt(data[i]));
 				kill.setMsId(1);
 				kill.setKillCmd(1);
 				UcmService.sendKilledData(kill);
-				this.message="数据已发送";
+				this.message="success";
 				this.success=true;
 			}
 			}else{
 				this.message="服务未连接，请检查IP配置";
 				this.success=false;
 			}
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+	}
+	/**
+	 * gps设置
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/gpsset",method=RequestMethod.POST)
+	public synchronized void gpsset(HttpServletRequest request, HttpServletResponse response){
+		/*String formData=request.getParameter("data");*/
+		String[] data=request.getParameter("data").split(",");
+		int dstId=funUtil.StringToInt(request.getParameter("dstId"));
+		int operation=funUtil.StringToInt(request.getParameter("operation"));
+		int triggerParaTime=funUtil.StringToInt(request.getParameter("triggerParaTime"));
+		int gpsen=funUtil.StringToInt(request.getParameter("gpsen"));
+		for(int i=0;i<data.length;i++){
+			GpsSetStruct struct=new GpsSetStruct();
+			int srcId=funUtil.StringToInt(data[i]);
+			struct.setSrcId(srcId);
+			struct.setDstId(dstId);
+			
+			switch (operation) {
+			case 1:
+				//立即请求
+				struct.setReferenceNumber(0);
+				struct.setLocationDstId(0);
+				message=UcmService.sendImmGps(struct);
+				if(message.equals("success")){
+					this.success=true;
+				}else{
+					this.success=false;
+				}
+				break;
+			case 2:
+				//gps使能设置
+				struct.setEnableFlag(gpsen);
+				message=UcmService.sendGpsEn(struct);
+				if(message.equals("success")){
+					this.success=true;
+				}else{
+					this.success=false;
+				}
+				break;
+			case 3:
+				//gps触发器
+				struct.setLocationDstId(srcId);
+				struct.setTriggerType(operation);
+				struct.setTriggerPara(triggerParaTime);
+				message=UcmService.sendGpsTrigger(struct);
+				if(message.equals("success")){
+					this.success=true;
+				}else{
+					this.success=false;
+				}
+				break;
+
+			default:
+				break;
+			}
+			
+		}
 			HashMap result = new HashMap();
 			result.put("success", success);
 			result.put("message",message);

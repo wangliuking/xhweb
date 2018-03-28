@@ -142,7 +142,7 @@ public class TalkGroupService {
 		int count = 0;
 		try {
 			count=mapper.insertTalkGroup(bean);
-			if(count>0 && TcpKeepAliveClient.getSocket().isConnected()){
+			/*if(count>0 && TcpKeepAliveClient.getSocket().isConnected()){
 				TalkGroupStruct setTalkGroupData = new TalkGroupStruct();
 				setTalkGroupData.setOperation(1);
 				setTalkGroupData.setId(bean.getId());
@@ -159,7 +159,7 @@ public class TalkGroupService {
 				setTalkGroupData.setEnabled(bean.getE_enabled());
 				setTalkGroupData.setDirectDial(bean.getE_directDial());
 				UcmService.sendTalkGroupData(setTalkGroupData);
-			}
+			}*/
 			
 			sqlSession.commit();
 			sqlSession.close();
