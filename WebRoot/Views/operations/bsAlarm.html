@@ -251,6 +251,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<th>故障定位</th>
 												<th>告警描述</th>
 												<th width="150px">告警时间</th>
+												<th width="150px">恢复时间</th>
 
 
 
@@ -302,6 +303,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<td>{{x.location |alarmLocation}}</td>
 												<td>{{x.description}}</td>
 												<td>{{x.time}}</td>
+												<td>{{x.retoreTime}}</td>
 
 
 
@@ -349,7 +351,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 	<!-- 告警查询 -->
 	<div class="modal fade" id="search" tabindex="-1" role="dialog"
 		aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header ">
 					<button type="button" class="close" data-dismiss="modal"
@@ -390,6 +392,37 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 
 								<input id="type4" class="magic-checkbox" type="checkbox"
 									name="type" value="4" checked> <label for="type4"><span>网管</span></label>
+							</div>
+
+						</div>
+						<!-- col-md -->
+						<div class="col-md-12">
+							<div class="form-group col-md-12 search" style="margin-top:5px;">
+								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="category1"
+									class="magic-checkbox" type="checkbox" name="category" value="1"
+									checked> <label for="category1"><span>通信告警</span></label> <input
+									id="category2" class="magic-checkbox" type="checkbox" name="category"
+									value="2" checked> <label for="category2"><span>软件告警</span></label>
+
+								<input id="category3" class="magic-checkbox" type="checkbox"
+									name="category" value="3" checked> <label for="category3"><span>环境告警</span></label>
+
+								<input id="category4" class="magic-checkbox" type="checkbox"
+									name="category" value="4" checked> <label for="category4"><span>QoS告警</span></label>
+								<input id="category5" class="magic-checkbox" type="checkbox"
+									name="category" value="5" checked> <label for="category5"><span>设备告警</span></label>
+								<input id="category6" class="magic-checkbox" type="checkbox"
+									name="category" value="6" checked> <label for="category6"><span>网管告警</span></label>
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12 search" style="margin-top:5px;">
+								<label>告警状态</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="status1"
+									class="magic-checkbox" type="checkbox" name="status" value="1"
+									checked> <label for="status1"><span>恢复</span></label> <input
+									id="status2" class="magic-checkbox" type="checkbox" name="status"
+									value="0" checked> <label for="status2"><span>未恢复</span></label>
 							</div>
 
 						</div>

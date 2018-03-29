@@ -52,15 +52,21 @@ xh.load = function() {
 		xh.bsBar();
 		var startTime=$("input[name='startTime']").val();
 		var endTime=$("input[name='endTime']").val();
-		var level_value =[],type_value=[]; 
+		var level_value =[],type_value=[],category_value=[],status_value=[]; 
 		$('input[name="level"]:checked').each(function(){ 
 		level_value.push($(this).val()); 
 		}); 
 		$('input[name="type"]:checked').each(function(){ 
 			type_value.push($(this).val()); 
 		});
+		$('input[name="type"]:checked').each(function(){ 
+			category_value.push($(this).val()); 
+		});
+		$('input[name="type"]:checked').each(function(){ 
+			status_value.push($(this).val()); 
+		});
 		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize+"&type="+type_value.join(",")+
-				"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
+				"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 				function(response) {
 					$scope.data = response.data;
 					$scope.totals = response.totals;
@@ -103,12 +109,18 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var startTime=$("input[name='startTime']").val();
 			var endTime=$("input[name='endTime']").val();
-			var level_value =[],type_value=[]; 
+			var level_value =[],type_value=[],category_value=[],status_value=[]; 
 			$('input[name="level"]:checked').each(function(){ 
 			level_value.push($(this).val()); 
 			}); 
 			$('input[name="type"]:checked').each(function(){ 
 				type_value.push($(this).val()); 
+			});
+			$('input[name="type"]:checked').each(function(){ 
+				category_value.push($(this).val()); 
+			});
+			$('input[name="type"]:checked').each(function(){ 
+				status_value.push($(this).val()); 
 			});
 			$scope.page=page;
 			var start = 1, limit = pageSize;
@@ -122,7 +134,7 @@ xh.load = function() {
 			}
 		
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
-					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
+					"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 					function(response) {
 						$scope.data = response.data;
 						$scope.totals = response.totals;
@@ -176,12 +188,18 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var startTime=$("input[name='startTime']").val();
 			var endTime=$("input[name='endTime']").val();
-			var level_value =[],type_value=[]; 
+			var level_value =[],type_value=[],category_value=[],status_value=[]; 
 			$('input[name="level"]:checked').each(function(){ 
 			level_value.push($(this).val()); 
 			}); 
 			$('input[name="type"]:checked').each(function(){ 
 				type_value.push($(this).val()); 
+			});
+			$('input[name="type"]:checked').each(function(){ 
+				category_value.push($(this).val()); 
+			});
+			$('input[name="type"]:checked').each(function(){ 
+				status_value.push($(this).val()); 
 			});
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -193,7 +211,7 @@ xh.load = function() {
 			$scope.page=page;
 			
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
-					"&level="+level_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(function(response) {
+					"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(function(response) {
 						
 						$scope.start = (page - 1) * pageSize + 1;
 						$scope.lastIndex = page * pageSize;
