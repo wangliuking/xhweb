@@ -262,6 +262,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 											<tr ng-if="totals==0">
 												<td colspan="6" class="text-center">没有记录！</td>
 											</tr>
+											<!-- ng-class="{true:'td-success'}[x.retoreTime!=null]" -->
 											<tr ng-repeat="x in data">
 												<!-- <td>{{$index+1}}</td> -->
 												<td><span ng-if="x.neType==1">基站</span> <span
@@ -285,11 +286,18 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
 												</td>
 												<!-- <td>{{x.neId}}</td> -->
-
-												<td ng-if="x.severity==1" class="block" style="background:red;color:#fff;">紧急告警</td>
-													<td ng-if="x.severity==2" class="block" style="background:#B22222;color:#fff;">主要告警</td>
-													<td ng-if="x.severity==3" class="block" style="background:#FF8C00;color:#fff;">次要告警</td>
-													<td ng-if="x.severity==4" class="block" style="background:#EEEE00;color:#fff;">一般告警</td>
+												<td>
+												<div ng-if='x.retoreTime==null'>
+												<div ng-if="x.severity==1" class="label" style="background-color:red !important;color:#fff;">紧急告警</div>
+												<div ng-if="x.severity==2" class="label" style="background:#B22222 !important;color:#fff;">主要告警</div>
+												<div ng-if="x.severity==3" class="label" style="background:#FF8C00 !important;color:#fff;">次要告警</div>
+												<div ng-if="x.severity==4" class="label" style="background:#EEEE00 !important;color:#fff;">一般告警</div>
+												</div>
+												<div ng-if='x.retoreTime!=null'>
+												<div class="label arrowed-in label-success">已恢复</div>
+												</div>
+												
+												</td>
 
 												<td>{{x.location |alarmLocation}}</td>
 												<td>{{x.description}}</td>
