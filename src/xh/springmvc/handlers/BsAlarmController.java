@@ -33,7 +33,7 @@ import xh.mybatis.service.WebLogService;
 public class BsAlarmController {
 	private boolean success;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(WebLogController.class);
+	protected final Log log = LogFactory.getLog(BsAlarmController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	
@@ -183,7 +183,6 @@ public class BsAlarmController {
 		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
@@ -252,7 +251,7 @@ public class BsAlarmController {
 		result.put("items", list2);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
+
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {

@@ -130,18 +130,20 @@ public class RadioUserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static void deleteBsByRadioUserId(List<String> list) {
+	public static int deleteBsByRadioUserId(List<String> list) {
 		SqlSession sqlSession = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);
 		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
+		int code=0;
 		try {
-			mapper.deleteBsByRadioUserId(list);
+			code=mapper.deleteBsByRadioUserId(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return code;
 	}
 
 	public static List<HashMap> allRadioUser(String code) {

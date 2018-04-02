@@ -52,6 +52,25 @@ public class TalkGroupService {
 		}
 		return list;
 	}
+	/**
+	 * 获取虚拟专网属性
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<HashMap<String,String>> vaList() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TalkGroupMapper mapper = sqlSession.getMapper(TalkGroupMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.vaList();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	/**
 	 * 查询通话组信息

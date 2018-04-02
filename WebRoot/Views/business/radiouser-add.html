@@ -273,9 +273,10 @@
 						</select>
 					</div>
 					<div class="form-group col-md-6">
-						<label>用户虚拟专网属性名</label> <input type="number" value=""
-							oninput="if(value.length>11)value=value.slice(0,11)"
-							class="form-control" name="E_vaId" required="required">
+						<label>虚拟专网属性名</label> <select class="form-control"
+							name="E_vaId" ng-model="vaName">
+							<option ng-repeat="x in va" value="{{x.vaid}}">{{x.name}}</option>
+						</select>
 					</div>
 					<div class="form-group col-md-6">
 						<label>通话组列表名</label> <input type="number" value=""
@@ -315,7 +316,7 @@
 					</div>
 
 					<div class="form-group col-md-12">
-						<label>IP地址</label> <input type="text" value=""
+						<label>IP地址</label> <input type="text" value="0.0.0.0"
 							oninput="if(value.length>20)value=value.slice(0,20)"
 							class="form-control" name="E_ip" >
 					</div>

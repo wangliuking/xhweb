@@ -49,6 +49,20 @@
      	<if test="startTime!='' and endTime!=''">
      	and time between #{startTime} and #{endTime}
      	</if>
+     	<if test="category!=''">
+     	and category in(
+		<foreach collection="category" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="status!=''">
+     	and status in(
+		<foreach collection="status" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
      	
 		order by time desc limit #{start},#{limit}
     </select>
@@ -76,6 +90,20 @@
      	</if>
      	<if test="startTime!='' and endTime!=''">
      	and time between #{startTime} and #{endTime}
+     	</if>
+     	     	<if test="category!=''">
+     	and category in(
+		<foreach collection="category" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="status!=''">
+     	and status in(
+		<foreach collection="status" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
      	</if>
 
     </select>

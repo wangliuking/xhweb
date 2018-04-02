@@ -28,6 +28,7 @@ xh.load = function() {
 	});
 };
 xh.sendsms=function(){
+	
 	$.ajax({
 		url : '../../sms-send/writesms',
 		type : 'POST',

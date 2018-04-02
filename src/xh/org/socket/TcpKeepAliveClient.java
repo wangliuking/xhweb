@@ -106,7 +106,7 @@ public class TcpKeepAliveClient extends Thread {
 					}*/
 				}
 				// read body
-				byte[] buf = new byte[4096];// 收到的包字节数组
+				byte[] buf = new byte[40960];// 收到的包字节数组
 				byte[] bufH = new byte[2];// 收到的包字节数组
 				byte[] realBuf = new byte[10240];
 
@@ -281,6 +281,11 @@ public class TcpKeepAliveClient extends Thread {
 
 		try {
 			switch (comId) {
+			case 103://短信
+				
+				log.info("发送短信");
+				sendsms(len,buf,length);
+			    break;
 			case 154://终端
 				
 				log.info("终端");
@@ -313,6 +318,12 @@ public class TcpKeepAliveClient extends Thread {
 				break;
 			case 174://遥毙
 				log.info("摇启、遥毙");
+				dgna(len,buf,length);
+				break;
+			case 176://遥毙
+				
+				log.info("动态重组");
+				dgna(len,buf,length);
 				break;
 			case 178://终端用户业务属性有效站点
 				log.info("终端用户业务属性有效站点");
@@ -362,6 +373,53 @@ public class TcpKeepAliveClient extends Thread {
 		str = Integer.toHexString(v1) + Integer.toHexString(v2);
 		return str;
 	}
+	//解析短信会服
+	public void sendsms(int len,byte[] buf,int length){
+		int status=dd.SmallByteArrayToInt(buf, 26);
+		String message="";
+		if(status==0)
+        {
+        message="读成功，输出参数有效";
+        }
+        else if(status==1)
+        {
+       	 message="操作成功";
+        }
+        else if(status==2)
+        {
+       	 message="参数错误";
+        }
+        else if(status==3)
+        {
+       	 message="系统错误";
+        }
+        else if(status==4)
+        {
+       	 message="未知错误";
+        }
+        else{
+       	 message=String.valueOf(status)+"操作失败！";
+        }
+		Map<String,Object> map=new HashMap<String, Object>();
+		TalkGroupBean data=new TalkGroupBean();
+		map.put("status", status);
+		map.put("message", message);
+   	    log.info("sendsms->map"+map);
+		
+		
+	}
+	//动态重组
+	public void dgna(int len,byte[] buf,int length){
+		int status=dd.SmallByteArrayToInt(buf, 16);
+		backMessage(status);
+		Map<String,Object> map=new HashMap<String, Object>();
+		TalkGroupBean data=new TalkGroupBean();
+		map.put("status", status);
+		map.put("message", backMessage(status));
+   	    log.info("dgna->map"+map);
+		
+		
+	}
 	//解析无线用户数据
 	public void radioUser(int len,byte[] buf,int length){
 		int status=dd.SmallByteArrayToInt(buf, 20);
@@ -371,7 +429,7 @@ public class TcpKeepAliveClient extends Thread {
 		map.put("status", status);
 		map.put("message", backMessage(status));
 		 user.setId(dd.SmallByteArrayToInt(buf,304));
-       	 user.setName(dd.ByteArraytoString(buf, 308, 16));
+       	 /*user.setName(dd.ByteArraytoString(buf, 308, 16));
        	 user.setAlias(dd.ByteArraytoString(buf, 324, 8));
        	 user.setMscId(dd.SmallByteArrayToInt(buf, 332));
        	 user.setVpnId(dd.SmallByteArrayToLong(buf, 336));
@@ -399,9 +457,9 @@ public class TcpKeepAliveClient extends Thread {
        	 user.setClirOverride(String.valueOf(dd.SmallByteArrayToOneInt(buf, 491)));
        	 user.setKilled(String.valueOf(dd.SmallByteArrayToOneInt(buf, 492)));
        	 user.setMsType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 493)));
-       	 user.toString();
+       	 user.toString();*/
         ucmRadioUserMap.put(String.valueOf(user.getId()), map);
-		
+        log.info("addRadioUser->id"+user.getId());
 		log.info("ucmRadioUserMap->"+ucmRadioUserMap);
 		
 		
@@ -415,7 +473,7 @@ public class TcpKeepAliveClient extends Thread {
 		map.put("status", status);
 		map.put("message", backMessage(status));
    	    data.setTalkgroupID(dd.SmallByteArrayToInt(buf, 112));
-   	    data.setE_name(dd.ByteArraytoString(buf, 116, 16));
+   	    /*data.setE_name(dd.ByteArraytoString(buf, 116, 16));
    	    data.setE_alias(dd.ByteArraytoString(buf, 132, 8));
    	    data.setE_mscId(dd.SmallByteArrayToInt(buf, 140));
    	    data.setE_vpnId(dd.SmallByteArrayToInt(buf, 144));
@@ -426,8 +484,8 @@ public class TcpKeepAliveClient extends Thread {
    	    data.setE_radioType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 161)));
    	    data.setE_regroupable(String.valueOf(dd.SmallByteArrayToOneInt(buf, 162)));
    	    data.setE_enabled(dd.SmallByteArrayToOneInt(buf, 163));
-   	    data.setE_directDial(dd.ByteArraytoString(buf, 164, 16));
-   	    log.info("GroupData->"+data.toString());
+   	    data.setE_directDial(dd.ByteArraytoString(buf, 164, 16));*/
+   	    log.info("GroupData->id"+data.getTalkgroupID());
 
 		ucmGroupMap.put(String.valueOf(data.getTalkgroupID()), map);
 		
@@ -444,13 +502,38 @@ public class TcpKeepAliveClient extends Thread {
 			message="操作成功";
 			break;
 		case 2:
-			message="参数错误";
+			message="数据库执行 SQL 语句成功但没任何影响";
 			break;
 		case 3:
-			message="系统错误";
+			message="用户 id 与 masterId 相同/无效用户号码/非法参数";
 			break;
 		case 4:
-			message="未知错误";
+			message="输入参数不合法/无效组号码";
+			break;
+		case 5:
+			message="数据库执行 SQL 语句失败";
+			break;
+		case 6:
+			message="数据库绑定或获取失败";
+			break;
+		case 7:
+			message="用户名或密码错误";
+			break;
+		case 8:
+			message="添加操作员失败";
+			break;
+		case 33:
+			message="写数据库时 ip 重复";
+			break;
+		case 35:
+			message="号码字冠不存在, SSIPrefix 未设置";
+			break;
+		case 36:
+			message="删除限制：从属于多个交换中心";
+			break;
+		case 209:
+			message="没有 VPN 权限";
+			break;
 
 		default:
 			message="code:"+status+";error!";

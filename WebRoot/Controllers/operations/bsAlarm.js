@@ -59,10 +59,10 @@ xh.load = function() {
 		$('input[name="type"]:checked').each(function(){ 
 			type_value.push($(this).val()); 
 		});
-		$('input[name="type"]:checked').each(function(){ 
+		$('input[name="category"]:checked').each(function(){ 
 			category_value.push($(this).val()); 
 		});
-		$('input[name="type"]:checked').each(function(){ 
+		$('input[name="status"]:checked').each(function(){ 
 			status_value.push($(this).val()); 
 		});
 		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize+"&type="+type_value.join(",")+
@@ -116,10 +116,10 @@ xh.load = function() {
 			$('input[name="type"]:checked').each(function(){ 
 				type_value.push($(this).val()); 
 			});
-			$('input[name="type"]:checked').each(function(){ 
+			$('input[name="category"]:checked').each(function(){ 
 				category_value.push($(this).val()); 
 			});
-			$('input[name="type"]:checked').each(function(){ 
+			$('input[name="status"]:checked').each(function(){ 
 				status_value.push($(this).val()); 
 			});
 			$scope.page=page;
@@ -195,10 +195,10 @@ xh.load = function() {
 			$('input[name="type"]:checked').each(function(){ 
 				type_value.push($(this).val()); 
 			});
-			$('input[name="type"]:checked').each(function(){ 
+			$('input[name="category"]:checked').each(function(){ 
 				category_value.push($(this).val()); 
 			});
-			$('input[name="type"]:checked').each(function(){ 
+			$('input[name="status"]:checked').each(function(){ 
 				status_value.push($(this).val()); 
 			});
 			var start = 1, limit = pageSize;
@@ -244,6 +244,16 @@ xh.load = function() {
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
 		}); 
+		$('input[name="category"]').on('click',function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		}); 
+		$('input[name="status"]').on('click',function(){ 
+			$scope.search(1);
+			xh.bsBar();
+			xh.loadbsAlarmTypePie();
+		}); 
 		$('input[name="startTime"]').blur(function(){ 
 			$scope.search(1);
 			xh.bsBar();
@@ -254,11 +264,12 @@ xh.load = function() {
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
 		});
+		
 		setInterval(function(){
 			$scope.search($scope.page);
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
-		}, 5000)
+		}, 10000)
 	});
 };
 // 刷新数据
