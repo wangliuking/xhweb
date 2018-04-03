@@ -111,12 +111,31 @@ public class SmsSendController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		int status=-1;
 		
 		if(TcpKeepAliveClient.getSocket().isConnected()){
-			SendData.sendSms(header, bean);
-			this.message="短信已发送";
-			this.success=true;
+			SendData send=new SendData();
+			status=send.sendSms(header, bean);
+			if(status==0){
+				this.message="短信已发送";
+				this.success=true;
+			}else if(status==1){
+				this.message="短信发送失败";
+				this.success=false;
+			}else if(status==2){
+				this.message="短信已读";
+				this.success=true;
+			}else if(status==3){
+				this.message="短信发送中";
+				this.success=true;
+			}else if(status==4){
+				this.message="短信发送失败";
+				this.success=false;
+			}else{
+				this.message="短信发送失败";
+				this.success=false;
+			}
+			
 		}else{
 			this.message="后台服务连接失败！发送短信失败";
 			this.success=false;

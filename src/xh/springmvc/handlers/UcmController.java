@@ -180,8 +180,8 @@ public class UcmController {
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
 			int srcId=funUtil.StringToInt(data[i]);
-			struct.setSrcId(srcId);
-			struct.setDstId(dstId);
+			struct.setSrcId(dstId);
+			struct.setDstId(srcId);
 			
 			switch (operation) {
 			case 1:
@@ -196,16 +196,6 @@ public class UcmController {
 				}
 				break;
 			case 2:
-				//gps使能设置
-				struct.setEnableFlag(gpsen);
-				message=UcmService.sendGpsEn(struct);
-				if(message.equals("success")){
-					this.success=true;
-				}else{
-					this.success=false;
-				}
-				break;
-			case 3:
 				//gps触发器
 				struct.setLocationDstId(srcId);
 				struct.setTriggerType(operation);
@@ -216,6 +206,18 @@ public class UcmController {
 				}else{
 					this.success=false;
 				}
+				
+				break;
+			case 3:
+				//gps使能设置
+				struct.setEnableFlag(gpsen);
+				message=UcmService.sendGpsEn(struct);
+				if(message.equals("success")){
+					this.success=true;
+				}else{
+					this.success=false;
+				}
+			
 				break;
 
 			default:

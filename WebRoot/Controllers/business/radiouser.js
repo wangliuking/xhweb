@@ -78,6 +78,14 @@ xh.load = function() {
 				$scope.mscName = $scope.msc[0].name;
 			}
 		});
+		// 获取虚拟专网属性
+		$http.get("../../talkgroup/vaList").success(function(response) {
+			$scope.va = response.items;
+			$scope.vaNum = response.totals;
+			if ($scope.vaNum > 0) {
+				$scope.vaName = $scope.va[0].name;
+			}
+		});
 		// 获取vpnList
 		$http.get("../../talkgroup/vpnList").success(function(response) {
 			$scope.vpn = response.items;
@@ -108,6 +116,9 @@ xh.load = function() {
 			$('#edit a[href="#step_1"]').tab('show');
 			$('#edit').modal('show');
 			$scope.editData = $scope.data[id];
+			$scope.editData.E_saId=$scope.data[id].E_saId.toString();
+			$scope.editData.E_iaId=$scope.data[id].E_iaId.toString();
+			$scope.editData.E_vaId=$scope.data[id].toString();
 		};
 		/* 显示修改基站model */
 		$scope.showEditModel = function() {
@@ -158,7 +169,7 @@ xh.load = function() {
 							} else {
 								swal({
 									title : "提示",
-									text : "删除无限用户失败",
+									text : "删除无线用户失败",
 									type : "error"
 								});
 							}
@@ -266,12 +277,12 @@ xh.update = function() {
 		async : false,
 		data : $("#updateForm").serializeArray(),
 		success : function(data) {
-			if (data.result === 1) {
+			if (data.success) {
 				$('#edit').modal('hide');
 				toastr.success("更新无线用户成功", '提示');
 				xh.refresh();
 			} else {
-				toastr.error("添加无线用户失败", '提示');
+				toastr.error("修改无线用户失败", '提示');
 			}
 		},
 		error : function() {

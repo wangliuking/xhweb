@@ -85,6 +85,14 @@ xh.load = function() {
 				$scope.vpnName = $scope.vpn[0].name;
 			}
 		});
+		// 获取虚拟专网属性
+		$http.get("../../talkgroup/vaList").success(function(response) {
+			$scope.va = response.items;
+			$scope.vaNum = response.totals;
+			if ($scope.vaNum > 0) {
+				$scope.vaName = $scope.va[0].name;
+			}
+		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#talkgroupid").val("");
@@ -213,7 +221,7 @@ xh.update = function() {
 		async : false,
 		data : $("#updateTalkGroupForm").serializeArray(),
 		success : function(data) {
-			if (data.result === 1) {
+			if (data.success) {
 				$('#edit').modal('hide');
 				toastr.success("更新通话组成功", '提示');
 				xh.refresh();

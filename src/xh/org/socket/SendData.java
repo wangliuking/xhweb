@@ -66,7 +66,7 @@ public class SendData {
 
 	/* private static MessageStruct header = new MessageStruct(); */
 	/* gps立即请求 */
-	public  String ImmGps(MessageStruct header, GpsSetStruct getData)
+	public String ImmGps(MessageStruct header, GpsSetStruct getData)
 			throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
@@ -102,7 +102,7 @@ public class SendData {
 		log.info("ImmGps:" + getData.toString());
 		socket.close();
 		log.info("socket连接自动关闭");
-		return"success";
+		return "success";
 
 	}
 
@@ -188,7 +188,7 @@ public class SendData {
 
 		InputStream in = socket.getInputStream();
 		DataInputStream din = new DataInputStream(in);
-		message="对方回复超时";
+		message = "接收数据中";
 		try {
 			int comm = 54;
 			byte[] buf = new byte[1024];
@@ -220,11 +220,11 @@ public class SendData {
 			socket.close();
 			log.info("socket连接自动关闭");
 		} catch (SocketTimeoutException e) {
-			message="对方回复超时";
+			message = "对方回复超时";
 			log.info(message);
 			// TODO: handle exception
 		}
-		
+
 		return message;
 
 	}
@@ -394,13 +394,16 @@ public class SendData {
 	}
 
 	// 发送短信
-	public static void sendSms(MessageStruct getHeader, smsBean getData) {
+	public int sendSms(MessageStruct getHeader, smsBean getData) {
 		// 创建客户端的Socket服务，指定目的主机和端口。
+		int status=-1;
 		try {
 			NetDataTypeTransform dd = new NetDataTypeTransform();
-			// connection();
+			connection();
+
+			// ====================================
 			// 发送数据，应该获取Socket流中的输出流。
-			OutputStream out = TcpKeepAliveClient.getSocket().getOutputStream();
+			OutputStream out = socket.getOutputStream();
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			DataOutputStream dos = new DataOutputStream(bos);
 			dos.writeShort(getHeader.getCommandHeader()); // commandHeader 2
@@ -429,30 +432,50 @@ public class SendData {
 			log.info("sendSms:" + info.length);
 			log.info("sendSms:" + getData.toString());
 
-			/*
-			 * // 获得服务器发过来的数据，先获得输入流
-			 * 
-			 * InputStream in = socket.getInputStream(); DataInputStream din =
-			 * new DataInputStream(in); byte[] buf = new byte[1024];
-			 * 
-			 * // 注意：read会产生阻塞 int len = din.read(buf); int header =
-			 * dd.BigByteArrayToShort(buf, 0); int status =
-			 * dd.SmallByteArrayToInt(buf, 26); int status2 =
-			 * dd.SmallByteArrayToInt(buf, 7); for (int i = 0; i < len; i++) {
-			 * System.out.print(buf[i] + " "); str += buf[i] + " ";
-			 * 
-			 * } if (status == 0) { message = "0"; } else if (status == 1) {
-			 * message = "短信发送失败"; } else if (status == 2) { message = "短信已读"; }
-			 * else if (status == 3) { message = "短信发送中"; } else if (status ==
-			 * 4) { message = "短信发送失败"; } else { message =
-			 * String.valueOf(status) + "操作失败！"; } if (header != 0xc4d7) {
-			 * message = "接收的数据包头不正确"; } socket.close();
-			 */
+			// 获得服务器发过来的数据，先获得输入流
+
+			InputStream in = socket.getInputStream();
+			DataInputStream din = new DataInputStream(in);
+			byte[] buf = new byte[1024];
+
+			// 注意：read会产生阻塞 
+			int len = din.read(buf); 
+			int header =dd.BigByteArrayToShort(buf, 0);
+			String str="";
+			status = dd.SmallByteArrayToInt(buf, 26);
+			int status2 = dd.SmallByteArrayToInt(buf, 7);
+			/*for (int i = 0; i < len; i++) {
+				System.out.print(buf[i] + " ");
+				str += buf[i] + " ";
+
+			}*/
+			if (status == 0) {
+				message = "短信发送成功";
+			} else if (status == 1) {
+				message = "短信发送失败";
+			} else if (status == 2) {
+				message = "短信已读";
+			} else if (status == 3) {
+				message = "短信发送中";
+			} else if (status == 4) {
+				message = "短信发送失败";
+			} else {
+				message = String.valueOf(status) + "操作失败！";
+			}
+			if (header != 0xc4d7) {
+				message = "接收的数据包头不正确";
+			}
+			log.info("发送状态:" + status+";message:"+message);
+			
+			socket.close();
+			return status;
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return status;
 		}
+		
 	}
 
 	// 发送终端用户数据包

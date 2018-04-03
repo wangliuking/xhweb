@@ -89,7 +89,7 @@ public class RadioUserController {
 	 * @param response
 	 */
 	@RequestMapping(value="/add",method = RequestMethod.POST)
-	public void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
+	public synchronized void insertRadioUser(HttpServletRequest request, HttpServletResponse response){
 		
 		String formData=request.getParameter("formData");
 		int resultCode=0;
@@ -163,7 +163,7 @@ public class RadioUserController {
 							timeout=0;
 							break tag;
 						}else{
-							if(timeout>=50){
+							if(timeout>=20){
 								this.success=false;
 								this.message="三方服务器响应超时";
 								break tag;
@@ -278,8 +278,7 @@ public class RadioUserController {
 	 * @param response
 	 */
 	@RequestMapping(value="/update",method = RequestMethod.POST)
-	public void updateByRadioUserId(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
+	public synchronized void updateByRadioUserId(HttpServletRequest request, HttpServletResponse response){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		Enumeration rnames=request.getParameterNames();
 		for (Enumeration e = rnames ; e.hasMoreElements() ;) {
@@ -287,10 +286,87 @@ public class RadioUserController {
 		        String thisValue=request.getParameter(thisName);
 		        map.put(thisName, thisValue);
 		}
-		int count=RadioUserService.updateByRadioUserId(map);
+		String param = json.Encode(map);
+		RadioUserBean userbean=GsonUtil.json2Object(param, RadioUserBean.class);
+		int resultCode=0;
+		int timeout=0;
+		int status=0;
+		RadioUserStruct setRadioUser = new RadioUserStruct();
+		setRadioUser.setOperation(2);
+
+		setRadioUser.setId(userbean.getC_ID());
+		setRadioUser.setName(userbean.getE_name());
+		setRadioUser.setAlias(userbean.getE_alias());
+		setRadioUser.setMscId(userbean.getE_mscId());
+		setRadioUser.setVpnId(userbean.getE_vpnId());
+		setRadioUser.setSn(userbean.getE_sn());
+		setRadioUser.setCompany(userbean.getE_company());
+		setRadioUser.setType(userbean.getE_type());
+		setRadioUser.setEnabled(userbean.getE_enabled());
+		setRadioUser.setShortData(userbean.getE_shortData());
+		setRadioUser.setFullDuple(userbean.getE_fullDuple());
+		setRadioUser.setRadioType(userbean.getE_radioType());
+		setRadioUser.setAnycall(userbean.getE_anycall());
+		setRadioUser.setSaId(userbean.getE_saId());
+		setRadioUser.setIaId(userbean.getE_iaId());
+		setRadioUser.setVaId(userbean.getE_vaId());
+		setRadioUser.setRugId(userbean.getE_rutgId());
+		setRadioUser.setPacketData(userbean.getE_packetData());
+		setRadioUser.setIp(userbean.getE_ip());
+		setRadioUser.setPrimaryTGId(userbean.getE_PrimaryTGId());
+		setRadioUser.setAmbienceMonitoring(userbean.getE_ambienceMonitoring());
+		setRadioUser.setAmbienceInitiation(userbean.getE_ambienceInitiation());
+		setRadioUser.setDirectDial(userbean.getE_directDial());
+		setRadioUser.setPstnAccess(userbean.getE_PSTNAccess());
+		setRadioUser.setPabxAccess(userbean.getE_pabxAccess());
+		setRadioUser.setClir(userbean.getE_clir());
+		setRadioUser.setClirOverride(userbean.getE_clirOverride());
+		setRadioUser.setKilled(userbean.getE_killed());
+		setRadioUser.setMsType(userbean.getE_msType());
+		UcmService.sendRadioUser(setRadioUser);
+		tag:for(;;){
+	          try {
+				Thread.sleep(1000);
+				timeout++;
+				if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
+					Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+					status=FunUtil.StringToInt(resultMap.get("status").toString());
+					if(status==1){
+						resultCode=RadioUserService.updateByRadioUserId(map);
+					}
+					if(resultCode>0){
+						this.success=true;
+						this.message="修改成功";
+						JoinNetBean bean = new JoinNetBean();
+						bean.setId(userbean.getId_JoinNet());
+						bean.setChecked(9);
+						JoinNetService.updateCheckById(bean);
+					}else{
+						this.success=false;
+						this.message=resultMap.get("message").toString();
+					}
+					TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+					timeout=0;
+					break tag;
+				}else{
+					if(timeout>=20){
+						this.success=false;
+						this.message="三方服务器响应超时";
+						break tag;
+					}
+					
+				}
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+	       }
+		
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("result",count);
+		result.put("message",message);
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -306,14 +382,90 @@ public class RadioUserController {
 	 * @param response
 	 */
 	@RequestMapping(value="/del",method = RequestMethod.POST)
-	public void deleteBsByRadioUserId(HttpServletRequest request, HttpServletResponse response){
+	public synchronized void deleteBsByRadioUserId(HttpServletRequest request, HttpServletResponse response){
 		String id=request.getParameter("id");
 		List<String> list = new ArrayList<String>();
+		int resultCode=0;
+		int timeout=0;
+		int status=0;
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			list.add(str);
+			
 		}
-		RadioUserService.deleteBsByRadioUserId(list);
+		for(int i=0;i<list.size();i++){
+				RadioUserStruct setRadioUser = new RadioUserStruct();
+				setRadioUser.setOperation(3);
+
+				setRadioUser.setId(funUtil.StringToInt(list.get(i).toString()));
+				setRadioUser.setName("0");
+				setRadioUser.setAlias("0");
+				setRadioUser.setMscId(1);
+				setRadioUser.setVpnId(0);
+				setRadioUser.setSn("0");
+				setRadioUser.setCompany("0");
+				setRadioUser.setType("0");
+				setRadioUser.setEnabled(0);
+				setRadioUser.setShortData(0);
+				setRadioUser.setFullDuple(0);
+				setRadioUser.setRadioType(0);
+				setRadioUser.setAnycall(0);
+				setRadioUser.setSaId(0);
+				setRadioUser.setIaId(0);
+				setRadioUser.setVaId(0);
+				setRadioUser.setRugId(0);
+				setRadioUser.setPacketData("0");
+				setRadioUser.setIp("0");
+				setRadioUser.setPrimaryTGId(0);
+				setRadioUser.setAmbienceMonitoring("0");
+				setRadioUser.setAmbienceInitiation("0");
+				setRadioUser.setDirectDial("0");
+				setRadioUser.setPstnAccess("0");
+				setRadioUser.setPabxAccess("0");
+				setRadioUser.setClir("0");
+				setRadioUser.setClirOverride("0");
+				setRadioUser.setKilled("0");
+				setRadioUser.setMsType("0");
+				
+				UcmService.sendRadioUser(setRadioUser);
+				tag:for(;;){
+			          try {
+						Thread.sleep(1000);
+						timeout++;
+						if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(list.get(i).toString()))!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(list.get(i).toString());
+							status=FunUtil.StringToInt(resultMap.get("status").toString());
+							if(status==1){
+								List<String> list2 = new ArrayList<String>();
+								list2.add(list.get(i).toString());
+								resultCode=RadioUserService.deleteBsByRadioUserId(list2);
+								if(resultCode>0){
+									this.message="删除成功";
+									this.success=true;
+								}
+							}
+						
+							TcpKeepAliveClient.getUcmGroupMap().remove(list.get(i).toString());
+							timeout=0;
+							break tag;
+						}else{
+							if(timeout>=20){
+								this.success=false;
+								this.message="三方服务器响应超时";
+								break tag;
+							}
+							
+						}
+						
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
+			       }
+		
+		}
+	
+		
 		HashMap result = new HashMap();
 		this.success=true;
 		result.put("success", success);

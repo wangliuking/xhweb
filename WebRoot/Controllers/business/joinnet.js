@@ -131,6 +131,14 @@ xh.load = function() {
 					$scope.mscName = $scope.msc[0].name;
 				}
 			});
+			// 获取虚拟专网属性
+			$http.get("../../talkgroup/vaList").success(function(response) {
+				$scope.va = response.items;
+				$scope.vaNum = response.totals;
+				if ($scope.vaNum > 0) {
+					$scope.vaName = $scope.va[0].name;
+				}
+			});
 			// 获取vpnList
 			$http.get("../../talkgroup/vpnList").success(function(response) {
 				$scope.vpn = response.items;
@@ -169,6 +177,14 @@ xh.load = function() {
 				$scope.mscNum = response.totals;
 				if ($scope.mscNum > 0) {
 					$scope.mscName = $scope.msc[0].name;
+				}
+			});
+			// 获取虚拟专网属性
+			$http.get("../../talkgroup/vaList").success(function(response) {
+				$scope.va = response.items;
+				$scope.vaNum = response.totals;
+				if ($scope.vaNum > 0) {
+					$scope.vaName = $scope.va[0].name;
 				}
 			});
 			// 获取vpnList
@@ -1041,8 +1057,8 @@ xh.addUser = function() {
 	$.ajax({
 		url : '../../radiouser/add',
 		type : 'POST',
-		timeout : 520000, //超时时间设置，单位毫秒
-		dataType : "json",
+		/*timeout : 520000, //超时时间设置，单位毫秒
+*/		dataType : "json",
 		async : false,
 		data:{
 			formData:xh.serializeJson($("#addUserForm").serializeArray()) //将表单序列化为JSON对象
@@ -1058,7 +1074,7 @@ xh.addUser = function() {
 			}
 		},
 		error : function() {
-			toastr.error("响应服务器失败", '提示');
+			toastr.error("参数错误", '提示');
 		}
 	});
 }
@@ -1068,8 +1084,8 @@ xh.addTGroup = function() {
 		url : '../../talkgroup/add',
 		type : 'POST',
 		dataType : "json",
-		timeout : 520000, //超时时间设置，单位毫秒
-		async : false,
+		/*timeout : 520000, //超时时间设置，单位毫秒
+*/		async : false,
 		data:{
 			formData:xh.serializeJson($("#addTalkGroupForm").serializeArray()) //将表单序列化为JSON对象
 		},

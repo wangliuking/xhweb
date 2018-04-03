@@ -51,7 +51,7 @@ public interface RadioUserMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public void  deleteBsByRadioUserId(List<String> list)throws Exception;
+	public int deleteBsByRadioUserId(List<String> list)throws Exception;
 	/**
 	 * 查询所有无线用户
 	 * @return

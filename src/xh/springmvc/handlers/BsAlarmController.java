@@ -33,7 +33,7 @@ import xh.mybatis.service.WebLogService;
 public class BsAlarmController {
 	private boolean success;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(WebLogController.class);
+	protected final Log log = LogFactory.getLog(BsAlarmController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	
@@ -60,15 +60,26 @@ public class BsAlarmController {
 			String endTime=request.getParameter("endTime");
 			String[] level=request.getParameter("level").split(",");
 			String[] type=request.getParameter("type").split(",");
+			String[] category=request.getParameter("category").split(",");
+			String[] status=request.getParameter("status").split(",");
+			
 			int start=funUtil.StringToInt(request.getParameter("start"));
 			int limit=funUtil.StringToInt(request.getParameter("limit"));
 			List<String> a=new ArrayList<String>();
 			List<String> b=new ArrayList<String>();
+			List<String> c=new ArrayList<String>();
+			List<String> d=new ArrayList<String>();
 			for (String str : level) {
 				a.add(str);
 			}
 			for (String str : type) {
 				b.add(str);
+			}
+			for (String str : category) {
+				c.add(str);
+			}
+			for (String str : status) {
+				d.add(str);
 			}
 			
 			Map<String, Object> map=new HashMap<String, Object>();
@@ -76,6 +87,8 @@ public class BsAlarmController {
 			map.put("endTime", endTime);
 			map.put("level", a);
 			map.put("type", b);
+			map.put("category", c);
+			map.put("status", d);
 			map.put("start", start);
 			map.put("limit", limit);
 			
@@ -170,7 +183,6 @@ public class BsAlarmController {
 		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
@@ -239,7 +251,7 @@ public class BsAlarmController {
 		result.put("items", list2);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
+
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {

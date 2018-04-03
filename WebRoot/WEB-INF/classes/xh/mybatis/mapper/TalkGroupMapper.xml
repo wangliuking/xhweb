@@ -81,7 +81,7 @@
 		E_name,E_alias,E_mscId,E_vpnId,E_said,E_iaid,E_vaid,E_preempt,E_radioType,E_regroupable,E_enabled,E_directDial,E_pdtType,E_npType,id_JoinNet,time)
 		values(#{TalkgroupID}, '', '', '', '', '', 0, 0, 0, 0,
 		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_said},#{E_iaid},#{E_vaid},#{E_preempt},#{E_radioType},#{E_regroupable},#{E_enabled},#{E_directDial},
-		#{E_pdtType},#{E_npType},#{id_joinNet},#{time})
+		0,0,#{id_joinNet},#{time})
 	</insert>
   <sql id="Base_Column_List" >
     id, TalkgroupID, M_TalkgroupAlias, M_SecurityGroup, M_ConsoleTGMGCapabilityProfileAlias, 
@@ -154,6 +154,10 @@
   <!-- 	获取交换中心标识列表 -->
   <select id="vpnList" resultType="java.util.HashMap" useCache="true">
 		select * from xhgmnet_msclist
+  </select>
+    <!--虚拟专网属性 -->
+  <select id="vaList" resultType="java.util.HashMap" useCache="true">
+		select * from xhgmnet_vpnsa
   </select>
   <!-- 	获取虚拟专网名列表 -->
   <select id="vpnList2" resultType="java.util.HashMap" useCache="true">

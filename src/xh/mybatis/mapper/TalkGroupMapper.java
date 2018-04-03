@@ -64,6 +64,12 @@ public interface TalkGroupMapper {
 	 * @return
 	 * @throws Exception
 	 */
+	public List<HashMap<String, String>> vaList()throws Exception;
+	/**
+	 * 获取虚拟专网属性
+	 * @return
+	 * @throws Exception
+	 */
 	public List<HashMap<String, String>> vpnList()throws Exception;
 	
 	/**
