@@ -188,7 +188,7 @@ public class SendData {
 
 		InputStream in = socket.getInputStream();
 		DataInputStream din = new DataInputStream(in);
-		message = "对方回复超时";
+		message = "接收数据中";
 		try {
 			int comm = 54;
 			byte[] buf = new byte[1024];

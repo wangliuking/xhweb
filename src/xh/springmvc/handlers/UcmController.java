@@ -180,8 +180,8 @@ public class UcmController {
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
 			int srcId=funUtil.StringToInt(data[i]);
-			struct.setSrcId(srcId);
-			struct.setDstId(dstId);
+			struct.setSrcId(dstId);
+			struct.setDstId(srcId);
 			
 			switch (operation) {
 			case 1:
