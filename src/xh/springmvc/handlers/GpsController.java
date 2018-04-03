@@ -82,9 +82,18 @@ public class GpsController {
 		map.put("currentMonth", currentMonth);
 		map.put("nextMonth", nextMonth);
 		HashMap result = new HashMap();
+		
+		int data1 = GpsService.gpsCount(map);
+		List<HashMap<String, String>>  data2;
+		if(data1>0){
+			data2 = GpsService.gpsInfo(map);
+		}else{
+			data2=null;
+		}
+		
 		result.put("success", success);
-		result.put("totals",GpsService.gpsCount(map));
-		result.put("items", GpsService.gpsInfo(map));
+		result.put("totals",data1);
+		result.put("items", data2);
 		response.setContentType("application/json;charset=utf-8");  
 		response.setHeader("Refresh", "1");  
 		String jsonstr = json.Encode(result);

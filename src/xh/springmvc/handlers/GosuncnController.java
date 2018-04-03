@@ -422,9 +422,18 @@ public class GosuncnController {
 		map.put("currentMonth", currentMonth);
 		map.put("nextMonth", nextMonth);
 		HashMap result = new HashMap();
+		
+		int data1 = GosuncnService.emhHistoryCount(map);
+		List<HashMap<String, String>> data2;
+		if(data1>0){
+			data2 = GosuncnService.emhHistory(map);
+		}else{
+			data2 = null;
+		}
+		
 		result.put("success", success);
-		result.put("totals",GosuncnService.emhHistoryCount(map));
-		result.put("items", GosuncnService.emhHistory(map));
+		result.put("totals",data1);
+		result.put("items", data2);
 		response.setContentType("application/json;charset=utf-8");  
 		response.setHeader("Refresh", "1");  
 		String jsonstr = json.Encode(result);

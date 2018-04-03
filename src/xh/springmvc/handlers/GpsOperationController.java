@@ -60,9 +60,17 @@ public class GpsOperationController {
 		map.put("start", start);
 		map.put("limit", limit);
 		HashMap result = new HashMap();
+		int data1 = GpsOperationService.gpsOperationCount(map);
+		List<HashMap<String, String>> data2;
+		if(data1>0){
+			data2 = GpsOperationService.gpsOperationInfo(map);
+		}else{
+			data2 = null;
+		}
+		
 		result.put("success", success);
-		result.put("totals",GpsOperationService.gpsOperationCount(map));
-		result.put("items", GpsOperationService.gpsOperationInfo(map));
+		result.put("totals",data1);
+		result.put("items",data2);
 		response.setContentType("application/json;charset=utf-8");  
 		response.setHeader("Refresh", "1");  
 		String jsonstr = json.Encode(result);
