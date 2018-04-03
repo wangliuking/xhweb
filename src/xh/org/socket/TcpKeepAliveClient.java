@@ -137,11 +137,11 @@ public class TcpKeepAliveClient extends Thread {
 					
 						connected = false;
 					}*/
-					byte[] buf2=new byte[len];
+					/*byte[] buf2=new byte[len];
 					System.arraycopy(buf, 0, buf2, 0,len);
 					
 					log.info("收到的数据："+FunUtil.BytesToHexS(buf2));
-					log.info("收到的数据：len="+len);
+					log.info("收到的数据：len="+len);*/
 					
 					
 					if (len > 0 && len + writeBuf.length >= 4) {
