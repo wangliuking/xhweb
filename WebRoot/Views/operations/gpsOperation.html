@@ -183,14 +183,12 @@
 												<th>源ID</th>
 												<th>目标ID</th>
 												<th>操作时间</th>
-												<th>定时触发器(秒)</th>
-												<th>定距离触发器(米)</th>
 												<th>操作状态</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="10" class="text-center">没有记录！</td>
+												<td colspan="6" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
@@ -199,8 +197,6 @@
 												<td>{{x.srcId}}</td>
 												<td>{{x.dstId}}</td>
 												<td>{{x.writeTime}}</td>
-												<td>{{x.interval}}</td>
-												<td>{{x.distance}}</td>
 												<td ng-if="x.status=='0'"><span
 													class="label  label-sm label-success"><i
 														class="fa fa-plus"></i>成功</span></td>

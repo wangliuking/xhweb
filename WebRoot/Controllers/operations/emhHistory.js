@@ -27,6 +27,15 @@ xh.load = function() {
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 	var pageSize = $("#page-limit").val();
+	
+	app.filter('upp', function() { //可以注入依赖
+		return function(text) {
+			if(text=="" || text==null)
+			return "";
+			else
+			return parseFloat(text);
+		};
+	});
 
 	app.controller("emhHistory", function($scope, $http) {
 		xh.maskShow();
