@@ -141,4 +141,21 @@ public interface GosuncnMapper {
 	 */
 	public int emhHistoryCount(Map<String,Object> map)throws Exception;
 	
+	/**
+	 * 删除NVR所有通道信息
+	 */
+	public int truncateNVRChannels();
+	
+	/**
+	 * 添加最新NVR通道信息
+	 */
+	public int insertNVRChannels(Map<String, Object> map)throws Exception;
+	
+	/**
+	 * 查询所有NVR通道信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectNVRChannels()throws Exception;
+	
 }

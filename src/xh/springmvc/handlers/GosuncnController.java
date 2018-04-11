@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -444,6 +445,49 @@ public class GosuncnController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	/**
+	 * 查询所有站的环控通断情况
+	 */
+	@RequestMapping(value="/getForNvrChannelInfo",method = RequestMethod.POST)
+	public void getForNvrChannelInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody List<Map<String, String>> list){
+		this.success=true;
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("list", list);
+		GosuncnService.insertNVRChannels(params);
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 查询所有NVR通道信息
+	 */
+	@RequestMapping("/selectNVRChannels")
+	public void selectNVRChannels(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		
+		List<Map<String,String>> list = GosuncnService.selectNVRChannels();
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

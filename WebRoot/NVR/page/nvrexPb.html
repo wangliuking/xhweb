@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>内外网回放</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<link rel="stylesheet" href="../../Resources/css/My.css">
+<link rel="stylesheet"
+	href="../../lib/bootstrap-3.3.6/css/bootstrap.css" />
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="nvrexPb" class="fixed-iframe">
+	<div class="row">
+		<div class="col-md-12">
+			<div id="objectctrl" style="width:100%;height:800px;;">
+					<OBJECT id="WebPlayBack" classid='clsid:5DF460B3-785F-4C8F-8990-04F39D4168DC' width="100%" height="100%"></OBJECT>
+			</div>
+		</div>		
+	</div>
+
+	<div class="row">
+	<div style="text-align:center;">
+		当前网络模式:<select id="currentNet" name="windowNum" style="margin-left:10px;">
+			<option value="">外网</option>
+			<option value="">内网</option>
+		</select> 
+		<!-- 窗口数:<select id="windowNum" name="windowNum" style="margin-left:10px;">
+			<option value="1">1</option>
+			<option value="4">4</option>
+			<option value="9">9</option>
+			<option value="16">16</option>
+		</select> --> <input type="button" value="初始化控件" onclick="InitVideoConnection()" />
+		选择时间:
+		<input id="starttime" type="text" class="txt" value=""
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+			<input id="currentSN" type="text" ng-value="currentChannel" hidden/>
+			选择通道:<select id="chooseSN" ng-change="click2GetChannel()" ng-model="sn"> <option ng-repeat="x in channelsData" ng-value="x.sn">{{x.name}}</option> </select>
+		<input type="button" value="点击查询" onclick="PlayBack()" />
+	</div>
+	</div>
+	<div class="row">
+		<div style="text-align:center;">
+			<span><a href="http://localhost:8080/axis2/控件安装包.exe" style="color:blue;font-weight:800;">【视频控件】下载</a></span>
+		</div>
+	</div>
+	<script src="../../Resources/js/jquery-2.2.3.min.js"></script>
+<script src="../../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript"
+		src="../../Controllers/business/nvrexPb.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
+<script type="text/javascript">
+	//setTimeout("InitVideoConnection()",3000);//页面加载三秒钟后自动初始化控件
+	var f = 0;
+	var isStart=0;
+	var SvrIP;
+	var set_webControl = null;
+function InitVideoConnection()
+{ 
+		//获取窗口数
+		//var windowNum = $("#windowNum").find("option:selected").val();
+		set_webControl = document.getElementById("WebPlayBack");
+
+		//判断外网还是内网模式
+		if($("#currentNet").find("option:selected").text() == "外网"){
+			set_webControl.SetPbPort(6000,1);//外网
+			var i=set_webControl.JK_InitPlayBackOcx("183.221.117.37",6688,1,1);
+		}else{
+			set_webControl.SetPbPort(6000,0);//内网
+			console.log("windowNum: "+windowNum)
+			var i=set_webControl.JK_InitPlayBackOcx('192.168.120.178',6688,1,1);
+		}
+		if(i!=0){
+			alert("控件初始化失败");
+			set_webControl=null;
+			return ;
+		}
+		else
+		{
+		alert("控件初始化成功");
+}
+		  f=1; 
+}
+ 
+/**
+启动回放
+*/
+ function PlayBack(){
+	var starttime = $("#starttime").val();
+	var sn = $("#currentSN").val();
+	if(sn=="" || sn==null){
+		alert("请输入通道号或点击左侧列表自动生成！");
+		return;
+	}else if(starttime=="" || starttime==null){
+		alert("请输入查询时间！");
+		return;
+	}
+	console.log("sn: "+sn+"starttime: "+starttime);
+	if(f==1){	 
+		set_webControl.JK_SearchRecord(sn,starttime,0);
+ 	}else{
+		alert("控件未初始化");
+		return;
+	}
+}
+</script>
+</body>
+</html>

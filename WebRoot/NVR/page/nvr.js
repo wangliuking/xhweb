@@ -1,3 +1,14 @@
+//自定义变量 by wlk
+var nvrInfo = {"192.168.120.175_80":"3301004949000115",
+						"172.18.1.155_80":"3301004949000215",
+						"172.18.1.156_80":"3301004949000315",
+						"172.18.1.157_80":"3301004949000415",
+						"192.168.120.176_80":"3301004949000515",
+						"192.168.120.177_80":"3301004949000615",
+						"172.18.1.158_80":"3301004949000715"};
+var tempList = []; //wlk 拼装map用于后台更新nvr数字通道
+
+
 // 初始化插件
 
 // 全局保存当前选中窗口
@@ -217,12 +228,13 @@ function quickClickLogin(){
 	    szPort =  NVR_Map[i].port,
 	    szUsername =  NVR_Map[i].username,
 	    szPassword =  NVR_Map[i].password;
-		clickLogin(szIP,szPort,szUsername,szPassword);
+		var t = clickLogin(szIP,szPort,szUsername,szPassword);
 	}
 }
 
 // 登录
 function clickLogin(szIP,szPort,szUsername,szPassword) {
+	
     if ("" == szIP || "" == szPort) {
         return;
     }
@@ -302,6 +314,7 @@ function clickGetDeviceInfo() {
 
 // 获取通道
 function getChannelInfo() {
+	
     var szDeviceIdentify = $("#ip").val(),
         oSel = $("#channels").empty();
 
@@ -334,11 +347,12 @@ function getChannelInfo() {
         async: false,
         success: function (xmlDoc) {
             var oChannels = $(xmlDoc).find("InputProxyChannelStatus");
-
+           
             $.each(oChannels, function (i) {
                 var id = $(this).find("id").eq(0).text(),
                     name = $(this).find("name").eq(0).text(),
                     online = $(this).find("online").eq(0).text();
+
                 if ("false" == online) {// 过滤禁用的数字通道
                     return true;
                 }
@@ -346,6 +360,12 @@ function getChannelInfo() {
                     name = "IPCamera " + (i < 9 ? "0" + (i + 1) : (i + 1));
                 }
                 oSel.append("<option value='" + id + "' bZero='false'>" + name + "</option>");
+                
+                //wlk 拼装map用于后台更新nvr数字通道
+                var tempId = Ten2Sixteen(id);
+                var temp = {"sn":nvrInfo[szDeviceIdentify]+tempId,"name":name,"online":online};
+                tempList.push(temp);
+                //wlk
             });
             showOPInfo(szDeviceIdentify + " 获取数字通道成功！");
         },
@@ -358,7 +378,6 @@ function getChannelInfo() {
         async: false,
         success: function (xmlDoc) {
             var oChannels = $(xmlDoc).find("ZeroVideoChannel");
-            
             $.each(oChannels, function (i) {
                 var id = $(this).find("id").eq(0).text(),
                     name = $(this).find("name").eq(0).text();
@@ -475,7 +494,7 @@ function clickStartRealPlay(iStreamType) {
     if (null == szDeviceIdentify) {
         return;
     }
-    console.log("szDeviceIdentify:"+szDeviceIdentify+"iRtspPort:"+iRtspPort+"iStreamType:"+iStreamType+"iChannelID:"+iChannelID+"bZeroChannel:"+bZeroChannel);
+   
     var startRealPlay = function () {
         WebVideoCtrl.I_StartRealPlay(szDeviceIdentify, {
             iRtspPort: iRtspPort,
@@ -2032,4 +2051,35 @@ function encodeString(str) {
     } else {
         return "";
     }
+}
+
+//自定义函数 by wlk
+function getForNvrChannelInfo(){
+	var jsonData = JSON.stringify(tempList);
+	$.ajax({
+		type : "POST",
+		url : "../../gonsuncn/getForNvrChannelInfo",
+		contentType: "application/json", //必须这样写
+        dataType:"json",
+		data : jsonData,
+		success : function(dataMap) {
+			
+		}
+	});
+	
+}
+
+function Ten2Sixteen(param){
+	var id = parseInt(param);
+	var tempId = id.toString(16);
+	if(getStrLength(tempId)<2){
+		return 0+tempId;
+	}
+	return tempId;
+}
+
+//字符长度计算
+function getStrLength(str) {
+var cArr = str.match(/[^\x00-\xff]/ig);
+return str.length + (cArr == null ? 0 : cArr.length);
 }

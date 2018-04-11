@@ -228,5 +228,26 @@
 			and createTime between #{startTime} and #{endTime}) as tempTable
 		</if>
 	</select>
+	
+	<!-- NVR相关参数获取 -->
+	<!-- 删除NVR通道配置 -->
+	<update  id="truncateNVRChannels">
+		truncate xhgmnet_emh_nvrChannels
+	</update >
+	
+	<!--添加NVR通道配置-->
+	<insert id="insertNVRChannels" parameterType="map">
+		INSERT INTO
+		xhgmnet_emh_nvrChannels(sn,name,online)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.sn},#{item.name},#{item.online})
+		</foreach>
+	</insert>
+	<!-- 查询所有通道信息 -->
+	<select id="selectNVRChannels" resultType="map" useCache="true">
+		select sn,name from xhgmnet_emh_nvrChannels order by name
+	</select>
 
 </mapper>
