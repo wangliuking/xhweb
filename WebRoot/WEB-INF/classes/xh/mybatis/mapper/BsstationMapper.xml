@@ -112,16 +112,19 @@
 		 group by bsId) 
 		  as e on a.bsId=e.bsId
 		<!-- left join (select count(distinct TGid) as groupSum ,bsId from xhgmnet_operations_userstatus where TGid!=0 group by bsId) 
-		  as e on a.bsId=e.bsId  -->
-		
+		  as e on a.bsId=e.bsId  -->	
 		left join (select bsId,sum(alarmSum) as deviceAlarmSum from (
 		select bsId, count(working) as alarmSum from xhgmnet_bs_bsc where working>0 and working!=255 group by bsId
 		union all
 		select a.bsId,count(a.bsrId) as alarmSum  from xhgmnet_bs_bsr_config as a
         left join xhgmnet_bs_bsr as b on a.bsId=b.bsId and a.bsrId=b.Id 
         where  a.bsrIsEnable =1 and b.working>0 and b.working !=255 group by a.bsId
+        
 		union all
-		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255  group by bsId
+		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx 
+		where (working>0 and working!=255) or (retLoss>0 and retLoss &lt;=140)
+		group by bsId
+			
 		union all
 		select bsId, count(working) as alarmSum from xhgmnet_bs_psm 
 		where (bdTmp1>0 or bdTmp2>0 or bdTmp3>0) and(

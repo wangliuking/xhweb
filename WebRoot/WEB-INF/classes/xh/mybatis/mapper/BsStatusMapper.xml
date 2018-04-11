@@ -238,7 +238,9 @@
         left join xhgmnet_bs_bsr as b on a.bsId=b.bsId and a.bsrId=b.Id 
         where  a.bsrIsEnable =1 and b.working>0 and b.working !=255 group by a.bsId
 		union all
-		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx where working>0 and working!=255 and retLoss>0 and fwdPa>0 group by bsId
+		select bsId, count(working) as alarmSum from xhgmnet_bs_dpx 
+		where working>0 and working!=255 and retLoss>0 and fwdPa>0  or (retLoss>0 and retLoss &lt;=140)
+		group by bsId
 		union all
 		select bsId, count(working) as alarmSum from xhgmnet_bs_psm 
 		where (bdTmp1>0 or bdTmp2>0 or bdTmp3>0) and( dc12=1 or dc301=1 or dc302=1 or runStatus=1 or tempStatus=1 or linkStatus=1) group by bsId
