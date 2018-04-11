@@ -410,6 +410,45 @@ public class GosuncnService {
 		return list;
 	}
 	
+	/**
+	 * 添加最新NVR通道信息（先truncate再添加）
+	 * @param map
+	 * @return
+	 */
+	public static int insertNVRChannels(Map<String, Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int result=0;
+		try {
+			mapper.truncateNVRChannels();
+			result=mapper.insertNVRChannels(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
+	/**
+	 * 查询所有NVR通道信息
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<Map<String, String>> selectNVRChannels(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectNVRChannels();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }
