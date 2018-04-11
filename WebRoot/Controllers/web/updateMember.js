@@ -38,7 +38,7 @@ xh.load = function() {
 		});
 	});
 };
-/* 修改基站信息 */
+/* 修改 */
 xh.update = function() {
 	$.ajax({
 		url : '../../web/user/update',

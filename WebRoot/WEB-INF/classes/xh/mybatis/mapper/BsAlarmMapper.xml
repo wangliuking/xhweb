@@ -31,7 +31,7 @@
 		显示告警列表，列表中只显示没有处理的告警；显示列表时联合查询基站列表显示基站名称，等级。
 	-->
     <select id="selectBsAlarmList" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     	select * from xhgmnet_eastcom_alarminfo_copy  where  1=1
+     	select * from xhgmnet_eastcom_alarminfo  where  1=1
      	<if test="level!=''">
      	and severity in(
 		<foreach collection="level" item="id" separator=",">
@@ -67,12 +67,12 @@
 		order by time desc limit #{start},#{limit}
     </select>
        <select id="selectTop5" parameterType="map" resultType="map" useCache="true">
-     	select * from xhgmnet_eastcom_alarminfo_copy  where  neType in(1,2,3,4)
+     	select * from xhgmnet_eastcom_alarminfo  where  neType in(1,2,3,4)
 		order by time desc limit 6
     </select>
     <!-- 告警总数 -->
         <select id="BsAlarmCount" parameterType="map" resultType="int" useCache="true">
-     	select count(*) from xhgmnet_eastcom_alarminfo_copy  where  1=1
+     	select count(*) from xhgmnet_eastcom_alarminfo  where  1=1
      	
      	<if test="level!=''">
      	and severity in(
@@ -111,7 +111,7 @@
     <!--警告等级统计 -->
 	<select id="bsAlarmLevelChart" resultType="java.util.HashMap"
 		useCache="true">
-		select count(id) as value,severity as name from xhgmnet_eastcom_alarminfo_copy where  1=1
+		select count(id) as value,severity as name from xhgmnet_eastcom_alarminfo where  1=1
 		<if test="level!=''">
      	and severity in(
 		<foreach collection="level" item="id" separator=",">
@@ -134,7 +134,7 @@
 	<!--警告类型统计 -->
 	<select id="bsAlarmTypeChart" resultType="java.util.HashMap"
 		useCache="true">
-		select neType,count(id) as num from xhgmnet_eastcom_alarminfo_copy where  1=1
+		select neType,count(id) as num from xhgmnet_eastcom_alarminfo where  1=1
 		<if test="level!=''">
      	and severity in(
 		<foreach collection="level" item="id" separator=",">
