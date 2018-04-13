@@ -363,7 +363,9 @@ function getChannelInfo() {
                 
                 //wlk 拼装map用于后台更新nvr数字通道
                 var tempId = Ten2Sixteen(id);
-                var temp = {"sn":nvrInfo[szDeviceIdentify]+tempId,"name":name,"online":online};
+                var deviceIp = szDeviceIdentify.substring(0,szDeviceIdentify.length-3);
+                var bsId = changeName2BsId(name);
+                var temp = {"sn":nvrInfo[szDeviceIdentify]+tempId,"name":name,"online":online,"ch":id,"deviceIp":deviceIp,"bsId":bsId};
                 tempList.push(temp);
                 //wlk
             });
@@ -2082,4 +2084,23 @@ function Ten2Sixteen(param){
 function getStrLength(str) {
 var cArr = str.match(/[^\x00-\xff]/ig);
 return str.length + (cArr == null ? 0 : cArr.length);
+}
+
+//name转bsId
+function changeName2BsId(str){
+	if(str.indexOf("_") > 0){
+		//为四期命名
+		str = str.substring(0,str.indexOf("_"));
+	}else{
+		str = str.substring(0,4);
+		if(!isNaN(str)){
+			//为三期命名
+			str = parseInt(str);
+		}else{
+			//异常命名
+			str = "";
+		}	
+	}
+	
+	return str;
 }

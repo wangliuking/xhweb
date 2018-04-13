@@ -168,7 +168,7 @@
 	
 	<!-- 根据基站id查询摄像头IP -->
 	<select id="selectCameraIpByBsId" parameterType="map" resultType="map">
-		select * from xhgmnet_emh_camera where bsId=#{bsId}
+		select * from xhgmnet_emh_nvrchannels where bsId=#{bsId}
 	</select>
 	
 	<!-- 更新简阳无线传输的vpnIp -->
@@ -238,11 +238,11 @@
 	<!--添加NVR通道配置-->
 	<insert id="insertNVRChannels" parameterType="map">
 		INSERT INTO
-		xhgmnet_emh_nvrChannels(sn,name,online)
+		xhgmnet_emh_nvrChannels(sn,name,online,deviceIp,ch,bsId)
 		values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
-			(#{item.sn},#{item.name},#{item.online})
+			(#{item.sn},#{item.name},#{item.online},#{item.deviceIp},#{item.ch},#{item.bsId})
 		</foreach>
 	</insert>
 	<!-- 查询所有通道信息 -->

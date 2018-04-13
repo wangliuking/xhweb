@@ -1898,8 +1898,10 @@ function flashMark(data){
 function dataWithoutZero(data){
 	var newData = [];
 	for(var i=0;i<data.length;i++){
-		if(data[i].lat!=0 && data[i].lng!=0 && data[i].status!=0){
-			newData.push(data[i]);
+		if(data[i].lat!=0 && data[i].lng!=0){
+			if(data[i].status!=0){
+				newData.push(data[i]);
+			}		
 		}
 	}
 	return newData;

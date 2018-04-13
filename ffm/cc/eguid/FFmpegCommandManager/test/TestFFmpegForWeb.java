@@ -30,7 +30,7 @@ public class TestFFmpegForWeb {
 	 */
 	public static void test1(Map<String,Object> cameraMap) throws InterruptedException{
 		Map<String,String> map = new HashMap<String,String>();
-		String input = "rtsp://" + cameraMap.get("loginName") + ":" + cameraMap.get("password") + "@" + cameraMap.get("deviceIP") + ":554/h264/ch1/main/av_stream";		
+		String input = "rtsp://" + cameraMap.get("loginName") + ":" + cameraMap.get("password") + "@" + cameraMap.get("deviceIP") + ":554/h264/ch" + cameraMap.get("ch") +"/main/av_stream";		
 		int bsId = (Integer) cameraMap.get("bsId");
 		String tempWindow = cameraMap.get("window").toString();
 		String[] strs = tempWindow.split("[.]");

@@ -448,7 +448,7 @@ public class GosuncnController {
 	}
 	
 	/**
-	 * 查询所有站的环控通断情况
+	 * 添加最新NVR通道信息
 	 */
 	@RequestMapping(value="/getForNvrChannelInfo",method = RequestMethod.POST)
 	public void getForNvrChannelInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody List<Map<String, String>> list){
