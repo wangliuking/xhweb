@@ -4,7 +4,8 @@
 
 <!-- 基站信道排队top5 -->
 <select id="queueTop5" resultType="map" useCache="true" parameterType="String" >
-select TotalActiveCalls as value,bsId  from pef_newbstotal where  starttime=#{time}  order by TotalActiveCalls desc limit 5
+select TotalActiveCalls as value,bsId  from pef_newbstotal where  starttime=#{time}  and (bsId&lt;=200 or bsId>=1000)
+order by TotalActiveCalls desc limit 5
 </select>
 <!-- 基站信道排队top5 -->
 <select id="queueTopBsName" resultType="map" useCache="true" parameterType="List" >
