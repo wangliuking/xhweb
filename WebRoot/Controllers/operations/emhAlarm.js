@@ -309,12 +309,13 @@ xh.load = function() {
 		
 		xh.loadPieDev();
 		xh.loadPieLv();
-		setInterval(function() {
+		//定时刷新
+		/*setInterval(function() {
 			$scope.refresh();
 			var selectAlarmStatus = $("#selectAlarmStatus  option:selected").val();
 			$scope.selectForStatus(selectAlarmStatus);
 			$scope.alarmModel();
-		}, 60000);
+		}, 60000);*/
 		
 	});
 	

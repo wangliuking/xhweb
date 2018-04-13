@@ -110,7 +110,7 @@
 						<div class="panel-heading hbuilt">
 							<div class="panel-tools">
 							</div>
-							视频监控   当前网络模式：<span class="currentNet">外网</span>
+							视频监控   当前网络模式：<span class="currentNet">内网</span>
 						<button type="submit" id="changeNet">切换网络</button>
 						</div>
 						<div class="panel-body">
@@ -517,7 +517,7 @@
 <script type='text/javascript'>
 var $scope = angular.element(appElement).scope();
 var bsId = $scope.cameraId();
-var IP = "183.221.117.37";
+var IP = "192.168.120.150";
 console.log(bsId+"==="+IP);
   jwplayer('mediaspace').setup({
     'flashplayer': 'player.swf',
@@ -531,9 +531,9 @@ console.log(bsId+"==="+IP);
 $(function(){
 	$("#changeNet").click(function(){
 		jwplayer('mediaspace').remove();
-		if("183.221.117.37"==IP){
-			$(".currentNet").text("内网");
-			IP="192.168.120.150";
+		if("192.168.120.150"==IP){
+			$(".currentNet").text("外网");
+			IP="183.221.117.37";
 			console.log(IP);
 			jwplayer('mediaspace').setup({
 			    'flashplayer': 'player.swf',
@@ -544,8 +544,8 @@ $(function(){
 			    'height': '360'
 			  });
 		}else{
-			$(".currentNet").text("外网");
-			IP="183.221.117.37";
+			$(".currentNet").text("内网");
+			IP="192.168.120.150";
 			console.log(IP);
 			jwplayer('mediaspace').setup({
 			    'flashplayer': 'player.swf',

@@ -383,9 +383,18 @@ public class AmapController {
 		try {
 			FunUtil funUtil = new FunUtil();
 			String userId = funUtil.loginUser(request);
+			//检测gisViews是否有基站显示数据
+			AmapService amapService = new AmapService();			
+			Map<String, Object> temp = new HashMap<String, Object>();
+			temp.put("userId", userId);
+			int gisViewTableNum = amapService.gisViewCount(temp);			
+			//gisViewTableNum若为0则没有gis显示数据，需要更新
+			if(gisViewTableNum == 0){
+				amapService.insertByUserId(temp);
+			}			
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("userId", userId);
-			AmapService amapService = new AmapService();
 			List<HashMap<String, String>> listMap = amapService.gisViewByUserIdForShow(map);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
