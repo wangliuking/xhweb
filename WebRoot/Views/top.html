@@ -127,6 +127,12 @@
 					style="margin-top:15px;float: left;font-size:15pt"></i><span>首页</span>
 				</a>
 			</div>
+			<div class="pull-left tm-icon">
+				<a href="" onclick="dd()"> 
+				<img src="Resources/images/img/esight.png"  style="margin-top:15px;float: left;" id="esight"/>
+					<!-- <span style="margin-left:10px;">esight网管</span> -->
+				</a>
+			</div>
 
 			<div id="time" class="pull-right" style="color:yellow">
 				<!-- <span id="hours"></span> : <span id="min"></span> : <span id="sec"></span> -->
@@ -174,4 +180,11 @@
 		error : function() {
 		}
 	});
+	
+	function dd(){
+		window.open("http://172.27.253.22:8080");
+	}
+	/* $("#esight").click(function(){
+		window.open('172.27.253.22:8080');
+	}) */
 </script>

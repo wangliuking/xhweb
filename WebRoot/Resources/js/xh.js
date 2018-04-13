@@ -505,7 +505,6 @@ xh.tableColor=function(o,a,b,c,d){
 	
 } */
 xh.getFresh=function(){
-   
 	if (TopESAConfig()){
 		var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
 	    var certs = CertStore.listAllCerts().byKeyUsage(128); //过滤签名证书
@@ -520,11 +519,20 @@ xh.getFresh=function(){
 	    			async : false,
 	    			success : function(data) {
 	    				var user=data.user;
-	    				if(user!="admin"){
+	    				
+	    				if(user.indexOf("test")>-1 || user.indexOf("admin")>-1){
+	    					
+	    				}else{
 	    					alert("key已经拔出，请重新登录");
 	    			         var path=xh.rootPath();
 	    			         window.location.href=path+"web/loginOut";
 	    				}
+	    				
+	    				/*if(user!="admin"){
+	    					alert("key已经拔出，请重新登录");
+	    			         var path=xh.rootPath();
+	    			         window.location.href=path+"web/loginOut";
+	    				}*/
 	    			},
 	    			error : function() {
 	    			}
