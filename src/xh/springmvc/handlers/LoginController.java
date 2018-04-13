@@ -70,7 +70,21 @@ public class LoginController {
 		String reqId = "1";
 		String code="";
 		//!username.equals("admin")
-		if(!username.equals("admin")){
+		
+		if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
+			code="200";
+			log.info("超级账号免key登录");
+			
+		}else{
+			SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
+	        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
+			int startPos = rs.indexOf("code");
+			code = rs.substring(startPos + 6 ,startPos + 9);
+			Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
+			log.info("登陆签名验证返回数据如下:");
+			log.info("camap->"+camap);
+		}
+	/*	if(username.indexOf("admin")==-1 || username.indexOf("test")==-1){
 			SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
 	        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
 			int startPos = rs.indexOf("code");
@@ -81,7 +95,7 @@ public class LoginController {
 		}else{
 			code="200";
 			log.info("超级账号免key登录");
-		}
+		}*/
 		
 		
 		if(!codeVar.isEmpty()){
