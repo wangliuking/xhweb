@@ -176,6 +176,7 @@ public class UcmController {
 		int dstId=funUtil.StringToInt(request.getParameter("dstId"));
 		int operation=funUtil.StringToInt(request.getParameter("operation"));
 		int triggerParaTime=funUtil.StringToInt(request.getParameter("triggerParaTime"));
+		int locationDstId=funUtil.StringToInt(request.getParameter("locationDstId"));
 		int gpsen=funUtil.StringToInt(request.getParameter("gpsen"));
 		for(int i=0;i<data.length;i++){
 			GpsSetStruct struct=new GpsSetStruct();
@@ -187,7 +188,7 @@ public class UcmController {
 			case 1:
 				//立即请求
 				struct.setReferenceNumber(0);
-				struct.setLocationDstId(0);
+				struct.setLocationDstId(locationDstId);
 				message=UcmService.sendImmGps(struct);
 				if(message.equals("success")){
 					this.success=true;
@@ -197,7 +198,7 @@ public class UcmController {
 				break;
 			case 2:
 				//gps触发器
-				struct.setLocationDstId(srcId);
+				struct.setLocationDstId(locationDstId);
 				struct.setTriggerType(operation);
 				struct.setTriggerPara(triggerParaTime);
 				message=UcmService.sendGpsTrigger(struct);

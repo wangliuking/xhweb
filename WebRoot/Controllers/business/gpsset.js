@@ -135,6 +135,7 @@ xh.load = function() {
 			data.push($scope.data[i].userId);
 			var dstId=$("input[name='dstId']").val();
 			var operation=$("input[name='operation']:checked").val();
+			var locationDstId=$("input[name='locationDstId']").val()==''?0:$("input[name='locationDstId']").val();
 			var triggerParaTime=$("input[name='triggerParaTime']").val()==''?30:$("input[name='triggerParaTime']").val();
 			var gpsen=$("input[name='gpsen']:checked").val();
 			if(operation==2 && (triggerParaTime=='' || triggerParaTime<10)){
@@ -155,6 +156,7 @@ xh.load = function() {
 					dstId:dstId,
 					operation:operation,
 					triggerParaTime:triggerParaTime,
+					locationDstId:locationDstId,
 					gpsen:gpsen
 				}	
 			}).success(function(data){ 

@@ -201,6 +201,7 @@ xh.load = function() {
 };
 /* 添加设备 */
 xh.add = function() {
+	
 	$.ajax({
 		url : '../../business/insertAsset',
 		type : 'POST',
@@ -221,8 +222,10 @@ xh.add = function() {
 			} else {
 				toastr.error(data.message, '提示');
 			}
+			$("#add_btn").button('reset');
 		},
 		error : function() {
+			$("#add_btn").button('reset');
 		}
 	});
 };
