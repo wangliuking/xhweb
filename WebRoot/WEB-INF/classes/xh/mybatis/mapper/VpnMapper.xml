@@ -11,7 +11,7 @@
   	<if test="vpnId !=null and vpnId !='' and pId == '0'">
   		and pId=#{vpnId} or vpnId=#{vpnId}
   	</if>
-  	<if test="vpnId !=null and vpnId !='' and pId != '0'">
+  	<if test="vpnId !=null and vpnId !='' and pId !=null and pId !='' and pId != '0' ">
   		and pId=#{pId} and vpnId=#{vpnId} or vpnId=#{pId}
   	</if>
   </select>
@@ -25,7 +25,7 @@
   </update>
   
   <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
-  	insert into xhgmnet_vpn(vpnId,pId,name,sn,time) values(#{vpnId},#{pId},#{name},#{sn},#{time})
+  	insert into xhgmnet_vpn(pId,name,sn,time) values(#{pId},#{name},#{sn},now())
   </insert>
   
   <!-- 添加之前查询vpnId是否重复 -->

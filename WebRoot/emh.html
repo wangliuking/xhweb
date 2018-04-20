@@ -25,7 +25,7 @@
   	<button type="submit" id="testFFmpeg">视频流开启测试</button>
   	<button type="submit" id="testFFmpegStop">视频流停止测试</button>
   	</div>
-	<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="Resources/js/jquery-1.7.2.js"></script>
 	<script type="text/javascript">	
 	$('#sendRun').click(function(){
 		var fsuIpRun = $('#fsuIpRun');
@@ -171,5 +171,35 @@
 	});
 	
 	</script>
+	
+	<script type="text/javascript">
+	var  ws;
+	window.onload=connect;
+	function connect(){
+		var ws;
+		if ('WebSocket' in window) {
+			ws = new WebSocket("ws://localhost:8080/xhweb/webSocketServer");
+		} else if ('MozWebSocket' in window) {
+			ws = new MozWebSocket("ws://localhost:8080/xhweb/webSocketServer");
+		} else {
+			//如果是低版本的浏览器，则用SockJS这个对象，对应了后台“sockjs/webSocketServer”这个注册器，
+			//它就是用来兼容低版本浏览器的
+			//ws = new SockJS("http://localhost:8080/xf_oa_new/sockjs/webSocketServer");
+		}
+		ws.onopen = function (event) {
+			
+		};
+		ws.onmessage = function (event) {
+			alert(event.data);
+			
+		};
+		ws.onerror = function (event) {
+		};
+		ws.onclose = function (event) {
+		}
+	}
+
+</script>
+	
 </body>
 </html>

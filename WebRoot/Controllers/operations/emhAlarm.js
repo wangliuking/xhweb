@@ -388,7 +388,7 @@ xh.loadPieDev = function() {
 			            data:[
 			                {value:752, name:'温度'},
 			                {value:899, name:'湿度'},
-			                {value:567, name:'UPS'},
+			                {value:567, name:'EPS'},
 			                {value:118, name:'电表'},
 			                {value:442, name:'水浸'},
 			                {value:335, name:'烟雾'},

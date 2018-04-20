@@ -13,6 +13,7 @@
             <param-value>classpath:springmvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     
     <servlet-mapping>
@@ -27,6 +28,7 @@
              <filter-class>
                         org.springframework.web.filter.CharacterEncodingFilter
              </filter-class>
+             <async-supported>true</async-supported>
              <init-param>
                         <param-name>encoding</param-name>
                         <param-value>utf-8</param-value>
@@ -76,9 +78,9 @@ xh.org.listeners.TcpServerListenner
 </listener>
 
 <!-- 启动定时器，定时获取动环数据-->
-<listener>
+<!-- <listener>
 <listener-class>xh.org.listeners.EMHListener</listener-class>
-</listener>
+</listener> -->
 <!--Axis2 config start -->
 	<servlet>  
       <servlet-name>AxisServlet</servlet-name>  
@@ -142,7 +144,7 @@ xh.org.listeners.TcpServerListenner
 </error-page> -->
   
  <session-config>
-      <session-timeout>864000</session-timeout>
+      <session-timeout>2</session-timeout>
 </session-config> 
 
     
