@@ -247,7 +247,8 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<!-- <th width="100px">网元类型</th> -->
 												<th>网元类型</th>
 
-												<th>告警级别</th>
+												<th>严重程度</th>
+												<th>告警类型</th>
 												<th>故障定位</th>
 												<th>告警描述</th>
 												<th width="150px">告警时间</th>
@@ -261,7 +262,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="6" class="text-center">没有记录！</td>
+												<td colspan="7" class="text-center">没有记录！</td>
 											</tr>
 											<!-- ng-class="{true:'td-success'}[x.retoreTime!=null]" -->
 											<tr ng-repeat="x in data">
@@ -298,6 +299,14 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<div class="label arrowed-in label-success">已恢复</div>
 												</div>
 												
+												</td>
+												<td>
+												<span ng-if="x.category==1">通信</span>
+												<span ng-if="x.category==2">软件</span>
+												<span ng-if="x.category==3">环境</span>
+												<span ng-if="x.category==4">Qos</span>
+												<span ng-if="x.category==5">设备</span>
+												<span ng-if="x.category==6">网管</span>
 												</td>
 
 												<td>{{x.location |alarmLocation}}</td>
@@ -400,19 +409,19 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 							<div class="form-group col-md-12 search" style="margin-top:5px;">
 								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="category1"
 									class="magic-checkbox" type="checkbox" name="category" value="1"
-									checked> <label for="category1"><span>通信告警</span></label> <input
+									checked> <label for="category1"><span>通信</span></label> <input
 									id="category2" class="magic-checkbox" type="checkbox" name="category"
-									value="2" checked> <label for="category2"><span>软件告警</span></label>
+									value="2" checked> <label for="category2"><span>软件</span></label>
 
 								<input id="category3" class="magic-checkbox" type="checkbox"
-									name="category" value="3" checked> <label for="category3"><span>环境告警</span></label>
+									name="category" value="3" checked> <label for="category3"><span>环境</span></label>
 
 								<input id="category4" class="magic-checkbox" type="checkbox"
-									name="category" value="4" checked> <label for="category4"><span>QoS告警</span></label>
+									name="category" value="4" checked> <label for="category4"><span>QoS</span></label>
 								<input id="category5" class="magic-checkbox" type="checkbox"
-									name="category" value="5" checked> <label for="category5"><span>设备告警</span></label>
+									name="category" value="5" checked> <label for="category5"><span>设备</span></label>
 								<input id="category6" class="magic-checkbox" type="checkbox"
-									name="category" value="6" checked> <label for="category6"><span>网管告警</span></label>
+									name="category" value="6" checked> <label for="category6"><span>网管</span></label>
 							</div>
 
 						</div>

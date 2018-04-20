@@ -142,8 +142,8 @@ public class RadioUserController {
 			          try {
 						Thread.sleep(1000);
 						timeout++;
-						if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
-							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+						if(TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID())!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID());
 							status=FunUtil.StringToInt(resultMap.get("status").toString());
 							if(status==1){
 								resultCode=RadioUserService.insertRadioUser(userbean);
@@ -159,13 +159,14 @@ public class RadioUserController {
 								this.success=false;
 								this.message=resultMap.get("message").toString();
 							}
-							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+							TcpKeepAliveClient.getUcmRadioUserMap().remove("user_"+userbean.getC_ID());
 							timeout=0;
 							break tag;
 						}else{
 							if(timeout>=20){
 								this.success=false;
 								this.message="三方服务器响应超时";
+								timeout=0;
 								break tag;
 							}
 							
@@ -181,10 +182,12 @@ public class RadioUserController {
 			}
 		}else{
 			String name=userbean.getE_name();
+			int j=0;
 			for(int i=userbean.getC_IDS();i<=userbean.getC_IDE();i++){
+				j++;
 				if(RadioUserService.radioUserIsExists(i)<1){
 					userbean.setC_ID(i);
-					userbean.setE_name(name+i);
+					userbean.setE_name(name+j);
 					RadioUserStruct setRadioUser = new RadioUserStruct();
 					setRadioUser.setOperation(1);
 
@@ -222,8 +225,8 @@ public class RadioUserController {
 				          try {
 							Thread.sleep(1000);
 							timeout++;
-							if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
-								Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+							if(TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID())!=null){
+								Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID());
 								status=FunUtil.StringToInt(resultMap.get("status").toString());
 								if(status==1){
 									resultCode=RadioUserService.insertRadioUser(userbean);
@@ -239,13 +242,14 @@ public class RadioUserController {
 									this.success=false;
 									this.message=resultMap.get("message").toString();
 								}
-								TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+								TcpKeepAliveClient.getUcmRadioUserMap().remove("user_"+userbean.getC_ID());
 								timeout=0;
 								break tag;
 							}else{
 								if(timeout>=50){
 									this.success=false;
 									this.message="三方服务器响应超时";
+									timeout=0;
 									break tag;
 								}
 								
@@ -328,8 +332,8 @@ public class RadioUserController {
 	          try {
 				Thread.sleep(1000);
 				timeout++;
-				if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()))!=null){
-					Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(userbean.getC_ID()));
+				if(TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID())!=null){
+					Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+userbean.getC_ID());
 					status=FunUtil.StringToInt(resultMap.get("status").toString());
 					if(status==1){
 						resultCode=RadioUserService.updateByRadioUserId(map);
@@ -345,7 +349,7 @@ public class RadioUserController {
 						this.success=false;
 						this.message=resultMap.get("message").toString();
 					}
-					TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(userbean.getC_ID()));
+					TcpKeepAliveClient.getUcmRadioUserMap().remove("user_"+userbean.getC_ID());
 					timeout=0;
 					break tag;
 				}else{
@@ -432,8 +436,8 @@ public class RadioUserController {
 			          try {
 						Thread.sleep(1000);
 						timeout++;
-						if(TcpKeepAliveClient.getUcmRadioUserMap().get(String.valueOf(list.get(i).toString()))!=null){
-							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get(list.get(i).toString());
+						if(TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+list.get(i).toString())!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmRadioUserMap().get("user_"+list.get(i).toString());
 							status=FunUtil.StringToInt(resultMap.get("status").toString());
 							if(status==1){
 								List<String> list2 = new ArrayList<String>();
@@ -445,13 +449,14 @@ public class RadioUserController {
 								}
 							}
 						
-							TcpKeepAliveClient.getUcmGroupMap().remove(list.get(i).toString());
+							TcpKeepAliveClient.getUcmRadioUserMap().remove("user_"+list.get(i).toString());
 							timeout=0;
 							break tag;
 						}else{
 							if(timeout>=20){
 								this.success=false;
 								this.message="三方服务器响应超时";
+								timeout=0;
 								break tag;
 							}
 							

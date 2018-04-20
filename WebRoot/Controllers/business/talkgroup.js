@@ -135,15 +135,11 @@ xh.load = function() {
 								toastr.success("删除通话组成功", '提示');
 								$scope.refresh();
 							} else {
-								swal({
-									title : "提示",
-									text : "删除通话组失败",
-									type : "error"
-								});
+								toastr.error(data.message, '提示');
 							}
 						},
 						error : function() {
-							$scope.refresh();
+							toastr.error("删除通话组失败", '提示');
 						}
 					});
 				}
@@ -272,10 +268,11 @@ xh.delMore = function() {
 						toastr.success("删除通话组成功", '提示');
 						xh.refresh();
 					} else {
-						toastr.error("删除通话组失败", '提示');
+						toastr.error(data.message, '提示');
 					}
 				},
 				error : function() {
+					toastr.error("删除通话组失败", '提示');
 				}
 			});
 		}

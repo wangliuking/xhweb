@@ -90,6 +90,7 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.zone}}</td>
 										<td>{{x.time}}</td>
+										<td ng-if="x.checked==-1" class="td-danger">申请被拒绝</td>
 										<td ng-if="x.checked==0" class="td-danger">申请表填写成功，等待领导指定经办人处理</td>
 										<td ng-if="x.checked==1" class="td-danger">等待经办人办理</td>
 										<td ng-if="x.checked==2" class="td-danger">经办人办理完成，等待领导审核租借清单</td>

@@ -719,7 +719,7 @@ public class JoinNetController {
 		result.put("success", success);
 		result.put("message", message);
 		result.put("fileName", fileName);
-		result.put("filePath", path + "/" + fileName);
+		result.put("filePath", "/Resources/upload/net/" + fileName);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);

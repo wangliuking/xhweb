@@ -26,7 +26,7 @@
 		</if>		
 		</when>
 		<when test="roleId ==10003">
-		 and a.quitModal ==1 and a.quit>=3
+		 and a.quitModal =1 and a.quit>=3
 		</when>
 		</choose>
 
@@ -47,7 +47,7 @@
 		</if>		
 		</when>
 		<when test="roleId ==10003">
-		 and quitModal ==1 and quit>=3
+		 and quitModal =1 and quit>=3
 		</when>
 		</choose>
     </select>
