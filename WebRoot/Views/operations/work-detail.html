@@ -9,14 +9,14 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#"  onSubmit="return false">
 					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
+						<div class="col-md-6" ng-show="false">
+							<div class="form-group col-md-12" >
 								<label>接收者</label>
 								<input type="text" class="form-control" ng-model="editData.recvUser">
 								</select>
 							</div>
 						</div>
-                       <div class="col-md-6">
+                       <div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>上传者</label>
 								<input type="text" class="form-control" ng-model="editData.uploadUser">
@@ -25,13 +25,13 @@
 					</div>
 					<div class="row">
 
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>联系人</label><input type="text" class="form-control"
 									name="contact" ng-model="editData.contact">
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>联系方式</label><input type="text" class="form-control"
 									name="tel" ng-model="editData.tel">

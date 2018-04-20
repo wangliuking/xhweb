@@ -422,7 +422,7 @@ public class SendData {
 			dos.writeByte(getData.getReferenceNumber());
 			dos.writeByte(getData.getConsume());
 			dos.writeByte(getData.getLen());
-			dos.write(dd.LongData(getData.getContent(), 140));
+			dos.write(dd.LongData(getData.getContent(), 210));
 			dos.writeByte(getData.getType());
 			/**************** content ***********************/
 			dos.writeShort(getHeader.getChecksum());// checksum 2 校验码
