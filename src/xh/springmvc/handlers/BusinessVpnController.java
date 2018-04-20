@@ -44,8 +44,21 @@ public class BusinessVpnController {
 		this.success=true;
 		//获取用户的vpnId
 		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
-		String vpnId = tempMap.get("vpnId").toString();
-		String pId = tempMap.get("pId").toString();
+		
+		String vpnId;
+		String pId;
+		Object tempVpnId = tempMap.get("vpnId");
+		if(tempVpnId != null){
+			vpnId = tempVpnId.toString();
+		}else{
+			vpnId = "";
+		}
+		Object tempPId =  tempMap.get("pId");
+		if(tempPId != null){
+			pId = tempPId.toString();
+		}else{
+			pId = "";
+		}
 		
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("vpnId", vpnId);

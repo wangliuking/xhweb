@@ -7,11 +7,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
+import org.springframework.web.socket.WebSocketSession;
+
+import xh.mybatis.tools.WebSocketPushHandler;
 import xh.springmvc.handlers.GosuncnController;
+
 import com.chinamobile.fsuservice.Test;
 
 /**
@@ -42,23 +50,27 @@ public class EMHListener implements ServletContextListener {
 		//timer1.schedule(new timerTaskForData(), 5 * 60 * 1000, 60 * 1000);//定时获取数据任务
 		//timer2.schedule(new timerTaskForTimeCheck(),10 * 60 * 1000,60 * 60 * 1000);//时间同步（一次）
 		//timer.schedule(new timerTaskForConfig(), 5*60*1000);//获取一次配置信息
-		timer.schedule(new dwrTest(), 30 * 1000, 10 * 1000);
+		//System.out.println("准备开启websocket测试！！！！！");
+		//timer.schedule(new dwrTest(), 20 * 1000, 30 * 1000);
 	}
 
 }
 
 /**
- * dwr测试
+ * websocket测试
  */
-class dwrTest extends TimerTask {
+/*class dwrTest extends TimerTask {
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("准备发送了！！！");
+		TextMessage text = new TextMessage("数据包在这里！！！");	
+		WebSocketPushHandler webSocketPushHandler = new WebSocketPushHandler();
+		webSocketPushHandler.sendMessagesToUsers(text);
 	}
 	
-}
+}*/
 
 /**
  * 维持心跳

@@ -190,7 +190,7 @@
 		useCache="true">
 		select * from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
-			and bsId like concat('%',#{bsId},'%')
+			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
@@ -199,7 +199,7 @@
 			UNION ALL
 			select * from ${nextMonth} where 1=1
 			<if test="bsId!=null and bsId!=''">
-				and bsId like concat('%',#{bsId},'%')
+				and bsId=#{bsId}
 			</if>
 			and createTime between #{startTime} and #{endTime}
 		</if>
@@ -211,7 +211,7 @@
 		select SUM(cnt) from (
 		select count(*) cnt from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
-			and bsId like concat('%',#{bsId},'%')
+			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
@@ -223,7 +223,7 @@
 			UNION ALL
 			select count(*) cnt from ${nextMonth} where 1=1
 			<if test="bsId!=null and bsId!=''">
-				and bsId like concat('%',#{bsId},'%')
+				and bsId=#{bsId}
 			</if>
 			and createTime between #{startTime} and #{endTime}) as tempTable
 		</if>

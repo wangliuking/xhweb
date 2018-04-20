@@ -1399,11 +1399,13 @@ function init(data,markData) {
 							async : false,
 							success : function(response) {	
 								var dataTemp = response.items;
-								console.log(dataTemp);
-								if(dataTemp[0]!=null){
-									numtotals = dataTemp[0].numtotals;
-								}else{
-									numtotals="暂无";
+								console.log("dataTemp: "+dataTemp);
+								if(dataTemp[0]!=null && dataTemp[0]!=""){
+									if(dataTemp[0].hasOwnProperty("numtotals") ){
+										numtotals = dataTemp[0].numtotals;
+									}else{
+										numtotals="暂无";
+									}	
 								}								 
 								radioTotals = response.radioTotals;
 								groupTotals = response.groupTotals;
@@ -1941,5 +1943,21 @@ xh.secondsFormatDay = function( second_time ){
 	  
 	return time;          
 	}  
+//取消右键事件
+window.onload = function(){
+    //去掉默认的contextmenu事件，否则会和右键事件同时出现。
+    document.oncontextmenu = function(e){
+        e.preventDefault();
+    };
+    /*document.getElementById("test").onmousedown = function(e){
+        if(e.button ==2){
+            alert("你点了右键");
+        }else if(e.button ==0){
+            alert("你点了左键");
+        }else if(e.button ==1){
+            alert("你点了滚轮");
+        }
+    }*/
+}
 
 

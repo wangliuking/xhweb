@@ -24,16 +24,17 @@ import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.proxy.dwr.Util;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.web.socket.TextMessage;
 
 import com.chinamobile.fsuservice.ParseXml;
 import com.goeasy.TestGoEasy;
 
 import xh.mybatis.service.GosuncnService;
+import xh.mybatis.tools.WebSocketPushHandler;
 import xh.springmvc.handlers.GosuncnController;
 
 /**
@@ -143,9 +144,11 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					dataList.add(map);
 				}
 			}			
-			//调用goeasy推送至客户端
-			/*String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
-			TestGoEasy.sendAlarmWeb(alarmDesc);*/
+			//调用websocket推送至客户端
+			String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
+			TextMessage text = new TextMessage(alarmDesc);	
+			WebSocketPushHandler webSocketPushHandler = new WebSocketPushHandler();
+			webSocketPushHandler.sendMessagesToUsers(text);
 			
 			GosuncnController.insertAlarm(dataList);
 			//log.info("啦啦啦一条告警信息已经添加！");
