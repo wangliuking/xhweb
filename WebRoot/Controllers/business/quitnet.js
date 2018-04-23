@@ -559,6 +559,9 @@ xh.download=function(type){
 	if(type==2){
 		fileName = $scope.checkData.fileName2;
 	}
+	if(type==3){
+		fileName = $scope.checkData.fileName3;
+	}
 	
 	var filepath = "/Resources/upload/quitnet/" + fileName;
 	console.log("filename=>" + fileName);

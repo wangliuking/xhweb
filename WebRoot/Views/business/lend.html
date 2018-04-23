@@ -90,8 +90,10 @@
 										<td>{{x.tel}}</td>
 										<td>{{x.zone}}</td>
 										<td>{{x.time}}</td>
+										<td ng-if="x.checked==-1" class="td-danger">申请被拒绝</td>
 										<td ng-if="x.checked==0" class="td-danger">申请表填写成功，等待领导指定经办人处理</td>
-										<td ng-if="x.checked==1" class="td-danger">等待经办人办理</td>
+										<td ng-if="x.checked==1" class="td-danger">等待经办人准备设备清单</td>
+										<td ng-if="x.checked==-10" class="td-danger">设备清单审核未通过，请重新准备清单</td>
 										<td ng-if="x.checked==2" class="td-danger">经办人办理完成，等待领导审核租借清单</td>
 										<td ng-if="x.checked==3" class="td-warning">设备清单准备结束，等待用户确认</td>
 										<td ng-if="x.checked==4 && x.num>0" class="td-danger">用户归还设备审核中</td>
@@ -112,7 +114,7 @@
 											<a ng-if="loginUserRoleId==10002 && x.checked==0 && up.b_check_lend=='on'"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核</a>
-											<a ng-if="x.checked==1 && x.user2==loginUser"
+											<a ng-if="(x.checked==1 || x.checked==-10) && x.user2==loginUser"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>准备清单</a>
 											
@@ -123,6 +125,7 @@
 											<a ng-if="loginUserRoleId==1000 && x.checked==3 && loginUser==x.user"
 											href="#" ng-click="checkWin($index,3)">|<i
 												class="fa fa-hand-o-down text-danger"></i>确认清单</a>
+											
 												<!-- <a
 											ng-if="		
 										loginUser==x.user && x.checked==3"

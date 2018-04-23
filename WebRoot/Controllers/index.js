@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 var alarmbs=true;
 var alarmji=true;
+var play=false;
 var appElement = document.querySelector('[ng-controller=index]');
 xh.load = function() {
 	var app = angular.module("app", []);
@@ -86,9 +87,12 @@ xh.load = function() {
 				
 				if($scope.loginUserVpnId==null || $scope.loginUserVpnId==''){
 					if(count>0){
+						play=true;
 						xh.playMap3();
+						
 					}else{
 						xh.stopMap3();
+						play=false;
 					}
 				}
 				
@@ -127,31 +131,17 @@ xh.load = function() {
 		$scope.stop=function(){
 		    event.stopPropagation();
 		};
-	/*	$scope.showAlarmWin=function(){
-			
-			
-			var html={
-					  type: 2,
-					  title:":注册组/注册终端",
-					  area: ['500px', '400px'],
-					 
-					  shade: 0,
-					  maxmin:false,
-					  
-					  skin: 'layui-layer-rim', //加上边框					  
-					  content: ["../../Views/operations/bsstatus-group-user-box.html?bsId="+1, 'no']
-					};
-			layer.open(html);
-		}*/
-
 		$scope.alarmCount();
 		$scope.alarmInfo();
 		setInterval(function(){
-			$scope.alarmCount();
-			$scope.alarmChange();
-			$scope.alarmInfo();
-			
+			$scope.alarmInfo();		
 			}, 10000); //每隔 10 秒 
+		setInterval(function(){
+			$scope.alarmCount();	
+			}, 15000); //每隔 10 秒 
+		setInterval(function(){
+			$scope.alarmChange();	
+			}, 20000); //每隔 10 秒 
 		
 
 		
@@ -172,9 +162,13 @@ xh.stopMap3=function() {
 	if(audio!=null){
 		audio.pause();
 		audio.currentTime = 0;
+		if(play){
+			$scope.updateAlarm();
+		}
+		
 	}
 	
-	$scope.updateAlarm();
+	
 };
 xh.aa=function(){
 	alarmbs=$("input[name='alarmbs']").is(':checked');

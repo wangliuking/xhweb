@@ -2652,6 +2652,13 @@ Main components
   border-radius: 0.25em;
   padding: 0.25em;
   box-shadow: 0 3px 0 #d7e4ed;
+  
+}
+.cd-timeline-content span{
+  word-spacing: normal;
+  word-wrap:break-word;
+  word-break:break-all;
+  
 }
 .cd-timeline-content:after {
   content: "";

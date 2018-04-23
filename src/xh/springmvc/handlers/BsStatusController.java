@@ -1152,7 +1152,7 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsOffVoiceChange(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
 		
-		BsStatusService.bsOffVoiceChange();
+		//BsStatusService.bsOffVoiceChange();
 		ServerStatusService.updateAlarmStatus();
 
 	}

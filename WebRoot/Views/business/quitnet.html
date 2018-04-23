@@ -93,7 +93,7 @@
 										<td ng-if="x.quitModal == -1">无线退网</td>
 										<td>{{x.quitPerson}}</td>
 										<td>{{x.quitTime}}</td>
-										<td ng-if="x.quit==-1" class="td-danger">退网错误</td>
+										<td ng-if="x.quit==-1" class="td-danger">退网失败</td>
 										<td ng-if="x.quit==0" class="td-warning">等待经信委受理</td>
 										<td ng-if="x.quit==1" class="td-warning">等待管理方领导审核并指派处理</td>
 										<td ng-if="x.quit==2 && x.quitModal ==1 " class="td-warning">等待经办人上传处理方案通知服务提供方</td>

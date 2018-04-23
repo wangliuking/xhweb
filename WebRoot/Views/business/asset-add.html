@@ -62,7 +62,7 @@
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="number" value="" class="form-control" name="price"
+									type="number" value="" class="form-control" name="price" step="0.01"
 									required="required">
 							</div>
 						</div>
@@ -101,7 +101,7 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" ng-disabled="form.$invalid"
+				<button type="button"
 					class="btn btn-success btn-sm" id="add_btn">
 					<i class="fa fa-plus"></i>&nbsp;添加
 				</button>
@@ -138,6 +138,7 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
+		$("#add_btn").button('loading')
 		xh.add();
 	});
 </script>

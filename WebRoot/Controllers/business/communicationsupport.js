@@ -77,7 +77,7 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
-			$("#table-checkbox").prop("checked", false);
+			/*$("#table-checkbox").prop("checked", false);*/
 		};
 
 		$scope.download = function() {
@@ -304,16 +304,17 @@ xh.load = function() {
 	});
 };
 /*保障申请*/
+
 xh.add = function() {
 	$.ajax({
 		url : '../../support/insertSupport',
 		type : 'POST',
 		dataType : "json",
-		async : true,
+		async : false,
 		data:{
 			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
-		success : function(data) {
+		success:function(data) {
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				xh.refresh();
@@ -323,7 +324,7 @@ xh.add = function() {
 			}
 			$("#add_btn").button('reset');
 		},
-		error : function() {
+		error:function() {
 			$("#add_btn").button('reset');
 		}
 	});

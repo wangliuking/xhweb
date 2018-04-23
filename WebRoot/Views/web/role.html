@@ -130,10 +130,11 @@
 										<i class="fa fa-bars text-success"></i>&nbsp;菜单编辑
 									    </a>
 										
-										<a href="#"
-											ng-click="editModel($index)" data-toggle="modal"
+										<a href="#" ng-click="editModel($index)" data-toggle="modal"
 											data-target="#edit" ng-show="up.p_update=='on'?true:false"> <i class="fa fa-edit text-success"></i>&nbsp;修改
-										</a><a href="#" ng-click="del(x.roleId)" ng-if="x.roleId<10000" ng-show="up.p_delete=='on'?true:false">|<i
+										</a>
+										
+										<a href="#" ng-click="del(x.roleId)" ng-show="up.p_delete=='on'?true:false">|<i
 												class="fa fa-trash text-success" ></i>&nbsp;删除</a>
 										</div>
 										

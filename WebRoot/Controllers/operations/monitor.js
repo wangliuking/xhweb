@@ -69,10 +69,13 @@ xh.load = function() {
 		});
 		setInterval(function(){
 			$scope.bsMapCount();
+			}, 200000);
+		setInterval(function(){
 			$scope.alarmModel();
-			//xh.map();
+			}, 240000);
+		setInterval(function(){
 			xh.bsBar();
-			}, 300000);
+			}, 280000);
 
 	});
 };

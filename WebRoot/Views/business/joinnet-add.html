@@ -138,7 +138,7 @@
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
 								<label>通信组数量</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="talkGroupNum"
+									type="text" value="0" class="form-control" name="talkGroupNum"
 									required="required">
 							</div>
 						</div>
@@ -284,7 +284,7 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" ng-disabled="form.$invalid"
+				<button type="button"
 					class="btn btn-success btn-sm" id="add_btn">
 					<i class="fa fa-plus"></i>&nbsp;发送申请
 				</button>
@@ -294,9 +294,8 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
-		$('#addForm').submit();
-		
-		
+		$("#add_btn").button('loading');
+		xh.addJoinNet();
 	});
 
 	 var faIcon = {
@@ -304,18 +303,22 @@
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
+	 
 	$('#addForm').bootstrapValidator({
-		excluded : [ ':disabled' , '#terminalType'],
-		 feedbackIcons: faIcon,
-		fields : {}
+		excluded : [ ':disabled'],
+		feedbackIcons: faIcon,
+		fields:{
+			unitPerson: {
+				validators: {
+				notEmpty: {
+				message: '不能为空'
+				}
+				}
+				},
+		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		$("#add_btn").button('loading')
+		$("#add_btn").button('loading');
 		xh.addJoinNet();
 	});  
-</script>
-<script>
-	$(function() {
-		$("[data-toggle='tooltip']").tooltip();
-	});
 </script>

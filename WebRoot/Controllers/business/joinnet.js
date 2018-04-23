@@ -91,9 +91,8 @@ xh.load = function() {
 			 */
 			
 			$scope.progressData = $scope.checkData;
-			
 			$("#progress").modal('show');
-            $('#xh-tabs a:first').tab('show');
+			$('#xh-tabs a:first').tab('show');
 			
 		};
 		

@@ -75,9 +75,12 @@
 						<!-- row-------end -->
 					</div>
 					<!-- tab-pane--end -->
-					<div class="tab-pane fade text-danger" id="p-timeline"
+					<div class="tab-pane fade" id="p-timeline"
 						style="background: #e9f0f5; margin: 0;">
-						<div id="cd-timeline" class="cd-container">
+						<div ng-if="progressData.checked==-1" style="padding:50px;">
+						你的租借申请已经被拒绝！
+						</div>
+						<div id="cd-timeline" class="cd-container" ng-if="progressData.checked>-1">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">

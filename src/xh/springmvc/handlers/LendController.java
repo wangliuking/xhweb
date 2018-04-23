@@ -210,6 +210,10 @@ public class LendController {
 		this.success = true;
 		String jsonData = request.getParameter("formData");
 		LendBean bean = GsonUtil.json2Object(jsonData, LendBean.class);
+		
+		if(bean.getChecked()==-1){
+			bean.setUser2("");
+		}
 		bean.setUser1(funUtil.loginUser(request));
 		bean.setTime1(funUtil.nowDate());
 		int rst = LendService.checkedOne(bean);
@@ -419,24 +423,48 @@ public class LendController {
 		//mapforLend.put("returnTime", funUtil.nowDate());
 		mapforLend.put("lendId", id);
 		mapforLend.put("status", 2);
+		int rst =0;
 		
-		int rst = LendService.checkedOrder(bean);
-		rst += LendService.updateStatusByLendID(mapforLend);
 		
-		if (rst >= 1) {
-			this.message = "审核租借清单完成";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(5);
-			webLogBean.setContent("审核租借清单，data=" + id);
-			WebLogService.writeLog(webLogBean);
-			// ----发送通知邮件
-			sendNotifytoSingle(user, "租借清单完成，请确认", request);
-			sendNotifytoSingle(user2, "租借清单审核通过！等用户确认", request);
-			// ----END
-		} else {
-			this.message = "审核租借清单失败";
-		}
+		
+		 if(checked==-1){
+				bean.setChecked(-10);
+				 rst = LendService.checkedOrder(bean);
+					if (rst >= 1) {
+						this.message = "审核租借清单完成";
+						webLogBean.setOperator(funUtil.loginUser(request));
+						webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+						webLogBean.setStyle(5);
+						webLogBean.setContent("拒绝租借清单，data=" + id);
+						WebLogService.writeLog(webLogBean);
+						// ----发送通知邮件
+						sendNotifytoSingle(user2, "租借清单被拒绝，请重新整理清单", request);
+						// ----END
+					} else {
+						this.message = "审核租借清单失败";
+					}
+		 }
+		 else{
+			 rst += LendService.updateStatusByLendID(mapforLend);
+				if (rst >= 1) {
+					this.message = "审核租借清单完成";
+					webLogBean.setOperator(funUtil.loginUser(request));
+					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+					webLogBean.setStyle(5);
+					webLogBean.setContent("审核租借清单，data=" + id);
+					WebLogService.writeLog(webLogBean);
+					// ----发送通知邮件
+					sendNotifytoSingle(user, "租借清单完成，请确认", request);
+					sendNotifytoSingle(user2, "租借清单审核通过！等用户确认", request);
+					// ----END
+				} else {
+					this.message = "审核租借清单失败";
+				}
+		 }
+		
+		
+		
+	
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", rst);

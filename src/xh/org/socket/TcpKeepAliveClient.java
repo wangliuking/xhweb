@@ -458,8 +458,8 @@ public class TcpKeepAliveClient extends Thread {
        	 user.setKilled(String.valueOf(dd.SmallByteArrayToOneInt(buf, 492)));
        	 user.setMsType(String.valueOf(dd.SmallByteArrayToOneInt(buf, 493)));
        	 user.toString();*/
-        ucmRadioUserMap.put(String.valueOf(user.getId()), map);
-        log.info("addRadioUser->id"+user.getId());
+        ucmRadioUserMap.put("user_"+user.getId(), map);
+        log.info("addRadioUser->id-"+user.getId());
 		log.info("ucmRadioUserMap->"+ucmRadioUserMap);
 		
 		
@@ -485,9 +485,9 @@ public class TcpKeepAliveClient extends Thread {
    	    data.setE_regroupable(String.valueOf(dd.SmallByteArrayToOneInt(buf, 162)));
    	    data.setE_enabled(dd.SmallByteArrayToOneInt(buf, 163));
    	    data.setE_directDial(dd.ByteArraytoString(buf, 164, 16));*/
-   	    log.info("GroupData->id"+data.getTalkgroupID());
+   	    log.info("GroupData->id-"+data.getTalkgroupID());
 
-		ucmGroupMap.put(String.valueOf(data.getTalkgroupID()), map);
+		ucmGroupMap.put("group_"+data.getTalkgroupID(), map);
 		
 		log.info("ucmGroupMap->"+ucmGroupMap);
 		
@@ -522,6 +522,12 @@ public class TcpKeepAliveClient extends Thread {
 		case 8:
 			message="添加操作员失败";
 			break;
+		case 16:
+			message="标识重复";
+			break;
+		case 17:
+			message="名字重复";
+			break;
 		case 33:
 			message="写数据库时 ip 重复";
 			break;
@@ -530,6 +536,9 @@ public class TcpKeepAliveClient extends Thread {
 			break;
 		case 36:
 			message="删除限制：从属于多个交换中心";
+			break;
+		case 37:
+			message="直播号码重复";
 			break;
 		case 209:
 			message="没有 VPN 权限";

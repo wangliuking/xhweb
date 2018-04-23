@@ -97,7 +97,7 @@ public class SmsSendController {
 		MessageStruct header=new MessageStruct();
 		header.setSegNum((byte)1);
 		header.setSegFlag((byte)1);
-		header.setLength((short)164);
+		header.setLength((short)234);
 		header.setCommandId((short)102);
 		header.setSrcDevice((byte)4);
 		header.setDstDevice((byte)4);

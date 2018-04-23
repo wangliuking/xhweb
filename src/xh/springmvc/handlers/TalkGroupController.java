@@ -188,8 +188,8 @@ public class TalkGroupController {
 			          try {
 						Thread.sleep(1000);
 						timeout++;
-						if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()))!=null){
-							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()));
+						if(TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID())!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID());
 							status=FunUtil.StringToInt(resultMap.get("status").toString());
 							if(status==1){
 								resultCode=TalkGroupService.insertTalkGroup(groupbean);
@@ -202,12 +202,14 @@ public class TalkGroupController {
 								this.success=false;
 								this.message=resultMap.get("message").toString();
 							}
-							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(groupbean.getTalkgroupID()));
+							TcpKeepAliveClient.getUcmGroupMap().remove("group_"+groupbean.getTalkgroupID());
+							timeout=0;
 							break tag;
 						}else{
 							if(timeout>=20){
 								this.success=false;
 								this.message="三方服务器响应超时";
+								timeout=0;
 								break tag;
 							}
 							
@@ -230,10 +232,14 @@ public class TalkGroupController {
 			}
 		}else{
 			String name=groupbean.getE_name();
-			for(int i=groupbean.getTalkgroupIDS();i<groupbean.getTalkgroupIDE();i++){
+			int j=0;
+			for(int i=groupbean.getTalkgroupIDS();i<=groupbean.getTalkgroupIDE();i++){
+				j++;
 				groupbean.setTalkgroupID(i);
-				groupbean.setE_name(name+i);
-				//resultCode=TalkGroupService.insertTalkGroup(groupbean);
+				groupbean.setE_name(name+j);
+			
+					
+				
 				TalkGroupStruct setTalkGroupData = new TalkGroupStruct();
 				setTalkGroupData.setOperation(1);
 				setTalkGroupData.setId(groupbean.getTalkgroupID());
@@ -260,11 +266,14 @@ public class TalkGroupController {
 			          try {
 						Thread.sleep(1000);
 						timeout++;
-						if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()))!=null){
-							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()));
+						if(TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID())!=null){
+							Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID());
 							status=FunUtil.StringToInt(resultMap.get("status").toString());
 							if(status==1){
 								resultCode=TalkGroupService.insertTalkGroup(groupbean);
+							}else{
+								this.success=false;
+								this.message=resultMap.get("message").toString();
 							}
 							if(resultCode>0){
 								this.success=true;
@@ -273,13 +282,14 @@ public class TalkGroupController {
 								this.success=false;
 								this.message=resultMap.get("message").toString();
 							}
-							TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(groupbean.getTalkgroupID()));
+							TcpKeepAliveClient.getUcmGroupMap().remove("group_"+groupbean.getTalkgroupID());
 							timeout=0;
 							break tag;
 						}else{
 							if(timeout>=20){
 								this.success=false;
 								this.message="三方服务器响应超时";
+								timeout=0;
 								break tag;
 							}
 							
@@ -351,12 +361,12 @@ public class TalkGroupController {
 	          try {
 				Thread.sleep(1000);
 				timeout++;
-				if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()))!=null){
-					Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(groupbean.getTalkgroupID()));
+				if(TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID())!=null){
+					Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get("group_"+groupbean.getTalkgroupID());
 					status=FunUtil.StringToInt(resultMap.get("status").toString());
 					if(status==1){
 						resultCode=TalkGroupService.update(map);
-						this.success=true;
+						
 					}
 					
 					if(resultCode>0){
@@ -366,13 +376,14 @@ public class TalkGroupController {
 						this.success=false;
 						this.message=resultMap.get("message").toString();
 					}
-					TcpKeepAliveClient.getUcmGroupMap().remove(String.valueOf(groupbean.getTalkgroupID()));
+					TcpKeepAliveClient.getUcmGroupMap().remove("group_"+groupbean.getTalkgroupID());
 					timeout=0;
 					break tag;
 				}else{
 					if(timeout>=20){
 						this.success=false;
 						this.message="三方服务器响应超时";
+						timeout=0;
 						break tag;
 					}
 					
@@ -440,8 +451,8 @@ public class TalkGroupController {
 		          try {
 					Thread.sleep(1000);
 					timeout++;
-					if(TcpKeepAliveClient.getUcmGroupMap().get(String.valueOf(list.get(i).toString()))!=null){
-						Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get(list.get(i).toString());
+					if(TcpKeepAliveClient.getUcmGroupMap().get("group_"+list.get(i).toString())!=null){
+						Map<String,Object> resultMap=(Map<String, Object>) TcpKeepAliveClient.getUcmGroupMap().get("group_"+list.get(i).toString());
 						status=FunUtil.StringToInt(resultMap.get("status").toString());
 						if(status==1){
 							List<String> list2 = new ArrayList<String>();
@@ -451,15 +462,17 @@ public class TalkGroupController {
 							this.success=true;
 						}else{
 							this.success=false;
+							this.message=resultMap.get("message").toString();
 						}
 					
-						TcpKeepAliveClient.getUcmGroupMap().remove(list.get(i).toString());
+						TcpKeepAliveClient.getUcmGroupMap().remove("group_"+list.get(i).toString());
 						timeout=0;
 						break tag;
 					}else{
 						if(timeout>=50){
 							this.success=false;
 							this.message="三方服务器响应超时";
+							timeout=0;
 							break tag;
 						}
 						
@@ -476,6 +489,7 @@ public class TalkGroupController {
 		
 		HashMap result = new HashMap();
 		result.put("success", success);
+		result.put("message",message);
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);

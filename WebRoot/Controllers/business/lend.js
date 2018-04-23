@@ -236,7 +236,7 @@ xh.load = function() {
 			else if($scope.loginUser==$scope.checkData.user1 && $scope.checkData.checked==2){
 				$("#checkWin5").modal('show');
 			}
-			else if($scope.checkData.checked==1 && $scope.checkData.user2 == $scope.loginUser){
+			else if(($scope.checkData.checked==1 || $scope.checkData.checked==-10) && $scope.checkData.user2 == $scope.loginUser){
 				$http.get("../../web/user/getUserList?roleId=10002&user="+$scope.loginUser).
 				success(function(response){
 					$scope.userData = response.items;
@@ -506,6 +506,7 @@ xh.check1 = function(id) {
 /*管理部门领导审核租借清单*/
 xh.check6 = function() {
 	var $scope = angular.element(appElement).scope();
+	var checked=$("#checkForm5").find('select[name="checked3"]').val();
 	$.ajax({
 		url : '../../business/lend/checkedOrder',
 		type : 'POST',
@@ -515,7 +516,7 @@ xh.check6 = function() {
 			lendId:$scope.checkData.id,
 			user:$scope.checkData.user,
 			user2:$scope.checkData.user2,
-			checked:3,
+			checked:checked,
 			note2:$("#checkForm5").find("textarea[name='note2']").val()
 		},
 		success : function(data) {

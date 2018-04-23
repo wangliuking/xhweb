@@ -45,8 +45,14 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 		/* 显示修改model */
-		$scope.editModel = function(id) {			
-			$scope.editData = $scope.data[id];	
+		$scope.editModel = function(id,flag) {			
+			$scope.editData = $scope.data[id];
+			if(flag==1){
+				$scope.showUpdateBtn=false;
+			}else{
+				$scope.showUpdateBtn=true;
+			}
+			
 			$("#edit").modal('show');
 		};
 		/* 查看 */

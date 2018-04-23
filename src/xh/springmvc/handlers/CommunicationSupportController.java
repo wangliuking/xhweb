@@ -143,7 +143,6 @@ public class CommunicationSupportController {
 		result.put("message", message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
-		log.debug(jsonstr);
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
