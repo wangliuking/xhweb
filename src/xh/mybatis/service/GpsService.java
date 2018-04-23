@@ -20,6 +20,7 @@ public class GpsService {
 		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
 			list = mapper.gpsInfo(map);
+			sqlSession.commit();
 			sqlSession.close();
 
 		} catch (Exception e) {

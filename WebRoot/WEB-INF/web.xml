@@ -144,7 +144,7 @@ xh.org.listeners.TcpServerListenner
 </error-page> -->
   
  <session-config>
-      <session-timeout>2</session-timeout>
+      <session-timeout>86400</session-timeout>
 </session-config> 
 
     

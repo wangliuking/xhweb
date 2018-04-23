@@ -1406,9 +1406,18 @@ function init(data,markData) {
 									}else{
 										numtotals="暂无";
 									}	
-								}								 
-								radioTotals = response.radioTotals;
-								groupTotals = response.groupTotals;
+								}	
+								if(response.hasOwnProperty("radioTotals")){
+									radioTotals = response.radioTotals;
+								}else{
+									radioTotals="暂无";
+								}
+								if(response.hasOwnProperty("groupTotals")){
+									groupTotals = response.groupTotals;
+								}else{
+									groupTotals="暂无"
+								}
+								
 							}
 						});
 						for(var a=0;a<data.length;a++){
