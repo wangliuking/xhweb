@@ -3,8 +3,7 @@
 <mapper namespace="xh.mybatis.mapper.GpsMapper">
 
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
-	<select id="gpsInfo" parameterType="map" resultType="java.util.HashMap"
-		useCache="true">
+	<select id="gpsInfo" parameterType="map" resultType="java.util.HashMap" useCache="true"  timeout="30">
 		select * from ${currentMonth} where 1=1
 		
 		<if test="list.size()>0">
@@ -38,8 +37,7 @@
 		order by infoTime desc limit #{start},#{limit}
 	</select>
 	<!--根据源ID，目标ID，写入时间查找gps记录 -->
-	<select id="gpsCount" parameterType="map" resultType="int"
-		useCache="true">
+	<select id="gpsCount" parameterType="map" resultType="int" useCache="true"  timeout="30">
 		select SUM(cnt) from (
 		select count(*) cnt from ${currentMonth} where 1=1
 		

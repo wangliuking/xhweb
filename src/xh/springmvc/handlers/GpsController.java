@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.axis2.databinding.types.soapencoding.Array;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -39,12 +41,13 @@ public class GpsController {
 	@RequestMapping(value="/list",method = RequestMethod.GET)
 	public void gpsInfo(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		//获取用户的vpnId	
-		HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		//获取用户的vpnId	,查询list集合，后面map.put()方法记得放进去
+		/*HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
 		String vpnId = tempMap.get("vpnId").toString();	
 		Map<String, Object> tMap=new HashMap<String, Object>();
 		tMap.put("vpnId", vpnId);
-		List<String> list = RadioUserService.selectCIdByVpnId(tMap);
+		List<String> list = RadioUserService.selectCIdByVpnId(tMap);*/
+		List<String> list = new ArrayList<String>();
 		
 		Calendar cal = Calendar.getInstance();
 		int temp = cal.get(Calendar.MONTH)+1;
