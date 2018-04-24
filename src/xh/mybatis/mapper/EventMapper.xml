@@ -6,9 +6,9 @@
     <!--添加事件-->    
     <update id="insertEvent" parameterType="map">
       CREATE EVENT  ${name} 
-      ON SCHEDULE EVERY #{rule} DAY  
+      ON SCHEDULE EVERY #{rule} SECOND  
       DO 
-	  delete from `xhgmnet`.`${dbname}` where TO_DAYS(now())-TO_DAYS(#{timechar})>=#{day}
+	  delete from `${db}`.`${dbname}` where TO_DAYS(now())-TO_DAYS(${timerchar})>=#{day}
     </update>
     <!--查询事件记录-->
     <select id="selectEvent"  resultType="java.util.HashMap" useCache="true">

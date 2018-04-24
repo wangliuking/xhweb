@@ -18,12 +18,29 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+/*清空会话标识*/
+xh.clearSession = function() {
+	$.ajax({
+		url : '../web/clearSession',
+		type : 'get',
+		dataType : "json",
+		data : {
+		},
+		async : false,
+		success : function(data) {
+			
+		},
+		error : function() {
+
+		}
+	});
+}
 /* 登录系统 */
 xh.login = function() {
 	  $("button[type='button']").button('loading')
 	$.ajax({
 		url : '../web/login',
-		type : 'get',
+		type : 'POST',
 		dataType : "json",
 		data : {
 			username : $("#loginForm").find("input[name='username']").val(),

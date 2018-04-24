@@ -80,7 +80,7 @@ public class SingLoginListener implements HttpSessionListener{
             loginUserPowerMap.put(session.getId(), WebUserServices.userPowerInfoByName(sUserName));
         }  
         
-        log.info("UserInfo=>"+logUserInfoMap);
+        log.info("登录用户数=>"+logUserInfoMap.size());
        /* log.info("UserPowerInfo=>"+loginUserPowerMap);*/
         /*log.info("UserPowerInfo=>"+loginUserPowerMap);*/
         return flag;  

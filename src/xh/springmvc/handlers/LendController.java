@@ -445,6 +445,7 @@ public class LendController {
 					}
 		 }
 		 else{
+			 rst = LendService.checkedOrder(bean);
 			 rst += LendService.updateStatusByLendID(mapforLend);
 				if (rst >= 1) {
 					this.message = "审核租借清单完成";

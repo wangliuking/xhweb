@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class LoginController {
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 
-	@RequestMapping(value = "/web/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/web/login", method = RequestMethod.POST)
 	@ResponseBody
 	public void Login(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws Exception {
@@ -68,7 +69,7 @@ public class LoginController {
 		// 验证
 		String projectId = "yjyypt";
 		String reqId = "1";
-		String code="";
+		String code="200";
 		//!username.equals("admin")
 		
 		if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
@@ -84,19 +85,6 @@ public class LoginController {
 			log.info("登陆签名验证返回数据如下:");
 			log.info("camap->"+camap);
 		}
-	/*	if(username.indexOf("admin")==-1 || username.indexOf("test")==-1){
-			SccaGwSDK.init("http://192.168.120.152:8080/sign-gw");
-	        String rs = SccaGwSDK.certLogin(projectId, toSign, signedData,reqId);	
-			int startPos = rs.indexOf("code");
-			code = rs.substring(startPos + 6 ,startPos + 9);
-			Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
-			log.info("登陆签名验证返回数据如下:");
-			log.info("camap->"+camap);
-		}else{
-			code="200";
-			log.info("超级账号免key登录");
-		}*/
-		
 		
 		if(!codeVar.isEmpty()){
 			if(!codeVar.toLowerCase().equals(codeSession.toLowerCase())){
@@ -174,6 +162,21 @@ public class LoginController {
 		SingLoginListener.getLogUserMap().remove(request.getSession().getId());
 		SingLoginListener.getLoginUserPowerMap().remove(request.getSession().getId());
 		return "redirect:/Views/login.html";
+
+	}
+	//会话标识
+	@RequestMapping(value = "/web/clearSession")
+	public void ClearSession(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		SingLoginListener.getLogUserMap().remove(request.getSession().getId());
+		SingLoginListener.getLoginUserPowerMap().remove(request.getSession().getId());
+		request.getSession(true).invalidate();//清空session
+		Cookie cookie=request.getCookies()[0];
+		
+		cookie.setMaxAge(0);
+		
+		/*return "redirect:/Views/login.html";*/
 
 	}
 

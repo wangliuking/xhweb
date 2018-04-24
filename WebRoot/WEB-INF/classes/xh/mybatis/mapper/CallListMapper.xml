@@ -14,10 +14,10 @@
 		and Call_TS_Id=#{bsId}
 		</if>
 		<if test="caller != null and caller !=''">
-			and Caller like concat(#{Caller},'%')
+			and Caller like concat(#{caller},'%')
 		</if>
 		<if test="called!=null and called !=''">
-			and Called like concat(#{Called},'%')
+			and Called like concat(#{called},'%')
 		</if>
 		<if test="starttime!=null and starttime!=''">
 			and Call_Time &gt;=#{starttime,jdbcType=DATE}
@@ -38,10 +38,10 @@
 		and Call_TS_Id=#{bsId}
 		</if>
 			<if test="caller != null and caller !=''">
-				and Caller like concat(#{Caller},'%')
+				and Caller like concat(#{caller},'%')
 			</if>
 			<if test="called!=null and called !=''">
-				and Called like concat(#{Called},'%')
+				and Called like concat(#{called},'%')
 			</if>
 			<if test="starttime!=null and starttime!=''">
 				and Call_Time &gt;=#{starttime,jdbcType=DATE}
@@ -71,10 +71,10 @@
 		and Call_TS_Id=#{bsId}
 		</if>
 		<if test="caller != null and caller !=''">
-			and Caller like concat(#{Caller},'%')
+			and Caller like concat(#{caller},'%')
 		</if>
 		<if test="called!=null and called !=''">
-			and Called like concat(#{Called},'%')
+			and Called like concat(#{called},'%')
 		</if>
 		<if test="starttime!=null and starttime!=''">
 			and Call_Time &gt;=#{starttime,jdbcType=DATE}
