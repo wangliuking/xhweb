@@ -92,20 +92,23 @@ public class EventController {
 		this.success = true;
 		String rule = request.getParameter("rule");
 		String dbname = request.getParameter("dbname");
+		String time= request.getParameter("time");
 		int day = funUtil.StringToInt(request.getParameter("time"))*30;
 		String  name = "",comment="";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("day", day);
 		map.put("rule", rule);
+		map.put("db", "xhgmnet");
 		int rtl =0;
 		if (dbname.equals("xhgmnet_calllist")) {
 			for (int i = 1; i <= 12; i++) {
 
 				dbname = db_name(dbname, i);
-				name = "删除" + rule + "个月以前的语音数据"+i;
+				name = "删除" + time + "个月以前的语音数据"+i;
 				map.put("dbname", dbname);
 				map.put("name", name);
 				map.put("timerchar", "Call_Time");
+				map.put("db", "xhgmnet_gps_voice");
 				
 				
 				log.info("name-->"+name);
@@ -116,20 +119,22 @@ public class EventController {
 			for (int i = 1; i <= 12; i++) {
 
 				dbname = db_name(dbname, i);
-				name = "删除" + rule + "个月以前的GPS数据"+i;
+				name = "删除" + time + "个月以前的GPS数据"+i;
 				map.put("dbname", dbname);
 				map.put("name", name);
 				map.put("timerchar", "writeTime");
 				log.info("name-->"+name);
+				map.put("db", "xhgmnet_gps_voice");
 				rtl=EventService.insertEvent(map);
 			}
 
 		} else if (dbname.equals("xhgmnet_gpsoperation")) {
-			name = "删除" + rule + "个月以前的gps操作记录数据";
+			name = "删除" + time + "个月以前的gps操作记录数据";
 			map.put("dbname", dbname);
 			map.put("name", name);
 			/*map.put("comment", "中文");*/
 			map.put("timerchar", "writeTime");
+			map.put("db", "xhgmnet_gps_voice");
 			rtl=EventService.insertEvent(map);
 
 		}

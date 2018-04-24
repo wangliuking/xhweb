@@ -146,6 +146,36 @@ xh.org.listeners.TcpServerListenner
  <session-config>
       <session-timeout>86400</session-timeout>
 </session-config> 
-
+<!-- <security-constraint> 
+  
+Authorization setting for SSL 
+  
+<web-resource-collection > 
+  
+<web-resource-name >SSL</web-resource-name> 
+  
+<url-pattern>/main.html</url-pattern>
+    <url-pattern>/map.html</url-pattern>
+    <url-pattern>/index.html</url-pattern>
+    <url-pattern>/Views/*</url-pattern>
+  
+</web-resource-collection> 
+  
+<user-data-constraint> 
+  
+<transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+  
+</user-data-constraint> 
+</security-constraint> 
+  
+<login-config> 
+  
+Authorization setting for SSL 
+  
+<auth-method>CLIENT-CERT</auth-method> 
+  
+<realm-name>Client Cert Users-only Area</realm-name> 
+  
+</login-config> -->
     
 </web-app>

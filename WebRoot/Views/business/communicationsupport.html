@@ -105,6 +105,7 @@
 											<!-- <td ng-if="x.checked<16" class="td-worning">等待处理</td>
 										<td ng-if="x.checked==16" class="td-success">流程结束</td> -->
 											<!-- <td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> -->
+											<td ng-if="x.checked==-1" class="td-danger">审核被拒绝</td> 
 											<td ng-if="x.checked==0" class="td-warning">等待主管方通知管理部门</td>
 											<!-- <td ng-if="x.checked==1" class="td-warning">等待主管方记录信息</td> -->
 											<td ng-if="x.checked==1" class="td-warning">等待管理方领导通知经办人处理</td>
@@ -211,7 +212,7 @@
 												ng-click="checkWin($index)">|<i
 													class="fa fa-hand-o-down text-danger"></i>&nbsp;评价
 											</a> <!-- ng-click="toDownload($index)" --> <a
-												class="text-danger" ng-if="x.checked==17 || loginUserRoleId>10000" href="#"
+												class="text-danger" ng-if="x.checked==17 && loginUserRoleId>10000" href="#"
 												ng-click="toPrint($index)">|<i
 													class="fa fa-print text-danger"></i> &nbsp;打印
 											</a></td>
