@@ -22,6 +22,8 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetForGpsDst;
+import com.tcpBean.GetForGpsDstAck;
 import com.tcpBean.GetMovebsInfo;
 import com.tcpBean.GetMovebsInfoAck;
 import com.tcpBean.GetOwnbsInfo;
@@ -50,6 +52,7 @@ public class Service {
 	private static OwnbsTableAck ownbsTableAck = new OwnbsTableAck();
 	private static GetMovebsInfoAck getMovebsInfoAck = new GetMovebsInfoAck();
 	private static GetOwnbsInfoAck getOwnbsInfoAck = new GetOwnbsInfoAck();
+	private static GetForGpsDstAck getForGpsDstAck = new GetForGpsDstAck();
 	
 	private static FunUtil funUtil = new FunUtil();
 
@@ -431,6 +434,25 @@ public class Service {
 		netManagerTableAck.setUserid(netManagerTable.getUserid());
 		netManagerTableAck.setAck("0");
 		return netManagerTableAck;
+	}
+	
+	
+	/**
+	 * 手台的dstId和经纬度(测试用)
+	 */
+	public static GetForGpsDstAck appGetForGpsDstAck(GetForGpsDst getForGpsDst){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getForGpsDstAck.setUserid(getForGpsDst.getUserid());
+		try{
+			List<Map<String,String>> list = mapper.selectForGpsDst();
+			getForGpsDstAck.setInfolist(list);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getForGpsDstAck;
 	}
 	
 }

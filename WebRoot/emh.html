@@ -172,15 +172,15 @@
 	
 	</script>
 	
-	<!-- <script type="text/javascript">
+	<script type="text/javascript">
 	var  ws;
 	window.onload=connect;
 	function connect(){
 		var ws;
 		if ('WebSocket' in window) {
-			ws = new WebSocket("ws://localhost:8080/xhweb/webSocketServer");
+			ws = new WebSocket("ws://192.168.120.8:8080/xhweb/webSocketServer");
 		} else if ('MozWebSocket' in window) {
-			ws = new MozWebSocket("ws://localhost:8080/xhweb/webSocketServer");
+			ws = new MozWebSocket("ws://192.168.120.8:8080/xhweb/webSocketServer");
 		} else {
 			//如果是低版本的浏览器，则用SockJS这个对象，对应了后台“sockjs/webSocketServer”这个注册器，
 			//它就是用来兼容低版本浏览器的
@@ -199,7 +199,7 @@
 		}
 	}
 
-</script> -->
+</script>
 	
 </body>
 </html>

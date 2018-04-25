@@ -56,5 +56,10 @@ public interface TcpMapper {
 	 * 插入调度台作业表
 	 */
 	public int insertDispatchTable(List<String> list)throws Exception;
+	
+	/**
+	 * 查询最近五分钟手台gps信息
+	 */
+	public List<Map<String,String>> selectForGpsDst()throws Exception;
 
 }
