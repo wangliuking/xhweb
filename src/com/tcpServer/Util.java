@@ -9,6 +9,8 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetForGpsDst;
+import com.tcpBean.GetForGpsDstAck;
 import com.tcpBean.GetMovebsInfo;
 import com.tcpBean.GetMovebsInfoAck;
 import com.tcpBean.GetOwnbsInfo;
@@ -48,6 +50,7 @@ public class Util {
 	private static OwnbsTable ownbsTable;
 	private static GetMovebsInfo getMovebsInfo;
 	private static GetOwnbsInfo getOwnbsInfo;
+	private static GetForGpsDst getForGpsDst;
 	
 	/**
 	 * 测试用主方法
@@ -168,6 +171,11 @@ public class Util {
 				return map;
 			}else if("heartbeat".equals(cmdtype)){
 				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");
+				return map;
+			}else if("getforgpsdst".equals(cmdtype)){
+				getForGpsDst = (GetForGpsDst) JSONObject.toBean(jsonObject, GetForGpsDst.class);
+				GetForGpsDstAck getForGpsDstAck = Service.appGetForGpsDstAck(getForGpsDst);
+				map.put("returnMessage", Object2Json(getForGpsDstAck));
 				return map;
 			}
 						
