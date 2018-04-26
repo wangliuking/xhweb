@@ -14,7 +14,7 @@ $(document).ready(function() {
 	$(window).on('load', function() {
 		$('.splash').css('display', 'none');
 		
-		xh.getFresh();
+		/*xh.getFresh();*/
 		/*$('body').attr('id', xh.getcookie("skin"));*/
 		/*if(xh.getcookie("skin")!=null || xh.getcookie("skin")!=""){
 			$('body').attr('id', xh.getcookie("skin"));

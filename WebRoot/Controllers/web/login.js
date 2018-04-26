@@ -44,7 +44,8 @@ xh.login = function() {
 		dataType : "json",
 		data : {
 			username : $("#loginForm").find("input[name='username']").val(),
-			password : xh.encrypt($("#loginForm").find("input[name='password']").val()),
+			/*password : xh.encrypt($("#loginForm").find("input[name='password']").val()),*/
+			password : $("#loginForm").find("input[name='password']").val(),
 			code:$("#loginForm").find("input[name='code']").val(),
 			ToSign : $("#loginForm").find("input[name='ToSign']").val(),
 			Signature : $("#loginForm").find("input[name='Signature']").val()

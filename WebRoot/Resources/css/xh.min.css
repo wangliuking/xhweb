@@ -656,7 +656,7 @@ li.divider {
 	display: none;
 }
 .dropdown-menu{
-	z-index:1000 !important;
+	z-index:2001 !important;
 }
 /* 全屏 */
 .fullscreen {

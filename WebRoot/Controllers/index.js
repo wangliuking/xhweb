@@ -47,6 +47,7 @@ xh.load = function() {
 		
 		
 		
+		
 		$http.get("web/webMenu").success(function(response) {
 			$scope.menu=response.items;
 		
@@ -60,7 +61,7 @@ xh.load = function() {
 			});
 		}
 		$scope.hideMenu=function(){
-			$("body").toggleClass("hide-menu");
+			$("body").toggleClass("hide-menu2");
 		};
 		// 获取登录用户
 		$http.get("web/loginUserInfo").success(function(response) {

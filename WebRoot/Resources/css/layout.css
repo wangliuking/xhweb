@@ -658,31 +658,7 @@ text-decoration:none;
 	right: 0;
 }
 
-.hide-menu #menu {
-	display: none;
-}
 
-.hide-menu #wrapper {
-	top: 57px;
-	margin-left: 0px;
-}
-
-.hide-menu .small-header {
-	position: fixed;
-	top: 57px;
-	left: 2px;;
-	right: 0;
-	margin-left: 0px;
-	z-index: 100;
-}
-
-.hide-menu .footer {
-	position: fixed;
-	z-index: 1001;
-	bottom: 0;
-	left: 0px;
-	right: 0;
-}
 /* 地图容器 */
 #map-container {
 	position: relative;

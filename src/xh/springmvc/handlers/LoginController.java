@@ -50,7 +50,8 @@ public class LoginController {
 	public void Login(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) throws Exception {
 		this.username = request.getParameter("username");
-		this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));
+		/*this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));*/
+		this.password = request.getParameter("password");
 		String codeVar=request.getParameter("code");
 		String codeSession=funUtil.getSession(request, "codeValidate");
 		
@@ -72,7 +73,7 @@ public class LoginController {
 		String code="200";
 		//!username.equals("admin")
 		
-		if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
+		/*if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
 			code="200";
 			log.info("超级账号免key登录");
 			
@@ -84,7 +85,7 @@ public class LoginController {
 			Map<String,Object> camap=GsonUtil.json2Object(rs, Map.class);
 			log.info("登陆签名验证返回数据如下:");
 			log.info("camap->"+camap);
-		}
+		}*/
 		
 		if(!codeVar.isEmpty()){
 			if(!codeVar.toLowerCase().equals(codeSession.toLowerCase())){

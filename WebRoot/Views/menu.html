@@ -4,9 +4,34 @@
 
 	<!-- Sidbar Widgets -->
 	<div class="side-widgets" id="menu-h">
+	
+	<div class="dropdown">
+						
+					</div>
+	
+	
 		<!-- Profile Menu -->
 		<div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
-			<a href="" data-toggle="dropdown"> <img
+		<a class="dropdown-toggle" href="#" data-toggle="dropdown"> 
+						<img
+				class="profile-pic animated" src="Resources/images/img/profile.jpg"
+				alt=""></a>
+		<p>
+		<span>欢迎你!</span>&nbsp;&nbsp;<span
+								id="login-user" name="AS"></span>
+		</p>
+				
+						<ul class="dropdown-menu user-dropdown animated flipInX m-t-xs " style="margin-top:-50px;margin-left:50px;">
+							
+							<li><a href="Views/operations/email.html" target="mainframe"><i
+									class="fa fa-envelope-o fa-x"></i>&nbsp;&nbsp;邮件</a></li>
+							<li><a href="Views/web/updateMember.html" target="mainframe"><i
+									class="fa fa-edit fa-x"></i>&nbsp;&nbsp;修改个人资料</a></li>
+							<li class="divider"></li>
+							<li><a href="web/loginOut"><i
+									class="fa fa-hand-pointer-o fa-x"></i>&nbsp;&nbsp;退出登录</a></li>
+						</ul>
+			<!-- <a href="" data-toggle="dropdown"> <img
 				class="profile-pic animated" src="Resources/images/img/profile.jpg"
 				alt="">
 			</a>
@@ -15,14 +40,14 @@
 						class="fa fa-envelope-o fa-x "></i>&nbsp;&nbsp;<span>邮件</span></a></li>
 				<li><a href="Views/web/updateMember.html" target="mainframe"><i
 						class="fa fa-edit fa-x"></i>&nbsp;&nbsp;<span>修改个人资料</span></a></li>
-				<!-- <li class="divider"></li> -->
+				<li class="divider"></li>
 				<li><a href="web/loginOut"><i
 						class="fa fa-hand-pointer-o fa-x"></i>&nbsp;&nbsp;<span>退出登录</span></a></li>
 			</ul>
 			<h4>
 				<span style="font-size:11pt;">欢迎你!</span>&nbsp;&nbsp;<span
 					id="login-user" name="AS"></span>
-			</h4>
+			</h4> -->
 		</div>
 
 		<!-- s-widget m-b-25 -->
