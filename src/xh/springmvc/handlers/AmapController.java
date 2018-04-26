@@ -271,6 +271,30 @@ public class AmapController {
 	}
 	
 	/**
+	 * 查询地图dst数据
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/dstData")
+	@ResponseBody
+	public void dstData(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap map = new HashMap();
+			AmapService amapService = new AmapService();
+			List<Map<String, String>> listMap = amapService.dstData();
+			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * gis显示基站查询
 	 * @author wlk
 	 * @param request

@@ -7,8 +7,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.tcpBean.GetForGpsDst;
+import com.tcpBean.GetForGpsDstAck;
+
 import xh.mybatis.mapper.AmapMapper;
 import xh.mybatis.mapper.BsstationMapper;
+import xh.mybatis.mapper.TcpMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class AmapService {
@@ -274,6 +278,23 @@ public class AmapService {
 	        session.commit();  
 	        session.close();
 	        return count;   
+	}
+	
+	/**
+	 * 获取dst数据
+	 */
+	public static List<Map<String,String>> dstData(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		List<Map<String,String>> list = null;
+		try{
+			list = mapper.selectForGpsDst();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 
