@@ -87,9 +87,17 @@ html,body {
 }
 /*右上角工具栏*/
 .info_right {
+	display:none;
 	position: fixed;
 	top: 0;
 	left: 70%;
+	z-index: 1000;
+}
+
+.info_right_temp {
+	position: fixed;
+	top: 0;
+	left: 90%;
 	z-index: 1000;
 }
 
@@ -203,6 +211,13 @@ html,body {
         data-placement="bottom" title="点击可取消">
     已进入圈选模式,移入鼠标可取消圈选
 </button>
+	<!-- 右上角临时菜单 -->
+	<div class="info_right_temp">
+		<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				ng-click="chooseTypes()">
+				显示菜单
+			</button>
+	</div>
 	<!-- 右上角显示框 -->
 	<div class="info_right">
 		<div class="btn-group active">		
@@ -222,7 +237,7 @@ html,body {
 						<li><label><input id="bsInfo" type="checkbox"
 								value="" checked>基站信息图</label></li>
 						<li><label><input id="testDemo" type="checkbox"
-								value="">基站覆盖仿真图</label></li>
+								value="" checked>基站覆盖仿真图</label></li>
 					</ul></li>
 				<li class="dropdown-submenu"><a href="#">路测信息</a>
 					<div class="dropdown-menu" role="menu">
@@ -315,6 +330,14 @@ html,body {
 				</ul>
 			</div>
 		</div>
+		
+		<div class="btn-group active">		
+			<button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+				ng-click="chooseTypes()">
+				隐藏
+			</button>
+		</div>
+		
 	</div>
 	
 	<div class="navform">

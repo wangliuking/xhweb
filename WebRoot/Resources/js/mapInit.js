@@ -400,6 +400,18 @@ app.controller("map", function($scope, $http) {
 		}	
 	}
 	
+	//右上角临时显示
+	$scope.chooseTypes=function(param){	
+		var display =$('.info_right').css('display');
+		if(display == 'none'){
+			$('.info_right').css({display:'block'});
+			$('.info_right_temp').css({display:'none'});
+		}else{
+			$('.info_right').css({display:'none'});
+			$('.info_right_temp').css({display:'block'});
+		}	
+	}
+	
 	//点击搜索定位
 	$scope.changePositionForSearch=function(){
 		var temp = $("#search_kw").val();
@@ -914,7 +926,10 @@ var areaRings;
 var rectangle;
 var test;
 var testDemo;
-var chooseLayer=0;
+//gps定位
+var gpsDst;
+
+var chooseLayer=1;
 
 var daolukakou,gongyeyuan,gongyuanguangchang,guojiajijingdian,huiyizhongxin,jiaoguanjigou,jiaotongshuniu,jiedaoban,jiudian,sanjiajijiu,wuzicangku,xiangzhenzhengfu,xiaofang,zaihaiyifadian,zhongdiangaoxiao,gonganju;
 function floor(data) {
@@ -960,13 +975,17 @@ function floor(data) {
 	roadtest = new esri.layers.GraphicsLayer({id:"路测数据"});
 	areaRings = new esri.layers.GraphicsLayer({id:"区域边界"});
 	rectangle = new esri.layers.GraphicsLayer({id:"圈选功能"});
-	var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
-	myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
+	
+	gpsDst = new esri.layers.GraphicsLayer({id:"GPS定位"});
+	//var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));正常基站图
+	var point = new esri.geometry.Point(103.96660774751845, 30.70529237458872,new esri.SpatialReference({wkid:parseInt(4490)}));//覆盖仿真图
+	myMap.centerAndZoom(point, 0);// 地图首次加载显示的位置和放大级别
 	//myMap.addLayer(gLayer);// 将图形显示图层添加到地图中
 	myMap.setInfoWindowOnClick(true);
 	myMap.addLayer(areaRings);
 	myMap.addLayer(rectangle);
 	myMap.addLayer(roadtest);
+	myMap.addLayer(gpsDst);
 	// 创建点的显示样式对象
 	/*
 	 * var pSymbol = new esri.symbols.SimpleMarkerSymbol(); pSymbol.style =
@@ -1276,6 +1295,47 @@ function roadtestCreate(data){
 	});
 	
 }
+
+//gps定位
+function gpsDstCreate(data){
+	require(["esri/symbols/PictureMarkerSymbol","esri/symbols/TextSymbol","esri/symbols/Font","esri/Color"], function(PictureMarkerSymbol,TextSymbol,Font,Color) {
+		var i;
+		for(i=0;i<data.length;i++){
+			if(data[i].srcId != "2017027" && data[i].srcId != "2017034" && data[i].srcId != "2017037"){
+				var symbol = new PictureMarkerSymbol('gpsDst/user50.png', 18, 45);
+			}else{
+				var symbol = new PictureMarkerSymbol('gpsDst/car48.png', 51, 51);
+			}
+			
+			var pt = new esri.geometry.Point(data[i].longitude*1, data[i].latitude*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
+			var attr = {};// 设置相关的属性信息对象
+			var infoTemplate;// 创建弹出窗口内容显示模板
+			var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
+			
+			
+			var symbol1 = new TextSymbol(data[i].srcId);
+			var font  = new Font();
+			font.setSize("12pt");
+			font.setWeight(Font.WEIGHT_BOLD);
+			symbol1.setFont(font);
+			
+			var color = new Color("#0000FF");
+			symbol1.setColor(color);
+			
+			symbol.setOffset(0,32);
+			
+			var pt1 = new esri.geometry.Point(data[i].longitude*1, data[i].latitude*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
+			var attr1 = {};// 设置相关的属性信息对象
+			var infoTemplate1;// 创建弹出窗口内容显示模板
+			var graphic1 = new esri.Graphic(pt1, symbol1, attr1, infoTemplate1);// 创建图形对象
+			
+			gpsDst.add(graphic);// 将图形对象添加到图形显示图层
+			gpsDst.add(graphic1);// 将图形对象添加到图形显示图层
+		}
+	});
+	
+}
+
 //基站图标创建
 /*function layerCreate(data){
 	// 小图标图层
@@ -1310,6 +1370,7 @@ function init(data,markData) {
 	require([ "esri/map", "src/EchartsLayer", "dojo/domReady!" ], function(Map,
 			EchartsLayer) {
 		floor(data);
+		
 		// 处理data数据
 		var i;
 		var obj = {};
@@ -1572,12 +1633,31 @@ function init(data,markData) {
 			
 			$("#testDemo").click(function() {
 				if ($(this).prop("checked") == true) {	
-					myMap.destroy();
+					/*myMap.destroy();
 					chooseLayer=1;
 					getData();
-					setTimeout("tempCenterAndZoom()","2000");									
-				} else {					
+					setTimeout("tempCenterAndZoom()","2000");	*/		
 					window.location.href="map.html"; 
+				} else {		
+					myMap.destroy();
+					chooseLayer=0;
+					getData();
+					
+					setTimeout(function(){
+						//使用ajax获取后台gps定位
+						$.ajax({
+							type : "GET",
+							url : "amap/map/dstData",
+							dataType : "json",
+							success : function(dataMap) {
+								var tempData = dataMap.items;
+								console.log("tempData为: "+tempData);
+								gpsDstCreate(tempData);
+							}
+						});
+					},10000);
+					
+					//window.location.href="map.html"; 
 				}
 			});
 			
