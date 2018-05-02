@@ -176,12 +176,12 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<!-- <div class="col-md-3">
 									<div class="form-group col-md-12">
 										<label>gps天线数量</label> <input type="text" value="2"
 											class="form-control" name="gpsLineNum" ng-model="editData.gpsLineNum">
 									</div>
-								</div>
+								</div> -->
 								<div class="col-md-3">
 									<div class="form-group col-md-12">
 										<label>天线高度[地面到天线]</label> <input type="text" value=""
@@ -249,6 +249,60 @@
 						</div>
 					</div>
 					<!-- row -->
+				
+					<div class="row">
+						<div class="col-md-12">
+							<div class="hpanel">
+								<div class="panel-heading hbuilt">环境</div>
+								<div class="panel-body">
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>灾害易发点</label> <select name="disasterPoint"
+											class="form-control" ng-model="editData.disasterPoint">
+											<option value="1">是</option>
+											<option value="0" selected="selected">否</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>被盗易发点</label> <select name="stolenPoint"
+											class="form-control" ng-model="editData.stolenPoint">
+											<option value="1">是</option>
+											<option value="0" selected="selected">否</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>停电</label> <select name="powerCut"
+											class="form-control" ng-model="editData.powerCut">
+											<option value="1">是</option>
+											<option value="0" selected="selected">否</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>居民楼</label> <select name="residentialBuilding"
+											class="form-control" ng-model="editData.residentialBuilding">
+											<option value="1">是</option>
+											<option value="0" selected="selected">否</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group col-md-12">
+										<label>气候</label><input type="text" value=""
+											class="form-control" name="weather" ng-model="editData.weather">
+									</div>
+								</div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- row -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="hpanel">
@@ -263,7 +317,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<!-- <div class="col-md-3">
 									<div class="form-group col-md-12">
 										<label>运行商传输</label> <input type="text" value=""
 											class="form-control" name="carrierLink" ng-model="editData.carrierLink">
@@ -281,7 +335,7 @@
 										<label>运营商站名</label> <input type="text" value=""
 											class="form-control" name="carrierName" ng-model="editData.carrierName">
 									</div>
-								</div>
+								</div> -->
 								</div>
 							</div>
 						</div>

@@ -8,11 +8,11 @@ public class BsstationBean {
 	private String lng;
 	private String chnumber;
 	private String number;
-	private String gpsLineNum;
+	/*private String gpsLineNum;*/
 	private String power;
-	private String carrier;
+	/*private String carrier;
 	private String carrierName;
-	private String carrierLink;
+	private String carrierLink;*/
 	private String height;
 	private String lineHeight;
 	private String lineInstallType;
@@ -39,6 +39,13 @@ public class BsstationBean {
 	private String transCount;
 	private String comment;
 	private String exist;
+	
+	private String weather;
+	private String disasterPoint;
+	private String stolenPoint;
+	private String powerCut;
+	private String residentialBuilding;
+	
 
 	/*
 	 * private int type; private int level; private int status; private int
@@ -121,13 +128,6 @@ public class BsstationBean {
 		this.number = number;
 	}
 
-	public String getGpsLineNum() {
-		return gpsLineNum;
-	}
-
-	public void setGpsLineNum(String gpsLineNum) {
-		this.gpsLineNum = gpsLineNum;
-	}
 
 	public String getPower() {
 		return power;
@@ -135,30 +135,6 @@ public class BsstationBean {
 
 	public void setPower(String power) {
 		this.power = power;
-	}
-
-	public String getCarrier() {
-		return carrier;
-	}
-
-	public void setCarrier(String carrier) {
-		this.carrier = carrier;
-	}
-
-	public String getCarrierName() {
-		return carrierName;
-	}
-
-	public void setCarrierName(String carrierName) {
-		this.carrierName = carrierName;
-	}
-
-	public String getCarrierLink() {
-		return carrierLink;
-	}
-
-	public void setCarrierLink(String carrierLink) {
-		this.carrierLink = carrierLink;
 	}
 
 	public String getHeight() {
@@ -372,18 +348,86 @@ public class BsstationBean {
 
 
 
+	public String getWeather() {
+		return weather;
+	}
+
+
+
+
+	public void setWeather(String weather) {
+		this.weather = weather;
+	}
+
+
+
+
+	public String getDisasterPoint() {
+		return disasterPoint;
+	}
+
+
+
+
+	public void setDisasterPoint(String disasterPoint) {
+		this.disasterPoint = disasterPoint;
+	}
+
+
+
+
+	public String getStolenPoint() {
+		return stolenPoint;
+	}
+
+
+
+
+	public void setStolenPoint(String stolenPoint) {
+		this.stolenPoint = stolenPoint;
+	}
+
+
+
+
+	public String getPowerCut() {
+		return powerCut;
+	}
+
+
+
+
+	public void setPowerCut(String powerCut) {
+		this.powerCut = powerCut;
+	}
+
+
+
+
+	public String getResidentialBuilding() {
+		return residentialBuilding;
+	}
+
+
+
+
+	public void setResidentialBuilding(String residentialBuilding) {
+		this.residentialBuilding = residentialBuilding;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "BsstationBean [bsId=" + bsId + ", name=" + name + ", period="
 				+ period + ", lat=" + lat + ", lng=" + lng + ", chnumber="
-				+ chnumber + ", number=" + number + ", gpsLineNum="
-				+ gpsLineNum + ", power=" + power + ", carrier=" + carrier
-				+ ", carrierName=" + carrierName + ", carrierLink="
-				+ carrierLink + ", height=" + height + ", lineHeight="
-				+ lineHeight + ", lineInstallType=" + lineInstallType
-				+ ", address=" + address + ", contact=" + contact + ", tel="
-				+ tel + ", ip=" + ip + ", type=" + type + ", productor="
-				+ productor + ", deviceType=" + deviceType + ", level=" + level
+				+ chnumber + ", number=" + number + ", power=" + power
+				+ ", height=" + height + ", lineHeight=" + lineHeight
+				+ ", lineInstallType=" + lineInstallType + ", address="
+				+ address + ", contact=" + contact + ", tel=" + tel + ", ip="
+				+ ip + ", type=" + type + ", productor=" + productor
+				+ ", deviceType=" + deviceType + ", level=" + level
 				+ ", status=" + status + ", hometype=" + hometype
 				+ ", roomCharge=" + roomCharge + ", electricCharge="
 				+ electricCharge + ", createTime=" + createTime + ", zone="
@@ -392,8 +436,15 @@ public class BsstationBean {
 				+ ", generatorConfig=" + generatorConfig + ", isGenerator="
 				+ isGenerator + ", entryLimitType=" + entryLimitType
 				+ ", transCount=" + transCount + ", comment=" + comment
-				+ ", exist=" + exist + "]";
+				+ ", exist=" + exist + ", weather=" + weather
+				+ ", disasterPoint=" + disasterPoint + ", stolenPoint="
+				+ stolenPoint + ", powerCut=" + powerCut
+				+ ", residentialBuilding=" + residentialBuilding + "]";
 	}
+
+
+
+
 	
 
 }

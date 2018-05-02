@@ -87,7 +87,7 @@
 </div>
 <!-- row -->
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<div class="hpanel">
 			<div class="panel-heading hbuilt">天线</div>
 			<div class="panel-body">
@@ -96,8 +96,8 @@
 					<tbody>
 
 						<tr>
-							<td class="td-skyblue">gps天线数量</td>
-							<td style="min-width:100px;">{{bsinfoData.gpsLineNum}}</td>
+							<!-- <td class="td-skyblue">gps天线数量</td>
+							<td style="min-width:100px;">{{bsinfoData.gpsLineNum}}</td> -->
 							<td class="td-skyblue">天线高度[地面到天线]</td>
 							<td style="min-width:100px;">{{bsinfoData.lineHeight}}</td>
 							<td class="td-skyblue">天线安装方式</td>
@@ -106,6 +106,34 @@
 								ng-if="bsinfoData.lineInstallType==2">地面铁塔</span></td>
 						</tr>
 						<!-- tr -->
+
+
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">传输</div>
+			<div class="panel-body">
+				<table style="color:#000">
+
+					<tbody>
+
+						<tr>
+							<td class="td-skyblue">传输数量</td>
+							<td style="min-width:100px;">{{bsinfoData.transCount}}</td>
+							<!-- <td class="td-skyblue">运行商传输</td>
+							<td style="min-width:100px;">{{bsinfoData.carrierLink}}</td>
+							<td class="td-skyblue">运营商/社会</td>
+							<td style="min-width:100px;">{{bsinfoData.carrier}}</td>
+							<td class="td-skyblue">运营商站名</td>
+							<td style="min-width:100px;">{{bsinfoData.carrierName}}</td> -->
+						</tr>
+
 
 
 
@@ -160,30 +188,32 @@
 		</div>
 	</div>
 </div>
-
-<!-- row -->
 <div class="row">
 	<div class="col-md-12">
 		<div class="hpanel">
-			<div class="panel-heading hbuilt">传输</div>
+			<div class="panel-heading hbuilt">环境</div>
 			<div class="panel-body">
-				<table style="color:#000">
+				<table  style="padding:100px;color:#000;">
 
 					<tbody>
-
 						<tr>
-							<td class="td-skyblue">传输数量</td>
-							<td style="min-width:100px;">{{bsinfoData.transCount}}</td>
-							<td class="td-skyblue">运行商传输</td>
-							<td style="min-width:100px;">{{bsinfoData.carrierLink}}</td>
-							<td class="td-skyblue">运营商/社会</td>
-							<td style="min-width:100px;">{{bsinfoData.carrier}}</td>
-							<td class="td-skyblue">运营商站名</td>
-							<td style="min-width:100px;">{{bsinfoData.carrierName}}</td>
+							<td class="td-skyblue">灾害易发点</td>
+							<td style="min-width:100px;"><span ng-if="bsinfoData.disasterPoint==0">不是</span><span
+								ng-if="bsinfoData.disasterPoint==1">是</span></td>
+							<td class="td-skyblue">被盗易发点</td>
+							<td style="min-width:100px;"><span ng-if="bsinfoData.stolenPoint==0">不是</span><span
+								ng-if="bsinfoData.stolenPoint==1">是</span></td>
+								<td class="td-skyblue">停电</td>
+							<td style="min-width:100px;"><span ng-if="bsinfoData.powerCut==0">没有</span><span
+								ng-if="bsinfoData.powerCut==1">是</span></td>
+								<td class="td-skyblue">居民楼</td>
+							<td style="min-width:100px;"> <span ng-if="bsinfoData.residentialBuilding==0">不是</span><span
+								ng-if="bsinfoData.residentialBuilding==1">是</span></td>
 						</tr>
-
-
-
+						<tr>
+							<td class="td-skyblue">气候</td>
+							<td colspan="7">{{bsinfoData.weather}}</td>
+						</tr>
 
 					</tbody>
 				</table>
@@ -192,6 +222,9 @@
 		</div>
 	</div>
 </div>
+<!-- row -->
+
+<!-- row -->
 
 <!-- row -->
 <div class="row">

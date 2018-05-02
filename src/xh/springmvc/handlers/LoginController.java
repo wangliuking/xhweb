@@ -53,7 +53,12 @@ public class LoginController {
 		/*this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));*/
 		this.password = request.getParameter("password");
 		String codeVar=request.getParameter("code");
-		String codeSession=funUtil.getSession(request, "codeValidate");
+		String codeSession="";
+		try{
+			codeSession=funUtil.getSession(request, "codeValidate");
+		}catch(NullPointerException e){
+			
+		}
 		
 		String toSign = request.getParameter("ToSign");
 		
