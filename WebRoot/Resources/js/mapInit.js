@@ -240,6 +240,7 @@ app.controller("map", function($scope, $http) {
 	};
 	$scope.bothChoose=function(params){
 		if ($(".levelChoose input[value="+params+"]").prop("checked") == true || $(".areaChoose input[value="+params+"]").prop("checked") == true) {
+			console.log("param1为： "+params);
 			var t=[];
 			$(".levelChoose input:checked").each(function(i){
 				t.push($(this).val());
@@ -297,6 +298,7 @@ app.controller("map", function($scope, $http) {
 						}					
 					});
 		} else {
+			console.log("param2为： "+params);
 			var t=[];
 			$(".levelChoose input:checked").each(function(i){
 				t.push($(this).val());
@@ -926,6 +928,7 @@ var areaRings;
 var rectangle;
 var test;
 var testDemo;
+
 //gps定位
 var gpsDst;
 
@@ -950,7 +953,7 @@ function floor(data) {
 	}else if(chooseLayer==1){
 		testDemo = new
 		esri.layers.ArcGISTiledMapServiceLayer(
-				"http://125.70.9.194:6080/arcgis/rest/services/800M/800M_20160823/MapServer");// 仿真图切片服务
+				"http://125.70.9.194:801/arcgis/rest/services/800M20180428/MapServer");// 仿真图切片服务 http://125.70.9.194:6080/arcgis/rest/services/800M/800M_20160823/MapServer
 		myMap.addLayer(testDemo);// 将图层对象添加到地图中
 	}
 	daolukakou = new esri.layers.ArcGISTiledMapServiceLayer("http://125.70.9.194:6080/common/rest/services/800M/daolukakou/MapServer");//道路卡口	
@@ -1336,39 +1339,11 @@ function gpsDstCreate(data){
 	
 }
 
-//基站图标创建
-/*function layerCreate(data){
-	// 小图标图层
-	gLayer.clear();
-	var i;
-	for (i = 0; i < data.length; i++) {
-		var temp = 0;
-		// 判断基站是连接还是断开
-		if(data[i].status == 0){
-			temp = "bluesky/unuse_small.png";
-		}else if (data[i].bsStatus == 0) {
-			temp = "bluesky/contact_small.png";
-		} else {
-			temp = "bluesky/break_small.png";
-		}
-		var symbol = new esri.symbol.PictureMarkerSymbol(temp, parseInt(24), parseInt(24));
-		var pt = new esri.geometry.Point(data[i].lng*1, data[i].lat*1,new esri.SpatialReference({wkid:parseInt(4490)}));// 创建点对象
-		var attr = {
-			"Xcoord" : data[i].lng,
-			"Ycoord" : data[i].lat,
-			"Plant" : data[i].name
-		};// 设置相关的属性信息对象
-		var infoTemplate = new esri.InfoTemplate("弹出窗口的标题",
-				"纬度属性: ${Ycoord} <br/>经度属性: ${Xcoord} <br/>基站名称................:${Plant}");// 创建弹出窗口内容显示模板
-		var graphic = new esri.Graphic(pt, symbol, attr, infoTemplate);// 创建图形对象
-		gLayer.add(graphic);// 将图形对象添加到图形显示图层
-	}
-}*/
-
 var overlay,option,myChart
 function init(data,markData) {
 	require([ "esri/map", "src/EchartsLayer", "dojo/domReady!" ], function(Map,
 			EchartsLayer) {
+		//加载arcgis
 		floor(data);
 		
 		// 处理data数据
@@ -1643,7 +1618,7 @@ function init(data,markData) {
 					chooseLayer=0;
 					getData();
 					
-					setTimeout(function(){
+					setInterval(function(){
 						//使用ajax获取后台gps定位
 						$.ajax({
 							type : "GET",
@@ -1652,10 +1627,16 @@ function init(data,markData) {
 							success : function(dataMap) {
 								var tempData = dataMap.items;
 								console.log("tempData为: "+tempData);
+								gpsDst.clear();
 								gpsDstCreate(tempData);
 							}
 						});
-					},10000);
+					},30000);
+					
+					/*setInterval(function(){
+						myMap.destroy();
+						refreshForGis();
+					},30000);	*/
 					
 					//window.location.href="map.html"; 
 				}
@@ -1812,7 +1793,6 @@ function getData() {
 			init(data,markData);
 		}
 	});
-	
 }
 
 dojo.addOnLoad(getData);// 页面加载完毕后自动调用getData方法
@@ -2047,6 +2027,28 @@ window.onload = function(){
             alert("你点了滚轮");
         }
     }*/
+}
+
+//全局定时刷新
+function refreshForGis(){
+	var appElement = document.querySelector('[ng-controller=map]');
+	var $scope = angular.element(appElement).scope();
+	//判断是否执行了级别和区域操作
+	var operation=0;
+	$(".levelChoose input").each(function(i){
+		if($(this).prop("checked") == true){
+			operation++;
+		}
+	});
+	if(operation==0){
+		//未执行任何操作
+		console.log("未执行任何操作!!!")
+		$scope.bothChoose("简阳");
+	}else{
+		//执行了级别或者区域
+		console.log("执行了级别或区域操作!!!");
+		$scope.bothChoose();
+	}
 }
 
 
