@@ -62,6 +62,7 @@
 											name="type" class="form-control" ng-model="editData.type">
 											<option value="0" selected="selected">固定基站</option>
 											<option value="1">室分信源</option>
+											<option value="2">应急站</option>
 										</select>
 									</div>
 								</div>
@@ -112,7 +113,7 @@
 								<div class="col-md-3">
 									<div class="form-group col-md-12" style="margin-top:10px;">
 										<input id="ck10" class="magic-checkbox" type="checkbox"
-											name="status" value="1" ng-checked="editData.status" > <label for="ck10"><span>使用状态</span></label>
+											name="status" value="1" ng-checked="editData.status==1" > <label for="ck10"><span>使用状态</span></label>
 									</div>
 								</div>
 								
@@ -204,6 +205,7 @@
 											class="form-control" ng-model="editData.envMonitor">
 											<option value="0" selected="selected">自建</option>
 											<option value="1">共建</option>
+											<option value="2">无</option>
 										</select>
 									</div>
 								</div>
@@ -226,21 +228,21 @@
 								<div class="col-md-3">
 									<div class="form-group col-md-12" style="margin-top:20px;">
 										<input id="ck20" class="magic-checkbox" type="checkbox"
-											name="fireEquipment" value="1" ng-checked="editData.fireEquipment"> <label
+											name="fireEquipment" value="1" ng-checked="editData.fireEquipment==1"> <label
 											for="ck20"><span>消防</span></label>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group col-md-12" style="margin-top:20px;">
 										<input id="ck30" class="magic-checkbox" type="checkbox"
-											name="generatorConfig" value="1" ng-checked="editData.generatorConfig"> <label
+											name="generatorConfig" value="1" ng-checked="editData.generatorConfig==1"> <label
 											for="ck30"><span>发电机配置</span></label>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group col-md-12" style="margin-top:20px;">
 										<input id="ck40" class="magic-checkbox" type="checkbox"
-											name="isGenerator" value="1" ng-checked="editData.isGenerator"> <label
+											name="isGenerator" value="1" ng-checked="editData.isGenerator==1"> <label
 											for="ck40"><span>具备发电条</span></label>
 									</div>
 								</div>

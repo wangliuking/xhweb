@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="linkconfigWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-llg">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -51,7 +51,7 @@
 							<td>{{x.switchPort2}}</td>
 							<td>{{x.masterIp}}</td>
 							<td>{{x.cameraIp}}</td>
-							<td><a href="#" ng-click="delLinkconfig($index)" ng-if="up.o_delete=='on'e"><i
+							<td><a href="#" ng-click="delLinkconfig($index)" ng-if="up.o_delete=='on' || roleId==10000"><i
 									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 
 						</tr>

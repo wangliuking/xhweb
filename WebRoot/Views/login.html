@@ -236,6 +236,16 @@ body {
 
 </head>
 <body>
+	<!--[if lt IE 10]>
+	<div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-hidden="true">
+                &times;
+            </button>
+           警告！该系统采用H5新标准，对ie内核的浏览器支持不好，建议使用谷歌等高版本的浏览器
+    </div>
+
+<![endif] -->
 	<!-- <div class="login-top"></div> -->
 	<div class="login-div" style="width:350px;">
 
@@ -299,9 +309,10 @@ body {
 							</div>
 						</form>
 						<button class="btn btn-block btn-success" id="login-btn"
-								style="margin-top:30px;" type="button" onclick="login()" data-loading-text="Loading...">登录</button>
+							style="margin-top:30px;" type="button" onclick="login()"
+							data-loading-text="Loading...">登录</button>
 					</div>
-					
+
 				</div>
 
 			</div>
@@ -310,24 +321,30 @@ body {
 			<div class="row">
 				<div class="col-md-12 text-center"
 					style="margin-top:10px;color:#000;">
-					<strong>powered by</strong> 成都亚光电子股份有限公司  <br><span><a href="../Resources/证书助手（i信）.exe" style="color:blue;font-weight:800;">数字证书助手:【证书助手（i信）.exe】下载</a></span>
+					<strong>powered by</strong> 成都亚光电子股份有限公司 <br>
+					<span><a href="../Resources/证书助手（i信）.exe"
+						style="color:blue;font-weight:800;">数字证书助手:【证书助手（i信）.exe】下载</a></span>
 				</div>
 			</div>
 		</div>
 	</div>
 
 
-<!-- 	<script type="text/javascript" src="../Resources/js/xhbootstrap-js.js"></script> -->
-	
-	
-	<script type="text/javascript" src="../Resources/js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	<!-- 	<script type="text/javascript" src="../Resources/js/xhbootstrap-js.js"></script> -->
 
-	<script type="text/javascript" src="../Resources/js/bootstrapValidator.min.js"></script>
-	<script type="text/javascript" src="../lib/sweetalert/lib/sweet-alert.js"></script>
+
+	<script type="text/javascript"
+		src="../Resources/js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript"
+		src="../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript"
+		src="../Resources/js/bootstrapValidator.min.js"></script>
+	<script type="text/javascript"
+		src="../lib/sweetalert/lib/sweet-alert.js"></script>
 	<script type="text/javascript" src="../lib/toastr/build/toastr.min.js"></script>
-	
-	
+
+
 	<script src="../Resources/ca/topEsa.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="../Resources/ca/clientConf.js"></script>
 	<script type="text/javascript" src="../Controllers/web/login.js"></script>
@@ -340,7 +357,7 @@ body {
 		/*   $(document).ready(function() {
 			if (TopESAConfig())
 				initCertList();
-		});  */ 
+		});  */
 		function initCertList() {
 			try {
 				//var certs = CertStore.listAllCerts().forSign() ; //过滤签名证书
@@ -436,8 +453,8 @@ body {
 		  } */
 		//签名方法
 		function sign() {
-			  xh.login();
-		
+			xh.login();
+
 			/* try {
 				var toSign = xh.MathRand();
 				var cert = getSelectedCert();
@@ -471,24 +488,24 @@ body {
 		}
 	</script>
 	<script type="text/javascript">
-		function login() { 
-			  $("#loginForm").submit();
-			
+		function login() {
+			$("#loginForm").submit();
+
 		}
 		$("#loginForm").submit(function() {
 			$("button[type='button']").button('loading');
 			if ($("input[name='username']").val() == "") {
 				alert("用户名不能为空");
-				 $("button[type='button']").button('reset')
+				$("button[type='button']").button('reset')
 				return;
 			}
 			if ($("input[name='password']").val() == "") {
 				alert("密码不能为空");
-				 $("button[type='button']").button('reset')
+				$("button[type='button']").button('reset')
 				return;
 			}
 			sign();
-			
+
 		});
 	</script>
 </body>

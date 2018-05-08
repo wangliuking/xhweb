@@ -38,7 +38,7 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new BsFault(), 10000, 1000*10*2);
+			timer.scheduleAtFixedRate(new BsFault(), 10000, 1000*60*2);
 			log4j.info("=========================================");
 			log4j.info("基站断站故障实时写入开始");
 			log4j.info("=========================================");
@@ -58,7 +58,12 @@ class BsFault extends TimerTask{
 		List<BsAlarmExcelBean> list = BsStatusService.bsFaultInfo();
 		for (BsAlarmExcelBean bean : list) {
 			bean.setWeekly(FunUtil.formateWeekly(bean.getTime()));
-			bean.setBsId(String.valueOf(Integer.parseInt(bean.getBsId())%1000));
+			if(Integer.parseInt(bean.getBsId())>1000 && Integer.parseInt(bean.getBsId())<2001){
+				bean.setBsId(String.valueOf(Integer.parseInt(bean.getBsId())%1000));
+			}else{
+				bean.setBsId(bean.getBsId());
+			}
+			
 			BsAlarmService.addBsFault(bean);
 		}
 	}

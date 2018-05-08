@@ -33,6 +33,9 @@ body {
 	padding: 0px;
 	overflow-y: hidden;
 } */
+header, section, footer, aside, nav, main, article, figure {
+    display: block; 
+}
 html,body {
 	min-width: 300px;
 	-ms-overflow-style: scrollbar,
