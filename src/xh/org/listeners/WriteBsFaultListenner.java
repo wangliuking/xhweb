@@ -56,6 +56,7 @@ class BsFault extends TimerTask{
 	}
 	public void bs_fault(){
 		List<BsAlarmExcelBean> list = BsStatusService.bsFaultInfo();
+		
 		for (BsAlarmExcelBean bean : list) {
 			bean.setWeekly(FunUtil.formateWeekly(bean.getTime()));
 			if(Integer.parseInt(bean.getBsId())>1000 && Integer.parseInt(bean.getBsId())<2001){
@@ -65,6 +66,7 @@ class BsFault extends TimerTask{
 			}
 			
 			BsAlarmService.addBsFault(bean);
+			
 		}
 	}
 	

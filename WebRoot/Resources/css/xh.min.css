@@ -3494,4 +3494,85 @@ a.cd-read-more:hover{text-decoration:none; background-color: #424242;  }
 .modal-llg{
 	width:1200px;
 }
+/* .wrapper {
+  margin-bottom: 10px;
+}
+.box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  position: relative;
+  background: orange;
+  vertical-align: middle;
+  border-radius: 100%;
+}
+.check-box{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  position: relative;
+  background: green;
+  vertical-align: middle;
+ 
+}
+.check-box input {
+  opacity: 0;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  z-index:100;使input按钮在span的上一层，不加点击区域会出现不灵敏
+}
+.box input {
+  opacity: 0;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  z-index:100;使input按钮在span的上一层，不加点击区域会出现不灵敏
+}
+.check-box span { 
+
+ position: absolute;
+  top: 20%;
+  right: 20%;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial;
+  margin: -5px 0  0 -5px;
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+  color: #fff;
+}
+.box span { 
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  background: #fff;
+  top: 50%;
+  left:50%;
+  margin: -5px 0  0 -5px;
+  z-index:1;
+}
+
+input[type="radio"] + span {
+  opacity: 0;
+
+}
+input[type="radio"]:checked + span {
+  opacity: 1;
+}
+input[type="checkbox"] + span {
+  opacity: 0;
+
+}
+input[type="checkbox"]:checked + span {
+  opacity: 1;
+} */
 

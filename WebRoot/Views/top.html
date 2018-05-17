@@ -46,16 +46,16 @@
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId!=null">
 											<td>{{x.bsId}}-{{x.name |bsName}}</td>
-											<td ng-if="x.link==1" class="td-danger">【断开连接】
+											<td ng-if="x.link==1"><i class="fa fa-eercast text-red"></i>&nbsp;&nbsp;【断开连接】
 											</td>
-											<td ng-if="x.link==null" class="td-warning">{{x.name
+											<td ng-if="x.link==null"><i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;{{x.name
 													|alarmContent}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId==null">
 											<td>[{{x.name}}]</td>
-											<td class="td-danger">{{x.info}}</td>
+											<td><i class="fa fa-eercast text-yellow"></i>&nbsp;&nbsp;{{x.info}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
