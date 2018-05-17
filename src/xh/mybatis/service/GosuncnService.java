@@ -451,4 +451,24 @@ public class GosuncnService {
 		return result;
 	}
 	
+	/**
+	 * 查询四期所有FSU的bsId和IP
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public static List<Map<String, String>> selectNVRStatus(){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String, String>> result=null;
+		try {
+			result=mapper.selectNVRStatus();			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

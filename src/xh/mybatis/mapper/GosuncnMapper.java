@@ -158,4 +158,11 @@ public interface GosuncnMapper {
 	 */
 	public List<Map<String,String>> selectNVRChannels()throws Exception;
 	
+	/**
+	 * 查询四期所有FSU的bsId和IP
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> selectNVRStatus()throws Exception;
+	
 }

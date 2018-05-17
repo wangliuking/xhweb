@@ -280,9 +280,21 @@ public class AmapController {
 	@ResponseBody
 	public void dstData(HttpServletRequest request, HttpServletResponse response){	
 		try {
+			Calendar cal = Calendar.getInstance();
+			int temp = cal.get(Calendar.MONTH)+1;
+			String currentMonth;
+			if(temp<10){
+				currentMonth="0"+temp;
+			}else{
+				currentMonth=Integer.toString(temp);
+			}
+			Map<String,Object> tempMap = new HashMap<String, Object>();
+			currentMonth="xhgmnet_gpsinfo"+currentMonth;
+			tempMap.put("currentMonth", currentMonth);
+			
 			HashMap map = new HashMap();
 			AmapService amapService = new AmapService();
-			List<Map<String, String>> listMap = amapService.dstData();
+			List<Map<String, String>> listMap = amapService.dstData(tempMap);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");

@@ -1,6 +1,7 @@
 package com.tcpServer;
  
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -445,7 +446,20 @@ public class Service {
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		getForGpsDstAck.setUserid(getForGpsDst.getUserid());
 		try{
-			List<Map<String,String>> list = mapper.selectForGpsDst();
+			//获取当月
+			Calendar cal = Calendar.getInstance();
+			int temp = cal.get(Calendar.MONTH)+1;
+			String currentMonth;
+			if(temp<10){
+				currentMonth="0"+temp;
+			}else{
+				currentMonth=Integer.toString(temp);
+			}
+			Map<String,Object> tempMap = new HashMap<String, Object>();
+			currentMonth="xhgmnet_gpsinfo"+currentMonth;
+			tempMap.put("currentMonth", currentMonth);
+			
+			List<Map<String,String>> list = mapper.selectForGpsDst(tempMap);
 			getForGpsDstAck.setInfolist(list);
 			sqlSession.close();
 		} catch (Exception e) {

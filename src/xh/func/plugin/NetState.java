@@ -3,6 +3,10 @@ import java.io.BufferedReader;
 import java.io.IOException;    
 import java.io.InputStream;    
 import java.io.InputStreamReader;    
+import java.util.List;
+import java.util.Map;
+
+import xh.mybatis.service.GosuncnService;
      
 /**  
  * 判断网络连接状况.  
@@ -10,12 +14,12 @@ import java.io.InputStreamReader;
  */   
 public class NetState {    
      
-    public boolean isConnect(){    
+    public boolean isConnect(String IP){    
         boolean connect = false;    
         Runtime runtime = Runtime.getRuntime();    
         Process process;    
         try {    
-            process = runtime.exec("ping " + "www.baidu.com");    
+            process = runtime.exec("ping " + IP);    
             InputStream is = process.getInputStream();     
             InputStreamReader isr = new InputStreamReader(is);     
             BufferedReader br = new BufferedReader(isr);     
@@ -24,7 +28,7 @@ public class NetState {
             while ((line = br.readLine()) != null) {     
                 sb.append(line);     
             }     
-            System.out.println("返回值为:"+sb);      
+            //System.out.println("返回值为:"+sb);      
             is.close();     
             isr.close();     
             br.close();     
@@ -46,8 +50,13 @@ public class NetState {
     }    
          
     public static void main(String[] args) {    
-        NetState netState = new NetState();    
-        System.out.println(netState.isConnect());    
+    	List<Map<String,String>> list = GosuncnService.selectNVRStatus();
+    	System.out.println(list);
+    	
+    	
+    	
+        /*NetState netState = new NetState();    
+        System.out.println(netState.isConnect("192.168.120.175"));*/    
      
     }    
 }
