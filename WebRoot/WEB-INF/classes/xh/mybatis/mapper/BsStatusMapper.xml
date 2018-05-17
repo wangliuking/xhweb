@@ -243,7 +243,7 @@
 		group by bsId
 		union all
 		select bsId, count(working) as alarmSum from xhgmnet_bs_psm 
-		where (bdTmp1>0 or bdTmp2>0 or bdTmp3>0) and( dc12=1 or dc301=1 or dc302=1 or runStatus=1 or tempStatus=1 or linkStatus=1) group by bsId
+		where (bdTmp1>0 or bdTmp2>0 or bdTmp3>0) and( dc12=1 or dc301=1 or dc302=1 or runStatus=1 or tempStatus=1 or linkStatus=1  or ad!=2) group by bsId
 		) as temp group by bsId ) as d on a.bsId=d.bsId
 		) as tem where deviceAlarmSum>0 and link=0
 		<!-- and period in (
@@ -332,9 +332,14 @@
 	</select>	
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
-		select a.subModId as bsId,a.time
+		<!-- select a.subModId as bsId,a.time
 		from (select * from xhgmnet_eastcom_alarminfo order by time desc)  as a 	
-		where a.modId=4 and a.time >#{time} group by a.subModId order by time asc
+		where a.modId=4 and a.time >#{time} group by a.subModId order by time asc -->
+			
+		select subModId as bsId,time from xhgmnet_eastcom_alarminfo where time >#{time} and neType=2 and 
+        modType=1000 and status=0 order by time desc limit 200;
+		
+		
 	</select>
 	<!-- 更新基站故障表 -->
 	<update id="editBsFault" parameterType="xh.mybatis.bean.BsAlarmExcelBean">

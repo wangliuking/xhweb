@@ -42,7 +42,12 @@ import xh.org.listeners.SingLoginListener;
 public class FunUtil {
 	protected final static Log log = LogFactory.getLog(FunUtil.class);
 	public static String xmlPath() {
-		String str = FunUtil.class.getResource("/conf.xml").getPath();
+		String str = "";
+		try{
+			str = FunUtil.class.getResource("/conf.xml").getPath();
+		}catch(NullPointerException e){
+			
+		}
 		return str;
 	}
 	//获取登录用户

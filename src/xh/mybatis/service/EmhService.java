@@ -55,6 +55,61 @@ public class EmhService {
 		return list;
 	}
 	/**
+	 * 基站环境监控交流电告警列表
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String, Object>> bsEmhJiAlarmList() {
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		EmhMapper mapper = sqlSession.getMapper(EmhMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.bsEmhJiAlarmList();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/**
+	 * 基站环境监控交流电声音告警数目
+	 * @param map
+	 * @return
+	 */
+	public static int bsEmhJiAlarmVoiceCount() {
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		EmhMapper mapper = sqlSession.getMapper(EmhMapper.class);
+		int count=0;
+		try {
+			count = mapper.bsEmhJiAlarmVoiceCount();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
+	 * 更新eps交流电声音告警提示
+	 * @param map
+	 * @return
+	 */
+	public static int update_emh_eps_voice_status() {
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		EmhMapper mapper = sqlSession.getMapper(EmhMapper.class);
+		int count=0;
+		try {
+			count = mapper.update_emh_eps_voice_status();
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	/**
 	 * 基站环境监控实时告警列表条目
 	 * @param map
 	 * @return

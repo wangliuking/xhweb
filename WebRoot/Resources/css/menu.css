@@ -106,6 +106,7 @@ GB18030-2000 和 GB18030-2005 都不支持单字节的欧元符号
 	bottom: 0;
 	float: left;
 	left: 0;
+	z-index:10;
 	position: absolute;
 	top: 49px;
 	height:100%;
@@ -134,8 +135,29 @@ GB18030-2000 和 GB18030-2005 都不支持单字节的欧元符号
 	/* background:#fafafa; */
 }
 
+/* .hide-menu #menu {
+	display: none;
+}
+
+.hide-menu .small-header {
+	position: fixed;
+	top: 57px;
+	left: 2px;;
+	right: 0;
+	margin-left: 0px;
+	z-index: 100;
+}
+
+.hide-menu .footer {
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 0px;
+	right: 0;
+}
+
 .hide-menu #mainframe{
-	margin: 0 0 0 0px;
+	 margin: 0 0 0 0px;
 	padding: 0;
 	position: fixed;
 	width:calc(100%);
@@ -143,30 +165,59 @@ GB18030-2000 和 GB18030-2005 都不支持单字节的欧元符号
 	top:50px;
 	left:0px;
 	right:0;
-	overflow-y: auto;
-}
-.hide-menu #menu{
-	display: block;
-	
-}
-.hide-menu #footer{
-	position: fixed;
-	z-index: 1001;
-	bottom: 0;
-	left: 10px;
-	right: 0;
-}
-.hide-menu #left-bar{
-	position: fixed;
-	top: 51px;
-	bottom: 0;
-	left: 0px;
-	
-}
+	overflow-y: auto; 
+} */
+
 
 /* for Chrome */
 /* .inner-container::-webkit-scrollbar {
     display: none;
+} */
+ .hide-menu2 #menu {
+	display: none;
+}
+
+.hide-menu2 .small-header {
+	position: fixed;
+	top: 57px;
+	left: 2px;;
+	right: 0;
+	margin-left: 0px;
+	z-index: 100;
+}
+
+.hide-menu2 .footer {
+	position: fixed;
+	z-index: 1001;
+	bottom: 0;
+	left: 0px;
+	right: 0;
+}
+
+.hide-menu2 #mainframe{
+	 margin: 0 0 0 0px;
+	padding: 0;
+	position: fixed;
+	width:calc(100%);
+	height: calc(100% - 80px);
+	top:50px;
+	left:0px;
+	right:0;
+	overflow-y: auto; 
+}
+.dropdown-menu.user-dropdown {
+	/* width:200px; */
+	min-width:140px;
+	padding: 0;
+	z-index: 1060;
+	background:#fff;
+	
+}
+
+/* .dropdown-menu.hdropdown .title {
+	padding: 12px 12px;
+	text-align: center;
+	border-bottom: 1px solid #e4e5e7;
 } */
 .fixed-sidebar.show-sidebar #menu {
 	width: 190px;

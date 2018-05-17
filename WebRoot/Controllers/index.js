@@ -27,7 +27,7 @@ xh.load = function() {
 			if(text.indexOf("，")>0){
 				return text.split("，")[2];
 			}else{
-				return text;
+				return "四期基站，EPS配电箱，交流电断开";
 			}
 			
 		};
@@ -47,6 +47,7 @@ xh.load = function() {
 		
 		
 		
+		
 		$http.get("web/webMenu").success(function(response) {
 			$scope.menu=response.items;
 		
@@ -56,11 +57,12 @@ xh.load = function() {
 			$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
 				$scope.alarm=response.items;
 				$scope.totals=response.totals;
+				$("#alarmcount").html(23);
 			
 			});
 		}
 		$scope.hideMenu=function(){
-			$("body").toggleClass("hide-menu");
+			$("body").toggleClass("hide-menu2");
 		};
 		// 获取登录用户
 		$http.get("web/loginUserInfo").success(function(response) {
@@ -84,6 +86,7 @@ xh.load = function() {
 				if(alarmji){
 					count+=ji_count
 				}
+				
 				
 				if($scope.loginUserVpnId==null || $scope.loginUserVpnId==''){
 					if(count>0){

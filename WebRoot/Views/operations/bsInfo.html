@@ -225,8 +225,11 @@
 													value="{{x.bsId}}" index="{{$index}}" /></td>
 												<td>{{x.bsId}}</td>
 												<td>{{x.name}}</td>
-												<td><span ng-if="x.type==0">固定基站</span> <span
-													ng-if="x.type==1">室分信源</span></td>
+												<td>
+												<span ng-if="x.type==0">固定基站</span> 
+												<span ng-if="x.type==1">室分信源</span>
+												<span ng-if="x.type==2">应急站</span>
+													</td>
 												<td><span ng-if="x.level==1">一级基站</span> <span
 													ng-if="x.level==2">二级基站</span> <span ng-if="x.level==3">三级基站</span>
 

@@ -44,7 +44,8 @@ xh.login = function() {
 		dataType : "json",
 		data : {
 			username : $("#loginForm").find("input[name='username']").val(),
-			password : xh.encrypt($("#loginForm").find("input[name='password']").val()),
+			/*password : xh.encrypt($("#loginForm").find("input[name='password']").val()),*/
+			password : $("#loginForm").find("input[name='password']").val(),
 			code:$("#loginForm").find("input[name='code']").val(),
 			ToSign : $("#loginForm").find("input[name='ToSign']").val(),
 			Signature : $("#loginForm").find("input[name='Signature']").val()
@@ -57,11 +58,13 @@ xh.login = function() {
 				window.location.href = "../index.html";
 			} else {
 				toastr.error(data.message, '提示');
+				xh.changeUrl();
 			}
 		},
 		error : function() {
 			toastr.error("登录超时", '提示');
-			  $("button[type='button']").button('reset')
+			xh.changeUrl();
+		   $("button[type='button']").button('reset')
 
 		}
 	});
@@ -99,4 +102,11 @@ xh.decrypt = function(message) {
 		padding : CryptoJS.pad.ZeroPadding
 	});
 	return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+xh.changeUrl=function() {
+	var url = $("#codevalidate").prop('src');
+	url = url.substr(0, url.lastIndexOf('/') + 1);
+	url = url + Math.random().toFixed(4);
+	$("#codevalidate").prop('src', url);
 }

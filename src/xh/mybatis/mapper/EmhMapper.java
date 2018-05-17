@@ -32,6 +32,24 @@ public interface EmhMapper {
 	 */
 	public int bsEmhNowStatusCount()throws Exception;
 	/**
+	 * 基站环境监控交流电告警列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>>bsEmhJiAlarmList()throws Exception;
+	/**
+	 * 基站环境监控交流电声音告警数目
+	 * @return
+	 * @throws Exception
+	 */
+	public int bsEmhJiAlarmVoiceCount()throws Exception;
+	/**
+	 * 更新eps交流电声音告警提示
+	 * @return
+	 * @throws Exception
+	 */
+	public int update_emh_eps_voice_status()throws Exception;
+	/**
 	 * 基站环境监控历史告警列表
 	 * @return
 	 * @throws Exception

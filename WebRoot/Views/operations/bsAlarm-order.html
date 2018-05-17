@@ -55,7 +55,7 @@
 										<div class="slDiv">
 											<span id="btnSelect">点击搜索</span>
 											<span id="userid" name="userid" ng-show=false></span>
-											<div class="ulDiv">
+											<div class="ulDiv order_man">
 												<ul>
 													<li ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</li>
 												</ul>
@@ -73,22 +73,45 @@
 								<tr style="height:60px;">
 									<td>故障类型</td>
 									<td>
-										<div contenteditable="true" class="input-div" name="errtype"></div>
+										<!-- <div contenteditable="true" class="input-div" name="errtype"></div> -->
+										<div class="slDiv">
+											<span id="btnType">点击选择故障类型</span>
+											<span  name="errtype" ng-show=false></span>
+											<div class="ulDiv ul_type">
+												<ul>
+												<li>断站故障</li>
+												<li>隐患故障</li>
+												<li>机房配套问题</li>
+												</ul>
+											</div>
+										</div>
 
-										<div class="type-div">
+										<!-- <div class="type-div">
 											<ul id="type-ul">
 												<li>断站故障</li>
 												<li>隐患故障</li>
 												<li>机房配套问题</li>
 											</ul>
-										</div>
+										</div> -->
 									</td>
 									<td colspan="4">1、断站故障 2、隐患故障 3、机房配套问题</td>
 								</tr>
 								<tr style="height:80px;">
 									<td>故障等级</td>
 									<td>
-										<div contenteditable="true" class="input-div" name="errlevel"></div>
+									<div class="slDiv">
+											<span id="btnLevel">点击选择故障等级</span>
+											<span name="errlevel" ng-show=false></span>
+											<div class="ulDiv ul_level">
+												<ul>
+												<li>A级</li>
+												<li>B级</li>
+												<li>C级</li>
+												<li>D级</li>
+												</ul>
+											</div>
+										</div>
+										<!-- <div contenteditable="true" class="input-div" name="errlevel"></div>
 
 										<div class="level-div">
 											<ul id="level-ul">
@@ -97,7 +120,7 @@
 												<li>C级</li>
 												<li>D级</li>
 											</ul>
-										</div>
+										</div> -->
 									</td>
 									<td colspan="4">
 										<p>A级，包括一级基站断站，1小时40分钟内处理恢复；</p>
@@ -162,16 +185,34 @@
 		$("div[name='errlevel']").html($(this).html())
 	})
 	$('.slDiv #btnSelect').on('click',function(){  
-			  $(this).siblings('.ulDiv').toggleClass('ulShow');  
-			});  
-			$('.slDiv .ulDiv ul').delegate('li','click',function(){  
+		$(this).siblings('.ulDiv').toggleClass('ulShow');  
+	});  
+	$('.slDiv .order_man ul').delegate('li','click',function(){  
 			  var selTxt=$(this).text();
 			  var userid=$(this).attr("value");
 			 
 			  $('.slDiv #btnSelect').text(selTxt); 
 			  $('.slDiv #userid').text(userid); 
 			  $('.ulDiv').removeClass('ulShow');  
-			}); 
+	}); 
+	 $('.slDiv #btnType').on('click',function(){  
+		$(this).siblings('.ulDiv').toggleClass('ulShow');  
+	});  
+    $('.slDiv .ul_type ul').delegate('li','click',function(){  
+				  var selTxt=$(this).text();
+				  $('.slDiv #btnType').text(selTxt); 
+				  $('span[name="errtype"]').text(selTxt); 
+				  $('.ulDiv').removeClass('ulShow');
+	});
+	 $('.slDiv #btnLevel').on('click',function(){  
+			$(this).siblings('.ulDiv').toggleClass('ulShow');  
+		});  
+	    $('.slDiv .ul_level ul').delegate('li','click',function(){  
+					  var selTxt=$(this).text();
+					  $('.slDiv #btnLevel').text(selTxt); 
+					  $('span[name="errlevel"]').text(selTxt); 
+					  $('.ulDiv').removeClass('ulShow');
+		}); 
 </script>
 <script type="text/javascript">
 	$("#order-btn").click(function() {

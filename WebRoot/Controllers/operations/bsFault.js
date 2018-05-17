@@ -34,6 +34,12 @@ xh.load = function() {
 		var bsId=$("#bsId").val();
 		var starttime=$("#starttime").val();
 		var endtime=$("#endtime").val();
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
+			$scope.loginUser = response.user;
+			$scope.loginUserVpnId = response.vpnId;
+			$scope.roleId = response.roleId ;
+		});
 		/*获取故障信息*/
 		$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit="+pageSize).
 		success(function(response){
@@ -225,20 +231,26 @@ xh.refresh = function() {
 
 };
 xh.order=function(){
-	var userid=$("span[name='userid']").text()
+	var userid=$("span[name='userid']").text();
+	var errtype=$("span[name='errtype']").text();
+	var errlevel=$("span[name='errlevel']").text();
 	if(userid==""){
 		toastr.error("接单人不能为空", '提示');
 		return;
 	}
+	if(errtype=="" || errlevel==""){
+		toastr.error("故障类型,等级不能为空", '提示');
+		return;
+	}
 	var formData={
-		id:$("div[name='id']").text(),
+		id:$("div[name='id']").text()==""?0:$("div[name='id']").text(),
 		bsid:$("div[name='bsId']").text(),
 		bsname:$("div[name='name']").text(),
 		userid:userid,
 		dispatchtime:$("div[name='dispatchtime']").text(),
 		dispatchman:$("div[name='dispatchman']").text(),
-		errtype:$("div[name='errtype']").text(),
-		errlevel:$("div[name='errlevel']").text(),
+		errtype:errtype,
+		errlevel:errlevel,
 		errfoundtime:$("div[name='errfoundtime']").text(),
 		errslovetime:$("div[name='errslovetime']").text(),
 		progress:$("div[name='progress']").text(),

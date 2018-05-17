@@ -182,6 +182,34 @@ xh.load = function() {
 		};
 	});
 };
+
+/* POST获取参数*/
+xh.postData= function() {
+	$.ajax({
+		url : 'http://192.168.120.150:5555/web/loginUserInfo',
+		type : 'get',
+		dataType : "json",
+		async :false,
+		/*data : {
+			method:gameList,
+			gameid:14,
+			pageNumber:1
+		},*/
+		success : function(data) {
+
+			toastr.success("success", '提示');
+		},
+		error : function() {
+			swal({
+				title : "提示",
+				text : "error:500",
+				type : "error"
+			});
+		}
+	});
+};
+
+
 /* 添加用户*/
 xh.add = function() {
 	$.ajax({

@@ -53,6 +53,7 @@ import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.DispatchStatusService;
+import xh.mybatis.service.EmhService;
 import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
 
@@ -1000,7 +1001,7 @@ public class BsStatusController {
 			e1.printStackTrace();
 		}		
 		List<Map<String,Object>> list2=SqlServerService.bsJiAlarm();
-		//List<Map<String, Object>> list3=DispatchStatusService.dispatchOffAlarm();
+		List<Map<String, Object>> list3=EmhService.bsEmhJiAlarmList();
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		List<Map<String,Object>>  msc=ServerStatusService.unusualStatus(1);
 		
@@ -1012,7 +1013,8 @@ public class BsStatusController {
 		}
 		for (Map<String, Object> map3 : msc) {
 			list.add(map3);
-		}		
+		}	
+		list.addAll(list3);
 		result.put("items", list);
 		result.put("totals", list.size());
 		
@@ -1038,7 +1040,8 @@ public class BsStatusController {
 		
 		int bsCount=BsStatusService.bsOffVoiceCount();
 		//int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
-		int jiCount=SqlServerService.bsJiAlarmCount();
+		int jiCount=SqlServerService.bsJiAlarmCount()+EmhService.bsEmhJiAlarmVoiceCount();
+	
 		int msc=ServerStatusService.alarmNum();
 		
 		
@@ -1165,6 +1168,7 @@ public class BsStatusController {
 		BsStatusService.updateAlarmStatus();
 		SqlServerService.updateAlarmStatus();
 		ServerStatusService.offAlarmStatus();
+		EmhService.update_emh_eps_voice_status();
 
 	}
 

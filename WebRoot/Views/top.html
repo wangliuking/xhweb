@@ -46,16 +46,16 @@
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId!=null">
 											<td>{{x.bsId}}-{{x.name |bsName}}</td>
-											<td ng-if="x.link==1" class="td-danger">【断开连接】
+											<td ng-if="x.link==1"><i class="fa fa-eercast text-red"></i>&nbsp;&nbsp;【断开连接】
 											</td>
-											<td ng-if="x.link==null" class="td-warning">{{x.name
+											<td ng-if="x.link==null"><i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;{{x.name
 													|alarmContent}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId==null">
 											<td>[{{x.name}}]</td>
-											<td class="td-danger">{{x.info}}</td>
+											<td><i class="fa fa-eercast text-yellow"></i>&nbsp;&nbsp;{{x.info}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
@@ -121,23 +121,23 @@
 				</div>
 			</div>
 
-            <div class="pull-left tm-icon">
+            <!-- <div class="pull-left tm-icon">
 				<a href="index.html"
 					target="_self"> <i class="fa fa-home"
 					style="margin-top:15px;float: left;font-size:15pt"></i><span>首页</span>
 				</a>
-			</div>
-			<div class="pull-left tm-icon">
+			</div> -->
+			<!-- <div class="pull-left tm-icon">
 				<a href="" onclick="dd()"> 
 				<img src="Resources/images/img/esight.png"  style="margin-top:15px;float: left;" id="esight"/>
-					<!-- <span style="margin-left:10px;">esight网管</span> -->
+					<span style="margin-left:10px;">esight网管</span>
 				</a>
-			</div>
+			</div> -->
 
-			<div id="time" class="pull-right" style="color:yellow">
-				<!-- <span id="hours"></span> : <span id="min"></span> : <span id="sec"></span> -->
+			<!-- <div id="time" class="pull-right" style="color:yellow">
+				<span id="hours"></span> : <span id="min"></span> : <span id="sec"></span>
 				<span id="fullTime"></span>
-			</div>
+			</div> -->
 
 			<!-- <div class="media-body">
 					<input type="text" class="main-search">

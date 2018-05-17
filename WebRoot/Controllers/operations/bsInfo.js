@@ -61,6 +61,7 @@ xh.load = function() {
 	app.controller("bs", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
+		$scope.page=1;
 		$scope.operationMenu=true; //菜单变色
 		$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start=0&limit="+pageSize).
 		success(function(response){
@@ -78,7 +79,8 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$("#bsId").val("");
 			$("#name").val("");
-			$scope.search(1);
+			
+			$scope.search($scope.page);
 		};
 		/* 显示修改基站model */
 		$scope.editModel = function(id) {
@@ -338,7 +340,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
+			$scope.page=page;
 			xh.maskShow();
 			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+limit).
 			success(function(response){
@@ -565,6 +567,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
+			$scope.page=page;
 			xh.maskShow();
 			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+pageSize).
 			success(function(response){

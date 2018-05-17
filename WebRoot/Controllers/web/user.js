@@ -28,6 +28,7 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
+		$scope.page=1;
 		var user=$("input[name='user']").val();
 		var roleId=$("select[name='roleId']").val();
 		/* 获取用户权限 */
@@ -70,7 +71,7 @@ xh.load = function() {
 		}
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 		/*跳转到权限分配页面*/
 		$scope.power = function(id) {
@@ -211,7 +212,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
+			$scope.page=page;
 			xh.maskShow();
 			$http.get("../../web/user/userList?user="+user+"&roleId="+roleId+"&start=0&limit=" + limit)
 					.success(function(response) {
@@ -233,6 +234,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
+			$scope.page=page;
 
 			xh.maskShow();
 			$http.get(

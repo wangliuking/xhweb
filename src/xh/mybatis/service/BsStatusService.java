@@ -102,7 +102,7 @@ public class BsStatusService {
 		
 		try {
 			SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String time=f.format(new Date(System.currentTimeMillis()-1*24*60*60*1000));
+			String time=f.format(new Date(System.currentTimeMillis()-2*60*1000));
 			
 			/*Calendar c = Calendar.getInstance();
 	        c.setTime(new Date());
