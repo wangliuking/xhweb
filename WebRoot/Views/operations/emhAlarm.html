@@ -345,7 +345,8 @@
 														<td>{{x.level}}</td>
 														<td>{{x.zone}}</td>
 														<td>{{x.alarmId}}</td>
-														<td>{{x.alarmDesc}}</td>
+														<td ng-if="x.alarmId == '008001'">市电告警</td>
+														<td ng-if="x.alarmId != '008001'">{{x.alarmDesc}}</td>
 														<td>{{x.deviceName}}</td>
 														<td ng-if="x.alarmFlag=='BEGIN'"><span
 													class="label  label-sm label-danger"><i

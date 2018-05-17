@@ -249,5 +249,10 @@
 	<select id="selectNVRChannels" resultType="map" useCache="true">
 		select sn,name from xhgmnet_emh_nvrChannels order by name
 	</select>
+	
+	<!-- 查询四期所有FSU的bsId和IP -->
+	<select id="selectNVRStatus" resultType="map" useCache="true">
+		select bsId,deviceIP from xhgmnet_nvrstatus
+	</select>
 
 </mapper>

@@ -283,12 +283,12 @@ public class AmapService {
 	/**
 	 * 获取dst数据
 	 */
-	public static List<Map<String,String>> dstData(){
+	public static List<Map<String,String>> dstData(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		List<Map<String,String>> list = null;
 		try{
-			list = mapper.selectForGpsDst();
+			list = mapper.selectForGpsDst(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

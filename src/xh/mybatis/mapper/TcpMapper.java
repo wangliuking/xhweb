@@ -60,6 +60,6 @@ public interface TcpMapper {
 	/**
 	 * 查询最近五分钟手台gps信息
 	 */
-	public List<Map<String,String>> selectForGpsDst()throws Exception;
+	public List<Map<String,String>> selectForGpsDst(Map<String,Object> map)throws Exception;
 
 }
