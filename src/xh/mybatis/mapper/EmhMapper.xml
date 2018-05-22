@@ -63,7 +63,7 @@
 	<!--基站环境监控交流电告警列表 -->
 	<select id="bsEmhJiAlarmList"  resultType="map"
 		useCache="true">
-			select a.updateTime as time,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
+			select a.updateTime as time,a.status as bell,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
             (select * from xhgmnet_emh_config where deviceId="080200000000001") as b on a.fsuId=b.fsuId
 where time &lt;=date_format(DATE_SUB(now(),INTERVAL 5 MINUTE),'%Y-%m-%d %H:%i:%s') order by time desc;
 	</select>

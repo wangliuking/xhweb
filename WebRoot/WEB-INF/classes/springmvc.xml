@@ -36,6 +36,23 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 
+	<!-- springmvc提供的简单异常处理器 -->
+<!-- 	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		定义默认的异常处理页面
+		<property name="defaultErrorView" value="error" />
+		定义异常处理页面用来获取异常信息的变量名，也可不定义，默认名为exception
+		<property name="exceptionAttribute" value="ex" />
+		定义需要特殊处理的异常，这是重要点
+		<property name="exceptionMappings">
+			<props>
+				<prop key="xh.org.exception.CustomException">/Views/404.html</prop>
+			</props>
+			还可以定义其他的自定义异常
+		</property>
+	</bean>
+	<bean id="exceptionHandler" class=xh.org.exception.ExceptionHandler"/>   -->
+
 	<!-- <bean class="xh.springmvc.handlers.UncaughtExceptionController"/> -->
 
 	<!-- 总错误处理 -->

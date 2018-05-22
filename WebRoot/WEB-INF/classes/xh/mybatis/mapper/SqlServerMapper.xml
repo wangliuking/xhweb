@@ -23,7 +23,7 @@
     (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
       from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
       and DevNode='0051' and NodeID='1003' ) as T1) as T  -->
-      select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime from tb_AlarmRecording as T  
+      select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime,flag as bell from tb_AlarmRecording as T  
       where AlarmDate=#{time} and state='报警' 
       and DevNode='0051' and NodeID='1003' 
     </select>

@@ -21,7 +21,7 @@
 			</div>
 			<div class="pull-left tm-icon">
 				<a data-drawer="messages" class="dropdown-toggle" href=""
-					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i
+					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId=='' || roleId==10000"> <i
 					class="fa fa-bell-o fa-x font-white"
 					style="font-size:15pt;margin-top:15px;float: left;font-weight: 100; "></i> <i
 					class="n-count animated" id="alarmcount">0</i> <span style="margin-left:10px;">告警提示</span>
@@ -46,16 +46,16 @@
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId!=null">
 											<td>{{x.bsId}}-{{x.name |bsName}}</td>
-											<td ng-if="x.link==1"><i class="fa fa-eercast text-red"></i>&nbsp;&nbsp;【断开连接】
+											<td ng-if="x.link==1"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-red"></i>&nbsp;&nbsp;【断开连接】
 											</td>
-											<td ng-if="x.link==null"><i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;{{x.name
+											<td ng-if="x.link==null"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;{{x.name
 													|alarmContent}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
 										<tr ng-repeat="x in alarm" ng-if="x.bsId==null">
 											<td>[{{x.name}}]</td>
-											<td><i class="fa fa-eercast text-yellow"></i>&nbsp;&nbsp;{{x.info}}</td>
+											<td><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-yellow"></i>&nbsp;&nbsp;{{x.info}}</td>
 
 											<td>{{x.time}}</td>
 										</tr>
@@ -95,7 +95,7 @@
 					</div>
 			</div>
 			<div class="pull-left tm-icon">
-				<a href="Views/operations/order.html" target="mainframe" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i
+				<a href="Views/operations/order.html" target="mainframe" ng-if="loginUserVpnId==null || loginUserVpnId=='' || roleId==10002 || roleId==10000"> <i
 					class="fa fa-paper-plane-o  font-white"
 					style="font-size:15pt;margin-top:15px;float: left;"></i> <i
 					class="n-count animated" id="ordercount">0</i> <span style="margin-left:10px;">故障派单</span>
@@ -103,7 +103,7 @@
 			</div>
 			<div class="dropdown pull-left tm-icon">
 				<a data-drawer="messages" class="dropdown-toggle" href=""
-					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId==''"> <i class="fa fa-qrcode fa-x font-white"
+					data-toggle="dropdown"> <i class="fa fa-qrcode fa-x font-white"
 					style="margin-top:15px;float: left;font-size:15pt"></i><span style="margin-left:10px;">点我扫一扫</span>
 				</a>
 				<div class="dropdown-menu animated flipInX">
