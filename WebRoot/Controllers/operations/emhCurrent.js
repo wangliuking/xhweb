@@ -56,11 +56,6 @@ xh.load = function() {
 			$scope.search(1);
 		};
 		
-		/* 显示model */
-		$scope.showAddModel = function(id) {
-			$('#add').modal('show');
-		};
-		
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -172,27 +167,4 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 
-};
-
-xh.add = function() {
-	var exportBsId = $("#exportBsId").val();
-	var exportBsName = $("#exportBsName").val();
-	var startTime = $("#exportStartTime").val();
-	var endTime = $("#exportEndTime").val();
-	
-	window.location="../../gonsuncn/export4History?exportBsId="+exportBsId+"&exportBsName="+exportBsName+"&startTime="+startTime+"&endTime="+endTime;
-	/*$.ajax({
-		url : '../../gonsuncn/export4Alarm',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data : $("#addForm").serializeArray(),
-		success : function(data) {
-			$('#add').modal('hide');
-			xh.load();
-			toastr.success("导出成功", '提示');	
-		},
-		error : function() {
-		}
-	});*/
 };

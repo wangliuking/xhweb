@@ -51,6 +51,7 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
+				console.log(emhData3);
 				$scope.emhData4Num = emhData4.length;
 			});
 		}
@@ -71,7 +72,6 @@ xh.load = function() {
 						}				
 					}
 				}
-				console.log(id);
 				if(id==1){
 					var tempData = [];
 					for(var i=0;i<emhData4.length;i++){
@@ -197,10 +197,9 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
-		/* 显示链接修改model */
-		$scope.editModel = function(id) {
-			$scope.editData = $scope.data[id];
-			$scope.roleId=$scope.editData.roleId.toString();
+		/* 显示model */
+		$scope.showAddModel = function(id) {
+			$('#add').modal('show');
 		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -242,6 +241,9 @@ xh.load = function() {
 			var bsLevel = $("#bsLevel  option:selected").val();
 			var bsArea = $("#bsArea  option:selected").val();
 			
+			var bsId = $("#bsId").val();
+			var bsName = $("#bsName").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -253,7 +255,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -274,6 +276,9 @@ xh.load = function() {
 			var bsLevel = $("#bsLevel  option:selected").val();
 			var bsArea = $("#bsArea  option:selected").val();
 			
+			var bsId = $("#bsId").val();
+			var bsName = $("#bsName").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -283,7 +288,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName).
 			success(function(response){
 				xh.maskHide();
 				
@@ -582,5 +587,26 @@ xh.pagging = function(currentPage,totals, $scope) {
 		});
 	}
 };
-
+xh.add = function() {
+	var exportBsId = $("#exportBsId").val();
+	var exportBsName = $("#exportBsName").val();
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	
+	window.location="../../gonsuncn/export4Alarm?exportBsId="+exportBsId+"&exportBsName="+exportBsName+"&startTime="+startTime+"&endTime="+endTime;
+	/*$.ajax({
+		url : '../../gonsuncn/export4Alarm',
+		type : 'POST',
+		dataType : "json",
+		async : false,
+		data : $("#addForm").serializeArray(),
+		success : function(data) {
+			$('#add').modal('hide');
+			xh.load();
+			toastr.success("导出成功", '提示');	
+		},
+		error : function() {
+		}
+	});*/
+};
 

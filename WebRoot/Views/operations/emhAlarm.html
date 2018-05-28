@@ -118,17 +118,32 @@
 										ng-click="emhView($index)">{{x.bsId}}</div>
 									<div
 										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;"
-										ng-if="x.siteId==x.bsId && x.envMonitor!=2"
+										ng-if="x.siteId==x.bsId && x.envMonitor!=2 && x.alarmStatus==0 && x.dataStatus==0"
 										class="td-success pull-left"
 										ng-mouseover="showMouseChoosedBsName(x.name)"
 										ng-mouseout="hideMouseChoosedBsName()"
 										ng-click="emhView($index)">{{x.bsId}}</div>
 									<div
-										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;background-color:#DCDCDC;"
-										ng-if="x.envMonitor==2" class="pull-left"
+										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;color:yellow;"
+										ng-if="x.siteId==x.bsId && x.envMonitor!=2 && x.alarmStatus==1"
+										class="td-success pull-left"
 										ng-mouseover="showMouseChoosedBsName(x.name)"
 										ng-mouseout="hideMouseChoosedBsName()"
 										ng-click="emhView($index)">{{x.bsId}}</div>
+									<!-- <div
+										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;color:blue;"
+										ng-if="x.siteId==x.bsId && x.envMonitor!=2 && x.alarmStatus==1 && x.dataStatus==1"
+										class="td-warning pull-left"
+										ng-mouseover="showMouseChoosedBsName(x.name)"
+										ng-mouseout="hideMouseChoosedBsName()"
+										ng-click="emhView($index)">{{x.bsId}}</div>
+									<div
+										style="cursor:pointer;width:40px;height:40px;margin:2px 2px;text-align:center;line-height:36px;border-radius:40px;background-color:#DCDCDC;"
+										ng-if="x.siteId==x.bsId && x.envMonitor!=2 && x.alarmStatus==0 && x.dataStatus==1"
+										class="pull-left"
+										ng-mouseover="showMouseChoosedBsName(x.name)"
+										ng-mouseout="hideMouseChoosedBsName()"
+										ng-click="emhView($index)">{{x.bsId}}</div> -->
 								</div>
 							</div>
 						</div>
@@ -170,6 +185,14 @@
 															</select>
 														</div>
 													</div>
+													
+													<div class="form-group"
+														style="width:100px;margin-bottom:7px;">
+														<div class="pull-left">
+															<input id="bsId" type="text" placeholder="基站ID" value=""/>
+														</div>
+													</div>
+													
 													<br/>
 													<div class="form-group"
 														style="width:120px;margin-bottom:7px;">
@@ -195,6 +218,14 @@
 															</select>
 														</div>
 													</div>
+													
+													<div class="form-group"
+														style="width:100px;margin-bottom:7px;">
+														<div class="pull-left">
+															<input id="bsName" type="text" placeholder="基站名称" value=""/>
+														</div>
+													</div>
+													
 													<br/>
 													<div class="form-group" style="width:120px;margin-bottom:7px;">
 														<div class="list-group-item" style="color:black;">
@@ -220,7 +251,7 @@
 																<input id="device3" class="toggle-switch" type="checkbox" value="080200000000001"
 																	checked> <label for="device3"></label>
 															</div>
-															UPS
+															EPS
 														</div>
 													</div>
 													<br/>
@@ -314,24 +345,24 @@
 									<div class="hpanel">
 										<div class="panel-heading hbuilt">
 											<span>四期告警</span>
+											<button type="button" style="border:1px solid yellow;border-radius:8px;float:right;" class="btn btn-xs btn-danger" ng-click="showAddModel()">点击导出</button>
 										</div>
 										<div class="panel-body">
 											<!-- row -->
 											<table id="tb-info" class="xh-table table-hover">
 												<thead>
 													<tr class="tr-gray">
-														<th width="6%">序号</th>
-														<th width="6%">基站ID</th>
-														<th width="9%">基站名称</th>
-														<th width="6%">基站分级</th>
-														<th width="6%">基站区域</th>
-														<th width="8%">告警编号</th>
-														<th width="15%">告警描述</th>
-														<th width="8%">设备名称</th>
-														<th width="8%">告警标志</th>
-														<th width="8%">告警触发值</th>														
-														<th width="10%">告警时间</th>
-														<th width="10%">恢复时间</th>
+														<th>序号</th>
+														<th>基站ID</th>
+														<th>基站名称</th>
+														<th>基站分级</th>
+														<th>基站区域</th>
+														<th>设备名称</th>
+														<th>告警描述</th>														
+														<th>告警标志</th>
+														<th>告警触发值</th>														
+														<th>告警时间</th>
+														<th>恢复时间</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -344,10 +375,9 @@
 														<td>{{x.name}}</td>
 														<td>{{x.level}}</td>
 														<td>{{x.zone}}</td>
-														<td>{{x.alarmId}}</td>
-														<td ng-if="x.alarmId == '008001'">市电告警</td>
-														<td ng-if="x.alarmId != '008001'">{{x.alarmDesc}}</td>
 														<td>{{x.deviceName}}</td>
+														<td ng-if="x.alarmId == '008001'">市电告警</td>
+														<td ng-if="x.alarmId != '008001'">{{x.alarmDesc}}</td>													
 														<td ng-if="x.alarmFlag=='BEGIN'"><span
 													class="label  label-sm label-danger"><i
 														class="fa fa-plus"></i>开始</span></td>
@@ -426,7 +456,7 @@
 												name="type" value="8" checked> <label for="type8"><span>FSU</span></label>
 										</div>
 								</div>
-								环控告警列表(三四期合并)
+								环控告警列表(三期告警)
 							</div>
 							<div class="panel-body">
 								<div style="min-height:250px;max-height:450px;overflow: scroll;">
@@ -514,7 +544,7 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加用户 -->
-	<!-- <div ng-include="'user-add.html'"></div> -->
+	<div ng-include="'emhAlarm-export.html'"></div>
 	<!-- 编辑基用户-->
 	<!-- <div ng-include="'user-edit.html'"></div> -->
 	<!-- <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
