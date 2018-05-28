@@ -1397,6 +1397,7 @@ function init(data,markData) {
 				objBreak.push(y);
 			}			
 		}
+		
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
 		myChart = overlay.initECharts(chartsContainer);

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.AlarmList;
+import xh.mybatis.bean.HistoryList;
 import xh.mybatis.mapper.GosuncnMapper;
 import xh.mybatis.mapper.GpsMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -469,6 +471,40 @@ public class GosuncnService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * 4期告警导出到excel
+	 */
+	public static List<AlarmList> selectEMHAlarmForExcel(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<AlarmList> list=null;
+		try {
+			list=mapper.selectEMHAlarmForExcel(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 4期历史数据导出到excel
+	 */
+	public static List<HistoryList> emhHistoryForExcel(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<HistoryList> list=null;
+		try {
+			list=mapper.emhHistoryForExcel(map);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }

@@ -122,9 +122,15 @@
 		<if test="bsArea !=null and bsArea !=tempArea">
 			and zone=#{bsArea}
 		</if>
-		order by alarmTime desc limit #{start},#{limit}
+		<if test="bsId !=null and bsId !=''">
+			and siteId=#{bsId}
+		</if>
+		<if test="bsName !=null and bsName !=''">
+			and name like concat('%',#{bsName},'%')
+		</if>
+		order by startTime desc limit #{start},#{limit}
 	</select>
-	<!--根据基站ID，名称查找基站记录总数 -->
+	<!--根据不同传感器查找告警记录总数 -->
 	<select id="countEMHAlarm" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from 
@@ -151,6 +157,12 @@
 		</if>
 		<if test="bsArea !=null and bsArea !=tempArea">
 			and zone=#{bsArea}
+		</if>
+		<if test="bsId !=null and bsId !=''">
+			and siteId=#{bsId}
+		</if>
+		<if test="bsName !=null and bsName !=''">
+			and name like concat('%',#{bsName},'%')
 		</if>
 	</select>	
 	
@@ -179,9 +191,10 @@
 	<!-- 查询所有站的环控通断情况 -->
 	<select id="selectFor4EMH" resultType="map" useCache="true">
 	<![CDATA[
-		select a.*,b.fsuId,b.siteId,b.fsuIp from xhgmnet_bs_station as a LEFT JOIN 
+		select a.*,b.fsuId,b.siteId,b.fsuIp,c.alarmStatus,c.dataStatus from xhgmnet_bs_station as a LEFT JOIN 
 		(select x.fsuId,y.siteId,y.siteName,x.fsuIp from xhgmnet_emh_login as x LEFT JOIN xhgmnet_emh_config as y 
-		on x.fsuId=y.fsuId GROUP BY x.fsuId) as b on a.bsId=b.siteId where a.lat !=0 and a.bsId<=2038
+		on x.fsuId=y.fsuId GROUP BY x.fsuId) as b on a.bsId=b.siteId LEFT JOIN xhgmnet_gps_voice.xhgmnet_emh_sensor_current as c on a.bsId=c.bsId
+		where a.envMonitor!=2 and a.bsId<=2038 ORDER BY a.bsId
 	]]>
 	</select>
 	
@@ -195,37 +208,17 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-		<if test="nextMonth!=null and nextMonth!=''">
-			UNION ALL
-			select * from ${nextMonth} where 1=1
-			<if test="bsId!=null and bsId!=''">
-				and bsId=#{bsId}
-			</if>
-			and createTime between #{startTime} and #{endTime}
-		</if>
-		order by createTime desc limit #{start},#{limit}
+		order by createTime limit #{start},#{limit}
 	</select>
 	<!--环控历史数据总数 -->
 	<select id="emhHistoryCount" parameterType="map" resultType="int"
 		useCache="true">
-		select SUM(cnt) from (
-		select count(*) cnt from ${currentMonth} where 1=1
+		select count(*) from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
-		</if>
-		<if test="nextMonth==null or nextMonth==''">
-			) as tempTable
-		</if>
-		<if test="nextMonth!=null and nextMonth!=''">
-			UNION ALL
-			select count(*) cnt from ${nextMonth} where 1=1
-			<if test="bsId!=null and bsId!=''">
-				and bsId=#{bsId}
-			</if>
-			and createTime between #{startTime} and #{endTime}) as tempTable
 		</if>
 	</select>
 	
@@ -253,6 +246,36 @@
 	<!-- 查询四期所有FSU的bsId和IP -->
 	<select id="selectNVRStatus" resultType="map" useCache="true">
 		select bsId,deviceIP from xhgmnet_nvrstatus
+	</select>
+	
+	<!-- 环控excel导出部分 -->
+	<!--环控告警导出-->
+	<select id="selectEMHAlarmForExcel" parameterType="map" resultType="xh.mybatis.bean.AlarmList"
+		useCache="true">
+		select conf.siteId,conf.name,conf.level,conf.zone,otherTab.fsuId,otherTab.serialNo,otherTab.deviceId,otherTab.deviceName,otherTab.alarmId,
+		otherTab.alarmlevel,otherTab.alarmFlag,otherTab.alarmDesc,otherTab.startTime,otherTab.alarmTime from 
+		(select a.*,b.deviceName from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId
+		) as otherTab LEFT JOIN (select fsuId,siteId,siteName,name,level,zone from (select * from xhgmnet_emh_config GROUP BY fsuId) as x 
+		LEFT JOIN xhgmnet_bs_station as y on x.siteId=y.bsId) as conf on otherTab.fsuId=conf.fsuId where 1=1 
+		<if test="bsId !=null and bsId !=''">
+			and siteId=#{bsId}
+		</if>
+		<!-- <if test="bsName !=null and bsName !=''">
+			and name like concat('%',#{bsName},'%')
+		</if> -->
+		and startTime between #{startTime} and #{endTime} order by startTime
+	</select>
+	<!--环控历史数据导出 -->
+	<select id="emhHistoryForExcel" parameterType="map" resultType="xh.mybatis.bean.HistoryList"
+		useCache="true">
+		select bsId,name,fsuId,water,smoke,red,door,temp,damp,ups1,ups2,ups3,ups4,ups5,fsu1,fsu2,fsu3,fsu4,e1,e2,e3,e4,e5,createTime from ${currentMonth} where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId=#{bsId}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and createTime between #{startTime} and #{endTime}
+		</if>
+		order by createTime
 	</select>
 
 </mapper>
