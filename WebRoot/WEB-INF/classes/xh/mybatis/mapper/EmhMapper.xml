@@ -63,14 +63,14 @@
 	<!--基站环境监控交流电告警列表 -->
 	<select id="bsEmhJiAlarmList"  resultType="map"
 		useCache="true">
-			select a.updateTime as time,a.status as bell,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
+			select a.updateTime as time,a.status as bell,a.deviceId,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
             (select * from xhgmnet_emh_config where deviceId="080200000000001") as b on a.fsuId=b.fsuId
-where time &lt;=date_format(DATE_SUB(now(),INTERVAL 5 MINUTE),'%Y-%m-%d %H:%i:%s') order by time desc;
+where time &lt;=date_format(DATE_SUB(now(),INTERVAL 10 MINUTE),'%Y-%m-%d %H:%i:%s') order by time desc;
 	</select>
 	<!--基站环境监控交流电声音告警数目 -->
 	<select id="bsEmhJiAlarmVoiceCount"  resultType="int"
 		useCache="true">
-			select count(*) from xhgmnet_emh_eps_status where status=0 and updateTime &lt;=date_format(DATE_SUB(now(),INTERVAL 5 MINUTE),'%Y-%m-%d %H:%i:%s')
+			select count(*) from xhgmnet_emh_eps_status where status=0 and updateTime &lt;=date_format(DATE_SUB(now(),INTERVAL 10 MINUTE),'%Y-%m-%d %H:%i:%s')
 	</select>
 	<!--更新eps交流电声音告警提示 -->
 	<update id="update_emh_eps_voice_status">
