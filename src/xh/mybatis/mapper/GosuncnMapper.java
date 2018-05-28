@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.AlarmList;
+import xh.mybatis.bean.HistoryList;
+
 public interface GosuncnMapper {
 	/**
 	 * 添加注册信息
@@ -164,5 +167,19 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,String>> selectNVRStatus()throws Exception;
+	
+	/**
+	 * 告警导出到excel
+	 * @return
+	 * @throws Exception
+	 */
+	public List<AlarmList> selectEMHAlarmForExcel(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 历史数据导出到excel
+	 * @return
+	 * @throws Exception
+	 */
+	public List<HistoryList> emhHistoryForExcel(Map<String,Object> map)throws Exception;
 	
 }

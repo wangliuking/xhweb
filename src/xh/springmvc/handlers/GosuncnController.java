@@ -24,10 +24,13 @@ import com.chinamobile.fsuservice.Test;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.AlarmList;
+import xh.mybatis.bean.HistoryList;
 import xh.mybatis.service.GosuncnService;
 import xh.mybatis.service.GpsService;
 import xh.mybatis.service.SqlServerService;
 import xh.org.listeners.EMHListener;
+import xh.func.plugin.ExportExcel;
 /**
  * 动环设备处理类
  * @author 12878
@@ -235,13 +238,17 @@ public class GosuncnController {
 		String temp=request.getParameter("deviceIds");	
 		List<String> list=null;
 		if(temp!=null && !"".equals(temp)){
-			list = Arrays.asList(temp.split(","));		
+			list = Arrays.asList(temp.split(","));
 		}
 		
 		String alarmlevel=request.getParameter("alarmLevel");
 		String alarmFlag=request.getParameter("alarmFlag");
 		String bsLevel = request.getParameter("bsLevel");
 		String bsArea = request.getParameter("bsArea");
+		
+		String bsId = request.getParameter("bsId");
+		String bsName = request.getParameter("bsName");
+		
 		if(!"".equals(alarmFlag) && "0".equals(alarmFlag)){
 			alarmFlag="";
 		}else if("1".equals(alarmFlag)){
@@ -254,6 +261,9 @@ public class GosuncnController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		String tempArea = "全部区域";
 		map.put("tempArea", tempArea);
+		
+		map.put("bsId", bsId);
+		map.put("bsName", bsName);
 		
 		map.put("alarmlevel", alarmlevel);
 		map.put("alarmFlag", alarmFlag);
@@ -276,6 +286,68 @@ public class GosuncnController {
 		}
 		
 	}
+	
+	/**
+	 * 导出四期告警到excel文件
+	 */
+	@RequestMapping("/export4Alarm")  
+    public void export4Alarm(HttpServletRequest request, HttpServletResponse response) {  
+		this.success=true;
+		String bsId = request.getParameter("exportBsId");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		
+		Map<String, Object> map=new HashMap<String, Object>();	
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+
+        List<AlarmList> alarmlList = GosuncnService.selectEMHAlarmForExcel(map);
+        ExportExcel<AlarmList> ee= new ExportExcel<AlarmList>();  
+        String[] headers = {"基站ID","名称","级别","区域","监控主机ID","序列号","设备ID","设备名称","告警ID","告警级别","告警标志","告警描述","开始时间","告警时间"};  
+        String fileName = "告警信息表";  
+        System.out.println("alarmlList长度为 : "+alarmlList.size());
+        ee.exportExcel(headers,alarmlList,fileName,response);     
+    }
+	
+	/**
+	 * 导出四期历史数据到excel文件
+	 */
+	@RequestMapping("/export4History")  
+    public void export4History(HttpServletRequest request, HttpServletResponse response) {  
+		this.success=true;
+		String bsId = request.getParameter("exportBsId");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		
+		Calendar cal = Calendar.getInstance();
+		int temp = cal.get(Calendar.MONTH)+1;
+		String currentMonth;
+		if(temp<10){
+			currentMonth="0"+temp;
+		}else{
+			currentMonth=Integer.toString(temp);
+		}
+		if(!"".equals(startTime)){
+			currentMonth=startTime.substring(5, 7);
+		}
+		currentMonth="xhgmnet_emh_sensor_history"+currentMonth;
+		
+		Map<String, Object> map=new HashMap<String, Object>();	
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("currentMonth", currentMonth);
+		
+		System.out.println("bsId : "+bsId+" startTime : "+startTime+" endTime : "+endTime+" currentMonth : "+currentMonth);
+
+        List<HistoryList> historyList = GosuncnService.emhHistoryForExcel(map);
+        ExportExcel<HistoryList> ee= new ExportExcel<HistoryList>();  
+        String[] headers = {"基站ID","名称","监控主机ID","水浸","烟感","红外","门磁","温度","湿度","eps输入相电压","eps输出相电压","eps输出频率","电池组电压","电池方式工作状态","非智能设备采集器通信状态告警","开关电源通信状态告警","UPS设备通信状态告警","智能电表通信状态告警","电表相电压Ua","电表相电流Ia","电表功率因数","正向有功电能","电表频率","采集时间"};  
+        String fileName = "历史记录表";  
+        System.out.println("historyList长度为 : "+historyList.size());
+        ee.exportExcel(headers,historyList,fileName,response);    
+    }
 	
 	/**
 	 * 查询环控传感器告警统计
