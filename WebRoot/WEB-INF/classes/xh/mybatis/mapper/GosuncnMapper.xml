@@ -128,7 +128,18 @@
 		<if test="bsName !=null and bsName !=''">
 			and name like concat('%',#{bsName},'%')
 		</if>
-		order by startTime desc limit #{start},#{limit}
+		<if test="startTime !=null and startTime !=''">
+			and startTime between #{startTime} and #{endTime}
+		</if>
+		
+		<!-- 判断是正在告警还是告警结束，用不同排序 -->
+		<if test="alarmFlag =='BEGIN'">
+			order by alarmTime desc
+		</if>
+		<if test="alarmFlag !='BEGIN'">
+			order by startTime desc
+		</if>
+		limit #{start},#{limit}
 	</select>
 	<!--根据不同传感器查找告警记录总数 -->
 	<select id="countEMHAlarm" parameterType="map" resultType="int"
@@ -164,6 +175,9 @@
 		<if test="bsName !=null and bsName !=''">
 			and name like concat('%',#{bsName},'%')
 		</if>
+		<if test="startTime !=null and startTime !=''">
+			and startTime between #{startTime} and #{endTime}
+		</if>	
 	</select>	
 	
 	<!-- 查询不同传感器的告警 -->
@@ -257,13 +271,44 @@
 		(select a.*,b.deviceName from xhgmnet_emh_sensor_alarm as a left join xhgmnet_emh_device as b on a.deviceId=b.deviceId
 		) as otherTab LEFT JOIN (select fsuId,siteId,siteName,name,level,zone from (select * from xhgmnet_emh_config GROUP BY fsuId) as x 
 		LEFT JOIN xhgmnet_bs_station as y on x.siteId=y.bsId) as conf on otherTab.fsuId=conf.fsuId where 1=1 
+		<if test="deviceIds ==null or deviceIds ==''">
+			and 1=0
+		</if>
+		<if test="deviceIds !=null and deviceIds !=''">
+			and otherTab.deviceId in
+			<foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
+      			#{item}
+   			</foreach>
+		</if>
+		<if test="alarmlevel !=null and alarmlevel !=0">
+			and alarmlevel=#{alarmlevel}
+		</if>
+		<if test="alarmFlag !=null and alarmFlag !=''">
+			and alarmFlag=#{alarmFlag}
+		</if>
+		<if test="bsLevel !=null and bsLevel !=0">
+			and level=#{bsLevel}
+		</if>
+		<if test="bsArea !=null and bsArea !=tempArea">
+			and zone=#{bsArea}
+		</if>
 		<if test="bsId !=null and bsId !=''">
 			and siteId=#{bsId}
 		</if>
-		<!-- <if test="bsName !=null and bsName !=''">
+		<if test="bsName !=null and bsName !=''">
 			and name like concat('%',#{bsName},'%')
-		</if> -->
-		and startTime between #{startTime} and #{endTime} order by startTime
+		</if>
+		<if test="startTime !=null and startTime !=''">
+			and startTime between #{startTime} and #{endTime}
+		</if>
+		<!-- 判断是正在告警还是告警结束，用不同排序 -->
+		<if test="alarmFlag =='BEGIN'">
+			order by alarmTime desc
+		</if>
+		<if test="alarmFlag !='BEGIN'">
+			order by startTime desc
+		</if>
+		
 	</select>
 	<!--环控历史数据导出 -->
 	<select id="emhHistoryForExcel" parameterType="map" resultType="xh.mybatis.bean.HistoryList"
