@@ -165,7 +165,7 @@ xh.load = function() {
 				deviceIds.push($(this).val());
 			});
 			var alarmLevel = $("#alarmLv  option:selected").val();
-			var alarmFlag = $("#alarmFlags option:selected").val();
+			var alarmFlag = "1";//$("#alarmFlags option:selected").val()
 			var bsLevel = $("#bsLevel  option:selected").val();
 			var bsArea = "全部区域";
 			$http.get("../../gonsuncn/alarmlist?start=0&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea).
@@ -185,7 +185,7 @@ xh.load = function() {
 		
 		$scope.alarmStatus = [{"id":"0","name":"告警状态"},{"id":"1","name":"告警中"},{"id":"2","name":"告警结束"}];
 		
-		$scope.bsLevel = [{"id":"0","name":"全部级别"},{"id":"1","name":"一级基站"},{"id":"2","name":"二级基站"},{"id":"3","name":"三级基站"}];
+		$scope.bsLevel = [{"id":"0","name":"基站级别"},{"id":"1","name":"一级基站"},{"id":"2","name":"二级基站"},{"id":"3","name":"三级基站"}];
 		
 		$scope.bsArea = [{"id":"0","name":"全部区域"},{"id":"1","name":"简阳"},{"id":"2","name":"双流"},{"id":"e","name":"都江堰"},
 		                 {"id":"4","name":"天府新区"},{"id":"5","name":"温江"},{"id":"6","name":"龙泉驿"},{"id":"7","name":"金堂"},
@@ -197,9 +197,27 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
-		/* 显示model */
-		$scope.showAddModel = function(id) {
-			$('#add').modal('show');
+		/* 导出查询的告警 */
+		$scope.exportAlarm = function(id) {
+			xh.maskShow();
+			/*获取选中的checkbox和告警等级*/
+			var deviceIds=[];
+			$(".form-inline input:checked").each(function(i){
+				deviceIds.push($(this).val());
+			});
+			var alarmLevel = $("#alarmLv  option:selected").val();
+			var alarmFlag = $("#alarmFlags option:selected").val();
+			var bsLevel = $("#bsLevel  option:selected").val();
+			var bsArea = $("#bsArea  option:selected").val();
+			
+			var bsId = $("#bsId").val();
+			var bsName = $("#bsName").val();
+			
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			
+			window.location="../../gonsuncn/export4Alarm?&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName+"&startTime="+startTime+"&endTime="+endTime;
+			xh.maskHide();
 		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -244,6 +262,9 @@ xh.load = function() {
 			var bsId = $("#bsId").val();
 			var bsName = $("#bsName").val();
 			
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
@@ -255,7 +276,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -279,6 +300,9 @@ xh.load = function() {
 			var bsId = $("#bsId").val();
 			var bsName = $("#bsName").val();
 			
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -288,7 +312,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName).
+			$http.get("../../gonsuncn/alarmlist?start="+start+"&limit="+pageSize+"&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
 				
@@ -332,7 +356,7 @@ xh.loadPieDev = function() {
 	// 设置容器宽高
 	 var resizeBarContainer = function() {
 	  $("#alarmPie").width(parseInt($("#alarmPie").parent().width()));
-	  $("#alarmPie").height(200);
+	  $("#alarmPie").height(parseInt($("#leftChoose").height()));
 	  };
 	  resizeBarContainer();
 	 
@@ -389,7 +413,7 @@ xh.loadPieDev = function() {
 			            name:'告警传感器',
 			            type:'pie',
 			            radius : '55%',
-			            center: ['50%', '55%'],
+			            center: ['55%', '55%'],
 			            data:[
 			                {value:752, name:'温度'},
 			                {value:899, name:'湿度'},
@@ -440,7 +464,7 @@ xh.loadPieLv = function() {
 	// 设置容器宽高
 	 var resizeBarContainer = function() {
 	  $("#alarmLevs").width(parseInt($("#alarmLevs").parent().width()));
-	  $("#alarmLevs").height(200);
+	  $("#alarmLevs").height(parseInt($("#leftChoose").height()));
 	  };
 	  resizeBarContainer();
 	 
@@ -496,7 +520,7 @@ xh.loadPieLv = function() {
 			        {
 			            name:'告警级别',
 			            type:'pie',
-			            radius : ['50%', '60%'],
+			            radius : ['55%', '60%'],
 			            center: ['50%', '55%'],
 			            itemStyle : {
 			                normal : {
@@ -588,12 +612,23 @@ xh.pagging = function(currentPage,totals, $scope) {
 	}
 };
 xh.add = function() {
-	var exportBsId = $("#exportBsId").val();
-	var exportBsName = $("#exportBsName").val();
+	/*获取选中的checkbox和告警等级*/
+	var deviceIds=[];
+	$(".form-inline input:checked").each(function(i){
+		deviceIds.push($(this).val());
+	});
+	var alarmLevel = $("#alarmLv  option:selected").val();
+	var alarmFlag = $("#alarmFlags option:selected").val();
+	var bsLevel = $("#bsLevel  option:selected").val();
+	var bsArea = $("#bsArea  option:selected").val();
+	
+	var bsId = $("#bsId").val();
+	var bsName = $("#bsName").val();
+	
 	var startTime = $("#startTime").val();
 	var endTime = $("#endTime").val();
 	
-	window.location="../../gonsuncn/export4Alarm?exportBsId="+exportBsId+"&exportBsName="+exportBsName+"&startTime="+startTime+"&endTime="+endTime;
+	window.location="../../gonsuncn/export4Alarm?&deviceIds="+deviceIds+"&alarmLevel="+alarmLevel+"&alarmFlag="+alarmFlag+"&bsLevel="+bsLevel+"&bsArea="+bsArea+"&bsId="+bsId+"&bsName="+bsName+"&startTime="+startTime+"&endTime="+endTime;
 	/*$.ajax({
 		url : '../../gonsuncn/export4Alarm',
 		type : 'POST',

@@ -249,6 +249,9 @@ public class GosuncnController {
 		String bsId = request.getParameter("bsId");
 		String bsName = request.getParameter("bsName");
 		
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		
 		if(!"".equals(alarmFlag) && "0".equals(alarmFlag)){
 			alarmFlag="";
 		}else if("1".equals(alarmFlag)){
@@ -264,6 +267,9 @@ public class GosuncnController {
 		
 		map.put("bsId", bsId);
 		map.put("bsName", bsName);
+		
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
 		
 		map.put("alarmlevel", alarmlevel);
 		map.put("alarmFlag", alarmFlag);
@@ -293,14 +299,46 @@ public class GosuncnController {
 	@RequestMapping("/export4Alarm")  
     public void export4Alarm(HttpServletRequest request, HttpServletResponse response) {  
 		this.success=true;
-		String bsId = request.getParameter("exportBsId");
+		String temp=request.getParameter("deviceIds");	
+		List<String> list=null;
+		if(temp!=null && !"".equals(temp)){
+			list = Arrays.asList(temp.split(","));
+		}
+		
+		String alarmlevel=request.getParameter("alarmLevel");
+		String alarmFlag=request.getParameter("alarmFlag");
+		String bsLevel = request.getParameter("bsLevel");
+		String bsArea = request.getParameter("bsArea");
+		
+		String bsId = request.getParameter("bsId");
+		String bsName = request.getParameter("bsName");
+		
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		
+		if(!"".equals(alarmFlag) && "0".equals(alarmFlag)){
+			alarmFlag="";
+		}else if("1".equals(alarmFlag)){
+			alarmFlag="BEGIN";
+		}else if("2".equals(alarmFlag)){
+			alarmFlag="END";
+		}
+		
 		Map<String, Object> map=new HashMap<String, Object>();	
+		String tempArea = "全部区域";
+		map.put("tempArea", tempArea);
+		
 		map.put("bsId", bsId);
+		map.put("bsName", bsName);
+		
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
+		
+		map.put("alarmlevel", alarmlevel);
+		map.put("alarmFlag", alarmFlag);
+		map.put("bsLevel", bsLevel);
+		map.put("bsArea", bsArea);
+		map.put("deviceIds", list);
 
         List<AlarmList> alarmlList = GosuncnService.selectEMHAlarmForExcel(map);
         ExportExcel<AlarmList> ee= new ExportExcel<AlarmList>();  
