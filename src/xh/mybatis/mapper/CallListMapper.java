@@ -29,4 +29,12 @@ public interface CallListMapper {
 	 */
 	public List<Map<String,Object>> callChart(Map<String,Object> map)throws Exception;
 	
+	/**
+	 * 今日话务统计
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> chart_call_hour_now()throws Exception;
+	
 }

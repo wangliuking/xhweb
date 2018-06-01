@@ -397,7 +397,7 @@
 		data : {},
 		async : false,
 		success : function(data) {
-			var html = data.user + "&nbsp;&nbsp;<br>角色[" + data.role + "]";
+			var html = data.user /* + "&nbsp;&nbsp;<br>角色[" + data.role + "]" */;
 			$("#login-user").html(
 					"<span style='color:#fff; font-size:12pt;'>" + html
 							+ "</span>");

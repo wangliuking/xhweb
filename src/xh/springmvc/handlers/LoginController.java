@@ -55,7 +55,7 @@ public class LoginController {
 		String codeVar=request.getParameter("code");
 		String codeSession="";
 		try{
-			codeSession=funUtil.getSession(request, "codeValidate");
+			codeSession=funUtil.getSession(request, "code");
 		}catch(NullPointerException e){
 			
 		}

@@ -137,7 +137,11 @@
 		group by date order by date asc
 	</select>
 
-
+	<!-- 今日话务统计分析 -->
+	<select id="chart_call_hour_now"  resultType="map"
+		useCache="true">
+		select * from chart_call_hour_now
+	</select>
 
 
 

@@ -36,36 +36,10 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	
-	<!-- 要 开 启 Spring 的 事 务 处 理 , 在 Spring 的 XML 配 置 文 件 中 简 单 创 建 一 个 DataSourceTransactionManager 对象: -->
+	<bean id="myExceptionResolver" class="xh.func.plugin.GlobalExceptionHandler"></bean>
+	
+	
+	
 
-<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-  <property name="dataSource" ref="dataSource" />
-</bean> -->
-
-	<!-- springmvc提供的简单异常处理器 -->
-<!-- 	<bean
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		定义默认的异常处理页面
-		<property name="defaultErrorView" value="error" />
-		定义异常处理页面用来获取异常信息的变量名，也可不定义，默认名为exception
-		<property name="exceptionAttribute" value="ex" />
-		定义需要特殊处理的异常，这是重要点
-		<property name="exceptionMappings">
-			<props>
-				<prop key="xh.org.exception.CustomException">/Views/404.html</prop>
-			</props>
-			还可以定义其他的自定义异常
-		</property>
-	</bean>
-	<bean id="exceptionHandler" class=xh.org.exception.ExceptionHandler"/>   -->
-
-	<!-- <bean class="xh.springmvc.handlers.UncaughtExceptionController"/> -->
-
-	<!-- 总错误处理 -->
-	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
-		<property name="defaultErrorView"> <value>/Views/error</value> </property> 
-		<property name="defaultStatusCode"> <value>500</value> </property> <property 
-		name="warnLogCategory"> <value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value> 
-		</property> </bean> -->
-	<!-- -->
+	
 </beans>

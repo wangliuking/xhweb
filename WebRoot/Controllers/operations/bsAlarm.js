@@ -233,6 +233,7 @@ xh.load = function() {
 			$("#search").modal('toggle');
 			//$(".modal-backdrop").remove();//删除class值为modal-backdrop的标签，可去除阴影
 		}
+		//xh.search_time();
 		/*$scope.alarmType();*/
 		$('input[name="level"]').on('click',function(){ 
 			$scope.search(1);
@@ -272,6 +273,14 @@ xh.load = function() {
 		}, 10000)
 	});
 };
+
+xh.search_time=function(){
+	var t1=xh.nowDate();
+	var t2=xh.nowDateStart();
+	$('input[name="startTime"]').val();
+	$('input[name="endTime"]').val();
+	
+}
 // 刷新数据
 xh.refresh = function() {
 	var appElement = document.querySelector('[ng-controller=bsAlarm]');
@@ -328,7 +337,7 @@ xh.bsBar = function() {
 			        {
 			            type : 'category',
 			            
-			            data : ["交换中心","网管"],
+			            data : [],
 			            axisLabel:{  
 	                        interval:0,   
 	                        margin:2,  
@@ -356,10 +365,10 @@ xh.bsBar = function() {
 			            name:'Tera系统[基站，交换中心，网管，调度台]告警统计',
 			            type:'bar',
 			            barWidth: 30,//固定柱子宽度
-			            data:[2,5],
+			            data:[],
 			            itemStyle:{
 			            	normal:{
-			            		color:'#9ACD32',
+			            		color:'blue',
 			            		cursor:'pointer'
 			            	}},
 			            
@@ -388,6 +397,8 @@ xh.bsBar = function() {
 
 				/*var data = response.items;
 				option.series[0].data = data;*/
+			
+				
 				var data = response.items;
 				var y=[],x=[];
 				
@@ -396,9 +407,12 @@ xh.bsBar = function() {
 					x.push(data[i].value);
 					
 				}
+				
+			
 				option.xAxis[0].data=y;
 				option.series[0].data=x;
 				chart.setOption(option);
+				
 				/*chart.on('click',function(params){
 					var name=params.name;
 					window.location.href="bsstatus.html?zone="+name;
@@ -639,5 +653,42 @@ xh.nowDate=function()
     	s="0"+s;
     }
     var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+h+":"+m+":"+s;   
+    return  strYesterday;
+}
+xh.nowDateStart=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+    
+    var h=yesterday.getHours();
+    var m=yesterday.getMinutes();
+    var s=yesterday.getSeconds();
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    if(strDay<10){
+    	strDay="0"+strDay;
+    }
+    
+    if(h<10){
+    	h="0"+h;
+    }
+    if(m<10){
+    	m="0"+m;
+    }
+    if(s<10){
+    	s="0"+s;
+    }
+    var strYesterday=strYear+"-"+strMonth+"-"+strDay+" 00:00:00";   
     return  strYesterday;
 }
