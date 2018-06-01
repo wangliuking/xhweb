@@ -144,11 +144,11 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					dataList.add(map);
 				}
 			}			
-			//调用websocket推送至客户端
-			String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
+			//调用websocket推送至客户端2
+			/*String alarmDesc = dataList.get(0).get("AlarmDesc").toString();
 			TextMessage text = new TextMessage(alarmDesc);	
 			WebSocketPushHandler webSocketPushHandler = new WebSocketPushHandler();
-			webSocketPushHandler.sendMessagesToUsers(text);
+			webSocketPushHandler.sendMessagesToUsers(text);*/
 			
 			GosuncnController.insertAlarm(dataList);
 			//log.info("啦啦啦一条告警信息已经添加！");
