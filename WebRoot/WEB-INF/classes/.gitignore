@@ -1,11 +1,2 @@
 /xh
-/conf.xml
-/log4j.properties
-/mybatis.cfg.xml
-/mysql.properties
-/rebel.xml
-/redis.properties
-/springmvc.xml
-/cc
-/loadFFmpeg.properties
 /com

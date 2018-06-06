@@ -10,9 +10,6 @@ import xh.mybatis.bean.HistoryList;
 public interface GosuncnMapper {
 	/**
 	 * 添加注册信息
-	 * @param bean
-	 * @return
-	 * @throws Exception
 	 */
 	public int insertLogin(Map<String,String> map)throws Exception;
 	
@@ -48,9 +45,6 @@ public interface GosuncnMapper {
 	
 	/**
 	 * 添加FSU配置信息
-	 * @param bean
-	 * @return
-	 * @throws Exception
 	 */
 	public int insertConfig(List<Map<String,String>> list)throws Exception;
 	
@@ -61,9 +55,6 @@ public interface GosuncnMapper {
 	
 	/**
 	 * 添加监控点数据
-	 * @param bean
-	 * @return
-	 * @throws Exception
 	 */
 	public int insertData(List<Map<String, String>> list)throws Exception;
 	
@@ -132,17 +123,18 @@ public interface GosuncnMapper {
 	
 	/**
 	 * 环控历史数据
-	 * @return
-	 * @throws Exception
 	 */
 	public List<HashMap<String,String>> emhHistory(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 环控历史数据总数
-	 * @return
-	 * @throws Exception
 	 */
 	public int emhHistoryCount(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 查询单个基站本月电压情况用于显示曲线图
+	 */
+	public List<HashMap<String,String>> emhHistoryForBsId(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 删除NVR所有通道信息
