@@ -1,0 +1,52 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<!-- <div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
+
+				 绕城内外话务统计
+			</div> -->
+			<div class="panel-body">
+
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th>基站ID</th>
+							<th>基站名称</th>
+							<th>基站分级</th>
+							<th>区域</th>
+							<th>活动呼叫总数</th>
+							<th>活动呼叫总持续时间</th>
+							<th>平均呼叫持续时间</th>
+							<th>总PPT数</th>
+							<th>排队数量</th>
+							<th>排队持续时间</th>
+							<th>最大用户注册数</th>
+							<th>最大组注册数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="bs_totals==0">
+							<td colspan="12" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in bs_call_data">
+							<td>{{x.bsid}}</td>
+							<td>{{x.name}}</td>
+							<td>{{x.level}}</td>
+							<td>{{x.area}}</td>
+							<td>{{x.totalActiveCalls}}</td>
+							<td>{{x.totalActiveCallDuration}}</td>
+							<td>{{x.averageCallDuration}}</td>
+							<td>{{x.PTTCount}}</td>
+							<td>{{x.queueCount}}</td>
+							<td>{{x.queueDuration}}</td>
+							<td>{{x.maxUserRegCount}}</td>
+							<td>{{x.maxGroupRegCount}}</td>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

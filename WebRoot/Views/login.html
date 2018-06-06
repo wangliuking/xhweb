@@ -105,7 +105,7 @@ body {
 	bottom: 10px;
 	left: 10px;
 	font-size: 18px;
-	color: #3872f6;
+	color: #fff;
 }
 
 .font16 {
@@ -269,8 +269,8 @@ body {
 						<form action="#" id="loginForm" onSubmit="return false"
 							style="color:#fff;">
 							<div class="form-group mg-t20">
-								<label>用户名</label> <i class="fa fa-user icon_font"></i> <input
-									class="login_input" type="text" placeholder="请输入用户名"
+								<label>用户名</label> <i class="fa fa-user-circle-o icon_font"></i>
+								<input class="login_input" type="text" placeholder="请输入用户名"
 									title="Please enter you username" required="" value=""
 									name="username" id="username" class=".form-control2">
 							</div>
@@ -290,25 +290,29 @@ body {
 									class="form-control" style="height:30px;">
 
 							</div> -->
-							<div class="form-group mg-t20">
-								<label>验证码</label>
-								<div class="code-div">
-									<div>
+
+							<div class="row">
+								<div class="col-md-7">
+									<div class="form-group mg-t20">
+										<label>验证码</label> <i class="fa fa-sort-alpha-asc icon_font"></i>
 										<input class="login_input" type="text" title="请输入验证码"
 											placeholder="请输入验证码" required="" value="" name="code"
-											id="code" class="form-control" size="14">
+											id="code" class="form-control" size="16">
 									</div>
-									<div>
-										<img alt="" src="../code/15900" onclick="changeUrl()"
-											id="codevalidate">
-									</div>
-
-
-
 								</div>
+
+									<div class="col-md-4">
+										<div class="form-group mg-t20">
+											<img alt="" src="../code/15900" onclick="changeUrl()"
+												id="codevalidate" style="margin-top:26px;">
+										</div>
+									</div>
+								
+
 							</div>
+
 						</form>
-						<button class="btn btn-block btn-danger" id="login-btn"
+						<button class="btn btn-block btn-success" id="login-btn"
 							style="margin-top:30px;" type="button" onclick="login()"
 							data-loading-text="Loading...">登录</button>
 					</div>
@@ -321,8 +325,8 @@ body {
 			<div class="row">
 				<div class="col-md-12 text-center"
 					style="margin-top:10px;color:#000;">
-					<strong>powered by</strong> 成都亚光电子股份有限公司 <br>
-					<span><a href="../Resources/证书助手（i信）.exe"
+					<strong>powered by</strong> 成都亚光电子股份有限公司 <br> <span><a
+						href="../Resources/证书助手（i信）.exe"
 						style="color:blue;font-weight:800;">数字证书助手:【证书助手（i信）.exe】下载</a></span>
 				</div>
 			</div>

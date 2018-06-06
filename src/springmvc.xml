@@ -35,14 +35,11 @@
 		<property name="maxUploadSize" value="10485760000" />
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
+	
+	<bean id="myExceptionResolver" class="xh.func.plugin.GlobalExceptionHandler"></bean>
+	
+	
+	
 
-	<!-- <bean class="xh.springmvc.handlers.UncaughtExceptionController"/> -->
-
-	<!-- 总错误处理 -->
-	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 
-		<property name="defaultErrorView"> <value>/Views/error</value> </property> 
-		<property name="defaultStatusCode"> <value>500</value> </property> <property 
-		name="warnLogCategory"> <value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value> 
-		</property> </bean> -->
-	<!-- -->
+	
 </beans>

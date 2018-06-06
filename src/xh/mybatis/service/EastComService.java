@@ -6,12 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.catalina.tribes.util.Arrays;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
+import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastMscCallBean;
+import xh.mybatis.bean.EastMscCallDetailBean;
+import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.mapper.EastComMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class EastComService {
+	protected  static  Log log=LogFactory.getLog(EastComService.class);
 	public static List<Map<String,Object>> queueTop5(String time){
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
 		SqlSession session2=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
@@ -77,5 +85,327 @@ public class EastComService {
 		}
 		return list;
 	}
+	
+	public static void get_bs_call_data(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		
+		String now_date_zero_time=FunUtil.nowDateNoTime();
+		
+		String a[]=now_date_zero_time.split(" ");
+		String time="";
+		Map<String, Object> map=new HashMap<String, Object>();
+		String h="00",m="00",s="00";
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+			for(int dayNum=1;dayNum<=1;dayNum++){
+				int day=dayNum;	
+				for(int i=0;i<=23;i++){
+					
+					
+					if(i<10){
+						h="0"+i;
+					}else{
+						h=String.valueOf(i);
+					}
+						
+					for(int j=0;j<=55;j+=5){
+						
+						if(j<10){
+							m="0"+j;
+						}else{
+							m=String.valueOf(j);
+						}					
+						time=a[0]+" "+h+":"+m+":"+s;
+						
+						map.put("time", time);
+						map.put("day", day);
+						list=mapper.get_bs_call_data(map);
+						log.info("num："+list.size());	
+						write_bs_call_data(list);
+						map.clear();
+						list.clear();
+						
+					}			
+					
+				}		
+				
+			}
+			
+			
+			
+		
+			
+				
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_bs_call_data(List<EastBsCallDataBean> list){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		try {
+			mapper.write_bs_call_data(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void get_msc_call_data(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		
+		String now_date_zero_time=FunUtil.nowDateNoTime();
+		
+		String a[]=now_date_zero_time.split(" ");
+		String time=a[0];
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		try {
+			
+			for(int dayNum=1;dayNum<=1;dayNum++){
+				int day=dayNum;
+				
+				map.put("time", time);
+				map.put("day", day);
+				List<EastMscCallBean> list=mapper.get_msc_call_data(map);
+				write_msc_call_data(list);	
+			}
+					
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_msc_call_data(List<EastMscCallBean> list){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		try {
+			mapper.write_msc_call_data(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void get_vpn_call_data(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		
+		String now_date_zero_time=FunUtil.nowDateNoTime();
+		
+		String a[]=now_date_zero_time.split(" ");
+		String time=a[0];
+		try {
+			Map<String, Object> map=new HashMap<String, Object>();
+			for(int dayNum=1;dayNum<=1;dayNum++){
+				int day=dayNum;
+				
+				map.put("time", time);
+				map.put("day", day);
+				List<EastVpnCallBean> list=mapper.get_vpn_call_data(map);
+				write_vpn_call_data(list);	
+			}
+					
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_vpn_call_data(List<EastVpnCallBean> list){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		try {
+			mapper.write_vpn_call_data(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void get_msc_call_detail_data(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		
+		String now_date_zero_time=FunUtil.nowDateNoTime();
+		
+		String a[]=now_date_zero_time.split(" ");
+		String time=a[0];
+		Map<String, Object> map=new HashMap<String, Object>();
+		try {
+			for(int dayNum=1;dayNum<=1;dayNum++){
+				int day=dayNum;
+				
+				map.put("time", time);
+				map.put("day", day);
+				List<EastMscCallDetailBean> list=mapper.get_msc_call_detail_data(map);
+				write_msc_call_detail_data(list);	
+			}
+				
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_msc_call_detail_data(List<EastMscCallDetailBean> list){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		try {
+			mapper.write_msc_call_detail_data(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static List<EastBsCallDataBean> chart_bs_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
 
+			list=mapper.chart_bs_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastVpnCallBean> chart_vpn_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastVpnCallBean> list=new ArrayList<EastVpnCallBean>();
+		try {
+
+			list=mapper.chart_vpn_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean> chart_bs_level_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_level_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean> chart_bs_area_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_area_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean> chart_bs_zone_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_zone_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean> chart_bs_zone_top10_call(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_zone_top10_call(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean>chart_bs_call_top10(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_call_top10(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean>chart_bs_userreg_top10(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_userreg_top10(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastBsCallDataBean>chart_bs_queue_top10(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
+		try {
+
+			list=mapper.chart_bs_queue_top10(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<EastVpnCallBean>chart_vpn_call_top10(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		List<EastVpnCallBean> list=new ArrayList<EastVpnCallBean>();
+		try {
+
+			list=mapper.chart_vpn_call_top10(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

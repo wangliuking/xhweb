@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.service.CallListServices;
+import xh.mybatis.service.EastComService;
 import xh.org.listeners.SingLoginListener;
 @Controller
 @RequestMapping(value="/call")
@@ -251,16 +254,258 @@ public class CallController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}	
+	
+	}
+  
+	/**
+	 * 今日通话统计分析
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/chart_call_hour_now", method = RequestMethod.POST)
+	public void chart_call_hour_now(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		List<Map<String, Object>> resultList=new  ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> listParse=new  ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> listParse2=new  ArrayList<Map<String,Object>>();
+		resultList=CallListServices.chart_call_hour_now();
+		
+		Map<String, Object> mapA=new HashMap<String, Object>();
+		Map<String, Object> mapB=new HashMap<String, Object>();
+		DecimalFormat df=new DecimalFormat("#.##"); 
+
+		for (Map<String, Object> map2 : resultList) {
+			mapA.put(map2.get("date").toString(), map2.get("usetime"));
+			mapB.put(map2.get("date").toString(), map2.get("num"));
+		}
+		
+		int hour=24;
+		
+		for(int i=0;i<hour;i++){
+			Map<String, Object> mapHour=new HashMap<String, Object>();
+			Map<String, Object> mapHour2=new HashMap<String, Object>();
+			String key="h-"+i,key1="";
+			if(i<10){
+				key1="0"+i;
+				key="h-0"+i;
+			}else{
+				key1=String.valueOf(i);
+				key="h-"+i;
+			}
+			
+			double a=mapA.get(key)==null?0:Double.parseDouble(mapA.get(key).toString())/60;			 			 
+			mapHour.put("label", key1);
+			mapHour.put("time",df.format(a));
+			listParse.add(mapHour);	
+			
+			mapHour2.put("label", key1);
+			mapHour2.put("num", mapB.get(key)==null?0:mapB.get(key));
+			listParse2.add(mapHour2);	
 		}
 		
 		
-		
-		
-		
-		
-		
-		
-		
+		HashMap result = new HashMap();
+		result.put("totals", listParse.size());
+		result.put("time", listParse);
+		result.put("num", listParse2);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	
 	}
+	
+	
+
+	@RequestMapping(value = "/chart_bs_call", method = RequestMethod.GET)
+	public void chart_bs_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_vpn_call", method = RequestMethod.GET)
+	public void chart_vpn_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_bs_level_area_call", method = RequestMethod.GET)
+	public void chart_bs_level_area_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> level_list=EastComService.chart_bs_level_call(map);
+		List<EastBsCallDataBean> area_list=EastComService.chart_bs_area_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", level_list.size());
+		result.put("areaitems",area_list);
+		result.put("levelitems",level_list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_bs_zone_call", method = RequestMethod.GET)
+	public void chart_bs_zone_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_zone_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_bs_zone_top10_call", method = RequestMethod.GET)
+	public void chart_bs_zone_top10_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_zone_top10_call(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+
+	@RequestMapping(value = "/chart_bs_call_top10", method = RequestMethod.GET)
+	public void chart_bs_call_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_call_top10(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_bs_userreg_top10", method = RequestMethod.GET)
+	public void chart_bs_userreg_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_userreg_top10(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_bs_queue_top10", method = RequestMethod.GET)
+	public void chart_bs_queue_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastBsCallDataBean> list=EastComService.chart_bs_queue_top10(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_vpn_call_top10", method = RequestMethod.GET)
+	public void chart_vpn_call_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		List<EastVpnCallBean> list=EastComService.chart_vpn_call_top10(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	
+	
 }

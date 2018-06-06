@@ -761,10 +761,11 @@ xh.callInfo=function(){
 			};
 		
 		$.ajax({
-			url : 'call/chart',
+			url : 'call/chart_call_hour_now',
 			type : 'POST',
 			dataType : "json",
 			async : false,
+			timeout:2000,
 			data:{
 				bsId:0,
 				time:xh.getOneDay(),

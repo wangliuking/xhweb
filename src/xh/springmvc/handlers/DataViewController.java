@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class DataViewController {
 	
 	@RequestMapping(value="/show",method=RequestMethod.GET)
 	public void show(HttpServletRequest request, HttpServletResponse response){
+	
 		
 		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
 		String vpnId=usermap.get("vpnId")==null?"":usermap.get("vpnId").toString();

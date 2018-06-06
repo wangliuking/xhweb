@@ -20,7 +20,7 @@
       (diskSize-diskUsed)/(1024*1024*1024) as diskResidue,
       (memSize-memUsed)/(1024*1024*1024) as memResidue,
       runStatus as status,
-      time,type from xhgmnet_eastcom_server
+      time,type,alarmStatus as bell from xhgmnet_eastcom_server
     </select> 
     
     <!-- 更新交换中心告警标志 -->
