@@ -356,6 +356,69 @@ xh.getOneDay = function() {
 			+ "23:59:59";
 	return strYesterday;
 }
+xh.getNowDate = function() {
+	var today = new Date();
+	var yesterday_milliseconds = today.getTime(); // -1000*60*60*24
+
+	var yesterday = new Date();
+	yesterday.setTime(yesterday_milliseconds);
+
+	var strYear = yesterday.getFullYear();
+
+	var strDay = yesterday.getDate();
+	var strMonth = yesterday.getMonth() + 1;
+
+	if (strMonth < 10) {
+		strMonth = "0" + strMonth;
+	}
+	if (strDay < 10) {
+		strDay = "0" + strDay;
+	}
+	var strYesterday = strYear + "-" + strMonth + "-" + strDay;
+	return strYesterday;
+}
+xh.getNowMonth = function() {
+	var today = new Date();
+	var yesterday_milliseconds = today.getTime(); // -1000*60*60*24
+
+	var yesterday = new Date();
+	yesterday.setTime(yesterday_milliseconds);
+
+	var strYear = yesterday.getFullYear();
+
+	var strDay = yesterday.getDate();
+	var strMonth = yesterday.getMonth() + 1;
+
+	if (strMonth < 10) {
+		strMonth = "0" + strMonth;
+	}
+	if (strDay < 10) {
+		strDay = "0" + strDay;
+	}
+	var strYesterday = strYear + "-" + strMonth ;
+	return strYesterday;
+}
+xh.getPreMonth = function() {
+	var today = new Date();
+	var yesterday_milliseconds = today.getTime(); // -1000*60*60*24
+
+	var yesterday = new Date();
+	yesterday.setTime(yesterday_milliseconds);
+
+	var strYear = yesterday.getFullYear();
+
+	var strDay = yesterday.getDate();
+	var strMonth = yesterday.getMonth() + 1;
+
+	if (strMonth < 10) {
+		strMonth = "0" + strMonth;
+	}
+	if (strDay < 10) {
+		strDay = "0" + strDay;
+	}
+	var strYesterday = strYear + "-" + strMonth ;
+	return strYesterday;
+}
 /* 显示网页遮罩层 */
 xh.maskShow = function() {
 	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";

@@ -38,7 +38,7 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new BsFault(), 10000, 1000*5);
+			timer.scheduleAtFixedRate(new BsFault(), 10000, 1000*5*60);
 			log4j.info("=========================================");
 			log4j.info("基站断站故障实时写入开始");
 			log4j.info("=========================================");

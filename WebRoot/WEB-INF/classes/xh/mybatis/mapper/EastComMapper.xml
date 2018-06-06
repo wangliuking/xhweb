@@ -2,19 +2,479 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.EastComMapper">
 
-<!-- 基站信道排队top5 -->
-<select id="queueTop5" resultType="map" useCache="true" parameterType="String" >
-select TotalActiveCalls as value,bsId  from pef_newbstotal where  starttime>=#{time}  and (bsId&lt;=200 or bsId>=1000)
-GROUP BY bsid
-order by TotalActiveCalls desc limit 5
-</select>
-<!-- 基站信道排队top5 -->
-<select id="queueTopBsName" resultType="map" useCache="true" parameterType="List" >
-select name,bsId  from xhgmnet_bs_station where  bsId in(
- <foreach collection="list" item="id" separator=",">
- #{id}
- </foreach>
-)
-</select>
+	<!-- 基站信道排队top5 -->
+	<select id="queueTop5" resultType="map" useCache="true"
+		parameterType="String">
+		select TotalActiveCalls as value,bsId from
+		pef_newbstotal where
+		starttime>=#{time} and (bsId&lt;=200 or
+		bsId>=1000)
+		GROUP BY bsid
+		order by TotalActiveCalls desc limit 5
+	</select>
+	<!-- 基站信道排队top5 -->
+	<select id="queueTopBsName" resultType="map" useCache="true"
+		parameterType="List">
+		select name,bsId from xhgmnet_bs_station where bsId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</select>
 
+	<!-- 定时获取东信基站呼叫统计数据 -->
+	<select id="get_bs_call_data" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+
+		select * from
+		pef_newbstotal
+		where
+		starttime=DATE_SUB(#{time},INTERVAL #{day} DAY)
+
+	</select>
+	<!-- 定时获取东信交换中心呼叫统计数据 -->
+	<select id="get_msc_call_data" parameterType="map"
+		resultType="xh.mybatis.bean.EastMscCallBean">
+
+		select * from
+		pef_newmsctotal
+		where
+		DATE_FORMAT(starttime,'%Y-%m-%d')=DATE_SUB(#{time},INTERVAL #{day}
+		DAY)
+
+	</select>
+	<!-- 定时获取东信交换中心detail呼叫统计数据 -->
+	<select id="get_msc_call_detail_data" parameterType="map"
+		resultType="xh.mybatis.bean.EastMscCallDetailBean">
+
+		select * from
+		pef_newmscdetail
+		where
+		DATE_FORMAT(starttime,'%Y-%m-%d')=DATE_SUB(#{time},INTERVAL #{day}
+		DAY)
+
+	</select>
+	<!-- 定时获取东信vpn呼叫统计数据 -->
+	<select id="get_vpn_call_data" parameterType="map"
+		resultType="xh.mybatis.bean.EastVpnCallBean">
+		select * from
+		pef_newvpntotal
+		where
+		DATE_FORMAT(starttime,'%Y-%m-%d')=DATE_SUB(#{time},INTERVAL #{day}
+		DAY)
+
+	</select>
+	<!--写入东信基站呼叫统计数据 -->
+	<insert id="write_bs_call_data" parameterType="java.util.List">
+		replace into pef_newbstotal(TotalActiveCalls,
+		TotalActiveCallDuration,
+		AverageCallDuration,
+		PTTCount,
+		QueueCount,
+		QueueDuration,
+		MaxUserRegCount,
+		MaxGroupRegCount,
+		MaxControlChanUpRate,
+		MinControlChanUpRate,
+		AvgControlChanUpRate,
+		MaxControlChanDownRate,
+		AvgTrafficChanRate,
+		MinControlChanDownRate,
+		AvgControlChanDownRate,
+		bsid,
+		starttime,
+		endtime,
+		mscid
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.TotalActiveCalls},
+			#{item.TotalActiveCallDuration},
+			#{item.AverageCallDuration},
+			#{item.PTTCount},
+			#{item.QueueCount},
+			#{item.QueueDuration},
+			#{item.MaxUserRegCount},
+			#{item.MaxGroupRegCount},
+			#{item.MaxControlChanUpRate},
+			#{item.MinControlChanUpRate},
+			#{item.AvgControlChanUpRate},
+			#{item.MaxControlChanDownRate},
+			#{item.AvgTrafficChanRate},
+			#{item.MinControlChanDownRate},
+			#{item.AvgControlChanDownRate},
+			#{item.bsid},
+			#{item.starttime},
+			#{item.endtime},
+			#{item.mscid}
+			)
+		</foreach>
+	</insert>
+	<!--写入东信交换中心呼叫统计数据 -->
+	<insert id="write_msc_call_data" parameterType="java.util.List">
+		replace into pef_newmsctotal(TotalActiveCall,
+		TotalActiveCallDuration,
+		AverageCallDuration,
+		TotalCalls,
+		TotalFailedCalls,
+		FailedPercentage,
+		NoEffectCalls,
+		starttime,
+		endtime,
+		mscid,
+		totalPTTs,
+		totalQueueCount,
+		totalQueueDuration,
+		totalMaxReg,
+		maxRegGroup
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.TotalActiveCall},
+			#{item.TotalActiveCallDuration},
+			#{item.AverageCallDuration},
+			#{item.TotalCalls},
+			#{item.TotalFailedCalls},
+			#{item.FailedPercentage},
+			#{item.NoEffectCalls},
+			#{item.starttime},
+			#{item.endtime},
+			#{item.mscid},
+			#{item.totalPTTs},
+			#{item.totalQueueCount},
+			#{item.totalQueueDuration},
+			#{item.totalMaxReg},
+			#{item.maxRegGroup}
+			)
+		</foreach>
+	</insert>
+	<!--写入东信交换中心detail呼叫统计数据 -->
+	<insert id="write_msc_call_detail_data" parameterType="java.util.List">
+		replace into pef_newmscdetail(
+		GroupCalls,
+		GroupCallDuration,
+		PrivateCalls,
+		PrivateCallDuration,
+		PhoneCalls,
+		PhoneCallDuration,
+		EmergencyCalls,
+		EmergencyCallDuration,
+		PrivateDuplexCalls,
+		PrivateSimplexCalls,
+		mscid,
+		starttime,
+		endtime
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.GroupCalls},
+			#{item.GroupCallDuration},
+			#{item.PrivateCalls},
+			#{item.PrivateCallDuration},
+			#{item.PhoneCalls},
+			#{item.PhoneCallDuration},
+			#{item.EmergencyCalls},
+			#{item.EmergencyCallDuration},
+			#{item.PrivateDuplexCalls},
+			#{item.PrivateSimplexCalls},
+			#{item.mscid},
+			#{item.starttime},
+			#{item.endtime}
+			)
+		</foreach>
+	</insert>
+	<!--写入东信vpn呼叫统计数据 -->
+	<insert id="write_vpn_call_data" parameterType="java.util.List">
+		replace into pef_newvpntotal(
+		TotalActiveCalls,
+		TotalActiveCallDuration,
+		AverageCallDuration,
+		dexTotalCalls,
+		TotalFailedCalls,
+		FailedPercentage,
+		NoEffectCalls,
+		vpnid,
+		starttime,
+		endtime
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.TotalActiveCalls},
+			#{item.TotalActiveCallDuration},
+			#{item.AverageCallDuration},
+			#{item.dexTotalCalls},
+			#{item.TotalFailedCalls},
+			#{item.FailedPercentage},
+			#{item.NoEffectCalls},
+			#{item.vpnid},
+			#{item.starttime},
+			#{item.endtime}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 基站话务统计数据 -->
+	<select id="chart_bs_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		x.bsid,y.`name`,y.`level`,y.area,
+		x.TotalActiveCalls,
+		x.TotalActiveCallDuration,
+		x.AverageCallDuration,
+		x.PTTCount,
+		x.QueueCount,
+		x.QueueDuration,
+		x.MaxUserRegCount,
+		x.MaxGroupRegCount
+		from
+		chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where x.starttime=#{time} order by x.bsid asc
+
+	</select>
+	<!-- 虚拟专网话务统计数据 -->
+	<select id="chart_vpn_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastVpnCallBean">
+		select
+		x.vpnid,y.`name`,
+		x.TotalActiveCalls,
+		x.TotalActiveCallDuration,
+		x.AverageCallDuration,
+		x.dexTotalCalls,
+		x.TotalFailedCalls,
+		x.FailedPercentage,
+		x.NoEffectCalls
+		from
+		chart_month_vpntotal as x left join xhgmnet.xhgmnet_vpn as y on
+		x.vpnid=y.vpnId
+		where x.starttime=#{time} order by x.vpnid asc
+
+	</select>
+	<!--基站级别话务统计数据 -->
+	<select id="chart_bs_level_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.`level`,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/60),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount
+		from chart_month_bstotal as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where
+		x.starttime=#{time} group by y.`level` order by y.level asc
+
+	</select>
+	<!--基站地域话务统计数据 -->
+	<select id="chart_bs_area_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.area,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/10),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount
+		from chart_month_bstotal as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where
+		x.starttime=#{time} group by y.area
+	</select>
+	<!--基站区域话务统计数据 -->
+	<select id="chart_bs_zone_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.zone,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCallDuration) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as
+		MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount
+		from
+		chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where x.starttime=#{time} group by y.zone order by zone
+		asc
+	</select>
+	<!--基站区域话务TOP统计数据 -->
+	<select id="chart_bs_zone_top10_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select sum(x.TotalActiveCalls) as TotalActiveCalls,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as
+		MaxUserRegCount,
+		max(x.MaxGroupRegCount) as MaxGroupRegCount,y.zone,
+		ROUND(sum(x.TotalActiveCalls)/x.totals*100,2) as percent,
+		x.starttime
+
+		from (select
+		T1.bsid,
+		T1.TotalActiveCalls,
+		T1.AverageCallDuration,
+		T1.PTTCount,
+		T1.QueueCount,
+		T1.QueueDuration,
+		T1.MaxUserRegCount,
+		T1.MaxGroupRegCount,
+		T2.totals,
+		T1.starttime
+		from chart_month_bstotal as T1,(
+		select sum(totals) as
+		totals from (
+		select sum(a.TotalActiveCalls) as totals,b.zone from
+		chart_month_bstotal as a
+		left join xhgmnet.xhgmnet_bs_station as b on
+		a.bsid=b.bsId
+		where starttime=#{time} group by zone order by
+		TotalActiveCalls desc
+		limit 10
+		) as e) as T2
+
+		) as x
+
+		left join
+		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		where
+		x.starttime=#{time} group by y.zone order by TotalActiveCalls desc
+		limit 10
+
+
+
+
+
+
+	</select>
+	<!-- 基站话务TOP10 -->
+	<select id="chart_bs_call_top10" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select x.*,y.`name`,y.`level`,y.area,y.zone from (select
+		T1.bsid,
+		T1.TotalActiveCalls,
+		T1.TotalActiveCallDuration,
+		T1.AverageCallDuration,
+		T1.PTTCount,
+		T1.QueueCount,
+		T1.QueueDuration,
+		T1.MaxUserRegCount,
+		T1.MaxGroupRegCount,
+		ROUND(T1.TotalActiveCalls/T2.totals*100,2) as percent,
+		T1.starttime
+		from chart_month_bstotal as T1,(select sum(totals) as totals from
+		(select TotalActiveCalls as totals from chart_month_bstotal where
+		starttime=#{time} order by TotalActiveCalls desc limit 10) as a) as T2
+		) as x
+		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		where
+		x.starttime=#{time} order by TotalActiveCalls desc limit 10
+
+	</select>
+	<!-- 基站话务最大注册用户TOP10 -->
+	<select id="chart_bs_userreg_top10" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		x.bsid,y.`name`,y.`level`,y.area,y.zone,
+		x.TotalActiveCalls,
+		x.TotalActiveCallDuration,
+		x.AverageCallDuration,
+		x.PTTCount,
+		x.QueueCount,
+		x.QueueDuration,
+		x.MaxUserRegCount,
+		x.MaxGroupRegCount
+		from chart_month_bstotal as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where
+		x.starttime=#{time} order by MaxUserRegCount desc limit 10
+	</select>
+	<!-- 基站话务排队TOP10 -->
+	<select id="chart_bs_queue_top10" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select x.*,y.`name`,y.`level`,y.area,y.zone from (select
+		T1.bsid,
+		T1.TotalActiveCalls,
+		T1.TotalActiveCallDuration,
+		T1.AverageCallDuration,
+		T1.PTTCount,
+		T1.QueueCount,
+		T1.QueueDuration,
+		T1.MaxUserRegCount,
+		T1.MaxGroupRegCount,
+		ROUND(T1.QueueCount/T2.totals*100,2) as percent,
+		T1.starttime
+		from
+		chart_month_bstotal as T1,(select sum(totals) as totals from (select
+		QueueCount as totals from chart_month_bstotal where starttime=#{time}
+		order by QueueCount desc limit 10) as a) as T2 ) as x
+		left join
+		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		where
+		x.starttime=#{time} order by QueueCount desc limit 10
+	</select>
+	<!-- 虚拟专网话务TOP10 -->
+	<select id="chart_vpn_call_top10" parameterType="map"
+		resultType="xh.mybatis.bean.EastVpnCallBean">
+		select x.*,y.`name`from(select
+		T1.vpnid,
+		T1.TotalActiveCalls,
+		T1.TotalActiveCallDuration,
+		T1.AverageCallDuration,
+		T1.dexTotalCalls,
+		T1.TotalFailedCalls,
+		T1.FailedPercentage,
+		T1.NoEffectCalls,
+		ROUND(T1.TotalActiveCalls/T2.totals*100,2) as percent,
+		T1.starttime
+		from chart_month_vpntotal as T1,(
+		select sum(totals) as totals from
+		(select TotalActiveCalls as totals from chart_month_vpntotal where
+		starttime=#{time} order by TotalActiveCalls desc limit 10 ) as a) as
+		T2) as x
+		left join xhgmnet.xhgmnet_vpn as y on x.vpnid=y.vpnId
+		where
+		x.starttime=#{time} order by x.TotalActiveCalls desc limit 10
+
+	</select>
 </mapper>
+
+
+<!-- -->
