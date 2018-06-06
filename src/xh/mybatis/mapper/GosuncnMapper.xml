@@ -75,7 +75,7 @@
 	
 	<!-- 增加告警前查询是否有相同流水号的告警 -->
 	<select id="selectBySerialNo" parameterType="String" resultType="map">
-		select serialNo,alarmTime from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo}
+		select * from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo}
 	</select>
 	
 	<!-- 根据流水号删除对应告警 -->
@@ -131,15 +131,7 @@
 		<if test="startTime !=null and startTime !=''">
 			and startTime between #{startTime} and #{endTime}
 		</if>
-		
-		<!-- 判断是正在告警还是告警结束，用不同排序 -->
-		<if test="alarmFlag =='BEGIN'">
-			order by alarmTime desc
-		</if>
-		<if test="alarmFlag !='BEGIN'">
-			order by startTime desc
-		</if>
-		limit #{start},#{limit}
+		order by startTime desc limit #{start},#{limit}
 	</select>
 	<!--根据不同传感器查找告警记录总数 -->
 	<select id="countEMHAlarm" parameterType="map" resultType="int"
@@ -222,6 +214,15 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
+		<if test="startUps1!=null and startUps1!=''">
+			and ups1 between #{startUps1} and #{endUps1}
+		</if>
+		<if test="startUps4!=null and startUps4!=''">
+			and ups4 between #{startUps4} and #{endUps4}
+		</if>
+		<if test="startE1!=null and startE1!=''">
+			and e1 between #{startE1} and #{endE1}
+		</if>
 		order by createTime limit #{start},#{limit}
 	</select>
 	<!--环控历史数据总数 -->
@@ -234,6 +235,27 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
+		<if test="startUps1!=null and startUps1!=''">
+			and ups1 between #{startUps1} and #{endUps1}
+		</if>
+		<if test="startUps4!=null and startUps4!=''">
+			and ups4 between #{startUps4} and #{endUps4}
+		</if>
+		<if test="startE1!=null and startE1!=''">
+			and e1 between #{startE1} and #{endE1}
+		</if>
+	</select>
+	<!--查询单个基站本月电压情况用于显示曲线图 -->
+	<select id="emhHistoryForBsId" parameterType="map" resultType="java.util.HashMap"
+			useCache="true">
+		select ups1,ups4,e1,createTime from ${currentMonth} where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId=#{bsId}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and createTime between #{startTime} and #{endTime}
+		</if>
+		order by createTime
 	</select>
 	
 	<!-- NVR相关参数获取 -->
@@ -319,6 +341,15 @@
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
+		</if>
+		<if test="startUps1!=null and startUps1!=''">
+			and ups1 between #{startUps1} and #{endUps1}
+		</if>
+		<if test="startUps4!=null and startUps4!=''">
+			and ups4 between #{startUps4} and #{endUps4}
+		</if>
+		<if test="startE1!=null and startE1!=''">
+			and e1 between #{startE1} and #{endE1}
 		</if>
 		order by createTime
 	</select>

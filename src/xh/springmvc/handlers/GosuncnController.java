@@ -354,9 +354,17 @@ public class GosuncnController {
 	@RequestMapping("/export4History")  
     public void export4History(HttpServletRequest request, HttpServletResponse response) {  
 		this.success=true;
-		String bsId = request.getParameter("exportBsId");
-		String startTime = request.getParameter("startTime");
-		String endTime = request.getParameter("endTime");
+		String bsId=request.getParameter("bsId");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+
+		//获取EPS输入相电压，电池组电压和电表电压
+		String startUps1=request.getParameter("startUps1");
+		String endUps1=request.getParameter("endUps1");
+		String startUps4=request.getParameter("startUps4");
+		String endUps4=request.getParameter("endUps4");
+		String startE1=request.getParameter("startE1");
+		String endE1=request.getParameter("endE1");
 		
 		Calendar cal = Calendar.getInstance();
 		int temp = cal.get(Calendar.MONTH)+1;
@@ -376,8 +384,13 @@ public class GosuncnController {
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		map.put("currentMonth", currentMonth);
-		
-		System.out.println("bsId : "+bsId+" startTime : "+startTime+" endTime : "+endTime+" currentMonth : "+currentMonth);
+
+		map.put("startUps1", startUps1);
+		map.put("endUps1", endUps1);
+		map.put("startUps4", startUps4);
+		map.put("endUps4", endUps4);
+		map.put("startE1", startE1);
+		map.put("endE1", endE1);
 
         List<HistoryList> historyList = GosuncnService.emhHistoryForExcel(map);
         ExportExcel<HistoryList> ee= new ExportExcel<HistoryList>();  
@@ -511,6 +524,15 @@ public class GosuncnController {
 		String bsId=request.getParameter("bsId");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
+
+		//获取EPS输入相电压，电池组电压和电表电压
+		String startUps1=request.getParameter("startUps1");
+		String endUps1=request.getParameter("endUps1");
+		String startUps4=request.getParameter("startUps4");
+		String endUps4=request.getParameter("endUps4");
+		String startE1=request.getParameter("startE1");
+		String endE1=request.getParameter("endE1");
+
 		if(!"".equals(startTime)){
 			currentMonth=startTime.substring(5, 7);
 		}
@@ -524,7 +546,6 @@ public class GosuncnController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
-		System.out.println("startTime为："+startTime+"endTime为："+endTime+"currentMonth为："+currentMonth+"nextMonth为："+nextMonth);
 		map.put("bsId", bsId);
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
@@ -532,8 +553,16 @@ public class GosuncnController {
 		map.put("limit", limit);
 		map.put("currentMonth", currentMonth);
 		map.put("nextMonth", nextMonth);
+
+		//获取EPS输入相电压，电池组电压和电表电压
+		map.put("startUps1", startUps1);
+		map.put("endUps1", endUps1);
+		map.put("startUps4", startUps4);
+		map.put("endUps4", endUps4);
+		map.put("startE1", startE1);
+		map.put("endE1", endE1);
+
 		HashMap result = new HashMap();
-		
 		int data1 = GosuncnService.emhHistoryCount(map);
 		List<HashMap<String, String>> data2;
 		if(data1>0){
@@ -556,7 +585,61 @@ public class GosuncnController {
 		}
 		
 	}
-	
+
+	/**
+	 * 查询单个基站的历史数据用于曲线图展示
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/emhHistoryForBsId",method = RequestMethod.GET)
+	public void emhHistoryForBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		Calendar cal = Calendar.getInstance();
+		int temp = cal.get(Calendar.MONTH)+1;
+		String currentMonth;
+		String nextMonth = "";
+		if(temp<10){
+			currentMonth="0"+temp;
+		}else{
+			currentMonth=Integer.toString(temp);
+		}
+		String bsId=request.getParameter("bsId");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		if(!"".equals(startTime)){
+			currentMonth=startTime.substring(5, 7);
+		}
+		if(!"".equals(startTime) && !"".equals(endTime)){
+			if(!endTime.substring(5, 7).equals(startTime.substring(5, 7))){
+				nextMonth=endTime.substring(5, 7);
+				nextMonth="xhgmnet_emh_sensor_history"+nextMonth;
+			}
+		}
+		currentMonth="xhgmnet_emh_sensor_history"+currentMonth;
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("currentMonth", currentMonth);
+		map.put("nextMonth", nextMonth);
+		HashMap result = new HashMap();
+
+		List<HashMap<String, String>> list = GosuncnService.emhHistoryForBsId(map);
+
+		result.put("success", success);
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Refresh", "1");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * 添加最新NVR通道信息
 	 */

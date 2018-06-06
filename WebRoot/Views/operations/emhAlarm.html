@@ -408,10 +408,7 @@
 													class="label  label-sm label-success"><i
 														class="fa fa-plus"></i>结束</span></td>
 														<td>{{x.eventValue}}</td>
-														
-														<td ng-if="x.alarmFlag=='BEGIN'">{{x.alarmTime}}</td>
-														<td ng-if="x.alarmFlag=='END'">{{x.startTime}}</td>
-														
+														<td>{{x.startTime}}</td>
 														<td ng-if="x.alarmFlag=='BEGIN'"><span style="color:red;">告警中</span></td>
 														<td ng-if="x.alarmFlag=='END'">{{x.alarmTime}}</td>
 													</tr>

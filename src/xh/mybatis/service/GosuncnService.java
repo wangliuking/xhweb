@@ -68,8 +68,6 @@ public class GosuncnService {
 	
 	/**
 	 * 根据流水号删除对应告警
-	 * @param map
-	 * @return
 	 */
 	public static int deleteBySerialNo(String serialNo){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -88,8 +86,6 @@ public class GosuncnService {
 	
 	/**
 	 * 增加告警前查询是否有相同流水号的告警
-	 * @param map
-	 * @return
 	 */
 	public static List<Map<String, Object>> selectBySerialNo(String serialNo){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -108,8 +104,6 @@ public class GosuncnService {
 	
 	/**
 	 * 添加告警信息
-	 * @param map
-	 * @return
 	 */
 	public static int insertAlarm(List<Map<String,String>> list){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -157,8 +151,6 @@ public class GosuncnService {
 	
 	/**
 	 * 添加FSU的配置信息
-	 * @param map
-	 * @return
 	 */
 	public static int insertConfig(List<Map<String,String>> list){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -234,8 +226,6 @@ public class GosuncnService {
 	
 	/**
 	 * 根据FSUID删除对应数据
-	 * @param list
-	 * @return
 	 */
 	public static int deleteByFSUID(String FSUID) {
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -394,9 +384,6 @@ public class GosuncnService {
 	
 	/**
 	 * 环控历史数据查询
-	 * 
-	 * @param root
-	 * @return
 	 */
 	public static List<HashMap<String,String>> emhHistory(Map<String, Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
@@ -411,11 +398,27 @@ public class GosuncnService {
 		}
 		return list;
 	}
+
+	/**
+	 * 查询单个基站本月电压情况用于显示曲线图
+	 *
+	 */
+	public static List<HashMap<String,String>> emhHistoryForBsId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.emhHistoryForBsId(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	/**
 	 * 添加最新NVR通道信息（先truncate再添加）
-	 * @param map
-	 * @return
 	 */
 	public static int insertNVRChannels(Map<String, Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
@@ -435,9 +438,6 @@ public class GosuncnService {
 	
 	/**
 	 * 查询所有NVR通道信息
-	 * 
-	 * @param root
-	 * @return
 	 */
 	public static List<Map<String, String>> selectNVRChannels(){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
@@ -455,9 +455,6 @@ public class GosuncnService {
 	
 	/**
 	 * 查询四期所有FSU的bsId和IP
-	 * 
-	 * @param root
-	 * @return
 	 */
 	public static List<Map<String, String>> selectNVRStatus(){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
