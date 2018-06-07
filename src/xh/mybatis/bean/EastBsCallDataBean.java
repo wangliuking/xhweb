@@ -3,8 +3,8 @@ package xh.mybatis.bean;
 public class EastBsCallDataBean {
 	
 	  private int  TotalActiveCalls ;
-	  private Long  TotalActiveCallDuration=(long) 0 ;
-	  private Long  AverageCallDuration=(long) 0 ;
+	  private int  TotalActiveCallDuration ;
+	  private int  AverageCallDuration ;
 	  private int  PTTCount ;
 	  private int  QueueCount ;
 	  private int  QueueDuration ;
@@ -27,25 +27,18 @@ public class EastBsCallDataBean {
 	  private String zone;
 	  private int bsTotals;
 	  private float percent;
+
+
 	public int getTotalActiveCalls() {
 		return TotalActiveCalls;
 	}
 	public void setTotalActiveCalls(int totalActiveCalls) {
 		TotalActiveCalls = totalActiveCalls;
 	}
-
-	public Long getTotalActiveCallDuration() {
+	public int getTotalActiveCallDuration() {
 		return TotalActiveCallDuration;
 	}
-	public void setTotalActiveCallDuration(Long totalActiveCallDuration) {
-		TotalActiveCallDuration = totalActiveCallDuration;
-	}
-	public Long getAverageCallDuration() {
-		return AverageCallDuration;
-	}
-	public void setAverageCallDuration(Long averageCallDuration) {
-		AverageCallDuration = averageCallDuration;
-	}
+
 	public int getPTTCount() {
 		return PTTCount;
 	}
@@ -58,11 +51,21 @@ public class EastBsCallDataBean {
 	public void setQueueCount(int queueCount) {
 		QueueCount = queueCount;
 	}
+
+	public int getAverageCallDuration() {
+		return AverageCallDuration;
+	}
+	public void setAverageCallDuration(int averageCallDuration) {
+		AverageCallDuration = averageCallDuration;
+	}
 	public int getQueueDuration() {
 		return QueueDuration;
 	}
 	public void setQueueDuration(int queueDuration) {
 		QueueDuration = queueDuration;
+	}
+	public void setTotalActiveCallDuration(int totalActiveCallDuration) {
+		TotalActiveCallDuration = totalActiveCallDuration;
 	}
 	public int getMaxUserRegCount() {
 		return MaxUserRegCount;

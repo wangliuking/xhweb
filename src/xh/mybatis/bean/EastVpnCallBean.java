@@ -3,13 +3,13 @@ package xh.mybatis.bean;
 public class EastVpnCallBean {
 	
 	private int TotalActiveCalls;
-	private double   TotalActiveCallDuration;
-	private double   AverageCallDuration;
+	private int   TotalActiveCallDuration;
+	private int   AverageCallDuration;
 	private int   dexTotalCalls;
 	private int   TotalFailedCalls;
-	private int   FailedPercentage;
+	private float   FailedPercentage;
 	private int   NoEffectCalls;
-	private long  vpnid;
+	private int  vpnid;
 	private String name;
 	private String   starttime;
 	private String   endtime;
@@ -20,16 +20,16 @@ public class EastVpnCallBean {
 	public void setTotalActiveCalls(int totalActiveCalls) {
 		TotalActiveCalls = totalActiveCalls;
 	}
-	public double getTotalActiveCallDuration() {
+	public int getTotalActiveCallDuration() {
 		return TotalActiveCallDuration;
 	}
-	public void setTotalActiveCallDuration(double totalActiveCallDuration) {
+	public void setTotalActiveCallDuration(int totalActiveCallDuration) {
 		TotalActiveCallDuration = totalActiveCallDuration;
 	}
-	public double getAverageCallDuration() {
+	public int getAverageCallDuration() {
 		return AverageCallDuration;
 	}
-	public void setAverageCallDuration(double averageCallDuration) {
+	public void setAverageCallDuration(int averageCallDuration) {
 		AverageCallDuration = averageCallDuration;
 	}
 	public int getDexTotalCalls() {
@@ -44,10 +44,10 @@ public class EastVpnCallBean {
 	public void setTotalFailedCalls(int totalFailedCalls) {
 		TotalFailedCalls = totalFailedCalls;
 	}
-	public int getFailedPercentage() {
+	public float getFailedPercentage() {
 		return FailedPercentage;
 	}
-	public void setFailedPercentage(int failedPercentage) {
+	public void setFailedPercentage(float failedPercentage) {
 		FailedPercentage = failedPercentage;
 	}
 	public int getNoEffectCalls() {
@@ -56,12 +56,17 @@ public class EastVpnCallBean {
 	public void setNoEffectCalls(int noEffectCalls) {
 		NoEffectCalls = noEffectCalls;
 	}
-
-	public long getVpnid() {
+	public int getVpnid() {
 		return vpnid;
 	}
-	public void setVpnid(long vpnid) {
+	public void setVpnid(int vpnid) {
 		this.vpnid = vpnid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getStarttime() {
 		return starttime;
@@ -75,19 +80,13 @@ public class EastVpnCallBean {
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public float getPercent() {
 		return percent;
 	}
 	public void setPercent(float percent) {
 		this.percent = percent;
 	}
-	
+
 	
 
 }

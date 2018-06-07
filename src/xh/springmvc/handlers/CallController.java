@@ -14,6 +14,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.Orientation;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+
 import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,8 +37,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastVpnCallBean;
+import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.EastComService;
 import xh.org.listeners.SingLoginListener;
@@ -506,6 +522,477 @@ public class CallController {
 		}	
 	
 	}
+	@RequestMapping(value = "/excel_call", method = RequestMethod.GET)
+	public void excel_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/call");
+			String pathname = saveDir + "/话务统计-"+time+".xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);			
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.NONE,
+					Colour.DARK_GREEN);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(
+					font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(false);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					10, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(
+					font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(
+					nf); // 设置表单格式
+
+			
+
+			WritableSheet sheet = book.createSheet("基站话务统计", 0);
+			WritableSheet sheet1 = book.createSheet("虚拟专网话务统计", 1);
+			WritableSheet sheet2 = book.createSheet("按级别区域分", 2);
+			WritableSheet sheet3 = book.createSheet("按行政区域分", 3);
+			WritableSheet sheet4 = book.createSheet("各行政区域话务TOP10", 4);
+			WritableSheet sheet5 = book.createSheet("各数据前十", 5);
+			WritableSheet sheet6 = book.createSheet("虚拟专网用户数据前十", 6);
+			excel_bs_call(map,sheet,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_vpn_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_level_area_call(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_zone_call(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content);
+			// 
+			
+			
+
+			book.write();
+			book.close();
+			log.info(time+"-基站话务统计");
+			/*DownExcelFile(response, pathname);*/
+			 this.success=true;
+			 HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
 	
+	public  void  excel_vpn_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, time+"-虚拟专网话务统计", fontFormat));
+		sheet.mergeCells(0,0,7,0);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 10);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 10);
+		sheet.setColumnView(3, 10);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
+		sheet.setColumnView(8, 20);
+		
+		sheet.addCell(new Label(0, 1, "专网名称", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "虚拟专网", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "呼损总数", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "呼损率",fontFormat_h));
+		sheet.addCell(new Label(8, 1, "未成功呼叫总数", fontFormat_h));
+		
+		
+		
+		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
+		for (int i = 0; i < list.size(); i++) {
+			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
+			sheet.setRowView(i + 2, 400);
+			sheet.addCell(new Label(0, i + 2, String.valueOf(bean.getVpnid()), fontFormat_Content));
+			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 2, String.valueOf(bean.getDexTotalCalls()), fontFormat_Content));
+			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getTotalFailedCalls()), fontFormat_Content));
+			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
+			sheet.addCell(new Label(8, i + 2, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
+		}
+		int a=0,b=0,c=0,d=0,e=0,f=0,g=0;
+		for(int i=0,len=list.size();i<len;i++){
+			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
+			a+=bean.getTotalActiveCalls();
+			b+=bean.getTotalActiveCallDuration();
+			c+=bean.getAverageCallDuration();
+			d+=bean.getDexTotalCalls();
+			e+=bean.getTotalFailedCalls();
+			f+=bean.getFailedPercentage();
+			g+=bean.getNoEffectCalls();
+		}
+		
+		//总计
+		int len=list.size()+2;
+		sheet.setRowView(len, 600);
+		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
+		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
+		sheet.addCell(new Label(4, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new Label(5, len, FunUtil.second_time(b), fontFormat_Content));
+		sheet.addCell(new Label(6, len, FunUtil.second_time(c), fontFormat_Content));
+		sheet.addCell(new Label(7, len, String.valueOf(d), fontFormat_Content));
+		sheet.addCell(new Label(8, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new Label(9, len, String.valueOf(f)+"%", fontFormat_Content));
+		sheet.addCell(new Label(10, len, String.valueOf(g), fontFormat_Content));
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void  excel_bs_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, time+"-基站话务统计", fontFormat));
+		sheet.mergeCells(0,0,10,0);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 10);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 10);
+		sheet.setColumnView(3, 10);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
+		sheet.setColumnView(8, 20);
+		sheet.setColumnView(9, 20);
+		sheet.setColumnView(10, 20);
+		sheet.setColumnView(11, 20);
+		sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "区域", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "总PPT数", fontFormat_h));
+		sheet.addCell(new Label(8, 1, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(9, 1, "排队持续时间",fontFormat_h));
+		sheet.addCell(new Label(10, 1, "最大用户注册数", fontFormat_h));
+		sheet.addCell(new Label(11, 1, "最大组注册数", fontFormat_h));
+		List<EastBsCallDataBean> list=EastComService.chart_bs_call(map);
+		for (int i = 0; i < list.size(); i++) {
+			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
+			sheet.setRowView(i + 2, 400);
+			sheet.addCell(new Label(0, i + 2, String.valueOf(bean.getBsid()), fontFormat_Content));
+			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getArea()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(6, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
+			sheet.addCell(new Label(8, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new Label(9, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
+			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
+			sheet.addCell(new Label(11, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+		}
+		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0;
+		for(int i=0,len=list.size();i<len;i++){
+			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
+			a+=bean.getTotalActiveCalls();
+			b+=bean.getTotalActiveCallDuration();
+			c+=bean.getAverageCallDuration();
+			d+=bean.getPTTCount();
+			e+=bean.getQueueCount();
+			f+=bean.getQueueDuration();
+			g+=bean.getMaxUserRegCount();
+			h+=bean.getMaxGroupRegCount();
+		}
+		
+		//总计
+		int len=list.size()+2;
+		sheet.setRowView(len, 600);
+		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
+		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
+		sheet.addCell(new Label(2, len, String.valueOf("--"), fontFormat_Content));
+		sheet.addCell(new Label(3, len, String.valueOf("--"), fontFormat_Content));
+		sheet.addCell(new Label(4, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new Label(5, len, FunUtil.second_time(b), fontFormat_Content));
+		sheet.addCell(new Label(6, len, FunUtil.second_time(c), fontFormat_Content));
+		sheet.addCell(new Label(7, len, String.valueOf(d), fontFormat_Content));
+		sheet.addCell(new Label(8, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new Label(9, len, FunUtil.second_time(f), fontFormat_Content));
+		sheet.addCell(new Label(10, len, String.valueOf(g), fontFormat_Content));
+		sheet.addCell(new Label(11, len, String.valueOf(h), fontFormat_Content));
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void  excel_bs_level_area_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		try {
+	    List<EastBsCallDataBean> level_list=EastComService.chart_bs_level_call(map);
+	    /*mergeCells(a,b,c,d) 单元格合并函数
+		a 单元格的列号
+		b 单元格的行号
+		c 从单元格[a,b]起，向下合并到c列
+		d 从单元格[a,b]起，向下合并到d行*/
+	    sheet.addCell(new Label(0, 2, "基站级别", fontFormat_Content));
+	    sheet.mergeCells(0,2,0,level_list.size()+2);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 10);
+		sheet.setColumnView(1, 10);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 10);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
+		sheet.setColumnView(8, 20);
+		sheet.setColumnView(9, 20);
+		sheet.setColumnView(10, 20);
+		sheet.addCell(new Label(1, 1, "基站分级", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "基站数量", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "总PPT数", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(8, 1, "排队持续时间",fontFormat_h));
+		sheet.addCell(new Label(9, 1, "最大用户注册数", fontFormat_h));
+		sheet.addCell(new Label(10, 1, "最大组注册数", fontFormat_h));
+		
+		for (int i = 0; i < level_list.size(); i++) {
+			EastBsCallDataBean bean = (EastBsCallDataBean) level_list.get(i);
+			sheet.setRowView(i + 2, 400);
+			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getBsTotals()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
+			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
+			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
+			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+		}
+		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0;
+		for(int i=0,len=level_list.size();i<len;i++){
+			EastBsCallDataBean bean = (EastBsCallDataBean) level_list.get(i);
+			a+=bean.getTotalActiveCalls();
+			b+=bean.getTotalActiveCallDuration();
+			c+=bean.getAverageCallDuration();
+			d+=bean.getPTTCount();
+			e+=bean.getQueueCount();
+			f+=bean.getQueueDuration();
+			g+=bean.getMaxUserRegCount();
+			h+=bean.getMaxGroupRegCount();
+			x+=bean.getBsTotals();
+		}
+		
+		//总计
+		int len=level_list.size()+2;
+		sheet.setRowView(len, 600);
+		sheet.addCell(new Label(1, len, String.valueOf("总计"), fontFormat_Content));
+		sheet.addCell(new Label(2, len, String.valueOf(x), fontFormat_Content));
+		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
+		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
+		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
+		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new Label(8, len, FunUtil.second_time(f), fontFormat_Content));
+		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
+		sheet.addCell(new Label(10, len, String.valueOf(h), fontFormat_Content));
+		
+		
+		//基站区域
+		List<EastBsCallDataBean> area_list=EastComService.chart_bs_area_call(map);
+		/*mergeCells(a,b,c,d) 单元格合并函数
+		a 单元格的列号
+		b 单元格的行号
+		c 从单元格[a,b]起，向下合并到c列
+		d 从单元格[a,b]起，向下合并到d行*/
+	
+		sheet.addCell(new Label(0, len+5, "绕城内外", fontFormat_Content));
+		sheet.mergeCells(0,len+4,0,area_list.size()+level_list.size()+5);
+		
+		sheet.addCell(new Label(1, len+3, "基站区域", fontFormat_h));
+		sheet.addCell(new Label(2, len+3, "基站数量", fontFormat_h));
+		sheet.addCell(new Label(3, len+3, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(4, len+3, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(5, len+3, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(6, len+3, "总PPT数", fontFormat_h));
+		sheet.addCell(new Label(7, len+3, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(8, len+3, "排队持续时间",fontFormat_h));
+		sheet.addCell(new Label(9, len+3, "最大用户注册数", fontFormat_h));
+		sheet.addCell(new Label(10, len+3, "最大组注册数", fontFormat_h));
+		
+		for (int i = 0; i < area_list.size(); i++) {
+			EastBsCallDataBean bean = (EastBsCallDataBean) area_list.get(i);
+			sheet.setRowView(i + 2, 400);
+			sheet.addCell(new Label(1, i + len+4, String.valueOf(bean.getArea()), fontFormat_Content));
+			sheet.addCell(new Label(2, i + len+4, String.valueOf(bean.getBsTotals()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + len+4, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + len+4, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + len+4, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(6, i + len+4, String.valueOf(bean.getPTTCount()), fontFormat_Content));
+			sheet.addCell(new Label(7, i + len+4, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new Label(8, i + len+4, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
+			sheet.addCell(new Label(9, i + len+4, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
+			sheet.addCell(new Label(10, i + len+4, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+		}
+		int a1=0,b1=0,c1=0,d1=0,e1=0,f1=0,g1=0,h1=0,x1=0;
+		//int len1=level_list.size()+2;
+		for(int i=0,len1=area_list.size();i<len1;i++){
+			EastBsCallDataBean bean = (EastBsCallDataBean) area_list.get(i);
+			a1+=bean.getTotalActiveCalls();
+			b1+=bean.getTotalActiveCallDuration();
+			c1+=bean.getAverageCallDuration();
+			d1+=bean.getPTTCount();
+			e1+=bean.getQueueCount();
+			f1+=bean.getQueueDuration();
+			g1+=bean.getMaxUserRegCount();
+			h1+=bean.getMaxGroupRegCount();
+			x1+=bean.getBsTotals();
+		}
+		
+		//总计
+		int len2=area_list.size()+2;
+		sheet.setRowView(len, 600);
+		sheet.addCell(new Label(1, len2+len+2, String.valueOf("总计"), fontFormat_Content));
+		sheet.addCell(new Label(2, len2+len+2, String.valueOf(x1), fontFormat_Content));
+		sheet.addCell(new Label(3, len2+len+2, String.valueOf(a1), fontFormat_Content));
+		sheet.addCell(new Label(4, len2+len+2, FunUtil.second_time(b1), fontFormat_Content));
+		sheet.addCell(new Label(5, len2+len+2, FunUtil.second_time(c1), fontFormat_Content));
+		sheet.addCell(new Label(6, len2+len+2, String.valueOf(d1), fontFormat_Content));
+		sheet.addCell(new Label(7, len2+len+2, String.valueOf(e1), fontFormat_Content));
+		sheet.addCell(new Label(8, len2+len+2, FunUtil.second_time(f1), fontFormat_Content));
+		sheet.addCell(new Label(9, len2+len+2, String.valueOf(g1), fontFormat_Content));
+		sheet.addCell(new Label(10, len2+len+2, String.valueOf(h1), fontFormat_Content));
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void  excel_bs_zone_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.setColumnView(0, 10);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 10);
+		sheet.setColumnView(3, 20);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
+		sheet.setColumnView(8, 20);
+		sheet.setColumnView(9, 20);
+		sheet.setColumnView(10, 20);
+		sheet.setColumnView(11, 20);
+		sheet.addCell(new Label(0, 1, "序号", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "行政区域", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "基站数量", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "总PPT数", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(8, 1, "排队持续时间",fontFormat_h));
+		sheet.addCell(new Label(9, 1, "最大用户注册数", fontFormat_h));
+		sheet.addCell(new Label(10, 1, "最大组注册数", fontFormat_h));
+		List<EastBsCallDataBean> list=EastComService.chart_bs_zone_call(map);
+		for (int i = 0; i < list.size(); i++) {
+			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
+			sheet.setRowView(i + 2, 400);
+			sheet.addCell(new Label(0, i + 2, String.valueOf(i+1), fontFormat_Content));
+			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getZone()), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getBsTotals()), fontFormat_Content));
+			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
+			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
+			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
+			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
+			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+		}
+		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0;
+		for(int i=0,len=list.size();i<len;i++){
+			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
+			a+=bean.getTotalActiveCalls();
+			b+=bean.getTotalActiveCallDuration();
+			c+=bean.getAverageCallDuration();
+			d+=bean.getPTTCount();
+			e+=bean.getQueueCount();
+			f+=bean.getQueueDuration();
+			g+=bean.getMaxUserRegCount();
+			h+=bean.getMaxGroupRegCount();
+			x+=bean.getBsTotals();
+		}
+		
+		//总计
+		int len=list.size()+2;
+		sheet.setRowView(len, 600);
+		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
+		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
+		sheet.addCell(new Label(2, len, String.valueOf(x), fontFormat_Content));
+		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
+		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
+		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
+		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new Label(8, len, FunUtil.second_time(f), fontFormat_Content));
+		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
+		sheet.addCell(new Label(10, len, String.valueOf(h), fontFormat_Content));
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}	
 	
 }

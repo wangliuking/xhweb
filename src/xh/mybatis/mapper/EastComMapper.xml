@@ -364,9 +364,7 @@
 		chart_month_bstotal as a
 		left join xhgmnet.xhgmnet_bs_station as b on
 		a.bsid=b.bsId
-		where starttime=#{time} group by zone order by
-		TotalActiveCalls desc
-		limit 10
+		where starttime=#{time} group by zone 
 		) as e) as T2
 
 		) as x
@@ -400,7 +398,7 @@
 		T1.starttime
 		from chart_month_bstotal as T1,(select sum(totals) as totals from
 		(select TotalActiveCalls as totals from chart_month_bstotal where
-		starttime=#{time} order by TotalActiveCalls desc limit 10) as a) as T2
+		starttime=#{time}) as a) as T2
 		) as x
 		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
 		where
@@ -444,7 +442,7 @@
 		from
 		chart_month_bstotal as T1,(select sum(totals) as totals from (select
 		QueueCount as totals from chart_month_bstotal where starttime=#{time}
-		order by QueueCount desc limit 10) as a) as T2 ) as x
+		) as a) as T2 ) as x
 		left join
 		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
 		where
@@ -467,7 +465,7 @@
 		from chart_month_vpntotal as T1,(
 		select sum(totals) as totals from
 		(select TotalActiveCalls as totals from chart_month_vpntotal where
-		starttime=#{time} order by TotalActiveCalls desc limit 10 ) as a) as
+		starttime=#{time} ) as a) as
 		T2) as x
 		left join xhgmnet.xhgmnet_vpn as y on x.vpnid=y.vpnId
 		where

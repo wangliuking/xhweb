@@ -85,6 +85,14 @@
 											</button>
 										</div>
 									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button  class="btn btn-sm btn-primary"
+												onclick="xh.excel()" id="btn-excel">
+												<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出数据
+											</button>
+										</div>
+									</div>
 									<!-- <div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button type="submit" class="btn btn-sm btn-success"
@@ -121,10 +129,10 @@
 									ng-click='chart_bs_zone_top10_call()'>行政区域话务TOP10统计</a></li>
 								<li><a href="#call-top10" data-toggle="tab"
 									ng-click='call_top10()'>各类数据TOP10</a></li>
-								<li><a href="#bs" data-toggle="tab"
-									ng-click='mbs_refresh()'>行政区域话务TOP10统计</a></li>
-								<li><a href="#bs" data-toggle="tab"
-									ng-click='mbs_refresh()'>虚拟专网用户话务TOP10统计</a></li>
+								<!-- <li><a href="#bs" data-toggle="tab"
+									ng-click='mbs_refresh()'>行政区域话务TOP10统计</a></li> -->
+								<li><a href="#vpn-top10" data-toggle="tab"
+									ng-click='chart_vpn_call_top10()'>虚拟专网用户话务TOP10统计</a></li>
 							</ul>
 							<div class="tab-content" style="padding:20px">
 								<div class="tab-pane fade in active" id="bs">
@@ -144,6 +152,9 @@
 								</div>
 								<div class="tab-pane fade" id="call-top10">
 									<div ng-include="'chart_call_top10.html'"></div>
+								</div>
+								<div class="tab-pane fade" id="vpn-top10">
+									<div ng-include="'chart_call_vpn_top10.html'"></div>
 								</div>
 							</div>
 						</div>

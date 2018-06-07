@@ -377,6 +377,23 @@ xh.getNowDate = function() {
 	var strYesterday = strYear + "-" + strMonth + "-" + strDay;
 	return strYesterday;
 }
+xh.getTime = function(value) {
+	var ss=parseInt(value);
+	var mm=0;
+	var hh=0;
+	if(ss>60){
+		mm=parseInt(ss/60);
+		ss=parseInt(ss%60);
+		if(mm>60){
+			hh=parseInt(mm/60);
+			mm=parseInt(mm%60);
+		}
+	}
+	if(ss<10){ss="0"+ss;}
+	if(mm<10){mm="0"+mm;}
+	if(hh<10){hh="0"+hh;}
+	return hh+":"+mm+":"+ss;
+}
 xh.getNowMonth = function() {
 	var today = new Date();
 	var yesterday_milliseconds = today.getTime(); // -1000*60*60*24
@@ -408,7 +425,7 @@ xh.getPreMonth = function() {
 	var strYear = yesterday.getFullYear();
 
 	var strDay = yesterday.getDate();
-	var strMonth = yesterday.getMonth() + 1;
+	var strMonth = yesterday.getMonth();
 
 	if (strMonth < 10) {
 		strMonth = "0" + strMonth;

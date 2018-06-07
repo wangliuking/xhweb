@@ -24,73 +24,264 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
+	
+	app.filter('timeFormat', function() { //可以注入依赖
+	    return function(text) {
+	    	
+	    	var time=xh.getTime(text);
+	        return time;
+	    };
+	});
 
 	app.controller("user", function($scope, $http) {
 		
 		$scope.count = "15";//每页数据显示默认值
 		$scope.securityMenu=true; //菜单变色
-		$scope.starttime=xh.getNowMonth();
-		$scope.endtime=xh.getOneDay();
-		var time=$("#starttime").val()==""?xh.getNowMonth():$("#starttime").val();
+		$scope.starttime=xh.getPreMonth();
+		$scope.a=0;
+		$scope.b=0;
+		$scope.c=0;
+		$scope.d=0;
+		$scope.e=0;
+		$scope.f=0;
+		$scope.g=0;
+		$scope.h=0;
+		$scope.x=0;
+		$scope.y=0;
+		var i=0,len=0;
 		$scope.chart_bs_call=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_call?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.bs_call_data = response.items;
 				$scope.bs_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				
+				for(i=0,len=$scope.bs_call_data.length;i<len;i++){
+					$scope.a+=parseInt($scope.bs_call_data[i].totalActiveCalls);
+					$scope.b+=parseInt($scope.bs_call_data[i].totalActiveCallDuration);
+					$scope.c+=parseInt($scope.bs_call_data[i].averageCallDuration);
+					$scope.d+=parseInt($scope.bs_call_data[i].PTTCount);
+					$scope.e+=parseInt($scope.bs_call_data[i].queueCount);
+					$scope.f+=parseInt($scope.bs_call_data[i].queueDuration);
+					$scope.g+=parseInt($scope.bs_call_data[i].maxUserRegCount);
+					$scope.h+=parseInt($scope.bs_call_data[i].maxGroupRegCount);
+				}
+				
 			});
+			
 		}
 		$scope.chart_vpn_call=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_vpn_call?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.vpn_call_data = response.items;
 				$scope.vpn_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.a+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.items[i].averageCallDuration);
+					$scope.d+=parseInt(response.items[i].dexTotalCalls);
+					$scope.e+=parseInt(response.items[i].totalFailedCalls);
+					$scope.f+=parseInt(response.items[i].failedPercentage);
+					$scope.g+=parseInt(response.items[i].noEffectCalls);
+				}
 			});
 		}
 		$scope.chart_bs_level_area_call=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call//chart_bs_level_area_call?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.area_call_data = response.areaitems;
 				$scope.level_call_data = response.levelitems;
 				$scope.area_totals = response.totals;
+				
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				$scope.x=0;
+				$scope.y=0;
+				
+				$scope.a1=0;
+				$scope.b1=0;
+				$scope.c1=0;
+				$scope.d1=0;
+				$scope.e1=0;
+				$scope.f1=0;
+				$scope.g1=0;
+				$scope.h1=0;
+				$scope.x1=0;
+				$scope.y1=0;			
+				for(i=0,len=response.areaitems.length;i<len;i++){
+					$scope.x+=parseInt(response.areaitems[i].bsTotals);
+					$scope.a+=parseInt(response.areaitems[i].totalActiveCalls);
+					$scope.b+=parseInt(response.areaitems[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.areaitems[i].averageCallDuration);
+					$scope.d+=parseInt(response.areaitems[i].PTTCount);
+					$scope.e+=parseInt(response.areaitems[i].queueCount);
+					$scope.f+=parseInt(response.areaitems[i].queueDuration);					
+					if(parseInt(response.areaitems[i].maxUserRegCount)>$scope.g){
+						$scope.g=parseInt(response.areaitems[i].maxUserRegCount);
+					}
+					if(parseInt(response.areaitems[i].maxGroupRegCount)>$scope.h){
+						$scope.h=parseInt(response.areaitems[i].maxGroupRegCount);
+					}										
+					$scope.y+=parseInt(response.areaitems[i].percent);
+				}
+				for(i=0,len=response.levelitems.length;i<len;i++){
+					$scope.x1+=parseInt(response.levelitems[i].bsTotals);
+					$scope.a1+=parseInt(response.levelitems[i].totalActiveCalls);
+					$scope.b1+=parseInt(response.levelitems[i].totalActiveCallDuration);
+					$scope.c1+=parseInt(response.levelitems[i].averageCallDuration);
+					$scope.d1+=parseInt(response.levelitems[i].PTTCount);
+					$scope.e1+=parseInt(response.levelitems[i].queueCount);
+					$scope.f1+=parseInt(response.levelitems[i].queueDuration);					
+					if(parseInt(response.levelitems[i].maxUserRegCount)>$scope.g1){
+						$scope.g1=parseInt(response.levelitems[i].maxUserRegCount);
+					}
+					if(parseInt(response.levelitems[i].maxGroupRegCount)>$scope.h1){
+						$scope.h1=parseInt(response.levelitems[i].maxGroupRegCount);
+					}										
+					$scope.y1+=parseInt(response.levelitems[i].percent);
+				}
+				
+				
+				
 			});
 		}
 		$scope.chart_bs_zone_call=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_zone_call?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.zone_call_data = response.items;
 				$scope.zone_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				$scope.x=0;
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.x+=parseInt(response.items[i].bsTotals);
+					$scope.a+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.items[i].averageCallDuration);
+					$scope.d+=parseInt(response.items[i].PTTCount);
+					$scope.e+=parseInt(response.items[i].queueCount);
+					$scope.f+=parseInt(response.items[i].queueDuration);
+					$scope.g+=parseInt(response.items[i].maxUserRegCount);
+					$scope.h+=parseInt(response.items[i].maxGroupRegCount);
+				}
 			});
 		}
 		$scope.chart_bs_zone_top10_call=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_zone_top10_call?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.zone_top10_call_data = response.items;
 				$scope.zone_top10_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				$scope.x=0;
+				$scope.y=0;
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.x+=parseInt(response.items[i].bsTotals);
+					$scope.a+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.items[i].averageCallDuration);
+					$scope.d+=parseInt(response.items[i].PTTCount);
+					$scope.e+=parseInt(response.items[i].queueCount);
+					$scope.f+=parseInt(response.items[i].queueDuration);
+					$scope.g+=parseInt(response.items[i].maxUserRegCount);
+					$scope.h+=parseInt(response.items[i].maxGroupRegCount);
+					$scope.y+=parseInt(response.items[i].percent);
+				}
 			});
 		}
 		
 		
 		$scope.chart_bs_call_top10=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_call_top10?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.bs_top10_call_data = response.items;
 				$scope.bs_top10_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				$scope.x=0;
+				$scope.y=0;
+			
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.x+=parseInt(response.items[i].bsTotals);
+					$scope.a+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.items[i].averageCallDuration);
+					$scope.d+=parseInt(response.items[i].PTTCount);
+					$scope.e+=parseInt(response.items[i].queueCount);
+					$scope.f+=parseInt(response.items[i].queueDuration);
+					
+					if(parseInt(response.items[i].maxUserRegCount)>$scope.g){
+						$scope.g=parseInt(response.items[i].maxUserRegCount);
+					}
+					if(parseInt(response.items[i].maxGroupRegCount)>$scope.h){
+						$scope.h=parseInt(response.items[i].maxGroupRegCount);
+					}
+					
+					
+					$scope.y+=parseInt(response.items[i].percent);
+				}
 			});
 		}
 		$scope.chart_bs_userreg_top10=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_userreg_top10?time="+time).
 			success(function(response){
 				xh.maskHide();
@@ -100,11 +291,38 @@ xh.load = function() {
 		}
 		$scope.chart_bs_queue_top10=function(){
 			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 			$http.get("../../call/chart_bs_queue_top10?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.bs_queue_top10_data = response.items;
 				$scope.bs_queue_top10_totals = response.totals;
+				$scope.a1=0;
+				$scope.b1=0;
+				$scope.c1=0;
+				$scope.d1=0;
+				$scope.e1=0;
+				$scope.f1=0;
+				$scope.g1=0;
+				$scope.h1=0;
+				$scope.x1=0;
+				$scope.y1=0;
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.a1+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b1+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c1+=parseInt(response.items[i].averageCallDuration);
+					$scope.d1+=parseInt(response.items[i].PTTCount);
+					$scope.e1+=parseInt(response.items[i].queueCount);
+					$scope.f1+=parseInt(response.items[i].queueDuration);
+					
+					if(parseInt(response.items[i].maxUserRegCount)>$scope.g1){
+						$scope.g1=parseInt(response.items[i].maxUserRegCount);
+					}
+					if(parseInt(response.items[i].maxGroupRegCount)>$scope.h1){
+						$scope.h1=parseInt(response.items[i].maxGroupRegCount);
+					}				
+					$scope.y1+=parseInt(response.items[i].percent);
+				}
 			});
 		}
         $scope.call_top10=function(){
@@ -112,9 +330,40 @@ xh.load = function() {
         	$scope.chart_bs_userreg_top10();
         	$scope.chart_bs_queue_top10();
 		}
+    	$scope.chart_vpn_call_top10=function(){
+			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
+			$http.get("../../call/chart_vpn_call_top10?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.vpn_call_top10_data = response.items;
+				$scope.vpn_call_top10_totals = response.totals;
+				$scope.a=0;
+				$scope.b=0;
+				$scope.c=0;
+				$scope.d=0;
+				$scope.e=0;
+				$scope.f=0;
+				$scope.g=0;
+				$scope.h=0;
+				for(i=0,len=response.items.length;i<len;i++){
+					$scope.a+=parseInt(response.items[i].totalActiveCalls);
+					$scope.b+=parseInt(response.items[i].totalActiveCallDuration);
+					$scope.c+=parseInt(response.items[i].averageCallDuration);
+					$scope.d+=parseInt(response.items[i].dexTotalCalls);
+					$scope.e+=parseInt(response.items[i].totalFailedCalls);
+					$scope.f+=parseInt(response.items[i].failedPercentage);
+					$scope.g+=parseInt(response.items[i].noEffectCalls);
+					$scope.h+=parseInt(response.items[i].percent);
+				}
+			});
+		}
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
+			
+			$('#xh-tabs a:first').tab('show');
+			$scope.chart_bs_call();
 		
 		};
 		$scope.chart_bs_call();
@@ -124,166 +373,36 @@ xh.load = function() {
 	});
 };
 
-/* POST获取参数*/
-xh.postData= function() {
+xh.excel=function(){
+	var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
+	xh.maskShow();
+	//$("#btn-excel").button('loading');
 	$.ajax({
-		url : 'http://192.168.120.150:5555/web/loginUserInfo',
+		url : '../../call/excel_call',
 		type : 'get',
 		dataType : "json",
-		async :false,
-		/*data : {
-			method:gameList,
-			gameid:14,
-			pageNumber:1
-		},*/
-		success : function(data) {
-
-			toastr.success("success", '提示');
-		},
-		error : function() {
-			swal({
-				title : "提示",
-				text : "error:500",
-				type : "error"
-			});
-		}
-	});
-};
-
-
-/* 添加用户*/
-xh.add = function() {
-	$.ajax({
-		url : '../../web/user/add',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : $("#addForm").serializeArray(),
-		success : function(data) {
-
-			if (data.success) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 修改基站信息 */
-xh.update = function() {
-	$.ajax({
-		url : '../../web/user/update',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data : $("#editForm").serializeArray(),
-		success : function(data) {
-			if (data.success) {
-				$('#edit').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
-
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/* 批量删除用户*/
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		swal({
-			title : "提示",
-			text : "请至少选择一条数据",
-			type : "error"
-		});
-		return;
-	}
-	$.ajax({
-		url : '../../web/user/del',
-		type : 'post',
-		dataType : "json",
 		data : {
-			userId : checkVal.join(",")
+			time:time
 		},
 		async : false,
 		success : function(data) {
+		
+			$("#btn-run").button('reset');
+			xh.maskHide();
 			if (data.success) {
-				toastr.success("删除用户成功", '提示');
-				xh.refresh();
+				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				
 			} else {
-				swal({
-					title : "提示",
-					text : "失败",
-					type : "error"
-				});
+				toastr.error("导出失败", '提示');
 			}
 		},
 		error : function() {
+			$("#btn-run").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
 		}
 	});
+	
 };
-// 刷新数据
-xh.refresh = function() {
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
 
-};
-/* 数据分页 */
-xh.pagging = function(currentPage,totals, $scope) {
-	var pageSize = $("#page-limit").val();
-	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
-			.ceil(parseInt(totals, 10) / pageSize);
-	var start = (currentPage - 1) * pageSize + 1;
-	var end = currentPage * pageSize;
-	if (currentPage == totalPages) {
-		if (totals > 0) {
-			end = totals;
-		} else {
-			start = 0;
-			end = 0;
-		}
-	}
-	$scope.start = start;
-	$scope.lastIndex = end;
-	$scope.totals = totals;
-	if (totals > 0) {
-		$(".page-paging").html('<ul class="pagination"></ul>');
-		$('.pagination').twbsPagination({
-			totalPages : totalPages,
-			visiblePages : 10,
-			version : '1.1',
-			startPage : currentPage,
-			onPageClick : function(event, page) {
-				if (frist == 1) {
-					$scope.pageClick(page, totals, totalPages);
-				}
-				frist = 1;
-
-			}
-		});
-	}
-};
 
