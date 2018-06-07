@@ -25,7 +25,20 @@
 		<setting name="logImpl" value="LOG4J" />
 	</settings>
 
-
+<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
+              <!--   <property name="poolMaximumActiveConnections" value="10" />  
+                任意时间存在的空闲连接数  
+                <property name="poolMaximumIdleConnections" value="5" />  
+                在被强制返回之前，池中连接被检查的时间  
+                <property name="poolMaximumCheckoutTime" value="20000" />  
+                这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败）  
+                <property name="poolTimeToWait" value="20000" />  
+                发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。  
+                <property name="poolPingQuery" value="NO PING QUERY SET" />  
+                这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性  
+                <property name="poolPingEnabled" value="false" />  
+                这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测  
+                <property name="poolPingConnectionsNotUsedFor" value="0" />  -->
 
 
 	<!-- 为JAVA Bean起类别名 -->
@@ -52,20 +65,8 @@
 				<property name="url" value="${xh.master.url}" />
 				<property name="username" value="${xh.master.username}" />
 				<property name="password" value="${xh.master.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+              <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 		<!-- 从数据库 -->
@@ -82,20 +83,9 @@
 				<property name="url" value="${xh.slave.url}" />
 				<property name="username" value="${xh.slave.username}" />
 				<property name="password" value="${xh.slave.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+				
 			</dataSource>
 		</environment>
 
@@ -113,20 +103,8 @@
 				<property name="url" value="${xh.gps_voice_master.url}" />
 				<property name="username" value="${xh.gps_voice_master.username}" />
 				<property name="password" value="${xh.gps_voice_master.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 
 			</dataSource>
 		</environment>
@@ -146,20 +124,8 @@
 				<property name="username" value="${xh.gps_voice_slave.username}" />
 				<property name="password" value="${xh.gps_voice_slave.password}" />
 				<property name="poolPingEnabled" value="true" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 		<!-- eastcom -->
@@ -176,20 +142,8 @@
 				<property name="url" value="${xh.eastcom.url}" />
 				<property name="username" value="${xh.eastcom.username}" />
 				<property name="password" value="${xh.eastcom.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 
@@ -202,20 +156,8 @@
 				<property name="url" value="${xh.emh.url}" />
 				<property name="username" value="${xh.emh.username}" />
 				<property name="password" value="${xh.emh.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 
@@ -228,20 +170,8 @@
 				<property name="url" value="${xh.mysql.url}" />
 				<property name="username" value="${xh.mysql.username}" />
 				<property name="password" value="${xh.mysql.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 
@@ -255,20 +185,8 @@
 				<property name="url" value="${sqlserver.url}" />
 				<property name="username" value="${sqlserver.username}" />
 				<property name="password" value="${sqlserver.password}" />
-				<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
-                <property name="poolMaximumActiveConnections" value="10" />  
-                <!-- 任意时间存在的空闲连接数 -->  
-                <property name="poolMaximumIdleConnections" value="5" />  
-                <!-- 在被强制返回之前，池中连接被检查的时间 -->  
-                <property name="poolMaximumCheckoutTime" value="20000" />  
-                <!-- 这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败） -->  
-                <property name="poolTimeToWait" value="20000" />  
-                <!-- 发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。 -->  
-                <property name="poolPingQuery" value="NO PING QUERY SET" />  
-                <!-- 这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性 -->  
-                <property name="poolPingEnabled" value="false" />  
-                <!-- 这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测 -->  
-                <property name="poolPingConnectionsNotUsedFor" value="0" /> 
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
 			</dataSource>
 		</environment>
 

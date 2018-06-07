@@ -22,7 +22,7 @@ xh.load = function() {
 		};
 	});
 	app.filter('alarmContent', function() { // 可以注入依赖
-		return function(text) {
+		return function(devciceId,text) {
 			
 			if(text.indexOf("，")>0){
 				return text.split("，")[2];
@@ -57,7 +57,7 @@ xh.load = function() {
 			$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
 				$scope.alarm=response.items;
 				$scope.totals=response.totals;
-				$("#alarmcount").html(23);
+				$("#alarmcount").html($scope.totals);
 			
 			});
 		}

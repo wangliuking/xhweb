@@ -209,9 +209,10 @@
 	</select>
 	<!--基站断站列表 -->
 	<select id="bsOffList" parameterType="int" resultType="map" useCache="true">
-		select a.bsId,a.link,b.name,c.time_break as time from view_bsstatus as a 
+		select a.bsId,a.link,b.name,c.time_break as time,d.stats as bell from view_bsstatus as a 
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		left join (select * from xhgmnet_bsstatus_history where time_restore is null and link=1) as c on a.bsId=c.bsId
+		left join xhgmnet_bs_status as d on a.bsId=d.bsId
 		where a.link!=0 and  a.bsId not in (select bsIds from xhgmnet_stationalarm) 
 		and b.bsId in(select bsId from xhgmnet_bs_station where status=1)
 	</select>
@@ -336,8 +337,8 @@
 		from (select * from xhgmnet_eastcom_alarminfo order by time desc)  as a 	
 		where a.modId=4 and a.time >#{time} group by a.subModId order by time asc -->
 			
-		select subModId as bsId,time from xhgmnet_eastcom_alarminfo where time >#{time} and neType=2 and 
-        modType=1000 and status=0 order by time desc limit 200;
+		select subModId as bsId,time from xhgmnet_eastcom_alarminfo where time >#{time} and neType=4 and 
+        modType=3 and status=0 order by time desc limit 200;
 		
 		
 	</select>

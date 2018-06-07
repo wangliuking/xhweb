@@ -89,5 +89,23 @@ public class CallListServices {
 		}
 		return resultMap;
 	}
+	/**
+	 * 话务统计
+	 * @param map
+	 * @return
+	 */
+	public static List<Map<String,Object>> chart_call_hour_now(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		CallListMapper mapper=sqlSession.getMapper(CallListMapper.class);
+		List<Map<String,Object>> resultMap=new ArrayList<Map<String,Object>>();
+		try {
+			resultMap=mapper.chart_call_hour_now();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
 
 }

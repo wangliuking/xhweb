@@ -288,7 +288,7 @@
 							</a>
 								<ul class="nav nav-three-level">
 									<li><a
-										href="http://183.221.117.37:8888/analystrunner/7301984d-4219-454d-9ff1-f5af0885b77c ?vpnId={{loginUserVpnId}}"
+										href="http://183.221.117.37:8888/analystrunner/7301984d-4219-454d-9ff1-f5af0885b77c?vpnId={{loginUserVpnId}}"
 										target="mainframe"><i class="fa fa-sitemap"></i>&nbsp;
 											全网热度</a></li>
 									<li><a
@@ -397,7 +397,7 @@
 		data : {},
 		async : false,
 		success : function(data) {
-			var html = data.user + "&nbsp;&nbsp;<br>角色[" + data.role + "]";
+			var html = data.user /* + "&nbsp;&nbsp;<br>角色[" + data.role + "]" */;
 			$("#login-user").html(
 					"<span style='color:#fff; font-size:12pt;'>" + html
 							+ "</span>");

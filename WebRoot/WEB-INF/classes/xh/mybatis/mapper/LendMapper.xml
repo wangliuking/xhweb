@@ -10,7 +10,7 @@
 		where status=3 group by lendId) as b
 		on a.id=b.lendId where 1=1
 		<choose>
-			<when test="roleId ==10001 || roleId ==10003">
+			<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003">
 				and a.user=#{user}
 			</when>
 			<when test="roleId ==10002">

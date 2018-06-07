@@ -252,8 +252,8 @@ text-decoration:none;
 	
 	padding:8px;
 	border-radius:1px;
-	box-shadow:0 0 8px #ccc;
-	border-left:4px solid blue;
+	box-shadow:0 0 8px #000;
+	border-left:4px solid green;
 	font-weight: 800;
 	color:yellow;
 }

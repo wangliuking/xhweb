@@ -71,6 +71,13 @@ xh.org.listeners.WriteBsFaultListenner
 </listener-class>   
 </listener>
 
+<!--定时获取东信基站话务统计 -->
+<listener>   
+<listener-class>   
+xh.org.listeners.GetEastCallDataListenner  
+</listener-class>   
+</listener>
+
 <listener>   
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
