@@ -133,7 +133,6 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 					//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
 					String serialNo = map.get("SerialNo");
 					List<Map<String,Object>> serialList = GosuncnService.selectBySerialNo(serialNo);
-					System.out.println("serialList"+serialList);
 					if(serialList.size()==0 || "".equals(serialList) || serialList==null){
 						map.put("startTime", map.get("AlarmTime"));
 						map.put("AlarmTime","0000-00-00 00:00:00");
@@ -141,7 +140,6 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 						Map<String,Object> testMap = serialList.get(0);
 						//判断startTime是否为空，若为空则附加默认值
 						Object tempObj = testMap.get("startTime");
-						System.out.println("tempObj"+tempObj);
 						if(tempObj!=null){
 							String startTime = tempObj.toString();
 							if("".equals(startTime)){
@@ -165,7 +163,6 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			TextMessage text = new TextMessage(alarmDesc);	
 			WebSocketPushHandler webSocketPushHandler = new WebSocketPushHandler();
 			webSocketPushHandler.sendMessagesToUsers(text);*/
-			System.out.println("dataList:为："+dataList);
 
 			GosuncnController.insertAlarm(dataList);
 			//log.info("啦啦啦一条告警信息已经添加！");

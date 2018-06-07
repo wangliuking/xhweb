@@ -214,14 +214,35 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-		<if test="startUps1!=null and startUps1!=''">
+
+		<if test="startUps1!='' and endUps1!=''">
 			and ups1 between #{startUps1} and #{endUps1}
 		</if>
-		<if test="startUps4!=null and startUps4!=''">
+		<if test="startUps1=='' and endUps1!=''">
+			and ups1 &lt; #{endUps1}
+		</if>
+		<if test="startUps1!='' and endUps1==''">
+			and ups1 &gt; #{startUps1}
+		</if>
+
+		<if test="startUps4!='' and endUps4!=''">
 			and ups4 between #{startUps4} and #{endUps4}
 		</if>
-		<if test="startE1!=null and startE1!=''">
+		<if test="startUps4=='' and endUps4!=''">
+			and ups4 &lt; #{endUps4}
+		</if>
+		<if test="startUps4!='' and endUps4==''">
+			and ups4 &gt; #{startUps4}
+		</if>
+
+		<if test="startE1!='' and endE1!=''">
 			and e1 between #{startE1} and #{endE1}
+		</if>
+		<if test="startE1=='' and endE1!=''">
+			and e1 &lt; #{endE1}
+		</if>
+		<if test="startE1!='' and endE1==''">
+			and e1 &gt; #{startE1}
 		</if>
 		order by createTime limit #{start},#{limit}
 	</select>
@@ -235,14 +256,35 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-		<if test="startUps1!=null and startUps1!=''">
+
+		<if test="startUps1!='' and endUps1!=''">
 			and ups1 between #{startUps1} and #{endUps1}
 		</if>
-		<if test="startUps4!=null and startUps4!=''">
+		<if test="startUps1=='' and endUps1!=''">
+			and ups1 &lt; #{endUps1}
+		</if>
+		<if test="startUps1!='' and endUps1==''">
+			and ups1 &gt; #{startUps1}
+		</if>
+
+		<if test="startUps4!='' and endUps4!=''">
 			and ups4 between #{startUps4} and #{endUps4}
 		</if>
-		<if test="startE1!=null and startE1!=''">
+		<if test="startUps4=='' and endUps4!=''">
+			and ups4 &lt; #{endUps4}
+		</if>
+		<if test="startUps4!='' and endUps4==''">
+			and ups4 &gt; #{startUps4}
+		</if>
+
+		<if test="startE1!='' and endE1!=''">
 			and e1 between #{startE1} and #{endE1}
+		</if>
+		<if test="startE1=='' and endE1!=''">
+			and e1 &lt; #{endE1}
+		</if>
+		<if test="startE1!='' and endE1==''">
+			and e1 &gt; #{startE1}
 		</if>
 	</select>
 	<!--查询单个基站本月电压情况用于显示曲线图 -->
@@ -342,14 +384,35 @@
 		<if test="startTime!=null and startTime!=''">
 			and createTime between #{startTime} and #{endTime}
 		</if>
-		<if test="startUps1!=null and startUps1!=''">
+
+		<if test="startUps1!='' and endUps1!=''">
 			and ups1 between #{startUps1} and #{endUps1}
 		</if>
-		<if test="startUps4!=null and startUps4!=''">
+		<if test="startUps1=='' and endUps1!=''">
+			and ups1 &lt; #{endUps1}
+		</if>
+		<if test="startUps1!='' and endUps1==''">
+			and ups1 &gt; #{startUps1}
+		</if>
+
+		<if test="startUps4!='' and endUps4!=''">
 			and ups4 between #{startUps4} and #{endUps4}
 		</if>
-		<if test="startE1!=null and startE1!=''">
+		<if test="startUps4=='' and endUps4!=''">
+			and ups4 &lt; #{endUps4}
+		</if>
+		<if test="startUps4!='' and endUps4==''">
+			and ups4 &gt; #{startUps4}
+		</if>
+
+		<if test="startE1!='' and endE1!=''">
 			and e1 between #{startE1} and #{endE1}
+		</if>
+		<if test="startE1=='' and endE1!=''">
+			and e1 &lt; #{endE1}
+		</if>
+		<if test="startE1!='' and endE1==''">
+			and e1 &gt; #{startE1}
 		</if>
 		order by createTime
 	</select>

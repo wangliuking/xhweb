@@ -561,7 +561,6 @@ public class GosuncnController {
 		map.put("endUps4", endUps4);
 		map.put("startE1", startE1);
 		map.put("endE1", endE1);
-
 		HashMap result = new HashMap();
 		int data1 = GosuncnService.emhHistoryCount(map);
 		List<HashMap<String, String>> data2;
