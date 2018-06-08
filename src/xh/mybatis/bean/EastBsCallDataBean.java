@@ -27,6 +27,9 @@ public class EastBsCallDataBean {
 	  private String zone;
 	  private int bsTotals;
 	  private float percent;
+	  private int call_sort;
+	  private int user_sort;
+	  private int queue_sort;
 
 
 	public int getTotalActiveCalls() {
@@ -180,6 +183,24 @@ public class EastBsCallDataBean {
 	}
 	public void setPercent(float percent) {
 		this.percent = percent;
+	}
+	public int getCall_sort() {
+		return call_sort;
+	}
+	public void setCall_sort(int call_sort) {
+		this.call_sort = call_sort;
+	}
+	public int getUser_sort() {
+		return user_sort;
+	}
+	public void setUser_sort(int user_sort) {
+		this.user_sort = user_sort;
+	}
+	public int getQueue_sort() {
+		return queue_sort;
+	}
+	public void setQueue_sort(int queue_sort) {
+		this.queue_sort = queue_sort;
 	}
 	
 	  

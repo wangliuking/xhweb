@@ -11,6 +11,9 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-gray">
+						    <th style="background:green;color:#fff;">话务排名</th>
+							<th style="background:green;color:#fff;">注册用户排名</th>
+							<th style="background:green;color:#fff;">排队排名</th>
 							<th>基站ID</th>
 							<th>基站名称</th>
 							<th>基站分级</th>
@@ -27,10 +30,10 @@
 					</thead>
 					<tbody>
 						<tr ng-if="bs_totals==0">
-							<td colspan="12" class="text-center">没有记录！</td>
+							<td colspan="15" class="text-center">没有记录！</td>
 						</tr>
 						<tr ng-if="bs_totals>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
-						<td>--</td><td>--</td><td>--</td>
+						<td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td>
 						<td>{{a}}</td>
 						<td>{{b |timeFormat}}</td>
 						<td>{{c |timeFormat}}</td>
@@ -41,6 +44,9 @@
 						<td>{{h}}</td>
 						</tr>
 						<tr ng-repeat="x in bs_call_data">
+							<td style="background:green;color:#fff;">{{x.call_sort}}</td>
+							<td style="background:green;color:#fff;">{{x.user_sort}}</td>
+							<td style="background:green;color:#fff;">{{x.queue_sort}}</td>
 							<td>{{x.bsid}}</td>
 							<td>{{x.name}}</td>
 							<td>{{x.level}}</td>
