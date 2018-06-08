@@ -3,8 +3,8 @@ package xh.mybatis.bean;
 public class EastBsCallDataBean {
 	
 	  private int  TotalActiveCalls ;
-	  private Long  TotalActiveCallDuration=(long) 0 ;
-	  private Long  AverageCallDuration=(long) 0 ;
+	  private int  TotalActiveCallDuration ;
+	  private int  AverageCallDuration ;
 	  private int  PTTCount ;
 	  private int  QueueCount ;
 	  private int  QueueDuration ;
@@ -27,25 +27,21 @@ public class EastBsCallDataBean {
 	  private String zone;
 	  private int bsTotals;
 	  private float percent;
+	  private int call_sort;
+	  private int user_sort;
+	  private int queue_sort;
+
+
 	public int getTotalActiveCalls() {
 		return TotalActiveCalls;
 	}
 	public void setTotalActiveCalls(int totalActiveCalls) {
 		TotalActiveCalls = totalActiveCalls;
 	}
-
-	public Long getTotalActiveCallDuration() {
+	public int getTotalActiveCallDuration() {
 		return TotalActiveCallDuration;
 	}
-	public void setTotalActiveCallDuration(Long totalActiveCallDuration) {
-		TotalActiveCallDuration = totalActiveCallDuration;
-	}
-	public Long getAverageCallDuration() {
-		return AverageCallDuration;
-	}
-	public void setAverageCallDuration(Long averageCallDuration) {
-		AverageCallDuration = averageCallDuration;
-	}
+
 	public int getPTTCount() {
 		return PTTCount;
 	}
@@ -58,11 +54,21 @@ public class EastBsCallDataBean {
 	public void setQueueCount(int queueCount) {
 		QueueCount = queueCount;
 	}
+
+	public int getAverageCallDuration() {
+		return AverageCallDuration;
+	}
+	public void setAverageCallDuration(int averageCallDuration) {
+		AverageCallDuration = averageCallDuration;
+	}
 	public int getQueueDuration() {
 		return QueueDuration;
 	}
 	public void setQueueDuration(int queueDuration) {
 		QueueDuration = queueDuration;
+	}
+	public void setTotalActiveCallDuration(int totalActiveCallDuration) {
+		TotalActiveCallDuration = totalActiveCallDuration;
 	}
 	public int getMaxUserRegCount() {
 		return MaxUserRegCount;
@@ -177,6 +183,24 @@ public class EastBsCallDataBean {
 	}
 	public void setPercent(float percent) {
 		this.percent = percent;
+	}
+	public int getCall_sort() {
+		return call_sort;
+	}
+	public void setCall_sort(int call_sort) {
+		this.call_sort = call_sort;
+	}
+	public int getUser_sort() {
+		return user_sort;
+	}
+	public void setUser_sort(int user_sort) {
+		this.user_sort = user_sort;
+	}
+	public int getQueue_sort() {
+		return queue_sort;
+	}
+	public void setQueue_sort(int queue_sort) {
+		this.queue_sort = queue_sort;
 	}
 	
 	  

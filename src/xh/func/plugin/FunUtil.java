@@ -145,6 +145,30 @@ public class FunUtil {
 	public void removeSession(HttpServletRequest request,String name,String value){
 		request.getSession().removeAttribute(name);
 	}
+	public static String second_time(int time){
+		String str="";
+		if(time==0){
+			str="00:00:00";
+		}else{
+			int ss=time;
+			int mm=0;
+			int hh=0;
+			String s="",m="",h="";
+			if(ss>60){
+				mm=ss/60;
+				ss=ss%60;
+				if(mm>60){
+					hh=mm/60;
+					mm=mm%60;
+				}
+			}
+			if(ss<10){s="0"+ss;}else{s=String.valueOf(ss);}
+			if(mm<10){m="0"+mm;}else{m=String.valueOf(mm);}
+			if(hh<10){h="0"+hh;}else{h=String.valueOf(hh);}
+			str= h+":"+m+":"+s;
+		}
+		return str;
+	}
 
 	// 生成数字加字符串的随机字符串
 	public static String RandomWord(int num) {

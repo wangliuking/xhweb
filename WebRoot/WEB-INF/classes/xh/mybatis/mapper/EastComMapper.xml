@@ -223,8 +223,22 @@
 	<!-- 基站话务统计数据 -->
 	<select id="chart_bs_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select
-		x.bsid,y.`name`,y.`level`,y.area,
+		<!-- select x.bsid,y.`name`,y.`level`,y.area, x.TotalActiveCalls, x.TotalActiveCallDuration, 
+			x.AverageCallDuration, x.PTTCount, x.QueueCount, x.QueueDuration, x.MaxUserRegCount, 
+			x.MaxGroupRegCount from chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station 
+			as y on x.bsid=y.bsId where x.starttime=#{time} order by x.bsid asc -->
+
+		SELECT
+		T1.*, T2.call_sort,
+		T3.user_sort,
+		T4.queue_sort
+		FROM
+		(
+		SELECT
+		x.bsid,
+		y.`name`,
+		y.`level`,
+		y.area,
 		x.TotalActiveCalls,
 		x.TotalActiveCallDuration,
 		x.AverageCallDuration,
@@ -232,11 +246,102 @@
 		x.QueueCount,
 		x.QueueDuration,
 		x.MaxUserRegCount,
-		x.MaxGroupRegCount
-		from
-		chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station as y on
-		x.bsid=y.bsId
-		where x.starttime=#{time} order by x.bsid asc
+		x.MaxGroupRegCount,
+		x.starttime
+		FROM
+		chart_month_bstotal AS x
+		LEFT JOIN xhgmnet.xhgmnet_bs_station AS y ON x.bsid = y.bsId
+		WHERE
+		x.starttime = #{time}
+		) AS T1
+		LEFT JOIN (
+		SELECT
+		a.bsid,
+		CASE
+		WHEN @rowtotal = a.TotalActiveCalls THEN
+		@rownum
+		WHEN @rowtotal := a.TotalActiveCalls THEN
+		@rownum :=@rownum + 1
+		WHEN @rowtotal = 0 THEN
+		@rownum :=@rownum + 1
+		END AS call_sort
+		FROM
+		(
+		SELECT
+		bsid,
+		TotalActiveCalls
+		FROM
+		chart_month_bstotal
+		WHERE
+		starttime = #{time}
+		ORDER BY
+		TotalActiveCalls DESC
+		) AS a,
+		(
+		SELECT
+		@rownum := 0 ,@rowtotal := NULL
+		) r
+		) AS T2 ON T1.bsid = T2.bsid
+		LEFT JOIN (
+		SELECT
+		a.bsid,
+		CASE
+		WHEN @rowtotal1 = a.MaxUserRegCount THEN
+		@rownum1
+		WHEN @rowtotal1 := a.MaxUserRegCount THEN
+		@rownum1 :=@rownum1 + 1
+		WHEN @rowtotal1 = 0 THEN
+		@rownum1 :=@rownum1 + 1
+		END AS user_sort
+		FROM
+		(
+		SELECT
+		bsid,
+		MaxUserRegCount
+		FROM
+		chart_month_bstotal
+		WHERE
+		starttime = #{time}
+		ORDER BY
+		MaxUserRegCount DESC
+		) AS a,
+		(
+		SELECT
+		@rownum1 := 0 ,@rowtotal1 := NULL
+		) r
+		) AS T3 ON T1.bsid = T3.bsid
+		LEFT JOIN (
+		SELECT
+		a.bsid,
+		CASE
+		WHEN @rowtotal2 = a.QueueCount THEN
+		@rownum2
+		WHEN @rowtotal2 := a.QueueCount THEN
+		@rownum2 :=@rownum2 + 1
+		WHEN @rowtotal2 = 0 THEN
+		@rownum2 :=@rownum2 + 1
+		END AS queue_sort
+		FROM
+		(
+		SELECT
+		bsid,
+		QueueCount
+		FROM
+		chart_month_bstotal
+		WHERE
+		starttime = #{time}
+		ORDER BY
+		QueueCount DESC
+		) AS a,
+		(
+		SELECT
+		@rownum2 := 0 ,@rowtotal2 := NULL
+		) r
+		) AS T4 ON T1.bsId = T4.bsid
+		ORDER BY
+		T1.bsid ASC
+
+
 
 	</select>
 	<!-- 虚拟专网话务统计数据 -->
@@ -279,7 +384,8 @@
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
 		where
-		x.starttime=#{time} group by y.`level` order by y.level asc
+		x.starttime=#{time} and y.level>0 group by y.`level` order by y.level
+		asc
 
 	</select>
 	<!--基站地域话务统计数据 -->
@@ -328,7 +434,8 @@
 		from
 		chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
-		where x.starttime=#{time} group by y.zone order by zone
+		where x.starttime=#{time} and y.zone is not null and
+		y.zone !='移动基站' group by y.zone order by zone
 		asc
 	</select>
 	<!--基站区域话务TOP统计数据 -->
@@ -357,24 +464,28 @@
 		T1.MaxGroupRegCount,
 		T2.totals,
 		T1.starttime
-		from chart_month_bstotal as T1,(
+		from chart_month_bstotal as
+		T1,(
 		select sum(totals) as
 		totals from (
-		select sum(a.TotalActiveCalls) as totals,b.zone from
+		select sum(a.TotalActiveCalls)
+		as totals,b.zone from
 		chart_month_bstotal as a
-		left join xhgmnet.xhgmnet_bs_station as b on
+		left join
+		xhgmnet.xhgmnet_bs_station as b on
 		a.bsid=b.bsId
-		where starttime=#{time} group by zone order by
-		TotalActiveCalls desc
-		limit 10
+		where starttime=#{time}
+		group by zone
 		) as e) as T2
 
 		) as x
 
 		left join
-		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
 		where
-		x.starttime=#{time} group by y.zone order by TotalActiveCalls desc
+		x.starttime=#{time} group by y.zone order by
+		TotalActiveCalls desc
 		limit 10
 
 
@@ -400,9 +511,10 @@
 		T1.starttime
 		from chart_month_bstotal as T1,(select sum(totals) as totals from
 		(select TotalActiveCalls as totals from chart_month_bstotal where
-		starttime=#{time} order by TotalActiveCalls desc limit 10) as a) as T2
+		starttime=#{time}) as a) as T2
 		) as x
-		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		left join
+		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
 		where
 		x.starttime=#{time} order by TotalActiveCalls desc limit 10
 
@@ -444,11 +556,13 @@
 		from
 		chart_month_bstotal as T1,(select sum(totals) as totals from (select
 		QueueCount as totals from chart_month_bstotal where starttime=#{time}
-		order by QueueCount desc limit 10) as a) as T2 ) as x
+		) as a) as T2 ) as x
 		left join
-		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
 		where
-		x.starttime=#{time} order by QueueCount desc limit 10
+		x.starttime=#{time} order by QueueCount desc limit
+		10
 	</select>
 	<!-- 虚拟专网话务TOP10 -->
 	<select id="chart_vpn_call_top10" parameterType="map"
@@ -467,11 +581,13 @@
 		from chart_month_vpntotal as T1,(
 		select sum(totals) as totals from
 		(select TotalActiveCalls as totals from chart_month_vpntotal where
-		starttime=#{time} order by TotalActiveCalls desc limit 10 ) as a) as
+		starttime=#{time} ) as a) as
 		T2) as x
-		left join xhgmnet.xhgmnet_vpn as y on x.vpnid=y.vpnId
+		left join xhgmnet.xhgmnet_vpn as y
+		on x.vpnid=y.vpnId
 		where
-		x.starttime=#{time} order by x.TotalActiveCalls desc limit 10
+		x.starttime=#{time} order by x.TotalActiveCalls
+		desc limit 10
 
 	</select>
 </mapper>
