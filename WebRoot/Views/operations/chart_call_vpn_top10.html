@@ -11,6 +11,7 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-gray">
+						    <th>序号</th>
 							<th>专网名称</th>
 							<th>虚拟专网</th>
 							<th>活动呼叫总数</th>
@@ -20,14 +21,15 @@
 							<th>呼损总数</th>
 							<th>呼损率</th>
 							<th>未成功呼叫总数</th>
+							<th>呼叫占百分比</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-if="vpn_totals==0">
-							<td colspan="9" class="text-center">没有记录！</td>
+						<tr ng-if="vpn_call_top10_totals==0">
+							<td colspan="11" class="text-center">没有记录！</td>
 						</tr>
-						<tr ng-if="vpn_totals>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
-						<td>--</td>
+							<tr ng-if="vpn_call_top10_totals>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
+						<td>--</td><td>--</td>
 						<td>{{a}}</td>
 						<td>{{b |timeFormat}}</td>
 						<td>{{c |timeFormat}}</td>
@@ -35,9 +37,10 @@
 						<td>{{e}}</td>
 						<td>{{f}}</td>
 						<td>{{g}}</td>
+						<td>{{h}}%</td>
 						</tr>
-						<tr ng-repeat="x in vpn_call_data">
-						
+						<tr ng-repeat="x in vpn_call_top10_data">
+						<td>{{$index+1}}</td>
 							<td>{{x.vpnid}}</td>
 							<td>{{x.name}}</td>
 							<td>{{x.totalActiveCalls}}</td>
@@ -47,6 +50,7 @@
 							<td>{{x.totalFailedCalls}}</td>
 							<td>{{x.failedPercentage}}</td>
 							<td>{{x.noEffectCalls}}</td>
+							<td>{{x.percent}}%</td>
 						
 					</tbody>
 				</table>

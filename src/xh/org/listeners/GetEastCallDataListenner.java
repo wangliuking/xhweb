@@ -29,7 +29,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 		// TODO Auto-generated method stub
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new GetData(), 20000, 1000*2*60);
+			timer.scheduleAtFixedRate(new GetData(), 20000, 1000*60*60*24);
 			
 		}
 		

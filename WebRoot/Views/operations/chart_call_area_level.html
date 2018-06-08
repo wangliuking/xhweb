@@ -27,15 +27,26 @@
 						<tr ng-if="area_totals==0">
 							<td colspan="10" class="text-center">没有记录！</td>
 						</tr>
+						<tr ng-if="area_totals>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
+						<td>{{x1}}</td>
+						<td>{{a1}}</td>
+						<td>{{b1 |timeFormat}}</td>
+						<td>{{c1 |timeFormat}}</td>
+						<td>{{d1}}</td>
+						<td>{{e1}}</td>
+						<td>{{f1 |timeFormat}}</td>
+						<td>{{g1}}</td>
+						<td>{{h1}}</td>
+						</tr>
 						<tr ng-repeat="x in level_call_data">
 						<td>{{x.level}}</td>
 							<td>{{x.bsTotals}}</td>
-							<td>{{x.totalActiveCalls}}</td>
-							<td>{{x.totalActiveCallDuration}}</td>
-							<td>{{x.averageCallDuration}}</td>
+							<td>{{x.totalActiveCalls }}</td>
+							<td>{{x.totalActiveCallDuration |timeFormat}}</td>
+							<td>{{x.averageCallDuration |timeFormat}}</td>
 							<td>{{x.PTTCount}}</td>
 							<td>{{x.queueCount}}</td>
-							<td>{{x.queueDuration}}</td>
+							<td>{{x.queueDuration |timeFormat}}</td>
 							<td>{{x.maxUserRegCount}}</td>
 							<td>{{x.maxGroupRegCount}}</td>
 						
@@ -76,15 +87,26 @@
 						<tr ng-if="area_totals==0">
 							<td colspan="10" class="text-center">没有记录！</td>
 						</tr>
+						<tr ng-if="area_totals>0" style="color:red; font-weight:800"><td colspan="1">统计</td>
+						<td>{{x}}</td>
+						<td>{{a}}</td>
+						<td>{{b |timeFormat}}</td>
+						<td>{{c |timeFormat}}</td>
+						<td>{{d}}</td>
+						<td>{{e}}</td>
+						<td>{{f |timeFormat}}</td>
+						<td>{{g}}</td>
+						<td>{{h}}</td>
+						</tr>
 						<tr ng-repeat="x in area_call_data">
 						<td>{{x.area}}</td>
 							<td>{{x.bsTotals}}</td>
 							<td>{{x.totalActiveCalls}}</td>
-							<td>{{x.totalActiveCallDuration}}</td>
-							<td>{{x.averageCallDuration}}</td>
+							<td>{{x.totalActiveCallDuration |timeFormat}}</td>
+							<td>{{x.averageCallDuration |timeFormat}}</td>
 							<td>{{x.PTTCount}}</td>
 							<td>{{x.queueCount}}</td>
-							<td>{{x.queueDuration}}</td>
+							<td>{{x.queueDuration |timeFormat}}</td>
 							<td>{{x.maxUserRegCount}}</td>
 							<td>{{x.maxGroupRegCount}}</td>
 						
