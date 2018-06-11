@@ -40,7 +40,7 @@ class GetData extends TimerTask{
 	protected final Log log4j = LogFactory.getLog(GetData.class);
 	@Override
 	public void run() {
-		log4j.info("=========================================");
+	/*	log4j.info("=========================================");
 		log4j.info("获取东信基站话务统计数据线程启动");
 		log4j.info("=========================================");
 		long starttime=System.currentTimeMillis();
@@ -83,7 +83,7 @@ class GetData extends TimerTask{
 		float seconds3 = (endtime3 - starttime3);
 		log4j.info("=========================================");
 		log4j.info("获取东信MSC-DETAIL话务统计数据结束,历时="+seconds3+" ms");
-		log4j.info("=========================================");
+		log4j.info("=========================================");*/
 	}
 	
 	

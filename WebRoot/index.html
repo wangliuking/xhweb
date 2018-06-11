@@ -219,7 +219,7 @@ html,body {
 								<p>公告栏</p>
 
 								<ul class="list-group">
-									<li class="list-group-item"><span>今日值班领导:</span><input
+									<!-- <li class="list-group-item"><span>今日值班领导:</span><input
 										type="text" name="duty1" ng-model="dataOne"
 										ng-blur="updateDuty()" ng-readonly="roleType!=3" /></li>
 									<li class="list-group-item"><span>今日值班员:</span><input
@@ -227,7 +227,17 @@ html,body {
 										ng-blur="updateDuty()" ng-readonly="roleType!=3" /></li>
 									<li class="list-group-item"><span>值班电话:</span><input
 										type="text" name="duty3" ng-model="dataThree"
-										ng-blur="updateDuty()" ng-readonly="roleType!=3" /></li>
+										ng-blur="updateDuty()" ng-readonly="roleType!=3" /></li> -->
+										
+										<li class="list-group-item"><span>今日值班领导:</span><input
+										type="text" name="duty1" ng-model="dataOne"
+										ng-blur="updateDuty()" ng-readonly="true" /></li>
+									<li class="list-group-item"><span>今日值班员:</span><input
+										type="text" name="duty2" ng-model="dataTwo"
+										ng-blur="updateDuty()" ng-readonly="true" /></li>
+									<li class="list-group-item"><span>值班电话:</span><input
+										type="text" name="duty3" ng-model="dataThree"
+										ng-blur="updateDuty()" ng-readonly="true" /></li>
 								</ul>
 							</div>
 						</div>

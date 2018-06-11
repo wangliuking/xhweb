@@ -226,7 +226,7 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
-	public String nowDateOnly() {
+	public static String nowDateOnly() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());

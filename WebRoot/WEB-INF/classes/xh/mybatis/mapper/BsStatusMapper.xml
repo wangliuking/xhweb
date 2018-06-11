@@ -36,7 +36,7 @@
 	<select id="bsRadioTop5" resultType="map"
 		useCache="true">
 		SELECT a.bsId,count(a.userId) as value,b.name FROM xhgmnet_operations_userstatus as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId>0
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId>0 and regStatus in(1,2,3)
 		  group by a.bsId order by  value desc limit 5
 	</select>
 	<!--导出现网基站的运行记录 -->

@@ -6,7 +6,7 @@
 	<select id="oneBsRadio" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select a.userId,a.bsId,b.E_name as name from xhgmnet_operations_userstatus as a
-		left join xhgmnet_radiouser as b on a.userId=b.C_ID where a.bsId=#{bsId}
+		left join xhgmnet_radiouser as b on a.userId=b.C_ID where a.bsId=#{bsId} and regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
 		 and a.userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
 		</if>
@@ -15,7 +15,7 @@
 	<!--查询基站下的注册终端总数 -->
 	<select id="oneBsRadioCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId}
+		select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId} and and regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
 		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
 		</if>

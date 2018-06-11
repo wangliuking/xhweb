@@ -101,12 +101,12 @@
 		left join view_bsstatus as b on
 		a.bsId=b.bsId
 		left join (select count(distinct userId) as userSum ,bsId
-		from xhgmnet_operations_userstatus
+		from xhgmnet_operations_userstatus  where regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
-			where userId in (select C_ID from xhgmnet.xhgmnet_radiouser where
+			and userId in (select C_ID from xhgmnet.xhgmnet_radiouser where
 			E_vpnId=#{vpnId})
 		</if>
-		group by bsId)
+		group by bsId )
 		as c on a.bsId=c.bsId
 
 		left join (select count(gourpId) as groupSum ,bsId from
