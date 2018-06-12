@@ -593,6 +593,13 @@
 		desc limit 10
 
 	</select>
+	
+	<!--交换中心日报话务统计数据 -->
+	<select id="chart_msc_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastMscDayBean">
+		select * from chart_day_msc where starttime=#{time} limit 1
+	</select>
+	
 </mapper>
 
 
