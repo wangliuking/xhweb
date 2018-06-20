@@ -1,5 +1,8 @@
 package xh.org.listeners;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,7 +32,18 @@ public class GetEastCallDataListenner implements ServletContextListener {
 		// TODO Auto-generated method stub
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new GetData(), 20000, 1000*60*60*24);
+			SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat fTime2 = new SimpleDateFormat("yyyy-MM-dd 01:00:00");
+			String time=fTime2.format(new Date());
+			try {
+				Date d1 = fTime.parse(time);
+				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			
 		}
 		
@@ -40,7 +54,15 @@ class GetData extends TimerTask{
 	protected final Log log4j = LogFactory.getLog(GetData.class);
 	@Override
 	public void run() {
-	/*	log4j.info("=========================================");
+		SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String d1 = fTime.format(new Date());
+		log4j.info("=========================================");
+		log4j.info("获取东信数据库数据执行时间"+d1);
+		log4j.info("=========================================");
+		
+		
+		
+		log4j.info("=========================================");
 		log4j.info("获取东信基站话务统计数据线程启动");
 		log4j.info("=========================================");
 		long starttime=System.currentTimeMillis();
@@ -83,7 +105,7 @@ class GetData extends TimerTask{
 		float seconds3 = (endtime3 - starttime3);
 		log4j.info("=========================================");
 		log4j.info("获取东信MSC-DETAIL话务统计数据结束,历时="+seconds3+" ms");
-		log4j.info("=========================================");*/
+		log4j.info("=========================================");
 	}
 	
 	

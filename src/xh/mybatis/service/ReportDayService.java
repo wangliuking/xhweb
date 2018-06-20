@@ -1,6 +1,7 @@
 package xh.mybatis.service;
  
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ReportDayService {
 	public static List<Map<String,Object>> chart_server(){
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
-		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();				
 		try {
 			list=mapper.chart_server();
 			session.close();
@@ -57,6 +58,86 @@ public class ReportDayService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public static Map<String,Object> chart_alarm_now(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		 Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			list=mapper.chart_alarm_now();
+			for(int i=0,j=list.size();i<j;i++){
+				 Map<String,Object> map2=list.get(i);
+				 if(map2.get("severity").equals(1)){
+					 map.put("a_1", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(2)){
+					 map.put("a_2", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(3)){
+					 map.put("a_3", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(4)){
+					 map.put("a_4", map2.get("num").toString());
+				 }
+			}
+			
+			if(map.get("a_1")==null){
+				map.put("a_1", 0);
+			}
+			if(map.get("a_2")==null){
+				map.put("a_2", 0);
+			}
+			if(map.get("a_3")==null){
+				map.put("a_3", 0);
+			}
+			if(map.get("a_4")==null){
+				map.put("a_4", 0);
+			}
+			
+			
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	public static Map<String,Object> chart_alarm_his(Map<String,Object> prapmap){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		 Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			list=mapper.chart_alarm_his(prapmap);
+			for(int i=0,j=list.size();i<j;i++){
+				 Map<String,Object> map2=list.get(i);
+				 if(map2.get("severity").equals(1)){
+					 map.put("a_1", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(2)){
+					 map.put("a_2", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(3)){
+					 map.put("a_3", map2.get("num").toString());
+				 }else if(map2.get("severity").equals(4)){
+					 map.put("a_4", map2.get("num").toString());
+				 }
+			}
+			
+			if(map.get("a_1")==null){
+				map.put("a_1", 0);
+			}
+			if(map.get("a_2")==null){
+				map.put("a_2", 0);
+			}
+			if(map.get("a_3")==null){
+				map.put("a_3", 0);
+			}
+			if(map.get("a_4")==null){
+				map.put("a_4", 0);
+			}
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
 	}
 	
 	

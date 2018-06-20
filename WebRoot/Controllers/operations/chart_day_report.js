@@ -57,8 +57,10 @@ xh.load = function() {
 			$http.get("../../report/chart_server").
 			success(function(response){
 				xh.maskHide();
-				$scope.server_data = response.items;
-				$scope.server_totals = response.totals;			
+				$scope.server_one_data = response.one;
+				$scope.server_one_totals = response.one_size;	
+				$scope.server_two_data = response.two;
+				$scope.server_two_totals = response.two_size;	
 				
 			});
 			
@@ -71,6 +73,18 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.msc_data = response.items;
 				$scope.msc_totals = response.totals;			
+				
+			});
+			
+		}
+		$scope.chart_alarm=function(){
+			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getYMD(0):$("#starttime").val();
+			$http.get("../../report/chart_eastcom_alarm?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.alarm_now_data = response.now;	
+				$scope.alarm_his_data = response.his;	
 				
 			});
 			

@@ -16,11 +16,15 @@ public interface ReportDayMapper {
 	
 	public List<ChartReportDispatch> chart_dispatch()throws Exception;
 	
+	public List<Map<String,Object>> chart_alarm_now()throws Exception;
+	
+	public List<Map<String,Object>> chart_alarm_his(Map<String,Object> map)throws Exception;
 	
 	
 	
 	
-	public List<EastBsCallDataBean>chart_bs_call(Map<String, Object> map)throws Exception;
+	
+/*	public List<EastBsCallDataBean>chart_bs_call(Map<String, Object> map)throws Exception;
 	public List<EastVpnCallBean>chart_vpn_call(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_level_call(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_area_call(Map<String, Object> map)throws Exception;
@@ -32,7 +36,7 @@ public interface ReportDayMapper {
 	public List<EastBsCallDataBean>chart_bs_call_top10(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_userreg_top10(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_queue_top10(Map<String, Object> map)throws Exception;
-	public List<EastVpnCallBean>chart_vpn_call_top10(Map<String, Object> map)throws Exception;
+	public List<EastVpnCallBean>chart_vpn_call_top10(Map<String, Object> map)throws Exception;*/
 	
 	
 	

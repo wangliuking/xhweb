@@ -21,11 +21,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-if="server_totals==0">
+						<tr ng-if="server_one_totals==0">
 							<td colspan="7" class="text-center">没有记录！</td>
 						</tr>
 					
-						<tr ng-repeat="x in server_data">
+						<tr ng-repeat="x in server_one_data">
 						<td>{{x.name}}</td>
 							<td>{{x.ip}}</td>
 							<td>{{x.cpuLoad}}%</td>
@@ -101,3 +101,45 @@
 
 	</div>
 </div> -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt" style="color:#000;border-left:8px solid blue">
+
+				 系统日常维护表-容灾服务器当前运行状态
+			</div>
+			<div class="panel-body">
+
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+						<th>设备</th>
+							<th>IP</th>
+							<th>cpu占用</th>
+							<th>内存使用率</th>
+							<th>硬盘已用</th>
+							<th>可用量</th>
+							<th>运行时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="server_two_totals==0">
+							<td colspan="7" class="text-center">没有记录！</td>
+						</tr>
+					
+						<tr ng-repeat="x in server_two_data">
+						<td>{{x.name}}</td>
+							<td>{{x.ip}}</td>
+							<td>{{x.cpuLoad}}%</td>
+							<td>{{x.memPercent}}%</td>
+							<td>{{x.diskUsed}}</td>
+							<td>{{x.diskSize}}</td>
+							<td></td>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

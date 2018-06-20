@@ -98,7 +98,8 @@ public class EastComService {
 		String h="00",m="00",s="00";
 		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
 		try {
-			for(int dayNum=1;dayNum<=1;dayNum++){
+			/*51*/
+			for(int dayNum=2;dayNum>=1;dayNum--){
 				int day=dayNum;	
 				for(int i=0;i<=23;i++){
 					
@@ -128,7 +129,9 @@ public class EastComService {
 						
 					}			
 					
-				}		
+				}
+				
+				System.out.println("call---"+dayNum);
 				
 			}
 			

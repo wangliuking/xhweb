@@ -76,9 +76,9 @@ public class OndutyController {
 	@RequestMapping(value="/onduty",method = RequestMethod.GET)
 	public void onduty(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-
 		Map<String, Object> map=OndutyService.onduty();
-		if(map.isEmpty()){
+		if(map==null){
+			map=new HashMap<String, Object>();
 			map.put("one",FunUtil.readXml("duty", "one"));
 			map.put("two", "");
 			map.put("three", FunUtil.readXml("duty", "three"));

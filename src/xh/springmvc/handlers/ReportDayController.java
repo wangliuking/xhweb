@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.ChartReportDispatch;
 import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.service.EastComService;
 import xh.mybatis.service.ReportDayService;
@@ -49,8 +51,22 @@ public class ReportDayController {
 	@RequestMapping(value = "/chart_server", method = RequestMethod.GET)
 	public void chart_server(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		HashMap result = new HashMap();
-		result.put("totals", ReportDayService.chart_server().size());
-		result.put("items", ReportDayService.chart_server());
+		List<Map<String,Object>> list=ReportDayService.chart_server();
+		List<Map<String,Object>> list_one=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list_two=new ArrayList<Map<String,Object>>();
+		for(int i=0,j=list.size();i<j;i++){
+			Map map=list.get(i);
+			if(map.get("ID").equals(1)){
+				list_one.add(map);
+			}else{
+				list_two.add(map);
+			}
+		}
+
+		result.put("one", list_one);
+		result.put("one_size", list_one.size());
+		result.put("two", list_two);
+		result.put("two_size", list_two.size());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -68,6 +84,25 @@ public class ReportDayController {
 		map.put("time", time);
 		HashMap result = new HashMap();
 		result.put("items", ReportDayService.chart_msc_call(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	
+	}
+	@RequestMapping(value = "/chart_eastcom_alarm", method = RequestMethod.GET)
+	public void chart_eastcom_alarm(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		
+		HashMap result = new HashMap();
+		result.put("now", ReportDayService.chart_alarm_now());
+		result.put("his", ReportDayService.chart_alarm_his(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -161,12 +196,6 @@ public class ReportDayController {
 			total_fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			total_fontFormat.setBackground(Colour.WHITE);// 背景色
 			total_fontFormat.setWrap(true);// 自动换行
-			
-			
-			
-			
-			
-			
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
@@ -179,7 +208,11 @@ public class ReportDayController {
 			WritableSheet sheet1 = book.createSheet("日常调度台统计", 1);
 			WritableSheet sheet2 = book.createSheet("日常维护-告警统计", 2);
 			WritableSheet sheet3 = book.createSheet("日常统计测量", 3);
+			excel_server(map,sheet,fontFormat,fontFormat_h,fontFormat_Content);
 			excel_dispatch(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_alarm(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_msc(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content);
+			
 			book.write();
 			book.close();
 			/*DownExcelFile(response, pathname);*/
@@ -191,6 +224,90 @@ public class ReportDayController {
 			 String jsonstr = json.Encode(result); 
 			 response.getWriter().write(jsonstr);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void  excel_server(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, "系统日常维护表", fontFormat));
+		sheet.addCell(new Label(0, 1, "主服务器当前运行状态", fontFormat));
+		sheet.addCell(new Label(0, 2, "统计时间"+time, fontFormat));
+		sheet.mergeCells(0,0,6,0);
+		sheet.mergeCells(0,1,6,0);
+		sheet.mergeCells(0,2,6,0);
+		sheet.setRowView(0, 600);
+		sheet.setRowView(1, 600);
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 20);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 40);
+		
+		sheet.addCell(new Label(0, 3, "设备", fontFormat_h));
+		sheet.addCell(new Label(1, 3, "IP", fontFormat_h));
+		sheet.addCell(new Label(2, 3, "cpu占用", fontFormat_h));
+		sheet.addCell(new Label(3, 3, "内存使用率", fontFormat_h));
+		sheet.addCell(new Label(4, 3, "硬盘使用", fontFormat_h));
+		sheet.addCell(new Label(5, 3, "可用量", fontFormat_h));
+		sheet.addCell(new Label(6, 3, "运行时间", fontFormat_h));
+		
+		
+		
+		List<Map<String,Object>> list=ReportDayService.chart_server();
+		List<Map<String,Object>> list_one=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list_two=new ArrayList<Map<String,Object>>();
+		for(int i=0,j=list.size();i<j;i++){
+			Map<String,Object> mapa=list.get(i);
+			if(mapa.get("ID").equals(1)){
+				list_one.add(mapa);
+			}else{
+				list_two.add(mapa);
+			}
+		}
+		for (int i = 0; i < list_one.size(); i++) {
+			Map bean =list_one.get(i);
+			sheet.setRowView(i + 4, 400);
+			sheet.addCell(new Label(0, i + 4, String.valueOf(bean.get("name")), fontFormat_Content));
+			sheet.addCell(new Label(1, i + 4, String.valueOf(bean.get("ip")), fontFormat_Content));
+			sheet.addCell(new Label(2, i + 4, String.valueOf(bean.get("cpuLoad"))+"%", fontFormat_Content));
+			sheet.addCell(new Label(3, i + 4, String.valueOf(bean.get("memPercent"))+"%", fontFormat_Content));
+			sheet.addCell(new Label(4, i + 4, String.valueOf(bean.get("diskUsed")), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 4, String.valueOf(bean.get("diskSize")), fontFormat_Content));
+			sheet.addCell(new Label(6, i + 4, "", fontFormat_Content));
+		}
+		
+		//容灾
+		int start=list_one.size()+5;
+		sheet.addCell(new Label(0, start+1, "容灾服务器当前运行状态", fontFormat));
+		sheet.mergeCells(0,start+1,6,0);
+		sheet.setRowView(start+1, 600);
+		
+		sheet.addCell(new Label(0, start+2, "设备", fontFormat_h));
+		sheet.addCell(new Label(1, start+2, "IP", fontFormat_h));
+		sheet.addCell(new Label(2, start+2, "cpu占用", fontFormat_h));
+		sheet.addCell(new Label(3, start+2, "内存使用率", fontFormat_h));
+		sheet.addCell(new Label(4, start+2, "硬盘使用", fontFormat_h));
+		sheet.addCell(new Label(5, start+2, "可用量", fontFormat_h));
+		sheet.addCell(new Label(6, start+2, "运行时间", fontFormat_h));
+		for (int i = 0; i < list_two.size(); i++) {
+			Map bean =list_two.get(i);
+			sheet.setRowView(start+i + 3, 400);
+			sheet.addCell(new Label(0, start+i + 3, String.valueOf(bean.get("name")), fontFormat_Content));
+			sheet.addCell(new Label(1, start+i + 3, String.valueOf(bean.get("ip")), fontFormat_Content));
+			sheet.addCell(new Label(2, start+i + 3, String.valueOf(bean.get("cpuLoad"))+"%", fontFormat_Content));
+			sheet.addCell(new Label(3, start+i + 3, String.valueOf(bean.get("memPercent"))+"%", fontFormat_Content));
+			sheet.addCell(new Label(4, start+i + 3, String.valueOf(bean.get("diskUsed")), fontFormat_Content));
+			sheet.addCell(new Label(5, start+i + 3, String.valueOf(bean.get("diskSize")), fontFormat_Content));
+			sheet.addCell(new Label(6, start+i + 3, "", fontFormat_Content));
+		}
+		
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -220,6 +337,7 @@ public class ReportDayController {
 		
 		
 		List<ChartReportDispatch> list=ReportDayService.chart_dispatch();
+		
 		for (int i = 0; i < list.size(); i++) {
 			ChartReportDispatch bean =list.get(i);
 			sheet.setRowView(i + 2, 400);
@@ -237,5 +355,113 @@ public class ReportDayController {
 		}
 		
 	}
+	public  void  excel_msc(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, "交换中心话务量统计", fontFormat));
+		sheet.addCell(new Label(0, 1, "统计时段"+time, fontFormat));
+		sheet.mergeCells(0,0,5,0);
+		sheet.mergeCells(0,1,5,0);
+		sheet.setRowView(0, 600);
+		sheet.setRowView(1, 600);
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 20);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		
+		EastMscDayBean bean=ReportDayService.chart_msc_call(map);
+		sheet.addCell(new Label(0, 2, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(1, 2, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(2, 2, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(3, 2, "呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(4, 2, "呼损率", fontFormat_h));
+		sheet.addCell(new Label(5, 2, "未成功呼叫总数", fontFormat_h));
+		
+		sheet.setRowView(3, 400);
+		sheet.addCell(new Label(0, 3, String.valueOf(bean.getTotalActiveCall()), fontFormat_Content));
+		sheet.addCell(new Label(1, 3, funUtil.second_time((int) bean.getTotalActiveCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(2, 3, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(3, 3, String.valueOf(bean.getTotalCalls()), fontFormat_Content));
+		sheet.addCell(new Label(4, 3, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
+		sheet.addCell(new Label(5, 3, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
+		
+		
+		
+		sheet.addCell(new Label(0, 4, "组呼个数", fontFormat_h));
+		sheet.addCell(new Label(1, 4, "组呼时长", fontFormat_h));
+		sheet.addCell(new Label(2, 4, "个呼次数", fontFormat_h));
+		sheet.addCell(new Label(3, 4, "个呼时长", fontFormat_h));
+		
+		sheet.setRowView(5, 400);
+		sheet.addCell(new Label(0, 5, String.valueOf(bean.getGroupCalls()), fontFormat_Content));
+		sheet.addCell(new Label(1, 5, funUtil.second_time((int) bean.getGroupCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(2, 5, String.valueOf(bean.getPrivateCalls()), fontFormat_Content));
+		sheet.addCell(new Label(3, 5, funUtil.second_time((int) bean.getPrivateCallDuration()), fontFormat_Content));
+		
+		sheet.addCell(new Label(0, 6, "电话呼叫次数", fontFormat_h));
+		sheet.addCell(new Label(1, 6, "电话呼叫时长", fontFormat_h));
+		sheet.addCell(new Label(2, 6, "全双工单呼次数", fontFormat_h));
+		sheet.addCell(new Label(3, 6, "半双工单呼次数", fontFormat_h));
+		
+		sheet.setRowView(7, 400);
+		sheet.addCell(new Label(0, 7, String.valueOf(bean.getPhoneCalls()), fontFormat_Content));
+		sheet.addCell(new Label(1, 7, funUtil.second_time((int) bean.getPhoneCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(2, 7, String.valueOf(bean.getPrivateDuplexCalls()), fontFormat_Content));
+		sheet.addCell(new Label(3, 7, String.valueOf(bean.getPrivateSimplexCalls()), fontFormat_Content));
+		
+		
+	
+	
+		
+		} catch (Exception e) {
+			e.printStackTrace();
 
+		}
+		
+	}
+	public  void  excel_alarm(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, "告警信息统计表", fontFormat));
+		sheet.mergeCells(0,0,4,0);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 20);
+		sheet.setColumnView(4, 20);
+		
+		sheet.addCell(new Label(1, 1, "紧急告警", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "主要告警", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "次要告警", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "一般通知", fontFormat_h));
+		
+		
+		
+		Map<String, Object> list_one=ReportDayService.chart_alarm_now();
+		Map<String, Object> list_two=ReportDayService.chart_alarm_his(map);
+
+		sheet.addCell(new Label(0, 2, "当前告警数量统计", fontFormat_Content));
+		sheet.addCell(new Label(1, 2, String.valueOf(list_one.get("a_1")), fontFormat_Content));
+		sheet.addCell(new Label(2, 2, String.valueOf(list_one.get("a_2")), fontFormat_Content));
+		sheet.addCell(new Label(3, 2, String.valueOf(list_one.get("a_3")), fontFormat_Content));
+		sheet.addCell(new Label(4, 2, String.valueOf(list_one.get("a_4")), fontFormat_Content));
+		sheet.addCell(new Label(0, 3, "历时告警数量统计", fontFormat_Content));
+		sheet.addCell(new Label(1, 3, String.valueOf(list_two.get("a_1")), fontFormat_Content));
+		sheet.addCell(new Label(2, 3, String.valueOf(list_two.get("a_2")), fontFormat_Content));
+		sheet.addCell(new Label(3, 3, String.valueOf(list_two.get("a_3")), fontFormat_Content));
+		sheet.addCell(new Label(4, 3, String.valueOf(list_two.get("a_4")), fontFormat_Content));
+		
+		
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
 }
+

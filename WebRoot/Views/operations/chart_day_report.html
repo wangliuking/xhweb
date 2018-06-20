@@ -122,8 +122,8 @@
 									ng-click='chart_server()'>日常统计维护</a></li>
 								<li><a href="#dispatch" data-toggle="tab"
 									ng-click='chart_day_report_dispatch()'>日常调度台统计</a></li>
-								<li><a href="#area-level" data-toggle="tab"
-									ng-click=''>日常维护-告警统计</a></li>
+								<li><a href="#alarm" data-toggle="tab"
+									ng-click='chart_alarm()'>日常维护-告警统计</a></li>
 								<li><a href="#msc" data-toggle="tab"
 									ng-click='chart_msc()'>日常统计测量</a></li>
 							</ul>
@@ -134,8 +134,8 @@
 								<div class="tab-pane fade" id="dispatch">
 									<div ng-include="'chart_day_report_dispatch.html'"></div>
 								</div>
-								<div class="tab-pane fade" id="area-level">
-									<div ng-include="''"></div>
+								<div class="tab-pane fade" id="alarm">
+									<div ng-include="'chart_day_report_alarm.html'"></div>
 								</div>
 								<div class="tab-pane fade" id="msc">
 									<div ng-include="'chart_day_report_msc.html'"></div>
