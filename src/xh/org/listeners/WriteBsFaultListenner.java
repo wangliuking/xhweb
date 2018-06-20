@@ -42,6 +42,10 @@ public class WriteBsFaultListenner implements ServletContextListener{
 			log4j.info("=========================================");
 			log4j.info("基站断站故障实时写入开始");
 			log4j.info("=========================================");
+			timer.scheduleAtFixedRate(new EmhEpsWater(), 25000, 1000*60*3);
+			log4j.info("=========================================");
+			log4j.info("基站四期环控水浸，交流电实时写入开始");
+			log4j.info("=========================================");
 		}
 		
 	}
@@ -71,3 +75,25 @@ class BsFault extends TimerTask{
 	}
 	
 }
+//四期交流电告警
+class EmhEpsWater extends TimerTask{
+	protected final Log log4j = LogFactory.getLog( EmhEpsWater.class);
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		Long start=System.currentTimeMillis();
+		
+		BsAlarmService.bs_ji_four();
+		System.out.println("=========================================");
+		System.out.println("EmhEpsWater：end:"+(System.currentTimeMillis()-start));
+		System.out.println("=========================================");
+		Long start2=System.currentTimeMillis();
+		BsAlarmService.bs_water_four();
+		log4j.info("=========================================");
+		log4j.info("EmhEpsWater：end:"+(System.currentTimeMillis()-start2));
+		log4j.info("=========================================");
+		
+	}
+	
+}
+

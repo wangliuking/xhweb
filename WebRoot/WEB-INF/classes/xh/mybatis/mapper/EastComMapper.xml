@@ -442,6 +442,8 @@
 	<select id="chart_bs_zone_top10_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
 		select sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCallDuration) as
+		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as
 		AverageCallDuration,
 		sum(x.PTTCount) as PTTCount,
@@ -456,6 +458,7 @@
 		from (select
 		T1.bsid,
 		T1.TotalActiveCalls,
+		T1.TotalActiveCallDuration,
 		T1.AverageCallDuration,
 		T1.PTTCount,
 		T1.QueueCount,
@@ -590,6 +593,13 @@
 		desc limit 10
 
 	</select>
+	
+	<!--交换中心日报话务统计数据 -->
+	<select id="chart_msc_call" parameterType="map"
+		resultType="xh.mybatis.bean.EastMscDayBean">
+		select * from chart_day_msc where starttime=#{time} limit 1
+	</select>
+	
 </mapper>
 
 

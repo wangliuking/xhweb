@@ -49,7 +49,7 @@ xh.load = function() {
 	    };
 	});
 	app.controller("frist", function($scope, $http) {
-		$http.get("bsstatus/duty").success(
+		$http.get("onduty/onduty").success(
 				function(response) {
 					$scope.dataOne = response.one;
 					$scope.dataTwo = response.two;
@@ -60,6 +60,14 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.roleType  = response.roleType;
 		});
+$scope.duty=function(){
+	$http.get("onduty/onduty").success(
+			function(response) {
+				$scope.dataOne = response.one;
+				$scope.dataTwo = response.two;
+				$scope.dataThree = response.three;
+			});
+}
 		$http.get("access/list").
 		success(function(response){
 			var data = response.items;
@@ -136,7 +144,8 @@ xh.load = function() {
 		setInterval(function(){
 			xh.callInfo();
 			$scope.info();
-			$scope.updateDuty();
+			$scope.duty();
+			//$scope.updateDuty();
 		}, 20000)
 
 	});

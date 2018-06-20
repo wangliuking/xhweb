@@ -22,6 +22,41 @@
     <select id="bsFaultIsHave" resultType="int" parameterType="int" >
     select count(*) from xhgmnet_operations_bsfault where bsId=#{bsId}
     </select>
+    <!-- 四期交流电列表 -->
+    <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
+    select fsuId,deviceId,updateTime,singleValue from xhgmnet_emh_sensor_status where deviceId = "080200000000001" and singleId = "008001"
+    </select>
+    <!-- 四期交流电列表 -->
+    <select id="bs_water_four" resultType="xh.mybatis.bean.BsJiFourBean" >
+    select fsuId,deviceId,updateTime,singleValue from xhgmnet_emh_sensor_status where deviceId = "170300000000001" and singleId = "017001"
+    </select>
+    <select id="bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean"  resultType="int" >
+    select count(*) from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId}
+    </select>
+	<insert id="write_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
+		replace into xhgmnet_emh_eps_status(
+		fsuId,deviceId,updateTime
+		)
+		values(
+			#{fsuId},
+			#{deviceId},
+			#{updateTime}
+			)
+		<!-- <foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.fsuId},
+			#{item.deviceId},
+			#{item.updateTime}
+			)
+		</foreach> -->
+	</insert>
+	
+	<delete id="del_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
+		delete from  xhgmnet_emh_eps_status
+		where fsuId=#{fsuId} and deviceId=#{deviceId}
+	</delete>
+	
 
     <!--查询所有告警信息-->
     <select id="selectAllBsAlarm" resultType="java.util.HashMap" useCache="true">

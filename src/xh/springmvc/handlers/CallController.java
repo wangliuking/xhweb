@@ -230,13 +230,7 @@ public class CallController {
 				Map<String, Object> mapHour=new HashMap<String, Object>();
 				Map<String, Object> mapHour2=new HashMap<String, Object>();
 				String key="h-"+i,key1="";
-				/*if(i<10){
-					key1="0"+i+":00";
-					key="h-0"+i;
-				}else{
-					key1=i+":00";
-					key="h-"+i;
-				}*/
+				
 				if(i<10){
 					key1="0"+i;
 					key="h-0"+i;

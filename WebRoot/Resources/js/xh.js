@@ -377,6 +377,27 @@ xh.getNowDate = function() {
 	var strYesterday = strYear + "-" + strMonth + "-" + strDay;
 	return strYesterday;
 }
+xh.getYMD= function(day) {
+	var today = new Date();
+	var yesterday_milliseconds = today.getTime()-1000*60*60*24*parseInt(day);
+
+	var yesterday = new Date();
+	yesterday.setTime(yesterday_milliseconds);
+
+	var strYear = yesterday.getFullYear();
+
+	var strDay = yesterday.getDate();
+	var strMonth = yesterday.getMonth() + 1;
+
+	if (strMonth < 10) {
+		strMonth = "0" + strMonth;
+	}
+	if (strDay < 10) {
+		strDay = "0" + strDay;
+	}
+	var strYesterday = strYear + "-" + strMonth + "-" + strDay;
+	return strYesterday;
+}
 xh.getTime = function(value) {
 	var ss=parseInt(value);
 	var mm=0;

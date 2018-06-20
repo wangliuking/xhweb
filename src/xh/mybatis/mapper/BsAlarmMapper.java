@@ -6,6 +6,7 @@ import java.util.Map;
 
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
+import xh.mybatis.bean.BsJiFourBean;
 
 public interface BsAlarmMapper {
 	/**
@@ -22,6 +23,14 @@ public interface BsAlarmMapper {
 	public List<BsAlarmBean> selectBsAlarmList(Map<String,Object> map) throws Exception;
 	
 	public List<Map<String,Object>> selectTop5() throws Exception;
+	public List<BsJiFourBean> bs_ji_four() throws Exception;
+	public List<BsJiFourBean> bs_water_four() throws Exception;
+	
+	public int bs_emh_eps(BsJiFourBean bean) throws Exception;
+	
+	public int write_bs_emh_eps(BsJiFourBean bean) throws Exception;
+	public int del_bs_emh_eps(BsJiFourBean bean) throws Exception;
+	
 	/*实时添加基站断站记录*/
 	public int addBsFault(BsAlarmExcelBean bean) throws Exception;
 	/*判断基站断站记录是否存在*/

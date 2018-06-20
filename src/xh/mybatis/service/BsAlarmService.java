@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
+import xh.mybatis.bean.BsJiFourBean;
 import xh.mybatis.mapper.BsAlarmMapper;
 import xh.mybatis.mapper.UserStatusMapper;
 import xh.mybatis.tools.DbTools;
@@ -144,6 +145,105 @@ public class BsAlarmService {
 		try {
 			mapper.identifyBsAlarmById(id);
 			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_bs_emh_eps(BsJiFourBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		try {
+			mapper.write_bs_emh_eps(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void del_bs_emh_eps(BsJiFourBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		try {
+			mapper.del_bs_emh_eps(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static int bs_emh_eps(BsJiFourBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int count=0;
+		try {
+			count=mapper.bs_emh_eps(bean);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static void bs_ji_four() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
+		int eps=0;
+		BsJiFourBean bean=new BsJiFourBean();
+		try {
+			list=mapper.bs_ji_four();
+			
+			for(int i=0,a=list.size();i<a;i++){
+				bean=list.get(i);
+				eps=bs_emh_eps(bean);
+				if(bean.getSingleValue()==1){
+					if(eps==0){
+						 write_bs_emh_eps(bean);
+					}
+				}else{
+					if(eps>0){
+						del_bs_emh_eps(bean);
+					}
+				}
+			}
+			
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void bs_water_four() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
+		int eps=0;
+		BsJiFourBean bean=new BsJiFourBean();
+		try {
+			list=mapper.bs_water_four();
+			
+			for(int i=0,a=list.size();i<a;i++){
+				bean=list.get(i);
+				eps=bs_emh_eps(bean);
+				if(bean.getSingleValue()==1){
+					if(eps==0){
+						 write_bs_emh_eps(bean);
+					}
+				}else{
+					if(eps>0){
+						del_bs_emh_eps(bean);
+					}
+				}
+			}			
 			sqlSession.close();
 
 		} catch (Exception e) {

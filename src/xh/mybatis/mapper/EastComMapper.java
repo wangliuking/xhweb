@@ -6,6 +6,7 @@ import java.util.Map;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastMscCallBean;
 import xh.mybatis.bean.EastMscCallDetailBean;
+import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 
 public interface EastComMapper {
@@ -44,6 +45,10 @@ public interface EastComMapper {
 	public List<EastBsCallDataBean>chart_bs_userreg_top10(Map<String, Object> map)throws Exception;
 	public List<EastBsCallDataBean>chart_bs_queue_top10(Map<String, Object> map)throws Exception;
 	public List<EastVpnCallBean>chart_vpn_call_top10(Map<String, Object> map)throws Exception;
+	
+	
+	
+	public EastMscDayBean chart_msc_call(Map<String, Object> map)throws Exception;
 	
 	
 	
