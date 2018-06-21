@@ -69,12 +69,12 @@ public class GosuncnService {
 	/**
 	 * 根据流水号删除对应告警
 	 */
-	public static int deleteBySerialNo(String serialNo){
+	public static int deleteBySerialNo(Map<String,String> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		int result=0;
 		try {
-			result=mapper.deleteBySerialNo(serialNo);
+			result=mapper.deleteBySerialNo(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -87,12 +87,12 @@ public class GosuncnService {
 	/**
 	 * 增加告警前查询是否有相同流水号的告警
 	 */
-	public static List<Map<String, Object>> selectBySerialNo(String serialNo){
+	public static List<Map<String, Object>> selectBySerialNo(Map<String,String> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		List<Map<String, Object>> result=null;
 		try {
-			result=mapper.selectBySerialNo(serialNo);
+			result=mapper.selectBySerialNo(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

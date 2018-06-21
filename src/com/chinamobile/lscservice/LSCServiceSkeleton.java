@@ -130,9 +130,12 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 						Element e = (Element)list.get(j);
 						map.put(e.getName(), e.getText());	
 					}
-					//查询是否有相同的流水号，有则提取其开始时间同时删除该条记录
+					//查询是否有相同的流水号和FSUID，有则提取其开始时间同时删除该条记录
 					String serialNo = map.get("SerialNo");
-					List<Map<String,Object>> serialList = GosuncnService.selectBySerialNo(serialNo);
+					Map<String,String> tempMap = new HashMap<String,String>();
+					tempMap.put("serialNo", serialNo);
+					tempMap.put("FSUID", FSUID);
+					List<Map<String,Object>> serialList = GosuncnService.selectBySerialNo(tempMap);
 					if(serialList.size()==0 || "".equals(serialList) || serialList==null){
 						map.put("startTime", map.get("AlarmTime"));
 						map.put("AlarmTime","0000-00-00 00:00:00");
@@ -152,7 +155,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 						if("".equals(map.get("AlarmTime")) || map.get("AlarmTime")==null){
 							map.put("AlarmTime","0000-00-00 00:00:00");
 						}
-						GosuncnService.deleteBySerialNo(serialNo);
+						GosuncnService.deleteBySerialNo(tempMap);
 					}
 					map.put("FSUID", FSUID);
 					dataList.add(map);

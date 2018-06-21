@@ -26,12 +26,12 @@ public interface GosuncnMapper {
 	/**
 	 * 根据流水号删除对应告警
 	 */
-	public int deleteBySerialNo(String serialNo);
+	public int deleteBySerialNo(Map<String,String> map);
 	
 	/**
 	 * 增加告警前查询是否有相同流水号的告警
 	 */
-	public List<Map<String,Object>> selectBySerialNo(String serialNo);
+	public List<Map<String,Object>> selectBySerialNo(Map<String,String> map);
 	
 	/**
 	 * 添加告警信息
