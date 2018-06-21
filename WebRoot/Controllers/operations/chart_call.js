@@ -49,6 +49,18 @@ xh.load = function() {
 		$scope.x=0;
 		$scope.y=0;
 		var i=0,len=0;
+		$scope.chart_msc_call=function(){
+			xh.maskShow();
+			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
+			$http.get("../../call/chart_msc_call?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.msc_data = response.items;
+				$scope.msc_totals = response.totals;
+				
+			});
+			
+		}
 		$scope.chart_bs_call=function(){
 			xh.maskShow();
 			var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
@@ -73,8 +85,16 @@ xh.load = function() {
 					$scope.d+=parseInt($scope.bs_call_data[i].PTTCount);
 					$scope.e+=parseInt($scope.bs_call_data[i].queueCount);
 					$scope.f+=parseInt($scope.bs_call_data[i].queueDuration);
-					$scope.g+=parseInt($scope.bs_call_data[i].maxUserRegCount);
-					$scope.h+=parseInt($scope.bs_call_data[i].maxGroupRegCount);
+					
+					if(parseInt(response.items[i].maxUserRegCount)>$scope.g){
+						$scope.g=parseInt(response.items[i].maxUserRegCount);
+					}
+					if(parseInt(response.items[i].maxGroupRegCount)>$scope.h){
+						$scope.h=parseInt(response.items[i].maxGroupRegCount);
+					}
+					
+					
+					
 				}
 				
 			});
@@ -200,8 +220,13 @@ xh.load = function() {
 					$scope.d+=parseInt(response.items[i].PTTCount);
 					$scope.e+=parseInt(response.items[i].queueCount);
 					$scope.f+=parseInt(response.items[i].queueDuration);
-					$scope.g+=parseInt(response.items[i].maxUserRegCount);
-					$scope.h+=parseInt(response.items[i].maxGroupRegCount);
+					
+					if(parseInt(response.items[i].maxUserRegCount)>$scope.g){
+						$scope.g=parseInt(response.items[i].maxUserRegCount);
+					}
+					if(parseInt(response.items[i].maxGroupRegCount)>$scope.h){
+						$scope.h=parseInt(response.items[i].maxGroupRegCount);
+					}
 				}
 			});
 		}
@@ -231,8 +256,15 @@ xh.load = function() {
 					$scope.d+=parseInt(response.items[i].PTTCount);
 					$scope.e+=parseInt(response.items[i].queueCount);
 					$scope.f+=parseInt(response.items[i].queueDuration);
-					$scope.g+=parseInt(response.items[i].maxUserRegCount);
-					$scope.h+=parseInt(response.items[i].maxGroupRegCount);
+					
+					if(parseInt(response.items[i].maxUserRegCount)>$scope.g){
+						$scope.g=parseInt(response.items[i].maxUserRegCount);
+					}
+					if(parseInt(response.items[i].maxGroupRegCount)>$scope.h){
+						$scope.h=parseInt(response.items[i].maxGroupRegCount);
+					}
+					
+					
 					$scope.y+=parseInt(response.items[i].percent);
 				}
 			});
@@ -363,10 +395,10 @@ xh.load = function() {
 		$scope.refresh = function() {
 			
 			$('#xh-tabs a:first').tab('show');
-			$scope.chart_bs_call();
+			$scope.chart_msc_call();
 		
 		};
-		$scope.chart_bs_call();
+		$scope.chart_msc_call();
 		
 		
 		

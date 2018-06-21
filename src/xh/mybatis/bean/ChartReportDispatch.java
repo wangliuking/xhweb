@@ -4,7 +4,8 @@ public class ChartReportDispatch {
 	private String dstId;
 	private String dstName;
 	private String ip;
-	private int status;
+	private int flag;
+	private int setupStatus;
 	private String dxbox_ip;
 	private String dxbox_runtime;
 	public String getDstId() {
@@ -25,12 +26,7 @@ public class ChartReportDispatch {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
+
 	public String getDxbox_ip() {
 		return dxbox_ip;
 	}
@@ -42,6 +38,18 @@ public class ChartReportDispatch {
 	}
 	public void setDxbox_runtime(String dxbox_runtime) {
 		this.dxbox_runtime = dxbox_runtime;
+	}
+	public int getFlag() {
+		return flag;
+	}
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+	public int getSetupStatus() {
+		return setupStatus;
+	}
+	public void setSetupStatus(int setupStatus) {
+		this.setupStatus = setupStatus;
 	}
 	
 	

@@ -345,7 +345,7 @@ public class ReportDayController {
 			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getDstName()), fontFormat_Content));
 			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getDxbox_ip()), fontFormat_Content));
 			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getIp()), fontFormat_Content));
-			sheet.addCell(new Label(4, i + 2, String.valueOf(bean.getStatus()), fontFormat_Content));
+			sheet.addCell(new Label(4, i + 2, bean.getFlag()==0?"NO":"OK", fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, String.valueOf(bean.getDxbox_runtime()), fontFormat_Content));
 		}
 		

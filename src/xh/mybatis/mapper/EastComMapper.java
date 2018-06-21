@@ -49,6 +49,7 @@ public interface EastComMapper {
 	
 	
 	public EastMscDayBean chart_msc_call(Map<String, Object> map)throws Exception;
+	public EastMscDayBean chart_month_msc(Map<String, Object> map)throws Exception;
 	
 	
 	

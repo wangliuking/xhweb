@@ -21,6 +21,17 @@ public class EastMscDayBean {
 	private double EmergencyCallDuration;
 	private int PrivateDuplexCalls;
 	private int PrivateSimplexCalls;
+	
+	
+	private int totalPTTs;
+	private int totalQueueCount;
+	private int totalQueueDuration;
+	private int totalMaxReg;
+	private int maxRegGroup;
+	
+	
+	
+	
 
 	public int getTotalActiveCall() {
 		return TotalActiveCall;
@@ -173,5 +184,46 @@ public class EastMscDayBean {
 	public void setNoEffectCalls(int noEffectCalls) {
 		NoEffectCalls = noEffectCalls;
 	}
+
+	public int getTotalPTTs() {
+		return totalPTTs;
+	}
+
+	public void setTotalPTTs(int totalPTTs) {
+		this.totalPTTs = totalPTTs;
+	}
+
+	public int getTotalQueueCount() {
+		return totalQueueCount;
+	}
+
+	public void setTotalQueueCount(int totalQueueCount) {
+		this.totalQueueCount = totalQueueCount;
+	}
+
+	public int getTotalQueueDuration() {
+		return totalQueueDuration;
+	}
+
+	public void setTotalQueueDuration(int totalQueueDuration) {
+		this.totalQueueDuration = totalQueueDuration;
+	}
+
+	public int getTotalMaxReg() {
+		return totalMaxReg;
+	}
+
+	public void setTotalMaxReg(int totalMaxReg) {
+		this.totalMaxReg = totalMaxReg;
+	}
+
+	public int getMaxRegGroup() {
+		return maxRegGroup;
+	}
+
+	public void setMaxRegGroup(int maxRegGroup) {
+		this.maxRegGroup = maxRegGroup;
+	}
+	
 
 }

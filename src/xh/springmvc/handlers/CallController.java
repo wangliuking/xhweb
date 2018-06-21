@@ -39,6 +39,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EastBsCallDataBean;
+import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.CallListServices;
@@ -331,7 +332,26 @@ public class CallController {
 	
 	}
 	
+	@RequestMapping(value = "/chart_msc_call", method = RequestMethod.GET)
+	public void chart_msc_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		EastMscDayBean bean =EastComService.chart_month_msc(map);
+		
+		HashMap result = new HashMap();
+		result.put("totals", bean==null?0:1);
+		result.put("items", bean);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	
+	}
 
 	@RequestMapping(value = "/chart_bs_call", method = RequestMethod.GET)
 	public void chart_bs_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
@@ -594,20 +614,22 @@ public class CallController {
 
 			
 
-			WritableSheet sheet = book.createSheet("基站话务统计", 0);
-			WritableSheet sheet1 = book.createSheet("虚拟专网话务统计", 1);
-			WritableSheet sheet2 = book.createSheet("按级别区域分", 2);
-			WritableSheet sheet3 = book.createSheet("按行政区域分", 3);
-			WritableSheet sheet4 = book.createSheet("行政区域话务TOP10", 4);
-			WritableSheet sheet5 = book.createSheet("各数据前十", 5);
-			WritableSheet sheet6 = book.createSheet("虚拟专网用户数据前十", 6);
-			excel_bs_call(map,sheet,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_vpn_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_level_area_call(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_zone_call(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_zone_top10_call(map,sheet4,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_top10_call(map,sheet5,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_vpn_top10_call(map,sheet6,fontFormat,fontFormat_h,fontFormat_Content);
+			WritableSheet sheet1 = book.createSheet("交换中心话务统计", 0);
+			WritableSheet sheet2 = book.createSheet("基站话务统计", 1);
+			WritableSheet sheet3 = book.createSheet("虚拟专网话务统计", 2);
+			WritableSheet sheet4 = book.createSheet("按级别区域分", 3);
+			WritableSheet sheet5 = book.createSheet("按行政区域分", 4);
+			WritableSheet sheet6 = book.createSheet("行政区域话务TOP10", 5);
+			WritableSheet sheet7 = book.createSheet("各数据前十", 6);
+			WritableSheet sheet8 = book.createSheet("虚拟专网用户数据前十", 7);
+			excel_msc_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_call(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_vpn_call(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_level_area_call(map,sheet4,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_zone_call(map,sheet5,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_zone_top10_call(map,sheet6,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bs_top10_call(map,sheet7,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_vpn_top10_call(map,sheet8,fontFormat,fontFormat_h,fontFormat_Content);
 			// 
 			
 			
@@ -624,6 +646,63 @@ public class CallController {
 			 String jsonstr = json.Encode(result); 
 			 response.getWriter().write(jsonstr);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	
+	public  void  excel_msc_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+		String time=map.get("time").toString();
+		try {
+		sheet.addCell(new Label(0, 0, time+"-交换中心话务统计"+time, fontFormat));
+		sheet.mergeCells(0,0,9,0);
+		sheet.setRowView(0, 600);
+		sheet.setColumnView(0, 20);
+		sheet.setColumnView(1, 20);
+		sheet.setColumnView(2, 20);
+		sheet.setColumnView(3, 20);
+		sheet.setColumnView(4, 20);
+		sheet.setColumnView(5, 20);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
+		sheet.setColumnView(8, 20);
+		sheet.setColumnView(9, 20);
+		sheet.setColumnView(10, 20);
+		
+		sheet.addCell(new Label(0, 1, "活动呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "总PTT数", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "呼损总数", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "呼损率", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "未成功呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "最大用户注册数",fontFormat_h));
+		sheet.addCell(new Label(8, 1, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(9, 1, "排队持续时间", fontFormat_h));
+		sheet.addCell(new Label(10, 1, "最大组注册", fontFormat_h));
+		
+		
+		
+		EastMscDayBean bean=EastComService.chart_month_msc(map);
+		sheet.setRowView(2, 400);
+		sheet.addCell(new Label(0, 2, String.valueOf(bean.getTotalActiveCall()), fontFormat_Content));
+		sheet.addCell(new Label(1, 2, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(2, 2, String.valueOf(bean.getTotalPTTs()), fontFormat_Content));
+		sheet.addCell(new Label(3, 2, String.valueOf(bean.getTotalCalls()), fontFormat_Content));
+		sheet.addCell(new Label(4, 2, String.valueOf(bean.getTotalFailedCalls()), fontFormat_Content));
+		
+		
+		
+		sheet.addCell(new Label(5, 2, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
+		sheet.addCell(new Label(6, 2, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
+		
+		sheet.addCell(new Label(7, 2, String.valueOf(bean.getTotalMaxReg()), fontFormat_Content));
+		sheet.addCell(new Label(8, 2, String.valueOf(bean.getTotalQueueCount()), fontFormat_Content));
+		sheet.addCell(new Label(9, 2, funUtil.second_time(bean.getTotalQueueDuration()), fontFormat_Content));
+		sheet.addCell(new Label(10, 2, String.valueOf(bean.getMaxRegGroup()), fontFormat_Content));
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -779,8 +858,12 @@ public class CallController {
 			d+=bean.getPTTCount();
 			e+=bean.getQueueCount();
 			f+=bean.getQueueDuration();
-			g+=bean.getMaxUserRegCount();
-			h+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g){
+				g=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h){
+				h=bean.getMaxGroupRegCount();
+			}
 		}
 		
 		//总计
@@ -863,8 +946,14 @@ public class CallController {
 			d+=bean.getPTTCount();
 			e+=bean.getQueueCount();
 			f+=bean.getQueueDuration();
-			g+=bean.getMaxUserRegCount();
-			h+=bean.getMaxGroupRegCount();
+			
+			if(bean.getMaxUserRegCount()>g){
+				g=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h){
+				h=bean.getMaxGroupRegCount();
+			}
+			
 			x+=bean.getBsTotals();
 		}
 		
@@ -929,8 +1018,12 @@ public class CallController {
 			d1+=bean.getPTTCount();
 			e1+=bean.getQueueCount();
 			f1+=bean.getQueueDuration();
-			g1+=bean.getMaxUserRegCount();
-			h1+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g1){
+				g1=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h1){
+				h1=bean.getMaxGroupRegCount();
+			}
 			x1+=bean.getBsTotals();
 		}
 		
@@ -1006,8 +1099,12 @@ public class CallController {
 			d+=bean.getPTTCount();
 			e+=bean.getQueueCount();
 			f+=bean.getQueueDuration();
-			g+=bean.getMaxUserRegCount();
-			h+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g){
+				g=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h){
+				h=bean.getMaxGroupRegCount();
+			}
 			x+=bean.getBsTotals();
 		}
 		
@@ -1085,8 +1182,12 @@ public class CallController {
 			d+=bean.getPTTCount();
 			e+=bean.getQueueCount();
 			f+=bean.getQueueDuration();
-			g+=bean.getMaxUserRegCount();
-			h+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g){
+				g=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h){
+				h=bean.getMaxGroupRegCount();
+			}
 			x+=bean.getBsTotals();
 			y+=bean.getPercent();
 		}
@@ -1178,8 +1279,12 @@ public class CallController {
 			d+=bean.getPTTCount();
 			e+=bean.getQueueCount();
 			f+=bean.getQueueDuration();
-			g+=bean.getMaxUserRegCount();
-			h+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g){
+				g=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h){
+				h=bean.getMaxGroupRegCount();
+			}
 			x+=bean.getPercent();
 		}
 		
@@ -1251,8 +1356,12 @@ public class CallController {
 			d2+=bean.getPTTCount();
 			e2+=bean.getQueueCount();
 			f2+=bean.getQueueDuration();
-			g2+=bean.getMaxUserRegCount();
-			h2+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g2){
+				g2=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h2){
+				h2=bean.getMaxGroupRegCount();
+			}
 		}
 		
 		//总计
@@ -1323,8 +1432,12 @@ public class CallController {
 			d3+=bean.getPTTCount();
 			e3+=bean.getQueueCount();
 			f3+=bean.getQueueDuration();
-			g3+=bean.getMaxUserRegCount();
-			h3+=bean.getMaxGroupRegCount();
+			if(bean.getMaxUserRegCount()>g3){
+				g3=bean.getMaxUserRegCount();
+			}
+			if(bean.getMaxGroupRegCount()>h3){
+				h3=bean.getMaxGroupRegCount();
+			}
 			x3+=bean.getPercent();
 		}
 		
