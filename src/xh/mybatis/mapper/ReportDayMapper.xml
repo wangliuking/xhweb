@@ -13,7 +13,7 @@
       from xhgmnet_eastcom_server 
 	</select>
 	<select id="chart_dispatch" resultType="xh.mybatis.bean.ChartReportDispatch" useCache="true">
-	  select dstId,dstName,IP as ip from xhgmnet_dispatch  order by dstId asc
+	  select dstId,dstName,IP as ip,flag,setupStatus from xhgmnet_dispatch  order by dstId asc
 	</select>
 	
 	<select id="chart_alarm_now" resultType="map" useCache="true">

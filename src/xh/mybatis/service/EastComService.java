@@ -14,6 +14,7 @@ import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastMscCallBean;
 import xh.mybatis.bean.EastMscCallDetailBean;
+import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.bean.EastVpnCallBean;
 import xh.mybatis.mapper.EastComMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -99,7 +100,7 @@ public class EastComService {
 		List<EastBsCallDataBean> list=new ArrayList<EastBsCallDataBean>();
 		try {
 			/*51*/
-			for(int dayNum=2;dayNum>=1;dayNum--){
+			for(int dayNum=1;dayNum<=1;dayNum++){
 				int day=dayNum;	
 				for(int i=0;i<=23;i++){
 					
@@ -411,5 +412,20 @@ public class EastComService {
 		}
 		return list;
 	}
+	public static EastMscDayBean chart_month_msc(Map<String,Object> map){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		EastMscDayBean list=new EastMscDayBean();
+		try {
+
+			list=mapper.chart_month_msc(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	
 }

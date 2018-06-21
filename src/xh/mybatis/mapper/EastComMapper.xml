@@ -250,17 +250,21 @@
 		x.starttime
 		FROM
 		chart_month_bstotal AS x
-		LEFT JOIN xhgmnet.xhgmnet_bs_station AS y ON x.bsid = y.bsId
+		LEFT JOIN
+		xhgmnet.xhgmnet_bs_station AS y ON x.bsid = y.bsId
 		WHERE
-		x.starttime = #{time}
+		x.starttime =
+		#{time}
 		) AS T1
 		LEFT JOIN (
 		SELECT
 		a.bsid,
 		CASE
-		WHEN @rowtotal = a.TotalActiveCalls THEN
+		WHEN @rowtotal =
+		a.TotalActiveCalls THEN
 		@rownum
-		WHEN @rowtotal := a.TotalActiveCalls THEN
+		WHEN @rowtotal := a.TotalActiveCalls
+		THEN
 		@rownum :=@rownum + 1
 		WHEN @rowtotal = 0 THEN
 		@rownum :=@rownum + 1
@@ -275,23 +279,28 @@
 		WHERE
 		starttime = #{time}
 		ORDER BY
-		TotalActiveCalls DESC
+		TotalActiveCalls
+		DESC
 		) AS a,
 		(
 		SELECT
 		@rownum := 0 ,@rowtotal := NULL
 		) r
-		) AS T2 ON T1.bsid = T2.bsid
+		) AS T2 ON T1.bsid
+		= T2.bsid
 		LEFT JOIN (
 		SELECT
 		a.bsid,
 		CASE
-		WHEN @rowtotal1 = a.MaxUserRegCount THEN
+		WHEN @rowtotal1 =
+		a.MaxUserRegCount THEN
 		@rownum1
-		WHEN @rowtotal1 := a.MaxUserRegCount THEN
+		WHEN @rowtotal1 := a.MaxUserRegCount
+		THEN
 		@rownum1 :=@rownum1 + 1
 		WHEN @rowtotal1 = 0 THEN
-		@rownum1 :=@rownum1 + 1
+		@rownum1 :=@rownum1
+		+ 1
 		END AS user_sort
 		FROM
 		(
@@ -303,24 +312,29 @@
 		WHERE
 		starttime = #{time}
 		ORDER BY
-		MaxUserRegCount DESC
+		MaxUserRegCount
+		DESC
 		) AS a,
 		(
 		SELECT
 		@rownum1 := 0 ,@rowtotal1 := NULL
 		) r
-		) AS T3 ON T1.bsid = T3.bsid
+		) AS T3 ON
+		T1.bsid = T3.bsid
 		LEFT JOIN (
 		SELECT
 		a.bsid,
 		CASE
-		WHEN @rowtotal2 = a.QueueCount THEN
+		WHEN @rowtotal2 =
+		a.QueueCount THEN
 		@rownum2
 		WHEN @rowtotal2 := a.QueueCount THEN
-		@rownum2 :=@rownum2 + 1
+		@rownum2
+		:=@rownum2 + 1
 		WHEN @rowtotal2 = 0 THEN
 		@rownum2 :=@rownum2 + 1
-		END AS queue_sort
+		END AS
+		queue_sort
 		FROM
 		(
 		SELECT
@@ -335,7 +349,8 @@
 		) AS a,
 		(
 		SELECT
-		@rownum2 := 0 ,@rowtotal2 := NULL
+		@rownum2 := 0
+		,@rowtotal2 := NULL
 		) r
 		) AS T4 ON T1.bsId = T4.bsid
 		ORDER BY
@@ -410,7 +425,7 @@
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
 		where
-		x.starttime=#{time} group by y.area
+		x.starttime=#{time} and y.area is not null group by y.area
 	</select>
 	<!--基站区域话务统计数据 -->
 	<select id="chart_bs_zone_call" parameterType="map"
@@ -467,17 +482,20 @@
 		T1.MaxGroupRegCount,
 		T2.totals,
 		T1.starttime
-		from chart_month_bstotal as
+		from
+		chart_month_bstotal as
 		T1,(
 		select sum(totals) as
 		totals from (
-		select sum(a.TotalActiveCalls)
+		select
+		sum(a.TotalActiveCalls)
 		as totals,b.zone from
 		chart_month_bstotal as a
 		left join
 		xhgmnet.xhgmnet_bs_station as b on
 		a.bsid=b.bsId
-		where starttime=#{time}
+		where
+		starttime=#{time}
 		group by zone
 		) as e) as T2
 
@@ -593,13 +611,26 @@
 		desc limit 10
 
 	</select>
-	
+
 	<!--交换中心日报话务统计数据 -->
 	<select id="chart_msc_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastMscDayBean">
 		select * from chart_day_msc where starttime=#{time} limit 1
 	</select>
-	
+	<!--交换中心日报话务统计数据 -->
+	<select id="chart_month_msc" parameterType="map"
+		resultType="xh.mybatis.bean.EastMscDayBean">
+		select
+		TotalActiveCall,TotalActiveCallDuration,AverageCallDuration,TotalCalls,
+		TotalFailedCalls,NoEffectCalls,starttime,mscid,
+		totalPTTs,
+		totalQueueCount,
+		totalQueueDuration,
+		totalMaxReg,maxRegGroup,
+		round((totalFailedCalls/TotalCalls),0) as FailedPercentage
+		from chart_month_msc where starttime=#{time} limit 1
+	</select>
+
 </mapper>
 
 

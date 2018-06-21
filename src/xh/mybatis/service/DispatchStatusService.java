@@ -190,6 +190,7 @@ public class DispatchStatusService {
 				}else{
 					flag=0;
 				}
+				/*System.out.println("IP->"+map.get("IP").toString()+"::"+flag);*/
 				Map<String, Object> map2=new HashMap<String, Object>();
 				map2.put("dstId", map.get("dstId").toString());
 				map2.put("flag", flag);
