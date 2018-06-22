@@ -16,7 +16,7 @@
     </resultMap>
     <!-- 实时添加基站断站记录 -->
     <insert id="addBsFault" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
-     insert into xhgmnet_operations_bsfault(bsId, weekly, time)values(#{bsId},#{weekly},#{time})
+     insert into xhgmnet_operations_bsfault(bsId, weekly, time,reason)values(#{bsId},#{weekly},#{time},#{reason})
     </insert>
     <!-- 判断基站断站记录是否存在 -->
     <select id="bsFaultIsHave" resultType="int" parameterType="int" >
@@ -66,40 +66,45 @@
 		显示告警列表，列表中只显示没有处理的告警；显示列表时联合查询基站列表显示基站名称，等级。
 	-->
     <select id="selectBsAlarmList" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     	select * from xhgmnet_eastcom_alarminfo  where  1=1
+     	select a.*,b.reason as reason2,b.suggestion as suggestion2 from xhgmnet_eastcom_alarminfo  as a
+     	left join xhgmnet_eastcom_knowledge as b on a.neType=b.neType and 
+     	a.modType=b.modType and a.subModType=b.subModType and a.category=b.category 
+     	and a.code=b.code  and a.causeCode=b.causeCode
+     	
+     	where  1=1
      	<if test="level!=''">
-     	and severity in(
+     	and a.severity in(
 		<foreach collection="level" item="id" separator=",">
 			#{id}
 		</foreach>
 		)
      	</if>
      	<if test="type!=''">
-     	and neType in(
+     	and a.neType in(
 		<foreach collection="type" item="id" separator=",">
 			#{id}
 		</foreach>
 		)
      	</if>
      	<if test="startTime!='' and endTime!=''">
-     	and time between #{startTime} and #{endTime}
+     	and a.time between #{startTime} and #{endTime}
      	</if>
      	<if test="category!=''">
-     	and category in(
+     	and a.category in(
 		<foreach collection="category" item="id" separator=",">
 			#{id}
 		</foreach>
 		)
      	</if>
      	<if test="status!=''">
-     	and status in(
+     	and a.status in(
 		<foreach collection="status" item="id" separator=",">
 			#{id}
 		</foreach>
 		)
      	</if>
      	
-		order by time desc limit #{start},#{limit}
+		order by a.time desc limit #{start},#{limit}
     </select>
        <select id="selectTop5" parameterType="map" resultType="map" useCache="true">
      	select * from xhgmnet_eastcom_alarminfo  where  neType in(1,2,3,4)

@@ -44,6 +44,51 @@ public class OndutyController {
 	protected final Log log = LogFactory.getLog(OndutyController.class);
 	private FlexJSON json=new FlexJSON();
 	
+	
+	@RequestMapping(value="/dutyinfo",method = RequestMethod.GET)
+	public void dutyinfo(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		HashMap result = new HashMap();
+		result.put("leader",FunUtil.readXml("duty","one"));
+		result.put("tel", FunUtil.readXml("duty","three"));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	@SuppressWarnings({ "static-access", "unchecked" })
+	@RequestMapping(value="/updutyinfo",method = RequestMethod.POST)
+	public void updutyinfo(HttpServletRequest request, HttpServletResponse response){
+		String leader=request.getParameter("leader");
+		String tel=request.getParameter("tel");
+		try {
+			funUtil.updateXML("duty","one", leader);
+			funUtil.updateXML("duty","three", tel);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		HashMap result = new HashMap();
+		result.put("success",true);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
 	/**
 	 * 值班记录
 	 * @param request
@@ -72,7 +117,9 @@ public class OndutyController {
 			e.printStackTrace();
 		}
 		
+		
 	}
+	
 	@RequestMapping(value="/onduty",method = RequestMethod.GET)
 	public void onduty(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;

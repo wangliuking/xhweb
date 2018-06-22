@@ -68,6 +68,7 @@ class BsFault extends TimerTask{
 			}else{
 				bean.setBsId(bean.getBsId());
 			}
+			bean.setReason("断站");
 			
 			BsAlarmService.addBsFault(bean);
 			

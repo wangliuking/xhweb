@@ -308,7 +308,7 @@ to {
 									<i class="fa fa-file-excel-o"></i>&nbsp;导出基站故障记录登记表
 								</button>
 								<button class="btn btn-primary btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
-									<i class="fa fa-hand-stop-o"></i>&nbsp;派单
+									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
 								</button>
 							</div>
 
@@ -318,12 +318,13 @@ to {
 									<tr class="tr-gray">
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
-										<th>基站</th>
-										<th>基站分级</th>
-										<th>使用状态</th>
-										<th>星期</th>
+										<th width="180px">基站</th>
+										<th width="80px">基站分级</th>
+										<th width="80px">使用状态</th>
+										<th width="80px">故障来源</th>
+										<th>故障原因</th>
 										<th width="180px">故障发生时间</th>
-										<th>基站归属</th>
+										<th width="80px">基站归属</th>
 										<th width="150px">操作</th>
 									</tr>
 								</thead>
@@ -338,7 +339,8 @@ to {
 										<td>{{x.level}}</td>
 										<td><span ng-if="x.tag==0">停用</span> <span
 											ng-if="x.tag==1">启用</span></td>
-										<td>{{x.weekly}}</td>
+										<td>{{x.from}}</td>
+										<td>{{x.reason}}</td>
 										<td>{{x.time}}</td>
 										<td>{{x.hometype}}</td>
 										<td style="width:20px;text-align:center"><a href="#"

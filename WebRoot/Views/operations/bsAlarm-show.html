@@ -11,82 +11,79 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>基站ID</label><input type="text" value=""
-								class="form-control" name="bsId" ng-model="bsAlarmData.bsId"
-								readonly="readonly">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>基站名称</label><input type="text" value=""
-								class="form-control" name="bsName" ng-value="bsAlarmData.name"
-								readonly="readonly">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>基站等级</label><input type="text" value=""
-								class="form-control" name="bsLevel"
-								ng-value="bsAlarmData.bsLevel" readonly="readonly">
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>故障来源</label><input type="text" value=""
-								class="form-control" name="source" ng-model="bsAlarmData.source"
-								readonly="readonly">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>故障等级</label><input type="text" value=""
-								class="form-control" name="level" ng-model="bsAlarmData.level"
-								readonly="readonly">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group col-md-12">
-							<label>故障类别</label><input type="text" value=""
-								class="form-control" name="type" ng-model="bsAlarmData.type"
-								readonly="readonly">
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
 					<div class="col-md-12">
-						<div class="form-group col-md-12">
-							<label>故障原因</label>&nbsp;<span class="text-info"></span>
-							<textarea
-								style="width: 560px; height: 200px; max-width: 560px; max-height: 260px;"
-								ng-model="bsAlarmData.reason" name="note" readonly="readonly"></textarea>
+						<div class="form-group col-md-6">
+							<label>网元类型</label>
+							<div style="color:green">
+								<span ng-if="bsAlarmData.neType==1">基站</span> <span
+									ng-if="bsAlarmData.neType==2">交换中心</span> <span
+									ng-if="bsAlarmData.neType==3">调度台</span> <span
+									ng-if="bsAlarmData.neType==4">网管</span> <span
+									ng-if="bsAlarmData.neType==5">分组中心</span> <span
+									ng-if="bsAlarmData.neType==6">综合业务网关</span> <span
+									ng-if="bsAlarmData.neType==7">INIGW</span> <span
+									ng-if="bsAlarmData.neType==8">短信中心</span> <span
+									ng-if="bsAlarmData.neType==9">PDT</span> <span
+									ng-if="bsAlarmData.neType==10">鉴权中心</span> <span
+									ng-if="bsAlarmData.neType==11">录音</span> <span
+									ng-if="bsAlarmData.neType==12">模拟网关</span> <span
+									ng-if="bsAlarmData.neType==13">MPT基站</span> <span
+									ng-if="bsAlarmData.neType==14">NTP服务器</span> <span
+									ng-if="bsAlarmData.neType==15">路由器</span> <span
+									ng-if="bsAlarmData.neType==16">数字交叉连接设备</span> <span
+									ng-if="bsAlarmData.neType==17">同播服务器</span> <span
+									ng-if="bsAlarmData.neType==18">DSGW</span> <span
+									ng-if="bsAlarmData.neType==19">以太网交换机</span> <span
+									ng-if="bsAlarmData.neType==20">WEB调度服务器</span> <span
+									ng-if="bsAlarmData.neType==21">短信业务网关</span> <span
+									ng-if="bsAlarmData.neType==22">室外基站</span> <span
+									ng-if="bsAlarmData.neType==23">PDT室外基站</span> <span
+									ng-if="bsAlarmData.neType==24">桥接基站</span> <span
+									ng-if="bsAlarmData.neType==29">以太网E1网桥</span> <span
+									ng-if="bsAlarmData.neType==30">桥接中心</span> <span
+									ng-if="bsAlarmData.neType==32">媒体服务器</span>
+							</div>
 						</div>
+						<div class="form-group col-md-6">
+							<label>严重程度</label>
+							<div ng-if='bsAlarmData.retoreTime==null'>
+								<span ng-if="bsAlarmData.severity==1" class="label"
+									style="background-color:red !important;color:#fff;">紧急告警</span>
+								<span ng-if="bsAlarmData.severity==2" class="label"
+									style="background:#B22222 !important;color:#fff;">主要告警</span> <span
+									ng-if="bsAlarmData.severity==3" class="label"
+									style="background:#FF8C00 !important;color:#fff;">次要告警</span> <span
+									ng-if="bsAlarmData.severity==4" class="label"
+									style="background:#EEEE00 !important;color:#fff;">一般告警</span>
+							</div>
+							<div ng-if='bsAlarmData.retoreTime!=null'>
+								<span class="label arrowed-in label-success">已恢复</span>
+							</div>
+						</div>
+					
+					<div class="form-group col-md-12">
+						<label>故障定位</label><input type="text" value=""
+							class="form-control" name="bsId" ng-model="bsAlarmData.location"
+							readonly="readonly">
 					</div>
-				</div>
+					<div class="form-group col-md-12">
+						<label>告警信息</label><input type="text" value=""
+							class="form-control" name="bsId" ng-model="bsAlarmData.info"
+							readonly="readonly">
+					</div>
+					<div class="form-group col-md-12">
+						<label>告警原因</label><input type="text" value=""
+							class="form-control" name="bsId" ng-model="bsAlarmData.reason2"
+							readonly="readonly">
+					</div>
+					<div class="form-group col-md-12">
+						<label style="color:red">处理建议</label>
+						<div style="color:green">{{bsAlarmData.suggestion2}}</div>
 
-				<div class="row">
-					<div class="col-md-6" ng-if="bsAlarmData.status==1">
-						<div class="form-group col-md-12">
-							<label>故障确认时间</label>&nbsp;<span class="text-info">[*]</span> <input
-								class="form-control" type="text" name="writeTime" id="writeTime"
-								ng-model="bsAlarmData.writeTime" readonly="readonly" />
-						</div>
-					</div>
-					<div class="col-md-6" ng-if="bsAlarmData.dealEn==1">
-						<div class="form-group col-md-12">
-							<label>故障恢复时间</label>&nbsp;<span class="text-info">[*]</span> <input
-								class="form-control" type="text" name="recoveryTime"
-								id="recoveryTime" ng-model="bsAlarmData.recoveryTime"
-								readonly="readonly" />
-						</div>
 					</div>
 				</div>
 			</div>
+
 
 
 

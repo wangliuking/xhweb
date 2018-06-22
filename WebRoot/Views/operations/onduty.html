@@ -132,10 +132,46 @@
 					<div class="hpanel ">
 						<div class="panel-heading hbuilt">
 							
-									<i class="fa fa-indent text-danger"></i>&nbsp;系统日志
+									<i class="fa fa-indent text-danger"></i>&nbsp;交换中心值班人员列表
 						</div>
 						
 						<div class="panel-body">
+						<div class="row">
+						<div class="col-md-12">
+						<form class="form-inline" role="form" id="info">
+									
+									<div class="form-group">
+										<label for="starttime">值班领导</label>
+										<div>
+											<input type="text" name="leader" class="form-control" ng-model="leader" ng-disabled="btnDisabled">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="starttime">值班电话</label>
+										<div>
+											<input type="text" name="tel" class="form-control" ng-model="tel" ng-disabled="btnDisabled">
+										</div>
+									</div>
+					
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="upBtn()">
+												<i class="fa fa-edit"></i>&nbsp;&nbsp;更新
+											</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-danger"
+												ng-click="updateInfo()" ng-disabled="btnDisabled">
+												<i class="fa fa-save"></i>&nbsp;&nbsp;保存
+											</button>
+										</div>
+									</div>
+									
+								</form>
+						</div></div>
 							
 							<table id="tb-info" class="xh-table table-hover"
 								style="table-layout:fixed">

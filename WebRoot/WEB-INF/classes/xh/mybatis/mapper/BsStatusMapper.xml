@@ -320,6 +320,9 @@
 		
 		
 		order by a.time asc 
+		
+		
+		
 		limit #{start},#{limit}
 	</select>	
 	<select id="bsFaultListCount" resultType="int" useCache="true" parameterType="map">
