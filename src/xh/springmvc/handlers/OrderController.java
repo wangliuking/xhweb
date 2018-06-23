@@ -47,6 +47,7 @@ public class OrderController {
 		String user = funUtil.loginUser(request);
 		WebUserBean userbean = WebUserServices.selectUserByUser(user);
 		int roleId = userbean.getRoleId();
+	
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		/*map.put("loginuser", funUtil.loginUser(request));*/
