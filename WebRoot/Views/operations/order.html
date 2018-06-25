@@ -120,10 +120,62 @@
 			</div>
 			<!-- row -->
 
-			<div class="row" ng-show="totals>count">
+			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
+					<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-list"></i> 派单列表
+						</div>
 						<div class="panel-body" style="padding:0;margin:0">
+						<table id="tb-info" class="xh-table table-hover"
+								style="table-layout:fixed">
+								<thead>
+									<tr class="tr-gray">
+										<!-- <th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th> -->
+										<th >基站</th>
+										<th width="180px">派单时间</th>
+										<th >故障类型</th>
+										<th >故障等级</th>
+										<th>派单人</th>
+										<th >状态</th>
+										<th >接单人</th>
+										<th >处理</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="7" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<!-- <td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td> -->
+										<td><a href="" ng-click="editModel($index)" data-toggle="modal" style="color:blue;">
+									【{{x.bsid}}-{{x.bsname}}】 </a></td>
+										<td>{{x.dispatchtime}}</td>
+										<td>{{x.errtype}}</td>
+										<td>{{x.errlevel}}</td>
+										<td>{{x.dispatchman}}</td>
+										<td>
+										<strong ng-if="x.status==0"
+											class="text-danger">接单中</strong> <strong ng-if="x.status==1"
+											style="color:blue">处理中</strong> <strong ng-if="x.status==2"
+											style="color:green">已完成</strong>
+										</td>
+										<td>{{x.userName}}</td>
+										<td>
+										<a href="#" ng-click="resend($index)"
+								 ng-if="x.status==0" style="color:green"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
+							</a><a href="#" ng-click="check($index)"
+								class="text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
+							</a><span ng-if="x.status==2" style="color:gray">该单号结束!</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 							<div class="page">
 								<div class="page-info">
 									每页显示 <select id="page-limit" ng-change="refresh()"
@@ -137,13 +189,9 @@
 									</select> 条, <span ng-model="index">显示{{start}}-</span><span
 										ng-model="lastIndex">{{lastIndex}}条,</span> <span
 										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
 								</div>
-								<div class="btn-group">
-									<button type="button" class="btn btn-sm btn-success"
-										ng-click="refresh()" style="margin-left:100px;">
-										<i class="fa fa-refresh"></i>&nbsp;&nbsp;刷新
-									</button>
-								</div>
+								
 								<div class="page-paging"></div>
 							</div>
 						</div>
@@ -151,7 +199,7 @@
 				</div>
 			</div>
 
-			<div class="row" style="">
+			<!-- <div class="row" style="">
 				<div class="text-center" ng-if="totals==0">没有记录！</div>
 				<div class="col-md-3" ng-repeat="x in data">
 
@@ -162,7 +210,7 @@
 								 ng-if="x.status==0" style="color:#FF00FF"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a>
 							<a href="#" ng-click="check($index)"
-								class="text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;已解决
+								class="text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
 							</a>
 							</div>
 							<a href="" ng-click="editModel($index)" data-toggle="modal" style="color:blue;">
@@ -172,10 +220,10 @@
 							
 
 
-							<!-- <div class="text-muted font-bold m-b-xs">
+							<div class="text-muted font-bold m-b-xs">
 								<a href="" ng-click="editModel($index)" data-toggle="modal" style="color:skyblue;">
 									【{{x.bsid}}-{{x.bsname}}】故障处理任务单 </a>
-							</div> -->
+							</div>
 							<p>
 								<span style='font-weight:700'>派单时间：</span>&nbsp;<span>{{x.dispatchtime}}</span>
 							</p>
@@ -190,7 +238,7 @@
 						<div class="panel-footer contact-footer">
 							<div class="row">
 								<div class="col-md-4 border-right">
-									<div class="contact-stat"><!-- contact-panel -->
+									<div class="contact-stat">contact-panel
 										<span>派单人 </span> <strong style="color:#000">{{x.dispatchman}}</strong>
 									</div>
 								</div>
@@ -212,78 +260,9 @@
 					</div>
 				</div>
 
-			</div>
+			</div> -->
 
 
-
-			<!-- row -->
-			<!-- <div class="row">
-				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-heading hbuilt">故障处理派单列表</div>
-						<div class="panel-body">
-							<div class="btn-group pull-left" style="padding-bottom:5px;">
-
-								<button class="btn btn-danger btn-sm" data-toggle="modal"
-									data-target="#add" ng-disabled="">
-									<i class="fa fa-plus-circle"></i>&nbsp;上传运维值班情况表
-								</button>
-							</div>
-							<div class="form-group"></div>
-							row
-
-							<table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th width="180px">派单时间</th>
-										<th>派单人</th>
-										<th>故障类型</th>
-										<th>故障等级</th>
-										<th>状态</th>
-										<th width="140px">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="6" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td>{{x.dispatchtime}}</td>
-										<td>{{x.dispatchman}}</td>
-										<td>{{x.errtype}}</td>
-										<td>{{x.errlevel}}</td>
-										<td><span ng-if="x.status==0">接单中</span> <span
-											ng-if="x.status==1">处理中</span> <span ng-if="x.status==2">处理完成</span>
-										</td>
-										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="resend($index)"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
-										</a> <a href="#" ng-click="editModel($index)" data-toggle="modal">
-												<i class="fa fa-newspaper-o text-success"></i>&nbsp;详情
-										</a></td>
-
-
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
-								</div>
-								<div class="page-paging"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 			<!-- row/ -->
 		</div>
 	</div>

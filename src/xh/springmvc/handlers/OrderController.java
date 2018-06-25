@@ -111,6 +111,9 @@ public class OrderController {
 	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
 	public void updateOrder(HttpServletRequest request, HttpServletResponse response) {
 		int id=FunUtil.StringToInt(request.getParameter("id"));
+		String from=request.getParameter("from");
+		String bsid=request.getParameter("bsId");
+		String zbdldm=request.getParameter("zbdldm");
 		this.success=true;
 		
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -120,6 +123,15 @@ public class OrderController {
 		int code=OrderService.updateOrder(map);
 		
 		if(code>0){
+			if(from.equals("数据分析")){
+				ErrProTable bean=new ErrProTable();
+				bean.setBsid(bsid);
+				bean.setFrom(from);
+				bean.setZbdldm(zbdldm);
+				bean.setStatus("已处理");
+				OrderService.updateSfOrder(bean);
+			}
+			
 			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -174,6 +186,7 @@ public class OrderController {
 			log.info("id->"+id);
 			if(id>0){
 				OrderService.updateBsFault(map);	
+				
 			}
 			
 			

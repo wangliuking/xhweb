@@ -346,10 +346,13 @@ to {
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)"> <i
 												class="fa fa-edit text-success"></i>&nbsp;编辑
-										</a> <a href="#" ng-click="showOrderWin($index)"
+										</a> 
+										<a href="#" ng-click="showOrderWin($index)"
 											ng-if="x.status==0 && (up.o_order=='on' || roleId==10000)"> <i
 												class="fa fa-hand-stop-o text-success"></i>&nbsp;|派单
-										</a></td>
+										</a>
+										<span ng-if="x.status==1" style="color:red">已经派单!!</span>
+										</td>
 									</tr>
 								</tbody>
 							</table>
