@@ -33,6 +33,7 @@ public interface BsAlarmMapper {
 	
 	/*实时添加基站断站记录*/
 	public int addBsFault(BsAlarmExcelBean bean) throws Exception;
+	public int bsRestore(BsAlarmExcelBean bean) throws Exception;
 	/*判断基站断站记录是否存在*/
 	public int bsFaultIsHave(int bsId) throws Exception;
 	

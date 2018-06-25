@@ -35,6 +35,19 @@ public class BsAlarmService {
 		}
 		return code;
 	}
+	public static void bsRestore(BsAlarmExcelBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		try {
+			mapper.bsRestore(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 查询所有告警信息

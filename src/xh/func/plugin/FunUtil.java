@@ -409,6 +409,14 @@ public class FunUtil {
 		}
 		return result;
 	}
+	public String HexString(int src) {
+		String str = "";
+		str=Integer.toHexString(src);
+		if (str.length()<2) {
+			str="0"+str;
+		}
+		return str;
+	}
 
 	//判断是否为数字字符串
 	public boolean isInteger(String str) {  

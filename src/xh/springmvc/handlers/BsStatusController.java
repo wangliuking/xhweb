@@ -435,25 +435,31 @@ public class BsStatusController {
 			Label label_h2 = new Label(5, 0, "故障情况", wcf_title);// 创建单元格
 			
 
-			Label label_1 = new Label(0, 1, "基站编号", fontFormat_h);// 创建单元格
-			Label label_2 = new Label(1, 1, "基站名称", fontFormat_h);
-			Label label_3 = new Label(2, 1, "基站分级", fontFormat_h);
-			Label label_4 = new Label(3, 1, "使用状态", fontFormat_h);
-			Label label_5 = new Label(4, 1, "星期", fontFormat_h);
-			Label label_6 = new Label(5, 1, "故障发生时间", fontFormat_h);
-			Label label_7 = new Label(6, 1, "报障来源", fontFormat_h);
-			Label label_8 = new Label(7, 1, "故障等级", fontFormat_h);
-			Label label_9 = new Label(8, 1, "故障类别", fontFormat_h);
-			Label label_10 = new Label(9, 1, "故障原因",fontFormat_h);
-			Label label_11 = new Label(10, 1, "目前处理情况",fontFormat_h);
-			Label label_12 = new Label(11, 1, "是否影响业务",fontFormat_h);
-			Label label_13 = new Label(12, 1, "故障处理结果",fontFormat_h);
-			Label label_14 = new Label(13, 1, "故障恢复时间",fontFormat_h);
-			Label label_15= new Label(14, 1, "故障历时",fontFormat_h);
-			Label label_16 = new Label(15, 1, "备注",fontFormat_h);
-			Label label_17 = new Label(16, 1, "故障处理人员",fontFormat_h);
-			Label label_18 = new Label(17, 1, "故障记录人员",fontFormat_h);
-			Label label_19 = new Label(18, 1, "基站归属",fontFormat_h);
+			Label label_1 = new Label(0, 1, "建设期", fontFormat_h);// 创建单元格
+			Label label_2 = new Label(1, 1, "故障归属", fontFormat_h);// 创建单元格
+			Label label_3 = new Label(2, 1, "基站编号", fontFormat_h);// 创建单元格
+			Label label_4= new Label(3, 1, "基站名称", fontFormat_h);
+			Label label_5 = new Label(4, 1, "基站分级", fontFormat_h);
+			Label label_6 = new Label(5, 1, "使用状态", fontFormat_h);
+			Label label_7 = new Label(6, 1, "星期", fontFormat_h);
+			Label label_8 = new Label(7, 1, "故障发生时间", fontFormat_h);
+			Label label_9 = new Label(8, 1, "报障来源", fontFormat_h);
+			Label label_10 = new Label(9, 1, "故障等级", fontFormat_h);
+			Label label_11= new Label(10, 1, "故障类别", fontFormat_h);
+			Label label_12 = new Label(11, 1, "故障原因",fontFormat_h);
+			Label label_13 = new Label(12, 1, "目前处理情况",fontFormat_h);
+			Label label_14 = new Label(13, 1, "是否影响业务",fontFormat_h);
+			Label label_15 = new Label(14, 1, "故障处理结果",fontFormat_h);
+			Label label_16 = new Label(15, 1, "故障恢复时间",fontFormat_h);
+			Label label_17= new Label(16, 1, "故障历时",fontFormat_h);
+			Label label_18 = new Label(17, 1, "备注",fontFormat_h);
+			Label label_19 = new Label(18, 1, "故障处理人员",fontFormat_h);
+			Label label_20 = new Label(19, 1, "故障记录人员",fontFormat_h);
+			Label label_21 = new Label(20, 1, "基站归属",fontFormat_h);
+			Label label_22 = new Label(21, 1, "传输情况（单双链路）",fontFormat_h);
+			Label label_23 = new Label(22, 1, "停电时间",fontFormat_h);
+			Label label_24 = new Label(23, 1, "是否发电",fontFormat_h);
+			Label label_25 = new Label(24, 1, "后备电源时长",fontFormat_h);
 			
 			
 			CellView cellView = new CellView();  
@@ -461,25 +467,31 @@ public class BsStatusController {
 			 
 
 			sheet.setRowView(0, 300);
-			sheet.setColumnView(0, 10); //基站编号
-			sheet.setColumnView(1, 25); //基站名称
-			sheet.setColumnView(2, 10); //基站分级
-			sheet.setColumnView(3, 10); //使用状态
-			sheet.setColumnView(4, 10); //星期
-			sheet.setColumnView(5, 20); //故障发生时间
-			sheet.setColumnView(6, 10); //报障来源
-			sheet.setColumnView(7, 20); //故障等级
-			sheet.setColumnView(8, 20); //故障类别
-			sheet.setColumnView(9, 30); //故障原因
-			sheet.setColumnView(10, 40);//目前处理情况
-			sheet.setColumnView(11, 10);//是否影响业务
-			sheet.setColumnView(12, 50);     //故障处理结果
-			sheet.setColumnView(13, 20);      //故障恢复时间
-			sheet.setColumnView(14, 20);      //故障历时
-			sheet.setColumnView(15, 50);     //备注
-			sheet.setColumnView(16, 15);      //故障处理人员
-			sheet.setColumnView(17, 15);      //故障记录人员
-			sheet.setColumnView(18, 10);      //基站归属
+			sheet.setColumnView(0, 10); //建设期
+			sheet.setColumnView(1, 10); //故障归属
+			sheet.setColumnView(2, 10); //基站编号
+			sheet.setColumnView(3, 25); //基站名称
+			sheet.setColumnView(4, 10); //基站分级
+			sheet.setColumnView(5, 10); //使用状态
+			sheet.setColumnView(6, 10); //星期
+			sheet.setColumnView(7, 20); //故障发生时间
+			sheet.setColumnView(8, 10); //报障来源
+			sheet.setColumnView(9, 20); //故障等级
+			sheet.setColumnView(10, 20); //故障类别
+			sheet.setColumnView(11, 30); //故障原因
+			sheet.setColumnView(12, 40);//目前处理情况
+			sheet.setColumnView(13, 10);//是否影响业务
+			sheet.setColumnView(14, 50);     //故障处理结果
+			sheet.setColumnView(15, 20);      //故障恢复时间
+			sheet.setColumnView(16, 20);      //故障历时
+			sheet.setColumnView(17, 50);     //备注
+			sheet.setColumnView(18, 15);      //故障处理人员
+			sheet.setColumnView(19, 15);      //故障记录人员
+			sheet.setColumnView(20, 10);      //基站归属
+			sheet.setColumnView(21, 10);  
+			sheet.setColumnView(22, 10);  
+			sheet.setColumnView(23, 10);  
+			sheet.setColumnView(24, 10);  
 
 			sheet.addCell(label_1);
 			sheet.addCell(label_2);
@@ -500,6 +512,12 @@ public class BsStatusController {
 			sheet.addCell(label_17);
 			sheet.addCell(label_18);
 			sheet.addCell(label_19);
+			sheet.addCell(label_20);
+			sheet.addCell(label_21);
+			sheet.addCell(label_22);
+			sheet.addCell(label_23);
+			sheet.addCell(label_24);
+			sheet.addCell(label_25);
 			sheet.addCell(label_h1);
 			sheet.addCell(label_h2);
 			
@@ -516,25 +534,27 @@ public class BsStatusController {
 			List<BsAlarmExcelBean> list = BsStatusService.bsAlarmExcel(map);
 			for (int i = 0; i < list.size(); i++) {
 				BsAlarmExcelBean bean =list.get(i);
-				Label value_1 = new Label(0, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
-				Label value_2 = new Label(1, i + 2, bean.getName(),fontFormat_Content);
-				Label value_3 = new Label(2, i + 2, bean.getLevel(),fontFormat_Content);
-				Label value_4 = new Label(3, i + 2, bean.getTag()==1?"在用":"未使用",fontFormat_Content);		
-				Label value_5 = new Label(4, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
-				Label value_6 = new Label(5, i + 2,bean.getTime() ,fontFormat_Content);
-				Label value_7 = new Label(6, i + 2,bean.getFrom(),fontFormat_Content);
-				Label value_8 = new Label(7, i + 2, bean.getSeverity(),fontFormat_Content);
-				Label value_9 = new Label(8, i + 2, bean.getType(),fontFormat_Content);
-				Label value_10 = new Label(9, i + 2, bean.getReason(),fontFormat_Content);
-				Label value_11 = new Label(10, i + 2, bean.getNowDeal(),fontFormat_Content);
-				Label value_12 = new Label(11, i + 2, bean.getImbusiness(),fontFormat_Content);
-				Label value_13 = new Label(12, i + 2, bean.getDealResult(),fontFormat_Content);
-				Label value_14= new Label(13, i + 2, bean.getFaultRecoveryTime(),fontFormat_Content);
-				Label value_15 = new Label(14, i + 2, bean.getFaultTimeTotal(),fontFormat_Content);
-				Label value_16 = new Label(15, i + 2, bean.getContent(),fontFormat_Content);
-				Label value_17 = new Label(16, i + 2,bean.getFaultHandlePerson() ,fontFormat_Content);
-				Label value_18 = new Label(17, i + 2, bean.getFaultRecordPerson(),fontFormat_Content);
-				Label value_19 = new Label(18, i + 2, bean.getHometype(),fontFormat_Content);
+				Label value_1 = new Label(0, i + 2, bean.getPeriod()==3?"三期":"四期", fontFormat_Content);
+				Label value_2 = new Label(1, i + 2, bean.getFaulttype(), fontFormat_Content);
+				Label value_3 = new Label(2, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
+				Label value_4 = new Label(3, i + 2, bean.getName(),fontFormat_Content);
+				Label value_5 = new Label(4, i + 2, bean.getLevel(),fontFormat_Content);
+				Label value_6 = new Label(5, i + 2, bean.getTag()==1?"在用":"未使用",fontFormat_Content);		
+				Label value_7 = new Label(6, i + 2,FunUtil.formateWeekly(bean.getTime()) ,fontFormat_Content);
+				Label value_8 = new Label(7, i + 2,bean.getTime() ,fontFormat_Content);
+				Label value_9 = new Label(8, i + 2,bean.getFrom(),fontFormat_Content);
+				Label value_10 = new Label(9, i + 2, bean.getSeverity(),fontFormat_Content);
+				Label value_11 = new Label(10, i + 2, bean.getType(),fontFormat_Content);
+				Label value_12 = new Label(11, i + 2, bean.getReason(),fontFormat_Content);
+				Label value_13 = new Label(12, i + 2, bean.getNowDeal(),fontFormat_Content);
+				Label value_14 = new Label(13, i + 2, bean.getImbusiness(),fontFormat_Content);
+				Label value_15 = new Label(14, i + 2, bean.getDealResult(),fontFormat_Content);
+				Label value_16= new Label(15, i + 2, bean.getFaultRecoveryTime(),fontFormat_Content);
+				Label value_17 = new Label(16, i + 2, bean.getFaultTimeTotal(),fontFormat_Content);
+				Label value_18 = new Label(17, i + 2, bean.getContent(),fontFormat_Content);
+				Label value_19 = new Label(18, i + 2,bean.getFaultHandlePerson() ,fontFormat_Content);
+				Label value_20 = new Label(19, i + 2, bean.getFaultRecordPerson(),fontFormat_Content);
+				Label value_21 = new Label(20, i + 2, bean.getHometype(),fontFormat_Content);
 				sheet.setRowView(i + 2, 300);
 				sheet.addCell(value_1);
 				sheet.addCell(value_2);
@@ -555,6 +575,8 @@ public class BsStatusController {
 				sheet.addCell(value_17);
 				sheet.addCell(value_18);
 				sheet.addCell(value_19);
+				sheet.addCell(value_20);
+				sheet.addCell(value_21);
 			}
 
 			book.write();

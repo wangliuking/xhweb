@@ -16,6 +16,7 @@
 		<key>2f6DhqPBNoK3f2A7</key>
 		<!-- 基站闪断时长判断 单位分钟 -->
 		<bsflash>5</bsflash>
+		<smsnet>1</smsnet>
 	</web>
 	<!-- 环控配置 -->
 	<emh>

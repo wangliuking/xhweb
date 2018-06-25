@@ -123,6 +123,25 @@ public class BsStatusService {
 		}
 		return list;
 	}
+	public static List<BsAlarmExcelBean> bsRestoreInfo() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<BsAlarmExcelBean> list = new ArrayList<BsAlarmExcelBean>();
+		
+		try {
+			SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time=f.format(new Date(System.currentTimeMillis()-2*60*1000));
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("time", time);
+			list = mapper.bsRestoreInfo(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	public static List<Map<String, Object>> bsGroupTop5() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);

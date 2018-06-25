@@ -5,6 +5,7 @@ public class BsAlarmExcelBean {
 	private String bsId;//基站编号
 	private String name;//基站名称
 	private String level;//基站分级
+	private int period;
 	private int tag;//使用状态
 	private String weekly;//星期
 	private String time;//故障发生时间
@@ -21,11 +22,24 @@ public class BsAlarmExcelBean {
 	private String faultHandlePerson;//故障处理人员
 	private String faultRecordPerson;//故障记录人员
 	private String hometype;//基站归属
+	private String faulttype;//故障归属
 	
 	
 	
 	
 	
+	public String getFaulttype() {
+		return faulttype;
+	}
+	public void setFaulttype(String faulttype) {
+		this.faulttype = faulttype;
+	}
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
+	}
 	public int getId() {
 		return id;
 	}
