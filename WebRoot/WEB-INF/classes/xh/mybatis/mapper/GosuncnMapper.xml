@@ -74,13 +74,13 @@
 	</insert>
 	
 	<!-- 增加告警前查询是否有相同流水号的告警 -->
-	<select id="selectBySerialNo" parameterType="String" resultType="map">
-		select * from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo}
+	<select id="selectBySerialNo" parameterType="map" resultType="map">
+		select * from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo} and fsuId=#{FSUID}
 	</select>
 	
 	<!-- 根据流水号删除对应告警 -->
-	<delete id="deleteBySerialNo" parameterType="String">
-		delete from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo}
+	<delete id="deleteBySerialNo" parameterType="map">
+		delete from xhgmnet_emh_sensor_alarm where serialNo=#{serialNo} and fsuId=#{FSUID}
 	</delete>
 	
 	<!-- 增加告警信息 -->
