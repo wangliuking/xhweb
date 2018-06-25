@@ -76,6 +76,9 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+		$scope.detail=function(){
+			
+		}
 		/*用户列表*/
 		$scope.userList=function(){
 			$http.get("../../order/userlist").success(

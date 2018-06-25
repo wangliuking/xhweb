@@ -15,6 +15,7 @@ public interface OrderMapper {
 	public int addOrder(ErrProTable bean) throws Exception;
 	//修改确认派单
 	public int updateOrder(Map<String,Object> map) throws Exception;
+	public int updateSfOrder(ErrProTable bean) throws Exception;
 	
 	//更新基站故障状态记录
 	public int updateBsFault(Map<String,Object> map) throws Exception;

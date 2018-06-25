@@ -39,6 +39,7 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.securityMenu=true; //菜单变色
 		$scope.starttime=xh.getYMD(7);
+		$scope.btnDisabled=true;
 		/*获取日志信息*/
 		$http.get("../../onduty/list?&starttime="+$scope.starttime +
 				"&start=0&limit="+pageSize).
@@ -48,79 +49,36 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals),$scope);
 		});
+		$http.get("../../onduty/dutyinfo").
+		success(function(response){
+			$scope.leader= response.leader;
+			$scope.tel= response.tel;
+		});
+		$scope.upBtn=function(){
+			$scope.btnDisabled=false;
+		}
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
-		/* 显示链接修改model */
-		$scope.editModel = function(id) {
-			$scope.editData = $scope.data[id];
-			$scope.roleId=$scope.editData.roleId.toString();
-		};
-		/* 显示按钮修改model */
-		$scope.showEditModel = function() {
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("index"));
+		$scope.updateInfo=function(){
+			$.ajax({
+				url : '../../onduty/updutyinfo',
+				type : 'post',
+				dataType : "json",
+				data : $("#info").serializeArray(),
+				async : false,
+				success : function(data) {
+					toastr.success("修改成功", '提示');
+					$scope.btnDisabled=true;
+			    	
+				},
+				error : function() {
+					toastr.error("错误", '提示');
 				}
 			});
-			if (checkVal.length != 1) {
-				swal({
-					title : "提示",
-					text : "只能选择一条数据",
-					type : "error"
-				});
-				return;
-			}
-			$("#edit").modal('show');
-			$scope.editData = $scope.data[parseInt(checkVal[0])];
-			$scope.roleId=$scope.editData.roleId.toString();
-			
-		};
-		/* 删除用户 */
-		$scope.del = function(id) {
-			swal({
-				title : "提示",
-				text : "确定要删除该用户吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消"
-			/*
-			 * closeOnConfirm : false, closeOnCancel : false
-			 */
-			}, function(isConfirm) {
-				if (isConfirm) {
-					$.ajax({
-						url : '../../web/user/del',
-						type : 'post',
-						dataType : "json",
-						data : {
-							userId : id
-						},
-						async : false,
-						success : function(data) {
-							if (data.success) {
-								toastr.success("删除用户成功", '提示');
-								$scope.refresh();
-					    	
-							} else {
-								swal({
-									title : "提示",
-									text : "删除用户失败",
-									type : "error"
-								});
-							}
-						},
-						error : function() {
-							$scope.refresh();
-						}
-					});
-				}
-			});
-		};
+		}
+		
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var $scope = angular.element(appElement).scope();
@@ -186,13 +144,15 @@ xh.load = function() {
 
 /* 导入数据*/
 xh.excel = function() {
-	if ($('#pathName').val() == "") {
+	var p=$('#pathName').val();
+	var b=p.substring(p.indexOf(".")+1,p.lenght);
+	if (p== "") {
 		alert("请选择需要上传的文件！");
-		return false;
+		return true;
 	}
-	if ($('#pathName').val().indexOf(".xls")<0) {
+	if (b!="xls") {
 		alert("只能导入[.xls]格式的excel文档！");
-		return false;
+		return true;
 	}
 	$("input[name='result']").val(2);
 	/*$("#uploadfile").attr("disabled", true);*/

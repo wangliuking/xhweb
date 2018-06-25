@@ -135,7 +135,10 @@ xh.load = function() {
 				dataType : "json",
 				async : true,
 				data:{
-					id:$scope.data[id].id
+					id:$scope.data[id].id,
+					bsId:$scope.data[id].bsid,
+					zbdldm:$scope.data[id].zbdldm,
+					from:$scope.data[id].from
 				},
 				success : function(data) {
 

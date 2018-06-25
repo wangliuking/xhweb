@@ -244,6 +244,8 @@ xh.order=function(){
 	}
 	var formData={
 		id:$("div[name='id']").text()==""?0:$("div[name='id']").text(),
+		from:$("span[name='from']").text(),
+		zbdldm:$("span[name='zbdldm']").text(),
 		bsid:$("div[name='bsId']").text(),
 		bsname:$("div[name='name']").text(),
 		userid:userid,
@@ -271,6 +273,7 @@ xh.order=function(){
 			var data = response;
 			if(data.success){
 				toastr.success("派单成功", '提示');
+				xh.refresh();
 			}else{
 				toastr.error("派单失败", '提示');
 			}

@@ -33,13 +33,18 @@
     <!-- 添加派单 --> 
     <insert id="addOrder" parameterType="com.tcpBean.ErrProTable" useGeneratedKeys="true" keyProperty="id">
     insert into xhgmnet_operations_fault_task_order(bsid, bsname, dispatchtime, dispatchman, errtype, errlevel, 
-    errfoundtime, errslovetime, progress, proresult, workman, auditor,serialnumber, userid,orderAccount)values(#{bsid}, #{bsname},
+    errfoundtime, errslovetime, progress, proresult, workman, auditor,serialnumber, userid,orderAccount,alarmId,`from`,zbdldm)values(#{bsid}, #{bsname},
      #{dispatchtime},#{dispatchman}, #{errtype},#{errlevel}, 
-    #{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid},#{orderAccount})
+    #{errfoundtime},#{errslovetime},#{progress},#{proresult},#{workman},#{auditor},#{serialnumber},#{userid},
+    #{orderAccount},#{id},#{from},#{zbdldm})
     </insert> 
     <!-- 更新拍单记录 -->
     <update id="updateOrder" parameterType="map">
     update xhgmnet_operations_fault_task_order set status=#{status} where id=#{id}
+    </update>
+    <!-- 更新四方伟业派单记录 -->
+    <update id="updateSfOrder" parameterType="com.tcpBean.ErrProTable">
+    update xhgmnet_sf_bs_alarm set status=#{status} where zbdldm=#{zbdldm} and bsId=#{bsid}
     </update>
     <!-- 更新基站故障状态记录 -->
     <update id="updateBsFault" parameterType="map">

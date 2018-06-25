@@ -245,12 +245,12 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 											<tr class="tr-gray">
 
 												<!-- <th width="100px">网元类型</th> -->
-												<th>网元类型</th>
+												<th width="120px">网元类型</th>
 
-												<th>严重程度</th>
+												<th width="80px">严重程度</th>
 												<th>告警类型</th>
 												<th>故障定位</th>
-												<th>告警描述</th>
+												<th>告警信息</th>
 												<th width="150px">告警时间</th>
 												<th width="150px">恢复时间</th>
 
@@ -309,8 +309,9 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 												<span ng-if="x.category==6">网管</span>
 												</td>
 
-												<td>{{x.location |alarmLocation}}</td>
-												<td>{{x.description}}</td>
+												<!-- <td>{{x.location |alarmLocation}}</td> -->
+												<td><a href="#" ng-click="showDetails($index)">{{x.location}}</a></td>
+												<td>{{x.info}}</td>
 												<td>{{x.time}}</td>
 												<td>{{x.retoreTime}}</td>
 
@@ -354,7 +355,7 @@ level-div { height:30px; line-height:30px; text-align:center; /* background-colo
 	</div>
 	<div ng-include="'bsAlarm-order.html'"></div>
 	<!-- 告警详情 -->
-	<!-- <div ng-include="'bsAlarm-show.html'"></div> -->
+	<div ng-include="'bsAlarm-show.html'"></div>
 
 
 	<!-- 告警查询 -->
