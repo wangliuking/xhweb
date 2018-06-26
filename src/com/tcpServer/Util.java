@@ -3,6 +3,8 @@ package com.tcpServer;
 import java.util.HashMap;
 import java.util.Map;
 
+import xh.mybatis.service.OrderService;
+
 import com.tcpBean.DispatchTable;
 import com.tcpBean.DispatchTableAck;
 import com.tcpBean.ErrCheck;
@@ -56,11 +58,16 @@ public class Util {
 	 * 测试用主方法
 	 */
 	public static void main(String[] args) {
-		String objectStr="{\"cmdtype\":\"userlogin\",\"userid\":\"admin\",\"passwd\":\"12345\",\"serialnumber\":\"qwertyui123\"}"+"\n";
+		/*String objectStr="{\"cmdtype\":\"userlogin\",\"userid\":\"admin\",\"passwd\":\"12345\",\"serialnumber\":\"qwertyui123\"}"+"\n";
 		JSONObject jsonObject=JSONObject.fromObject(objectStr);
 		userLogin = (UserLogin) JSONObject.toBean(jsonObject, UserLogin.class);
-		System.out.println(userLogin);
-		 
+		System.out.println(userLogin);*/
+		/*Map<String,Object> orderMap = OrderService.selectBySerialnumber("tP4C79y6");
+		ErrProTable bean = new ErrProTable();
+		bean.setBsid(orderMap.get("bsid")+"");
+		bean.setZbdldm(orderMap.get("zbdldm")+"");
+		bean.setStatus("处理中");
+		System.out.println(bean);*/
 	}
 	
 	/**
@@ -115,6 +122,14 @@ public class Util {
 				String serialNum = errProTableAck.getSerialnumber();
 				System.out.println("serialNum为："+serialNum);
 				Service.updateUserStatus(serialNum);
+				//更新四方伟业库
+				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
+				ErrProTable bean = new ErrProTable();
+				bean.setBsid(orderMap.get("bsid")+"");
+				bean.setZbdldm(orderMap.get("zbdldm")+"");
+				bean.setStatus("处理中");
+				System.out.println(bean);
+				OrderService.updateSfOrder(bean);
 				map.put("returnMessage", "");
 				return map;
 			}else if("errcheck".equals(cmdtype)){
@@ -193,6 +208,5 @@ public class Util {
         String str = json.toString();//将json对象转换为字符串          
         return str;  
     }  
-	
 	
 }

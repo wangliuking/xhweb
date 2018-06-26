@@ -116,5 +116,21 @@ public class OrderService {
 			}
 			return count;
 	}
+	
+	//根据流水号查询派单信息
+	public static Map<String, Object> selectBySerialnumber(String serialnumber) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OrderMapper mapper = sqlSession.getMapper(OrderMapper.class);
+		Map<String, Object> map = new HashMap<String,Object>();
+		try {
+			map = mapper.selectBySerialnumber(serialnumber);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
 
 }

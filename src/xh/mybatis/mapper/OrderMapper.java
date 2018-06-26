@@ -22,5 +22,8 @@ public interface OrderMapper {
 	
 	//运维用户列表
 	public List<Map<String,Object>> userList() throws Exception;
+	
+	//根据流水号查询派单信息
+	public Map<String,Object> selectBySerialnumber(String serialnumber) throws Exception;
 
 }

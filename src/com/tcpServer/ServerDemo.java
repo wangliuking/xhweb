@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,6 +19,9 @@ import com.tcpBean.UserLogin;
 
 public class ServerDemo {
 	private boolean isStartServer = false;
+	//未发送的消息
+	public static ArrayList<Map<String,Object>> unsentMessageList = new ArrayList<Map<String,Object>>();
+	
 	public static ArrayList<SocketThread> mThreadList = new ArrayList<SocketThread>();
 
 	public static ArrayList<SocketThread> getmThreadList() {
@@ -56,7 +61,10 @@ public class ServerDemo {
 
 	public static void startMessageThread(final String userId, final Object object) {
 		try {
+			List<String> userList = new ArrayList<String>();			
 			for (SocketThread st : mThreadList) {// 分别向每个客户端发送消息
+				//将所有userId放入userList，用于后续判断是否存在此userId
+				userList.add(st.userId);
 				if (st.socket == null || st.socket.isClosed())
 					continue;
 				if (st.userId == null || "".equals(st.userId))// 如果暂时没有确定Socket对应的用户Id先不发
@@ -82,6 +90,13 @@ public class ServerDemo {
 				} else
 					continue;
 			}
+			if(!userList.contains(userId)){//此时该用户不在线，保存此派单信息
+				Map<String,Object> unsentMap = new HashMap<String,Object>();
+				unsentMap.put("userId", userId);
+				unsentMap.put("objectMessage", object);
+				unsentMessageList.add(unsentMap);
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch blockl
 			e.printStackTrace();
@@ -145,19 +160,27 @@ public class ServerDemo {
 						System.out.println("收到消息，准备解析:");					
 						String data = reader.readLine();
 						System.out.println("接收到的数据为："+data);
-						Map<String, String> tempMap = Util.parseJson(data);
-						if(tempMap.containsKey("userId")){
-							this.userId=tempMap.get("userId");
-						}
-						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
+						Map<String, String> tempMap = Util.parseJson(data);					
 						
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
 							System.out.println("返回的消息为："+returnMessage);							
 							writer.write(returnMessage+"\n");
 							writer.flush();
-						}						
+						}
 						
+						if(tempMap.containsKey("userId")){
+							//将此线程与userId进行绑定
+							this.userId=tempMap.get("userId");
+							//查询此userId是否有未发送的消息
+							for(Map<String,Object> uMap : unsentMessageList){
+								if(uMap.get("userId").equals(this.userId)){//未发送消息中存在此userId
+									ServerDemo demo=new ServerDemo();
+									demo.startMessageThread(uMap.get("userId")+"",uMap.get("objectMessage"));
+								}
+							}
+						}
+						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
 						
 						/*SocketMessage from = Util.parseJson(data);
 						//给UserID赋值，此处是我们项目的需求，根据客户端不同的UserId来分别进行推送

@@ -60,5 +60,10 @@
      where roleId in(select roleId from xhgmnet_web_role where roleType=3 and roleId!=10003))
      order by user asc
     </select>
+    <!-- 根据流水号查询派单信息 -->
+    <select id="selectBySerialnumber" parameterType="String" resultType="map" useCache="true">
+     	select * from xhgmnet_operations_fault_task_order where serialnumber=#{serialnumber}
+    </select>
+    
 
 </mapper>
