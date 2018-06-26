@@ -123,7 +123,6 @@ public class EastComService {
 						map.put("time", time);
 						map.put("day", day);
 						list=mapper.get_bs_call_data(map);
-						log.info("num："+list.size());	
 						write_bs_call_data(list);
 						map.clear();
 						list.clear();

@@ -13,6 +13,7 @@ public interface BsStatusMapper {
 	
 	/*tera系统告警基站部分,获取当前的断站列表*/
 	public List<BsAlarmExcelBean> bsFaultInfo(Map<String,Object> map) throws Exception;
+	public List<BsAlarmExcelBean> bsRestoreInfo(Map<String,Object> map) throws Exception;
 	/**
 	 * 查询所有告警信息
 	 */

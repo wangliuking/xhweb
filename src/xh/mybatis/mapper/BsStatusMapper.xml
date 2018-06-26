@@ -301,14 +301,14 @@
 	</select>
 	<!-- tera系统告警基站部分  导出excel -->
 	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
-		select a.*,b.name,b.level,b.status as tag,b.hometype 
+		select a.*,b.name,b.level,b.status as tag,b.hometype,b.period
 		from xhgmnet_operations_bsfault  as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		
-		where a.time between #{startTime} and #{endTime} group by a.bsId order by a.time asc
+		where a.time between #{startTime} and #{endTime}  order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true" parameterType="map">
-		select a.*,b.name,b.level,b.status as tag,b.hometype 
+		select a.*,b.name,b.level,b.status as tag,b.hometype,b.period
 		from xhgmnet_operations_bsfault  as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId  where 1=1
 		<if test="bsId!=null and bsId!=''">
@@ -345,12 +345,17 @@
 		
 		
 	</select>
+	<select id="bsRestoreInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean" useCache="true" parameterType="map">
+		select subModId as bsId,time,retoreTime as faultRecoveryTime,TIMESTAMPDIFF(MINUTE,time,retoreTime) as faultTimeTotal from xhgmnet_eastcom_alarminfo where time >#{time} and neType=4 and 
+        modType=3 and status=1 order by time desc limit 200;		
+		
+	</select>
 	<!-- 更新基站故障表 -->
 	<update id="editBsFault" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
 	    update xhgmnet_operations_bsfault set weekly=#{weekly},time=#{time},`from`=#{from}, severity=#{severity}, 
 	    type=#{type}, reason=#{reason}, nowDeal=#{nowDeal}, imbusiness=#{imbusiness}, dealResult=#{dealResult}, 
 	    faultRecoveryTime=#{faultRecoveryTime}, faultTimeTotal=#{faultTimeTotal}, content=#{content}, 
-	    faultHandlePerson=#{faultHandlePerson}, faultRecordPerson=#{faultRecordPerson} where id=#{id}
+	    faultHandlePerson=#{faultHandlePerson}, faultRecordPerson=#{faultRecordPerson},faultType=#{faultType} where id=#{id}
 	</update>
 	<!-- 基站闪断列表 -->
 	<select id="bsflash" resultType="map" useCache="true" parameterType="map">
