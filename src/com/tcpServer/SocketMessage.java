@@ -3,7 +3,6 @@ package com.tcpServer;
 import java.io.Serializable;
 
 /**
- * Created by HouBin on 2017/3/14.
  * 模拟数据模型，用于客户端与服务端的传输
  */
 public class SocketMessage implements Serializable {
