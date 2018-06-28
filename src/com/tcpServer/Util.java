@@ -1,6 +1,8 @@
 package com.tcpServer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.service.OrderService;
@@ -11,12 +13,17 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetAllAppList;
+import com.tcpBean.GetAllAppListAck;
+import com.tcpBean.GetAllBsList;
+import com.tcpBean.GetAllBsListAck;
 import com.tcpBean.GetForGpsDst;
 import com.tcpBean.GetForGpsDstAck;
 import com.tcpBean.GetMovebsInfo;
 import com.tcpBean.GetMovebsInfoAck;
 import com.tcpBean.GetOwnbsInfo;
 import com.tcpBean.GetOwnbsInfoAck;
+import com.tcpBean.GpsInfoUp;
 import com.tcpBean.LoginAck;
 import com.tcpBean.MovebsTable;
 import com.tcpBean.MovebsTableAck;
@@ -27,6 +34,7 @@ import com.tcpBean.OwnbsTableAck;
 import com.tcpBean.UserInfo;
 import com.tcpBean.UserInfoAck;
 import com.tcpBean.UserLogin;
+import com.tcpServer.ServerDemo.SocketThread;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -53,6 +61,9 @@ public class Util {
 	private static GetMovebsInfo getMovebsInfo;
 	private static GetOwnbsInfo getOwnbsInfo;
 	private static GetForGpsDst getForGpsDst;
+	private static GetAllBsList getAllBsList;
+	private static GetAllAppList getAllAppList;
+	private static GpsInfoUp gpsInfoUp;
 	
 	/**
 	 * 测试用主方法
@@ -185,12 +196,33 @@ public class Util {
 				map.put("returnMessage", Object2Json(getOwnbsInfoAck));
 				return map;
 			}else if("heartbeat".equals(cmdtype)){
-				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");
+				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");			
 				return map;
 			}else if("getforgpsdst".equals(cmdtype)){
 				getForGpsDst = (GetForGpsDst) JSONObject.toBean(jsonObject, GetForGpsDst.class);
 				GetForGpsDstAck getForGpsDstAck = Service.appGetForGpsDstAck(getForGpsDst);
 				map.put("returnMessage", Object2Json(getForGpsDstAck));
+				return map;
+			}else if("getallbslist".equals(cmdtype)){
+				getAllBsList = (GetAllBsList) JSONObject.toBean(jsonObject, GetAllBsList.class);
+				List<GetAllBsListAck> list = Service.appGetAllBsListAck(getAllBsList);
+				map.put("returnMessage0", Object2Json(list.get(0)));
+				map.put("returnMessage1", Object2Json(list.get(1)));
+				map.put("returnMessage2", Object2Json(list.get(2)));
+				map.put("returnMessage3", Object2Json(list.get(3)));
+				map.put("returnMessage4", Object2Json(list.get(4)));
+				map.put("returnMessage5", Object2Json(list.get(5)));
+				map.put("returnMessage", "for");
+				return map;
+			}else if("gpsinfoup".equals(cmdtype)){
+				gpsInfoUp = (GpsInfoUp) JSONObject.toBean(jsonObject, GpsInfoUp.class);
+				Service.appInsertGpsInfoUp(gpsInfoUp);		
+				map.put("returnMessage", "");
+				return map;
+			}else if("getallapplist".equals(cmdtype)){
+				getAllAppList = (GetAllAppList) JSONObject.toBean(jsonObject, GetAllAppList.class);
+				GetAllAppListAck getAllAppListAck = Service.appGetAllAppListAck(getAllAppList);
+				map.put("returnMessage", Object2Json(getAllAppListAck));
 				return map;
 			}
 						

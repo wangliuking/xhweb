@@ -61,5 +61,20 @@ public interface TcpMapper {
 	 * 查询最近五分钟手台gps信息
 	 */
 	public List<Map<String,String>> selectForGpsDst(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 查询所有基站信息
+	 */
+	public List<Map<String,String>> selectForAllBsList()throws Exception;
+	
+	/**
+	 * 插入用户上传的位置信息
+	 */
+	public int appInsertGpsInfoUp(Map<String,String> map)throws Exception;
+	
+	/**
+	 * 插入用户上传的位置信息
+	 */
+	public List<Map<String,String>> selectForAllAppLocation(List<String> list)throws Exception;
 
 }

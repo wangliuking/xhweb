@@ -164,9 +164,30 @@ public class ServerDemo {
 						
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
-							System.out.println("返回的消息为："+returnMessage);							
-							writer.write(returnMessage+"\n");
-							writer.flush();
+							if("for".equals(returnMessage)){
+								System.out.println("返回的消息为："+tempMap.get("returnMessage0"));							
+								writer.write(tempMap.get("returnMessage0")+"\n");
+								writer.flush();
+								System.out.println("返回的消息为："+tempMap.get("returnMessage1"));							
+								writer.write(tempMap.get("returnMessage1")+"\n");
+								writer.flush();
+								System.out.println("返回的消息为："+tempMap.get("returnMessage2"));							
+								writer.write(tempMap.get("returnMessage2")+"\n");
+								writer.flush();
+								System.out.println("返回的消息为："+tempMap.get("returnMessage3"));							
+								writer.write(tempMap.get("returnMessage3")+"\n");
+								writer.flush();
+								System.out.println("返回的消息为："+tempMap.get("returnMessage4"));							
+								writer.write(tempMap.get("returnMessage4")+"\n");
+								writer.flush();
+								System.out.println("返回的消息为："+tempMap.get("returnMessage5"));							
+								writer.write(tempMap.get("returnMessage5")+"\n");
+								writer.flush();
+							}else{
+								System.out.println("返回的消息为："+returnMessage);							
+								writer.write(returnMessage+"\n");
+								writer.flush();
+							}						
 						}
 						
 						if(tempMap.containsKey("userId")){
@@ -175,8 +196,8 @@ public class ServerDemo {
 							//查询此userId是否有未发送的消息
 							for(Map<String,Object> uMap : unsentMessageList){
 								if(uMap.get("userId").equals(this.userId)){//未发送消息中存在此userId
-									ServerDemo demo=new ServerDemo();
-									demo.startMessageThread(uMap.get("userId")+"",uMap.get("objectMessage"));
+									System.out.println("准备发送未收到的消息！！！！！ "+uMap.get("userId"));
+									startMessageThread(uMap.get("userId")+"",uMap.get("objectMessage"));
 								}
 							}
 						}

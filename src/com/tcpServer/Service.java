@@ -23,12 +23,17 @@ import com.tcpBean.ErrCheck;
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpBean.ErrProTableAck;
+import com.tcpBean.GetAllAppList;
+import com.tcpBean.GetAllAppListAck;
+import com.tcpBean.GetAllBsList;
+import com.tcpBean.GetAllBsListAck;
 import com.tcpBean.GetForGpsDst;
 import com.tcpBean.GetForGpsDstAck;
 import com.tcpBean.GetMovebsInfo;
 import com.tcpBean.GetMovebsInfoAck;
 import com.tcpBean.GetOwnbsInfo;
 import com.tcpBean.GetOwnbsInfoAck;
+import com.tcpBean.GpsInfoUp;
 import com.tcpBean.LoginAck;
 import com.tcpBean.MovebsTable;
 import com.tcpBean.MovebsTableAck;
@@ -39,6 +44,7 @@ import com.tcpBean.OwnbsTableAck;
 import com.tcpBean.UserInfo;
 import com.tcpBean.UserInfoAck;
 import com.tcpBean.UserLogin;
+import com.tcpServer.ServerDemo.SocketThread;
 
 public class Service {
 	// 发送用对象
@@ -467,6 +473,140 @@ public class Service {
 			e.printStackTrace();
 		}
 		return getForGpsDstAck;
+	}
+	
+	/**
+	 * 返回所有基站信息
+	 */
+	public static List<GetAllBsListAck> appGetAllBsListAck(GetAllBsList getAllBsList){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		List<GetAllBsListAck> finalList = new LinkedList<GetAllBsListAck>();
+		try{						
+			List<Map<String,String>> list = mapper.selectForAllBsList();
+			//System.out.println("list长度为 : "+list.size());
+			List<Map<String,String>> list1 = new LinkedList<Map<String,String>>();
+			List<Map<String,String>> list2 = new LinkedList<Map<String,String>>();
+			List<Map<String,String>> list3 = new LinkedList<Map<String,String>>();
+			List<Map<String,String>> list4 = new LinkedList<Map<String,String>>();
+			List<Map<String,String>> list5 = new LinkedList<Map<String,String>>();
+			List<Map<String,String>> list6 = new LinkedList<Map<String,String>>();
+			for(int i=0;i<list.size();i++){
+				if(i>=0 && i<50){
+					list1.add(list.get(i));
+				}else if(i==50){
+					GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+					getAllBsListAck.setUserid(getAllBsList.getUserid());
+					getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+					getAllBsListAck.setStatus("0");
+					getAllBsListAck.setBslist(list1);
+					finalList.add(getAllBsListAck);
+					list2.add(list.get(i));
+				}else if(i>50 && i<100){
+					list2.add(list.get(i));
+				}else if(i==100){
+					GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+					getAllBsListAck.setUserid(getAllBsList.getUserid());
+					getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+					getAllBsListAck.setStatus("0");
+					getAllBsListAck.setBslist(list2);
+					finalList.add(getAllBsListAck);
+					list3.add(list.get(i));
+				}else if(i>100 && i<150){
+					list3.add(list.get(i));
+				}else if(i==150){
+					GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+					getAllBsListAck.setUserid(getAllBsList.getUserid());
+					getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+					getAllBsListAck.setStatus("0");
+					getAllBsListAck.setBslist(list3);
+					finalList.add(getAllBsListAck);
+					list4.add(list.get(i));
+				}else if(i>150 && i<200){
+					list4.add(list.get(i));
+				}else if(i==200){
+					GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+					getAllBsListAck.setUserid(getAllBsList.getUserid());
+					getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+					getAllBsListAck.setStatus("0");
+					getAllBsListAck.setBslist(list4);
+					finalList.add(getAllBsListAck);
+					list5.add(list.get(i));
+				}else if(i>200 && i<250){
+					list5.add(list.get(i));
+				}else if(i==250){
+					GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+					getAllBsListAck.setUserid(getAllBsList.getUserid());
+					getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+					getAllBsListAck.setStatus("0");
+					getAllBsListAck.setBslist(list5);
+					finalList.add(getAllBsListAck);
+					list6.add(list.get(i));
+				}else if(i>250 && i<list.size()){
+					list6.add(list.get(i));
+				}
+			}			
+			
+			GetAllBsListAck getAllBsListAck = new GetAllBsListAck();
+			getAllBsListAck.setUserid(getAllBsList.getUserid());
+			getAllBsListAck.setSerialnumber(getAllBsList.getSerialnumber());
+			getAllBsListAck.setStatus("1");
+			getAllBsListAck.setBslist(list6);
+			finalList.add(getAllBsListAck);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return finalList;
+	}
+	
+	/**
+	 * 插入用户上传的位置信息
+	 */
+	public static void appInsertGpsInfoUp(GpsInfoUp gpsInfoUp){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		try{
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("userId", gpsInfoUp.getUserid());
+			map.put("name", gpsInfoUp.getName());
+			map.put("lat", gpsInfoUp.getLatitude());
+			map.put("lng", gpsInfoUp.getLongitude());
+			map.put("address", gpsInfoUp.getAddress());
+			mapper.appInsertGpsInfoUp(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 返回最新一次所有app位置信息
+	 */
+	public static GetAllAppListAck appGetAllAppListAck(GetAllAppList getAllAppList){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GetAllAppListAck getAllAppListAck = new GetAllAppListAck();
+		getAllAppListAck.setSerialnumber(getAllAppList.getSerialnumber());
+		getAllAppListAck.setStatus("1");
+		getAllAppListAck.setUserid(getAllAppList.getUserid());
+		try{						
+			List<String> userList = new ArrayList<String>();
+			ArrayList<SocketThread> tempList = ServerDemo.mThreadList;
+			for(SocketThread st : tempList){
+				userList.add(st.userId);
+			}
+			List<Map<String,String>> list = mapper.selectForAllAppLocation(userList);
+			getAllAppListAck.setApplist(list);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getAllAppListAck;
 	}
 	
 }
