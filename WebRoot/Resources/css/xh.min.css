@@ -2085,10 +2085,11 @@ line-height
 /* dropdown-menu */
 .dropdown-menu.hdropdown {
 	/* width:200px; */
-	min-width:600px;
+	min-width:650px;
 	padding: 0;
 	z-index: 1060;
 	background:#fff;
+	margin-left:220px;
 	
 }
 

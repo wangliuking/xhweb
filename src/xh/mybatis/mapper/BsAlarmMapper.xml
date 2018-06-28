@@ -76,7 +76,7 @@
      	
      	where  1=1
      	<if test="level!=''">
-     	and a.severity in(
+     	and a.level in(
 		<foreach collection="level" item="id" separator=",">
 			#{id}
 		</foreach>
@@ -118,7 +118,7 @@
      	select count(*) from xhgmnet_eastcom_alarminfo  where  1=1
      	
      	<if test="level!=''">
-     	and severity in(
+     	and level in(
 		<foreach collection="level" item="id" separator=",">
 			#{id}
 		</foreach>
@@ -154,9 +154,9 @@
     <!--警告等级统计 -->
 	<select id="bsAlarmLevelChart" resultType="java.util.HashMap"
 		useCache="true">
-		select count(id) as value,severity as name from xhgmnet_eastcom_alarminfo where  1=1
+		select count(id) as value,level as name from xhgmnet_eastcom_alarminfo where  level&lt;5 and level>0
 		<if test="level!=''">
-     	and severity in(
+     	and level in(
 		<foreach collection="level" item="id" separator=",">
 			#{id}
 		</foreach>
@@ -172,7 +172,7 @@
      	<if test="startTime!='' and endTime!=''">
      	and time between #{startTime} and #{endTime}
      	</if>
-		group by severity order by severity asc
+		group by name order by name asc
 	</select>  
 	<!--警告类型统计 -->
 	<select id="bsAlarmTypeChart" resultType="java.util.HashMap"
@@ -203,4 +203,30 @@
 	<update id="identifyBsAlarmById" parameterType="java.lang.String">
 		update xhgmnet_bs_alarm set status=1 where id=#{id}
 	</update>
+    <delete id="clear_sf_alarm" >
+     	TRUNCATE TABLE  xhgmnet_sf_bs_alarm
+    </delete>
+    <select id="sf_800m_alarm" useCache="true" resultType="xh.mybatis.bean.Sf800mAlarmBean">
+      select * from v_jz_gz_fx
+    </select>
+    <select id="sf_order_alarm" useCache="true" resultType="xh.mybatis.bean.Sf800mAlarmBean">
+      select * from xhgmnet_sf_bs_alarm where `status`!="待处理"
+    </select>
+    <insert id="insert_sf_alarm" parameterType="java.util.List">
+     insert into  xhgmnet_sf_bs_alarm(bsId,zbdlmc,czzbmc,czzbfw,value,clcs,zbdldm,status,time)values
+     <foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.bsId},
+			#{item.zbdlmc},
+			#{item.czzbmc},
+			#{item.czzbfw},
+			#{item.value},
+			#{item.clcs},
+			#{item.zbdldm},
+			#{item.status},
+			#{item.time}
+			)
+		</foreach>
+    </insert>
+	
 </mapper>

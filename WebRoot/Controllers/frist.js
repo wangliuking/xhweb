@@ -60,30 +60,34 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.roleType  = response.roleType;
 		});
-$scope.duty=function(){
-	$http.get("onduty/onduty").success(
+       $scope.duty=function(){
+	   $http.get("onduty/onduty").success(
 			function(response) {
 				$scope.dataOne = response.one;
 				$scope.dataTwo = response.two;
 				$scope.dataThree = response.three;
 			});
 }
-		$http.get("access/list").
-		success(function(response){
-			var data = response.items;
-			var totals = response.totals;
-			var a=0,b=0;
-			for(var i=0;i<totals;i++){
-				if(data[i].status==1){
-					a++;
-				}else{
-					b++;
-				}
-			}
-			xh.waterstatus(1,totals);
-			xh.waterstatus(2,a);	
-			xh.waterstatus(3,b);	
-		});
+       $scope.water=function(){
+    	   $http.get("access/list").
+   		success(function(response){
+   			var data = response.items;
+   			var totals = response.totals;
+   			var app=response.app;
+   			var a=0,b=0;
+   			for(var i=0;i<totals;i++){
+   				if(data[i].status==1){
+   					a++;
+   				}else{
+   					b++;
+   				}
+   			}
+   			xh.waterstatus(1,app);
+   			xh.waterstatus(2,a);	
+   			xh.waterstatus(3,b);	
+   		});
+       }
+		
 		
 		$scope.updateDuty=function(){
 			$.ajax({
@@ -137,7 +141,7 @@ $scope.duty=function(){
 		
 		
 	/*	xh.call();*/
-		
+		 $scope.water();
 		xh.callInfo();
 		$scope.info();
 		
@@ -145,6 +149,7 @@ $scope.duty=function(){
 			xh.callInfo();
 			$scope.info();
 			$scope.duty();
+			 $scope.water();
 			//$scope.updateDuty();
 		}, 20000)
 

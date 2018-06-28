@@ -316,7 +316,7 @@ blockquote small {
 }
 
 #top-menu .tm-icon > a {
-    padding: 0 8px 0 0;
+    padding: 0 4px 0 0;
     white-space: nowrap;
     height:50px;
     float: left;
@@ -331,14 +331,14 @@ blockquote small {
 }
 
 #top-menu .tm-icon span {
-    width: 0px;
+    
     float: left;
     overflow: hidden;
     line-height: 48px;
 }
 
 #top-menu .tm-icon:hover span, #top-menu .tm-icon.open span, .drawer-toggle.open span {
-    width: 70px !important;
+    /* width: 70px !important; */
 }
 
 #top-menu .tm-icon:hover, #top-menu .tm-icon.open {

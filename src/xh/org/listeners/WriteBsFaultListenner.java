@@ -38,9 +38,9 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new BsFault(), 10000, 1000*5*60);
+			timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
 			log4j.info("=========================================");
-			log4j.info("基站断站故障实时写入开始");
+			log4j.info("大数据分析告警写入开始");
 			log4j.info("=========================================");
 			timer.scheduleAtFixedRate(new EmhEpsWater(), 25000, 1000*60*3);
 			log4j.info("=========================================");
@@ -51,7 +51,7 @@ public class WriteBsFaultListenner implements ServletContextListener{
 	}
 
 }
-class BsFault extends TimerTask{
+/*class BsFault extends TimerTask{
 	protected final Log log4j = LogFactory.getLog(BsFault.class);
 	@Override
 	public void run() {
@@ -72,7 +72,7 @@ class BsFault extends TimerTask{
 			}else{
 				bean.setBsId(bean.getBsId());
 			}
-			/*bean.setReason("断站");*/
+			bean.setReason("断站");
 			
 			BsAlarmService.addBsFault(bean);
 			
@@ -93,7 +93,7 @@ class BsFault extends TimerTask{
 		}
 	}
 	
-}
+}*/
 //四期交流电告警
 class EmhEpsWater extends TimerTask{
 	protected final Log log4j = LogFactory.getLog( EmhEpsWater.class);
@@ -111,6 +111,22 @@ class EmhEpsWater extends TimerTask{
 		log4j.info("=========================================");
 		log4j.info("EmhEpsWater：end:"+(System.currentTimeMillis()-start2));
 		log4j.info("=========================================");
+		
+	}
+	
+}
+//四方伟业告警
+class SfAlarm extends TimerTask{
+	protected final Log log4j = LogFactory.getLog( EmhEpsWater.class);
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		Long start=System.currentTimeMillis();
+		
+		BsAlarmService.insert_sf_alarm();
+		System.out.println("=========================================");
+		System.out.println("大数据分析告警写入：end:"+(System.currentTimeMillis()-start)+"ms");
+		System.out.println("=========================================");
 		
 	}
 	

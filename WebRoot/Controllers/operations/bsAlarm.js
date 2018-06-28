@@ -50,6 +50,7 @@ xh.load = function() {
 		//加载故障等级统计图
 		xh.loadbsAlarmTypePie();
 		xh.bsBar();
+		xh.maskShow();
 		var startTime=$("input[name='startTime']").val();
 		var endTime=$("input[name='endTime']").val();
 		var level_value =[],type_value=[],category_value=[],status_value=[]; 
@@ -68,6 +69,7 @@ xh.load = function() {
 		$http.get("../../bsAlarm/list?start=0&limit=" + pageSize+"&type="+type_value.join(",")+
 				"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 				function(response) {
+					xh.maskHide();
 					$scope.data = response.data;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
@@ -109,6 +111,7 @@ xh.load = function() {
 		}*/
 		/* 查询历史告警数据 */
 		$scope.search = function(page) {
+			xh.maskShow();
 			var pageSize = $("#page-limit").val();
 			var startTime=$("input[name='startTime']").val();
 			var endTime=$("input[name='endTime']").val();
@@ -139,6 +142,7 @@ xh.load = function() {
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
 					"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(
 					function(response) {
+						xh.maskHide();
 						$scope.data = response.data;
 						$scope.totals = response.totals;
 						xh.pagging(page, parseInt($scope.totals), $scope);
@@ -188,6 +192,7 @@ xh.load = function() {
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
+			xh.maskShow();
 			var pageSize = $("#page-limit").val();
 			var startTime=$("input[name='startTime']").val();
 			var endTime=$("input[name='endTime']").val();
@@ -215,7 +220,7 @@ xh.load = function() {
 			
 			$http.get("../../bsAlarm/list?start="+start+"&limit=" + pageSize+"&type="+type_value.join(",")+
 					"&level="+level_value.join(",")+"&category="+category_value.join(",")+"&status="+status_value.join(",")+"&startTime="+startTime+"&endTime="+endTime).success(function(response) {
-						
+						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;
 						$scope.lastIndex = page * pageSize;
 						if (page == totalPages) {
@@ -238,12 +243,16 @@ xh.load = function() {
 		}
 		//xh.search_time();
 		/*$scope.alarmType();*/
-		$('input[name="level"]').on('click',function(){ 
+		$scope.ss=function(){
 			$scope.search(1);
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
-		});
-		$('input[name="type"]').on('click',function(){ 
+			$("#search").modal("hide");
+		}
+		/*$('input[name="level"]').on('click',function(){ 
+			
+		});*/
+	/*	$('input[name="type"]').on('click',function(){ 
 			$scope.search(1);
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
@@ -267,13 +276,13 @@ xh.load = function() {
 			$scope.search(1);
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
-		});
+		});*/
 		
-		setInterval(function(){
+		/*setInterval(function(){
 			$scope.search($scope.page);
 			xh.bsBar();
 			xh.loadbsAlarmTypePie();
-		}, 10000)
+		}, 30000)*/
 	});
 };
 

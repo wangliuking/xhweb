@@ -456,7 +456,9 @@
 	<!--基站区域话务TOP统计数据 -->
 	<select id="chart_bs_zone_top10_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select sum(x.TotalActiveCalls) as TotalActiveCalls,
+		select 
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as TotalActiveCalls,
 		sum(x.TotalActiveCallDuration) as
 		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as

@@ -2,6 +2,7 @@ package xh.mybatis.service;
  
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsJiFourBean;
+import xh.mybatis.bean.Sf800mAlarmBean;
 import xh.mybatis.mapper.BsAlarmMapper;
 import xh.mybatis.mapper.UserStatusMapper;
 import xh.mybatis.tools.DbTools;
@@ -229,6 +231,7 @@ public class BsAlarmService {
 			}
 			
 			sqlSession.close();
+			list=null;
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -258,11 +261,88 @@ public class BsAlarmService {
 				}
 			}			
 			sqlSession.close();
+			list=null;
+			bean=null;
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public static int clear_sf_alarm() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int rs=-1;
+		
+		try {
+			rs=mapper.clear_sf_alarm();
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static List<Sf800mAlarmBean> sf_800m_alarm() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sf800M);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<Sf800mAlarmBean> list=new ArrayList<Sf800mAlarmBean>();
+		
+		try {
+			list=mapper.sf_800m_alarm();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Sf800mAlarmBean> sf_order_alarm() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<Sf800mAlarmBean> list=new ArrayList<Sf800mAlarmBean>();
+		
+		try {
+			list=mapper.sf_order_alarm();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static void insert_sf_alarm() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<Sf800mAlarmBean> orderlist=sf_order_alarm();
+		List<Sf800mAlarmBean> order800m=sf_800m_alarm();
+		for (Sf800mAlarmBean order : orderlist) {
+			for (Sf800mAlarmBean order2 : order800m) {
+				if(order2.getBsId()==order.getBsId() && order2.getZbdldm().equals(order.getZbdldm())){
+					order2.setTime(order.getTime());
+					order2.setStatus(order.getStatus());
+				}
+			}	
+		}
+		
+		System.out.println("sf-alarm number->"+order800m.size());
+		
+		if(clear_sf_alarm()>=0){
+			try {
+				mapper.insert_sf_alarm(order800m);
+				sqlSession.commit();
+				sqlSession.close();
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 }

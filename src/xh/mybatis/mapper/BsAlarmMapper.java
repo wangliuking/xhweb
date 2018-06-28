@@ -7,6 +7,7 @@ import java.util.Map;
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsJiFourBean;
+import xh.mybatis.bean.Sf800mAlarmBean;
 
 public interface BsAlarmMapper {
 	/**
@@ -64,4 +65,14 @@ public interface BsAlarmMapper {
 	 * @return
 	 */
 	public void identifyBsAlarmById(String id);
+	
+	
+	
+	public int clear_sf_alarm() throws Exception;
+	
+	public List<Sf800mAlarmBean> sf_800m_alarm() throws Exception;
+	
+	public List<Sf800mAlarmBean> sf_order_alarm() throws Exception;
+	public int insert_sf_alarm(List<Sf800mAlarmBean> list) throws Exception;
+	
 }
