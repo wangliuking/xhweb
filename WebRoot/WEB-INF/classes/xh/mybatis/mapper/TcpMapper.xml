@@ -79,4 +79,26 @@
 		and dstId=100267 ORDER BY infoTime DESC) as gpsTable GROUP BY srcId
 	</select>
 	
+	<!-- 查询所有基站信息 -->
+	<select id="selectForAllBsList" resultType="map">
+		select bsid,name as bsname,lat as latitude,lng as longitude,address from xhgmnet_bs_station where lat!=0 and lng!=0 and lat is not null and lng is not null
+	</select>
+	
+	<!-- 插入在线用户的位置信息 -->
+	<insert id="appInsertGpsInfoUp" parameterType="map">
+		insert into xhgmnet_app_location(userId,name,lat,lng,address) values(#{userId},#{name},#{lat},#{lng},#{address})
+	</insert>
+	
+	<!-- 查询所有在线用户的最新位置信息 -->
+	<select id="selectForAllAppLocation" parameterType="List" resultType="map">
+		select a.userId as userid,name,lat as latitude,lng as longitude,address from xhgmnet_app_location  as a JOIN (
+		select userId,MAX(uploadTime) uploadTime from xhgmnet_app_location WHERE
+		userId in (
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		) GROUP BY userId) b on a.userId=b.userId and a.uploadTime=b.uploadTime
+	</select>
+	
 </mapper>
