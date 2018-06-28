@@ -58,6 +58,28 @@ xh.load = function() {
 				$scope.alarm=response.items;
 				$scope.totals=response.totals;
 				$("#alarmcount").html($scope.totals);
+				$scope.a_bs=[],$scope.a_ji=[],$scope.a_w=[],$scope.a_msc=[];
+				for(var i=0,j=response.totals;i<j;i++){
+					if(response.items[i].bsId!=null && response.items[i].link==1){
+						$scope.a_bs.push(response.items[i])
+					}
+					if(response.items[i].bsId!=null && response.items[i].link==null){
+						if(response.items[i].deviceId=='170300000000001' ||(response.items[i].deviceId==null && response.items[i].DevNode=='0011')){
+							$scope.a_w.push(response.items[i])
+						}
+						if(response.items[i].deviceId=='080200000000001' ||(response.items[i].deviceId==null && response.items[i].DevNode=='0051')){
+							$scope.a_ji.push(response.items[i])
+						}
+					}
+					if(response.items[i].bsId==null){
+						$scope.a_msc.push(response.items[i])
+					}
+				}
+				$scope.count_bs=$scope.a_bs.length
+				$scope.count_ji=$scope.a_ji.length
+				$scope.count_w=$scope.a_w.length
+				$scope.count_msc=$scope.a_msc.length
+				
 			
 			});
 		}

@@ -24,9 +24,13 @@
 					data-toggle="dropdown" ng-if="loginUserVpnId==null || loginUserVpnId=='' || roleId==10000"> <i
 					class="fa fa-bell-o fa-x font-white"
 					style="font-size:15pt;margin-top:15px;float: left;font-weight: 100; "></i> <i
-					class="n-count animated" id="alarmcount">0</i> <span style="margin-left:10px;">告警提示</span>
+					class="n-count animated" id="alarmcount">0</i> <span style="margin-left:10px;">告警</span>
+					
+					
+					
 				</a>
-				<div class="dropdown-menu hdropdown animated flipInX ">
+				<div class="dropdown-menu hdropdown animated  bounceInUp  ">
+	
 						<div class="row" style="max-height:400px;overflow: auto;">
 
 							<div class="col-md-12">
@@ -106,7 +110,7 @@
 				<a href="Views/operations/order.html" target="mainframe" ng-if="loginUserVpnId==null || loginUserVpnId=='' || roleId==10002 || roleId==10000"> <i
 					class="fa fa-paper-plane-o  font-white"
 					style="font-size:15pt;margin-top:15px;float: left;"></i> <i
-					class="n-count animated" id="ordercount">0</i> <span style="margin-left:10px;">故障派单</span>
+					class="n-count animated" id="ordercount">0</i> <span style="margin-left:10px;">派单列表</span>
 				</a>
 			</div>
 			<div class="dropdown pull-left tm-icon">
@@ -187,6 +191,9 @@
 		},
 		error : function() {
 		}
+	});
+	$('.dropdown-menu').click(function(e) {
+	    e.stopPropagation();
 	});
 	
 	function dd(){

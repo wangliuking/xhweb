@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.standard.Severity;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +15,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.tcpServer.ServerDemo;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -55,6 +58,7 @@ public class AccessUserController {
 		result.put("success", success);
 		result.put("totals",AccessUserService.accessUserList().size());
 		result.put("items", AccessUserService.accessUserList());
+		result.put("app", ServerDemo.mThreadList.size());
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
 		try {

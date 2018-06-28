@@ -242,6 +242,10 @@ xh.order=function(){
 		toastr.error("故障类型,等级不能为空", '提示');
 		return;
 	}
+	if($("div[name='dispatchman']").text()==""){
+		toastr.error("派单人不能为空", '提示');
+		return;
+	}
 	var formData={
 		id:$("div[name='id']").text()==""?0:$("div[name='id']").text(),
 		from:$("span[name='from']").text(),

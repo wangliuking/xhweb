@@ -77,6 +77,7 @@ public class MoreDbTools {
         emh,
         sqlServer,
         mysqlDb,
+        sf800M,
         eastcom;  
     } 
     /**

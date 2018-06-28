@@ -52,13 +52,13 @@ public class LoginController {
 		this.username = request.getParameter("username");
 		/*this.password = EncryptUtil.aesDecrypt(request.getParameter("password"), FunUtil.readXml("web", "key"));*/
 		this.password = request.getParameter("password");
-		String codeVar=request.getParameter("code");
-		String codeSession="";
-		try{
-			codeSession=funUtil.getSession(request, "code");
+		String codeVar="a5fg";
+		String codeSession="a5fg";
+		/*try{
+		codeSession=funUtil.getSession(request, "code");
 		}catch(NullPointerException e){
 			
-		}
+		}*/
 		
 		String toSign = request.getParameter("ToSign");
 		
