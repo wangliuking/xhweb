@@ -39,7 +39,7 @@ public class ADataController {
 	 */
 	@RequestMapping("/startById")
 	public void oneBsInfo(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;		
+		this.success=true;
 		String bsId = request.getParameter("bsId");
 		String window = request.getParameter("window");
 		Map<String, Object> map = new HashMap<String,Object>();

@@ -44,7 +44,7 @@ public class TestFFmpegForWeb {
 		map.put("fmt", "flv");
 		map.put("fps", "25");
 		map.put("rs", window);
-		map.put("twoPart", "2");
+		map.put("twoPart", "1");
 		// 执行任务，id就是appName，如果执行失败返回为null
 		String str = new String();
 		str = manager.start(map);
