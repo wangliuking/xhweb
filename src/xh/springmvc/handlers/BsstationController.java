@@ -56,11 +56,17 @@ public class BsstationController {
 		this.success=true;
 		String bsId=request.getParameter("bsId");
 		String name=request.getParameter("name");
+		int type=Integer.parseInt(request.getParameter("type"));
+		int level=Integer.parseInt(request.getParameter("level"));
+		String zone=request.getParameter("zone");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("bsId", bsId);
 		map.put("name", name);
+		map.put("type", type);
+		map.put("level", level);
+		map.put("zone", zone);
 		map.put("start", start);
 		map.put("limit", limit);
 		

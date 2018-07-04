@@ -62,17 +62,16 @@
 						</div>
 						<div class="panel-body">
 							<ul class="mailbox-list" style="height:200px;">
-								<li class="active"><a
-									href="bsInfo.html" target="_self"><i
+								<li class="active"><a href="bsInfo.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>基站配置</a></li>
-                                <li><a href="bslimit.html" target="_self"><i
+								<li><a href="bslimit.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>基站限制列表</a></li>
 								<li><a href="roadInfo.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>路测记录</a></li>
 								<li><a href="onduty.html" target="_self"><i
 										class="fa fa-sitemap text-success"></i>运维值班表</a></li>
 								<li><a href="contacts.html" target="_self"><i
-									class="fa fa-sitemap text-success"></i>联系人</a></li>
+										class="fa fa-sitemap text-success"></i>联系人</a></li>
 
 							</ul>
 						</div>
@@ -104,6 +103,41 @@
 														placeholder="基站名称">
 												</div>
 											</div>
+											<div class="form-group">
+												<label for="name">基站类型</label>
+												<div>
+													<select class="form-control" name="type">
+														<option value="-1" selected="selected">=所有类型=</option>
+														<option value="0">固定基站</option>
+														<option value="1">室分信源</option>
+														<option value="2">应急站</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="name">基站级别</label>
+												<div>
+													<select class="form-control" name="level">
+														<option value="-1" selected="selected">=所有级别=</option>
+														<option value="1">一级基站</option>
+														<option value="2">二级基站</option>
+														<option value="3">三级基站</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label>基站区域:</label>
+												<div>
+													<select ng-model="zone"
+														ng-options="x.zone as x.zone for x in zoneData"
+														class="form-control">
+														<option value="">==全部==</option>
+													</select>
+
+												</div>
+											</div>
+
+
 											<div class="form-group">
 												<div class="col-sm-offset-2" style="padding-top:22px">
 													<button type="submit" class="btn btn-sm btn-success"
@@ -137,15 +171,18 @@
 
 
 										<button class="btn btn-success btn-sm" data-toggle="modal"
-											data-target="#add" ng-disabled="up.o_add=='off'?true:false" style="margin-top:5px;">
+											data-target="#add" ng-disabled="up.o_add=='off'?true:false"
+											style="margin-top:5px;">
 											<i class="fa fa-plus-circle"></i>&nbsp;添加基站
 										</button>
-										<button class="btn btn-info btn-sm" ng-disabled="up.o_update=='off'?true:false"
+										<button class="btn btn-info btn-sm"
+											ng-disabled="up.o_update=='off'?true:false"
 											ng-click="showEditModel()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;修改基站
 										</button>
 										<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-											ng-disabled="up.o_delete=='off'?true:false" style="margin-top:5px;">
+											ng-disabled="up.o_delete=='off'?true:false"
+											style="margin-top:5px;">
 											<i class="fa fa-trash"></i>&nbsp;批量删除基站
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
@@ -169,14 +206,16 @@
 											<i class="fa fa-edit"></i>&nbsp;传输配置
 										</button>
 										<button class="btn btn-info btn-sm" ng-disabled=""
-											ng-click="showDeviceWin()" style="margin-top:5px;" >
+											ng-click="showDeviceWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;基站设备信息配置
 										</button>
 										<button class="btn btn-success btn-sm" ng-disabled=""
 											ng-click="showHandoverWin()" style="margin-top:5px;">
 											<i class="fa fa-edit"></i>&nbsp;基站切换参数配置
 										</button>
-										<button class="btn btn-success btn-sm"  ng-disabled="up.o_update=='off'?true:false" id="confGis" style="margin-top:5px;" type="submit">
+										<button class="btn btn-success btn-sm"
+											ng-disabled="up.o_update=='off'?true:false" id="confGis"
+											style="margin-top:5px;" type="submit">
 											<i class="fa fa-edit"></i>&nbsp;GIS显示配置
 										</button>
 										<!-- <button class="btn btn-warning btn-sm" ng-click="refresh()">
@@ -229,11 +268,9 @@
 													value="{{x.bsId}}" index="{{$index}}" /></td>
 												<td>{{x.bsId}}</td>
 												<td>{{x.name}}</td>
-												<td>
-												<span ng-if="x.type==0">固定基站</span> 
-												<span ng-if="x.type==1">室分信源</span>
-												<span ng-if="x.type==2">应急站</span>
-													</td>
+												<td><span ng-if="x.type==0">固定基站</span> <span
+													ng-if="x.type==1">室分信源</span> <span ng-if="x.type==2">应急站</span>
+												</td>
 												<td><span ng-if="x.level==1">一级基站</span> <span
 													ng-if="x.level==2">二级基站</span> <span ng-if="x.level==3">三级基站</span>
 
@@ -251,8 +288,10 @@
 													ng-click="showDetailWin($index)"><i
 														class="fa fa-info text-success"></i>&nbsp;详细 </a> <a href="#"
 													ng-click="editModel($index)" data-toggle="modal"
-													data-target="#edit"  ng-if="up.o_update=='on'"> <i class="fa fa-edit text-success"></i>| &nbsp;修改
-												</a> <a href="#" ng-click="delBs(x.bsId)"  ng-if="up.o_delete=='on'"><i
+													data-target="#edit" ng-if="up.o_update=='on'"> <i
+														class="fa fa-edit text-success"></i>| &nbsp;修改
+												</a> <a href="#" ng-click="delBs(x.bsId)"
+													ng-if="up.o_delete=='on'"><i
 														class="fa fa-trash text-success"></i>|&nbsp;删除</a></td>
 											</tr>
 										</tbody>

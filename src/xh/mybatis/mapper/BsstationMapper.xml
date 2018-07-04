@@ -284,6 +284,15 @@
 		<if test="name !=null and name !=''">
 			and name like concat(#{name},'%')
 		</if>
+		<if test="type!=-1">
+			and type=#{type}
+		</if>
+		<if test="level!=-1">
+			and level=#{level}
+		</if>
+		<if test="zone !=null and zone !='' and zone!='null'">
+			and zone=#{zone}
+		</if>
 		order by bsId asc limit #{start},#{limit}
 	</select>
 	<!--根据基站ID，名称查找基站记录总数 -->
@@ -295,6 +304,15 @@
 		</if>
 		<if test="name!=null and name!=''">
 			and name like concat(#{name},'%')
+		</if>
+		<if test="type!=-1">
+			and type=#{type}
+		</if>
+		<if test="level!=-1">
+			and level=#{level}
+		</if>
+		<if test="zone !=null and zone !='' and zone!='null'">
+			and zone=#{zone}
 		</if>
 	</select>
 
