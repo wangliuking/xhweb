@@ -27,10 +27,12 @@ public class MyWebSocketInterceptor implements HandshakeInterceptor{
 		if (request instanceof ServletServerHttpRequest) {
 			ServletServerHttpRequest servletRequest  = (ServletServerHttpRequest) request;	
 			HttpServletRequest httpRequest = servletRequest.getServletRequest();
+			String bsId = httpRequest.getParameter("bsId");
 			//通过request域获取用户信息
 			HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(httpRequest.getSession().getId());
 			//把用户名存入WebSocketSession，后续可以调用方法获取websocket会话的用户名
 			attributes.put("userName",tempMap.get("userName"));
+			attributes.put("bsId",bsId);
 		}
 		return true;
 	}

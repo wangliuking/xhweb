@@ -65,24 +65,24 @@ xh.org.listeners.SingLoginListener
 </listener-class>   
 </listener>
 <!-- 基站故障自动写入 -->
-<!--  <listener>   
+<listener>   
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   
-</listener> -->
+</listener>
 
 <!--定时获取东信基站话务统计 -->
-<!-- <listener>   
+<listener>   
 <listener-class>   
 xh.org.listeners.GetEastCallDataListenner  
 </listener-class>   
-</listener> -->
+</listener>
 
-<!-- <listener>   
+<listener>   
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
 </listener-class>   
-</listener> -->
+</listener>
 
 <!-- 启动定时器，定时获取动环数据-->
 <!-- <listener>

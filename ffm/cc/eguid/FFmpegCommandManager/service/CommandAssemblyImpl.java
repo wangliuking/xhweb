@@ -23,7 +23,7 @@ public class CommandAssemblyImpl implements  CommandAssembly{
 			if (paramMap.containsKey("ffmpegPath")) {
 				String ffmpegPath = (String) paramMap.get("ffmpegPath");
 				// -i：输入流地址或者文件绝对地址
-				StringBuilder comm = new StringBuilder(ffmpegPath + " -i ");
+				StringBuilder comm = new StringBuilder(ffmpegPath + " -rtsp_transport tcp -i ");
 				// 是否有必输项：输入地址，输出地址，应用名，twoPart：0-推一个元码流；1-推一个自定义推流；2-推两个流（一个是自定义，一个是元码）
 				if (paramMap.containsKey("input") && paramMap.containsKey("output") && paramMap.containsKey("appName")
 						&& paramMap.containsKey("twoPart")) {

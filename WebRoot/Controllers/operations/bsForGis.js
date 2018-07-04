@@ -29,9 +29,12 @@ xh.load = function() {
 	var pageSize = 1000;
 	app.controller("bsForGis", function($scope, $http) {
 		
-		$http.get("../../amap/map/gisView").success(
+		$http.get("../../amap/map/selectForAllVisableStatus").success(
 				function(response) {
-					
+					$scope.selectForAllVisableStatus=response.items;
+					$scope.mapInitStr=response.mapInitStr;
+					console.log("selectForAllVisableStatus : "+$scope.selectForAllVisableStatus);
+					console.log("mapInitStr : "+$scope.mapInitStr);
 				});
 		
 		$scope.selectForArea = function (zone){
@@ -73,6 +76,37 @@ xh.load = function() {
 				}
 			});
 		}
+		
+		//保存参数配置
+		$scope.saveParam=function(){
+			var mapInit=$('.radioTemp input:radio:checked').val();
+			var checkbox=$(".radioList").find("[type='checkbox']");			
+			var listMap=[];
+			for(var i=0;i<checkbox.length;i++){
+				if(checkbox[i].checked==true){
+					var tempMap = {"radioId":checkbox[i].value,"visable":"1"};
+					listMap.push(tempMap);
+				}else{
+					var tempMap = {"radioId":checkbox[i].value,"visable":"0"};
+					listMap.push(tempMap);
+				}
+			}	
+			console.log("mapInit : "+mapInit);
+			$.ajax({
+				url : '../../amap/map/saveForAllVisable?mapInit='+mapInit,
+				type : 'post',
+				dataType : "json",
+				contentType: "application/json",
+				data : JSON.stringify(listMap),
+				success : function(data) {
+					toastr.success("配置成功", '提示');					
+				},
+				error : function() {
+					toastr.error("配置失败", '提示');
+				}
+			});
+		}
+		
 	});
 	
 	// 使用ajax获取后台所有基站数据

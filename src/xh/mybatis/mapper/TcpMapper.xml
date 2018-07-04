@@ -74,10 +74,53 @@
 	</insert>
 	
 	<!-- 查询最近一分钟手台gps信息 -->
-	<select id="selectForGpsDst" resultType="map">
+	<select id="selectForGpsDst" resultType="map" parameterType="map">
 		select srcId,longitude,latitude from (select * from ${currentMonth} where infoTime > DATE_SUB(NOW(),INTERVAL 1 MINUTE) 
-		and dstId=100267 ORDER BY infoTime DESC) as gpsTable GROUP BY srcId
+		and srcId in (
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		) ORDER BY infoTime DESC) as gpsTable GROUP BY srcId
 	</select>
+	
+	<!-- 查询所有需要显示的手台 -->
+	<select id="selectForAllVisable" resultType="String">
+		select radioId from xhgmnet_radio_gis_visable where visable=1
+	</select>
+	
+	<!-- 查询所有手台显示情况 -->
+	<select id="selectForAllVisableStatus" resultType="map">
+		select * from xhgmnet_radio_gis_visable
+	</select>
+	
+	<!-- 更新GIS终端显示情况 -->
+	<update id="saveForAllVisable" parameterType="map">
+        update xhgmnet_radio_gis_visable
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="visable = case" suffix="end,">
+                <foreach collection="listMap" item="item" index="index">
+                     <if test="item.visable !=null and item.visable != -1">
+                         when radioId=#{item.radioId} then #{item.visable}
+                     </if>
+                </foreach>
+            </trim>
+        </trim>
+        where radioId in 
+		<foreach collection="listMap" index="index" item="item" separator="," open="(" close=")">
+            #{item.radioId}
+        </foreach>
+    </update>
+	
+	<!-- 查询该用户的地图初始化信息 -->
+	<select id="selectForMapInitByUser" resultType="String" parameterType="String">
+		select mapInit from xhgmnet_web_user where user=#{userId}
+	</select>
+	
+	<!-- 更新该用户的地图初始化信息 -->
+	<update id="updateForMapInitByUser" parameterType="map">
+		update xhgmnet_web_user set mapInit=#{mapInit} where user=#{userId}
+	</update>
 	
 	<!-- 查询所有基站信息 -->
 	<select id="selectForAllBsList" resultType="map">

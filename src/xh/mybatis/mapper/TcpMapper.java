@@ -63,6 +63,31 @@ public interface TcpMapper {
 	public List<Map<String,String>> selectForGpsDst(Map<String,Object> map)throws Exception;
 	
 	/**
+	 * 查询所有需要显示的srcId
+	 */
+	public List<String> selectForAllVisable()throws Exception;
+	
+	/**
+	 * 查询所有手台显示情况
+	 */
+	public List<Map<String,String>> selectForAllVisableStatus()throws Exception;
+	
+	/**
+	 * 更新终端显示情况
+	 */
+	public int saveForAllVisable(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 更新用户初始化信息
+	 */
+	public int updateForMapInitByUser(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据用户查询GIS初始化信息
+	 */
+	public String selectForMapInitByUser(String userId)throws Exception;
+	
+	/**
 	 * 查询所有基站信息
 	 */
 	public List<Map<String,String>> selectForAllBsList()throws Exception;

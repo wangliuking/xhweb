@@ -43,10 +43,18 @@ public class ADataController {
 		String bsId = request.getParameter("bsId");
 		String window = request.getParameter("window");
 		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("bsId", bsId);
-		List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
-		Map<String, Object> cameraMap = listMap.get(0);
-		cameraMap.put("window", window);
+		Map<String, Object> cameraMap = new HashMap<String,Object>();
+		if(Integer.parseInt(bsId)<2000){
+			map.put("bsId", bsId);
+			List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
+			cameraMap = listMap.get(0);
+			cameraMap.put("window", window);
+		}else{
+			map.put("bsId", bsId);
+			List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByVpn(map);
+			cameraMap = listMap.get(0);
+			cameraMap.put("window", window);
+		}				
 		try {
 			TestFFmpegForWeb.test1(cameraMap);
 			//timer.schedule(new timerTaskForStop(), 3*60*1000);
