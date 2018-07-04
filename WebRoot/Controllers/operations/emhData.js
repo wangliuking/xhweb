@@ -293,6 +293,42 @@ xh.load = function() {
 			 */
 			/* $scope.business(); */
 		}, 20000);
+		
+		
+		//websocket推送代码
+		var  ws;
+		window.onload=connect;
+		function connect(){
+			var ws;
+			var strFullPath=window.document.location.href;
+			var firstArray = strFullPath.split("Views");
+			var firstArrayStart = firstArray[0];
+			var finalArray = firstArrayStart.split("//");
+			console.log("finalArray : "+finalArray[1]);
+			if ('WebSocket' in window) {
+				ws = new WebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId);
+			} else if ('MozWebSocket' in window) {
+				ws = new MozWebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId);
+			} else {
+				//如果是低版本的浏览器，则用SockJS这个对象，对应了后台“sockjs/webSocketServer”这个注册器，
+				//它就是用来兼容低版本浏览器的
+				ws = new SockJS("http://"+finalArray[1]+"xf_oa_new/sockjs/webSocketServer?bsId="+$scope.bsId);
+			}
+			ws.onopen = function (event) {
+				
+			};
+			ws.onmessage = function (event) {
+				//用于接收后台发送的消息
+				alert(event.data);
+				
+			};
+			ws.onerror = function (event) {
+			};
+			ws.onclose = function (event) {
+			}
+		}
+		
 
 	});
+
 };

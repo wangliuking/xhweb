@@ -281,6 +281,30 @@ public class AmapService {
 	}
 	
 	/**
+	 * 更新终端显示情况
+	 */
+	public int saveForAllVisable(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=session.getMapper(TcpMapper.class);
+		int count = mapper.saveForAllVisable(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
+	
+	/**
+	 * 更新用户初始化信息
+	 */
+	public int updateForMapInitByUser(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=session.getMapper(TcpMapper.class);
+		int count = mapper.updateForMapInitByUser(map);
+	        session.commit();  
+	        session.close();
+	        return count;   
+	}
+	
+	/**
 	 * 获取dst数据
 	 */
 	public static List<Map<String,String>> dstData(Map<String,Object> map){
@@ -297,5 +321,55 @@ public class AmapService {
 		return list;
 	}
 	
+	/**
+	 * 查询需要显示的终端手台
+	 */
+	public static List<String> srcVisable(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		List<String> list = null;
+		try{
+			list = mapper.selectForAllVisable();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 查询所有手台信息
+	 */
+	public static List<Map<String,String>> selectForAllVisableStatus(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		List<Map<String,String>> list = null;
+		try{
+			list = mapper.selectForAllVisableStatus();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据用户查询GIS初始化信息
+	 */
+	public static String selectForMapInitByUser(String userId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		String str = "";
+		try{
+			str = mapper.selectForMapInitByUser(userId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return str;
+	}
 
 }

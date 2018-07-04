@@ -184,9 +184,15 @@
 		(select * from xhgmnet_emh_sensor_alarm GROUP BY serialNo) as a GROUP BY alarmlevel
 	</select>
 	
-	<!-- 根据基站id查询摄像头IP -->
+	<!-- 根据基站id查询摄像头IP(非简阳) -->
 	<select id="selectCameraIpByBsId" parameterType="map" resultType="map">
 		select * from xhgmnet_emh_nvrchannels where bsId=#{bsId}
+	</select>
+	<!-- 根据基站id查询摄像头IP(简阳基站) -->
+	<select id="selectCameraIpByVpn" parameterType="map" resultType="map">
+		select bsId,name,online,c.fsuIp as deviceIP,loginName,password,ch from xhgmnet_emh_nvrchannels as n LEFT JOIN
+		(select b.siteId,b.siteName,a.fsuIp from xhgmnet_emh_login as a LEFT JOIN (select * from xhgmnet_emh_config GROUP BY fsuId) as b 
+		on a.fsuId=b.fsuId where b.siteId>2001 ORDER BY b.siteId) as c on n.bsId=c.siteId where n.bsId=#{bsId}
 	</select>
 	
 	<!-- 更新简阳无线传输的vpnIp -->
