@@ -15,7 +15,7 @@
 	<!--查询基站下的注册终端总数 -->
 	<select id="oneBsRadioCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId} and and regStatus in(1,2,3)
+		select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId} and regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
 		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
 		</if>

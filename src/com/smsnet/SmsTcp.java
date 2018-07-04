@@ -21,6 +21,7 @@ import java.util.TimerTask;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 import xh.func.plugin.FunUtil;
 
 
@@ -51,8 +52,8 @@ public class SmsTcp extends Thread {
 	public void connect() {
 		if (socket == null || socket.isClosed() || !socket.isConnected()) {
 			socket = new Socket();
-			ip = func.readXml("sms", "ip");
-			port = Integer.parseInt(func.readXml("sms", "port"));
+			ip = func.readXml("smsnet", "ip");
+			port = Integer.parseInt(func.readXml("smsnet", "port"));
 			InetSocketAddress addr = new InetSocketAddress(ip, port);
 			try {
 				socket.connect(addr, timeout);
@@ -100,7 +101,8 @@ public class SmsTcp extends Thread {
 					//Timer timer = new Timer();
 					if (timer==null) {
 						timer=new Timer();
-						timer.schedule(new AlarmSms(), 2000, 10*1000);
+						//timer.schedule(new AlarmSms(), 2000, 10*1000);
+						timer.scheduleAtFixedRate(new HeartBeat() ,2000,1000*50);
 						//timer.schedule(new HeartBeat(), 1000, 60*1000);
 					}
 					
@@ -219,6 +221,29 @@ public class SmsTcp extends Thread {
 
 }
 
+class HeartBeat extends TimerTask {
+	private Socket socket = null; 
+	private SendSms sendSms=new SendSms();
+	protected final Log log = LogFactory.getLog(HeartBeat.class);
+	
+
+	public HeartBeat() {
+
+	}
+
+	public void run() {
+		try {
+			if (SmsTcp.getSocket().isConnected()) {
+				sendSms.sendAt("AT+csq\r\n");
+				}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			e.getMessage();
+			log.error("没有建立短信网关tcp连接");
+		}
+	
+	}
+}
 
 class AlarmSms extends TimerTask {
 	private Socket socket = null; 

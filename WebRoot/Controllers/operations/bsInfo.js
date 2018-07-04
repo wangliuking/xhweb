@@ -24,9 +24,6 @@ toastr.options = {
 var appElement = document.querySelector('[ng-controller=bs]');
 xh.load = function() {
 	var app = angular.module("app", []);
-	var bsId = $("#bsId").val();
-	var name = $("#name").val();
-	var pageSize = $("#page-limit").val();
 	app.directive('stringData', function(){
 	  return {
 	    require: 'ngModel',
@@ -62,8 +59,13 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.page=1;
-		$scope.operationMenu=true; //菜单变色
-		$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start=0&limit="+pageSize).
+		$scope.zone="";
+		var bsId = $("#bsId").val();
+		var name = $("#name").val();
+		var pageSize = $("#page-limit").val();
+		var type=$("select[name='type']").val();
+		var level=$("select[name='level']").val();
+		$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&type="+type+"&level="+level+"&zone="+$scope.zone+"&start=0&limit="+pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -75,6 +77,10 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
+		$http.get("../../bs/map/area").success(
+				function(response) {
+					$scope.zoneData = response.items;
+				});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$("#bsId").val("");
@@ -331,6 +337,8 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var bsId = $("#bsId").val();
 			var name = $("#name").val();
+			var type=$("select[name='type']").val();
+			var level=$("select[name='level']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -342,7 +350,7 @@ xh.load = function() {
 			}
 			$scope.page=page;
 			xh.maskShow();
-			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+limit).
+			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&type="+type+"&level="+level+"&zone="+$scope.zone+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -560,6 +568,8 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var bsId = $("#bsId").val();
 			var name = $("#name").val();
+			var type=$("select[name='type']").val();
+			var level=$("select[name='level']").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -569,7 +579,7 @@ xh.load = function() {
 			}
 			$scope.page=page;
 			xh.maskShow();
-			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&start="+start+"&limit="+pageSize).
+			$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&type="+type+"&level="+level+"&zone="+$scope.zone+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

@@ -122,11 +122,15 @@ xh.org.listeners.TcpServerListenner
 
 
 <!--ucm TCP长连接 -->
-<!--<listener>-->
-  <!--<description> socket 长连接 </description>-->
-  <!--<listener-class>xh.org.listeners.TcpClientListenner</listener-class>-->
-<!--</listener>-->
+<listener>
+ <description> socket 长连接 </description>
+ <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
+</listener>
 <!--emh TCP长连接end -->
+<!--  <listener>
+  <description>sms TCP长连接 </description>
+    <listener-class>com.smsnet.SmsTcpListener</listener-class>
+ </listener> -->
 
 <!-- ping调度台线程 -->
 <!-- <listener>

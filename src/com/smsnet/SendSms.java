@@ -49,7 +49,7 @@ public class SendSms {
 		//System.out.println("content:===="+ContentStr(sms.getMessage()));
 		String message=pnumber(sms.getPhoneNumber())+ContentStr(sms.getMessage());
 		int len=message.length()/2;
-		message=centerNum(func.readXml("sms", "number"))+message;
+		message=centerNum(func.readXml("smsnet", "number"))+message;
 		//System.out.println(message);
 		String step2="AT+CMGS="+String.valueOf(len)+"\r";
 		try {
