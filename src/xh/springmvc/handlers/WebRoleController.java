@@ -106,6 +106,33 @@ public class WebRoleController {
 		bean.setRole(role);
 		bean.setParentId(userbean.getRoleId());
 		bean.setCreateTime(createTime);
+		String checked="checked6";
+		switch (roleType) {
+		case 0:
+			checked="checked";
+			break;
+		case 1:
+			checked="checked1";
+			break;
+		case 2:
+			checked="checked2";
+			break;
+		case 3:
+			checked="checked3";
+			break;
+		case 4:
+			checked="checked4";
+			break;
+		case 5:
+			checked="checked5";
+			break;
+		case 6:
+			checked="checked6";
+			break;
+		default:
+			checked="checked6";
+			break;
+		}
 		int flag=WebRoleService.addRole(bean);
 		if (flag==0) {						
 			webLogBean.setOperator(funUtil.loginUser(request));
@@ -115,21 +142,24 @@ public class WebRoleController {
 			WebLogService.writeLog(webLogBean);
 			WebRoleBean roleBean=WebRoleService.roleOne(String.valueOf(roleId));
 			Map<String,Object> map=new HashMap<String, Object>();
+
+			map.put("roleType", roleBean.getRoleType());
+			map.put("checkedstr", checked);
 			map.put("roleId", roleId);
 			map.put("parentId", roleBean.getParentId());
 			log.info("add group->"+map);
 			if(MenuService.menuExistsByParentId(map)==0){	
 				log.info("add group  parent menu   is not have->"+map);
 				if(MenuService.menuExists(map)==0){
-					log.info("add group  parent menu 1->"+map);
-					MenuService.addMenu();
+					log.info("add group  parent menu 1->"+map);					
+					MenuService.addMenu(map);
 					MenuService.updateMenuRoleId(roleId);
 				}
 			}else{
 				log.info("add group  parent menu  is have->"+map);
 				if(MenuService.menuExists(map)==0){
 					log.info("add group  parent menu 2->"+map);
-					MenuService.addParentMenu(String.valueOf(roleBean.getParentId()));
+					MenuService.addParentMenu(map);
 					MenuService.updateMenuRoleId(roleId);
 				}else{
 					
@@ -178,6 +208,33 @@ public class WebRoleController {
 		bean.setRole(role);
 		bean.setParentId(Integer.parseInt(parentId));
 		bean.setCreateTime(createTime);
+		String checked="checked6";
+		switch (roleType) {
+		case 0:
+			checked="checked";
+			break;
+		case 1:
+			checked="checked1";
+			break;
+		case 2:
+			checked="checked2";
+			break;
+		case 3:
+			checked="checked3";
+			break;
+		case 4:
+			checked="checked4";
+			break;
+		case 5:
+			checked="checked5";
+			break;
+		case 6:
+			checked="checked6";
+			break;
+		default:
+			checked="checked6";
+			break;
+		}
 		int flag=WebRoleService.updateByroleId(bean);
 		WebRoleBean roleBean=WebRoleService.roleOne(roleId);
 		if (flag==1) {
@@ -191,16 +248,18 @@ public class WebRoleController {
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("roleId", roleBean.getRoleId());
 			map.put("parentId", roleBean.getParentId());
+			map.put("roleType", roleBean.getRoleType());
+			map.put("checkedstr", checked);
 			
 
 			if(MenuService.menuExistsByParentId(map)==0){			
 				if(MenuService.menuExists(map)==0){
-					MenuService.addMenu();
+					MenuService.addMenu(map);
 					MenuService.updateMenuRoleId(Integer.parseInt(roleId));
 				}
 			}else{
 				if(MenuService.menuExists(map)==0){
-					MenuService.addParentMenu(String.valueOf(roleBean.getParentId()));
+					MenuService.addParentMenu(map);
 					MenuService.updateMenuRoleId(Integer.parseInt(roleId));
 				}else{
 					

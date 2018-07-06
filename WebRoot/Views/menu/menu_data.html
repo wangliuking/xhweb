@@ -19,7 +19,7 @@
 
 </head>
 
-<body class="fixed-iframe">
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
 	<!-- splash screen-->
 	<div class="splash">
 		<!-- <div class="color-line"></div> -->
@@ -50,7 +50,7 @@
 			</div>
 		</div> -->
 		<div class="content animate-panel" style="margin-top:0px">
-			<div class="row">
+			<div class="row" ng-show="menu.m_321">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -89,7 +89,7 @@
 				</div>
 			</div>
 			<!-- row -->
-			<div class="row" style="margin-bottom:0px;">
+			<div class="row" style="margin-bottom:0px;" ng-show="menu.m_322">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -145,7 +145,7 @@
 				</div>
 			</div>
 			<!-- row -->
-			<div class="row">
+			<div class="row" ng-show="menu.m_323">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -192,9 +192,11 @@
 		</div>
 	</div>
 	<!-- 中间内容体 /-->
-
-	<script type="text/javascript"
+<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-
+<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
 </body>
 </html>

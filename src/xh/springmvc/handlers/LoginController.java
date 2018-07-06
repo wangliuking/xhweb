@@ -28,6 +28,7 @@ import xh.mybatis.bean.GlobalVarBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.DataBaseUtilService;
+import xh.mybatis.service.MenuService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebRoleService;
 import xh.mybatis.service.WebUserServices;
@@ -76,6 +77,7 @@ public class LoginController {
 		String projectId = "yjyypt";
 		String reqId = "1";
 		String code="200";
+		String url="../index.html";
 		//!username.equals("admin")
 		
 		/*if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
@@ -107,8 +109,14 @@ public class LoginController {
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
 					this.message = "登录系统成功";
-					SingLoginListener.isLogin(session, username);					
-
+					SingLoginListener.isLogin(session, username);	
+					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
+					int roleId=Integer.parseInt(role);
+					Map<String,Object> menuMap=MenuService.menuList(roleId);
+					if(menuMap!=null){
+						url=Integer.parseInt(menuMap.get("m_5").toString())==0?"../main.html":url;
+					}
+					
 					webLogBean.setOperator(funUtil.loginUser(request));
 					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 					webLogBean.setStyle(4);
@@ -137,6 +145,7 @@ public class LoginController {
 	
 		HashMap result = new HashMap();
 		result.put("success", success);
+		result.put("url", url);
 		result.put("message", message);
 		result.put("code", code);
 		response.setContentType("application/json;charset=utf-8");

@@ -36,14 +36,14 @@
 		order by id asc,morder asc limit 50
 	</select>
 	<!-- 新增菜单 -->
-	<insert id="addMenu" useGeneratedKeys="true" keyProperty="id">
+	<insert id="addMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
-		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_menu
+		select id, name, pId, url,target, icon,iconSkin, ${checkedstr}, morder from  xhgmnet_web_menu
 	</insert>
 		<!-- 新增菜单 -->
-	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="String">
+	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
 		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
-		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_role_menu where roleId=#{roleId}
+		select id, name, pId, url,target, icon,iconSkin, ${checkedstr}, morder from  xhgmnet_web_role_menu where roleId=#{roleId}
 	</insert>
 	<delete id="deleteMenu" parameterType="java.util.List">
 		delete from xhgmnet_web_role_menu where roleId in(

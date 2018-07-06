@@ -125,8 +125,8 @@
 										
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center">
-										<div ng-if="loginUserRoleId!=x.roleId">
-										<a href="#" ng-if="loginUserRoleId==10000"
+										<div ng-if="loginUserRoleId!=x.roleId || roleType==0">
+										<a href="#" ng-if="roleType==0"
 										ng-click="menu($index)">
 										<i class="fa fa-bars text-success"></i>&nbsp;菜单编辑
 									    </a>
