@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>综合应用与管理平台</title>
+
+
+
+  <!--common-->
+  <link href="Resources/AdminEx/css/style.css" rel="stylesheet">
+  <link href="Resources/AdminEx/css/style-responsive.css" rel="stylesheet">
+  <style type="text/css">
+
+  </style>
+  
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="Resources/AdminEx/js/html5shiv.js"></script>
+  <script src="Resources/AdminEx/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header" ng-app="app" ng-controller="index">
+
+<section>
+    <!-- left side start-->
+       <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="Resources/images/img/logo.png" width="45px" height="45px" alt=""></a>
+            <span style="color:#fff;font-size:16px;">综合应用与管理平台</span>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="Resources/images/img/logo.png" width="45px" height="45px" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+
+            <!-- visible to small devices only -->
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="Resources/images/img/profile.jpg" class="media-object">
+                    <div class="media-body">
+                        <h4>{{loginUser}}</h4>
+                        <span></span>
+                    </div>
+                </div>
+
+                <h5 class="left-nav-title">会员中心</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                  <li><a  href="Views/operations/email.html" target="mainframe"><i class="fa fa-user"></i> <span>邮件</span></a></li>
+                  <li><a href="Views/web/updateMember.html" target="mainframe"><i class="fa fa-cog"></i> <span>修改个人资料</span></a></li>
+                  <li><a href="web/loginOut"><i class="fa fa-sign-out"></i> <span>退出</span></a></li>
+                </ul>
+            </div>
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list nav-active"><a href=""><i class="fa fa-th-large"></i> <span>运维管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a href="map.html" target="mainframe"> 系统状态</a></li>
+                        <li><a href="blank_page.html"> 控制台</a></li>
+                        <li><a href="Views/menu/menu_operations.html" target="mainframe"> 服务监管</a></li>
+                        <li><a href="Views/menu/menu_count.html" target="mainframe">统计分析</a></li>
+
+                    </ul>
+                </li>
+               <!--  <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>综合业务</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="general.html"> 数据管理</a></li>
+                        <li><a href="general.html"> 配置管理</a></li>
+                        <li><a href="general.html"> 资产管理</a></li>
+                    </ul>
+                </li> -->
+                <li class="menu-list"><a href=""><i class="fa fa-jpy"></i> <span>资产管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="Views/business/asset-count.html" target="mainframe"> 资产概况</a></li>
+                        <li><a href="Views/business/asset-info.html" target="mainframe"> 资产明细</a></li>
+                        <li><a href="Views/business/assetCheck.html" target="mainframe"> 变更管理</a></li>
+                    </ul>
+                </li>
+                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>业务管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="Views/menu/menu_business.html" target="mainframe"> 网办业务</a></li>
+                        <li><a href="Views/menu/menu_data.html" target="mainframe"> 数据管理</a></li>
+                        <li><a href="Views/menu/menu_radio.html" target="mainframe"> 终端管理</a></li>
+                        <li><a href="Views/menu/menu_config.html" target="mainframe">配置管理</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>平台管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="Views/web/role.html" target="mainframe"> 角色管理</a></li>
+                         <li><a href="Views/web/user.html" target="mainframe"> 用户管理</a></li>
+                          <li><a href="Views/business/access-user.html" target="mainframe"> 接入用户</a></li>
+                           <li><a href="Views/web/log.html" target="mainframe"> 日志查询</a></li>
+                    </ul>
+                </li>
+
+               
+
+               
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section" style="border-bottom:1px solid #ccc;">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+           <div class="searchform">
+                <input type="text" class="form-control" name="keyword" placeholder="公告栏" />
+                <!-- <marquee class="form-control">Welcom CSDN!</marquee> -->
+            </div> 
+            <!--search end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                   
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge">{{email}}</span>
+                            <span >站内信</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-head pull-right">
+                            <h5 class="title">新消息</h5>
+                            <ul class="dropdown-list normal-list">
+                                <li class="new">
+                                    <a href="Views/operations/email.html" target="mainframe">
+                                    <span class="label label-danger"><i class="fa fa-envelope-o"></i></span>
+                                    <span>你有新消息，请查收</span>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="Views/monitor/event.html" target="mainframe" class="btn btn-default dropdown-toggle info-number">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="badge">4</span>
+                            <span >待办事项</span>
+                        </a>
+                        <!-- <div class="dropdown-menu dropdown-menu-head pull-right">
+                            <h5 class="title">待办事项</h5>
+                            <ul class="dropdown-list normal-list">
+                                <li class="new">
+                                    <a href="">
+                                        <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                                        <span class="name">测试</span>
+                                    </a>
+                                </li>
+                                
+                                <li class="new"><a href="">更多。。。</a></li>
+                            </ul>
+                        </div> -->
+                    </li>
+                     <li>
+                        <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
+                            <i class="fa fa-qrcode"></i>
+                            <span class="badge">1</span>
+                            <span >点我，扫一扫</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-head pull-right">
+                        <h5 class="title">运维APP 安卓版下载链接,扫一扫</h5>
+                        <div style="padding:20px;">
+                        <img alt="" src="Resources/app/apk.png">
+                        </div>
+                         
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="Resources/images/img/profile.jpg" alt="" />
+                            {{loginUser}}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="Views/operations/email.html" target="mainframe"><i class="fa fa-user"></i>  邮件</a></li>
+                            <li><a href="Views/web/updateMember.html" target="mainframe"><i class="fa fa-cog"></i>  修改个人资料</a></li>
+                            <li><a href="web/loginOut"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                    
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+        <iframe src="" id="mainframe"
+				name="mainframe" frameborder="0" scrolling="no"></iframe>
+           
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+         <div ng-include="'Views/footer.html'"></div>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="Resources/AdminEx/js/jquery-1.10.2.min.js"></script>
+<script src="Resources/AdminEx/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="Resources/AdminEx/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="Resources/AdminEx/js/bootstrap.min.js"></script>
+<script src="Resources/AdminEx/js/modernizr.min.js"></script>
+<script src="Resources/AdminEx/js/jquery.nicescroll.js"></script>
+<script type="text/javascript" src="Resources/js/angular.min.js"></script>
+
+
+<!--common scripts for all pages-->
+<script src="Resources/AdminEx/js/scripts.js"></script>
+
+<script type="text/javascript" src="Controllers/index.js"></script>
+<script type="text/javascript">
+		xh.load();
+
+	</script>
+
+
+</body>
+</html>

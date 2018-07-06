@@ -93,6 +93,14 @@ xh.load = function() {
 			$scope.roleId = response.roleId ;
 			
 		});
+		$http.get("center/email/noReadEmailCount").success(function(response) {
+			$scope.email = response.totals
+			
+		});
+		$http.get("order/orderNoComCount").success(function(response) {
+			$scope.order = response.totals
+			
+		});
 		
 	
 		//系统告警数目
@@ -199,4 +207,15 @@ xh.aa=function(){
 	alarmbs=$("input[name='alarmbs']").is(':checked');
 	alarmji=$("input[name='alarmji']").is(':checked');
 }
+/* 获取cookie */
+xh.getcookie = function(name) {
+	var strcookie = document.cookie;
+	var arrcookie = strcookie.split(";");
+	for (var i = 0; i < arrcookie.length; i++) {
+		var arr = arrcookie[i].split("=");
+		if (arr[0].match(name) == name)
+			return arr[1];
+	}
+	return "";
+};
 
