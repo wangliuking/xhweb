@@ -73,6 +73,43 @@ public class WebUserController {
 		}
 		
 	}
+	@RequestMapping("/user/news")
+	public void news(HttpServletRequest request, HttpServletResponse response){
+		String news=funUtil.readXml("web", "news");
+		HashMap result = new HashMap();
+		result.put("news", news);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/user/up_news")
+	public void up_news(HttpServletRequest request, HttpServletResponse response){
+	
+		String news=request.getParameter("news");
+		try {
+			funUtil.updateXML("web", "news", news);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		HashMap result = new HashMap();
+		result.put("success", true);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	/**

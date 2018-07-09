@@ -44,10 +44,16 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>业务管理</span></li>
-							<li><span>数据管理</span></li>
+							<li><a href="../menu/menu_data.html" target="_self"><span>数据管理</span></a></li>
 							<li><span>业务数据</span></li>
 							<li class="active"><span>全网录音</span></li>
 						</ol>
+					</div>
+					<div class="btn-group pull-right">
+						<button class="btn btn-primary btn-sm"
+							onclick="javascript:history.back(-1);">
+							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+						</button>
 					</div>
 				</div>
 			</div>
@@ -56,38 +62,8 @@
 
 			<!-- row -->
 			<div class="row">
-				<!-- 左侧菜单 -->
-				<div class="col-md-2">
-					<div class="hpanel">
-						<div class="panel-heading hbuilt">
-							<i class="fa fa-reorder"></i> 菜单列表
-						</div>
-						<div class="panel-body">
-							<ul class="mailbox-list">
-								<li><a href="../../Views/operations/sendsms.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>短信发送</a></li>
-								<li class="active" style="margin-bottom:10px;"><a
-									href="audio.html" target="_self"><i
-										class="fa fa-sitemap text-success"></i>全网录音</a></li>
-
-								<li><a href="../../Views/operations/sms-recv.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>收件箱</a></li>
-								<li><a href="../../Views/operations/sms-send.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>发件箱</a></li>
-								<li><a href="../../Views/operations/gps.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>GPS数据</a></li>
-								<li><a href="../../Views/operations/gpsOperation.html" target="_self"><i
-										class="fa fa-sitemap text-success"></i>GPS操作记录</a></li>
-								<li><a href="../../Views/operations/userstatus.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>终端状态</a></li>
-								<li><a href="../../Views/operations/emhHistory.html"
-									target="_self"><i class="fa fa-sitemap text-success"></i>环控历史数据</a></li>
-							</ul>
-						</div>
-
-					</div>
-				</div>
-				<div class="col-md-10">
+				
+				<div class="col-md-12">
 
 
 					<div class="row" id="search-panel">

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>business_menu.html</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+
+</head>
+
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
+	<!-- splash screen-->
+	<div class="splash">
+		<!-- <div class="color-line"></div> -->
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<!-- <div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li class="active"><span>网办业务</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content animate-panel" style="margin-top:0px">
+			<div class="row" ng-show="menu.m_131">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i>系统数据分析
+						</div>
+						<div class="panel-body">
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="../operations/chart_call.html" target="_self"> <i
+									class="fa fa-file-excel-o fa-4x text-success"></i>
+									<p>话务统计表</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="../operations/chart_day_report.html" target="_self"> <i
+									class="fa fa-file-excel-o fa-4x text-success"></i>
+									<p>维护统计表</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="../operations/bsFault.html" target="_self"> <i
+									class="fa fa-file-excel-o fa-4x text-success"></i>
+									<p>故障记录表</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="../business/fault.html" target="_self"> <i
+									class="fa fa-pencil-square fa-4x text-danger"></i>
+									<p>考勤管理</p>
+								</a>
+							</div>
+							
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row" ng-show="menu.m_132">
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i> 健康风险度分析
+						</div>
+						<div class="panel-body">
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/36b0f088-4065-4ead-94e7-52d137776465?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-warning fa-4x text-danger"></i>
+									<p>风险分析</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/ed92db76-43c0-4cb0-a3ee-256b377234e8?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-map-o fa-4x text-success"></i>
+									<p>健康分析</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i>热度分析
+						</div>
+						<div class="panel-body">
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/7301984d-4219-454d-9ff1-f5af0885b77c?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-line-chart fa-4x text-primary"></i>
+									<p>全网热度</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/4efdf93a-051e-48b1-8498-68c6e94bbf05?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-line-chart fa-4x text-primary"></i>
+									<p>区域热度</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/a784b0aa-5248-451f-a227-83758f5a18fa?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-line-chart fa-4x text-primary"></i>
+									<p>基站热度</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+				<!-- col-md-12 -->
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i>用户行为分析
+						</div>
+						<div class="panel-body">
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/d07281be-0b5a-45f9-aa8e-7f7b2fd8f423?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-pie-chart fa-4x text-success"></i>
+									<p>单位组行为</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/12640b13-1dc1-46a0-8716-8912fa82447f?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-pie-chart fa-4x text-success"></i>
+									<p>单位用户行为</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="http://183.221.117.37:8888/analystrunner/50fd15d2-0efc-4bdb-9997-3dd8f676e4c3?vpnId={{loginUserVpnId}}" target="_self"> <i
+									class="fa fa-pie-chart fa-4x text-success"></i>
+									<p>用户聚焦</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+			</div>
+			<!-- row -->
+
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+
+<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
+</body>
+</html>

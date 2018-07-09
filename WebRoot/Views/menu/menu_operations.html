@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>business_menu.html</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+
+</head>
+
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
+	<!-- splash screen-->
+	<div class="splash">
+		<!-- <div class="color-line"></div> -->
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<!-- <div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li class="active"><span>服务监管</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content animate-panel" style="margin-top:0px" ng-show="menu.m_12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i> 服务监管
+						</div>
+						<div class="panel-body">
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_121">
+							<a href="../operations/reportCheck.html" target="_self">
+								<i class="fa fa-pencil-square fa-4x text-success"></i>
+								<p>报告审核</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_122">
+							<a href="../business/qualitycheck.html" target="_self">
+								<i class="fa fa-star-half-full fa-4x text-success"></i>
+								<p>服务抽检</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_123">
+							<a href="../business/optimizenet.html" target="_self">
+								<i class="fa fa-share-alt-square fa-4x text-primary"></i>
+								<p>网络优化</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_124">
+							<a href="../business/emergency.html" target="_self">
+								<i class="fa fa-universal-access fa-4x text-danger"></i>
+								<p>应急处置演练</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_125">
+							<a href="../operations/work.html" target="_self">
+								<i class="fa fa-file-text-o fa-4x text-primary"></i>
+								<p>工作记录</p>
+								</a>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
+
+</body>
+</html>

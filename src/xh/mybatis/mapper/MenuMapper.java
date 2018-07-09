@@ -64,7 +64,7 @@ public interface MenuMapper {
 	 * @throws Exception
 	 */
 	
-	public int addMenu() throws Exception;
-	public int addParentMenu(String roleId) throws Exception;
+	public int addMenu(Map<String,Object> map) throws Exception;
+	public int addParentMenu(Map<String,Object> map) throws Exception;
 
 }

@@ -41,11 +41,14 @@ xh.load = function() {
 			$('body').attr('id', "skin-blur-ocean");
 		}
 		
-		$(".side-menu a").live('click',function(){
+		/*$(".side-menu a").live('click',function(){
 			$scope.mshow=$(this).attr("value");
-		})
+		})*/
 		
-		
+			$http.get("web/user/news").
+		success(function(response){
+			$scope.news = response.news;
+		});
 		
 		
 		$http.get("web/webMenu").success(function(response) {
@@ -91,6 +94,14 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserVpnId = response.vpnId;
 			$scope.roleId = response.roleId ;
+			
+		});
+		$http.get("center/email/noReadEmailCount").success(function(response) {
+			$scope.email = response.totals
+			
+		});
+		$http.get("order/orderNoComCount").success(function(response) {
+			$scope.order = response.totals
 			
 		});
 		
@@ -199,4 +210,15 @@ xh.aa=function(){
 	alarmbs=$("input[name='alarmbs']").is(':checked');
 	alarmji=$("input[name='alarmji']").is(':checked');
 }
+/* 获取cookie */
+xh.getcookie = function(name) {
+	var strcookie = document.cookie;
+	var arrcookie = strcookie.split(";");
+	for (var i = 0; i < arrcookie.length; i++) {
+		var arr = arrcookie[i].split("=");
+		if (arr[0].match(name) == name)
+			return arr[1];
+	}
+	return "";
+};
 

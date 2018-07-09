@@ -55,7 +55,8 @@ xh.login = function() {
 		success : function(data) {
 			  $("button[type='button']").button('reset')
 			if (data.success) {
-				window.location.href = "../index.html";
+				var url=data.url;
+				window.location.href = url;
 			} else {
 				toastr.error(data.message, '提示');
 				xh.changeUrl();

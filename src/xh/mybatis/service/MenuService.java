@@ -22,18 +22,24 @@ public class MenuService {
 	 * @return
 	 */
 	
-	public static List<Map<String,Object>> menuList(int roleId){
+	public static Map<String,Object> menuList(int roleId){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		Map<String,Object> menuMap=new HashMap<String, Object>();
 		try {
 			list=mapper.menuList(roleId);
+			
+			for (Map<String, Object> map : list) {
+				menuMap.put("m_"+map.get("id"), map.get("checked"));
+				
+			}
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return menuMap;
 	}
 	
 	/**
@@ -239,12 +245,12 @@ public class MenuService {
 	 * 新增菜单
 	 * @return
 	 */
-	public static int addMenu(){
+	public static int addMenu(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		int result=-1;
 		try {
-			result=mapper.addMenu();
+			result=mapper.addMenu(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -253,12 +259,12 @@ public class MenuService {
 		}
 		return result;
 	}
-	public static int addParentMenu(String roleId){
+	public static int addParentMenu(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		int result=-1;
 		try {
-			result=mapper.addParentMenu(roleId);
+			result=mapper.addParentMenu(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

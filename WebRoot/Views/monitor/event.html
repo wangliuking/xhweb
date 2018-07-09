@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>待办任务</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+
+</head>
+
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
+	<!-- splash screen-->
+	<div class="splash">
+		<!-- <div class="color-line"></div> -->
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<!-- <div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li class="active"><span>网办业务</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content animate-panel" style="margin-top:0px">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i>网办业务
+						</div>
+						<div class="panel-body">
+							<div class="event-box text-center" style="cursor: pointer;">
+							 <p class="task-badge badge-danger">23</p>							
+							 <a href="../business/joinnet.html" target="_self"> <i
+									class="fa fa-address-card fa-2x text-success"></i>
+									<p>办理入网许可</p>
+										
+									
+							</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+								<a href="../business/quitnet.html" target="_self"> <i
+									class="fa fa-address-card-o fa-2x text-success"></i>
+									<p>办理退网业务</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+								<a href="../business/devicemanage.html" target="_self"> <i
+									class="fa fa-cc fa-2x text-success"></i>
+									<p>业务变更</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+								<a href="../business/fault.html" target="_self"> <i
+									class="fa fa-info-circle fa-2x text-success"></i>
+									<p>故障申报</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+								<a href="../business/communicationsupport.html" target="_self">
+									<i class="fa fa-lightbulb-o fa-2x text-success"></i>
+									<p>通信保障</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+								<a href="../business/lend.html" target="_self"> <i
+									class="fa fa-sign-out fa-2x text-success"></i>
+									<p>设备租借</p>
+								</a>
+							</div>
+
+							
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i> 服务监管
+						</div>
+						<div class="panel-body">
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+							<a href="../operations/reportCheck.html" target="_self">
+								<i class="fa fa-pencil-square fa-2x text-success"></i>
+								<p>报告审核</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+							<a href="../business/qualitycheck.html" target="_self">
+								<i class="fa fa-star-half-full fa-2x text-success"></i>
+								<p>服务抽检</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<!-- <p class="task-badge badge-danger">23</p> -->
+							<a href="../business/optimizenet.html" target="_self">
+								<i class="fa fa-share-alt-square fa-2x text-success"></i>
+								<p>网络优化</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+							<a href="../business/emergency.html" target="_self">
+								<i class="fa fa-universal-access fa-2x text-success"></i>
+								<p>应急处置演练</p>
+								</a>
+							</div>
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+							<a href="../operations/work.html" target="_self">
+								<i class="fa fa-file-text-o fa-2x text-success"></i>
+								<p>工作记录</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+				
+			</div>
+			<!-- row -->
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i> 运维派单
+						</div>
+						<div class="panel-body">
+							<div class="event-box text-center" style="cursor: pointer;">
+							<p class="task-badge badge-danger">23</p>
+							<a href="../operations/order.html" target="_self">
+								<i class="fa fa-send-o fa-2x text-success"></i>
+								<p>派单记录</p>
+								</a>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+				<!-- col-md-12 -->
+				
+			</div>
+			<!-- row -->
+
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+
+<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript" src="../../Controllers/monitor/event.js"></script>
+<script type="text/javascript">
+		xh.load();
+
+	</script>
+</body>
+</html>

@@ -60,6 +60,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.roleType  = response.roleType;
 		});
+	
        $scope.duty=function(){
 	   $http.get("onduty/onduty").success(
 			function(response) {

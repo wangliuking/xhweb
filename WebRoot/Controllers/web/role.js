@@ -38,6 +38,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.roleType = response.roleType.toString();
+			$scope.type = response.roleType;
 			$scope.loginUserRoleId = response.roleId;
 		});
 		/*获取信息*/

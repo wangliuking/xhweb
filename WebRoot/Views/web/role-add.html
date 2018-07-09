@@ -10,18 +10,19 @@
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false">
-					<div class="row" ng-show="roleType==0">
-						<div class="col-md-6">
+					<div class="row" ng-show="type==0">
+						<div class="col-md-6" >
 							<div class="form-group col-md-12">
 								<label>角色类型</label>
 								<div>
 									<select name="roleType" class="form-control" ng-model='roleType'>
 									    <option value="0">超级管理员</option>
-									    <option value="1">市经信委</option>
-									    <option value="2">软件产业中心</option>
-										<option value="3" selected="selected">亚光运维</option>
-										<option value="4">普通企业</option>
-										<option value="5">政府机关</option>
+									    <option value="1">主管部门</option>
+									    <option value="2">管理部门</option>
+										<option value="3" selected="selected">800M运维</option>
+										<option value="4">公安交管普通用户</option>
+										<option value="5">运营商（电信、移动、铁塔)</option>
+										<option value="6">其他用户</option>
 									</select>
 								</div>
 							</div>
