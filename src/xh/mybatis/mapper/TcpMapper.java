@@ -18,9 +18,9 @@ public interface TcpMapper {
 	public Map<String,Object> selectByBsId(String bsId)throws Exception;
 	
 	/**
-	 * 更新派单状态为处理中
+	 * 更新派单状态
 	 */
-	public int updateUserStatus(String serialNum)throws Exception;
+	public int updateUserStatus(Map<String,String> map)throws Exception;
 	
 	/**
 	 * 查询派单处理情况
@@ -33,14 +33,9 @@ public interface TcpMapper {
 	public int insertMoveBsTable(List<String> list)throws Exception;
 	
 	/**
-	 * 派单完成前删除原派单信息
+	 * 更新最终的故障完结单
 	 */
-	public int deleteBySerialNum(String serialNum)throws Exception;
-	
-	/**
-	 * 插入故障派单
-	 */
-	public int insertFaultOrder(List<String> list)throws Exception;
+	public int updateFaultOrder(Map<String,String> map)throws Exception;
 	
 	/**
 	 * 插入自建基站巡检表数据

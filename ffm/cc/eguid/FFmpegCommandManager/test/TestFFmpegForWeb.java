@@ -91,7 +91,6 @@ public class TestFFmpegForWeb {
 			String str = new String();
 			str = manager.start(map);
 			hashMap.put(str, str);
-			System.out.println("str为："+str);
 		}
 		System.out.println("userByBsIdForWebSocketList : "+userByBsIdForWebSocketList);
 	}

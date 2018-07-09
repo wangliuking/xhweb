@@ -131,8 +131,10 @@ public class Util {
 			}else if("errprotableack".equals(cmdtype)){
 				errProTableAck = (ErrProTableAck) JSONObject.toBean(jsonObject, ErrProTableAck.class);
 				String serialNum = errProTableAck.getSerialnumber();
-				System.out.println("serialNum为："+serialNum);
-				Service.updateUserStatus(serialNum);
+				Map<String,String> paramMap = new HashMap<String,String>();
+				paramMap.put("serialNum", serialNum);
+				paramMap.put("status", "1");
+				Service.updateUserStatus(paramMap);
 				//更新四方伟业库
 				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
 				ErrProTable bean = new ErrProTable();
@@ -145,8 +147,22 @@ public class Util {
 				return map;
 			}else if("errcheck".equals(cmdtype)){
 				errCheck = (ErrCheck) JSONObject.toBean(jsonObject, ErrCheck.class);
-				ErrCheckAck errCheckAck = Service.appErrCheck(errCheck);
-				map.put("returnMessage", Object2Json(errCheckAck));
+				String serialNum = errCheck.getSerialnumber();
+				Map<String,String> paramMap = new HashMap<String,String>();
+				paramMap.put("serialNum", serialNum);
+				paramMap.put("status", "3");
+				Service.updateUserStatus(paramMap);
+				//更新四方伟业库
+				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
+				ErrProTable bean = new ErrProTable();
+				bean.setBsid(orderMap.get("bsid")+"");
+				bean.setZbdldm(orderMap.get("zbdldm")+"");
+				bean.setStatus("请求审核");
+				System.out.println(bean);
+				OrderService.updateSfOrder(bean);
+				map.put("returnMessage", "");
+				/*ErrCheckAck errCheckAck = Service.appErrCheck(errCheck);
+				map.put("returnMessage", Object2Json(errCheckAck));*/
 				return map;
 			}else if("errprotable".equals(cmdtype)){
 				errProTable = (ErrProTable) JSONObject.toBean(jsonObject, ErrProTable.class);

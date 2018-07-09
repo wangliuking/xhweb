@@ -127,7 +127,7 @@ xh.org.listeners.TcpServerListenner
  <listener-class>xh.org.listeners.TcpClientListenner</listener-class>
 </listener> -->
 <!--emh TCP长连接end -->
-<!--  <listener>
+<!-- <listener>
   <description>sms TCP长连接 </description>
     <listener-class>com.smsnet.SmsTcpListener</listener-class>
  </listener> -->

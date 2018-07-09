@@ -13,7 +13,7 @@
 	
 	<!-- 更新派单状态为处理中 -->
 	<update id="updateUserStatus" parameterType="map">
-		update xhgmnet_operations_fault_task_order set status=1 where serialnumber=#{serialNum}
+		update xhgmnet_operations_fault_task_order set status=#{status} where serialnumber=#{serialNum}
 	</update>
 	
 	<!-- 查询派单处理情况 -->
@@ -21,20 +21,14 @@
 		select status from xhgmnet_operations_fault_task_order where serialnumber=#{serialNum}
 	</select>
 	
-	<!-- 派单完成前删除原派单信息 -->
-	<delete id="deleteBySerialNum" parameterType="String">
-		delete from xhgmnet_operations_fault_task_order where serialnumber=#{serialNum}
-	</delete>
+	<!-- 提交故障完结单时更新数据库 -->
+	<update id="updateFaultOrder" parameterType="map">
+		update xhgmnet_operations_fault_task_order set bsid=#{bsid},bsname=#{bsname},dispatchtime=#{dispatchtime},dispatchman=#{dispatchman},
+		errtype=#{errtype},errlevel=#{errlevel},errfoundtime=#{errfoundtime},errslovetime=#{errslovetime},progress=#{progress},proresult=#{proresult},
+		workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
+		and userid=#{userid}
+	</update>
 	
-	<!-- 插入故障派单 -->
-	<insert id="insertFaultOrder" parameterType="List">
-		INSERT INTO xhgmnet_operations_fault_task_order VALUES(id,
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			#{item}
-		</foreach>
-		)
-	</insert>
 	
 	<!-- 插入移动基站巡检表数据 -->
 	<insert id="insertMoveBsTable" parameterType="List">
