@@ -41,11 +41,14 @@ xh.load = function() {
 			$('body').attr('id', "skin-blur-ocean");
 		}
 		
-		$(".side-menu a").live('click',function(){
+		/*$(".side-menu a").live('click',function(){
 			$scope.mshow=$(this).attr("value");
-		})
+		})*/
 		
-		
+			$http.get("web/user/news").
+		success(function(response){
+			$scope.news = response.news;
+		});
 		
 		
 		$http.get("web/webMenu").success(function(response) {
