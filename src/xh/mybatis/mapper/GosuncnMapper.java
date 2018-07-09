@@ -105,9 +105,14 @@ public interface GosuncnMapper {
 	public List<Map<String,String>> selectByAlarmLevel()throws Exception;
 	
 	/**
-	 * 根据基站id查询摄像头IP
+	 * 根据基站id查询摄像头IP(非简阳基站)
 	 */
 	public List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map)throws Exception;
+	
+	/**
+	 * 根据基站id查询摄像头IP(简阳基站)
+	 */
+	public List<Map<String,Object>> selectCameraIpByVpn(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 根据fsuId修改无限摄像头IP

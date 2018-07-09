@@ -928,11 +928,13 @@ var areaRings;
 var rectangle;
 var test;
 var testDemo;
+//定时器
+var timerForGpsDst;
 
 //gps定位
 var gpsDst;
 
-var chooseLayer=1;
+var chooseLayer=0;
 
 var daolukakou,gongyeyuan,gongyuanguangchang,guojiajijingdian,huiyizhongxin,jiaoguanjigou,jiaotongshuniu,jiedaoban,jiudian,sanjiajijiu,wuzicangku,xiangzhenzhengfu,xiaofang,zaihaiyifadian,zhongdiangaoxiao,gonganju;
 function floor(data) {
@@ -1608,38 +1610,55 @@ function init(data,markData) {
 			});
 			
 			$("#testDemo").click(function() {
+				var $scope = angular.element(appElement).scope();
 				if ($(this).prop("checked") == true) {	
-					/*myMap.destroy();
-					chooseLayer=1;
-					getData();
-					setTimeout("tempCenterAndZoom()","2000");	*/		
-					window.location.href="map.html"; 
-				} else {		
-					myMap.destroy();
-					chooseLayer=0;
-					getData();
-					
-					setInterval(function(){
-						//使用ajax获取后台gps定位
-						$.ajax({
-							type : "GET",
-							url : "amap/map/dstData",
-							dataType : "json",
-							success : function(dataMap) {
-								var tempData = dataMap.items;
-								console.log("tempData为: "+tempData);
-								gpsDst.clear();
-								gpsDstCreate(tempData);
-							}
-						});
-					},30000);
-					
-					/*setInterval(function(){
+					if(chooseLayer==1){
+						window.location.href="map.html"; 
+					}else{
 						myMap.destroy();
-						refreshForGis();
-					},30000);	*/
-					
-					//window.location.href="map.html"; 
+						chooseLayer=1;
+						$scope.chooseLayer=1;
+						changeData();
+						clearTimeout(timerForGpsDst);
+						timerForGpsDst = setInterval(function(){
+							//使用ajax获取后台gps定位
+							$.ajax({
+								type : "GET",
+								url : "amap/map/dstData",
+								dataType : "json",
+								success : function(dataMap) {
+									var tempData = dataMap.items;
+									console.log("tempData为: "+tempData);
+									gpsDst.clear();
+									gpsDstCreate(tempData);
+								}
+							});
+						},30000);
+					}					
+				} else {		
+					if(chooseLayer==0){
+						window.location.href="map.html"; 
+					}else{
+						myMap.destroy();
+						chooseLayer=0;
+						$scope.chooseLayer=0;
+						changeData();
+						clearTimeout(timerForGpsDst);
+						timerForGpsDst = setInterval(function(){
+							//使用ajax获取后台gps定位
+							$.ajax({
+								type : "GET",
+								url : "amap/map/dstData",
+								dataType : "json",
+								success : function(dataMap) {
+									var tempData = dataMap.items;
+									console.log("tempData为: "+tempData);
+									gpsDst.clear();
+									gpsDstCreate(tempData);
+								}
+							});
+						},30000);
+					}									
 				}
 			});
 			
@@ -1781,7 +1800,7 @@ function tempCenterAndZoom(){
 	myMap.centerAndZoom(point,1);//定位地图位置
 }
 
-function getData() {
+function changeData() {
 	// 使用ajax获取后台所有基站数据
 	$.ajax({
 		type : "GET",
@@ -1792,6 +1811,41 @@ function getData() {
 			var data = dataWithoutZero(tempData);
 			var markData=[];
 			init(data,markData);
+		}
+	});
+}
+
+function getData() {
+	var $scope = angular.element(appElement).scope();
+	// 使用ajax获取后台所有基站数据
+	$.ajax({
+		type : "GET",
+		url : "amap/map/gisViewByUserIdForShow",
+		dataType : "json",
+		success : function(dataMap) {
+			var tempData = dataMap.items;
+			//该用户的地图初始化参数start
+			var mapInit = dataMap.mapInit;
+			$scope.chooseLayer = mapInit;
+			chooseLayer = mapInit;
+			//end
+			var data = dataWithoutZero(tempData);
+			var markData=[];
+			init(data,markData);
+			timerForGpsDst = setInterval(function(){
+				//使用ajax获取后台gps定位
+				$.ajax({
+					type : "GET",
+					url : "amap/map/dstData",
+					dataType : "json",
+					success : function(dataMap) {
+						var tempData = dataMap.items;
+						console.log("tempData为: "+tempData);
+						gpsDst.clear();
+						gpsDstCreate(tempData);
+					}
+				});
+			},30000);
 		}
 	});
 }

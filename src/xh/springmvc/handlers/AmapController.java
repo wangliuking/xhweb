@@ -290,12 +290,42 @@ public class AmapController {
 			}
 			Map<String,Object> tempMap = new HashMap<String, Object>();
 			currentMonth="xhgmnet_gpsinfo"+currentMonth;
-			tempMap.put("currentMonth", currentMonth);
+			tempMap.put("currentMonth", currentMonth);			
 			
 			HashMap map = new HashMap();
 			AmapService amapService = new AmapService();
+			List<String> srcIdVisableList = amapService.srcVisable();
+			tempMap.put("list", srcIdVisableList);
 			List<Map<String, String>> listMap = amapService.dstData(tempMap);
 			map.put("items", listMap);
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 查询所有手台显示信息以及当前用户的初始化信息
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/map/selectForAllVisableStatus")
+	@ResponseBody
+	public void selectForAllVisableStatus(HttpServletRequest request, HttpServletResponse response){	
+		try {
+			HashMap tempMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+			String userId = tempMap.get("user").toString();
+			HashMap map = new HashMap();
+			AmapService amapService = new AmapService();
+			List<Map<String, String>> listMap = amapService.selectForAllVisableStatus();
+			String str = amapService.selectForMapInitByUser(userId);
+			map.put("items", listMap);
+			map.put("mapInitStr", str);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -408,6 +438,39 @@ public class AmapController {
 	}
 	
 	/**
+	 * 更新GIS上终端显示情况
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/map/saveForAllVisable",method=RequestMethod.POST)
+	@ResponseBody
+	public void saveForAllVisable(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody List<Map<String,Object>> listMap){	
+		try {		
+			HashMap tMap = (HashMap) SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+			String userId = tMap.get("user").toString();
+			String mapInit = request.getParameter("mapInit");
+			AmapService amapService = new AmapService();
+			Map<String, Object> InitMap = new HashMap<String, Object>();
+			InitMap.put("mapInit", mapInit);
+			InitMap.put("userId", userId);
+			amapService.updateForMapInitByUser(InitMap);
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("listMap", listMap);		
+			int result = amapService.saveForAllVisable(tempMap);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("success", "success");
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * 根据用户查询需要显示的基站
 	 * @author wlk
 	 * @param request
@@ -419,8 +482,10 @@ public class AmapController {
 		try {
 			FunUtil funUtil = new FunUtil();
 			String userId = funUtil.loginUser(request);
-			//检测gisViews是否有基站显示数据
-			AmapService amapService = new AmapService();			
+			AmapService amapService = new AmapService();	
+			//查询此用户的地图初始化信息
+			String mapInit = amapService.selectForMapInitByUser(userId);
+			//检测gisViews是否有基站显示数据					
 			Map<String, Object> temp = new HashMap<String, Object>();
 			temp.put("userId", userId);
 			int gisViewTableNum = amapService.gisViewCount(temp);			
@@ -433,6 +498,7 @@ public class AmapController {
 			map.put("userId", userId);
 			List<HashMap<String, String>> listMap = amapService.gisViewByUserIdForShow(map);
 			map.put("items", listMap);
+			map.put("mapInit", mapInit);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -441,6 +507,12 @@ public class AmapController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) {
+		AmapService amapService = new AmapService();
+		String s = amapService.selectForMapInitByUser("admin");
+		System.out.println(s);
 	}
 	
 	

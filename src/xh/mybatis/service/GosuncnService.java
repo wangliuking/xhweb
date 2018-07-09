@@ -313,7 +313,7 @@ public class GosuncnService {
 	}
 	
 	/**
-	 * 根据基站id查询摄像头ip
+	 * 根据基站id查询摄像头ip(非简阳基站)
 	 */
 	public static List<Map<String,Object>> selectCameraIpByBsId(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
@@ -321,6 +321,23 @@ public class GosuncnService {
 		List<Map<String,Object>> list = null;
 		try {
 			list = mapper.selectCameraIpByBsId(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据基站id查询摄像头ip(简阳基站)
+	 */
+	public static List<Map<String,Object>> selectCameraIpByVpn(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,Object>> list = null;
+		try {
+			list = mapper.selectCameraIpByVpn(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

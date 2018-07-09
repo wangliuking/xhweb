@@ -3,6 +3,7 @@ package xh.mybatis.tools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import xh.org.listeners.SingLoginListener;
+import cc.eguid.FFmpegCommandManager.test.TestFFmpegForWeb;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,12 +58,41 @@ public class WebSocketPushHandler implements WebSocketHandler{
 	//用户退出后的处理，不如退出之后，要将用户信息从websocket的session中remove掉，这样用户就处于离线状态了，也不会占用系统资源
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-		if(session.isOpen()){
-			session.close();
-		}
-		users.remove(session);
-		System.out.println("用户名："+session.getHandshakeAttributes().get("userName").toString()+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");
-		
+		// 断开连接时同步删除TestFFmpegForWeb中的一条连接
+		String userId = "";
+		Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator();
+		 while (iter.hasNext()) {
+			 Map.Entry entry = (Map.Entry) iter.next();  
+             Object key = entry.getKey();  
+             Object val = entry.getValue();
+             userId = val+"";
+		 }
+		String bsId = session.getHandshakeAttributes().get("bsId").toString();
+		if(bsId!=null){
+			System.out.println("userId : bsId "+userId+"---"+bsId);
+			TestFFmpegForWeb.deleleByUserId(userId,bsId);
+			// 设置标志位0-无用户使用 1-有用户使用
+			int status = 0;
+			// 断开连接时判断此时是否还有该用户其他页面正在使用推流
+			List<Map<String, String>> userByBsIdForWebSocketList = TestFFmpegForWeb.userByBsIdForWebSocketList;
+			System.out.println(" userByBsIdForWebSocketList : " + userByBsIdForWebSocketList);
+			for (Map<String, String> map : userByBsIdForWebSocketList) {
+				if (userId.equals(map.get("userId")) && bsId.equals(map.get("bsId"))) {
+					// 还有用户在使用此基站流
+					status = 1;
+				}
+			}
+			// 根据status的值判断是否需要关闭推流
+			if (status == 0 && bsId!="") {
+				TestFFmpegForWeb.stop(bsId);		
+			}
+			
+			if(session.isOpen()){
+				session.close();
+			}
+			users.remove(session);
+			System.out.println("用户名："+session.getHandshakeAttributes().get("userName").toString()+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");
+		}		
 	}
 
 	@Override
