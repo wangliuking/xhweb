@@ -82,14 +82,14 @@ xh.load = function() {
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
 		//发起请求开启当前基站视频流
-		$.ajax({
+		/*$.ajax({
 			type : "GET",
 			url : "../../camera/startById?bsId=" + $scope.bsId + "&window=" + $(window).width()/2*0.9,
 			dataType : "json",
 			success : function(result) {
 				
 			}
-		});
+		});*/
 		//end
 		$scope.period = $location.search().period;
 		var bsId = $scope.bsId;
@@ -574,13 +574,13 @@ xh.load = function() {
 			var finalArray = firstArrayStart.split("//");
 			console.log("finalArray : "+finalArray[1]);
 			if ('WebSocket' in window) {
-				ws = new WebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId);
+				ws = new WebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId+"&window=" + $(window).width()/2*0.9);
 			} else if ('MozWebSocket' in window) {
-				ws = new MozWebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId);
+				ws = new MozWebSocket("ws://"+finalArray[1]+"webSocketServer?bsId="+$scope.bsId+"&window=" + $(window).width()/2*0.9);
 			} else {
 				//如果是低版本的浏览器，则用SockJS这个对象，对应了后台“sockjs/webSocketServer”这个注册器，
 				//它就是用来兼容低版本浏览器的
-				ws = new SockJS("http://"+finalArray[1]+"xf_oa_new/sockjs/webSocketServer?bsId="+$scope.bsId);
+				ws = new SockJS("http://"+finalArray[1]+"xf_oa_new/sockjs/webSocketServer?bsId="+$scope.bsId+"&window=" + $(window).width()/2*0.9);
 			}
 			ws.onopen = function (event) {
 				

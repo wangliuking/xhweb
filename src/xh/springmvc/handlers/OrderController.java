@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpServer.ServerDemo;
 
@@ -114,6 +115,8 @@ public class OrderController {
 		String from=request.getParameter("from");
 		String bsid=request.getParameter("bsId");
 		String zbdldm=request.getParameter("zbdldm");
+		String serialnumber=request.getParameter("serialnumber");
+		String userid=request.getParameter("userid");
 		this.success=true;
 		
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -121,6 +124,13 @@ public class OrderController {
 		map.put("id", id);
 		
 		int code=OrderService.updateOrder(map);
+		
+		ServerDemo demo=new ServerDemo();
+		ErrCheckAck errCheckAck = new ErrCheckAck();
+		errCheckAck.setSerialnumber(serialnumber);
+		errCheckAck.setUserid(userid);
+		errCheckAck.setResult("0");
+		demo.startMessageThread(userid, errCheckAck);
 		
 		if(code>0){
 			if(from.equals("数据分析")){

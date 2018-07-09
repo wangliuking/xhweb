@@ -163,14 +163,15 @@
 										<strong ng-if="x.status==0"
 											class="text-danger">接单中</strong> <strong ng-if="x.status==1"
 											style="color:blue">处理中</strong> <strong ng-if="x.status==2"
-											style="color:green">已完成</strong>
+											style="color:green">已完成</strong><strong ng-if="x.status==3"
+											style="color:yellow">请求审核</strong>
 										</td>
 										<td>{{x.userName}}</td>
 										<td>
 										<a href="#" ng-click="resend($index)"
 								 ng-if="x.status==0" style="color:green"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a><a href="#" ng-click="check($index)"
-								class="text-success" ng-if="x.status==1"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
+								class="text-success" ng-if="x.status==3"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
 							</a><span ng-if="x.status==2" style="color:gray">该单号结束!</span>
 										</td>
 									</tr>

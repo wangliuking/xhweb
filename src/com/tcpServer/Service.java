@@ -170,11 +170,11 @@ public class Service {
 	/**
 	 * 更新派单状态为处理中
 	 */
-	public static void updateUserStatus(String serialNum){
+	public static void updateUserStatus(Map<String,String> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		try{
-			mapper.updateUserStatus(serialNum);
+			mapper.updateUserStatus(map);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -216,33 +216,28 @@ public class Service {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		//需要入库
-		LinkedList<String> list = new LinkedList<String>();
-		list.add(errProTable.getBsid());
-		list.add(errProTable.getBsname());
-		list.add(errProTable.getDispatchtime());
-		list.add(errProTable.getDispatchman());
-		list.add(errProTable.getErrtype());
-		list.add(errProTable.getErrlevel());
-		list.add(errProTable.getErrfoundtime());
-		list.add(errProTable.getErrslovetime());
-		list.add(errProTable.getProgress());
-		list.add(errProTable.getProresult());
-		list.add(errProTable.getWorkman());
-		list.add(errProTable.getAuditor());
-		list.add(errProTable.getLongitude());
-		list.add(errProTable.getLatitude());
-		list.add(errProTable.getAddress());
-		list.add(errProTable.getSerialnumber());
-		list.add(errProTable.getUserid());
-		//设置派单状态为已完成
-		list.add("2");		
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("bsid", errProTable.getBsid());
+		map.put("bsname", errProTable.getBsname());
+		map.put("dispatchtime", errProTable.getDispatchtime());
+		map.put("dispatchman", errProTable.getDispatchman());
+		map.put("errtype", errProTable.getErrtype());
+		map.put("errlevel", errProTable.getErrlevel());
+		map.put("errfoundtime", errProTable.getErrfoundtime());
+		map.put("errslovetime", errProTable.getErrslovetime());
+		map.put("progress", errProTable.getProgress());
+		map.put("proresult", errProTable.getProresult());
+		map.put("workman", errProTable.getWorkman());
+		map.put("auditor", errProTable.getAuditor());
+		map.put("longitude", errProTable.getLongitude());
+		map.put("latitude", errProTable.getLatitude());
+		map.put("address", errProTable.getAddress());
+		map.put("serialnumber", errProTable.getSerialnumber());
+		map.put("userid", errProTable.getUserid());	
 		try {
-			//派单入库前根据序列号删除原空单
-			int count = mapper.deleteBySerialNum(errProTable.getSerialnumber());
-			if(count>0){
-				//最终完成的派单入库
-				mapper.insertFaultOrder(list);
-			}		
+			//更新派单
+			int count = mapper.updateFaultOrder(map);
+				
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

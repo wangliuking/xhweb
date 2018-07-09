@@ -14,6 +14,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import xh.mybatis.service.GosuncnService;
 import xh.org.listeners.SingLoginListener;
 import cc.eguid.FFmpegCommandManager.test.TestFFmpegForWeb;
 
@@ -32,9 +33,32 @@ public class WebSocketPushHandler implements WebSocketHandler{
 	//用户进入系统监听，建立websocket连接后执行
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("用户名："+session.getHandshakeAttributes().get("userName").toString()+" sessionId为： "+session.getId()+"---成功完成了websocket连接。。。");
+		System.out.println("用户名："+session.getHandshakeAttributes().get("userId").toString()+" sessionId为： "+session.getId()+"---成功完成了websocket连接。。。");
 		users.add(session);
 		System.out.println("当前所有session为："+users.toString());
+		System.out.println("当前连接的用户ID和基站ID的对应关系为 ："+session.getHandshakeAttributes().get("userId").toString()+" "+session.getHandshakeAttributes().get("bsId").toString());
+		//开启视频流
+		String bsId = session.getHandshakeAttributes().get("bsId").toString();
+		String window = session.getHandshakeAttributes().get("window").toString();
+		Map<String, Object> map = new HashMap<String,Object>();
+		Map<String, Object> cameraMap = new HashMap<String,Object>();
+		if(Integer.parseInt(bsId)<2000){
+			map.put("bsId", bsId);
+			List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByBsId(map);
+			cameraMap = listMap.get(0);
+			cameraMap.put("window", window);
+		}else{
+			map.put("bsId", bsId);
+			List<Map<String,Object>> listMap = GosuncnService.selectCameraIpByVpn(map);
+			cameraMap = listMap.get(0);
+			cameraMap.put("window", window);
+		}				
+		try {
+			TestFFmpegForWeb.test1(cameraMap);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	//
@@ -69,13 +93,14 @@ public class WebSocketPushHandler implements WebSocketHandler{
 		 }
 		String bsId = session.getHandshakeAttributes().get("bsId").toString();
 		if(bsId!=null){
-			System.out.println("userId : bsId "+userId+"---"+bsId);
+			System.out.println("退出连接时的用户id和基站id ："+userId+"---"+bsId);
 			TestFFmpegForWeb.deleleByUserId(userId,bsId);
 			// 设置标志位0-无用户使用 1-有用户使用
 			int status = 0;
 			// 断开连接时判断此时是否还有该用户其他页面正在使用推流
 			List<Map<String, String>> userByBsIdForWebSocketList = TestFFmpegForWeb.userByBsIdForWebSocketList;
 			System.out.println(" userByBsIdForWebSocketList : " + userByBsIdForWebSocketList);
+			
 			for (Map<String, String> map : userByBsIdForWebSocketList) {
 				if (userId.equals(map.get("userId")) && bsId.equals(map.get("bsId"))) {
 					// 还有用户在使用此基站流
@@ -86,12 +111,12 @@ public class WebSocketPushHandler implements WebSocketHandler{
 			if (status == 0 && bsId!="") {
 				TestFFmpegForWeb.stop(bsId);		
 			}
-			
 			if(session.isOpen()){
 				session.close();
 			}
 			users.remove(session);
-			System.out.println("用户名："+session.getHandshakeAttributes().get("userName").toString()+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");
+			System.out.println("用户名："+session.getHandshakeAttributes().get("userId").toString()+" sessionId为： "+session.getId()+"---已经断开了websocket连接。。。");		
+			
 		}		
 	}
 

@@ -194,15 +194,16 @@ public class ServerDemo {
 							//将此线程与userId进行绑定
 							this.userId=tempMap.get("userId");
 							//查询此userId是否有未发送的消息
-							for(Map<String,Object> uMap : unsentMessageList){
-								if(uMap.get("userId").equals(this.userId)){//未发送消息中存在此userId
-									System.out.println("准备发送未收到的消息！！！！！ "+uMap.get("userId"));
-									startMessageThread(uMap.get("userId")+"",uMap.get("objectMessage"));
+							for(int i=0;i<unsentMessageList.size();i++){
+								if(unsentMessageList.get(i).get("userId").equals(this.userId)){//未发送消息中存在此userId
+									System.out.println("准备发送未收到的消息！！！！！ "+unsentMessageList.get(i).get("userId"));
+									startMessageThread(unsentMessageList.get(i).get("userId")+"",unsentMessageList.get(i).get("objectMessage"));
+									unsentMessageList.remove(i);
 								}
 							}
 						}
 						System.out.println("当前SocketThread的userId为："+userId+"==="+"当前所有连接为："+mThreadList);
-						
+						System.out.println("当前所有未发送的信息为："+unsentMessageList);
 						/*SocketMessage from = Util.parseJson(data);
 						//给UserID赋值，此处是我们项目的需求，根据客户端不同的UserId来分别进行推送
 						if (userId == null || "".equals(userId))

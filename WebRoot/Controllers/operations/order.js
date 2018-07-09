@@ -138,7 +138,9 @@ xh.load = function() {
 					id:$scope.data[id].id,
 					bsId:$scope.data[id].bsid,
 					zbdldm:$scope.data[id].zbdldm,
-					from:$scope.data[id].from
+					from:$scope.data[id].from,
+					serialnumber:$scope.data[id].serialnumber,
+					userid:$scope.data[id].userid
 				},
 				success : function(data) {
 
