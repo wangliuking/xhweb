@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>系统告警</title>
+<title>基站故障记录登记表</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -216,16 +216,17 @@ to {
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li class="active"><span>系统告警</span></li>
+							<li><span>系统运维</span></li>
+							<li class="active"><span>基站故障记录</span></li>
 						</ol>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="content animate-panel" style="min-width:1500px;">
+		<div class="content animate-panel">
 
 			<div class="row" id="search-panel" ng-show="true">
-				 <div class="col-md-12">
+				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
 							<i class="fa fa-search"></i> 查询数据
@@ -284,11 +285,9 @@ to {
 						</div>
 					</div>
 				</div>
-			 <!--   col-md-12 -->
 			</div>
 			<!-- row -->
 			<div class="row">
-			   
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -298,7 +297,7 @@ to {
 											class="text-black">筛选查询</span>
 										</a>
 							</div>
-							<i class="fa fa-indent text-danger"></i>&nbsp;系统告警列表
+							<i class="fa fa-indent text-danger"></i>&nbsp;基站故障记录登记表
 						</div>
 
 						<div class="panel-body">
@@ -306,32 +305,27 @@ to {
 
 								<button class="btn btn-danger btn-sm" data-toggle="modal"
 									data-target="#faultRecord">
-									<i class="fa fa-file-excel-o"></i>&nbsp;导出故障记录登记表
+									<i class="fa fa-file-excel-o"></i>&nbsp;导出基站故障记录登记表
 								</button>
 								<button class="btn btn-primary btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
 									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
 								</button>
 							</div>
 
-							<table id="tb-info" class="xh-table table-hover">
+							<table id="tb-info" class="xh-table table-hover"
+								style="table-layout:fixed">
 								<thead>
 									<tr class="tr-gray">
-										<th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th>
-										<th width="70px">信息来源</th>
-										<th width="80px">网元类型</th>
-										<th width="230px">网元名称</th>
-										<th width="70px">告警级别</th>
-										<th width="70px">告警类型</th>
-										
-										<th width="180px">故障原因</th>
-										
+										<!-- <th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th> -->
+										<th width="180px">基站</th>
+										<th width="80px">基站分级</th>
+										<th width="80px">使用状态</th>
+										<th width="80px">故障来源</th>
+										<th>故障原因</th>
 										<th width="180px">故障发生时间</th>
-										<th width="70px">告警状态</th>
-										<th width="80px">派单状态</th>
-										<th width="150px">派单编号</th>
-										
-										<th width="250px">操作</th>
+										<th width="80px">基站归属</th>
+										<th width="150px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -339,76 +333,23 @@ to {
 										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td>
-										<td>
-										<span ng-if="x.sysType==1">Tera系统</span>
-										<span ng-if="x.sysType==2">动环网</span>
-										</td>
-										<td><span ng-if="x.neType==1">基站</span> <span
-													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
-													<span ng-if="x.neType==4">网管</span> <span
-													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
-													<span ng-if="x.neType==7">INIGW</span> <span
-													ng-if="x.neType==8">短信中心</span> <span ng-if="x.neType==9">PDT</span>
-													<span ng-if="x.neType==10">鉴权中心</span> <span
-													ng-if="x.neType==11">录音</span> <span ng-if="x.neType==12">模拟网关</span>
-													<span ng-if="x.neType==13">MPT基站</span> <span
-													ng-if="x.neType==14">NTP服务器</span> <span
-													ng-if="x.neType==15">路由器</span> <span ng-if="x.neType==16">数字交叉连接设备</span>
-													<span ng-if="x.neType==17">同播服务器</span> <span
-													ng-if="x.neType==18">DSGW</span> <span ng-if="x.neType==19">以太网交换机</span>
-													<span ng-if="x.neType==20">WEB调度服务器</span> <span
-													ng-if="x.neType==21">短信业务网关</span> <span
-													ng-if="x.neType==22">室外基站</span> <span ng-if="x.neType==23">PDT室外基站</span>
-													<span ng-if="x.neType==24">桥接基站</span> <span
-													ng-if="x.neType==29">以太网E1网桥</span> <span
-													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
-												</td>
-										
-										<td>
-										<span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.subModId}}）</span>
-										<span ng-if="x.sysType==1 && x.neType==4">{{x.name}}（{{x.subModId}}）</span>
-										<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
-										<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
-										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
-										</td>
-										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">一级告警</td>
-												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">二级告警</td>
-												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">三级告警</td>
-												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">四级告警</td>
-										<td>
-												<span ng-if="x.category==1">通信</span>
-												<span ng-if="x.category==2">软件</span>
-												<span ng-if="x.category==3">环境</span>
-												<span ng-if="x.category==4">Qos</span>
-												<span ng-if="x.category==5">设备</span>
-												<span ng-if="x.category==6">网管</span>
-										</td>
-										
+										<!-- <td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td> -->
+										<td>{{x.bsId}}-{{x.name}}</td>
+										<td>{{x.level}}</td>
+										<td><span ng-if="x.tag==0">停用</span> <span
+											ng-if="x.tag==1">启用</span></td>
+										<td>{{x.from}}</td>
 										<td>{{x.reason}}</td>
-										
 										<td>{{x.time}}</td>
-										<td ng-if="x.alarmTag==0" style="background-color:#DC143C;color:#000;">未恢复</td>
-										<td ng-if="x.alarmTag==1" style="background-color:green;color:#000;">已恢复</td>
-										<td>
-										<span ng-if="x.status==0">未派单</span>
-										<span ng-if="x.status==1">派单中</span>
-										</td>
-										<td>{{x.orderId}}</td>
-										
+										<td>{{x.hometype}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)"> <i
-												class="fa fa-edit text-danger"></i>&nbsp;编辑
-										</a> 
-										<a href="#"
-											ng-click="editModel($index)"> <i
-												class="fa fa-edit text-danger"></i>&nbsp;核检
+												class="fa fa-edit text-success"></i>&nbsp;编辑
 										</a> 
 										<a href="#" ng-click="showOrderWin($index)"
 											ng-if="x.status==0 && (up.o_order=='on' || roleId==10000)"> <i
-												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
+												class="fa fa-hand-stop-o text-success"></i>&nbsp;|派单
 										</a>
 										<span ng-if="x.status==1" style="color:red">已经派单!!</span>
 										</td>

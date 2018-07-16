@@ -1,93 +1,92 @@
-
-<div class="row">
+<div class="row" ng-repeat="x in psmData" ng-if="x.bdTmp1>0 || x.bdTmp2>0 || x.bdTmp3>0">
 	<div class="col-md-12">
-		<div class="hpanel ">
-			<div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ID</td>
+					<td style="color:blue;font-weight: 800">{{x.Id}}</td>
+					<td>工作状态</td>
+					<td style="color:red:font-weight:800" colspan="3">
+					<span ng-if="x.dc12==1">DC12V异常</span> 
+					<span ng-if="x.dc301==1" >DC30V-1异常</span>
+					<span ng-if="x.dc302==1" >DC30V-2异常</span> 
+					<span ng-if="x.runStatus==1">单板运行状态异常</span> 
+					<span ng-if="x.tempStatus==1">单板温度异常</span> 
+					<span ng-if="x.linkStatus==1">PSM与BSC通讯异常</span> 
+					<span ng-if="x.linkStatus==0 && x.dc12==0 && x.dc301==0 && x.dc302==0 &&x.runStatus==0 && x.tempStatus==0"
+								style="color:green;font-weight: 800">正常</span>
+					</td>
+				</tr>
 
-				PSM状态
-			</div>
-			<div class="panel-body">
-				<table id="tb-info" class="xh-table table-hover xh-table-fixed">
-					<thead>
-						<tr class="tr-gray">
-							<th>ID</th>
-							<th >工作状态</th>
-							<th>风扇1状态</th>
-							<th>风扇2状态</th>
-							<th>风扇3状态</th>
-							<th>AC/DC通信状态</th>
-							<th>温度1(℃)</th>
-							<th>温度2(℃)</th>
-							<th>温度3(℃)</th>
-							<th>AC/DC电压(V)</th>
-							<th>AC/DC电流(A)</th>
-							<th style="width:150px;">更新时间</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="psmTotals==0">
-							<td colspan="12" class="text-center">没有记录！</td>
-						</tr>
-						<tr ng-repeat="x in psmData" ng-if="x.bdTmp1>0 || x.bdTmp2>0 || x.bdTmp3>0">
-							<td>{{x.Id}}</td>
-							<td>
-							<span ng-if="x.dc12==1" class="label arrowed label-sm label-danger">DC12V异常</span>
-							<span ng-if="x.dc301==1" class="label arrowed label-sm label-danger">DC30V-1异常</span>
-							<span ng-if="x.dc302==1" class="label arrowed label-sm label-danger">DC30V-2异常</span>
-							<span ng-if="x.runStatus==1" class="label arrowed label-sm label-danger">单板运行状态异常</span>
-							<span ng-if="x.tempStatus==1" class="label arrowed label-sm label-danger">单板温度异常</span>
-							<span ng-if="x.linkStatus==1" class="label arrowed label-sm label-danger">PSM与BSC通讯</span>
-							<span ng-if="x.linkStatus==0 && x.dc12==0 && x.dc301==0 && x.dc302==0 &&x.runStatus==0 && x.tempStatus==0" class="label arrowed label-sm label-success">正常</span>
-							</td>
-							
-							<td>
-							<span ng-if="x.fan1==2" class="label arrowed label-sm label-success">正常</span>
-							<span ng-if="x.fan1!=2" class="label arrowed label-sm label-danger">异常</span>
-							</td>
-							<td>
-							<span ng-if="x.fan2==2" class="label arrowed label-sm label-success">正常</span>
-							<span ng-if="x.fan2!=2" class="label arrowed label-sm label-danger">异常</span>
-							</td>
-							<td>
-							<span ng-if="x.fan3==2" class="label arrowed label-sm label-success">正常</span>
-							<span ng-if="x.fan3!=2" class="label arrowed label-sm label-danger">异常</span>
-							</td>
-							
-							<td>
-							<span ng-if="x.ad==2" class="label arrowed label-sm label-success">正常</span>
-							<span ng-if="x.ad!=2" class="label arrowed label-sm label-danger">异常</span>
-							</td>
-							
-							
-							<td>
-							<span ng-if="(x.bdTmp1/2)>1">{{x.bdTmp1/2}} ℃</span>
-							</td>
-							<td>
-							<span ng-if="(x.bdTmp2/2)>1">{{x.bdTmp2/2}} ℃</span>
-							</td>
-							<td>
-							<span ng-if="(x.bdTmp3/2)>1">{{x.bdTmp3/2}} ℃</span>
-							</td>
-							
-							<td>
-							<span ng-if="(x.acdcVol/10)>0">{{x.acdcVol/10}} V</span>
-							</td>
-							<td>
-							<span ng-if="(x.acdcCur/10)>0">{{x.acdcCur/10}} A</span>
-							</td>
-						
-							<td>{{x.updateTime}}</td>
-						</tr>
-						<tr ng-if="bscExists>=2">
-							
-							<td colspan="12">
-							    数据获取中
-							 </td>
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+				<tr>
+					<td>风扇1状态</td>
+					<td>
+					<span ng-if="x.fan1==2" class="text-success">正常</span> 
+					<span ng-if="x.fan1!=2" class="text-danger">异常</span>
+					</td>
+					<td>风扇2状态</td>
+					<td>
+					<span ng-if="x.fan2==2" class="text-success">正常</span> 
+					<span ng-if="x.fan2!=2" class="text-danger">异常</span>
+					</td>
+					<td>风扇3状态</td>
+					<td>
+					<span ng-if="x.fan3==2" class="text-success">正常</span> 
+					<span ng-if="x.fan3!=2" class="text-danger">异常</span>
+					</td>
+				</tr>
+				<tr>
+					<td>AC/DC通信状态</td>
+					<td>
+					<span ng-if="x.ad==2" class="text-success">正常</span> 
+					<span ng-if="x.ad!=2" class="text-danger">异常</span>
+					</td>
+					<td>温度1(℃)</td>
+					<td>
+					<span ng-if="(x.bdTmp1/2)>1">{{x.bdTmp1/2}} ℃</span>
+					</td>
+					<td>温度2(℃)</td>
+					<td>
+					<span ng-if="(x.bdTmp2/2)>1">{{x.bdTmp2/2}} ℃</span>
+					</td>
+				</tr>
+				<tr>
+					<td>温度3(℃)</td>
+					<td>
+					<span ng-if="(x.bdTmp3/2)>1">{{x.bdTmp3/2}} ℃</span>
+					</td>
+					<td>AC/DC电压(V)</td>
+					<td>
+					<span ng-if="(x.acdcVol/10)>0">{{x.acdcVol/10}} V</span>
+					</td>
+					<td>AC/DC电流(A)</td>
+					<td>
+					<span ng-if="(x.acdcCur/10)>0">{{x.acdcCur/10}} A</span>
+					</td>
+
+				</tr>
+				<tr>
+				<td>更新时间</td>
+					<td>{{x.updateTime}}</td>
+				</tr>
+
+			</tbody>
+		</table>
 	</div>
+</div>
+<!-- row -->
+<div class="row"  ng-if="bscExists>=2">
+<div class="col-md-12">
+<p>数据获取中</p>
+</div>
 </div>

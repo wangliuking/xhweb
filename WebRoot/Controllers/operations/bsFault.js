@@ -24,10 +24,10 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
-	var pageSize = $("#page-limit").val();
+	var pageSize = $("#page-limit").val()==null?30:$("#page-limit").val();
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "15";//每页数据显示默认值
+		$scope.count = "30";//每页数据显示默认值
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
@@ -41,7 +41,7 @@ xh.load = function() {
 			$scope.roleId = response.roleId ;
 		});
 		/*获取故障信息*/
-		$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit="+pageSize).
+		$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit=30").
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;

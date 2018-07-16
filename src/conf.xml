@@ -17,7 +17,7 @@
 		<!-- 基站闪断时长判断 单位分钟 -->
 		<bsflash>5</bsflash>
 		<smsnet>1</smsnet>
-		<news>1</news>
+		<news>公告栏</news>
 	</web>
 	<smsnet>
 	<ip>192.168.120.160</ip>

@@ -71,38 +71,7 @@
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-body">
-							<ul id="xh-tabs" class="nav nav-tabs">
-								<li class="active"><a href="#equip" data-toggle="tab"
-									ng-click='equip()'> 设备状态 </a></li>
-								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
-										环控状态</a></li>
-								<li><a href="#business" data-toggle="tab"
-									ng-click='business()'> 业务信息</a></li>
-							</ul>
-							<div class="tab-content" style="padding:20px">
-								<div class="tab-pane fade" id="emh">
-									<div ng-include="'bsstatus-view-emh.html'"></div>
-								</div>
-								<!-- group -->
-								<div class="tab-pane fade" id="business">
-									<div ng-include="'bsstatus-view-business.html'"></div>
-								</div>
-								<div class="tab-pane fade" id="config">
-
-									<div ng-include="'bsstatus-view-config.html'"></div>
-								</div>
-								<!-- radio -->
-								<div class="tab-pane fade in active" id="equip">
-
-									<div ng-include="'bsstatus-view-bsc.html'"></div>
-
-									<div ng-include="'bsstatus-view-bsr.html'"></div>
-									<div ng-include="'bsstatus-view-dpx.html'"></div>
-									<div ng-include="'bsstatus-view-psm.html'"></div>
-								</div>
-
-
-							</div>
+							<div ng-include="'bsstatus-onebs.html'"></div>
 						</div>
 					</div>
 				<!-- panel -->

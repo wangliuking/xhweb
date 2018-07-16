@@ -420,8 +420,15 @@
 	<select id="bsFaultList" resultType="map" useCache="true"
 		parameterType="map">
 
-		select a.bsId%1000 as bsId,
+		select
+		CASE 
+		WHEN a.bsId>=1200 and a.bsId&lt;2000 THEN a.bsId%1000
+		ELSE a.bsId
+		END bsId,
+		
 		a.id,
+		a.sysType,a.neId,a.neType,a.mscId,a.location,a.modType,a.modId,a.subModType,a.subModId,a.code,a.category,a.causeCode,
+		a.orderId,
 		CASE weekly
 		WHEN 0 THEN '星期日'
 		WHEN 1 THEN '星期一'
@@ -453,14 +460,17 @@
 		a.zbdldm,
 		a.faultType,
 		a.status,
+		a.level as alarmLevel,
 		a.alarmTag,b.name,b.level,b.status as
 		tag,b.hometype,b.period
 		from
 		xhgmnet_operations_bsfault as a
-		left
-		join
-		xhgmnet_bs_station as b on
-		a.bsId%1000=b.bsId where 1=1
+		left join xhgmnet_bs_station as b on
+		a.bsId%1000=b.bsId 
+		
+		<!-- (a.bsId%1000=b.bsId and a.neType=1) or (a.subModId%1000=b.bsId and a.neType=2)
+		or (a.subModId%1000=b.bsId and a.neType=4) -->
+		where a.level&lt;5
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
 		</if>
@@ -477,7 +487,7 @@
 	</select>
 	<select id="bsFaultListCount" resultType="int" useCache="true"
 		parameterType="map">
-		select count(*) from xhgmnet_operations_bsfault where 1=1
+		select count(*) from xhgmnet_operations_bsfault where level&lt;5
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>

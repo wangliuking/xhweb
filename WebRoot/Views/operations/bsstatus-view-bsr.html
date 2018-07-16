@@ -1,91 +1,82 @@
-
-<div class="row">
+<div class="row" ng-repeat="x in bsrData"
+	ng-if="bscExists<2 &&x.bsrIsEnable==1">
 	<div class="col-md-12">
-		<div class="hpanel">
-			<div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+				<tr class="tr-gray">
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>ID</td>
+					<td style="color:blue;font-weight: 800">{{x.Id}}</td>
+					<td>工作状态</td>
+					<td style="color:red;font-weight: 800" colspan="3">
+					<span ng-if="x.working==0" class="text-success" >正常</span>
+					<span ng-if="x.working==1" >到BSC的ICP通道断开</span>
+					<span ng-if="x.working==2" >TR异常</span> 
+					<span ng-if="x.working==3" >到BSC的ICP通道断开并且TR异常</span>
+					<span ng-if="x.working==4" >PA异常</span> 
+					<span ng-if="x.working==5" >到BSC的ICP通道断开，PA异常</span>
+					<span ng-if="x.working==6" >TR及PA异常</span> 
+					<span ng-if="x.working==7" >到BSC的ICP通道断开，TR及PA异常</span>
+					<span ng-if="x.working==8" >DSP状态异常</span> 
+					<span ng-if="x.working==64" >BBP状态异常</span> 
+					<span ng-if="x.working==65" >到BSC的ICP通道断开，并且BBP状态异常</span>
+					<span ng-if="x.working==66" >BBP及TR状态异常</span>
+					<span ng-if="x.working==67" >到BSC的ICP通道断开，BBP及TR状态异常</span>
+					<span ng-if="x.working==68" >BBP及PA状态异常</span>
+					<span ng-if="x.working==69" >到BSC的ICP通道断开，BBP及PA状态异常</span>
+					<span ng-if="x.working==70" >BBP，TR及PA状态异常</span>
+					<span ng-if="x.working==71" >到BSC的ICP通道断开，BBP、TR及PA状态异常</span>
+                    <span ng-if="x.working==72" >DSP、BBP状态异常</span>
+					<span ng-if="x.working==73" >BBP状态异常，DSP状态异常，到BSC的ICP通道断开</span>
+					<span ng-if="x.working==74" >BBP状态异常,DSP状态异常,TR异常</span>
+					<span ng-if="x.working==75" >到BSC的ICP通道断开,BBP、DSP、TR状态异常</span>
+					<span ng-if="x.working==128" >功放关闭</span> 
+					<span ng-if="x.working==255" >工作状态未知</span>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>第一载波频点</td>
+					<td>{{x.freq |freqFormat}}</td>
+					<td>第二载波频点</td>
+					<td>{{x.freq2 |freqFormat}}</td>
+					<td>第三载波频点</td>
+					<td>{{x.freq3 |freqFormat}}</td>
+				</tr>
+				<tr>
+					<td>第四载波频点</td>
+					<td>{{x.freq4 |freqFormat}}</td>
+					<td>是否包含主载波</td>
+					<td><span ng-if="x.master==0">未知</span> <span
+						ng-if="x.master==1">否</span> <span ng-if="x.master==2">是</span></td>
+					<td>功率</td>
+					<td><span ng-if="x.power>47">{{x.power-15}}db</span> <span
+						ng-if="x.power<=47">{{x.power}}db</span></td>
+				</tr>
+				<tr>
+				<td>更新时间</td>
+				<td colspan="5">{{x.updateTime}}</td>
+				</tr>
 
-				BSR状态
-			</div>
-			<div class="panel-body">
-				<table id="tb-info" class="xh-table table-hover" style="table-layout：fixed">
-					<thead>
-						<tr class="tr-gray">
-							<th>ID</th>
-							<th>工作状态</th>
-							<th>第一载波频点</th>
-							<th>第二载波频点</th>
-							<th>第三载波频点</th>
-							<th>第四载波频点</th>
-							<th>是否包含主载波</th>
-							<th>功率</th>
-							<th>更新时间</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="bsrTotals==0">
-							<td colspan="9" class="text-center">没有记录！</td>
-						</tr>
-						<tr ng-repeat="x in bsrData" ng-if="bscExists<2 &&x.bsrIsEnable==1">
-							<td>{{x.Id}}</td>
-							<td style="/* max-width: 100px;word-wrap:break-word; *//* word-break:break-all; */ ">
-							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
-							<div ng-if="x.working>0">
-							<span>异常：</span>
-							<span ng-if="x.working==1" class="label arrowed label-sm label-danger">到BSC的ICP通道断开</span>
-							<span ng-if="x.working==2" class="label arrowed label-sm label-danger">TR异常</span>
-							<span ng-if="x.working==3" class="label arrowed label-sm label-danger">到BSC的ICP通道断开并且TR异常</span>
-							<span ng-if="x.working==4" class="label arrowed label-sm label-danger">PA异常</span>
-							<span ng-if="x.working==5" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，PA异常</span>
-							<span ng-if="x.working==6" class="label arrowed label-sm label-danger">TR及PA异常</span>
-							<span ng-if="x.working==7" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，TR及PA异常</span>
-							<span ng-if="x.working==8" class="label arrowed label-sm label-danger">DSP状态异常</span>
-							<span ng-if="x.working==64" class="label arrowed label-sm label-danger">BBP状态异常</span>
-							<span ng-if="x.working==65" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，并且BBP状态异常</span>
-							<span ng-if="x.working==66" class="label arrowed label-sm label-danger">BBP及TR状态异常</span>
-							<span ng-if="x.working==67" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，BBP及TR状态异常</span>
-							<span ng-if="x.working==68" class="label arrowed label-sm label-danger">BBP及PA状态异常</span>
-							<span ng-if="x.working==69" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，BBP及PA状态异常</span>
-							<span ng-if="x.working==70" class="label arrowed label-sm label-danger">BBP，TR及PA状态异常</span>
-							<span ng-if="x.working==71" class="label arrowed label-sm label-danger">到BSC的ICP通道断开，BBP、TR及PA状态异常</span>
-							
-							<span ng-if="x.working==72" class="label arrowed label-sm label-danger">DSP、BBP状态异常</span>
-							<span ng-if="x.working==73" class="label arrowed label-sm label-danger">BBP状态异常，DSP状态异常，到BSC的ICP通道断开</span>
-							<span ng-if="x.working==74" class="label arrowed label-sm label-danger">BBP状态异常,DSP状态异常,TR异常</span>
-							<span ng-if="x.working==75" class="label arrowed label-sm label-danger">到BSC的ICP通道断开,BBP、DSP、TR状态异常</span>
-							<span ng-if="x.working==128" class="label arrowed label-sm label-danger">功放关闭</span>
-							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
-							</div>
-							</td>
-							<td>{{x.freq |freqFormat}}</td>
-							<td>{{x.freq2 |freqFormat}}</td>
-							<td>{{x.freq3 |freqFormat}}</td>
-							<td>{{x.freq4 |freqFormat}}</td>
-							<td>
-							<span ng-if="x.master==0">未知</span>
-							<span ng-if="x.master==1">否</span>
-							<span ng-if="x.master==2">是</span>
-							</td>
-							<td ng-if="x.power>47">{{x.power-15}}db</td>
-							<td ng-if="x.power<=47">{{x.power}}db</td>
-							<td>{{x.updateTime}}</td>
-						</tr>
-						<tr ng-repeat="x in bsrData" ng-if="bscExists<2 && x.bsrIsEnable==0">
-							<td>{{x.Id}}</td>
-							
-							<td colspan="7">未启用</td>
-							<td>{{x.updateTime}}</td>
-						</tr>
-						<tr ng-if="bscExists>=2">
-							
-							<td colspan="9">
-							     数据获取中
-							 </td>
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-
+			</tbody>
+		</table>
 	</div>
 </div>
+<!-- row -->
+<!-- row -->
+<div class="row"  ng-if="bscExists>=2">
+<div class="col-md-12">
+<p>数据获取中</p>
+</div>
+</div>
+
+

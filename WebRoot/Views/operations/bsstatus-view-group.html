@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-12" style="color:#000">当前基站下注册组总计：{{groupTotals}}</div>
+	<div class="col-md-12" style="color:#000">注册组：{{groupTotals}}个</div>
 </div>
 <div class="row">
 	<div class="col-md-12">
@@ -27,17 +27,17 @@
 			</tbody>
 		</table>
 		<div class="page" ng-show="groupTotals>0">
-			<div class="page-info">
-				每页显示 <select id="page-limit-group" ng-change="refresh()"
+			<div>
+				每页显示 <select id="page-limit-group" ng-change="refresh_group()"
 					ng-model="count">
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="30">30</option>
 					<option value="40">40</option>
 					<option value="50">50</option>
-				</select> 条, <span ng-model="index">显示{{groupStart}}-</span><span
-					ng-model="lastIndex">{{groupLastIndex}}条,</span> <span
-					ng-model="totals">总计{{groupTotals}}条</span>
+				</select> 条, <span >显示{{groupStart}}-</span>
+				<span>{{groupLastIndex}}条,</span> 
+				<span>总计{{groupTotals}}条</span>
 			</div>
 			<div class="page-paging-group"></div>
 		</div>

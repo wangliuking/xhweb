@@ -1,0 +1,56 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+				<i class="fa fa-warning text-danger"></i> 基站告警记录
+			</div>
+			<div class="panel-body">
+				<p>暂无告警信息</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row-end -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+				<i class="fa fa-life-ring text-success"></i> 基站设备信息
+			</div>
+			<div class="panel-body">
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hinner">设备</div>
+						<div class="panel-body">
+							<div>bsc</div>
+							<div>bsr</div>
+							<div>dpx</div>
+							<div>psm</div>
+							<div>环控</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- col-md-4 -->
+				<div class="col-md-8">
+					<div class="hpanel">
+						<div class="panel-heading hinner">状态</div>
+						<div class="panel-body">
+							<div ng-include="'bsstatus-view-bsr.html'"></div>
+							<!-- <div ng-include="'bsstatus-view-bsc.html'"></div> -->
+							<!-- <div ng-include="'bsstatus-view-dpx.html'"></div> -->
+							<!-- <div ng-include="'bsstatus-view-psm.html'"></div> -->
+							<!-- <div ng-include="'bsstatus-view-emh.html'"></div> -->
+						</div>
+					</div>
+				</div>
+			<!-- col-md-8 -->
+			</div>
+			<!-- panel-body -->
+		</div>
+		<!-- hpanel -->
+	</div>
+	<!-- col-md-12 -->
+</div>
+<!-- row-end -->

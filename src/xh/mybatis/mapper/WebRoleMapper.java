@@ -3,6 +3,7 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebRoleBean;
 
 public interface WebRoleMapper {
@@ -68,5 +69,27 @@ public interface WebRoleMapper {
 	 * @throws Exception
 	 */
 	public int deleteByRoleId(List<String> list)throws Exception;
+	/**
+	 * 获取角色权限
+	 */
+	public UserPowerBean role_power(int roleId)throws Exception;
+	/**
+	 * 角色权限是否存在
+	 */
+	public int exists_role_power(int roleId)throws Exception;
+	/**
+	 * 更新角色权限
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public int update_role_power(UserPowerBean bean)throws Exception;
+	/**
+	 * 添加角色权限
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	public int add_role_power(UserPowerBean bean)throws Exception;
 
 }

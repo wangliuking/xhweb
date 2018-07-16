@@ -113,8 +113,11 @@ public class LoginController {
 					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
 					int roleId=Integer.parseInt(role);
 					Map<String,Object> menuMap=MenuService.menuList(roleId);
+					
 					if(menuMap!=null){
-						url=Integer.parseInt(menuMap.get("m_5").toString())==0?"../main.html":url;
+						if(menuMap.get("m_5")!=null){
+							url=Integer.parseInt(menuMap.get("m_5").toString())==0?"../main.html":url;
+						}
 					}
 					
 					webLogBean.setOperator(funUtil.loginUser(request));

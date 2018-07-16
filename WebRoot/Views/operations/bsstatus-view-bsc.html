@@ -1,96 +1,73 @@
-
-<div class="row">
+<div class="row" ng-repeat="x in bscData" ng-if="x.Id<=2 && x.online==2">
 	<div class="col-md-12">
-		<div class="hpanel">
-			<div class="panel-heading hbuilt" style="color:#000;border-left:2px solid green">
-
-				 BSC状态
-			</div>
-			<div class="panel-body">
-
-				<table id="tb-info" class="xh-table table-hover">
-					<thead>
-						<tr class="tr-gray">
-							<th>载频ID</th>
-							<th>工作状态</th>
-							<th>工作模式</th>
-							<th>主备状态</th>
-							<th>时钟同步状态</th>
-							<th>GPS时钟信息</th>
-							<th>运行时长</th>
-							<th>更新时间</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="bscTotals==0">
-							<td colspan="7" class="text-center">没有记录！</td>
-						</tr>
-						<tr ng-repeat="x in bscData" ng-if="x.Id<=2 && x.online==2">
-							<td>{{x.Id}}</td>
-							<td>
-							<span ng-if="x.working==0" class="label arrowed label-sm label-success">正常</span>
-							<div ng-if="x.working>0">
-							<span>异常：</span>
-							<span ng-if="x.working==1" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开</span>
-							<span ng-if="x.working==2" class="label arrowed label-sm label-danger">温度异常</span>
-							<span ng-if="x.working==3" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开并且温度异常</span>
-							<span ng-if="x.working==4" class="label arrowed label-sm label-danger">CPU太忙</span>
-							<span ng-if="x.working==5" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开同时CPU太忙</span>
-							<span ng-if="x.working==6" class="label arrowed label-sm label-danger">温度异常，同时CPU太忙</span>
-							<span ng-if="x.working==7" class="label arrowed label-sm label-danger">到交换中心的 ICP 通道断开，并且温度异常，CPU太忙</span>
-							<span ng-if="x.working==255" class="label arrowed label-sm label-danger">工作状态未知</span>
-							</div>
-							 </td>
-							
-							<!-- <td>
-							<span ng-if="x.online==2" class="label arrowed label-sm label-success">在线</span>
-							<span ng-if="x.online!=2" class="label arrowed-in label-sm label-danger">离线</span>
-							</td> -->
-							<td>
-							<span ng-if="x.mode==1" class="label arrowed label-sm label-success">单站</span>
-							<span ng-if="x.mode==2" class="label arrowed-in label-sm label-success">联网</span>
-							<span ng-if="x.mode==0" class="label arrowed-in label-sm label-info">未知</span>
-							</td>
-							<td>
-							<span ng-if="x.master==0" class="label arrowed label-sm label-info">备用</span>
-							<span ng-if="x.master==2" class="label arrowed-in label-sm label-success">主用</span>
-							</td>
-							<td>
-							<span ng-if="x.timeSync==1">获取同步中</span>
-							<span ng-if="x.timeSync==2">同步</span>
-							<span ng-if="x.timeSync==3">保持</span>
-							<span ng-if="x.timeSync==4">自由状态</span>
-							</td>
-							<td>
-							<span ng-if="x.gpsTime==1">GPS</span>
-							<span ng-if="x.gpsTime==2">北斗</span>
-							<span ng-if="x.gpsTime==3">NTP</span>
-							<span ng-if="x.gpsTime==4">none</span>
-							</td>
-							<td>{{x.runtime |timeFormate}}</td>
-							<td>{{x.updateTime}}</td>
-						</tr>
-						
-						<tr ng-repeat="x in bscData" ng-if="bscExists<2 && x.Id<=2 && x.online!=2">
-							<td>{{x.Id}}</td>
-							<td colspan="6">
-							设备不在线！！
-							 </td>
-							
-							
-							<td>{{x.updateTime}}</td>
-						</tr>
-						<tr ng-if="bscExists>=2">
-							
-							<td colspan="8">
-							    数据获取中
-							 </td>
-							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-
+		<table id="tb-info" class="xh-table table-hover">
+			<thead>
+			<tr class="tr-gray">
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+					<th width="120px">属性</th>
+					<th>值</th>
+				</tr>
+				
+			</thead>
+			<tbody>
+			<tr>
+					<td>载频ID</td><td style="color:blue;font-weight: 800">{{x.Id}}</td>
+					<td>工作状态</td>
+					<td colspan="3" style="color:red;font-weight: 800">
+					<span ng-if="x.working==0" class="text-success">正常</span>
+					<span ng-if="x.working==1">到交换中心的 ICP通道断开</span> 
+					<span ng-if="x.working==2">温度异常</span> 
+					<span ng-if="x.working==3">到交换中心的ICP通道断开并且温度异常</span> 
+					<span ng-if="x.working==4">CPU太忙</span> 
+					<span ng-if="x.working==5">到交换中心的ICP 通道断开同时CPU太忙</span> 
+					<span ng-if="x.working==6">温度异常，同时CPU太忙</span>
+					<span ng-if="x.working==7">到交换中心的 ICP通道断开，并且温度异常，CPU太忙</span> 
+					<span ng-if="x.working==255">工作状态未知</span>
+					</td>
+					</tr>
+					
+					<tr>
+					<td>工作模式</td>
+					<td>
+					<span ng-if="x.mode==1" class="text-success">单站</span> 
+					<span ng-if="x.mode==2" class="text-success">联网</span>
+					<span ng-if="x.mode==0" class="text-info">未知</span></td>
+					<td>主备状态</td>
+					<td>
+					<span ng-if="x.master==0" class="text-info">备用</span>
+                    <span ng-if="x.master==2" class="text-success">主用</span>
+					</td>
+					<td>时钟同步状态</td>
+					<td>
+					<span ng-if="x.timeSync==1">获取同步中</span> 
+					<span ng-if="x.timeSync==2">同步</span> 
+					<span ng-if="x.timeSync==3">保持</span>
+					<span ng-if="x.timeSync==4">自由状态</span>
+					</td>
+					</tr><tr>
+					<td>GPS时钟信息</td>
+					<td>
+					<span ng-if="x.gpsTime==1">GPS</span> 
+					<span ng-if="x.gpsTime==2">北斗</span> 
+					<span ng-if="x.gpsTime==3">NTP</span>
+					<span ng-if="x.gpsTime==4">none</span>
+					</td>
+					<td>运行时长</td>
+					<td>{{x.runtime |timeFormate}}</td>
+					<td>更新时间</td>
+					<td>{{x.updateTime}}</td>
+				</tr>
+				
+			</tbody>
+		</table>
 	</div>
+</div>
+<!-- row -->
+<div class="row"  ng-if="bscExists>=2">
+<div class="col-md-12">
+<p>数据获取中</p>
+</div>
 </div>

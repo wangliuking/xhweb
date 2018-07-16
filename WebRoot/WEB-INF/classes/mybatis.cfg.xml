@@ -67,6 +67,7 @@
 				<property name="password" value="${xh.master.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
               <property name="poolPingEnabled" value="true" />
+              <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 		<!-- 从数据库 -->
@@ -85,7 +86,7 @@
 				<property name="password" value="${xh.slave.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
-				
+				<property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 		
@@ -105,7 +106,7 @@
 				<property name="password" value="${xh.sf800m.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
-				
+				<property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 
@@ -125,7 +126,7 @@
 				<property name="password" value="${xh.gps_voice_master.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
-
+<property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 
@@ -146,6 +147,7 @@
 				<property name="poolPingEnabled" value="true" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 		<!-- eastcom -->
@@ -164,6 +166,7 @@
 				<property name="password" value="${xh.eastcom.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 
@@ -178,6 +181,7 @@
 				<property name="password" value="${xh.emh.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 
@@ -192,6 +196,7 @@
 				<property name="password" value="${xh.mysql.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 
@@ -207,6 +212,7 @@
 				<property name="password" value="${sqlserver.password}" />
 				<property name="poolPingQuery" value="SELECT NOW()" />
                 <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 

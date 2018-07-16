@@ -17,6 +17,8 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public List<BsstationBean> bsInfo(Map<String,Object> map)throws Exception;
+	
+	public List<Map<String,Object>> search_more_bs(Map<String,Object> map)throws Exception;
 	/**
 	 * 查询基站状态信息
 	 * @return
@@ -266,6 +268,8 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap>allBsInfo(Map<String,Object> map)throws Exception;
+	public List<HashMap<String, Object>>bs_business_info(Map<String,Object> map)throws Exception;
+	public int bs_business_info_count(Map<String,Object> map)throws Exception;
 
 	/**
 	 * 根据所选区域查询所有基站

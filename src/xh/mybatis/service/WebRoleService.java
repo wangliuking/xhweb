@@ -1,11 +1,13 @@
 package xh.mybatis.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebRoleBean;
 import xh.mybatis.mapper.WebRoleMapper;
 import xh.mybatis.tools.DbTools;
@@ -162,6 +164,72 @@ public class WebRoleService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	/*获取角色权限*/
+	public static UserPowerBean role_power(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		UserPowerBean bean=new UserPowerBean();
+		try {
+			bean=mapper.role_power(roleId);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bean;
+		
+		
+	}
+	/*判断角色权限是否存在*/
+	public static int exists_role_power(int roleId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		int count=0;
+		try {
+			count=mapper.exists_role_power(roleId);			
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+		
+		
+	}
+	/*修改角色权限*/
+	public static int update_role_power(UserPowerBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		int count=0;
+		try {
+			count=mapper.update_role_power(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+		
+		
+	}
+	/*增加角色权限*/
+	public static int add_role_power(UserPowerBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebRoleMapper mapper=sqlSession.getMapper(WebRoleMapper.class);
+		int count=0;
+		try {
+			count=mapper.add_role_power(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+		
+		
 	}
 
 }
