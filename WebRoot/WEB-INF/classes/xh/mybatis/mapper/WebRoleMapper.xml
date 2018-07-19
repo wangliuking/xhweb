@@ -57,6 +57,32 @@
             #{id}
         </foreach>
      ) 
-    </delete>   
+    </delete> 
+    <!-- 获取角色权限 -->
+    <select id="role_power"  resultType="xh.mybatis.bean.UserPowerBean" useCache="true" parameterType="int">
+     select * from xhgmnet_web_role_action where roleId=#{roleId}
+    </select> 
+	<!--判断角色权限是否存在 -->
+	<select id="exists_role_power" parameterType="int" resultType="int"
+		useCache="true">
+		select count(roleId) from xhgmnet_web_role_action where
+		roleId=#{roleId}
+	</select> 
+	<!--修改角色权限 -->
+	<update id="update_role_power" parameterType="xh.mybatis.bean.UserPowerBean">
+		update
+		xhgmnet_web_role_action set
 
+		r_send_order=#{r_send_order},
+		r_recv_order=#{r_recv_order}
+		where roleId=#{roleId}
+	</update> 
+	<!--添加角色权限 -->
+	<insert id="add_role_power" keyProperty="roleId"
+		parameterType="xh.mybatis.bean.UserPowerBean">
+		insert into xhgmnet_web_role_action
+		(r_send_order,r_recv_order)
+		values
+		(#{r_send_order},#{r_recv_order})
+	</insert>
 </mapper>

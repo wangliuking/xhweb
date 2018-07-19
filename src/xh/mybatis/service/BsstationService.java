@@ -37,6 +37,20 @@ public class BsstationService {
 		}
 		return list;
 	}
+	public static List<Map<String, Object>> search_more_bs(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.search_more_bs(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public static List<HashMap<String, Object>> bsstatusInfo(Map<String, Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
@@ -571,9 +585,6 @@ public class BsstationService {
 		try {
 			list=mapper.allBsInfo(map);
 			List<HashMap<String, String>> area =selectAllArea();
-			
-			
-			
 			for (HashMap<String, String> map1 : area) {
 				List<HashMap<String, String>> list1=new ArrayList<HashMap<String,String>>();
 				HashMap<String, Object> map3=new HashMap<String, Object>();
@@ -600,6 +611,38 @@ public class BsstationService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public static List<HashMap<String, Object>> bs_business_info(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		
+		try {
+			list=mapper.bs_business_info(map);
+			
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static int bs_business_info_count(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		int count=0;
+		
+		try {
+			count=mapper.bs_business_info_count(map);
+			
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 	/**
 	 * 根据基站ID查找基站相邻小区

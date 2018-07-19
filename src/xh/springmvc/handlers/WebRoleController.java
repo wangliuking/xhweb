@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.UserPowerBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebRoleBean;
 import xh.mybatis.bean.WebUserBean;
@@ -27,6 +30,7 @@ import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebRoleService;
 import xh.mybatis.service.WebUserRoleService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/web")
@@ -55,6 +59,24 @@ public class WebRoleController {
 		result.put("success", success);
 		result.put("totals","");
 		result.put("items", WebRoleService.roleByAll(paraMap));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/role/role_power",method=RequestMethod.GET)
+	public void role_power(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int roleId = funUtil.StringToInt(request.getParameter("roleId"));
+		UserPowerBean bean = WebRoleService.role_power(roleId);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items",bean);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -315,6 +337,62 @@ public class WebRoleController {
 		try {
 			response.getWriter().write(jsonstr);
 			log.debug("删除角色==>"+jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 设置角色权限
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/user/setgrouppower",method = RequestMethod.POST)
+	public void setgrouppower(HttpServletRequest request, HttpServletResponse response){
+		String jsonData=request.getParameter("formData");
+        UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
+      
+        System.out.print("数据-》"+bean.toString());
+        int rslt=0;
+        System.out.print("数据-》"+WebRoleService.exists_role_power(bean.getRoleId()));
+        if(WebRoleService.exists_role_power(bean.getRoleId())>0){
+        	
+        	rslt=WebRoleService.update_role_power(bean);
+        	System.out.print("数据1-》"+rslt);
+        }else{
+        	rslt=WebRoleService.add_role_power(bean);
+        	System.out.print("数据2-》"+rslt);
+        }
+        if(rslt==1){
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(4);
+			webLogBean.setContent("设置角色权限，userId="+bean.getUserId());
+			webLogBean.setCreateTime(funUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+			 Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
+	            while (iter.hasNext()) {  
+	                Map.Entry entry = (Map.Entry) iter.next();  
+	                Object key = entry.getKey();  
+	                Object val = entry.getValue();  
+	                if (((String) val).equals(bean.getRoleId())) {  
+	                	SingLoginListener.getLogUserMap().remove(key);  
+	                }  
+	            }  
+			message="设置角色权限成功";
+		}else{
+			message="设置角色权限失败";
+		}		
+		HashMap result = new HashMap();
+		this.success=true;
+		result.put("message", message);
+		result.put("result", rslt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

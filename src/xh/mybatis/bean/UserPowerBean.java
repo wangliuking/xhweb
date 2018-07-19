@@ -4,6 +4,7 @@ public class UserPowerBean {
 	
 	
 	/*用户ID*/
+	private int roleId;
 	private int userId;
 	private String user;
 	
@@ -43,6 +44,9 @@ public class UserPowerBean {
 	private String b_check_fault="off";//'审核故障申报',
 	private String b_check_communicationsupport="off" ;//'审核通信保障',
 	private String b_check_lend="off";//'审核租借',
+	
+	private String r_send_order="off";
+	private String r_recv_order="off";
 	
 	
 	
@@ -225,24 +229,49 @@ public class UserPowerBean {
 	public void setO_order(String o_order) {
 		this.o_order = o_order;
 	}
+	
+	public String getR_send_order() {
+		return r_send_order;
+	}
+	public void setR_send_order(String r_send_order) {
+		this.r_send_order = r_send_order;
+	}
+	public String getR_recv_order() {
+		return r_recv_order;
+	}
+	public void setR_recv_order(String r_recv_order) {
+		this.r_recv_order = r_recv_order;
+	}
+	
+	public int getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
 	@Override
 	public String toString() {
-		return "UserPowerBean [userId=" + userId + ", o_check_report="
-				+ o_check_report + ", o_check_service=" + o_check_service
+		return "UserPowerBean [roleId=" + roleId + ", userId=" + userId
+				+ ", user=" + user + ", o_check_report=" + o_check_report
+				+ ", o_check_service=" + o_check_service
 				+ ", o_check_netoptimize=" + o_check_netoptimize
 				+ ", o_check_emergency=" + o_check_emergency
 				+ ", o_check_work=" + o_check_work + ", o_check_change="
 				+ o_check_change + ", o_add=" + o_add + ", o_update="
-				+ o_update + ", o_delete=" + o_delete + ", p_add=" + p_add
-				+ ", p_update=" + p_update + ", p_delete=" + p_delete
-				+ ", p_lock=" + p_lock + ", b_add=" + b_add + ", b_update="
+				+ o_update + ", o_delete=" + o_delete + ", o_check_fault="
+				+ o_check_fault + ", o_check_duty=" + o_check_duty
+				+ ", o_check_inspection=" + o_check_inspection + ", o_order="
+				+ o_order + ", p_add=" + p_add + ", p_update=" + p_update
+				+ ", p_delete=" + p_delete + ", p_lock=" + p_lock
+				+ ", p_power=" + p_power + ", b_add=" + b_add + ", b_update="
 				+ b_update + ", b_delete=" + b_delete + ", b_check_joinnet="
 				+ b_check_joinnet + ", b_check_quitnet=" + b_check_quitnet
 				+ ", b_check_businesschange=" + b_check_businesschange
 				+ ", b_check_fault=" + b_check_fault
 				+ ", b_check_communicationsupport="
 				+ b_check_communicationsupport + ", b_check_lend="
-				+ b_check_lend + "]";
+				+ b_check_lend + ", r_send_order=" + r_send_order
+				+ ", r_recv_order=" + r_recv_order + "]";
 	}
 	
 	

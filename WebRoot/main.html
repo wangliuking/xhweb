@@ -111,9 +111,10 @@ marquee {
 					<li class="menu-list nav-active" ng-show="menu.m_1"><a href=""><i
 							class="fa fa-th-large"></i> <span>运维管理</span></a>
 						<ul class="sub-menu-list">
-							<li class="active" ng-show="menu.m_11"><a href="map.html" target="mainframe">
-									系统状态</a></li>
-							<li><a href="blank_page.html"> 控制台</a></li>
+							<!-- <li class="active" ng-show="menu.m_11"><a href="map.html" target="mainframe">
+									系统状态</a></li> -->
+							<li ng-show="menu.m_13"><a href="Views/menu/menu_monitor.html" target="mainframe">系统监控</a></li>
+							<!-- <li ng-show="menu.m_11"><a href="Views/operations/bsFault.html"  target="mainframe">系统告警</a></li> -->
 							<li ng-show="menu.m_12"><a href="Views/menu/menu_operations.html"
 								target="mainframe"> 服务监管</a></li>
 							<li ng-show="menu.m_13"><a href="Views/menu/menu_count.html" target="mainframe">统计分析</a></li>
@@ -196,6 +197,12 @@ marquee {
 				<!--notification menu start -->
 				<div class="menu-right">
 					<ul class="notification-menu">
+					
+					   <!--  <li><a href="Views/monitor/event.html" target="mainframe"
+							class="btn btn-default dropdown-toggle info-number"> <i
+								class="fa fa-share-square-o" onclick="javascript:window.history.go(-1)"></i><span>返回</span>
+						</a>
+						</li> -->
 
 						<li><a href="#"
 							class="btn btn-default dropdown-toggle info-number"

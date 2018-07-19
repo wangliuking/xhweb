@@ -1,5 +1,7 @@
 package xh.mybatis.mapper;
 
+import java.util.Map;
+
 import xh.mybatis.bean.WebUserRoleBean;
 
 public interface WebUserRoleMapper {

@@ -57,6 +57,11 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$scope.editData.roleType = $scope.editData.roleType.toString();
 		};
+		/*跳转到权限分配页面*/
+		$scope.power = function(id) {
+			$scope.editData = $scope.data[id];
+			window.location.href="group-power.html?roleId="+$scope.editData.roleId;
+	    };
 		/*跳转到菜单分配页面*/
 		$scope.menu = function(id) {
 			$scope.editData = $scope.data[id];

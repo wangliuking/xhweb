@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>business_menu.html</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+
+</head>
+
+<body class="fixed-iframe" ng-app="app" ng-controller="menu">
+	<!-- splash screen-->
+	<div class="splash">
+		<!-- <div class="color-line"></div> -->
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<!-- <div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li class="active"><span>服务监管</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content animate-panel" style="margin-top:0px" ng-show="menu.m_12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<i class="fa fa-list"></i> 系统监控
+						</div>
+						<div class="panel-body">
+						    <div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_121">
+							<a href="../../map.html" target="_self">
+								<i class="fa fa-map fa-4x text-success"></i>
+								<p>GIS</p>
+								</a>
+							</div>
+							
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_122">
+							<a href="../operations/bsstatus.html" target="_self">
+								<i class="fa fa-life-buoy fa-4x text-primary"></i>
+								<p>基站状态</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_121">
+							<a href="../operations/serverstatus.html" target="_self">
+								<i class="fa fa-universal-access fa-4x text-primary"></i>
+								<p>交换中心</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_121">
+							<a href="../operations/msc-equipment.html" target="_self">
+								<i class="fa fa-desktop fa-4x text-primary"></i>
+								<p>外部设备</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" ng-show="menu.m_122">
+							<a href="../operations/bsFault.html" target="_self">
+								<i class="fa fa-exclamation-triangle fa-4x text-warning"></i>
+								<p>系统告警</p>
+								</a>
+							</div>
+						
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+<script type="text/javascript">
+		xh.load();
+</script>
+
+</body>
+</html>

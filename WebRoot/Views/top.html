@@ -56,7 +56,15 @@
 											
 											
 											<p ng-if="x.deviceId=='170300000000001'"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-warning"></i>&nbsp;&nbsp;水浸告警</p>
-											<p ng-if="x.deviceId=='080200000000001'"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;四期基站,EPS配电箱,交流电断开</p>
+											
+											
+											<p ng-if="x.deviceId=='080200000000001'">
+											<i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;
+											<i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;{{x.description}}
+					
+											</p>
+											
+											
 											<p ng-if="x.deviceId==null && x.DevNode=='0051'"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-blue"></i>&nbsp;&nbsp;三期基站,电量检测,交流电断开</p>
 											<p ng-if="x.deviceId==null && x.DevNode=='0011'"><i ng-if="x.bell==0" class="fa fa-bell fa-x text-red"></i>&nbsp;<i class="fa fa-eercast text-warning"></i>&nbsp;&nbsp;水浸告警</p>
 													

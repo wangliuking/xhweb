@@ -24,38 +24,71 @@ toastr.options = {
 	};
 xh.load = function() {
 	var app = angular.module("app", []);
-	var pageSize = $("#page-limit").val();
+	var pageSize = $("#page-limit").val()==null?30:$("#page-limit").val();
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "15";//每页数据显示默认值
+		$scope.count = "30";//每页数据显示默认值
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
+		$scope.showMore=false;
 		var bsId=$("#bsId").val();
 		var starttime=$("#starttime").val();
 		var endtime=$("#endtime").val();
+		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			$scope.loginUser = response.user;
 			$scope.loginUserVpnId = response.vpnId;
 			$scope.roleId = response.roleId ;
+			$scope.roleType = response.roleType ;
+			
 		});
 		/*获取故障信息*/
-		$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit="+pageSize).
-		success(function(response){
-			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals),$scope);
-		});
+		
+		$scope.getInfo=function(){
+			var starttime=$("input[name='startTime']").val();
+			var endtime=$("input[name='endTime']").val();
+			var alarmType=0;
+			var sysType=0;
+			var level_value =[],alarmTag_value=[]; 
+			//告警级别
+			$('input[name="level"]:checked').each(function(){ 
+			level_value.push($(this).val()); 
+			});
+			//告警状态
+			$('input[name="alarmTag"]:checked').each(function(){ 
+				alarmTag_value.push($(this).val()); 
+			});
+			$http.get("../../bsstatus/bsFaultList?bsId=&" +
+					"level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit=30").
+			success(function(response){
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(1, parseInt($scope.totals),$scope);
+			});
+		}
+		
+		
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
+		};
+		$scope.refresh_search = function() {
+			$scope.search(1);
+			$("#search").modal('hide');
 		};
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
 			$("#edit").modal('show')
+		};
+		/* 显示警告详情 */
+		$scope.showDetails = function(id){
+			$("#bsAlarmDetails").modal('show');
+			$scope.bsAlarmData=$scope.data[id];
 		};
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -68,6 +101,84 @@ xh.load = function() {
 					function(response) {
 						$scope.userData = response.items;
 					});
+		}
+		//确认告警
+		$scope.sureOk=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length<1) {
+				swal({
+					title : "提示",
+					text : "至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			swal({
+				title : "提示",
+				text : "确认已经知晓该告警",
+				type : "success",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			 
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bsAlarm/sureAlarm',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : checkVal.join(",")
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("服务器响应失败", '提示');
+						}
+					});
+				}
+			});
+			
+		}
+		$scope.sureOneOk=function(index){
+			var id=$scope.data[index].id
+			
+			$.ajax({
+				url : '../../bsAlarm/sureAlarm',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : id
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("服务器响应失败", '提示');
+				}
+			});
+			
 		}
 		//派单
 		$scope.showOrderWin = function(index){
@@ -105,8 +216,19 @@ xh.load = function() {
 			var $scope = angular.element(appElement).scope();
 			var pageSize = $("#page-limit").val();
 			var bsId=$("#bsId").val();
-			var starttime=$("#starttime").val();
-			var endtime=$("#endtime").val();
+			var starttime=$("input[name='startTime']").val();
+			var endtime=$("input[name='endTime']").val();
+			var alarmType=$("input[name='alarmType']:checked").val();
+			var sysType=$("input[name='sysType']:checked").val();
+			var level_value =[],alarmTag_value=[]; 
+			//告警级别
+			$('input[name="level"]:checked').each(function(){ 
+			level_value.push($(this).val()); 
+			}); 
+			//告警状态
+			$('input[name="alarmTag"]:checked').each(function(){ 
+				alarmTag_value.push($(this).val()); 
+			});
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -117,7 +239,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -129,8 +252,19 @@ xh.load = function() {
 		$scope.pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var bsId=$("#bsId").val();
-			var starttime=$("#starttime").val();
-			var endtime=$("#endtime").val();
+			var starttime=$("input[name='startTime']").val();
+			var endtime=$("input[name='endTime']").val();
+			var alarmType=$("input[name='alarmType']:checked").val();
+			var sysType=$("input[name='sysType']:checked").val();
+			var level_value =[],alarmTag_value=[]; 
+			//告警级别
+			$('input[name="level"]:checked').each(function(){ 
+			level_value.push($(this).val()); 
+			}); 
+			//告警状态
+			$('input[name="alarmTag"]:checked').each(function(){ 
+				alarmTag_value.push($(this).val()); 
+			});
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -139,7 +273,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				
@@ -158,6 +293,7 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.getInfo();
 	});
 };
 xh.update = function() {

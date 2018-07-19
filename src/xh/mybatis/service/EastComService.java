@@ -123,7 +123,10 @@ public class EastComService {
 						map.put("time", time);
 						map.put("day", day);
 						list=mapper.get_bs_call_data(map);
-						write_bs_call_data(list);
+						if(list.size()>0){
+							write_bs_call_data(list);
+						}
+						
 						map.clear();
 						list.clear();
 						
@@ -176,7 +179,10 @@ public class EastComService {
 				map.put("time", time);
 				map.put("day", day);
 				List<EastMscCallBean> list=mapper.get_msc_call_data(map);
-				write_msc_call_data(list);	
+				if(list.size()>0){
+					write_msc_call_data(list);	
+				}
+				
 			}
 					
 			session.close();
@@ -213,7 +219,10 @@ public class EastComService {
 				map.put("time", time);
 				map.put("day", day);
 				List<EastVpnCallBean> list=mapper.get_vpn_call_data(map);
-				write_vpn_call_data(list);	
+				if(list.size()>0){
+					write_vpn_call_data(list);	
+				}
+				
 			}
 					
 			session.close();
@@ -250,7 +259,10 @@ public class EastComService {
 				map.put("time", time);
 				map.put("day", day);
 				List<EastMscCallDetailBean> list=mapper.get_msc_call_detail_data(map);
-				write_msc_call_detail_data(list);	
+				if(list.size()>0){
+					write_msc_call_detail_data(list);	
+				}
+				
 			}
 				
 			session.close();

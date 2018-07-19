@@ -96,15 +96,55 @@ public class BsStatusController {
 		this.success=true;
 		int start=FunUtil.StringToInt(request.getParameter("start"));
 		int limit=FunUtil.StringToInt(request.getParameter("limit"));
+		int sysType=FunUtil.StringToInt(request.getParameter("sysType"));
+		int alarmType=FunUtil.StringToInt(request.getParameter("alarmType_value"));
 		String bsId=request.getParameter("bsId");
 		String starttime=request.getParameter("starttime");
 		String endtime=request.getParameter("endtime");
+		String level=request.getParameter("level");
+		/*String alarmType_value=request.getParameter("alarmType_value");*/
+		String alarmTag_value=request.getParameter("alarmTag_value");
+		List<String> a=new ArrayList<String>();
+		List<String> b=new ArrayList<String>();
+		List<String> c=new ArrayList<String>();
+		/*int offline=0,water=0,ji=0,bsr=0;*/
+		
+		if(level!=""){
+			
+			for (String str : level.split(",")) {
+				a.add(str);
+			}
+		}
+		
+		/*if(alarmType_value!=""){
+			for (String str : alarmType_value.split(",")) {
+				if(str.equals("1")){
+					offline=1;
+				}else if(str.equals("2")){
+					water=1;
+				}else if(str.equals("3")){
+					ji=1;
+				}else if(str.equals("4")){
+					bsr=1;
+				}else{}
+			}
+		}*/
+		if(alarmTag_value!=""){
+			for (String str : alarmTag_value.split(",")) {
+				c.add(str);
+			}
+		}
+			
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("bsId", bsId);
+		map.put("level",a);
+		map.put("sysType",sysType);
+		map.put("alarmType",alarmType);
+		map.put("alarmTag_value",c);
 		map.put("starttime", starttime);
-		map.put("endtime",endtime);
+		map.put("endtime",endtime);	
 		
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -120,6 +160,40 @@ public class BsStatusController {
 		}
 		
 	}
+	//基站故障列表
+		@RequestMapping(value="/oneBsFaultList",method = RequestMethod.GET)
+		public void oneBsFaultList(HttpServletRequest request, HttpServletResponse response){
+			this.success=true;
+			int start=FunUtil.StringToInt(request.getParameter("start"));
+			int limit=FunUtil.StringToInt(request.getParameter("limit"));
+			int bsId=Integer.parseInt(request.getParameter("bsId"));
+			if(bsId>=200 && bsId<2000){
+				bsId=bsId+1000;
+			}
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("start", start);
+			map.put("limit", limit);
+			map.put("bsId", bsId);
+			map.put("alarmTg", 0);
+			map.put("starttime", "");
+			map.put("endtime","");
+			
+			
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("items",BsStatusService.bsFaultList(map));
+			result.put("totals", BsStatusService.bsFaultListCount(map));
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	//基站闪断列表
 		@RequestMapping(value="/bsflash",method = RequestMethod.GET)
 		public void bsflash(HttpServletRequest request, HttpServletResponse response){

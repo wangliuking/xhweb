@@ -36,6 +36,43 @@ public class BsAlarmController {
 	protected final Log log = LogFactory.getLog(BsAlarmController.class);
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
+	private String message;
+	
+	@RequestMapping(value = "/sureAlarm", method = RequestMethod.POST)
+	public void sureAlarm(HttpServletRequest request,
+			HttpServletResponse response) {
+		String ids=request.getParameter("id");
+		
+		String[] alarmIds=ids.split(",");
+		List<String> list=new ArrayList<String>();
+		
+		for(int i=0,j=alarmIds.length;i<j;i++){
+			list.add(alarmIds[i]);
+		}
+		
+		int rs = BsAlarmService.sureAlarm(list);
+		
+		if(rs>0){
+			message="确认告警成功";
+			this.success=true;
+		}else{
+			message="确认失败";
+			this.success=false;
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 	/**
 	 * 查询Tetra告警

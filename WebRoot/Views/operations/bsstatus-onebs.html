@@ -1,0 +1,155 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+				<i class="fa fa-warning text-danger"></i> 基站告警记录
+			</div>
+			<div class="panel-body">
+				<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th width="30px"><input type="checkbox"
+											id="table-checkbox" class="table-check" /></th>
+										<th width="70px">信息来源</th>
+										<th width="80px">网元类型</th>
+										<th width="230px">网元名称</th>
+										<th width="70px">告警级别</th>
+										<th width="70px">告警类型</th>
+										
+										<th width="180px">故障原因</th>
+										
+										<th width="180px">故障发生时间</th>
+										<th width="70px">告警状态</th>
+										<th width="80px">派单状态</th>
+										<th width="150px">派单编号</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="11" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td><input type="checkbox" name="tb-check"
+											value="{{x.id}}" index="{{$index}}" /></td>
+										<td>
+										<span ng-if="x.sysType==1">Tera系统</span>
+										<span ng-if="x.sysType==2">动环网</span>
+										</td>
+										<td><span ng-if="x.neType==1">基站</span> <span
+													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
+													<span ng-if="x.neType==4">网管</span> <span
+													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
+													<span ng-if="x.neType==7">INIGW</span> <span
+													ng-if="x.neType==8">短信中心</span> <span ng-if="x.neType==9">PDT</span>
+													<span ng-if="x.neType==10">鉴权中心</span> <span
+													ng-if="x.neType==11">录音</span> <span ng-if="x.neType==12">模拟网关</span>
+													<span ng-if="x.neType==13">MPT基站</span> <span
+													ng-if="x.neType==14">NTP服务器</span> <span
+													ng-if="x.neType==15">路由器</span> <span ng-if="x.neType==16">数字交叉连接设备</span>
+													<span ng-if="x.neType==17">同播服务器</span> <span
+													ng-if="x.neType==18">DSGW</span> <span ng-if="x.neType==19">以太网交换机</span>
+													<span ng-if="x.neType==20">WEB调度服务器</span> <span
+													ng-if="x.neType==21">短信业务网关</span> <span
+													ng-if="x.neType==22">室外基站</span> <span ng-if="x.neType==23">PDT室外基站</span>
+													<span ng-if="x.neType==24">桥接基站</span> <span
+													ng-if="x.neType==29">以太网E1网桥</span> <span
+													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
+												</td>
+										
+										<td>
+										<span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
+										<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.subModId}}）</span>
+										<span ng-if="x.sysType==1 && x.neType==4">{{x.name}}（{{x.subModId}}）</span>
+										<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
+										<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
+										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
+										</td>
+										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">一级告警</td>
+												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">二级告警</td>
+												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">三级告警</td>
+												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">四级告警</td>
+										<td>
+												<span ng-if="x.category==1">通信</span>
+												<span ng-if="x.category==2">软件</span>
+												<span ng-if="x.category==3">环境</span>
+												<span ng-if="x.category==4">Qos</span>
+												<span ng-if="x.category==5">设备</span>
+												<span ng-if="x.category==6">网管</span>
+										</td>
+										
+										<td>{{x.reason}}</td>
+										
+										<td>{{x.time}}</td>
+										<td ng-if="x.alarmTag==0" style="background-color:#DC143C;color:#000;">未恢复</td>
+										<td ng-if="x.alarmTag==1" style="background-color:green;color:#000;">已恢复</td>
+										<td>
+										<span ng-if="x.status==0">未派单</span>
+										<span ng-if="x.status==1">派单中</span>
+										</td>
+										<td>{{x.orderId}}</td>
+										
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row-end -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+				<i class="fa fa-life-ring text-success"></i> 基站设备信息
+			</div>
+			<div class="panel-body">
+				<div class="col-md-4">
+					<div class="hpanel">
+						<div class="panel-heading hinner">设备</div>
+						<div class="panel-body">
+							<div>bsc</div>
+							<div>bsr</div>
+							<div>dpx</div>
+							<div>psm</div>
+							<div>环控</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- col-md-4 -->
+				<div class="col-md-8">
+					<div class="hpanel">
+						<div class="panel-heading hinner">状态</div>
+						<div class="panel-body">
+							<!-- <div ng-include="'bsstatus-view-bsr.html'"></div> -->
+							<div ng-include="'bsstatus-view-bsc.html'"></div>
+							<!-- <div ng-include="'bsstatus-view-dpx.html'"></div> -->
+							<!-- <div ng-include="'bsstatus-view-psm.html'"></div> -->
+							<!-- <div ng-include="'bsstatus-view-emh.html'"></div> -->
+						</div>
+					</div>
+				</div>
+			<!-- col-md-8 -->
+			</div>
+			<!-- panel-body -->
+		</div>
+		<!-- hpanel -->
+	</div>
+	<!-- col-md-12 -->
+</div>
+<!-- row-end -->

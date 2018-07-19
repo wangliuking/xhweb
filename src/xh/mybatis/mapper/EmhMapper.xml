@@ -63,9 +63,9 @@
 	<!--基站环境监控交流电告警列表 -->
 	<select id="bsEmhJiAlarmList"  resultType="map"
 		useCache="true">
-			select a.updateTime as time,a.status as bell,a.deviceId,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
-            (select * from xhgmnet_emh_config where deviceId="080200000000001") as b on a.fsuId=b.fsuId
-where time &lt;=date_format(DATE_SUB(now(),INTERVAL 10 MINUTE),'%Y-%m-%d %H:%i:%s') order by time desc;
+			select a.updateTime as time,a.status as bell,a.deviceId,a.description,b.siteId as bsId,b.siteName as name from xhgmnet_emh_eps_status as a LEFT JOIN 
+            xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+where a.updateTime &lt;=date_format(DATE_SUB(now(),INTERVAL 10 MINUTE),'%Y-%m-%d %H:%i:%s') order by a.updateTime desc;
 	</select>
 	<!--基站环境监控交流电声音告警数目 -->
 	<select id="bsEmhJiAlarmVoiceCount"  resultType="int"
