@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.BsJiFourBean;
@@ -220,8 +221,28 @@ public class BsAlarmService {
 				bean=list.get(i);
 				eps=bs_emh_eps(bean);
 				if(bean.getSingleValue()==1){
+					Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 					if(eps==0){
-						 write_bs_emh_eps(bean);
+					   if(Double.parseDouble(compare.get("ups1").toString())<20){
+							
+							bean.setDescription("市电中断");
+						}else if(
+								(Double.parseDouble(compare.get("ups1").toString())>
+						         Double.parseDouble(compare.get("ups2").toString())) && 
+						         Double.parseDouble(compare.get("ups2").toString())!=0){
+							     bean.setDescription("市电电压过高");
+						}else if(
+								(Double.parseDouble(compare.get("ups1").toString())<
+						         Double.parseDouble(compare.get("ups2").toString())) && 
+						         Double.parseDouble(compare.get("ups1").toString())!=0){
+							     bean.setDescription("市电电压过低");
+						}else if(Double.parseDouble(compare.get("ups4").toString())<46){
+							 bean.setDescription("电池电压过低");
+						}else{
+							bean.setDescription("eps故障");
+						}
+						   write_bs_emh_eps(bean);
+						
 					}
 				}else{
 					if(eps>0){
@@ -238,6 +259,39 @@ public class BsAlarmService {
 			e.printStackTrace();
 		}
 	}
+	public static Map<String,Object> bs_ji_four_compare(String fsuId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
+		Map<String,Object>  rs=new HashMap<String, Object>();
+		int eps=0;
+		BsJiFourBean bean=new BsJiFourBean();
+		try {
+			list=mapper.bs_ji_four_compare(fsuId);
+			
+			
+			for(int i=0,a=list.size();i<a;i++){
+				bean=list.get(i);
+				/*singleId = "008304" or singleId = "008334" or singleId = "008408" or singleId = "008315"*/
+				if(bean.getSingleId().equals("008304")){
+					rs.put("ups1", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("008315")){
+					rs.put("ups2", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("008334")){
+					rs.put("ups4", bean.getSingleValue());
+				}else{
+					rs.put("tag", bean.getSingleValue());
+				}			
+			}		
+			sqlSession.close();
+			list=null;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	public static void bs_water_four() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
@@ -252,6 +306,7 @@ public class BsAlarmService {
 				eps=bs_emh_eps(bean);
 				if(bean.getSingleValue()==1){
 					if(eps==0){
+						 bean.setDescription("水浸告警");
 						 write_bs_emh_eps(bean);
 					}
 				}else{
@@ -343,6 +398,22 @@ public class BsAlarmService {
 			}
 		}
 		
+	}
+	public static int sureAlarm(List<String> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		int rs=0;
+		
+		try {
+			rs=mapper.sureAlarm(list);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
 	}
 
 }

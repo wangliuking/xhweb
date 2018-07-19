@@ -309,6 +309,8 @@ public class BsstationController {
 	public void bs_business_info(HttpServletRequest request, HttpServletResponse response){
 		/*int type=Integer.parseInt(request.getParameter("type"));*/
 		String zone=request.getParameter("zone");
+		String sort_type=request.getParameter("sort_type");
+		String sort_field=request.getParameter("sort_field");
 		/*int link=Integer.parseInt(request.getParameter("link"));
 		int status=Integer.parseInt(request.getParameter("status"));*/
 		/*String usergroup=request.getParameter("usergroup");*/
@@ -330,9 +332,9 @@ public class BsstationController {
 		Map<String,Object> paramMap=new HashMap<String, Object>();
 		/*paramMap.put("type", type);*/
 		paramMap.put("zone", zone);
-		/*paramMap.put("link", link);*/
-		/*paramMap.put("status",status);
-		paramMap.put("usergroup",usergroup);*/
+		paramMap.put("sort_type", sort_type);
+		paramMap.put("sort_field",sort_field);
+		/*paramMap.put("usergroup",usergroup);*/
 		paramMap.put("start", start);
 		paramMap.put("limit", limit);
 		paramMap.put("bslist",bslist);

@@ -304,12 +304,19 @@ to {
 						<div class="panel-body">
 							<div class="top-search btn-group">
 
-								<button class="btn btn-danger btn-sm" data-toggle="modal"
+								<button class="btn  btn-success btn-sm" data-toggle="modal"
 									data-target="#faultRecord">
 									<i class="fa fa-file-excel-o"></i>&nbsp;导出故障记录登记表
 								</button>
-								<button class="btn btn-primary btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
+								<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
 									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
+								</button>
+								<button class="btn btn-success btn-sm" ng-click="sureOk()">
+									<i class="fa fa-hand-stop-o"></i>&nbsp;确认告警
+								</button>
+								<button class="btn btn-primary btn-sm" data-toggle="modal" 
+								data-target="#search">
+									<i class="fa fa-hand-stop-o"></i>&nbsp;告警筛选
 								</button>
 							</div>
 
@@ -329,20 +336,21 @@ to {
 										<th width="180px">故障发生时间</th>
 										<th width="70px">告警状态</th>
 										<th width="80px">派单状态</th>
-										<th width="150px">派单编号</th>
+										<!-- <th width="150px">派单编号</th> -->
+										<th width="80px">确认状态</th>
 										
 										<th width="250px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="12" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
 										<td>
-										<span ng-if="x.sysType==1">Tera系统</span>
+										<span ng-if="x.sysType==1">Tetra系统</span>
 										<span ng-if="x.sysType==2">动环网</span>
 										</td>
 										<td><span ng-if="x.neType==1">基站</span> <span
@@ -364,15 +372,17 @@ to {
 													<span ng-if="x.neType==24">桥接基站</span> <span
 													ng-if="x.neType==29">以太网E1网桥</span> <span
 													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
+													<span ng-if="x.neType==100">基站环控</span>
 												</td>
 										
 										<td>
 										<span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.subModId}}）</span>
+										<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.bsId}}）</span>
 										<span ng-if="x.sysType==1 && x.neType==4">{{x.name}}（{{x.subModId}}）</span>
 										<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
 										<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
 										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
+										<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
 										</td>
 										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">一级告警</td>
 												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">二级告警</td>
@@ -387,18 +397,26 @@ to {
 												<span ng-if="x.category==6">网管</span>
 										</td>
 										
-										<td>{{x.reason}}</td>
+										<td><a href="#" ng-click="showDetails($index)">{{x.reason}}</a></td>
 										
 										<td>{{x.time}}</td>
 										<td ng-if="x.alarmTag==0" style="background-color:#DC143C;color:#000;">未恢复</td>
-										<td ng-if="x.alarmTag==1" style="background-color:green;color:#000;">已恢复</td>
+										<td ng-if="x.alarmTag==1" style="background-color:green;color:#fff;">已恢复</td>
 										<td>
 										<span ng-if="x.status==0">未派单</span>
 										<span ng-if="x.status==1">派单中</span>
 										</td>
-										<td>{{x.orderId}}</td>
+										<!-- <td>{{x.orderId}}</td> -->
 										
-										<td style="width:20px;text-align:center"><a href="#"
+										<td ng-if="x.sureOk==0" style="background-color:#DC143C;color:#000;">未确认</td>
+										<td ng-if="x.sureOk==1" style="background-color:green;color:#fff;">已确认</td>
+										
+										<td style="width:20px;text-align:center">
+										<a href="#" ng-click="sureOneOk($index)"
+											ng-if="x.sureOk==0 && (roleType==3 || roleType==0)"> <i
+												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|确认
+										</a>
+										<a href="#"
 											ng-click="editModel($index)"> <i
 												class="fa fa-edit text-danger"></i>&nbsp;编辑
 										</a> 
@@ -410,6 +428,7 @@ to {
 											ng-if="x.status==0 && (up.o_order=='on' || roleId==10000)"> <i
 												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
 										</a>
+										
 										<span ng-if="x.status==1" style="color:red">已经派单!!</span>
 										</td>
 									</tr>
@@ -438,6 +457,7 @@ to {
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
+    <div ng-include="'bsAlarm-show.html'"></div>
 
 	<div class="modal fade" id="faultRecord" tabindex="-1" role="dialog"
 		aria-hidden="true">

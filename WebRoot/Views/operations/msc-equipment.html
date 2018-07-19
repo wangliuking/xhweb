@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>中心状态</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<style type="text/css">
+</style>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<!-- <div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><span>实时监测</span></li>
+							<li class="active"><span>中心状态</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div class="content animate-panel"
+			style="margin-top:0px; padding:3px;">
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<!-- <div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
+									class="closebox"><i class="fa fa-times"></i></a>
+							</div>
+							外部设备监控
+						</div> -->
+						<div class="panel-body">
+							<canvas id="canvas"></canvas>
+
+							<!-- <ul id="xh-tabs" class="nav nav-tabs">
+								<li class="active"><a href="#server" data-toggle="tab">
+										服务器状态 </a></li>
+								
+								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
+										环控状态</a></li>
+							</ul>
+							<div class="tab-content" style="padding:20px;color:#000;">
+								
+								
+								<div class="tab-pane fade in active" id="server">
+									 <canvas id="canvas"></canvas>
+								</div>
+
+							</div> -->
+
+						</div>
+					</div>
+				</div>
+				<!-- col-md-9 end-->
+
+			</div>
+			<!-- row/ -->
+		</div>
+	</div>
+	<ul id="contextmenu" style="display:none;">
+		<li><a>顺时针旋转</a></li>
+		<li><a>逆时针旋转</a></li>
+		<li><a>更改颜色</a></li>
+		<li><a>放大</a></li>
+		<li><a>缩小</a></li>
+		<li><a>删除该节点</a></li>
+	</ul>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加用户 -->
+	<!-- <div ng-include="'user-add.html'"></div> -->
+	<!-- 编辑基用户-->
+	<!-- <div ng-include="'user-edit.html'"></div> -->
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
+	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/jtopo-0.4.8-min.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/msc-equipment.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

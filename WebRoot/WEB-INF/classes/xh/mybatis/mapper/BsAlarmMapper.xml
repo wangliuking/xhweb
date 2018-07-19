@@ -27,37 +27,39 @@
     </select>
     <!-- 四期交流电列表 -->
     <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
-    select fsuId,deviceId,updateTime,singleValue from xhgmnet_emh_sensor_status where deviceId = "080200000000001" and singleId = "008001"
+    select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
+    left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+    where deviceId = "080200000000001" and singleId = "008001"
     </select>
-    <!-- 四期交流电列表 -->
+    <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
+    select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 
+    where  fsuId=#{fsuId} and (singleId = "008304" or singleId = "008334" or singleId = "008408" or singleId = "008315")
+    </select>
+    <!-- 四期水浸列表 -->
     <select id="bs_water_four" resultType="xh.mybatis.bean.BsJiFourBean" >
-    select fsuId,deviceId,updateTime,singleValue from xhgmnet_emh_sensor_status where deviceId = "170300000000001" and singleId = "017001"
+    select a.fsuId,a.deviceId,a.updateTime,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
+    left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+    where deviceId = "170300000000001" and singleId = "017001"
     </select>
     <select id="bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean"  resultType="int" >
     select count(*) from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId}
     </select>
 	<insert id="write_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
-		replace into xhgmnet_emh_eps_status(
-		fsuId,deviceId,updateTime
+		replace into xhgmnet_emh_eps_status(bsId,name,
+		fsuId,deviceId,updateTime,description
 		)
-		values(
+		values(#{bsId},#{name},
 			#{fsuId},
 			#{deviceId},
-			#{updateTime}
+			#{updateTime},
+			#{description}		
 			)
-		<!-- <foreach collection="list" item="item" index="index"
-			separator=",">
-			(
-			#{item.fsuId},
-			#{item.deviceId},
-			#{item.updateTime}
-			)
-		</foreach> -->
 	</insert>
 	
 	<delete id="del_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
-		delete from  xhgmnet_emh_eps_status
-		where fsuId=#{fsuId} and deviceId=#{deviceId}
+		<!-- delete from  xhgmnet_emh_eps_status
+		where fsuId=#{fsuId} and deviceId=#{deviceId} -->
+		update xhgmnet_emh_eps_status set alarmTag=1 where fsuId=#{fsuId} and deviceId=#{deviceId}
 	</delete>
 	
 
@@ -228,5 +230,12 @@
 			)
 		</foreach>
     </insert>
-	
+   <!-- 确认告警 -->
+ <update id="sureAlarm" parameterType="List">
+     update xhgmnet_operations_bsfault set sureOk=1 where id in(
+     <foreach collection="list" item="id" separator=",">
+     #{id}
+     </foreach>
+     )
+ </update>	
 </mapper>

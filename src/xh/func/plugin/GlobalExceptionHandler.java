@@ -59,6 +59,8 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver{
             String methodName = handlerMethod.getMethod().getName();  
             log.error("--------------------------程序异常开始----------------------");
     		log.error("程序异常->描述="+ex.getLocalizedMessage());
+    		log.error("程序异常->描述="+ex.getStackTrace());
+    		ex.printStackTrace();
     		log.error("程序异常->error类型="+ex.getClass());
     		log.error("程序异常->请求URL="+request.getRequestURL());
     		log.error("程序异常->message="+className);

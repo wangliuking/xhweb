@@ -427,7 +427,9 @@
 		END bsId,
 		
 		a.id,
-		a.sysType,a.neId,a.neType,a.mscId,a.location,a.modType,a.modId,a.subModType,a.subModId,a.code,a.category,a.causeCode,
+		a.sysType,a.neId,a.neType,a.mscId,a.location,
+		a.modType,a.modId,a.subModType,
+		a.subModId,a.code,a.category,a.causeCode,a.sureOk,
 		a.orderId,
 		CASE weekly
 		WHEN 0 THEN '星期日'
@@ -462,11 +464,15 @@
 		a.status,
 		a.level as alarmLevel,
 		a.alarmTag,b.name,b.level,b.status as
-		tag,b.hometype,b.period
+		tag,b.hometype,b.period,
+		c.reason as reason2,c.suggestion as suggestion2
 		from
 		xhgmnet_operations_bsfault as a
-		left join xhgmnet_bs_station as b on
-		a.bsId%1000=b.bsId 
+		left join xhgmnet_bs_station as b on a.bsId%1000=b.bsId 
+		left join xhgmnet_eastcom_knowledge as c on a.neType=c.neType and 
+     	a.modType=c.modType and a.subModType=c.subModType and a.category=c.category 
+     	and a.code=c.code  and a.causeCode=c.causeCode and a.sysType=1
+		
 		
 		<!-- (a.bsId%1000=b.bsId and a.neType=1) or (a.subModId%1000=b.bsId and a.neType=2)
 		or (a.subModId%1000=b.bsId and a.neType=4) -->
@@ -477,7 +483,39 @@
 		<if test="startTime!='' and endtime!=''">
 			and a.time between #{starttime} and #{endtime}
 		</if>
+		<if test="alarmTag!=null and alarmTag!=''">
+		 and a.alarmTag=#{alarmTag}
+		</if>
 
+		<if test="level!=null and level.size()>0">
+     	and a.level in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="alarmTag_value!=null and alarmTag_value.size()>0">
+     	and a.alarmTag in(
+		<foreach collection="alarmTag_value" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="sysType>0">
+     	and a.sysType=#{sysType}
+     	</if>
+     	<if test="alarmType==1">
+     	and a.sysType=2 and a.modType=3001
+     	</if>
+     	<if test="alarmType==2">
+     	and a.sysType=2 and a.modType=3000
+     	</if>
+     	<if test="alarmType==3">
+     	and a.neType=2 and a.modType=1000 and a.code=1 and a.category=2
+     	</if>
+     	<if test="alarmType==4">
+     	 and a.neType=4
+     	</if>
 
 		order by a.time desc
 
@@ -494,6 +532,39 @@
 		<if test="startTime!='' and endtime!=''">
 			and time between #{starttime} and #{endtime}
 		</if>
+		<if test="alarmTag!=null and alarmTag!=''">
+		 and alarmTag=#{alarmTag}
+		</if>
+		
+		<if test="level!=null and level.size()>0">
+     	and level in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="alarmTag_value!=null and alarmTag_value.size()>0">
+     	and alarmTag in(
+		<foreach collection="alarmTag_value" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+      	<if test="sysType>0">
+     	and sysType=#{sysType}
+     	</if>
+     	<if test="alarmType==1">
+     	and sysType=2 and modType=3001
+     	</if>
+     	<if test="alarmType==2">
+     	and sysType=2 and modType=3000
+     	</if>
+     	<if test="alarmType==3">
+     	and neType=2 and modType=1000 and code=1 and category=2
+     	</if>
+     	<if test="alarmType==4">
+     	 and neType=4
+     	</if>
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"

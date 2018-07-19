@@ -186,10 +186,42 @@
 }
 .search_bs_div{
 width:100%;
-min-height:200px;
-background:red;
+border:1px solid #ccc;
+border-top:0px;
+display:none;
+max-height:200px;
+ overflow-y:scroll;
 }
 .search_bs_div li{
+ cursor: pointer;
+}
+.search_bs_div li:HOVER{
+padding:5px;
+ line-height:30px;
+ background:#000;
+ color:#fff;
+ 
+}
+#select_bs{
+ width:100%;
+ overflow-y:scroll;
+ min-height:200px;
+ 
+}
+.show{
+ display: block;
+}
+#select_bs li{
+ cursor: pointer;
+}
+#select_bs li:HOVER{
+padding:5px;
+ line-height:30px;
+ background:#000;
+ color:#fff;
+ 
+}
+.sort{
  cursor: pointer;
 }
 </style>
@@ -368,28 +400,35 @@ background:red;
 
 										</div>
 
-										<div class="col-md-12">
+										<div class="col-md-6">
 											<label>基站</label> <input name="name" ng-model="name" class="form-control"
 												placeholder="ID,名称可以为空" oninput="OnInput (event)"
 												onpropertychange="OnPropChanged (event)" />
-											<ul class="search_bs_div"></ul>
+											<ul class="search_bs_div">
+											<!-- <li ng-repeat="x in search_more_bs_data" id="search-{{x.bsId}}" value="{{x.baId}}" li-name="{{x.name}}">[{{x.bsId}}]{{x.name}}</li> -->
+											</ul>
 
 										</div>
-										<div class="col-md-12">
+										<div class="col-md-6">
 											<label>已选基站</label>
-											<textarea rows="5" cols="" class="form-control">
+											<ul class="form-control" id="select_bs">
 											
-											</textarea>
+											</ul>
+
+										</div>
+										<div class="col-md-6">
+											<p style="color:red;font-weight:800;"><span>提示：</span><span>单击基站列表，可以选中/取消基站</span></p>
 
 										</div>
 
 									</div>
+									<!-- row -->
 
 
 								</div>
 								<div class="panel-footer">
 									<button type="button" class="btn btn-danger btn-block"
-										ng-click="bs_business()">数据筛选</button>
+										ng-click="refresh()">数据筛选</button>
 								</div>
 
 							</div>
@@ -407,6 +446,8 @@ background:red;
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
+<!-- 		<script type="text/javascript"
+		src="../../Resources/js/jquery-1.8.3.min.js"></script> -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

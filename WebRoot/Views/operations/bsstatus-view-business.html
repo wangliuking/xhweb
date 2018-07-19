@@ -25,14 +25,14 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-gray">
-							<th width="180px">基站</th>
-							<th width="100px">控制信道占比</th>
-							<th width="100px">信道使用率</th>
-							<th width="100px">注册组</th>
-							<th width="100px">注册终端</th>
+							<th width="180px" class="sort" sort_type="desc" sort_field="bsId">基站<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<th width="100px" class="sort" sort_type="desc" sort_field="">控制信道占比<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<th width="100px" class="sort" sort_type="desc" sort_field="">信道使用率<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<th width="100px" class="sort" sort_type="desc" sort_field="groupSum">注册组<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<th width="100px" class="sort" sort_type="desc" sort_field="userSum">注册终端<i class="fa fa-sort-amount-asc text-success"></i></th>
 						</tr>
 					</thead>
-					<tbody>
+					 <tbody>
 						<tr ng-if="bs_business_info_count==0">
 							<td colspan="5" class="text-center">没有记录！</td>
 						</tr>
@@ -44,7 +44,7 @@
 							<td>{{x.groupSum}}</td>
 							<td>{{x.userSum}}</td>
 						</tr>
-					</tbody>
+					</tbody> 
 				</table>
 				<div class="page">
 					<div>
@@ -83,3 +83,31 @@
 	</div>
 
 </div>
+<script>
+$("tr").on('click',".sort",function(){
+	if($(this).attr("sort_type")=="desc"){
+		$(this).attr("sort_type","asc");
+		xh.sort("desc",$(this).attr("sort_field"));
+		if($(this).find("i").hasClass("fa-sort-amount-asc")){
+			$(this).find("i").removeClass("fa-sort-amount-asc");
+			$(this).find("i").addClass("fa-sort-amount-desc")
+		}else{
+			$(this).find("i").removeClass("fa-sort-amount-desc");
+			$(this).find("i").addClass("fa-sort-amount-asc")
+		}
+		
+		
+	}else{
+		$(this).attr("sort_type","desc");
+		xh.sort("asc",$(this).attr("sort_field"));
+		if($(this).find("i").hasClass("fa-sort-amount-asc")){
+			$(this).find("i").removeClass("fa-sort-amount-asc");
+			$(this).find("i").addClass("fa-sort-amount-desc")
+		}else{
+			$(this).find("i").removeClass("fa-sort-amount-desc");
+			$(this).find("i").addClass("fa-sort-amount-asc")
+		}
+		
+	}
+})
+</script>

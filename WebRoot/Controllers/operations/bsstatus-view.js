@@ -78,7 +78,7 @@ xh.load = function() {
 	} ]);
 
 	app.controller("userstatus", function($scope, $http, $location) {
-		$scope.count = "20";// 每页数据显示默认值
+		$scope.count = "5";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
 		//发起请求开启当前基站视频流
@@ -91,6 +91,7 @@ xh.load = function() {
 			}
 		});*/
 		//end
+		
 		$scope.period = $location.search().period;
 		var bsId = $scope.bsId;
 		var pageSize = $("#page-limit").val();
@@ -99,41 +100,18 @@ xh.load = function() {
 			var bsId = $scope.bsId;
 			return bsId;
 		};
+		/*获取故障信息*/
+		$scope.oneBsFault=function(){
+			
+			$http.get("../../bsstatus/oneBsFaultList?bsId="+$scope.bsId+"&start=0&limit=5").
+			success(function(response){
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(1, parseInt($scope.totals),$scope);
+			});
+		}
 
-		// 基站下的注册终端
-		$scope.radioUser = function() {
-			var bsId = $scope.bsId;
-			frist = 0;
-			var pageSize = $("#page-limit").val();
-			$http.get(
-					"../../radio/status/oneBsRadio?bsId=" + bsId
-							+ "&start=0&limit=" + pageSize).success(
-					function(response) {
-						$scope.radioData = response.items;
-						$scope.radioTotals = response.totals;
-						xh.pagging(1, parseInt($scope.radioTotals), $scope);
-					});
-		};
-		// 基站下的注册组
-		$scope.bsGroup = function() {
-			var bsId = $scope.bsId;
-			frist = 0;
-			var pageSize = $("#page-limit-group").val();
-			$http.get(
-					"../../radio/status/oneBsGroup?bsId=" + bsId
-							+ "&start=0&limit=" + pageSize).success(
-					function(response) {
-						$scope.groupData = response.items;
-						$scope.groupTotals = response.totals;
-						xh
-								.groupPagging(1, parseInt($scope.groupTotals),
-										$scope);
-					});
-		};
-		$scope.business = function() {
-			$scope.radioUser();
-			$scope.bsGroup();
-		};
 		// 基站下的bsc状态
 		$scope.bsc = function() {
 			var bsId = $scope.bsId;
@@ -182,24 +160,7 @@ xh.load = function() {
 						$scope.psmTotals = response.totals;
 					});
 		};
-		// 根据基站ID查找基站相邻小区
-		$scope.neighborByBsId = function() {
-			var bsId = $scope.bsId;
-			$http.get("../../bs/neighborByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.neighborData = response.items;
-						$scope.neighborTotals = response.totals;
-					});
-		};
-		// 根据基站ID查找基站切换参数
-		$scope.handoverByBsId = function() {
-			var bsId = $scope.bsId;
-			$http.get("../../bs/handoverByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.handoverData = response.items;
-						$scope.handoverTotals = response.totals;
-					});
-		};
+		
 		// 根据基站ID查找基站BSR配置信息
 		$scope.bsrconfigByBsId = function() {
 			var bsId = $scope.bsId;
@@ -208,29 +169,6 @@ xh.load = function() {
 						$scope.bsrconfigData = response.items;
 						$scope.bsrconfigTotals = response.totals;
 					});
-		};
-		// 根据基站ID查找基站传输配置信息
-		$scope.linkconfigByBsId = function() {
-			var bsId = $scope.bsId;
-			$http.get("../../bs/linkconfigByBsId?bsId=" + bsId).success(
-					function(response) {
-						$scope.linkconfigData = response.items;
-						$scope.linkconfigTotals = response.totals;
-					});
-		};
-
-		$scope.equip = function() {
-			$scope.bsc();
-			$scope.bsr();
-			$scope.dpx();
-			$scope.psm();
-		};
-		// 基站配置参数
-		$scope.config = function() {
-			$scope.neighborByBsId();
-			$scope.handoverByBsId();
-			$scope.bsrconfigByBsId();
-			$scope.linkconfigByBsId();
 		};
 
 		/* 刷新数据 */
@@ -460,14 +398,12 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get(
-					"../../radio/status/oneBsRadio?bsId=" + $scope.bsId
-							+ "&start=" + start + "&limit=" + pageSize)
+			$http.get("../../bsstatus/oneBsFaultList?bsId="+$scope.bsId+"&start="+start+"&limit="+pageSize)
 					.success(function(response) {
 						xh.maskHide();
-						$scope.radioData = response.items;
-						$scope.radioTotals = response.totals;
-						xh.pagging(page, parseInt($scope.radioTotals), $scope);
+						$scope.data = response.items;
+						$scope.totals = response.totals;
+						xh.pagging(page, parseInt($scope.totals), $scope);
 					});
 		};
 		// 分页点击
@@ -481,9 +417,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 
-			$http.get(
-					"../../radio/status/oneBsRadio?bsId=" + $scope.bsId
-							+ "&start=" + start + "&limit=" + pageSize)
+			$http.get("../../bsstatus/oneBsFaultList?bsId="+$scope.bsId+"&start="+start+"&limit="+pageSize)
 					.success(function(response) {
 						xh.maskHide();
 
@@ -497,43 +431,12 @@ xh.load = function() {
 								$scope.lastIndex = 0;
 							}
 						}
-						$scope.radioData = response.items;
-						$scope.radioTotals = response.totals;
+						$scope.data = response.items;
+						$scope.totals = response.totals;
 					});
 
 		};
-		// 注册组分页点击
-		$scope.groupPageClick = function(page, totals, totalPages) {
-			var pageSize = $("#page-limit-group").val();
-			var start = 1, limit = pageSize;
-			page = parseInt(page);
-			if (page <= 1) {
-				start = 0;
-			} else {
-				start = (page - 1) * pageSize;
-			}
-
-			$http.get(
-					"../../radio/status/oneBsGroup?bsId=" + $scope.bsId
-							+ "&start=" + start + "&limit=" + pageSize)
-					.success(function(response) {
-						xh.maskHide();
-
-						$scope.groupStart = (page - 1) * pageSize + 1;
-						$scope.groupLastIndex = page * pageSize;
-						if (page == totalPages) {
-							if (totals > 0) {
-								$scope.groupLastIndex = totals;
-							} else {
-								$scope.groupStart = 0;
-								$scope.lastIndex = 0;
-							}
-						}
-						$scope.groupData = response.items;
-						$scope.groupTotals = response.totals;
-					});
-
-		};
+		
 		// 获取环控设备状态
 
 		$scope.emh = function() {
@@ -549,18 +452,16 @@ xh.load = function() {
 			});
 
 		}
+		$scope.bsc();
 
-		$scope.equip();
-		$scope.emh();
-		setInterval(function() {
+		//$scope.equip();
+		//$scope.emh();
+		$scope.oneBsFault();
+		/*setInterval(function() {
 
 			$scope.equip();
 			$scope.emh();
-			/*
-			 * $scope.loadTemp(); $scope.loadDamp();
-			 */
-			/* $scope.business(); */
-		}, 20000);
+		}, 20000);*/
 		
 		
 		//websocket推送代码
@@ -703,7 +604,7 @@ xh.pagging = function(currentPage, totals, $scope) {
 		$(".page-paging").html('<ul class="pagination"></ul>');
 		$('.pagination').twbsPagination({
 			totalPages : totalPages,
-			visiblePages : 3,
+			visiblePages : 10,
 			version : '1.1',
 			startPage : currentPage,
 			onPageClick : function(event, page) {
@@ -716,41 +617,6 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 };
-xh.groupPagging = function(currentPage, totals, $scope) {
-	var pageSize = $("#page-limit-group").val();
-	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
-			.ceil(parseInt(totals, 10) / pageSize);
-	var start = (currentPage - 1) * pageSize + 1;
-	var end = currentPage * pageSize;
-	if (currentPage == totalPages) {
-		if (totals > 0) {
-			end = totals;
-		} else {
-			start = 0;
-			end = 0;
-		}
-	}
-	$scope.groupStart = start;
-	$scope.groupLastIndex = end;
-	$scope.groupTotals = totals;
-	if (totals > 0) {
-		$(".page-paging-group").html('<ul class="pagination"></ul>');
-		$('.pagination').twbsPagination({
-			totalPages : totalPages,
-			visiblePages : 3,
-			version : '1.1',
-			startPage : currentPage,
-			onPageClick : function(event, page) {
-				if (frist == 1) {
-					$scope.groupPageClick(page, totals, totalPages);
-				}
-				frist = 1;
-
-			}
-		});
-	}
-};
-
 /**
  * 摄像头相关配置
  */

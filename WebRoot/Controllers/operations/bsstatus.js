@@ -38,7 +38,8 @@ xh.load = function() {
 		$scope.btnText = "按基站ID显示";
 		$scope.nowDate = xh.getOneDay();
 		$scope.zone="全部";
-		$scope.name="";
+		$scope.sort_type="desc";
+		$scope.sort_field="";
 		
 		
 
@@ -53,32 +54,69 @@ xh.load = function() {
 		}
 		$scope.bs_business= function(){
 			var start=0;
+			var bsIds=[];
+			
+			$("#select_bs").find("li").each(function(){
+				bsIds.push($(this).attr("value"))
+			})
+			
 			var pageSize = $("#page-limit-bs").val();
 			var limit = pageSize ;
 			var zone = $("select[name='zone']").val() == null ? "全部" : $("select[name='zone']").val();
-			$http.get("../../bs/bs_business_info?zone=" + zone + "&bsId=&start=0&limit="+limit).success(
+			$http.get("../../bs/bs_business_info?zone=" + zone + "&bsId="+bsIds.join(",")+
+					"&sort_type="+$scope.sort_type+"&sort_field="+$scope.sort_field+"&start=0&limit="+limit).success(
 			function(response) {
 				$scope.bs_business_info = response.items;
 				$scope.bs_business_info_count = response.totals;
 				xh.bsPagging(1, parseInt($scope.bs_business_info_count), $scope);
 			});
+			
 		}
+	
+		
 
 		$http.get("../../bs/map/area").success(function(response) {
 			$scope.zoneData = response.items;
 		});
-		$scope.click_btn=function(bsId,name){
-			alert(bsId)
+		$(".search_bs_div").on('click','li',function(){
+			var bsId=$(this).attr("value");
+			var bsName=$(this).attr("li-name");
+			
+			$("#select_bs").append("<li  value='"+bsId+"' select-name='"+bsName+"'>"+"["+bsId+"]"+bsName+"</li>")
+			 $(this).remove();
+		});
+		$("#select_bs").on('click','li',function(){
+			var bsId=$(this).attr("value");
+			var bsName=$(this).attr("select-name");
+			$(".search_bs_div").append("<li id='search-"+bsId+"' value='"+bsId+"' li-name='"+bsName+"'>"+"["+bsId+"]"+bsName+"</li>");
+			 $(this).remove();
+		});
+		/*$("table").find("thead").on('click','tr',function(){
+			console.log(2)
+			alert(12);
+		})
+		*/
+		$scope.sort=function(type,field){
+			
 		}
+	
 		$scope.search_more_bs=function(){
 			var name=$("input[name='name']").val();
 			$http.get("../../bs/search_more_bs?zone="+$scope.zone+"&name="+name).success(function(response) {
 				$scope.search_more_bs_data = response.items;
-				$(".search_bs_div").find("li").remove(); 
+				$(".search_bs_div").find("li").remove();
+				if($scope.search_more_bs_data.length>0){
+					$(".search_bs_div").addClass('show');
+				}else{
+					$(".search_bs_div").removeClass('show');
+				}
+				
+				
 				for(var i=0,j=$scope.search_more_bs_data.length;i<j;i++){
 					var bsId=$scope.search_more_bs_data[i].bsId;
 					var bsName=$scope.search_more_bs_data[i].name;
-					$(".search_bs_div").append("<li id='search-"+bsId+"' value='"+bsId+"'>"+bsName+"</li>");
+					
+					$(".search_bs_div").append("<li id='search-"+bsId+"' value='"+bsId+"' li-name='"+bsName+"'>"+"["+bsId+"]"+bsName+"</li>");
 				}
 				
 				
@@ -228,7 +266,10 @@ xh.load = function() {
 
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.bs_business();
+			$("#bs_search").modal('hide');
+			/*$(".search_bs_div").find("li").remove();
+			$("#select_bs").find("li").remove();*/
 		};
 		/* 查询数据 
 		$scope.search = function(page) {
@@ -276,9 +317,13 @@ xh.load = function() {
 		// 分页点击
 		$scope.bsPageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit-bs").val();
+			var bsIds=[];
+			$("#select_bs").find("li").each(function(){
+				bsIds.push($(this).attr("value"))
+			})
 			var zone = $("select[name='zone']").val() == null ? "全部" : $("select[name='zone']").val();
 			var start = 1, limit = pageSize;
-			var bs_id="";
+			var bs_id=bsIds.join(",");
 			page = parseInt(page);
 			if (page <= 1) {
 				start = 0;
@@ -286,7 +331,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 
-			$http.get("../../bs/bs_business_info?zone=" + zone + "&bsId=" + bs_id+"&start="+start+"&limit="+pageSize)
+			$http.get("../../bs/bs_business_info?zone=" + zone + "&bsId=" + bs_id+"&sort_type="+$scope.sort_type+"&sort_field="+$scope.sort_field+"&start="+start+"&limit="+pageSize)
 					.success(function(response) {
 						xh.maskHide();
 						
@@ -384,6 +429,15 @@ xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
+	$scope.bs_business
+
+};
+xh.sort = function(type,field) {
+	var $scope = angular.element(appElement).scope();
+	// 调用$scope中的方法
+	$scope.sort_type=type;
+	$scope.sort_field=field
+	$scope.bs_business();
 
 };
 xh.refresh_bs = function() {

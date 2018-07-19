@@ -61,7 +61,7 @@ xh.load = function() {
 				$scope.alarm=response.items;
 				$scope.totals=response.totals;
 				$("#alarmcount").html($scope.totals);
-				$scope.a_bs=[],$scope.a_ji=[],$scope.a_w=[],$scope.a_msc=[];
+				/*$scope.a_bs=[],$scope.a_ji=[],$scope.a_w=[],$scope.a_msc=[];
 				for(var i=0,j=response.totals;i<j;i++){
 					if(response.items[i].bsId!=null && response.items[i].link==1){
 						$scope.a_bs.push(response.items[i])
@@ -81,7 +81,7 @@ xh.load = function() {
 				$scope.count_bs=$scope.a_bs.length
 				$scope.count_ji=$scope.a_ji.length
 				$scope.count_w=$scope.a_w.length
-				$scope.count_msc=$scope.a_msc.length
+				$scope.count_msc=$scope.a_msc.length*/
 				
 			
 			});

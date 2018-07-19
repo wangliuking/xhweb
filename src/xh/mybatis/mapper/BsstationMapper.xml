@@ -259,7 +259,23 @@
 			)
 		</if>
 
-		order by a.bsId asc  limit #{start},#{limit}
+		<if test="sort_field!=''">
+		    <if test="sort_field=='userSum'">
+					order by c.${sort_field} ${sort_type}
+			</if>
+			<if test="sort_field=='groupSum'">
+					order by e.${sort_field} ${sort_type}
+			</if>
+			<if test="sort_field=='bsId'">
+					order by a.${sort_field} ${sort_type}
+			</if>
+		
+		</if>
+		<if test="sort_field==''">
+		order by a.bsId asc
+		</if>  
+		
+		limit #{start},#{limit}
 	</select>
 	<select id="bs_business_info_count" parameterType="map" resultType="int"
 		useCache="true">
