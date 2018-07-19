@@ -269,7 +269,11 @@ app.controller("map", function($scope, $http) {
 							myMap.centerAndZoom(point,level[params].zoom*1);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
-							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
+							option.series[2].markPoint.data=baseMark(tempData)[2];
+							option.series[3].markPoint.data=baseMark(tempData)[3];
+							option.series[4].markPoint.data=baseMark(tempData)[4];
+							option.series[5].markPoint.data=baseMark(tempData)[5];
+							option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 						}else{
 							var tempD = response.items;	
@@ -292,7 +296,11 @@ app.controller("map", function($scope, $http) {
 							myMap.centerAndZoom(point,area[params].zoom*1);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
-							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
+							option.series[2].markPoint.data=baseMark(tempData)[2];
+							option.series[3].markPoint.data=baseMark(tempData)[3];
+							option.series[4].markPoint.data=baseMark(tempData)[4];
+							option.series[5].markPoint.data=baseMark(tempData)[5];
+							option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 							areaRingsData(params);
 						}					
@@ -314,7 +322,11 @@ app.controller("map", function($scope, $http) {
 							var tempData = dataWithoutZero(tempD);
 							option.series[0].markPoint.data=baseMark(tempData)[0];
 							option.series[1].markPoint.data=baseMark(tempData)[1];
-							option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
+							option.series[2].markPoint.data=baseMark(tempData)[2];
+							option.series[3].markPoint.data=baseMark(tempData)[3];
+							option.series[4].markPoint.data=baseMark(tempData)[4];
+							option.series[5].markPoint.data=baseMark(tempData)[5];
+							option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 							overlay.setOption(option);
 							if(isNaN(params)){
 								areaRingsClear(params);
@@ -340,7 +352,11 @@ app.controller("map", function($scope, $http) {
 								myMap.centerAndZoom(point,level[params].zoom*1);
 								option.series[0].markPoint.data=baseMark(tempData)[0];
 								option.series[1].markPoint.data=baseMark(tempData)[1];
-								option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
+								option.series[2].markPoint.data=baseMark(tempData)[2];
+								option.series[3].markPoint.data=baseMark(tempData)[3];
+								option.series[4].markPoint.data=baseMark(tempData)[4];
+								option.series[5].markPoint.data=baseMark(tempData)[5];
+								option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 								overlay.setOption(option);
 							}else{
 								var tempD = response.items;	
@@ -355,7 +371,11 @@ app.controller("map", function($scope, $http) {
 								//首页下方数据展示end
 								option.series[0].markPoint.data=baseMark(tempData)[0];
 								option.series[1].markPoint.data=baseMark(tempData)[1];
-								option.series[2].markPoint.data=flashMark(tempData);//闪烁效果
+								option.series[2].markPoint.data=baseMark(tempData)[2];
+								option.series[3].markPoint.data=baseMark(tempData)[3];
+								option.series[4].markPoint.data=baseMark(tempData)[4];
+								option.series[5].markPoint.data=baseMark(tempData)[5];
+								option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 								overlay.setOption(option);
 								areaRingsClear(params);
 							}							
@@ -1362,7 +1382,7 @@ function init(data,markData) {
 		var j;
 		var objTemp = [];	
 		for (j = 0; j < data.length; j++) {
-			if(data[j].bsStatus!=0 && data[j].zone!="简阳"){
+			if(data[j].bsStatus!=0 && data[j].zone!="简阳" && data[j].status!=0){
 				var x = {
 						name : data[j].name,
 						id : data[j].bsId
@@ -1374,21 +1394,53 @@ function init(data,markData) {
 		var k;
 		var objConnect = [];
 		var objBreak = [];
+		var objTypeOneConnect = [];
+		var objTypeOneBreak = [];
+		var objTypeTwoConnect = [];
+		var objTypeTwoBreak = [];
 		for (k = 0; k < data.length; k++) {
-			if(data[k].bsStatus==0){
+			if(data[k].bsStatus==0 && data[k].type==0){
 				var y = {
 					name : data[k].name,
 					id : data[k].bsId,
 					bsStatus : data[k].bsStatus
 					};
 				objConnect.push(y);
-			}else if(data[k].bsStatus==1){
+			}else if(data[k].bsStatus==1 && data[k].type==0){
 				var y = {
 						name : data[k].name,
 						id : data[k].bsId,
 						bsStatus : data[k].bsStatus
 						};
 				objBreak.push(y);
+			}else if(data[k].bsStatus==0 && data[k].type==1){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objTypeOneConnect.push(y);
+			}else if(data[k].bsStatus==1 && data[k].type==1){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objTypeOneBreak.push(y);
+			}else if(data[k].bsStatus==0 && data[k].type==2){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objTypeTwoConnect.push(y);
+			}else if(data[k].bsStatus==1 && data[k].type==2){
+				var y = {
+						name : data[k].name,
+						id : data[k].bsId,
+						bsStatus : data[k].bsStatus
+						};
+				objTypeTwoBreak.push(y);
 			}else{
 				//未标示基站bsStatuss
 				var y = {
@@ -1399,6 +1451,13 @@ function init(data,markData) {
 				objBreak.push(y);
 			}			
 		}
+		console.log(data);
+		/*console.log("objConnect : "+objConnect);
+		console.log("objBreak : "+objBreak);
+		console.log("objTypeOneConnect : "+objTypeOneConnect);
+		console.log("objTypeOneBreak : "+objTypeOneBreak);
+		console.log("objTypeTwoConnect : "+objTypeTwoConnect);
+		console.log("objTypeTwoBreak : "+objTypeTwoBreak);*/
 		
 		overlay = new EchartsLayer(myMap, echarts);
 		var chartsContainer = overlay.getEchartsContainer();
@@ -1489,7 +1548,7 @@ function init(data,markData) {
                     }  
                 },
 				series : [ {
-					name : '四川正常基站',
+					name : '四川正常固定基站',
 					type : 'map',
 					mapType : 'none',			
 					data : [],
@@ -1510,7 +1569,7 @@ function init(data,markData) {
 		                data:objConnect
 					}
 				},{
-					name : '四川断开基站',
+					name : '四川断开固定基站',
 					type : 'map',
 					mapType : 'none',			
 					data : [],
@@ -1531,6 +1590,90 @@ function init(data,markData) {
 		                data:objBreak
 					}
 				}, {
+					name : '四川正常信源基站',
+					type : 'map',
+					mapType : 'none',			
+					data : [],
+					geoCoord : obj,
+					markPoint : {
+						symbol : 'diamond',
+						symbolSize: function(v){
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'green'
+							},
+							emphasis : {
+								
+							}
+						},
+		                data:objTypeOneConnect
+					}
+				},{
+					name : '四川断开信源基站',
+					type : 'map',
+					mapType : 'none',			
+					data : [],
+					geoCoord : obj,
+					markPoint : {
+						symbol : 'diamond',
+						symbolSize: function(v){
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'red'
+							},
+							emphasis : {
+								
+							}
+						},
+		                data:objTypeOneBreak
+					}
+				},{
+					name : '四川正常移动站',
+					type : 'map',
+					mapType : 'none',			
+					data : [],
+					geoCoord : obj,
+					markPoint : {
+						symbol : 'image://bluesky/unuse_big.png',
+						symbolSize: function(v){
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'green'
+							},
+							emphasis : {
+								
+							}
+						},
+		                data:objTypeTwoConnect
+					}
+				},{
+					name : '四川断开移动站',
+					type : 'map',
+					mapType : 'none',			
+					data : [],
+					geoCoord : obj,
+					markPoint : {
+						symbol : 'image://bluesky/contact_big.png',
+						symbolSize: function(v){
+							return 4;
+						},	      
+						itemStyle : {
+							normal : {
+								color : 'red'
+							},
+							emphasis : {
+								
+							}
+						},
+		                data:objTypeTwoBreak
+					}
+				},{
 					name : '闪烁效果基站',
 					type : 'map',
 					mapType : 'none',
@@ -1578,12 +1721,28 @@ function init(data,markData) {
 					option.series[0].markPoint.symbol="pin";
 					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
 					option.series[1].markPoint.symbol="pin"
+					option.series[2].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[2].markPoint.symbol="diamond"
+					option.series[3].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[3].markPoint.symbol="diamond"
+					option.series[4].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[4].markPoint.symbol="image://bluesky/contact_big.png"
+					option.series[5].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[5].markPoint.symbol="image://bluesky/unuse_big.png"
 					overlay.setOption(option);
 				}else{
 					option.series[0].markPoint.symbolSize=8;
-					option.series[0].markPoint.symbol="pin";					
+					option.series[0].markPoint.symbol="pin";
 					option.series[1].markPoint.symbolSize=8;
-					option.series[1].markPoint.symbol="pin";
+					option.series[1].markPoint.symbol="pin"
+					option.series[2].markPoint.symbolSize=8;
+					option.series[2].markPoint.symbol="diamond"
+					option.series[3].markPoint.symbolSize=8;
+					option.series[3].markPoint.symbol="diamond"
+					option.series[4].markPoint.symbolSize=8;
+					option.series[4].markPoint.symbol="image://bluesky/contact_big.png"
+					option.series[5].markPoint.symbolSize=8;
+					option.series[5].markPoint.symbol="image://bluesky/unuse_big.png"
 					overlay.setOption(option);
 				}				
 			}			
@@ -1594,17 +1753,29 @@ function init(data,markData) {
 			$("#bsInfo").click(function() {
 				if ($(this).prop("checked") == true) {
 					option.series[0].markPoint.data=objConnect;
-					option.series[1].markPoint.data=objBreak;
-					option.series[2].markPoint.data=objTemp;//闪烁效果
+					option.series[1].markPoint.data=baseMark(tempData)[1];
+					option.series[2].markPoint.data=baseMark(tempData)[2];
+					option.series[3].markPoint.data=baseMark(tempData)[3];
+					option.series[4].markPoint.data=baseMark(tempData)[4];
+					option.series[5].markPoint.data=baseMark(tempData)[5];
+					option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
 					option.series[0].markPoint.symbolSize=myMap.getZoom()*2;
 					option.series[1].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[2].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[3].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[4].markPoint.symbolSize=myMap.getZoom()*2;
+					option.series[5].markPoint.symbolSize=myMap.getZoom()*2;
 					overlay.setOption(option);
 				} else {
 					var point = new esri.geometry.Point(104.04800077323965, 30.675192748658024,new esri.SpatialReference({wkid:parseInt(4490)}));
 					myMap.centerAndZoom(point, 2);// 地图首次加载显示的位置和放大级别
 					option.series[0].markPoint.data=[];
 					option.series[1].markPoint.data=[];
-					option.series[2].markPoint.data=[];//闪烁效果
+					option.series[2].markPoint.data=[];
+					option.series[3].markPoint.data=[];
+					option.series[4].markPoint.data=[];
+					option.series[5].markPoint.data=[];
+					option.series[6].markPoint.data=[];//闪烁效果
 					overlay.setOption(option);
 				}
 			});
@@ -1974,33 +2145,69 @@ function baseMark(data){
 	var k;
 	var objConnect = [];
 	var objBreak = [];
+	var objTypeOneConnect = [];
+	var objTypeOneBreak = [];
+	var objTypeTwoConnect = [];
+	var objTypeTwoBreak = [];
 	for (k = 0; k < data.length; k++) {
-		if(data[k].bsStatus==0){
+		if(data[k].bsStatus==0 && data[k].type==0){
 			var y = {
 				name : data[k].name,
 				id : data[k].bsId,
 				bsStatus : data[k].bsStatus
 				};
 			objConnect.push(y);
-		}else if(data[k].bsStatus==1){
+		}else if(data[k].bsStatus==1 && data[k].type==0){
 			var y = {
 					name : data[k].name,
 					id : data[k].bsId,
 					bsStatus : data[k].bsStatus
 					};
 			objBreak.push(y);
+		}else if(data[k].bsStatus==0 && data[k].type==1){
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objTypeOneConnect.push(y);
+		}else if(data[k].bsStatus==1 && data[k].type==1){
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objTypeOneBreak.push(y);
+		}else if(data[k].bsStatus==0 && data[k].type==2){
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objTypeTwoConnect.push(y);
+		}else if(data[k].bsStatus==1 && data[k].type==2){
+			var y = {
+					name : data[k].name,
+					id : data[k].bsId,
+					bsStatus : data[k].bsStatus
+					};
+			objTypeTwoBreak.push(y);
 		}else{
-			//为表示基站bsStatus
+			//未标示基站bsStatuss
 			var y = {
 					name : data[k].name,
 					id : data[k].bsId,
 					bsStatus : data[k].bsStatus
 					};
 			objBreak.push(y);
-		}		
+		}			
 	}
 	objBoth.push(objConnect);
 	objBoth.push(objBreak);
+	objBoth.push(objTypeOneConnect);
+	objBoth.push(objTypeOneBreak);
+	objBoth.push(objTypeTwoConnect);
+	objBoth.push(objTypeTwoBreak);
 	return objBoth;
 }
 
@@ -2010,7 +2217,7 @@ function flashMark(data){
 	var j;
 	var objTemp = [];	
 	for (j = 0; j < data.length; j++) {
-		if(data[j].bsStatus!=0 && data[j].zone!="简阳"){
+		if(data[j].bsStatus!=0 && data[j].zone!="简阳" && data[j].status!=0){
 			var x = {
 					name : data[j].name,
 					id : data[j].bsId
@@ -2025,9 +2232,9 @@ function dataWithoutZero(data){
 	var newData = [];
 	for(var i=0;i<data.length;i++){
 		if(data[i].lat!=0 && data[i].lng!=0){
-			if(data[i].status!=0){
+			/*if(data[i].status!=0){*/
 				newData.push(data[i]);
-			}		
+			/*}*/		
 		}
 	}
 	return newData;
