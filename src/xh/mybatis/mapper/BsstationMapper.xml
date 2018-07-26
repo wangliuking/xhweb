@@ -45,6 +45,19 @@
 		   and (bsId like concat(#{str},'%') or name like concat('%',#{str},'%'))
 		</if>
 		order by bsId asc
+	</select>
+	
+	<select id="search_bs_by_regGroup" parameterType="int" resultType="java.util.HashMap"
+		useCache="true">
+		select a.bsId,a.gourpId,b.name from xhgmnet_bs_groupstatus as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		 where gourpId=#{groupId}
+	</select>
+	<select id="search_regUser_by_regGroup" parameterType="int" resultType="java.util.HashMap"
+		useCache="true">
+		select a.bsId,a.userId,a.TGid,b.E_name as name from xhgmnet_operations_userstatus as a
+		left join xhgmnet_radiouser as b on a.userId=b.C_ID
+		 where TGid=#{groupId}
 	</select> 
 
 	<select id="bsInfolimit" resultType="map" useCache="true">

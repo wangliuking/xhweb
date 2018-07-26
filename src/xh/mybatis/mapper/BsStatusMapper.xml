@@ -247,7 +247,7 @@
 	</select>
 	<!--基站断站,声音告警数目 -->
 	<select id="bsOffVoiceCount" resultType="int" useCache="true">
-		select
+		<!-- select
 		count(bsId) as total from view_bsstatus where
 		bsId not in (select bsIds
 		from xhgmnet_stationalarm)
@@ -256,9 +256,17 @@
 		link=1)
 		and link=1 and bsId
 		in(select bsId from xhgmnet_bs_station
-		where status=1)
+		where status=1) -->
+		
+		select count(neId) as total from xhgmnet_operations_bsfault 
+		where sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0
 
 	</select>
+	<select id="emhVoiceCount" resultType="map" useCache="true">
+		select count(modType=3000 or null) as ups,count(modType=3001 or null) as water from xhgmnet_operations_bsfault 
+		where sysType=2  and alarmTag=0 and voiceTag=0
+
+	</select>	
 	<!--基站区域列表告警 -->
 	<select id="bsZoneAlarm" resultType="map" useCache="true"
 		parameterType="List">
@@ -321,10 +329,14 @@
 
 	<!-- 更新基站断站告警状态 -->
 	<update id="updateAlarmStatus">
-		update xhgmnet_bs_status set stats=1,link=1 where
+		<!-- update xhgmnet_bs_status set stats=1,link=1 where
 		bsId in(select bsId from view_bsstatus where link=1) and
 		bsId not in
-		(select bsIds from xhgmnet_stationalarm)
+		(select bsIds from xhgmnet_stationalarm) -->
+		update xhgmnet_operations_bsfault  set voiceTag=1 where 
+		(sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0)
+		or(sysType=2 and alarmTag=0 and voiceTag=0)
+		
 	</update>
 	<!-- 基站断站统计 -->
 	<select id="MapBsOfflineCount" resultType="int" useCache="true">

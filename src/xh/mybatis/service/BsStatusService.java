@@ -25,6 +25,29 @@ import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
 
 public class BsStatusService {
+	
+	public static int alarmVoiceCount() throws Exception {
+		int bs_offline_count=0;
+		int ups_count=0;
+		int water_count=0;
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		Map<String,Object> map=mapper.emhVoiceCount();
+		if(FunUtil.readXml("alarm", "bs_offine").equals("1")){
+			bs_offline_count=BsStatusService.bsOffVoiceCount();
+		}
+		
+		
+		if(FunUtil.readXml("alarm", "bs_water").equals("1")){
+			water_count=Integer.parseInt(map.get("water").toString());
+		}
+		if(FunUtil.readXml("alarm", "bs_ups").equals("1")){
+			ups_count=Integer.parseInt(map.get("ups").toString());
+		}
+		session.close();
+		return bs_offline_count+ups_count+water_count;
+		
+	}
 
 	public List<BsStatusBean> selectAllBsStatus() throws Exception {
 		SqlSession session = MoreDbTools

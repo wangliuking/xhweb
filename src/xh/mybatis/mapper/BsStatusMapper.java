@@ -145,6 +145,7 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public int bsOffVoiceCount() throws Exception;
+	public Map<String,Object> emhVoiceCount() throws Exception;
 	
 	/**
 	 * 基站断站定时更新

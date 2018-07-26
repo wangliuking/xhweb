@@ -4,14 +4,28 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
-require.config({
+/*require.config({
 	paths : {
 		echarts : '../../lib/echarts'
 	}
-});
+});*/
 var background = "#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=userstatus]');
+var canvas = document.getElementById('server-canvas');
+canvas.width = document.documentElement.clientWidth/3-60;
+canvas.height = document.documentElement.clientHeight-60;
+var stage = new JTopo.Stage(canvas);
+var scene = new JTopo.Scene();
+stage.add(scene);
+scene.background = '../../Resources/images/img/bg.jpg';
+/*stage.eagleEye.visible = true;*/
+/*stage.wheelZoom = 0.85;*/
+
+$(window).resize(function(){
+	canvas.width = document.documentElement.clientWidth-22;
+	canvas.height = document.documentElement.clientHeight-38;
+})
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
@@ -81,6 +95,8 @@ xh.load = function() {
 		$scope.count = "5";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
+		$scope.title="BSR";
+		$scope.show=1;
 		//发起请求开启当前基站视频流
 		/*$.ajax({
 			type : "GET",
@@ -100,6 +116,46 @@ xh.load = function() {
 			var bsId = $scope.bsId;
 			return bsId;
 		};
+		$scope.serverCanvas=function(){
+			scene.clear();
+			var node1 =xh.createNewNode(50, 30, 30, 30, "BSR","tree","../../Resources/images/top/xh.png")
+			var node2 =xh.createNewNode(100, 70, 30, 30, "BSC","tree","../../Resources/images/top/xh.png")
+			var node3 =xh.createNewNode(50, 110, 30, 30, "DPX","tree","../../Resources/images/top/xh.png")
+			var node4 =xh.createNewNode(100, 150, 30, 30, "PSM","tree","../../Resources/images/top/xh.png")
+			var node5 =xh.createNewNode(50, 190, 30, 30, "环控","tree","../../Resources/images/top/xh.png");
+			var link1 = xh.createNewLink(node1, node2,5);
+			var link2 = xh.createNewLink(node2, node3,5);
+			var link3 = xh.createNewLink(node3, node4,5);
+			var link4 = xh.createNewLink(node4, node5,5);
+			node1.addEventListener('click', function(event){
+	          	  $scope.title="BSR";
+	          	  $scope.show=1;
+	            }); 
+				node2.addEventListener('click', function(event){
+		          	  $scope.title="BSC";
+		          	  $scope.show=2;
+		            }); 
+				node3.addEventListener('click', function(event){
+		          	  $scope.title="DPX";
+		          	  $scope.show=3;
+		            }); 
+				node4.addEventListener('click', function(event){
+		          	  $scope.title="PSM";
+		          	  $scope.show=4;
+		            }); 
+				node5.addEventListener('click', function(event){
+		          	  $scope.title="环控";
+		          	  $scope.show=5;
+		            }); 
+          
+                      
+        
+            
+            
+     
+	   
+	}
+		$scope.serverCanvas();
 		/*获取故障信息*/
 		$scope.oneBsFault=function(){
 			
@@ -108,7 +164,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				xh.pagging(1, parseInt($scope.totals),$scope);
+				//xh.pagging(1, parseInt($scope.totals),$scope);
 			});
 		}
 
@@ -500,6 +556,46 @@ xh.load = function() {
 
 	});
 };
+//创建结点
+xh.createNewNode=function(x, y, w, h, text,type,icon,dir){
+    var node = new JTopo.Node(text);
+    node.setLocation(x, y);
+    //node.setLocation(scene.width * Math.random(), scene.height * Math.random());
+    node.setSize(w, h);
+    node.setImage(icon,true);
+    node.dragable=true;
+    node.shadow =true;
+    if(type=="circle"){
+    	node.layout = {type: 'circle',radius: 150};
+    }else{
+    	node.layout = {type: 'tree', direction: dir, width: 50, height: 70};
+    }
+    
+    scene.add(node);
+    return node;
+}
+xh.createRootNode=function(x, y, w, h, text,type){
+    var node = new JTopo.Node(text);
+    node.setLocation(x, y);
+    node.setSize(w, h);
+    node.shadow =true;
+    node.setImage("../../Resources/images/top/switch.png",true);
+    scene.add(node);
+    return node;
+}
+//简单连线
+xh.createNewLink=function(nodeA, nodeZ, text,lineType){
+    var link = new JTopo.Link(nodeA, nodeZ, text);        
+    link.lineWidth = 1; // 线宽
+    link.bundleOffset = 60; // 折线拐角处的长度
+    link.bundleGap = 20; // 线条之间的间隔
+    link.textOffsetY = 3; // 文本偏移量（向下3个像素）
+    link.strokeColor = '248,248,255';
+   
+    
+    scene.add(link);
+    return link;
+}
 // 时间格式化
 xh.getTime = function(time) {
 	var datetime = "";

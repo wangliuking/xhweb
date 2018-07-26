@@ -222,7 +222,7 @@ to {
 				</div>
 			</div>
 		</div>
-		<div class="content animate-panel" style="min-width:1500px;">
+		<div class="content animate-panel">
 
 			<div class="row" id="search-panel" ng-show="true">
 				 <div class="col-md-12">
@@ -292,12 +292,12 @@ to {
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-							<div class="panel-tools">
+							<!-- <div class="panel-tools">
 								<a class="search-hide"> <i
 											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
 											class="text-black">筛选查询</span>
 										</a>
-							</div>
+							</div> -->
 							<i class="fa fa-indent text-danger"></i>&nbsp;系统告警列表
 						</div>
 
@@ -325,21 +325,22 @@ to {
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
-										<th width="70px">信息来源</th>
+										<!-- <th width="70px">信息来源</th> -->
+										
 										<th width="80px">网元类型</th>
 										<th width="230px">网元名称</th>
-										<th width="70px">告警级别</th>
-										<th width="70px">告警类型</th>
+										<th width="80px">告警级别</th>
+										<!-- <th width="70px">告警类型</th> -->
 										
 										<th width="180px">故障原因</th>
 										
-										<th width="180px">故障发生时间</th>
-										<th width="70px">告警状态</th>
+										<th width="160px">故障发生时间</th>
+										<th width="80px">告警状态</th>
 										<th width="80px">派单状态</th>
 										<!-- <th width="150px">派单编号</th> -->
 										<th width="80px">确认状态</th>
 										
-										<th width="250px">操作</th>
+										<th width="180px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -349,10 +350,7 @@ to {
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
-										<td>
-										<span ng-if="x.sysType==1">Tetra系统</span>
-										<span ng-if="x.sysType==2">动环网</span>
-										</td>
+										
 										<td><span ng-if="x.neType==1">基站</span> <span
 													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
 													<span ng-if="x.neType==4">网管</span> <span
@@ -384,18 +382,18 @@ to {
 										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
 										<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
 										</td>
-										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">一级告警</td>
-												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">二级告警</td>
-												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">三级告警</td>
-												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">四级告警</td>
-										<td>
+										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">严重告警</td>
+												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">主要告警</td>
+												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">次要告警</td>
+												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">一般告警</td>
+										<!-- <td>
 												<span ng-if="x.category==1">通信</span>
 												<span ng-if="x.category==2">软件</span>
 												<span ng-if="x.category==3">环境</span>
 												<span ng-if="x.category==4">Qos</span>
 												<span ng-if="x.category==5">设备</span>
 												<span ng-if="x.category==6">网管</span>
-										</td>
+										</td> -->
 										
 										<td><a href="#" ng-click="showDetails($index)">{{x.reason}}</a></td>
 										
@@ -422,7 +420,7 @@ to {
 										</a> 
 										<a href="#"
 											ng-click="editModel($index)"> <i
-												class="fa fa-edit text-danger"></i>&nbsp;核检
+												class="fa fa-edit text-danger"></i>&nbsp;核减
 										</a> 
 										<a href="#" ng-click="showOrderWin($index)"
 											ng-if="x.status==0 && (up.o_order=='on' || roleId==10000)"> <i

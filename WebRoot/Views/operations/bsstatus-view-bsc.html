@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="x in bscData" ng-if="x.Id<=2 && x.online==2">
+<div class="row" ng-repeat="x in bscData" ng-if="x.Id<=2 && x.online==2 && show==2">
 	<div class="col-md-12">
 		<table id="tb-info" class="xh-table table-hover">
 			<thead>
@@ -66,7 +66,7 @@
 	</div>
 </div>
 <!-- row -->
-<div class="row"  ng-if="bscExists>=2">
+<div class="row"  ng-if="bscExists>=2 && show==2">
 <div class="col-md-12">
 <p>数据获取中</p>
 </div>

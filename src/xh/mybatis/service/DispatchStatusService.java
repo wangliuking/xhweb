@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,19 +26,47 @@ public class DispatchStatusService {
 	 * 调度台列表
 	 * @return
 	 */
-	public static List<Map<String, Object>> dispatchstatus(){
+	public static List<Map<String,Object>> dispatchstatus(){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
 		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		Map<String,List<Map<String, Object>>> map=new HashMap<String, List<Map<String,Object>>>();
+		
+		List<Map<String,Object>> rsList=new ArrayList<Map<String,Object>>();
 		try {
 			list = mapper.dispatchstatus();
+			for (Map<String, Object> status : list) {
+				List<Map<String, Object>> staList=map.get(status.get("type"));
+				if(staList==null){
+					staList=new ArrayList<Map<String,Object>>();
+				}
+				staList.add(status);
+				
+				map.put(status.get("type").toString(), staList);
+				
+			}
+			Iterator it=map.entrySet().iterator();
+			while(it.hasNext()){
+				Map.Entry entry=(Map.Entry) it.next();
+				Object key = entry.getKey();
+				Object value=entry.getValue();
+				Map<String, Object> map2=new HashMap<String, Object>();
+				map2.put("type", key);
+				map2.put("items",value);
+				rsList.add(map2);
+
+			}
+			
+			
+			
+			
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		session.close();
-		return list;
+		return rsList;
 	}
 	/**
 	 * 调度台断开报警

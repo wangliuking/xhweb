@@ -41,10 +41,12 @@ public class RadioStatusController {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		int bsId=funUtil.StringToInt(request.getParameter("bsId"));
+		int groupId=funUtil.StringToInt(request.getParameter("groupId"));
 		Map<String,Object> usermap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
 		String vpnId=usermap.get("vpnId").toString();
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("bsId", bsId);
+		map.put("groupId", groupId);
 		map.put("vpnId", vpnId);
 		map.put("start", start);
 		map.put("limit", limit);

@@ -805,6 +805,7 @@ text-decoration:none;
 	margin-bottom:10px;
 	padding:10px;
 	border:1px solid #ccc;
+	border-radius:10px;
 }
 .menu-box i{
 	font-weight: 100;

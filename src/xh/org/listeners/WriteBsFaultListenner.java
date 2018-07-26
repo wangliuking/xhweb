@@ -2,7 +2,9 @@ package xh.org.listeners;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,12 +18,15 @@ import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.PublicVariableService;
 
 
 public class WriteBsFaultListenner implements ServletContextListener{
 	
 	private Timer timer=null;
 	protected final Log log4j = LogFactory.getLog(WriteBsFaultListenner.class);
+	
+
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -31,7 +36,6 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		}
 		
 	}
-
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -46,6 +50,8 @@ public class WriteBsFaultListenner implements ServletContextListener{
 			log4j.info("=========================================");
 			log4j.info("基站四期环控水浸，交流电实时写入开始");
 			log4j.info("=========================================");
+			
+			timer.scheduleAtFixedRate(new VoiceAlarm(), 15000, 1000*15);
 		}
 		
 	}
@@ -131,4 +137,22 @@ class SfAlarm extends TimerTask{
 	}
 	
 }
+class VoiceAlarm extends TimerTask{
+	protected final Log log4j = LogFactory.getLog( VoiceAlarm.class);
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		int count=0;
+		try {
+			count = BsStatusService.alarmVoiceCount();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PublicVariableService.setVoiceAlarmCount(count);
+		
+	}
+	
+}
+
 

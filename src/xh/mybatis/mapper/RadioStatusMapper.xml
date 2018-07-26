@@ -10,6 +10,9 @@
 		<if test="vpnId!=null and vpnId!=''">
 		 and a.userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
 		</if>
+		<if test="groupId>0">
+		 and a.TGid=#{groupId}
+		</if>
 		limit #{start},#{limit}
 	</select>
 	<!--查询基站下的注册终端总数 -->
@@ -18,6 +21,9 @@
 		select count(bsId) from xhgmnet_operations_userstatus where bsId=#{bsId} and regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
 		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+		</if>
+		<if test="groupId>0">
+		 and TGid=#{groupId}
 		</if>
 	</select>
 	<!--查询基站下的注册组列表 -->

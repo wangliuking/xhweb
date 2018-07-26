@@ -210,9 +210,6 @@
 				<property name="url" value="${sqlserver.url}" />
 				<property name="username" value="${sqlserver.username}" />
 				<property name="password" value="${sqlserver.password}" />
-				<property name="poolPingQuery" value="SELECT NOW()" />
-                <property name="poolPingEnabled" value="true" />
-                <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
 

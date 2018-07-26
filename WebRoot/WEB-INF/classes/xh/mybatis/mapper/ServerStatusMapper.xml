@@ -13,6 +13,7 @@
      select server_name as name,
       cpuLoad,
       typeId,
+      ID,
       diskSize/(1024*1024*1024) as diskSize,
       diskUsed/(1024*1024*1024) as diskUsed,
       memSize/(1024*1024*1024) as memSize,
