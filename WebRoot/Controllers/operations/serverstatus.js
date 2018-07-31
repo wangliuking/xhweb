@@ -16,7 +16,9 @@ canvas.height = document.documentElement.clientHeight-60;
 var stage = new JTopo.Stage(canvas);
 var scene = new JTopo.Scene();
 stage.add(scene);
-scene.background = '../../Resources/images/img/bg.jpg';
+/*scene.background = '../../Resources/images/img/bg.jpg';80,100,80*/
+scene.alpha=1;
+scene.backgroundColor='53,63,79';
 /*stage.eagleEye.visible = true;*/
 stage.wheelZoom = 0.85;
 
@@ -64,68 +66,146 @@ xh.load = function() {
 		 }
             $scope.serverCanvas=function(){
     			scene.clear();
-    			var rootNode =xh.createRootNode(300, wheight/2, 30, 30,"交换设备","tree");
-    			var rootNode2 =xh.createRootNode(wwidth/2+200, wheight/2, 30, 30,"交换设备","tree");
-                var serverOneNode =xh.createServerOneNode(100, 100, 30, 30,"服务器状态（主）","circle","left");
-                serverOneNode.fontColor = "255,255,255"
-                var serverTwoNode =xh.createServerTwoNode(wwidth-200, wheight-220, 30, 30,"服务器状态（备）","circle");
-                var xhNode =xh.createNewNode(100, wheight-220, 30, 30,"综合应用与平台","circle","../../Resources/images/top/xh.png");
-                var xhNode2 =xh.createNewNode(wwidth-600, 120, 30, 30,"综合应用与平台","circle","../../Resources/images/top/xh.png");
-                var pocNode =xh.createNewNode(wwidth/2-300,wheight-180, 30, 30,"POC系统","circle","../../Resources/images/top/poc.png");
-                var emhNode =xh.createNewNode(400, 100, 30, 30,"动环设备","tree","../../Resources/images/top/emh.png","top");
-                var emh_status_Node =xh.createNewNode(300, 30, 30, 30,"状态监测","circle","../../Resources/images/top/emh-s.png");
-                var emh_ws_Node =xh.createNewNode(400, 30, 30, 30,"温湿度监测","circle","../../Resources/images/top/emh-t.png");
-                var emh_ups_Node =xh.createNewNode(500, 30, 30, 30,"UPS监测","circle","../../Resources/images/top/emh-ups.png");
-                var bridgingNode =xh.createNewNode(500, 400, 30, 30,"桥接系统","circle","../../Resources/images/top/bridging.png");
-                
-                
-                var emhNode2 =xh.createNewNode(wwidth-300, 100, 30, 30,"动环设备","tree","../../Resources/images/top/emh.png","top");
-                var emh_status_Node2 =xh.createNewNode(wwidth-400, 30, 30, 30,"状态监测","circle","../../Resources/images/top/emh-s.png");
-                var emh_ws_Node2 =xh.createNewNode(wwidth-300, 30, 30, 30,"温湿度监测","circle","../../Resources/images/top/emh-t.png");
-                var emh_ups_Node2 =xh.createNewNode(wwidth-200, 30, 30, 30,"UPS监测","circle","../../Resources/images/top/emh-ups.png");
-                var bridgingNode2 =xh.createNewNode(wwidth-500, 400, 30, 30,"桥接系统","circle","../../Resources/images/top/bridging.png");
-                
-                var link = xh.createNewLink(rootNode, serverOneNode,5);
-                    link.strokeColor = '0,255,0';
-                var link2= xh.createNewLink(rootNode2, serverTwoNode,5);
+    			var point1 =xh.createNewNode(wwidth/2,0,10,10,"");
+    			var point2 =xh.createNewNode(wwidth/2,wheight-70,10,10,"");
+    			
+    			var point3 =xh.createNewNode(0,wheight/10+160,10,10,"");
+    			var point4 =xh.createNewNode(wwidth-50,wheight/10+160,10,10,"");
+    			
+    			var point5 =xh.createNewNode(0,wheight/2+150,10,10,"");
+    			var point6 =xh.createNewNode(wwidth-50,wheight/2+150,10,10,10,"");
+    			
+    			var link_point = xh.createNewLink(point1, point2,5);
+    			link_point.strokeColor = '169,169,169';
+    			link_point.dashedPattern =15; // 虚线
+    			
+    			var link_point2 = xh.createNewLink(point3, point4,5);
+    			link_point2.strokeColor = '169,169,169';
+    			link_point2.dashedPattern =15; // 虚线
+    			
+    			var link_point3 = xh.createNewLink(point5, point6,5);
+    			link_point3.strokeColor = '169,169,169';
+    			link_point3.dashedPattern =15; // 虚线
+    			
+    			//交换中心1
+    			//结点
+    			var emh1 =xh.createNode(400, wheight/10,"emh.png","动环设备");
+    			var server1=xh.createNode(500, wheight/10,"xh.png","综合应用与平台");
+    			
+    			
+    			var sw1 =xh.createNode(300, wheight/10+200,"switch.png","交换机");
+    			var sw2 =xh.createNode(400, wheight/10+200,"switch.png","交换机");
+    			var sw3 =xh.createNode(500, wheight/10+200,"switch.png","交换机");
+    			
+    			var hsw1 =xh.createNode(400, wheight/2+30,"hsw.png","核心交换机");
+    			
+    			var sw4 =xh.createNode(200, wheight/2+100,"switch.png","交换机");
+    			var sw5 =xh.createNode(300, wheight/2+100,"switch.png","交换机");
+    			var sw6 =xh.createNode(400, wheight/2+100,"switch.png","交换机");
+    			var sw7 =xh.createNode(500, wheight/2+100,"switch.png","交换机");
+    			
+    			var poc1 =xh.createNode(200,wheight/2+200,"poc.png","POC系统");
+                var bridging1 =xh.createNode(300, wheight/2+200,"bridging.png","桥接系统");
+                var dispatch1 =xh.createNode(400, wheight/2+200,"dispatch.png","调度台");
+                var bs1 =xh.createNode(500, wheight/2+200,"bs.png","基站");
+    			
+    			
+    			//连线
+                var link1 = xh.createNewLink(server1, sw3,5);
+                link1.strokeColor = '0,255,0';
+                var link2 = xh.createNewLink(emh1, sw2,5);
                 link2.strokeColor = '0,255,0';
-                var link_xh= xh.createNewLink(rootNode, xhNode,5);
-                link_xh.strokeColor = '0,255,0';
-                var link_xh2= xh.createNewLink(rootNode2, xhNode2,5);
-                link_xh2.strokeColor = '0,255,0';
-                var link_poc= xh.createNewLink(rootNode, pocNode,5);
-                link_poc.strokeColor = '0,255,0';
                 
-                var link_bridging= xh.createNewLink(rootNode, bridgingNode,5);
-                link_bridging.strokeColor = '0,255,0';
-                var link_bridging2= xh.createNewLink(rootNode2, bridgingNode2,5);
-                link_bridging2.strokeColor = '0,255,0';
-                var link_root2= xh.createNewLink(rootNode, rootNode2,5);
-                link_root2.strokeColor = '0,255,0';
+                var link3 = xh.createNewLink(hsw1, sw1,5);
+                link3.strokeColor = '0,255,0';
+                var link4 = xh.createNewLink(hsw1, sw2,5);
+                link4.strokeColor = '0,255,0';
+                var link5 = xh.createNewLink(hsw1, sw3,5);
+                link5.strokeColor = '0,255,0';
                 
                 
-                //环控
-                var link_emh= xh.createNewLink(rootNode, emhNode,5);
-                link_emh.strokeColor = '0,255,0';
-                var link_status= xh.createNewLink(emhNode, emh_status_Node,5);
-                link_status.strokeColor = '0,255,0';
-                var link_ws= xh.createNewLink(emhNode, emh_ws_Node,5);
-                link_ws.strokeColor = '0,255,0';
-                var link_ups= xh.createNewLink(emhNode, emh_ups_Node,5);
-                link_ups.strokeColor = '0,255,0';
+                var link6 = xh.createNewLink(hsw1, sw4,5);
+                link6.strokeColor = '0,255,0';
+                var link7 = xh.createNewLink(hsw1, sw5,5);
+                link7.strokeColor = '0,255,0';
+                var link8 = xh.createNewLink(hsw1, sw6,5);
+                link8.strokeColor = '0,255,0';
+                var link9 = xh.createNewLink(hsw1, sw7,5);
+                link9.strokeColor = '0,255,0';
                 
-                var link_emh2= xh.createNewLink(rootNode2, emhNode2,5);
-                link_emh2.strokeColor = '0,255,0';
-                var link_status2= xh.createNewLink(emhNode2, emh_status_Node2,5);
-                link_status2.strokeColor = '0,255,0';
-                var link_ws2= xh.createNewLink(emhNode2, emh_ws_Node2,5);
-                link_ws2.strokeColor = '0,255,0';
-                var link_ups2= xh.createNewLink(emhNode2, emh_ups_Node2,5);
-                link_ups2.strokeColor = '0,255,0';
-               
+                var link10 = xh.createNewLink(sw4, poc1,5);
+                link10.strokeColor = '0,255,0';
+                var link11 = xh.createNewLink(sw5, bridging1,5);
+                link11.strokeColor = '0,255,0';
+                var link12 = xh.createNewLink(sw6, dispatch1,5);
+                link12.strokeColor = '0,255,0';
+                var link13 = xh.createNewLink(sw7, bs1,5);
+                link13.strokeColor = '0,255,0';
+                
+                
+                //交换中心2
+                var server2=xh.createNode(wwidth-600, wheight/10,"xh.png","综合应用与平台");
+    			var emh2 =xh.createNode(wwidth-500, wheight/10,"emh.png","动环设备");
+    			var sw21 =xh.createNode(wwidth-600, wheight/10+200,"switch.png","交换机");
+    			var sw22 =xh.createNode(wwidth-500, wheight/10+200,"switch.png","交换机");
+    			var sw23 =xh.createNode(wwidth-400, wheight/10+200,"switch.png","交换机");
+    			
+    			var hsw2 =xh.createNode(wwidth-500, wheight/2+30,"hsw.png","核心交换机");
+    			
+    			//var sw24 =xh.createNode(wwidth-500, wheight/2+100,"switch.png","交换机");
+    			var sw25 =xh.createNode(wwidth-600, wheight/2+100,"switch.png","交换机");
+    			var sw26 =xh.createNode(wwidth-500, wheight/2+100,"switch.png","交换机");
+    			var sw27 =xh.createNode(wwidth-400, wheight/2+100,"switch.png","交换机");
+    			
+    			//var poc2 =xh.createNode(wwidth-500,wheight/2+200,"poc.png","POC系统");
+                var bridging2 =xh.createNode(wwidth-600, wheight/2+200,"bridging.png","桥接系统");
+                var dispatch2 =xh.createNode(wwidth-500, wheight/2+200,"dispatch.png","调度台");
+                var bs2 =xh.createNode(wwidth-400, wheight/2+200,"bs.png","基站");
+                
+              //连线
+                var link20 = xh.createNewLink(hsw1, hsw2,5);
+                link20.strokeColor = '0,255,0';
+                
+                var link21 = xh.createNewLink(server2, sw21,5);
+                link21.strokeColor = '0,255,0';
+                var link22 = xh.createNewLink(emh2, sw22,5);
+                link22.strokeColor = '0,255,0';
+                
+                var link23 = xh.createNewLink(hsw2, sw21,5);
+                link23.strokeColor = '0,255,0';
+                var link24 = xh.createNewLink(hsw2, sw22,5);
+                link24.strokeColor = '0,255,0';
+                var link25 = xh.createNewLink(hsw2, sw23,5);
+                link25.strokeColor = '0,255,0';
+                
+                
+               /* var link26 = xh.createNewLink(hsw2, sw24,5);
+                link26.strokeColor = '0,255,0';*/
+                var link27 = xh.createNewLink(hsw2, sw25,5);
+                link27.strokeColor = '0,255,0';
+                var link28 = xh.createNewLink(hsw2, sw26,5);
+                link28.strokeColor = '0,255,0';
+                var link29 = xh.createNewLink(hsw2, sw27,5);
+                link29.strokeColor = '0,255,0';
+                
+               /* var link30 = xh.createNewLink(sw24, poc2,5);
+                link30.strokeColor = '0,255,0';*/
+                var link31 = xh.createNewLink(sw25, bridging2,5);
+                link31.strokeColor = '0,255,0';
+                var link32 = xh.createNewLink(sw26, dispatch2,5);
+                link32.strokeColor = '0,255,0';
+                var link33 = xh.createNewLink(sw27, bs2,5);
+                link33.strokeColor = '0,255,0';
+    		
+                             
+                
+                //交换中心1
+                
+
+                
                 $scope.emh();
-                //状态监测
-                emh_status_Node.addEventListener('mouseover', function(event){
+               //状态监测
+                emh1.addEventListener('mouseover', function(event){
               	  var html="<table>";
               	  if($scope.emhData.door==0){
               		html+="<tr style='color:#fff;background:green'><td>门禁</td><td>关闭</td></tr>";
@@ -147,6 +227,12 @@ xh.load = function() {
                	  }else{
                		html+="<tr style='color:#fff;background:red'><td>水浸</td><td>异常</td></tr>";
                	  }
+              	html+="<tr><td>温度</td><td>"+$scope.emhData.temp+"</td></tr>";
+          	    html+="<tr><td>湿度</td><td>"+$scope.emhData.damp+"</td></tr>";
+          	    html+="<tr><td>交流电压</td><td>"+$scope.emhData.jv+"</td></tr>";
+       	        html+="<tr><td>交流电流</td><td>"+$scope.emhData.ji+"</td></tr>";
+       	        html+="<tr><td>直流电压</td><td>"+$scope.emhData.lv+"</td></tr>";
+       	        html+="<tr><td>直流电流</td><td>"+$scope.emhData.li+"</td></tr>";
               	  html+="<table>";              	 
               	  $(".server-emh").html(html);            	  
               	  var top=event.pageY,left=event.pageX+20;
@@ -163,76 +249,35 @@ xh.load = function() {
               	        left: left
               	    }).show();
                 });              
-                emh_status_Node.addEventListener('mouseout', function(event){
+                emh1.addEventListener('mouseout', function(event){
               	  $(".server-emh").hide();
-                });
-                //温湿度
-                emh_ws_Node.addEventListener('mouseover', function(event){
-                	  var html="<table>";
-                	  html+="<tr><td>温度</td><td>"+$scope.emhData.temp+"</td></tr>";
-                	  html+="<tr><td>湿度</td><td>"+$scope.emhData.damp+"</td></tr>";
-                	  html+="<table>";              	 
-                	  $(".server-emh").html(html);            	  
-                	  var top=event.pageY,left=event.pageX+20;
-                	  var clientW=document.documentElement.clientWidth;
-                	  var clientH=document.documentElement.clientHeight;
-                	  if(clientW-left<200){
-                		  left-=250;
-                	  }
-                	  if(clientH-top<250){
-                		  top-=160;
-                	  } 
-                	  $(".server-emh").css({
-                	        top: top,
-                	        left: left
-                	    }).show();
-                  });              
-                emh_ws_Node.addEventListener('mouseout', function(event){
-                	  $(".server-emh").hide();
-                  });
-                //uPS
-                emh_ups_Node.addEventListener('mouseover', function(event){
-                	  var html="<table>";
-                	  html+="<tr><td>交流电压</td><td>"+$scope.emhData.jv+"</td></tr>";
-                	  html+="<tr><td>交流电流</td><td>"+$scope.emhData.ji+"</td></tr>";
-                	  html+="<tr><td>直流电压</td><td>"+$scope.emhData.lv+"</td></tr>";
-                	  html+="<tr><td>直流电流</td><td>"+$scope.emhData.li+"</td></tr>";
-                	  
-                	  html+="<table>";              	 
-                	  $(".server-emh").html(html);            	  
-                	  var top=event.pageY,left=event.pageX+20;
-                	  var clientW=document.documentElement.clientWidth;
-                	  var clientH=document.documentElement.clientHeight;
-                	  if(clientW-left<200){
-                		  left-=250;
-                	  }
-                	  if(clientH-top<250){
-                		  top-=160;
-                	  } 
-                	  $(".server-emh").css({
-                	        top: top,
-                	        left: left
-                	    }).show();
-                  });              
-                emh_ups_Node.addEventListener('mouseout', function(event){
-                	  $(".server-emh").hide();
-                  });
-                
-                
-                
+                });               
                 $http.get("../../server/list").
         		success(function(response){
         			xh.maskHide();
         			var data = response.items;
         			var totals = response.totals;
-        			 for(var j=0; j<totals; j++){
+        			var top1=wheight/10,top2=wheight/10;
+   				    var left1=380,left2=wwidth-420;
+   				    var a=0;var b=0;
+        			for(var j=0; j<totals; j++){
+        				 
         				 
         				 if(data[j].ID==1){
-                         var vmNode = new JTopo.Node(data[j].name);
+        				
+        					/* left1+=40; 
+        					 top1-=30;*/
+                            if(j<4){
+                        		 
+                            	 left1-=80; 
+                        	 }else{
+                        		 top1+=60;
+                        	 }
+        				  
+        				 
+        				 
+                         var vmNode=xh.createNode(left1,top1,"server1.png",data[j].name);
                          vmNode.index=j;
-                         vmNode.setLocation(scene.width * Math.random(), scene.height * Math.random());
-                         vmNode.setImage("../../Resources/images/top/server-point.png",true);
-                         vmNode.layout = {type: 'circle',radius: 40};
                          if(data[j].status!=0){
                    			 vmNode.alarm = '告警';
                    			
@@ -242,7 +287,7 @@ xh.load = function() {
                    	    	  }
                    	      }
                          scene.add(vmNode); 
-                         var link=new JTopo.Link(serverOneNode, vmNode);
+                         var link=new JTopo.Link(sw1, vmNode);
                          link.lineWidth = 1; // 线宽
                          link.bundleOffset = 60; // 折线拐角处的长度
                          link.bundleGap = 20; // 线条之间的间隔
@@ -302,26 +347,19 @@ xh.load = function() {
     	                  vmNode.addEventListener('mouseout', function(event){
     	                	  $(".server-info1").hide();
     	                  });
-                        /* for(var k=0;k<5;k++){
-                        	 var cNode = new JTopo.Node(k);
-                        	 cNode.setLocation(10, 10);
-                             cNode.setImage("../../Resources/images/top/dispatch-point.png",true);
-                             scene.add(cNode); 
-                             var link2=new JTopo.Link(vmNode, cNode);
-                             link2.lineWidth = 1; // 线宽
-                             link2.bundleOffset = 60; // 折线拐角处的长度
-                             link2.bundleGap = 20; // 线条之间的间隔
-                             scene.add(link2);
-                             
-                         }
-                         JTopo.layout.layoutNode(scene, vmNode, true);*/
+                      
                        
                          }else{
-                             var vmNode = new JTopo.Node(data[j].name);
+                        	 if(j<10){
+                        		 
+                            	 left2+=80; 
+                        	 }else{
+                        		 top2+=60;
+                        	 }
+                        	 
+                        	 
+                        	 var vmNode=xh.createNode(left2,top2,"server1.png",data[j].name);
                              vmNode.index=j;
-                             vmNode.setLocation(1, scene.height * Math.random());
-                             vmNode.setImage("../../Resources/images/top/server-point2.png",true);
-                             vmNode.layout = {type: 'circle',radius: 40};
                              if(data[j].status!=0){
                        			 vmNode.alarm = '告警';
                        			
@@ -331,7 +369,7 @@ xh.load = function() {
                        	    	  }
                        	      }
                              scene.add(vmNode); 
-                             var link=new JTopo.Link(serverTwoNode, vmNode);
+                             var link=new JTopo.Link(sw23, vmNode);
                              link.lineWidth = 1; // 线宽
                              link.bundleOffset = 60; // 折线拐角处的长度
                              link.bundleGap = 20; // 线条之间的间隔
@@ -396,13 +434,17 @@ xh.load = function() {
                           }
         			 }
         			
-        			 JTopo.layout.layoutNode(scene, serverOneNode, true);
-        			 JTopo.layout.layoutNode(scene, serverTwoNode, true);
+        			 JTopo.layout.layoutNode(scene, sw1, true);
+        			 //JTopo.layout.layoutNode(scene, serverTwoNode, true);
         		});
          
 		   
 		}
             $scope.serverCanvas();
+            
+            $(window).resize(function(){
+            	$scope.serverCanvas();
+            })
 	/*	setInterval(function(){
 			$scope.drawCanvas();
         }, 10000);*/
@@ -417,76 +459,21 @@ xh.load = function() {
 };
 
 //创建结点
-xh.createNewNode=function(x, y, w, h, text,type,icon,dir){
+xh.createNode=function(x, y, img,text){
     var node = new JTopo.Node(text);
     node.setLocation(x, y);
-    //node.setLocation(scene.width * Math.random(), scene.height * Math.random());
-    node.setSize(w, h);
-    node.setImage(icon,true);
-    node.dragable=true;
-    node.shadow =true;
-    if(type=="circle"){
-    	node.layout = {type: 'circle',radius: 150};
-    }else{
-    	node.layout = {type: 'tree', direction: dir, width: 50, height: 70};
-    }
-    
+    node.setImage('../../Resources/images/top/' + img, true);  
     scene.add(node);
     return node;
 }
-xh.createRootNode=function(x, y, w, h, text,type){
+xh.createNewNode=function(x, y, w, h,text){
     var node = new JTopo.Node(text);
     node.setLocation(x, y);
     node.setSize(w, h);
-    node.shadow =true;
-    node.setImage("../../Resources/images/top/switch.png",true);
-    scene.add(node);
-    return node;
-}
-xh.createUserNode=function(x, y, w, h, text,type){
-    var node = new JTopo.Node(text);
-    node.dragable=false;
-    node.setLocation(x, y);
-    node.setSize(w, h);
-    node.shadow =true;
-    node.setImage("../../Resources/images/top/server1.png",true);
-    /*node.layout = {type: 'tree', direction: 'left', width: 50, height: 90};*/
-    node.layout = {type: 'circle',radius: 100};
     scene.add(node);
     return node;
 }
 
-xh.createServerOneNode=function(x, y, w, h, text,type,dir){
-    var node = new JTopo.Node(text);
-    node.dragable=false;
-    node.setLocation(x, y);
-    node.setSize(w, h);
-    node.shadow =true;
-    node.setImage("../../Resources/images/top/server1.png",true);
-    if(type=="circle"){
-    	 node.layout = {type: 'circle',radius: 90};
-    }else{
-    	node.layout = {type: 'tree', direction: dir, width: 50, height: 90};
-    }
-   
-    scene.add(node);
-    return node;
-}
-xh.createServerTwoNode=function(x, y, w, h, text,type){
-    var node = new JTopo.Node(text);
-    node.dragable=false;
-    node.setLocation(x, y);
-    node.setSize(w, h);
-    node.shadow =true;
-    node.setImage("../../Resources/images/top/server2.png",true);
-    if(type=="circle"){
-   	 node.layout = {type: 'circle',radius: 90};
-    }else{
-   	node.layout = {type: 'tree', direction: 'bottom', width: 50, height: 90};
-   }
-    scene.add(node);
-    return node;
-}
 //简单连线
 xh.createNewLink=function(nodeA, nodeZ, text,lineType){
     var link = new JTopo.Link(nodeA, nodeZ, text);        

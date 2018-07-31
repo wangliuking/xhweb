@@ -626,11 +626,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> bsc(int bsId) throws Exception {
+	public static List<Map<String, Object>> bsc(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.bsc(bsId);
+		List<Map<String, Object>> list = mapper.bsc(map);
 		session.close();
 		return list;
 	}
@@ -711,11 +711,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> psm(int bsId) throws Exception {
+	public static List<Map<String, Object>> psm(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.psm(bsId);
+		List<Map<String, Object>> list = mapper.psm(map);
 		session.close();
 		return list;
 	}
@@ -727,11 +727,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> bsr(int bsId) throws Exception {
+	public static List<Map<String, Object>> bsr(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.bsr(bsId);
+		List<Map<String, Object>> list = mapper.bsr(map);
 		session.close();
 		return list;
 	}
@@ -743,11 +743,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> dpx(int bsId) throws Exception {
+	public static List<Map<String, Object>> dpx(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.dpx(bsId);
+		List<Map<String, Object>> list = mapper.dpx(map);
 		session.close();
 		return list;
 	}

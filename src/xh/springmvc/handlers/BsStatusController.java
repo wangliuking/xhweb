@@ -1324,9 +1324,13 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsc(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		String fsuId = null;
 		try {
-			List<Map<String, Object>> list = BsStatusService.bsc(bsId);
+			List<Map<String, Object>> list = BsStatusService.bsc(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1351,9 +1355,14 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsr(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
+		
 		String fsuId = null;
 		try {
-			List<Map<String, Object>> list = BsStatusService.bsr(bsId);
+			List<Map<String, Object>> list = BsStatusService.bsr(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1378,8 +1387,12 @@ public class BsStatusController {
 	@ResponseBody
 	public void dpx(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		try {
-			List<Map<String, Object>> list = BsStatusService.dpx(bsId);
+			List<Map<String, Object>> list = BsStatusService.dpx(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1404,8 +1417,12 @@ public class BsStatusController {
 	@ResponseBody
 	public void psm(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		try {
-			List<Map<String, Object>> list = BsStatusService.psm(bsId);
+			List<Map<String, Object>> list = BsStatusService.psm(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());

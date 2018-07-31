@@ -1,5 +1,5 @@
 
-<div class="row" ng-repeat="x in dpxData" ng-if="bscExists<2 && x.retLoss>0 && x.fwdPa>0 && show==3">
+<div class="row" ng-repeat="x in dpxData" ng-if="x.retLoss>0 && x.fwdPa>0">
 	<div class="col-md-12">
 		<table id="tb-info" class="xh-table table-hover">
 			<thead>
@@ -9,13 +9,10 @@
 					<th>值</th>
 					<th width="120px">属性</th>
 					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>ID</td><td style="color:blue;font-weight: 800">{{x.Id}}</td>
 					<td>工作状态</td>
 					<td colspan="3">
 					<span ng-if="x.working==0" class="text-success">正常</span>
@@ -39,15 +36,15 @@
 					</td>
 					<td>正向功率(db)</td>
 					<td>{{x.fwdPa/10 |fwdPa}}</td>
-					<td>更新时间</td>
-					<td>{{x.updateTime}}</td>
+					<!-- <td>更新时间</td>z
+					<td>{{x.updateTime}}</td> -->
 				</tr>
 			</tbody>
 		</table>
 		</div>
 </div>
 <!-- row -->
-<div class="row"  ng-if="bscExists>=2 &&show==3">
+<div class="row"  ng-if="dpxExists==0">
 <div class="col-md-12">
 <p>数据获取中</p>
 </div>

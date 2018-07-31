@@ -92,6 +92,9 @@ public class SqlServerService {
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
 			sqlSession.close();
+		}catch(NumberFormatException e){
+			log.info("三期环控数据NumberFormatException");
+			sqlSession.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

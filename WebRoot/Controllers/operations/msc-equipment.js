@@ -21,7 +21,9 @@ var scene = new JTopo.Scene();
 var width=document.documentElement.clientWidth;
 var height=document.documentElement.clientHeight;
 stage.add(scene);
-scene.background = '../../Resources/images/img/bg.jpg';
+/*scene.background = '../../Resources/images/img/bg.jpg';*/
+scene.alpha=1;
+scene.backgroundColor='53,63,79';
 /*stage.eagleEye.visible = true;*/
 stage.wheelZoom = 0.85;
 
@@ -62,29 +64,122 @@ xh.load = function() {
 
 		$scope.drawCanvas=function(){
 			scene.clear();
-			var rootNode =xh.createRootNode(width/2, height/2, 30, 30,"交换中心","tree");
-            /*var dispatchNode =xh.createDispatchNode(800, 250, 30, 30,"调度台","tree");*/
-			//var dispatchNode =xh.createNode(width/2, height/2,"msc.png","交换中心");
-            //var accessNode =xh.createUserNode(200, 200, 30, 30,"接入应用","tree");
-            //var link = xh.createNewFoldLink(rootNode, dispatchNode); 
-            //var link2= xh.createNewFoldLink(rootNode, accessNode);
+			
+			
+			
+			var point11 =xh.createNewNode(70,60,10,10,"");
+			var point12 =xh.createNewNode(70,530,10,10,"");
+			var point21 =xh.createNewNode(200,60,10,10,"");
+			var point22 =xh.createNewNode(200,530,10,10,"");
+			
+			var point1 =xh.createNewNode(width/2+130,40,10,10,"");
+			var point2 =xh.createNewNode(width/2+130,500,10,10,"");
+			var point31 =xh.createNewNode(width/2+270,40,10,10,"");
+			var point32 =xh.createNewNode(width/2+270,500,10,10,"");
+			
+			var point41 =xh.createNewNode(width/2+340,40,10,10,"");
+			var point42 =xh.createNewNode(width/2+340,500,10,10,"");
+			var point51 =xh.createNewNode(width/2+450,40,10,10,"");
+			var point52 =xh.createNewNode(width/2+450,500,10,10,"");
+			
+			
+			
+			
+			
+			var link_point = xh.createNewLink(point1, point2,5);
+			link_point.strokeColor = '169,169,169';
+			link_point.dashedPattern =15; // 虚线
+			
+			var link_point1 = xh.createNewLink(point11, point12,5);
+			link_point1.strokeColor = '169,169,169';
+			link_point1.dashedPattern =15; // 虚线
+			
+			var link_point2 = xh.createNewLink(point11, point21,"三方接入应用");
+			link_point2.strokeColor = '169,169,169';
+			link_point2.dashedPattern =15; // 虚线
+			
+			var link_point3 = xh.createNewLink(point21, point22,5);
+			link_point3.strokeColor = '169,169,169';
+			link_point3.dashedPattern =15; // 虚线
+			
+			var link_point4= xh.createNewLink(point12, point22,5);
+			link_point4.strokeColor = '169,169,169';
+			link_point4.dashedPattern =15; // 虚线
+			
+			
+			
+			var link_point5 = xh.createNewLink(point1, point31,"公安");
+			link_point5.strokeColor = '169,169,169';
+			link_point5.dashedPattern =15; // 虚线
+			
+			var link_point6 = xh.createNewLink(point31, point32,5);
+			link_point6.strokeColor = '169,169,169';
+			link_point6.dashedPattern =15; // 虚线
+			
+			var link_point7= xh.createNewLink(point2, point32,5);
+			link_point7.strokeColor = '169,169,169';
+			link_point7.dashedPattern =15; // 虚线
+			
+			
+			
+			var link_point8 = xh.createNewLink(point41, point51,"交警");
+			link_point8.strokeColor = '169,169,169';
+			link_point8.dashedPattern =15; // 虚线
+			
+			var link_point9 = xh.createNewLink(point51, point52,5);
+			link_point9.strokeColor = '169,169,169';
+			link_point9.dashedPattern =15; // 虚线
+			
+			var link_point10= xh.createNewLink(point42, point52,5);
+			link_point10.strokeColor = '169,169,169';
+			link_point10.dashedPattern =15; // 虚线
+			var link_point11= xh.createNewLink(point41, point42,5);
+			link_point11.strokeColor = '169,169,169';
+			link_point11.dashedPattern =15; // 虚线
+			
+			
+			
+			
+			var rootNode =xh.createRootNode(200, height/2, 30, 30,"交换中心","tree");
+            
             
             $http.get("../../status/dispatch").
     		success(function(response){
     			xh.maskHide();
     			var dispatch = response.items;
     			var left=50,top=height/2-200;
+    			var x=width/2-200,y=0;
     			for(var i=0;i<dispatch.length;i++){
     				var dd=dispatch[i].items;
     				var type=dispatch[i].type;
-    				var x=0,y=0;
-    				if(i<=5){
+    				
+    				/*if(i<=5){
     					x=100+i*100;
     					y=height/2-250;
     				}else if(i>=5){
     					x=i*100-200;
     					y=height/2+200;
-    				}
+    				}*/
+    				
+					
+					if(i<=6){
+						x+=30;
+						y+=45;
+					}else{
+						x-=30;
+						y+=45;
+					}
+					
+					
+					/*if(type=="公安"){
+						x=width/2+10;
+						y=height/2+100;
+					}
+					if(type=="交警"){
+						x=width/2+200;
+						y=height/2+10;
+					}*/
+					
     				var img="dispatch.png";
     				if(dd.length>1){
     					img="switch.png";
@@ -113,12 +208,20 @@ xh.load = function() {
                     
                    
                     if(dd.length>1){
-                    	var x2=left;var y2=top;
+                    	var a=10,b=0,x2=0,y2=0;
                     	for(var j=0;j<dd.length;j++){
         					var b=dd[j];
         					
-        					y2+=50;x2+=30;
-            				
+        					/*y2+=50;x2+=30;*/
+        					
+        					if(b.dstName.indexOf("公安")>-1){
+        						x2=width/2+200;
+            					y2+=a+40;
+        					}else{
+        						
+            					x2=width/2+400;
+            					y2+=70;
+        					}
                             var twoNode = xh.createNode(x2,y2,"dispatch.png",b.dstName);
                             twoNode.indexi=i;
                             twoNode.indexj=j;
@@ -176,8 +279,8 @@ xh.load = function() {
       	                	  $(".dispatch-info").hide();
       	                  });
         				}
-                    	left=width-300;
-                    	top=top-100;	
+                    	/*left=width-300;
+                    	top=top-100;*/	
                     	
                     }else{
                     	oneNode.addEventListener('mouseover', function(event){
@@ -312,9 +415,9 @@ xh.load = function() {
 				xh.maskHide();
 				var data = response.items;
 				var totals = response.totals;
-				var x2=width/2,y2=height/2-300;
+				var x2=100,y2=50;
 				 for(var j=0; j<totals; j++){
-					 x2+=50;y2+=50;
+					 y2+=80;
 	                  var vmNode = xh.createNode(x2,y2,"user.png",data[j].User_Unit);
 	                  vmNode.radius = 10;
 	                  vmNode.fillStyle = '255,255,0';
@@ -409,17 +512,10 @@ xh.load = function() {
 };
 
 //创建结点
-xh.createNewNode=function(x, y, w, h, text,type){
+xh.createNewNode=function(x, y, w, h,text){
     var node = new JTopo.Node(text);
     node.setLocation(x, y);
     node.setSize(w, h);
-    
-    if(type=="circle"){
-    	node.layout = {type: 'circle',radius: 150};
-    }else{
-    	node.layout = {type: 'tree', direction: 'left', width: 50, height: 90};
-    }
-    
     scene.add(node);
     return node;
 }
