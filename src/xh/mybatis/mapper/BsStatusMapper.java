@@ -102,7 +102,7 @@ public interface BsStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> bsc(int bsId) throws Exception;
+	public List<Map<String,Object>> bsc(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 基站断站告警
@@ -123,21 +123,21 @@ public interface BsStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> bsr(int bsId) throws Exception;
+	public List<Map<String,Object>> bsr(Map<String,Object> map) throws Exception;
 	/**
 	 * 基站下的dpx状态
 	 * @param bsId
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> dpx(int bsId) throws Exception;
+	public List<Map<String,Object>> dpx(Map<String,Object> map) throws Exception;
 	/**
 	 * 基站下的psm状态
 	 * @param bsId
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,Object>> psm(int bsId) throws Exception;
+	public List<Map<String,Object>> psm(Map<String,Object> map) throws Exception;
 	
 	/**
 	 * 基站断站声音告警数目 
@@ -145,6 +145,7 @@ public interface BsStatusMapper {
 	 * @throws Exception
 	 */
 	public int bsOffVoiceCount() throws Exception;
+	public Map<String,Object> emhVoiceCount() throws Exception;
 	
 	/**
 	 * 基站断站定时更新

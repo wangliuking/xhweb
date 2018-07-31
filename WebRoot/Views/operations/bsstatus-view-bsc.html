@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="x in bscData" ng-if="x.Id<=2 && x.online==2">
+<div class="row" ng-repeat="x in bscData" ng-if="x.bscIsEnable>0">
 	<div class="col-md-12">
 		<table id="tb-info" class="xh-table table-hover">
 			<thead>
@@ -14,7 +14,6 @@
 			</thead>
 			<tbody>
 			<tr>
-					<td>载频ID</td><td style="color:blue;font-weight: 800">{{x.Id}}</td>
 					<td>工作状态</td>
 					<td colspan="3" style="color:red;font-weight: 800">
 					<span ng-if="x.working==0" class="text-success">正常</span>
@@ -57,8 +56,8 @@
 					</td>
 					<td>运行时长</td>
 					<td>{{x.runtime |timeFormate}}</td>
-					<td>更新时间</td>
-					<td>{{x.updateTime}}</td>
+					<!-- <td>更新时间</td>
+					<td>{{x.updateTime}}</td> -->
 				</tr>
 				
 			</tbody>
@@ -66,7 +65,7 @@
 	</div>
 </div>
 <!-- row -->
-<div class="row"  ng-if="bscExists>=2">
+<div class="row"  ng-if="bscExists==0">
 <div class="col-md-12">
 <p>数据获取中</p>
 </div>

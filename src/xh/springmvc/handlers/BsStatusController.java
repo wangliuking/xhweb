@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,6 +55,7 @@ import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.BusinessService;
 import xh.mybatis.service.DispatchStatusService;
 import xh.mybatis.service.EmhService;
+import xh.mybatis.service.PublicVariableService;
 import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
 
@@ -80,6 +82,42 @@ public class BsStatusController {
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/search_bs_by_regGroup",method = RequestMethod.GET)
+	public void search_bs_by_regGroup(HttpServletRequest request, HttpServletResponse response){
+		
+		int groupId=Integer.parseInt(request.getParameter("groupId"));
+		List<Map<String,Object>> list=BsstationService.search_bs_by_regGroup(groupId);
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/search_regUser_by_regGroup",method = RequestMethod.GET)
+	public void search_regUser_by_regGroup(HttpServletRequest request, HttpServletResponse response){
+		
+		int groupId=Integer.parseInt(request.getParameter("groupId"));
+		List<Map<String,Object>> list=BsstationService.search_regUser_by_regGroup(groupId);
+		HashMap result = new HashMap();
+		result.put("totals", list.size());
+		result.put("items", list);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -1134,6 +1172,8 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsOffVoiceCount(HttpServletRequest request, HttpServletResponse response) throws SQLServerException {
 		
+		
+		
 		int bsCount=BsStatusService.bsOffVoiceCount();
 		//int dispatchCount=DispatchStatusService.dispatchOffAlarmCount();
 		int jiCount=SqlServerService.bsJiAlarmCount()+EmhService.bsEmhJiAlarmVoiceCount();
@@ -1262,9 +1302,15 @@ public class BsStatusController {
 		
 		/*DispatchStatusService.updateDispatchAlarmStatus();*/
 		BsStatusService.updateAlarmStatus();
-		SqlServerService.updateAlarmStatus();
+		try {
+			PublicVariableService.setVoiceAlarmCount(BsStatusService.alarmVoiceCount());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*SqlServerService.updateAlarmStatus();
 		ServerStatusService.offAlarmStatus();
-		EmhService.update_emh_eps_voice_status();
+		EmhService.update_emh_eps_voice_status();*/
 
 	}
 
@@ -1278,9 +1324,13 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsc(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		String fsuId = null;
 		try {
-			List<Map<String, Object>> list = BsStatusService.bsc(bsId);
+			List<Map<String, Object>> list = BsStatusService.bsc(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1305,9 +1355,14 @@ public class BsStatusController {
 	@ResponseBody
 	public void bsr(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
+		
 		String fsuId = null;
 		try {
-			List<Map<String, Object>> list = BsStatusService.bsr(bsId);
+			List<Map<String, Object>> list = BsStatusService.bsr(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1332,8 +1387,12 @@ public class BsStatusController {
 	@ResponseBody
 	public void dpx(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		try {
-			List<Map<String, Object>> list = BsStatusService.dpx(bsId);
+			List<Map<String, Object>> list = BsStatusService.dpx(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());
@@ -1358,8 +1417,12 @@ public class BsStatusController {
 	@ResponseBody
 	public void psm(HttpServletRequest request, HttpServletResponse response) {
 		int bsId = Integer.parseInt(request.getParameter("bsId"));
+		String id=request.getParameter("id");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("id", id);
 		try {
-			List<Map<String, Object>> list = BsStatusService.psm(bsId);
+			List<Map<String, Object>> list = BsStatusService.psm(map);
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("totals", list.size());

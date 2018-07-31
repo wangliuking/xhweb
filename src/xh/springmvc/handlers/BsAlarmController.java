@@ -24,7 +24,9 @@ import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.BsAlarmService;
+import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.PublicVariableService;
 import xh.mybatis.service.WebLogService;
 
 
@@ -37,6 +39,28 @@ public class BsAlarmController {
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	private String message;
+	
+	@RequestMapping(value = "/voiceAlarm", method = RequestMethod.GET)
+	public void voiceAlarm(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		HashMap result = new HashMap();
+		try {
+			result.put("totals",PublicVariableService.getVoiceAlarmCount());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 	@RequestMapping(value = "/sureAlarm", method = RequestMethod.POST)
 	public void sureAlarm(HttpServletRequest request,

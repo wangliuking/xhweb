@@ -54,6 +54,7 @@ xh.load = function() {
 		}
 		$scope.bs_business= function(){
 			var start=0;
+			frist=0;
 			var bsIds=[];
 			
 			$("#select_bs").find("li").each(function(){
@@ -99,7 +100,35 @@ xh.load = function() {
 		$scope.sort=function(type,field){
 			
 		}
-	
+		//获取组信息
+		$scope.talkGroup=function(){
+			xh.maskShow();
+			var talkgroupid=$("#talkgroupid").val();
+			var eName=$("#eName").val();
+			$http.get(
+					"../../talkgroup/list?talkgroupid=" + talkgroupid + "&eName=" + eName
+							+ "&start=0&limit=10").success(
+					function(response) {
+						xh.maskHide();
+						$scope.talkGroupData = response.items;
+					});
+		}
+		
+		$scope.showGroupViewer=function(){
+			$scope.talkGroup();
+		}
+		$scope.showUserViewer=function(){
+			//$scope.userstatus();
+		}
+		$scope.userstatus=function(){
+			var userId=$("#userId").val();
+			$http.get("../../operations/data/userstatus?userId="+userId+"&regStatus=-1" +
+					"&start=0&limit=20").
+			success(function(response){
+				$scope.userstatus_data = response.items;
+				$scope.userstatus_totals = response.totals;
+			});
+		}
 		$scope.search_more_bs=function(){
 			var name=$("input[name='name']").val();
 			$http.get("../../bs/search_more_bs?zone="+$scope.zone+"&name="+name).success(function(response) {
@@ -123,6 +152,25 @@ xh.load = function() {
 				
 			});
 		}
+		$scope.search_bs_by_regGroup=function(groupId){
+			$http.get("../../bsstatus/search_bs_by_regGroup?groupId="+groupId).success(function(response) {
+				$scope.search_bs_by_regGroup_data = response.items;
+				$scope.search_bs_by_regGroup_totals = response.totals;
+			});
+		}
+		$scope.search_regUser_by_regGroup=function(groupId){
+			$http.get("../../bsstatus/search_regUser_by_regGroup?groupId="+groupId).success(function(response) {
+				$scope.search_regUser_by_regGroup_data = response.items;
+				$scope.search_regUser_by_regGroup_totals = response.totals;
+			});
+		}
+		$scope.regGroup_tr_click = function(groupId,name) {
+			$scope.panel_name=name;
+			$scope.panel_id=groupId
+			$scope.search_bs_by_regGroup(groupId);
+			$scope.search_regUser_by_regGroup(groupId);
+			
+		};
 		/* 获取信息 */
 		
 		$scope.allBsInfo=function(){
@@ -159,13 +207,13 @@ xh.load = function() {
 
 		
 		// 基站下的注册终端
-		$scope.radioUser = function(bsIdstr) {
+		$scope.radioUser = function(bsIdstr,groupId) {
 			frist = 0;
 			$scope.bsId=bsIdstr;
 			var pageSize = $("#page-limit-user").val();
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + bsIdstr
-							+ "&start=0&limit=" + pageSize).success(
+							+ "&groupId="+groupId+"&start=0&limit=" + pageSize).success(
 					function(response) {
 						$scope.radioData = response.items;
 						$scope.radioTotals = response.totals;
@@ -195,15 +243,22 @@ xh.load = function() {
 		};
 		//基站列表行点击
 		$scope.bs_tr_click = function(bsIdstr,name) {
+			$scope.panel_group_name="";
 			$scope.panel_name=name;
 			$scope.panel_bsId=bsIdstr;
-			$scope.radioUser(bsIdstr);
+			$scope.radioUser(bsIdstr,0);
 			$scope.bsGroup(bsIdstr);
 			
 		};
-		$scope.sortBsId = function(a, b) {
+		//组列表行点击
+		$scope.group_tr_click = function(groupId,name) {
+			$scope.panel_group_name=name;
+			$scope.radioUser($scope.panel_bsId,groupId);
+			
+		};
+		/*$scope.sortBsId = function(a, b) {
 			return a.bsId - b.bsId
-		}
+		}*/
 
 		$scope.bsView = function(bsId, bsName, period) {
 

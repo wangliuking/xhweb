@@ -1,7 +1,7 @@
 <div class="left-bar btn-primary" data-toggle="modal"
 	data-target="#bs_search" ng-click="byBsIdBtn()"><i class="fa fa-search"></i><span>数据筛选</span></div>
 <div class="row">
-	<div class="col-md-5">
+	<div class="col-md-4" style="padding:0px 3px 0px 0px">
 		<div class="hpanel">
 			<div class="panel-heading hbuilt">
 				<!-- <div class="panel-tools">
@@ -64,17 +64,30 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-md-4" style="padding:0px 3px 0px 0px">
 		<div class="hpanel">
 			<div class="panel-heading hbuilt">
-				基站【<span style="color:red">{{panel_name}}({{panel_bsId}})</span>】下的注册组/注册终端统计
+				基站【<span style="color:red">{{panel_name}}({{panel_bsId}})</span>】==>注册组：<span style="color:red">{{groupTotals}}</span>个
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12" style="padding:10px">
 						<div ng-include="'bsstatus-view-group.html'"></div>
 					</div>
-					<div class="col-md-6">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4" style="padding:0px 3px 0px 0px">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt">
+				基站【<span style="color:red">{{panel_name}}({{panel_bsId}})</span>】==>{{panel_group_name}}==>注册终端：<span style="color:red">{{radioTotals}}</span>个
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					
+					<div class="col-md-12" style="padding:0px 10px 0px 10px">
 						<div ng-include="'bsstatus-view-radio.html'"></div>
 					</div>
 				</div>

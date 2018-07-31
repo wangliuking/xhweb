@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>中心状态</title>
+<title>交换中心状态</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,48 +19,21 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
-.server-table {
-	border: 0px;
+.info {
+	border: 1px solid #aaa;
+	border-bottom: 0;
+	background: #eee;
+	position: absolute;
+	min-width: 200px;
+	list-style: none;
+	/* margin: 0;
+		padding: 0; */
+	display: none;
+}
+
+.info table {
 	width: 100%;
-	table-layout: fixed;
-	min-height: 200px;
 }
-
-.server-table td {
-	border: 0px;
-	border-bottom: 1px dotted green;
-}
-
-.bs-div {
-	/* float: left; */
-	margin: 7px;
-	padding: 2px;
-	min-width: 40px;
-	/* line-height: 30px; */
-	text-align: center;
-	border: 2px solid #000;
-	background: royalblue;
-	color: #fff;;
-}
-
-.td-color {
-	background: silver;
-}
-/* table tbody {
-display:block;
-width:100%;
-height:195px;
-overflow-y:scroll;
-}
-table thead, tbody tr {
-display:table;
-width:100%;
-table-layout:fixed;
-}
-
-table thead {
-width: calc( 100% - 1em )
-} */
 </style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
@@ -86,8 +59,8 @@ width: calc( 100% - 1em )
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li><span>实时监测</span></li>
-							<li class="active"><span>中心状态</span></li>
+							<li><a href="../menu/menu_monitor.html"><span>系统监控</span></a></li>
+							<li class="active"><span>交换中心</span></li>
 						</ol>
 					</div>
 				</div>
@@ -98,190 +71,34 @@ width: calc( 100% - 1em )
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-heading hbuilt">
+						<!-- <div class="panel-heading hbuilt">
 							<div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a> <a
 									class="closebox"><i class="fa fa-times"></i></a>
 							</div>
 							交换中心状态
-						</div>
+						</div> -->
 						<div class="panel-body">
+						<canvas id="server-canvas"></canvas>
+						
 
-							<ul id="xh-tabs" class="nav nav-tabs">
-								<li class="active"><a href="#server" data-toggle="tab">
+							<!-- <ul id="xh-tabs" class="nav nav-tabs">
+							<li class="active"><a href="#server" data-toggle="tab" ng-click='mscCanvas()'>
+										故障状态</a></li>
+								<li><a href="#server" data-toggle="tab" ng-click='serverCanvas()'>
 										服务器状态 </a></li>
-								<li><a href="#icp" data-toggle="tab" ng-click='icp()'>
-										传输状态</a></li>
-								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
-										环控状态</a></li>
+								
 							</ul>
-							<div class="tab-content" style="padding:20px;color:#000;">
+							<div class="tab-content">
+								<div class="tab-pane fade" id="fault">
+								</div>
 								<div class="tab-pane fade in active" id="server">
-									<div ng-if="totals==0">没有记录！</div>
-									<div class="col-md-6" ng-repeat="x in data">
-
-										<div class="hpanel">
-											<div class="panel-heading hbuilt">
-											     <div class="panel-tools" ng-if="x.status==0">
-														<i class="fa fa-history text-success"></i>&nbsp;&nbsp;更新时间：{{x.time}}
-													</div>
-												<i ng-class="{true: 'fa fa-server fa-x text-danger', false: 'fa fa-server fa-x text-success'}[x.status==1 ||x.memper>90 || x.diskper>90 ]"></i>&nbsp;&nbsp;{{x.name}}
-												
-											</div>
-											<div class="panel-body">
-												<div class="row" ng-if="x.status!=0">
-												<div class="col-md-12" style="min-height:140px;">
-												服务器离线！！！！！
-												</div>
-												</div>
-												<div class="row" ng-if="x.status==0">
-													<div class="col-md-7">
-														<div><span>内存已用{{x.memUsed |number:2}}GB
-															&nbsp;&nbsp;&nbsp;&nbsp; 共{{x.memSize |number:0}}GB</span></div>
-														<div class="progress progress-striped active">
-
-															<div
-																ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.memper<90]"
-																class="progress-bar progress-bar-success"
-																role="progressbar"
-																aria-valuenow="{{x.memUsed |number:2}}"
-																aria-valuemin="0"
-																aria-valuemax="{{x.memSize |number:0}}"
-																style="width: {{x.memper}}%">
-																<span>{{x.memper}}%</span>
-															</div>
-
-														</div>
-														
-														<div><span>磁盘空间已用{{x.diskUsed |number:2}}GB
-															&nbsp;&nbsp;&nbsp;&nbsp; 共{{x.diskSize |number:0}}GB</span></div>
-														<div class="progress progress-striped active">
-
-															<div
-																ng-class="{true:'progress-bar progress-bar-success',false:'progress-bar progress-bar-danger'}[x.diskper<90]"
-																class="progress-bar progress-bar-success"
-																role="progressbar"
-																aria-valuenow="{{x.diskUsed |number:2}}"
-																aria-valuemin="0"
-																aria-valuemax="{{x.diskSize |number:0}}"
-																style="width: {{x.diskper}}%" id="disk-{{x.typeId}}">
-																<span>{{x.diskper}}%</span>
-															</div>
-
-														</div>
-														
-													</div>
-													<!-- col-md-6 -->
-													<div class="col-md-5">
-														<div id="cpu-{{x.typeId}}"
-															style="height:140px;width:200px;"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-
-
-
-										<!-- <table class="server-table" border="0">
-											<tr>
-												<td
-													style="text-align: center;background:#fafafa; width:120px;word-wrap:break-word；"><i
-													ng-class="{true: 'fa fa-server fa-4x text-danger', false: 'fa fa-server fa-4x text-success'}[x.status==1 ||x.memper>90 || x.diskper>90 ]"></i>
-													<div
-														style="background:blue;color:#fff;padding:5px; border-radius:10px;">{{x.name}}</div>
-												</td>
-												<td ng-if="x.status!=0" colspan="2">服务器离线！！！！！</td>
-
-
-												<td style="width:200px" ng-if="x.status==0">
-													
-												</td>
-
-												<td ng-if="x.status==0">
-													<div id="cpu-{{x.typeId}}"
-														style="height:140px;width:140px;"></div>
-												</td>
-
-
-
-											</tr>
-											<tr>
-												<td colspan="4"><i class="fa fa-history text-success"></i>更新时间：{{x.time}}</td>
-											</tr>
-
-										</table> -->
-									</div>
-								</div>
-								<div class="tab-pane fade" id="icp">
-									<div class="row">
-
-
-
-										<div class="col-md-4">
-
-											<div class="col-md-12">
-												<div class="hpanel">
-													<div class="panel-heading hbuilt">与交换中心传输断开的基站总数：{{icpStatusTotals}}</div>
-													<div class="panel-body">
-														<div class="row">
-															<div class="col-md-12">
-
-																<div id="icp-pie"></div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</div>
-										<div class="col-md-8">
-
-
-											<div class="col-md-12">
-												<div class="hpanel">
-													<div class="panel-heading hbuilt">三期基站</div>
-													<div class="panel-body">
-														<div class="row">
-															<div class="col-md-4" ng-repeat="x in icpStatusData"
-																class="bs-div" ng-if="x.period==3">
-
-																<span>{{x.bsId}}-{{x.name}}</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="hpanel">
-													<div class="panel-heading hbuilt">四期基站</div>
-													<div class="panel-body">
-														<div class="row">
-															<div class="col-md-4" ng-repeat="x in icpStatusData"
-																class="bs-div" ng-if="x.period==4">
-
-																<span>{{x.bsId}}-{{x.name}}</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-
-
-										</div>
-										<!-- <div class="col-md-8">
-									<div class="col-md-12" ng-if="icpStatusTotals==0">交换中心与基站传输正常
-										，目前没有异常站点！！！！！</div>
-								</div> -->
-
-									</div>
-								</div>
-								<div class="tab-pane fade" id="emh">
-									<div ng-include="'msc-emh.html'"></div>
+									<canvas id="server-canvas"></canvas>
+									
 								</div>
 
 							</div>
-
+ -->
 						</div>
 					</div>
 				</div>
@@ -291,6 +108,9 @@ width: calc( 100% - 1em )
 			<!-- row/ -->
 		</div>
 	</div>
+	<div class="info server-info1" style="display:none;"></div>
+	<div class="info server-info2" style="display:none;"></div>
+	<div class="info server-emh" style="display:none;"></div>
 	<!-- 中间内容体 /-->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
@@ -302,8 +122,7 @@ width: calc( 100% - 1em )
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript" src="../../lib/echarts/echarts.js"></script>
+		src="../../Resources/js/jtopo-0.4.8-min.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/operations/serverstatus.js"></script>
 	<script type="text/javascript">

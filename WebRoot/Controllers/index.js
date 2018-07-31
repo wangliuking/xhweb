@@ -35,6 +35,7 @@ xh.load = function() {
 	app.controller("index", function($scope, $http) {
 		$scope.totals=0;
 		$scope.mshow=0;
+		$scope.voiceTag=0;
 		if(xh.getcookie("skin")!=null){
 			$('body').attr('id', xh.getcookie("skin"));
 		}else{
@@ -55,45 +56,13 @@ xh.load = function() {
 			$scope.menu=response.items;
 		
 		});
-		
-		$scope.alarmInfo=function(){
-			$http.get("bsstatus/bsVoiceAlarm").success(function(response) {
-				$scope.alarm=response.items;
-				$scope.totals=response.totals;
-				$("#alarmcount").html($scope.totals);
-				/*$scope.a_bs=[],$scope.a_ji=[],$scope.a_w=[],$scope.a_msc=[];
-				for(var i=0,j=response.totals;i<j;i++){
-					if(response.items[i].bsId!=null && response.items[i].link==1){
-						$scope.a_bs.push(response.items[i])
-					}
-					if(response.items[i].bsId!=null && response.items[i].link==null){
-						if(response.items[i].deviceId=='170300000000001' ||(response.items[i].deviceId==null && response.items[i].DevNode=='0011')){
-							$scope.a_w.push(response.items[i])
-						}
-						if(response.items[i].deviceId=='080200000000001' ||(response.items[i].deviceId==null && response.items[i].DevNode=='0051')){
-							$scope.a_ji.push(response.items[i])
-						}
-					}
-					if(response.items[i].bsId==null){
-						$scope.a_msc.push(response.items[i])
-					}
-				}
-				$scope.count_bs=$scope.a_bs.length
-				$scope.count_ji=$scope.a_ji.length
-				$scope.count_w=$scope.a_w.length
-				$scope.count_msc=$scope.a_msc.length*/
-				
-			
-			});
-		}
-		$scope.hideMenu=function(){
-			$("body").toggleClass("hide-menu2");
-		};
+	
 		// 获取登录用户
 		$http.get("web/loginUserInfo").success(function(response) {
 			$scope.loginUser = response.user;
 			$scope.loginUserVpnId = response.vpnId;
 			$scope.roleId = response.roleId ;
+			$scope.roleType = response.roleType;
 			
 		});
 		$http.get("center/email/noReadEmailCount").success(function(response) {
@@ -104,31 +73,23 @@ xh.load = function() {
 			$scope.order = response.totals
 			
 		});
-		
-	
-		//系统告警数目
 		$scope.alarmCount=function(){
-			$http.get("bsstatus/bsOffVoiceCount").success(function(response) {
+			$http.get("bsAlarm/voiceAlarm").success(function(response) {
 				$scope.AlarmTotals=response.totals;
-				var bs_count=response.bsbreakTotals;
-				var ji_count=response.jiTotals;
-				var count=0;
-				if(alarmbs){
-					count+=bs_count
-				}
-				if(alarmji){
-					count+=ji_count
-				}
+				var count=response.totals;
+			
 				
 				
-				if($scope.loginUserVpnId==null || $scope.loginUserVpnId==''){
+				if($scope.roleType==3){
 					if(count>0){
 						play=true;
 						xh.playMap3();
+						$scope.voiceTag=1;
 						
 					}else{
 						xh.stopMap3();
 						play=false;
+						$scope.voiceTag=0;
 					}
 				}
 				
@@ -136,6 +97,7 @@ xh.load = function() {
 			
 			});
 		};
+		
 		//更新基站断站告警
 		$scope.alarmChange=function(){
 			$.ajax({
@@ -167,18 +129,18 @@ xh.load = function() {
 		$scope.stop=function(){
 		    event.stopPropagation();
 		};
-		$scope.alarmCount();
-		$scope.alarmInfo();
+		$scope.alarmCount()
 		setInterval(function(){
-			$scope.alarmInfo();		
-			}, 10000); //每隔 10 秒 
-		setInterval(function(){
+			$scope.alarmCount();
+		},15000);
+		
+		/*setInterval(function(){
 			$scope.alarmCount();	
 			}, 15000); //每隔 10 秒 
 		setInterval(function(){
 			$scope.alarmChange();	
 			}, 20000); //每隔 10 秒 
-		
+*/		
 
 		
 		
@@ -194,10 +156,13 @@ xh.playMap3=function() {
 xh.stopMap3=function() {
 	var audio = document.getElementById("bgMusic");
 	var $scope = angular.element(appElement).scope();
+	
 	//停止
 	if(audio!=null){
 		audio.pause();
 		audio.currentTime = 0;
+		$scope.voiceTag=0;
+		$("#close-bell").attr('src','Resources/images/icon/32/bell-off.png')
 		if(play){
 			$scope.updateAlarm();
 		}

@@ -45,8 +45,10 @@ public class SqlServerService {
 		Map<String, Object> paraMap=new HashMap<String, Object>();
 		paraMap.put("dbname", table);
 		try {
-			list = mapper.bsmonitorList(paraMap);			
+			list = mapper.bsmonitorList(paraMap);	
+			System.out.print("huankong->"+list.size());
 			for (Map<String, Object> map : list) {
+				System.out.print("huankong->"+map.toString());
 				if(map.get("DevNode").toString().trim().equals("0021")&&map.get("NodeID").toString().equals("1001")){
 					result.put("temp", Float.parseFloat(map.get("value").toString()));
 				}
@@ -89,6 +91,9 @@ public class SqlServerService {
 			sqlSession.close();
 		} catch(PersistenceException e){
 			log.info("三期环控数据库连接失败");
+			sqlSession.close();
+		}catch(NumberFormatException e){
+			log.info("三期环控数据NumberFormatException");
 			sqlSession.close();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block

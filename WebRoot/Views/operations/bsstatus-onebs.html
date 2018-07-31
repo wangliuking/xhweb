@@ -11,18 +11,18 @@
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
-										<th width="70px">信息来源</th>
+										<!-- <th width="70px">信息来源</th> -->
 										<th width="80px">网元类型</th>
 										<th width="230px">网元名称</th>
 										<th width="70px">告警级别</th>
-										<th width="70px">告警类型</th>
+										<!-- <th width="70px">告警类型</th> -->
 										
 										<th width="180px">故障原因</th>
 										
 										<th width="180px">故障发生时间</th>
 										<th width="70px">告警状态</th>
 										<th width="80px">派单状态</th>
-										<th width="150px">派单编号</th>
+										<!-- <th width="150px">派单编号</th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -32,10 +32,10 @@
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
-										<td>
+										<!-- <td>
 										<span ng-if="x.sysType==1">Tera系统</span>
 										<span ng-if="x.sysType==2">动环网</span>
-										</td>
+										</td> -->
 										<td><span ng-if="x.neType==1">基站</span> <span
 													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
 													<span ng-if="x.neType==4">网管</span> <span
@@ -69,14 +69,7 @@
 												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">二级告警</td>
 												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">三级告警</td>
 												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">四级告警</td>
-										<td>
-												<span ng-if="x.category==1">通信</span>
-												<span ng-if="x.category==2">软件</span>
-												<span ng-if="x.category==3">环境</span>
-												<span ng-if="x.category==4">Qos</span>
-												<span ng-if="x.category==5">设备</span>
-												<span ng-if="x.category==6">网管</span>
-										</td>
+										
 										
 										<td>{{x.reason}}</td>
 										
@@ -87,7 +80,7 @@
 										<span ng-if="x.status==0">未派单</span>
 										<span ng-if="x.status==1">派单中</span>
 										</td>
-										<td>{{x.orderId}}</td>
+										<!-- <td>{{x.orderId}}</td> -->
 										
 									</tr>
 								</tbody>
@@ -122,11 +115,12 @@
 					<div class="hpanel">
 						<div class="panel-heading hinner">设备</div>
 						<div class="panel-body">
-							<div>bsc</div>
+							<!-- <div>bsc</div>
 							<div>bsr</div>
 							<div>dpx</div>
 							<div>psm</div>
-							<div>环控</div>
+							<div>环控</div> -->
+							<canvas id="server-canvas"></canvas>
 
 						</div>
 					</div>
@@ -134,13 +128,13 @@
 				<!-- col-md-4 -->
 				<div class="col-md-8">
 					<div class="hpanel">
-						<div class="panel-heading hinner">状态</div>
+						<div class="panel-heading hinner">{{title}}状态</div>
 						<div class="panel-body">
-							<!-- <div ng-include="'bsstatus-view-bsr.html'"></div> -->
-							<div ng-include="'bsstatus-view-bsc.html'"></div>
-							<!-- <div ng-include="'bsstatus-view-dpx.html'"></div> -->
-							<!-- <div ng-include="'bsstatus-view-psm.html'"></div> -->
-							<!-- <div ng-include="'bsstatus-view-emh.html'"></div> -->
+							<div ng-include="'bsstatus-view-bsr.html'" ng-show="show==1"></div>
+							<div ng-include="'bsstatus-view-bsc.html'" ng-show="show==2"></div>
+							<div ng-include="'bsstatus-view-dpx.html'" ng-show="show==3"></div>
+							<div ng-include="'bsstatus-view-psm.html'" ng-show="show==4"></div>
+							<div ng-include="'bsstatus-view-emh.html'" ng-show="show==5"></div>
 						</div>
 					</div>
 				</div>

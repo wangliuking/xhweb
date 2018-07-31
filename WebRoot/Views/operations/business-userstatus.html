@@ -1,0 +1,70 @@
+
+
+<!-- row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="hpanel">
+			<!-- <div class="panel-heading hbuilt">
+
+				<i class="fa fa-indent text-danger"></i>&nbsp; 终端列表
+			</div> -->
+			<div class="panel-body">
+				<!-- row -->
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<label for="caller">终端ID</label>
+						<div>
+							<input type="text" class="form-control" id="userId" width="20px">
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<label for="called">在线状态</label>
+						<div>
+							<select id="regStatus" class="form-control">
+								<option value="-1" selected="selected">=不限制=</option>
+								<option value="1">在线</option>
+								<option value="0">离线</option>
+							</select>
+						</div>
+					</div> -->
+					<div class="form-group">
+						<div class="col-sm-offset-2" style="padding-top:22px">
+							<button type="submit" class="btn btn-sm btn-danger"
+								ng-click="userstatus()">
+								<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+							</button>
+						</div>
+					</div>
+				</form>
+				<!-- row -->
+				<table id="tb-info" class="xh-table table-hover">
+					<thead>
+						<tr class="tr-gray">
+							<th width="70px">#</th>
+							<th>终端</th>
+							<th>注册基站</th>
+							<th>附着组</th>
+							<th>更新时间</th>
+							<!-- <th width="150px">操作</th> -->
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="userstatus_totals==0">
+							<td colspan="5" class="text-center">没有记录！</td>
+						</tr>
+						<tr ng-repeat="x in userstatus_data">
+							<td>{{$index+1}}</td>
+							<td>{{x.userName}}({{x.userId}})</td>
+							<td>{{x.name}}({{x.bsId}})</td>
+							<td><span ng-if="x.TGid>0">{{x.TGid}}({{x.groupName}})</span></td>
+
+							<td>{{x.time}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- col-md-9 end-->
+
+</div>

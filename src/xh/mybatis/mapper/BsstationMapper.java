@@ -19,6 +19,10 @@ public interface BsstationMapper {
 	public List<BsstationBean> bsInfo(Map<String,Object> map)throws Exception;
 	
 	public List<Map<String,Object>> search_more_bs(Map<String,Object> map)throws Exception;
+	
+	
+	public List<Map<String,Object>> search_bs_by_regGroup(int groupId)throws Exception;
+	public List<Map<String,Object>> search_regUser_by_regGroup(int groupId)throws Exception;
 	/**
 	 * 查询基站状态信息
 	 * @return

@@ -22,20 +22,21 @@
 <p class="alert alert-danger" style="z-index:2000;text-align:center;">你的浏览器版本过低，请更新你的版本.建议使用IE10+版本，google，火狐等浏览器 </p>
 <![endif]-->
 <style type="text/css">
-.left-bar{
- position: absolute;
- cursor:pointer;
- top:64px;
- z-index: 10;
- background:red;
- color:#fff;
- padding:4px;
- left:4px;
- min-height:130px;
- width:25px;
- box-shadow: 0 0 5px #353f4f;
- border-radius:5px;
+.left-bar {
+	position: absolute;
+	cursor: pointer;
+	top: 64px;
+	z-index: 10;
+	background: red;
+	color: #fff;
+	padding: 4px;
+	left: 4px;
+	min-height: 130px;
+	width: 25px;
+	box-shadow: 0 0 5px #353f4f;
+	border-radius: 5px;
 }
+
 .bs-div {
 	float: left;
 	margin: 5px;
@@ -184,45 +185,54 @@
 .loader-container.done:after {
 	background: green;
 }
-.search_bs_div{
-width:100%;
-border:1px solid #ccc;
-border-top:0px;
-display:none;
-max-height:200px;
- overflow-y:scroll;
+
+.search_bs_div {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-top: 0px;
+	display: none;
+	max-height: 200px;
+	overflow-y: scroll;
 }
-.search_bs_div li{
- cursor: pointer;
+
+.search_bs_div li {
+	cursor: pointer;
 }
-.search_bs_div li:HOVER{
-padding:5px;
- line-height:30px;
- background:#000;
- color:#fff;
- 
+
+.search_bs_div li:HOVER {
+	padding: 5px;
+	line-height: 30px;
+	background: #000;
+	color: #fff;
 }
-#select_bs{
- width:100%;
- overflow-y:scroll;
- min-height:200px;
- 
+
+#select_bs {
+	width: 100%;
+	overflow-y: scroll;
+	min-height: 200px;
 }
-.show{
- display: block;
+
+.show {
+	display: block;
 }
-#select_bs li{
- cursor: pointer;
+
+#select_bs li {
+	cursor: pointer;
 }
-#select_bs li:HOVER{
-padding:5px;
- line-height:30px;
- background:#000;
- color:#fff;
- 
+
+#select_bs li:HOVER {
+	padding: 5px;
+	line-height: 30px;
+	background: #000;
+	color: #fff;
 }
-.sort{
- cursor: pointer;
+
+.sort {
+	cursor: pointer;
+}
+
+table tbody tr {
+	cursor: pointer;
 }
 </style>
 </head>
@@ -272,15 +282,27 @@ padding:5px;
 					<ul id="xh-tabs" class="nav nav-tabs">
 						<li class="active"><a href="#tab-bs" data-toggle="tab"
 							ng-click=''>基站状态</a></li>
-						<li><a href="#tab-data" data-toggle="tab"
-							ng-click='bs_business()'>业务数据</a></li>
+						<li class="dropdown"><a href="#" id="business"
+							class="dropdown-toggle" data-toggle="dropdown">业务数据 <b
+								class="caret"></b></a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="business">
+								<li><a href="#b-bs" data-toggle="tab" ng-click='bs_business()'>按基站查询</a></li>
+								<li><a href="#b-group" data-toggle="tab" ng-click='showGroupViewer()'>按组查询</a></li>
+								<li><a href="#b-user" data-toggle="tab" ng-click='showUserViewer()'>按终端查询</a></li>
+							</ul></li>
 					</ul>
-					<div class="tab-content" style="padding:20px">
+					<div class="tab-content" style="padding:3px 3px 0px 30px">
 						<div class="tab-pane fade in active" id="tab-bs">
 							<div ng-include="'bsstatus-bs.html'"></div>
 						</div>
-						<div class="tab-pane fade in " id="tab-data">
+						<div class="tab-pane fade in " id="b-bs">
 							<div ng-include="'bsstatus-view-business.html'"></div>
+						</div>
+						<div class="tab-pane fade in " id="b-group">
+							<div ng-include="'business-viewer-group.html'"></div>
+						</div>
+						<div class="tab-pane fade in " id="b-user">
+							<div ng-include="'business-userstatus.html'"></div>
 						</div>
 					</div>
 				</div>
@@ -288,7 +310,7 @@ padding:5px;
 
 		</div>
 	</div>
-   <div class="modal fade" id="search" tabindex="-1" role="dialog"
+	<div class="modal fade" id="search" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
@@ -366,12 +388,10 @@ padding:5px;
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					
-				</div>
+				<div class="modal-footer"></div>
 			</div>
 		</div>
-	</div> 
+	</div>
 	<!-- 底部内容体 -->
 	<div class="modal fade" id="bs_search" tabindex="-2" role="dialog"
 		aria-hidden="true">
@@ -401,23 +421,26 @@ padding:5px;
 										</div>
 
 										<div class="col-md-6">
-											<label>基站</label> <input name="name" ng-model="name" class="form-control"
-												placeholder="ID,名称可以为空" oninput="OnInput (event)"
+											<label>基站</label> <input name="name" ng-model="name"
+												class="form-control" placeholder="ID,名称可以为空"
+												oninput="OnInput (event)"
 												onpropertychange="OnPropChanged (event)" />
 											<ul class="search_bs_div">
-											<!-- <li ng-repeat="x in search_more_bs_data" id="search-{{x.bsId}}" value="{{x.baId}}" li-name="{{x.name}}">[{{x.bsId}}]{{x.name}}</li> -->
+												<!-- <li ng-repeat="x in search_more_bs_data" id="search-{{x.bsId}}" value="{{x.baId}}" li-name="{{x.name}}">[{{x.bsId}}]{{x.name}}</li> -->
 											</ul>
 
 										</div>
 										<div class="col-md-6">
 											<label>已选基站</label>
 											<ul class="form-control" id="select_bs">
-											
+
 											</ul>
 
 										</div>
 										<div class="col-md-6">
-											<p style="color:red;font-weight:800;"><span>提示：</span><span>单击基站列表，可以选中/取消基站</span></p>
+											<p style="color:red;font-weight:800;">
+												<span>提示：</span><span>单击基站列表，可以选中/取消基站</span>
+											</p>
 
 										</div>
 
@@ -446,7 +469,7 @@ padding:5px;
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-<!-- 		<script type="text/javascript"
+	<!-- 		<script type="text/javascript"
 		src="../../Resources/js/jquery-1.8.3.min.js"></script> -->
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>

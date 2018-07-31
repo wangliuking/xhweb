@@ -1,7 +1,4 @@
 <div class="row">
-	<div class="col-md-12" style="color:#000">注册组：{{groupTotals}}个</div>
-</div>
-<div class="row">
 	<div class="col-md-12">
 
 		<table id="tb-info" class="xh-table table-hover">
@@ -16,7 +13,7 @@
 				<tr ng-if="groupTotals==0">
 					<td colspan="3" class="text-center">没有记录！</td>
 				</tr>
-				<tr ng-repeat="x in groupData">
+				<tr ng-repeat="x in groupData" ng-click="group_tr_click(x.gourpId,x.talkgroupName)">
 					<td>{{$index+1}}</td>
 					<td>{{x.gourpId}}</td>
 					<td>

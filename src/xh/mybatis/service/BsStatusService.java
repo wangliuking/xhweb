@@ -25,6 +25,29 @@ import xh.mybatis.tools.DbTools;
 import xh.mybatis.tools.MoreDbTools;
 
 public class BsStatusService {
+	
+	public static int alarmVoiceCount() throws Exception {
+		int bs_offline_count=0;
+		int ups_count=0;
+		int water_count=0;
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
+		Map<String,Object> map=mapper.emhVoiceCount();
+		if(FunUtil.readXml("alarm", "bs_offine").equals("1")){
+			bs_offline_count=BsStatusService.bsOffVoiceCount();
+		}
+		
+		
+		if(FunUtil.readXml("alarm", "bs_water").equals("1")){
+			water_count=Integer.parseInt(map.get("water").toString());
+		}
+		if(FunUtil.readXml("alarm", "bs_ups").equals("1")){
+			ups_count=Integer.parseInt(map.get("ups").toString());
+		}
+		session.close();
+		return bs_offline_count+ups_count+water_count;
+		
+	}
 
 	public List<BsStatusBean> selectAllBsStatus() throws Exception {
 		SqlSession session = MoreDbTools
@@ -603,11 +626,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> bsc(int bsId) throws Exception {
+	public static List<Map<String, Object>> bsc(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.bsc(bsId);
+		List<Map<String, Object>> list = mapper.bsc(map);
 		session.close();
 		return list;
 	}
@@ -688,11 +711,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> psm(int bsId) throws Exception {
+	public static List<Map<String, Object>> psm(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.psm(bsId);
+		List<Map<String, Object>> list = mapper.psm(map);
 		session.close();
 		return list;
 	}
@@ -704,11 +727,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> bsr(int bsId) throws Exception {
+	public static List<Map<String, Object>> bsr(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.bsr(bsId);
+		List<Map<String, Object>> list = mapper.bsr(map);
 		session.close();
 		return list;
 	}
@@ -720,11 +743,11 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> dpx(int bsId) throws Exception {
+	public static List<Map<String, Object>> dpx(Map<String, Object> map) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<Map<String, Object>> list = mapper.dpx(bsId);
+		List<Map<String, Object>> list = mapper.dpx(map);
 		session.close();
 		return list;
 	}

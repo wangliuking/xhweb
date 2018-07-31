@@ -65,6 +65,11 @@
     <two>李忠霖</two>  
     <three>028-69853853</three> 
 	</duty>
+	<alarm>
+	 <bs_offine>1</bs_offine>
+	 <bs_water>1</bs_water>
+	 <bs_ups>1</bs_ups>
+	</alarm>
 
 </config>
 

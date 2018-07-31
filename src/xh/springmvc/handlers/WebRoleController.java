@@ -288,7 +288,7 @@ public class WebRoleController {
 				}
 			}
 			this.message="修改角色成功";
-		}else {
+		 }else {
 			this.success=false;
 			this.message="修改角色失败";
 		}
@@ -349,21 +349,17 @@ public class WebRoleController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value="/user/setgrouppower",method = RequestMethod.POST)
+	@RequestMapping(value="/role/setgrouppower",method = RequestMethod.POST)
 	public void setgrouppower(HttpServletRequest request, HttpServletResponse response){
 		String jsonData=request.getParameter("formData");
         UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
       
-        System.out.print("数据-》"+bean.toString());
         int rslt=0;
-        System.out.print("数据-》"+WebRoleService.exists_role_power(bean.getRoleId()));
         if(WebRoleService.exists_role_power(bean.getRoleId())>0){
         	
         	rslt=WebRoleService.update_role_power(bean);
-        	System.out.print("数据1-》"+rslt);
         }else{
         	rslt=WebRoleService.add_role_power(bean);
-        	System.out.print("数据2-》"+rslt);
         }
         if(rslt==1){
 			webLogBean.setOperator(funUtil.loginUser(request));

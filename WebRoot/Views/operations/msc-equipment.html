@@ -19,6 +19,38 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
+#contextmenu {
+		border: 1px solid #aaa;
+		border-bottom: 0;
+		background: #eee;
+		position: absolute;
+		min-width:200px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: none;
+	}
+#contextmenu li a {
+		display: block;
+		padding: 10px;
+		border-bottom: 1px solid #aaa;
+		cursor: pointer;
+	}
+																			   
+#contextmenu li a:hover {
+		background: #fff;
+	}
+.info{
+		border: 1px solid #aaa;
+		border-bottom: 0;
+		background: #eee;
+		position: absolute;
+		min-width:200px;
+		list-style: none;
+		/* margin: 0;
+		padding: 0; */
+		display: none;
+	}
 </style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
@@ -37,20 +69,20 @@
 	</div>
 	<!-- 中间内容体 -->
 	<div id="wrapper">
-		<!-- <div class="small-header transition animated fadeIn">
+		<div class="small-header transition animated fadeIn">
 			<div class="title-panel">
 				<div class="panel-body">
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li><span>实时监测</span></li>
-							<li class="active"><span>中心状态</span></li>
+							<li><a href="../menu/menu_monitor.html"><span>系统监控</span></a></li>
+							<li class="active"><span>外部设备</span></li>
 						</ol>
 					</div>
 				</div>
 			</div>
-		</div> -->
+		</div>
 		<div class="content animate-panel"
 			style="margin-top:0px; padding:3px;">
 			<!-- row -->
@@ -67,22 +99,6 @@
 						<div class="panel-body">
 							<canvas id="canvas"></canvas>
 
-							<!-- <ul id="xh-tabs" class="nav nav-tabs">
-								<li class="active"><a href="#server" data-toggle="tab">
-										服务器状态 </a></li>
-								
-								<li><a href="#emh" data-toggle="tab" ng-click='emh()'>
-										环控状态</a></li>
-							</ul>
-							<div class="tab-content" style="padding:20px;color:#000;">
-								
-								
-								<div class="tab-pane fade in active" id="server">
-									 <canvas id="canvas"></canvas>
-								</div>
-
-							</div> -->
-
 						</div>
 					</div>
 				</div>
@@ -93,13 +109,14 @@
 		</div>
 	</div>
 	<ul id="contextmenu" style="display:none;">
-		<li><a>顺时针旋转</a></li>
-		<li><a>逆时针旋转</a></li>
-		<li><a>更改颜色</a></li>
-		<li><a>放大</a></li>
-		<li><a>缩小</a></li>
-		<li><a>删除该节点</a></li>
+		<li><a>{{user.User_Unit}}</a></li>
 	</ul>
+	<div class="info user-info" style="display:none;">
+	 
+	</div>
+	<div class="info dispatch-info" style="display:none;">
+	 
+	</div>
 	<!-- 中间内容体 /-->
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>

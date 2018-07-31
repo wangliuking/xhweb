@@ -4,11 +4,11 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
-require.config({
+/*require.config({
 	paths : {
 		echarts : '../../lib/echarts'
 	}
-});
+});*/
 var background = "#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=userstatus]');
@@ -45,8 +45,9 @@ xh.load = function() {
 			/*console.log("频点："+parseInt(text))*/
 			
 			if(parseInt(text)>0){
-				var fr=(parseInt(text)/1000000).toFixed(6)+"MHz";
-				return fr
+				//var fr=(parseInt(text)/1000000).toFixed(6)+"MHz";
+			    
+				return text+"Hz"
 			}else{
 				return "";
 			}
@@ -81,6 +82,8 @@ xh.load = function() {
 		$scope.count = "5";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
+		$scope.title="";
+		$scope.show=1;
 		//发起请求开启当前基站视频流
 		/*$.ajax({
 			type : "GET",
@@ -100,6 +103,9 @@ xh.load = function() {
 			var bsId = $scope.bsId;
 			return bsId;
 		};
+		$scope.serverCanvas=function(){
+	    }
+		/*$scope.serverCanvas();*/
 		/*获取故障信息*/
 		$scope.oneBsFault=function(){
 			
@@ -108,21 +114,23 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				xh.pagging(1, parseInt($scope.totals),$scope);
+				//xh.pagging(1, parseInt($scope.totals),$scope);
 			});
 		}
 
 		// 基站下的bsc状态
-		$scope.bsc = function() {
+		$scope.bsc = function(id) {
 			var bsId = $scope.bsId;
-			$http.get("../../bsstatus/bsc?bsId=" + bsId).success(
+			$scope.title="BSC";
+			$scope.Id=id;
+			$http.get("../../bsstatus/bsc?bsId=" + bsId+"&id="+id).success(
 					function(response) {
 						$scope.bscData = response.items;
 						$scope.bscTotals = response.totals;
-						
+						$scope.time=response.items[0].updateTime;
 						var record=0;
 						for(var i=0;i<$scope.bscTotals;i++){
-							if($scope.bscData[i].Id<=2 && $scope.bscData[i].online!=2){
+							if($scope.bscData[i].bscIsEnable>0){
 								record++;
 							}
 						}
@@ -133,31 +141,87 @@ xh.load = function() {
 						
 					});
 		};
-		// 基站下的bsr状态
-		$scope.bsr = function() {
+		//设备
+		$scope.e=function(){
 			var bsId = $scope.bsId;
-			$http.get("../../bsstatus/bsr?bsId=" + bsId).success(
+			var id="";
+			$http.get("../../bsstatus/bsr?bsId=" + bsId+"&id="+id).success(
+					function(response) {
+						$scope.bsrD = response.items;
+			});
+			$http.get("../../bsstatus/bsc?bsId=" + bsId+"&id="+id).success(
+					function(response) {
+						$scope.bscD = response.items;
+			});
+			$http.get("../../bsstatus/dpx?bsId=" + bsId+"&id="+id).success(
+					function(response) {
+						$scope.dpxD= response.items;
+			});
+			$http.get("../../bsstatus/psm?bsId=" + bsId+"&id="+id).success(
+					function(response) {
+						$scope.psmD = response.items;
+			});
+		}
+		// 基站下的bsr状态
+		$scope.bsr = function(id) {
+			var bsId = $scope.bsId;
+			$scope.title="BSR";
+			$scope.Id=id;
+			$http.get("../../bsstatus/bsr?bsId=" + bsId+"&id="+id).success(
 					function(response) {
 						$scope.bsrData = response.items;
 						$scope.bsrTotals = response.totals;
+						$scope.time=response.items[0].updateTime;
+						var record=0;
+						for(var i=0;i<$scope.bsrTotals;i++){
+							if($scope.bsrData[i].bsrIsEnable>0){
+								record++;
+							}
+						}
+					
+					   $scope.bsrExists=record;
 					});
 		};
 		// 基站下的dpx状态
-		$scope.dpx = function() {
+		$scope.dpx = function(id) {
 			var bsId = $scope.bsId;
-			$http.get("../../bsstatus/dpx?bsId=" + bsId).success(
+			$scope.title="DPX";
+			$scope.Id=id;
+			$http.get("../../bsstatus/dpx?bsId=" + bsId+"&id="+id).success(
 					function(response) {
 						$scope.dpxData = response.items;
 						$scope.dpxTotals = response.totals;
+						$scope.time=response.items[0].updateTime;
+						
+						var record=0;
+						for(var i=0;i<$scope.dpxTotals;i++){
+							if($scope.dpxData[i].retLoss>0 && $scope.dpxData[i].fwdPa>0){
+								record++;
+							}
+						}
+					
+					   $scope.dpxExists=record;
 					});
 		};
 		// 基站下的psm状态
-		$scope.psm = function() {
+		$scope.psm = function(id) {
 			var bsId = $scope.bsId;
-			$http.get("../../bsstatus/psm?bsId=" + bsId).success(
+			$scope.title="PSM";
+			$scope.Id=id;
+			$http.get("../../bsstatus/psm?bsId=" + bsId+"&id="+id).success(
 					function(response) {
 						$scope.psmData = response.items;
 						$scope.psmTotals = response.totals;
+						$scope.time=response.items[0].updateTime;
+						var record=0;
+						for(var i=0;i<$scope.psmTotals;i++){
+							if($scope.psmData[i].bdTmp1>0 || $scope.psmData[i].bdTmp2>0 || $scope.psmData[i].bdTmp3>0){
+								record++;
+							}
+						}
+					
+					   $scope.psmExists=record;
+					   console.log("psm->"+ $scope.psmExists)
 					});
 		};
 		
@@ -440,6 +504,7 @@ xh.load = function() {
 		// 获取环控设备状态
 
 		$scope.emh = function() {
+			$scope.title="环控";
 			$http.get(
 					"../../bsstatus/bsEmh?siteId=" + $scope.bsId + "&period="
 							+ $scope.period).success(function(response) {
@@ -452,7 +517,7 @@ xh.load = function() {
 			});
 
 		}
-		$scope.bsc();
+		$scope.e();
 
 		//$scope.equip();
 		//$scope.emh();
@@ -500,6 +565,46 @@ xh.load = function() {
 
 	});
 };
+//创建结点
+xh.createNewNode=function(x, y, w, h, text,type,icon,dir){
+    var node = new JTopo.Node(text);
+    node.setLocation(x, y);
+    //node.setLocation(scene.width * Math.random(), scene.height * Math.random());
+    node.setSize(w, h);
+    node.setImage(icon,true);
+    node.dragable=true;
+    node.shadow =true;
+    if(type=="circle"){
+    	node.layout = {type: 'circle',radius: 150};
+    }else{
+    	node.layout = {type: 'tree', direction: dir, width: 50, height: 70};
+    }
+    
+    scene.add(node);
+    return node;
+}
+xh.createRootNode=function(x, y, w, h, text,type){
+    var node = new JTopo.Node(text);
+    node.setLocation(x, y);
+    node.setSize(w, h);
+    node.shadow =true;
+    node.setImage("../../Resources/images/top/switch.png",true);
+    scene.add(node);
+    return node;
+}
+//简单连线
+xh.createNewLink=function(nodeA, nodeZ, text,lineType){
+    var link = new JTopo.Link(nodeA, nodeZ, text);        
+    link.lineWidth = 1; // 线宽
+    link.bundleOffset = 60; // 折线拐角处的长度
+    link.bundleGap = 20; // 线条之间的间隔
+    link.textOffsetY = 3; // 文本偏移量（向下3个像素）
+    link.strokeColor = '248,248,255';
+   
+    
+    scene.add(link);
+    return link;
+}
 // 时间格式化
 xh.getTime = function(time) {
 	var datetime = "";
