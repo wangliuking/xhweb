@@ -1,3 +1,6 @@
+/**
+ * 资产管理
+ */
 if (!("xh" in window)) {
 	window.xh = {};
 };
@@ -47,8 +50,8 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-            $scope.loginUserRoleType = response.roleType;
-        });
+			$scope.loginUserRoleType = response.roleType;	
+		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -56,7 +59,7 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../emergency/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../optimizeChange/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -92,6 +95,11 @@ xh.load = function() {
 			$scope.progressData=$scope.editData;
 			$("#progress").modal('show');
 	    };
+	    /*是否需要整改*/
+		// $scope.dropnetChange=function(){
+		// 	var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
+		// 	$scope.dropnet=dropnet;
+		// };
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -104,27 +112,25 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==0){
+			if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+			if($scope.loginUserRoleType==3 && $scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==2){
+			if($scope.loginUserRoleType==3 && $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==3){
+			if($scope.loginUserRoleType==3 && $scope.checkData.checked==3){
 				$("#checkWin4").modal('show');
 			}
-			/*if($scope.loginUserRoleId==10002 && $scope.checkData.checked==4){
+			if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==5){
-				$("#checkWin6").modal('show');
-			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
-				$("#checkWin7").modal('show');
-			}*/
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
+                $("#checkWin6").modal('show');
+            }
+
 	    };
 		/* 显示修改model */
 		$scope.editModel = function(id) {
@@ -212,7 +218,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emergency/selectAll?start=0&limit=" + limit).
+			$http.get("../../optimizeChange/selectAll?start=0&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -234,7 +240,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emergency/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../optimizeChange/selectAll?start="+start+"&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -250,28 +256,24 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
-			alert($scope.totals);
 		};
 	});
 };
-//对应
-/*网络优化申请*/
+/*运维组发起请求审核*/
 xh.add = function() {
 	$.ajax({
-		url : '../../emergency/insertEmergency',
+		url : '../../optimizeChange/insertOptimizeChange',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
+		data : $("#addForm").serializeArray(),
 		success : function(data) {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -281,10 +283,11 @@ xh.add = function() {
 		}
 	});
 };
-/*管理方审核*/
+
+/*运维负责人审核请求*/
 xh.check1 = function() {
 	$.ajax({
-		url : '../../emergency/checkedOne',
+		url : '../../optimizeChange/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -304,18 +307,19 @@ xh.check1 = function() {
 		}
 	});
 };
-
-/*管理方上传*/
+/*运维负责人发起审批*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../emergency/checkedTwo',
+		url : '../../optimizeChange/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
+
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -327,16 +331,15 @@ xh.check2 = function() {
 		}
 	});
 };
-/*服务方审核*/
+/*管理方审批*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../emergency/checkedThree',
+		url : '../../optimizeChange/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
 				xh.refresh();
@@ -350,10 +353,10 @@ xh.check3 = function() {
 		}
 	});
 };
-/*服务方上传*/
+/*通知抢修组进行整改*/
 xh.check4 = function() {
 	$.ajax({
-		url : '../../emergency/checkedFour',
+		url : '../../optimizeChange/checkedFour',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -362,6 +365,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -373,15 +377,16 @@ xh.check4 = function() {
 		}
 	});
 };
-/*管理方审核*/
+
 xh.check5 = function() {
 	$.ajax({
-		url : '../../emergency/checkedFive',
+		url : '../../optimizeChange/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:$("#checkForm5").serializeArray(),
 		success : function(data) {
+
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
 				xh.refresh();
@@ -395,52 +400,30 @@ xh.check5 = function() {
 		}
 	});
 };
-/*管理方记录*/
+
 xh.check6 = function() {
-	$.ajax({
-		url : '../../emergency/checkedSix',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm6").serializeArray(),
-		success : function(data) {
+    $.ajax({
+        url : '../../optimizeChange/checkedSix',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm6").serializeArray(),
+        success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin6').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
+            if (data.result ==1) {
+                $('#checkWin6').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
 
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
 };
-/*用户确认*/
-xh.check7 = function() {
-	$.ajax({
-		url : '../../emergency/checkedSeven',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm7").serializeArray(),
-		success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin7').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 /* 上传文件 */
 xh.upload = function(index) {
 	if (index == 1) {
@@ -455,13 +438,17 @@ xh.upload = function(index) {
 		path = 'filePath3';
 		note = 'uploadResult3';
 	}
+    if (index == 4) {
+        path = 'filePath4';
+        note = 'uploadResult4';
+    }
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
 		return;
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../emergency/upload', // 用于文件上传的服务器端请求地址
+		url : '../../optimizeChange/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -487,22 +474,22 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(type){
+xh.download=function(){
 	var $scope = angular.element(appElement).scope();
-	//$scope.checkData = $scope.data[id];
-	//var checked = $scope.checkData.checked;
+	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(type == 1){
-		fileName = $scope.checkData.fileName1;
-		filePath = $scope.checkData.filePath1;
+	if(checked != -1){
+		if(checked == 0 && $scope.checkData.fileName1!=null){
+			fileName = $scope.checkData.fileName1;
+		}
+		else if(checked == 2 && $scope.checkData.fileName2!=null){
+			fileName = $scope.checkData.fileName2;
+		}
+		else if(checked == 4 && $scope.checkData.fileName3!=null){
+			fileName = $scope.checkData.fileName3;
+		}
 	}
-	else if(type == 2){
-		fileName = $scope.checkData.fileName2;
-	}
-	else if(type == 3){
-		fileName = $scope.checkData.fileName3;
-	}
-	var filepath = "/Resources/upload/emergency/" + fileName;
+	var filepath = "/Resources/upload/optimizeChange/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	if(xh.isfile(filepath)){
 		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
