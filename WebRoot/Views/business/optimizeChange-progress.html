@@ -1,0 +1,238 @@
+
+<div class="modal fade" id="progress" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<ul id="xh-tabs" class="nav nav-tabs">
+					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
+					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
+				</ul>
+				<div class="tab-content" style="padding: 20px">
+					<div class="tab-pane fade in active text-danger" id="info">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系单位</label><input type="text"
+										ng-model="editData.unit1" class="form-control"
+										name="unit1" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系人</label><input type="text"
+										ng-model="editData.userUnit" class="form-control"
+										name="userUnit" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>联系方式</label> <input type="text"
+										ng-model="editData.tel" class="form-control"
+										name="tel" required="required">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group col-md-12">
+									<label>优化整改时间</label> <input type="text"
+										ng-model="editData.requestTime" class="form-control"
+										name="requestTime" required="required" required="required">
+								</div>
+							</div>
+						</div>
+						<!-- row-------end --> 
+					</div>
+					<!-- tab-pane--end -->
+					<div class="tab-pane fade text-danger" id="p-timeline"
+						style="background: #e9f0f5; margin: 0;" ng-model="progressData">
+						<div id="cd-timeline" class="cd-container">
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-green">开始</div>
+								<div class="cd-timeline-content">
+									<h2>运维组提交优化整改信息</h2>
+									<a href="#" title="点击下载文件"
+											onclick="xh.download()" style="color: red">{{progressData.fileName1}}</a>
+									<p>
+										<span>发起人：</span><span>{{progressData.userName}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note1}}</span>
+									</p>
+									<span class="cd-date text-success font-bold text-x">
+										提交优化整改方案<br>
+										提交时间：{{progressData.requestTime}}</span>
+								</div>
+							</div>
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked==0"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>0"></div>
+								<div class="cd-timeline-content">
+									<h2>运维负责人确认消息</h2>
+									<p>
+										<span>审核人：</span><span>{{progressData.user2}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note2}}</span>
+									</p>
+									<span ng-if="progressData.checked==0"
+										class="cd-date text-danger font-bold">等待审核！</span> <span
+										ng-if="progressData.checked>0 || progressData.checked==-2"
+										class="cd-date text-success font-bold">已经确认;
+										</br>时间：{{progressData.time2}}</span>
+									<span ng-if="progressData.checked==-1"
+										  class="cd-date text-danger font-bold">审核不通过!
+									</br>时间：{{progressData.time2}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<1"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=1"></div>
+								<div class="cd-timeline-content">
+									<h2>运维负责人提交整改申请</h2>
+									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
+									   onclick="xh.download()" style="color: red">{{progressData.fileName2}}</a>
+									</p>
+									<p>
+										<span>提交人：</span><span>{{progressData.user3}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note3}}</span>
+									</p>
+									<span
+										ng-if="progressData.checked>1 || progressData.checked==-2"
+										class="cd-date text-success font-bold">已提交整改申请;
+										</br>时间：{{progressData.time3}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<2"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=2"></div>
+								<div class="cd-timeline-content">
+									<h2>管理方审批优化整改方案</h2>
+									<p>
+										<span>审批人：</span><span>{{progressData.user4}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note4}}</span>
+									</p>
+									<span ng-if="progressData.checked== -2"
+										class="cd-date text-danger font-bold">管理方拒绝通过！
+										</br>时间：{{progressData.time4}}</span>
+									<span
+										ng-if="progressData.checked>3"
+										class="cd-date text-success font-bold">管理方审批通过;
+										</br>时间：{{progressData.time4}}</span>
+								</div>
+							</div>
+
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<3"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=3"></div>
+								<div class="cd-timeline-content">
+									<h2>运维负责人通知抢修组进行整改</h2>
+									<a ng-if="progressData.checked>3" href="#" title="点击下载文件"
+									   onclick="xh.download()" style="color: red">{{progressData.fileName3}}</a>
+									<p>
+										<span>通知人：</span><span>{{progressData.user5}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note5}}</span>
+									</p>
+									<!-- <p>
+										<span>备注：</span><span>备注内容</span>
+									</p> -->
+									<span ng-if="progressData.checked == 3"
+										class="cd-date text-danger">等待运维负责人通知抢修组</span> <span
+										ng-if="progressData.checked>3"
+										class="cd-date text-success font-bold">已通知抢修组
+										</br>时间：{{progressData.time5}}</span>
+								</div>
+							</div>
+
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>抢修组确认消息</h2>
+									<p>
+										<span>确认人：</span><span>{{progressData.user6}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note6}}</span>
+									</p>
+									<span ng-if="progressData.checked==5"
+										class="cd-date text-danger font-bold">整改中</span>
+									<span ng-if="progressData.checked>5"
+										class="cd-date text-success font-bold">整改结束
+										</br>时间：{{progressData.time6}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<4"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=4"></div>
+								<div class="cd-timeline-content">
+									<h2>抢修组填写优化整改记录</h2>
+									<a ng-if="progressData.checked>5" href="#" title="点击下载文件"
+									   onclick="xh.download()" style="color: red">{{progressData.fileName4}}</a>
+									<p>
+										<span>确认人：</span><span>{{progressData.user7}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note7}}</span>
+									</p>
+									<span
+										ng-if="progressData.checked>5"
+										class="cd-date text-success font-bold">已上传报告;
+										</br>时间：{{progressData.time7}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img-first cd-gray"
+									ng-if="progressData.checked<5">结束</div>
+								<div class="cd-timeline-img-first cd-green"
+									ng-if="progressData.checked>=6">结束</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+		</div> -->
+			<div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+				data-dismiss="modal">
+				<i class="fa fa-remove"></i>&nbsp;关闭
+			</button>
+			</div>
+		</div>
+	</div>
+</div>

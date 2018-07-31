@@ -65,11 +65,11 @@ xh.org.listeners.SingLoginListener
 </listener-class>   
 </listener>
 <!-- 基站故障自动写入 -->
- <listener>   
+<!--  <listener>   
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   
-</listener>
+</listener> -->
 
 <!--定时获取东信基站话务统计 -->
 <!-- <listener>   

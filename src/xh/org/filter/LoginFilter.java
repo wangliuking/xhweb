@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.chinamobile.fsuservice.Test;
 
+import redis.clients.jedis.Jedis;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.WebUserServices;
@@ -32,6 +33,7 @@ public class LoginFilter extends HttpServlet implements Filter {
 	protected final Log log = LogFactory.getLog(LoginFilter.class);
 	private FilterConfig filterConfig;
 	private FunUtil funUtil = new FunUtil();
+	//private Jedis jedis = new Jedis();
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -69,7 +71,8 @@ public class LoginFilter extends HttpServlet implements Filter {
 			e.printStackTrace();
 		}
 		try {
-			if (SingLoginListener.isOnline(session) && isLock(servletRequest)==1) {
+			String sessionId = session.getId();
+			if (SingLoginListener.isOnline(session) && isLock(servletRequest)==1) {//SingLoginListener.isOnline(session) && isLock(servletRequest)==1
 				//log.info("已经登录系统，可以正常使用");
 				chain.doFilter(request, response);
 			}else {
