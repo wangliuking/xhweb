@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.AssetAddApplayInfoBean;
+import xh.mybatis.bean.AssetAddApplyBean;
 import xh.mybatis.bean.AssetInfoBean;
 import xh.mybatis.bean.AssetTransferBean;
 import xh.mybatis.mapper.AssetInfoMapper;
@@ -33,6 +35,21 @@ public class BusinessService {
 			e.printStackTrace();
 		}
 		return  list;
+	}
+
+	public static int assetInfoByserialNumberExists(String v){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int count=0;
+		try {
+			count=mapper.assetInfoByserialNumberExists(v);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  count;
 	}
 	/**
 	 * 按资产状态统计
@@ -119,6 +136,21 @@ public class BusinessService {
 		int result=0;
 		try {
 			result=mapper.insertAsset(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int insertManyAsset(List<AssetInfoBean> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertManyAsset(list);
 			sqlSession.commit();
 			sqlSession.close();
 			
@@ -369,6 +401,158 @@ public class BusinessService {
 		try {
 			result=mapper.deleteAssetTransfer(list);
 			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static List<AssetAddApplyBean> add_apply_list(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<AssetAddApplyBean> list=new ArrayList<AssetAddApplyBean>();
+		try {
+			list=mapper.add_apply_list(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	public static int add_apply_list_count(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply_list_count(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int add_apply(AssetAddApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply(bean);
+			sqlSession.commit();
+			if(result>0){
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("applyTag", bean.getApplyTag());
+				map.put("user",bean.getUser());
+				int r=update_asset_applyTag(map);
+				
+				if(r==0){
+					sqlSession.rollback();
+				}
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	
+	public static int add_apply_check1(AssetAddApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply_check1(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int add_apply_info(AssetAddApplayInfoBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply_info(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int add_apply_check2(AssetAddApplyBean bean,AssetAddApplayInfoBean infobean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply_check2(bean);
+			sqlSession.commit();
+			if(result>0){
+				if(update_asset_isLock(bean.getUser())>0){
+					add_apply_info(infobean);
+				}else{
+					sqlSession.rollback();
+				}
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_asset_isLock(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_asset_isLock(user);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_asset_applyTag(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_asset_applyTag(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int add_apply_check3(AssetAddApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_apply_check3(bean);
+			sqlSession.commit();
+			
 			sqlSession.close();
 			
 		} catch (Exception e) {

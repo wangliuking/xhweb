@@ -1,0 +1,113 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<h4>开关量</h4>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/door-green.png" ng-if="emhData.door==0">
+		<img alt="" src="../../Resources/images/icon/32/door-red.png" ng-if="emhData.door==1">
+		<img alt="" src="../../Resources/images/icon/32/door-gray.png" ng-if="emhData.door==null">
+		<span>门磁传感器</span>
+		<span ng-if="emhData.door==0" style="color:blue;font-weight:800;font-size:25px">关闭</span>
+		<span ng-if="emhData.door==1" style="color:red;font-weight:800;font-size:25px">打开</span>
+		<span ng-if="emhData.door==null">error!</span>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/smoke-green.png" ng-if="emhData.smoke==0">
+		<img alt="" src="../../Resources/images/icon/32/smoke-red.png" ng-if="emhData.smoke==1">
+		<img alt="" src="../../Resources/images/icon/32/smoke-gray.png" ng-if="emhData.smoke==null">
+		<span>烟雾传感器</span>
+		<span ng-if="emhData.smoke==0" style="color:blue;font-weight:800;font-size:25px">正常</span>
+		<span ng-if="emhData.smoke==1" style="color:red;font-weight:800;font-size:25px">异常</span>
+		<span ng-if="emhData.smoke==null">error!</span>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/red-green.png" ng-if="emhData.red==0">
+		<img alt="" src="../../Resources/images/icon/32/red-red.png" ng-if="emhData.red==1">
+		<img alt="" src="../../Resources/images/icon/32/red-gray.png" ng-if="emhData.red==null">
+		<span>红外传感器</span>
+		<span ng-if="emhData.red==0" style="color:blue;font-weight:800;font-size:25px">正常</span>
+		<span ng-if="emhData.red==1" style="color:red;font-weight:800;font-size:25px">异常</span>
+		<span ng-if="emhData.red==null">error!</span>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/water-green.png" ng-if="emhData.water==0">
+		<img alt="" src="../../Resources/images/icon/32/water-red.png" ng-if="emhData.water==1">
+		<img alt="" src="../../Resources/images/icon/32/water-gray.png" ng-if="emhData.water==null">
+		<span>水浸传感器</span>
+		<span ng-if="emhData.water==0" style="color:blue;font-weight:800;font-size:25px">正常</span>
+		<span ng-if="emhData.water==1" style="color:red;font-weight:800;font-size:25px">异常</span>
+		<span ng-if="emhData.water==null">error!</span>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<h4>温湿度</h4>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/temp-green.png">
+		<span>温度</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.temp}}℃</span>
+	</div>
+	<div class="col-md-3">
+		<img alt="" src="../../Resources/images/icon/32/sd.png">
+		<span>湿度</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.damp}}</span>
+	</div>
+
+</div>
+<div class="row" ng-show="emhData.period==3">
+	<div class="col-md-12">
+		<h4>电量监测</h4>
+	</div>
+	<div class="col-md-3">
+		<span>直流电压</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.lv}}V</span>
+	</div>
+	<div class="col-md-3">
+		<span>交流电压</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.jv}}V</span>
+	</div>
+	<div class="col-md-3">
+		<span>直流电流</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.li}}A</span>
+	</div>
+	<div class="col-md-3">
+		<span>交流电流</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.ji}}A</span>
+	</div>
+
+</div>
+<div class="row" ng-show="emhData.period==4">
+	<div class="col-md-12">
+		<h4>UPS配电设备</h4>
+	</div>
+	<div class="col-md-3">
+		<span>输入相电压</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.ups1}}V</span>
+	</div>
+	<div class="col-md-3">
+		<span>输出相电压</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.ups2}}V</span>
+	</div>
+	<div class="col-md-3">
+		<span>输出频率</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.ups3}}Hz</span>
+	</div>
+	<div class="col-md-3">
+		<span>电池组电压</span>
+		<span style="color:blue;font-weight:800;font-size:25px">{{emhData.ups4}}V</span>
+	</div>
+
+</div>
+
+<!-- 
+<div ng-show="emhData.totals<=0">
+	<div class="error-container" style="margin:0 auto;text-align: center;">
+		<h1>
+			<i class="fa fa-question-circle-o fa-3x text-success"></i>
+		</h1>
+		<h2>该站点下的环境监控设备未找到！</h2>
+	</div>
+</div> -->
+

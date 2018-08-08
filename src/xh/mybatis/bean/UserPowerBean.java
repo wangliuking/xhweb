@@ -15,6 +15,7 @@ public class UserPowerBean {
 	private String o_check_emergency="off"; //'应急处置演练审核',
 	private String o_check_work="off"; //'工作记录审核',
 	private String o_check_change="off"; //'变更管理审核',
+	private String o_check_add_asset="off"; //'新增资产审核',
 	private String o_add="off"; //'运维模块-添加数据',
 	private String o_update="off"; //'运维模块-修改数据',
 	private String o_delete="off"; //'运维模块-删除数据',
@@ -50,6 +51,12 @@ public class UserPowerBean {
 	
 	
 	
+	public String getO_check_add_asset() {
+		return o_check_add_asset;
+	}
+	public void setO_check_add_asset(String o_check_add_asset) {
+		this.o_check_add_asset = o_check_add_asset;
+	}
 	public int getUserId() {
 		return userId;
 	}

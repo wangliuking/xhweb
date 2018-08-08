@@ -114,7 +114,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				//xh.pagging(1, parseInt($scope.totals),$scope);
+				xh.pagging(1, parseInt($scope.totals),$scope);
 			});
 		}
 
@@ -505,14 +505,16 @@ xh.load = function() {
 
 		$scope.emh = function() {
 			$scope.title="环控";
+			$scope.Id="";
 			$http.get(
 					"../../bsstatus/bsEmh?siteId=" + $scope.bsId + "&period="
 							+ $scope.period).success(function(response) {
 				$scope.emhData = response;
 				$scope.emhAlarm = response.alarmItems;
 
-				$scope.loadTemp($scope.emhData.temp);
-				$scope.loadDamp($scope.emhData.damp);
+				/*$scope.loadTemp($scope.emhData.temp);
+				$scope.loadDamp($scope.emhData.damp);*/
+				
 
 			});
 
@@ -521,7 +523,7 @@ xh.load = function() {
 
 		//$scope.equip();
 		//$scope.emh();
-		$scope.oneBsFault();
+		$scope.search(1);
 		/*setInterval(function() {
 
 			$scope.equip();

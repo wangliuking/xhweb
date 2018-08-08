@@ -44,5 +44,7 @@ public interface AssetCheckMapper {
 	 * @throws Exception
 	 */
 	public int checkTwo(Map<String,Object> map) throws Exception;
+	
+	public int check3(AssetCheckBean bean) throws Exception;
 
 }

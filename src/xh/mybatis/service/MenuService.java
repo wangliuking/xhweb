@@ -118,11 +118,6 @@ public class MenuService {
 		MenuMapper mapper=sqlSession.getMapper(MenuMapper.class);
 		List<Map<String,Object>> list1=new ArrayList<Map<String,Object>>();
 		List<Map<String,Object>> list2=new ArrayList<Map<String,Object>>();
-		
-		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-		
-		
-		
 		try{
 			//一级菜单
 			Map<String,Object> paraMap=new HashMap<String, Object>();
@@ -130,41 +125,48 @@ public class MenuService {
 			paraMap.put("flag", flag);
 			paraMap.put("roleId", roleId);
 			list1=mapper.menuChild(paraMap);
+			//二级菜单
 			for (Map<String, Object> map : list1) {
 				Map<String,Object> mapOne=map;
-				
-				
-				
 				Map<String,Object> paraMap2=new HashMap<String, Object>();
 				paraMap2.put("pId", Integer.parseInt(map.get("id").toString()));
-				paraMap.put("flag", flag);
+				paraMap2.put("flag", flag);
 				paraMap2.put("roleId", roleId);
-				
-				
-				
+
 				List<Map<String,Object>> listOne=mapper.menuChild(paraMap2);
 				List<Map<String,Object>> list3=new ArrayList<Map<String,Object>>();
 				map.put("num",listOne.size());
-				
-				
+				//三级菜单
 				for (Map<String, Object> map2 : listOne) {
 					Map<String,Object> mapTwo=map2;
-					
-					
-					
 					Map<String,Object> paraMap3=new HashMap<String, Object>();
 					paraMap3.put("pId", Integer.parseInt(map2.get("id").toString()));
-					paraMap.put("flag", flag);
+					paraMap3.put("flag", flag);
 					paraMap3.put("roleId", roleId);
-					
-					
-					
-					
+
 					List<Map<String,Object>> listTwo=mapper.menuChild(paraMap3);
-					mapTwo.put("children", listTwo);
-					mapTwo.put("num",listTwo.size());
+					List<Map<String,Object>> list4=new ArrayList<Map<String,Object>>();
+					//四级
+					for (Map<String, Object> map3 : listTwo) {
+						Map<String,Object> mapThree=map3;
+						Map<String,Object> paraMap4=new HashMap<String, Object>();
+						paraMap4.put("pId", Integer.parseInt(map3.get("id").toString()));
+						paraMap4.put("flag", flag);
+						paraMap4.put("roleId", roleId);
+
+						List<Map<String,Object>> listThree=mapper.menuChild(paraMap4);
+						mapThree.put("children", listThree);
+						mapThree.put("num",listThree.size());
+						
+						list4.add(mapThree);
+						
+					}
 					
-					list3.add(mapTwo);
+					mapTwo.put("children", list4);
+					mapTwo.put("num",list4.size());
+					
+					list3.add(mapTwo);	
+					
 				}
 				mapOne.put("children", list3);
 				

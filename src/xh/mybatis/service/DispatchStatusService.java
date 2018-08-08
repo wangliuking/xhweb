@@ -5,11 +5,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,8 +34,8 @@ public class DispatchStatusService {
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
 		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
-		Map<String,List<Map<String, Object>>> map=new HashMap<String, List<Map<String,Object>>>();
-		
+		Map<String,List<Map<String,Object>>> map=new HashMap<String, List<Map<String,Object>>>();
+			
 		List<Map<String,Object>> rsList=new ArrayList<Map<String,Object>>();
 		try {
 			list = mapper.dispatchstatus();
@@ -43,16 +47,20 @@ public class DispatchStatusService {
 				staList.add(status);
 				
 				map.put(status.get("type").toString(), staList);
-				
 			}
+			map=sortMapByKey(map); 
 			Iterator it=map.entrySet().iterator();
 			while(it.hasNext()){
+				
+				
+				
 				Map.Entry entry=(Map.Entry) it.next();
 				Object key = entry.getKey();
 				Object value=entry.getValue();
 				Map<String, Object> map2=new HashMap<String, Object>();
 				map2.put("type", key);
 				map2.put("items",value);
+				
 				rsList.add(map2);
 
 			}
@@ -234,5 +242,30 @@ public class DispatchStatusService {
 		}
 		
   }
+	/**
+     * 使用 Map按key进行排序
+     * @param map
+     * @return
+     */
+    public static Map<String, List<Map<String, Object>>> sortMapByKey(Map<String, List<Map<String, Object>>> map) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
 
+        Map<String, List<Map<String, Object>>> sortMap = new TreeMap<String, List<Map<String, Object>>>(
+                new MapKeyComparator());
+
+        sortMap.putAll(map);
+
+        return sortMap;
+    }
+
+}
+class MapKeyComparator implements Comparator<String>{
+
+    @Override
+    public int compare(String str1, String str2) {
+        
+        return str1.compareTo(str2);
+    }
 }

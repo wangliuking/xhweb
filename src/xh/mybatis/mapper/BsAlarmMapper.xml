@@ -29,7 +29,7 @@
     <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
     select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
     left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
-    where deviceId = "080200000000001" and singleId = "008001"
+    where a.deviceId = "080200000000001" and a.singleId = "008001"
     </select>
     <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
     select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 

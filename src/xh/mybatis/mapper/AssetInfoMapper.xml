@@ -18,7 +18,7 @@
 		<result property="statusCount" column="statusCount" javaType="java.lang.Integer"></result>
 	</resultMap>
 	<!--查询资产记录statusCount -->
-	<select id="assetInfo" parameterType="map" resultMap="assetInfoMap"
+	<select id="assetInfo" parameterType="map" resultType="xh.mybatis.bean.AssetInfoBean"
 		useCache="true">
 		select * from xhgmnet_business_assetinfo where 1=1
 		<if test="type !=0">
@@ -39,7 +39,23 @@
 		<if test="status !=0">
 			and status=#{status}
 		</if>
+		<if test="isLock==1 and tag==1">
+		 and isLock=1 and addUser=#{user}
+		</if>
+		<if test="isLock==1 and tag==0">
+		 and addUser=#{user}
+		</if>
+		<if test="isLock==0">
+		 and isLock=0
+		</if>
+		<if test="applyTag!=null and applyTag!=''">
+		 and applyTag=#{applyTag}
+		</if>
 		order by createTime desc limit #{start},#{limit}
+	</select>
+		<select id="assetInfoByserialNumberExists" parameterType="String" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_business_assetinfo where serialNumber=#{serialNumber}
 	</select>
 	<!--按资产状态统计-->
 	<select id="allAssetStatus" parameterType="map" resultType="java.util.HashMap"
@@ -92,13 +108,34 @@
 		<if test="status !=0">
 			and status=#{status}
 		</if>
+		<if test="isLock==1 and tag==1">
+		 and isLock=1 and addUser=#{user}
+		</if>
+		<if test="isLock==1 and tag==0">
+		 and addUser=#{user}
+		</if>
+		<if test="isLock==0">
+		 and isLock=0
+		</if>
+		<if test="applyTag!=null and applyTag!=''">
+		 and applyTag=#{applyTag}
+		</if>
 	</select>
 	<!--增加资产 -->
 	<insert id="insertAsset" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.AssetInfoBean">
 		insert into
-		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note,createTime)
-		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},#{note},#{createTime})
+		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag)
+		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},
+		#{note},#{createTime},#{isLock},#{addUser},#{applyTag})
+	</insert>
+	<insert id="insertManyAsset" parameterType="java.util.List" keyProperty="serialNumber">
+		insert IGNORE into
+		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,`from`,status,note,isLock,addUser)
+		values
+		<foreach collection="list" separator="," index="index" item="x">
+		(#{x.type},#{x.name},#{x.model},#{x.serialNumber},#{x.price},#{x.from},#{x.status},#{x.note},#{x.isLock},#{x.addUser})
+		</foreach>
 	</insert>
 	<!--更新资产记录 -->
 	<update id="updateAsset" parameterType="xh.mybatis.bean.AssetInfoBean">
@@ -146,5 +183,43 @@
 			#{serialNumber}
 		</foreach>
 	</update>
-
+	
+	<select id="add_apply_list" parameterType="map" resultType="xh.mybatis.bean.AssetAddApplyBean">
+	select * from xhgmnet_asset_add_apply where 1=1
+	<if test="roleType!=0 and power!='on'">
+	and user=#{user}
+	</if>
+	order by createTime desc limit #{start},#{limit}
+	</select>
+	<select id="add_apply_list_count" parameterType="map" resultType="int">
+	select count(*) from xhgmnet_asset_add_apply where 1=1
+	<if test="roleType!=0 and power!='on'">
+	and user=#{user}
+	</if>
+	</select>
+	<insert id="add_apply" keyProperty="id" useGeneratedKeys="true" parameterType="xh.mybatis.bean.AssetAddApplyBean">
+	insert into xhgmnet_asset_add_apply(userId,user,userName,tel,attachmentName,attachmentPath,comment,createTime,applyTag)
+	values(#{userId},#{user},#{userName},#{tel},#{attachmentName},#{attachmentPath},#{comment},#{createTime},#{applyTag})
+	
+	</insert>
+	<update id="add_apply_check1" parameterType="xh.mybatis.bean.AssetAddApplyBean">
+	update xhgmnet_asset_add_apply set status=#{status},note1=#{note1},time1=#{time1},checkUser=#{checkUser} where id=#{id}
+	</update>
+	
+	<insert id="add_apply_info" keyProperty="applyId" useGeneratedKeys="true" parameterType="xh.mybatis.bean.AssetAddApplayInfoBean">
+	insert into xhgmnet_asset_add_apply_info(applyId,createTime,workNote)values(#{applyId},#{createTime},#{workNote})	
+	</insert>
+	
+	<update id="add_apply_check2" parameterType="xh.mybatis.bean.AssetAddApplyBean">
+	update xhgmnet_asset_add_apply set status=#{status},time2=#{time2} where id=#{id}
+	</update>
+	<update id="update_asset_isLock" parameterType="String">
+	 update xhgmnet_business_assetinfo set isLock=0 where isLock=1 and addUser=#{user}
+	</update>
+	<update id="update_asset_applyTag" parameterType="map">
+	 update xhgmnet_business_assetinfo set applyTag=#{applyTag} where isLock=1 and addUser=#{user} and applyTag is null
+	</update>
+	<update id="add_apply_check3" parameterType="xh.mybatis.bean.AssetAddApplyBean">
+	update xhgmnet_asset_add_apply set status=#{status},time3=#{time3} where id=#{id}
+	</update>	
 </mapper>

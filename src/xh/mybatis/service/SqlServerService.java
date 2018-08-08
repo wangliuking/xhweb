@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.ThreeEmhAlarmBean;
 import xh.mybatis.mapper.SqlServerMapper;
 import xh.mybatis.tools.MoreDbTools;
 import xh.springmvc.handlers.BsStatusController;
@@ -375,6 +376,56 @@ public class SqlServerService {
 		}
 		sqlSession.close();
 		return list;
+	}
+	
+	public static List<ThreeEmhAlarmBean> perDayAlarm() throws Exception {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<ThreeEmhAlarmBean> list =mapper.perDayAlarm();
+		sqlSession.close();
+		return list;
+	}
+	
+	public static int alarmExists(ThreeEmhAlarmBean bean){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		int rs =0;
+		try {
+			rs=mapper.alarmExists(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sqlSession.close();
+		return rs;
+	}
+	public static int updateEmhAlarm(ThreeEmhAlarmBean bean){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		int rs =0;
+		try {
+			rs=mapper.updateEmhAlarm(bean);
+			sqlSession.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sqlSession.close();
+		return rs;
+	}
+	public static int insertEmhAlarm(ThreeEmhAlarmBean bean){
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		int rs =0;
+		try {
+			rs=mapper.insertEmhAlarm(bean);
+			sqlSession.commit();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sqlSession.close();
+		return rs;
 	}
 	
 

@@ -60,6 +60,12 @@ color:#000;
 .e-box li span.b-red{
 background:red;
 }
+.e-box li span.b-blue{
+background:blue;
+}
+.emh-swt li{
+ float: left;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="userstatus" class="fixed-iframe">
@@ -156,7 +162,10 @@ background:red;
 															ng-if="x.neType==24">桥接基站</span> <span
 															ng-if="x.neType==29">以太网E1网桥</span> <span
 															ng-if="x.neType==30">桥接中心</span> <span
-															ng-if="x.neType==32">媒体服务器</span></td>
+															ng-if="x.neType==32">媒体服务器</span>
+															<span ng-if="x.neType==100">基站环控</span>
+															</td>
+															
 
 														<td><span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
 															<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.subModId}}）</span>
@@ -164,6 +173,7 @@ background:red;
 															<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
 															<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
 															<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
+															<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
 														</td>
 														<td ng-if="x.alarmLevel==1"
 															style="background-color:#DC143C;color:#000;">一级告警</td>
@@ -242,6 +252,7 @@ background:red;
 														 || x.runStatus==1 
 														 || x.tempStatus==1
 														 || x.linkStatus==1}">PSM({{x.Id}})</span></li>
+														 <li><span class="b-blue" ng-click="emh()">环控设备</span></li>
 									
 														</ul>
 
@@ -261,6 +272,8 @@ background:red;
 															ng-if="title=='DPX'"></div>
 														<div ng-include="'bsstatus-view-psm.html'"
 															ng-if="title=='PSM'"></div>
+														<div ng-include="'bsstatus-view-emhd.html'"
+															ng-if="title=='环控'"></div>
 													</div>
 												</div>
 											</div>

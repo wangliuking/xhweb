@@ -124,12 +124,74 @@
 	</div>
 </div>
 
+<div class="modal fade" id="checkWin3" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<!-- <div class="color-line"></div> -->
+			<div class="modal-header"></div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm3" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label><input type="text" value=""
+									class="form-control" name="id" required="required"
+									ng-model="checkData.id">
+							</div>
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="checked2">
+									<option value="2" selected="selected">审核通过</option>
+									<option value="-2">拒绝</option>
+								</select>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note3" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="check_btn3_yes">
+					同意
+				</button>
+				<button type="button" class="btn btn-danger btn-sm" id="check_btn3_no">
+					拒绝
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 
 
 <script type="text/javascript">
 	$("#check_btn1").click(function() {
 		$('#checkForm1').submit();
+	});
+	$("#check_btn3_yes").click(function() {
+		xh.check3(1);
+	});
+	$("#check_btn3_no").click(function() {
+		xh.check3(0);
 	});
 	$("#check_btn2").click(function() {
 		if ($("input[name='result']").val() != 1) {
@@ -161,6 +223,7 @@
 		e.preventDefault();
 		xh.check2();
 	});
+
 </script>
 <script>
 	$("#uploadfile").click(function() {

@@ -55,6 +55,7 @@ public class WebRoleController {
 		Map<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("roleId", userbean.getRoleId());
 		paraMap.put("parentId", userbean.getParentId());
+		paraMap.put("roleType", userbean.getRoleType());
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals","");

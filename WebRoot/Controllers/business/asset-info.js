@@ -38,7 +38,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
-		$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+		$http.get("../../business/assetList?isLock=0&tag=-1&applyTag=&type="+type+"&name="+name+"" +
 				"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 				"&status="+status+"&start=0&limit="+pageSize).
 		success(function(response){
@@ -59,11 +59,14 @@ xh.load = function() {
 		};
 		/* 显示修改model */
 		$scope.editModel = function(id) {
-			
+		
 			$scope.editData = $scope.data[id];
 			$scope.editData.type = $scope.editData.type.toString();
 			$scope.editData.from = $scope.editData.from.toString();
 			$scope.editData.status = $scope.editData.status.toString();
+			$("#edit").modal('show');
+			
+			
 			
 		};
 		/* 显示修改model */
@@ -150,7 +153,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+			$http.get("../../business/assetList?isLock=0&tag=-1&applyTag=&type="+type+"&name="+name+"" +
 					"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 					"&status="+status+"&start=0&limit="+pageSize).
 			success(function(response){
@@ -177,7 +180,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+			$http.get("../../business/assetList?isLock=0&tag=-1&applyTag=&type="+type+"&name="+name+"" +
 					"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 					"&status="+status+"&start="+start+"&limit="+pageSize).
 			success(function(response){
@@ -211,14 +214,11 @@ xh.add = function() {
 			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {
-
-			if (data.result ==1) {
-				$('#addForm')[0].reset();
+			if (data.success) {
+				//$('#addForm')[0].reset();
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-				
-
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -241,7 +241,7 @@ xh.update = function() {
 		},
 		success : function(data) {
 			if (data.result === 1) {
-				$('#updateForm')[0].reset();
+				//$('#updateForm')[0].reset();
 				$('#edit').modal('hide');
 				toastr.success(data.message, '提示');
 				xh.refresh();

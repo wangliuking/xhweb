@@ -12,6 +12,8 @@ public class AssetCheckBean {
 	private String time1;
 	private String note1;
 	private String time2;
+	private String note3;
+	private String time3;
 	public int getId() {
 		return id;
 	}
@@ -81,13 +83,25 @@ public class AssetCheckBean {
 		this.time2 = time2;
 	}
 	
+	public String getNote3() {
+		return note3;
+	}
+	public void setNote3(String note3) {
+		this.note3 = note3;
+	}
+	public String getTime3() {
+		return time3;
+	}
+	public void setTime3(String time3) {
+		this.time3 = time3;
+	}
 	@Override
 	public String toString() {
 		return "AssetCheckBean [id=" + id + ", person=" + person + ", tel="
 				+ tel + ", account=" + account + ", status=" + status
 				+ ", note=" + note + ", applyTime=" + applyTime + ", user1="
 				+ user1 + ", time1=" + time1 + ", note1=" + note1 + ", time2="
-				+ time2 + "]";
+				+ time2 + ", note3=" + note3 + ", time3=" + time3 + "]";
 	}
 	
 	

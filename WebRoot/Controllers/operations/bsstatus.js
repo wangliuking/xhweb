@@ -198,7 +198,7 @@ xh.load = function() {
 						data.push(dd[j]);
 					}
 				}
-				data.sort($scope.sortBsId);
+				data.sort(xh.compare);
 				$scope.byBsIdData = data;
 				$scope.bsBsIdTotals = data.length;
 
@@ -690,3 +690,14 @@ xh.groupPagging = function(currentPage, totals, $scope) {
 		});
 	}
 };
+xh.compare = function (obj1, obj2) {
+    var val1 = obj1.bsId;
+    var val2 = obj2.bsId;
+    if (val1 < val2) {
+        return -1;
+    } else if (val1 > val2) {
+        return 1;
+    } else {
+        return 0;
+    }            
+} 

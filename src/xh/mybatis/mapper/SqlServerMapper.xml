@@ -81,6 +81,23 @@
 	<select id="selectConnectStatusForEMH3" resultType="map" useCache="true">
 		select * from tb_JFConnect
 	</select>
+	<select id="perDayAlarm" resultType="xh.mybatis.bean.ThreeEmhAlarmBean" useCache="true" >
+	select * from tb_AlarmRecording where convert(varchar, AlarmDate, 102)=convert(varchar, GETDATE(), 102)
+	</select>
+	<select id="alarmExists" resultType="int" useCache="true" >
+	select count(*) from xhgmnet_emh_three_alarm where bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID} and State=0	
+	</select>
+	<update id="updateEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean">
+	update xhgmnet_emh_three_alarm set State=1,RelieveTime=#{RelieveTime} where bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID}
+	and State=0	
+	</update>
+	<insert id="insertEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean" keyProperty="id" useGeneratedKeys="true">
+	insert into xhgmnet_emh_three_alarm(bsId,DevNode,NodeID,DevName,AlarmText,AlarmTime,RelieveTime,State,name,description)values(
+	#{JFNode},#{DevNode},#{NodeID},#{DevName},#{AlarmText},#{AlarmTime},#{RelieveTime},#{State},#{name},#{description}
+	)
+	</insert>
+	
+	
     
 
 </mapper>

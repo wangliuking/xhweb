@@ -31,7 +31,7 @@
    <!--查询所有角色role-->
     <select id="roleByAll"  resultType="xh.mybatis.bean.WebRoleBean" useCache="true">
      select * from xhgmnet_web_role 
-     <if test="roleId!=10000">
+     <if test="roleType!=0">
      where parentId=#{roleId} or roleId=#{roleId}
      </if>
      order by roleType asc,roleId asc

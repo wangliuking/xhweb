@@ -7,14 +7,12 @@
 				<tr class="tr-gray">
 					<th width="120px">属性</th>
 					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>工作状态</td>
-					<td colspan="3">
+					<td>
 					<span ng-if="x.working==0" class="text-success">正常</span>
 					
 					<span ng-if="x.working==1" >放大器电流异常</span>
@@ -24,7 +22,7 @@
 					
 					</td>
 					</tr><tr>
-					<td>回波损耗（db）</td>
+					<td>回波损耗</td>
 					<td>
 					<span ng-if="x.retLoss>0 && (x.retLoss/10)<7" >{{x.retLoss/10}}db</span>
 					
@@ -34,11 +32,13 @@
 					<span style="color:red" ng-if="(x.retLoss/10)>=7 && (x.retLoss/10)<=14">提示：影响系统覆盖，需要处理 </span>
 					<span style="color:red" ng-if="(x.retLoss/10)>14 && (x.retLoss/10)<=20">对系统覆盖有轻微的影响，需观察 暂不处理 </span>
 					</td>
-					<td>正向功率(db)</td>
-					<td>{{x.fwdPa/10 |fwdPa}}</td>
+					
 					<!-- <td>更新时间</td>z
 					<td>{{x.updateTime}}</td> -->
 				</tr>
+				<tr><td>正向功率(db)</td>
+					<td>{{x.fwdPa/10 |fwdPa}}</td></tr>
+				
 			</tbody>
 		</table>
 		</div>

@@ -38,7 +38,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
-		$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+		$http.get("../../business/assetList?isLock=0&type="+type+"&name="+name+"" +
 				"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 				"&status="+status+"&start=0&limit="+pageSize).
 		success(function(response){
@@ -83,7 +83,7 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+			$http.get("../../business/assetList?isLock=0&type="+type+"&name="+name+"" +
 					"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 					"&status="+status+"&start=0&limit="+pageSize).
 			success(function(response){
@@ -110,7 +110,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../business/assetList?type="+type+"&name="+name+"" +
+			$http.get("../../business/assetList?isLock=0&type="+type+"&name="+name+"" +
 					"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
 					"&status="+status+"&start="+start+"&limit="+pageSize).
 			success(function(response){

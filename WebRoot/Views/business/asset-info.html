@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>资产管理</title>
+<title>资产明细</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -90,10 +90,10 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="serialNumber">序列号</label>
+										<label for="serialNumber">设备编号</label>
 										<div>
 											<input type="text" class="form-control" id="serialNumber"
-												placeholder="序列号">
+												placeholder="设备编号">
 										</div>
 									</div>
 									<div class="form-group">
@@ -175,15 +175,16 @@
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
+										<th>资产编号</th>
 										<th>资产类别</th>
 										<th>名称</th>
 										<th>型号</th>
-										<th>序列号</th>
-										<th>单价</th>
+										
+										<th>原值</th>
 										<th>来源</th>
 										<th>状态</th>
 										<th width="180px">备注</th>
-										<th width="180px">记录时间</th>
+										<th width="130px">记录时间</th>
 										<th width="130px">操作</th>
 									</tr>
 								</thead>
@@ -194,31 +195,38 @@
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
-										<td ng-if="x.type==1">交换控制中心（MSO）设备</td>
-										<td ng-if="x.type==2">远端调度台设备</td>
-										<td ng-if="x.type==3">基站设备</td>
-										<td ng-if="x.type==4">用户台设备</td>
-										<td ng-if="x.type==5">备件</td>
-										<td ng-if="x.type==6">附件</td>
-										<td ng-if="x.type==7">其他</td>
+										<td>{{x.serialNumber}}</td>
+										<td>
+										<span ng-if="x.type==1">交换控制中心（MSO）设备</span>
+										<span ng-if="x.type==2">远端调度台设备</span>
+										<span ng-if="x.type==3">基站设备</span>
+										<span ng-if="x.type==4">用户台设备</span>
+										<span ng-if="x.type==5">备件</span>
+										<span ng-if="x.type==6">附件</span>
+										<span ng-if="x.type==7">其他</span>
+										</td>
 										<td>{{x.name}}</td>
 										<td>{{x.model}}</td>
-										<td>{{x.serialNumber}}</td>
+										
 										<td>{{x.price}}</td>
-										<td>{{x.from}}</td>
-										<td ng-if="x.status==0">未知</td>
-										<td ng-if="x.status==1">外借</td>
-										<td ng-if="x.status==2">报废</td>
-										<td ng-if="x.status==3">维修</td>
-										<td ng-if="x.status==4">在库</td>
-										<td ng-if="x.status==5">在用</td>
-										<td ng-if="x.status==6">待报废</td>
-										<td ng-if="x.status==7">遗失</td>
+										<td>
+										<span ng-if="x.from==1">采购</span>
+										<span ng-if="x.from==2">赠送</span>
+										</td>
+										<td>
+										<span ng-if="x.status==0">未知</span>
+										<span ng-if="x.status==1">外借</span>
+										<span ng-if="x.status==2">报废</span>
+										<span ng-if="x.status==3">维修</span>
+										<span ng-if="x.status==4">在库</span>
+										<span ng-if="x.status==5">在用</span>
+										<span ng-if="x.status==6">待报废</span>
+										<span ng-if="x.status==7">遗失</span>
+										</td>
 										<td>{{x.note}}</td>
 										<td>{{x.createTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"
-											data-target="#edit" ng-if="up.b_update=='on'"> <i class="fa fa-edit text-success"></i>&nbsp;修改
+											ng-click="editModel($index)"  ng-if="up.b_update=='on'"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a><a href="#" ng-click="delBs(x.id)" ng-if="up.b_delete=='on'"><i
 												class="fa fa-trash text-success"></i>| &nbsp;删除</a></td>
 									</tr>

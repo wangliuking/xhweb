@@ -15,12 +15,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import xh.func.plugin.FunUtil;
+import xh.mybatis.service.DispatchStatusService;
+import xh.mybatis.service.SqlServerService;
 
 public class test {
 
 	
 	 public static void main(String[] args) {   
-         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
+        /* ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
                  new ArrayBlockingQueue<Runnable>(5));
  
          for(int i=0;i<150;i++){
@@ -29,7 +31,10 @@ public class test {
              System.out.println("线程池中线程数目："+executor.getPoolSize()+"，队列中等待执行的任务数目："+
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
-         executor.shutdown();
+         executor.shutdown();*/
+		 String d="119指挥中心，空调监测，空调关机,报警。";
+		 
+		System.out.println(d.split("，")[2]);
      }
 	
 	public static String RandomWord(int num) {
