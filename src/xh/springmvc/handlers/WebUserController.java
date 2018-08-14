@@ -131,6 +131,7 @@ public class WebUserController {
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("roleId",roleId);
+		map.put("roleType",userbean.getRoleType());
 		map.put("roleIdStr",roleIdStr);
 		map.put("userStr",userStr);
 		map.put("parentId",userbean.getParentId());

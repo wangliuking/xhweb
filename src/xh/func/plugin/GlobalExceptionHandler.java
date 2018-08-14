@@ -18,15 +18,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 
-/*@ControllerAdvice
+@ControllerAdvice
 @ResponseBody
-@Component */
-public class GlobalExceptionHandler implements HandlerExceptionResolver{
+public class GlobalExceptionHandler{
 	protected final Log log=LogFactory.getLog(GlobalExceptionHandler.class.getName());
 	
-/*	@ExceptionHandler()	
+	@ExceptionHandler(value=Exception.class)	
 	@ResponseBody
-	public void PrintException(HttpServletRequest request,Exception ex){
+	public Map<String,Object> PrintException(HttpServletRequest request,Exception ex){
 		log.error("--------------------------程序异常开始----------------------");
 		log.error("程序异常->描述="+ex.getLocalizedMessage());
 		log.error("程序异常->error类型="+ex.getClass());
@@ -34,16 +33,17 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver{
 		log.error("程序异常->message="+ex.getMessage());
 		log.error("--------------------------程序异常结束----------------------");
 		Map map=new HashMap();
-		map.put("code", 500);
+		map.put("success", false);
 		map.put("class", ex.getClass());
 		map.put("url", request.getRequestURL().toString());
-		map.put("message",ex.getLocalizedMessage().toString());
-		String json=FlexJSON.Encode(map);
+		map.put("message",ex.getMessage());
+		//String json=FlexJSON.Encode(map);
+		return map;
 		
 	}
-*/
-	@Override
-	public ModelAndView resolveException(HttpServletRequest request,
+
+	
+	/*public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
 		// TODO Auto-generated method stub
 		Map<String, Object> model = new HashMap<String, Object>();  
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver{
         	
         }
 		return null;
-	}
+	}*/
 	 
 
 }

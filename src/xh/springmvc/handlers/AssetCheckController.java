@@ -70,6 +70,7 @@ public class AssetCheckController {
 		map.put("user", user);
 		map.put("power", power.get("o_check_change"));
 		map.put("roleId", roleId);
+		map.put("roleType", userbean.getRoleType());
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -105,7 +106,7 @@ public class AssetCheckController {
 			webLogBean.setContent("资产核查申请提交");
 			WebLogService.writeLog(webLogBean);
 			
-			sendNotifytoGroup("o_check_change", 10002, "请审核资产核查申请", request);
+			FunUtil.sendMsgToUserByPower("o_check_change", 2, "资产核查", "资产管理员提交了核查资产申请，请审核相关信息", request);
 			
 			
 		}else{
@@ -159,13 +160,7 @@ public class AssetCheckController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("管理部门领导审核资产核查申请");
 			WebLogService.writeLog(webLogBean);
-			
-			emailBean.setTitle("资产核查");
-			emailBean.setRecvUser(account);
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("你提交的资产核查申请已经处理");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			FunUtil.sendMsgToOneUser(account,"资产核查","你提交的资产核查申请领导已经处理，请尽快完成核查相关工作", request);
 			
 			
 		}else{
@@ -262,13 +257,7 @@ public class AssetCheckController {
 			webLogBean.setStyle(4);
 			webLogBean.setContent("资产核查结束");
 			WebLogService.writeLog(webLogBean);
-			
-			emailBean.setTitle("资产核查");
-			emailBean.setRecvUser(user1);
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent("资产核查反馈文件");
-			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			FunUtil.sendMsgToOneUser(user1,"资产核查","资产管理员提交了核查结果，请审核结果", request);
 
 		}else{
 			this.success=false;
@@ -279,6 +268,53 @@ public class AssetCheckController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("result", rsl);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/check3")
+	public void check3(HttpServletRequest request, HttpServletResponse response){
+		int id=Integer.parseInt(request.getParameter("id"));		
+		int status=Integer.parseInt(request.getParameter("checked"));
+		String time=funUtil.nowDate();
+		String note3=request.getParameter("note3");
+		String account=request.getParameter("account");
+		AssetCheckBean bean=new AssetCheckBean();
+		bean.setId(id);
+		/*bean.setUser1(funUtil.loginUser(request));*/
+		bean.setTime3(time);
+		bean.setNote3(note3);
+		bean.setStatus(status);
+		
+				
+		int rlt=AssetCheckServices.check3(bean);	
+		
+		if(rlt==1){
+			this.success=true;
+			this.message="审核成功";
+			webLogBean.setOperator(funUtil.loginUser(request));
+			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+			webLogBean.setStyle(5);
+			webLogBean.setContent("管理部门领导审核资产核查申请");
+			WebLogService.writeLog(webLogBean);
+			FunUtil.sendMsgToOneUser(account,"资产核查","你提交的核查结果已反馈，请注意查收", request);
+			
+			
+		}else{
+			this.success=false;
+			this.message="资产核查申请审核失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("result", rlt);
 		result.put("message",message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -370,7 +406,7 @@ public class AssetCheckController {
 			HttpServletRequest request) {
 		// ----发送通知邮件
 		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("资产变更申请");
+		emailBean.setTitle("资产变更");
 		emailBean.setRecvUser(recvUser);
 		emailBean.setSendUser(funUtil.loginUser(request));
 		emailBean.setContent(content);
@@ -393,13 +429,12 @@ public class AssetCheckController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("powerstr", powerstr);
 		map.put("roleId", roleId);
-		List<Map<String, Object>> items = WebUserServices
-				.userlistByPowerAndRoleId(map);
+		List<Map<String, Object>> items = WebUserServices.userlistByPowerAndRoleId(map);
 		log.info("邮件发送：" + items);
 		for (Map<String, Object> item : items) {
 			// ----发送通知邮件
 			EmailBean emailBean = new EmailBean();
-			emailBean.setTitle("资产变更申请");
+			emailBean.setTitle("资产变更");
 			emailBean.setRecvUser(item.get("user").toString());
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent(content);
@@ -408,5 +443,6 @@ public class AssetCheckController {
 			// ----END
 		}
 	}
+
 
 }

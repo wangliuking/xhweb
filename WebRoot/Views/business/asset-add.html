@@ -12,7 +12,14 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
-						<div class="col-md-4">
+					    <div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>设备编号</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="serialNumber"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>资产类型</label>&nbsp;<span class="text-danger">[*]</span> <select
 									id="type" name="type" class="form-control">
@@ -26,14 +33,14 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>名称</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="name"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>型号</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="model"
@@ -43,14 +50,8 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>序列号</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="serialNumber"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-4">
+						
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>来源</label>&nbsp;<span class="text-danger">[*]</span> <select
 									id="from" class="form-control" name="from">
@@ -59,7 +60,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="number" value="" class="form-control" name="price" step="0.01"
@@ -70,7 +71,7 @@
 					</div>
 					<!-- row-------end -->
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-12">
 						<!-- 1:外借;2:报废;3:维修;4:在库;5:在用;6:待报废;7:遗失 -->
 							<div class="form-group col-md-12">
 								<label>资产状态</label>&nbsp;<span class="text-danger">[*]</span> <select
@@ -85,9 +86,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>备注</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>备注</label><input
 									type="text" value="" class="form-control" name="note">
 							</div>
 						</div>

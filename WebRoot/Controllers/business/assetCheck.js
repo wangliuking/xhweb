@@ -36,8 +36,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;
-			console.log("user->"+$scope.loginUser );
-			console.log("userRoleId->"+$scope.loginUserRoleId)
+			$scope.loginUserRoleType = response.roleType;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -99,6 +98,10 @@ xh.load = function() {
 	    $scope.checkWin2 = function (id) {
 			$scope.checkData=$scope.data[id];			
 				$("#checkWin2").modal('show');	
+	    };
+	    $scope.checkWin3 = function (id) {
+			$scope.checkData=$scope.data[id];			
+				$("#checkWin3").modal('show');	
 	    };
 	   
 		/* 查询数据 */
@@ -239,6 +242,34 @@ xh.check2 = function(checked) {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+		}
+	});
+};
+xh.check3 = function(tag) {
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../asset/check3',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			id:$("#checkForm3").find("input[name='id']").val(),
+			note3:$("#checkForm3").find("textarea[name='note3']").val(),
+			checked:tag==0?-3:3,
+			account:$scope.checkData.account
+		},
+		success : function(data) {
+
+			if (data.result ==1) {
+				$('#checkWin3').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

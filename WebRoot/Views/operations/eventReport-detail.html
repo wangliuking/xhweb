@@ -10,28 +10,26 @@
 				<small class="font-bold">上传工作记录文件</small>
 			</div> -->
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" onSubmit="return false">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>报告类型</label>
-								<div>
-									<select ng-model="editData.fileType" class="form-control"
-										style="width:159px;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>报告类型</label>
+							<div>
+								<select ng-model="editData.fileType" class="form-control">
 
-										<option value="周报">周报</option>
-										<option value="月报">月报</option>
-										<option value="系统监控表">系统监控表</option>
-										<option value="故障记录登记表">故障记录登记表</option>
-										<option value="故障处理报告">故障处理报告</option>
-										<option value="巡检计划">巡检计划</option>
-										<option value="问题整改计划表">问题整改计划表</option>
-									</select>
-								</div>
+									<option value="周报">周报</option>
+									<option value="月报">月报</option>
+									<option value="系统监控表">系统监控表</option>
+									<option value="故障记录登记表">故障记录登记表</option>
+									<option value="故障处理报告">故障处理报告</option>
+									<option value="巡检计划">巡检计划</option>
+									<option value="问题整改计划表">问题整改计划表</option>
+								</select>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+				</div>
+				<!-- <div class="row">
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>接收者</label> <input type="text" class="form-control"
@@ -44,48 +42,53 @@
 									ng-model="editData.uploadUser">
 							</div>
 						</div>
-					</div>
-					<div class="row">
+					</div> -->
+				<div class="row">
 
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>联系人</label><input type="text" class="form-control"
-									name="contact" ng-model="editData.contact">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>联系方式</label><input type="text" class="form-control"
-									name="tel" ng-model="editData.tel">
-							</div>
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>联系人</label><input type="text" class="form-control"
+								name="contact" ng-model="editData.contact">
 						</div>
 					</div>
-
-
-
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>备注信息</label>
-								<textarea class="form-control" style="width:500px;height:70px;"
-									name="note" ng-model="editData.note"></textarea>
-							</div>
-
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>联系方式</label><input type="text" class="form-control"
+								name="tel" ng-model="editData.tel">
 						</div>
-						<input type="hidden" name="fileName" value="" /> <input
-							type="hidden" name="filePath" value="" /> <input type="hidden"
-							name="result" value="" />
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<label>工作记录文件：</label><span> <a href="#"
-								ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>
+				</div>
 
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>服务提供方备注信息</label>
+							<textarea class="form-control" name="note"
+								ng-model="editData.note"></textarea>
 						</div>
 
 					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label>工作记录文件：</label><span> <a href="#"
+							ng-click="download(editData.filePath)">{{editData.fileName}}</a></span>
 
-				</form>
+					</div>
+
+				</div>
+				<div class="row" ng-show="editData.status!=0">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
+							<label>管理方审核备注信息</label>
+							<textarea class="form-control" name="note"
+								ng-model="editData.note1"></textarea>
+						</div>
+
+					</div>
+				</div>
 
 			</div>
 			<div class="modal-footer">

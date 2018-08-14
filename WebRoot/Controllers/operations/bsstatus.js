@@ -198,7 +198,7 @@ xh.load = function() {
 						data.push(dd[j]);
 					}
 				}
-				data.sort($scope.sortBsId);
+				data.sort(xh.compare);
 				$scope.byBsIdData = data;
 				$scope.bsBsIdTotals = data.length;
 
@@ -505,36 +505,6 @@ xh.search_more_bs=function(){
 	var $scope = angular.element(appElement).scope();
 	$scope.search_more_bs()
 }
-// 基站运行记录
-xh.excelToBsRun = function() {
-	xh.maskShow();
-	$("#btn-run").button('loading');
-	$.ajax({
-		url : '../../bsstatus/ExcelToStationStatus',
-		type : 'get',
-		dataType : "json",
-		data : {},
-		async : false,
-		success : function(data) {
-
-			$("#btn-run").button('reset');
-			xh.maskHide();
-			if (data.success) {
-				window.location.href = "../../bsstatus/downExcel?filePath="
-						+ data.pathName;
-
-			} else {
-				toastr.error("导出失败", '提示');
-			}
-		},
-		error : function() {
-			$("#btn-run").button('reset');
-			toastr.error("导出失败", '提示');
-			xh.maskHide();
-		}
-	});
-
-};
 
 // 基站状态检查表
 xh.excelToBsstatus = function() {
@@ -690,3 +660,14 @@ xh.groupPagging = function(currentPage, totals, $scope) {
 		});
 	}
 };
+xh.compare = function (obj1, obj2) {
+    var val1 = obj1.bsId;
+    var val2 = obj2.bsId;
+    if (val1 < val2) {
+        return -1;
+    } else if (val1 > val2) {
+        return 1;
+    } else {
+        return 0;
+    }            
+} 

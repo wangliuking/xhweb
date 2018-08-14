@@ -42,6 +42,7 @@ xh.load = function() {
 			$scope.loginUserVpnId = response.vpnId;
 			$scope.roleId = response.roleId ;
 			$scope.roleType = response.roleType ;
+			$scope.userName=response.userName;
 			
 		});
 		/*获取故障信息*/

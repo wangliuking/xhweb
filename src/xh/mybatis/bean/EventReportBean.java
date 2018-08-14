@@ -15,6 +15,10 @@ public class EventReportBean implements Serializable {
     private String filePath;
 	private String recvUser;
     private String uploadUser;
+    private String checkUser;
+    private Date checkTime;
+    private Date createtime;
+    private String note1;
     
     public int getId() {
 		return id;
@@ -77,13 +81,39 @@ public class EventReportBean implements Serializable {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
+	public String getCheckUser() {
+		return checkUser;
+	}
+	public void setCheckUser(String checkUser) {
+		this.checkUser = checkUser;
+	}
+	public Date getCheckTime() {
+		return checkTime;
+	}
+	public void setCheckTime(Date checkTime) {
+		this.checkTime = checkTime;
+	}
+	public Date getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+	
+	public String getNote1() {
+		return note1;
+	}
+	public void setNote1(String note1) {
+		this.note1 = note1;
+	}
 	@Override
 	public String toString() {
 		return "EventReportBean [id=" + id + ", fileType=" + fileType
 				+ ", fileName=" + fileName + ", contact=" + contact + ", tel="
 				+ tel + ", note=" + note + ", status=" + status + ", filePath="
 				+ filePath + ", recvUser=" + recvUser + ", uploadUser="
-				+ uploadUser + "]";
+				+ uploadUser + ", checkUser=" + checkUser + ", checkTime="
+				+ checkTime + ", createtime=" + createtime + "]";
 	}
 	
 	

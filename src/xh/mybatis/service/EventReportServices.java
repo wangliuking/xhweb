@@ -18,10 +18,10 @@ public class EventReportServices {
 	 * @param map
 	 * @return
 	 */
-	public static ArrayList<Map<String,Object>> eventReportlist(Map<String,Object> map){
+	public static ArrayList<EventReportBean> eventReportlist(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		EventReportMapper mapper=sqlSession.getMapper(EventReportMapper.class);
-		ArrayList<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		ArrayList<EventReportBean> list=new ArrayList<EventReportBean>();
 		try {
 			list=mapper.eventReportlist(map);
 			sqlSession.close();					
@@ -75,12 +75,12 @@ public class EventReportServices {
 	 * @param bean
 	 * @return
 	 */
-	public static int signEventReport(int id){
+	public static int signEventReport(Map<String,Object> modeMap){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		EventReportMapper mapper=sqlSession.getMapper(EventReportMapper.class);
 		int result=0;
 		try {
-			result=mapper.signEventReport(id);
+			result=mapper.signEventReport(modeMap);
 			sqlSession.commit();
 			sqlSession.close();					
 		} catch (Exception e) {

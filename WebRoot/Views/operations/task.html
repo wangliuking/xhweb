@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>工作联系单</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<style type="text/css">
+.form-table {
+	margin-top: 10px;
+	width:100%;
+	color:#000;
+	/* table-layout:fixed; */
+	border-collapse:collapse;
+	/* text-align: center; */
+
+	 /* transform:rotate(2deg);  */
+}
+.form-table tr td {
+	/* word-wrap:break-word;
+	white-space: nowrap; */
+	border:1px solid #ccc;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+}
+</style>
+<!-- <script type="text/javascript" src="../../Resources/js/jquery-1.7.2.js"></script> -->
+<!--[if lte IE 9]>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
+							<li class="active"><span>工作联系单</span></li>
+						</ol>
+					</div>
+					<div class="btn-group pull-right">
+						<button class="btn btn-primary btn-sm"
+							onclick="javascript:history.back(-1);">
+							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<!-- <div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt" >
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label for="filename">文件名</label>
+										<div>
+											<input type="text" class="form-control" id="filename"
+												width="20px">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="contact">联系人</label>
+										<div>
+											<input type="text" class="form-control" id="contact">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="status">状态选择</label>
+										<div>
+											<select id="status" class="form-control" style="width:159px;">
+												<option value="0">未签收</option>
+												<option value="1">签收</option>
+												<option value="2" selected>全部</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="search(1)">
+												<i class="fa fa-search"></i>&nbsp;查询
+											</button>
+										</div>
+									</div>
+									
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">工作联系单列表</div>
+						<div class="panel-body">
+							<div class="btn-group pull-left" style="padding-bottom:5px;">
+
+								<button class="btn btn-danger btn-sm" data-toggle="modal"
+									data-target="#add" ng-disabled="">
+									<i class="fa fa-plus-circle"></i>&nbsp;下达任务
+								</button>
+							</div>
+							<div class="form-group"></div>
+							<!-- row -->
+
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th >事由</th>
+										<th>类型</th>
+										<th>发文单位</th>
+										<th>收文单位</th>
+										<th>时间</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="7" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
+										<td>{{x.type}}</td>
+										<td>{{x.sendUnit}}</td>
+										<td>{{x.recvUnit}}</td>
+										<td>{{x.time}}</td>
+										<td>
+										<span ng-if="x.status==0">未确认</span>
+										<span ng-if="x.status==1" style="color:green">已确认</span>
+										</td>
+										<td><a href="#" ng-click="sign($index)" 
+										ng-if="loginUser.roleType==3 && x.status==0">确认</a></td>
+										
+										
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									<span>每页显示</span><select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> <span>条,</span> <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div ng-include="'task-detail.html'"></div>
+	<div ng-include="'task-add.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/task.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

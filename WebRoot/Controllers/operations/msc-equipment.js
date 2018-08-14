@@ -72,15 +72,15 @@ xh.load = function() {
 			var point21 =xh.createNewNode(200,60,10,10,"");
 			var point22 =xh.createNewNode(200,530,10,10,"");
 			
-			var point1 =xh.createNewNode(width/2+130,40,10,10,"");
-			var point2 =xh.createNewNode(width/2+130,500,10,10,"");
-			var point31 =xh.createNewNode(width/2+270,40,10,10,"");
-			var point32 =xh.createNewNode(width/2+270,500,10,10,"");
+			var point1 =xh.createNewNode(width-750,height-160,10,10,"");
+			var point2 =xh.createNewNode(width-750,height-100,10,10,"");
+			var point31 =xh.createNewNode(width-50,height-160,10,10,"");
+			var point32 =xh.createNewNode(width-50,height-100,10,10,"");
 			
-			var point41 =xh.createNewNode(width/2+340,40,10,10,"");
-			var point42 =xh.createNewNode(width/2+340,500,10,10,"");
-			var point51 =xh.createNewNode(width/2+450,40,10,10,"");
-			var point52 =xh.createNewNode(width/2+450,500,10,10,"");
+			var point41 =xh.createNewNode(width-750,80,10,10,"");
+			var point42 =xh.createNewNode(width-750,150,10,10,"");
+			var point51 =xh.createNewNode(width-50,80,10,10,"");
+			var point52 =xh.createNewNode(width-50,150,10,10,"");
 			
 			
 			
@@ -148,41 +148,39 @@ xh.load = function() {
     			xh.maskHide();
     			var dispatch = response.items;
     			var left=50,top=height/2-200;
-    			var x=width/2-200,y=0;
+    			var x=width/2-200,y=0,tag=0;;
     			for(var i=0;i<dispatch.length;i++){
     				var dd=dispatch[i].items;
     				var type=dispatch[i].type;
     				
-    				/*if(i<=5){
-    					x=100+i*100;
-    					y=height/2-250;
-    				}else if(i>=5){
-    					x=i*100-200;
-    					y=height/2+200;
-    				}*/
+    				if(type=="交警"){
+    					x=width/2;y=height/2;
+    				}else if(type=="公安"){
+    					x=width/2+150;y=height/2+20;
+    				}else{
+    					x=width/2-200
+    					tag+=50;
+    					y=tag;
+    				}
     				
-					
-					if(i<=6){
+				/*	if(i<=6){
 						x+=30;
 						y+=45;
 					}else{
 						x-=30;
 						y+=45;
-					}
-					
-					
-					/*if(type=="公安"){
-						x=width/2+10;
-						y=height/2+100;
-					}
-					if(type=="交警"){
-						x=width/2+200;
-						y=height/2+10;
 					}*/
 					
-    				var img="dispatch.png";
+				
+					
+    				var img="dp-green.png";
     				if(dd.length>1){
     					img="switch.png";
+    				}else{
+    				 var setup=dd[0].setupStatus;
+   					 if(setup!=1){
+                        img="dp-gray.png";
+                      }
     				}
                     var oneNode = xh.createNode(x,y,img,type);
                     oneNode.index=i;
@@ -208,27 +206,38 @@ xh.load = function() {
                     
                    
                     if(dd.length>1){
-                    	var a=10,b=0,x2=0,y2=0;
+                    	var a=10,b=0,x2=width-750,y2=0;
                     	for(var j=0;j<dd.length;j++){
         					var b=dd[j];
+        					 var lineType=b.flag;
+                             var setup=b.setupStatus;
         					
         					/*y2+=50;x2+=30;*/
         					
         					if(b.dstName.indexOf("公安")>-1){
-        						x2=width/2+200;
-            					y2+=a+40;
+        						/*x2=width/2+200;
+            					y2+=a+40;*/
+        						y2=height-150;
+        						x2+=80
         					}else{
         						
-            					x2=width/2+400;
-            					y2+=70;
+            					/*x2=width/2+400;
+            					y2+=70;*/
+        						y2=100;
+        						x2+=80
         					}
-                            var twoNode = xh.createNode(x2,y2,"dispatch.png",b.dstName);
+        					//图标
+        					var ico="dp-green.png";
+        					 if(setup!=1){
+                               	 ico="dp-gray.png";
+                            }
+                            var twoNode = xh.createNode(x2,y2,ico,b.dstName);
+
                             twoNode.indexi=i;
                             twoNode.indexj=j;
                             var link2=new JTopo.Link(oneNode, twoNode);
                             link2.lineWidth = 1; // 线宽 
-                            var lineType=b.flag;
-                            var setup=b.setupStatus;
+                           
                             
                             if(setup==1){
                            	 if(lineType==1){

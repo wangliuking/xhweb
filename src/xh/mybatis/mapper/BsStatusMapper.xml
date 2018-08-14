@@ -530,10 +530,10 @@
      	and a.sysType=#{sysType}
      	</if>
      	<if test="alarmType==1">
-     	and a.sysType=2 and a.modType=3001
+     	and a.sysType=2 and a.modType=3000 and(a.subModType=170300000000001 or (a.subModType=11 and a.subModId=1003))
      	</if>
      	<if test="alarmType==2">
-     	and a.sysType=2 and a.modType=3000
+     	and a.sysType=2 and a.modType=3000 and(a.subModType=80200000000001 or (a.subModType=51 and a.subModId=1003))
      	</if>
      	<if test="alarmType==3">
      	and a.neType=2 and a.modType=1000 and a.code=1 and a.category=2
@@ -578,11 +578,11 @@
       	<if test="sysType>0">
      	and sysType=#{sysType}
      	</if>
-     	<if test="alarmType==1">
-     	and sysType=2 and modType=3001
+   	<if test="alarmType==1">
+     	and sysType=2 and modType=3000 and(subModType=170300000000001 or (subModType=11 and subModId=1003))
      	</if>
      	<if test="alarmType==2">
-     	and sysType=2 and modType=3000
+     	and sysType=2 and modType=3000 and(subModType=80200000000001 or (subModType=51 and subModId=1003))
      	</if>
      	<if test="alarmType==3">
      	and neType=2 and modType=1000 and code=1 and category=2

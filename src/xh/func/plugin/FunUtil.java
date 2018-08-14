@@ -17,8 +17,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
@@ -28,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -36,6 +40,9 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
+import xh.mybatis.bean.EmailBean;
+import xh.mybatis.service.EmailService;
+import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
 
 
@@ -51,7 +58,7 @@ public class FunUtil {
 		return str;
 	}
 	//获取登录用户
-	public String loginUser(HttpServletRequest request){
+	public static String loginUser(HttpServletRequest request){
 		String user="";
 		try {
 			user=SingLoginListener.getLogUserMap().get(request.getSession().getId()).toString();
@@ -62,6 +69,88 @@ public class FunUtil {
 		}
 		return user;
 		
+	}
+	public static String RandomAlphanumeric(int count){
+	    RandomStringUtils utils=new RandomStringUtils();
+	    String str=utils.randomAlphanumeric(count);
+		return str;
+	}
+	public static Map<String, Object> loginUserInfo(HttpServletRequest request){
+		Map<String, Object> userInfoMap = new HashMap<String, Object>();
+		try {
+			userInfoMap=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId());
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("获取的登录用户失败");
+			
+		}
+		return userInfoMap;
+		
+	}
+	public static Map<String, Object> loginUserPower(HttpServletRequest request){
+		Map<String, Object> userInfoMap = new HashMap<String, Object>();
+		try {
+			userInfoMap=SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("获取的登录用户失败");
+			
+		}
+		return userInfoMap;
+		
+	}
+	/** 根据用户权限向用户发送邮件*/
+	public static void sendMsgToUserByPower(String powerstr, int roleType, String title,String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleType", roleType);
+		List<Map<String, Object>> items = WebUserServices.emailRecvUsersByPower(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle(title);
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
+	/** 向指定用户发送邮件*/
+	public static void sendMsgToOneUser(String recvUser, String title,String content,
+			HttpServletRequest request) {
+		// ----发送通知邮件
+		EmailBean emailBean = new EmailBean();
+		emailBean.setTitle(title);
+		emailBean.setRecvUser(recvUser);
+		emailBean.setSendUser(loginUser(request));
+		emailBean.setContent(content);
+		emailBean.setTime(nowDate());
+		EmailService.insertEmail(emailBean);
+		// ----END
+	}
+	/** 根据用户权限向用户发送邮件*/
+	public static void sendMsgToUserByGroupPower(String powerstr, int roleType, String title,String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleType", roleType);
+		List<Map<String, Object>> items = WebUserServices.emailRecvUsersByGroupPower(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle(title);
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
 	}
 	//获取登录用户ID
 	public int loginUserId(HttpServletRequest request){

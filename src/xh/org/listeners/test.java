@@ -1,26 +1,21 @@
 package xh.org.listeners;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import xh.func.plugin.FunUtil;
+import xh.func.plugin.DocConverter;
 
 public class test {
 
 	
 	 public static void main(String[] args) {   
-         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
+        /* ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
                  new ArrayBlockingQueue<Runnable>(5));
  
          for(int i=0;i<150;i++){
@@ -29,7 +24,11 @@ public class test {
              System.out.println("线程池中线程数目："+executor.getPoolSize()+"，队列中等待执行的任务数目："+
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
-         executor.shutdown();
+         executor.shutdown();*/
+		 String converfilename="D:/apache-tomcat/webapps/xhweb/Resources/upload/asset/ss.docx";
+		 DocConverter d = new DocConverter(converfilename); 
+         d.conver();
+		
      }
 	
 	public static String RandomWord(int num) {

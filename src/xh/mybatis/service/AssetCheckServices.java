@@ -103,6 +103,20 @@ public class AssetCheckServices {
 		}
 		return  result;
 	}
+	public static int check3(AssetCheckBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetCheckMapper mapper=sqlSession.getMapper(AssetCheckMapper.class);
+		int result=0;
+		try {
+			result=mapper.check3(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
 	
 	
 

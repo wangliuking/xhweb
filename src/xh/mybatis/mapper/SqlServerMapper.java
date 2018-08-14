@@ -3,6 +3,8 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.ThreeEmhAlarmBean;
+
 public interface SqlServerMapper {
 	
 	/**
@@ -66,4 +68,11 @@ public interface SqlServerMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,Object>> selectConnectStatusForEMH3() throws Exception;
+	
+	/** 获取当天的告警*/
+	public List<ThreeEmhAlarmBean> perDayAlarm() throws Exception;
+	
+	public int alarmExists(ThreeEmhAlarmBean bean) throws Exception;
+	public int updateEmhAlarm(ThreeEmhAlarmBean bean) throws Exception;
+	public int insertEmhAlarm(ThreeEmhAlarmBean bean) throws Exception;
 }

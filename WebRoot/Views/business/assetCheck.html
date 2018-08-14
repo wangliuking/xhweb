@@ -43,27 +43,40 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span>业务管理</span></li>
-							<li><span>运维管理</span></li>
+							
 							<li><span>资产管理</span></li>
-							<li class="active"><span>变更管理</span></li>
+							<li><a href="../menu/menu_asset.html" target="_self"><span>变更管理</span></a></li>
+							<li class="active"><span>资产核查</span></li>
 						</ol>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="btn-group" style="padding-top:10px;padding-bottom:10px;">
+						<button class="btn btn-success btn-sm" data-toggle="modal"
+							data-target="#apply"
+							ng-if="loginUserRoleType==0 || (loginUserRoleType==2 && up.o_check_change=='off')">
+							<i class="fa fa-plus-circle"></i>&nbsp;资产核查申请
+						</button>
+
+					</div>
+				</div>
+			</div>
 			<!-- row -->
-			
+
 			<!-- row -->
 			<div class="row">
-			<button class="btn btn-success btn-sm" data-toggle="modal" 
-									data-target="#apply" ng-if="loginUserRoleId==10002">
-										<i class="fa fa-plus-circle"></i>&nbsp;资产核查申请
-									</button>
+
 				<div class="col-md-12">
 					<div class="hpanel">
+					  <div class="panel-heading hbuilt">
+								
+						申请列表</div>
 						<div class="panel-body">
+
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
 								<thead>
@@ -82,27 +95,38 @@
 									<tr ng-repeat="x in data">
 										<td>{{x.person}}</td>
 										<td>{{x.tel}}</td>
-										<td ng-if="x.status==-1" class="td-primary">申请拒绝</td>
-										<td ng-if="x.status==0" class="td-danger">等待审核</td>
-										<td ng-if="x.status==1" class="td-danger">已审核，等待资产管理员核查资产</td>
-										<td ng-if="x.status==2" class="td-success">核查完成</td>
-										<td>{{x.applyTime}}</td>
-										<td style="text-align:center">
+										<td ng-if="x.status==0" class="td-primary">等待审核</td>
+										<td ng-if="x.status==-1" class="td-danger">你提交的申请已经被拒绝了</td>
 										
-										<a href="#"
+										<td ng-if="x.status==1" class="td-primary">已审核，等待资产管理员核查资产</td>
+										<td ng-if="x.status==2" class="td-primary">核查结果已经提交，等待审核</td>
+										<td ng-if="x.status==3" class="td-success">审核通过，核查完成</td>
+										<td ng-if="x.status==-3" class="td-danger">拒绝，请重新核查，并提交核查结果</td>
+										<td>{{x.applyTime}}</td>
+										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度&nbsp;</a> 
-										<a href="#" ng-click="checkWin($index)" ng-if="x.status==0 && loginUserRoleId==10002 && up.o_check_change=='on'">|<i
-												class="fa fa-hand-o-down text-danger"></i>审核</a>		
-												
-											
-											<a ng-if="loginUser==x.account && x.status==1" href="assetCheck-info.html">|<i
-												class="fa fa-hand-o-down text-danger" ng-if="x.status==1 && loginUserRoleId==10002 && loginUser==x.account"></i>开始核查资产</a>
-											<a ng-if="loginUser==x.account && x.status==1" href="#" ng-click="checkWin2($index)">| <i
-												class="fa fa-hand-o-down text-danger" ng-if="x.status==1 && loginUserRoleId==10002 && loginUser==x.account"></i>核查完成</a>
-											<a ng-if="x.status==2" href="#" ng-click="download(x.fileName )">| <i
-												class="fa fa-download text-danger"></i>核查反馈文件</a>
-												
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度&nbsp;</a>
+											<a href="#" ng-click="checkWin($index)"
+											ng-if="x.status==0 && (loginUserRoleType==2 || loginUserRoleType==0) && up.o_check_change=='on'">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核
+										</a> 
+										<a ng-if="loginUser==x.account && (x.status==1 || x.status==-3)"
+											href="assetCheck-info.html">|<i
+												class="fa fa-hand-o-down text-danger"></i>核查资产
+										</a> 
+										<a ng-if="loginUser==x.account && (x.status==1 || x.status==-3)" href="#"
+											ng-click="checkWin2($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>核查完成
+										</a> 
+										<a ng-if="x.status>=2" href="#"
+											ng-click="download(x.fileName )">| <i
+												class="fa fa-download text-danger"></i>核查反馈文件
+										</a>
+										<a ng-if="x.status==2 && (loginUserRoleType==2 || loginUserRoleType==0) && up.o_check_change=='on'" href="#"
+											ng-click="checkWin3($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>审核核查结果
+										</a>
+										
 										</td>
 									</tr>
 								</tbody>
@@ -116,10 +140,11 @@
 										<option value="30">30</option>
 										<option value="40">40</option>
 										<option value="50">50</option>
-									</select>  <span>条,</span><span ng-model="index">显示{{start}}-</span><span
+									</select> <span>条,</span><span ng-model="index">显示{{start}}-</span><span
 										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
-										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
+										ng-model="totals">总计{{totals}}条</span> <i
+										class="fa fa-refresh page-refresh" title="刷新数据"
+										ng-click="refresh()"></i>
 								</div>
 								<div class="page-paging"></div>
 							</div>
@@ -139,7 +164,7 @@
 		</div>
 	</div>
 	<!-- 中间内容体 /-->
-	
+
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -155,7 +180,8 @@
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/assetCheck.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/assetCheck.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">

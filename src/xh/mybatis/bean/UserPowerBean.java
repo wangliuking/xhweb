@@ -15,6 +15,8 @@ public class UserPowerBean {
 	private String o_check_emergency="off"; //'应急处置演练审核',
 	private String o_check_work="off"; //'工作记录审核',
 	private String o_check_change="off"; //'变更管理审核',
+	private String o_check_add_asset="off"; //'新增资产审核',
+	private String o_check_scrap_asset="off";//报废资产审核
 	private String o_add="off"; //'运维模块-添加数据',
 	private String o_update="off"; //'运维模块-修改数据',
 	private String o_delete="off"; //'运维模块-删除数据',
@@ -48,8 +50,16 @@ public class UserPowerBean {
 	private String r_send_order="off";
 	private String r_recv_order="off";
 	
+	private String recv_work_contact="off";
 	
 	
+	
+	public String getO_check_add_asset() {
+		return o_check_add_asset;
+	}
+	public void setO_check_add_asset(String o_check_add_asset) {
+		this.o_check_add_asset = o_check_add_asset;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -249,6 +259,20 @@ public class UserPowerBean {
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
+	
+	public String getO_check_scrap_asset() {
+		return o_check_scrap_asset;
+	}
+	public void setO_check_scrap_asset(String o_check_scrap_asset) {
+		this.o_check_scrap_asset = o_check_scrap_asset;
+	}
+	
+	public String getRecv_work_contact() {
+		return recv_work_contact;
+	}
+	public void setRecv_work_contact(String recv_work_contact) {
+		this.recv_work_contact = recv_work_contact;
+	}
 	@Override
 	public String toString() {
 		return "UserPowerBean [roleId=" + roleId + ", userId=" + userId
@@ -257,12 +281,13 @@ public class UserPowerBean {
 				+ ", o_check_netoptimize=" + o_check_netoptimize
 				+ ", o_check_emergency=" + o_check_emergency
 				+ ", o_check_work=" + o_check_work + ", o_check_change="
-				+ o_check_change + ", o_add=" + o_add + ", o_update="
-				+ o_update + ", o_delete=" + o_delete + ", o_check_fault="
-				+ o_check_fault + ", o_check_duty=" + o_check_duty
-				+ ", o_check_inspection=" + o_check_inspection + ", o_order="
-				+ o_order + ", p_add=" + p_add + ", p_update=" + p_update
-				+ ", p_delete=" + p_delete + ", p_lock=" + p_lock
+				+ o_check_change + ", o_check_add_asset=" + o_check_add_asset
+				+ ", o_check_scrap_asset=" + o_check_scrap_asset + ", o_add="
+				+ o_add + ", o_update=" + o_update + ", o_delete=" + o_delete
+				+ ", o_check_fault=" + o_check_fault + ", o_check_duty="
+				+ o_check_duty + ", o_check_inspection=" + o_check_inspection
+				+ ", o_order=" + o_order + ", p_add=" + p_add + ", p_update="
+				+ p_update + ", p_delete=" + p_delete + ", p_lock=" + p_lock
 				+ ", p_power=" + p_power + ", b_add=" + b_add + ", b_update="
 				+ b_update + ", b_delete=" + b_delete + ", b_check_joinnet="
 				+ b_check_joinnet + ", b_check_quitnet=" + b_check_quitnet
@@ -271,7 +296,8 @@ public class UserPowerBean {
 				+ ", b_check_communicationsupport="
 				+ b_check_communicationsupport + ", b_check_lend="
 				+ b_check_lend + ", r_send_order=" + r_send_order
-				+ ", r_recv_order=" + r_recv_order + "]";
+				+ ", r_recv_order=" + r_recv_order + ", recv_work_contact="
+				+ recv_work_contact + "]";
 	}
 	
 	

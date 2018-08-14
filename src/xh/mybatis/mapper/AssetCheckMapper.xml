@@ -5,7 +5,9 @@
 	<select id="assetCheckList" parameterType="map" resultType="map"
 		useCache="true">
 		select * from xhgmnet_asset_check where 1=1
-		
+		<if test="roleType!=0 and power!='on'">
+		and account=#{user}
+		</if>
 		order by applyTime desc limit #{start},#{limit}
 	</select>
 
@@ -27,6 +29,10 @@
     <update id="checkTwo" parameterType="map">
      update xhgmnet_asset_check set status=2,time2=#{time2},note2=#{note2},fileName=#{fileName},
      filePath=#{filePath} where id=#{id}    
+    </update>
+	<!-- 审核核查结果-->
+    <update id="check3" parameterType="xh.mybatis.bean.AssetCheckBean">
+     update xhgmnet_asset_check set status=#{status},time3=#{time2},note3=#{note3} where id=#{id}    
     </update>
 
 

@@ -1,0 +1,140 @@
+<!-- 	添加基站 -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">添加设备</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="addForm" onSubmit="return false">
+					<div class="row">
+					    <div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>设备编号</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="serialNumber"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>资产类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="type" name="type" class="form-control">
+									<option value="1" selected="selected">交换控制中心（MSO）设备</option>
+									<option value="2">远端调度台设备</option>
+									<option value="3">基站设备</option>
+									<option value="4">用户台设备</option>
+									<option value="5">备件</option>
+									<option value="6">附件</option>
+									<option value="7">其他</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="name"
+									required="required">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>型号</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="model"
+									required="required">
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>来源</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="from" class="form-control" name="from">
+									<option value="1" selected="selected">采购</option>
+									<option value="2">赠送</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="number" value="" class="form-control" name="price" step="0.01"
+									required="required">
+							</div>
+						</div>
+
+					</div>
+					<!-- row-------end -->
+					<div class="row">
+						<div class="col-md-12">
+						<!-- 1:外借;2:报废;3:维修;4:在库;5:在用;6:待报废;7:遗失 -->
+							<div class="form-group col-md-12">
+								<label>资产状态</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="status" class="form-control" name="status">
+									<option value="2" selected="selected">报废</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label><input
+									type="text" value="" class="form-control" name="note">
+							</div>
+						</div>
+
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button"
+					class="btn btn-success btn-sm" id="add_btn">
+					<i class="fa fa-plus"></i>&nbsp;添加
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
+	});
+
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			price : {
+				validators : {
+					notEmpty : {
+						message : '类型不能为空'
+					},
+					regexp : {
+						regexp : /^[0-9.]+$/,
+						message : '只能输入整数和小数'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		$("#add_btn").button('loading')
+		xh.add();
+	});
+</script>
+<!-- 添加设备---end -->

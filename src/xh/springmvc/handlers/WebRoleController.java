@@ -55,6 +55,7 @@ public class WebRoleController {
 		Map<String,Object> paraMap = new HashMap<String,Object>();
 		paraMap.put("roleId", userbean.getRoleId());
 		paraMap.put("parentId", userbean.getParentId());
+		paraMap.put("roleType", userbean.getRoleType());
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals","");
@@ -353,6 +354,8 @@ public class WebRoleController {
 	public void setgrouppower(HttpServletRequest request, HttpServletResponse response){
 		String jsonData=request.getParameter("formData");
         UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
+        
+        System.out.println(bean);
       
         int rslt=0;
         if(WebRoleService.exists_role_power(bean.getRoleId())>0){

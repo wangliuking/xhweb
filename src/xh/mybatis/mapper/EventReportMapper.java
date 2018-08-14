@@ -14,7 +14,7 @@ public interface EventReportMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public ArrayList<Map<String,Object>> eventReportlist(Map<String,Object> map)throws Exception;
+	public ArrayList<EventReportBean> eventReportlist(Map<String,Object> map)throws Exception;
 	/**
 	 * 事件上报列表总数
 	 * @param map
@@ -37,6 +37,6 @@ public interface EventReportMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int signEventReport(int id)throws Exception;
+	public int signEventReport(Map<String,Object> modeMap)throws Exception;
 
 }

@@ -28,15 +28,12 @@ xh.load = function() {
 	
 	var pageSize = $("#page-limit").val();
 
-	app.filter('qualitystatus', function() { // 可以注入依赖
+	app.filter('dateFormat', function() { // 可以注入依赖
 		return function(text) {
-			if (text == 0) {
-				return "未签收";
-			} else if (text == 1) {
-				return "签收";
-			}
+			return xh.dateFormat(text);
 		};
 	});
+	
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
@@ -50,8 +47,9 @@ xh.load = function() {
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			console.log("loginuser="+$scope.loginUser);
 			$scope.loginUserRoleId = response.roleId;
+			$scope.loginUser=response;
+			
 		});
 		$http.get(
 				"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
@@ -81,6 +79,10 @@ xh.load = function() {
 			$("#detail").modal('show');
 			$scope.editData = $scope.data[id];
 		};
+		$scope.checkModel = function(id) {
+			$("#checkWin").modal('show');
+			$scope.checkData = $scope.data[id];
+		};
 		/*下载文件*/
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
@@ -94,31 +96,31 @@ xh.load = function() {
 			}
 		};
 		/*签收*/
-		$scope.sign=function(index){
-			var id=$scope.data[index].id;
+		$scope.sign=function(status){
+			var da=$scope.checkData;
 			$.ajax({
 				url : '../../eventReport/signEventReport',
 				type : 'POST',
 				dataType : "json",
 				async : true,
 				data:{
-					id:id,
-					recvUser:$scope.data[index].uploadUser
+					id:da.id,
+					recvUser:da.uploadUser,
+					status:status,
+					note:$("#checkForm").find("textarea[name='note']").val()
 				},
 				success : function(data) {
 
 					if (data.result ==1) {
 						xh.refresh();
 						toastr.success(data.message, '提示');
+						$("#checkWin").modal('hide')
 					} else {
-						swal({
-							title : "提示",
-							text : data.message,
-							type : "error"
-						});
+						toastr.error(data.message, '提示');
 					}
 				},
 				error : function() {
+					toastr.error("系统错误", '提示');
 				}
 			});
 			
@@ -264,3 +266,4 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+

@@ -8,8 +8,10 @@
     </insert>
     <!--查询邮件-->
     <select id="emailInfo" parameterType="map" resultType="java.util.HashMap" useCache="true">
-     select * from xhgmnet_notify where recvUser=#{loginUser}
-     order by time desc limit #{start},#{limit}
+     select a.*,b.userName from xhgmnet_notify as a
+     left join xhgmnet_web_user as b on a.sendUser=b.user
+     where a.recvUser=#{loginUser}
+     order by a.time desc limit #{start},#{limit}
     </select>  
     <!--邮件总数-->
     <select id="emailCount" parameterType="map"  resultType="int" useCache="true">

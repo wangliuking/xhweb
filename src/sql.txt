@@ -1,0 +1,213 @@
+######chart_call_hour_now 
+######获取当日话务统计
+BEGIN
+DECLARE mth CHAR(2);
+DECLARE tablename VARCHAR(50);
+DECLARE sqlstr VARCHAR(500);
+
+set @mth=month(CURRENT_DATE);
+TRUNCATE TABLE chart_call_hour_now;
+
+if(LENGTH(@mth)=1) THEN 
+set @tablename=CONCAT('xhgmnet_calllist','0',@mth);
+elseif(LENGTH(@mth)=2) THEN 
+set @tablename=CONCAT('xhgmnet_calllist',@mth);
+END IF;
+
+set @sqlstr=CONCAT('INSERT into chart_call_hour_now  select sum(Use_Time) as usetime,count(id) as num,DATE_FORMAT(Call_Time, "h-%H" ) AS date
+ from xhgmnet_gps_voice.',@tablename,' where
+			date_format(Call_Time,"%Y-%m-%d")=DATE_FORMAT(NOW(),"%Y-%m-%d") group by date order by date asc');
+
+PREPARE dd FROM @sqlstr;
+EXECUTE dd;
+
+END
+
+###### write_sf_alarm
+######将大数据分析告警写入告警列表
+BEGIN
+REPLACE into xhgmnet_operations_bsfault(bsId,reason,time,weekly,`from`,zbdldm) 
+select bsid,
+CONCAT("【",zbdlmc,"】( ",czzbmc," )",czzbfw,clcs) as reason,time,
+CASE DATE_FORMAT(time,"%w") 
+WHEN 0 THEN '星期日'
+WHEN 1 THEN '星期一'
+WHEN 2 THEN '星期二'
+WHEN 3 THEN '星期三'
+WHEN 4 THEN '星期四'
+WHEN 5 THEN '星期五'
+WHEN 6 THEN '星期六'
+ELSE '未知' END weekly,'数据分析',zbdldm from xhgmnet_sf_bs_alarm ;
+
+END
+
+###### 将基站话务统计写入月表
+BEGIN
+	REPLACE INTO chart_month_bstotal (
+	mscid,
+	bsid,
+	TotalActiveCalls,
+	TotalActiveCallDuration,
+	AverageCallDuration,
+	PTTCount,
+	QueueCount,
+	QueueDuration,
+	MaxUserRegCount,
+	MaxGroupRegCount,
+	starttime
+) SELECT
+	mscid,
+	CASE
+WHEN bsid > 1200 THEN
+	(bsid % 1000)
+ELSE
+	bsid
+END bsid,
+ sum(TotalActiveCalls) AS TotalActiveCalls,
+ sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+ round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+ sum(PTTCount) AS PTTCount,
+ sum(QueueCount) AS QueueCount,
+ sum(QueueDuration) AS QueueDuration,
+ max(MaxUserRegCount) AS MaxUserRegCount,
+ max(MaxGroupRegCount) AS MaxGroupRegCount,
+ DATE_FORMAT(starttime, '%Y-%m') AS starttime
+FROM
+	pef_newbstotal
+WHERE
+	DATE_FORMAT(starttime, '%Y-%m') = DATE_FORMAT(
+		DATE_SUB(NOW(), INTERVAL 1 MONTH),
+		'%Y-%m'
+	) and bsid>0 and (bsid<=200 OR bsid>1200)
+GROUP BY
+	bsid;
+
+END
+###### 将交换中心话务统计写入月表
+BEGIN
+	REPLACE into chart_month_msc(TotalActiveCall,TotalActiveCallDuration,AverageCallDuration,
+TotalCalls,TotalFailedCalls,NoEffectCalls,FailedPercentage,starttime,mscid,totalPTTs,
+totalQueueCount,totalQueueDuration,totalMaxReg,maxRegGroup,GroupCalls,
+GroupCallDuration,PrivateCalls,PrivateCallDuration,
+PhoneCalls,PhoneCallDuration,PrivateDuplexCalls,PrivateSimplexCalls)
+SELECT
+					sum(TotalActiveCall) AS TotalActiveCall,
+					sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+					round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+					sum(TotalCalls) AS TotalCalls,
+					sum(TotalFailedCalls) AS TotalFailedCalls,
+          sum(NoEffectCalls) AS NoEffectCalls,
+					sum(FailedPercentage) AS FailedPercentage,
+
+					DATE_FORMAT(starttime, '%Y-%m') AS starttime,
+          mscid,
+          sum(totalPTTs),
+          sum(totalQueueCount),
+          sum(totalQueueDuration),
+          max(totalMaxReg),max(maxRegGroup),
+	        sum(GroupCalls) AS GroupCalls,
+					sum(GroupCallDuration) AS GroupCallDuration,
+					sum(PrivateCalls) AS PrivateCalls,
+					sum(PrivateCallDuration) AS PrivateCallDuration,
+					sum(PhoneCalls) AS PhoneCalls,
+					sum(PhoneCallDuration) AS PhoneCallDuration,
+					sum(PrivateDuplexCalls) AS PrivateDuplexCalls,
+					sum(PrivateSimplexCalls) AS PrivateSimplexCalls
+				FROM
+					chart_day_msc
+				WHERE
+					DATE_FORMAT(starttime, '%Y-%m') = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 MONTH), '%Y-%m');
+
+END
+###### 将虚拟专网话务统计写入月表
+BEGIN
+	REPLACE INTO chart_month_vpntotal (
+	vpnid,
+	TotalActiveCalls,
+	TotalActiveCallDuration,
+	AverageCallDuration,
+	dexTotalCalls,
+	TotalFailedCalls,
+	FailedPercentage,
+	NoEffectCalls,
+	starttime
+) SELECT
+	vpnid,
+	sum(TotalActiveCalls) AS TotalActiveCalls,
+	sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+	round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+	sum(dexTotalCalls) AS dexTotalCalls,
+	sum(TotalFailedCalls) AS TotalFailedCalls,
+	FailedPercentage,
+	sum(NoEffectCalls) AS NoEffectCalls,
+	DATE_FORMAT(starttime, '%Y-%m') AS starttime
+FROM
+	pef_newvpntotal
+WHERE
+	DATE_FORMAT(starttime, '%Y-%m') =DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 MONTH),'%Y-%m') and vpnid>0
+GROUP BY
+	vpnid;
+
+END
+###### 将交换中心话务统计写入日表
+BEGIN
+REPLACE into chart_day_msc(TotalActiveCall,TotalActiveCallDuration,AverageCallDuration,
+TotalCalls,TotalFailedCalls,NoEffectCalls,FailedPercentage,starttime,mscid,totalPTTs,
+totalQueueCount,totalQueueDuration,totalMaxReg,maxRegGroup,GroupCalls,
+GroupCallDuration,PrivateCalls,PrivateCallDuration,
+PhoneCalls,PhoneCallDuration,PrivateDuplexCalls,PrivateSimplexCalls)
+
+	SELECT
+	x.*, y.*
+FROM
+	(
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					sum(TotalActiveCall) AS TotalActiveCall,
+					sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+					round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+					sum(TotalCalls) AS TotalCalls,
+					sum(TotalFailedCalls) AS TotalFailedCalls,
+          sum(NoEffectCalls) AS NoEffectCalls,
+					sum(FailedPercentage) AS FailedPercentage,
+					DATE_FORMAT(starttime, '%Y-%m-%d') AS starttime,
+          mscid,
+          sum(totalPTTs),
+          sum(totalQueueCount),
+          sum(totalQueueDuration),
+          max(totalMaxReg),max(maxRegGroup)
+				FROM
+					pef_newmsctotal
+				WHERE
+					DATE_FORMAT(starttime, '%Y-%m-%d') = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY), '%Y-%m-%d')
+			) AS a
+	) AS x,
+	(
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					sum(GroupCalls) AS GroupCalls,
+					sum(GroupCallDuration) AS GroupCallDuration,
+					sum(PrivateCalls) AS PrivateCalls,
+					sum(PrivateCallDuration) AS PrivateCallDuration,
+					sum(PhoneCalls) AS PhoneCalls,
+					sum(PhoneCallDuration) AS PhoneCallDuration,
+					sum(PrivateDuplexCalls) AS PrivateDuplexCalls,
+					sum(PrivateSimplexCalls) AS PrivateSimplexCalls
+				FROM
+					pef_newmscdetail
+				WHERE
+					DATE_FORMAT(starttime, '%Y-%m-%d') = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY), '%Y-%m-%d')
+			) AS b
+	) AS y;
+
+
+
+
+
+END

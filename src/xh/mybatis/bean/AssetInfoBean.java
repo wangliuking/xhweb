@@ -7,14 +7,34 @@ public class AssetInfoBean {
 	private String model;
 	private String serialNumber;
 	private String price;
-	private int number;
+	
+	private Float ratValue;
+	private int number=1;
 	private int from;
 	private int status;
 	private String note;
 	private String createTime;
+	private int isLock=0;
+	private String addUser;
+	private String checkTime;
+	private String checkResult;
+	private String checkUser;
+	
+	private  String applyTag;
+	
+	
 	
 	private int statusCount;
 	
+	
+	
+	
+	public String getApplyTag() {
+		return applyTag;
+	}
+	public void setApplyTag(String applyTag) {
+		this.applyTag = applyTag;
+	}
 	public int getId() {
 		return id;
 	}
@@ -88,13 +108,54 @@ public class AssetInfoBean {
 	public void setStatusCount(int statusCount) {
 		this.statusCount = statusCount;
 	}
+	
+	public Float getRatValue() {
+		return ratValue;
+	}
+	public void setRatValue(Float ratValue) {
+		this.ratValue = ratValue;
+	}
+	
+	public int getIsLock() {
+		return isLock;
+	}
+	public void setIsLock(int isLock) {
+		this.isLock = isLock;
+	}
+	public String getAddUser() {
+		return addUser;
+	}
+	public void setAddUser(String addUser) {
+		this.addUser = addUser;
+	}
+	public String getCheckTime() {
+		return checkTime;
+	}
+	public void setCheckTime(String checkTime) {
+		this.checkTime = checkTime;
+	}
+	public String getCheckResult() {
+		return checkResult;
+	}
+	public void setCheckResult(String checkResult) {
+		this.checkResult = checkResult;
+	}
+	public String getCheckUser() {
+		return checkUser;
+	}
+	public void setCheckUser(String checkUser) {
+		this.checkUser = checkUser;
+	}
 	@Override
 	public String toString() {
 		return "AssetInfoBean [id=" + id + ", type=" + type + ", name=" + name
 				+ ", model=" + model + ", serialNumber=" + serialNumber
-				+ ", price=" + price + ", number=" + number + ", from=" + from
-				+ ", status=" + status + ", note=" + note + ", createTime="
-				+ createTime + ", statusCount=" + statusCount + "]";
+				+ ", price=" + price + ", ratValue=" + ratValue + ", number="
+				+ number + ", from=" + from + ", status=" + status + ", note="
+				+ note + ", createTime=" + createTime + ", isLock=" + isLock
+				+ ", addUser=" + addUser + ", checkTime=" + checkTime
+				+ ", checkResult=" + checkResult + ", checkUser=" + checkUser
+				+ ", statusCount=" + statusCount + "]";
 	}
 	
 	

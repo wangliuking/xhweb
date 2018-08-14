@@ -208,10 +208,12 @@ public class BsStatusController {
 				bsId=bsId+1000;
 			}
 			Map<String, Object> map=new HashMap<String, Object>();
+			List<String> c=new ArrayList<String>();
+			c.add("0");
 			map.put("start", start);
 			map.put("limit", limit);
 			map.put("bsId", bsId);
-			map.put("alarmTg", 0);
+			map.put("alarmTag_value", c);
 			map.put("starttime", "");
 			map.put("endtime","");
 			
