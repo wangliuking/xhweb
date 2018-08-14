@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>优化整改</title>
+<title>核减流程</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -40,7 +40,7 @@
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
-							<li class="active"><span>优化整改</span></li>
+							<li class="active"><span>核减流程</span></li>
 						</ol>
 					</div>
 					<div class="btn-group pull-right">
@@ -60,13 +60,13 @@
 					<div class="hpanel">
 					<div class="panel-heading hbuilt">
 
-							<i class="fa fa-indent text-danger"></i>&nbsp;优化整改列表
+							<i class="fa fa-indent text-danger"></i>&nbsp;核减列表
 						</div>
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
 									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
-										<i class="fa fa-plus-circle"></i>&nbsp;优化整改
+										<i class="fa fa-plus-circle"></i>&nbsp;核减
 									</button>			
 									
 								</div>
@@ -90,17 +90,13 @@
 									<tr ng-repeat="x in data">
 										<td>{{x.unit1}}</td>
 										<td>{{x.userUnit}}</td>
-										<td>优化整改</td>
+										<td>基站核减</td>
 										<td>{{x.requestTime}}</td>
-										<td ng-if="x.checked==-2" class="td-danger">管理方负责人审批不通过</td>
-										<td ng-if="x.checked==-1" class="td-danger">运维负责人审核不通过</td>
-										<td ng-if="x.checked==0" class="td-warning">等待运维负责人审核优化整改申请表</td>
-										<td ng-if="x.checked==1" class="td-warning">运维负责人审核通过，可以对管理方负责人发起审批</td>
-										<td ng-if="x.checked==2" class="td-warning">等待管理方负责人审批优化整改方案</td>
-										<td ng-if="x.checked==3" class="td-warning">管理方负责人审批通过，可以对抢修组通知整改</td>
-										<td ng-if="x.checked==4" class="td-warning">已通知抢修组进行整改</td>
-										<td ng-if="x.checked==5" class="td-warning">抢修组整改中</td>
-										<td ng-if="x.checked==6" class="td-success">整改完成</td>
+										<td ng-if="x.checked==-1" class="td-danger">核减申请不通过</td>
+										<td ng-if="x.checked==0" class="td-warning">已发起核减申请</td>
+										<td ng-if="x.checked==1" class="td-warning">核减审核通过</td>
+										<td ng-if="x.checked==2" class="td-warning">已向管理方提交相关报告</td>
+										<td ng-if="x.checked==3" class="td-warning">核减完成</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -108,34 +104,25 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
+										<a ng-if="loginUserRoleType==3 && x.checked==-1"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新发起核减申请</a>
+
 										<a ng-if="loginUserRoleType==3 && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核整改申请表</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核核减申请</a>
 												
 									    <a ng-if="loginUserRoleType==3 && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方负责人发起审批</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方提交资料</a>
 										
 										<a ng-if="loginUserRoleType==3 && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审批优化整改方案</a>
-										
-										<a ng-if="loginUserRoleType==3 && x.checked==3"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知抢修组进行整改</a>
-
-										<a ng-if="loginUserRoleType==3 && x.checked==4"
-											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;抢修组开始整改</a>
-
-										<a ng-if="loginUserRoleType==3 && x.checked==5"
-											   href="#" ng-click="checkWin($index)"><i
-													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交整改报告</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;结束核减</a>
 
 										<a ng-if="loginUserRoleType==3"
-											   href="#" ng-click="sheetShow($index)">|<i
-													class="fa fa-send-o text-waring"></i>&nbsp;查看表格</a>
-										
+											   href="#" ng-click="sheetShow($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;查看表格</a>
 
 										</td>
 									</tr>
@@ -179,20 +166,20 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加 -->
-	<div ng-include="'optimizeChange-add.html'"></div>
+	<div ng-include="'checkCut-add.html'"></div>
 	<!-- 进度-->
-	<div ng-include="'optimizeChange-progress.html'"></div>
+	<div ng-include="'checkCut-progress.html'"></div>
 	<!-- 审核-->
-	<div ng-include="'optimizeChange-check.html'"></div>
+	<div ng-include="'checkCut-check.html'"></div>
 	<!-- 表格-->
-	<div ng-include="'optimizeChange-sheet.html'"></div>
+	<div ng-include="'checkCut-sheet.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/optimizeChange.js"></script>
+	<script type="text/javascript" src="../../Controllers/business/checkCut.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">

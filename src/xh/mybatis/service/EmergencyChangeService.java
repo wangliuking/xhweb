@@ -88,8 +88,9 @@ public class EmergencyChangeService {
         }
         return result;
     }
+
     /**
-     * 管理方审核
+     *
      * @param bean
      * @return
      */
@@ -99,6 +100,27 @@ public class EmergencyChangeService {
         int result=0;
         try {
             result=mapper.checkedOne(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    /**
+     *
+     * @param bean
+     * @return
+     */
+    public static int createEmergencyGroup(Map<String,Object> map){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        EmergencyChangeMapper mapper = sqlSession.getMapper(EmergencyChangeMapper.class);
+        int result=0;
+        try {
+            result=mapper.createEmergencyGroup(map);
             sqlSession.commit();
             result=1;
         } catch (Exception e) {

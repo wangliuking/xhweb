@@ -3,6 +3,7 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 import xh.mybatis.bean.OptimizeChangeBean;
+import xh.mybatis.bean.OptimizeChangeSheet;
 
 
 public interface OptimizeChangeMapper {
@@ -55,4 +56,8 @@ public interface OptimizeChangeMapper {
     public int checkedFive(OptimizeChangeBean bean)throws Exception;
 
     public int checkedSix(OptimizeChangeBean bean)throws Exception;
+
+    public OptimizeChangeSheet sheetShow(Map<String,Object> param)throws Exception;
+
+    public int sheetChange(OptimizeChangeSheet bean)throws  Exception;
 }

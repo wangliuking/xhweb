@@ -132,7 +132,7 @@
 		select userId,MAX(uploadTime) uploadTime from xhgmnet_app_location WHERE
 		userId in (
 		<foreach collection="list" item="item" index="index"
-			separator=",">
+				 separator=",">
 			#{item}
 		</foreach>
 		) GROUP BY userId) b on a.userId=b.userId and a.uploadTime=b.uploadTime

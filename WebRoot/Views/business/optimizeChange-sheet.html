@@ -1,0 +1,121 @@
+
+<div class="modal fade" id="sheet" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+			
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">优化整改记录表</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+		
+				<div class="order">
+					<form action="" onsubmit="false" id="optimizeChange-form">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;">
+							<tbody>
+								<tr>
+									<td colspan="6" style="text-align: center;">
+									系统升级记录表
+									<div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetData.id}}</div>
+									</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:10%;">时间</td>
+									<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="optimizeChangeTime"
+											 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">{{sheetData.optimizeChangeTime}}</div></td>
+									<td style="height:40px;width:10%;">基站(地点)</td>
+									<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="bsAddress">{{sheetData.bsAddress}}</div></td>
+								</tr>
+
+								<tr>
+									<td>类型</td>
+									<td colspan="5"><div contenteditable="true" name="progress">
+										<input  type="radio" name="optimizeChangeType" value="1" ng-checked="sheetData.optimizeChangeType=='1'">参数调整
+										<input  type="radio" name="optimizeChangeType" value="2" ng-checked="sheetData.optimizeChangeType=='2'">增减设备
+										<input  type="radio" name="optimizeChangeType" value="3" ng-checked="sheetData.optimizeChangeType=='3'">更换设备
+										<input  type="radio" name="optimizeChangeType" value="4" ng-checked="sheetData.optimizeChangeType=='4'">基站迁址
+										<input  type="radio" name="optimizeChangeType" value="5" ng-checked="sheetData.optimizeChangeType=='5'">基站整改
+									</div></td>
+								</tr>
+								<tr>
+									<td>优化整改原因</td>
+									<td colspan="5"><div contenteditable="true"
+											class="textarea-div" name="optimizeReason" >{{sheetData.optimizeReason}}</div></td>
+								</tr>
+								<tr>
+									<td>优化整改措施及结果</td>
+									<td colspan="5"><div contenteditable="true"
+											class="textarea-div" name="processAndResult" >{{sheetData.processAndResult}}</div></td>
+								</tr>
+								<tr>
+									<td>备注</td>
+									<td colspan="5"><div contenteditable="true"
+														 class="textarea-div" name="optimizeChangeNote" >{{sheetData.optimizeChangeNote}}</div></td>
+								</tr>
+								<tr>
+									<td>整改人员</td>
+									<td><div contenteditable="true" class="textarea-div" name="excPersion" >{{sheetData.excPersion}}</div></td>
+									<td>编号</td>
+									<td colspan="3"><div contenteditable="true" class="textarea-div" name="serialNumber" >{{sheetData.serialNumber}}</div></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm"
+					data-dismiss="modal" id="optimizeChange-btn">
+					<i class="fa fa-remove"></i>&nbsp;保存
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#optimizeChange-btn").click(function() {
+		$('#optimizeChange-form').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#optimizeChange-form').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			user : {
+				validators : {
+					notEmpty : {
+						message : '用户名不能为空'
+					}
+				}
+			},
+			roleId : {
+				validators : {
+					notEmpty : {
+						message : '角色不能为空'
+					}
+				}
+			},
+			userPass : {
+				validators : {
+					notEmpty : {
+						message : '密码不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		/* xh.add(); */
+		xh.sheetChange();
+	});
+</script>

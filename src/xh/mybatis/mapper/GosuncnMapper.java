@@ -95,14 +95,14 @@ public interface GosuncnMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,String>> selectByDevice()throws Exception;
+	public List<Map<String,String>> selectByDevice(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 查询不同级别的告警
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,String>> selectByAlarmLevel()throws Exception;
+	public List<Map<String,String>> selectByAlarmLevel(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 根据基站id查询摄像头IP(非简阳基站)

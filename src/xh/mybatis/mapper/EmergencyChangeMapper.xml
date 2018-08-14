@@ -46,31 +46,38 @@
     <!--运维负责人审核 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.EmergencyChangeBean">
         update xhgmnet_bs_emergencyChange set
-        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked},emergencyGroupId=#{emergencyGroupId} where id=#{id}
     </update>
+
+    <!-- 创建演练组 -->
+    <insert id="createEmergencyGroup" parameterType="map">
+        insert into xhgmnet_web_role(roleId,role,roleType,createTime) VALUES (#{roleId},#{role},#{roleType},#{createTime})
+    </insert>
 
     <!--运维负责人发起申请-->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.EmergencyChangeBean">
         update xhgmnet_bs_emergencyChange set
-        user3=#{user3},time3=#{time3},note3=#{note3},fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where id=#{id}
+        user3=#{user3},time3=#{time3},note3=#{note3},fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked},
+        prepareEmergencyGroupId=#{prepareEmergencyGroupId} where id=#{id}
     </update>
 
     <!--管理方审批-->
     <update id="checkedThree" parameterType="xh.mybatis.bean.EmergencyChangeBean">
         update xhgmnet_bs_emergencyChange set
-        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked},preparedEmergencyGroupId=#{preparedEmergencyGroupId} where id=#{id}
     </update>
 
     <!--运维负责人通知抢修组 -->
     <update id="checkedFour" parameterType="xh.mybatis.bean.EmergencyChangeBean">
         update xhgmnet_bs_emergencyChange set
-        user5=#{user5},time5=#{time5},note5=#{note5},fileName3=#{fileName3},filePath3=#{filePath3},checked=#{checked} where id=#{id}
+        user5=#{user5},time5=#{time5},note5=#{note5},fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where id=#{id}
     </update>
 
     <!--抢修组确认-->
     <update id="checkedFive" parameterType="xh.mybatis.bean.EmergencyChangeBean">
         update xhgmnet_bs_emergencyChange set
-        user6=#{user6},time6=#{time6},note6=#{note6},checked=#{checked} where id=#{id}
+        user6=#{user6},time6=#{time6},note6=#{note6},checked=#{checked},
+        fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}
     </update>
 
 </mapper>

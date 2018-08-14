@@ -59,7 +59,7 @@ xh.load = function() {
 		});
 		
 		/*获取申请记录表*/
-		$http.get("../../emergencyChange/selectAll?start=0&limit=" + pageSize).
+		$http.get("../../systemChange/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -100,6 +100,15 @@ xh.load = function() {
 		// 	var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
 		// 	$scope.dropnet=dropnet;
 		// };
+		$scope.sheetShow = function(id){
+            var temp = $scope.data[id];
+            var sheetId = temp.id;
+			$http.get("../../systemChange/sheetShow?id="+sheetId).success(function (response) {
+				$scope.sheetData = response.items;
+            });
+			$("#sheet").modal('show');
+		}
+
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -112,6 +121,18 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-5){
+                $("#checkWin-1").modal('show');
+            }
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-4){
+                $("#checkWin-4").modal('show');
+            }
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-2){
+                $("#checkWin-1").modal('show');
+            }
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-1){
+                $("#checkWin-1").modal('show');
+            }
 			if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
@@ -127,6 +148,12 @@ xh.load = function() {
 			if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==5){
+                $("#checkWin6").modal('show');
+            }
+            if($scope.loginUserRoleType==3 && $scope.checkData.checked==6){
+                $("#checkWin7").modal('show');
+            }
 
 	    };
 		/* 显示修改model */
@@ -215,7 +242,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emergencyChange/selectAll?start=0&limit=" + limit).
+			$http.get("../../systemChange/selectAll?start=0&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -237,7 +264,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../emergencyChange/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../systemChange/selectAll?start="+start+"&limit=" + limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -256,10 +283,44 @@ xh.load = function() {
 		};
 	});
 };
+
+/*修改系统升级表格*/
+xh.sheetChange = function() {
+    var bean={
+        "id":$("div[name='id']").text(),
+        systemChangeStartTime:$("div[name='systemChangeStartTime']").text(),
+        systemChangeExcTime:$("div[name='systemChangeExcTime']").text(),
+        systemChangeType:$("input[name='systemChangeType']:checked").val(),
+        versionOld:$("div[name='versionOld']").text(),
+        versionNew:$("div[name='versionNew']").text(),
+        solutionNewVersion:$("div[name='solutionNewVersion']").text(),
+        processAndResult:$("div[name='processAndResult']").text(),
+        systemChangeNote:$("div[name='systemChangeNote']").text(),
+        excPerson:$("div[name='excPerson']").text(),
+        supervisePersion:$("div[name='supervisePersion']").text(),
+        serialNumber:$("div[name='serialNumber']").text()
+    }
+    $.ajax({
+        url : '../../systemChange/sheetChange',
+        type : 'POST',
+        dataType : "json",
+        data : {"bean" : JSON.stringify(bean)},
+        success : function(data) {
+            $("#systemChange-btn").button('reset');
+            $('#sheet').modal('hide');
+            xh.refresh();
+            toastr.success(data.message, '提示');
+        },
+        error : function() {
+            $("#systemChange-btn").button('reset');
+        }
+    });
+};
+
 /*运维组发起请求审核*/
 xh.add = function() {
 	$.ajax({
-		url : '../../emergencyChange/insertemergencyChange',
+		url : '../../systemChange/insertSystemChange',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -283,7 +344,7 @@ xh.add = function() {
 
 xh.check1 = function() {
 	$.ajax({
-		url : '../../emergencyChange/checkedOne',
+		url : '../../systemChange/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -306,7 +367,7 @@ xh.check1 = function() {
 /*运维负责人发起审批*/
 xh.check2 = function() {
 	$.ajax({
-		url : '../../emergencyChange/checkedTwo',
+		url : '../../systemChange/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -330,7 +391,7 @@ xh.check2 = function() {
 /*管理方审批*/
 xh.check3 = function() {
 	$.ajax({
-		url : '../../emergencyChange/checkedThree',
+		url : '../../systemChange/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -352,7 +413,7 @@ xh.check3 = function() {
 /*通知抢修组进行整改*/
 xh.check4 = function() {
 	$.ajax({
-		url : '../../emergencyChange/checkedFour',
+		url : '../../systemChange/checkedFour',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -376,7 +437,7 @@ xh.check4 = function() {
 /*用户确认*/
 xh.check5 = function() {
 	$.ajax({
-		url : '../../emergencyChange/checkedFive',
+		url : '../../systemChange/checkedFive',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -396,8 +457,99 @@ xh.check5 = function() {
 		}
 	});
 };
+xh.check6 = function() {
+    $.ajax({
+        url : '../../systemChange/checkedSix',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm6").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin6').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+xh.check7 = function() {
+    $.ajax({
+        url : '../../systemChange/checkedSenven',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm7").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin7').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+xh.checkNegOne = function() {
+    $.ajax({
+        url : '../../systemChange/checkedNegOne',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm-1").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin-1').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+xh.checkNegFour = function() {
+    $.ajax({
+        url : '../../systemChange/checkedNegFour',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm-4").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin-4').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
 /* 上传文件 */
 xh.upload = function(index) {
+    if (index == -1) {
+        path = 'filePath-1';
+        note = 'uploadResult-1';
+    }
 	if (index == 1) {
 		path = 'filePath1';
 		note = 'uploadResult1';
@@ -420,7 +572,7 @@ xh.upload = function(index) {
 	}
 	xh.maskShow();
 	$.ajaxFileUpload({
-		url : '../../emergencyChange/upload', // 用于文件上传的服务器端请求地址
+		url : '../../systemChange/upload', // 用于文件上传的服务器端请求地址
 		secureuri : false, // 是否需要安全协议，一般设置为false
 		fileElementId : path, // 文件上传域的ID
 		dataType : 'json', // 返回值类型 一般设置为json
@@ -461,7 +613,7 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	var filepath = "/Resources/upload/emergencyChange/" + fileName;
+	var filepath = "/Resources/upload/systemChange/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	if(xh.isfile(filepath)){
 		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');

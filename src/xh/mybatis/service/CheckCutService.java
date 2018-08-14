@@ -1,11 +1,8 @@
 package xh.mybatis.service;
 
 import org.apache.ibatis.session.SqlSession;
-import xh.mybatis.bean.FaultBean;
-import xh.mybatis.bean.OptimizeChangeBean;
-import xh.mybatis.bean.OptimizeChangeSheet;
-import xh.mybatis.mapper.FaultMapper;
-import xh.mybatis.mapper.OptimizeChangeMapper;
+import xh.mybatis.bean.CheckCutBean;
+import xh.mybatis.mapper.CheckCutMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 import java.util.ArrayList;
@@ -16,15 +13,15 @@ import java.util.Map;
 /**
  * Created by Artorius on 28/09/2017.
  */
-public class OptimizeChangeService {
+public class CheckCutService {
     /**
      * 申请记录
      * @return
      */
-    public static List<OptimizeChangeBean> selectAll(Map<String, Object> map){
+    public static List<CheckCutBean> selectAll(Map<String, Object> map){
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
-        List<OptimizeChangeBean> list=new ArrayList<OptimizeChangeBean>();
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        List<CheckCutBean> list=new ArrayList<CheckCutBean>();
         try {
             list = mapper.selectAll(map);
             sqlSession.close();
@@ -41,7 +38,7 @@ public class OptimizeChangeService {
      */
     public static Map<String,Object> applyProgress(int id){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         Map<String,Object> map=new HashMap<String,Object>();
         try {
             map = mapper.applyProgress(id);
@@ -58,7 +55,7 @@ public class OptimizeChangeService {
      */
     public static int dataCount(Map<String, Object> map){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int count=0;
         try {
             count=mapper.dataCount(map);
@@ -69,17 +66,18 @@ public class OptimizeChangeService {
         }
         return count;
     }
+
     /**
      * 申请
      * @param bean
      * @return
      */
-    public static int insertOptimizeChange(OptimizeChangeBean bean){
+    public static int checkedNegOne(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
-            result=mapper.insertOptimizeChange(bean);
+            result=mapper.checkedNegOne(bean);
             sqlSession.commit();
             result=1;
         } catch (Exception e) {
@@ -90,14 +88,37 @@ public class OptimizeChangeService {
         }
         return result;
     }
+
     /**
-     * 管理方审核
+     * 申请
      * @param bean
      * @return
      */
-    public static int checkedOne(OptimizeChangeBean bean){
+    public static int insertCheckCut(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.insertCheckCut(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param bean
+     * @return
+     */
+    public static int checkedOne(CheckCutBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
             result=mapper.checkedOne(bean);
@@ -111,14 +132,15 @@ public class OptimizeChangeService {
         }
         return result;
     }
+
     /**
      *
      * @param bean
      * @return
      */
-    public static int checkedTwo(OptimizeChangeBean bean){
+    public static int checkedTwo(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
             result=mapper.checkedTwo(bean);
@@ -137,9 +159,9 @@ public class OptimizeChangeService {
      * @param bean
      * @return
      */
-    public static int checkedThree(OptimizeChangeBean bean){
+    public static int checkedThree(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
             result=mapper.checkedThree(bean);
@@ -158,9 +180,9 @@ public class OptimizeChangeService {
      * @param bean
      * @return
      */
-    public static int checkedFour(OptimizeChangeBean bean){
+    public static int checkedFour(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
             result=mapper.checkedFour(bean);
@@ -180,9 +202,9 @@ public class OptimizeChangeService {
      * @param bean
      * @return
      */
-    public static int checkedFive(OptimizeChangeBean bean){
+    public static int checkedFive(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
             result=mapper.checkedFive(bean);
@@ -196,56 +218,4 @@ public class OptimizeChangeService {
         }
         return result;
     }
-
-    /**
-     *
-     * @param bean
-     * @return
-     */
-    public static int checkedSix(OptimizeChangeBean bean){
-        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
-        int result=0;
-        try {
-            result=mapper.checkedSix(bean);
-            sqlSession.commit();
-            result=1;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }finally {
-            sqlSession.close();
-        }
-        return result;
-    }
-
-    public static OptimizeChangeSheet sheetShow(Map<String, Object> param) {
-        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
-        OptimizeChangeSheet bean = null;
-        try {
-            bean = mapper.sheetShow(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            sqlSession.close();
-        }
-        return bean;
-    }
-
-    public static int sheetChange(OptimizeChangeSheet bean){
-        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
-        int result = 0;
-        try {
-            result = mapper.sheetChange(bean);
-            sqlSession.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            sqlSession.close();
-        }
-        return result;
-    }
-
 }

@@ -1,18 +1,18 @@
 package xh.mybatis.mapper;
 
-import xh.mybatis.bean.EmergencyChangeBean;
+import xh.mybatis.bean.CheckCutBean;
 
 import java.util.List;
 import java.util.Map;
 
 
-public interface EmergencyChangeMapper {
+public interface CheckCutMapper {
     /**
      * 查询所有申请记录
      * @return
      * @throws Exception
      */
-    public List<EmergencyChangeBean> selectAll(Map<String, Object> map)throws Exception;
+    public List<CheckCutBean> selectAll(Map<String, Object> map)throws Exception;
 
     /**
      * 申请进度查询
@@ -33,33 +33,34 @@ public interface EmergencyChangeMapper {
      * @return
      * @throws Exception
      */
-    public int insertEmergencyChange(EmergencyChangeBean bean)throws Exception;
+    public int checkedNegOne(CheckCutBean bean)throws Exception;
+    /**
+     * 申请
+     * @param bean
+     * @return
+     * @throws Exception
+     */
+    public int insertCheckCut(CheckCutBean bean)throws Exception;
     /**
      *
      * @param bean
      * @return
      * @throws Exception
      */
-    public int checkedOne(EmergencyChangeBean bean)throws Exception;
+    public int checkedOne(CheckCutBean bean)throws Exception;
+
     /**
      *
      * @param bean
      * @return
      * @throws Exception
      */
-    public int createEmergencyGroup(Map<String,Object> map)throws Exception;
-    /**
-     *
-     * @param bean
-     * @return
-     * @throws Exception
-     */
-    public int checkedTwo(EmergencyChangeBean bean)throws Exception;
+    public int checkedTwo(CheckCutBean bean)throws Exception;
 
-    public int checkedThree(EmergencyChangeBean bean)throws Exception;
+    public int checkedThree(CheckCutBean bean)throws Exception;
 
-    public int checkedFour(EmergencyChangeBean bean)throws Exception;
+    public int checkedFour(CheckCutBean bean)throws Exception;
 
-    public int checkedFive(EmergencyChangeBean bean)throws Exception;
+    public int checkedFive(CheckCutBean bean)throws Exception;
 
 }
