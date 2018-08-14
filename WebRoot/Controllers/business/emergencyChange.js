@@ -281,7 +281,6 @@ xh.add = function() {
 	});
 };
 
-/*运维负责人审核请求*/
 xh.check1 = function() {
 	$.ajax({
 		url : '../../emergencyChange/checkedOne',
@@ -297,7 +296,7 @@ xh.check1 = function() {
 				toastr.success(data.message, '提示');
 
 			} else {
-				toastr.error(data.message, '提示');
+				toastr.error("创建失败", '提示');
 			}
 		},
 		error : function() {

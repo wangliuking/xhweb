@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.RadioUserMapper">
+
+	<!--查询所有无线用户 -->
+	<select id="allRadioUser" resultType="java.util.HashMap"
+		useCache="true">
+		select * from xhgmnet_radiouser
+	</select>
+	<!--根据无线用户ID判断用户是否存在 -->
+	<select id="radioUserIsExists" parameterType="int" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser where C_ID=#{id}
+	</select>
+	<!--根据无线用户ID，名称查找相关记录 -->
+	<select id="radiouserById" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_radiouser as a LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId 
+		LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
+		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
+			and C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="E_name !=null and E_name !=''">
+			and E_name like concat('%',#{E_name},'%')
+		</if>
+		order by C_ID limit #{start},#{limit}
+	</select>
+	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
+	<select id="radiouserCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser as a LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId 
+		LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and E_vpnId = #{vpnId}
+		</if>
+		<if test="C_ID!=null and C_ID!=''">
+			and C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="E_name!=null and E_name!=''">
+			and E_name like concat('%',#{E_name},'%')
+		</if>
+		<if test="vpnId!=null and vpnId!=''">
+		 and E_vpnId=#{vpnId}
+		</if>
+	</select>
+
+	<!--根据无线用户ID,查找用户信息 -->
+	<select id="selectByRadioUserId" parameterType="int" resultType="int"
+		useCache="true">
+		select
+		count(*) from xhgmnet_radiouser where C_ID=#{C_ID}
+	</select>
+
+	<!--增加无线用户 -->
+	<insert id="insertRadioUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.RadioUserBean">
+		insert into
+		xhgmnet_radiouser(C_ID,M_RadioUserAlias,M_SecurityGroup,M_EmergencyAlarmComments,M_InterconnectEnabled,M_PacketDataEnabled,
+		M_ShortDataEnabled,M_FullDuplexEnabled,M_ExtendedBandchannelscanbeassigned,M_RadioUserCapabilityProfileAlias,
+		M_RadioUserValidSitesProfileAlias,M_RadioUserInterconnectProfileAlias,M_UserEnabled,M_LogonRequired,M_AssignedIPAddress,
+		M_AccessPointName,M_AssignedRAG,M_ReadyTimer,M_ICMPEnabled,M_NetworkIngressFilteringEnabled,M_MultislotPacketDataEnabled,M_TalkgroupAlias,
+		M_EnableAmbienceListeningMonitoring,M_EnableAmbienceListeningInitiation,M_DirectDialNumber,M_PABXAccessEnabled,M_PSTNAccessEnabled,
+		M_QAMDataEnabled,M_StoreandForwardEnabled,E_name,E_alias,E_mscId,E_vpnId,E_sn,E_company,E_type,E_enabled,E_shortData,E_fullDuple,
+		E_radioType,E_anycall,E_saId,E_iaId,E_vaId,E_rutgId,E_ip,E_PrimaryTGId,E_ambienceMonitoring,E_packetData,E_ambienceInitiation,
+		E_directDial,E_PSTNAccess,E_pabxAccess,E_clir,E_clirOverride,E_killed,E_msType,E_status,pdtType,npType,
+		esn,subscriberClass,brdgFrdEnabled,authRequired,txPriority,serialNum,tei,id_JoinNet,time,userType)
+		values(#{C_ID}, '', '', '', 0, 0, 0, 0, 0, '', '', '', 0, 0, '', '', 0, 0, 0, 0, 0, '', 0, 0, '', 0, 0, 0, 0,
+		#{E_name},#{E_alias},#{E_mscId},#{E_vpnId},#{E_sn},#{E_company},#{E_type},#{E_enabled},#{E_shortData},#{E_fullDuple},
+		#{E_radioType},#{E_anycall},#{E_saId},#{E_iaId},#{E_vaId},#{E_rutgId},#{E_ip},#{E_PrimaryTGId},#{E_ambienceMonitoring},#{E_packetData},#{E_ambienceInitiation},
+		#{E_directDial},#{E_PSTNAccess},#{E_pabxAccess},#{E_clir},#{E_clirOverride},#{E_killed},#{E_msType},#{E_status},#{pdtType},#{npType},
+		#{esn},#{subscriberClass},#{brdgFrdEnabled},#{authRequired},#{txPriority},#{serialNum},#{tei},#{id_JoinNet},#{time},#{userType})
+	</insert>
+
+	<!--更新无线用户 -->
+	<update id="updateByRadioUserId" parameterType="java.util.Map">
+		update
+		xhgmnet_radiouser set E_name=#{E_name},E_alias=#{E_alias},E_mscId=#{E_mscId},E_vpnId=#{E_vpnId},E_sn=#{E_sn},E_company=#{E_company},E_type=#{E_type},
+		E_enabled=#{E_enabled},E_shortData=#{E_shortData},E_fullDuple=#{E_fullDuple},E_radioType=#{E_radioType},E_anycall=#{E_anycall},E_saId=#{E_saId},E_iaId=#{E_iaId},
+		E_vaId=#{E_vaId},E_rutgId=#{E_rutgId},E_ip=#{E_ip},E_PrimaryTGId=#{E_PrimaryTGId},E_ambienceMonitoring=#{E_ambienceMonitoring},E_packetData=#{E_packetData},
+		E_ambienceInitiation=#{E_ambienceInitiation},E_directDial=#{E_directDial},E_PSTNAccess=#{E_PSTNAccess},E_pabxAccess=#{E_pabxAccess},E_clir=#{E_clir},
+		E_clirOverride=#{E_clirOverride},E_killed=#{E_killed},E_msType=#{E_msType},E_status=#{E_status},saName=#{saName},iaName=#{iaName},pdtType=#{pdtType},npType=#{npType},
+		esn=#{esn},subscriberClass=#{subscriberClass},brdgFrdEnabled=#{brdgFrdEnabled},
+		authRequired=#{authRequired},txPriority=#{txPriority},serialNum=#{serialNum},tei=#{tei},userType=#{userType},time=#{time} where C_ID=#{C_ID}
+	</update>
+
+	<!--删除无线用户 -->
+	<delete id="deleteBsByRadioUserId" parameterType="java.util.List">
+		delete from xhgmnet_radiouser where C_ID in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	
+	<!-- 根据vpnId查询所有无线用户id -->
+	<select id="selectCIdByVpnId" parameterType="map" resultType="String"
+		useCache="true">
+		select C_ID from xhgmnet_radiouser where E_vpnId=#{vpnId}
+	</select>
+	
+	<!--根据虚拟专网vpnId，查找相关记录 -->
+	<select id="allByVpnId" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_radiouser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
+			and C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="E_name !=null and E_name !=''">
+			and E_name like concat('%',#{E_name},'%')
+		</if>
+		and E_vpnId=#{vpnId} limit #{start},#{limit}
+	</select>
+	<!--总数 -->
+	<select id="CountByVpnId" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId where 1=1
+		<if test="C_ID!=null and C_ID!=''">
+			and C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="E_name!=null and E_name!=''">
+			and E_name like concat('%',#{E_name},'%')
+		</if>
+		and E_vpnId=#{vpnId}
+	</select>
+
+
+</mapper>

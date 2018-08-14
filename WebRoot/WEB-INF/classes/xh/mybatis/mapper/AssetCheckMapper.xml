@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.AssetCheckMapper">
+
+	<select id="assetCheckList" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_asset_check where 1=1
+		
+		order by applyTime desc limit #{start},#{limit}
+	</select>
+
+	<select id="count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_asset_check
+	</select>
+	<!-- 申请核查资产-->
+	<insert id="apply" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.AssetCheckBean">
+		insert into xhgmnet_asset_check(person,tel,note,account,applyTime)
+		values(#{person},#{tel},#{note},#{account},#{applyTime})
+	</insert>
+	<!-- 管理部门领导审核 -->
+    <update id="checkOne" parameterType="map">
+     update xhgmnet_asset_check set status=#{status},user1=#{user1},time1=#{time1},note1=#{note1} where id=#{id}    
+    </update>
+	<!-- 资产管理员确认完成 -->
+    <update id="checkTwo" parameterType="map">
+     update xhgmnet_asset_check set status=2,time2=#{time2},note2=#{note2},fileName=#{fileName},
+     filePath=#{filePath} where id=#{id}    
+    </update>
+
+
+
+
+
+
+
+
+
+
+	<update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.Quality">
+		update xhgmnet_operations_quality
+		set fileName = #{filename,jdbcType=VARCHAR},
+		contact = #{contact,jdbcType=VARCHAR},
+		tel = #{tel,jdbcType=VARCHAR},
+		note = #{note,jdbcType=VARCHAR},
+		status = #{status,jdbcType=BIT},
+		filePath = #{filepath,jdbcType=VARCHAR},
+		uploadUser = #{uploaduser,jdbcType=VARCHAR},
+		recvUser = #{recvuser,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

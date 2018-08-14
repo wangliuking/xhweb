@@ -40,6 +40,9 @@ public class EmergencyChangeBean {
     private String filePath4;
     private int dropnet;
     private String tel;
+    private String emergencyGroupId;
+    private String prepareEmergencyGroupId;
+    private String preparedEmergencyGroupId;
 
     public int getId() {
         return id;
@@ -345,9 +348,33 @@ public class EmergencyChangeBean {
         this.tel = tel;
     }
 
+    public String getEmergencyGroupId() {
+        return emergencyGroupId;
+    }
+
+    public void setEmergencyGroupId(String emergencyGroupId) {
+        this.emergencyGroupId = emergencyGroupId;
+    }
+
+    public String getPrepareEmergencyGroupId() {
+        return prepareEmergencyGroupId;
+    }
+
+    public void setPrepareEmergencyGroupId(String prepareEmergencyGroupId) {
+        this.prepareEmergencyGroupId = prepareEmergencyGroupId;
+    }
+
+    public String getPreparedEmergencyGroupId() {
+        return preparedEmergencyGroupId;
+    }
+
+    public void setPreparedEmergencyGroupId(String preparedEmergencyGroupId) {
+        this.preparedEmergencyGroupId = preparedEmergencyGroupId;
+    }
+
     @Override
     public String toString() {
-        return "OptimizeChangeBean{" +
+        return "EmergencyChangeBean{" +
                 "id=" + id +
                 ", checked=" + checked +
                 ", userName='" + userName + '\'' +
@@ -386,6 +413,9 @@ public class EmergencyChangeBean {
                 ", filePath4='" + filePath4 + '\'' +
                 ", dropnet=" + dropnet +
                 ", tel='" + tel + '\'' +
+                ", emergencyGroupId='" + emergencyGroupId + '\'' +
+                ", prepareEmergencyGroupId='" + prepareEmergencyGroupId + '\'' +
+                ", preparedEmergencyGroupId='" + preparedEmergencyGroupId + '\'' +
                 '}';
     }
 }

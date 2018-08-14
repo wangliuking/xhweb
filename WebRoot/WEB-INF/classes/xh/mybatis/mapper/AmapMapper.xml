@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.AmapMapper">
+	<!--根据区域信息查询所有基站wlk -->
+	<select id="bsByBoth" resultType="java.util.HashMap"
+		parameterType="map" useCache="true">
+		select a.*,b.link as bsStatus,c.showStatus from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId left join xhgmnet_bs_gisView as c on a.bsId=c.bsId where userId=#{userId} and showStatus=1
+		<if test="level!=null and level.size()>0">
+		and a.level in (
+		<foreach collection="level" item="t" separator=",">
+			#{t}
+		</foreach>
+		)
+		</if>
+		<if test="zone!=null and zone.size()>0">
+		and a.zone in (
+		<foreach collection="zone" item="z" separator=",">
+			#{z}
+		</foreach>
+		)
+		</if>
+		group by a.bsId
+	</select>
+	
+	<!-- 查询单个基站的排队数 -->
+	<select id="selectNumTotalsByBsId" resultType="java.util.HashMap"
+		parameterType="String" useCache="true">
+		select bsId,sum(queuedAllocReq) as numtotals from xhgmnet_bs_channel_info where bsId=#{bsId}
+	</select>
+
+	<!--不规则区域圈选查询 -->
+	<select id="polyline" parameterType="map"
+		resultType="java.util.HashMap" useCache="true">
+		select a.*,b.link as bsStatus,c.queTotals,d.bsChannelNum,d.bsTxssiNum,e.showStatus from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
+		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as c on a.bsId=c.bsId LEFT JOIN 
+		(select *,COUNT(bsId) as bsChannelNum,COUNT(case when txssi!=0 then txssi end) as bsTxssiNum from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as d on a.bsId=d.bsId left join xhgmnet_bs_gisView as e on a.bsId=e.bsId where userId=#{userId} and showStatus=1
+		and a.bsId in
+		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+		group by a.bsId order by a.bsId asc limit #{start},#{limit}
+	</select>
+	<!--不规则区域圈选总数 -->
+	<select id="polylineCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_station as a left join xhgmnet_bs_gisView as b on a.bsId=b.bsId where userId=#{userId} and showStatus=1 and a.bsId in 
+		<foreach item="item" index="index" collection="groupData" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+	</select>
+	
+	<!--区域圈选查询 -->
+	<select id="rectangle" parameterType="map"
+		resultType="map" useCache="true">
+		select a.*,b.link as bsStatus,c.queTotals,d.bsChannelNum,d.bsTxssiNum,e.showStatus from xhgmnet_bs_station as a left join
+		xhgmnet_bsstatus as b on a.bsId=b.bsId LEFT JOIN 
+		(select bsId,SUM(queuedAllocReq) as queTotals from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as c on a.bsId=c.bsId LEFT JOIN 
+		(select *,COUNT(bsId) as bsChannelNum,COUNT(case when txssi!=0 then txssi end) as bsTxssiNum from xhgmnet_bs_channel_info GROUP BY bsId) 
+		as d on a.bsId=d.bsId left join xhgmnet_bs_gisView as e on a.bsId=e.bsId where userId=#{userId} and showStatus=1
+		and lng between #{smallLng} and #{bigLng} and lat
+		between #{smallLat} and #{bigLat}
+		GROUP BY a.bsId order by a.bsId asc limit #{start},#{limit}
+	</select>
+	<!--区域圈选总数 -->
+	<select id="rectangleCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_station as a left join xhgmnet_bs_gisView as b on a.bsId=b.bsId where userId=#{userId} and showStatus=1 and lng between
+		#{smallLng} and #{bigLng} and lat between #{smallLat} and #{bigLat}
+	</select>
+	
+	
+	<!-- 所有路测基站查询 -->
+	<select id="selectAllRoad" resultType="java.util.HashMap"
+		useCache="true">
+		select a.bsId,a.name from 
+		(select positionArea from xhgmnet_road_test01 GROUP BY positionArea) as b
+		LEFT JOIN xhgmnet_bs_station as a on a.bsId=b.positionArea
+	</select>
+	
+	<!-- 首页路测数据查询 -->
+	<select id="selectRoadById" resultType="java.util.HashMap"
+		parameterType="map" useCache="true">
+		select * from xhgmnet_road_test01 where positionArea in 
+		<foreach item="item" index="index" collection="bsIds" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+	</select>
+	
+	<!-- gis显示配置 -->
+	
+	<!-- 根据不同用户查询gisView显示表的数目，用于同bsstation比对 -->
+	<select id="gisViewCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_gisView where userId=#{userId}
+	</select>
+	
+	<!-- 删除该用户的所有显示基站 -->
+	<delete id="deleteByUserId" parameterType="map">
+		delete from xhgmnet_bs_gisView where userId=#{userId}
+	</delete>
+	
+	<!-- 为该用户添加默认显示所有基站 -->
+	<insert id="insertByUserId" parameterType="map">
+		insert into xhgmnet_bs_gisview (userId,bsId,name,level,zone) 
+		select #{userId} as userId,a.bsId,a.name,a.level,a.zone from xhgmnet_bs_station as a
+	</insert>
+	
+	<!-- 根据用户查询gisView -->
+	<select id="gisViewByUserId" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}
+	</select>
+	
+	<!-- 根据用户查询需要显示的基站 -->
+	<select id="gisViewByUserIdForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select a.*,b.link as bsStatus,c.lat,c.lng,c.status,c.type from xhgmnet_bs_gisView as a left join xhgmnet_bsstatus as b 
+		on a.bsId=b.bsId left join xhgmnet_bs_station as c on a.bsId=c.bsId where userId=#{userId}	and showStatus=1 GROUP BY a.bsId 
+	</select>
+	
+	<!-- 根据区域查询该用户的基站显示情况 -->
+	<select id="gisViewByUserIdAndZoneForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	and zone=#{zone}
+	</select>
+	
+	<!-- 根据级别查询该用户的基站显示情况 -->
+	<select id="gisViewByUserIdAndLevelForShow" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_bs_gisView where userId=#{userId}	and level=#{level}
+	</select>
+	
+	<!-- 根据用户和基站id更新显示的配置 -->
+	<update id="updateBatch" parameterType="map">
+        update xhgmnet_bs_gisView
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="showStatus = case" suffix="end,">
+                <foreach collection="listMap" item="item" index="index">
+                     <if test="item.showStatus !=null and item.showStatus != -1">
+                         when bsId=#{item.bsId} then #{item.showStatus}
+                     </if>
+                     <!-- <if test="item.showStatus == null or item.showStatus == -1">
+                         when bsId=#{item.bsId} then mydata_table.showStatus 原数据
+                     </if> -->
+                </foreach>
+            </trim>
+        </trim>
+        where userId=#{userId} and bsId in 
+		<foreach collection="listMap" index="index" item="item" separator="," open="(" close=")">
+            #{item.bsId}
+        </foreach>
+    </update>
+	
+</mapper>

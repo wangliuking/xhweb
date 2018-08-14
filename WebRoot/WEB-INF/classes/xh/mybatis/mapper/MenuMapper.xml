@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.MenuMapper">
+	<!-- 获取vpn菜单 -->
+	<select id="vpnMenu" parameterType="map" resultType="map" useCache="true">
+		select vpnId,pId,name from xhgmnet_vpn where pId=#{pId}
+		<if test="vpnId!=null and vpnId!=''">
+		and vpnId=#{vpnId}
+		</if>
+	</select>
+
+
+
+<!-- 菜单列表 -->
+	<select id="menuList" parameterType="int" resultType="map"
+		useCache="true">
+		select * from xhgmnet_web_role_menu where roleId=#{roleId}
+		 limit 100
+	</select>
+	<!-- 获取菜单子项 -->
+	<select id="menuExists" parameterType="map" resultType="int"
+		useCache="true">
+		select count(id) from xhgmnet_web_role_menu where roleId=#{roleId}
+	</select>
+	<select id="menuExistsByParentId" parameterType="map" resultType="int"
+		useCache="true">
+		select count(id) from xhgmnet_web_role_menu where roleId=#{parentId}
+	</select>
+	<!-- 获取菜单子项 -->
+	<select id="menuChild" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_web_role_menu where pId=#{pId} and roleId=#{roleId}
+		<if test="flag==1">
+		 and checked=1
+		</if>
+		order by id asc,morder asc limit 50
+	</select>
+	<!-- 新增菜单 -->
+	<insert id="addMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
+		select id, name, pId, url,target, icon,iconSkin, ${checkedstr}, morder from  xhgmnet_web_menu
+	</insert>
+		<!-- 新增菜单 -->
+	<insert id="addParentMenu" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		INSERT INTO xhgmnet_web_role_menu (id, name, pId, url,target, icon,iconSkin, checked, morder) 
+		select id, name, pId, url,target, icon,iconSkin, checked, morder from  xhgmnet_web_role_menu where roleId=#{parentId}
+	</insert>
+	<delete id="deleteMenu" parameterType="java.util.List">
+		delete from xhgmnet_web_role_menu where roleId in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<!-- 更新 -->
+   <!--  <update id="updateMenu" parameterType="map">     
+     update xhgmnet_web_role_menu set checked=#{checked} where id=#{id} and roleId=#{roleId}    
+    </update> -->
+     <update id="updateMenu" parameterType="map">     
+     update xhgmnet_web_role_menu set checked=#{checked} where roleId=#{roleId}   and id in(
+     <foreach collection="idlist" item="id" separator=",">
+			#{id}
+		</foreach>
+     )  
+    </update>
+    <!-- 更新 -->
+    <update id="updateMenuRoleId" parameterType="int">     
+     update xhgmnet_web_role_menu set roleId=#{roleId} where roleId=0  
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

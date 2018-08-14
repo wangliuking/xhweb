@@ -3,6 +3,7 @@ package xh.mybatis.service;
 import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.FaultBean;
 import xh.mybatis.bean.OptimizeChangeBean;
+import xh.mybatis.bean.OptimizeChangeSheet;
 import xh.mybatis.mapper.FaultMapper;
 import xh.mybatis.mapper.OptimizeChangeMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -217,4 +218,34 @@ public class OptimizeChangeService {
         }
         return result;
     }
+
+    public static OptimizeChangeSheet sheetShow(Map<String, Object> param) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        OptimizeChangeSheet bean = null;
+        try {
+            bean = mapper.sheetShow(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return bean;
+    }
+
+    public static int sheetChange(OptimizeChangeSheet bean){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        OptimizeChangeMapper mapper = sqlSession.getMapper(OptimizeChangeMapper.class);
+        int result = 0;
+        try {
+            result = mapper.sheetChange(bean);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
 }

@@ -343,7 +343,7 @@
 								<div class="col-md-4">
 									<div class="hpanel">
 										<div class="panel-heading hbuilt">
-											<span>传感器统计</span>
+											<span>当天告警传感器统计</span>
 										</div>
 										<div class="panel-body">
 											<div id="alarmPie" width="35%"></div>
@@ -398,7 +398,17 @@
 														<td>{{x.name}}</td>
 														<td>{{x.level}}</td>
 														<td>{{x.zone}}</td>
-														<td>{{x.deviceName}}</td>
+
+														<td ng-if="x.deviceId == '760300000000001'">FSU</td>
+														<td ng-if="x.deviceId == '080200000000001'">EPS</td>
+														<td ng-if="x.deviceId == '170100000000001'">温度</td>
+														<td ng-if="x.deviceId == '170200000000001'">湿度</td>
+														<td ng-if="x.deviceId == '170300000000001'">水浸</td>
+														<td ng-if="x.deviceId == '170400000000001'">烟感</td>
+														<td ng-if="x.deviceId == '170500000000001'">红外</td>
+														<td ng-if="x.deviceId == '170700000000001'">门磁</td>
+														<td ng-if="x.deviceId == '920100000000001'">电表</td>
+
 														<td ng-if="x.alarmId == '008001'">市电告警(中断或电压不正常)</td>
 														<td ng-if="x.alarmId != '008001'">{{x.alarmDesc}}</td>													
 														<td ng-if="x.alarmFlag=='BEGIN'"><span

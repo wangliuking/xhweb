@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+	<!-- poolMaximumActiveConnections：最大活动连接数（默认为10） poolMaximumIdleConnections：最大空闲连接数（默认为5） 
+		poolMaximumCheckoutTime：最大可回收时间，即当达到最大活动链接数时，此时如果有程序获取连接，则检查最先使用的连接，看其是否超出了该时间，如果超出了该时间，则可以回收该连接。（默认20s） 
+		poolTimeToWait：没有连接时，重尝试获取连接以及打印日志的时间间隔（默认20s） poolPingQuery:检查连接正确的语句，默认为"NO 
+		PING QUERY SET"，即没有，使用会导致抛异常 poolPingEnabled：是否开启ping检测，（默认：false） poolPingConnectionsNotUsedFor:设置ping检测时间间隔，通常用于检测超时连接（默认为0，即当开启检测后每次从连接词中获取连接以及放回连接池都需要检测） -->
+	<!-- 引入外部配置文件 -->
+	<properties resource="mysql.properties"></properties>
+	<settings>
+		<!-- 这个配置使全局的映射器启用或禁用缓存 -->
+		<setting name="cacheEnabled" value="true" />
+		<!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<!-- 配置默认的执行器。SIMPLE 执行器没有什么特别之处。REUSE 执行器重用预处理语句。BATCH 执行器重用语句和批量更新 -->
+		<setting name="defaultExecutorType" value="REUSE" />
+		<!-- 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载。 -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="aggressiveLazyLoading" value="true" />
+		<!-- <setting name="enhancementEnabled" value="true"/> -->
+		<!-- 设置超时时间，它决定驱动等待一个数据库响应的时间。 -->
+		<setting name="defaultStatementTimeout" value="50" />
+		<setting name="logImpl" value="LOG4J" />
+	</settings>
+
+<!-- 在任意时间存在的活动（也就是正在使用）连接的数量 -->  
+              <!--   <property name="poolMaximumActiveConnections" value="10" />  
+                任意时间存在的空闲连接数  
+                <property name="poolMaximumIdleConnections" value="5" />  
+                在被强制返回之前，池中连接被检查的时间  
+                <property name="poolMaximumCheckoutTime" value="20000" />  
+                这是给连接池一个打印日志状态机会的低层次设置，还有重新尝试获得连接，这些情况下往往需要很长时间（为了避免连接池没有配置时静默失败）  
+                <property name="poolTimeToWait" value="20000" />  
+                发送到数据的侦测查询，用来验证连接是否正常工作，并且准备接受请求。  
+                <property name="poolPingQuery" value="NO PING QUERY SET" />  
+                这是开启或禁用侦测查询。如果开启，你必须用一个合法的SQL语句（最好是很快速的）设置poolPingQuery属性  
+                <property name="poolPingEnabled" value="false" />  
+                这是用来配置poolPingQuery多次时间被用一次。这可以被设置匹配标准的数据库连接超时时间，来避免不必要的侦测  
+                <property name="poolPingConnectionsNotUsedFor" value="0" />  -->
+
+
+	<!-- 为JAVA Bean起类别名 -->
+	<typeAliases>
+		<!-- 别名方式1，一个一个的配置 type中放置的是类的全路径，alias中放置的是类别名 <typeAliase type="com.cy.mybatis.beans.UserBean" 
+			alias="UserBean"/> -->
+		<!-- 别名方式2，自动扫描，将JAVA类的类名作为类的类别名 -->
+		<package name="xh.mybatis.bean" />
+	</typeAliases>
+
+	<!-- 配置mybatis运行环境 -->
+	<environments default="master">
+		<!-- 主数据库 -->
+		<environment id="master">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.master.driver}" />
+				<property name="url" value="${xh.master.url}" />
+				<property name="username" value="${xh.master.username}" />
+				<property name="password" value="${xh.master.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+              <property name="poolPingEnabled" value="true" />
+              <property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+		<!-- 从数据库 -->
+		<environment id="slave">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.slave.driver}" />
+				<property name="url" value="${xh.slave.url}" />
+				<property name="username" value="${xh.slave.username}" />
+				<property name="password" value="${xh.slave.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+				<property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+		
+		<!-- 800m -->
+		<environment id="sf800M">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.sf800m.driver}" />
+				<property name="url" value="${xh.sf800m.url}" />
+				<property name="username" value="${xh.sf800m.username}" />
+				<property name="password" value="${xh.sf800m.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+				<property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+
+		<!-- gps语音主数据库 -->
+		<environment id="gps_voice_master">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.gps_voice_master.driver}" />
+				<property name="url" value="${xh.gps_voice_master.url}" />
+				<property name="username" value="${xh.gps_voice_master.username}" />
+				<property name="password" value="${xh.gps_voice_master.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+<property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+
+		<!-- gps语音从数据库 -->
+		<environment id="gps_voice_slave">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.gps_voice_slave.driver}" />
+				<property name="url" value="${xh.gps_voice_slave.url}" />
+				<property name="username" value="${xh.gps_voice_slave.username}" />
+				<property name="password" value="${xh.gps_voice_slave.password}" />
+				<property name="poolPingEnabled" value="true" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+		<!-- eastcom -->
+		<environment id="eastcom">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+
+			<!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+			<!-- POOLED 表示支持JDBC数据源连接池 -->
+			<!-- UNPOOLED 表示不支持数据源连接池 -->
+			<!-- JNDI 表示支持外部数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.eastcom.driver}" />
+				<property name="url" value="${xh.eastcom.url}" />
+				<property name="username" value="${xh.eastcom.username}" />
+				<property name="password" value="${xh.eastcom.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+
+		<!-- 动环监控 -->
+		<environment id="emh">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.emh.driver}" />
+				<property name="url" value="${xh.emh.url}" />
+				<property name="username" value="${xh.emh.username}" />
+				<property name="password" value="${xh.emh.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+
+		<!--mysql -->
+		<environment id="mysqlDb">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${xh.mysql.driver}" />
+				<property name="url" value="${xh.mysql.url}" />
+				<property name="username" value="${xh.mysql.username}" />
+				<property name="password" value="${xh.mysql.password}" />
+				<property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
+			</dataSource>
+		</environment>
+
+
+		<!--sql server -->
+		<environment id="sqlServer">
+			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${sqlserver.driver}" />
+				<property name="url" value="${sqlserver.url}" />
+				<property name="username" value="${sqlserver.username}" />
+				<property name="password" value="${sqlserver.password}" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<mappers>
+		<!-- 告知映射文件方式1，一个一个的配置 <mapper resource="com/cy/mybatis/mapper/UserMapper.xml"/> -->
+		<!-- 告知映射文件方式2，自动扫描包内的Mapper接口与配置文件 -->
+		<!-- <mapper namespace="com......Mapper"> <cache eviction="LRU" type="com.xfx.service.cache.redis.MybatisRedisCache" 
+			/> </mapper> -->
+		<package name="xh/mybatis/mapper" />
+	</mappers>
+
+
+</configuration>

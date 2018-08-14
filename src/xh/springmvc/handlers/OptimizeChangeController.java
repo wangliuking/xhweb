@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
@@ -93,6 +96,56 @@ public class OptimizeChangeController {
         }
 
     }
+
+    /**
+     * 显示系统升级表格
+     */
+    @RequestMapping(value="/sheetShow",method = RequestMethod.GET)
+    public void sheetShow(HttpServletRequest request,HttpServletResponse response){
+        this.success = true;
+        int id = Integer.parseInt(request.getParameter("id"));
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        HashMap result = new HashMap();
+        result.put("success",success);
+        result.put("items",OptimizeChangeService.sheetShow(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改系统升级表格
+     */
+    @RequestMapping(value = "/sheetChange",method = RequestMethod.POST)
+    @ResponseBody
+    public void sheetChange(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "bean") String beanStr){
+        //将json字符串转换成json对象
+        JSONObject jsonobject = JSONObject.fromObject(beanStr);
+        //将json对象转换成User实体对象
+        OptimizeChangeSheet bean = (OptimizeChangeSheet)JSONObject.toBean(jsonobject, OptimizeChangeSheet.class);
+        this.success = true;
+        int res = OptimizeChangeService.sheetChange(bean);
+        this.message = "保存成功";
+        HashMap result = new HashMap();
+        result.put("message",message);
+        result.put("success",success);
+        result.put("result",res);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 申请

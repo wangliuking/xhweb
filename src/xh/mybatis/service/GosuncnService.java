@@ -281,12 +281,12 @@ public class GosuncnService {
 	/**
 	 * 查询不同传感器的告警 
 	 */
-	public static List<Map<String, String>> selectByDevice(){
+	public static List<Map<String, String>> selectByDevice(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		List<Map<String, String>> result=null;
 		try {
-			result=mapper.selectByDevice();			
+			result=mapper.selectByDevice(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -298,12 +298,12 @@ public class GosuncnService {
 	/**
 	 * 查询不同级别的告警 
 	 */
-	public static List<Map<String, String>> selectByAlarmLevel(){
+	public static List<Map<String, String>> selectByAlarmLevel(Map<String,Object> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
 		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
 		List<Map<String, String>> result=null;
 		try {
-			result=mapper.selectByAlarmLevel();			
+			result=mapper.selectByAlarmLevel(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.JoinNetMapper">
+  <!-- redis缓存  LRU FIFO-->
+   <!-- <cache eviction="LRU" flushInterval="-1" size="1024" readOnly="true"  
+    type="xh.mybatis.tools.MybatisRedisCache"/> -->
+<!--    <cache eviction="FIFO" flushInterval="600000" size="1024"  
+        readOnly="true" />  -->
+	<!--查询入网申请所有记录 -->
+	<select id="selectAll" parameterType="map" resultType="java.util.HashMap">
+		select a.*
+		,DATE_FORMAT(a.netTime,'%Y-%m-%d') as nettime
+		,DATE_FORMAT(a.signTime,'%Y-%m-%d') as signtime
+		,DATE_FORMAT(a.serviceTime,'%Y-%m-%d') as servicetime
+		,b.unit as unit1
+		,b.unitType as unitType1
+		,b.userType as userType1
+		from xhgmnet_business_net as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
+		
+		<choose>
+		<when test="roleId &lt;10000"> and a.userName=#{user}</when>
+		<when test="roleId ==10002"> 
+		
+		<if test="power=='on'">
+		and a.checked>=1 
+		</if>
+		<if test="power!='on'">
+		and a.checked>=2  and a.user3=#{user}
+		</if>
+		
+		</when>
+		<when test="roleId ==10003">
+		and a.serviceType='有线接入' and a.checked>=8
+		</when>
+		</choose>
+
+		order by id desc limit #{start},#{limit}
+	</select>
+	<!--查询入网申请所有记录总数 -->
+	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
+		select count(id) from xhgmnet_business_net where 1=1
+		<choose>
+		<when test="roleId &lt;10000"> and userName=#{user}</when>
+		<when test="roleId ==10002"> 
+		
+		<if test="power=='on'">
+		and checked>=1 
+		</if>
+		<if test="power!='on'">
+		and checked>=2  and user3=#{user}
+		</if>
+		
+		</when>
+		<when test="roleId ==10003">
+		and serviceType='有线接入' and checked>=8
+		</when>
+		</choose>
+	</select>
+	<!--查询最新一条有线接入ID -->
+	<select id="YXMAXID" resultType="int" useCache="true">
+		SELECT max(id) ID FROM `xhgmnet_business_net` where serviceType='有线接入';
+	</select>
+	<!--查询该入网流程所添加的用户C_ID -->
+	<select id="getUserCIDByID" parameterType="int" resultType="int" useCache="true">
+		SELECT C_ID FROM `xhgmnet_radiouser` where id_JoinNet=#{id};
+	</select>
+	<!--查询入网申请进度 -->
+	<select id="applyProgress" parameterType="int" resultType="map"
+		useCache="true">
+		select * from xhgmnet_business_net where id=#{id}
+	</select>
+	<!--入网申请 -->
+	<insert id="insertNet" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.JoinNetBean">
+		insert into
+		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2,apply3)
+		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2},#{apply3})
+	</insert>
+	<!--导入编程模板 -->
+	<insert id="insertProgramingTemplate" useGeneratedKeys="true" keyProperty="id"
+		parameterType="map" >
+		insert into
+		xhgmnet_business_net_programingTemplate(id_JoinNet,fileName,filePath,insertTime)
+		values(#{id_JoinNet},#{fileName},#{filePath},#{insertTime})
+	</insert>
+	<!--主管部门审核 -->
+	<update id="checkedOne" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		user1=#{user1},time1=#{time1},note1=#{note1},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--管理方审核 -->
+	<update id="checkedTwo" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		user2=#{user2},time2=#{time2},note2=#{note2},
+		user3=#{user3},checked=#{checked} where id=#{id}
+	</update>
+	<!--领导通知经办人上传资源配置方案-->
+	<update id="checked100" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		user3=#{user3},time4=#{time4},note3=#{note3},
+		checked=#{checked} where id=#{id}
+	</update>
+	<!--上传编组方案 -->
+	<update id="uploadFile" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName=#{fileName},filePath=#{filePath},
+		time3=#{time3},note3=#{note3},user4=#{user4},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--经办人上传资源配置文件 -->
+	<update id="uploadFile4" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName=#{fileName},filePath=#{filePath},
+		time5=#{time5},note4=#{note4},checked=#{checked} where
+		id=#{id}
+	</update>	
+	<!--管理方评估技术方案 -->
+	<update id="uploadFile100" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set time2=#{time2}, fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked},user2=#{user2},note2_suggest=#{note2_suggest} where
+		id=#{id}
+	</update>
+	<!--上传公函 -->
+	<update id="uploadFileGh" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_GH=#{fileNameGH},filePath_GH=#{filePathGH},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--上传通知函 -->
+	<update id="uploadFileNote" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_Note=#{fileNameNote},filePath_Note=#{filePathNote},checked=#{checked},user2=#{user2},note2_suggest=#{note2_suggest} where
+		id=#{id}
+	</update>
+	<!--上传合同 -->
+	<update id="uploadFileHT" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_HT=#{fileNameHT},filePath_HT=#{filePathHT},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--生成模板 -->
+	<update id="uploadFileDoc" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_Doc=#{fileNameDoc},filePath_Doc=#{filePathDoc},checked=6 where
+		id=#{id}
+	</update>
+	<!--审核编组方案 -->
+	<update id="checkFile" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time4=#{time4},note4=#{note4},note5=#{note5},checked=#{checked} where id=#{id}
+	</update>
+	<!--领导审核资源配置方案 -->
+	<update id="checkFile5" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time6=#{time6},note5=#{note5},checked=#{checked} where id=#{id}
+	</update>
+	<!--用户确认资源配置方案 -->
+	<update id="checkFile7" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time7=#{time7},checked=#{checked} where id=#{id}
+	</update>		
+	<!--用户确认编组方案 -->
+	<update id="sureFile" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time5=#{time5},checked=#{checked},note5=#{note5} where id=#{id}
+	</update>
+	<!--审核样机入网送检申请（合同附件） -->
+	<update id="sureHT" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		time6=#{time6},checked=#{checked},note6=#{note6} where id=#{id}
+	</update>
+	<!--上传采购设备信息 -->
+	<update id="uploadFileCG" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set fileName_CG=#{fileNameCG},filePath_CG=#{filePathCG},time7=#{time7}, checked=8 where
+		id=#{id}
+	</update>
+	<!--经办人交付终端 -->	
+	<update id="updateCheck10" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time8=#{time8} where id=#{id}
+	</update>	
+	<!--用户确认接收终端 -->	
+	<update id="updateCheck11" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time9=#{time9} where id=#{id}
+	</update>
+	<!--经办人通知培训完成 -->	
+	<update id="updateCheck12" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time10=#{time10} where id=#{id}
+	</update>
+	<!--用户确认培训是否完成 -->	
+	<update id="updateCheck13" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time11=#{time11} where id=#{id}
+	</update>	
+	<!--更新流程 -->
+	<update id="updateCheckById" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked} where id=#{id}
+	</update>
+	<!--有线-主管部门审核 -->
+	<update id="YXcheckedOne" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set checked=#{checked},time3=#{time3},note2=#{note2} where id=#{id}
+	</update>
+	<!--有线-应用接入 -->
+	<update id="applicationAccess" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set user4=#{user4}, result=#{result},note6=#{note6},checked=#{checked} where id=#{id}
+	</update>
+	<!--通知服务提供方开始应用接入 -->
+	<update id="applicationAccess8" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set user4=#{user4}, result=#{result},note6=#{note6},time8=#{time8},checked=#{checked} where id=#{id}
+	</update>
+	<!--服务提供方完成应用接入 -->
+	<update id="applicationAccess9" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set note7=#{note7},time9=#{time9},checked=#{checked} where id=#{id}
+	</update>
+	<!--管理方审核应用接入 -->
+	<update id="applicationAccess10" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set note8=#{note8},time10=#{time10},checked=#{checked} where id=#{id}
+	</update>
+	<!--通知培训-->
+	<update id="training" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		pxTime=#{pxTime},pxAddress=#{pxAddress},pxNumOfPeople=#{pxNumOfPeople} where id=#{id}
+	</update>
+	<!--根据UserName更改整体check状态-->
+	<update id="quitNet" parameterType="xh.mybatis.bean.JoinNetBean">
+		update xhgmnet_business_net set
+		checked=#{checked} where userName=#{userName}
+	</update>
+
+</mapper>

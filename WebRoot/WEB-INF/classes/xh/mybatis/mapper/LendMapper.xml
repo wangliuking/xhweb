@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.LendMapper">
+
+	<select id="lendlist" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		SELECT a.*,b.status as num FROM xhgmnet_business_lend as a
+		left join
+		(select count(status) as status,lendId from xhgmnet_business_lend_info
+		where status=3 group by lendId) as b
+		on a.id=b.lendId where 1=1
+		<choose>
+			<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003">
+				and a.user=#{user}
+			</when>
+			<when test="roleId ==10002">
+				<if test="power=='on'">
+					and a.checked>=-10
+				</if>
+				<if test="power!='on'">
+					and a.user2=#{user}
+				</if>
+			</when>
+
+		</choose>
+		order by a.time desc limit #{start},#{limit}
+	</select>
+	<!--租借申请总数 -->
+	<select id="lendlistCount" resultType="int" useCache="true">
+		select count(*) from xhgmnet_business_lend where 1=1
+		<choose>
+			<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003"> and user=#{user}</when>
+			<when test="roleId ==10002">
+				<if test="power=='on'">
+					and checked>=0
+				</if>
+				<if test="power!='on'">
+					and checked>=1 and user2=#{user}
+				</if>
+			</when>
+
+		</choose>
+	</select>
+	<!--租借 -->
+	<insert id="lend" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.LendBean">
+		insert into
+		xhgmnet_business_lend(name,tel,zone,reason,user,note,time,backTime,checked,requirementDes)
+		values(#{name},#{tel},#{zone},#{reason},#{user},#{note},#{time},#{backTime},#{checked},#{requirementDes})
+	</insert>
+	<!--管理方审核 -->
+	<update id="checkedOne" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		user1=#{user1},user2=#{user2},time1=#{time1},note1=#{note1},checked=#{checked}
+		where id=#{id}
+	</update>
+	<!--提交至领导审核租借清单 -->
+	<update id="checkedSend" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		user2=#{user2},time2=#{time2},checked=#{checked} where id=#{id}
+	</update>
+	<!--领导审核租借清单 -->
+	<update id="checkedOrder" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		time3=#{time3},checked=#{checked},note2=#{note2} where
+		id=#{id}
+	</update>
+	<!--用户确认租借清单 -->
+	<update id="sureOrder" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		time4=#{time4},checked=#{checked} where
+		id=#{id}
+		<!-- update xhgmnet_business_lend set time4=#{time4},checked=#{checked} 
+			where id=#{id} -->
+	</update>
+	<!--更新租借清单状态 -->
+	<update id="updateOrderList" parameterType="map">
+		update
+		xhgmnet_business_lend_info set status=#{status} where lendId=#{id}
+	</update>
+	<!--用户完全归还设备 -->
+	<update id="returnFinish" parameterType="xh.mybatis.bean.LendBean">
+		update
+		xhgmnet_business_lend set
+		time5=#{time5},checked=#{checked} where
+		id=#{id}
+	</update>
+	<!--判断设备清单是否存在该设备 -->
+	<select id="isExtisSerialNumberInfo" resultType="int"
+		parameterType="map" useCache="true">
+		select count(*) from
+		xhgmnet_business_lend_info
+		where serialNumber=#{serialNumber} and
+		lendId=#{lendId}
+	</select>
+	<!--添加设备清单 -->
+	<insert id="addOrder" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into
+		xhgmnet_business_lend_info(lendId,type,name,model,serialNumber,status)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.lendId},#{item.type},#{item.name},#{item.model},
+			#{item.serialNumber},-1)
+		</foreach>
+	</insert>
+	<!--设备借出 -->
+	<update id="updateAssetStatus1" parameterType="java.util.List">
+		update xhgmnet_business_assetinfo set
+		status=1 where serialNumber in(
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item.serialNumber}
+		</foreach>
+		)
+	</update>
+	<!--更改设备状态 -->
+	<update id="updateAssetStatusBySerialNumber" parameterType="map">
+		update xhgmnet_business_assetinfo set
+		status=#{status} where
+		serialNumber=#{serialNumber}
+	</update>
+	<!--更改流程状态 -->
+	<update id="updateStatusBySerialNumber" parameterType="map">
+		update
+		xhgmnet_business_lend set
+		status=#{status} where
+		serialNumber=#{serialNumber}
+	</update>
+	<!--更改流程状态 -->
+	<update id="updateStatusByLendID" parameterType="map">
+		update
+		xhgmnet_business_lend_info set
+		status=#{status} where lendId=#{lendId}
+	</update>
+	<!--删除租借列表项 -->
+	<delete id="deleteLendOrderE" parameterType="map">
+		delete from
+		xhgmnet_business_lend_info where lendId=#{lendId} and
+		serialNumber=#{serialNumber}
+	</delete>
+	<!--审核归还借设备清单 -->
+	<update id="returnEquipment" parameterType="map">
+		update xhgmnet_business_lend_info set
+		status=#{status},returnTime=#{returnTime} where lendId=#{lendId} and
+		serialNumber in
+		<foreach collection="checkIds" index="index" item="serialNumber"
+			open="(" separator="," close=")">
+			#{serialNumber}
+		</foreach>
+	</update>
+	<!--审核归还借设备清单 -->
+	<update id="updateAssetStatusBySerialNumberList" parameterType="map">
+		update xhgmnet_business_assetinfo set
+		status=#{status} where
+		serialNumber in
+		<foreach collection="checkIds" index="index" item="serialNumber"
+			open="(" separator="," close=")">
+			#{serialNumber}
+		</foreach>
+	</update>
+	<!--审核/归还/验收 -->
+	<update id="operation" parameterType="map">
+		update xhgmnet_business_lend_info set
+		status=#{status} where
+		lendId=#{lendId} and
+		serialNumber in
+		<foreach collection="checkIds" index="index" item="serialNumber"
+			open="(" separator="," close=")">
+			#{serialNumber}
+		</foreach>
+	</update>
+	<!--查询是否完全归还 -->
+	<select id="checkReturnOrderCount" parameterType="map"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		`xhgmnet_business_lend_info`
+		WHERE
+		lendId = #{lendId}
+		AND `status` = 0;
+	</select>
+	<!--查询待审核 归还借设备清单 -->
+	<select id="checkLendOrderCount" resultType="java.util.HashMap">
+		select a.id as
+		cid,count(a.id) as number from xhgmnet_business_lend as a LEFT JOIN
+		xhgmnet_business_lend_info as b on a.id = b.lendId where b.`status`=2
+		group by a.id
+	</select>
+	<!--租借清单列表 -->
+	<select id="lendInfoList" resultType="java.util.HashMap"
+		parameterType="map" useCache="true">
+		select * from xhgmnet_business_lend_info where 1=1
+		<if test="lendId !=null and lendId !='' and lendId !=0">
+			and lendId=#{lendId}
+		</if>
+		<if test="status !=null and status !='' and status !=0">
+			and status=#{status}
+		</if>
+		order by type asc
+	</select>
+</mapper>

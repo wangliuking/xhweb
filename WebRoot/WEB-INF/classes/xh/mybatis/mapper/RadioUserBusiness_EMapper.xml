@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.RadioUserBusiness_EMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.RadioUserBusiness_E" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ssId" property="ssid" jdbcType="INTEGER" />
+    <result column="ssName" property="ssname" jdbcType="VARCHAR" />
+    <result column="dispatchPriority" property="dispatchpriority" jdbcType="INTEGER" />
+    <result column="PCEEnabled" property="pceenabled" jdbcType="INTEGER" />
+    <result column="TGEnabled" property="tgenabled" jdbcType="INTEGER" />
+    <result column="MGEnabled" property="mgenabled" jdbcType="INTEGER" />
+    <result column="MGEmergencyEnabled" property="mgemergencyenabled" jdbcType="INTEGER" />
+    <result column="dispatchPreempt" property="dispatchpreempt" jdbcType="INTEGER" />
+    <result column="allSitesAllowed" property="allsitesallowed" jdbcType="INTEGER" />
+    <result column="calledPreempt" property="calledpreempt" jdbcType="INTEGER" />
+    <result column="userGroup" property="usergroup" jdbcType="INTEGER" />
+    <result column="emergIndCallEnabled" property="emergindcallenabled" jdbcType="INTEGER" />
+    <result column="emergGroupCallEnabled" property="emerggroupcallenabled" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+	<select id="ById" parameterType="map" resultMap="BaseResultMap"
+		useCache="true">
+		select * from xhgmnet_radiouser_e_businessattribute where 1=1
+		<if test="id !=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser_e_businessattribute where 1=1
+		<if test="id!=null and id !=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name!=null and name!=''">
+			and name like concat('%',#{name},'%')
+		</if>
+	</select>
+	
+	<!--增加 -->
+	<insert id="insert" parameterType="java.util.Map">
+		insert into
+		xhgmnet_radiouser_e_businessattribute(id,name,ssId,ssName,dispatchPriority,PCEEnabled,TGEnabled,MGEnabled,MGEmergencyEnabled,dispatchPreempt,
+		allSitesAllowed,calledPreempt,userGroup,emergIndCallEnabled,emergGroupCallEnabled)
+		values(#{id},#{name},#{ssid},#{ssname},#{dispatchpriority},#{pceenabled},#{tgenabled},#{mgenabled},#{mgemergencyenabled},#{dispatchpreempt},
+		#{allsitesallowed},#{calledpreempt},#{usergroup},#{emergindcallenabled},#{emerggroupcallenabled})
+	</insert>
+
+	<!--更新 -->
+	<update id="update" parameterType="java.util.Map">
+		update
+		xhgmnet_radiouser_e_businessattribute set name=#{name},ssId=#{ssid},ssName=#{ssname},dispatchPriority=#{dispatchpriority},PCEEnabled=#{pceenabled},
+		TGEnabled=#{tgenabled},MGEnabled=#{mgenabled},MGEmergencyEnabled=#{mgemergencyenabled},dispatchPreempt=#{dispatchpreempt},allSitesAllowed=#{allsitesallowed},
+		calledPreempt=#{calledpreempt},userGroup=#{usergroup},emergIndCallEnabled=#{emergindcallenabled},emergGroupCallEnabled=#{emerggroupcallenabled} where id=#{id} 
+	</update>
+
+	<!--删除-->
+	<delete id="delete" parameterType="java.util.List">
+		delete from xhgmnet_radiouser_e_businessattribute where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+  
+</mapper>

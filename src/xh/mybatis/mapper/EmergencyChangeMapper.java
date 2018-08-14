@@ -47,6 +47,13 @@ public interface EmergencyChangeMapper {
      * @return
      * @throws Exception
      */
+    public int createEmergencyGroup(Map<String,Object> map)throws Exception;
+    /**
+     *
+     * @param bean
+     * @return
+     * @throws Exception
+     */
     public int checkedTwo(EmergencyChangeBean bean)throws Exception;
 
     public int checkedThree(EmergencyChangeBean bean)throws Exception;

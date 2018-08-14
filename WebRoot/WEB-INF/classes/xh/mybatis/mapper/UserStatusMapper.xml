@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.UserStatusMapper">
+    <!--终端状态-->
+    <select id="userstatus" parameterType="map" resultType="java.util.HashMap" useCache="true">
+     select a.*,b.name,c.E_name as userName,d.E_name as groupName from xhgmnet_operations_userstatus a 
+     left join xhgmnet_bs_station as b on a.bsId=b.bsId 
+     left join xhgmnet_radiouser as c on a.userId=c.C_ID
+     left join xhgmnet_talkgroup as d on a.TGid=d.TalkgroupID
+     
+     
+     where 1=1 and a.bsId>0
+     <if test="userId !=null and userId !=''">
+         and a.userId=#{userId}
+     </if>
+     <if test="regStatus==0">
+         and (a.regStatus=0 or a.regStatus=4)
+     </if>
+     <if test="regStatus==1">
+         and (a.regStatus=1 or a.regStatus=2 or a.regStatus=3)
+     </if>
+     <if test="vpnId!=null and vpnId!=''">
+		 and a.userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+	 </if>
+     order by a.userId asc limit #{start},#{limit}
+    </select>  
+    <!--终端状态数量-->
+    <select id="userstatusCount" parameterType="map" resultType="int" useCache="true">
+     select count(userId) from xhgmnet_operations_userstatus where 1=1 and bsId>0
+     <if test="userId !=null and userId !=''">
+         and userId=#{userId}
+     </if>
+     <if test="regStatus==0">
+         and (regStatus=0 or regStatus=4)
+     </if>
+     <if test="regStatus==1">
+         and (regStatus=1 or regStatus=2 or regStatus=3)
+     </if>
+      <if test="vpnId!=null and vpnId!=''">
+		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+	 </if>
+    </select> 
+    <!--终端在线状态统计 -->
+	<select id="userStatusByChart" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select regStatus as name,count(userId) as value from xhgmnet_operations_userstatus where bsId>0
+		<if test="vpnId!=null and vpnId!=''">
+		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+	   </if>
+		group by regStatus order by regStatus asc 
+	</select> 
+	<!--终端在线统计 -->
+	<select id="userOnline" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_userstatus where bsId>0 and regStatus in(1,2,3)
+		and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser)
+		<if test="vpnId!=null and vpnId!=''">
+		 and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+		</if>
+	</select> 
+
+</mapper>

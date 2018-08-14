@@ -128,10 +128,13 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;抢修组开始整改</a>
 
-											<a ng-if="loginUserRoleType==3 && x.checked==5"
+										<a ng-if="loginUserRoleType==3 && x.checked==5"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交整改报告</a>
-											
+
+										<a ng-if="loginUserRoleType==3"
+											   href="#" ng-click="sheetShow($index)">|<i
+													class="fa fa-send-o text-waring"></i>&nbsp;查看表格</a>
 										
 
 										</td>
@@ -181,6 +184,8 @@
 	<div ng-include="'optimizeChange-progress.html'"></div>
 	<!-- 审核-->
 	<div ng-include="'optimizeChange-check.html'"></div>
+	<!-- 表格-->
+	<div ng-include="'optimizeChange-sheet.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

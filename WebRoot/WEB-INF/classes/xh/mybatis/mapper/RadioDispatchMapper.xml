@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.RadioDispatchMapper" >
+  <resultMap id="BaseResultMap" type="xh.mybatis.bean.RadioDispatch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+    <result column="mscId" property="mscid" jdbcType="INTEGER" />
+    <result column="vpnId" property="vpnid" jdbcType="BIGINT" />
+    <result column="userType" property="usertype" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="vaid" property="vaid" jdbcType="INTEGER" />
+    <result column="said" property="said" jdbcType="INTEGER" />
+    <result column="masterId" property="masterid" jdbcType="INTEGER" />
+    <result column="fullDuple" property="fullduple" jdbcType="INTEGER" />
+    <result column="ambienceInitiation" property="ambienceinitiation" jdbcType="INTEGER" />
+    <result column="clir" property="clir" jdbcType="INTEGER" />
+    <result column="clirOverride" property="cliroverride" jdbcType="INTEGER" />
+    <result column="saName" property="saname" jdbcType="VARCHAR" />
+    <result column="supervisorStatus" property="supervisorstatus" jdbcType="INTEGER" />
+    <result column="dispatcherType" property="dispatchertype" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="dispatchNum" property="dispatchnum" jdbcType="INTEGER" />
+    <result column="dialString" property="dialstring" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <select id="ById" parameterType="map" resultType="map"
+		useCache="true">
+		select a.*,b.`name` as mscName,c.`name` as vpnName from xhgmnet_dispatchuser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and a.vpnId = #{vpnId}
+		</if>
+		<if test="id !=null and id !='' and id !=0">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name !=null and name !=''">
+			and a.name like concat('%',#{name},'%')
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="Count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_dispatchuser as a 
+		LEFT JOIN xhgmnet_msclist as b on a.mscId=b.mscId LEFT JOIN xhgmnet_vpn as c on a.vpnId=c.vpnId where 1=1
+		<if test="vpnId !=null and vpnId !=''">
+			and a.vpnId = #{vpnId}
+		</if>
+		<if test="id!=null and id!=''">
+			and id like concat('%',#{id},'%')
+		</if>
+		<if test="name!=null and name!=''">
+			and a.name like concat('%',#{name},'%')
+		</if>
+	</select>
+  
+  <sql id="Base_Column_List" >
+    id, name, alias, mscId, vpnId, userType, password, vaid, said, masterId, fullDuple, 
+    ambienceInitiation, clir, clirOverride, saName, supervisorStatus, dispatcherType, 
+    code, dispatchNum, dialString, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from xhgmnet_dispatchuser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from xhgmnet_dispatchuser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xh.mybatis.bean.RadioDispatch" >
+    insert into xhgmnet_dispatchuser (id, name, alias, 
+      mscId, vpnId, userType, 
+      password, vaid, said, 
+      masterId, fullDuple, ambienceInitiation, 
+      clir, clirOverride, saName, 
+      supervisorStatus, dispatcherType, code, 
+      dispatchNum, dialString, time
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{mscid,jdbcType=INTEGER}, #{vpnid,jdbcType=BIGINT}, #{usertype,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{vaid,jdbcType=INTEGER}, #{said,jdbcType=INTEGER}, 
+      #{masterid,jdbcType=INTEGER}, #{fullduple,jdbcType=INTEGER}, #{ambienceinitiation,jdbcType=INTEGER}, 
+      #{clir,jdbcType=INTEGER}, #{cliroverride,jdbcType=INTEGER}, #{saname,jdbcType=VARCHAR}, 
+      #{supervisorstatus,jdbcType=INTEGER}, #{dispatchertype,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, 
+      #{dispatchnum,jdbcType=INTEGER}, #{dialstring,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="xh.mybatis.bean.RadioDispatch" >
+    insert into xhgmnet_dispatchuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="mscid != null" >
+        mscId,
+      </if>
+      <if test="vpnid != null" >
+        vpnId,
+      </if>
+      <if test="usertype != null" >
+        userType,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="vaid != null" >
+        vaid,
+      </if>
+      <if test="said != null" >
+        said,
+      </if>
+      <if test="masterid != null" >
+        masterId,
+      </if>
+      <if test="fullduple != null" >
+        fullDuple,
+      </if>
+      <if test="ambienceinitiation != null" >
+        ambienceInitiation,
+      </if>
+      <if test="clir != null" >
+        clir,
+      </if>
+      <if test="cliroverride != null" >
+        clirOverride,
+      </if>
+      <if test="saname != null" >
+        saName,
+      </if>
+      <if test="supervisorstatus != null" >
+        supervisorStatus,
+      </if>
+      <if test="dispatchertype != null" >
+        dispatcherType,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="dispatchnum != null" >
+        dispatchNum,
+      </if>
+      <if test="dialstring != null" >
+        dialString,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="mscid != null" >
+        #{mscid,jdbcType=INTEGER},
+      </if>
+      <if test="vpnid != null" >
+        #{vpnid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="vaid != null" >
+        #{vaid,jdbcType=INTEGER},
+      </if>
+      <if test="said != null" >
+        #{said,jdbcType=INTEGER},
+      </if>
+      <if test="masterid != null" >
+        #{masterid,jdbcType=INTEGER},
+      </if>
+      <if test="fullduple != null" >
+        #{fullduple,jdbcType=INTEGER},
+      </if>
+      <if test="ambienceinitiation != null" >
+        #{ambienceinitiation,jdbcType=INTEGER},
+      </if>
+      <if test="clir != null" >
+        #{clir,jdbcType=INTEGER},
+      </if>
+      <if test="cliroverride != null" >
+        #{cliroverride,jdbcType=INTEGER},
+      </if>
+      <if test="saname != null" >
+        #{saname,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorstatus != null" >
+        #{supervisorstatus,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchertype != null" >
+        #{dispatchertype,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchnum != null" >
+        #{dispatchnum,jdbcType=INTEGER},
+      </if>
+      <if test="dialstring != null" >
+        #{dialstring,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xh.mybatis.bean.RadioDispatch" >
+    update xhgmnet_dispatchuser
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="mscid != null" >
+        mscId = #{mscid,jdbcType=INTEGER},
+      </if>
+      <if test="vpnid != null" >
+        vpnId = #{vpnid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        userType = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="vaid != null" >
+        vaid = #{vaid,jdbcType=INTEGER},
+      </if>
+      <if test="said != null" >
+        said = #{said,jdbcType=INTEGER},
+      </if>
+      <if test="masterid != null" >
+        masterId = #{masterid,jdbcType=INTEGER},
+      </if>
+      <if test="fullduple != null" >
+        fullDuple = #{fullduple,jdbcType=INTEGER},
+      </if>
+      <if test="ambienceinitiation != null" >
+        ambienceInitiation = #{ambienceinitiation,jdbcType=INTEGER},
+      </if>
+      <if test="clir != null" >
+        clir = #{clir,jdbcType=INTEGER},
+      </if>
+      <if test="cliroverride != null" >
+        clirOverride = #{cliroverride,jdbcType=INTEGER},
+      </if>
+      <if test="saname != null" >
+        saName = #{saname,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorstatus != null" >
+        supervisorStatus = #{supervisorstatus,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchertype != null" >
+        dispatcherType = #{dispatchertype,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchnum != null" >
+        dispatchNum = #{dispatchnum,jdbcType=INTEGER},
+      </if>
+      <if test="dialstring != null" >
+        dialString = #{dialstring,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xh.mybatis.bean.RadioDispatch" >
+    update xhgmnet_dispatchuser
+    set name = #{name,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      mscId = #{mscid,jdbcType=INTEGER},
+      vpnId = #{vpnid,jdbcType=BIGINT},
+      userType = #{usertype,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      vaid = #{vaid,jdbcType=INTEGER},
+      said = #{said,jdbcType=INTEGER},
+      masterId = #{masterid,jdbcType=INTEGER},
+      fullDuple = #{fullduple,jdbcType=INTEGER},
+      ambienceInitiation = #{ambienceinitiation,jdbcType=INTEGER},
+      clir = #{clir,jdbcType=INTEGER},
+      clirOverride = #{cliroverride,jdbcType=INTEGER},
+      saName = #{saname,jdbcType=VARCHAR},
+      supervisorStatus = #{supervisorstatus,jdbcType=INTEGER},
+      dispatcherType = #{dispatchertype,jdbcType=INTEGER},
+      code = #{code,jdbcType=INTEGER},
+      dispatchNum = #{dispatchnum,jdbcType=INTEGER},
+      dialString = #{dialstring,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

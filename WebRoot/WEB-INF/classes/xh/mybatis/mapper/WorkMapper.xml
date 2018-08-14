@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.WorkMapper">
+
+	<select id="worklist" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_operations_work where 1=1
+		<if test="fileName !=null and fileName !=''">
+			and fileName like concat('%',#{fileName},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+		<if test="power=='off'">
+		    and uploadUser=#{loginuser} 
+		</if>
+		
+		order by id asc limit #{start},#{limit}
+	</select>
+
+	<select id="count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_work where 1=1
+		<if test="fileName !=null and fileName !=''">
+			and fileName like concat('%',#{fileName},'%')
+		</if>
+		<if test="contact !=null and contact !=''">
+			and contact like concat('%',#{contact},'%')
+		</if>
+		<if test="status !=null and status !='' and status !=2">
+			and status=#{status}
+		</if>
+		<if test="power=='off'">
+		    and uploadUser=#{loginuser} 
+		</if>
+	</select>
+	<!-- 新增工作记录 -->
+	<insert id="addwork" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.WorkBean">
+		insert into xhgmnet_operations_work(fileName,contact,tel,note,status,filePath,uploadUser,createtime)
+		values(#{fileName},#{contact},#{tel},#{note},#{status},#{filePath},#{uploadUser},#{createtime})
+	</insert>
+	<!-- 签收工作记录 -->
+    <update id="signWork" parameterType="xh.mybatis.bean.WorkBean">
+     update xhgmnet_operations_work set status=1,signTime=#{signTime} where id=#{id}    
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

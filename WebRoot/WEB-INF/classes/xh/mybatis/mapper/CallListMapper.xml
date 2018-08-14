@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.CallListMapper">
+
+	<!--查询呼叫记录name like concat(#{name},'%') -->
+	<select id="selectCallList" parameterType="map" resultType="map"
+		useCache="true">
+
+		select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller, Called,
+		Call_Type,
+		Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result, Call_Path
+		from ${dbname1} where 1=1
+		<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
+		<if test="caller != null and caller !=''">
+			and Caller like concat(#{caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and Called like concat(#{called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+		<if test="dbname2!=''">
+			union all
+
+			select id, Call_Time, Call_id, Call_sys_id, Use_Time, Caller,
+			Called,
+			Call_Type,
+			Call_TS_Id, Call_BS_BS, Call_RSSI, Call_Result,
+			Call_Path from ${dbname2} where
+			1=1
+			<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
+			<if test="caller != null and caller !=''">
+				and Caller like concat(#{caller},'%')
+			</if>
+			<if test="called!=null and called !=''">
+				and Called like concat(#{called},'%')
+			</if>
+			<if test="starttime!=null and starttime!=''">
+				and Call_Time &gt;=#{starttime,jdbcType=DATE}
+			</if>
+			<if test="endtime!=null and endtime!=''">
+				and Call_Time &lt;=#{endtime,jdbcType=DATE}
+			</if>
+
+
+		</if>
+		<if test="vpnId!=null and vpnId!=''">
+		 and Caller in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+		</if>
+
+		order by Call_Time desc limit #{start},#{limit}
+	</select>
+	<!--查询呼叫记录总数 -->
+	<select id="CallListCount" parameterType="map" resultType="int"
+		useCache="true">
+
+		select sum(num) from(
+		select count(*) as num from ${dbname1} where 1=1
+		<if test="vpnId!=null and vpnId!=''">
+		 and Caller in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+		</if>
+		<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
+		<if test="caller != null and caller !=''">
+			and Caller like concat(#{caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and Called like concat(#{called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+		
+		<if test="dbname2=''">
+		) as tb
+		</if>
+
+
+
+		<if test="dbname2!=''">
+			union all
+			select count(*) as num from ${dbname1} where 1=1
+			<if test="bsId!=null and bsId!=''">
+		and Call_TS_Id=#{bsId}
+		</if>
+			<if test="caller != null and caller !=''">
+				and Caller like concat(#{Caller},'%')
+			</if>
+			<if test="called!=null and called !=''">
+				and Called like concat(#{Called},'%')
+			</if>
+			<if test="starttime!=null and starttime!=''">
+				and Call_Time &gt;=#{starttime,jdbcType=DATE}
+			</if>
+			<if test="endtime!=null and endtime!=''">
+				and Call_Time &lt;=#{endtime,jdbcType=DATE}
+			</if>
+			) as tb
+		</if>
+
+		
+
+
+	</select>
+	<!-- 话务统计分析 -->
+	<select id="callChart" parameterType="map" resultType="map"
+		useCache="true">
+		<if test="type=='day'">
+			select sum(Use_Time) as usetime,count(id) as num,
+			DATE_FORMAT(Call_Time, 'd-%d' ) AS
+			date from ${dbname} where 1=1
+		</if>
+		<if test="type=='hour'">
+			select sum(Use_Time) as usetime,count(id) as num
+			,DATE_FORMAT(Call_Time, 'h-%H' ) AS date
+			from ${dbname} where
+			date_format(Call_Time,'%Y-%m-%d')=#{time}
+		</if>
+		<if test="bsId!=0">
+			and Call_TS_Id=#{bsId}
+		</if>
+		<if test="vpnId!=null and vpnId!=''">
+		 and Caller in (select C_ID  from xhgmnet.xhgmnet_radiouser where E_vpnId=#{vpnId})
+		</if>
+		group by date order by date asc
+	</select>
+
+	<!-- 今日话务统计分析 -->
+	<select id="chart_call_hour_now"  resultType="map"
+		useCache="true">
+		select * from chart_call_hour_now
+	</select>
+
+
+
+
+</mapper>

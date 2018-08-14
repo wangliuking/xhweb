@@ -90,13 +90,13 @@
 									<tr ng-repeat="x in data">
 										<td>{{x.unit1}}</td>
 										<td>{{x.userUnit}}</td>
-										<td>优化整改</td>
+										<td>应急演练</td>
 										<td>{{x.requestTime}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">演练不通过，需重新开启演练</td>
 										<td ng-if="x.checked==0" class="td-warning">已上传应急处置流程</td>
 										<td ng-if="x.checked==1" class="td-warning">已创建演练组，可以组织通信演练</td>
 										<td ng-if="x.checked==2" class="td-warning">已通知演练组，演练准备中</td>
-										<td ng-if="x.checked==3" class="td-warning">演练结束，等待提交工作总结</td>
+										<td ng-if="x.checked==3" class="td-warning">演练进行中</td>
 										<td ng-if="x.checked==4" class="td-warning">已提交工作总结，可以对管理方发起报告</td>
 										<td ng-if="x.checked==5" class="td-warning">演练结束</td>
 										<td style="text-align:center">

@@ -51,7 +51,7 @@ xh.load = function() {
 					}
 				}
 				$scope.emhData4 = emhData4;
-				console.log(emhData3);
+
 				$scope.emhData4Num = emhData4.length;
 			});
 		}
@@ -104,14 +104,14 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.emhData4 = response.items;
-			console.log(response.items.length);
+
 		});
 		//3期环控通断情况
 		$http.get("../../gonsuncn/selectFor3EMH").
 		success(function(response){
 			xh.maskHide();
 			$scope.emhData3 = response.items;
-			console.log(response.items);
+
 		});*/
 		
 		//三期告警
@@ -243,7 +243,7 @@ xh.load = function() {
 		
 		/*下拉框改变时触发函数*/
 		$scope.change = function(x){
-		    console.log(x);
+
 		};
 		
 		/* 查询数据 */
@@ -351,6 +351,9 @@ xh.load = function() {
 	
 };
 
+var deviceName = {"760300000000001":"FSU","080200000000001":"EPS","170100000000001":"温度","170200000000001":"湿度","170300000000001":"水浸",
+"170400000000001":"烟感","170500000000001":"红外","170700000000001":"门磁","920100000000001":"电表"}
+
 /* 传感器统计图 */
 xh.loadPieDev = function() {
 	// 设置容器宽高
@@ -437,11 +440,11 @@ xh.loadPieDev = function() {
 				var legendData = [];
 				var seriesData = [];
 				for(var i=0;i<tempData.length;i++){
-					legendData.push(tempData[i].deviceName);
-					var tempMap = {value:tempData[i].alarmNum, name:tempData[i].deviceName};
+					var deviceId = tempData[i].deviceId;
+					legendData.push(deviceName[''+deviceId+'']);
+					var tempMap = {value:tempData[i].alarmNum, name:deviceName[''+deviceId+'']};
 					seriesData.push(tempMap);
 				};
-				console.log(legendData);
 				
 				option.legend.data=legendData;
 				option.series[0].data=seriesData;

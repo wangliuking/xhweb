@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.BsAlarmMapper">
+
+
+<!-- 自定义返回结果集 -->
+   <resultMap id="BsAlarmMap" type="xh.mybatis.bean.BsAlarmBean">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="bsId" column="bsId" javaType="java.lang.Integer"></result>
+		<result property="bsName" column="name" javaType="java.lang.String"></result>
+		<result property="alarmSource" column="source" javaType="java.lang.String"></result>
+        <result property="alarmLevel" column="level" javaType="java.lang.Integer"></result>
+        <result property="alarmType" column="type" javaType="java.lang.Integer"></result>
+        <result property="content" column="content" javaType="java.lang.String"></result>
+        <result property="alarmReason" column="reason" javaType="java.lang.Integer"></result>
+    </resultMap>
+    <!-- 实时添加基站断站记录 -->
+    <insert id="addBsFault" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
+     insert into xhgmnet_operations_bsfault(bsId, weekly, time,reason)values(#{bsId},#{weekly},#{time},#{reason})
+    </insert>
+    <update id="bsRestore" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
+     update xhgmnet_operations_bsfault set faultRecoveryTime=#{faultRecoveryTime},faultTimeTotal=#{faultTimeTotal} where bsId=#{bsId} and time=#{time}
+    </update>
+    <!-- 判断基站断站记录是否存在 -->
+    <select id="bsFaultIsHave" resultType="int" parameterType="int" >
+    select count(*) from xhgmnet_operations_bsfault where bsId=#{bsId}
+    </select>
+    <!-- 四期交流电列表 -->
+    <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
+    select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
+    left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+    where deviceId = "080200000000001" and singleId = "008001"
+    </select>
+    <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
+    select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 
+    where  fsuId=#{fsuId} and (singleId = "008304" or singleId = "008334" or singleId = "008408" or singleId = "008315")
+    </select>
+    <!-- 四期水浸列表 -->
+    <select id="bs_water_four" resultType="xh.mybatis.bean.BsJiFourBean" >
+    select a.fsuId,a.deviceId,a.updateTime,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
+    left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+    where deviceId = "170300000000001" and singleId = "017001"
+    </select>
+    <select id="bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean"  resultType="int" >
+    select count(*) from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId}
+    </select>
+	<insert id="write_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
+		replace into xhgmnet_emh_eps_status(bsId,name,
+		fsuId,deviceId,updateTime,description
+		)
+		values(#{bsId},#{name},
+			#{fsuId},
+			#{deviceId},
+			#{updateTime},
+			#{description}		
+			)
+	</insert>
+	
+	<delete id="del_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
+		<!-- delete from  xhgmnet_emh_eps_status
+		where fsuId=#{fsuId} and deviceId=#{deviceId} -->
+		update xhgmnet_emh_eps_status set alarmTag=1 where fsuId=#{fsuId} and deviceId=#{deviceId}
+	</delete>
+	
+
+    <!--查询所有告警信息-->
+    <select id="selectAllBsAlarm" resultType="java.util.HashMap" useCache="true">
+     	select * from xhgmnet_bs_alarm as a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId
+    </select>
+	<!--查询告警列表
+		显示告警列表，列表中只显示没有处理的告警；显示列表时联合查询基站列表显示基站名称，等级。
+	-->
+    <select id="selectBsAlarmList" parameterType="map" resultType="java.util.HashMap" useCache="true">
+     	select a.*,b.reason as reason2,b.suggestion as suggestion2 from xhgmnet_eastcom_alarminfo  as a
+     	left join xhgmnet_eastcom_knowledge as b on a.neType=b.neType and 
+     	a.modType=b.modType and a.subModType=b.subModType and a.category=b.category 
+     	and a.code=b.code  and a.causeCode=b.causeCode
+     	
+     	where  1=1
+     	<if test="level!=''">
+     	and a.level in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="type!=''">
+     	and a.neType in(
+		<foreach collection="type" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="startTime!='' and endTime!=''">
+     	and a.time between #{startTime} and #{endTime}
+     	</if>
+     	<if test="category!=''">
+     	and a.category in(
+		<foreach collection="category" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="status!=''">
+     	and a.status in(
+		<foreach collection="status" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	
+		order by a.time desc limit #{start},#{limit}
+    </select>
+       <select id="selectTop5" parameterType="map" resultType="map" useCache="true">
+     	select * from xhgmnet_eastcom_alarminfo  where  neType in(1,2,3,4)
+		order by time desc limit 6
+    </select>
+    <!-- 告警总数 -->
+        <select id="BsAlarmCount" parameterType="map" resultType="int" useCache="true">
+     	select count(*) from xhgmnet_eastcom_alarminfo  where  1=1
+     	
+     	<if test="level!=''">
+     	and level in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="type!=''">
+     	and neType in(
+		<foreach collection="type" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="startTime!='' and endTime!=''">
+     	and time between #{startTime} and #{endTime}
+     	</if>
+     	     	<if test="category!=''">
+     	and category in(
+		<foreach collection="category" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="status!=''">
+     	and status in(
+		<foreach collection="status" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+
+    </select>
+    
+    <!--警告等级统计 -->
+	<select id="bsAlarmLevelChart" resultType="java.util.HashMap"
+		useCache="true">
+		select count(id) as value,level as name from xhgmnet_eastcom_alarminfo where  level&lt;5 and level>0
+		<if test="level!=''">
+     	and level in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="type!=''">
+     	and neType in(
+		<foreach collection="type" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="startTime!='' and endTime!=''">
+     	and time between #{startTime} and #{endTime}
+     	</if>
+		group by name order by name asc
+	</select>  
+	<!--警告类型统计 -->
+	<select id="bsAlarmTypeChart" resultType="java.util.HashMap"
+		useCache="true">
+		select neType,count(id) as num from xhgmnet_eastcom_alarminfo where  1=1
+		<if test="level!=''">
+     	and severity in(
+		<foreach collection="level" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+     	</if>
+     	<if test="type!=''">
+     	and neType in(
+		<foreach collection="type" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+		
+     	</if>
+     	<if test="startTime!='' and endTime!=''">
+     	and time between #{startTime} and #{endTime}
+     	</if>
+		group by neType order by neType asc
+	</select>
+	
+	<!--确认告警 -->
+	<update id="identifyBsAlarmById" parameterType="java.lang.String">
+		update xhgmnet_bs_alarm set status=1 where id=#{id}
+	</update>
+    <delete id="clear_sf_alarm" >
+     	TRUNCATE TABLE  xhgmnet_sf_bs_alarm
+    </delete>
+    <select id="sf_800m_alarm" useCache="true" resultType="xh.mybatis.bean.Sf800mAlarmBean">
+      select * from v_jz_gz_fx
+    </select>
+    <select id="sf_order_alarm" useCache="true" resultType="xh.mybatis.bean.Sf800mAlarmBean">
+      select * from xhgmnet_sf_bs_alarm where `status`!="待处理"
+    </select>
+    <insert id="insert_sf_alarm" parameterType="java.util.List">
+     insert into  xhgmnet_sf_bs_alarm(bsId,zbdlmc,czzbmc,czzbfw,value,clcs,zbdldm,status,time)values
+     <foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.bsId},
+			#{item.zbdlmc},
+			#{item.czzbmc},
+			#{item.czzbfw},
+			#{item.value},
+			#{item.clcs},
+			#{item.zbdldm},
+			#{item.status},
+			#{item.time}
+			)
+		</foreach>
+    </insert>
+   <!-- 确认告警 -->
+ <update id="sureAlarm" parameterType="List">
+     update xhgmnet_operations_bsfault set sureOk=1 where id in(
+     <foreach collection="list" item="id" separator=",">
+     #{id}
+     </foreach>
+     )
+ </update>	
+</mapper>
