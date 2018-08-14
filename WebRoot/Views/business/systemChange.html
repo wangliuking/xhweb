@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>优化整改</title>
+<title>系统升级</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -40,7 +40,7 @@
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
-							<li class="active"><span>优化整改</span></li>
+							<li class="active"><span>系统升级</span></li>
 						</ol>
 					</div>
 					<div class="btn-group pull-right">
@@ -60,15 +60,17 @@
 					<div class="hpanel">
 					<div class="panel-heading hbuilt">
 
-							<i class="fa fa-indent text-danger"></i>&nbsp;优化整改列表
+							<i class="fa fa-indent text-danger"></i>&nbsp;系统升级列表
 						</div>
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
 									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
-										<i class="fa fa-plus-circle"></i>&nbsp;优化整改
-									</button>			
-									
+										<i class="fa fa-plus-circle"></i>&nbsp;系统升级
+									</button>
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#sheet"  ng-if="loginUserRoleType == 3">
+										<i class="fa fa-plus-circle"></i>&nbsp;查看表格
+									</button>
 								</div>
 							<table id="tb-info" class="xh-table table-hover"
 								ng-model="loginUser">
@@ -90,17 +92,22 @@
 									<tr ng-repeat="x in data">
 										<td>{{x.unit1}}</td>
 										<td>{{x.userUnit}}</td>
-										<td>优化整改</td>
+										<td>系统升级</td>
 										<td>{{x.requestTime}}</td>
-										<td ng-if="x.checked==-2" class="td-danger">管理方负责人审批不通过</td>
-										<td ng-if="x.checked==-1" class="td-danger">运维负责人审核不通过</td>
-										<td ng-if="x.checked==0" class="td-warning">等待运维负责人审核优化整改申请表</td>
-										<td ng-if="x.checked==1" class="td-warning">运维负责人审核通过，可以对管理方负责人发起审批</td>
-										<td ng-if="x.checked==2" class="td-warning">等待管理方负责人审批优化整改方案</td>
-										<td ng-if="x.checked==3" class="td-warning">管理方负责人审批通过，可以对抢修组通知整改</td>
-										<td ng-if="x.checked==4" class="td-warning">已通知抢修组进行整改</td>
-										<td ng-if="x.checked==5" class="td-warning">抢修组整改中</td>
-										<td ng-if="x.checked==6" class="td-success">整改完成</td>
+										<td ng-if="x.checked==-7" class="td-danger">管理方负责人已取消流程</td>
+										<td ng-if="x.checked==-6" class="td-danger">项目经理已取消流程</td>
+										<td ng-if="x.checked==-5" class="td-danger">已回退系统升级流程</td>
+										<td ng-if="x.checked==-4" class="td-danger">升级失败</td>
+										<td ng-if="x.checked==-2" class="td-danger">管理方负责人审核不通过</td>
+										<td ng-if="x.checked==-1" class="td-danger">项目经理审核不通过</td>
+										<td ng-if="x.checked==0" class="td-warning">已上传系统升级方案</td>
+										<td ng-if="x.checked==1" class="td-warning">项目经理审核通过</td>
+										<td ng-if="x.checked==2" class="td-warning">管理方审核通过，可创建实施组</td>
+										<td ng-if="x.checked==3" class="td-warning">成功创建实施组，可进行升级</td>
+										<td ng-if="x.checked==4" class="td-warning">升级进行中</td>
+										<td ng-if="x.checked==5" class="td-warning">升级成功，可提交工作记录</td>
+										<td ng-if="x.checked==6" class="td-warning">已发送升级工作记录给项目负责人</td>
+										<td ng-if="x.checked==7" class="td-success">系统升级完成</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -108,34 +115,53 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
+										<a ng-if="loginUserRoleType==3 && x.checked==-5"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
+
+										<a ng-if="loginUserRoleType==3 && x.checked==-4"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行回退操作</a>
+
+										<a ng-if="loginUserRoleType==3 && x.checked==-2"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
+
+										<a ng-if="loginUserRoleType==3 && x.checked==-1"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
+
 										<a ng-if="loginUserRoleType==3 && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核整改申请表</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;项目经理审核系统升级方案</a>
 												
 									    <a ng-if="loginUserRoleType==3 && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方负责人发起审批</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方审核系统升级方案</a>
 										
 										<a ng-if="loginUserRoleType==3 && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审批优化整改方案</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;创建实施组</a>
 										
 										<a ng-if="loginUserRoleType==3 && x.checked==3"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知抢修组进行整改</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行系统升级</a>
 
 										<a ng-if="loginUserRoleType==3 && x.checked==4"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;抢修组开始整改</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;反馈升级结果</a>
 
 										<a ng-if="loginUserRoleType==3 && x.checked==5"
 											   href="#" ng-click="checkWin($index)"><i
-													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交整改报告</a>
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交工作记录</a>
+
+										<a ng-if="loginUserRoleType==3 && x.checked==6"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方反馈结果</a>
 
 										<a ng-if="loginUserRoleType==3"
-											   href="#" ng-click="sheetShow($index)">|<i
-													class="fa fa-send-o text-waring"></i>&nbsp;查看表格</a>
-										
+											   href="#" ng-click="sheetShow($index)"><i
+													class="fa fa-send-o text-waring"></i>| &nbsp;查看表格</a>
 
 										</td>
 									</tr>
@@ -179,20 +205,20 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加 -->
-	<div ng-include="'optimizeChange-add.html'"></div>
+	<div ng-include="'systemChange-add.html'"></div>
 	<!-- 进度-->
-	<div ng-include="'optimizeChange-progress.html'"></div>
+	<div ng-include="'systemChange-progress.html'"></div>
 	<!-- 审核-->
-	<div ng-include="'optimizeChange-check.html'"></div>
-	<!-- 表格-->
-	<div ng-include="'optimizeChange-sheet.html'"></div>
+	<div ng-include="'systemChange-check.html'"></div>
+	<!-- 表格 -->
+	<div ng-include="'systemChange-sheet.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="../../Controllers/business/optimizeChange.js"></script>
+	<script type="text/javascript" src="../../Controllers/business/systemChange.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">

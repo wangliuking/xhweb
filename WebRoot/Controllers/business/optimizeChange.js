@@ -100,6 +100,16 @@ xh.load = function() {
 		// 	var dropnet=$("#checkForm3").find("select[name='dropnet']").val();
 		// 	$scope.dropnet=dropnet;
 		// };
+
+        $scope.sheetShow = function(id){
+            var temp = $scope.data[id];
+            var sheetId = temp.id;
+            $http.get("../../optimizeChange/sheetShow?id="+sheetId).success(function (response) {
+                $scope.sheetData = response.items;
+            });
+            $("#sheet").modal('show');
+        }
+
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -259,6 +269,37 @@ xh.load = function() {
 		};
 	});
 };
+
+/*修改系统升级表格*/
+xh.sheetChange = function() {
+    var bean={
+        "id":$("div[name='id']").text(),
+        optimizeChangeTime:$("div[name='optimizeChangeTime']").text(),
+        bsAddress:$("div[name='bsAddress']").text(),
+        optimizeChangeType:$("input[name='optimizeChangeType']:checked").val(),
+        optimizeReason:$("div[name='optimizeReason']").text(),
+        processAndResult:$("div[name='processAndResult']").text(),
+        optimizeChangeNote:$("div[name='optimizeChangeNote']").text(),
+        excPersion:$("div[name='excPersion']").text(),
+        serialNumber:$("div[name='serialNumber']").text()
+    }
+    $.ajax({
+        url : '../../optimizeChange/sheetChange',
+        type : 'POST',
+        dataType : "json",
+        data : {"bean" : JSON.stringify(bean)},
+        success : function(data) {
+            $("#optimizeChange-btn").button('reset');
+            $('#sheet').modal('hide');
+            xh.refresh();
+            toastr.success(data.message, '提示');
+        },
+        error : function() {
+            $("#optimizeChange-btn").button('reset');
+        }
+    });
+};
+
 /*运维组发起请求审核*/
 xh.add = function() {
 	$.ajax({

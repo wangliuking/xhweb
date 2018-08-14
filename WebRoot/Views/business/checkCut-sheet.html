@@ -1,0 +1,148 @@
+<div class="modal fade" id="sheet" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header ">
+
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <small class="font-bold">故障核减申请书</small>
+            </div>
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+                <div class="order">
+                    <form action="" onsubmit="false" id="checkCut-form">
+                        <table id="order-table"
+                               style="width:100%;border-collapse: collapse;">
+                            <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center;font-size: 18px;">
+                                    故障核减申请书
+                                    <div contenteditable="true" class="input-div" name="id" ng-show="false">
+                                        {{sheetData.id}}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
+                                    <p>基站情况：</p>
+                                    <div contenteditable="true" style="height: 150px;width:870px;"
+                                         class="textarea-div" name="bsStationNote">
+                                        {{sheetData.solutionNewVersion}}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:150px;width:100%;border-top: none;border-bottom: none;" colspan="6">
+                                    <p>故障情况：</p>
+                                    <div contenteditable="true" style="height: 150px;width:870px;"
+                                         class="textarea-div" name="faultNote">
+                                        {{sheetData.solutionNewVersion}}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
+                                    colspan="6">
+                                    <div contenteditable="true" style="height: 30px;width:260px;"
+                                         class="input-div pull-right" name="department">
+                                        成都市应急调度指挥无线通信网四期项目部
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
+                                    <div contenteditable="true" style="height: 30px;width:160px;"
+                                         class="input-div pull-right" name="checkTime">
+                                        2018年7月2日 星期一
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:80px;width:100%;border-top: none;border-bottom: none;" colspan="6">
+                                    <p>成都市软件产业发展中心 （意见）</p>
+                                    <div contenteditable="true" style="height: 80px;width:870px;"
+                                         class="textarea-div " name="suggestion">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:30px;width:200px;border-top: none;padding-right: 300px;" colspan="6">
+                                    <p class="pull-right">签字 : </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:100px;border:none;">拟制：</td>
+                                <td style="height:50px;width:343px;border:none;">
+                                    <div contenteditable="true"
+                                         class="textarea-div" name="draftingPerson">{{sheetData.solutionNewVersion}}
+                                    </div>
+                                </td>
+                                <td style="height:50px;width:100px;border:none;">审核：</td>
+                                <td style="height:50px;width:343px;border:none;">
+                                    <div contenteditable="true"
+                                         class="textarea-div" name="checkPerson">{{sheetData.solutionNewVersion}}
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm"
+                        data-dismiss="modal" id="checkCut-btn">
+                    <i class="fa fa-remove"></i>&nbsp;保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#checkCut-btn").click(function () {
+        $('#checkCut-form').submit();
+    });
+    var faIcon = {
+        valid: 'fa fa-check-circle fa-lg text-success',
+        invalid: 'fa fa-times-circle fa-lg',
+        validating: 'fa fa-refresh'
+    };
+    $('#checkCut-form').bootstrapValidator({
+        excluded: [':disabled'],
+        /* feedbackIcons: faIcon, */
+        fields: {
+            user: {
+                validators: {
+                    notEmpty: {
+                        message: '用户名不能为空'
+                    }
+                }
+            },
+            roleId: {
+                validators: {
+                    notEmpty: {
+                        message: '角色不能为空'
+                    }
+                }
+            },
+            userPass: {
+                validators: {
+                    notEmpty: {
+                        message: '密码不能为空'
+                    }
+                }
+            }
+
+        }
+    }).on('success.form.bv', function (e, data) {
+        e.preventDefault();
+        /* xh.add(); */
+        xh.sheetChange();
+    });
+</script>

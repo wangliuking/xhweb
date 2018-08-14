@@ -1,6 +1,6 @@
 package xh.mybatis.bean;
 
-public class EmergencyChangeBean {
+public class SystemChangeBean {
     private int id;
     private int checked;
     private String userName;
@@ -15,6 +15,8 @@ public class EmergencyChangeBean {
     private String user5;
     private String user6;
     private String user7;
+    private String user8;
+    private String user9;
     private String note1;
     private String note2;
     private String note3;
@@ -22,6 +24,8 @@ public class EmergencyChangeBean {
     private String note5;
     private String note6;
     private String note7;
+    private String note8;
+    private String note9;
     private String time1;
     private String time2;
     private String time3;
@@ -29,6 +33,8 @@ public class EmergencyChangeBean {
     private String time5;
     private String time6;
     private String time7;
+    private String time8;
+    private String time9;
     private String user_MainManager;
     private String fileName1;
     private String filePath1;
@@ -40,9 +46,9 @@ public class EmergencyChangeBean {
     private String filePath4;
     private int dropnet;
     private String tel;
-    private String emergencyGroupId;
-    private String prepareEmergencyGroupId;
-    private String preparedEmergencyGroupId;
+
+    private String implId;
+    private String excImplId;
 
     public int getId() {
         return id;
@@ -148,6 +154,22 @@ public class EmergencyChangeBean {
         this.user7 = user7;
     }
 
+    public String getUser8() {
+        return user8;
+    }
+
+    public void setUser8(String user8) {
+        this.user8 = user8;
+    }
+
+    public String getUser9() {
+        return user9;
+    }
+
+    public void setUser9(String user9) {
+        this.user9 = user9;
+    }
+
     public String getNote1() {
         return note1;
     }
@@ -204,6 +226,22 @@ public class EmergencyChangeBean {
         this.note7 = note7;
     }
 
+    public String getNote8() {
+        return note8;
+    }
+
+    public void setNote8(String note8) {
+        this.note8 = note8;
+    }
+
+    public String getNote9() {
+        return note9;
+    }
+
+    public void setNote9(String note9) {
+        this.note9 = note9;
+    }
+
     public String getTime1() {
         return time1;
     }
@@ -258,6 +296,22 @@ public class EmergencyChangeBean {
 
     public void setTime7(String time7) {
         this.time7 = time7;
+    }
+
+    public String getTime8() {
+        return time8;
+    }
+
+    public void setTime8(String time8) {
+        this.time8 = time8;
+    }
+
+    public String getTime9() {
+        return time9;
+    }
+
+    public void setTime9(String time9) {
+        this.time9 = time9;
     }
 
     public String getUser_MainManager() {
@@ -348,33 +402,25 @@ public class EmergencyChangeBean {
         this.tel = tel;
     }
 
-    public String getEmergencyGroupId() {
-        return emergencyGroupId;
+    public String getImplId() {
+        return implId;
     }
 
-    public void setEmergencyGroupId(String emergencyGroupId) {
-        this.emergencyGroupId = emergencyGroupId;
+    public void setImplId(String implId) {
+        this.implId = implId;
     }
 
-    public String getPrepareEmergencyGroupId() {
-        return prepareEmergencyGroupId;
+    public String getExcImplId() {
+        return excImplId;
     }
 
-    public void setPrepareEmergencyGroupId(String prepareEmergencyGroupId) {
-        this.prepareEmergencyGroupId = prepareEmergencyGroupId;
-    }
-
-    public String getPreparedEmergencyGroupId() {
-        return preparedEmergencyGroupId;
-    }
-
-    public void setPreparedEmergencyGroupId(String preparedEmergencyGroupId) {
-        this.preparedEmergencyGroupId = preparedEmergencyGroupId;
+    public void setExcImplId(String excImplId) {
+        this.excImplId = excImplId;
     }
 
     @Override
     public String toString() {
-        return "EmergencyChangeBean{" +
+        return "SystemChangeBean{" +
                 "id=" + id +
                 ", checked=" + checked +
                 ", userName='" + userName + '\'' +
@@ -388,6 +434,8 @@ public class EmergencyChangeBean {
                 ", user5='" + user5 + '\'' +
                 ", user6='" + user6 + '\'' +
                 ", user7='" + user7 + '\'' +
+                ", user8='" + user8 + '\'' +
+                ", user9='" + user9 + '\'' +
                 ", note1='" + note1 + '\'' +
                 ", note2='" + note2 + '\'' +
                 ", note3='" + note3 + '\'' +
@@ -395,6 +443,8 @@ public class EmergencyChangeBean {
                 ", note5='" + note5 + '\'' +
                 ", note6='" + note6 + '\'' +
                 ", note7='" + note7 + '\'' +
+                ", note8='" + note8 + '\'' +
+                ", note9='" + note9 + '\'' +
                 ", time1='" + time1 + '\'' +
                 ", time2='" + time2 + '\'' +
                 ", time3='" + time3 + '\'' +
@@ -402,6 +452,8 @@ public class EmergencyChangeBean {
                 ", time5='" + time5 + '\'' +
                 ", time6='" + time6 + '\'' +
                 ", time7='" + time7 + '\'' +
+                ", time8='" + time8 + '\'' +
+                ", time9='" + time9 + '\'' +
                 ", user_MainManager='" + user_MainManager + '\'' +
                 ", fileName1='" + fileName1 + '\'' +
                 ", filePath1='" + filePath1 + '\'' +
@@ -413,9 +465,8 @@ public class EmergencyChangeBean {
                 ", filePath4='" + filePath4 + '\'' +
                 ", dropnet=" + dropnet +
                 ", tel='" + tel + '\'' +
-                ", emergencyGroupId='" + emergencyGroupId + '\'' +
-                ", prepareEmergencyGroupId='" + prepareEmergencyGroupId + '\'' +
-                ", preparedEmergencyGroupId='" + preparedEmergencyGroupId + '\'' +
+                ", implId='" + implId + '\'' +
+                ", excImplId='" + excImplId + '\'' +
                 '}';
     }
 }

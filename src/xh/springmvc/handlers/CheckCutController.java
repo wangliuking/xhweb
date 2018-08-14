@@ -11,13 +11,12 @@ import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EmailBean;
-import xh.mybatis.bean.EmergencyChangeBean;
-import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.EmailService;
-import xh.mybatis.service.EmergencyChangeService;
-import xh.mybatis.service.EmergencyService;
+import xh.mybatis.service.CheckCutService;
 import xh.mybatis.service.WebUserServices;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -28,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/emergencyChange")
-public class EmergencyChangeController {
+@RequestMapping(value = "/checkCut")
+public class CheckCutController {
 
     private boolean success;
     private String message;
     private FunUtil funUtil = new FunUtil();
-    protected final Log log = LogFactory.getLog(EmergencyChangeController.class);
+    protected final Log log = LogFactory.getLog(CheckCutController.class);
     private FlexJSON json = new FlexJSON();
     //private WebLogBean webLogBean = new WebLogBean();
     /**
@@ -62,8 +61,8 @@ public class EmergencyChangeController {
 
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", EmergencyChangeService.selectAll(map));
-        result.put("totals", EmergencyChangeService.dataCount(map));
+        result.put("items", CheckCutService.selectAll(map));
+        result.put("totals", CheckCutService.dataCount(map));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         try {
@@ -83,7 +82,7 @@ public class EmergencyChangeController {
         int id = funUtil.StringToInt(request.getParameter("id"));
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("items", EmergencyChangeService.applyProgress(id));
+        result.put("items", CheckCutService.applyProgress(id));
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -97,31 +96,30 @@ public class EmergencyChangeController {
     }
 
     /**
-     * 发起应急演练
+     * 运维人员重新发起核减申请
      *
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/insertemergencyChange", method = RequestMethod.POST)
-    public void insertemergencyChange(HttpServletRequest request,
-                        HttpServletResponse response) {
+    @RequestMapping(value = "/checkedNegOne", method = RequestMethod.POST)
+    public void checkedNegOne(HttpServletRequest request,
+                               HttpServletResponse response) {
         this.success = true;
-        String userUnit = request.getParameter("userUnit");
+        int id = funUtil.StringToInt(request.getParameter("id"));
         String note1 = request.getParameter("note1");
-        String tel = request.getParameter("tel");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
-        EmergencyChangeBean bean = new EmergencyChangeBean();
-        bean.setUserUnit(userUnit);
-        bean.setTel(tel);
+        CheckCutBean bean = new CheckCutBean();
+        bean.setId(id);
         bean.setFileName1(fileName);
         bean.setFilePath1(filePath);
         bean.setNote1(note1);
-        bean.setUserName(funUtil.loginUser(request));
-        bean.setRequestTime(FunUtil.nowDate());
+        bean.setUser1(funUtil.loginUser(request));
+        bean.setTime1(FunUtil.nowDate());
+        bean.setChecked(0);
 
         log.info("data==>" + bean.toString());
-        int rst = EmergencyChangeService.insertemergencyChange(bean);
+        int rst = CheckCutService.checkedNegOne(bean);
         /*
         if (rst == 1) {
             this.message = "应急演练申请信息已经成功提交";
@@ -152,7 +150,62 @@ public class EmergencyChangeController {
     }
 
     /**
-     *创建演练组
+     * 运维人员发起核减申请
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/insertCheckCut", method = RequestMethod.POST)
+    public void insertCheckCut(HttpServletRequest request,
+                        HttpServletResponse response) {
+        this.success = true;
+        String userUnit = request.getParameter("userUnit");
+        String note1 = request.getParameter("note1");
+        String tel = request.getParameter("tel");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setUserUnit(userUnit);
+        bean.setTel(tel);
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
+        bean.setNote1(note1);
+        bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(FunUtil.nowDate());
+
+        log.info("data==>" + bean.toString());
+        int rst = CheckCutService.insertCheckCut(bean);
+        /*
+        if (rst == 1) {
+            this.message = "应急演练申请信息已经成功提交";
+            webLogBean.setOperator(funUtil.loginUser(request));
+            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+            webLogBean.setStyle(1);
+            webLogBean.setContent("应急演练申请信息，data=" + bean.toString());
+            WebLogService.writeLog(webLogBean);
+            //----发送通知邮件
+           sendNotifytoGroup("o_check_changeemergency",10003, "网络优化任务下达", request);
+           //----END
+        } else {
+            this.message = "应急演练申请信息提交失败";
+        }*/
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 管理方审核核减申请
      * @param request
      * @param response
      */
@@ -160,29 +213,20 @@ public class EmergencyChangeController {
     public void checkedOne(HttpServletRequest request,
                            HttpServletResponse response) {
         this.success = true;
-        String emergencyGroupId = request.getParameter("emergencyGroupId");
-        String emergencyGroupName = request.getParameter("emergencyGroupName");
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("roleId",emergencyGroupId);
-        map.put("role",emergencyGroupName);
-        map.put("roleType",3);
-        map.put("createTime",FunUtil.nowDate());
-
-        int res = EmergencyChangeService.createEmergencyGroup(map);
-        if(res>0){
-            int id = funUtil.StringToInt(request.getParameter("id"));
-            //int checked = funUtil.StringToInt(request.getParameter("checked"));
-            String note2 = request.getParameter("note2");
-            EmergencyChangeBean bean = new EmergencyChangeBean();
-            bean.setId(id);
-            bean.setChecked(1);
-            bean.setUser2(funUtil.loginUser(request));
-            bean.setTime2(FunUtil.nowDate());
-            bean.setNote2(note2);
-            bean.setEmergencyGroupId(emergencyGroupId);
-            EmergencyChangeService.checkedOne(bean);
-            this.message = "创建演练组成功";
-        }
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        String note2 = request.getParameter("note2");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setId(id);
+        bean.setChecked(checked);
+        bean.setUser2(funUtil.loginUser(request));
+        bean.setTime2(FunUtil.nowDate());
+        bean.setNote2(note2);
+        int rst = CheckCutService.checkedOne(bean);
+        if (checked == 1)
+            this.message = "审核通过";
+        else
+            this.message = "审核不通过";
         /*if (rst == 1) {
             this.message = "审核提交成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -198,7 +242,7 @@ public class EmergencyChangeController {
 
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("result", res);
+        result.put("result", rst);
         result.put("message", message);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
@@ -213,7 +257,7 @@ public class EmergencyChangeController {
     }
 
     /**
-     * 通知演练组进行演练
+     * 运维人员提交相关资料
      *
      * @param request
      * @param response
@@ -223,18 +267,20 @@ public class EmergencyChangeController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String prepareEmergencyGroupId = request.getParameter("prepareEmergencyGroupId");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
         String note3 = request.getParameter("note3");
-        EmergencyChangeBean bean = new EmergencyChangeBean();
+        CheckCutBean bean = new CheckCutBean();
         bean.setId(id);
         bean.setChecked(2);
         bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(FunUtil.nowDate());
         bean.setNote3(note3);
-        bean.setPrepareEmergencyGroupId(prepareEmergencyGroupId);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
 
-        int rst = EmergencyChangeService.checkedTwo(bean);
-        this.message = "已通知"+prepareEmergencyGroupId+"演练组准备演练";
+        int rst = CheckCutService.checkedTwo(bean);
+        this.message = "已提交核减相关资料";
         /*if (rst == 1) {
             this.message = "上传优化方案成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -263,7 +309,7 @@ public class EmergencyChangeController {
         }
     }
     /**
-     * 实施演练
+     * 运维人员结束流程
      *
      * @param request
      * @param response
@@ -274,17 +320,15 @@ public class EmergencyChangeController {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note4 = request.getParameter("note4");
-        String preparedEmergencyGroupId = request.getParameter("preparedEmergencyGroupId");
-        EmergencyChangeBean bean = new EmergencyChangeBean();
+        CheckCutBean bean = new CheckCutBean();
         bean.setId(id);
         bean.setChecked(3);
         bean.setUser4(funUtil.loginUser(request));
         bean.setTime4(FunUtil.nowDate());
         bean.setNote4(note4);
-        bean.setPreparedEmergencyGroupId(preparedEmergencyGroupId);
 
-        int rst = EmergencyChangeService.checkedThree(bean);
-        this.message =preparedEmergencyGroupId+ "组准备开始演练！";
+        int rst = CheckCutService.checkedThree(bean);
+        this.message ="核减结束";
         /*if (rst == 1) {
             this.message = "优化方案审核成功";
             webLogBean.setOperator(funUtil.loginUser(request));
@@ -296,111 +340,6 @@ public class EmergencyChangeController {
             sendNotifytoSingle(user, "优化方案已经由管理方审批", request);
         } else {
             this.message = "审核优化方案失败";
-        }*/
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 提交工作总结
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
-    public void checkedFour(HttpServletRequest request,
-                           HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-
-        String note5 = request.getParameter("note5");
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        EmergencyChangeBean bean = new EmergencyChangeBean();
-        bean.setId(id);
-        bean.setChecked(4);
-        bean.setFileName2(fileName);
-        bean.setFilePath2(filePath);
-        bean.setUser5(funUtil.loginUser(request));
-        bean.setTime5(FunUtil.nowDate());
-        bean.setNote5(note5);
-
-        int rst = EmergencyChangeService.checkedFour(bean);
-        /*if (rst == 1) {
-            this.message = "上传总结报告成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传了总结报告，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件通知抢修组
-            //sendNotifytoGroup("o_check_changeemergency",repairTeamId, "通知抢修组进行整改", request);
-            //----END
-        } else {
-            this.message = "上传总结报告失败";
-        }*/
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 向管理方发起报告
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
-    public void checkedFive(HttpServletRequest request,
-                             HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String note6 = request.getParameter("note6");
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        EmergencyChangeBean bean = new EmergencyChangeBean();
-        bean.setId(id);
-        bean.setChecked(5);
-        bean.setFileName3(fileName);
-        bean.setFilePath3(filePath);
-        bean.setUser6(funUtil.loginUser(request));
-        bean.setTime6(FunUtil.nowDate());
-        bean.setNote6(note6);
-
-        int rst = EmergencyChangeService.checkedFive(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
         }*/
         HashMap result = new HashMap();
         result.put("success", success);
@@ -432,7 +371,7 @@ public class EmergencyChangeController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
 		String data = funUtil.MD5(sdf.format(d));
         String path = request.getSession().getServletContext()
-                .getRealPath("")+"/Resources/upload/emergencyChange";
+                .getRealPath("")+"/Resources/upload/CheckCut";
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
@@ -459,7 +398,7 @@ public class EmergencyChangeController {
         result.put("success", success);
         result.put("message", message);
         result.put("fileName", fileName);
-        result.put("filePath", "/Resources/upload/emergencyChange/"+fileName);
+        result.put("filePath", "/Resources/upload/CheckCut/"+fileName);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);

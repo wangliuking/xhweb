@@ -2,13 +2,8 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +38,15 @@ public class GosuncnController {
 	private String message;
 	private FunUtil funUtil=new FunUtil();
 	protected final Log log = LogFactory.getLog(GosuncnController.class);
-	private FlexJSON json=new FlexJSON();	
+	private FlexJSON json=new FlexJSON();
+
+	public static void main(String[] args) {
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String startTime = sdf.format(d).toString()+" 00:00:00";
+		System.out.println("当前时间：" + d);
+	}
+
 	
 	/**
 	 * 获取动环相关信息
@@ -406,9 +409,17 @@ public class GosuncnController {
 	@RequestMapping(value="/alarmForDev",method = RequestMethod.GET)
 	public void selectByDev(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String startTime = sdf.format(d).toString()+" 00:00:00";
+		String endTime = sdf.format(d).toString()+" 23:59:59";
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startTime",startTime);
+		param.put("endTime",endTime);
+
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("alarmDevice",GosuncnService.selectByDevice());
+		result.put("alarmDevice",GosuncnService.selectByDevice(param));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -426,9 +437,17 @@ public class GosuncnController {
 	@RequestMapping(value="/alarmForLevel",method = RequestMethod.GET)
 	public void selectByLevel(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String startTime = sdf.format(d).toString()+" 00:00:00";
+		String endTime = sdf.format(d).toString()+" 23:59:59";
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("startTime",startTime);
+		param.put("endTime",endTime);
+
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("alarmLevel", GosuncnService.selectByAlarmLevel());
+		result.put("alarmLevel", GosuncnService.selectByAlarmLevel(param));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
