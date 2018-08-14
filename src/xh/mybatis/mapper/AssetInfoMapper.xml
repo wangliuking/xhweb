@@ -60,7 +60,7 @@
 	<!--按资产状态统计-->
 	<select id="allAssetStatus" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		select status,count(status) as number from xhgmnet_business_assetinfo  group by status
+		select status,count(status) as number from xhgmnet_business_assetinfo where isLock=0  group by status
 	</select>
 	<!--按资产状类型统计 -->
 	<select id="allAssetType" parameterType="map" resultType="java.util.HashMap"
@@ -72,7 +72,7 @@
 		       sum(if(status=5 ,1,0 )) as status5,
 		       sum(if(status=6 ,1,0 )) as status6,
 		       sum(if(status=7 ,1,0 )) as status7,type,count(type) as total
-		 from xhgmnet_business_assetinfo  group by type 
+		 from xhgmnet_business_assetinfo where isLock=0   group by type 
 	</select>
 	<!--按设备统计-->
 	<select id="allAssetNameCount" parameterType="map" resultType="java.util.HashMap"
@@ -84,7 +84,7 @@
 		       sum(if(status=5 ,1,0 )) as status5,
 		       sum(if(status=6 ,1,0 )) as status6,
 		       sum(if(status=7 ,1,0 )) as status7,type,name,count(name) as total
-		 from xhgmnet_business_assetinfo  group by name 
+		 from xhgmnet_business_assetinfo where isLock=0   group by name 
 	</select>
 	<!--查询资产记录总数 -->
 	<select id="assetInfoCount" parameterType="map" resultType="int"
@@ -152,6 +152,12 @@
 		checkTime=#{checkTime},checkResult=#{checkResult},
 		checkUser=#{checkUser} where id=#{id}
 	</update>
+	<update id="updateStatus" parameterType="map">
+		update
+		xhgmnet_business_assetinfo set 	status=#{status},
+		checkTime=#{checkTime},
+		checkUser=#{checkUser} where serialNumber=#{serialNumber}
+	</update>
 	<!--删除资产 -->
 	<delete id="deleteAsset" parameterType="java.util.List">
 		delete from xhgmnet_business_assetinfo where id in(
@@ -199,8 +205,7 @@
 	</select>
 	<insert id="add_apply" keyProperty="id" useGeneratedKeys="true" parameterType="xh.mybatis.bean.AssetAddApplyBean">
 	insert into xhgmnet_asset_add_apply(userId,user,userName,tel,attachmentName,attachmentPath,comment,createTime,applyTag)
-	values(#{userId},#{user},#{userName},#{tel},#{attachmentName},#{attachmentPath},#{comment},#{createTime},#{applyTag})
-	
+	values(#{userId},#{user},#{userName},#{tel},#{attachmentName},#{attachmentPath},#{comment},#{createTime},#{applyTag})	
 	</insert>
 	<update id="add_apply_check1" parameterType="xh.mybatis.bean.AssetAddApplyBean">
 	update xhgmnet_asset_add_apply set status=#{status},note1=#{note1},time1=#{time1},checkUser=#{checkUser} where id=#{id}
@@ -221,5 +226,82 @@
 	</update>
 	<update id="add_apply_check3" parameterType="xh.mybatis.bean.AssetAddApplyBean">
 	update xhgmnet_asset_add_apply set status=#{status},time3=#{time3} where id=#{id}
-	</update>	
+	</update>
+	<!-- 资产报废申请明细 -->
+	<select id="asset_scrap_info" parameterType="map" resultType="xh.mybatis.bean.AssetScrapInfoBean"
+		useCache="true">
+		select * from xhgmnet_asset_scrap where 1=1
+		<if test="isLock==1 and tag==1">
+		 and isLock=1 and addUser=#{user}
+		</if>
+		<if test="isLock==1 and tag==0">
+		 and addUser=#{user}
+		</if>
+		<if test="applyTag!=null and applyTag!=''">
+		 and applyTag=#{applyTag}
+		</if>
+		order by createTime desc limit 0,500
+	</select>
+	<!-- 判断报废资产是否存在 -->
+	<select id="scrapAssetInfoByserialNumberExists" parameterType="String" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_asset_scrap where serialNumber=#{serialNumber}
+	</select>	
+	<!--增加报废资产 -->
+	<insert id="insertScrapAsset" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.AssetScrapInfoBean">
+		insert into
+		xhgmnet_asset_scrap(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag)
+		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},
+		#{note},#{createTime},#{isLock},#{addUser},#{applyTag})
+	</insert>
+	<!-- 报废资产申请 -->
+	<insert id="scrap_apply" keyProperty="id" useGeneratedKeys="true" parameterType="xh.mybatis.bean.AssetScrapApplyBean">
+	insert into xhgmnet_asset_scrap_apply(userId,user,userName,tel,attachmentName,attachmentPath,comment,createTime,applyTag)
+	values(#{userId},#{user},#{userName},#{tel},#{attachmentName},#{attachmentPath},#{comment},#{createTime},#{applyTag})	
+	</insert>
+	<!-- 更新报废资产tag -->
+	<update id="update_scrap_asset_applyTag" parameterType="map">
+	 update xhgmnet_asset_scrap set applyTag=#{applyTag} where isLock=1 and addUser=#{user} and applyTag is null
+	</update>
+	
+	<!-- 报废资产申请列表 -->
+	<select id="scrap_apply_list" parameterType="map" resultType="xh.mybatis.bean.AssetScrapApplyBean">
+	select * from xhgmnet_asset_scrap_apply where 1=1
+	<if test="roleType!=0 and power!='on'">
+	and user=#{user}
+	</if>
+	order by createTime desc limit #{start},#{limit}
+	</select>
+	<!-- 报废资产申请列表总数 -->
+	<select id="scrap_apply_list_count" parameterType="map" resultType="int">
+	select count(*) from xhgmnet_asset_scrap_apply where 1=1
+	<if test="roleType!=0 and power!='on'">
+	and user=#{user}
+	</if>
+	</select>
+	<!-- 审核报废清单 -->
+	<update id="scrap_apply_check1" parameterType="xh.mybatis.bean.AssetScrapApplyBean">
+	update xhgmnet_asset_scrap_apply set status=#{status},note1=#{note1},time1=#{time1},checkUser=#{checkUser} where id=#{id}
+	</update>
+	
+	<update id="scrap_apply_check2" parameterType="xh.mybatis.bean.AssetScrapApplyBean">
+	update xhgmnet_asset_scrap_apply set status=#{status},time2=#{time2} where id=#{id}
+	</update>
+	<update id="update_scrap_asset_isLock" parameterType="String">
+	 update xhgmnet_asset_scrap set isLock=0 where isLock=1 and addUser=#{user}
+	</update>
+	<insert id="scrap_apply_info" keyProperty="applyId" useGeneratedKeys="true" parameterType="xh.mybatis.bean.AssetScrapApplayInfoBean">
+	insert into xhgmnet_asset_scrap_apply_info(applyId,createTime,workNote)values(#{applyId},#{createTime},#{workNote})	
+	</insert>	
+	<update id="scrap_apply_check3" parameterType="xh.mybatis.bean.AssetScrapApplyBean">
+	update xhgmnet_asset_scrap_apply set status=#{status},time3=#{time3} where id=#{id}
+	</update>
+   <delete id="deleteScrapAsset" parameterType="java.util.List">
+		delete from xhgmnet_asset_scrap where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
 </mapper>

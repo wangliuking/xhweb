@@ -26,7 +26,7 @@
 							<div class="form-group col-md-12">
 								<label>报告类型</label>
 								<div>
-									<select name="fileType" class="form-control" style="width:159px;">
+									<select name="fileType" class="form-control">
 									
 										<option value="周报" selected="selected">周报</option>
 										<option value="月报">月报</option>
@@ -45,7 +45,7 @@
 							type="hidden" name="filePath" value="" /> <input type="hidden"
 							name="result" value="" />
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
@@ -60,7 +60,7 @@
 									type="text" class="form-control" name="tel" required="required">
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					<div class="row">
 						<div class="col-md-12">
@@ -100,7 +100,7 @@
 			<div class="modal-footer">
 				<button type="button" ng-disabled="form.$invalid"
 					class="btn btn-success btn-sm" id="add_btn">
-					<i class="fa fa-plus"></i>&nbsp;添加
+					<i class="fa fa-plus"></i>&nbsp;提交报告
 				</button>
 				<button type="button" class="btn btn-danger btn-sm"
 					data-dismiss="modal">

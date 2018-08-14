@@ -74,15 +74,16 @@
 		xhgmnet_web_role_action set
 
 		r_send_order=#{r_send_order},
-		r_recv_order=#{r_recv_order}
+		r_recv_order=#{r_recv_order},
+		recv_work_contact=#{recv_work_contact}
 		where roleId=#{roleId}
 	</update> 
 	<!--添加角色权限 -->
 	<insert id="add_role_power" keyProperty="roleId"
 		parameterType="xh.mybatis.bean.UserPowerBean">
 		insert into xhgmnet_web_role_action
-		(r_send_order,r_recv_order)
+		(roleId,r_send_order,r_recv_order,recv_work_contact)
 		values
-		(#{r_send_order},#{r_recv_order})
+		(#{roleId},#{r_send_order},#{r_recv_order},#{recv_work_contact})
 	</insert>
 </mapper>

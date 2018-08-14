@@ -1,22 +1,15 @@
 package xh.org.listeners;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import xh.func.plugin.FunUtil;
-import xh.mybatis.service.DispatchStatusService;
-import xh.mybatis.service.SqlServerService;
+import xh.func.plugin.DocConverter;
 
 public class test {
 
@@ -32,9 +25,10 @@ public class test {
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
          executor.shutdown();*/
-		 String d="119指挥中心，空调监测，空调关机,报警。";
-		 
-		System.out.println(d.split("，")[2]);
+		 String converfilename="D:/apache-tomcat/webapps/xhweb/Resources/upload/asset/ss.docx";
+		 DocConverter d = new DocConverter(converfilename); 
+         d.conver();
+		
      }
 	
 	public static String RandomWord(int num) {

@@ -7,6 +7,9 @@ import java.util.Map;
 import xh.mybatis.bean.AssetAddApplayInfoBean;
 import xh.mybatis.bean.AssetAddApplyBean;
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.AssetScrapApplayInfoBean;
+import xh.mybatis.bean.AssetScrapApplyBean;
+import xh.mybatis.bean.AssetScrapInfoBean;
 
 public interface AssetInfoMapper {
 	/**
@@ -59,6 +62,8 @@ public interface AssetInfoMapper {
 	 */
 	public int updateAsset(AssetInfoBean bean)throws Exception;
 	
+	public int updateStatus(Map<String,Object> map)throws Exception;
+	
 	/**
 	 * 核查资产
 	 * @param map
@@ -73,6 +78,8 @@ public interface AssetInfoMapper {
 	 * @throws Exception
 	 */
 	public int deleteAsset(List<String> list)throws Exception;
+	
+	public int deleteScrapAsset(List<String> list)throws Exception;
 	/**
 	 * 根据序列号查询是否存在
 	 * wlk
@@ -112,5 +119,37 @@ public interface AssetInfoMapper {
 	public int update_asset_applyTag(Map<String,Object> map)throws Exception;
 	
 	public int add_apply_check3(AssetAddApplyBean bean)throws Exception;
+
+	/** 资产报废申请明细*/
+	public List<AssetScrapInfoBean> asset_scrap_info(Map<String,Object> map)throws Exception;
+	
+	/** 录入报废资产*/
+	public int insertScrapAsset(AssetScrapInfoBean bean)throws Exception;
+	
+	/** 判断报废资产是否存在*/
+	public int scrapAssetInfoByserialNumberExists(String serialNumber)throws Exception;
+	
+	/** 报废资产申请*/
+	public int scrap_apply(AssetScrapApplyBean bean)throws Exception;
+	
+	/** 更新报废资产tag*/
+	public int update_scrap_asset_applyTag(Map<String,Object> map)throws Exception;
+	
+	/** 报废资产申请列表*/
+	public List<AssetScrapApplyBean> scrap_apply_list(Map<String,Object> map)throws Exception;
+	
+	/** 报废资产申请列表总数*/
+	public int scrap_apply_list_count(Map<String,Object> map)throws Exception;
+	
+	/**  审核报废清单*/
+	public int scrap_apply_check1(AssetScrapApplyBean bean)throws Exception;
+	
+	public int scrap_apply_check2(AssetScrapApplyBean bean)throws Exception;
+	
+	public int update_scrap_asset_isLock(String user)throws Exception;
+	
+	public int scrap_apply_info(AssetScrapApplayInfoBean bean)throws Exception;
+	
+	public int scrap_apply_check3(AssetScrapApplyBean bean)throws Exception;
 
 }

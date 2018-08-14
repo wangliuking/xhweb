@@ -57,7 +57,7 @@
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
-									<h2>提交新增资产申请</h2>
+									<h2>提交报废资产申请</h2>
 									<h2>
 										<a href="#" ng-click="download(progressData.attachmentName)">{{progressData.attachmentName}}</a>
 									</h2>
@@ -97,11 +97,11 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.status>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>资产管理员将资产入库，并记录资产登记信息</h2>
+									<h2>资产管理员将报废资产入库，并记录资产登记信息</h2>
 
 									<span ng-if="progressData.status<2" class="cd-date text-danger">等待确认</span>
 									<span ng-if="progressData.status>=2"
-										class="cd-date text-success font-bold">资产已经入库; </br>时间：{{progressData.time2}}
+										class="cd-date text-success font-bold">报废资产已经入库; </br>时间：{{progressData.time2}}
 									</span>
 								</div>
 							</div>

@@ -354,6 +354,8 @@ public class WebRoleController {
 	public void setgrouppower(HttpServletRequest request, HttpServletResponse response){
 		String jsonData=request.getParameter("formData");
         UserPowerBean bean=GsonUtil.json2Object(jsonData, UserPowerBean.class);
+        
+        System.out.println(bean);
       
         int rslt=0;
         if(WebRoleService.exists_role_power(bean.getRoleId())>0){

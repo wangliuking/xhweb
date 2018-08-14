@@ -184,14 +184,14 @@
 		o_update,o_delete,p_add,p_update,p_delete,p_lock,b_add,
 		b_update,b_delete,b_check_joinnet,b_check_quitnet,
 		b_check_businesschange,b_check_fault,b_check_communicationsupport,
-		b_check_lend,p_power,o_check_fault,o_check_duty,o_check_inspection,o_order,o_check_add_asset)
+		b_check_lend,p_power,o_check_fault,o_check_duty,o_check_inspection,o_order,o_check_add_asset,o_check_scrap_asset)
 		values
 		(#{userId},#{o_check_report},#{o_check_service},#{o_check_netoptimize},#{o_check_emergency},
 		#{o_check_work},#{o_check_change},#{o_add},#{o_update},#{o_delete},
 		#{p_add},#{p_update},#{p_delete},#{p_lock},
 		#{b_add},#{b_update},#{b_delete},#{b_check_joinnet},#{b_check_quitnet},#{b_check_businesschange},
 		#{b_check_fault},#{b_check_communicationsupport},#{b_check_lend},#{p_power},
-		#{o_check_fault},#{o_check_duty},#{o_check_inspection},#{o_order},#{o_check_add_asset})
+		#{o_check_fault},#{o_check_duty},#{o_check_inspection},#{o_order},#{o_check_add_asset},#{o_check_scrap_asset})
 	</insert>
 	<!--修改用户权限 -->
 	<update id="updateUserPower" parameterType="xh.mybatis.bean.UserPowerBean">
@@ -205,6 +205,7 @@
 		o_check_work=#{o_check_work},
 		o_check_change=#{o_check_change},
 		o_check_add_asset=#{o_check_add_asset},
+		o_check_scrap_asset=#{o_check_scrap_asset},
 		o_add=#{o_add},
 		o_update=#{o_update},
 		o_delete=#{o_delete},
@@ -295,7 +296,17 @@
 		left join xhgmnet_web_role_user as b on a.userId=b.userId
 		left join xhgmnet_web_role as c on b.roleId=c.roleId
 		left join xhgmnet_web_user as d on a.userId=d.userId
-		WHERE a.${powerstr}="on" and c.roleType=#{roleType}
+		WHERE a.${powerstr}="on" and c.roleType=#{roleType}		
+	</select>
+
+	<select id="emailRecvUsersByGroupPower" parameterType="map"
+		resultType="java.util.HashMap" useCache="true">
+	    select a.userId,a.user,c.roleId,c.roleType from xhgmnet_web_user as a
+		left join xhgmnet_web_role_user as b on a.userId=b.userId
+		left join xhgmnet_web_role as c on b.roleId=c.roleId
+		left join xhgmnet_web_role_action as d on c.roleId=d.roleId
+		
+		WHERE d.${powerstr}="on" and c.roleType=#{roleType}	
 		
 	</select>
 

@@ -54,6 +54,8 @@ public interface WebUserMapper {
 	
 	public List<Map<String,Object>> emailRecvUsersByPower(Map<String, Object> map)throws Exception;
 	
+	public List<Map<String,Object>> emailRecvUsersByGroupPower(Map<String, Object> map)throws Exception;
+	
 	/**
 	 * 根据Role类型查找用户列表
 	 * @param roleId

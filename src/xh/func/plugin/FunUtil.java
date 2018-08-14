@@ -132,6 +132,26 @@ public class FunUtil {
 		EmailService.insertEmail(emailBean);
 		// ----END
 	}
+	/** 根据用户权限向用户发送邮件*/
+	public static void sendMsgToUserByGroupPower(String powerstr, int roleType, String title,String content,
+			HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleType", roleType);
+		List<Map<String, Object>> items = WebUserServices.emailRecvUsersByGroupPower(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle(title);
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
 	//获取登录用户ID
 	public int loginUserId(HttpServletRequest request){
 		int userId=0;

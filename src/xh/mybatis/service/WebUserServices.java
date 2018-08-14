@@ -138,6 +138,19 @@ public class WebUserServices {
 		}
 		return  list;	
 	}
+	public static List<Map<String,Object>> emailRecvUsersByGroupPower(Map<String, Object> map) {
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.emailRecvUsersByGroupPower(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;	
+	}
 	/**
 	 * 根据Role类型查找用户列表
 	 * @param roleId

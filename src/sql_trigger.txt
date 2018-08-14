@@ -1,0 +1,364 @@
+
+####### 将四期环控告警写入告警列表
+DROP TRIGGER
+IF EXISTS write_emh_alarm;
+
+CREATE TRIGGER write_emh_alarm AFTER INSERT ON xhgmnet_emh_eps_status FOR EACH ROW
+BEGIN
+INSERT INTO xhgmnet_operations_bsfault (
+		sysType,
+		bsId,
+		time,
+		weekly,
+		`level`,
+		reason,
+		location,`from`,faultType,modType,neType,subModType
+
+	)
+VALUES
+	(
+		2,
+		new.bsId,
+		new.updateTime,
+		DATE_FORMAT(new.updateTime, "%w"),
+		1,
+    new.description,
+		new.`name`,"环控网","环控故障",3000,100,new.deviceId
+	);
+
+END;
+
+####### 将三期环控告警写入告警列表
+DROP TRIGGER
+IF EXISTS write_emh3_alarm;
+
+CREATE TRIGGER write_emh3_alarm AFTER INSERT ON xhgmnet_emh_three_alarm FOR EACH ROW
+BEGIN
+INSERT INTO xhgmnet_operations_bsfault (
+		sysType,
+		bsId,
+		time,
+		weekly,
+		`level`,
+     description,
+		reason,
+		location,`from`,faultType,modType,neType,subModType,subModId
+
+	)
+VALUES
+	(
+		2,
+		new.bsId,
+		new.AlarmTime,
+		DATE_FORMAT(new.AlarmTime, "%w"),
+		1,
+    new.description,
+    new.AlarmText,
+		new.`name`,"环控网","环控故障",3000,100,new.DevNode,new.NodeID
+	);
+
+END;
+####### 将东信告警写入告警列表
+DROP TRIGGER
+IF EXISTS write_tera_alarm;
+
+CREATE TRIGGER write_tera_alarm AFTER INSERT ON xhgmnet_eastcom_alarminfo FOR EACH ROW
+BEGIN
+
+IF (
+	(
+		new.neType = 1
+		OR new.neType = 22
+	)
+	AND (
+		new.neId < 1000
+		OR new.neId >= 1200
+	)
+) THEN
+	INSERT INTO xhgmnet_operations_bsfault (
+		sysType,
+		neId,
+		neType,
+		mscId,
+		bsId,
+		time,
+		weekly,
+		`level`,
+		reason,
+		causeCode,
+		modType,
+		modId,
+		subModType,
+		subModId,
+		`code`,
+		category,
+		location,
+		faultRecoveryTime
+	)
+VALUES
+	(
+		1,
+		new.neId,
+		new.neType,
+		new.mscId,
+		new.neId,
+		new.time,
+		DATE_FORMAT(new.time, "%w"),
+		new.`level`,
+		new.info,
+		new.causeCode,
+		new.modType,
+		new.modId,
+		new.subModType,
+		new.subModId,
+		new.`code`,
+		new.category,
+		new.location,
+		new.retoreTime
+	);
+
+
+ELSEIF (
+	(new.neType = 2 OR new.neType = 4)
+	AND (
+		new.neId < 1000
+		OR new.neId >= 1200
+	)
+) THEN
+	INSERT INTO xhgmnet_operations_bsfault (
+		sysType,
+		neId,
+		neType,
+		mscId,
+		bsId,
+		time,
+		weekly,
+		`level`,
+		reason,
+		causeCode,
+		modType,
+		modId,
+		subModType,
+		subModId,
+		`code`,
+		category,
+		location,
+		faultRecoveryTime
+	)
+VALUES
+	(
+		1,
+		new.neId,
+		new.neType,
+		new.mscId,
+		new.subModId,
+		new.time,
+		DATE_FORMAT(new.time, "%w"),
+		new.`level`,
+		new.info,
+		new.causeCode,
+		new.modType,
+		new.modId,
+		new.subModType,
+		new.subModId,
+		new.`code`,
+		new.category,
+		new.location,
+		new.retoreTime
+	);
+
+
+ELSE
+	INSERT INTO xhgmnet_operations_bsfault (
+		sysType,
+		neId,
+		neType,
+		mscId,
+		bsId,
+		time,
+		weekly,
+		`level`,
+		reason,
+		causeCode,
+		modType,
+		modId,
+		subModType,
+		subModId,
+		`code`,
+		category,
+		location,
+		faultRecoveryTime
+	)
+VALUES
+	(
+		1,
+		new.neId,
+		new.neType,
+		new.mscId,
+		0,
+		new.time,
+		DATE_FORMAT(new.time, "%w"),
+		new.`level`,
+		new.info,
+		new.causeCode,
+		new.modType,
+		new.modId,
+		new.subModType,
+		new.subModId,
+		new.`code`,
+		new.category,
+		new.location,
+		new.retoreTime
+	);
+
+
+END
+IF;
+
+
+END;
+
+####### 更新四期环控告警
+DROP TRIGGER
+IF EXISTS update_emh_alarm;
+
+CREATE TRIGGER update_emh_alarm AFTER UPDATE ON xhgmnet_emh_eps_status FOR EACH ROW
+BEGIN
+update xhgmnet_operations_bsfault set faultRecoveryTime=DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s'),alarmTag=1 
+where alarmTag=0 and sysType=2 and bsId=new.bsId and subModType=new.deviceId;
+END;
+
+####### 更新三期环控告警
+DROP TRIGGER
+IF EXISTS update_emh3_alarm;
+
+CREATE TRIGGER update_emh3_alarm AFTER UPDATE ON xhgmnet_emh_three_alarm FOR EACH ROW
+BEGIN
+update xhgmnet_operations_bsfault set faultRecoveryTime=DATE_FORMAT(new.RelieveTime,'%Y-%m-%d %H:%i:%s'),alarmTag=1 
+where alarmTag=0 and sysType=2 and bsId=new.bsId and subModType=new.DevNode and subModId=new.NodeID;
+END;
+####### 更新东信告警列表
+DROP TRIGGER
+IF EXISTS update_tera_alarm;
+
+CREATE TRIGGER update_tera_alarm AFTER UPDATE ON xhgmnet_eastcom_alarminfo FOR EACH ROW
+BEGIN
+update xhgmnet_operations_bsfault set faultRecoveryTime=new.retoreTime,alarmTag=1 where alarmTag=0
+and neType=new.neType and neId=new.neId and mscId=new.mscId and modType=new.modType and modId=new.modId
+and subModType=new.subModType and subModId=new.subModId;
+END;
+####### 将四期水浸，ups告警写入 emh_eps_water_status
+DROP TRIGGER
+IF EXISTS emh_eps_water_status;
+
+CREATE TRIGGER emh_eps_water_status AFTER INSERT ON xhgmnet_emh_sensor_status FOR EACH ROW
+BEGIN
+
+IF new.deviceId = "080200000000001"
+AND new.singleId = "008304"
+AND new.singleValue < 20
+AND new.fsuId IN (
+	SELECT
+		fsuId
+	FROM
+		xhgmnet_emh_sensor_status
+	WHERE
+		singleId = "008001"
+	AND singleValue = 1
+)
+AND (
+	SELECT
+		count(*)
+	FROM
+		xhgmnet_emh_eps_status
+	WHERE
+		fsuId = new.fsuId
+) < 1 THEN
+	INSERT INTO xhgmnet_emh_eps_status (
+		`fsuId`,
+		`deviceId`,
+		`updateTime`
+	)
+VALUES
+	(
+		new.fsuId,
+		new.deviceId,
+		new.updateTime
+	);
+ELSEIF new.deviceId = "080200000000001"
+AND new.singleId = "008304"
+AND new.singleValue > 20
+ THEN
+	DELETE
+FROM
+	xhgmnet_emh_eps_status
+WHERE
+	fsuId = new.fsuId and deviceId="080200000000001";
+
+ELSEIF new.deviceId = "170300000000001"
+AND new.singleId = "017001"
+AND new.singleValue = 1
+AND (
+	SELECT
+		count(*)
+	FROM
+		xhgmnet_emh_water_status
+	WHERE
+		fsuId = new.fsuId
+) < 1 THEN
+	INSERT INTO xhgmnet_emh_water_status (
+		`fsuId`,
+		`deviceId`,
+		`updateTime`
+	)
+VALUES
+	(
+		new.fsuId,
+		new.deviceId,
+		new.updateTime
+	);
+
+
+ELSEIF new.deviceId = "170300000000001"
+AND new.singleId = "017001"
+AND new.singleValue = 0 THEN
+	DELETE
+FROM
+	xhgmnet_emh_water_status
+WHERE
+	fsuId = new.fsuId and deviceId="170300000000001";
+
+
+
+END
+IF;
+
+
+END;
+####### 更新基站断站信息
+DROP TRIGGER
+IF EXISTS updateBsStatusBybsstatus;
+
+CREATE TRIGGER updateBsStatusBybsstatus AFTER UPDATE ON xhgmnet_bsstatus FOR EACH ROW
+BEGIN
+
+IF new.link = 1 THEN
+	UPDATE xhgmnet_bs_status
+SET link = 1
+WHERE
+	bsId = new.bsId;
+
+
+ELSEIF new.link = 0 THEN
+	UPDATE xhgmnet_bs_status
+SET link = 0,
+ stats = 0
+WHERE
+	bsId = new.bsId;
+
+
+END
+IF;
+
+
+END;

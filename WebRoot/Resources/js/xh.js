@@ -659,3 +659,12 @@ for (i = 0, ln = scripts.length; i < ln; i++) {
 }
 return path;
 }
+xh.dateFormat=function(timem){
+	   var date=new Date(timem);
+	   var h=date.getFullYear();
+	   var m=date.getMonth()+1;
+	   var d=date.getDate();
+		m= m<10?"0"+m:m;   //  这里判断月份是否<10,如果是在月份前面加'0'
+		d= d<10?"0"+d:d;        //  这里判断日期是否<10,如果是在日期前面加'0'
+		return h+"-"+m+"-"+d;
+	}

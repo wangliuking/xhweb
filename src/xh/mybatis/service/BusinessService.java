@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.TransactionAttribute;
+
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.AssetAddApplayInfoBean;
 import xh.mybatis.bean.AssetAddApplyBean;
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.AssetScrapApplayInfoBean;
+import xh.mybatis.bean.AssetScrapApplyBean;
+import xh.mybatis.bean.AssetScrapInfoBean;
 import xh.mybatis.bean.AssetTransferBean;
 import xh.mybatis.mapper.AssetInfoMapper;
 import xh.mybatis.mapper.AssetTransferMapper;
@@ -36,7 +41,21 @@ public class BusinessService {
 		}
 		return  list;
 	}
-
+	/** 资产报废申请明细*/
+	public static  List<AssetScrapInfoBean> asset_scrap_info(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<AssetScrapInfoBean> list=new ArrayList<AssetScrapInfoBean>();
+		try {
+			list=mapper.asset_scrap_info(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
 	public static int assetInfoByserialNumberExists(String v){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
@@ -180,6 +199,21 @@ public class BusinessService {
 		}
 		return  result;
 	}
+	public static int updateStatus(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.updateStatus(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
 	/**
 	 * 核查资产
 	 * @param map
@@ -220,7 +254,21 @@ public class BusinessService {
 		}
 		return  result;
 	}
-	
+	public static int deleteScrapAsset(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.deleteScrapAsset(list);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}	
 	/**
 	 * 根据序列号查询是否存在
 	 * wlk
@@ -551,6 +599,244 @@ public class BusinessService {
 		int result=0;
 		try {
 			result=mapper.add_apply_check3(bean);
+			sqlSession.commit();
+			
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/** 判断报废资产是否存在*/	
+	public static int scrapAssetInfoByserialNumberExists(String v){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int count=0;
+		try {
+			count=mapper.scrapAssetInfoByserialNumberExists(v);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  count;
+	}
+
+	/** 录入报废资产*/
+	public static int insertScrapAsset(AssetScrapInfoBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.insertScrapAsset(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/** 更新报废资产TAG*/
+	public static int update_scrap_asset_applyTag(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_scrap_asset_applyTag(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/** 报废资产申请*/
+	public static int scrap_apply(AssetScrapApplyBean bean){
+
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.scrap_apply(bean);
+			sqlSession.commit();
+			if(result>0){
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("applyTag", bean.getApplyTag());
+				map.put("user",bean.getUser());
+				int r=update_scrap_asset_applyTag(map);
+				
+				if(r==0){
+					sqlSession.rollback();
+				}
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/** 报废资产申请列表*/
+	public static List<AssetScrapApplyBean>  scrap_apply_list(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<AssetScrapApplyBean> list=new ArrayList<AssetScrapApplyBean>();
+		try {
+			list=mapper.scrap_apply_list(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	/** 报废资产申请列表总数*/
+	public static int scrap_apply_list_count(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper. scrap_apply_list_count(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	/**  审核报废清单*/
+	public static int scrap_apply_check1(AssetScrapApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.scrap_apply_check1(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_scrap_asset_isLock(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_scrap_asset_isLock(user);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int scrap_apply_info(AssetScrapApplayInfoBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.scrap_apply_info(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int scrap_apply_check2(AssetScrapApplyBean bean,AssetScrapApplayInfoBean infobean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.scrap_apply_check2(bean);
+			sqlSession.commit();
+			if(result>0){
+				if(update_scrap_asset_isLock(bean.getUser())>0){
+					scrap_apply_info(infobean);
+					Map<String, Object> map=new HashMap<String, Object>();
+					map.put("isLock",0);
+					map.put("tag", 0);
+					map.put("applyTag", bean.getApplyTag());
+					map.put("user", bean.getUser());
+					List<AssetScrapInfoBean> list=asset_scrap_info(map);
+					List<AssetInfoBean> list2=new ArrayList<AssetInfoBean>();
+					for (AssetScrapInfoBean sc : list) {
+						AssetInfoBean info=new AssetInfoBean();
+						/*type,name,model,serialNumber,price,number,`from`,
+						status,note,createTime,isLock,addUser,applyTag*/
+						info.setType(sc.getType());
+						info.setName(sc.getName());
+						info.setModel(sc.getModel());
+						info.setSerialNumber(sc.getSerialNumber());
+						info.setPrice(sc.getPrice());
+						info.setNumber(sc.getNumber());
+						info.setFrom(sc.getFrom());
+						info.setStatus(sc.getStatus());
+						info.setNote(sc.getNote());
+						info.setCreateTime(sc.getCreateTime());
+						info.setIsLock(0);
+						info.setAddUser(sc.getAddUser());
+						info.setApplyTag(sc.getApplyTag());
+						
+						list2.add(info);
+					}
+					for (AssetInfoBean info : list2) {
+						if(assetInfoByserialNumberExists(info.getSerialNumber())>0){
+							Map<String, Object> map1=new HashMap<String, Object>();
+							map1.put("status",info.getStatus());
+							map1.put("checkTime",null);
+							map1.put("checkUser",null);
+							map1.put("serialNumber", info.getSerialNumber());
+							updateStatus(map1);
+						}else{
+							insertAsset(info);
+						}
+					}
+					
+					
+					
+					
+				}else{
+					sqlSession.rollback();
+				}
+				
+				
+				
+				
+				
+				
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int scrap_apply_check3(AssetScrapApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.scrap_apply_check3(bean);
 			sqlSession.commit();
 			
 			sqlSession.close();

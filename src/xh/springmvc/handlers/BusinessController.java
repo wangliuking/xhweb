@@ -1,7 +1,4 @@
 package xh.springmvc.handlers;
-
-import net.sf.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,19 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,23 +42,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.google.gson.Gson;
-
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetAddApplayInfoBean;
 import xh.mybatis.bean.AssetAddApplyBean;
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.AssetScrapApplayInfoBean;
+import xh.mybatis.bean.AssetScrapApplyBean;
+import xh.mybatis.bean.AssetScrapInfoBean;
 import xh.mybatis.bean.AssetTransferBean;
-import xh.mybatis.bean.EmailBean;
-import xh.mybatis.bean.OndutyBean;
 import xh.mybatis.bean.WebLogBean;
-import xh.mybatis.service.AssetCheckServices;
 import xh.mybatis.service.BusinessService;
-import xh.mybatis.service.OndutyService;
 import xh.mybatis.service.WebLogService;
-import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/business")
@@ -108,9 +88,9 @@ public class BusinessController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("type", type);
 		map.put("name", name);
-		map.put("model",model );
-		map.put("serialNumber",serialNumber );
-		map.put("from",from );
+		map.put("model",model);
+		map.put("serialNumber",serialNumber);
+		map.put("from",from);
 		map.put("isLock", isLock);
 		map.put("tag", tag);
 		map.put("applyTag", applyTag);
@@ -122,6 +102,32 @@ public class BusinessController {
 		result.put("success", success);
 		result.put("totals",BusinessService.assetInfoCount(map));
 		result.put("items", BusinessService.assetInfo(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/** 资产报废申请明细*/
+	@RequestMapping(value="/asset_scrap_info",method = RequestMethod.GET)
+	public void asset_scrap_info(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int isLock=funUtil.StringToInt(request.getParameter("isLock"));
+		int tag=funUtil.StringToInt(request.getParameter("tag"));
+		String applyTag=request.getParameter("applyTag");
+		String user=request.getParameter("user")==null?FunUtil.loginUser(request):request.getParameter("user");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("isLock", isLock);
+		map.put("tag", tag);
+		map.put("applyTag", applyTag);
+		map.put("user", user);
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",BusinessService.asset_scrap_info(map).size());
+		result.put("items", BusinessService.asset_scrap_info(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -199,7 +205,7 @@ public class BusinessController {
 	@RequestMapping(value="/allAssetType",method = RequestMethod.GET)
 	public void allAssetType(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		int type=funUtil.StringToInt(request.getParameter("type"));
+		/*int type=funUtil.StringToInt(request.getParameter("type"));
 		String name=request.getParameter("name");
 		String model=request.getParameter("model");
 		String serialNumber=request.getParameter("serialNumber");
@@ -215,7 +221,7 @@ public class BusinessController {
 		map.put("from",from );
 		map.put("status",status );
 		map.put("start", start);
-		map.put("limit", limit);
+		map.put("limit", limit);*/
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", BusinessService.allAssetType());
@@ -334,6 +340,38 @@ public class BusinessController {
 			WebLogService.writeLog(webLogBean);
 		}else {
 			this.message="删除资产记录失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		result.put("result",rlt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/deleteScrapAsset",method = RequestMethod.POST)
+	public void deleteScrapAsset(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("deleteIds");
+		List<String> list = new ArrayList<String>();
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			list.add(str);
+		}
+		//log.info("data==>"+bean.toString());
+		int rlt=BusinessService.deleteScrapAsset(list);
+		if (rlt==1) {
+			this.success=true;
+			this.message="成功";
+		}else {
+			this.message="删除记录失败";
+			this.success=false;
 		}
 
 		HashMap result = new HashMap();
@@ -1184,8 +1222,416 @@ public class BusinessController {
 	        return list;
 	        
 	    }
-   //资产类别
-	 public int asset_type(String str){
+	 /** 报废资产申请列表*/
+	 @RequestMapping(value="/scrap_apply_list",method = RequestMethod.GET)
+		public void scrap_apply_list(HttpServletRequest request, HttpServletResponse response){
+
+			int start=funUtil.StringToInt(request.getParameter("start"));
+			int limit=funUtil.StringToInt(request.getParameter("limit"));
+			
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("roleType", FunUtil.loginUserInfo(request).get("roleType"));
+			map.put("user", FunUtil.loginUserInfo(request).get("user"));
+			map.put("power",FunUtil.loginUserPower(request).get("o_check_scrap_asset"));
+			map.put("start", start);
+			map.put("limit", limit);
+			
+			System.out.println(map);
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("totals",BusinessService.scrap_apply_list_count(map));
+			result.put("items", BusinessService.scrap_apply_list(map));
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+	
+	 /** 增加报废资产*/
+	 @RequestMapping(value="/insertScrapAsset",method = RequestMethod.POST)
+	public void insertScrapAsset(HttpServletRequest request, HttpServletResponse response){
+			String jsonData=request.getParameter("formData");
+	        AssetScrapInfoBean bean=GsonUtil.json2Object(jsonData, AssetScrapInfoBean.class);
+	        bean.setCreateTime(funUtil.nowDate());
+	        bean.setIsLock(1);
+	        bean.setAddUser(FunUtil.loginUser(request));
+			log.info("data==>"+bean.toString());
+			
+			if(BusinessService.scrapAssetInfoByserialNumberExists(bean.getSerialNumber())>0){
+				this.message="资产编号已经存在，请重新填写";
+				this.success=false;
+				
+			}else{
+				int rlt=BusinessService.insertScrapAsset(bean);
+				if (rlt==1) {
+					this.message="录入报废资产成功";
+					this.success=true;
+					webLogBean.setOperator(funUtil.loginUser(request));
+					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+					webLogBean.setStyle(1);
+					webLogBean.setContent("录入报废资产，data="+bean.toString());
+					WebLogService.writeLog(webLogBean);
+				}else {
+					this.message="录入报废资产失败";
+					this.success=false;
+				}
+			}
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+
+	 
+	 /** 报废资产申请*/
+	 @RequestMapping("/asset/scrap_apply")
+	public void scrap_apply(HttpServletRequest request, HttpServletResponse response){
+			String userId=FunUtil.loginUserInfo(request).get("userId").toString();
+			String user=FunUtil.loginUserInfo(request).get("user").toString();
+			String userName=FunUtil.loginUserInfo(request).get("userName").toString();
+			String tel=FunUtil.loginUserInfo(request).get("tel").toString();
+			String comment=request.getParameter("comment");
+			String fileName=request.getParameter("fileName");
+			String filePath=request.getParameter("filePath");
+			AssetScrapApplyBean bean=new AssetScrapApplyBean();
+			bean.setUserId(FunUtil.StringToInt(userId));
+			bean.setUser(user);
+			bean.setUserName(userName);
+			bean.setTel(tel);
+			bean.setAttachmentName(fileName);
+			bean.setAttachmentPath(filePath);
+			bean.setComment(comment);
+			bean.setCreateTime(FunUtil.nowDate());
+			bean.setApplyTag(FunUtil.RandomAlphanumeric(15));
+			
+			System.out.println(bean);
+			int rsl=BusinessService.scrap_apply(bean);
+			
+			if(rsl==1){
+				this.success=true;
+				this.message="报废资产申请已发送，请耐心等到领导审核";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(4);
+				webLogBean.setContent("报废资产申请");
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToUserByPower("o_check_add_asset", 
+						FunUtil.StringToInt(FunUtil.loginUserInfo(request).get("roleType").toString()), 
+						"报废资产", "资产管理员申请报废资产，请审核相关信息。", request);
+
+			}else{
+				this.success=false;
+				this.message="失败";
+			}
+			
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("result", rsl);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}	
+	 /**  审核报废清单*/
+	 @RequestMapping("/asset/scrap_apply_check1")
+		public void scrap_apply_check1(HttpServletRequest request, HttpServletResponse response){
+			int id=FunUtil.StringToInt(request.getParameter("id"));
+			int checked=FunUtil.StringToInt(request.getParameter("checked"));
+			String user=request.getParameter("user");
+
+			String comment=request.getParameter("comment");
+			String fileName=request.getParameter("fileName");
+			String filePath=request.getParameter("filePath");
+			AssetScrapApplyBean bean=new AssetScrapApplyBean();
+			int status=1;
+			if(checked==0){
+				status=-1;
+			}
+			bean.setId(id);
+			bean.setStatus(status);
+			bean.setNote1(comment);
+			bean.setTime1(FunUtil.nowDateNoTime());
+			bean.setCheckUser(FunUtil.loginUser(request));
+			
+			System.out.println(bean);
+			int rsl=BusinessService.scrap_apply_check1(bean);
+			
+			if(rsl==1){
+				this.success=true;
+				this.message="审核信息完成";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(5);
+				webLogBean.setContent("审核报废资产申请");
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToOneUser(user, "报废资产","领导已经审核你提交的申请", request);
+
+			}else{
+				this.success=false;
+				this.message="失败";
+			}
+			
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("result", rsl);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	 @RequestMapping(value="/asset/scrap_apply_check2",method=RequestMethod.POST)
+		public void scrap_apply_check2(HttpServletRequest request, HttpServletResponse response){
+			int id=FunUtil.StringToInt(request.getParameter("id"));
+			String workNote=request.getParameter("workNote");
+			String user=request.getParameter("user");
+			String checkUser=request.getParameter("checkUser");
+			String applyTag=request.getParameter("applyTag");
+			AssetScrapApplyBean bean=new AssetScrapApplyBean();
+			int status=2;
+			bean.setId(id);
+			bean.setStatus(status);
+			bean.setTime2(FunUtil.nowDateNoTime());
+			bean.setUser(user);
+			bean.setCheckUser(checkUser);
+			bean.setApplyTag(applyTag);
+			AssetScrapApplayInfoBean infobean=new AssetScrapApplayInfoBean();
+			infobean.setApplyId(id);
+			infobean.setCreateTime(FunUtil.nowDateNoTime());
+			infobean.setWorkNote(workNote);
+			
+			
+			System.out.println("bean->"+bean);
+			System.out.println("bean2->"+infobean);
+			
+			int rsl=BusinessService.scrap_apply_check2(bean,infobean);
+	        		
+			if(rsl==1){
+				this.success=true;
+				this.message="报废资产入库成功";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(5);
+				webLogBean.setContent("报废入库成功");
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToOneUser(checkUser, "报废资产","资产管理员已经将报废资产录入系统中，请点击确认", request);
+				
+				
+				
+				
+
+			}else{
+				this.success=false;
+				this.message="失败";
+			}
+			
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("result", rsl);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	 public  List<AssetScrapInfoBean> getScrapDataByExcel(String  path,HttpServletRequest request){
+	        List<AssetScrapInfoBean> list=new ArrayList<AssetScrapInfoBean>();
+	        try {
+	            Workbook rwb=Workbook.getWorkbook(new File(path));
+	            File file = new File(path);
+	            if (!file.exists()) {
+	            	System.out.println("文件路径rdddd-----文件不存在存在");
+	    		} else {
+	    			System.out.println("文件路径rdddd-----文件存在");
+	    		}
+	            
+	            
+	          //取得第一个sheet  
+	            int sheet=rwb.getSheets().length;	            
+	            for(int a=0;a<sheet;a++){	            	
+	          
+	            Sheet rs=rwb.getSheet(a); 
+	            
+	            int clos=rs.getColumns();//得到所有的列
+	            int rows=rs.getRows();//得到所有的行
+	            
+	            System.out.println("文件解析clos-----"+clos);
+	            System.out.println("文件解析rows-----"+rows);
+	            
+	            for(int i = 1; i < rows; i++) {  
+	                Cell [] cell = rs.getRow(i);  
+	                int cellLen=cell.length;
+	                if(cellLen>1){
+	                	for(int j=0; j<clos; j++) {  
+	                        //getCell(列，行)  
+	                        //out.print(sheet.getCell(j, i).getContents());  
+	                		AssetScrapInfoBean bean=new AssetScrapInfoBean();
+	                		bean.setSerialNumber(rs.getCell(j++, i).getContents());
+	                		
+	                		bean.setType(asset_type(rs.getCell(j++, i).getContents()));
+	                		bean.setName(rs.getCell(j++, i).getContents());
+	                		bean.setModel(rs.getCell(j++, i).getContents());
+	                		bean.setPrice(rs.getCell(j++, i).getContents());
+	                		bean.setFrom(asset_from(rs.getCell(j++, i).getContents()));
+	                		bean.setStatus(asset_status(rs.getCell(j++, i).getContents())==2?2:2);
+	                		bean.setNote(rs.getCell(j++, i).getContents());
+	                		bean.setCreateTime(FunUtil.nowDateNoTime());
+	                        bean.setIsLock(1);
+	                        bean.setAddUser(FunUtil.loginUser(request));
+	                		list.add(bean);
+	                    }
+	                	
+	                }
+	                 
+	            }  
+	            }
+	        } catch (Exception e) {
+	            // TODO Auto-generated catch block
+	            //e.printStackTrace();
+	        	System.out.println("导入excel出错");
+	        	e.printStackTrace();
+	        } 
+	        return list;
+	        
+	    }
+	 @RequestMapping("/asset/excel/scrap")
+	 @ResponseBody
+	 public void excel_scrap(@RequestParam("pathName") CommonsMultipartFile file,
+				HttpSession session, HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			String path = request.getSession().getServletContext().getRealPath("")
+					+ "/Resources/upload/asset/";
+			String name = file.getOriginalFilename();
+			String fileName = file.getOriginalFilename();
+			List<AssetScrapInfoBean> list=new ArrayList<AssetScrapInfoBean>();
+
+			File targetFile = new File(path, fileName);
+			int r=0,count=0;
+			if (!targetFile.exists()) {
+				targetFile.mkdirs();
+			}
+			// 保存
+			try {
+				file.transferTo(targetFile);
+				
+				list=getScrapDataByExcel(path+fileName,request);
+				count=list.size();
+				
+				System.out.println("文件路径szie-----"+list.size());
+				System.out.println("文件路径rrr-----"+Arrays.toString(list.toArray()));
+				for (AssetScrapInfoBean assetInfoBean : list) {
+					if(BusinessService.scrapAssetInfoByserialNumberExists(assetInfoBean.getSerialNumber())<1){
+						r+=BusinessService.insertScrapAsset(assetInfoBean);
+					}
+						
+				}
+				//r=BusinessService.insertManyAsset(list);
+				System.out.println("文件路径r-----"+r);
+				
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+			if(r>0){
+				success=true;
+			}else{
+				success=false;
+			}
+
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("totals", count);
+			result.put("successCount", r);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			log.debug(jsonstr);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	 @RequestMapping(value="/asset/scrap_apply_check3",method=RequestMethod.POST)
+		public void scrap_apply_check3(HttpServletRequest request, HttpServletResponse response){
+			int id=FunUtil.StringToInt(request.getParameter("id"));
+			String user=request.getParameter("user");
+			String checkUser=request.getParameter("checkUser");
+			AssetScrapApplyBean bean=new AssetScrapApplyBean();
+			int status=3;
+			bean.setId(id);
+			bean.setStatus(status);
+			bean.setTime3(FunUtil.nowDateNoTime());
+			bean.setUser(user);
+			bean.setCheckUser(checkUser);
+			int rsl=BusinessService.scrap_apply_check3(bean);
+			
+			if(rsl==1){
+				this.success=true;
+				this.message="报废资产入库确认成功";
+				webLogBean.setOperator(funUtil.loginUser(request));
+				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+				webLogBean.setStyle(5);
+				webLogBean.setContent("报废资产入库确认成功");
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToOneUser(user, "报废资产","管理员已经确认报废资产入库，流程结束", request);
+				
+
+			}else{
+				this.success=false;
+				this.message="失败";
+			}
+			
+			
+			HashMap result = new HashMap();
+			result.put("success", success);
+			result.put("result", rsl);
+			result.put("message",message);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	 //资产类别
+	public int asset_type(String str){
 		 if(str.equals("交换控制中心（MSO）设备")){
 			 return 1;
 		 }else if(str.equals("远端调度台设备")){
@@ -1202,8 +1648,8 @@ public class BusinessController {
 			 return 7;
 		 }
 	 }
-	   //资产来源
-	 public int asset_from(String str){
+	//资产来源
+	public int asset_from(String str){
 			 if(str.equals("采购")){
 				 return 1;
 			 }else if(str.equals("赠送")){
@@ -1212,7 +1658,7 @@ public class BusinessController {
 				 return 3;
 			 }
 		 }
-		   //资产来源
+    //资产来源
 	public int asset_status(String str){
 		 if(str.equals("外借")){
 			 return 1;
@@ -1232,6 +1678,7 @@ public class BusinessController {
 			 return 8;
 		 }
 	}
+	
 	
 }
 

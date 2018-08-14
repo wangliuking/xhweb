@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -43,7 +45,8 @@ public class EventReportController {
 	 * @param response
 	 */
 	@RequestMapping("/list")
-	public void worklist(HttpServletRequest request, HttpServletResponse response){
+	@ResponseBody
+	public Map<String,Object> worklist(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
 		String fileName=request.getParameter("filename");
 		String contact=request.getParameter("contact");
@@ -58,6 +61,7 @@ public class EventReportController {
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("loginuser", funUtil.loginUser(request));
+		map.put("roleType", FunUtil.loginUserInfo(request).get("roleType"));
 		map.put("power", power);
 		map.put("fileName", fileName);
 		map.put("contact", contact);
@@ -65,19 +69,14 @@ public class EventReportController {
 		map.put("fileType", fileType);
 		map.put("start", start);
 		map.put("limit", limit);
+		
+		System.out.println("report->"+map);
 
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",EventReportServices.count(map));
 		result.put("items",EventReportServices.eventReportlist(map));
-		response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return result;
 		
 	}
 	/**
@@ -90,8 +89,11 @@ public class EventReportController {
 		String formData=request.getParameter("formData");	
 		EventReportBean bean=GsonUtil.json2Object(formData, EventReportBean.class);
 		EmailBean emailBean=new EmailBean();
-		bean.setRecvUser("10002");
+		bean.setContact(FunUtil.loginUserInfo(request).get("userName").toString());
+		bean.setTel(FunUtil.loginUserInfo(request).get("tel").toString());
+		//bean.setRecvUser("10002");
 		bean.setUploadUser(funUtil.loginUser(request));
+		bean.setCreatetime(new Date());
 		log.info(bean.toString());		
 		int rlt=EventReportServices.addEventReport(bean);
 		
@@ -104,12 +106,15 @@ public class EventReportController {
 			webLogBean.setContent("上传事件报告");
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("事件报告");
+			/*emailBean.setTitle("事件报告");
 			emailBean.setRecvUser("10002");
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("请签收"+bean.getFileType());
 			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			EmailService.insertEmail(emailBean);*/
+			
+			FunUtil.sendMsgToUserByPower("o_check_report", 2, "提交报告", "服务方提交了报告，请签收", request);
+			
 			
 			
 		}else{
@@ -140,9 +145,17 @@ public class EventReportController {
 	public void signWork(HttpServletRequest request, HttpServletResponse response){
 		int id=Integer.parseInt(request.getParameter("id"));
 		String recvUser=request.getParameter("recvUser");
-		int rlt=EventReportServices.signEventReport(id);
-		EmailBean emailBean=new EmailBean();
+		int status=Integer.parseInt(request.getParameter("status"));
+		String note=request.getParameter("note");
 		
+		
+		Map<String,Object> modeMap=new HashMap<String, Object>();
+		modeMap.put("id", id);
+		modeMap.put("checkUser", FunUtil.loginUser(request));
+		modeMap.put("checkTime", FunUtil.nowDateNoTime());
+		modeMap.put("status", status);
+		modeMap.put("note1", note);
+		int rlt=EventReportServices.signEventReport(modeMap);
 		if(rlt==1){
 			this.success=true;
 			this.message="签收成功";
@@ -152,12 +165,14 @@ public class EventReportController {
 			webLogBean.setContent("签收事件报告，id=" +id);
 			WebLogService.writeLog(webLogBean);
 			
-			emailBean.setTitle("事件报告");
+			/*emailBean.setTitle("事件报告");
 			emailBean.setRecvUser(recvUser);
 			emailBean.setSendUser(funUtil.loginUser(request));
 			emailBean.setContent("事件报告已经签收");
 			emailBean.setTime(funUtil.nowDate());
-			EmailService.insertEmail(emailBean);
+			EmailService.insertEmail(emailBean);*/
+			
+			FunUtil.sendMsgToOneUser(recvUser, "提交报告", "管理方已经签收你的报告", request);
 			
 		}else{
 			this.success=false;

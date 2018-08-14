@@ -505,36 +505,6 @@ xh.search_more_bs=function(){
 	var $scope = angular.element(appElement).scope();
 	$scope.search_more_bs()
 }
-// 基站运行记录
-xh.excelToBsRun = function() {
-	xh.maskShow();
-	$("#btn-run").button('loading');
-	$.ajax({
-		url : '../../bsstatus/ExcelToStationStatus',
-		type : 'get',
-		dataType : "json",
-		data : {},
-		async : false,
-		success : function(data) {
-
-			$("#btn-run").button('reset');
-			xh.maskHide();
-			if (data.success) {
-				window.location.href = "../../bsstatus/downExcel?filePath="
-						+ data.pathName;
-
-			} else {
-				toastr.error("导出失败", '提示');
-			}
-		},
-		error : function() {
-			$("#btn-run").button('reset');
-			toastr.error("导出失败", '提示');
-			xh.maskHide();
-		}
-	});
-
-};
 
 // 基站状态检查表
 xh.excelToBsstatus = function() {

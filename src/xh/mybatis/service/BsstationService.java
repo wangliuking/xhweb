@@ -1,7 +1,10 @@
 package xh.mybatis.service;
  
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -626,12 +629,40 @@ public class BsstationService {
 				if(list1.size()>0){
 					map3.put("zone", map1.get("zone"));
 					map3.put("total", list1.size());
+					map3.put("sort",area(map1.get("zone").toString()));
 					map3.put("item", list1);
 					result.add(map3);
+					
+					
+					
 				}
 				
 				
+				/*[{zone=双流}, {zone=大邑}, {zone=天府新区}, 
+				 {zone=崇州}, {zone=彭州}, {zone=成华区}, 
+				 {zone=新津}, {zone=新都}, {zone=武侯区}, 
+				 {zone=温江}, {zone=移动基站}, {zone=简阳}, 
+				 {zone=蒲江}, {zone=邛崃}, {zone=郫都区}, 
+				 {zone=都江堰}, {zone=金堂}, {zone=金牛区}, 
+				 {zone=锦江区}, {zone=青白江}, {zone=青羊区},
+				 {zone=高新区}, {zone=龙泉驿}]*/
+
+				
+				
 			}
+			
+			Collections.sort(result, new Comparator<HashMap<String, Object>>() {
+	            public int compare(HashMap<String, Object> o1, HashMap<String, Object> o2) {
+	            	
+	            	
+	            	Integer a1=Integer.valueOf(o1.get("sort").toString());
+	            	Integer a2=Integer.valueOf(o2.get("sort").toString());
+	            	
+	                return a1.compareTo(a2);
+	            }
+	        });
+			
+			
 			
 			sqlSession.close();
 			
@@ -640,6 +671,21 @@ public class BsstationService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public static int area(String zone){
+		String[] a={
+				"武侯区","青羊区","锦江区","金牛区","成华区","高新区",
+				"龙泉驿","郫都区","双流","温江","彭州","崇州","天府新区",
+				"大邑","新津","新都","蒲江","邛崃","都江堰","金堂","青白江","简阳",
+				"移动基站"};
+		
+		int sort=1;
+		for (int i = 0; i < a.length; i++) {
+			if(zone.equals(a[i])){
+				sort=i+1;
+			}
+		}		
+		return sort;
 	}
 	public static List<HashMap<String, Object>> bs_business_info(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);

@@ -17,7 +17,7 @@
 		<!-- 基站闪断时长判断 单位分钟 -->
 		<bsflash>5</bsflash>
 		<smsnet>1</smsnet>
-		<news>公告栏</news>
+		<news>请大家将平台中的个人资料填写完整，方便以后的流程工作开展！！</news>
 	</web>
 	<smsnet>
 	<ip>192.168.120.160</ip>

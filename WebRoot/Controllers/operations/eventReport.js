@@ -37,6 +37,11 @@ xh.load = function() {
 			}
 		};
 	});
+	app.filter('dateFormat', function() { // 可以注入依赖
+		return function(text) {
+			return xh.dateFormat(text);
+		};
+	});
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
@@ -50,7 +55,6 @@ xh.load = function() {
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			console.log("loginuser="+$scope.loginUser);
 			$scope.loginUserRoleId = response.roleId;
 		});
 		$http.get(
