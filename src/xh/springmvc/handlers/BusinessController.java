@@ -868,7 +868,7 @@ public class BusinessController {
 			file.transferTo(targetFile);
 			this.success = true;
 			this.message = "文件上传成功";
-			fileName=data+"-"+fileName;
+			fileName=data+fileName.substring(fileName.indexOf("."));
 			File rename = new File(path,fileName);
 			targetFile.renameTo(rename);
 			

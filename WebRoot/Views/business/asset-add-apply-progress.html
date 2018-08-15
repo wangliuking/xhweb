@@ -58,8 +58,12 @@
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
 									<h2>提交报废资产申请</h2>
-									<h2>
+									<h2 ng-if="progressData.attachmentName!=null">
 										<a href="#" ng-click="download(progressData.attachmentName)">{{progressData.attachmentName}}</a>
+										<p>
+										<a href="#" ng-click="download(progressData.attachmentName)">下载</a>
+										 |<a href="#" ng-click="preview(progressData.attachmentName)">预览</a>
+										 </p>
 									</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.comment}}</span>

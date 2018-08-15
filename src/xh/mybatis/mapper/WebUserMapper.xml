@@ -184,14 +184,16 @@
 		o_update,o_delete,p_add,p_update,p_delete,p_lock,b_add,
 		b_update,b_delete,b_check_joinnet,b_check_quitnet,
 		b_check_businesschange,b_check_fault,b_check_communicationsupport,
-		b_check_lend,p_power,o_check_fault,o_check_duty,o_check_inspection,o_order,o_check_add_asset,o_check_scrap_asset)
+		b_check_lend,p_power,o_check_fault,o_check_duty,o_check_inspection,
+		o_order,o_check_add_asset,o_check_scrap_asset,o_check_cut,o_check_system_up)
 		values
 		(#{userId},#{o_check_report},#{o_check_service},#{o_check_netoptimize},#{o_check_emergency},
 		#{o_check_work},#{o_check_change},#{o_add},#{o_update},#{o_delete},
 		#{p_add},#{p_update},#{p_delete},#{p_lock},
 		#{b_add},#{b_update},#{b_delete},#{b_check_joinnet},#{b_check_quitnet},#{b_check_businesschange},
 		#{b_check_fault},#{b_check_communicationsupport},#{b_check_lend},#{p_power},
-		#{o_check_fault},#{o_check_duty},#{o_check_inspection},#{o_order},#{o_check_add_asset},#{o_check_scrap_asset})
+		#{o_check_fault},#{o_check_duty},#{o_check_inspection},#{o_order},#{o_check_add_asset},
+		#{o_check_scrap_asset},#{o_check_cut},#{o_check_system_up})
 	</insert>
 	<!--修改用户权限 -->
 	<update id="updateUserPower" parameterType="xh.mybatis.bean.UserPowerBean">
@@ -209,6 +211,9 @@
 		o_add=#{o_add},
 		o_update=#{o_update},
 		o_delete=#{o_delete},
+		o_check_cut=#{o_check_cut},
+		o_check_cut=#{o_check_cut},
+		o_check_system_up=#{o_check_system_up},
 
 		p_add=#{p_add},
 		p_update=#{p_update},
