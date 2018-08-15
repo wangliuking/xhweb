@@ -263,6 +263,36 @@ xh.load = function() {
 		};
 	});
 };
+
+/*修改核减申请表*/
+xh.sheetChange = function() {
+    var bean={
+        "id":$("div[name='id']").text(),
+        bsStationNote:$("div[name='bsStationNote']").text(),
+        faultNote:$("div[name='faultNote']").text(),
+        department:$("div[name='department']").text(),
+        checkTime:$("div[name='checkTime']").text(),
+        suggestion:$("div[name='suggestion']").text(),
+        draftingPerson:$("div[name='draftingPerson']").text(),
+        checkPerson:$("div[name='checkPerson']").text()
+    }
+    $.ajax({
+        url : '../../checkCut/sheetChange',
+        type : 'POST',
+        dataType : "json",
+        data : {"bean" : JSON.stringify(bean)},
+        success : function(data) {
+            $("#checkCut-btn").button('reset');
+            $('#sheet').modal('hide');
+            xh.refresh();
+            toastr.success(data.message, '提示');
+        },
+        error : function() {
+            $("#checkCut-btn").button('reset');
+        }
+    });
+};
+
 /*运维组发起请求审核*/
 xh.add = function() {
 	$.ajax({
@@ -286,39 +316,6 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 		}
 	});
-};
-
-/*修改核减申请表*/
-xh.sheetChange = function() {
-    var bean={
-        "id":$("div[name='id']").text(),
-        systemChangeStartTime:$("div[name='systemChangeStartTime']").text(),
-        systemChangeExcTime:$("div[name='systemChangeExcTime']").text(),
-        systemChangeType:$("input[name='systemChangeType']:checked").val(),
-        versionOld:$("div[name='versionOld']").text(),
-        versionNew:$("div[name='versionNew']").text(),
-        solutionNewVersion:$("div[name='solutionNewVersion']").text(),
-        processAndResult:$("div[name='processAndResult']").text(),
-        systemChangeNote:$("div[name='systemChangeNote']").text(),
-        excPerson:$("div[name='excPerson']").text(),
-        supervisePersion:$("div[name='supervisePersion']").text(),
-        serialNumber:$("div[name='serialNumber']").text()
-    }
-    $.ajax({
-        url : '../../checkCut/sheetChange',
-        type : 'POST',
-        dataType : "json",
-        data : {"bean" : JSON.stringify(bean)},
-        success : function(data) {
-            $("#checkCut-btn").button('reset');
-            $('#sheet').modal('hide');
-            xh.refresh();
-            toastr.success(data.message, '提示');
-        },
-        error : function() {
-            $("#checkCut-btn").button('reset');
-        }
-    });
 };
 
 xh.checkneg1 = function() {

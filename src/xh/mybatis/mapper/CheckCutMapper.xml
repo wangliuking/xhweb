@@ -67,4 +67,17 @@
         user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
     </update>
 
+    <!-- 查询系统升级表格数据 -->
+    <select id="sheetShow" parameterType="map" resultType="xh.mybatis.bean.CheckCutSheet">
+        select * from xhgmnet_bs_checkcutsheet where id=#{id}
+    </select>
+
+    <!-- 修改系统升级表格 -->
+    <update id="sheetChange" parameterType="xh.mybatis.bean.CheckCutSheet">
+        replace into xhgmnet_bs_checkcutsheet(id,bsStationNote,faultNote,department,checkTime,suggestion,
+        draftingPerson,checkPerson)
+        values (#{id},#{bsStationNote},#{faultNote},#{department},#{checkTime},#{suggestion},
+        #{draftingPerson},#{checkPerson})
+    </update>
+
 </mapper>
