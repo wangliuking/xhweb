@@ -25,9 +25,9 @@ public class test {
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
          executor.shutdown();*/
-		 String converfilename="D:/apache-tomcat/webapps/xhweb/Resources/upload/asset/ss.docx";
-		 DocConverter d = new DocConverter(converfilename); 
-         d.conver();
+		 String a="123.txt";
+		 
+		System.out.println(a.substring(a.indexOf(".")));
 		
      }
 	

@@ -24,6 +24,9 @@ public class UserPowerBean {
 	private String o_check_duty="off"; //'运维管理-运维值班文件审核',
 	private String o_check_inspection="off"; //'运维管理-运维巡检文件审核',
 	private String o_order="off"; //'运维管理-运维派单',
+	private String o_check_cut="off";//审核核减流程
+	private String o_check_system_up="off";//审核系统升级
+
 	
 	
 	/*平台管理权限*/
@@ -47,10 +50,15 @@ public class UserPowerBean {
 	private String b_check_communicationsupport="off" ;//'审核通信保障',
 	private String b_check_lend="off";//'审核租借',
 	
-	private String r_send_order="off";
-	private String r_recv_order="off";
 	
-	private String recv_work_contact="off";
+	
+	private String r_order="off";//派单
+	private String recv_work_contact="off"; //工作联系单
+	private String r_cut="off";   //发起核检
+	private String r_system_up="off";//发起系统升级
+	private String r_netoptimize="off"; //'网络优化',
+	private String r_emergency="off"; //'应急处置演练',
+			
 	
 	
 	
@@ -240,18 +248,6 @@ public class UserPowerBean {
 		this.o_order = o_order;
 	}
 	
-	public String getR_send_order() {
-		return r_send_order;
-	}
-	public void setR_send_order(String r_send_order) {
-		this.r_send_order = r_send_order;
-	}
-	public String getR_recv_order() {
-		return r_recv_order;
-	}
-	public void setR_recv_order(String r_recv_order) {
-		this.r_recv_order = r_recv_order;
-	}
 	
 	public int getRoleId() {
 		return roleId;
@@ -273,6 +269,53 @@ public class UserPowerBean {
 	public void setRecv_work_contact(String recv_work_contact) {
 		this.recv_work_contact = recv_work_contact;
 	}
+
+
+	
+	public String getO_check_cut() {
+		return o_check_cut;
+	}
+	public void setO_check_cut(String o_check_cut) {
+		this.o_check_cut = o_check_cut;
+	}
+	
+	public String getO_check_system_up() {
+		return o_check_system_up;
+	}
+	public void setO_check_system_up(String o_check_system_up) {
+		this.o_check_system_up = o_check_system_up;
+	}
+
+	public String getR_order() {
+		return r_order;
+	}
+	public void setR_order(String r_order) {
+		this.r_order = r_order;
+	}
+	public String getR_cut() {
+		return r_cut;
+	}
+	public void setR_cut(String r_cut) {
+		this.r_cut = r_cut;
+	}
+	public String getR_system_up() {
+		return r_system_up;
+	}
+	public void setR_system_up(String r_system_up) {
+		this.r_system_up = r_system_up;
+	}
+	public String getR_netoptimize() {
+		return r_netoptimize;
+	}
+	public void setR_netoptimize(String r_netoptimize) {
+		this.r_netoptimize = r_netoptimize;
+	}
+	public String getR_emergency() {
+		return r_emergency;
+	}
+	public void setR_emergency(String r_emergency) {
+		this.r_emergency = r_emergency;
+	}
 	@Override
 	public String toString() {
 		return "UserPowerBean [roleId=" + roleId + ", userId=" + userId
@@ -286,18 +329,20 @@ public class UserPowerBean {
 				+ o_add + ", o_update=" + o_update + ", o_delete=" + o_delete
 				+ ", o_check_fault=" + o_check_fault + ", o_check_duty="
 				+ o_check_duty + ", o_check_inspection=" + o_check_inspection
-				+ ", o_order=" + o_order + ", p_add=" + p_add + ", p_update="
-				+ p_update + ", p_delete=" + p_delete + ", p_lock=" + p_lock
-				+ ", p_power=" + p_power + ", b_add=" + b_add + ", b_update="
-				+ b_update + ", b_delete=" + b_delete + ", b_check_joinnet="
-				+ b_check_joinnet + ", b_check_quitnet=" + b_check_quitnet
-				+ ", b_check_businesschange=" + b_check_businesschange
-				+ ", b_check_fault=" + b_check_fault
+				+ ", o_order=" + o_order + ", o_check_cut=" + o_check_cut
+				+ ", o_check_system_up=" + o_check_system_up + ", p_add="
+				+ p_add + ", p_update=" + p_update + ", p_delete=" + p_delete
+				+ ", p_lock=" + p_lock + ", p_power=" + p_power + ", b_add="
+				+ b_add + ", b_update=" + b_update + ", b_delete=" + b_delete
+				+ ", b_check_joinnet=" + b_check_joinnet + ", b_check_quitnet="
+				+ b_check_quitnet + ", b_check_businesschange="
+				+ b_check_businesschange + ", b_check_fault=" + b_check_fault
 				+ ", b_check_communicationsupport="
 				+ b_check_communicationsupport + ", b_check_lend="
-				+ b_check_lend + ", r_send_order=" + r_send_order
-				+ ", r_recv_order=" + r_recv_order + ", recv_work_contact="
-				+ recv_work_contact + "]";
+				+ b_check_lend + ", r_order=" + r_order
+				+ ", recv_work_contact=" + recv_work_contact + ", r_cut="
+				+ r_cut + ", r_system_up=" + r_system_up + ", r_netoptimize="
+				+ r_netoptimize + ", r_emergency=" + r_emergency + "]";
 	}
 	
 	

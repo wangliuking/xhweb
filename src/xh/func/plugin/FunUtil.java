@@ -60,6 +60,8 @@ public class FunUtil {
 	//获取登录用户
 	public static String loginUser(HttpServletRequest request){
 		String user="";
+		
+	
 		try {
 			user=SingLoginListener.getLogUserMap().get(request.getSession().getId()).toString();
 		} catch (NullPointerException e) {
@@ -132,7 +134,7 @@ public class FunUtil {
 		EmailService.insertEmail(emailBean);
 		// ----END
 	}
-	/** 根据用户权限向用户发送邮件*/
+	/** 根据用户组权限向用户发送邮件*/
 	public static void sendMsgToUserByGroupPower(String powerstr, int roleType, String title,String content,
 			HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();

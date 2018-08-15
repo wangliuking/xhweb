@@ -98,22 +98,11 @@
 								<div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
-											<input id="r_send_order" class="toggle-switch"
-												type="checkbox" ng-checked="data.r_send_order=='on'"
-												name="r_send_order"> <label for="r_send_order"></label>
+											<input id="r_order" class="toggle-switch"
+												type="checkbox" ng-checked="data.r_order=='on'"
+												name="r_order"> <label for="r_order"></label>
 										</div>
 										派单
-									</div>
-								</div>
-								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
-										<div class="pull-right">
-											<input id="r_recv_order" class="toggle-switch"
-												type="checkbox" ng-checked="data.r_recv_order=='on'"
-												name="r_recv_order"> <label for="r_recv_order"></label>
-										</div>
-										接单
 									</div>
 								</div>
 								<!-- col-md-3 -->
@@ -127,7 +116,28 @@
 										接收工作联系单
 									</div>
 								</div>
-								
+								<!-- col-md-3 -->
+								<div class="form-group col-md-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="r_cut" class="toggle-switch"
+												type="checkbox" ng-checked="data.r_cut=='on'"
+												name="r_cut"> <label for="r_cut"></label>
+										</div>
+										发起核减
+									</div>
+								</div>
+										<!-- col-md-3 -->
+								<div class="form-group col-md-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="r_system_up" class="toggle-switch"
+												type="checkbox" ng-checked="data.r_system_up=='on'"
+												name="r_system_up"> <label for="r_system_up"></label>
+										</div>
+										系统升级
+									</div>
+								</div>
 								<!-- col-md-3 -->
 							</div>
 						</div>

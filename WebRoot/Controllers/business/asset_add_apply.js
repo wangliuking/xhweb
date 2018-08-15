@@ -128,6 +128,38 @@ xh.load = function() {
 				toastr.error("文件不存在", '提示');
 			}
 		};
+		$scope.preview = function(filename) {
+			xh.maskShow();
+			var path="../../Resources/upload/asset/"
+			
+			var filepath = "/Resources/upload/asset/" + filename;
+			
+			var url="../web/doc-preview.html?fileName="+filename+"&filePath="+path;
+			$.ajax({
+	    		url : '../../web/preview',
+	    		type : 'POST',
+	    		dataType : "json",
+	    		async : false,
+	    		data:{
+	    			filePath:filepath
+	    		},
+	    		success : function(data) {
+	    			xh.maskHide();
+	    			if (data.success) {
+	    				window.open(url);
+
+	    			} else {
+	    				toastr.error("文档转换失败，只能预览office，txt文档", '提示');
+	    			}
+	    		},
+	    		error : function() {
+	    			toastr.error("系统错误", '提示');
+	    			xh.maskHide();
+	    			
+	    		}
+	    	});
+			
+		};
 	    
 	    $scope.checkedChange=function(issure){
 	    	$scope.issure=issure==1?true:false;

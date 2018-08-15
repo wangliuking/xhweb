@@ -12,6 +12,8 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
  
 public class DocConverter {
  
+	 private static final String OFFICE_IP=FunUtil.readXml("doc", "officeUrl");
+	 private static final String SWFTOOL_DIR=FunUtil.readXml("doc", "swftooldir");
      private static final int environment = 1;// 环境 1：windows 2:linux
      private String fileString;// (只涉及pdf2swf路径问题)
      private String outputPath = "";// 输入路径 ，如果不设置就输出在默认的位置
@@ -54,7 +56,7 @@ public class DocConverter {
      private void doc2pdf() throws Exception {
           if (docFile.exists()) {
                if (!pdfFile.exists()) {
-                    OpenOfficeConnection connection = new SocketOpenOfficeConnection("127.0.0.1", 8100);
+                    OpenOfficeConnection connection = new SocketOpenOfficeConnection(OFFICE_IP, 8100);
                     try {
                          connection.connect();
                          DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
@@ -92,7 +94,7 @@ public class DocConverter {
                if (pdfFile.exists()) {
                     if (environment == 1) {// windows环境处理
                          try {
-                              Process p = r.exec("C:/Program Files (x86)/SWFTools/pdf2swf.exe "+ pdfFile.getPath() + " -o "+ swfFile.getPath() + " -T 9");
+                              Process p = r.exec(SWFTOOL_DIR+"/pdf2swf.exe "+ pdfFile.getPath() + " -o "+ swfFile.getPath() + " -T 9");
                               System.out.print(loadStream(p.getInputStream()));
                               System.err.print(loadStream(p.getErrorStream()));
                               System.out.print(loadStream(p.getInputStream()));

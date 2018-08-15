@@ -73,17 +73,19 @@
 		update
 		xhgmnet_web_role_action set
 
-		r_send_order=#{r_send_order},
-		r_recv_order=#{r_recv_order},
-		recv_work_contact=#{recv_work_contact}
+		r_order=#{r_order},
+		recv_work_contact=#{recv_work_contact},
+		r_cut=#{r_cut},
+		r_system_up=#{r_system_up}
 		where roleId=#{roleId}
 	</update> 
 	<!--添加角色权限 -->
 	<insert id="add_role_power" keyProperty="roleId"
 		parameterType="xh.mybatis.bean.UserPowerBean">
 		insert into xhgmnet_web_role_action
-		(roleId,r_send_order,r_recv_order,recv_work_contact)
+		(roleId,r_order,recv_work_contact,r_cut,r_system_up,r_netoptimize,r_emergency)
 		values
-		(#{roleId},#{r_send_order},#{r_recv_order},#{recv_work_contact})
+		(#{roleId},#{r_order},#{recv_work_contact},#{r_cut},#{r_system_up},#{r_netoptimize},
+		#{r_emergency})
 	</insert>
 </mapper>

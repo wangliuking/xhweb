@@ -70,6 +70,10 @@
 	 <bs_water>1</bs_water>
 	 <bs_ups>1</bs_ups>
 	</alarm>
+	<doc>
+	<officeUrl>127.0.0.1</officeUrl>
+	<swftooldir>C:/Program Files (x86)/SWFTools</swftooldir>
+	</doc>
 
 </config>
 
