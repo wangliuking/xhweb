@@ -19,44 +19,34 @@
                             <tr>
                                 <td colspan="6" style="text-align: center;font-size: 18px;">
                                     故障核减申请书
-                                    <div contenteditable="true" class="input-div" name="id" ng-show="false">
-                                        {{sheetData.id}}
-                                    </div>
+                                    <div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetData.id}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
                                     <p>基站情况：</p>
                                     <div contenteditable="true" style="height: 150px;width:870px;"
-                                         class="textarea-div" name="bsStationNote">
-                                        {{sheetData.solutionNewVersion}}
-                                    </div>
+                                         class="textarea-div" name="bsStationNote">{{sheetData.bsStationNote}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:150px;width:100%;border-top: none;border-bottom: none;" colspan="6">
                                     <p>故障情况：</p>
                                     <div contenteditable="true" style="height: 150px;width:870px;"
-                                         class="textarea-div" name="faultNote">
-                                        {{sheetData.solutionNewVersion}}
-                                    </div>
+                                         class="textarea-div" name="faultNote">{{sheetData.faultNote}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
                                     colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:260px;"
-                                         class="input-div pull-right" name="department">
-                                        成都市应急调度指挥无线通信网四期项目部
-                                    </div>
+                                         class="textarea-div pull-right" name="department">成都市应急调度指挥无线通信网四期项目部</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:160px;"
-                                         class="input-div pull-right" name="checkTime">
-                                        2018年7月2日 星期一
-                                    </div>
+                                         class="textarea-div pull-right" name="checkTime">{{sheetData.checkTime}}</div>
                                 </td>
                             </tr>
 
@@ -64,8 +54,7 @@
                                 <td style="height:80px;width:100%;border-top: none;border-bottom: none;" colspan="6">
                                     <p>成都市软件产业发展中心 （意见）</p>
                                     <div contenteditable="true" style="height: 80px;width:870px;"
-                                         class="textarea-div " name="suggestion">
-                                    </div>
+                                         class="textarea-div " name="suggestion">{{sheetData.suggestion}}</div>
                                 </td>
                             </tr>
 
@@ -78,14 +67,12 @@
                                 <td style="height:50px;width:100px;border:none;">拟制：</td>
                                 <td style="height:50px;width:343px;border:none;">
                                     <div contenteditable="true"
-                                         class="textarea-div" name="draftingPerson">{{sheetData.solutionNewVersion}}
-                                    </div>
+                                         class="textarea-div" name="draftingPerson">{{sheetData.draftingPerson}}</div>
                                 </td>
                                 <td style="height:50px;width:100px;border:none;">审核：</td>
                                 <td style="height:50px;width:343px;border:none;">
                                     <div contenteditable="true"
-                                         class="textarea-div" name="checkPerson">{{sheetData.solutionNewVersion}}
-                                    </div>
+                                         class="textarea-div" name="checkPerson">{{sheetData.checkPerson}}</div>
                                 </td>
                             </tr>
                             </tbody>

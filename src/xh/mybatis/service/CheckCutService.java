@@ -2,6 +2,7 @@ package xh.mybatis.service;
 
 import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.CheckCutBean;
+import xh.mybatis.bean.CheckCutSheet;
 import xh.mybatis.mapper.CheckCutMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -218,4 +219,34 @@ public class CheckCutService {
         }
         return result;
     }
+
+    public static CheckCutSheet sheetShow(Map<String, Object> param) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        CheckCutSheet bean = null;
+        try {
+            bean = mapper.sheetShow(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return bean;
+    }
+
+    public static int sheetChange(CheckCutSheet bean){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result = 0;
+        try {
+            result = mapper.sheetChange(bean);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+    
 }

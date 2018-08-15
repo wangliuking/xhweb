@@ -1,15 +1,18 @@
 package xh.springmvc.handlers;
 
+import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.CheckCutSheet;
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
@@ -96,6 +99,55 @@ public class CheckCutController {
     }
 
     /**
+     * 显示核减申请表
+     */
+    @RequestMapping(value="/sheetShow",method = RequestMethod.GET)
+    public void sheetShow(HttpServletRequest request,HttpServletResponse response){
+        this.success = true;
+        int id = Integer.parseInt(request.getParameter("id"));
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        HashMap result = new HashMap();
+        result.put("success",success);
+        result.put("items",CheckCutService.sheetShow(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改核减申请表
+     */
+    @RequestMapping(value = "/sheetChange",method = RequestMethod.POST)
+    @ResponseBody
+    public void sheetChange(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "bean") String beanStr){
+        //将json字符串转换成json对象
+        JSONObject jsonobject = JSONObject.fromObject(beanStr);
+        //将json对象转换成User实体对象
+        CheckCutSheet bean = (CheckCutSheet)JSONObject.toBean(jsonobject, CheckCutSheet.class);
+        this.success = true;
+        int res = CheckCutService.sheetChange(bean);
+        this.message = "保存成功";
+        HashMap result = new HashMap();
+        result.put("message",message);
+        result.put("success",success);
+        result.put("result",res);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 运维人员重新发起核减申请
      *
      * @param request
@@ -175,20 +227,15 @@ public class CheckCutController {
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.insertCheckCut(bean);
-        /*
+
         if (rst == 1) {
-            this.message = "应急演练申请信息已经成功提交";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(1);
-            webLogBean.setContent("应急演练申请信息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
+            this.message = "核减申请信息已经成功提交";
             //----发送通知邮件
-           sendNotifytoGroup("o_check_changeemergency",10003, "网络优化任务下达", request);
+
            //----END
         } else {
             this.message = "应急演练申请信息提交失败";
-        }*/
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -465,54 +512,5 @@ public class CheckCutController {
         //存储记录
     }
 
-    /**
-	 * 发送邮件(指定收件人)--优化整改
-	 * 
-	 * @param recvUser
-	 *            邮件接收者
-	 * @param content
-	 *            邮件内容
-	 * @param request
-	 */
-	public void sendNotifytoSingle(String recvUser, String content,
-			HttpServletRequest request) {
-		// ----发送通知邮件
-		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("优化整改申请");
-		emailBean.setRecvUser(recvUser);
-		emailBean.setSendUser(funUtil.loginUser(request));
-		emailBean.setContent(content);
-		emailBean.setTime(FunUtil.nowDate());
-		EmailService.insertEmail(emailBean);
-		// ----END
-	}
 
-	/**
-	 * 发送邮件(指定权限)--优化整改
-	 * 
-	 * @param
-	 * @param content
-	 *            邮件内容
-	 * @param request
-	 */
-	public void sendNotifytoGroup(String powerstr, int roleId, String content,
-			HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("powerstr", powerstr);
-		map.put("roleId", roleId);
-		List<Map<String, Object>> items = WebUserServices
-				.userlistByPowerAndRoleId(map);
-		log.info("邮件发送：" + items);
-		for (Map<String, Object> item : items) {
-			// ----发送通知邮件
-			EmailBean emailBean = new EmailBean();
-			emailBean.setTitle("优化整改");
-			emailBean.setRecvUser(item.get("user").toString());
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent(content);
-			emailBean.setTime(FunUtil.nowDate());
-			EmailService.insertEmail(emailBean);
-			// ----END
-		}
-	}
 }
