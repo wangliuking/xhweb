@@ -49,17 +49,18 @@ xh.load = function() {
 			$scope.typeData = response.items;
 		});
 		/*资产名称统计*/
-		$http.get("../../business/allAssetNameCount").
+		/*$http.get("../../business/allAssetNameCount").
 		success(function(response){
 			xh.maskHide();
 			$scope.nameData = response.items;
-		});
+		});*/
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 			$("#table-checkbox").prop("checked", false);
 		};
-		xh.statusPie();
+		//xh.statusPie();
+		xh.chart();
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -275,6 +276,142 @@ xh.statusPie = function() {
 		chart.resize();
 	};
 };
+
+xh.chart = function() {
+	
+	xh.maskShow();
+	// 设置容器宽高
+	 var resizeBarContainer = function() {
+	  $("#chart").width(parseInt($("#chart").parent().width()));
+	  $("#chart").height(document.documentElement.clientHeight/2);
+	  };
+	  resizeBarContainer();
+	 
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/bar'], function(ec) {
+		chart = ec.init(document.getElementById('chart'));
+		chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});
+		var option = {
+			    title : {
+			        text: ''/*,
+			        subtext: '纯属虚构'*/
+			    },
+			    /*tooltip : {
+			        trigger: 'axis'
+			    },*/
+			    tooltip : {
+					trigger : 'item'/*,
+					formatter: function (params, ticket, callback) {  
+						
+						
+			            //x轴名称  
+			            var name = params.name; 
+			            //图表title名称  
+			            var seriesName = params.seriesName;  
+			            //值  
+			            var value = params.data;  
+			            var valueFliter = xh.formatTime(parseInt(value)); 
+			            return name + '<br />' + seriesName + '<br />' + valueFliter; 
+			           
+			        }*/
+				},
+			   /* legend: {
+			        data:['遗失']
+			    },*/
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            mark : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            magicType : {show: true, type: ['bar']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : []
+			        }
+			    ],
+			    yAxis : [
+			      {
+                    type: 'value',
+                    name: '设备数量',
+                    min: 0,
+                    
+                    position: 'left',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                    }
+			    ],
+			    series : [
+			        {
+			            name:'资产状态',
+			            type:'bar',
+			            data:[],
+			            itemStyle:{normal:{color:'green'}},
+			            barWidth: 30,
+			            yAxisIndex:0,
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            }
+			        }
+			    ]
+			};
+
+		$.ajax({
+			url : '../../business/allAssetStatus',
+			data : {},
+			type : 'get',
+			dataType : "json",
+			async : false,
+			success : function(response) {
+				var data = response.items;
+				var Y=[],X=[];
+				var total=0;
+				$.each(data,function(i,v){
+					Y.push(v.value);
+					X.push(v.name);
+					total+=v.value;
+				});
+				option.series[0].data = Y;
+				option.xAxis[0].data = X;
+				chart.hideLoading();
+				chart.setOption(option);
+				option.title.text="资产状态分布柱状图统计  设备数量总计："+total; 
+				xh.maskHide();
+
+			},
+			failure : function(response) {
+				xh.maskHide();
+			}
+		});
+		
+		chart.hideLoading();
+		chart.setOption(option);
+
+	});
+	
+	// 用于使chart自适应高度和宽度
+	window.onresize = function() {
+		// 重置容器高宽
+		 resizeBarContainer();
+	};
+};
+
 xh.excelName=function(){
 	xh.maskShow();
 	$.ajax({

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>资产状态变更申请</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>资产管理</span></li>
+							<li><a href="../menu/menu_asset.html" target="_self"><span>变更管理</span></a></li>
+							<li class="active"><span>资产状态变更申请</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="btn-group" style="padding-top:10px;padding-bottom:10px;">
+						<button class="btn btn-success btn-sm" 
+						ng-if="loginUserRoleType==0 
+						|| (loginUserRoleType==2 && up.o_check_change=='off')"
+						 ng-click="showCreateHtml()">
+							<i class="fa fa-plus-circle"></i>&nbsp;发起资产状态变更申请
+						</button>
+
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+
+			<!-- row -->
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="hpanel">
+					  <div class="panel-heading hbuilt">
+								
+						申请列表</div>
+						<div class="panel-body">
+
+							<table id="tb-info" class="xh-table table-hover"
+								ng-model="loginUser">
+								<thead>
+									<tr class="tr-gray">
+										<th>申请人</th>
+										<th width="180px">联系方式</th>
+										<th>状态</th>
+										<th width="170px">申请时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="9" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td>{{x.userName}}</td>
+										<td>{{x.tel}}</td>
+										<td ng-if="x.status==0" class="td-primary">等待领导审核申请资料</td>
+										<td ng-if="x.status==-1" class="td-danger">你提交的申请已经被拒绝了</td>
+										
+										<td ng-if="x.status==1" class="td-primary">已审核,请将资产状态改变数据录入系统，并提交入库记录信息</td>
+										<td ng-if="x.status==2" class="td-primary">资产状态变更录入成功，等待领导确认</td>
+										<td ng-if="x.status==3" class="td-success">确认完成</td>
+										<td>{{x.createTime}}</td>
+										<td style="text-align:center"><a href="#"
+											ng-click="toProgress($index)"><i
+												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度&nbsp;</a>
+											<a href="#" ng-click="toCheck(x.id,x.user,x.attachmentName,x.comment,x.applyTag)"
+											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_add_asset=='on') || loginUserRoleType==0)">|<i
+												class="fa fa-hand-o-down text-danger"></i>审核
+										</a> 
+										<a ng-if="loginUser==x.user && x.status==1" ng-click="toCheck2($index)"
+											href="javascript:(0)" title="点击按钮将资产录入系统">|<i
+												class="fa fa-hand-o-down text-danger"></i>录入资产
+										</a> 
+										<a ng-if="x.status==2 && loginUserRoleType==2 && up.o_check_change=='on'" href="#"
+											ng-click="check3($index)">| <i
+												class="fa fa-hand-o-down text-danger"></i>确认
+										</a>
+										
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									<span>每页显示</span> <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> <span>条,</span><span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span> <i
+										class="fa fa-refresh page-refresh" title="刷新数据"
+										ng-click="refresh()"></i>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+							<!-- row -->
+							<div class="row">
+								<div class="col-md-12"></div>
+							</div>
+							<!-- row -->
+						</div>
+						<!-- panel-body--end -->
+						<!-- hpanel --end-->
+					</div>
+					<!-- col-md-12--end -->
+				</div>
+				<!-- row/ -->
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	
+	<!-- 进度-->
+	<div ng-include="'asset-update-status-progress.html'"></div>
+	
+	<!-- 审核 -->
+	<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<!-- <div class="color-line"></div> -->
+			<div class="modal-header"></div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="checkForm2" onSubmit="return false">
+					<div class="row" ng-show="false">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>ID</label><input type="text" value=""
+									class="form-control" name="id" required="required"
+									ng-model="check_id">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+					<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>提示：</label>
+								点击提交按钮后系统将自动录入提交的资产状态变更信息。
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>工作结论</label>
+								<textarea name="workNote" rows="4" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- row-------end -->
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm" id="check_btn2">
+					提交
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<!--、、、 审核 -->
+	
+	
+	
+	
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/asset_update_status.js"></script>
+	<script type="text/javascript">
+		xh.load();
+		$("#check_btn2").click(function() {
+			xh.check2();
+		});
+	</script>
+</body>
+</html>

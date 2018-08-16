@@ -14,6 +14,9 @@ import xh.mybatis.bean.AssetScrapApplayInfoBean;
 import xh.mybatis.bean.AssetScrapApplyBean;
 import xh.mybatis.bean.AssetScrapInfoBean;
 import xh.mybatis.bean.AssetTransferBean;
+import xh.mybatis.bean.AssetUpdateStatusApplyBean;
+import xh.mybatis.bean.AssetUpdateStatusAttrBean;
+import xh.mybatis.bean.AssetUpdateStatusInfoBean;
 import xh.mybatis.mapper.AssetInfoMapper;
 import xh.mybatis.mapper.AssetTransferMapper;
 import xh.mybatis.tools.DbTools;
@@ -835,6 +838,236 @@ public class BusinessService {
 		int result=0;
 		try {
 			result=mapper.scrap_apply_check3(bean);
+			sqlSession.commit();
+			
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static List<AssetUpdateStatusApplyBean> update_status_apply_list(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<AssetUpdateStatusApplyBean> list=new ArrayList<AssetUpdateStatusApplyBean>();
+		try {
+			list=mapper.update_status_apply_list(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	public static int update_status_apply_count(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_apply_count(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int add_update_status(List<AssetUpdateStatusInfoBean> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_update_status(list);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static  List<AssetUpdateStatusInfoBean> update_status_info(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		List<AssetUpdateStatusInfoBean> list=new ArrayList<AssetUpdateStatusInfoBean>();
+		try {
+			list=mapper.update_status_info(map);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
+	public static int deleteUpdateStatusAsset(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.deleteUpdateStatusAsset(list);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}	
+	public static int add_update_status_apply(AssetUpdateStatusApplyBean bean){
+
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.add_update_status_apply(bean);
+			sqlSession.commit();
+			if(result>0){
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("applyTag", bean.getApplyTag());
+				map.put("user",bean.getUser());
+				int r=update_update_status_applyTag(map);
+				
+				if(r==0){
+					sqlSession.rollback();
+				}
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_update_status_applyTag(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_update_status_applyTag(map);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_status_check1(AssetUpdateStatusApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_check1(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_status_attr(AssetUpdateStatusAttrBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_attr(bean);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_status_isLock(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_isLock(user);
+			sqlSession.commit();
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_status_check2(AssetUpdateStatusApplyBean bean,AssetUpdateStatusAttrBean infobean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_check2(bean);
+			sqlSession.commit();
+			if(result>0){
+				if(update_status_isLock(bean.getUser())>0){
+					update_status_attr(infobean);
+					Map<String, Object> map=new HashMap<String, Object>();
+					map.put("isLock",0);
+					map.put("tag", 0);
+					map.put("applyTag", bean.getApplyTag());
+					map.put("user", bean.getUser());
+					List<AssetUpdateStatusInfoBean> list=update_status_info(map);
+					for (AssetUpdateStatusInfoBean info : list) {
+						/*if(assetInfoByserialNumberExists(info.getSerialNumber())>0){
+							Map<String, Object> map1=new HashMap<String, Object>();
+							map1.put("status",info.getStatus());
+							map1.put("checkTime",null);
+							map1.put("checkUser",null);
+							map1.put("serialNumber", info.getSerialNumber());
+							updateStatus(map1);
+						}else{
+							insertAsset(info);
+						}*/
+						Map<String, Object> map1=new HashMap<String, Object>();
+						map1.put("status",info.getAfterStatus());
+						map1.put("checkTime",null);
+						map1.put("checkUser",null);
+						map1.put("serialNumber", info.getSerialNumber());
+						updateStatus(map1);
+					}
+					
+					
+					
+					
+				}else{
+					sqlSession.rollback();
+				}
+				
+				
+				
+				
+				
+				
+			}
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int update_status_check3(AssetUpdateStatusApplyBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
+		int result=0;
+		try {
+			result=mapper.update_status_check3(bean);
 			sqlSession.commit();
 			
 			sqlSession.close();
