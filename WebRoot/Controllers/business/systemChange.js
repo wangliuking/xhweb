@@ -106,7 +106,6 @@ xh.load = function() {
 			$http.get("../../systemChange/sheetShow?id="+sheetId).success(function (response) {
 				$scope.sheetData = response.items;
             });
-			$("#sheet").modal('show');
 		}
 
 		/*显示审核窗口*/
@@ -121,38 +120,47 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-5){
+            if($scope.checkData.checked==-5){
                 $("#checkWin-1").modal('show');
             }
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-4){
+            if($scope.checkData.checked==-4){
                 $("#checkWin-4").modal('show');
             }
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-2){
+            if($scope.checkData.checked==-3){
+                $("#checkWin-3").modal('show');
+            }
+            if($scope.checkData.checked==-2){
                 $("#checkWin-1").modal('show');
             }
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-1){
+            if($scope.checkData.checked==-1){
                 $("#checkWin-1").modal('show');
             }
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
+			if($scope.checkData.checked==0){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==1){
+			if($scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==2){
+			if($scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==3){
+			if($scope.checkData.checked==3){
 				$("#checkWin4").modal('show');
 			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
+			if($scope.checkData.checked==4){
 				$("#checkWin5").modal('show');
 			}
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==5){
+            if($scope.checkData.checked==5){
                 $("#checkWin6").modal('show');
             }
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==6){
+            if($scope.checkData.checked==6){
                 $("#checkWin7").modal('show');
+            }
+            if($scope.checkData.checked==7){
+                $("#checkWin8").modal('show');
+            }
+            if($scope.checkData.checked==8){
+                $("#checkWin9").modal('show');
             }
 
 	    };
@@ -317,7 +325,7 @@ xh.sheetChange = function() {
     });
 };
 
-/*运维组发起请求审核*/
+
 xh.add = function() {
 	$.ajax({
 		url : '../../systemChange/insertSystemChange',
@@ -364,7 +372,7 @@ xh.check1 = function() {
 		}
 	});
 };
-/*运维负责人发起审批*/
+
 xh.check2 = function() {
 	$.ajax({
 		url : '../../systemChange/checkedTwo',
@@ -388,7 +396,7 @@ xh.check2 = function() {
 		}
 	});
 };
-/*管理方审批*/
+
 xh.check3 = function() {
 	$.ajax({
 		url : '../../systemChange/checkedThree',
@@ -410,7 +418,7 @@ xh.check3 = function() {
 		}
 	});
 };
-/*通知抢修组进行整改*/
+
 xh.check4 = function() {
 	$.ajax({
 		url : '../../systemChange/checkedFour',
@@ -434,7 +442,7 @@ xh.check4 = function() {
 		}
 	});
 };
-/*用户确认*/
+
 xh.check5 = function() {
 	$.ajax({
 		url : '../../systemChange/checkedFive',
@@ -501,6 +509,50 @@ xh.check7 = function() {
         }
     });
 };
+xh.check8 = function() {
+    $.ajax({
+        url : '../../systemChange/checkedEight',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm8").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin8').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+xh.check9 = function() {
+    $.ajax({
+        url : '../../systemChange/checkedNine',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm9").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin9').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
 xh.checkNegOne = function() {
     $.ajax({
         url : '../../systemChange/checkedNegOne',
@@ -512,6 +564,27 @@ xh.checkNegOne = function() {
 
             if (data.result ==1) {
                 $('#checkWin-1').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+xh.checkNegThree = function() {
+    $.ajax({
+        url : '../../systemChange/checkedNegThree',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm-3").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin-3').modal('hide');
                 xh.refresh();
                 toastr.success(data.message, '提示');
             } else {

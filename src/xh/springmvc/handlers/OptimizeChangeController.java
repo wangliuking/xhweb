@@ -173,19 +173,9 @@ public class OptimizeChangeController {
 
         log.info("data==>" + bean.toString());
         int rst = OptimizeChangeService.insertOptimizeChange(bean);
-        WebLogBean webLogBean = new WebLogBean();
         if (rst == 1) {
-            this.message = "优化整改申请信息已经成功提交";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(1);
-            webLogBean.setContent("优化整改申请信息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-           //sendNotifytoGroup("o_check_changeoptimize",10003, "网络优化任务下达", request);
-           //----END
-        } else {
-            this.message = "网络优化申请信息提交失败";
+            //通知运维负责人已提交优化整改申请表
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","已提交优化整改申请表，请查阅！",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -212,9 +202,7 @@ public class OptimizeChangeController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        //int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
-        String user = request.getParameter("userName");
         int checked = Integer.parseInt(request.getParameter("checked"));
         OptimizeChangeBean bean = new OptimizeChangeBean();
         bean.setId(id);
@@ -224,16 +212,13 @@ public class OptimizeChangeController {
         bean.setNote2(note2);
         int rst = OptimizeChangeService.checkedOne(bean);
         if (rst == 1) {
-            this.message = "审核提交成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("审核优化整改信息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "服务提供方已收到信息，我们将尽快上传优化方案", request);
-            //----EN
+            if(checked == 1){
+                //运维负责人审核通过，发送通知邮件给运维组
+                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人通过了优化整改申请",request);
+            }else if(checked == -1){
+                //运维负责人审核不通过，发送通知邮件给运维组
+                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人不通过优化整改申请",request);
+            }
         }
 
         HashMap result = new HashMap();
@@ -278,17 +263,8 @@ public class OptimizeChangeController {
 
         int rst = OptimizeChangeService.checkedTwo(bean);
         if (rst == 1) {
-            this.message = "上传优化方案成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传优化方案，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotifytoSingle(user, "请审核优化整改方案", request);
-            //----EN
-        } else {
-            this.message = "上传优化方案失败";
+            //通知管理方负责人
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","已提交优化整改申请，请查阅！",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -326,16 +302,13 @@ public class OptimizeChangeController {
         bean.setNote4(note4);
         int rst = OptimizeChangeService.checkedThree(bean);
         if (rst == 1) {
-            this.message = "优化方案审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("优化方案审核，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotifytoSingle(user, "优化方案已经由管理方审批", request);
-        } else {
-            this.message = "审核优化方案失败";
+            if(checked == 3){
+                //管理方审批通过，向运维负责人发送通知消息
+                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","管理方同意进行优化整改",request);
+            }else if(checked == -2){
+                //管理方审批不通过，向运维负责人发送通知消息
+                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","管理方拒绝了优化整改",request);
+            }
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -379,17 +352,8 @@ public class OptimizeChangeController {
 
         int rst = OptimizeChangeService.checkedFour(bean);
         if (rst == 1) {
-            this.message = "上传总结报告成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传了总结报告，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件通知抢修组
-            //sendNotifytoGroup("o_check_changeoptimize",repairTeamId, "通知抢修组进行整改", request);
-            //----END
-        } else {
-            this.message = "上传总结报告失败";
+            //通知抢修组进行整改
+            FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","抢修组准备进行整改",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -426,18 +390,8 @@ public class OptimizeChangeController {
         bean.setNote6(note6);
         int rst = OptimizeChangeService.checkedFive(bean);
         if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
+            //抢修组反馈运维负责人
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","正在执行优化整改",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -479,18 +433,8 @@ public class OptimizeChangeController {
         bean.setFilePath4(filePath);
         int rst = OptimizeChangeService.checkedSix(bean);
         if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
+            //通知运维负责人已上传完结报告
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","优化整改完结报告已提交",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);

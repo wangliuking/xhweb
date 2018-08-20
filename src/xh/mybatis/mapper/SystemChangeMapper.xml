@@ -60,34 +60,46 @@
         user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
     </update>
 
-    <!--创建实施组后更新状态-->
+    <!--提交升级申请-->
     <update id="checkedThree" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked},implId=#{implId} where id=#{id}
+        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked},fileName2=#{fileName2},filePath2=#{filePath2} where id=#{id}
+    </update>
+
+    <!--管理方负责人审核升级申请-->
+    <update id="checkedFour" parameterType="xh.mybatis.bean.SystemChangeBean">
+        update xhgmnet_bs_systemChange set
+        user5=#{user5},time5=#{time5},note5=#{note5},checked=#{checked} where id=#{id}
+    </update>
+
+    <!--创建实施组后更新状态-->
+    <update id="checkedFive" parameterType="xh.mybatis.bean.SystemChangeBean">
+        update xhgmnet_bs_systemChange set
+        user6=#{user6},time6=#{time6},note6=#{note6},checked=#{checked},implId=#{implId} where id=#{id}
     </update>
 
     <!--执行系统升级 -->
-    <update id="checkedFour" parameterType="xh.mybatis.bean.SystemChangeBean">
+    <update id="checkedSix" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user5=#{user5},time5=#{time5},note5=#{note5},checked=#{checked},excImplId=#{excImplId} where id=#{id}
+        user7=#{user7},time7=#{time7},note7=#{note7},checked=#{checked},excImplId=#{excImplId} where id=#{id}
     </update>
 
     <!--反馈升级结果-->
-    <update id="checkedFive" parameterType="xh.mybatis.bean.SystemChangeBean">
+    <update id="checkedSenven" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user6=#{user6},time6=#{time6},note6=#{note6},checked=#{checked} where id=#{id}
+        user8=#{user8},time8=#{time8},note8=#{note8},checked=#{checked} where id=#{id}
     </update>
 
     <!--提交工作记录-->
-    <update id="checkedSix" parameterType="xh.mybatis.bean.SystemChangeBean">
+    <update id="checkedEight" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user7=#{user7},time7=#{time7},note7=#{note7},checked=#{checked},fileName2=#{fileName2},filePath2=#{filePath2} where id=#{id}
+        user9=#{user9},time9=#{time9},note9=#{note9},checked=#{checked},fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}
     </update>
 
     <!--向管理方反馈结果-->
-    <update id="checkedSenven" parameterType="xh.mybatis.bean.SystemChangeBean">
+    <update id="checkedNine" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user8=#{user8},time8=#{time8},note8=#{note8},checked=#{checked},fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}
+        user10=#{user10},time10=#{time10},note10=#{note10},checked=#{checked},fileName4=#{fileName4},filePath4=#{filePath4} where id=#{id}
     </update>
 
     <!--重新拟制升级方案-->
@@ -98,10 +110,16 @@
         user5=null,time5=null,note5=null,user6=null,time6=null,note6=null where id=#{id}
     </update>
 
+    <!--确认是否再次提交申请-->
+    <update id="checkedNegThree" parameterType="xh.mybatis.bean.SystemChangeBean">
+        update xhgmnet_bs_systemChange set
+        userNeg3=#{userNeg3},noteNeg3=#{noteNeg3},timeNeg3=#{timeNeg3},checked=#{checked} where id=#{id}
+    </update>
+
     <!--执行回退操作-->
     <update id="checkedNegFour" parameterType="xh.mybatis.bean.SystemChangeBean">
         update xhgmnet_bs_systemChange set
-        user9=#{user9},time9=#{time9},note9=#{note9},checked=#{checked} where id=#{id}
+        userNeg4=#{userNeg4},noteNeg4=#{noteNeg4},timeNeg4=#{timeNeg4},checked=#{checked} where id=#{id}
     </update>
 
     <!-- 查询系统升级表格数据 -->

@@ -172,20 +172,14 @@ public class CheckCutController {
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.checkedNegOne(bean);
-        /*
         if (rst == 1) {
-            this.message = "应急演练申请信息已经成功提交";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(1);
-            webLogBean.setContent("应急演练申请信息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-           sendNotifytoGroup("o_check_changeemergency",10003, "网络优化任务下达", request);
-           //----END
+            this.message = "新的核减申请信息已经成功提交";
+            //----给管理方发送通知邮件
+            FunUtil.sendMsgToUserByGroupPower("r_cut",2,"核减流程","重新提交了核减申请，请查阅！",request);
+            //----END
         } else {
-            this.message = "应急演练申请信息提交失败";
-        }*/
+            this.message = "新的核减申请信息未成功提交";
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -230,11 +224,11 @@ public class CheckCutController {
 
         if (rst == 1) {
             this.message = "核减申请信息已经成功提交";
-            //----发送通知邮件
-
+            //----给管理方发送通知邮件
+            FunUtil.sendMsgToUserByGroupPower("r_cut",2,"核减流程","有核减申请，请查阅！",request);
            //----END
         } else {
-            this.message = "应急演练申请信息提交失败";
+            this.message = "核减申请信息未成功提交";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -274,18 +268,11 @@ public class CheckCutController {
             this.message = "审核通过";
         else
             this.message = "审核不通过";
-        /*if (rst == 1) {
-            this.message = "审核提交成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("创建演练组，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "服务提供方已收到信息，我们将尽快上传优化方案", request);
-            //----EN
-        }*/
+        if (rst == 1) {
+            //----给运维人员发送通知邮件
+            FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","管理方已审核核减流程",request);
+            //----END
+        }
 
         HashMap result = new HashMap();
         result.put("success", success);
@@ -328,19 +315,11 @@ public class CheckCutController {
 
         int rst = CheckCutService.checkedTwo(bean);
         this.message = "已提交核减相关资料";
-        /*if (rst == 1) {
-            this.message = "上传优化方案成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知演练组进行演练，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            //sendNotifytoSingle(user, "请审核优化整改方案", request);
-            //----EN
-        } else {
-            this.message = "上传优化方案失败";
-        }*/
+        if (rst == 1) {
+            //----给管理方发送通知邮件
+            FunUtil.sendMsgToUserByGroupPower("r_cut",2,"核减流程","运维人员已提交相关核减资料",request);
+            //----END
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -376,18 +355,6 @@ public class CheckCutController {
 
         int rst = CheckCutService.checkedThree(bean);
         this.message ="核减结束";
-        /*if (rst == 1) {
-            this.message = "优化方案审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("优化方案审核，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotifytoSingle(user, "优化方案已经由管理方审批", request);
-        } else {
-            this.message = "审核优化方案失败";
-        }*/
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);

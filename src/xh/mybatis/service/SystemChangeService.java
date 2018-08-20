@@ -208,12 +208,63 @@ public class SystemChangeService {
         return result;
     }
 
+    public static int checkedEight(SystemChangeBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        int result=0;
+        try {
+            result=mapper.checkedEight(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    public static int checkedNine(SystemChangeBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        int result=0;
+        try {
+            result=mapper.checkedNine(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
     public static int checkedNegOne(SystemChangeBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
         int result=0;
         try {
             result=mapper.checkedNegOne(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    public static int checkedNegThree(SystemChangeBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        int result=0;
+        try {
+            result=mapper.checkedNegThree(bean);
             sqlSession.commit();
             result=1;
         } catch (Exception e) {

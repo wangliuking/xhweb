@@ -33,7 +33,13 @@ public interface SystemChangeMapper {
 
     public int checkedSenven(SystemChangeBean bean)throws Exception;
 
+    public int checkedEight(SystemChangeBean bean)throws Exception;
+
+    public int checkedNine(SystemChangeBean bean)throws Exception;
+
     public int checkedNegOne(SystemChangeBean bean)throws Exception;
+
+    public int checkedNegThree(SystemChangeBean bean)throws Exception;
 
     public int checkedNegFour(SystemChangeBean bean)throws Exception;
 
