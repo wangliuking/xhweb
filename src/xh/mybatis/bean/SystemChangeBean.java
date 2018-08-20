@@ -17,6 +17,9 @@ public class SystemChangeBean {
     private String user7;
     private String user8;
     private String user9;
+    private String user10;
+    private String userNeg3;
+    private String userNeg4;
     private String note1;
     private String note2;
     private String note3;
@@ -26,6 +29,9 @@ public class SystemChangeBean {
     private String note7;
     private String note8;
     private String note9;
+    private String note10;
+    private String noteNeg3;
+    private String noteNeg4;
     private String time1;
     private String time2;
     private String time3;
@@ -35,6 +41,9 @@ public class SystemChangeBean {
     private String time7;
     private String time8;
     private String time9;
+    private String time10;
+    private String timeNeg3;
+    private String timeNeg4;
     private String user_MainManager;
     private String fileName1;
     private String filePath1;
@@ -170,6 +179,22 @@ public class SystemChangeBean {
         this.user9 = user9;
     }
 
+    public String getUserNeg3() {
+        return userNeg3;
+    }
+
+    public void setUserNeg3(String userNeg3) {
+        this.userNeg3 = userNeg3;
+    }
+
+    public String getUserNeg4() {
+        return userNeg4;
+    }
+
+    public void setUserNeg4(String userNeg4) {
+        this.userNeg4 = userNeg4;
+    }
+
     public String getNote1() {
         return note1;
     }
@@ -242,6 +267,22 @@ public class SystemChangeBean {
         this.note9 = note9;
     }
 
+    public String getNoteNeg3() {
+        return noteNeg3;
+    }
+
+    public void setNoteNeg3(String noteNeg3) {
+        this.noteNeg3 = noteNeg3;
+    }
+
+    public String getNoteNeg4() {
+        return noteNeg4;
+    }
+
+    public void setNoteNeg4(String noteNeg4) {
+        this.noteNeg4 = noteNeg4;
+    }
+
     public String getTime1() {
         return time1;
     }
@@ -312,6 +353,22 @@ public class SystemChangeBean {
 
     public void setTime9(String time9) {
         this.time9 = time9;
+    }
+
+    public String getTimeNeg3() {
+        return timeNeg3;
+    }
+
+    public void setTimeNeg3(String timeNeg3) {
+        this.timeNeg3 = timeNeg3;
+    }
+
+    public String getTimeNeg4() {
+        return timeNeg4;
+    }
+
+    public void setTimeNeg4(String timeNeg4) {
+        this.timeNeg4 = timeNeg4;
     }
 
     public String getUser_MainManager() {
@@ -416,6 +473,31 @@ public class SystemChangeBean {
 
     public void setExcImplId(String excImplId) {
         this.excImplId = excImplId;
+
+    }
+
+    public String getUser10() {
+        return user10;
+    }
+
+    public void setUser10(String user10) {
+        this.user10 = user10;
+    }
+
+    public String getNote10() {
+        return note10;
+    }
+
+    public void setNote10(String note10) {
+        this.note10 = note10;
+    }
+
+    public String getTime10() {
+        return time10;
+    }
+
+    public void setTime10(String time10) {
+        this.time10 = time10;
     }
 
     @Override
@@ -436,6 +518,9 @@ public class SystemChangeBean {
                 ", user7='" + user7 + '\'' +
                 ", user8='" + user8 + '\'' +
                 ", user9='" + user9 + '\'' +
+                ", user10='" + user10 + '\'' +
+                ", userNeg3='" + userNeg3 + '\'' +
+                ", userNeg4='" + userNeg4 + '\'' +
                 ", note1='" + note1 + '\'' +
                 ", note2='" + note2 + '\'' +
                 ", note3='" + note3 + '\'' +
@@ -445,6 +530,9 @@ public class SystemChangeBean {
                 ", note7='" + note7 + '\'' +
                 ", note8='" + note8 + '\'' +
                 ", note9='" + note9 + '\'' +
+                ", note10='" + note10 + '\'' +
+                ", noteNeg3='" + noteNeg3 + '\'' +
+                ", noteNeg4='" + noteNeg4 + '\'' +
                 ", time1='" + time1 + '\'' +
                 ", time2='" + time2 + '\'' +
                 ", time3='" + time3 + '\'' +
@@ -454,6 +542,9 @@ public class SystemChangeBean {
                 ", time7='" + time7 + '\'' +
                 ", time8='" + time8 + '\'' +
                 ", time9='" + time9 + '\'' +
+                ", time10='" + time10 + '\'' +
+                ", timeNeg3='" + timeNeg3 + '\'' +
+                ", timeNeg4='" + timeNeg4 + '\'' +
                 ", user_MainManager='" + user_MainManager + '\'' +
                 ", fileName1='" + fileName1 + '\'' +
                 ", filePath1='" + filePath1 + '\'' +

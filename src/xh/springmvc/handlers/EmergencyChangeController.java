@@ -122,20 +122,11 @@ public class EmergencyChangeController {
 
         log.info("data==>" + bean.toString());
         int rst = EmergencyChangeService.insertemergencyChange(bean);
-        /*
+
         if (rst == 1) {
-            this.message = "应急演练申请信息已经成功提交";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(1);
-            webLogBean.setContent("应急演练申请信息，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-           sendNotifytoGroup("o_check_changeemergency",10003, "网络优化任务下达", request);
-           //----END
-        } else {
-            this.message = "应急演练申请信息提交失败";
-        }*/
+            //通知运维负责人已上传应急演练方案
+            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练","已经上传应急演练方案，请查阅！",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -183,18 +174,10 @@ public class EmergencyChangeController {
             EmergencyChangeService.checkedOne(bean);
             this.message = "创建演练组成功";
         }
-        /*if (rst == 1) {
-            this.message = "审核提交成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("创建演练组，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "服务提供方已收到信息，我们将尽快上传优化方案", request);
-            //----EN
-        }*/
+        if (res == 1) {
+            //通知运维负责人已创建演练组
+            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练","已经成功创建了演练组",request);
+        }
 
         HashMap result = new HashMap();
         result.put("success", success);
@@ -235,19 +218,10 @@ public class EmergencyChangeController {
 
         int rst = EmergencyChangeService.checkedTwo(bean);
         this.message = "已通知"+prepareEmergencyGroupId+"演练组准备演练";
-        /*if (rst == 1) {
-            this.message = "上传优化方案成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知演练组进行演练，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            //sendNotifytoSingle(user, "请审核优化整改方案", request);
-            //----EN
-        } else {
-            this.message = "上传优化方案失败";
-        }*/
+        if (rst == 1) {
+            //通知演练组进行演练
+            FunUtil.sendMsgToUserByGroupPower("r_emergency",3,"应急演练","演练组准备进行应急演练",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -285,18 +259,10 @@ public class EmergencyChangeController {
 
         int rst = EmergencyChangeService.checkedThree(bean);
         this.message =preparedEmergencyGroupId+ "组准备开始演练！";
-        /*if (rst == 1) {
-            this.message = "优化方案审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("优化方案审核，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotifytoSingle(user, "优化方案已经由管理方审批", request);
-        } else {
-            this.message = "审核优化方案失败";
-        }*/
+        if (rst == 1) {
+            //通知运维负责人演练正在进行
+            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练","演练正在进行中",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -337,19 +303,10 @@ public class EmergencyChangeController {
         bean.setNote5(note5);
 
         int rst = EmergencyChangeService.checkedFour(bean);
-        /*if (rst == 1) {
-            this.message = "上传总结报告成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传了总结报告，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件通知抢修组
-            //sendNotifytoGroup("o_check_changeemergency",repairTeamId, "通知抢修组进行整改", request);
-            //----END
-        } else {
-            this.message = "上传总结报告失败";
-        }*/
+        if (rst == 1) {
+            //演练组通知运维负责人查阅工作总结
+            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练","应急演练工作总结已提交，请查阅！",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -388,20 +345,10 @@ public class EmergencyChangeController {
         bean.setNote6(note6);
 
         int rst = EmergencyChangeService.checkedFive(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
+        if (rst == 1) {
+            //通知管理方接受应急演练总结报告
+            FunUtil.sendMsgToUserByPower("o_check_emergency",2,"应急演练","应急演练工作总结已提交，请查阅！",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);

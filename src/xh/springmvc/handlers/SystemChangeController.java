@@ -123,13 +123,11 @@ public class SystemChangeController {
     @RequestMapping(value = "/sheetChange",method = RequestMethod.POST)
     @ResponseBody
     public void sheetChange(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "bean") String beanStr){
-        System.out.println(" beanStr : "+beanStr);
         //将json字符串转换成json对象
         JSONObject jsonobject = JSONObject.fromObject(beanStr);
         //将json对象转换成User实体对象
         SystemChangeSheet bean = (SystemChangeSheet)JSONObject.toBean(jsonobject, SystemChangeSheet.class);
         this.success = true;
-        System.out.println(" bean : "+bean);
         int res = SystemChangeService.sheetChange(bean);
         this.message = "保存成功";
         HashMap result = new HashMap();
@@ -147,7 +145,7 @@ public class SystemChangeController {
     }
 
     /**
-     * 发起应急演练
+     * 发起系统升级
      *
      * @param request
      * @param response
@@ -174,12 +172,11 @@ public class SystemChangeController {
         int rst = SystemChangeService.insertSystemChange(bean);
 
         if (rst == 1) {
-            this.message = "应急演练申请信息已经成功提交";
-            //----发送通知邮件
-           sendNotifytoGroup("o_check_changeSystem",10003, "网络优化任务下达", request);
-           //----END
+            this.message = "系统升级方案已经成功提交";
+            //----向项目经理发送通知邮件
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案已经提交",request);
         } else {
-            this.message = "应急演练申请信息提交失败";
+            this.message = "系统升级方案提交失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -197,7 +194,7 @@ public class SystemChangeController {
     }
 
     /**
-     *审核系统升级方案
+     * 项目经理审核系统升级方案
      * @param request
      * @param response
      */
@@ -214,24 +211,27 @@ public class SystemChangeController {
         bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(FunUtil.nowDate());
         bean.setNote2(note2);
-        int res = SystemChangeService.checkedOne(bean);
+        int rst = SystemChangeService.checkedOne(bean);
         this.message = "项目经理已审核";
-        /*if (rst == 1) {
-            this.message = "审核提交成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("创建演练组，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
+        if (rst == 1) {
+            if(checked == 1){
+                //项目经理审核通过
+                //项目经理发送通知邮件给管理方负责人
+                FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","系统升级方案已经提交",request);
+            }else if(checked == -1){
+                //项目经理审核不通过
+                //项目经理发送通知邮件给项目负责人
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案审核不通过",request);
+            }else if (checked == -6){
+                //项目经理已经取消流程
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理已取消流程",request);
+            }
 
-            //----发送通知邮件
-            sendNotifytoSingle(user, "服务提供方已收到信息，我们将尽快上传优化方案", request);
-            //----EN
-        }*/
+        }
 
         HashMap result = new HashMap();
         result.put("success", success);
-        result.put("result", res);
+        result.put("result", rst);
         result.put("message", message);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
@@ -246,7 +246,7 @@ public class SystemChangeController {
     }
 
     /**
-     * 管理方审核系统升级方案
+     * 管理方负责人审核系统升级方案
      *
      * @param request
      * @param response
@@ -264,22 +264,23 @@ public class SystemChangeController {
         bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(FunUtil.nowDate());
         bean.setNote3(note3);
-
-        int rst = SystemChangeService.checkedTwo(bean);
         this.message = "管理方已审核";
-        /*if (rst == 1) {
-            this.message = "上传优化方案成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知演练组进行演练，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            //sendNotifytoSingle(user, "请审核优化整改方案", request);
-            //----EN
-        } else {
-            this.message = "上传优化方案失败";
-        }*/
+        int rst = SystemChangeService.checkedTwo(bean);
+        if (rst == 1) {
+            if(checked == 2){
+                //管理方负责人审核通过
+                //管理方负责人发送通知邮件给项目负责人
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方通过审核",request);
+            }else if(checked == -1){
+                //管理方负责人审核不通过
+                //管理方负责人发送通知邮件给项目负责人
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方审核不通过",request);
+            }else if (checked == -6){
+                //管理方负责人已经取消流程
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方负责人已取消流程",request);
+            }
+
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -294,14 +295,108 @@ public class SystemChangeController {
             e.printStackTrace();
         }
     }
+
     /**
-     * 创建实施组然后更新状态
+     * 提交系统升级申请
      *
      * @param request
      * @param response
      */
     @RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
     public void checkedThree(HttpServletRequest request,
+                              HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note4 = request.getParameter("note4");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        SystemChangeBean bean = new SystemChangeBean();
+        bean.setId(id);
+        bean.setChecked(3);
+        bean.setUser4(funUtil.loginUser(request));
+        bean.setTime4(FunUtil.nowDate());
+        bean.setNote4(note4);
+        bean.setFileName2(fileName);
+        bean.setFilePath2(filePath);
+
+        int rst = SystemChangeService.checkedThree(bean);
+        if (rst == 1) {
+            this.message = "提交系统升级申请成功";
+            FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","项目负责人提交了系统升级申请，请确认",request);
+        } else {
+            this.message = "提交系统升级申请失败";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 管理方负责人审核系统升级申请
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
+    public void checkedFour(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        String note5 = request.getParameter("note5");
+        SystemChangeBean bean = new SystemChangeBean();
+        bean.setId(id);
+        bean.setChecked(checked);
+        bean.setUser5(funUtil.loginUser(request));
+        bean.setTime5(FunUtil.nowDate());
+        bean.setNote5(note5);
+        this.message = "管理方已审核";
+        int rst = SystemChangeService.checkedFour(bean);
+        if (rst == 1) {
+            if(checked == 4){
+                //管理方负责人同意申请
+                //管理方负责人发送通知邮件给项目负责人
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方同意进行升级",request);
+            }else if(checked == -3){
+                //管理方负责人不同意升级
+                //管理方负责人发送通知邮件给项目经理
+                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方不同意进行升级",request);
+            }
+
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 创建实施组然后更新状态
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
+    public void checkedFive(HttpServletRequest request,
                              HttpServletResponse response) {
         this.success = true;
         //创建实施组
@@ -317,31 +412,23 @@ public class SystemChangeController {
         int rst = 0;
         if(res>0){
             int id = funUtil.StringToInt(request.getParameter("id"));
-            String note4 = request.getParameter("note4");
+            String note6 = request.getParameter("note6");
             SystemChangeBean bean = new SystemChangeBean();
             bean.setId(id);
-            bean.setChecked(3);
-            bean.setUser4(funUtil.loginUser(request));
-            bean.setTime4(FunUtil.nowDate());
-            bean.setNote4(note4);
+            bean.setChecked(5);
+            bean.setUser6(funUtil.loginUser(request));
+            bean.setTime6(FunUtil.nowDate());
+            bean.setNote6(note6);
             bean.setImplId(ImplId);
 
-            rst = SystemChangeService.checkedThree(bean);
+            rst = SystemChangeService.checkedFive(bean);
             this.message ="已创建"+ImplId+ "组！";
         }
 
-        /*if (rst == 1) {
-            this.message = "优化方案审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("优化方案审核，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件
-            sendNotifytoSingle(user, "优化方案已经由管理方审批", request);
-        } else {
-            this.message = "审核优化方案失败";
-        }*/
+        if (rst == 1) {
+            //通知项目负责人已经成功创建实施组
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","已成功创建了实施组",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -363,35 +450,27 @@ public class SystemChangeController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
-    public void checkedFour(HttpServletRequest request,
+    @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
+    public void checkedSix(HttpServletRequest request,
                            HttpServletResponse response) {
         this.success = true;
         String ExcImplId = request.getParameter("ExcImplId");
         int id = funUtil.StringToInt(request.getParameter("id"));
-        String note5 = request.getParameter("note5");
+        String note7 = request.getParameter("note7");
         SystemChangeBean bean = new SystemChangeBean();
         bean.setId(id);
-        bean.setChecked(4);
-        bean.setUser5(funUtil.loginUser(request));
-        bean.setTime5(FunUtil.nowDate());
-        bean.setNote5(note5);
+        bean.setChecked(6);
+        bean.setUser7(funUtil.loginUser(request));
+        bean.setTime7(FunUtil.nowDate());
+        bean.setNote7(note7);
         bean.setExcImplId(ExcImplId);
 
-        int rst = SystemChangeService.checkedFour(bean);
-        /*if (rst == 1) {
-            this.message = "上传总结报告成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("上传了总结报告，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-            //----发送通知邮件通知抢修组
-            //sendNotifytoGroup("o_check_changesystem",repairTeamId, "通知抢修组进行整改", request);
-            //----END
-        } else {
-            this.message = "上传总结报告失败";
-        }*/
+        int rst = SystemChangeService.checkedSix(bean);
+        if(rst == 1){
+            //通知实施组执行系统升级
+            FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级","准备进行系统升级！",request);
+        }
+
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -412,141 +491,113 @@ public class SystemChangeController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/checkedFive", method = RequestMethod.POST)
-    public void checkedFive(HttpServletRequest request,
+    @RequestMapping(value = "/checkedSenven", method = RequestMethod.POST)
+    public void checkedSenven(HttpServletRequest request,
                              HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         int checked = funUtil.StringToInt(request.getParameter("checked"));
-        String note6 = request.getParameter("note6");
+        String note8 = request.getParameter("note8");
         SystemChangeBean bean = new SystemChangeBean();
         bean.setId(id);
         bean.setChecked(checked);
-        bean.setUser6(funUtil.loginUser(request));
-        bean.setTime6(FunUtil.nowDate());
-        bean.setNote6(note6);
-
-        int rst = SystemChangeService.checkedFive(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 提交工作记录
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedSix", method = RequestMethod.POST)
-    public void checkedSix(HttpServletRequest request,
-                            HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String note7 = request.getParameter("note7");
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        SystemChangeBean bean = new SystemChangeBean();
-        bean.setId(id);
-        bean.setChecked(6);
-        bean.setUser7(funUtil.loginUser(request));
-        bean.setTime7(FunUtil.nowDate());
-        bean.setNote7(note7);
-        bean.setFileName2(fileName);
-        bean.setFilePath2(filePath);
-
-        int rst = SystemChangeService.checkedSix(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
-        HashMap result = new HashMap();
-        result.put("success", success);
-        result.put("result", rst);
-        result.put("message", message);
-        response.setContentType("application/json;charset=utf-8");
-        String jsonstr = json.Encode(result);
-        log.debug(jsonstr);
-        try {
-            response.getWriter().write(jsonstr);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 向管理方反馈结果
-     *
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/checkedSenven", method = RequestMethod.POST)
-    public void checkedSenven(HttpServletRequest request,
-                           HttpServletResponse response) {
-        this.success = true;
-        int id = funUtil.StringToInt(request.getParameter("id"));
-        String note8 = request.getParameter("note8");
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
-        SystemChangeBean bean = new SystemChangeBean();
-        bean.setId(id);
-        bean.setChecked(7);
         bean.setUser8(funUtil.loginUser(request));
         bean.setTime8(FunUtil.nowDate());
         bean.setNote8(note8);
+
+        int rst = SystemChangeService.checkedSenven(bean);
+        if(rst == 1){
+            //通知项目负责人升级的结果
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","请查阅系统升级的结果",request);
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 向项目负责人提交工作记录
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedEight", method = RequestMethod.POST)
+    public void checkedEight(HttpServletRequest request,
+                            HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note9 = request.getParameter("note9");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        SystemChangeBean bean = new SystemChangeBean();
+        bean.setId(id);
+        bean.setChecked(8);
+        bean.setUser9(funUtil.loginUser(request));
+        bean.setTime9(FunUtil.nowDate());
+        bean.setNote9(note9);
         bean.setFileName3(fileName);
         bean.setFilePath3(filePath);
 
-        int rst = SystemChangeService.checkedSenven(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
+        int rst = SystemChangeService.checkedEight(bean);
+        if (rst == 1) {
+            //向项目负责人发送通知邮件
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","实施组已提交工作记录，请查阅",request);
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
+    /**
+     * 向管理方负责人反馈结果
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedNine", method = RequestMethod.POST)
+    public void checkedNine(HttpServletRequest request,
+                           HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        String note10 = request.getParameter("note10");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        SystemChangeBean bean = new SystemChangeBean();
+        bean.setId(id);
+        bean.setChecked(9);
+        bean.setUser10(funUtil.loginUser(request));
+        bean.setTime10(FunUtil.nowDate());
+        bean.setNote10(note10);
+        bean.setFileName4(fileName);
+        bean.setFilePath4(filePath);
+
+        int rst = SystemChangeService.checkedNine(bean);
+        if (rst == 1) {
+            //向管理方负责人发送通知邮件
+            FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","项目负责人已反馈系统升级结果，请查阅",request);
+        }
+
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -586,20 +637,55 @@ public class SystemChangeController {
         bean.setFilePath1(filePath);
 
         int rst = SystemChangeService.checkedNegOne(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
+        if(rst == 1){
+            //通知项目经理已重新拟制了升级方案
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案已重新拟制，请查阅",request);
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
+    /**
+     * 确认是否再次提交申请
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/checkedNegThree", method = RequestMethod.POST)
+    public void checkedNegThree(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        int id = funUtil.StringToInt(request.getParameter("id"));
+        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        String noteNeg3 = request.getParameter("noteNeg3");
+        SystemChangeBean bean = new SystemChangeBean();
+        bean.setId(id);
+        bean.setChecked(checked);
+        bean.setUserNeg3(funUtil.loginUser(request));
+        bean.setTimeNeg3(FunUtil.nowDate());
+        bean.setNoteNeg3(noteNeg3);
+
+        int rst = SystemChangeService.checkedNegThree(bean);
+        if (rst == 1) {
+           if(checked == 2){
+               //项目经理同意继续提交申请
+               FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理同意再次提交系统升级申请",request);
+           }else if(checked == -6){
+               //项目经理不同意继续提交申请，流程结束
+               FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理不同意继续提交系统升级申请，流程已结束",request);
+           }
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -631,25 +717,15 @@ public class SystemChangeController {
         SystemChangeBean bean = new SystemChangeBean();
         bean.setId(id);
         bean.setChecked(checked);
-        bean.setUser9(funUtil.loginUser(request));
-        bean.setTime9(FunUtil.nowDate());
-        bean.setNote9(note9);
+        bean.setUserNeg4(funUtil.loginUser(request));
+        bean.setTimeNeg4(FunUtil.nowDate());
+        bean.setNoteNeg4(note9);
 
         int rst = SystemChangeService.checkedNegFour(bean);
-        /*if (rst == 1) {
-            this.message = "总结报告审核成功";
-            webLogBean.setOperator(funUtil.loginUser(request));
-            webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-            webLogBean.setStyle(5);
-            webLogBean.setContent("通知服务管理方处理(总结审核消息)，data=" + bean.toString());
-            WebLogService.writeLog(webLogBean);
-
-            //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
-            //----END
-        } else {
-            this.message = "总结报告审核失败";
-        }*/
+        if (rst == 1) {
+            //通知实施组执行回退操作
+            FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级","请迅速进行系统回退！",request);
+        }
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
@@ -774,54 +850,4 @@ public class SystemChangeController {
         //存储记录
     }
 
-    /**
-	 * 发送邮件(指定收件人)--优化整改
-	 * 
-	 * @param recvUser
-	 *            邮件接收者
-	 * @param content
-	 *            邮件内容
-	 * @param request
-	 */
-	public void sendNotifytoSingle(String recvUser, String content,
-			HttpServletRequest request) {
-		// ----发送通知邮件
-		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("优化整改申请");
-		emailBean.setRecvUser(recvUser);
-		emailBean.setSendUser(funUtil.loginUser(request));
-		emailBean.setContent(content);
-		emailBean.setTime(FunUtil.nowDate());
-		EmailService.insertEmail(emailBean);
-		// ----END
-	}
-
-	/**
-	 * 发送邮件(指定权限)--优化整改
-	 * 
-	 * @param
-	 * @param content
-	 *            邮件内容
-	 * @param request
-	 */
-	public void sendNotifytoGroup(String powerstr, int roleId, String content,
-			HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("powerstr", powerstr);
-		map.put("roleId", roleId);
-		List<Map<String, Object>> items = WebUserServices
-				.userlistByPowerAndRoleId(map);
-		log.info("邮件发送：" + items);
-		for (Map<String, Object> item : items) {
-			// ----发送通知邮件
-			EmailBean emailBean = new EmailBean();
-			emailBean.setTitle("系统升级");
-			emailBean.setRecvUser(item.get("user").toString());
-			emailBean.setSendUser(funUtil.loginUser(request));
-			emailBean.setContent(content);
-			emailBean.setTime(FunUtil.nowDate());
-			EmailService.insertEmail(emailBean);
-			// ----END
-		}
-	}
 }

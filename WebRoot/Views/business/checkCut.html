@@ -104,23 +104,23 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==-1"
+										<a ng-if="up.o_check_cut=='on' && x.checked==-1"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新发起核减申请</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==0"
+										<a ng-if="up.o_check_cut=='on' && x.checked==0"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核核减申请</a>
 												
-									    <a ng-if="loginUserRoleType==3 && x.checked==1"
+									    <a ng-if="up.o_check_cut=='on' && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方提交资料</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==2"
+										<a ng-if="up.o_check_cut=='on' && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;结束核减</a>
 
-										<a ng-if="loginUserRoleType==3"
+										<a ng-if="up.o_check_cut=='on'"
 											   href="#" ng-click="sheetShow($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;查看表格</a>
 
