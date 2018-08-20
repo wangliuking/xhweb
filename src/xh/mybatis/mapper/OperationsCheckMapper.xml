@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.OperationsCheckMapper">
+
+	<select id="dataList" parameterType="map"
+		resultType="xh.mybatis.bean.OperationsCheckBean">
+		select * from xhgmnet_operations_check where 1=1
+
+		<if test="roleType!=0 and roleType!=2 and roleType!=3">
+			and user=#{user}
+		</if>
+
+		order by id desc limit #{start},#{limit}
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(*) from xhgmnet_operations_check where 1=1
+		<if test="roleType!=0 and roleType!=2 and roleType!=3">
+			and user=#{user}
+		</if>
+	</select>
+
+	<!-- 新增考核信息 -->
+	<insert id="add" parameterType="xh.mybatis.bean.OperationsCheckBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_check(applyId,userId,user,userName,tel,createTime)values
+		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime})
+	</insert>
+	
+	<!-- 查询考核明细信息 -->
+   <select id="searchDetail" parameterType="String" parameterType="xh.mybatis.bean.OperationsCheckDetailBean">
+    select * from xhgmnet_operations_check_detail where time=#{time}
+   </select>
+   <!-- 判断考核明细信息是否存在 -->
+      <select id="detailExists" parameterType="String" resultType="int">
+    select count(id) from xhgmnet_operations_check_detail where time=#{time}
+   </select>
+
+   <!--  新增考核明细 -->
+	<insert id="addDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_check_detail
+		(
+		applyId,time,service_msc,service_msc_note,service_singlebs1,
+		service_singlebs1_note,service_singlebs2,
+		service_singlebs2_note,
+		service_singlebs3,service_singlebs3_note,
+		fault_ctl1,
+		fault_ctl1_note,
+		fault_ctl2,
+		fault_ctl2_note,
+		fault_port_time1,
+		fault_port_time1_note,
+		fault_port_time2,
+		fault_port_time2_note,
+		fault_port_time3,
+		fault_port_time3_note,
+		user_service,
+		user_service_note,
+		user_train,
+		user_train_note,
+		emergency1,
+		emergency1_note,
+		emergency2,
+		emergency2_note,
+		emergency3,
+		emergency3_note,
+		information,
+		information_note,
+		security,
+		security_note,
+		other,
+		other_note)values
+		(
+		#{applyId},#{time},#{service_msc},#{service_msc_note},#{service_singlebs1},
+		#{service_singlebs1_note},#{service_singlebs2},
+		#{service_singlebs2_note},
+		#{service_singlebs3},#{service_singlebs3_note},
+		#{fault_ctl1},
+		#{fault_ctl1_note},
+		#{fault_ctl2},
+		#{fault_ctl2_note},
+		#{fault_port_time1},
+		#{fault_port_time1_note},
+		#{fault_port_time2},
+		#{fault_port_time2_note},
+		#{fault_port_time3},
+		#{fault_port_time3_note},
+		#{user_service},
+		#{user_service_note},
+		#{user_train},
+		#{user_train_note},
+		#{emergency1},
+		#{emergency1_note},
+		#{emergency2},
+		#{emergency2_note},
+		#{emergency3},
+		#{emergency3_note},
+		#{information},
+		#{information_note},
+		#{security},
+		#{security_note},
+		#{other},
+		#{other_note})
+	</insert>
+	<!-- 修改考核明细 -->
+	<update id="updateDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean">
+	update xhgmnet_operations_check_detail set applyId=#{applyId},time=#{time},service_msc=#{service_msc},
+	service_msc_note=#{service_msc_note},service_singlebs1=#{service_singlebs1},
+		service_singlebs1_note=#{service_singlebs1_note},service_singlebs2=#{service_singlebs2},
+		service_singlebs2_note=#{service_singlebs2_note},
+		service_singlebs3=#{service_singlebs3},
+		service_singlebs3_note=#{service_singlebs3_note},
+		fault_ctl1=#{fault_ctl1},
+		fault_ctl1_note=#{fault_ctl1_note},
+		fault_ctl2=#{fault_ctl2},
+		fault_ctl2_note=#{fault_ctl2_note},
+		fault_port_time1=#{fault_port_time1},
+		fault_port_time1_note=#{fault_port_time1_note},
+		fault_port_time2=#{fault_port_time2},
+		fault_port_time2_note=#{fault_port_time2_note},
+		fault_port_time3=#{fault_port_time3},
+		fault_port_time3_note=#{fault_port_time3_note},
+		user_service=#{user_service},
+		user_service_note=#{user_service_note},
+		user_train=#{user_train},
+		user_train_note=#{user_train_note},
+		emergency1=#{emergency1},
+		emergency1_note=#{emergency1_note},
+		emergency2=#{emergency2},
+		emergency2_note=#{emergency2_note},
+		emergency3=#{emergency3},
+		emergency3_note=#{emergency3_note},
+		information=#{information},
+		information_note=#{information_note},
+		security=#{security},
+		security_note=#{security_note},
+		other=#{other},
+		other_note=#{other_note} where id=#{id}
+	</update>
+
+
+</mapper>

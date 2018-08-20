@@ -10,6 +10,9 @@ import xh.mybatis.bean.AssetInfoBean;
 import xh.mybatis.bean.AssetScrapApplayInfoBean;
 import xh.mybatis.bean.AssetScrapApplyBean;
 import xh.mybatis.bean.AssetScrapInfoBean;
+import xh.mybatis.bean.AssetUpdateStatusApplyBean;
+import xh.mybatis.bean.AssetUpdateStatusAttrBean;
+import xh.mybatis.bean.AssetUpdateStatusInfoBean;
 
 public interface AssetInfoMapper {
 	/**
@@ -151,5 +154,32 @@ public interface AssetInfoMapper {
 	public int scrap_apply_info(AssetScrapApplayInfoBean bean)throws Exception;
 	
 	public int scrap_apply_check3(AssetScrapApplyBean bean)throws Exception;
+	
+	
+	
+	/** 资产状态变更*/
+	public List<AssetUpdateStatusApplyBean> update_status_apply_list(Map<String,Object> map)throws Exception;
+	
+	public int update_status_apply_count(Map<String,Object> map)throws Exception;	
+	
+	public int add_update_status(List<AssetUpdateStatusInfoBean> list)throws Exception;
+	
+	public List<AssetUpdateStatusInfoBean> update_status_info(Map<String,Object> map)throws Exception;
+	
+	public int deleteUpdateStatusAsset(List<String> list)throws Exception;
+	
+	public int add_update_status_apply(AssetUpdateStatusApplyBean bean)throws Exception;
+	
+	public int update_update_status_applyTag(Map<String,Object> map)throws Exception;
+	
+	public int update_status_check1(AssetUpdateStatusApplyBean bean)throws Exception;
+	
+	public int update_status_check2(AssetUpdateStatusApplyBean bean)throws Exception;
+	
+	public int update_status_isLock(String user)throws Exception;
+	
+	public int update_status_attr(AssetUpdateStatusAttrBean bean)throws Exception;
+	
+	public int update_status_check3(AssetUpdateStatusApplyBean bean)throws Exception;
 
 }

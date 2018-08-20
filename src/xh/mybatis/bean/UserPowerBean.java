@@ -26,6 +26,7 @@ public class UserPowerBean {
 	private String o_order="off"; //'运维管理-运维派单',
 	private String o_check_cut="off";//审核核减流程
 	private String o_check_system_up="off";//审核系统升级
+	private String o_check_asset_update_status="off";//审核资产状态变更
 
 	
 	
@@ -316,6 +317,12 @@ public class UserPowerBean {
 	public void setR_emergency(String r_emergency) {
 		this.r_emergency = r_emergency;
 	}
+	public String getO_check_asset_update_status() {
+		return o_check_asset_update_status;
+	}
+	public void setO_check_asset_update_status(String o_check_asset_update_status) {
+		this.o_check_asset_update_status = o_check_asset_update_status;
+	}
 	@Override
 	public String toString() {
 		return "UserPowerBean [roleId=" + roleId + ", userId=" + userId
@@ -330,8 +337,10 @@ public class UserPowerBean {
 				+ ", o_check_fault=" + o_check_fault + ", o_check_duty="
 				+ o_check_duty + ", o_check_inspection=" + o_check_inspection
 				+ ", o_order=" + o_order + ", o_check_cut=" + o_check_cut
-				+ ", o_check_system_up=" + o_check_system_up + ", p_add="
-				+ p_add + ", p_update=" + p_update + ", p_delete=" + p_delete
+				+ ", o_check_system_up=" + o_check_system_up
+				+ ", o_check_asset_update_status="
+				+ o_check_asset_update_status + ", p_add=" + p_add
+				+ ", p_update=" + p_update + ", p_delete=" + p_delete
 				+ ", p_lock=" + p_lock + ", p_power=" + p_power + ", b_add="
 				+ b_add + ", b_update=" + b_update + ", b_delete=" + b_delete
 				+ ", b_check_joinnet=" + b_check_joinnet + ", b_check_quitnet="
