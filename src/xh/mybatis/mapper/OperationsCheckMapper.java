@@ -21,5 +21,7 @@ public interface OperationsCheckMapper {
 	
 	int updateDetail(OperationsCheckDetailBean bean)throws Exception;
 	
+	int check2(OperationsCheckBean bean)throws Exception;
+	
 
 }

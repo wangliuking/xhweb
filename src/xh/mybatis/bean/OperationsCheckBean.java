@@ -7,14 +7,45 @@ public class OperationsCheckBean {
 	private String user;
 	private String userName;
 	private String tel;
+	private String checkMonth;
+	
+	private String fileName;
+	private String filePath;
+	private String comment;
 	private String createTime;
 	private String checkUser;
 	private String checkTime;
+	private String note1;
 	private int status;
 	
 	
 	
 	
+	
+	public String getCheckMonth() {
+		return checkMonth;
+	}
+	public void setCheckMonth(String checkMonth) {
+		this.checkMonth = checkMonth;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	public int getId() {
 		return id;
 	}
@@ -75,12 +106,21 @@ public class OperationsCheckBean {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	public String getNote1() {
+		return note1;
+	}
+	public void setNote1(String note1) {
+		this.note1 = note1;
+	}
 	@Override
 	public String toString() {
-		return "OperationsCheckBean [applyId=" + applyId + ", userId=" + userId
-				+ ", user=" + user + ", userName=" + userName + ", tel=" + tel
+		return "OperationsCheckBean [id=" + id + ", applyId=" + applyId
+				+ ", userId=" + userId + ", user=" + user + ", userName="
+				+ userName + ", tel=" + tel + ", fileName=" + fileName
+				+ ", filePath=" + filePath + ", comment=" + comment
 				+ ", createTime=" + createTime + ", checkUser=" + checkUser
-				+ ", checkTime=" + checkTime + ", status=" + status + "]";
+				+ ", checkTime=" + checkTime + ", note1=" + note1 + ", status="
+				+ status + "]";
 	}
 	
 	

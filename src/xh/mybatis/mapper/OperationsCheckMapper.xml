@@ -24,20 +24,20 @@
 	<insert id="add" parameterType="xh.mybatis.bean.OperationsCheckBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
-		xhgmnet_operations_check(applyId,userId,user,userName,tel,createTime)values
-		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime})
-	</insert>
+		xhgmnet_operations_check(applyId,userId,user,userName,tel,createTime,fileName,filePath,comment,)values
+		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime},#{fileName},#{filePath},#{comment})
+	</insert>	
 	
 	<!-- 查询考核明细信息 -->
-   <select id="searchDetail" parameterType="String" parameterType="xh.mybatis.bean.OperationsCheckDetailBean">
+   <select id="searchDetail" parameterType="String" resultType="xh.mybatis.bean.OperationsCheckDetailBean">
     select * from xhgmnet_operations_check_detail where time=#{time}
    </select>
-   <!-- 判断考核明细信息是否存在 -->
+ <!--   判断考核明细信息是否存在 -->
       <select id="detailExists" parameterType="String" resultType="int">
     select count(id) from xhgmnet_operations_check_detail where time=#{time}
    </select>
 
-   <!--  新增考核明细 -->
+<!--     新增考核明细 -->
 	<insert id="addDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
@@ -138,8 +138,11 @@
 		security=#{security},
 		security_note=#{security_note},
 		other=#{other},
-		other_note=#{other_note} where id=#{id}
+		other_note=#{other_note} where time=#{time}
 	</update>
-
+    <update id="check2" parameterType="xh.mybatis.bean.OperationsCheckBean">
+    update xhgmnet_operations_check set checkTime=#{checkTime},checkUser=#{checkUser},status=#{status},note1=#{note1}
+    where id=#{id}
+    </update>
 
 </mapper>

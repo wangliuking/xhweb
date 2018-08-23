@@ -57,14 +57,6 @@ xh.load = function() {
 			
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
-	
-		
-		$scope.showCreateHtml=function(){
-			window.location.href="operations_check_create.html";
-		}
-		$scope.toCheck = function (id,user,fileName,comment) {
-	    	window.location.href="asset_add_apply_check.html?id="+id+"&user="+user+"&fileName="+fileName+"&comment="+comment;
-	    };
 	    
 	    $scope.toCheck2 = function (index) {
 	    $scope.check_data=$scope.data[index]
@@ -80,7 +72,7 @@ xh.load = function() {
 		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
-			window.location.href="lend-deal.html?data_id="+$scope.editData.id;
+			window.location.href="operations_check_create.html?data_id="+$scope.editData.id;
 	    };
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
@@ -89,30 +81,6 @@ xh.load = function() {
 			$("#progress").modal('show');
 	    };
 	    
-		$scope.asset_apply_list = function(index) {
-			var data=$scope.data[index];
-			var pageSize = 500;
-			var type = 0;
-			var name ="";
-			var model = "";
-			var serialNumber = "";
-			var from =0;
-			var status = 0;
-			var limit = pageSize;
-			var start=0;
-			console.log("tt->"+JSON.stringify(data))
-			
-			xh.maskShow();
-			$http.get("../../business/assetList?isLock=1&tag=0&applyTag="+data.applyTag+"&type="+type+"&name="+name+"" +
-					"&model="+model+"&serialNumber="+serialNumber+"&from="+from+"" +
-					"&status="+status+"&start=0&limit="+pageSize).
-			success(function(response){
-				xh.maskHide();
-				$scope.asset_apply_list_data = response.items;
-				$scope.asset_apply_list_totals = response.totals;
-				//xh.pagging(page, parseInt($scope.totals), $scope);
-			});
-		};
 	    
 		/*下载工作记录*/
 		$scope.download = function(name) {
@@ -159,12 +127,6 @@ xh.load = function() {
 	    	});
 			
 		};
-	    
-	    $scope.checkedChange=function(issure){
-	    	$scope.issure=issure==1?true:false;
-	    	console.log($scope.issure);
-	    };
-	  
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData=$scope.data[id];			
@@ -174,33 +136,53 @@ xh.load = function() {
 			$scope.checkData=$scope.data[id];			
 				$("#checkWin2").modal('show');	
 	    };
-	    $scope.check3 =function(index){
-	    	var data=$scope.data[index];
-	    	$.ajax({
-	    		url : '../../business/asset/add_apply_check3',
-	    		type : 'POST',
-	    		dataType : "json",
-	    		async : false,
-	    		data:{
-	    			id:data.id,
-	    			user:data.user,
-	    			checkUser:data.checkUser
-	    		},
-	    		success : function(data) {
+	    $scope.check2 =function(tag){
+	    	var title="";
+			if(tag==-1){
+				title="确定要拒绝该申请吗？";
+			}else{
+				title="确认同意该申请吗？";
+			}
+			swal({
+				title : "提示",
+				text : title,
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/check2',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : $scope.checkData.id,
+							checke:tag,
+							user:$scope.checkData.user,
+							comment:$("textarea[name='workNote']").val()
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+								$("#checkWin2").modal('hide')
 
-	    			if (data.result ==1) {
-	    				$scope.refresh();
-	    				toastr.success(data.message, '提示');
-
-	    			} else {
-	    				toastr.error(data.message, '提示');
-	    			}
-	    		},
-	    		error : function() {
-	    			toastr.error("系统错误", '提示');
-	    			
-	    		}
-	    	});
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+			});
 	    };
 	   
 		/* 查询数据 */
@@ -263,9 +245,39 @@ xh.load = function() {
 	});
 	
 };
-xh.checkedChange=function(){
-	var $scope = angular.element(appElement).scope();
-    $scope.checkedChange($("#checkForm1").find("select[name='checked']").val());
+xh.add = function() {
+	var fileName=$("#addWin").find("input[name='fileName']").val();
+	if(fileName==""){
+		toastr.error("还没有上传文件", '提示');
+		return ;
+	}
+	
+	$.ajax({
+		url : '../../check/add',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			//data:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+			month:$("#addWin").find("input[name='month']").val(),
+			comment:$("#addWin").find("textarea[name='comment']").val(),
+			fileName:$("#addWin").find("input[name='fileName']").val(),
+			filePath:$("#addWin").find("input[name='path']").val()
+		},
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$("#addWin").modal('hide');
+				xh.refresh();
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.error("系统错误", '提示');
+		}
+	});
 };
 
 xh.check2 = function(){

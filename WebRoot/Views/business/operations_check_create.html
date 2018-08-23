@@ -19,6 +19,11 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+.form-control {
+	border: 0px;
+}
+</style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -64,9 +69,14 @@
 						<!-- <div class="panel-heading hbuilt">资产列表</div> -->
 						<div class="panel-body">
 							<h3 class="text-center">成都市应急指挥调度无线通信网四期工程服务项目</h3>
-							<h5 class="text-center">201806月服务扣款表</h5>
+							<h5 class="text-center">{{data.time}}服务扣款表</h5>
 							<p class="text-center text-danger">提示：请首选择时间，系统会默认导出当前月份的扣款明细，若没有明细，再补充相关明细</p>
-
+                         <form action="#" id="addForm" onsubmit="return false">
+                       
+							<span>选择时间</span><input type="text" class="form-control"
+								id="time" ng-model="starttime" name="time"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
+								onblur="xh.searchDetail()">
 							<table id="tb-info" class="xh-table-primary table-hover">
 								<thead>
 									<tr class="tr-gray">
@@ -83,122 +93,158 @@
 										<td>交换中心可用率</td>
 
 										<td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除50000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="service_msc"
+											ng-model="data.service_msc" /></td>
+										<td><input class="form-control" name="service_msc_note"
+											ng-model="data.service_msc_note" /></td>
 									</tr>
 									<tr>
 										<td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
 										<td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除1000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="service_singlebs1"
+											ng-model="data.service_singlebs1" /></td>
+										<td><input class="form-control" name="service_singlebs1_note"
+											ng-model="data.service_singlebs1_note" /></td>
 									</tr>
 									<tr>
 										<td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除1000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="service_singlebs2"
+											ng-model="data.service_singlebs2" /></td>
+										<td><input class="form-control" name="service_singlebs2_note"
+											ng-model="data.service_singlebs2_note" /></td>
 									</tr>
 									<tr>
 										<td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除1000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="service_singlebs3"
+											ng-model="data.service_singlebs3" /></td>
+										<td><input class="form-control" name="service_singlebs3_note"
+											ng-model="data.service_singlebs3_note" /></td>
 									</tr>
 									<tr>
 										<td rowspan="2">故障控制</td>
 										<td>重大故障</td>
 										<td>每发生1次扣除10000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="fault_ctl1"
+											ng-model="data.fault_ctl1" /></td>
+										<td><input class="form-control" name="fault_ctl1_note"
+											ng-model="data.fault_ctl1_note" /></td>
 									</tr>
 									<tr>
 										<td>特别重大故障</td>
 										<td>每发生1次扣除20000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="fault_ctl2"
+											ng-model="data.fault_ctl2" /></td>
+										<td><input class="form-control" name="fault_ctl2_note"
+											ng-model="data.fault_ctl2_note" /></td>
 									</tr>
 									<tr>
 										<td rowspan="3">故障通报时间</td>
 										<td>特别重大故障</td>
 										<td>每超出5分钟扣除500元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="fault_port_time1"
+											ng-model="data.fault_port_time1" /></td>
+										<td><input class="form-control" name="fault_port_time1_note"
+											ng-model="data.fault_port_time1_note" /></td>
 									</tr>
 									<tr>
 										<td>重大故障</td>
 										<td>每超出5分钟扣除200元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="fault_port_time2"
+											ng-model="data.fault_port_time2" /></td>
+										<td><input class="form-control" name="fault_port_time2_note"
+											ng-model="data.fault_port_time2_note" /></td>
 									</tr>
 									<tr>
 										<td>一般故障</td>
 										<td>每超出5分钟扣除100元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="fault_port_time3"
+											ng-model="data.fault_port_time3" /></td>
+										<td><input class="form-control" name="fault_port_time3_note"
+											ng-model="data.fault_port_time3_note" /></td>
 									</tr>
 									<tr>
 										<td>用户服务响应</td>
 										<td></td>
 										<td>超出要求时间扣除1000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="user_service"
+											ng-model="data.user_service" /></td>
+										<td><input class="form-control" name="user_service_note"
+											ng-model="data.user_service_note" /></td>
 									</tr>
 									<tr>
 										<td>用户培训服务</td>
 										<td></td>
 										<td>全年培训少于2次，每次扣50000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="user_train"
+											ng-model="data.user_train" /></td>
+										<td><input class="form-control" name="user_train_note"
+											ng-model="data.user_train_note" /></td>
 									</tr>
 									<tr>
 										<td>应急通信保障</td>
 										<td></td>
 										<td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="emergency1"
+											ng-model="data.emergency1" /></td>
+										<td><input class="form-control" name="emergency1_note"
+											ng-model="data.emergency1_note" /></td>
 									</tr>
 									<tr>
 										<td>应急通信保障演练</td>
 										<td></td>
 										<td>每季度完成1次，每缺1次扣10000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="emergency2"
+											ng-model="data.emergency2" /></td>
+										<td><input class="form-control" name="emergency2_note"
+											ng-model="data.emergency2_note" /></td>
 									</tr>
 									<tr>
 										<td>系统应急处置演练</td>
 										<td></td>
 										<td>每季度完成1次，每缺1次扣10000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="emergency3"
+											ng-model="data.emergency3" /></td>
+										<td><input class="form-control" name="emergency3_note"
+											ng-model="data.emergency3_note" /></td>
 									</tr>
 									<tr>
 										<td>运维资料</td>
 										<td></td>
 										<td>每缺1项扣500元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="information"
+											ng-model="data.information" /></td>
+										<td><input class="form-control" name="information_note"
+											ng-model="data.information_note" /></td>
 									</tr>
 									<tr>
 										<td>安全保密</td>
 										<td></td>
 										<td>每发生1次泄密事件扣50000元</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="security"
+											ng-model="data.security" /></td>
+										<td><input class="form-control" name="security_note"
+											ng-model="data.security_note" /></td>
 									</tr>
 									<tr>
 										<td>其他要求</td>
 										<td></td>
 										<td>基站搬迁及卫星链路开通</td>
-										<td></td>
-										<td></td>
+										<td><input class="form-control" name="other"
+											ng-model="data.other" /></td>
+										<td><input class="form-control" name="other_note"
+											ng-model="data.other_note" /></td>
 									</tr>
 									<tr>
 										<td>合计扣款</td>
-										<td colspan="4"></td>
+										<td colspan="4">{{sum}}</td>
 									</tr>
-							
+
 
 
 								</tbody>
 							</table>
+							
+							</form>
 
 
 							<!-- row -->
@@ -207,7 +253,7 @@
 							<div class="row" style="margin-top:20px;">
 								<div class="btn-group col-md-6">
 									<button type="button" class="btn btn-success btn-block"
-										onclick="xh.applay()" id="add-apply-btn">提交申请</button>
+										onclick="xh.add()" id="add-apply-btn">提交申请</button>
 
 								</div>
 								<div class="btn-group col-md-6">
@@ -243,6 +289,18 @@
 		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
+		
+		function OnInput(event) {
+			//alert ("The new content: " + event.target.value);
+			xh.searchDetail()
+		}
+		// Internet Explorer
+		function OnPropChanged(event) {
+			if (event.propertyName.toLowerCase() == "value") {
+				// alert ("The new content: " + event.srcElement.value);
+				xh.xh.searchDetail()
+			}
+		}
 	</script>
 
 </body>

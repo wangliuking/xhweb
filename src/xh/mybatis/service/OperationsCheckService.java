@@ -41,13 +41,27 @@ public class OperationsCheckService {
 		return count;
 	}
 
-	public static int add(OperationsCheckBean bean){
+	public static int add(OperationsCheckBean checkBean){
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		OperationsCheckMapper mapper=session.getMapper(OperationsCheckMapper.class);
-		int count=0;	
+		//detailBean.setApplyId(checkBean.getApplyId());
+		int count=0;
+		int r=0;
 		try {
-			count=mapper.add(bean);
+			count=mapper.add(checkBean);
 			session.commit();
+			/*if(count>=1){
+				if(detailExists(detailBean.getTime())>0){
+					r=updateDetail(detailBean);
+				}else{
+					r=addDetail(detailBean);
+				}
+				if(r==0){
+					session.rollback();
+				}
+			}else{
+				session.rollback();
+			}*/
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -105,6 +119,20 @@ public class OperationsCheckService {
 		int count=0;	
 		try {
 			count=mapper.updateDetail(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int check2(OperationsCheckBean checkBean){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper=session.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.check2(checkBean);
 			session.commit();
 			session.close();
 		} catch (Exception e) {
