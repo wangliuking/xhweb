@@ -14,7 +14,7 @@ public class RedisUtil {
 	
 	private static PropertiesUtil pUtil=new PropertiesUtil();
 	 //Redis服务器IP
-    private static String ADDR = pUtil.ReadConfig("ip");   
+    private static String ADDR = pUtil.ReadConfig("ip");
     //Redis的端口号      
     private static int PORT = Integer.parseInt(pUtil.ReadConfig("port"));   
     //访问密码
@@ -48,9 +48,9 @@ public class RedisUtil {
         config.setMaxIdle(MAX_IDLE);
         config.setMaxWait(MAX_WAIT);
         config.setTestOnBorrow(TEST_ON_BORROW);
-        
-        jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT);
-       
+        if(jedisPool==null){
+        	jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT);
+        }      
     }
     
     /** 

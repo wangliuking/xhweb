@@ -3,27 +3,24 @@ package xh.org.listeners;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import xh.func.plugin.FunUtil;
-import xh.mybatis.service.WebRoleService;
 import xh.mybatis.service.WebUserServices;
+import xh.redis.server.UserRedis;
 
 public class SingLoginListener implements HttpSessionListener{
 	protected final static Log log = LogFactory.getLog(SingLoginListener.class);
 	private static FunUtil funUtil=new FunUtil();
-    // 保存sessionID和username的映射  
-    private static HashMap logUserMap = new HashMap();
+    // 保存sessionID和username的映射
+    public static HashMap logUserMap = new HashMap();
     //保存登录用户信息
-    private static HashMap<String,Map<String, Object>> logUserInfoMap = new HashMap<String, Map<String,Object>>();
+    public static HashMap<String,Map<String, Object>> logUserInfoMap = new HashMap<String, Map<String,Object>>();
     //保存登录用户权限信息
-    private static HashMap<String,Map<String, Object>> loginUserPowerMap = new HashMap<String, Map<String,Object>>();
+    public static HashMap<String,Map<String, Object>> loginUserPowerMap = new HashMap<String, Map<String,Object>>();
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
@@ -52,7 +49,12 @@ public class SingLoginListener implements HttpSessionListener{
         Map<String, Object> info=WebUserServices.userInfoByName(sUserName);
         if(info.get("vpnId")==null){
         	info.put("vpnId", "");
-        }
+        }        
+        //redis start      
+        String sessionId = session.getId();				
+		UserRedis.ssoSession(info, sUserName, sessionId);
+        //redis end
+		
         // 如果该用户已经登录过，则使上次登录的用户掉线(依据使用户名是否在logUserMap中)  
         if (logUserMap.containsValue(sUserName)) {  
             flag = true;  

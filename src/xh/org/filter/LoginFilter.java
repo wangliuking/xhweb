@@ -1,11 +1,6 @@
 package xh.org.filter;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,24 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.chinamobile.fsuservice.Test;
-
-import redis.clients.jedis.Jedis;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.WebUserServices;
-import xh.org.listeners.SingLoginListener;
+import xh.redis.server.UserRedis;
 
 public class LoginFilter extends HttpServlet implements Filter {
 	private static final long serialVersionUID = 1L;
 	protected final Log log = LogFactory.getLog(LoginFilter.class);
 	private FilterConfig filterConfig;
 	private FunUtil funUtil = new FunUtil();
-	//private Jedis jedis = new Jedis();
+	
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -72,7 +62,11 @@ public class LoginFilter extends HttpServlet implements Filter {
 		}
 		try {
 			String sessionId = session.getId();
-			if (SingLoginListener.isOnline(session) && isLock(servletRequest)==1) {//SingLoginListener.isOnline(session) && isLock(servletRequest)==1
+			System.out.println("sessionId 为 ："+sessionId);
+			//根据sessionId查询是否有登录用户
+			String userId = UserRedis.searchUserInRedisOne(sessionId);
+
+			if (userId!=null && isLock(servletRequest,userId)==1) {//SingLoginListener.isOnline(session) && isLock(servletRequest)==1
 				//log.info("已经登录系统，可以正常使用");
 				chain.doFilter(request, response);
 			}else {
@@ -88,9 +82,14 @@ public class LoginFilter extends HttpServlet implements Filter {
 		}
 
 	}
-	public int isLock(HttpServletRequest request){
-		WebUserBean bean=WebUserServices.selectUserByUser(funUtil.loginUser(request));
-		return bean.getStatus();
+	public int isLock(HttpServletRequest request,String userId){
+		//WebUserBean bean=WebUserServices.selectUserByUser(funUtil.loginUser(request));
+		WebUserBean bean=WebUserServices.selectUserByUser(userId);
+		if(bean!=null){
+			return bean.getStatus();
+		}else{
+			return 0;
+		}	
 	}
 
 	@Override
