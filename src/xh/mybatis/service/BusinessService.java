@@ -795,6 +795,9 @@ public class BusinessService {
 						info.setIsLock(0);
 						info.setAddUser(sc.getAddUser());
 						info.setApplyTag(sc.getApplyTag());
+						info.setProName(sc.getProName());
+						info.setPriceType(sc.getPriceType());
+						info.setBuyTime(sc.getBuyTime());
 						
 						list2.add(info);
 					}

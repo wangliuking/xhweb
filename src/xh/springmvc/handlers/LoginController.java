@@ -3,19 +3,23 @@ package xh.springmvc.handlers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.service.MenuService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
@@ -48,6 +52,7 @@ public class LoginController {
 			
 		}*/
 		
+		
 		String toSign = request.getParameter("ToSign");
 		
 		
@@ -64,6 +69,7 @@ public class LoginController {
 		String projectId = "yjyypt";
 		String reqId = "1";
 		String code="200";
+		String url="../index.html";
 		//!username.equals("admin")
 		
 		/*if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
@@ -95,7 +101,16 @@ public class LoginController {
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
 					this.message = "登录系统成功";
-					SingLoginListener.isLogin(session, username);					
+					SingLoginListener.isLogin(session, username);
+					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
+					int roleId=Integer.parseInt(role);
+					Map<String,Object> menuMap=MenuService.menuList(roleId);
+					
+					if(menuMap!=null){
+						if(menuMap.get("m_5")!=null){
+							url=Integer.parseInt(menuMap.get("m_5").toString())==0?"../main.html":url;
+						}
+					}
 
 					webLogBean.setOperator(funUtil.loginUser(request));
 					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
@@ -126,6 +141,7 @@ public class LoginController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
+		result.put("url", url);
 		result.put("code", code);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

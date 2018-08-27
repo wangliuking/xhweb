@@ -465,6 +465,13 @@ xh.maskShow = function() {
 	html += "</div>";
 	$("body").append(html);
 }
+xh.delayShow = function() {
+	var html = "<div class='xh-mask text-white'><div class='color-line'></div>";
+	html += "<i class='fa fa-spinner fa-spin fa-2x text-success'></i>";
+	html += "<i class='delayText'></i>";
+	html += "</div>";
+	$("body").append(html);
+}
 xh.maskShow = function(message) {
 	var msg="数据处理中...";
 	if(message==null){

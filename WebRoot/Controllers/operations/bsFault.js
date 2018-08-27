@@ -58,9 +58,11 @@ xh.load = function() {
 			level_value.push($(this).val()); 
 			});
 			//告警状态
-			$('input[name="alarmTag"]:checked').each(function(){ 
+			alarmTag_value.push(0); 
+			/*$('input[name="alarmTag"]:checked').each(function(){ 
 				alarmTag_value.push($(this).val()); 
-			});
+			});*/
+			
 			$http.get("../../bsstatus/bsFaultList?bsId=&" +
 					"level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit=30").

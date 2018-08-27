@@ -97,7 +97,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="from">资产来源</label>
+										<label for="from">资产性质</label>
 										<div>
 											<select id="from" class="form-control">
 												<option value="0" selected="selected">=不限制=</option>
@@ -175,26 +175,28 @@
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
+										<th width="200px">项目名称</th>
 										<th>资产编号</th>
 										<th>资产类别</th>
 										<th>名称</th>
 										<th>型号</th>
-										
-										<th>原值</th>
-										<th>来源</th>
+										<th>原值/评估值</th>
+										<th>价格</th>
+										<th>性质</th>
 										<th>状态</th>
 										<th width="180px">备注</th>
-										<th width="130px">记录时间</th>
+										<th width="130px">采购时间</th>
 										<th width="130px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="12" class="text-center">没有记录！</td>
+										<td colspan="13" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
+										<td>{{x.proName}}</td>
 										<td>{{x.serialNumber}}</td>
 										<td>
 										<span ng-if="x.type==1">交换控制中心（MSO）设备</span>
@@ -207,7 +209,7 @@
 										</td>
 										<td>{{x.name}}</td>
 										<td>{{x.model}}</td>
-										
+										<td>{{x.priceType}}</td>
 										<td>{{x.price}}</td>
 										<td>
 										<span ng-if="x.from==1">采购</span>
@@ -224,7 +226,7 @@
 										<span ng-if="x.status==7">遗失</span>
 										</td>
 										<td>{{x.note}}</td>
-										<td>{{x.createTime}}</td>
+										<td>{{x.buyTime}}</td>
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)"  ng-if="up.b_update=='on'"> <i class="fa fa-edit text-success"></i>&nbsp;修改
 										</a><a href="#" ng-click="delBs(x.id)" ng-if="up.b_delete=='on'"><i

@@ -25,11 +25,21 @@ toastr.options = {
 };
 xh.load = function() {
 	var app = angular.module("app", []);
+	app.config([ '$locationProvider', function($locationProvider) {
+		$locationProvider.html5Mode({
+			enabled : true,
+			requireBase : false
+		});
+	} ]);
 	
 	var pageSize = $("#page-limit").val();
-	app.controller("xhcontroller", function($scope,$http) {
+	app.controller("xhcontroller", function($scope,$http, $location) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
+		$scope.time = $location.search().checkMonth;
+		$scope.id = $location.search().id;
+		$scope.user = $location.search().user;
+		$scope.applyId = $location.search().applyId;
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -44,8 +54,7 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.searchDetail=function(){
-			var time=$("#time").val();
-			$http.get("../../check/searchDetail?time="+time).
+			$http.get("../../check/searchDetail?time="+$scope.time).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -68,6 +77,7 @@ xh.load = function() {
 	    $scope.toback = function () {
 	    	window.location.href="operations_check.html";
 	    };
+	    $scope.searchDetail();
 	    
 	   
 	});
@@ -89,6 +99,7 @@ xh.searchDetail=function(){
 }
 /* 添加设备 */
 xh.add = function() {
+	var $scope = angular.element(appElement).scope();
 	var time=$("#time").val();
 	if(time==""){
 		toastr.error("时间不能为空", '提示');
@@ -96,11 +107,15 @@ xh.add = function() {
 	}
 	
 	$.ajax({
-		url : '../../check/add',
+		url : '../../check/checkreport',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
+			id:$scope.id,
+			month:$scope.time,
+			user:$scope.user,
+			applyId:$scope.applyId,
 			data:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
 		},
 		success : function(data) {

@@ -15,6 +15,8 @@ public class OperationsCheckBean {
 	private String createTime;
 	private String checkUser;
 	private String checkTime;
+	private String checkTime2;
+	private String checkTime3;
 	private String note1;
 	private int status;
 	
@@ -22,6 +24,19 @@ public class OperationsCheckBean {
 	
 	
 	
+
+	public String getCheckTime3() {
+		return checkTime3;
+	}
+	public void setCheckTime3(String checkTime3) {
+		this.checkTime3 = checkTime3;
+	}
+	public String getCheckTime2() {
+		return checkTime2;
+	}
+	public void setCheckTime2(String checkTime2) {
+		this.checkTime2 = checkTime2;
+	}
 	public String getCheckMonth() {
 		return checkMonth;
 	}

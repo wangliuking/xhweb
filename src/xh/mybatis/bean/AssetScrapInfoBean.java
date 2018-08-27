@@ -26,9 +26,31 @@ public class AssetScrapInfoBean {
 	
 	private int statusCount;
 	
+	private String proName;
+	private String priceType;
+	private String buyTime;
 	
 	
 	
+	
+	public String getProName() {
+		return proName;
+	}
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+	public String getPriceType() {
+		return priceType;
+	}
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
+	public String getBuyTime() {
+		return buyTime;
+	}
+	public void setBuyTime(String buyTime) {
+		this.buyTime = buyTime;
+	}
 	public String getApplyTag() {
 		return applyTag;
 	}
@@ -148,14 +170,16 @@ public class AssetScrapInfoBean {
 	}
 	@Override
 	public String toString() {
-		return "AssetInfoBean [id=" + id + ", type=" + type + ", name=" + name
-				+ ", model=" + model + ", serialNumber=" + serialNumber
+		return "AssetScrapInfoBean [id=" + id + ", type=" + type + ", name="
+				+ name + ", model=" + model + ", serialNumber=" + serialNumber
 				+ ", price=" + price + ", ratValue=" + ratValue + ", number="
 				+ number + ", from=" + from + ", status=" + status + ", note="
 				+ note + ", createTime=" + createTime + ", isLock=" + isLock
 				+ ", addUser=" + addUser + ", checkTime=" + checkTime
 				+ ", checkResult=" + checkResult + ", checkUser=" + checkUser
-				+ ", statusCount=" + statusCount + "]";
+				+ ", applyTag=" + applyTag + ", statusCount=" + statusCount
+				+ ", proName=" + proName + ", priceType=" + priceType
+				+ ", buyTime=" + buyTime + "]";
 	}
 	
 	

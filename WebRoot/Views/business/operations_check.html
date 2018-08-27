@@ -99,22 +99,22 @@
 										<td ng-if="x.status==-1" class="td-danger">你提交的申请已经被拒绝了</td>
 										
 										<td ng-if="x.status==1" class="td-primary">审核通过，等待管理部门填写考核结果</td>
-										<td ng-if="x.status==2" class="td-primary">资产录入成功，等待领导确认</td>
+										<td ng-if="x.status==2" class="td-primary">管理部门已经填写考核记录等待服务提供方确认结果</td>
 										<td ng-if="x.status==3" class="td-success">确认完成</td>
 										<td>{{x.createTime}}</td>
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
-												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度&nbsp;</a>
+												class="fa fa-file-text-o text-success"> </i>&nbsp;资料及进度&nbsp;</a>
 											<a href="#" ng-click="checkWin2($index)"
-											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_add_asset=='on') || loginUserRoleType==0)">|<i
+											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_operations_check=='on') || loginUserRoleType==0)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核
 										</a> 
-										<a ng-if="loginUser==x.checkUser && x.status==1" ng-click="toDeal($index)"
+										<a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
 											href="javascript:(0)" title="点击按钮填写考核结果">|<i
 												class="fa fa-hand-o-down text-danger"></i>填写考核结果
 										</a> 
-										<a ng-if="x.status==2 && loginUserRoleType==2 && up.o_check_change=='on'" href="#"
-											ng-click="check3($index)">| <i
+										<a ng-if="x.status==2 && (loginUserRoleType==3 || loginUserRoleType==0)" href="#"
+											ng-click="check4($index)">| <i
 												class="fa fa-hand-o-down text-danger"></i>确认
 										</a>
 										
@@ -161,7 +161,7 @@
 	</div>
 	
 	<!-- 进度-->
-	<div ng-include="'asset-add-apply-progress.html'"></div>
+	<div ng-include="'operations_check_progress.html'"></div>
 	<div class="modal fade" id="addWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog">
@@ -263,7 +263,7 @@
 					<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>考核资料</label>
-								<p><a>{{checkData.fileName}}</a></p>
+								<p><a href="#" ng-click="download(checkData.fileName)">{{checkData.fileName}}</a></p>
 							</div>
 						</div>
 						<div class="col-md-12">

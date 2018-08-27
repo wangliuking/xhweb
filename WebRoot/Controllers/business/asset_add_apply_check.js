@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
+var delay = 3;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 	"debug" : false,
@@ -107,6 +108,7 @@ xh.load = function() {
 						success : function(data) {
 							if (data.success) {
 								toastr.success(data.message, '提示');
+								xh.delayURL();
 
 							} else {
 								toastr.error(data.message, '提示');
@@ -204,6 +206,19 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+xh.delayURL=function() { 
+	var url="asset_add_apply.html";
+    var t = setTimeout("xh.delayURL()", 1000);
+    xh.delayShow();
+    if (delay > 0) {
+        delay--;
+        var html="审核完成 页面 "+delay+" 秒后开始跳转";
+        $(".delayText").html(html);
+    } else {
+        clearTimeout(t); 
+        window.location.href =url;
+    }        
+} 
 /* 添加设备 */
 xh.add = function() {
 	

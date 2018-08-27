@@ -43,7 +43,8 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
-		
+		/*跳转到申请进度页面*/
+	
 		
 
 		
@@ -72,12 +73,15 @@ xh.load = function() {
 		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
-			window.location.href="operations_check_create.html?data_id="+$scope.editData.id;
+			window.location.href="operations_check_create.html?user=" +$scope.editData.user+
+					"&id="+$scope.editData.id+"" +
+					"&checkMonth="+$scope.editData.checkMonth+"&applyId="+$scope.editData.applyId;
 	    };
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
-			$scope.asset_apply_list(id);
+			$scope.searchDetail($scope.progressData.checkMonth)
+			//$scope.asset_apply_list(id);
 			$("#progress").modal('show');
 	    };
 	    
@@ -87,7 +91,7 @@ xh.load = function() {
 			/*var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	*/
 			var filename=name
-			var filepath = "/Resources/upload/asset/" + filename;
+			var filepath = "/Resources/upload/business/" + filename;
 			var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
 			if(xh.isfile(filepath)){
 				window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
@@ -127,6 +131,16 @@ xh.load = function() {
 	    	});
 			
 		};
+		$scope.searchDetail=function(time){
+			$http.get("../../check/searchDetail?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.detailData = response.items;
+				$scope.sum=response.sum;
+				
+				
+			});
+		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData=$scope.data[id];			
@@ -162,7 +176,7 @@ xh.load = function() {
 						dataType : "json",
 						data : {
 							id : $scope.checkData.id,
-							checke:tag,
+							check:tag,
 							user:$scope.checkData.user,
 							comment:$("textarea[name='workNote']").val()
 						},
@@ -183,7 +197,33 @@ xh.load = function() {
 					});
 				}
 			});
+		
 	    };
+		$scope.check4=function(index){
+			var data=$scope.data[index];
+			$.ajax({
+				url : '../../check/check4',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : data.id,
+					user:data.checkUser
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+		}
 	   
 		/* 查询数据 */
 		$scope.search = function(page) {
@@ -247,8 +287,13 @@ xh.load = function() {
 };
 xh.add = function() {
 	var fileName=$("#addWin").find("input[name='fileName']").val();
+	var month=$("#addWin").find("input[name='month']").val();
 	if(fileName==""){
 		toastr.error("还没有上传文件", '提示');
+		return ;
+	}
+	if(month==""){
+		toastr.error("考核月份不能为空", '提示');
 		return ;
 	}
 	
@@ -280,162 +325,6 @@ xh.add = function() {
 	});
 };
 
-xh.check2 = function(){
-	var $scope = angular.element(appElement).scope();
-	var workNote=$("#checkForm2").find("textarea[name='workNote']").val();
-	if(workNote==""){
-		toastr.error("工作结论不能为空", '提示');
-		return "";
-	}
-	$.ajax({
-		url : '../../business/asset/add_apply_check2',
-		type : 'POST',
-		dataType : "json",
-		async : false,
-		data:{
-			id:$scope.check_data.id,
-			workNote:$("#checkForm2").find("textarea[name='workNote']").val(),
-			user:$scope.check_data.user,
-			checkUser:$scope.check_data.checkUser
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin2').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.error("系统错误", '提示');
-			
-		}
-	});
-};
-//领导确认
-
-/*var wrokNote=$("#checkForm2").find("textarea[name='workNote']").val();
-if(workNote==""){
-	toastr.error("工作结论不能为空", '提示');
-	return "";
-}*/
-/*申请核查资产*/
-/*xh.add = function() {
-	$.ajax({
-		url : '../../asset/apply',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#apply').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};*/
-/*主管部门审核*/
-/*xh.check1 = function() {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../asset/checkOne',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			id:$("#checkForm1").find("input[name='id']").val(),
-			note1:$("#checkForm1").find("textarea[name='note1']").val(),
-			checked:$("#checkForm1").find("select[name='checked1']").val(),
-			account:$scope.checkData.account
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin1').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-
-
-xh.check2 = function(checked) {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../asset/checkTwo',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			id:$("#checkForm2").find("input[name='id']").val(),
-			note:$("#checkForm2").find("textarea[name='note2']").val(),
-			fileName:$("#checkForm2").find("input[name='fileName']").val(),
-			filePath:$("#checkForm2").find("input[name='filePath']").val(),
-			user1:$scope.checkData.user1
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin2').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-xh.check3 = function(tag) {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../asset/check3',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			id:$("#checkForm3").find("input[name='id']").val(),
-			note3:$("#checkForm3").find("textarea[name='note3']").val(),
-			checked:tag==0?-3:3,
-			account:$scope.checkData.account
-		},
-		success : function(data) {
-
-			if (data.result ==1) {
-				$('#checkWin3').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-*/
 
 /*上传文件*/
 xh.upload = function() {
