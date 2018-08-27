@@ -1402,15 +1402,16 @@ body.fullscreen-panel-mode {
 }
 /* mask */
 .xh-mask {
-	opacity: 0.6;
+	/* opacity: 0.6; */
 	background: rgba(0, 0, 0, 0.8);
 	box-shadow: 0 0 0 2px rgba(255, 255, 255, .4);
 	text-align: center;
 	position: absolute;
-	height: 40px;
+	height: 60px;
+	padding:10px;
 	line-height: 40px;
 	overflow: hidden;
-	width: 200px;
+	min-width: 200px;
 	z-index: 2000;
 	top: 50%;
 	left: 50%;

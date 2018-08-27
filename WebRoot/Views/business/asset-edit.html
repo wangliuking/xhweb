@@ -21,6 +21,13 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
+								<label>项目名称</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text" value="" class="form-control" name="proName"
+									required="required" ng-model="editData.proName">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
 								<label>设备编号</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="serialNumber"
 									required="required" ng-model="editData.serialNumber" readonly="readonly">
@@ -60,7 +67,7 @@
 						
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>来源</label>&nbsp;<span class="text-danger">[*]</span> <select
+								<label>性质</label>&nbsp;<span class="text-danger">[*]</span> <select
 									id="from" class="form-control" name="from" ng-model="editData.from">
 									<option value=1>采购</option>
 									<option value=2>赠送</option>
@@ -69,7 +76,16 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>单价</label>&nbsp;<span class="text-danger">[*]</span> <input
+								<label>原值/评估值</label>&nbsp;<span class="text-danger">[*]</span> <select
+									id="priceType" name="priceType" class="form-control" ng-model="editData.priceType">
+									<option value="原值" selected="selected">原值</option>
+									<option value="评估值">评估值</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>价格</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="price" step="0.01"
 									required="required" ng-model="editData.price">
 							</div>

@@ -24,8 +24,10 @@
 	<insert id="add" parameterType="xh.mybatis.bean.OperationsCheckBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
-		xhgmnet_operations_check(applyId,userId,user,userName,tel,createTime,fileName,filePath,comment,)values
-		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime},#{fileName},#{filePath},#{comment})
+		xhgmnet_operations_check(applyId,userId,user,userName,tel,createTime,fileName,
+		filePath,comment,checkMonth)values
+		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime},#{fileName},
+		#{filePath},#{comment},#{checkMonth})
 	</insert>	
 	
 	<!-- 查询考核明细信息 -->
@@ -142,6 +144,14 @@
 	</update>
     <update id="check2" parameterType="xh.mybatis.bean.OperationsCheckBean">
     update xhgmnet_operations_check set checkTime=#{checkTime},checkUser=#{checkUser},status=#{status},note1=#{note1}
+    where id=#{id}
+    </update>
+    <update id="check3" parameterType="xh.mybatis.bean.OperationsCheckBean">
+    update xhgmnet_operations_check set checkTime2=#{checkTime2},status=#{status}
+    where id=#{id}
+    </update>
+    <update id="check4" parameterType="xh.mybatis.bean.OperationsCheckBean">
+    update xhgmnet_operations_check set checkTime3=#{checkTime3},status=#{status}
     where id=#{id}
     </update>
 

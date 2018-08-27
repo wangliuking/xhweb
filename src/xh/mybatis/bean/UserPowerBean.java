@@ -27,6 +27,7 @@ public class UserPowerBean {
 	private String o_check_cut="off";//审核核减流程
 	private String o_check_system_up="off";//审核系统升级
 	private String o_check_asset_update_status="off";//审核资产状态变更
+	private String o_check_operations_check="off";//审核运维考核
 
 	
 	
@@ -63,6 +64,12 @@ public class UserPowerBean {
 	
 	
 	
+	public String getO_check_operations_check() {
+		return o_check_operations_check;
+	}
+	public void setO_check_operations_check(String o_check_operations_check) {
+		this.o_check_operations_check = o_check_operations_check;
+	}
 	public String getO_check_add_asset() {
 		return o_check_add_asset;
 	}

@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="progress" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-llg">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -57,13 +57,13 @@
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
-									<h2>提交报废资产申请</h2>
+									<h2>提交新增资产申请</h2>
 									<h2 ng-if="progressData.attachmentName!=null">
 										<a href="#" ng-click="download(progressData.attachmentName)">{{progressData.attachmentName}}</a>
-										<p>
+										<!-- <p>
 										<a href="#" ng-click="download(progressData.attachmentName)">下载</a>
 										 |<a href="#" ng-click="preview(progressData.attachmentName)">预览</a>
-										 </p>
+										 </p> -->
 									</h2>
 									<p>
 										<span>备注：</span><span>{{progressData.comment}}</span>
@@ -101,11 +101,11 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.status>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>资产管理员将报废资产入库，并记录资产登记信息</h2>
+									<h2>资产管理员将资产入库，并记录资产登记信息</h2>
 
 									<span ng-if="progressData.status<2" class="cd-date text-danger">等待确认</span>
 									<span ng-if="progressData.status>=2"
-										class="cd-date text-success font-bold">报废资产已经入库; </br>时间：{{progressData.time2}}
+										class="cd-date text-success font-bold">资产已经入库; </br>时间：{{progressData.time2}}
 									</span>
 								</div>
 							</div>
@@ -145,28 +145,29 @@
 							
 							<table id="tb-info" class="xh-table-primary table-hover">
 								<thead>
-									<tr class="tr-gray">
+									<tr>
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
+										<th width="200px">项目名称</th>
 										<th>资产编号</th>
 										<th>资产类别</th>
 										<th>名称</th>
 										<th>型号</th>
-
-										<th>原值</th>
-										<th>来源</th>
+										<th>原值/评估值</th>
+										<th>价格</th>
+										<th>性质</th>
 										<th>状态</th>
-										<th>是否已录入</th>
 										<th width="180px">备注</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="asset_apply_list_totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="11" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in asset_apply_list_data">
 										<!-- <td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td> -->
+											<td>{{x.proName}}</td>
 										<td>{{x.serialNumber}}</td>
 										<td><span ng-if="x.type==1">交换控制中心（MSO）设备</span> <span
 											ng-if="x.type==2">远端调度台设备</span> <span ng-if="x.type==3">基站设备</span>
@@ -175,7 +176,7 @@
 										</td>
 										<td>{{x.name}}</td>
 										<td>{{x.model}}</td>
-
+										 <td>{{x.priceType}}</td>
 										<td>{{x.price}}</td>
 										<td><span ng-if="x.from==1">采购</span> <span
 											ng-if="x.from==2">赠送</span></td>
@@ -184,10 +185,7 @@
 											<span ng-if="x.status==3">维修</span> <span ng-if="x.status==4">在库</span>
 											<span ng-if="x.status==5">在用</span> <span ng-if="x.status==6">待报废</span>
 											<span ng-if="x.status==7">遗失</span></td>
-										<td>
-										<span ng-if="x.isLock==1" style="color:red">未录入</span> 
-										<span ng-if="x.isLock==0" style="color:green">已经录入</span>
-										</td>
+									
 										<td>{{x.note}}</td>
 									</tr>
 								</tbody>

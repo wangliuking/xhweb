@@ -119,6 +119,7 @@ public class OperationsCheckController {
 		checkBean.setFileName(fileName);
 		checkBean.setFilePath(filePath);
 		checkBean.setComment(comment);
+		checkBean.setCheckMonth(month);
 		
 		
 		
@@ -165,6 +166,74 @@ public class OperationsCheckController {
 		}else{
 			this.success=false;
 			this.message="审核信息失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/checkreport", method = RequestMethod.POST)
+	public void checkreport(HttpServletRequest request, HttpServletResponse response) {
+		String data=request.getParameter("data");
+		OperationsCheckDetailBean detailBean=GsonUtil.json2Object(data, OperationsCheckDetailBean.class);
+		int id=FunUtil.StringToInt(request.getParameter("id"));
+		String time=request.getParameter("month");
+		String user=request.getParameter("user");
+		String applyId=request.getParameter("applyId");
+		
+		detailBean.setTime(time);
+		OperationsCheckBean checkBean=new OperationsCheckBean();
+		checkBean.setId(id);
+		checkBean.setCheckTime2(FunUtil.nowDateNoTime());
+		checkBean.setStatus(2);
+		checkBean.setApplyId(applyId);
+		checkBean.setCheckMonth(time);
+		int rst=OperationsCheckService.check3(checkBean,detailBean);
+		if(rst>=1){
+			this.success=true;
+			this.message="填写记录成功";
+			FunUtil.sendMsgToOneUser(user, "考核", "管理部门已经填写了考核记录，请确认", request);
+		}else{
+			this.success=false;
+			this.message="填写记录失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/check4", method = RequestMethod.POST)
+	public void check4(HttpServletRequest request, HttpServletResponse response) {
+		int id=FunUtil.StringToInt(request.getParameter("id"));
+		String user=request.getParameter("user");
+		OperationsCheckBean checkBean=new OperationsCheckBean();
+		checkBean.setId(id);
+		checkBean.setCheckTime3(FunUtil.nowDateNoTime());
+		checkBean.setStatus(3);
+		int rst=OperationsCheckService.check4(checkBean);
+		if(rst>=1){
+			this.success=true;
+			this.message="确认成功";
+			FunUtil.sendMsgToOneUser(user, "考核", "服务方确认了考核结果", request);
+		}else{
+			this.success=false;
+			this.message="确认失败";
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);

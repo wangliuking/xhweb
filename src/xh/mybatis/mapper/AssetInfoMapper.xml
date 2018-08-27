@@ -136,9 +136,10 @@
 	<insert id="insertAsset" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.AssetInfoBean">
 		insert into
-		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag)
+		xhgmnet_business_assetinfo(type,name,model,serialNumber,price,number,`from`,status,note,createTime,
+		isLock,addUser,applyTag,proName,priceType,buyTime)
 		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},
-		#{note},#{createTime},#{isLock},#{addUser},#{applyTag})
+		#{note},#{createTime},#{isLock},#{addUser},#{applyTag},#{proName},#{priceType},#{buyTime})
 	</insert>
 	<insert id="insertManyAsset" parameterType="java.util.List"
 		keyProperty="serialNumber">
@@ -155,7 +156,7 @@
 		xhgmnet_business_assetinfo set type=#{type},
 		name=#{name},model=#{model},
 		serialNumber=#{serialNumber},price=#{price},number=#{number},`from`=#{from},
-		status=#{status},note=#{note} where id=#{id}
+		status=#{status},note=#{note},proName=#{proName},priceType=#{priceType},buyTime=#{buyTime} where id=#{id}
 	</update>
 	<!--核查资产 -->
 	<update id="checkAsset" parameterType="map">
@@ -290,9 +291,11 @@
 	<insert id="insertScrapAsset" useGeneratedKeys="true"
 		keyProperty="id" parameterType="xh.mybatis.bean.AssetScrapInfoBean">
 		insert into
-		xhgmnet_asset_scrap(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag)
+		xhgmnet_asset_scrap(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag,
+		proName,priceType,buyTime)
 		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},
-		#{note},#{createTime},#{isLock},#{addUser},#{applyTag})
+		#{note},#{createTime},#{isLock},#{addUser},#{applyTag},proName=#{proName},
+		priceType=#{priceType},buyTime=#{buyTime})
 	</insert>
 	<!-- 报废资产申请 -->
 	<insert id="scrap_apply" keyProperty="id" useGeneratedKeys="true"

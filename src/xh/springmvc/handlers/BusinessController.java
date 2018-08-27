@@ -1261,6 +1261,8 @@ public class BusinessController {
 			System.out
 					.println("文件路径rrr-----" + Arrays.toString(list.toArray()));
 			for (AssetInfoBean assetInfoBean : list) {
+				
+				
 				if (BusinessService.assetInfoByserialNumberExists(assetInfoBean
 						.getSerialNumber()) < 1) {
 					r += BusinessService.insertAsset(assetInfoBean);
@@ -1313,7 +1315,7 @@ public class BusinessController {
 
 				Sheet rs = rwb.getSheet(a);
 
-				int clos = rs.getColumns();// 得到所有的列
+				int clos = 9;// 得到所有的列
 				int rows = rs.getRows();// 得到所有的行
 
 				System.out.println("文件解析clos-----" + clos);
@@ -1334,9 +1336,14 @@ public class BusinessController {
 									.getContents()));
 							bean.setName(rs.getCell(j++, i).getContents());
 							bean.setModel(rs.getCell(j++, i).getContents());
+							bean.setPriceType(rs.getCell(j++, i).getContents());
 							bean.setPrice(rs.getCell(j++, i).getContents());
+							bean.setProName(rs.getCell(j++, i).getContents());
+							
 							bean.setFrom(asset_from(rs.getCell(j++, i)
 									.getContents()));
+							bean.setBuyTime(rs.getCell(j++, i).getContents());
+							
 							bean.setStatus(asset_status(rs.getCell(j++, i)
 									.getContents()));
 							bean.setNote(rs.getCell(j++, i).getContents());
@@ -1344,6 +1351,7 @@ public class BusinessController {
 							bean.setIsLock(1);
 							bean.setAddUser(FunUtil.loginUser(request));
 							list.add(bean);
+							/*System.out.println(bean);*/
 						}
 
 					}
@@ -1640,6 +1648,7 @@ public class BusinessController {
 					if (cellLen > 1) {
 						for (int j = 0; j < clos; j++) {
 							// getCell(列，行)
+
 							// out.print(sheet.getCell(j, i).getContents());
 							AssetScrapInfoBean bean = new AssetScrapInfoBean();
 							bean.setSerialNumber(rs.getCell(j++, i)
@@ -1649,9 +1658,12 @@ public class BusinessController {
 									.getContents()));
 							bean.setName(rs.getCell(j++, i).getContents());
 							bean.setModel(rs.getCell(j++, i).getContents());
+							bean.setPriceType(rs.getCell(j++, i).getContents());
 							bean.setPrice(rs.getCell(j++, i).getContents());
+							bean.setProName(rs.getCell(j++, i).getContents());
 							bean.setFrom(asset_from(rs.getCell(j++, i)
 									.getContents()));
+							bean.setBuyTime(rs.getCell(j++, i).getContents());
 							bean.setStatus(asset_status(rs.getCell(j++, i)
 									.getContents()) == 2 ? 2 : 2);
 							bean.setNote(rs.getCell(j++, i).getContents());
@@ -1816,6 +1828,9 @@ public class BusinessController {
 
 	// 资产来源
 	public int asset_status(String str) {
+		if(str==null || str==""){
+			return 4;
+		}
 		if (str.equals("外借")) {
 			return 1;
 		} else if (str.equals("报废")) {

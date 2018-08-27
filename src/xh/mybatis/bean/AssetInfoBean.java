@@ -4,6 +4,8 @@ public class AssetInfoBean {
 	private int id;
 	private int type;
 	private String name;
+	private String proName;
+	private String priceType;
 	private String model;
 	private String serialNumber;
 	private String price;
@@ -14,6 +16,7 @@ public class AssetInfoBean {
 	private int status;
 	private String note;
 	private String createTime;
+	private String buyTime;
 	private int isLock=0;
 	private String addUser;
 	private String checkTime;
@@ -29,6 +32,24 @@ public class AssetInfoBean {
 	
 	
 	
+	public String getBuyTime() {
+		return buyTime;
+	}
+	public void setBuyTime(String buyTime) {
+		this.buyTime = buyTime;
+	}
+	public String getProName() {
+		return proName;
+	}
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+	public String getPriceType() {
+		return priceType;
+	}
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
 	public String getApplyTag() {
 		return applyTag;
 	}
@@ -149,12 +170,14 @@ public class AssetInfoBean {
 	@Override
 	public String toString() {
 		return "AssetInfoBean [id=" + id + ", type=" + type + ", name=" + name
+				+ ", proName=" + proName + ", priceType=" + priceType
 				+ ", model=" + model + ", serialNumber=" + serialNumber
 				+ ", price=" + price + ", ratValue=" + ratValue + ", number="
 				+ number + ", from=" + from + ", status=" + status + ", note="
-				+ note + ", createTime=" + createTime + ", isLock=" + isLock
-				+ ", addUser=" + addUser + ", checkTime=" + checkTime
-				+ ", checkResult=" + checkResult + ", checkUser=" + checkUser
+				+ note + ", createTime=" + createTime + ", buyTime=" + buyTime
+				+ ", isLock=" + isLock + ", addUser=" + addUser
+				+ ", checkTime=" + checkTime + ", checkResult=" + checkResult
+				+ ", checkUser=" + checkUser + ", applyTag=" + applyTag
 				+ ", statusCount=" + statusCount + "]";
 	}
 	

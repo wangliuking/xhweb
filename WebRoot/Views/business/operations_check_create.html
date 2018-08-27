@@ -69,14 +69,8 @@
 						<!-- <div class="panel-heading hbuilt">资产列表</div> -->
 						<div class="panel-body">
 							<h3 class="text-center">成都市应急指挥调度无线通信网四期工程服务项目</h3>
-							<h5 class="text-center">{{data.time}}服务扣款表</h5>
-							<p class="text-center text-danger">提示：请首选择时间，系统会默认导出当前月份的扣款明细，若没有明细，再补充相关明细</p>
-                         <form action="#" id="addForm" onsubmit="return false">
-                       
-							<span>选择时间</span><input type="text" class="form-control"
-								id="time" ng-model="starttime" name="time"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
-								onblur="xh.searchDetail()">
+							<h5 class="text-center">{{time}}服务扣款表</h5>
+						<form action="#" id="addForm" onsubmit="return false">
 							<table id="tb-info" class="xh-table-primary table-hover">
 								<thead>
 									<tr class="tr-gray">
@@ -253,7 +247,7 @@
 							<div class="row" style="margin-top:20px;">
 								<div class="btn-group col-md-6">
 									<button type="button" class="btn btn-success btn-block"
-										onclick="xh.add()" id="add-apply-btn">提交申请</button>
+										onclick="xh.add()" id="add-apply-btn">提交考核结果</button>
 
 								</div>
 								<div class="btn-group col-md-6">

@@ -141,6 +141,48 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
+	public static int check3(OperationsCheckBean checkBean,OperationsCheckDetailBean detailBean){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper=session.getMapper(OperationsCheckMapper.class);
+		detailBean.setApplyId(checkBean.getApplyId());
+		int count=0;
+		int r=0;
+		try {
+			count=mapper.check3(checkBean);
+			session.commit();
+			if(count>=1){
+				if(detailExists(detailBean.getTime())>0){
+					r=updateDetail(detailBean);
+				}else{
+					r=addDetail(detailBean);
+				}
+				if(r==0){
+					session.rollback();
+				}
+			}else{
+				session.rollback();
+			}
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int check4(OperationsCheckBean checkBean){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper=session.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.check4(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 
 }
