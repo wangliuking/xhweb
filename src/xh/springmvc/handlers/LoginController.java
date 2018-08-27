@@ -1,38 +1,25 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import cn.com.scca.signgw.api.SccaGwSDK;
-import xh.func.plugin.EncryptUtil;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
-import xh.func.plugin.GsonUtil;
-import xh.mybatis.bean.GlobalVarBean;
 import xh.mybatis.bean.WebLogBean;
-import xh.mybatis.bean.WebUserBean;
-import xh.mybatis.service.DataBaseUtilService;
-import xh.mybatis.service.MenuService;
 import xh.mybatis.service.WebLogService;
-import xh.mybatis.service.WebRoleService;
 import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
+import xh.redis.server.UserRedis;
 
 @Controller
 public class LoginController {
@@ -77,7 +64,6 @@ public class LoginController {
 		String projectId = "yjyypt";
 		String reqId = "1";
 		String code="200";
-		String url="../index.html";
 		//!username.equals("admin")
 		
 		/*if(username.indexOf("admin")>-1 || username.indexOf("test")>-1){
@@ -109,17 +95,8 @@ public class LoginController {
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
 					this.message = "登录系统成功";
-					SingLoginListener.isLogin(session, username);	
-					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
-					int roleId=Integer.parseInt(role);
-					Map<String,Object> menuMap=MenuService.menuList(roleId);
-					
-					if(menuMap!=null){
-						if(menuMap.get("m_5")!=null){
-							url=Integer.parseInt(menuMap.get("m_5").toString())==0?"../main.html":url;
-						}
-					}
-					
+					SingLoginListener.isLogin(session, username);					
+
 					webLogBean.setOperator(funUtil.loginUser(request));
 					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 					webLogBean.setStyle(4);
@@ -148,7 +125,6 @@ public class LoginController {
 	
 		HashMap result = new HashMap();
 		result.put("success", success);
-		result.put("url", url);
 		result.put("message", message);
 		result.put("code", code);
 		response.setContentType("application/json;charset=utf-8");
@@ -179,6 +155,8 @@ public class LoginController {
 		WebLogService.writeLog(webLogBean);
 		SingLoginListener.getLogUserMap().remove(request.getSession().getId());
 		SingLoginListener.getLoginUserPowerMap().remove(request.getSession().getId());
+		//删除redis1中的session
+		UserRedis.delSession(request.getSession().getId());
 		return "redirect:/Views/login.html";
 
 	}
