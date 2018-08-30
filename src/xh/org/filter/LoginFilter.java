@@ -62,7 +62,6 @@ public class LoginFilter extends HttpServlet implements Filter {
 		}
 		try {
 			String sessionId = session.getId();
-			System.out.println("sessionId 为 ："+sessionId);
 			//根据sessionId查询是否有登录用户
 			String userId = UserRedis.searchUserInRedisOne(sessionId);
 

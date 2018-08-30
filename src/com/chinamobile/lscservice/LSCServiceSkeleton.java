@@ -114,7 +114,7 @@ public class LSCServiceSkeleton implements LSCServiceSkeletonInterface {
 			}		
 			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><PK_Type><Name>SEND_DEV_CONF_DATA_ACK</Name></PK_Type><Info><Result>1</Result><FailureCause>NULL</FailureCause></Response>";
 		}else if("SEND_ALARM".equals(temp)){
-			log.debug(xml);
+			//log.debug(xml);
 			//上报告警信息
 			Element nameElem = root.element("Info").element("FSUID");
 			String FSUID = nameElem.getText();

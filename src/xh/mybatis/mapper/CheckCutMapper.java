@@ -1,8 +1,6 @@
 package xh.mybatis.mapper;
 
 import xh.mybatis.bean.CheckCutBean;
-import xh.mybatis.bean.CheckCutSheet;
-
 import java.util.List;
 import java.util.Map;
 
@@ -64,8 +62,8 @@ public interface CheckCutMapper {
 
     public int checkedFive(CheckCutBean bean)throws Exception;
 
-    public CheckCutSheet sheetShow(Map<String,Object> param)throws Exception;
+    public CheckCutBean sheetShow(Map<String,Object> param)throws Exception;
 
-    public int sheetChange(CheckCutSheet bean)throws  Exception;
+    public int sheetChange(CheckCutBean bean)throws  Exception;
 
 }

@@ -12,21 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
-import xh.mybatis.bean.CheckCutSheet;
-import xh.mybatis.bean.EmailBean;
 import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
-import xh.mybatis.service.EmailService;
 import xh.mybatis.service.CheckCutService;
 import xh.mybatis.service.WebUserServices;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -129,7 +124,7 @@ public class CheckCutController {
         //将json字符串转换成json对象
         JSONObject jsonobject = JSONObject.fromObject(beanStr);
         //将json对象转换成User实体对象
-        CheckCutSheet bean = (CheckCutSheet)JSONObject.toBean(jsonobject, CheckCutSheet.class);
+        CheckCutBean bean = (CheckCutBean)JSONObject.toBean(jsonobject, CheckCutBean.class);
         this.success = true;
         int res = CheckCutService.sheetChange(bean);
         this.message = "保存成功";
@@ -210,6 +205,11 @@ public class CheckCutController {
         String tel = request.getParameter("tel");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("name");
+        String hometype = request.getParameter("hometype");
+        String breakTime = request.getParameter("breakTime");
+        String restoreTime = request.getParameter("restoreTime");
         CheckCutBean bean = new CheckCutBean();
         bean.setUserUnit(userUnit);
         bean.setTel(tel);
@@ -218,6 +218,12 @@ public class CheckCutController {
         bean.setNote1(note1);
         bean.setUserName(funUtil.loginUser(request));
         bean.setRequestTime(FunUtil.nowDate());
+
+        bean.setBsId(bsId);
+        bean.setName(name);
+        bean.setHometype(hometype);
+        bean.setBreakTime(breakTime);
+        bean.setRestoreTime(restoreTime);
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.insertCheckCut(bean);
