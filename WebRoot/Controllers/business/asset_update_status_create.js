@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
+var delay=3;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 	"debug" : false,
@@ -44,7 +45,7 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.isLockUpdateStatusAsset=function(){
-			$http.get("../../business/update_status_info?isLock=1&tag=1&applyTag=").
+			$http.get("../../business/update_status_info?applyTag=").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -114,6 +115,19 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+xh.delayURL=function() { 
+	var url="asset-update-status.html";
+    var t = setTimeout("xh.delayURL()", 1000);
+    xh.delayShow();
+    if (delay > 0) {
+        delay--;
+        var html="申请已经发送成功 页面 "+delay+" 秒后开始跳转";
+        $(".delayText").html(html);
+    } else {
+        clearTimeout(t); 
+        window.location.href =url;
+    }        
+} 
 /* 添加设备 */
 xh.add = function() {
 	
@@ -166,7 +180,7 @@ xh.applay = function() {
 		success : function(data) {
 
 			if (data.success) {
-				toastr.success(data.message, '提示');
+				xh.delayURL();
 				$("#add-apply-btn").prop('disabled', true);
 			
 

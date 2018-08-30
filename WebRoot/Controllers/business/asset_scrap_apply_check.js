@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
+var delay=3;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 	"debug" : false,
@@ -55,8 +56,8 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.isLockScrapAsset=function(){
-			$http.get("../../business/asset_scrap_info?isLock=0&tag=1&applyTag=" +$scope.page_applyTag+
-					"&start=0&limit=500").
+			$http.get("../../business/asset_scrap_info?applyTag=" +$scope.page_applyTag+
+					"&start=0&limit=1000").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -107,7 +108,8 @@ xh.load = function() {
 						async : false,
 						success : function(data) {
 							if (data.success) {
-								toastr.success(data.message, '提示');
+								//toastr.success(data.message, '提示');
+								xh.delayURL("审核完成")
 
 							} else {
 								toastr.error(data.message, '提示');
@@ -139,6 +141,8 @@ xh.load = function() {
 	
 };
 
+
+
 //刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
@@ -146,15 +150,19 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
-
-
-// 刷新数据
-xh.refresh = function() {
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.refresh();
-
-};
+xh.delayURL=function(str) { 
+	var url="asset_scrap_apply.html";
+    var t = setTimeout("xh.delayURL()", 1000);
+    xh.delayShow();
+    if (delay > 0) {
+        delay--;
+        var html=str+" 页面 "+delay+" 秒后开始跳转";
+        $(".delayText").html(html);
+    } else {
+        clearTimeout(t); 
+        window.location.href =url;
+    }        
+} 
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();

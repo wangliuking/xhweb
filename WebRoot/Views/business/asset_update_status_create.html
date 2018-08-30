@@ -69,16 +69,15 @@
 									<tr class="tr-gray">
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
+										<th width="200px">项目名称</th>
 										<th>资产编号</th>
 										<th>资产类别</th>
 										<th>名称</th>
 										<th>型号</th>
-
-										<th>来源</th>
+										<th>性质</th>
 										<th>当前状态</th>
 										
 										<th style="color:red">更改后的状态</th>
-										<th>是否已录入</th>
 										<th width="180px">备注</th>
 										<th width="50px">操作</th>
 									</tr>
@@ -90,6 +89,7 @@
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td> -->
+										<td>{{x.proName}}</td>
 										<td>{{x.serialNumber}}</td>
 										<td><span ng-if="x.type==1">交换控制中心0（MSO）设备</span> <span
 											ng-if="x.type==2">远端调度台设备</span> <span ng-if="x.type==3">基站设备</span>
@@ -115,11 +115,7 @@
 											<span ng-if="x.afterStatus==5">在用</span> 
 											<span ng-if="x.afterStatus==6">待报废</span>
 											<span ng-if="x.afterStatus==7">遗失</span></td>
-										<td>
-										
-										<span ng-if="x.isLock==1" style="color:red">未录入</span> 
-										<span ng-if="x.isLock==0" style="color:green">已经录入</span>
-										</td>
+									
 										<td>{{x.note}}</td>
 										<!-- <td>{{x.createTime}}</td> -->
 										<td style="width:20px;text-align:center"><a href="#"

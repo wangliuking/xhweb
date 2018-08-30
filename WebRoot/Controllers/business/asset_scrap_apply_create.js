@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
+var delay = 3;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 	"debug" : false,
@@ -44,7 +45,7 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.isLockScrapAsset=function(){
-			$http.get("../../business/asset_scrap_info?isLock=1&tag=1&applyTag=").
+			$http.get("../../business/asset_scrap_info?applyTag=").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -168,7 +169,7 @@ xh.applay = function() {
 			if (data.success) {
 				toastr.success(data.message, '提示');
 				$("#add-apply-btn").prop('disabled', true);
-			
+				xh.delayURL();
 
 			} else {
 				toastr.error(data.message, '提示');
@@ -179,6 +180,19 @@ xh.applay = function() {
 		}
 	});
 };
+xh.delayURL=function() { 
+	var url="asset_scrap_apply.html";
+    var t = setTimeout("xh.delayURL()", 1000);
+    xh.delayShow();
+    if (delay > 0) {
+        delay--;
+        var html="申请已经发送成功 页面 "+delay+" 秒后开始跳转";
+        $(".delayText").html(html);
+    } else {
+        clearTimeout(t); 
+        window.location.href =url;
+    }        
+} 
 
 /* 导入数据*/
 xh.excel = function() {
@@ -192,8 +206,7 @@ xh.excel = function() {
 		alert("只能导入[.xls]格式的excel文档！");
 		return true;
 	}
-	//$("input[name='result']").val(2);
-	/*$("#uploadfile").attr("disabled", true);*/
+	$("#to-excel").button('loading');
 	xh.maskShow("正在上传文件，请耐心等待");
 	$.ajaxFileUpload({
 		url : '../../business/asset/excel/scrap', //用于文件上传的服务器端请求地址
@@ -205,9 +218,14 @@ xh.excel = function() {
 		{
 			//$("#uploadfile").attr("disabled", false);
 			xh.maskHide();
+			$("#to-excel").button('reset');
 			if (data.success) {
 				
-				toastr.success("导入成功/n  总数："+data.totals+"条  成功导入："+data.successCount+"条 失败："+(data.totals-data.successCount), '提示');
+				swal({
+					title : "提示",
+					text : "导入成功!  总数："+data.totals+"条  成功导入："+data.successCount+"条 失败："+(data.totals-data.successCount),
+					type : "success"
+				});
 				$("#excelWin").modal('hide');
 				xh.refresh()
 				
@@ -219,7 +237,8 @@ xh.excel = function() {
 		},
 		error : function(data, status, e)//服务器响应失败处理函数
 		{
-			alert(e);
+			$("#to-excel").button('reset');
+			toastr.error("失败");
 			//$("#uploadfile").attr("disabled", false);
 			xh.maskHide();
 		}

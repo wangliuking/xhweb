@@ -108,8 +108,8 @@
 												class="fa fa-hand-o-down text-danger"></i>审核
 										</a> 
 										<a ng-if="loginUser==x.user && x.status==1" ng-click="toCheck2($index)"
-											href="javascript:(0)" title="点击按钮将资产录入系统">|<i
-												class="fa fa-hand-o-down text-danger"></i>录入资产
+											href="javascript:(0)" title="点击按钮将资产状态变更记录录入系统">|<i
+												class="fa fa-hand-o-down text-danger"></i>录入资产状态变更记录
 										</a> 
 										<a ng-if="x.status==2 && loginUserRoleType==2 && up.o_check_change=='on'" href="#"
 											ng-click="check3($index)">| <i

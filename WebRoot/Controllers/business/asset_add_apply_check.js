@@ -39,6 +39,7 @@ xh.load = function() {
 		$scope.page_user=$location.search().user;
 		$scope.page_fileName=$location.search().fileName;
 		$scope.page_comment=$location.search().comment;
+		$scope.page_applyTag=$location.search().applyTag;
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		
@@ -55,8 +56,8 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.isLockAsset=function(){
-			$http.get("../../business/assetList?isLock=1&tag=1&type=0&name=" +
-					"&model=&serialNumber=&from=0&user="+$scope.page_user+"&status=0&start=0&limit=500").
+			$http.get("../../business/assetList?isLock=1&tag=0&type=0&name=" +
+					"&applyTag="+$scope.page_applyTag+"&model=&serialNumber=&from=0&user="+$scope.page_user+"&status=0&start=0&limit=500").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;

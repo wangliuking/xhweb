@@ -74,7 +74,6 @@ xh.load = function() {
 			var path="/"+$scope.data[index].Call_Path;
 			var index=path.lastIndexOf("/");
 			var name=path.substring(index+1,path.length);	
-			console.log("下载音频文件名filename=>" +name);
 			var downUrl = "../../call/download?filePath="+path+"&fileName=" + name;
 			window.open(downUrl, '_self',
 					'width=1,height=1,toolbar=no,menubar=no,location=no');

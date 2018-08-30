@@ -93,7 +93,7 @@ xh.load = function() {
 			var start=0;
 			
 			xh.maskShow();
-			$http.get("../../business/asset_scrap_info?isLock=0&tag=1&applyTag="+data.applyTag).
+			$http.get("../../business/asset_scrap_info?applyTag="+data.applyTag).
 			success(function(response){
 				xh.maskHide();
 				$scope.asset_apply_list_data = response.items;
@@ -225,6 +225,8 @@ xh.checkedChange=function(){
 };
 
 xh.check2 = function(){
+	$("#check_btn2").button('loading');
+	xh.maskShow("数据保存中");
 	var $scope = angular.element(appElement).scope();
 	var workNote=$("#checkForm2").find("textarea[name='workNote']").val();
 	if(workNote==""){
@@ -244,7 +246,8 @@ xh.check2 = function(){
 			checkUser:$scope.check_data.checkUser
 		},
 		success : function(data) {
-
+			$("#check_btn2").button('reset');
+			xh.maskHide();
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
 				xh.refresh();
@@ -255,6 +258,8 @@ xh.check2 = function(){
 			}
 		},
 		error : function() {
+			$("#check_btn2").button('reset');
+			xh.maskHide();
 			toastr.error("系统错误", '提示');
 			
 		}

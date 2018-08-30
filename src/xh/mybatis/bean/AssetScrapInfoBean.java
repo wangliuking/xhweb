@@ -168,6 +168,7 @@ public class AssetScrapInfoBean {
 	public void setCheckUser(String checkUser) {
 		this.checkUser = checkUser;
 	}
+	
 	@Override
 	public String toString() {
 		return "AssetScrapInfoBean [id=" + id + ", type=" + type + ", name="

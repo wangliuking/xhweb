@@ -86,7 +86,7 @@ xh.load = function() {
 			var start=0;
 			
 			xh.maskShow();
-			$http.get("../../business/update_status_info?isLock=0&tag=1&applyTag="+data.applyTag).
+			$http.get("../../business/update_status_info?applyTag="+data.applyTag).
 			success(function(response){
 				xh.maskHide();
 				$scope.update_status_info_data = response.items;

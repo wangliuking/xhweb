@@ -161,15 +161,6 @@ public class ThreeEmhAlarmBean {
 	}
 
 
-	@Override
-	public String toString() {
-		return "ThreeEmhAlarmBean [JFNode=" + JFNode + ", DevNode=" + DevNode
-				+ ", NodeID=" + NodeID + ", DevName=" + DevName + ", State="
-				+ State + ", AlarmText=" + AlarmText + ", AlarmDate="
-				+ AlarmDate + ", AlarmTime=" + AlarmTime + ", RelieveDate="
-				+ RelieveDate + ", RelieveTime=" + RelieveTime + ", time1="
-				+ time1 + ", time2=" + time2 + "]";
-	}
 	
 /*	this.AlarmDate=alarmDate;
 	this.AlarmTime=alarmTime;
