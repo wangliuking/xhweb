@@ -126,14 +126,10 @@ public class BusinessController {
 	public void asset_scrap_info(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
-		int isLock = funUtil.StringToInt(request.getParameter("isLock"));
-		int tag = funUtil.StringToInt(request.getParameter("tag"));
 		String applyTag = request.getParameter("applyTag");
 		String user = request.getParameter("user") == null ? FunUtil
 				.loginUser(request) : request.getParameter("user");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isLock", isLock);
-		map.put("tag", tag);
 		map.put("applyTag", applyTag);
 		map.put("user", user);
 		HashMap result = new HashMap();
@@ -327,7 +323,7 @@ public class BusinessController {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace();       
 		}
 
 	}
@@ -1141,6 +1137,7 @@ public class BusinessController {
 		String workNote = request.getParameter("workNote");
 		String user = request.getParameter("user");
 		String checkUser = request.getParameter("checkUser");
+		String applyTag = request.getParameter("applyTag");
 		AssetAddApplyBean bean = new AssetAddApplyBean();
 		int status = 2;
 		bean.setId(id);
@@ -1148,6 +1145,7 @@ public class BusinessController {
 		bean.setTime2(FunUtil.nowDateNoTime());
 		bean.setUser(user);
 		bean.setCheckUser(checkUser);
+		bean.setApplyTag(applyTag);
 		AssetAddApplayInfoBean infobean = new AssetAddApplayInfoBean();
 		infobean.setApplyId(id);
 		infobean.setCreateTime(FunUtil.nowDateNoTime());
@@ -1671,6 +1669,7 @@ public class BusinessController {
 							bean.setIsLock(1);
 							bean.setAddUser(FunUtil.loginUser(request));
 							list.add(bean);
+							
 						}
 
 					}
@@ -1919,14 +1918,11 @@ public class BusinessController {
 	public void update_status_info(HttpServletRequest request,
 			HttpServletResponse response) {
 		this.success = true;
-		int isLock = funUtil.StringToInt(request.getParameter("isLock"));
-		int tag = funUtil.StringToInt(request.getParameter("tag"));
+		
 		String applyTag = request.getParameter("applyTag");
 		String user = request.getParameter("user") == null ? FunUtil
 				.loginUser(request) : request.getParameter("user");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isLock", isLock);
-		map.put("tag", tag);
 		map.put("applyTag", applyTag);
 		map.put("user", user);
 		HashMap result = new HashMap();

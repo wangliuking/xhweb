@@ -40,10 +40,7 @@
 			and status=#{status}
 		</if>
 		<if test="isLock==1 and tag==1">
-			and isLock=1 and addUser=#{user}
-		</if>
-		<if test="isLock==1 and tag==0">
-			and addUser=#{user}
+			and isLock=1 and addUser=#{user} and applyTag is null
 		</if>
 		<if test="isLock==0">
 			and isLock=0
@@ -120,11 +117,9 @@
 			and status=#{status}
 		</if>
 		<if test="isLock==1 and tag==1">
-			and isLock=1 and addUser=#{user}
+			and isLock=1 and addUser=#{user} and applyTag is null
 		</if>
-		<if test="isLock==1 and tag==0">
-			and addUser=#{user}
-		</if>
+		
 		<if test="isLock==0">
 			and isLock=0
 		</if>
@@ -250,10 +245,10 @@
 		xhgmnet_asset_add_apply set status=#{status},time2=#{time2} where
 		id=#{id}
 	</update>
-	<update id="update_asset_isLock" parameterType="String">
+	<update id="update_asset_isLock" parameterType="xh.mybatis.bean.AssetAddApplyBean">
 		update
 		xhgmnet_business_assetinfo set isLock=0 where isLock=1 and
-		addUser=#{user}
+		addUser=#{user} and applyTag=#{applyTag}
 	</update>
 	<update id="update_asset_applyTag" parameterType="map">
 		update
@@ -270,16 +265,14 @@
 	<select id="asset_scrap_info" parameterType="map"
 		resultType="xh.mybatis.bean.AssetScrapInfoBean" useCache="true">
 		select * from xhgmnet_asset_scrap where 1=1
-		<if test="isLock==1 and tag==1">
-			and isLock=1 and addUser=#{user}
-		</if>
-		<if test="isLock==1 and tag==0">
-			and addUser=#{user}
+		<if test="applyTag==null or applyTag==''">
+			and isLock=1 and addUser=#{user} and applyTag is null
 		</if>
 		<if test="applyTag!=null and applyTag!=''">
 			and applyTag=#{applyTag}
 		</if>
-		order by createTime desc limit 0,500
+		
+		order by createTime desc limit 0,1000
 	</select>
 	<!-- 判断报废资产是否存在 -->
 	<select id="scrapAssetInfoByserialNumberExists" parameterType="String"
@@ -294,8 +287,8 @@
 		xhgmnet_asset_scrap(type,name,model,serialNumber,price,number,`from`,status,note,createTime,isLock,addUser,applyTag,
 		proName,priceType,buyTime)
 		values(#{type},#{name},#{model},#{serialNumber},#{price},#{number},#{from},#{status},
-		#{note},#{createTime},#{isLock},#{addUser},#{applyTag},proName=#{proName},
-		priceType=#{priceType},buyTime=#{buyTime})
+		#{note},#{createTime},#{isLock},#{addUser},#{applyTag},#{proName},
+		#{priceType},#{buyTime})
 	</insert>
 	<!-- 报废资产申请 -->
 	<insert id="scrap_apply" keyProperty="id" useGeneratedKeys="true"
@@ -381,11 +374,12 @@
 	<insert id="add_update_status" parameterType="java.util.List">
 		insert into
 		xhgmnet_asset_update_status_info(type,name,model,serialNumber,price,number,
-		`from`,status,note,createTime,isLock,addUser,afterStatus)values
+		`from`,status,note,createTime,isLock,addUser,afterStatus,proName,priceType,buyTime)values
 		<foreach collection="list" item="x" index="index" separator=",">
 			(
 			#{x.type},#{x.name},#{x.model},#{x.serialNumber},#{x.price},#{x.number},#{x.from},#{x.status},
-			#{x.note},#{x.createTime},#{x.isLock},#{x.addUser},#{x.afterStatus}
+			#{x.note},#{x.createTime},#{x.isLock},#{x.addUser},#{x.afterStatus},
+			#{x.proName},#{x.priceType},#{x.buyTime}
 			)
 		</foreach>
 
@@ -393,12 +387,10 @@
 	<select id="update_status_info" parameterType="map"
 		resultType="xh.mybatis.bean.AssetUpdateStatusInfoBean" useCache="true">
 		select * from xhgmnet_asset_update_status_info where 1=1
-		<if test="isLock==1 and tag==1">
-			and isLock=1 and addUser=#{user}
+		<if test="applyTag==null or applyTag==''">
+			and isLock=1 and addUser=#{user} and applyTag is null
 		</if>
-		<if test="isLock==1 and tag==0">
-			and addUser=#{user}
-		</if>
+		
 		<if test="applyTag!=null and applyTag!=''">
 			and applyTag=#{applyTag}
 		</if>

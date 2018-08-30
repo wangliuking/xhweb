@@ -117,7 +117,7 @@ public interface AssetInfoMapper {
 	
 	public int add_apply_check2(AssetAddApplyBean bean)throws Exception;
 	
-	public int update_asset_isLock(String user)throws Exception;
+	public int update_asset_isLock(AssetAddApplyBean bean)throws Exception;
 	
 	public int update_asset_applyTag(Map<String,Object> map)throws Exception;
 	

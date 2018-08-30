@@ -20,6 +20,9 @@ var stage = new JTopo.Stage(canvas);
 var scene = new JTopo.Scene();
 var width=document.documentElement.clientWidth;
 var height=document.documentElement.clientHeight;
+if(width<1200){
+	width=1366;
+}
 stage.add(scene);
 /*scene.background = '../../Resources/images/img/bg.jpg';*/
 scene.alpha=1;
@@ -67,20 +70,20 @@ xh.load = function() {
 			
 			
 			
-			var point11 =xh.createNewNode(70,60,10,10,"");
-			var point12 =xh.createNewNode(70,530,10,10,"");
-			var point21 =xh.createNewNode(200,60,10,10,"");
-			var point22 =xh.createNewNode(200,530,10,10,"");
+			var point11 =xh.createNewNode(70,60,3,3,"");
+			var point12 =xh.createNewNode(70,530,3,3,"");
+			var point21 =xh.createNewNode(200,60,3,3,"");
+			var point22 =xh.createNewNode(200,530,3,3,"");
 			
-			var point1 =xh.createNewNode(width-750,height-160,10,10,"");
-			var point2 =xh.createNewNode(width-750,height-100,10,10,"");
-			var point31 =xh.createNewNode(width-50,height-160,10,10,"");
-			var point32 =xh.createNewNode(width-50,height-100,10,10,"");
+			var point1 =xh.createNewNode(width-750,height-160,3,3,"");
+			var point2 =xh.createNewNode(width-750,height-100,3,3,"");
+			var point31 =xh.createNewNode(width-50,height-160,3,3,"");
+			var point32 =xh.createNewNode(width-50,height-100,3,3,"");
 			
-			var point41 =xh.createNewNode(width-750,80,10,10,"");
-			var point42 =xh.createNewNode(width-750,150,10,10,"");
-			var point51 =xh.createNewNode(width-50,80,10,10,"");
-			var point52 =xh.createNewNode(width-50,150,10,10,"");
+			var point41 =xh.createNewNode(width-750,80,3,3,"");
+			var point42 =xh.createNewNode(width-750,150,3,3,"");
+			var point51 =xh.createNewNode(width-50,80,3,3,"");
+			var point52 =xh.createNewNode(width-50,150,3,3,"");
 			
 			
 			
@@ -173,13 +176,13 @@ xh.load = function() {
 					
 				
 					
-    				var img="dp-green.png";
+    				var img="d1.png";
     				if(dd.length>1){
-    					img="switch.png";
+    					img="sw1.png";
     				}else{
     				 var setup=dd[0].setupStatus;
    					 if(setup!=1){
-                        img="dp-gray.png";
+                        img="d2.png";
                       }
     				}
                     var oneNode = xh.createNode(x,y,img,type);
@@ -227,9 +230,9 @@ xh.load = function() {
         						x2+=80
         					}
         					//图标
-        					var ico="dp-green.png";
+        					var ico="d1.png";
         					 if(setup!=1){
-                               	 ico="dp-gray.png";
+                               	 ico="d2.png";
                             }
                             var twoNode = xh.createNode(x2,y2,ico,b.dstName);
 

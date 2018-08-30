@@ -63,13 +63,15 @@ xh.load = function() {
 		$scope.showCreateHtml=function(){
 			window.location.href="asset_add_apply_create.html";
 		}
-		$scope.toCheck = function (id,user,fileName,comment) {
-	    	window.location.href="asset_add_apply_check.html?id="+id+"&user="+user+"&fileName="+fileName+"&comment="+comment;
+		$scope.toCheck = function (index) {
+			var data=$scope.data[index];
+	    	window.location.href="asset_add_apply_check.html?id="+data.id+"&user="+data.user+"&" +
+	    			"fileName="+data.attachmentName+"&comment="+data.comment+"&applyTag="+data.applyTag;
 	    };
 	    
 	    $scope.toCheck2 = function (index) {
 	    $scope.check_data=$scope.data[index]
-	    $("#checkWin2").modal('show');
+	    $("#checkWin2").modal('show');    
 	    };
 		
 		
@@ -285,7 +287,8 @@ xh.check2 = function(){
 			id:$scope.check_data.id,
 			workNote:$("#checkForm2").find("textarea[name='workNote']").val(),
 			user:$scope.check_data.user,
-			checkUser:$scope.check_data.checkUser
+			checkUser:$scope.check_data.checkUser,
+			applyTag:$scope.check_data.applyTag
 		},
 		success : function(data) {
 

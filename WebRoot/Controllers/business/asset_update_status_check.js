@@ -6,6 +6,7 @@ if (!("xh" in window)) {
 };
 
 var frist = 0;
+var delay=3;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 	"debug" : false,
@@ -55,7 +56,7 @@ xh.load = function() {
 					$scope.up = response;
 		});
 		$scope.isLockScrapAsset=function(){
-			$http.get("../../business/update_status_info?isLock=0&tag=1&applyTag=" +$scope.page_applyTag+
+			$http.get("../../business/update_status_info?applyTag=" +$scope.page_applyTag+
 					"&start=0&limit=500").
 			success(function(response){
 				xh.maskHide();
@@ -107,7 +108,7 @@ xh.load = function() {
 						async : false,
 						success : function(data) {
 							if (data.success) {
-								toastr.success(data.message, '提示');
+								xh.delayURL();
 
 							} else {
 								toastr.error(data.message, '提示');
@@ -146,7 +147,19 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
-
+xh.delayURL=function() { 
+	var url="asset-update-status.html";
+    var t = setTimeout("xh.delayURL()", 1000);
+    xh.delayShow();
+    if (delay > 0) {
+        delay--;
+        var html="审核成功 页面 "+delay+" 秒后开始跳转";
+        $(".delayText").html(html);
+    } else {
+        clearTimeout(t); 
+        window.location.href =url;
+    }        
+}
 
 // 刷新数据
 xh.refresh = function() {

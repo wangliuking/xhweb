@@ -550,7 +550,7 @@ public class BusinessService {
 			result=mapper.add_apply_check2(bean);
 			sqlSession.commit();
 			if(result>0){
-				if(update_asset_isLock(bean.getUser())>0){
+				if(update_asset_isLock(bean)>0){
 					add_apply_info(infobean);
 				}else{
 					sqlSession.rollback();
@@ -564,12 +564,12 @@ public class BusinessService {
 		}
 		return  result;
 	}
-	public static int update_asset_isLock(String user){
+	public static int update_asset_isLock(AssetAddApplyBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		AssetInfoMapper mapper=sqlSession.getMapper(AssetInfoMapper.class);
 		int result=0;
 		try {
-			result=mapper.update_asset_isLock(user);
+			result=mapper.update_asset_isLock(bean);
 			sqlSession.commit();
 			sqlSession.close();
 			

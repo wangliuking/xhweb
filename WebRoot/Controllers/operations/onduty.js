@@ -95,7 +95,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get("../../onduty/list?&starttime="+starttime+
-					"&start=0&limit="+pageSize).
+					"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -119,7 +119,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get("../../onduty/list?&starttime="+starttime+
-					"&start=0&limit="+pageSize).
+					"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				

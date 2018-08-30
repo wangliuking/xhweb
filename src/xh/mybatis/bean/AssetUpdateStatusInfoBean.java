@@ -27,9 +27,31 @@ public class AssetUpdateStatusInfoBean {
 	
 	private int statusCount;
 	
+	private String proName;
+	private String priceType;
+	private String buyTime;
 	
 	
 	
+	
+	public String getProName() {
+		return proName;
+	}
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+	public String getPriceType() {
+		return priceType;
+	}
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
+	}
+	public String getBuyTime() {
+		return buyTime;
+	}
+	public void setBuyTime(String buyTime) {
+		this.buyTime = buyTime;
+	}
 	public String getApplyTag() {
 		return applyTag;
 	}
@@ -164,7 +186,8 @@ public class AssetUpdateStatusInfoBean {
 				+ ", addUser=" + addUser + ", checkTime=" + checkTime
 				+ ", checkResult=" + checkResult + ", checkUser=" + checkUser
 				+ ", applyTag=" + applyTag + ", statusCount=" + statusCount
-				+ "]";
+				+ ", proName=" + proName + ", priceType=" + priceType
+				+ ", buyTime=" + buyTime + "]";
 	}
 	
 	

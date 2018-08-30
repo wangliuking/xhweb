@@ -109,7 +109,7 @@
 										</a> 
 										<a ng-if="loginUser==x.user && x.status==1" ng-click="toCheck2($index)"
 											href="javascript:(0)" title="点击按钮将资产录入系统">|<i
-												class="fa fa-hand-o-down text-danger"></i>录入资产
+												class="fa fa-hand-o-down text-danger"></i>录入报废资产
 										</a> 
 										<a ng-if="x.status==2 && loginUserRoleType==2 && up.o_check_change=='on'" href="#"
 											ng-click="check3($index)">| <i
@@ -202,7 +202,7 @@
 					data-dismiss="modal">
 					关闭
 				</button>
-				<button type="button" class="btn btn-success btn-sm" id="check_btn2">
+				<button type="button" class="btn btn-success btn-sm" id="check_btn2" data-loading-text="数据保存中">
 					提交
 				</button>
 			</div>
