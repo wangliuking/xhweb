@@ -40,7 +40,7 @@
     <insert id="insertCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName})
+        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,hometype,breakTime,restoreTime) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{hometype},#{breakTime},#{restoreTime})
     </insert>
 
     <!--运维人员重新发起核减申请 -->
@@ -68,13 +68,13 @@
     </update>
 
     <!-- 查询系统升级表格数据 -->
-    <select id="sheetShow" parameterType="map" resultType="xh.mybatis.bean.CheckCutSheet">
-        select * from xhgmnet_bs_checkcutsheet where id=#{id}
+    <select id="sheetShow" parameterType="map" resultType="xh.mybatis.bean.CheckCutBean">
+        select * from xhgmnet_bs_checkcut where id=#{id}
     </select>
 
     <!-- 修改系统升级表格 -->
-    <update id="sheetChange" parameterType="xh.mybatis.bean.CheckCutSheet">
-        replace into xhgmnet_bs_checkcutsheet(id,bsStationNote,faultNote,department,checkTime,suggestion,
+    <update id="sheetChange" parameterType="xh.mybatis.bean.CheckCutBean">
+        replace into xhgmnet_bs_checkcut(id,bsStationNote,faultNote,department,checkTime,suggestion,
         draftingPerson,checkPerson)
         values (#{id},#{bsStationNote},#{faultNote},#{department},#{checkTime},#{suggestion},
         #{draftingPerson},#{checkPerson})

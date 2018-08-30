@@ -421,7 +421,7 @@ to {
 												class="fa fa-edit text-danger"></i>&nbsp;编辑
 										</a> 
 										<a href="#"
-											ng-click="editModel($index)"> <i
+											ng-click="checkCutModel($index)"> <i
 												class="fa fa-edit text-danger"></i>&nbsp;核减
 										</a> 
 										<a href="#" ng-click="showOrderWin($index)"
@@ -510,6 +510,7 @@ to {
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<div ng-include="'bsFault-edit.html'"></div>
+	<div ng-include="'bsFault-check.html'"></div>
 	<div ng-include="'bsAlarm-order.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>

@@ -86,8 +86,14 @@ xh.load = function() {
 		/* 显示链接修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
-			$("#edit").modal('show')
+			$("#edit").modal('show');
 		};
+        /* 显示链接修改model */
+        $scope.checkCutModel = function(id) {
+            $scope.faultDataById = $scope.data[id];
+            $("#add").modal('show');
+            console.log($scope.faultDataById);
+        };
 		/* 显示警告详情 */
 		$scope.showDetails = function(id){
 			$("#bsAlarmDetails").modal('show');
@@ -609,5 +615,85 @@ xh.getOneDay=function()
     var strYesterday=strYear+"-"+strMonth+"-"+strDay+" "+"23:59:59";   
     return  strYesterday;
 }
+
+/*运维组发起请求审核*/
+xh.add = function() {
+    $.ajax({
+        url : '../../checkCut/insertCheckCut',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data : $("#addForm").serializeArray(),
+        success : function(data) {
+            $("#add_btn").button('reset');
+            if (data.result ==1) {
+                $('#add').modal('hide');
+                $("input[name='result']").val(1);
+                xh.refresh();
+                toastr.success(data.message, '提示');
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+            $("#add_btn").button('reset');
+        }
+    });
+};
+
+/* 上传文件 */
+xh.upload = function(index) {
+    if (index == -1) {
+        path = 'filePath-1';
+        note = 'uploadResult-1';
+    }
+    if (index == 1) {
+        path = 'filePath1';
+        note = 'uploadResult1';
+    }
+    if (index == 2) {
+        path = 'filePath2';
+        note = 'uploadResult2';
+    }
+    if (index == 3) {
+        path = 'filePath3';
+        note = 'uploadResult3';
+    }
+    if (index == 4) {
+        path = 'filePath4';
+        note = 'uploadResult4';
+    }
+    if ($("#" + path).val() == "") {
+        toastr.error("你还没选择文件", '提示');
+        return;
+    }
+    xh.maskShow();
+    $.ajaxFileUpload({
+        url : '../../checkCut/upload', // 用于文件上传的服务器端请求地址
+        secureuri : false, // 是否需要安全协议，一般设置为false
+        fileElementId : path, // 文件上传域的ID
+        dataType : 'json', // 返回值类型 一般设置为json
+        type : 'POST',
+        success : function(data, status) // 服务器成功响应处理函数
+        {
+            // var result=jQuery.parseJSON(data);
+            console.log(data.filePath)
+            xh.maskHide();
+            if (data.success) {
+                $("#"+note).html(data.message);
+                $("input[name='result']").val(1);
+                $("input[name='fileName']").val(data.fileName);
+                $("input[name='path']").val(data.filePath);
+            } else {
+                $("#"+note).html(data.message);
+            }
+
+        },
+        error : function(data, status, e)// 服务器响应失败处理函数
+        {
+            alert(e);
+        }
+    });
+};
 
 

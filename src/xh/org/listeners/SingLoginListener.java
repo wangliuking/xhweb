@@ -35,6 +35,11 @@ public class SingLoginListener implements HttpSessionListener{
 		logUserMap.remove(se.getSession().getId());
 		logUserInfoMap.remove(se.getSession().getId());
 		loginUserPowerMap.remove(se.getSession().getId());
+		//redis start
+		//session失效时删除对应redis内的消息
+        UserRedis.delSessionDisConnect(se.getSession().getId());
+        UserRedis.delSession(se.getSession().getId());
+        //redis end
 		/*se.getSession().invalidate();*/
 	}
 	 /** 
@@ -46,13 +51,14 @@ public class SingLoginListener implements HttpSessionListener{
      */  
     public static boolean isLogin(HttpSession session, String sUserName) {  
         boolean flag = false;  
-        Map<String, Object> info=WebUserServices.userInfoByName(sUserName);
+        Map<String, Object> info = WebUserServices.userInfoByName(sUserName);
+        Map<String, Object> power = WebUserServices.userPowerInfoByName(sUserName);
         if(info.get("vpnId")==null){
         	info.put("vpnId", "");
         }        
         //redis start      
         String sessionId = session.getId();				
-		UserRedis.ssoSession(info, sUserName, sessionId);
+		UserRedis.ssoSession(info, power, sUserName, sessionId);
         //redis end
 		
         // 如果该用户已经登录过，则使上次登录的用户掉线(依据使用户名是否在logUserMap中)  
@@ -74,12 +80,12 @@ public class SingLoginListener implements HttpSessionListener{
             logUserInfoMap.put(session.getId(), info);
             
             loginUserPowerMap.remove(session.getId());
-            loginUserPowerMap.put(session.getId(), WebUserServices.userPowerInfoByName(sUserName));
+            loginUserPowerMap.put(session.getId(), power);
         } else {// 如果该用户没登录过，直接添加现在的sessionID和username  
             flag = false;  
             logUserMap.put(session.getId(), sUserName);      
             logUserInfoMap.put(session.getId(), info);
-            loginUserPowerMap.put(session.getId(), WebUserServices.userPowerInfoByName(sUserName));
+            loginUserPowerMap.put(session.getId(), power);
         }  
         
         log.info("登录用户数=>"+logUserInfoMap.size());

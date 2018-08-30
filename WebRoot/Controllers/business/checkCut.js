@@ -56,6 +56,7 @@ xh.load = function() {
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
 					$scope.up = response;
+					console.log(response);
 		});
 		
 		/*获取申请记录表*/

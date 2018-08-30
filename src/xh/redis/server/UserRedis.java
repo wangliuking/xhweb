@@ -54,14 +54,24 @@ public class UserRedis {
 	/**
 	 * 单点登录session处理
 	 */
-	public static void ssoSession(Map<String, Object> info,String sUserName,String sessionId) {	
-		// 组合新的userinfomap
+	public static void ssoSession(Map<String, Object> info,Map<String, Object> power,String sUserName,String sessionId) {
+		// 设置redis0和redis1的session失效时间
+		PropertiesUtil pUtil=new PropertiesUtil();
+		int sessionTimeOut = Integer.parseInt(pUtil.ReadConfig("sessionTimeOut"));
+		// 组合新的infomap
 		Map<String, String> finalInfo = new HashMap<String, String>();
 		for (String str : info.keySet()) {
 			finalInfo.put(str, info.get(str).toString());
 		}
+		//组合新的powerInfo
+		Map<String, String> powerInfo = new HashMap<String, String>();
+		for (String str : power.keySet()) {
+			powerInfo.put(str, power.get(str).toString());
+		}
 		//获取redis连接
 		Jedis jedis = RedisUtil.getJedis();
+		//设置redis0 key失效时间
+		jedis.expire(sessionId, sessionTimeOut);// redis0
 		//切换到redis1数据库，查询用户是否已经登录
 		jedis.select(1);
 		// 遍历redis1所有sessionId，查询是否有该用户登录过
@@ -89,12 +99,49 @@ public class UserRedis {
 		if (status == 0) {
 			jedis.hmset(sessionId, finalInfo);
 		}
-		// 设置redis0和redis1的session失效时间
-		PropertiesUtil pUtil=new PropertiesUtil();
-		int sessionTimeOut = Integer.parseInt(pUtil.ReadConfig("sessionTimeOut"));
+		//设置redis1 key失效时间
 		jedis.expire(sessionId, sessionTimeOut);// redis1
+
+		//切换到redis2数据库，查询用户是否已经登录
+		jedis.select(2);
+		// 遍历redis2所有sessionId，查询是否有该用户登录过
+		Set s2 = jedis.keys("*");
+		Iterator it2 = s2.iterator();
+		// 标志状态位(是否查询到该用户session)
+		int status2 = 0;
+		//标志是否已添加此session
+		boolean sessionStatus2 = true;
+		while (it2.hasNext()) {
+			String key = (String) it2.next();
+			Map<String, String> tMap = jedis.hgetAll(key);
+			if (tMap.get("user").equals(sUserName)) {
+				status2 = 1;
+				// 存在此用户登录的session，将此session踢掉
+				jedis.del(key);
+				// 重新添加新的session
+				if(sessionStatus2){
+					jedis.hmset(sessionId, powerInfo);
+					sessionStatus2 = false;
+				}
+			}
+		}
+		// 若未查询到此用户session存在，则添加新的session
+		if (status2 == 0) {
+			jedis.hmset(sessionId, powerInfo);
+		}
+		jedis.expire(sessionId, sessionTimeOut);// redis2
+		//释放redis连接资源
+		RedisUtil.returnResource(jedis);
+	}
+
+	/**
+	 * 删除redis0库中的session(当session失效时)
+	 */
+	public static void delSessionDisConnect(String sessionId) {
+		//获取redis连接
+		Jedis jedis = RedisUtil.getJedis();
 		jedis.select(0);
-		jedis.expire(sessionId, sessionTimeOut);// redis0
+		jedis.del(sessionId);
 		//释放redis连接资源
 		RedisUtil.returnResource(jedis);
 	}
@@ -118,22 +165,97 @@ public class UserRedis {
 		// 获取redis连接
 		Jedis jedis = RedisUtil.getJedis();
 		jedis.select(1);
-		// 遍历redis1所有sessionId，查询是否有该用户登录过
+		// 遍历redis1所有sessionId
 		Set s = jedis.keys("*");
 		Iterator it = s.iterator();
 		while (it.hasNext()) {
 			String key = (String) it.next();
 			Map<String, String> tMap = jedis.hgetAll(key);
-			//添加sessionID和username的映射logUserMap
-			SingLoginListener.logUserMap.put(key, tMap.get("user"));
-			//添加用户信息
-			SingLoginListener.logUserInfoMap.put(key, mapStrToObj(tMap));
-			//添加用户权限信息
-			SingLoginListener.loginUserPowerMap.put(key, WebUserServices.userPowerInfoByName(tMap.get("user")));
+			//判断logUserMap中是否有相同的key
+			if(!compareRedisDataToLogUserMap(key)){
+				//logUserMap中不含有此key，进行添加
+				//添加sessionID和username的映射logUserMap
+				SingLoginListener.logUserMap.put(key, tMap.get("user"));
+			}
+			//判断logUserInfoMap中是否有相同的key
+			if(!compareRedisDataToLogUserInfoMap(key)){
+				//logUserInfoMap中不含有此key，进行添加
+				//添加用户信息
+				SingLoginListener.logUserInfoMap.put(key, mapStrToObj(tMap));
+			}
 		}
 
+		//切换到redis2，同步用户权限配置
+		jedis.select(2);
+		// 遍历redis2所有sessionId
+		Set s2 = jedis.keys("*");
+		Iterator it2 = s2.iterator();
+		while (it2.hasNext()) {
+			String key = (String) it2.next();
+			Map<String, String> tMap = jedis.hgetAll(key);
+			//判断loginUserPowerMap中是否有相同的key
+			if(!compareRedisDataToLoginUserPowerMap(key)){
+				//loginUserPowerMap中不含有此key，进行添加
+				//添加用户权限信息
+				SingLoginListener.loginUserPowerMap.put(key, WebUserServices.userPowerInfoByName(tMap.get("user")));
+			}
+		}
 		// 释放redis连接资源
 		RedisUtil.returnResource(jedis);
+	}
+
+	/**
+	 * 比对logUserMap中的key，查询是否存在
+	 * @param key
+	 * @return
+	 */
+	public static boolean compareRedisDataToLogUserMap(String key){
+		Set s = SingLoginListener.logUserMap.keySet();
+		Iterator it = s.iterator();
+		while (it.hasNext()) {
+			String logUserMapKey = (String) it.next();
+			if(logUserMapKey.equals(key)){
+				//logUserMap存在与redis相同的key
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 比对logUserInfoMap中的key，查询是否存在
+	 * @param key
+	 * @return
+	 */
+	public static boolean compareRedisDataToLogUserInfoMap(String key){
+		Set s = SingLoginListener.logUserInfoMap.keySet();
+		Iterator it = s.iterator();
+		while (it.hasNext()) {
+			String logUserInfoMapKey = (String) it.next();
+			if(logUserInfoMapKey.equals(key)){
+				//logUserInfoMap存在与redis相同的key
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 比对loginUserPowerMap中的key，查询是否存在
+	 * @param key
+	 * @return
+	 */
+	public static boolean compareRedisDataToLoginUserPowerMap(String key){
+		Set s = SingLoginListener.loginUserPowerMap.keySet();
+		Iterator it = s.iterator();
+		while (it.hasNext()) {
+			String loginUserPowerMapKey = (String) it.next();
+			if(loginUserPowerMapKey.equals(key)){
+				//loginUserPowerMap存在与redis相同的key
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

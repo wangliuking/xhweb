@@ -7,7 +7,6 @@ public class CheckCutBean {
     private String userUnit;
     private String userNature;
     private String requestTime;
-    //    private int number;
     private String user1;
     private String user2;
     private String user3;
@@ -40,6 +39,57 @@ public class CheckCutBean {
     private String filePath4;
     private int dropnet;
     private String tel;
+    private String bsId;
+    private String name;
+    private String hometype;
+    private String transfer;
+    private String transferCtransferCompare;
+    private String transferOne;
+    private String transferTwo;
+    private String powerOne;
+    private String powerTimeOne;
+    private String powerTwo;
+    private String powerTimeTwo;
+    private String maintainTime;
+    private String isPower;
+    private String firstDesc;
+    private String desc;
+    private String breakTime;
+    private String restoreTime;
+    private String checkCutTime;
+    private String alarmTime;
+    private String situation;
+    private String rules;
+    private String period;
+    private String applyTime;
+    private String persion1;
+    private String persion2;
+    private String suggest;
+    private String persion3;
+
+    public String getFirstDesc() {
+        return firstDesc;
+    }
+
+    public void setFirstDesc(String firstDesc) {
+        this.firstDesc = firstDesc;
+    }
+
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
+
+    public String getBsId() {
+        return bsId;
+    }
+
+    public void setBsId(String bsId) {
+        this.bsId = bsId;
+    }
 
     public int getId() {
         return id;
@@ -345,6 +395,198 @@ public class CheckCutBean {
         this.tel = tel;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHometype() {
+        return hometype;
+    }
+
+    public void setHometype(String hometype) {
+        this.hometype = hometype;
+    }
+
+    public String getTransfer() {
+        return transfer;
+    }
+
+    public void setTransfer(String transfer) {
+        this.transfer = transfer;
+    }
+
+    public String getTransferCtransferCompare() {
+        return transferCtransferCompare;
+    }
+
+    public void setTransferCtransferCompare(String transferCtransferCompare) {
+        this.transferCtransferCompare = transferCtransferCompare;
+    }
+
+    public String getTransferOne() {
+        return transferOne;
+    }
+
+    public void setTransferOne(String transferOne) {
+        this.transferOne = transferOne;
+    }
+
+    public String getTransferTwo() {
+        return transferTwo;
+    }
+
+    public void setTransferTwo(String transferTwo) {
+        this.transferTwo = transferTwo;
+    }
+
+    public String getPowerOne() {
+        return powerOne;
+    }
+
+    public void setPowerOne(String powerOne) {
+        this.powerOne = powerOne;
+    }
+
+    public String getPowerTimeOne() {
+        return powerTimeOne;
+    }
+
+    public void setPowerTimeOne(String powerTimeOne) {
+        this.powerTimeOne = powerTimeOne;
+    }
+
+    public String getPowerTwo() {
+        return powerTwo;
+    }
+
+    public void setPowerTwo(String powerTwo) {
+        this.powerTwo = powerTwo;
+    }
+
+    public String getPowerTimeTwo() {
+        return powerTimeTwo;
+    }
+
+    public void setPowerTimeTwo(String powerTimeTwo) {
+        this.powerTimeTwo = powerTimeTwo;
+    }
+
+    public String getMaintainTime() {
+        return maintainTime;
+    }
+
+    public void setMaintainTime(String maintainTime) {
+        this.maintainTime = maintainTime;
+    }
+
+    public String getIsPower() {
+        return isPower;
+    }
+
+    public void setIsPower(String isPower) {
+        this.isPower = isPower;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getBreakTime() {
+        return breakTime;
+    }
+
+    public void setBreakTime(String breakTime) {
+        this.breakTime = breakTime;
+    }
+
+    public String getRestoreTime() {
+        return restoreTime;
+    }
+
+    public void setRestoreTime(String restoreTime) {
+        this.restoreTime = restoreTime;
+    }
+
+    public String getCheckCutTime() {
+        return checkCutTime;
+    }
+
+    public void setCheckCutTime(String checkCutTime) {
+        this.checkCutTime = checkCutTime;
+    }
+
+    public String getAlarmTime() {
+        return alarmTime;
+    }
+
+    public void setAlarmTime(String alarmTime) {
+        this.alarmTime = alarmTime;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public String getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(String applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public String getPersion1() {
+        return persion1;
+    }
+
+    public void setPersion1(String persion1) {
+        this.persion1 = persion1;
+    }
+
+    public String getPersion2() {
+        return persion2;
+    }
+
+    public void setPersion2(String persion2) {
+        this.persion2 = persion2;
+    }
+
+    public String getSuggest() {
+        return suggest;
+    }
+
+    public void setSuggest(String suggest) {
+        this.suggest = suggest;
+    }
+
+    public String getPersion3() {
+        return persion3;
+    }
+
+    public void setPersion3(String persion3) {
+        this.persion3 = persion3;
+    }
+
     @Override
     public String toString() {
         return "CheckCutBean{" +
@@ -386,6 +628,33 @@ public class CheckCutBean {
                 ", filePath4='" + filePath4 + '\'' +
                 ", dropnet=" + dropnet +
                 ", tel='" + tel + '\'' +
+                ", bsId='" + bsId + '\'' +
+                ", name='" + name + '\'' +
+                ", hometype='" + hometype + '\'' +
+                ", transfer='" + transfer + '\'' +
+                ", transferCtransferCompare='" + transferCtransferCompare + '\'' +
+                ", transferOne='" + transferOne + '\'' +
+                ", transferTwo='" + transferTwo + '\'' +
+                ", powerOne='" + powerOne + '\'' +
+                ", powerTimeOne='" + powerTimeOne + '\'' +
+                ", powerTwo='" + powerTwo + '\'' +
+                ", powerTimeTwo='" + powerTimeTwo + '\'' +
+                ", maintainTime='" + maintainTime + '\'' +
+                ", isPower='" + isPower + '\'' +
+                ", firstDesc='" + firstDesc + '\'' +
+                ", desc='" + desc + '\'' +
+                ", breakTime='" + breakTime + '\'' +
+                ", restoreTime='" + restoreTime + '\'' +
+                ", checkCutTime='" + checkCutTime + '\'' +
+                ", alarmTime='" + alarmTime + '\'' +
+                ", situation='" + situation + '\'' +
+                ", rules='" + rules + '\'' +
+                ", period='" + period + '\'' +
+                ", applyTime='" + applyTime + '\'' +
+                ", persion1='" + persion1 + '\'' +
+                ", persion2='" + persion2 + '\'' +
+                ", suggest='" + suggest + '\'' +
+                ", persion3='" + persion3 + '\'' +
                 '}';
     }
 }

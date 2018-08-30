@@ -24,29 +24,59 @@
                             </tr>
                             <tr>
                                 <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
-                                    <p>基站情况：</p>
-                                    <div contenteditable="true" style="height: 150px;width:870px;"
-                                         class="textarea-div" name="bsStationNote">{{sheetData.bsStationNote}}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="height:150px;width:100%;border-top: none;border-bottom: none;" colspan="6">
-                                    <p>故障情况：</p>
-                                    <div contenteditable="true" style="height: 150px;width:870px;"
-                                         class="textarea-div" name="faultNote">{{sheetData.faultNote}}</div>
+                                    <br/>
+                                    <div class="form-inline">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
+                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.bsId" name="bsId"/>-
+                                        <input style="border: 0px;outline:none;width: 80px" type="text" ng-value="sheetData.name" name="name"/>
+                                    ，
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.hometype" name="hometype"/>；
+                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.transfer" name="transfer"/>，
+                                        <input style="border: 0px;outline:none;width: 70px" type="text" ng-value="sheetData.transferCompare" name="transferCompare"/>，
+                                        <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferOne" name="transferOne"/>，
+                                        <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferTwo" name="transferTwo"/>;
+                                    <input style="border: 0px;outline:none;width: 90px" type="text" ng-value="sheetData.powerOne" name="powerOne"/>，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>，网络柜由
+                                        <input style="border: 0px;outline:none;width: 50px" type="text" ng-value="sheetData.powerTwo" name="powerTwo"/>，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>，维护上站时间
+                                        <input style="border: 0px;outline:none;width: 50px" type="text" ng-value="sheetData.maintainTime" name="maintainTime"/>，
+                                        <input style="border: 0px;outline:none;width: 95px" type="text" ng-value="sheetData.isPower" name="isPower"/>。
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
+                                        <input style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc"/>
+                                    <br/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;163-金堂又新镇基站，
+                                        <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}</div>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime"/>断站，至
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，历时40分钟，申请核减时间：
+                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。停电时间为
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
+                                        <br/>
+                                        <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input style="border: 0px;outline:none;width: 190px" type="text" ng-value="sheetData.rules" name="rules"/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
+                                    </div>
+                                    <div style="height: 150px;width:870px;" readonly="readonly"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
                                     colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:260px;"
-                                         class="textarea-div pull-right" name="department">成都市应急调度指挥无线通信网四期项目部</div>
+                                         class="textarea-div pull-right" name="period">{{sheetData.period}}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:160px;"
-                                         class="textarea-div pull-right" name="checkTime">{{sheetData.checkTime}}</div>
+                                         class="textarea-div pull-right" name="applyTime">{{sheetData.applyTime}}</div>
                                 </td>
                             </tr>
 
@@ -54,25 +84,26 @@
                                 <td style="height:80px;width:100%;border-top: none;border-bottom: none;" colspan="6">
                                     <p>成都市软件产业发展中心 （意见）</p>
                                     <div contenteditable="true" style="height: 80px;width:870px;"
-                                         class="textarea-div " name="suggestion">{{sheetData.suggestion}}</div>
+                                         class="textarea-div " name="suggest">{{sheetData.suggest}}</div>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="height:30px;width:200px;border-top: none;padding-right: 300px;" colspan="6">
-                                    <p class="pull-right">签字 : </p>
+                                <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
+                                    <div contenteditable="true" style="height: 30px;width:100px;"
+                                        class="textarea-div pull-right" name="persion3"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="height:50px;width:100px;border:none;">拟制：</td>
                                 <td style="height:50px;width:343px;border:none;">
                                     <div contenteditable="true"
-                                         class="textarea-div" name="draftingPerson">{{sheetData.draftingPerson}}</div>
+                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
                                 </td>
                                 <td style="height:50px;width:100px;border:none;">审核：</td>
                                 <td style="height:50px;width:343px;border:none;">
                                     <div contenteditable="true"
-                                         class="textarea-div" name="checkPerson">{{sheetData.checkPerson}}</div>
+                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
                                 </td>
                             </tr>
                             </tbody>
