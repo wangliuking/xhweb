@@ -46,12 +46,12 @@
                                         <input style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc"/>
                                     <br/>
                                     <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;163-金堂又新镇基站，
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
                                         <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}</div>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                     <br/>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime"/>断站，至
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime | date:'yyyy-MM-dd'" name="breakTime"/>断站，至
                                         <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，历时40分钟，申请核减时间：
                                         <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。停电时间为
                                         <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
@@ -81,6 +81,19 @@
                             </tr>
 
                             <tr>
+                                <td style="height:50px;width:100px;border-right:none;">拟制：</td>
+                                <td style="height:50px;width:343px;border:none;">
+                                    <div contenteditable="true"
+                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
+                                </td>
+                                <td style="height:50px;width:100px;border-right:none;">审核：</td>
+                                <td style="height:50px;width:343px;border:none;">
+                                    <div contenteditable="true"
+                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <td style="height:80px;width:100%;border-top: none;border-bottom: none;" colspan="6">
                                     <p>成都市软件产业发展中心 （意见）</p>
                                     <div contenteditable="true" style="height: 80px;width:870px;"
@@ -92,18 +105,6 @@
                                 <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:100px;"
                                         class="textarea-div pull-right" name="persion3"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="height:50px;width:100px;border:none;">拟制：</td>
-                                <td style="height:50px;width:343px;border:none;">
-                                    <div contenteditable="true"
-                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
-                                </td>
-                                <td style="height:50px;width:100px;border:none;">审核：</td>
-                                <td style="height:50px;width:343px;border:none;">
-                                    <div contenteditable="true"
-                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
                                 </td>
                             </tr>
                             </tbody>

@@ -14,6 +14,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
+import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.CheckCutService;
 import xh.mybatis.service.WebUserServices;
 import javax.servlet.http.HttpServletRequest;
@@ -178,6 +179,32 @@ public class CheckCutController {
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新bsfault派单状态
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/updateCheckTag", method = RequestMethod.POST)
+    public void updateCheckTag(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        int id = Integer.parseInt(request.getParameter("id"));
+        BsAlarmService.updateCkeckTag(id,1);
+        HashMap result = new HashMap();
+        result.put("success", success);
         result.put("message", message);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);

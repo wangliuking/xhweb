@@ -619,38 +619,33 @@ xh.getOneDay=function()
 /*运维组发起请求审核*/
 xh.add = function() {
     $.ajax({
-        url : '../../checkCut/insertCheckCut',
+        url : '../../checkCut/updateCheckTag',
         type : 'POST',
         dataType : "json",
-        async : true,
+        async : false,
         data : $("#addForm").serializeArray(),
         success : function(data) {
-
-        },
-        error : function() {
-            $("#add_btn").button('reset');
-        }
-    });
-
-    $.ajax({
-        url : '../../checkCut/insertCheckCut',
-        type : 'POST',
-        dataType : "json",
-        async : true,
-        data : $("#addForm").serializeArray(),
-        success : function(data) {
-            $("#add_btn").button('reset');
-            if (data.result ==1) {
-                $('#add').modal('hide');
-                $("input[name='result']").val(1);
-                xh.refresh();
-                toastr.success(data.message, '提示');
-            } else {
-                toastr.error(data.message, '提示');
-            }
-        },
-        error : function() {
-            $("#add_btn").button('reset');
+            $.ajax({
+                url : '../../checkCut/insertCheckCut',
+                type : 'POST',
+                dataType : "json",
+                async : true,
+                data : $("#addForm").serializeArray(),
+                success : function(data) {
+                    $("#add_btn").button('reset');
+                    if (data.result ==1) {
+                        $('#add').modal('hide');
+                        $("input[name='result']").val(1);
+                        xh.refresh();
+                        toastr.success(data.message, '提示');
+                    } else {
+                        toastr.error(data.message, '提示');
+                    }
+                },
+                error : function() {
+                    $("#add_btn").button('reset');
+                }
+            });
         }
     });
 };
