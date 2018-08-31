@@ -268,14 +268,34 @@ xh.load = function() {
 /*修改核减申请表*/
 xh.sheetChange = function() {
     var bean={
-        "id":$("div[name='id']").text(),
-        bsStationNote:$("div[name='bsStationNote']").text(),
-        faultNote:$("div[name='faultNote']").text(),
-        department:$("div[name='department']").text(),
-        checkTime:$("div[name='checkTime']").text(),
-        suggestion:$("div[name='suggestion']").text(),
-        draftingPerson:$("div[name='draftingPerson']").text(),
-        checkPerson:$("div[name='checkPerson']").text()
+        id:$("div[name='id']").val(),
+        bsId:$("input[name='bsId']").val(),
+        name:$("input[name='name']").val(),
+        hometype:$("input[name='hometype']").val(),
+        transfer:$("input[name='transfer']").val(),
+        transferCompare:$("input[name='transferCompare']").val(),
+        transferOne:$("input[name='transferOne']").val(),
+        transferTwo:$("input[name='transferTwo']").val(),
+        powerOne:$("input[name='powerOne']").val(),
+        powerTimeOne:$("input[name='powerTimeOne']").val(),
+        powerTwo:$("input[name='powerTwo']").val(),
+        powerTimeTwo:$("input[name='powerTimeTwo']").val(),
+        maintainTime:$("input[name='maintainTime']").val(),
+        isPower:$("input[name='isPower']").val(),
+        firstDesc:$("input[name='firstDesc']").val(),
+        desc:$("div[name='desc']").text(),
+        breakTime:$("input[name='breakTime']").val(),
+        restoreTime:$("input[name='restoreTime']").val(),
+        checkCutTime:$("input[name='checkCutTime']").val(),
+        alarmTime:$("input[name='alarmTime']").val(),
+        situation:$("div[name='situation']").text(),
+        rules:$("input[name='rules']").val(),
+        period:$("div[name='period']").text(),
+        applyTime:$("div[name='applyTime']").text(),
+        suggest:$("div[name='suggest']").text(),
+        persion3:$("div[name='persion3']").text(),
+        persion1:$("div[name='persion1']").text(),
+        persion2:$("div[name='persion2']").text()
     }
     $.ajax({
         url : '../../checkCut/sheetChange',

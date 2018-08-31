@@ -85,9 +85,9 @@ xh.org.listeners.TcpServerListenner
 </listener> -->
 
 <!-- 启动定时器，定时同步redis中的session相关数据-->
-<listener>
+<!--<listener>
 <listener-class>xh.org.listeners.RedisDataListener</listener-class>
-</listener>
+</listener>-->
 <!--Axis2 config start -->
 	<servlet>  
       <servlet-name>AxisServlet</servlet-name>  
