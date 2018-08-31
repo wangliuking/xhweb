@@ -40,7 +40,7 @@
     <insert id="insertCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,hometype,breakTime,restoreTime) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{hometype},#{breakTime},#{restoreTime})
+        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,breakTime,restoreTime) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{breakTime},#{restoreTime})
     </insert>
 
     <!--运维人员重新发起核减申请 -->
@@ -74,10 +74,13 @@
 
     <!-- 修改系统升级表格 -->
     <update id="sheetChange" parameterType="xh.mybatis.bean.CheckCutBean">
-        replace into xhgmnet_bs_checkcut(id,bsStationNote,faultNote,department,checkTime,suggestion,
-        draftingPerson,checkPerson)
-        values (#{id},#{bsStationNote},#{faultNote},#{department},#{checkTime},#{suggestion},
-        #{draftingPerson},#{checkPerson})
+        update xhgmnet_bs_checkcut as a set a.bsId=#{bsId},a.name=#{name},a.hometype=#{hometype},a.transfer=#{transfer},
+        a.transferCompare=#{transferCompare},a.transferOne=#{transferOne},
+        a.transferTwo=#{transferTwo},a.powerOne=#{powerOne},a.powerTimeOne=#{powerTimeOne},a.powerTwo=#{powerTwo},
+        a.powerTimeTwo=#{powerTimeTwo},a.maintainTime=#{maintainTime},a.isPower=#{isPower},a.firstDesc=#{firstDesc},
+        a.desc=#{desc},a.breakTime=#{breakTime},a.restoreTime=#{restoreTime},a.checkCutTime=#{checkCutTime},
+        a.alarmTime=#{alarmTime},a.situation=#{situation},a.rules=#{rules},a.period=#{period},
+        a.applyTime=#{applyTime},a.persion1=#{persion1},a.persion2=#{persion2},a.suggest=#{suggest},a.persion3=#{persion3} where a.id=#{id}
     </update>
 
 </mapper>

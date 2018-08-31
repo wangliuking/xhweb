@@ -207,7 +207,6 @@ public class CheckCutController {
         String filePath = request.getParameter("path");
         String bsId = request.getParameter("bsId");
         String name = request.getParameter("name");
-        String hometype = request.getParameter("hometype");
         String breakTime = request.getParameter("breakTime");
         String restoreTime = request.getParameter("restoreTime");
         CheckCutBean bean = new CheckCutBean();
@@ -221,7 +220,6 @@ public class CheckCutController {
 
         bean.setBsId(bsId);
         bean.setName(name);
-        bean.setHometype(hometype);
         bean.setBreakTime(breakTime);
         bean.setRestoreTime(restoreTime);
 

@@ -625,6 +625,20 @@ xh.add = function() {
         async : true,
         data : $("#addForm").serializeArray(),
         success : function(data) {
+
+        },
+        error : function() {
+            $("#add_btn").button('reset');
+        }
+    });
+
+    $.ajax({
+        url : '../../checkCut/insertCheckCut',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data : $("#addForm").serializeArray(),
+        success : function(data) {
             $("#add_btn").button('reset');
             if (data.result ==1) {
                 $('#add').modal('hide');

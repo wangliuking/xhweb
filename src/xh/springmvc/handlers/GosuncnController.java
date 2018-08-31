@@ -14,17 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.chinamobile.fsuservice.Test;
-
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.AlarmList;
 import xh.mybatis.bean.HistoryList;
 import xh.mybatis.service.GosuncnService;
-import xh.mybatis.service.GpsService;
 import xh.mybatis.service.SqlServerService;
-import xh.org.listeners.EMHListener;
 import xh.func.plugin.ExportExcel;
 /**
  * 动环设备处理类

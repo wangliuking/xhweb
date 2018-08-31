@@ -28,7 +28,6 @@ public class CheckCutBean {
     private String time5;
     private String time6;
     private String time7;
-    private String user_MainManager;
     private String fileName1;
     private String filePath1;
     private String fileName2;
@@ -43,7 +42,7 @@ public class CheckCutBean {
     private String name;
     private String hometype;
     private String transfer;
-    private String transferCtransferCompare;
+    private String transferCompare;
     private String transferOne;
     private String transferTwo;
     private String powerOne;
@@ -66,30 +65,6 @@ public class CheckCutBean {
     private String persion2;
     private String suggest;
     private String persion3;
-
-    public String getFirstDesc() {
-        return firstDesc;
-    }
-
-    public void setFirstDesc(String firstDesc) {
-        this.firstDesc = firstDesc;
-    }
-
-    public String getSituation() {
-        return situation;
-    }
-
-    public void setSituation(String situation) {
-        this.situation = situation;
-    }
-
-    public String getBsId() {
-        return bsId;
-    }
-
-    public void setBsId(String bsId) {
-        this.bsId = bsId;
-    }
 
     public int getId() {
         return id;
@@ -307,14 +282,6 @@ public class CheckCutBean {
         this.time7 = time7;
     }
 
-    public String getUser_MainManager() {
-        return user_MainManager;
-    }
-
-    public void setUser_MainManager(String user_MainManager) {
-        this.user_MainManager = user_MainManager;
-    }
-
     public String getFileName1() {
         return fileName1;
     }
@@ -395,6 +362,14 @@ public class CheckCutBean {
         this.tel = tel;
     }
 
+    public String getBsId() {
+        return bsId;
+    }
+
+    public void setBsId(String bsId) {
+        this.bsId = bsId;
+    }
+
     public String getName() {
         return name;
     }
@@ -419,12 +394,12 @@ public class CheckCutBean {
         this.transfer = transfer;
     }
 
-    public String getTransferCtransferCompare() {
-        return transferCtransferCompare;
+    public String getTransferCompare() {
+        return transferCompare;
     }
 
-    public void setTransferCtransferCompare(String transferCtransferCompare) {
-        this.transferCtransferCompare = transferCtransferCompare;
+    public void setTransferCompare(String transferCompare) {
+        this.transferCompare = transferCompare;
     }
 
     public String getTransferOne() {
@@ -491,6 +466,14 @@ public class CheckCutBean {
         this.isPower = isPower;
     }
 
+    public String getFirstDesc() {
+        return firstDesc;
+    }
+
+    public void setFirstDesc(String firstDesc) {
+        this.firstDesc = firstDesc;
+    }
+
     public String getDesc() {
         return desc;
     }
@@ -529,6 +512,14 @@ public class CheckCutBean {
 
     public void setAlarmTime(String alarmTime) {
         this.alarmTime = alarmTime;
+    }
+
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
     }
 
     public String getRules() {
@@ -617,7 +608,6 @@ public class CheckCutBean {
                 ", time5='" + time5 + '\'' +
                 ", time6='" + time6 + '\'' +
                 ", time7='" + time7 + '\'' +
-                ", user_MainManager='" + user_MainManager + '\'' +
                 ", fileName1='" + fileName1 + '\'' +
                 ", filePath1='" + filePath1 + '\'' +
                 ", fileName2='" + fileName2 + '\'' +
@@ -632,7 +622,7 @@ public class CheckCutBean {
                 ", name='" + name + '\'' +
                 ", hometype='" + hometype + '\'' +
                 ", transfer='" + transfer + '\'' +
-                ", transferCtransferCompare='" + transferCtransferCompare + '\'' +
+                ", transferCompare='" + transferCompare + '\'' +
                 ", transferOne='" + transferOne + '\'' +
                 ", transferTwo='" + transferTwo + '\'' +
                 ", powerOne='" + powerOne + '\'' +
@@ -658,3 +648,4 @@ public class CheckCutBean {
                 '}';
     }
 }
+
