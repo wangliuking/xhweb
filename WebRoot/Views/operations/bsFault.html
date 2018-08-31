@@ -420,12 +420,12 @@ to {
 											ng-click="editModel($index)"> <i
 												class="fa fa-edit text-danger"></i>&nbsp;编辑
 										</a> 
-										<a href="#"
+										<a href="#" ng-if="x.checkTag==0"
 											ng-click="checkCutModel($index)"> <i
 												class="fa fa-edit text-danger"></i>&nbsp;核减
 										</a> 
 										<a href="#" ng-click="showOrderWin($index)"
-											ng-if="x.status==0 && (up.o_order=='on' || roleId==10000)"> <i
+											ng-if="x.status==0 && (up.o_order=='on' || roleType==0)"> <i
 												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
 										</a>
 										

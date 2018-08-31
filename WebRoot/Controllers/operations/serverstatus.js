@@ -101,15 +101,15 @@ xh.load = function() {
     			
     			//汇聚交换机s5700
 
-    			var s57_point_one_1 =xh.createNode(200, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_2 =xh.createNode(250, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_3 =xh.createNode(300, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_4 =xh.createNode(350, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_1 =xh.createNode(200, wheight/10+100,"switch-blue.png","S5700-1");
+    			var s57_point_one_2 =xh.createNode(260, wheight/10+100,"switch-blue.png","S5700-2");
+    			var s57_point_one_3 =xh.createNode(320, wheight/10+100,"switch-blue.png","S5700-3");
+    			var s57_point_one_4 =xh.createNode(380, wheight/10+100,"switch-blue.png","S5700-4");
     			
-    			var s57_point_one_5 =xh.createNode(400, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_6 =xh.createNode(450, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_7 =xh.createNode(500, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_8 =xh.createNode(550, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_5 =xh.createNode(440, wheight/10+100,"switch-blue.png","S5700-5");
+    			var s57_point_one_6 =xh.createNode(500, wheight/10+100,"switch-blue.png","S5700-6");
+    			var s57_point_one_7 =xh.createNode(560, wheight/10+100,"switch-blue.png","S5700-7");
+    			var s57_point_one_8 =xh.createNode(610, wheight/10+100,"switch-blue.png","S5700-8");
     			
     			//NE16
     			var ne16_point_one_1 =xh.createNode(300, wheight/10+200,"sw1.png","NE16");
@@ -168,10 +168,18 @@ xh.load = function() {
     			//核心交换机-连线
     			 var link10 = xh.createNewLink(s7703_point_one, ne16_point_one_4,5);
                  link10.strokeColor = '0,255,0';
+               
+                 
+                 
+                 var S3700_point_one=xh.createNode(480, wheight/10+380,"sw1.png","S3700");
+                 
+                 var link21 = xh.createNewLink(S3700_point_one,s7703_point_one,5);
+                 link21.strokeColor = '0,255,0';
+                 
                  //中和应用平台
-                 var server_point_one=xh.createNode(500, wheight/10+360,"server4.png","综合应用与平台");
+                 var server_point_one=xh.createNode(550, wheight/10+380,"server4.png","综合应用与平台");
                  //中和应用平台-连线
-                 var link15 = xh.createNewLink(server_point_one,s7703_point_one,5);
+                 var link15 = xh.createNewLink(server_point_one,S3700_point_one,5);
                  link15.strokeColor = '0,255,0';
                  
                  //公网路由器
@@ -189,15 +197,15 @@ xh.load = function() {
      			
      			//汇聚交换机s5700
 
-     			var s57_point_two_1 =xh.createNode(wwidth/2, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_2 =xh.createNode(wwidth/2+50, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_3 =xh.createNode(wwidth/2+100, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_4 =xh.createNode(wwidth/2+150, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_1 =xh.createNode(wwidth/2, wheight/10+100,"switch-blue.png","S5700-1");
+     			var s57_point_two_2 =xh.createNode(wwidth/2+60, wheight/10+100,"switch-blue.png","S5700-2");
+     			var s57_point_two_3 =xh.createNode(wwidth/2+120, wheight/10+100,"switch-blue.png","S5700-3");
+     			var s57_point_two_4 =xh.createNode(wwidth/2+180, wheight/10+100,"switch-blue.png","S5700-4");
      			
-     			var s57_point_two_5 =xh.createNode(wwidth/2+200, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_6 =xh.createNode(wwidth/2+250, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_7 =xh.createNode(wwidth/2+300, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_8 =xh.createNode(wwidth/2+350, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_5 =xh.createNode(wwidth/2+240, wheight/10+100,"switch-blue.png","S5700-5");
+     			var s57_point_two_6 =xh.createNode(wwidth/2+300, wheight/10+100,"switch-blue.png","S5700-6");
+     			var s57_point_two_7 =xh.createNode(wwidth/2+360, wheight/10+100,"switch-blue.png","S5700-7");
+     			var s57_point_two_8 =xh.createNode(wwidth/2+420, wheight/10+100,"switch-blue.png","S5700-8");
      			
      			//NE16
      			var ne16_point_two_1 =xh.createNode(wwidth/2+100, wheight/10+200,"sw1.png","NE16");
@@ -257,17 +265,28 @@ xh.load = function() {
       			//核心交换机-连线
       			 var link114 = xh.createNewLink(s7703_point_two, ne16_point_two_3,5);
                    link114.strokeColor = '0,255,0';
-                   //中和应用平台
-                   var server_point_two=xh.createNode(wwidth/2+30, wheight/10+360,"server4.png","综合应用与平台");
-                   //中和应用平台-连线
-                   var link115 = xh.createNewLink(server_point_two,s7703_point_two,5);
-                   link115.strokeColor = '0,255,0';
+               
                    
                  
                    var link116 = xh.createNewLink(ne16_point_one_2,ne16_point_two_1,5);
                    link116.strokeColor = '0,255,0';
                    var link117 = xh.createNewLink(ne16_point_one_4,ne16_point_two_3,5);
                    link117.strokeColor = '0,255,0';
+                   
+                   
+             
+                   
+                   //3700
+                   var S3700_point_two=xh.createNode(wwidth/2, wheight/10+350,"sw1.png","S3700");
+                   
+                   var link123 = xh.createNewLink(S3700_point_two,s7703_point_two,5);
+                   link123.strokeColor = '0,255,0';
+                   
+                   //中和应用平台
+                   var server_point_two=xh.createNode(wwidth/2+30, wheight/10+400,"server4.png","综合应用与平台");
+                   //中和应用平台-连线
+                   var link115 = xh.createNewLink(server_point_two,S3700_point_two,5);
+                   link115.strokeColor = '0,255,0';
                  
                    //公网路由器
                    var ar3260_point_two=xh.createNode(wwidth/2+200, wheight/10+380,"sw1.png","公网路由器[AR3260]");
