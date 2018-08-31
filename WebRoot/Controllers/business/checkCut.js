@@ -32,6 +32,15 @@ xh.load = function() {
 	var from = $("#from").val();
 	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();*/
+
+    app.filter('upp', function() { //可以注入依赖
+        return function(text) {
+            if(text=="" || text==null)
+                return "";
+            else
+                return parseFloat(text);
+        };
+    });
 	
 	var pageSize = $("#page-limit").val();
     app.config(['$locationProvider', function ($locationProvider) {
