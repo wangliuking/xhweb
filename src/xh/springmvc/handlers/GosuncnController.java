@@ -24,7 +24,6 @@ import xh.mybatis.bean.HistoryList;
 import xh.mybatis.service.GosuncnService;
 import xh.mybatis.service.GpsService;
 import xh.mybatis.service.SqlServerService;
-import xh.org.listeners.EMHListener;
 import xh.func.plugin.ExportExcel;
 /**
  * 动环设备处理类

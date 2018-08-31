@@ -51,8 +51,6 @@ public class LoginController {
 		}catch(NullPointerException e){
 			
 		}*/
-		
-		
 		String toSign = request.getParameter("ToSign");
 		
 		

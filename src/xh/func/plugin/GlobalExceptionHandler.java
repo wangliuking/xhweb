@@ -18,8 +18,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@ControllerAdvice
-@ResponseBody
+
 public class GlobalExceptionHandler{
 	protected final Log log=LogFactory.getLog(GlobalExceptionHandler.class.getName());
 	

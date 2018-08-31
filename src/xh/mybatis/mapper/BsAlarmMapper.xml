@@ -205,6 +205,9 @@
 	<update id="identifyBsAlarmById" parameterType="java.lang.String">
 		update xhgmnet_bs_alarm set status=1 where id=#{id}
 	</update>
+	<update id="updateCkeckTag" parameterType="map">
+		update xhgmnet_operations_bsfault set checkTag=#{tag} where id=#{id}
+	</update>
     <delete id="clear_sf_alarm" >
      	TRUNCATE TABLE  xhgmnet_sf_bs_alarm
     </delete>
