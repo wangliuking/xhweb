@@ -567,7 +567,8 @@ xh.groupTop5=function(data){
 		chart = ec.init(document.getElementById('group-top5'));
 		var leglend=[]
 		for(var i=0;i<data.length;i++){
-			leglend.push(data[i].name);
+			leglend.push(data[i].name+"-"+data[i].value);
+			data[i].name=data[i].name+"    ["+data[i].value+"]"
 		}
 		
 		var option = {
@@ -577,27 +578,37 @@ xh.groupTop5=function(data){
 			        formatter: "{a} <br/>{b} : {c}"
 			    },
 			   
-			    legend: {
+			   /* legend: {
 			    	 orient : 'vertical',
 				        x : 'left',
 				        textStyle:{
 				        	color:'#fff',
 				        },
 			        data : leglend
-			    },
+			    },*/
 			    calculable : false,
 			    series : [
-			        {
-			            name:'漏斗图',
-			            type:'funnel',
-			            width: 160,
-			            height:'80%',
-			            maxSize: '30%',
-			          
-			            x:'35%',
-			            y:10,
-			            data:data
-			        }
+			              {
+					            name:'基站注册组',
+					            type:'funnel',
+					            width: 60,
+					            height:'80%',
+					            maxSize: '30%',
+					            sort: 'descending', //数据排序，如果是：ascending，则是金字塔状 
+					            gap: 1, //数据图像间距 
+					            itemStyle: {//图像样式 
+					                normal: { 
+					                    borderColor: '#fff', //描边颜色 
+					                    borderWidth: 1  //描边宽度 
+					                    
+					                } 
+					            },
+					  
+					            
+					            x:'10%',
+					            y:10,
+					            data:data
+					        }
 			    ]
 			};
 		chart.setOption(option);
@@ -633,6 +644,7 @@ xh.userTop5=function(data){
 		var leglend=[]
 		for(var i=0;i<data.length;i++){
 			leglend.push(data[i].name);
+			data[i].name=data[i].name+"    ["+data[i].value+"]"
 		}
 		var option = {
 			    
@@ -641,24 +653,24 @@ xh.userTop5=function(data){
 			        formatter: "{a} <br/>{b} : {c}"
 			    },
 			   
-			    legend: {
+			   /* legend: {
 			    	 orient : 'vertical',
 				        x : 'left',
 				        textStyle:{
 				        	color:'#fff',
 				        },
 			        data :leglend
-			    },
+			    },*/
 			    calculable : false,
 			    series : [
 			        {
-			            name:'漏斗图',
+			            name:'基站注册终端',
 			            type:'funnel',
-			            width: 30,
+			            width: 60,
 			            height:'80%',
 			            maxSize: '30%',
 			            sort: 'descending', //数据排序，如果是：ascending，则是金字塔状 
-			            gap: 2, //数据图像间距 
+			            gap: 1, //数据图像间距 
 			            itemStyle: {//图像样式 
 			                normal: { 
 			                    borderColor: '#fff', //描边颜色 
@@ -667,7 +679,7 @@ xh.userTop5=function(data){
 			            },
 			  
 			            
-			            x:'50%',
+			            x:'10%',
 			            y:10,
 			            data:data
 			        }
