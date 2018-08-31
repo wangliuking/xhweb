@@ -101,10 +101,15 @@ xh.load = function() {
     			
     			//汇聚交换机s5700
 
-    			var s57_point_one_1 =xh.createNode(300, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_2 =xh.createNode(400, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_3 =xh.createNode(500, wheight/10+100,"switch-blue.png","S5700");
-    			var s57_point_one_4 =xh.createNode(600, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_1 =xh.createNode(200, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_2 =xh.createNode(250, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_3 =xh.createNode(300, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_4 =xh.createNode(350, wheight/10+100,"switch-blue.png","S5700");
+    			
+    			var s57_point_one_5 =xh.createNode(400, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_6 =xh.createNode(450, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_7 =xh.createNode(500, wheight/10+100,"switch-blue.png","S5700");
+    			var s57_point_one_8 =xh.createNode(550, wheight/10+100,"switch-blue.png","S5700");
     			
     			//NE16
     			var ne16_point_one_1 =xh.createNode(300, wheight/10+200,"sw1.png","NE16");
@@ -121,14 +126,22 @@ xh.load = function() {
                 var link4 = xh.createNewLink(ne16_point_one_2, ne16_point_one_4,5);
                 link4.strokeColor = '0,255,0';
               //NE16-S3700连线
-                var link11= xh.createNewLink(ne16_point_one_1, s57_point_one_1,5);
+                var link11= xh.createNewLink(ne16_point_one_1, s57_point_one_3,5);
                 link11.strokeColor = '0,255,0';
-                var link12= xh.createNewLink(ne16_point_one_3, s57_point_one_2,5);
+                var link12= xh.createNewLink(ne16_point_one_1, s57_point_one_4,5);
                 link12.strokeColor = '0,255,0';
-                var link13= xh.createNewLink(ne16_point_one_2, s57_point_one_3,5);
+                var link13= xh.createNewLink(ne16_point_one_2, s57_point_one_5,5);
                 link13.strokeColor = '0,255,0';
-                var link14= xh.createNewLink(ne16_point_one_4, s57_point_one_4,5);
+                var link14= xh.createNewLink(ne16_point_one_2, s57_point_one_6,5);
                 link14.strokeColor = '0,255,0';
+                var link16= xh.createNewLink(ne16_point_one_3, s57_point_one_1,5);
+                link16.strokeColor = '0,255,0';
+                var link17= xh.createNewLink(ne16_point_one_3, s57_point_one_2,5);
+                link17.strokeColor = '0,255,0';
+                var link18= xh.createNewLink(ne16_point_one_4, s57_point_one_7,5);
+                link18.strokeColor = '0,255,0';
+                var link19= xh.createNewLink(ne16_point_one_4, s57_point_one_8,5);
+                link19.strokeColor = '0,255,0';
     			
     			//思科C3560
     			var c3560_point_one_1 =xh.createNode(200, wheight/10+200,"switch3.png","C3560");
@@ -161,7 +174,11 @@ xh.load = function() {
                  var link15 = xh.createNewLink(server_point_one,s7703_point_one,5);
                  link15.strokeColor = '0,255,0';
                  
+                 //公网路由器
+                 var ar3260_point_one=xh.createNode(330, wheight/10+380,"sw1.png","公网路由器[AR3260]");
                  
+                 var link20 = xh.createNewLink(ar3260_point_one,s7703_point_one,5);
+                 link20.strokeColor = '0,255,0';
                  
                  
                  
@@ -173,9 +190,14 @@ xh.load = function() {
      			//汇聚交换机s5700
 
      			var s57_point_two_1 =xh.createNode(wwidth/2, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_2 =xh.createNode(wwidth/2+100, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_3 =xh.createNode(wwidth/2+200, wheight/10+100,"switch-blue.png","S5700");
-     			var s57_point_two_4 =xh.createNode(wwidth/2+300, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_2 =xh.createNode(wwidth/2+50, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_3 =xh.createNode(wwidth/2+100, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_4 =xh.createNode(wwidth/2+150, wheight/10+100,"switch-blue.png","S5700");
+     			
+     			var s57_point_two_5 =xh.createNode(wwidth/2+200, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_6 =xh.createNode(wwidth/2+250, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_7 =xh.createNode(wwidth/2+300, wheight/10+100,"switch-blue.png","S5700");
+     			var s57_point_two_8 =xh.createNode(wwidth/2+350, wheight/10+100,"switch-blue.png","S5700");
      			
      			//NE16
      			var ne16_point_two_1 =xh.createNode(wwidth/2+100, wheight/10+200,"sw1.png","NE16");
@@ -192,15 +214,24 @@ xh.load = function() {
                  var link104 = xh.createNewLink(ne16_point_two_2, ne16_point_two_4,5);
                  link104.strokeColor = '0,255,0';
                  
-               //NE16-S3700连线
-                 var link105= xh.createNewLink(ne16_point_two_3, s57_point_two_1,5);
+               //NE16-S5700连线
+                 var link105= xh.createNewLink(ne16_point_two_1, s57_point_two_3,5);
                  link105.strokeColor = '0,255,0';
-                 var link106= xh.createNewLink(ne16_point_two_1, s57_point_two_2,5);
+                 var link106= xh.createNewLink(ne16_point_two_1, s57_point_two_4,5);
                  link106.strokeColor = '0,255,0';
-                 var link107= xh.createNewLink(ne16_point_two_2, s57_point_two_3,5);
+                 var link107= xh.createNewLink(ne16_point_two_2, s57_point_two_5,5);
                  link107.strokeColor = '0,255,0';
-                 var link108= xh.createNewLink(ne16_point_two_4, s57_point_two_4,5);
+                 var link108= xh.createNewLink(ne16_point_two_2, s57_point_two_6,5);
                  link108.strokeColor = '0,255,0';
+                 
+                 var link118= xh.createNewLink(ne16_point_two_3, s57_point_two_1,5);
+                 link118.strokeColor = '0,255,0';
+                 var link119= xh.createNewLink(ne16_point_two_3, s57_point_two_2,5);
+                 link119.strokeColor = '0,255,0';
+                 var link120= xh.createNewLink(ne16_point_two_4, s57_point_two_7,5);
+                 link120.strokeColor = '0,255,0';
+                 var link121= xh.createNewLink(ne16_point_two_4, s57_point_two_8,5);
+                 link121.strokeColor = '0,255,0';
                  
                //思科C3560
      			var c3560_point_two_1 =xh.createNode(wwidth/2+300, wheight/10+200,"switch3.png","C3560");
@@ -238,7 +269,11 @@ xh.load = function() {
                    var link117 = xh.createNewLink(ne16_point_one_4,ne16_point_two_3,5);
                    link117.strokeColor = '0,255,0';
                  
-                 
+                   //公网路由器
+                   var ar3260_point_two=xh.createNode(wwidth/2+200, wheight/10+380,"sw1.png","公网路由器[AR3260]");
+                   
+                   var link122 = xh.createNewLink(ar3260_point_two,s7703_point_two,5);
+                   link122.strokeColor = '0,255,0';
                  
                  
                //服务器

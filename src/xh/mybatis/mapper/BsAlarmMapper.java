@@ -78,4 +78,6 @@ public interface BsAlarmMapper {
 	
 	public int sureAlarm(List<String> list) throws Exception;
 	
+	public int updateCkeckTag(Map<String,Object> map) throws Exception;
+	
 }

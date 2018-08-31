@@ -415,5 +415,24 @@ public class BsAlarmService {
 		}
 		return rs;
 	}
+	public static int updateCkeckTag(int id,int tag) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("tag", tag);
+		map.put("id",id);
+		int rs=0;
+		
+		try {
+			rs=mapper.updateCkeckTag(map);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 }

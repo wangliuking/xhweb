@@ -58,7 +58,7 @@ public class SingLoginListener implements HttpSessionListener{
         }        
         //redis start      
         String sessionId = session.getId();				
-		UserRedis.ssoSession(info, power, sUserName, sessionId);
+		
         //redis end
 		
         // 如果该用户已经登录过，则使上次登录的用户掉线(依据使用户名是否在logUserMap中)  
@@ -86,7 +86,8 @@ public class SingLoginListener implements HttpSessionListener{
             logUserMap.put(session.getId(), sUserName);      
             logUserInfoMap.put(session.getId(), info);
             loginUserPowerMap.put(session.getId(), power);
-        }  
+        } 
+        UserRedis.ssoSession(info, power, sUserName, sessionId);
         
         log.info("登录用户数=>"+logUserInfoMap.size());
        /* log.info("UserPowerInfo=>"+loginUserPowerMap);*/
