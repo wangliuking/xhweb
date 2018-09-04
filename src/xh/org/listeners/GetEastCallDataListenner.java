@@ -41,10 +41,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
-			
-			
+			}	
 		}
 		
 	}

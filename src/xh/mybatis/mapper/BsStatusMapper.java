@@ -194,5 +194,7 @@ public interface BsStatusMapper {
 	
 	 /*更新基站故障表*/
 	public int editBsFault(BsAlarmExcelBean bean) throws Exception;
+	
+	public List<Map<String,Object>> linkStatus() throws Exception;
 
 }

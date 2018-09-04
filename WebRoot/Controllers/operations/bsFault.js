@@ -520,8 +520,9 @@ xh.pagging = function(currentPage,totals, $scope) {
 xh.excelToBsAlarm=function(){
 	xh.maskShow();
 	$("#btn-write").button('loading');
-	var startTime=$("input[name='startTime']").val();
-	var endTime=$("input[name='endTime']").val();
+	var startTime=$("#faultRecord").find("input[name='startTime']").val();
+	console.log("starttime"+startTime)
+	var endTime=$("#faultRecord").find("input[name='endTime']").val();
 	if(startTime=="" || endTime==""){
 		toastr.error("时间范围不能为空", '提示');
 		$("#btn-write").button('reset');

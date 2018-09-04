@@ -30,8 +30,10 @@ public class GlobalExceptionHandler{
 		log.error("程序异常->描述="+ex.getLocalizedMessage());
 		log.error("程序异常->error类型="+ex.getClass());
 		log.error("程序异常->请求URL="+request.getRequestURL());
+		
 		log.error("程序异常->message="+ex.getMessage());
 		log.error("--------------------------程序异常结束----------------------");
+		ex.printStackTrace();
 		Map map=new HashMap();
 		map.put("success", false);
 		map.put("class", ex.getClass());

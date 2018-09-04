@@ -46,7 +46,8 @@ public class BsAlarmController {
 
 		HashMap result = new HashMap();
 		try {
-			result.put("totals",PublicVariableService.getVoiceAlarmCount());
+			result.put("totals",PublicVariableService.getVoiceAlarmCount());			
+			PublicVariableService.setVoiceAlarmCount(0);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

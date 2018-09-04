@@ -102,8 +102,7 @@ public class EastComService {
 			/*51*/
 			for(int dayNum=1;dayNum<=1;dayNum++){
 				int day=dayNum;	
-				for(int i=0;i<=23;i++){
-					
+				for(int i=0;i<=23;i++){	
 					
 					if(i<10){
 						h="0"+i;
