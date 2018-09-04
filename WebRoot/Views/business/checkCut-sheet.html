@@ -27,17 +27,18 @@
                                     <br/>
                                     <div class="form-inline">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
-                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.bsId" name="bsId"/>-
-                                        <input style="border: 0px;outline:none;width: 80px" type="text" ng-value="sheetData.name" name="name"/>
+                                        <input type="hidden" ng-value="sheetData.bsId" name="bsId"/>
+                                        <input type="hidden" ng-value="sheetData.name" name="name"/>
+                                        {{sheetData.bsId}}-{{sheetData.name}}基站
                                     ，
                                         <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.hometype" name="hometype"/>；
                                         <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.transfer" name="transfer"/>，
                                         <input style="border: 0px;outline:none;width: 70px" type="text" ng-value="sheetData.transferCompare" name="transferCompare"/>，
                                         <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferOne" name="transferOne"/>，
                                         <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferTwo" name="transferTwo"/>;
-                                    <input style="border: 0px;outline:none;width: 90px" type="text" ng-value="sheetData.powerOne" name="powerOne"/>，续航时间大于
+                                    <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.powerOne" name="powerOne"/>，续航时间大于
                                         <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>，网络柜由
-                                        <input style="border: 0px;outline:none;width: 50px" type="text" ng-value="sheetData.powerTwo" name="powerTwo"/>，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 80px" type="text" ng-value="sheetData.powerTwo" name="powerTwo"/>，续航时间大于
                                         <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>，维护上站时间
                                         <input style="border: 0px;outline:none;width: 50px" type="text" ng-value="sheetData.maintainTime" name="maintainTime"/>，
                                         <input style="border: 0px;outline:none;width: 95px" type="text" ng-value="sheetData.isPower" name="isPower"/>。
@@ -51,9 +52,9 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                     <br/>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime | date:'yyyy-MM-dd'" name="breakTime"/>断站，至
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，历时40分钟，申请核减时间：
-                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。停电时间为
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime"/>断站，至
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，历时{{calcData}}分钟，申请核减时间：
+                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。
                                         <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
                                         <br/>
                                         <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
@@ -104,7 +105,7 @@
                             <tr>
                                 <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
                                     <div contenteditable="true" style="height: 30px;width:100px;"
-                                        class="textarea-div pull-right" name="persion3"></div>
+                                        class="textarea-div pull-right" name="persion3">{{sheetData.persion3}}</div>
                                 </td>
                             </tr>
                             </tbody>

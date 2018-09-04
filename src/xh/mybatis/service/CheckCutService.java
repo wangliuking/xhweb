@@ -71,12 +71,12 @@ public class CheckCutService {
      * @param bean
      * @return
      */
-    public static int checkedNegOne(CheckCutBean bean){
+    public static int checkedNegTwo(CheckCutBean bean){
         SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
         int result=0;
         try {
-            result=mapper.checkedNegOne(bean);
+            result=mapper.checkedNegTwo(bean);
             sqlSession.commit();
             result=1;
         } catch (Exception e) {
@@ -153,6 +153,7 @@ public class CheckCutService {
         }
         return result;
     }
+
     /**
      *
      * @param bean
@@ -175,7 +176,7 @@ public class CheckCutService {
         return result;
     }
     /**
-     * 管理方入库信息
+     *
      * @param bean
      * @return
      */
@@ -198,26 +199,9 @@ public class CheckCutService {
 
     /**
      *
-     * @param bean
+     * @param param
      * @return
      */
-    public static int checkedFive(CheckCutBean bean){
-        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
-        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
-        int result=0;
-        try {
-            result=mapper.checkedFive(bean);
-            sqlSession.commit();
-            result=1;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }finally {
-            sqlSession.close();
-        }
-        return result;
-    }
-
     public static CheckCutBean sheetShow(Map<String, Object> param) {
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
@@ -239,6 +223,25 @@ public class CheckCutService {
         try {
             result = mapper.sheetChange(bean);
             sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     * 根据基站id查询详细信息，用于填充核减表
+     * @param param
+     * @return
+     */
+    public static Map<String,Object> selectBsInformationById(Map<String, Object> map) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        Map<String,Object> result = null;
+        try {
+            result = mapper.selectBsInformationById(map);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

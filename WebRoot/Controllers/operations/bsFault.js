@@ -88,7 +88,7 @@ xh.load = function() {
 			$scope.editData = $scope.data[id];
 			$("#edit").modal('show');
 		};
-        /* 显示链接修改model */
+        /* 显示核减model */
         $scope.checkCutModel = function(id) {
             $scope.faultDataById = $scope.data[id];
             $("#add").modal('show');

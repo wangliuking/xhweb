@@ -71,43 +71,43 @@
 							</div>
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked==0"></div>
+									 ng-if="progressData.checked==0"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>0"></div>
+									 ng-if="progressData.checked>0"></div>
 								<div class="cd-timeline-content">
-									<h2>管理方审核核减申请</h2>
+									<h2>运维负责人审核核减申请</h2>
 									<p>
 										<span>审核人：</span><span>{{progressData.user2}}</span>
 									</p>
 									<p>
 										<span>备注：</span><span>{{progressData.note2}}</span>
 									</p>
-									<span ng-if="progressData.checked==-1"
-										class="cd-date text-danger font-bold">核减不通过！
+									<span ng-if="progressData.checked==-2"
+										  class="cd-date text-danger font-bold">核减不通过！
 										</br>时间：{{progressData.time2}}</span> <span
 										ng-if="progressData.checked>=1"
 										class="cd-date text-success font-bold">核减通过
-										</br>时间：{{progressData.time2}}</span>
+									</br>时间：{{progressData.time2}}</span>
 								</div>
 							</div>
-							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.checked<1"></div>
+									ng-if="progressData.checked==1"></div>
 								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.checked>=1"></div>
+									ng-if="progressData.checked>1"></div>
 								<div class="cd-timeline-content">
-									<h2>运维人员提交相关资料</h2>
-									<a href="#" title="点击下载文件"
-									   onclick="xh.download()" style="color: red">{{progressData.fileName2}}</a>
+									<h2>管理方审核核减申请</h2>
 									<p>
-									<p>
-										<span>提交人：</span><span>{{progressData.user3}}</span>
+										<span>审核人：</span><span>{{progressData.user3}}</span>
 									</p>
 									<p>
 										<span>备注：</span><span>{{progressData.note3}}</span>
 									</p>
-									<span  ng-if="progressData.checked>1" class="cd-date text-success font-bold">已向管理方提供相关资料
+									<span ng-if="progressData.checked==-2"
+										class="cd-date text-danger font-bold">核减不通过！
+										</br>时间：{{progressData.time3}}</span> <span
+										ng-if="progressData.checked>=2"
+										class="cd-date text-success font-bold">核减通过
 										</br>时间：{{progressData.time3}}</span>
 								</div>
 							</div>
@@ -118,25 +118,46 @@
 								<div class="cd-timeline-img cd-green"
 									ng-if="progressData.checked>=2"></div>
 								<div class="cd-timeline-content">
-									<h2>运维人员结束核减</h2>
+									<h2>运维人员提交相关资料</h2>
+									<a href="#" title="点击下载文件"
+									   onclick="xh.download()" style="color: red">{{progressData.fileName3}}</a>
 									<p>
-										<span>审核人：</span><span>{{progressData.user4}}</span>
+									<p>
+										<span>提交人：</span><span>{{progressData.user4}}</span>
 									</p>
 									<p>
 										<span>备注：</span><span>{{progressData.note4}}</span>
 									</p>
-									<span ng-if="progressData.checked>2"
-										class="cd-date text-success font-bold">核减结束
+									<span  ng-if="progressData.checked>2" class="cd-date text-success font-bold">已向管理方提供相关资料
 										</br>时间：{{progressData.time4}}</span>
+								</div>
+							</div>
+							<!-- cd-timeline-block end-->
+							<div class="cd-timeline-block">
+								<div class="cd-timeline-img cd-gray"
+									ng-if="progressData.checked<3"></div>
+								<div class="cd-timeline-img cd-green"
+									ng-if="progressData.checked>=3"></div>
+								<div class="cd-timeline-content">
+									<h2>运维人员结束核减</h2>
+									<p>
+										<span>审核人：</span><span>{{progressData.user5}}</span>
+									</p>
+									<p>
+										<span>备注：</span><span>{{progressData.note5}}</span>
+									</p>
+									<span ng-if="progressData.checked>3"
+										class="cd-date text-success font-bold">核减结束
+										</br>时间：{{progressData.time5}}</span>
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
 							
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.checked<3">结束</div>
+									ng-if="progressData.checked<4">结束</div>
 								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.checked>=3">结束</div>
+									ng-if="progressData.checked>=4">结束</div>
 							</div>
 						</div>
 					</div>
