@@ -3,6 +3,89 @@
 <mapper namespace="xh.mybatis.mapper.CallListMapper">
 
 	<!--查询呼叫记录name like concat(#{name},'%') -->
+	
+	
+<!-- 	<select id="selectCallList" parameterType="map" resultType="map"
+		useCache="true">
+
+		select a.id, a.Call_Time, a.Call_id, a.Call_sys_id, a.Use_Time,
+		a.Caller, a.Called,
+		a.Call_Type,
+		a.Call_TS_Id, a.Call_BS_BS,
+		a.Call_RSSI, a.Call_Result, a.Call_Path,b.name
+		from ${dbname1} as a
+		left JOIN xhgmnet.xhgmnet_bs_station as b on
+		CASE
+		WHEN
+		a.Call_TS_Id&lt;=1200 then a.Call_TS_Id=b.bsId
+		WHEN a.Call_TS_Id>1200 and
+		a.Call_TS_Id&lt;2000 THEN a.Call_TS_Id%1000=b.bsId
+
+		END
+		where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and a.Call_TS_Id=#{bsId}
+		</if>
+		<if test="caller != null and caller !=''">
+			and a.Caller like concat(#{caller},'%')
+		</if>
+		<if test="called!=null and called !=''">
+			and a.Called like concat(#{called},'%')
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and a.Call_Time &gt;=#{starttime,jdbcType=DATE}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
+		</if>
+		<if test="dbname2!=''">
+			union all
+
+			select a.id, a.Call_Time, a.Call_id, a.Call_sys_id, a.Use_Time,
+			a.Caller, a.Called,
+			a.Call_Type,
+			a.Call_TS_Id, a.Call_BS_BS,
+			a.Call_RSSI, a.Call_Result, a.Call_Path,b.name
+			from ${dbname2} as a
+			left JOIN xhgmnet.xhgmnet_bs_station as b on
+			CASE
+			WHEN a.Call_TS_Id&lt;=1200 then a.Call_TS_Id=b.bsId
+			WHEN a.Call_TS_Id>1200 and a.Call_TS_Id&lt;2000 THEN
+			a.Call_TS_Id%1000=b.bsId
+
+			END
+			where
+ -->	<!-- 		1=1
+			<if test="bsId!=null and bsId!=''">
+				and a.Call_TS_Id=#{bsId}
+			</if>
+			<if test="caller != null and caller !=''">
+				and a.Caller like concat(#{caller},'%')
+			</if>
+			<if test="called!=null and called !=''">
+				and a.Called like concat(#{called},'%')
+			</if>
+			<if test="starttime!=null and starttime!=''">
+				and a.Call_Time &gt;=#{starttime,jdbcType=DATE}
+			</if>
+			<if test="endtime!=null and endtime!=''">
+				and a.Call_Time &lt;=#{endtime,jdbcType=DATE}
+			</if>
+
+
+		</if>
+		<if test="vpnId!=null and vpnId!=''">
+			and a.Caller in (select C_ID from xhgmnet.xhgmnet_radiouser
+			where
+			E_vpnId=#{vpnId})
+		</if>
+
+		order by a.Call_Time desc limit #{start},#{limit}
+	</select> -->
+	
+	
+	
+	
 	<select id="selectCallList" parameterType="map" resultType="map"
 		useCache="true">
 

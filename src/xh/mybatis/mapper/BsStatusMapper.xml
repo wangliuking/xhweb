@@ -190,10 +190,12 @@
 	<select id="bsc" parameterType="int" resultType="map" useCache="true">
 
 		SELECT a.* ,b.bscIsEnable FROM xhgmnet_bs_bsc as a
-		left join xhgmnet_bs_bsc_config as b on a.Id=b.bscId and a.bsId=b.bsId
-		WHERE a.bsId = #{bsId}
+		left join
+		xhgmnet_bs_bsc_config as b on a.Id=b.bscId and a.bsId=b.bsId
+		WHERE
+		a.bsId = #{bsId}
 		<if test="id!=null and id!=''">
-		and a.Id=#{id}
+			and a.Id=#{id}
 		</if>
 		ORDER BY a.Id ASC
 		LIMIT 0,
@@ -205,9 +207,9 @@
 		left join
 		xhgmnet_bs_bsr as b on a.bsrId=b.Id and a.bsId=b.bsId
 		WHERE a.bsId =
-		#{bsId} 
+		#{bsId}
 		<if test="id!=null and id!=''">
-		and a.bsrId=#{id}
+			and a.bsrId=#{id}
 		</if>
 		order by a.bsrId asc
 
@@ -221,7 +223,7 @@
 		FROM xhgmnet_bs_dpx
 		WHERE bsId = #{bsId}
 		<if test="id!=null and id!=''">
-		and Id=#{id}
+			and Id=#{id}
 		</if>
 		ORDER BY Id ASC
 		LIMIT 0,
@@ -233,7 +235,7 @@
 		FROM xhgmnet_bs_psm
 		WHERE bsId = #{bsId}
 		<if test="id!=null and id!=''">
-		and Id=#{id}
+			and Id=#{id}
 		</if>
 		ORDER BY Id ASC
 		LIMIT 0,
@@ -260,26 +262,24 @@
 	</select>
 	<!--基站断站,声音告警数目 -->
 	<select id="bsOffVoiceCount" resultType="int" useCache="true">
-		<!-- select
-		count(bsId) as total from view_bsstatus where
-		bsId not in (select bsIds
-		from xhgmnet_stationalarm)
-		and bsId not in(select bsId from
-		xhgmnet_bs_status where stats=1 and
-		link=1)
-		and link=1 and bsId
-		in(select bsId from xhgmnet_bs_station
-		where status=1) -->
-		
-		select count(neId) as total from xhgmnet_operations_bsfault 
-		where sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0
+		<!-- select count(bsId) as total from view_bsstatus where bsId not in (select 
+			bsIds from xhgmnet_stationalarm) and bsId not in(select bsId from xhgmnet_bs_status 
+			where stats=1 and link=1) and link=1 and bsId in(select bsId from xhgmnet_bs_station 
+			where status=1) -->
+
+		select count(neId) as total from xhgmnet_operations_bsfault
+		where
+		sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0
 
 	</select>
 	<select id="emhVoiceCount" resultType="map" useCache="true">
-		select count(modType=3000 or null) as ups,count(modType=3001 or null) as water from xhgmnet_operations_bsfault 
-		where sysType=2  and alarmTag=0 and voiceTag=0
+		select
+		count(modType=3000 or null) as ups,count(modType=3001 or null) as
+		water from xhgmnet_operations_bsfault
+		where sysType=2 and alarmTag=0
+		and voiceTag=0
 
-	</select>	
+	</select>
 	<!--基站区域列表告警 -->
 	<select id="bsZoneAlarm" resultType="map" useCache="true"
 		parameterType="List">
@@ -342,14 +342,14 @@
 
 	<!-- 更新基站断站告警状态 -->
 	<update id="updateAlarmStatus">
-		<!-- update xhgmnet_bs_status set stats=1,link=1 where
-		bsId in(select bsId from view_bsstatus where link=1) and
-		bsId not in
-		(select bsIds from xhgmnet_stationalarm) -->
-		update xhgmnet_operations_bsfault  set voiceTag=1 where 
-		(sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0)
-		or(sysType=2 and alarmTag=0 and voiceTag=0)
-		
+		<!-- update xhgmnet_bs_status set stats=1,link=1 where bsId in(select bsId 
+			from view_bsstatus where link=1) and bsId not in (select bsIds from xhgmnet_stationalarm) -->
+		update xhgmnet_operations_bsfault set voiceTag=1 where
+		(sysType=1 and
+		neType=4 and modType=3 and alarmTag=0 and voiceTag=0)
+		or(sysType=2 and
+		alarmTag=0 and voiceTag=0)
+
 	</update>
 	<!-- 基站断站统计 -->
 	<select id="MapBsOfflineCount" resultType="int" useCache="true">
@@ -399,17 +399,20 @@
 		useCache="true" parameterType="map">
 		select a.bsId%1000 as bsId,
 		a.id,
-		CASE weekly
+		CASE
+		weekly
 		WHEN 0 THEN '星期日'
 		WHEN 1 THEN '星期一'
 		WHEN
 		2 THEN '星期二'
-		WHEN 3 THEN '星期三'
+		WHEN 3 THEN
+		'星期三'
 		WHEN 4 THEN '星期四'
 		WHEN 5 THEN '星期五'
 		WHEN 6
 		THEN '星期六'
-		ELSE '未知' END weekly,
+		ELSE '未知' END
+		weekly,
 		a.time,
 		a.from,
 		a.severity,
@@ -419,7 +422,8 @@
 		a.imbusiness,
 		a.dealResult ,
 		a.faultRecoveryTime,
-		CASE WHEN a.faultRecoveryTime!="" THEN
+		CASE WHEN
+		a.faultRecoveryTime!="" THEN
 		TIMESTAMPDIFF(MINUTE,a.time,a.faultRecoveryTime)
 		WHEN
 		a.faultRecoveryTime="" THEN ""
@@ -437,36 +441,41 @@
 		left
 		join
 		xhgmnet_bs_station as b on
-		a.bsId%1000=b.bsId 
+		a.bsId%1000=b.bsId
 
 		where a.time between
-		#{startTime} and #{endTime} order by a.time asc
+		#{startTime} and #{endTime}
+		order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true"
 		parameterType="map">
 
 		select
-		CASE 
+		CASE
 		WHEN a.bsId>=1200 and a.bsId&lt;2000 THEN a.bsId%1000
-		ELSE a.bsId
+		ELSE
+		a.bsId
 		END bsId,
-		
+
 		a.id,
 		a.sysType,a.neId,a.neType,a.mscId,a.location,
 		a.modType,a.modId,a.subModType,
-		a.subModId,a.code,a.category,a.causeCode,a.sureOk,
+		a.subModId,a.code,a.category,a.causeCode,a.sureOk,checkTag,voiceTag,
 		a.orderId,
-		CASE weekly
+		CASE
+		weekly
 		WHEN 0 THEN '星期日'
 		WHEN 1 THEN '星期一'
 		WHEN
 		2 THEN '星期二'
-		WHEN 3 THEN '星期三'
+		WHEN 3 THEN
+		'星期三'
 		WHEN 4 THEN '星期四'
 		WHEN 5 THEN '星期五'
 		WHEN 6
 		THEN '星期六'
-		ELSE '未知' END weekly,
+		ELSE '未知' END
+		weekly,
 		a.time,
 		a.from,
 		a.severity,
@@ -476,7 +485,8 @@
 		a.imbusiness,
 		a.dealResult ,
 		a.faultRecoveryTime,
-		CASE WHEN a.faultRecoveryTime!="" THEN
+		CASE WHEN
+		a.faultRecoveryTime!="" THEN
 		TIMESTAMPDIFF(MINUTE,a.time,a.faultRecoveryTime)
 		WHEN
 		a.faultRecoveryTime="" THEN ""
@@ -490,17 +500,31 @@
 		a.level as alarmLevel,
 		a.alarmTag,b.name,b.level,b.status as
 		tag,b.hometype,b.period,
-		c.reason as reason2,c.suggestion as suggestion2
+		c.reason as reason2,c.suggestion as
+		suggestion2
 		from
 		xhgmnet_operations_bsfault as a
-		left join xhgmnet_bs_station as b on a.bsId%1000=b.bsId 
-		left join xhgmnet_eastcom_knowledge as c on a.neType=c.neType and 
-     	a.modType=c.modType and a.subModType=c.subModType and a.category=c.category 
-     	and a.code=c.code  and a.causeCode=c.causeCode and a.sysType=1
-		
-		
-		<!-- (a.bsId%1000=b.bsId and a.neType=1) or (a.subModId%1000=b.bsId and a.neType=2)
-		or (a.subModId%1000=b.bsId and a.neType=4) -->
+		left join
+		xhgmnet_bs_station as b on
+
+		CASE
+		WHEN a.bsId&lt;=1200 then a.bsId=b.bsId
+		WHEN a.bsId>1200 and a.bsId&lt;2000 THEN
+		a.bsId%1000=b.bsId
+
+		END
+
+
+		left join
+		xhgmnet_eastcom_knowledge as c on a.neType=c.neType and
+		a.modType=c.modType and a.subModType=c.subModType and
+		a.category=c.category
+		and a.code=c.code and a.causeCode=c.causeCode and
+		a.sysType=1
+
+
+		<!-- (a.bsId%1000=b.bsId and a.neType=1) or (a.subModId%1000=b.bsId and 
+			a.neType=2) or (a.subModId%1000=b.bsId and a.neType=4) -->
 		where a.level&lt;5
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
@@ -509,38 +533,45 @@
 			and a.time between #{starttime} and #{endtime}
 		</if>
 		<if test="alarmTag!=null and alarmTag!=''">
-		 and a.alarmTag=#{alarmTag}
+			and a.alarmTag=#{alarmTag}
 		</if>
 
 		<if test="level!=null and level.size()>0">
-     	and a.level in(
-		<foreach collection="level" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
-     	</if>
-     	<if test="alarmTag_value!=null and alarmTag_value.size()>0">
-     	and a.alarmTag in(
-		<foreach collection="alarmTag_value" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
-     	</if>
-     	<if test="sysType>0">
-     	and a.sysType=#{sysType}
-     	</if>
-     	<if test="alarmType==1">
-     	and a.sysType=2 and a.modType=3000 and(a.subModType=170300000000001 or (a.subModType=11 and a.subModId=1003))
-     	</if>
-     	<if test="alarmType==2">
-     	and a.sysType=2 and a.modType=3000 and(a.subModType=80200000000001 or (a.subModType=51 and a.subModId=1003))
-     	</if>
-     	<if test="alarmType==3">
-     	and a.neType=2 and a.modType=1000 and a.code=1 and a.category=2
-     	</if>
-     	<if test="alarmType==4">
-     	 and a.neType=4
-     	</if>
+			and a.level in(
+			<foreach collection="level" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+		<if test="alarmTag_value!=null and alarmTag_value.size()>0">
+			and a.alarmTag in(
+			<foreach collection="alarmTag_value" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+		<if test="sysType>0">
+			and a.sysType=#{sysType}
+		</if>
+		<if test="alarmType==1">
+			and a.sysType=2 and a.modType=3000
+			and(a.subModType=170300000000001 or
+			(a.subModType=11 and
+			a.subModId=1003))
+		</if>
+		<if test="alarmType==2">
+			and a.sysType=2 and a.modType=3000
+			and(a.subModType=80200000000001 or
+			(a.subModType=51 and
+			a.subModId=1003))
+		</if>
+		<if test="alarmType==3">
+			and a.neType=2 and a.modType=1000 and a.code=1 and
+			a.category=2
+		</if>
+		<if test="alarmType==4">
+			and a.neType=4
+		</if>
 
 		order by a.time desc
 
@@ -558,38 +589,42 @@
 			and time between #{starttime} and #{endtime}
 		</if>
 		<if test="alarmTag!=null and alarmTag!=''">
-		 and alarmTag=#{alarmTag}
+			and alarmTag=#{alarmTag}
 		</if>
-		
+
 		<if test="level!=null and level.size()>0">
-     	and level in(
-		<foreach collection="level" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
-     	</if>
-     	<if test="alarmTag_value!=null and alarmTag_value.size()>0">
-     	and alarmTag in(
-		<foreach collection="alarmTag_value" item="id" separator=",">
-			#{id}
-		</foreach>
-		)
-     	</if>
-      	<if test="sysType>0">
-     	and sysType=#{sysType}
-     	</if>
-   	<if test="alarmType==1">
-     	and sysType=2 and modType=3000 and(subModType=170300000000001 or (subModType=11 and subModId=1003))
-     	</if>
-     	<if test="alarmType==2">
-     	and sysType=2 and modType=3000 and(subModType=80200000000001 or (subModType=51 and subModId=1003))
-     	</if>
-     	<if test="alarmType==3">
-     	and neType=2 and modType=1000 and code=1 and category=2
-     	</if>
-     	<if test="alarmType==4">
-     	 and neType=4
-     	</if>
+			and level in(
+			<foreach collection="level" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+		<if test="alarmTag_value!=null and alarmTag_value.size()>0">
+			and alarmTag in(
+			<foreach collection="alarmTag_value" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+		<if test="sysType>0">
+			and sysType=#{sysType}
+		</if>
+		<if test="alarmType==1">
+			and sysType=2 and modType=3000
+			and(subModType=170300000000001 or
+			(subModType=11 and subModId=1003))
+		</if>
+		<if test="alarmType==2">
+			and sysType=2 and modType=3000
+			and(subModType=80200000000001 or
+			(subModType=51 and subModId=1003))
+		</if>
+		<if test="alarmType==3">
+			and neType=2 and modType=1000 and code=1 and category=2
+		</if>
+		<if test="alarmType==4">
+			and neType=4
+		</if>
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"
@@ -686,5 +721,17 @@
 		</if>
 		order by a.time_break desc
 		limit 0,1000
+	</select>
+
+	<select id="linkStatus" resultType="map" useCache="true"
+		parameterType="map">
+		select a.*,b.linkstatus from xhgmnet_esight_link_monitor
+		as a
+
+		left join xhgmnet_esight_querylinklist as b on a.s_name=b.anename and
+		a.e_name=b.znename
+
+		where b.linktype=2
+		GROUP BY a.tag
 	</select>
 </mapper>

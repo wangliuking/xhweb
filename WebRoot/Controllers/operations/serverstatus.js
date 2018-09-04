@@ -69,30 +69,16 @@ xh.load = function() {
  				
  			});
 		 }
+		 $scope.status = function() {
+	 			$http.get("../../bsstatus/linkStatus").success(function(response) {
+	 				$scope.s= response.data;
+	 				
+	 				$scope.serverCanvas();
+	 			});
+		 }
             $scope.serverCanvas=function(){
     			scene.clear();
-    			/*var point1 =xh.createNewNode(wwidth/2,0,10,10,"");
-    			var point2 =xh.createNewNode(wwidth/2,wheight-70,10,10,"");
-    			
-    			var point3 =xh.createNewNode(0,wheight/10+160,10,10,"");
-    			var point4 =xh.createNewNode(wwidth-50,wheight/10+160,10,10,"");
-    			
-    			var point5 =xh.createNewNode(0,wheight/2+150,10,10,"");
-    			var point6 =xh.createNewNode(wwidth-50,wheight/2+150,10,10,10,"");
-    			
-    			var link_point = xh.createNewLink(point1, point2,5);
-    			link_point.strokeColor = '169,169,169';
-    			link_point.dashedPattern =15; // 虚线
-    			
-    			var link_point2 = xh.createNewLink(point3, point4,5);
-    			link_point2.strokeColor = '169,169,169';
-    			link_point2.dashedPattern =15; // 虚线
-    			
-    			var link_point3 = xh.createNewLink(point5, point6,5);
-    			link_point3.strokeColor = '169,169,169';
-    			link_point3.dashedPattern =15; // 虚线
-*/    			
-    			var point1 =xh.createNewNode(wwidth/2-20,0,3,3,"");
+         		var point1 =xh.createNewNode(wwidth/2-20,0,3,3,"");
     			var point2 =xh.createNewNode(wwidth/2-20,wheight-70,3,3,"");
     			var dlink1 = xh.createNewLink(point1, point2,5);
     			dlink1.strokeColor = '169,169,169';
@@ -101,48 +87,23 @@ xh.load = function() {
     			
     			//汇聚交换机s5700
 
-    			var s57_point_one_1 =xh.createNode(200, wheight/10+100,"switch-blue.png","S5700-1");
-    			var s57_point_one_2 =xh.createNode(260, wheight/10+100,"switch-blue.png","S5700-2");
-    			var s57_point_one_3 =xh.createNode(320, wheight/10+100,"switch-blue.png","S5700-3");
-    			var s57_point_one_4 =xh.createNode(380, wheight/10+100,"switch-blue.png","S5700-4");
+    			var s57_point_one_1 =xh.createNode(100, wheight/10+50,"switch-blue.png","ZY-S5700-1");
+    			var s57_point_one_2 =xh.createNode(170, wheight/10+50,"switch-blue.png","ZY-S5700-2");
+    			var s57_point_one_3 =xh.createNode(240, wheight/10+50,"switch-blue.png","ZY-S5700-3");
+    			var s57_point_one_4 =xh.createNode(310, wheight/10+50,"switch-blue.png","ZY-S5700-4");
     			
-    			var s57_point_one_5 =xh.createNode(440, wheight/10+100,"switch-blue.png","S5700-5");
-    			var s57_point_one_6 =xh.createNode(500, wheight/10+100,"switch-blue.png","S5700-6");
-    			var s57_point_one_7 =xh.createNode(560, wheight/10+100,"switch-blue.png","S5700-7");
-    			var s57_point_one_8 =xh.createNode(610, wheight/10+100,"switch-blue.png","S5700-8");
+    			var s57_point_one_5 =xh.createNode(380, wheight/10+50,"switch-blue.png","ZY-S5700-5");
+    			var s57_point_one_6 =xh.createNode(450, wheight/10+50,"switch-blue.png","ZY-S5700-6");
+    			var s57_point_one_7 =xh.createNode(520, wheight/10+50,"switch-blue.png","ZY-S5700-7");
+    			var s57_point_one_8 =xh.createNode(590, wheight/10+50,"switch-blue.png","ZY-S5700-8");
     			
     			//NE16
-    			var ne16_point_one_1 =xh.createNode(300, wheight/10+200,"sw1.png","NE16");
-    			var ne16_point_one_2 =xh.createNode(400, wheight/10+200,"sw1.png","NE16");
-    			var ne16_point_one_3 =xh.createNode(300, wheight/10+300,"sw1.png","NE16");
-    			var ne16_point_one_4 =xh.createNode(400, wheight/10+300,"sw1.png","NE16");
-    			//NE16-连线
-                var link1 = xh.createNewLink(ne16_point_one_1, ne16_point_one_2,5);
-                link1.strokeColor = '0,255,0';
-                var link2 = xh.createNewLink(ne16_point_one_3, ne16_point_one_4,5);
-                link2.strokeColor = '0,255,0';
-                var link3 = xh.createNewLink(ne16_point_one_1, ne16_point_one_3,5);
-                link3.strokeColor = '0,255,0';
-                var link4 = xh.createNewLink(ne16_point_one_2, ne16_point_one_4,5);
-                link4.strokeColor = '0,255,0';
-              //NE16-S3700连线
-                var link11= xh.createNewLink(ne16_point_one_1, s57_point_one_3,5);
-                link11.strokeColor = '0,255,0';
-                var link12= xh.createNewLink(ne16_point_one_1, s57_point_one_4,5);
-                link12.strokeColor = '0,255,0';
-                var link13= xh.createNewLink(ne16_point_one_2, s57_point_one_5,5);
-                link13.strokeColor = '0,255,0';
-                var link14= xh.createNewLink(ne16_point_one_2, s57_point_one_6,5);
-                link14.strokeColor = '0,255,0';
-                var link16= xh.createNewLink(ne16_point_one_3, s57_point_one_1,5);
-                link16.strokeColor = '0,255,0';
-                var link17= xh.createNewLink(ne16_point_one_3, s57_point_one_2,5);
-                link17.strokeColor = '0,255,0';
-                var link18= xh.createNewLink(ne16_point_one_4, s57_point_one_7,5);
-                link18.strokeColor = '0,255,0';
-                var link19= xh.createNewLink(ne16_point_one_4, s57_point_one_8,5);
-                link19.strokeColor = '0,255,0';
+    			var ne16_point_one_1 =xh.createNode(300, wheight/10+200,"sw1.png","ZY_NE16-1");
     			
+    			var ne16_point_one_2 =xh.createNode(300, wheight/10+300,"sw1.png","ZY_NE16-2");
+    			var ne16_point_one_3 =xh.createNode(400, wheight/10+200,"sw1.png","ZY_NE16-3");
+    			var ne16_point_one_4 =xh.createNode(400, wheight/10+300,"sw1.png","ZY_NE16-4");
+    		
     			//思科C3560
     			var c3560_point_one_1 =xh.createNode(200, wheight/10+200,"switch3.png","C3560");
     			var c3560_point_one_2 =xh.createNode(200, wheight/10+300,"switch3.png","C3560");
@@ -150,32 +111,22 @@ xh.load = function() {
     			var c3560_point_one_3 =xh.createNewNode(150, wheight/10+215,2,2,"");
     			var c3560_point_one_4 =xh.createNewNode(150, wheight/10+315,2,2,"");
     			//思科C3560-连线
-    			 var link5 = xh.createNewLink(c3560_point_one_1, ne16_point_one_1,5);
-                 link5.strokeColor = '0,255,0';
-                 var link6 = xh.createNewLink(c3560_point_one_2, ne16_point_one_3,5);
-                 link6.strokeColor = '0,255,0';
+    			var link5 = xh.createNewLink(c3560_point_one_1, ne16_point_one_1,5);
+                 link5.strokeColor = '220,220,220';
+                 var link6 = xh.createNewLink(c3560_point_one_2, ne16_point_one_2,5);
+                 link6.strokeColor = '220,220,220';
                  var link7 = xh.createNewLink(c3560_point_one_1, c3560_point_one_2,5);
-                 link7.strokeColor = '0,255,0';
+                 link7.strokeColor = '220,220,220';
                  var link8 = xh.createNewLink(c3560_point_one_1, c3560_point_one_3,5);
-                 link8.strokeColor = '0,255,0';
+                 link8.strokeColor = '220,220,220';
                  var link9 = xh.createNewLink(c3560_point_one_2, c3560_point_one_4,5);
-                 link9.strokeColor = '0,255,0';
+                 link9.strokeColor = '220,220,220';
     			
     			
     			//核心交换机
     			
     			var s7703_point_one =xh.createNode(400, wheight/10+360,"server7.png","S7703");
-    			//核心交换机-连线
-    			 var link10 = xh.createNewLink(s7703_point_one, ne16_point_one_4,5);
-                 link10.strokeColor = '0,255,0';
-               
-                 
-                 
-                 var S3700_point_one=xh.createNode(480, wheight/10+380,"sw1.png","S3700");
-                 
-                 var link21 = xh.createNewLink(S3700_point_one,s7703_point_one,5);
-                 link21.strokeColor = '0,255,0';
-                 
+                var S3700_point_one=xh.createNode(480, wheight/10+380,"sw1.png","S3700");
                  //中和应用平台
                  var server_point_one=xh.createNode(550, wheight/10+380,"server4.png","综合应用与平台");
                  //中和应用平台-连线
@@ -190,56 +141,46 @@ xh.load = function() {
                  
                  
                  
-                 
-                 
-
+     			//NE16-连线
+     			xh.createNewLink(s7703_point_one, ne16_point_one_1,"[1]",$scope.s.s_1);
+                xh.createNewLink(ne16_point_one_1, s57_point_one_2,"[2]",$scope.s.s_2);
+                xh.createNewLink(ne16_point_one_1, ne16_point_one_2,"[3]",$scope.s.s_3);
+                xh.createNewLink(ne16_point_one_1, s57_point_one_1,"[4]",$scope.s.s_4);
+                xh.createNewLink(ne16_point_one_1, ne16_point_one_3,"[5]",$scope.s.s_5);
+                xh.createNewLink(ne16_point_one_1, ne16_point_one_4,"[6]",$scope.s.s_6);
+                xh.createNewLink(ne16_point_one_2, s57_point_one_3,"[7]",$scope.s.s_7);
+                xh.createNewLink(ne16_point_one_2, s57_point_one_4,"[8]",$scope.s.s_8);
+                xh.createNewLink(ne16_point_one_2, ne16_point_one_3,"[9]",$scope.s.s_9);
+                xh.createNewLink(ne16_point_one_2, ne16_point_one_4,"[10]",$scope.s.s_10);
+                xh.createNewLink(ne16_point_one_3, s57_point_one_6,"[11]",$scope.s.s_11);
+                xh.createNewLink(ne16_point_one_3, s57_point_one_5,"[12]",$scope.s.s_12);
+                xh.createNewLink(ne16_point_one_3, ne16_point_one_4,"[13]",$scope.s.s_13);
+                xh.createNewLink(ne16_point_one_4, S3700_point_one,"[14]",$scope.s.s_14);
+                xh.createNewLink(ne16_point_one_4, s57_point_one_8,"[15]",$scope.s.s_15);
+                xh.createNewLink(ne16_point_one_4, s57_point_one_7,"[16]",$scope.s.s_16);
      			//交换中心2
      			
      			//汇聚交换机s5700
 
-     			var s57_point_two_1 =xh.createNode(wwidth/2, wheight/10+100,"switch-blue.png","S5700-1");
-     			var s57_point_two_2 =xh.createNode(wwidth/2+60, wheight/10+100,"switch-blue.png","S5700-2");
-     			var s57_point_two_3 =xh.createNode(wwidth/2+120, wheight/10+100,"switch-blue.png","S5700-3");
-     			var s57_point_two_4 =xh.createNode(wwidth/2+180, wheight/10+100,"switch-blue.png","S5700-4");
+     			var s57_point_two_1 =xh.createNode(wwidth/2, wheight/10+50,"switch-blue.png","RZ-S5700-1");
+     			var s57_point_two_2 =xh.createNode(wwidth/2+70, wheight/10+50,"switch-blue.png","RZ-S5700-2");
+     			var s57_point_two_3 =xh.createNode(wwidth/2+140, wheight/10+50,"switch-blue.png","RZ-S5700-3");
+     			var s57_point_two_4 =xh.createNode(wwidth/2+210, wheight/10+50,"switch-blue.png","RZ-S5700-4");
      			
-     			var s57_point_two_5 =xh.createNode(wwidth/2+240, wheight/10+100,"switch-blue.png","S5700-5");
-     			var s57_point_two_6 =xh.createNode(wwidth/2+300, wheight/10+100,"switch-blue.png","S5700-6");
-     			var s57_point_two_7 =xh.createNode(wwidth/2+360, wheight/10+100,"switch-blue.png","S5700-7");
-     			var s57_point_two_8 =xh.createNode(wwidth/2+420, wheight/10+100,"switch-blue.png","S5700-8");
+     			var s57_point_two_5 =xh.createNode(wwidth/2+280, wheight/10+50,"switch-blue.png","RZ-S5700-5");
+     			var s57_point_two_6 =xh.createNode(wwidth/2+350, wheight/10+50,"switch-blue.png","RZ-S5700-6");
+     			var s57_point_two_7 =xh.createNode(wwidth/2+420, wheight/10+50,"switch-blue.png","RZ-S5700-7");
+     			var s57_point_two_8 =xh.createNode(wwidth/2+490, wheight/10+50,"switch-blue.png","RZ-S5700-8");
      			
      			//NE16
-     			var ne16_point_two_1 =xh.createNode(wwidth/2+100, wheight/10+200,"sw1.png","NE16");
-     			var ne16_point_two_2 =xh.createNode(wwidth/2+200, wheight/10+200,"sw1.png","NE16");
-     			var ne16_point_two_3 =xh.createNode(wwidth/2+100, wheight/10+300,"sw1.png","NE16");
-     			var ne16_point_two_4 =xh.createNode(wwidth/2+200, wheight/10+300,"sw1.png","NE16");
-     			//NE16-连线
-                 var link101 = xh.createNewLink(ne16_point_two_1, ne16_point_two_2,5);
-                 link101.strokeColor = '0,255,0';
-                 var link102 = xh.createNewLink(ne16_point_two_3, ne16_point_two_4,5);
-                 link102.strokeColor = '0,255,0';
-                 var link103 = xh.createNewLink(ne16_point_two_1, ne16_point_two_3,5);
-                 link103.strokeColor = '0,255,0';
-                 var link104 = xh.createNewLink(ne16_point_two_2, ne16_point_two_4,5);
-                 link104.strokeColor = '0,255,0';
-                 
-               //NE16-S5700连线
-                 var link105= xh.createNewLink(ne16_point_two_1, s57_point_two_3,5);
-                 link105.strokeColor = '0,255,0';
-                 var link106= xh.createNewLink(ne16_point_two_1, s57_point_two_4,5);
-                 link106.strokeColor = '0,255,0';
-                 var link107= xh.createNewLink(ne16_point_two_2, s57_point_two_5,5);
-                 link107.strokeColor = '0,255,0';
-                 var link108= xh.createNewLink(ne16_point_two_2, s57_point_two_6,5);
-                 link108.strokeColor = '0,255,0';
-                 
-                 var link118= xh.createNewLink(ne16_point_two_3, s57_point_two_1,5);
-                 link118.strokeColor = '0,255,0';
-                 var link119= xh.createNewLink(ne16_point_two_3, s57_point_two_2,5);
-                 link119.strokeColor = '0,255,0';
-                 var link120= xh.createNewLink(ne16_point_two_4, s57_point_two_7,5);
-                 link120.strokeColor = '0,255,0';
-                 var link121= xh.createNewLink(ne16_point_two_4, s57_point_two_8,5);
-                 link121.strokeColor = '0,255,0';
+     			
+     			var ne16_point_two_1 =xh.createNode(wwidth/2+200, wheight/10+200,"sw1.png","RZ_NE16-1");
+     			
+     			
+     			var ne16_point_two_2 =xh.createNode(wwidth/2+200, wheight/10+300,"sw1.png","RZ_NE16-2");
+     			var ne16_point_two_3 =xh.createNode(wwidth/2+100, wheight/10+200,"sw1.png","RZ_NE16-3");
+     			var ne16_point_two_4 =xh.createNode(wwidth/2+100, wheight/10+300,"sw1.png","RZ_NE16-4");
+     			
                  
                //思科C3560
      			var c3560_point_two_1 =xh.createNode(wwidth/2+300, wheight/10+200,"switch3.png","C3560");
@@ -249,29 +190,26 @@ xh.load = function() {
      			var c3560_point_two_4 =xh.createNewNode(wwidth/2+400, wheight/10+315,2,2,"");
      			//思科C3560-连线
      			 var link109 = xh.createNewLink(c3560_point_two_1, ne16_point_two_1,5);
-                  link109.strokeColor = '0,255,0';
-                  var link110 = xh.createNewLink(c3560_point_two_2, ne16_point_two_3,5);
-                  link110.strokeColor = '0,255,0';
+                  link109.strokeColor = '220,220,220';
+                  var link110 = xh.createNewLink(c3560_point_two_2, ne16_point_two_2,5);
+                  link110.strokeColor = '220,220,220';
                   var link111 = xh.createNewLink(c3560_point_two_1, c3560_point_two_2,5);
-                  link111.strokeColor = '0,255,0';
+                  link111.strokeColor = '220,220,220';
                   var link112 = xh.createNewLink(c3560_point_two_1, c3560_point_two_3,5);
-                  link112.strokeColor = '0,255,0';
+                  link112.strokeColor = '220,220,220';
                   var link113 = xh.createNewLink(c3560_point_two_2, c3560_point_two_4,5);
-                  link113.strokeColor = '0,255,0';
+                  link113.strokeColor = '220,220,220';
                 
                 //核心交换机
       			
       			var s7703_point_two =xh.createNode(wwidth/2+100, wheight/10+360,"server7.png","S7703");
       			//核心交换机-连线
-      			 var link114 = xh.createNewLink(s7703_point_two, ne16_point_two_3,5);
-                   link114.strokeColor = '0,255,0';
-               
-                   
+      		
                  
-                   var link116 = xh.createNewLink(ne16_point_one_2,ne16_point_two_1,5);
+                  /* var link116 = xh.createNewLink(ne16_point_one_2,ne16_point_two_1,5);
                    link116.strokeColor = '0,255,0';
                    var link117 = xh.createNewLink(ne16_point_one_4,ne16_point_two_3,5);
-                   link117.strokeColor = '0,255,0';
+                   link117.strokeColor = '0,255,0';*/
                    
                    
              
@@ -293,7 +231,30 @@ xh.load = function() {
                    
                    var link122 = xh.createNewLink(ar3260_point_two,s7703_point_two,5);
                    link122.strokeColor = '0,255,0';
-                 
+                   var link122 = xh.createNewLink(ne16_point_two_4,s7703_point_two,5);
+                   link122.strokeColor = '0,255,0';
+                   
+                   
+                   
+                 //NE16-连线
+       			 
+                   xh.createNewLink(ne16_point_two_1, s57_point_two_1,"[101]",$scope.s.s_101);
+                   xh.createNewLink(ne16_point_two_1, s57_point_two_2,"[102]",$scope.s.s_102);
+                   xh.createNewLink(ne16_point_two_1, ne16_point_two_2,"[103]",$scope.s.s_103);
+                   xh.createNewLink(ne16_point_two_1, ne16_point_two_3,"[104]",$scope.s.s_104);
+                   xh.createNewLink(ne16_point_two_1, ne16_point_two_4,"[105]",$scope.s.s_105);
+                   xh.createNewLink(ne16_point_two_2, s57_point_two_3,"[106]",$scope.s.s_106);
+                   xh.createNewLink(ne16_point_two_2, s57_point_two_4,"[107]",$scope.s.s_107);
+                   xh.createNewLink(ne16_point_two_2, ne16_point_two_3,"[108]",$scope.s.s_108);
+                   xh.createNewLink(ne16_point_two_2, ne16_point_two_4,"[109]",$scope.s.s_109);
+                   xh.createNewLink(ne16_point_two_3, s57_point_two_5,"[110]",$scope.s.s_110);
+                   xh.createNewLink(ne16_point_two_3, ne16_point_two_4,"[111]",$scope.s.s_111);
+                   xh.createNewLink(ne16_point_two_3, ne16_point_one_3,"[112]",$scope.s.s_112);
+                   xh.createNewLink(ne16_point_two_3, s57_point_two_6,"[113]",$scope.s.s_113);
+                   xh.createNewLink(ne16_point_two_4, s57_point_two_7,"[114]",$scope.s.s_114);
+                   xh.createNewLink(ne16_point_two_4, s57_point_two_8,"[115]",$scope.s.s_115);
+                   xh.createNewLink(ne16_point_two_4, ne16_point_one_4,"[116]",$scope.s.s_116);
+                   
                  
                //服务器
                  $http.get("../../server/list").success(function(response){
@@ -328,6 +289,49 @@ xh.load = function() {
                   	    	  }
                   	    	 
                   	     }
+         				 vmNode.addEventListener('mouseover', function(event){
+   	                	  var d=data[this.index];
+   	                	  var html="<table>";
+   	                	  html+="<tr><td>服务器名称</td><td>"+d.name+"</td></tr>";
+   	                	  if(d.cpuLoad>=95){
+   	                		  html+="<tr style='color:#fff;background:red;'><td>CPU使用率</td><td>"+d.cpuLoad+"%</td></tr>";
+   	                	  }else{
+   	                		  html+="<tr><td>CPU使用率</td><td>"+d.cpuLoad+"%</td></tr>";
+   	                	  }
+   	                	  
+   	                	  html+="<tr><td>内存大小</td><td>"+d.memSize+"G</td></tr>";
+   	                	  html+="<tr><td>剩余内存</td><td>"+d.memResidue+"G</td></tr>";
+   	                	  html+="<tr><td>磁盘空间</td><td>"+d.diskSize+"G</td></tr>";
+   	                	  if(d.diskResidue<10 ){
+   	                		  html+="<tr style='color:#fff;background:red;'><td>剩余空间</td><td>"+d.diskResidue+"G</td></tr>";
+   	               	      }else{
+   	               	    	 html+="<tr><td>剩余空间</td><td>"+d.diskResidue+"G</td></tr>";
+   	               	      }
+   	                	  html+="<tr><td>更新时间</td><td>"+d.time+"</td></tr>";
+   	                	 
+   	                	  html+="<table>";
+   	                	 
+   	                	  $(".server-info1").html(html);
+   	                	  
+   	                	  var top=event.pageY,left=event.pageX+20;
+   	                	  var clientW=document.documentElement.clientWidth;
+   	                	  var clientH=document.documentElement.clientHeight;
+   	                	  if(clientW-left<200){
+   	                		  left-=250;
+   	                	  }
+   	                	  if(clientH-top<250){
+   	                		  top-=160;
+   	                	  }
+   	                	  
+   	                	  $(".server-info1").css({
+   	                	        top: top,
+   	                	        left: left
+   	                	    }).show();
+   	                  });
+                        
+   	                  vmNode.addEventListener('mouseout', function(event){
+   	                	  $(".server-info1").hide();
+   	                  });
          			}
          		 })
     			
@@ -360,10 +364,10 @@ xh.load = function() {
     			
     			
     			//连线
-                var link1 = xh.createNewLink(server1, sw3,5);
+               /* var link1 = xh.createNewLink(server1, sw3,5);
                 link1.strokeColor = '0,255,0';
                 var link2 = xh.createNewLink(emh1, sw2,5);
-                link2.strokeColor = '0,255,0';
+                link2.strokeColor = '0,255,0';*/
                 
                 
                 
@@ -375,7 +379,7 @@ xh.load = function() {
                 
 
                 
-                $scope.emh();
+                //$scope.emh();
                //状态监测
                /* emh1.addEventListener('mouseover', function(event){
               	  var html="<table>";
@@ -426,20 +430,16 @@ xh.load = function() {
          
 		   
 		}
-            $scope.serverCanvas();
+            $scope.status();
+            
+            setInterval(function(){
+            	$scope.status();
+            }, 30000);
+            
             
             $(window).resize(function(){
             	$scope.serverCanvas();
-            })
-	/*	setInterval(function(){
-			$scope.drawCanvas();
-        }, 10000);*/
-	
-		
-		/*setInterval(function(){
-			$scope.refresh();
-			
-			}, 10000);*/ //每隔 10 秒 
+            }) 
 		
 	});
 };
@@ -461,15 +461,18 @@ xh.createNewNode=function(x, y, w, h,text){
 }
 
 //简单连线
-xh.createNewLink=function(nodeA, nodeZ, text,lineType){
+xh.createNewLink=function(nodeA, nodeZ, text,state){
     var link = new JTopo.Link(nodeA, nodeZ, text);        
     link.lineWidth = 1; // 线宽
     link.bundleOffset = 60; // 折线拐角处的长度
     link.bundleGap = 20; // 线条之间的间隔
     link.textOffsetY = 3; // 文本偏移量（向下3个像素）
-    link.strokeColor = '248,248,255';
-   
-    
+    //link.strokeColor = '248,248,255';
+    if(state==0){
+		 link.strokeColor = '0,255,0';
+	 }else{
+		 link.strokeColor = '255,0,0';
+	 }
     scene.add(link);
     return link;
 }

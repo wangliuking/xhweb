@@ -1513,5 +1513,22 @@ public class BsStatusController {
 		}
 
 	}
+	@RequestMapping(value = "/linkStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public void linkStatus(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("data",BsStatusService.linkStatus());
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
 
 }

@@ -10,6 +10,15 @@ xh.load = function() {
 	var pageSize = $("#page-limit").val();
 	$("#starttime").val(xh.getDay());
 	$("#endtime").val(xh.getOneDay());
+	app.filter('bsIdFormat', function() { // 可以注入依赖
+		return function(text) {
+			if(parseInt(text)>1200 && parseInt(text)<2000){
+				return parseInt(text)%1000
+			}else{
+				return text;
+			}
+		};
+	});
 	app.controller("audio", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值

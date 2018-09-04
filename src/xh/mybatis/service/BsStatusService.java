@@ -891,5 +891,31 @@ public class BsStatusService {
 		}
 		return count;
 	}
+	public static Map<String,Object> linkStatus() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		Map<String,Object> rMap=new HashMap<String, Object>();
+		try {
+			list = mapper.linkStatus();
+			
+			for (Map<String, Object> map : list) {
+				rMap.put("s_"+map.get("tag"),map.get("linkstatus"));
+			}
+			
+			System.out.println(rMap);
+			
+			
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rMap;
+	}
 
 }
