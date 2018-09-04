@@ -65,7 +65,7 @@
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="up.o_check_cut=='on'">
 										<i class="fa fa-plus-circle"></i>&nbsp;核减
 									</button>			
 									
@@ -92,11 +92,12 @@
 										<td>{{x.userUnit}}</td>
 										<td>基站核减</td>
 										<td>{{x.requestTime}}</td>
-										<td ng-if="x.checked==-1" class="td-danger">核减申请不通过</td>
+										<td ng-if="x.checked==-2" class="td-danger">核减申请不通过</td>
 										<td ng-if="x.checked==0" class="td-warning">已发起核减申请</td>
-										<td ng-if="x.checked==1" class="td-warning">核减审核通过</td>
-										<td ng-if="x.checked==2" class="td-warning">已向管理方提交相关报告</td>
-										<td ng-if="x.checked==3" class="td-warning">核减完成</td>
+										<td ng-if="x.checked==1" class="td-warning">运维负责人核减审核通过</td>
+										<td ng-if="x.checked==2" class="td-warning">管理方核减审核通过</td>
+										<td ng-if="x.checked==3" class="td-warning">已向管理方提交相关报告</td>
+										<td ng-if="x.checked==4" class="td-success">核减完成</td>
 										<td style="text-align:center">
 
 										<a href="#"
@@ -104,19 +105,23 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
-										<a ng-if="up.o_check_cut=='on' && x.checked==-1"
+										<a ng-if="up.o_check_cut=='on' && x.checked==-2"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新发起核减申请</a>
 
 										<a ng-if="up.o_check_cut=='on' && x.checked==0"
+											   href="#" ng-click="checkWin($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;运维负责人审核核减申请</a>
+
+										<a ng-if="up.o_check_cut=='on' && x.checked==1"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核核减申请</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方审核核减申请</a>
 												
-									    <a ng-if="up.o_check_cut=='on' && x.checked==1"
+									    <a ng-if="up.o_check_cut=='on' && x.checked==2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方提交资料</a>
 										
-										<a ng-if="up.o_check_cut=='on' && x.checked==2"
+										<a ng-if="up.o_check_cut=='on' && x.checked==3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;结束核减</a>
 

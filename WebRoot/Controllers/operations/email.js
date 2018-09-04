@@ -164,8 +164,11 @@ xh.load = function() {
 				url="../business/communicationsupport.html";
 			}else if(title=="资产变更申请"){
 				url="../business/assetCheck.html";
+			}else if(title=="核减流程"){
+				console.log(" title : "+title);
+                url="../business/checkCut.html";
 			}else{
-				
+
 			}
 			window.location.href=url;
 		}

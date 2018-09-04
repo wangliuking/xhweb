@@ -116,6 +116,25 @@ xh.load = function() {
             var sheetId = temp.id;
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
+				console.log("sheetId"+$scope.sheetData.id);
+                var data= response.items;  //开始时间
+				var date1 = data.breakTime;
+                var date2 = data.restoreTime;    //结束时间
+                var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
+                //------------------------------
+                //计算出相差天数
+                var days=Math.floor(date3/(24*3600*1000))
+                //计算出小时数
+                var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+                var hours=Math.floor(leave1/(3600*1000))
+                //计算相差分钟数
+                var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+                var minutes=Math.floor(leave2/(60*1000))
+                //计算相差秒数
+                var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+                var seconds=Math.round(leave3/1000)
+                //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
+                $scope.calcData = minutes;
             });
             $("#sheet").modal('show');
         }
@@ -132,17 +151,20 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==-1){
-                $("#checkWin-1").modal('show');
+            if($scope.checkData.checked==-2){
+                $("#checkWin-2").modal('show');
             }
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
-				$("#checkWin1").modal('show');
-			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==1){
+            if($scope.checkData.checked==0){
+                $("#checkWin1").modal('show');
+            }
+			if($scope.checkData.checked==1){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==2){
+			if( $scope.checkData.checked==2){
 				$("#checkWin3").modal('show');
+			}
+			if($scope.checkData.checked==3){
+				$("#checkWin4").modal('show');
 			}
 
 	    };
@@ -277,7 +299,7 @@ xh.load = function() {
 /*修改核减申请表*/
 xh.sheetChange = function() {
     var bean={
-        id:$("div[name='id']").val(),
+        id:$("div[name='id']").text(),
         bsId:$("input[name='bsId']").val(),
         name:$("input[name='name']").val(),
         hometype:$("input[name='hometype']").val(),
@@ -348,17 +370,17 @@ xh.add = function() {
 	});
 };
 
-xh.checkneg1 = function() {
+xh.checkneg2 = function() {
     $.ajax({
-        url : '../../checkCut/checkedNegOne',
+        url : '../../checkCut/checkedNegTwo',
         type : 'POST',
         dataType : "json",
         async : true,
-        data:$("#checkForm-1").serializeArray(),
+        data:$("#checkForm-2").serializeArray(),
         success : function(data) {
 
             if (data.result ==1) {
-                $('#checkWin-1').modal('hide');
+                $('#checkWin-2').modal('hide');
                 xh.refresh();
                 toastr.success(data.message, '提示');
 
@@ -372,16 +394,39 @@ xh.checkneg1 = function() {
 };
 
 xh.check1 = function() {
+    $.ajax({
+        url : '../../checkCut/checkedOne',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data:$("#checkForm1").serializeArray(),
+        success : function(data) {
+
+            if (data.result ==1) {
+                $('#checkWin1').modal('hide');
+                xh.refresh();
+                toastr.success(data.message, '提示');
+
+            } else {
+                toastr.error("创建失败", '提示');
+            }
+        },
+        error : function() {
+        }
+    });
+};
+
+xh.check2 = function() {
 	$.ajax({
-		url : '../../checkCut/checkedOne',
+		url : '../../checkCut/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkForm1").serializeArray(),
+		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin1').modal('hide');
+				$('#checkWin2').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -394,17 +439,17 @@ xh.check1 = function() {
 	});
 };
 /*运维负责人发起审批*/
-xh.check2 = function() {
+xh.check3 = function() {
 	$.ajax({
-		url : '../../checkCut/checkedTwo',
+		url : '../../checkCut/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:$("#checkForm2").serializeArray(),
+		data:$("#checkForm3").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
-				$('#checkWin2').modal('hide');
+				$('#checkWin3').modal('hide');
 				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -418,28 +463,6 @@ xh.check2 = function() {
 	});
 };
 /*管理方审批*/
-xh.check3 = function() {
-	$.ajax({
-		url : '../../checkCut/checkedThree',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm3").serializeArray(),
-		success : function(data) {
-			if (data.result ==1) {
-				$('#checkWin3').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
-/*通知抢修组进行整改*/
 xh.check4 = function() {
 	$.ajax({
 		url : '../../checkCut/checkedFour',
@@ -448,10 +471,8 @@ xh.check4 = function() {
 		async : true,
 		data:$("#checkForm4").serializeArray(),
 		success : function(data) {
-
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				$("input[name='result']").val(1);
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -463,48 +484,26 @@ xh.check4 = function() {
 		}
 	});
 };
-/*用户确认*/
-xh.check5 = function() {
-	$.ajax({
-		url : '../../checkCut/checkedFive',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:$("#checkForm5").serializeArray(),
-		success : function(data) {
 
-			if (data.result ==1) {
-				$('#checkWin5').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-		}
-	});
-};
 /* 上传文件 */
 xh.upload = function(index) {
-    if (index == -1) {
+    if (index == -2) {
         path = 'filePath-1';
         note = 'uploadResult-1';
     }
-	if (index == 1) {
+	if (index == 2) {
 		path = 'filePath1';
 		note = 'uploadResult1';
 	}
-	if (index == 2) {
+	if (index == 3) {
 		path = 'filePath2';
 		note = 'uploadResult2';
 	}
-	if (index == 3) {
+	if (index == 4) {
 		path = 'filePath3';
 		note = 'uploadResult3';
 	}
-    if (index == 4) {
+    if (index == 5) {
         path = 'filePath4';
         note = 'uploadResult4';
     }

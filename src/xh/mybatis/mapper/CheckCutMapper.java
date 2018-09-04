@@ -32,7 +32,7 @@ public interface CheckCutMapper {
      * @return
      * @throws Exception
      */
-    public int checkedNegOne(CheckCutBean bean)throws Exception;
+    public int checkedNegTwo(CheckCutBean bean)throws Exception;
     /**
      * 申请
      * @param bean
@@ -40,6 +40,7 @@ public interface CheckCutMapper {
      * @throws Exception
      */
     public int insertCheckCut(CheckCutBean bean)throws Exception;
+
     /**
      *
      * @param bean
@@ -56,14 +57,23 @@ public interface CheckCutMapper {
      */
     public int checkedTwo(CheckCutBean bean)throws Exception;
 
+    /**
+     *
+     * @param bean
+     * @return
+     * @throws Exception
+     */
     public int checkedThree(CheckCutBean bean)throws Exception;
 
     public int checkedFour(CheckCutBean bean)throws Exception;
 
-    public int checkedFive(CheckCutBean bean)throws Exception;
-
     public CheckCutBean sheetShow(Map<String,Object> param)throws Exception;
 
     public int sheetChange(CheckCutBean bean)throws  Exception;
+
+    /**
+     * 根据基站id查询详细信息，用于填充核减表
+     */
+    public Map<String,Object> selectBsInformationById(Map<String,Object> map)throws Exception;
 
 }

@@ -40,31 +40,38 @@
     <insert id="insertCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,breakTime,restoreTime) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{breakTime},#{restoreTime})
+        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,period,applyTime)
+        values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{period},#{applyTime})
     </insert>
 
     <!--运维人员重新发起核减申请 -->
-    <update id="checkedNegOne" parameterType="xh.mybatis.bean.CheckCutBean">
+    <update id="checkedNegTwo" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
         fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1},time1=#{time1},user1=#{user1},checked=#{checked} where id=#{id}
     </update>
 
-    <!--管理方审核核减申请 -->
+    <!--运维负责人审核核减申请 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
         user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
     </update>
 
-    <!--运维人员提交相关资料-->
+    <!--管理方审核核减申请 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        user3=#{user3},time3=#{time3},note3=#{note3},fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where id=#{id}
+        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+    </update>
+
+    <!--运维人员提交相关资料-->
+    <update id="checkedThree" parameterType="xh.mybatis.bean.CheckCutBean">
+        update xhgmnet_bs_checkcut set
+        user4=#{user4},time4=#{time4},note4=#{note4},fileName2=#{fileName2},filePath2=#{filePath2},checked=#{checked} where id=#{id}
     </update>
 
     <!--运维人员结束流程-->
-    <update id="checkedThree" parameterType="xh.mybatis.bean.CheckCutBean">
+    <update id="checkedFour" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        user4=#{user4},time4=#{time4},note4=#{note4},checked=#{checked} where id=#{id}
+        user5=#{user5},time5=#{time5},note5=#{note5},checked=#{checked} where id=#{id}
     </update>
 
     <!-- 查询系统升级表格数据 -->
@@ -82,5 +89,10 @@
         a.alarmTime=#{alarmTime},a.situation=#{situation},a.rules=#{rules},a.period=#{period},
         a.applyTime=#{applyTime},a.persion1=#{persion1},a.persion2=#{persion2},a.suggest=#{suggest},a.persion3=#{persion3} where a.id=#{id}
     </update>
+
+    <!-- 根据基站id查询详细信息，用于填充核减表 -->
+    <select id="selectBsInformationById" parameterType="map" resultType="map">
+        select * from xhgmnet_bs_information where bsId=#{bsId}
+    </select>
 
 </mapper>
