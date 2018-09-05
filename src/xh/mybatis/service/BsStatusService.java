@@ -902,10 +902,6 @@ public class BsStatusService {
 			for (Map<String, Object> map : list) {
 				rMap.put("s_"+map.get("tag"),map.get("linkstatus"));
 			}
-			
-			System.out.println(rMap);
-			
-			
 			sqlSession.close();
 
 		} catch (NullPointerException e) {
