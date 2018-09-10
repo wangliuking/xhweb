@@ -51,6 +51,7 @@ public class CheckCutBean {
     private String powerTimeTwo;
     private String maintainTime;
     private String isPower;
+    private String isPowerTime;
     private String firstDesc;
     private String desc;
     private String breakTime;
@@ -578,6 +579,15 @@ public class CheckCutBean {
         this.persion3 = persion3;
     }
 
+    public String getIsPowerTime() {
+        return isPowerTime;
+    }
+
+    public void setIsPowerTime(String isPowerTime) {
+        this.isPowerTime = isPowerTime;
+    }
+
+
     @Override
     public String toString() {
         return "CheckCutBean{" +
@@ -631,6 +641,7 @@ public class CheckCutBean {
                 ", powerTimeTwo='" + powerTimeTwo + '\'' +
                 ", maintainTime='" + maintainTime + '\'' +
                 ", isPower='" + isPower + '\'' +
+                ", isPowerTime='" + isPowerTime + '\'' +
                 ", firstDesc='" + firstDesc + '\'' +
                 ", desc='" + desc + '\'' +
                 ", breakTime='" + breakTime + '\'' +

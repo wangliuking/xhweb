@@ -18,6 +18,7 @@ public class ErrCheck {
 	private String cmdtype = "errcheck";
 	private String serialnumber;
 	private String userid;
+	private String hungorder;
 	private String longitude;
 	private String latitude;
 	private String address;
@@ -57,13 +58,25 @@ public class ErrCheck {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public String getHungorder() {
+		return hungorder;
+	}
+
+	public void setHungorder(String hungorder) {
+		this.hungorder = hungorder;
+	}
+
 	@Override
 	public String toString() {
-		return "ErrCheck [cmdtype=" + cmdtype + ", serialnumber="
-				+ serialnumber + ", userid=" + userid + ", longitude="
-				+ longitude + ", latitude=" + latitude + ", address=" + address
-				+ "]";
+		return "ErrCheck{" +
+				"cmdtype='" + cmdtype + '\'' +
+				", serialnumber='" + serialnumber + '\'' +
+				", userid='" + userid + '\'' +
+				", hungorder='" + hungorder + '\'' +
+				", longitude='" + longitude + '\'' +
+				", latitude='" + latitude + '\'' +
+				", address='" + address + '\'' +
+				'}';
 	}
-	
-	
 }

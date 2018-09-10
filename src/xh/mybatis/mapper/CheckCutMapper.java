@@ -40,7 +40,13 @@ public interface CheckCutMapper {
      * @throws Exception
      */
     public int insertCheckCut(CheckCutBean bean)throws Exception;
-
+    /**
+     * 申请
+     * @param bean
+     * @return
+     * @throws Exception
+     */
+    public int createCheckCut(CheckCutBean bean)throws Exception;
     /**
      *
      * @param bean

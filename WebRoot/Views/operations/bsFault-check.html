@@ -14,28 +14,11 @@
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<input  type="text" value="" name="id" ng-model="faultDataById.id">
-								<input  type="text" value="" name="bsId" ng-model="faultDataById.bsId">
-								<input  type="text" value="" name="name" ng-model="faultDataById.name">
-								<input  type="text" value="" name="breakTime" ng-model="faultDataById.time">
-								<input  type="text" value="" name="restoreTime" ng-model="faultDataById.faultRecoveryTime">
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="userUnit"
-									required="required">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="tel"
-									required="required">
+								<input  type="text" name="id" ng-value="faultDataById.id">
+								<input  type="text" name="bsId" ng-value="faultDataById.bsId">
+								<input  type="text" name="name" ng-value="faultDataById.name">
+								<input  type="text" name="breakTime" ng-value="faultDataById.time">
+								<input  type="text" name="restoreTime" ng-value="faultDataById.faultRecoveryTime">
 							</div>
 						</div>
 					</div>
@@ -43,22 +26,38 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>提交核减申请(如不选择上传文件，系统会自动生成表格)</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
-							</div>	
+								<input type="file" name="filePath" id="filePath1" class="form-control"/>
+							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
-							    <input type="hidden" name="result" class="form-control"/> 
-							    <input type="hidden" name="fileName"/> 
-							    <input type="hidden" name="path"/> 
+							    <input type="hidden" name="result" class="form-control"/>
+							    <input type="hidden" name="fileName"/>
+							    <input type="hidden" name="path"/>
 								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
 								<span id="uploadResult1" style="color:red"></span>
-							</div>	
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>故障原因</label>
+								<textarea name="desc" rows="3" cols="10" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>详细情况</label>
+								<textarea name="situation" rows="3" cols="10" class="form-control"></textarea>
+							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>备注</label>
-								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+								<textarea name="note7" rows="2" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
 					</div>

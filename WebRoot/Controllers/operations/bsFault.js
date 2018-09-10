@@ -627,7 +627,7 @@ xh.add = function() {
         data : $("#addForm").serializeArray(),
         success : function(data) {
             $.ajax({
-                url : '../../checkCut/insertCheckCut',
+                url : '../../checkCut/createCheckCut',
                 type : 'POST',
                 dataType : "json",
                 async : true,

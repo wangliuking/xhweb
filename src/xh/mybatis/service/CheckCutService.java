@@ -89,6 +89,28 @@ public class CheckCutService {
     }
 
     /**
+     *
+     * @param bean
+     * @return
+     */
+    public static int createCheckCut(CheckCutBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.createCheckCut(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
      * 申请
      * @param bean
      * @return
@@ -233,7 +255,7 @@ public class CheckCutService {
 
     /**
      * 根据基站id查询详细信息，用于填充核减表
-     * @param param
+     * @param
      * @return
      */
     public static Map<String,Object> selectBsInformationById(Map<String, Object> map) {

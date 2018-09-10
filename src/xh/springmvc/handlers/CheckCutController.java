@@ -221,13 +221,12 @@ public class CheckCutController {
     }
 
     public static void main(String[] args) {
-        String s = "116";
+        String s = "73";
         int id = Integer.parseInt(s);
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("bsId",id);
         Map<String,Object> res = CheckCutService.selectBsInformationById(map);
-        System.out.println(" res : "+res);
-
+        System.out.println(" powerTime : "+res.get("powerTime"));
     }
 
     /**
@@ -256,38 +255,37 @@ public class CheckCutController {
     }
 
     /**
-     * 运维人员发起核减申请
+     *  故障核减自动填充
      *
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/insertCheckCut", method = RequestMethod.POST)
-    public void insertCheckCut(HttpServletRequest request,
-                        HttpServletResponse response) {
+    @RequestMapping(value = "/createCheckCut", method = RequestMethod.POST)
+    public void createCheckCut(HttpServletRequest request,
+                               HttpServletResponse response) {
         this.success = true;
-        String userUnit = request.getParameter("userUnit");
-        String note1 = request.getParameter("note1");
-        String tel = request.getParameter("tel");
-        String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
+        String note7 = request.getParameter("note7");
+        String fileName4 = request.getParameter("fileName");
+        String filePath4 = request.getParameter("path");
         String bsId = request.getParameter("bsId");
         String name = request.getParameter("name");
         String breakTime = request.getParameter("breakTime");
         String restoreTime = request.getParameter("restoreTime");
+        String desc = request.getParameter("desc");
+        String situation = request.getParameter("situation");
         CheckCutBean bean = new CheckCutBean();
-        bean.setUserUnit(userUnit);
-        bean.setTel(tel);
-        bean.setFileName1(fileName);
-        bean.setFilePath1(filePath);
-        bean.setNote1(note1);
-        bean.setUserName(funUtil.loginUser(request));
-        bean.setRequestTime(FunUtil.nowDate());
+        bean.setFileName4(fileName4);
+        bean.setFilePath4(filePath4);
+        bean.setNote7(note7);
+        bean.setChecked(7);
 
         bean.setBsId(bsId);
         bean.setName(name);
         bean.setBreakTime(breakTime);
         bean.setRestoreTime(restoreTime);
-
+        bean.setDesc(desc);
+        bean.setSituation(situation);
+        System.out.println(" bean : "+bean);
         //填充申请表部分数据start
         Map<String,Object> selectMap = new HashMap<String,Object>();
         selectMap.put("bsId",Integer.parseInt(bsId));
@@ -317,6 +315,7 @@ public class CheckCutController {
         bean.setMaintainTime(res.get("toBsTime")+"分钟");
         if("是".equals(res.get("isPermitTempPower"))){
             bean.setIsPower("基站允许发电");
+            bean.setIsPowerTime("发电时间:"+res.get("powerTime"));
         }else if("否".equals(res.get("isPermitTempPower"))){
             bean.setIsPower("基站不允许发电");
         }
@@ -325,6 +324,59 @@ public class CheckCutController {
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
         //填充申请表部分数据end
+
+        log.info("data==>" + bean.toString());
+        int rst = CheckCutService.createCheckCut(bean);
+
+        if (rst == 1) {
+            this.message = "核减申请信息已经成功提交";
+            //----给运维负责人发送通知邮件
+            FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","有核减申请，请查阅！",request);
+            //----END
+        } else {
+            this.message = "核减申请信息未成功提交";
+        }
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 运维人员发起核减申请
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/insertCheckCut", method = RequestMethod.POST)
+    public void insertCheckCut(HttpServletRequest request,
+                        HttpServletResponse response) {
+        this.success = true;
+        String id = request.getParameter("id");
+        String userUnit = request.getParameter("userUnit");
+        String note1 = request.getParameter("note1");
+        String tel = request.getParameter("tel");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setId(Integer.parseInt(id));
+        bean.setUserUnit(userUnit);
+        bean.setTel(tel);
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
+        bean.setNote1(note1);
+        bean.setUserName(funUtil.loginUser(request));
+        bean.setRequestTime(FunUtil.nowDate());
+        bean.setChecked(0);
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.insertCheckCut(bean);

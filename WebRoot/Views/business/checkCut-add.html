@@ -11,6 +11,7 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" id="addForm" onSubmit="return false">
+					<input type="hidden" ng-value="checkData.id" name="id"/>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
@@ -68,10 +69,10 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
-		if ($("input[name='result']").val() != 1) {
+		/*if ($("input[name='result']").val() != 1) {
 			alert("请先上传核减申请！");
 			return false;
-		}
+		}*/
 		$('#addForm').submit();
 	});
 	var faIcon = {

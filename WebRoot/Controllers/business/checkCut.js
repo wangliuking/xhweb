@@ -65,7 +65,7 @@ xh.load = function() {
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
 					$scope.up = response;
-					console.log(response);
+					//console.log(response);
 		});
 		
 		/*获取申请记录表*/
@@ -116,7 +116,7 @@ xh.load = function() {
             var sheetId = temp.id;
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
-				console.log("sheetId"+$scope.sheetData.id);
+				console.log($scope.sheetData);
                 var data= response.items;  //开始时间
 				var date1 = data.breakTime;
                 var date2 = data.restoreTime;    //结束时间
@@ -166,6 +166,9 @@ xh.load = function() {
 			if($scope.checkData.checked==3){
 				$("#checkWin4").modal('show');
 			}
+            if($scope.checkData.checked==7){
+                $("#add").modal('show');
+            }
 
 	    };
 		/* 显示修改model */
@@ -347,6 +350,8 @@ xh.sheetChange = function() {
 
 /*运维组发起请求审核*/
 xh.add = function() {
+    var data = $("#addForm").serializeArray();
+    console.log(data);
 	$.ajax({
 		url : '../../checkCut/insertCheckCut',
 		type : 'POST',

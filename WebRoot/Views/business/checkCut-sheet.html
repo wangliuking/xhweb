@@ -31,17 +31,18 @@
                                         <input type="hidden" ng-value="sheetData.name" name="name"/>
                                         {{sheetData.bsId}}-{{sheetData.name}}基站
                                     ，
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.hometype" name="hometype"/>；
-                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.transfer" name="transfer"/>，
-                                        <input style="border: 0px;outline:none;width: 70px" type="text" ng-value="sheetData.transferCompare" name="transferCompare"/>，
-                                        <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferOne" name="transferOne"/>，
-                                        <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.transferTwo" name="transferTwo"/>;
-                                    <input style="border: 0px;outline:none;width: 120px" type="text" ng-value="sheetData.powerOne" name="powerOne"/>，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>，网络柜由
-                                        <input style="border: 0px;outline:none;width: 80px" type="text" ng-value="sheetData.powerTwo" name="powerTwo"/>，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="text" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>，维护上站时间
-                                        <input style="border: 0px;outline:none;width: 50px" type="text" ng-value="sheetData.maintainTime" name="maintainTime"/>，
-                                        <input style="border: 0px;outline:none;width: 95px" type="text" ng-value="sheetData.isPower" name="isPower"/>。
+                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
+                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}};
+                                    <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
+                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
+                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
                                         <input style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc"/>
