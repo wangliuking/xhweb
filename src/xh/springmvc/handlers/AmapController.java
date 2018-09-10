@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.PropertiesUtil;
+import xh.func.plugin.RedisUtil;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.AmapService;
 import xh.mybatis.service.BsstationService;
@@ -512,7 +514,7 @@ public class AmapController {
 	public static void main(String[] args) {
 		AmapService amapService = new AmapService();
 		String s = amapService.selectForMapInitByUser("admin");
-		System.out.println(s);
+		System.out.println("aaa");
 	}
 	
 	
