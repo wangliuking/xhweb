@@ -36,13 +36,20 @@
         select * from xhgmnet_bs_checkcut where id=#{id}
     </select>
 
-    <!--运维人员发起核减申请 -->
-    <insert id="insertCheckCut" useGeneratedKeys="true" keyProperty="id"
+    <!--故障核减自动生成 -->
+    <insert id="createCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,period,applyTime)
-        values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{period},#{applyTime})
+        xhgmnet_bs_checkcut(fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,period,applyTime,`desc`,situation,checked)
+        values(#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{period},#{applyTime},#{desc},#{situation},#{checked})
     </insert>
+
+    <!--运维人员发起核减申请 -->
+    <update id="insertCheckCut" parameterType="xh.mybatis.bean.CheckCutBean">
+        update xhgmnet_bs_checkcut set
+        userUnit=#{userUnit},tel=#{tel},fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1},checked=#{checked},
+        requestTime=#{requestTime},userName=#{userName} where id=#{id}
+    </update>
 
     <!--运维人员重新发起核减申请 -->
     <update id="checkedNegTwo" parameterType="xh.mybatis.bean.CheckCutBean">

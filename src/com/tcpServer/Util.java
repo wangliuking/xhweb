@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.service.OrderService;
 
 import com.tcpBean.DispatchTable;
@@ -147,23 +148,36 @@ public class Util {
 				return map;
 			}else if("errcheck".equals(cmdtype)){
 				errCheck = (ErrCheck) JSONObject.toBean(jsonObject, ErrCheck.class);
-				String serialNum = errCheck.getSerialnumber();
-				Map<String,String> paramMap = new HashMap<String,String>();
-				paramMap.put("serialNum", serialNum);
-				paramMap.put("status", "3");
-				Service.updateUserStatus(paramMap);
-				//更新四方伟业库
-				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
-				ErrProTable bean = new ErrProTable();
-				bean.setBsid(orderMap.get("bsid")+"");
-				bean.setZbdldm(orderMap.get("zbdldm")+"");
-				bean.setStatus("请求审核");
-				System.out.println(bean);
-				OrderService.updateSfOrder(bean);
-				map.put("returnMessage", "");
+				if("是".equals(errCheck.getHungorder())){
+					//app提交了挂单
+					ErrCheckAck bean = new ErrCheckAck();
+					bean.setSerialnumber(errCheck.getSerialnumber());
+					bean.setUserid(errCheck.getUserid());
+					bean.setResult("4");
+					//发送通知邮件通知网管组进行审核
+					FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"派单审核","有挂单情况",errCheck.getUserid());
+					map.put("returnMessage", Object2Json(bean));
+				}else{
+					String serialNum = errCheck.getSerialnumber();
+					Map<String,String> paramMap = new HashMap<String,String>();
+					paramMap.put("serialNum", serialNum);
+					paramMap.put("status", "3");
+					Service.updateUserStatus(paramMap);
+					//发送通知邮件通知网管组进行审核
+					FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"派单审核","有派单审核，请查阅！",errCheck.getUserid());
+					//更新四方伟业库
+					Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
+					ErrProTable bean = new ErrProTable();
+					bean.setBsid(orderMap.get("bsid")+"");
+					bean.setZbdldm(orderMap.get("zbdldm")+"");
+					bean.setStatus("请求审核");
+					System.out.println(bean);
+					OrderService.updateSfOrder(bean);
+					map.put("returnMessage", "");
 				/*ErrCheckAck errCheckAck = Service.appErrCheck(errCheck);
 				map.put("returnMessage", Object2Json(errCheckAck));*/
-				return map;
+					return map;
+				}
 			}else if("errprotable".equals(cmdtype)){
 				errProTable = (ErrProTable) JSONObject.toBean(jsonObject, ErrProTable.class);
 				ErrProTableAck errProTableAck = Service.appProTableAck(errProTable);

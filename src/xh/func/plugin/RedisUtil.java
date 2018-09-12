@@ -10,11 +10,18 @@ import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 public class RedisUtil {
 	
 	private static PropertiesUtil pUtil=new PropertiesUtil();
 	 //Redis服务器IP
-    private static String ADDR = pUtil.ReadConfig("ip");
+    private static String ADDR1 = pUtil.ReadConfig("ip1");
+    //Redis服务器备用IP
+    private static String ADDR2 = pUtil.ReadConfig("ip2");
     //Redis的端口号      
     private static int PORT = Integer.parseInt(pUtil.ReadConfig("port"));   
     //访问密码
@@ -36,21 +43,45 @@ public class RedisUtil {
     private static  ShardedJedisPool shardedJedisPool;//切片连接池
     
     protected final static Log log4j = LogFactory.getLog(RedisUtil.class);
-    
-    
+
+    public static void main(String[] args) {
+        boolean b = isHostConnectable("192.168.120.150",6379);
+        System.out.println(" b : "+b);
+    }
+
     /**
      * 初始化非切片池
      */
-    private static void initialPool() { 
-        // 池基本配置 
-        JedisPoolConfig config = new JedisPoolConfig(); 
-        config.setMaxActive(MAX_ACTIVE);
-        config.setMaxIdle(MAX_IDLE);
-        config.setMaxWait(MAX_WAIT);
-        config.setTestOnBorrow(TEST_ON_BORROW);
-        if(jedisPool==null){
-        	jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT);
-        }      
+    private static void initialPool() {
+        //判断ip是否有效(用ping的机制)
+        try {
+            if(ping(ADDR1)){
+                System.out.println("ADDR1 ："+ADDR1+"可用");
+                // 池基本配置
+                JedisPoolConfig config = new JedisPoolConfig();
+                config.setMaxActive(MAX_ACTIVE);
+                config.setMaxIdle(MAX_IDLE);
+                config.setMaxWait(MAX_WAIT);
+                config.setTestOnBorrow(TEST_ON_BORROW);
+                if(jedisPool==null){
+                    jedisPool = new JedisPool(config, ADDR1, PORT, TIMEOUT);
+                }
+            }else{
+                System.out.println("ADDR2 ："+ADDR2+"可用");
+                // 池基本配置
+                JedisPoolConfig config = new JedisPoolConfig();
+                config.setMaxActive(MAX_ACTIVE);
+                config.setMaxIdle(MAX_IDLE);
+                config.setMaxWait(MAX_WAIT);
+                config.setTestOnBorrow(TEST_ON_BORROW);
+                if(jedisPool==null){
+                    jedisPool = new JedisPool(config, ADDR2, PORT, TIMEOUT);
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     
     /** 
@@ -112,6 +143,42 @@ public class RedisUtil {
 	public static void setJedisPool(JedisPool jedisPool) {
 		RedisUtil.jedisPool = jedisPool;
 	}
+
+    /**
+     * ping ip是否可以通
+     * @param ipAddress
+     * @return
+     * @throws Exception
+     */
+    public static boolean ping(String ipAddress) throws Exception {
+        int  timeOut =  3000 ;  //超时应该在3钞以上
+        boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);
+        // 当返回值是true时，说明host是可用的，false则不可。
+        return status;
+    }
+
+    /**
+     * 检测端口是否可以连接
+     * @param host
+     * @param port
+     * @return
+     */
+    public static boolean isHostConnectable(String host, int port) {
+        Socket socket = new Socket();
+        try {
+            socket.connect(new InetSocketAddress(host, port));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
     
     
 }
