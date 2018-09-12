@@ -175,7 +175,7 @@ public class FunUtil {
 		response.addCookie(cookie);
 	}
 	//获取cookie
-	public String getCookie(HttpServletRequest request,String name) throws UnsupportedEncodingException{
+	public static String getCookie(HttpServletRequest request,String name) throws UnsupportedEncodingException{
 		Cookie[] cookies = request.getCookies();
 		for(Cookie cookie : cookies)
 		{
@@ -442,7 +442,7 @@ public class FunUtil {
 		}
 		return value;
 	}
-	public String getIpAddr(HttpServletRequest request) {
+	public static String getIpAddr(HttpServletRequest request) {
 		 String ip = request.getHeader("x-forwarded-for");
 		    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 		        ip = request.getHeader("Proxy-Client-IP");

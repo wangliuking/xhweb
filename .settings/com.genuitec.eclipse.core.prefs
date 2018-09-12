@@ -4,5 +4,5 @@ locCnt=75437
 pkgCnt=36
 sTime=2018\u5E747\u670826\u65E5 \u661F\u671F\u56DB \u4E0A\u534811\u65F625\u520659\u79D2 CST
 srcCnt=2
-validator.Checked=ffm,WebRoot
+validator.Checked=/
 validator.Unchecked=

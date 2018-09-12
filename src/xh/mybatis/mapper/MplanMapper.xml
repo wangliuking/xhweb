@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.MplanMapper">
+<insert id="add" parameterType="xh.mybatis.bean.MplanBean">
+ insert into chart_m_plan_complete(mplan_type,mplan_content,plan_time,complete_time,note)
+ values(#{mplan_type},#{mplan_content},#{plan_time},#{complete_time},#{note})
+</insert>
+<update id="update" parameterType="xh.mybatis.bean.MplanBean">
+ update chart_m_plan_complete set mplan_type=#{mplan_type},mplan_content=#{mplan_content},plan_time=#{plan_time},
+ complete_time=#{complete_time},result=#{result},reason=#{reason},note=#{note} where id=#{id}
+</update>
+<delete id="del" parameterType="java.util.List">
+ delete from chart_m_plan_complete where id in(
+ <foreach collection="list" separator="," item="id" index="index">
+  #{id}
+ </foreach>
+ )
+</delete>
+
+<select id="mplanList" parameterType="map" resultType="xh.mybatis.bean.MplanBean">
+ select * from chart_m_plan_complete where 1=1
+ limit #{start},#{limit}
+</select>
+<select id="count" parameterType="map" resultType="int">
+select count(*) from chart_m_plan_complete
+</select>
+<select id="mplanList_month_one" parameterType="String" resultType="xh.mybatis.bean.MplanBean">
+ select * from chart_m_plan_complete where 1=1 and  date_format(plan_time,'%Y-%m')=#{time}
+ and result!='提交计划';
+</select>
+<select id="mplanList_month_two" parameterType="String" resultType="xh.mybatis.bean.MplanBean">
+ select * from chart_m_plan_complete where 1=1 and  date_format(plan_time,'%Y-%m')=#{time}
+ and result='提交计划';
+</select>
+</mapper>

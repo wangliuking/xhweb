@@ -25,9 +25,9 @@ public class test {
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
          executor.shutdown();*/
-		 String a="123.txt";
+		 int a=78;
 		 
-		System.out.println(a.substring(a.indexOf(".")));
+		System.out.println((float)a/100);
 		
      }
 	

@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.ChartReportDispatch;
+import xh.mybatis.bean.ChartReportImpBsBean;
 import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.mapper.EastComMapper;
 import xh.mybatis.mapper.ReportDayMapper;
@@ -138,6 +139,19 @@ public class ReportDayService {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	public static List<ChartReportImpBsBean> chart_bs_imp_call(String time){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<ChartReportImpBsBean> list=new ArrayList<ChartReportImpBsBean>();
+		try {
+			list=mapper.chart_bs_imp_call(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 	

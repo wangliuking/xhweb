@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jxl.Workbook;
+import jxl.biff.DisplayFormat;
 import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
@@ -23,6 +24,7 @@ import jxl.format.Orientation;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Label;
+import jxl.write.NumberFormats;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -550,9 +552,14 @@ public class CallController {
 			}
 			File file = new File(pathname);			
 			WritableWorkbook book = Workbook.createWorkbook(file);
-			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES,13,
+								WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+								Colour.BLACK);
+			
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
 			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
@@ -562,10 +569,7 @@ public class CallController {
 					Colour.DARK_GREEN);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
-			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
-					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
-					Colour.BLACK);
+			
 			// 应用字体
 			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
 			// 设置其他样式
@@ -577,7 +581,7 @@ public class CallController {
 
 			// 设置主题内容字体格式
 			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
-					10, WritableFont.NO_BOLD, false,
+					12, WritableFont.NO_BOLD, false,
 					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
 			// 应用字体
 			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
@@ -591,7 +595,7 @@ public class CallController {
 			
 			//总计内容字体格式
 			WritableFont total_font = new WritableFont(WritableFont.COURIER,
-					10, WritableFont.BOLD, false,
+					13, WritableFont.BOLD, false,
 					UnderlineStyle.NO_UNDERLINE, Colour.RED);
 			// 应用字体
 			WritableCellFormat total_fontFormat = new WritableCellFormat(total_font);
@@ -608,10 +612,14 @@ public class CallController {
 			
 
 			// 设置数字格式
-			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
-			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(
-					nf); // 设置表单格式
-
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("0.00%"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcfN.setBackground(Colour.WHITE);// 背景色
+			wcfN.setFont(font_Content);
+			wcfN.setWrap(true);// 自动换行
 			
 
 			WritableSheet sheet1 = book.createSheet("交换中心话务统计", 0);
@@ -622,15 +630,15 @@ public class CallController {
 			WritableSheet sheet6 = book.createSheet("行政区域话务TOP10", 5);
 			WritableSheet sheet7 = book.createSheet("各数据前十", 6);
 			WritableSheet sheet8 = book.createSheet("虚拟专网用户数据前十", 7);
-			excel_msc_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_call(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_vpn_call(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_level_area_call(map,sheet4,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_zone_call(map,sheet5,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_zone_top10_call(map,sheet6,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_bs_top10_call(map,sheet7,fontFormat,fontFormat_h,fontFormat_Content);
-			excel_vpn_top10_call(map,sheet8,fontFormat,fontFormat_h,fontFormat_Content);
-			// 
+			excel_msc_call(map,sheet1,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_bs_call(map,sheet2,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_vpn_call(map,sheet3,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_bs_level_area_call(map,sheet4,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_bs_zone_call(map,sheet5,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_bs_zone_top10_call(map,sheet6,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_bs_top10_call(map,sheet7,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+			excel_vpn_top10_call(map,sheet8,fontFormat,fontFormat_h,fontFormat_Content,wcfN);
+		
 			
 			
 
@@ -653,7 +661,8 @@ public class CallController {
 		
 	}
 	
-	public  void  excel_msc_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_msc_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
 		try {
 		sheet.addCell(new Label(0, 0, time+"-交换中心话务统计"+time, fontFormat));
@@ -687,21 +696,21 @@ public class CallController {
 		
 		EastMscDayBean bean=EastComService.chart_month_msc(map);
 		sheet.setRowView(2, 400);
-		sheet.addCell(new Label(0, 2, String.valueOf(bean.getTotalActiveCall()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(0, 2, bean.getTotalActiveCall(), fontFormat_Content));
 		sheet.addCell(new Label(1, 2, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
-		sheet.addCell(new Label(2, 2, String.valueOf(bean.getTotalPTTs()), fontFormat_Content));
-		sheet.addCell(new Label(3, 2, String.valueOf(bean.getTotalCalls()), fontFormat_Content));
-		sheet.addCell(new Label(4, 2, String.valueOf(bean.getTotalFailedCalls()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, 2, bean.getTotalPTTs(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, 2, bean.getTotalCalls(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(4, 2, bean.getTotalFailedCalls(), fontFormat_Content));
 		
 		
 		
-		sheet.addCell(new Label(5, 2, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
-		sheet.addCell(new Label(6, 2, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(5, 2, (float)bean.getFailedPercentage()/100, wcfN));
+		sheet.addCell(new jxl.write.Number(6, 2, bean.getNoEffectCalls(), fontFormat_Content));
 		
-		sheet.addCell(new Label(7, 2, String.valueOf(bean.getTotalMaxReg()), fontFormat_Content));
-		sheet.addCell(new Label(8, 2, String.valueOf(bean.getTotalQueueCount()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, 2, bean.getTotalMaxReg(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(8, 2, bean.getTotalQueueCount(), fontFormat_Content));
 		sheet.addCell(new Label(9, 2, funUtil.second_time(bean.getTotalQueueDuration()), fontFormat_Content));
-		sheet.addCell(new Label(10, 2, String.valueOf(bean.getMaxRegGroup()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, 2, bean.getMaxRegGroup(), fontFormat_Content));
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -710,7 +719,8 @@ public class CallController {
 		
 	}
 	
-	public  void  excel_vpn_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_vpn_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
 		try {
 		sheet.addCell(new Label(0, 0, time+"-虚拟专网话务统计", fontFormat));
@@ -742,15 +752,15 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(bean.getVpnid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2, bean.getVpnid(), fontFormat_Content));
 			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
-			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, i + 2,bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(3, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(5, i + 2, String.valueOf(bean.getDexTotalCalls()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getTotalFailedCalls()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
-			sheet.addCell(new Label(8, i + 2, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(5, i + 2,bean.getDexTotalCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2,bean.getTotalFailedCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2, (float)bean.getFailedPercentage()/100, wcfN));
+			sheet.addCell(new jxl.write.Number(8, i + 2,bean.getNoEffectCalls(), fontFormat_Content));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -769,20 +779,21 @@ public class CallController {
 		sheet.setRowView(len, 600);
 		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
 		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(2, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, len, a, fontFormat_Content));
 		sheet.addCell(new Label(3, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(4, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(5, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(e), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(f)+"%", fontFormat_Content));
-		sheet.addCell(new Label(8, len, String.valueOf(g), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(5, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len, e, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len, (float)f/100, wcfN));
+		sheet.addCell(new jxl.write.Number(8, len, g, fontFormat_Content));
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 		
 	}
-	public  void  excel_bs_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_bs_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
 		try {
 			WritableFont sort_font = new WritableFont(WritableFont.TIMES, 9,
@@ -833,21 +844,25 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(bean.getCall_sort()), sort));
-			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getUser_sort()), sort));
-			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getQueue_sort()), sort));
-			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getBsid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2,bean.getCall_sort(), sort));
+			sheet.addCell(new jxl.write.Number(1, i + 2, bean.getUser_sort(), sort));
+			sheet.addCell(new jxl.write.Number(2, i + 2, bean.getQueue_sort(), sort));
+			sheet.addCell(new jxl.write.Number(3, i + 2, bean.getBsid(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
-			sheet.addCell(new Label(5, i + 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			if(bean.getLevel()==null || bean.getLevel()==""){
+				sheet.addCell(new Label(5, i + 2, bean.getLevel(), fontFormat_Content));
+			}else{
+				sheet.addCell(new jxl.write.Number(5, i + 2, Integer.parseInt(bean.getLevel()), fontFormat_Content));
+			}
 			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getArea()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(9, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(11, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(11, i + 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(12, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(13, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(14, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(13, i + 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(14, i + 2, bean.getMaxGroupRegCount(), fontFormat_Content));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -876,23 +891,25 @@ public class CallController {
 		sheet.addCell(new Label(4, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(5, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(6, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len,a, fontFormat_Content));
 		sheet.addCell(new Label(8, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(9, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(11, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(11, len, e, fontFormat_Content));
 		sheet.addCell(new Label(12, len, FunUtil.second_time(f), fontFormat_Content));
-		sheet.addCell(new Label(13, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(14, len, String.valueOf(h), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(13, len, g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(14, len, h, fontFormat_Content));
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 		
 	}
-	public  void  excel_bs_level_area_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_bs_level_area_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		try {
 	    List<EastBsCallDataBean> level_list=EastComService.chart_bs_level_call(map);
+	    
 	    /*mergeCells(a,b,c,d) 单元格合并函数
 		a 单元格的列号
 		b 单元格的行号
@@ -926,16 +943,16 @@ public class CallController {
 		for (int i = 0; i < level_list.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) level_list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getLevel()), fontFormat_Content));
-			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getBsTotals()), fontFormat_Content));
-			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i + 2, Integer.parseInt(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, i + 2, bean.getBsTotals(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(3, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2,bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i + 2,bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, bean.getMaxGroupRegCount(), fontFormat_Content));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0;
 		for(int i=0,len=level_list.size();i<len;i++){
@@ -961,15 +978,15 @@ public class CallController {
 		int len=level_list.size()+2;
 		sheet.setRowView(len, 600);
 		sheet.addCell(new Label(1, len, String.valueOf("总计"), fontFormat_Content));
-		sheet.addCell(new Label(2, len, String.valueOf(x), fontFormat_Content));
-		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, len, x, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, len, a, fontFormat_Content));
 		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len, e, fontFormat_Content));
 		sheet.addCell(new Label(8, len, FunUtil.second_time(f), fontFormat_Content));
-		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(h), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len, g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, h, fontFormat_Content));
 		
 		
 		//基站区域
@@ -998,15 +1015,15 @@ public class CallController {
 			EastBsCallDataBean bean = (EastBsCallDataBean) area_list.get(i);
 			sheet.setRowView(i + 2, 400);
 			sheet.addCell(new Label(1, i + len+4, String.valueOf(bean.getArea()), fontFormat_Content));
-			sheet.addCell(new Label(2, i + len+4, String.valueOf(bean.getBsTotals()), fontFormat_Content));
-			sheet.addCell(new Label(3, i + len+4, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, i + len+4, bean.getBsTotals(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(3, i + len+4, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + len+4, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + len+4, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + len+4, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + len+4, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + len+4, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + len+4, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(8, i + len+4, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i + len+4, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + len+4, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i + len+4, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + len+4, bean.getMaxGroupRegCount(), fontFormat_Content));
 		}
 		int a1=0,b1=0,c1=0,d1=0,e1=0,f1=0,g1=0,h1=0,x1=0;
 		//int len1=level_list.size()+2;
@@ -1031,15 +1048,15 @@ public class CallController {
 		int len2=area_list.size()+2;
 		sheet.setRowView(len, 600);
 		sheet.addCell(new Label(1, len2+len+2, String.valueOf("总计"), fontFormat_Content));
-		sheet.addCell(new Label(2, len2+len+2, String.valueOf(x1), fontFormat_Content));
-		sheet.addCell(new Label(3, len2+len+2, String.valueOf(a1), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, len2+len+2, x1, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, len2+len+2, a1, fontFormat_Content));
 		sheet.addCell(new Label(4, len2+len+2, FunUtil.second_time(b1), fontFormat_Content));
 		sheet.addCell(new Label(5, len2+len+2, FunUtil.second_time(c1), fontFormat_Content));
-		sheet.addCell(new Label(6, len2+len+2, String.valueOf(d1), fontFormat_Content));
-		sheet.addCell(new Label(7, len2+len+2, String.valueOf(e1), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len2+len+2, d1, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len2+len+2, e1, fontFormat_Content));
 		sheet.addCell(new Label(8, len2+len+2, FunUtil.second_time(f1), fontFormat_Content));
-		sheet.addCell(new Label(9, len2+len+2, String.valueOf(g1), fontFormat_Content));
-		sheet.addCell(new Label(10, len2+len+2, String.valueOf(h1), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len2+len+2,g1, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len2+len+2, h1, fontFormat_Content));
 		
 		
 		} catch (Exception e) {
@@ -1048,8 +1065,10 @@ public class CallController {
 		}
 		
 	}
-	public  void  excel_bs_zone_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_bs_zone_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
+		
 		try {
 		sheet.setColumnView(0, 10);
 		sheet.setColumnView(1, 20);
@@ -1078,17 +1097,17 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2, (i+1), fontFormat_Content));
 			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getZone()), fontFormat_Content));
-			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getBsTotals()), fontFormat_Content));
-			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, i + 2, bean.getBsTotals(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(3, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2,bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i + 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, bean.getMaxGroupRegCount(), fontFormat_Content));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -1113,23 +1132,25 @@ public class CallController {
 		sheet.setRowView(len, 600);
 		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
 		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(2, len, String.valueOf(x), fontFormat_Content));
-		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, len, x, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, len, a, fontFormat_Content));
 		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len, e, fontFormat_Content));
 		sheet.addCell(new Label(8, len, FunUtil.second_time(f), fontFormat_Content));
-		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(h), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len, g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, h, fontFormat_Content));
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 		
 	}	
-	public  void  excel_bs_zone_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_bs_zone_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
+		
 		try {
 	    
 		sheet.setColumnView(0, 10);
@@ -1160,18 +1181,18 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2, (i+1), fontFormat_Content));
 			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getZone()), fontFormat_Content));
-			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getBsTotals()), fontFormat_Content));
-			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(2, i + 2, bean.getBsTotals(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(3, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(11, i + 2, String.valueOf(bean.getPercent()+"%"), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i + 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, bean.getMaxGroupRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(11, i + 2, (float)bean.getPercent()/100, wcfN));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0,y=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -1197,23 +1218,25 @@ public class CallController {
 		sheet.setRowView(len, 600);
 		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
 		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(2, len, String.valueOf(x), fontFormat_Content));
-		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(2, len, x, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, len, a, fontFormat_Content));
 		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len, e, fontFormat_Content));
 		sheet.addCell(new Label(8, len, FunUtil.second_time(f), fontFormat_Content));
-		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(h), fontFormat_Content));
-		sheet.addCell(new Label(11, len, String.valueOf(y)+"%", fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len, g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, h, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(11, len, (float)y/100, wcfN));
+		System.out.println("Y::="+y);
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 		
 	}
-	public  void  excel_bs_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_bs_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
 		try {
 			//基站话务前十
@@ -1254,21 +1277,21 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(i+1), fontFormat_Content));
-			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getBsid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2, (i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i + 2, bean.getBsid(), fontFormat_Content));
 			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
 			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getZone()), fontFormat_Content));
-			sheet.addCell(new Label(4, i + 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(4, i + 2, Integer.parseInt(bean.getLevel()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, String.valueOf(bean.getArea()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(7, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(8, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i + 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(11, i + 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(12, i + 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(13, i + 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(14, i + 2, String.valueOf(bean.getPercent())+"%", fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(12, i + 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(13, i + 2, bean.getMaxGroupRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(14, i + 2, (float)bean.getPercent()/100, wcfN));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,x=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -1297,15 +1320,15 @@ public class CallController {
 		sheet.addCell(new Label(3, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(4, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(5, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len,a, fontFormat_Content));
 		sheet.addCell(new Label(7, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(8, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(9, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(e), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, e, fontFormat_Content));
 		sheet.addCell(new Label(11, len, FunUtil.second_time(f), fontFormat_Content));
-		sheet.addCell(new Label(12, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(13, len, String.valueOf(h), fontFormat_Content));
-		sheet.addCell(new Label(14, len, String.valueOf(x)+"%", fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(12, len,g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(13, len, h, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(14, len, (float)x/100, wcfN));
 		
 		
 		//最大用户前十
@@ -1332,20 +1355,20 @@ public class CallController {
 		for (int i = 0; i < list2.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list2.get(i);
 			sheet.setRowView(i +start2+2, 400);
-			sheet.addCell(new Label(0, i +start2+ 2, String.valueOf(i+1), fontFormat_Content));
-			sheet.addCell(new Label(1, i +start2+ 2, String.valueOf(bean.getBsid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i +start2+ 2, (i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i +start2+ 2, bean.getBsid(), fontFormat_Content));
 			sheet.addCell(new Label(2, i +start2+ 2, String.valueOf(bean.getName()), fontFormat_Content));
 			sheet.addCell(new Label(3, i +start2+ 2, String.valueOf(bean.getZone()), fontFormat_Content));
-			sheet.addCell(new Label(4, i +start2+ 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(4, i +start2+ 2, Integer.parseInt(bean.getLevel()), fontFormat_Content));
 			sheet.addCell(new Label(5, i +start2+ 2, String.valueOf(bean.getArea()), fontFormat_Content));
-			sheet.addCell(new Label(6, i +start2+ 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i +start2+ 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(7, i +start2+ 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(8, i +start2+ 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i +start2+ 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i +start2+ 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i +start2+ 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i +start2+ 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(11, i +start2+ 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(12, i +start2+ 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(13, i +start2+ 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(12, i +start2+ 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(13, i +start2+ 2, bean.getMaxGroupRegCount(), fontFormat_Content));
 		}
 		int a2=0,b2=0,c2=0,d2=0,e2=0,f2=0,g2=0,h2=0,x2=0;
 		for(int i=0,len1=list2.size();i<len1;i++){
@@ -1373,14 +1396,14 @@ public class CallController {
 		sheet.addCell(new Label(3, len2, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(4, len2, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(5, len2, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(6, len2, String.valueOf(a2), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len2, a2, fontFormat_Content));
 		sheet.addCell(new Label(7, len2, FunUtil.second_time(b2), fontFormat_Content));
 		sheet.addCell(new Label(8, len2, FunUtil.second_time(c2), fontFormat_Content));
-		sheet.addCell(new Label(9, len2, String.valueOf(d2), fontFormat_Content));
-		sheet.addCell(new Label(10, len2, String.valueOf(e2), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len2, d2, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len2, e2, fontFormat_Content));
 		sheet.addCell(new Label(11, len2, FunUtil.second_time(f2), fontFormat_Content));
-		sheet.addCell(new Label(12, len2, String.valueOf(g2), fontFormat_Content));
-		sheet.addCell(new Label(13, len2, String.valueOf(h2), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(12, len2, g2, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(13, len2, h2, fontFormat_Content));
 		//排队前十
 		
 		int start3=len2+3;
@@ -1407,21 +1430,21 @@ public class CallController {
 		for (int i = 0; i < list3.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list3.get(i);
 			sheet.setRowView(i +start3+ 2, 400);
-			sheet.addCell(new Label(0, i +start3+ 2, String.valueOf(i+1), fontFormat_Content));
-			sheet.addCell(new Label(1, i +start3+ 2, String.valueOf(bean.getBsid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i +start3+ 2,(i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i +start3+ 2, bean.getBsid(), fontFormat_Content));
 			sheet.addCell(new Label(2, i +start3+ 2, String.valueOf(bean.getName()), fontFormat_Content));
 			sheet.addCell(new Label(3, i +start3+ 2, String.valueOf(bean.getZone()), fontFormat_Content));
-			sheet.addCell(new Label(4, i +start3+ 2, String.valueOf(bean.getLevel()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(4, i +start3+ 2, Integer.parseInt(bean.getLevel()), fontFormat_Content));
 			sheet.addCell(new Label(5, i +start3+ 2, String.valueOf(bean.getArea()), fontFormat_Content));
-			sheet.addCell(new Label(6, i +start3+ 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i +start3+ 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(7, i +start3+ 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(8, i +start3+ 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(9, i +start3+ 2, String.valueOf(bean.getPTTCount()), fontFormat_Content));
-			sheet.addCell(new Label(10, i +start3+ 2, String.valueOf(bean.getQueueCount()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(9, i +start3+ 2, bean.getPTTCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i +start3+ 2, bean.getQueueCount(), fontFormat_Content));
 			sheet.addCell(new Label(11, i +start3+ 2, FunUtil.second_time(bean.getQueueDuration()), fontFormat_Content));
-			sheet.addCell(new Label(12, i +start3+ 2, String.valueOf(bean.getMaxUserRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(13, i +start3+ 2, String.valueOf(bean.getMaxGroupRegCount()), fontFormat_Content));
-			sheet.addCell(new Label(14, i +start3+ 2, String.valueOf(bean.getPercent())+"%", fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(12, i +start3+ 2, bean.getMaxUserRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(13, i +start3+ 2, bean.getMaxGroupRegCount(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(14, i +start3+ 2, (float)bean.getPercent()/100, wcfN));
 		}
 		int a3=0,b3=0,c3=0,d3=0,e3=0,f3=0,g3=0,h3=0,x3=0;
 		for(int i=0,len3=list3.size();i<len3;i++){
@@ -1450,15 +1473,15 @@ public class CallController {
 		sheet.addCell(new Label(3, len4, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(4, len4, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(5, len4, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(6, len4, String.valueOf(a3), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len4, a3, fontFormat_Content));
 		sheet.addCell(new Label(7, len4, FunUtil.second_time(b3), fontFormat_Content));
 		sheet.addCell(new Label(8, len4, FunUtil.second_time(c3), fontFormat_Content));
-		sheet.addCell(new Label(9, len4, String.valueOf(d3), fontFormat_Content));
-		sheet.addCell(new Label(10, len4, String.valueOf(e3), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, len4, d3, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len4, e3, fontFormat_Content));
 		sheet.addCell(new Label(11, len4, FunUtil.second_time(f3), fontFormat_Content));
-		sheet.addCell(new Label(12, len4, String.valueOf(g3), fontFormat_Content));
-		sheet.addCell(new Label(13, len4, String.valueOf(h3), fontFormat_Content));
-		sheet.addCell(new Label(14, len4, String.valueOf(x3)+"%", fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(12, len4, g3, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(13, len4, h3, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(14, len4, (float)x3/100, wcfN));
 		
 		
 		
@@ -1469,7 +1492,8 @@ public class CallController {
 		}
 		
 	}
-	public  void  excel_vpn_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content){
+	public  void  excel_vpn_top10_call(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,
+			WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content,WritableCellFormat wcfN){
 		String time=map.get("time").toString();
 		try {
 		sheet.mergeCells(0,0,10,0);
@@ -1503,17 +1527,17 @@ public class CallController {
 		for (int i = 0; i < list.size(); i++) {
 			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
 			sheet.setRowView(i + 2, 400);
-			sheet.addCell(new Label(0, i + 2, String.valueOf(i+1), fontFormat_Content));
-			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getVpnid()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(0, i + 2, (i+1), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(1, i + 2, bean.getVpnid(), fontFormat_Content));
 			sheet.addCell(new Label(2, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
-			sheet.addCell(new Label(3, i + 2, String.valueOf(bean.getTotalActiveCalls()), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(3, i + 2, bean.getTotalActiveCalls(), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 2, FunUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 			sheet.addCell(new Label(5, i + 2, FunUtil.second_time(bean.getAverageCallDuration()), fontFormat_Content));
-			sheet.addCell(new Label(6, i + 2, String.valueOf(bean.getDexTotalCalls()), fontFormat_Content));
-			sheet.addCell(new Label(7, i + 2, String.valueOf(bean.getTotalFailedCalls()), fontFormat_Content));
-			sheet.addCell(new Label(8, i + 2, String.valueOf(bean.getFailedPercentage())+"%", fontFormat_Content));
-			sheet.addCell(new Label(9, i + 2, String.valueOf(bean.getNoEffectCalls()), fontFormat_Content));
-			sheet.addCell(new Label(10, i + 2, String.valueOf(bean.getPercent())+"%", fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(6, i + 2, bean.getDexTotalCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(7, i + 2, bean.getTotalFailedCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(8, i + 2, (float)bean.getFailedPercentage()/100, wcfN));
+			sheet.addCell(new jxl.write.Number(9, i + 2, bean.getNoEffectCalls(), fontFormat_Content));
+			sheet.addCell(new jxl.write.Number(10, i + 2, (float)bean.getPercent()/100, wcfN));
 		}
 		int a=0,b=0,c=0,d=0,e=0,f=0,g=0,x=0;
 		for(int i=0,len=list.size();i<len;i++){
@@ -1534,14 +1558,14 @@ public class CallController {
 		sheet.addCell(new Label(0, len, String.valueOf("总计"), fontFormat_Content));
 		sheet.addCell(new Label(1, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new Label(2, len, String.valueOf("--"), fontFormat_Content));
-		sheet.addCell(new Label(3, len, String.valueOf(a), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, len, a, fontFormat_Content));
 		sheet.addCell(new Label(4, len, FunUtil.second_time(b), fontFormat_Content));
 		sheet.addCell(new Label(5, len, FunUtil.second_time(c), fontFormat_Content));
-		sheet.addCell(new Label(6, len, String.valueOf(d), fontFormat_Content));
-		sheet.addCell(new Label(7, len, String.valueOf(e), fontFormat_Content));
-		sheet.addCell(new Label(8, len, String.valueOf(f)+"%", fontFormat_Content));
-		sheet.addCell(new Label(9, len, String.valueOf(g), fontFormat_Content));
-		sheet.addCell(new Label(10, len, String.valueOf(x)+"%", fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, len, d, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(7, len, e, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(8, len, (float)f/100, wcfN));
+		sheet.addCell(new jxl.write.Number(9, len, g, fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(10, len, (float)x/100, wcfN));
 		} catch (Exception e) {
 			e.printStackTrace();
 

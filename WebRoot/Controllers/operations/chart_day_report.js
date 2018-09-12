@@ -105,9 +105,9 @@ xh.load = function() {
 };
 
 xh.excel=function(){
+	xh.maskShow("正在分析数据，请耐心等待");
+	$("#btn-excel").button('loading');
 	var time=$("#starttime").val()==""?xh.getYMD(0):$("#starttime").val();
-	xh.maskShow();
-	//$("#btn-excel").button('loading');
 	$.ajax({
 		url : '../../report/excel_report',
 		type : 'get',
@@ -115,10 +115,10 @@ xh.excel=function(){
 		data : {
 			time:time
 		},
-		async : false,
+		async : true,
 		success : function(data) {
 		
-			/*$("#btn-run").button('reset');*/
+			$("#btn-excel").button('reset');
 			xh.maskHide();
 			if (data.success) {
 				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
@@ -128,12 +128,10 @@ xh.excel=function(){
 			}
 		},
 		error : function() {
-			/*$("#btn-run").button('reset');*/
+			$("#btn-excel").button('reset');
 			toastr.error("导出失败", '提示');
 			xh.maskHide();
 		}
 	});
 	
 };
-
-

@@ -33,6 +33,7 @@ public class BsStatusService {
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		Map<String,Object> map=mapper.emhVoiceCount();
+		
 		if(FunUtil.readXml("alarm", "bs_offine").equals("1")){
 			bs_offline_count=BsStatusService.bsOffVoiceCount();
 		}

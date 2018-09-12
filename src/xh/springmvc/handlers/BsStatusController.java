@@ -341,103 +341,67 @@ public class BsStatusController {
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
 			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(
 					nf); // 设置表单格式
+			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcfN.setBackground(Colour.WHITE);// 背景色
+			wcfN.setWrap(true);// 自动换行
 
 			Label title = new Label(0, 0, "设备信息", fontFormat);
 
 			WritableSheet sheet = book.createSheet("基站运行记录", 0);
 			// sheet.mergeCells(0,0,3,0);
 
-			Label label_1 = new Label(0, 0, "基站ID", fontFormat_h);// 创建单元格
-			Label label_2 = new Label(1, 0, "设备", fontFormat_h);
-			Label label_3 = new Label(2, 0, "基站icp状态", fontFormat_h);
-			Label label_4 = new Label(3, 0, "BSC运行状态", fontFormat_h);
-			Label label_5 = new Label(4, 0, "基站时钟运行状态", fontFormat_h);
-			Label label_6 = new Label(5, 0, "双工器回波损耗", fontFormat_h);
-			Label label_7 = new Label(6, 0, "BSC运行时间", fontFormat_h);
-			Label label_8 = new Label(7, 0, "BSR运行状态", fontFormat_h);
-			Label label_9 = new Label(8, 0, "主控信道底噪查询", fontFormat_h);
-			Label label_10 = new Label(9, 0, "ENB运行时间（telnet 10.1.基站ID.1)",
-					fontFormat_h);
-			Label label_11 = new Label(10, 0, "psm1运行时长", fontFormat_h);
-			Label label_12 = new Label(11, 0, "psm2运行时长", fontFormat_h);
+			sheet.addCell(new Label(0, 0, "基站期数", fontFormat_h));
+			sheet.addCell(new Label(1, 0, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(2, 0, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(3, 0, "BSC时钟", fontFormat_h));
+			sheet.addCell(new Label(4, 0, "BSR1", fontFormat_h));
+			sheet.addCell(new Label(5, 0, "BSR2", fontFormat_h));
+			sheet.addCell(new Label(6, 0, "BSR3", fontFormat_h));
+			sheet.addCell(new Label(7, 0, "BSR4", fontFormat_h));
+			sheet.addCell(new Label(8, 0, "载波数", fontFormat_h));
+			sheet.addCell(new Label(9, 0, "主控信道底噪查询", fontFormat_h));
+			sheet.addCell(new Label(10, 0, "BSC运行时间", fontFormat_h));
+			sheet.addCell(new Label(11, 0, "回拨损耗", fontFormat_h));
 			
 		
 
 			sheet.setRowView(0, 300);
 			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 20);
+			sheet.setColumnView(1, 7);
 			sheet.setColumnView(2, 20);
 			sheet.setColumnView(3, 20);
-			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 30);
-			sheet.setColumnView(6, 50);
-			sheet.setColumnView(7, 20);
-			sheet.setColumnView(8, 20);
+			sheet.setColumnView(4, 10);
+			sheet.setColumnView(5, 10);
+			sheet.setColumnView(6, 10);
+			sheet.setColumnView(7, 10);
+			sheet.setColumnView(8, 7);
 			sheet.setColumnView(9, 50);
 			sheet.setColumnView(10, 50);
 			sheet.setColumnView(11, 50);
 
-			sheet.addCell(label_1);
-			sheet.addCell(label_2);
-			sheet.addCell(label_3);
-			sheet.addCell(label_4);
-			sheet.addCell(label_5);
-			sheet.addCell(label_6);
-			sheet.addCell(label_7);
-			sheet.addCell(label_8);
-			sheet.addCell(label_9);
-			sheet.addCell(label_10);
-			sheet.addCell(label_11);
-			sheet.addCell(label_12);
+			
 			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
 			for (int i = 0; i < list.size(); i++) {
 				BsStatusBean bean = (BsStatusBean) list.get(i);
-				int icpS = bean.getStatus();
-				int bscS = bean.getStatus();
-				String stationClock = bean.getClock_status();
-				String dpx1 = bean.getReturnloss1();
-				String dpx2 = bean.getReturnloss2();
-				String bscRunTime = bean.getBscRuntime();
-				String enbRunTime = bean.getEnbRunTime();
-				Label value_1 = new Label(0, i + 1, String.valueOf(bean
-						.getBsId()), fontFormat_Content);
-				Label value_2 = new Label(1, i + 1, bean.getName(),
-						fontFormat_Content);
-				Label value_3 = new Label(2, i + 1, icpS == 1 ? "NO" : "OK",
-						fontFormat_Content);
-				Label value_4 = new Label(3, i + 1, bscS == 1 ? "NO" : "OK",
-						fontFormat_Content); // 格式化数值
-				Label value_5 = new Label(4, i + 1, stationClock == ""
-						|| stationClock == null ? "NA" : stationClock,
-						fontFormat_Content);
-				Label value_6 = new Label(5, i + 1, dpx1 == "" || dpx1 == null
-						&& dpx2 == "" || dpx2 == null ? "NA" : "DPX1="
-						+ bean.getReturnloss1() + "dB" + " DPX2="
-						+ bean.getReturnloss2() + "dB", fontFormat_Content);
-				Label value_7 = new Label(6, i + 1, bscRunTime == ""
-						|| bscRunTime == null ? "NA" : bscRunTime,
-						fontFormat_Content);
-				Label value_8 = new Label(7, i + 1, "NA", fontFormat_Content);
-				Label value_9 = new Label(8, i + 1, "NA", fontFormat_Content);
-				Label value_10 = new Label(9, i + 1, enbRunTime == ""
-						|| enbRunTime == null ? "NA" : enbRunTime,
-						fontFormat_Content);
-				Label value_11 = new Label(10, i + 1, bean.getPsm1runtime(),fontFormat_Content);
-				Label value_12 = new Label(11, i + 1, bean.getPsm2runtime(),fontFormat_Content);
-				sheet.setRowView(i + 1, 400);
-				sheet.addCell(value_1);
-				sheet.addCell(value_2);
-				sheet.addCell(value_3);
-				sheet.addCell(value_4);
-				sheet.addCell(value_5);
-				sheet.addCell(value_6);
-				sheet.addCell(value_7);
-				sheet.addCell(value_8);
-				sheet.addCell(value_9);
-				sheet.addCell(value_10);
-				sheet.addCell(value_11);
-				sheet.addCell(value_12);
-				// System.out.println(assetbean.getNumber());
+				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));
+				sheet.addCell(new jxl.write.Number(1, i + 1,Double.parseDouble(String.valueOf(bean.getBsId())),wcfN));
+				
+				sheet.addCell(new Label(2, i + 1, String.valueOf(bean.getName()), fontFormat_Content));
+				sheet.addCell(new Label(3, i + 1, String.valueOf(bean.getClock_status()), fontFormat_Content));
+				sheet.addCell(new Label(4, i + 1, bsr_status(bean.getBsr_state1()), fontFormat_Content));
+				sheet.addCell(new Label(5, i + 1, bsr_status(bean.getBsr_state2()), fontFormat_Content));
+				sheet.addCell(new Label(6, i + 1, bsr_status(bean.getBsr_state3()), fontFormat_Content));
+				sheet.addCell(new Label(7, i + 1, bsr_status(bean.getBsr_state4()), fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(8, i + 1,Double.parseDouble(String.valueOf(bean.getChnumber())),wcfN));
+				sheet.addCell(new Label(9, i + 1, master_ch(bean.getCarrierLowNoiseRXRssi1(),
+						bean.getCarrierLowNoiseRXRssi2(),bean.getCarrierLowNoiseRXRssi3(),
+						bean.getCarrierLowNoiseRXRssi4()), fontFormat_Content));
+				sheet.addCell(new Label(10, i + 1, bsc_runtime(bean.getBscRuntime()), fontFormat_Content));
+				sheet.addCell(new Label(11, i + 1, dpx_format(bean.getDpx_retLoss1(),bean.getDpx_retLoss2(),
+						bean.getDpx_retLoss3(), bean.getDpx_retLoss4()), fontFormat_Content));
+				
 			}
 
 			book.write();
@@ -460,6 +424,98 @@ public class BsStatusController {
 		
 		
 		
+	}
+	public String bsr_status(String str){
+		if(str==null || str==""){
+			return "";
+		}else if(str.equals("0")){
+			return "Normal";
+		}else{
+			return "ERROR";
+		}
+	}
+	public String bsc_runtime(String str){
+		if(str==null || str==""){
+			return "";
+		}else{
+			if(str.indexOf(":")>-1){
+				return str.substring(str.indexOf(":")+1);
+			}
+			return str;
+		}
+	}
+	public String master_ch(int a,int b,int c,int d){
+		StringBuilder str=new StringBuilder();
+		if(Math.abs(a)>1){
+			str.append("RX1=");
+			str.append(Double.parseDouble(String.valueOf(a))/10);
+			str.append("dBm");
+			str.append(",");
+		}
+		if(Math.abs(b)>1){
+			str.append("RX2=");
+			str.append(Double.parseDouble(String.valueOf(b))/10);
+			str.append("dBm");
+			str.append(",");
+		}
+		if(Math.abs(c)>1){
+			str.append("RX3=");
+			str.append(Double.parseDouble(String.valueOf(c))/10);
+			str.append("dBm");
+			str.append(",");
+		}
+		if(Math.abs(d)>1){
+			str.append("RX4=");
+			str.append(Double.parseDouble(String.valueOf(d))/10);
+			str.append("dBm");
+			str.append(",");
+		}
+		if(str.length()>0){
+			str.deleteCharAt(str.lastIndexOf(","));
+		}
+		
+		return str.toString();
+	
+	}
+	public String dpx_format(String a,String b,String c,String d){
+		StringBuilder str=new StringBuilder();
+		if(a!=null && a!=""){
+			if(Integer.parseInt(a)>0){
+				str.append("DPX1=");
+				str.append(Double.parseDouble(a)/10);
+				str.append("dB");
+				str.append(",");
+			}
+		}
+		if(b!=null && b!=""){
+			if(Integer.parseInt(b)>0){
+				str.append("DPX2=");
+				str.append(Double.parseDouble(b)/10);
+				str.append("dB");
+				str.append(",");
+			}
+		}
+		if(c!=null && c!=""){
+			if(Integer.parseInt(c)>0){
+				str.append("DPX3=");
+				str.append(Double.parseDouble(c)/10);
+				str.append("dB");
+				str.append(",");
+			}
+		}
+		if(d!=null && d!=""){
+			if(Integer.parseInt(d)>0){
+				str.append("DPX4=");
+				str.append(Double.parseDouble(d)/10);
+				str.append("dB");
+				str.append(",");
+			}
+		}
+		if(str.length()>0){
+			str.deleteCharAt(str.lastIndexOf(","));
+		}
+		return str.toString();
+	
 	}
 	//基站故障记录登记表
 	@RequestMapping(value = "/ExcelToBsAlarm", method = RequestMethod.GET)
