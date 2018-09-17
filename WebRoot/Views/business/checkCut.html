@@ -65,9 +65,9 @@
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="up.o_check_cut=='on'">
+									<!--<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="up.o_check_cut=='on'">
 										<i class="fa fa-plus-circle"></i>&nbsp;核减
-									</button>			
+									</button>-->
 									
 								</div>
 							<table id="tb-info" class="xh-table table-hover"
@@ -77,6 +77,8 @@
 										<th width="180px">联系单位</th>
 										<th>联系人</th>
 										<th>请求内容</th>
+										<th>基站id</th>
+										<th>基站名称</th>
 										<!-- <th></th> -->
 										<th width="180px">申请时间</th>
 										<th>状态</th>
@@ -93,6 +95,8 @@
                                         <td ng-if="x.userUnit == '' "></td>
                                         <td ng-if="x.userUnit != '' ">{{x.userUnit}}</td>
 										<td>基站核减</td>
+										<td>{{x.bsId}}</td>
+										<td>{{x.name}}</td>
                                         <td ng-if="x.requestTime == '' "></td>
                                         <td ng-if="x.requestTime != '' ">{{x.requestTime}}</td>
 										<td ng-if="x.checked==-2" class="td-danger">核减申请不通过</td>
@@ -109,27 +113,27 @@
 													class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 											</a>
 
-											<a ng-if="x.roleId==301 && x.checked==7"
+											<a ng-if="roleId==301 && x.checked==7"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;发起核减申请</a>
 
-											<a ng-if="x.roleId==301 && x.checked==-2"
+											<a ng-if="roleId==301 && x.checked==-2"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新发起核减申请</a>
 
-											<a ng-if="x.roleId==10003 && x.checked==0"
+											<a ng-if="roleId==10003 && x.checked==0"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;运维负责人审核核减申请</a>
 
-											<a ng-if="x.roleId==10002 && x.checked==1"
+											<a ng-if="roleId==10002 && x.checked==1"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方审核核减申请</a>
 
-											<a ng-if="x.roleId==10003 && x.checked==2"
+											<a ng-if="roleId==10003 && x.checked==2"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方提交资料</a>
 
-											<a ng-if="x.roleId==10003 && x.checked==3"
+											<a ng-if="roleId==10003 && x.checked==3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;结束核减</a>
 
