@@ -55,7 +55,16 @@ public class RedisUtil {
     private static void initialPool() {
         //判断ip是否有效(用ping的机制)
         try {
-            if(ping(ADDR1)){
+            // 池基本配置
+            JedisPoolConfig config = new JedisPoolConfig();
+            config.setMaxActive(MAX_ACTIVE);
+            config.setMaxIdle(MAX_IDLE);
+            config.setMaxWait(MAX_WAIT);
+            config.setTestOnBorrow(TEST_ON_BORROW);
+            if(jedisPool==null){
+                jedisPool = new JedisPool(config, ADDR1, PORT, TIMEOUT);
+            }
+            /*if(ping(ADDR1)){
                 System.out.println("ADDR1 ："+ADDR1+"可用");
                 // 池基本配置
                 JedisPoolConfig config = new JedisPoolConfig();
@@ -77,7 +86,7 @@ public class RedisUtil {
                 if(jedisPool==null){
                     jedisPool = new JedisPool(config, ADDR2, PORT, TIMEOUT);
                 }
-            }
+            }*/
 
         }catch (Exception e){
             e.printStackTrace();
