@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.AttachmentMapper">
+	<insert id="add" parameterType="AttachmentBean">
+		insert into
+		xhgmnet_operations_attachment(attachment_name,attachment_desc,attachment_model,attachment_sn,
+		attachment_conf_number,attachment_reality_number,attachment_location,attachment_note,attachment_unit)
+		values(#{attachment_name},#{attachment_desc},#{attachment_model},#{attachment_sn},
+		#{attachment_conf_number},#{attachment_reality_number},#{attachment_location},#{attachment_note},#{attachment_unit})
+	</insert>
+	<update id="update" parameterType="AttachmentBean">
+		update xhgmnet_operations_attachment set
+		attachment_name=#{attachment_name},attachment_desc=#{attachment_desc},attachment_model=#{attachment_model},
+		attachment_sn=#{attachment_sn},
+        attachment_conf_number=#{attachment_conf_number},attachment_reality_number=#{attachment_reality_number},
+        attachment_location=#{attachment_location},attachment_note=#{attachment_note},attachment_unit=#{attachment_unit}
+		where id=#{id}
+	</update>
+	<delete id="del" parameterType="java.util.List">
+		delete from xhgmnet_operations_attachment where id in(
+		<foreach collection="list" separator="," item="id" index="index">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+	<select id="attachmentList" parameterType="map" resultType="AttachmentBean">
+		select *,convert((attachment_reality_number/attachment_conf_number)*100,DECIMAL(10,2)) as avai from xhgmnet_operations_attachment where 1=1
+		limit #{start},#{limit}
+	</select>
+	<select id="count" parameterType="map" resultType="int">
+		select count(*) from xhgmnet_operations_attachment
+	</select>
+	<select id="attachmentList_month_one" parameterType="String"
+		resultType="AttachmentBean">
+		select *,convert((attachment_reality_number/attachment_conf_number)*100,DECIMAL(10,2)) as avai from xhgmnet_operations_attachment where 1=1 and
+		date_format(time,'%Y-%m')=#{time}
+	</select>
+</mapper>

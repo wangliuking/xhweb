@@ -33,5 +33,7 @@ public interface ServerStatusMapper {
 	 * @throws Exception
 	 */
 	public int alarmNum() throws Exception;
+	
+	public List<Map<String,Object>> chart_server(String time) throws Exception;
 
 }

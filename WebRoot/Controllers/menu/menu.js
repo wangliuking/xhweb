@@ -51,3 +51,34 @@ xh.excelToBsRun = function() {
 	});
 
 };
+xh.server_excel = function(time) {
+	xh.maskShow();
+	$("#btn-run").button('loading');
+	$.ajax({
+		url : '../../server/excel_report',
+		type : 'get',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : false,
+		success : function(data) {
+
+			$("#btn-run").button('reset');
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;
+
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#btn-run").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+
+};

@@ -156,5 +156,18 @@ public class ServerStatusService {
 		}
 		return count;
 	}
+	public static  List<Map<String,Object>> chart_server(String time){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ServerStatusMapper mapper = session.getMapper(ServerStatusMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.chart_server(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 }

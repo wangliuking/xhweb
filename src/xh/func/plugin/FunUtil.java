@@ -72,6 +72,12 @@ public class FunUtil {
 		return user;
 		
 	}
+	public static int getDaysOfMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+
 	public static String RandomAlphanumeric(int count){
 	    RandomStringUtils utils=new RandomStringUtils();
 	    String str=utils.randomAlphanumeric(count);

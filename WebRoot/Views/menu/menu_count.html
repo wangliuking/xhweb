@@ -79,12 +79,13 @@
                                 </a>
                             </div>
                             <div class="menu-box text-center" style="cursor: pointer;">
-                                <a href="" target="_self"><!--  <i
+                                <a href="../operations/attachment.html" target="_self"><!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
                                     <img alt="" src="../../Resources/images/icon/64/10.png">
-                                    <p>基站信息表</p>
+                                    <p>备品备件</p>
                                 </a>
                             </div>
+                  
                              <div class="menu-box text-center" style="cursor: pointer;">
                                 <a href="" target="_self"><!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
@@ -99,7 +100,8 @@
                                     <p>巡检汇总表</p>
                                 </a>
                             </div>
-                             <div class="menu-box text-center" style="cursor: pointer;">
+                             <div class="menu-box text-center" style="cursor: pointer;" data-toggle="modal"
+                                        data-target="#excel-server">
                                 <a href="" target="_self"><!--  <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
                                     <img alt="" src="../../Resources/images/icon/64/10.png">
@@ -231,11 +233,60 @@
 	</div>
 	<!-- 中间内容体 /-->
 
+
+<div class="modal fade" id="excel-server" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header ">
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+                <small class="font-bold">导出系统维护表</small>
+            </div>
+            <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time"
+                                    class="form-control" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+                                    required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm"
+                    id="excel-server-btn" data-loading-text="数据导出中..">
+                    <i class="fa "></i>&nbsp;导出
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 <script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
 <script type="text/javascript">
 		xh.load();
+		$("#excel-server-btn").click(function() {
+	        var time=$("#excel-server").find("input[name='time']").val();
+	        if(time==""){
+	            alert("时间不能为空");
+	            return;
+	        }
+	        xh.server_excel(time);
+	    });
 </script>
 </body>
 </html>
