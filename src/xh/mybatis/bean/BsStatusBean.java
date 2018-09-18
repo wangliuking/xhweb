@@ -39,6 +39,8 @@ public class BsStatusBean{
 	private int carrierLowNoiseRXRssi3;
 	private int carrierLowNoiseRXRssi4;
 	
+	private String icp_status;
+	
 	
 	public int getBsId() {
 		return bsId;
@@ -192,6 +194,12 @@ public class BsStatusBean{
 	}
 	public void setChnumber(int chnumber) {
 		this.chnumber = chnumber;
+	}
+	public String getIcp_status() {
+		return icp_status;
+	}
+	public void setIcp_status(String icp_status) {
+		this.icp_status = icp_status;
 	}
 	
 

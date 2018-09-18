@@ -98,7 +98,8 @@
 		b.runtime AS bscRuntime,
 		b.psm1runtime,
 		b.psm2runtime,
-		c.carrierLowNoiseRXRssi1,c.carrierLowNoiseRXRssi2,c.carrierLowNoiseRXRssi3,c.carrierLowNoiseRXRssi4
+		c.carrierLowNoiseRXRssi1,c.carrierLowNoiseRXRssi2,c.carrierLowNoiseRXRssi3,c.carrierLowNoiseRXRssi4,
+		d.icp_status
 
 
 		FROM
@@ -107,6 +108,7 @@
 		b.bsId AND b.chId = 1
 		LEFT JOIN xhgmnet_bs_bsr c ON a.bsId=c.bsId and
 		c.`master`=2
+		LEFT JOIN xhgmnet_bs_main_info as d ON a.bsId=d.bsId
 		ORDER BY
 		a.bsId ASC;
 	</select>

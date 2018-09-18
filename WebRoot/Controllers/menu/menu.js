@@ -61,7 +61,7 @@ xh.server_excel = function(time) {
 		data : {
 			time:time
 		},
-		async : false,
+		async : true,
 		success : function(data) {
 
 			$("#btn-run").button('reset');
@@ -76,6 +76,37 @@ xh.server_excel = function(time) {
 		},
 		error : function() {
 			$("#btn-run").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+
+};
+xh.bs_month_excel = function(time) {
+	xh.maskShow();
+	$("#excel-month-bs-btn").button('loading');
+	$.ajax({
+		url : '../../report/month/excel_month_bs',
+		type : 'get',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : true,
+		success : function(data) {
+
+			$("#excel-month-bs-btn").button('reset');
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;
+
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#excel-month-bs-btn").button('reset');
 			toastr.error("导出失败", '提示');
 			xh.maskHide();
 		}

@@ -53,7 +53,7 @@ public class ReportDayController {
 	private boolean success;
 	private String message;
 	private FunUtil funUtil=new FunUtil();
-	protected final Log log = LogFactory.getLog(CallController.class);
+	protected final Log log = LogFactory.getLog(ReportDayController.class);
 	private FlexJSON json=new FlexJSON();
 	
 	@RequestMapping(value = "/chart_server", method = RequestMethod.GET)
@@ -942,7 +942,7 @@ public class ReportDayController {
 			str.append(",");
 		}
 		if(Math.abs(d)>1){
-			str.append("RX4=");
+			str.append("RX5=");
 			str.append(Double.parseDouble(String.valueOf(d))/10);
 			str.append("dBm");
 			str.append(",");
