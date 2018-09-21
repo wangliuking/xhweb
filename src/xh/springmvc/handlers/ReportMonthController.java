@@ -32,6 +32,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.ChartService;
 
 @Controller
 @RequestMapping(value="/report/month")
@@ -147,40 +148,190 @@ public class ReportMonthController {
 			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			wcfN.setBackground(Colour.WHITE);// 背景色
 			wcfN.setWrap(true);// 自动换行
-			sheet.addCell(new Label(0, 0, "基站ID", fontFormat_h));
-			sheet.addCell(new Label(1, 0, "设备", fontFormat_h));
-			sheet.addCell(new Label(2, 0, "ICP状态", fontFormat_h));
-			sheet.addCell(new Label(3, 0, "BSR状态", fontFormat_h));
-			sheet.addCell(new Label(4, 0, "基站时钟运行状态", fontFormat_h));
-			sheet.addCell(new Label(5, 0, "双工器回波损耗", fontFormat_h));
-			sheet.addCell(new Label(6, 0, "主控信道底噪查询", fontFormat_h));
-			sheet.addCell(new Label(7, 0, "备注", fontFormat_h));
+			sheet.addCell(new Label(0, 0, "基站期数", fontFormat_h));
+			sheet.addCell(new Label(1, 0, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(2, 0, "设备", fontFormat_h));
+			sheet.addCell(new Label(3, 0, "ICP状态", fontFormat_h));
+			sheet.addCell(new Label(4, 0, "BSR状态", fontFormat_h));
+			sheet.addCell(new Label(5, 0, "基站时钟运行状态", fontFormat_h));
+			sheet.addCell(new Label(6, 0, "双工器回波损耗", fontFormat_h));
+			sheet.addCell(new Label(7, 0, "主控信道底噪查询", fontFormat_h));
+			sheet.addCell(new Label(8, 0, "备注", fontFormat_h));
 			sheet.setRowView(0, 300);
 			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 10);
+			sheet.setColumnView(2, 20);
+			sheet.setColumnView(3, 10);
+			sheet.setColumnView(4, 20);
+			sheet.setColumnView(5, 20);
+			sheet.setColumnView(6, 50);
+			sheet.setColumnView(7, 50);
+			sheet.setColumnView(8, 20);
+
+			
+			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
+			
+			for (int i = 0; i < list.size(); i++) {
+			
+				BsStatusBean bean = (BsStatusBean) list.get(i);
+				
+			/*	System.out.println("bsr1="+bean.getBsr_state1()+";bsr2="+bean.getBsr_state2()
+						+";bsr3="+bean.getBsr_state3()+";bsr4="+bean.getBsr_state4());*/
+				
+				String bsrstatus=bsr_status(bean.getBsr_state1(),bean.getBsr_state2(),bean.getBsr_state3(),bean.getBsr_state4());
+				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));	
+				sheet.addCell(new jxl.write.Number(1, i + 1,Double.parseDouble(String.valueOf(bean.getBsId())),wcfN));				
+				sheet.addCell(new Label(2, i + 1, String.valueOf(bean.getName()), fontFormat_Content));
+				sheet.addCell(new Label(3, i + 1, bs_icp(bean.getIcp_status()), fontFormat_Content));
+				sheet.addCell(new Label(4, i + 1, bsrstatus, fontFormat_Content));
+				sheet.addCell(new Label(5, i + 1, String.valueOf(bean.getClock_status()), fontFormat_Content));
+				sheet.addCell(new Label(6, i + 1, dpx_format(bean.getDpx_retLoss1(),bean.getDpx_retLoss2(),
+						bean.getDpx_retLoss3(), bean.getDpx_retLoss4()), fontFormat_Content));
+				sheet.addCell(new Label(7, i + 1, master_ch(bean.getCarrierLowNoiseRXRssi1(),
+						bean.getCarrierLowNoiseRXRssi2(),bean.getCarrierLowNoiseRXRssi3(),
+						bean.getCarrierLowNoiseRXRssi4()), fontFormat_Content));
+				
+				sheet.addCell(new Label(8, i + 1, bsr_status(bean.getBsr_state1()), fontFormat_Content));
+				
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+		
+		
+		
+	}
+	@RequestMapping(value = "/excel_month_inspection", method = RequestMethod.GET)
+	public void excel_month_inspection(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/");
+			String pathname = saveDir + "/成都市应急指挥调度无线通信网巡检记录汇总表-"+time+".xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);			
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+					Colour.DARK_GREEN);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 13,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					12, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+		
+			
+			//总计内容字体格式
+			WritableFont total_font = new WritableFont(WritableFont.COURIER,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.RED);
+			// 应用字体
+			WritableCellFormat total_fontFormat = new WritableCellFormat(total_font);
+			total_fontFormat.setAlignment(Alignment.CENTRE);// 水平对齐
+			total_fontFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			total_fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			total_fontFormat.setBackground(Colour.WHITE);// 背景色
+			total_fontFormat.setWrap(true);// 自动换行
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+
+			WritableSheet sheet0 = book.createSheet("巡检记录汇总表", 0);
+			
+			excel_inspection(time,sheet0,fontFormat,fontFormat_h,fontFormat_Content);
+			
+			book.write();
+			book.close();
+			/*DownExcelFile(response, pathname);*/
+			 this.success=true;
+			 HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void excel_inspection(String time,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检记录汇总表", fontFormat_h));
+			sheet.mergeCells(0, 0, 7, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "期数", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "应巡检次数", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "巡检时间", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "巡检人员", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "备注", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "是否完成", fontFormat_h));
+			sheet.setRowView(0, 600);
+			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 20);
-			sheet.setColumnView(2, 10);
+			sheet.setColumnView(2, 20);
 			sheet.setColumnView(3, 20);
 			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 50);
+			sheet.setColumnView(5, 20);
 			sheet.setColumnView(6, 50);
 			sheet.setColumnView(7, 20);
 
 			
-			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
+			List<Map<String,Object>> list=ChartService.excel_month_inspection(time);
+			
 			for (int i = 0; i < list.size(); i++) {
-				BsStatusBean bean = (BsStatusBean) list.get(i);
-				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getBsId())),wcfN));				
-				sheet.addCell(new Label(1, i + 1, String.valueOf(bean.getName()), fontFormat_Content));
-				sheet.addCell(new Label(2, i + 1, bs_icp(bean.getIcp_status()), fontFormat_Content));
-				sheet.addCell(new Label(3, i + 1, "", fontFormat_Content));
-				sheet.addCell(new Label(4, i + 1, String.valueOf(bean.getClock_status()), fontFormat_Content));
-				sheet.addCell(new Label(5, i + 1, dpx_format(bean.getDpx_retLoss1(),bean.getDpx_retLoss2(),
-						bean.getDpx_retLoss3(), bean.getDpx_retLoss4()), fontFormat_Content));
-				sheet.addCell(new Label(6, i + 1, master_ch(bean.getCarrierLowNoiseRXRssi1(),
-						bean.getCarrierLowNoiseRXRssi2(),bean.getCarrierLowNoiseRXRssi3(),
-						bean.getCarrierLowNoiseRXRssi4()), fontFormat_Content));
+				Map<String,Object> map=list.get(i);
 				
-				sheet.addCell(new Label(7, i + 1, bsr_status(bean.getBsr_state1()), fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(0, i + 2,Integer.parseInt(map.get("bsid").toString()),fontFormat_Content));				
+				sheet.addCell(new Label(1, i + 2, map.get("bsname").toString(), fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(2, i + 2,Integer.parseInt(map.get("period").toString()),fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(3, i + 2,Integer.parseInt(map.get("checkTimes").toString()),fontFormat_Content));
+				sheet.addCell(new Label(4, i + 2, map.get("time").toString(), fontFormat_Content));
+				sheet.addCell(new Label(5, i + 2, map.get("checkman").toString(), fontFormat_Content));
+				sheet.addCell(new Label(6, i + 2, map.get("remainwork").toString(), fontFormat_Content));
+				sheet.addCell(new Label(7, i + 2, map.get("complate").toString(), fontFormat_Content));
 				
 				
 			}
@@ -204,6 +355,7 @@ public class ReportMonthController {
 			return "NO";
 		}
 	}
+ 	
  	public String bsr_status(String str){
 		if(str==null || str==""){
 			return "";
@@ -212,6 +364,38 @@ public class ReportMonthController {
 		}else{
 			return "ERROR";
 		}
+	}
+	public String bsr_status(String str1 ,String str2,String str3,String str4){
+		boolean a=true;
+		int b=0;
+		if(str1!=null){
+			a=a && str1.equals("0");
+			b=1;
+		}
+		if(str2!=null){
+			a=a && str2.equals("0");
+			b=1;
+		}
+		if(str3!=null){
+			a=a && str3.equals("0");
+			b=1;
+		}
+		if(str4!=null){
+			a=a && str4.equals("0");
+			b=1;
+		}
+			
+		if(b==1){
+			if(a){
+				return "OK";
+			}else{
+				return "NO";
+			}
+		}else{
+			return "";
+		}
+		
+		
 	}
 	public String bsc_runtime(String str){
 		if(str==null || str==""){

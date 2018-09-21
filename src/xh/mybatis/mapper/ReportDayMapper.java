@@ -23,6 +23,14 @@ public interface ReportDayMapper {
 	
 	public List<ChartReportImpBsBean> chart_bs_imp_call(String time)throws Exception;
 	
+	public List<Map<String,Object>> now_week_gpsnumber(String day)throws Exception;
+	
+	public List<Map<String,Object>> other_device_status()throws Exception;
+	
+	public Map<String,Object> operations_question(String time)throws Exception;
+	
+	public Map<String,Object> now_gpsunit_status()throws Exception;
+	
 	
 	
 

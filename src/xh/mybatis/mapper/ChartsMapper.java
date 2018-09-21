@@ -43,5 +43,7 @@ public interface ChartsMapper {
 	 * @throws Exception
 	 */
 	public List<HashMap> hourCallTime(Map<String,Object> map)throws Exception;
+	
+	public List<Map<String,Object>> excel_month_inspection(String time)throws Exception;
 
 }

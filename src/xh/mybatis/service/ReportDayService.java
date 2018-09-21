@@ -153,6 +153,60 @@ public class ReportDayService {
 		}
 		return list;
 	}
+	public static List<Map<String,Object>> now_week_gpsnumber(String day){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.now_week_gpsnumber(day);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,Object>> other_device_status(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.other_device_status();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static Map<String,Object> operations_question(String time){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		Map<String,Object> map=new  HashMap<String, Object>();
+		try {
+			map=mapper.operations_question(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	public static Map<String,Object> now_gpsunit_status(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		Map<String,Object> map=new  HashMap<String, Object>();
+		try {
+			map=mapper.now_gpsunit_status();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
 	
 	
 }

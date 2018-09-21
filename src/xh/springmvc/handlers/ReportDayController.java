@@ -2,7 +2,9 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -370,9 +372,10 @@ public class ReportDayController {
 		sheet.addCell(new Label(0, 0, "系统日常维护表", fontFormat));
 		sheet.addCell(new Label(0, 1, "主服务器当前运行状态", fontFormat));
 		sheet.addCell(new Label(5, 2, "统计时间"+time, fontFormat));
-		sheet.mergeCells(0,0,6,0);
-		sheet.mergeCells(0,1,6,1);
-		sheet.mergeCells(5,2,6,2);
+		sheet.mergeCells(0,0,7,0);
+		sheet.mergeCells(0,1,7,1);
+		sheet.mergeCells(5,2,7,2);
+		
 		sheet.setRowView(0, 600);
 		sheet.setRowView(1, 600);
 		sheet.setColumnView(0, 20);
@@ -381,7 +384,8 @@ public class ReportDayController {
 		sheet.setColumnView(3, 20);
 		sheet.setColumnView(4, 20);
 		sheet.setColumnView(5, 20);
-		sheet.setColumnView(6, 40);
+		sheet.setColumnView(6, 20);
+		sheet.setColumnView(7, 20);
 		
 		sheet.addCell(new Label(0, 3, "设备", fontFormat_h));
 		sheet.addCell(new Label(1, 3, "IP", fontFormat_h));
@@ -390,6 +394,7 @@ public class ReportDayController {
 		sheet.addCell(new Label(4, 3, "硬盘使用", fontFormat_h));
 		sheet.addCell(new Label(5, 3, "可用量", fontFormat_h));
 		sheet.addCell(new Label(6, 3, "运行时间", fontFormat_h));
+		sheet.mergeCells(6,3,7,3);
 		
 		
 		
@@ -414,12 +419,13 @@ public class ReportDayController {
 			sheet.addCell(new jxl.write.Number(4, i + 4, Double.parseDouble(bean.get("diskUsed").toString()),wcfN));
 			sheet.addCell(new jxl.write.Number(5, i + 4, Double.parseDouble(bean.get("diskSize").toString()), wcfN));
 			sheet.addCell(new Label(6, i + 4, "", fontFormat_Content));
+			sheet.mergeCells(6,i + 4,7,i + 4);
 		}
 		
 		//容灾
 		int start=list_one.size()+5;
 		sheet.addCell(new Label(0, start+1, "容灾服务器当前运行状态", fontFormat));
-		sheet.mergeCells(0,start+1,6,start+1);
+		sheet.mergeCells(0,start+1,7,start+1);
 		sheet.setRowView(start+1, 600);
 		
 		sheet.addCell(new Label(0, start+2, "设备", fontFormat_h));
@@ -429,6 +435,7 @@ public class ReportDayController {
 		sheet.addCell(new Label(4, start+2, "硬盘使用", fontFormat_h));
 		sheet.addCell(new Label(5, start+2, "可用量", fontFormat_h));
 		sheet.addCell(new Label(6, start+2, "运行时间", fontFormat_h));
+		sheet.mergeCells(6,start+2,7,start+2);
 		for (int i = 0; i < list_two.size(); i++) {
 			Map bean =list_two.get(i);
 			sheet.setRowView(start+i + 3, 400);
@@ -442,7 +449,94 @@ public class ReportDayController {
 			
 			
 			sheet.addCell(new Label(6, start+i + 3, "", fontFormat_Content));
+			sheet.mergeCells(6,start+i + 3,7,start+i + 3);
 		}
+		
+		//GPS统计
+		
+		start=list_one.size()+5+list_two.size()+3;
+		List<Map<String,Object>> gps=ReportDayService.now_week_gpsnumber(time);
+		sheet.addCell(new Label(0, start+1, "", fontFormat_h));
+		sheet.addCell(new Label(1, start+1, "周一", fontFormat_h));
+		sheet.addCell(new Label(2, start+1, "周二", fontFormat_h));
+		sheet.addCell(new Label(3, start+1, "周三", fontFormat_h));
+		sheet.addCell(new Label(4, start+1, "周四", fontFormat_h));
+		sheet.addCell(new Label(5, start+1, "周五", fontFormat_h));
+		sheet.addCell(new Label(6, start+1, "周六", fontFormat_h));
+		sheet.addCell(new Label(7, start+1, "周日", fontFormat_h));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+        List<Date> lDate=FunUtil.findNowWeekDays();
+        
+        sheet.addCell(new Label(0, start+2, "区域/时间", fontFormat_h));
+        for(int i=0;i<lDate.size();i++){
+        	Date dd=lDate.get(i);
+        	sheet.addCell(new Label((i+1), start+2, sdf.format(dd), fontFormat_Content));
+        }
+        sheet.addCell(new Label(0, start+3, "总数", fontFormat_Content));
+        sheet.addCell(new Label(0, start+4, "交管8009850", fontFormat_Content));
+        sheet.addCell(new Label(0, start+5, "公安8000695", fontFormat_Content));
+        sheet.addCell(new Label(0, start+6, "双流7088899", fontFormat_Content));
+        for(int i=0;i<gps.size();i++){
+        	
+        	int total=Integer.parseInt(gps.get(i).get("v1").toString())+
+        			Integer.parseInt(gps.get(i).get("v2").toString())+
+        			Integer.parseInt(gps.get(i).get("v3").toString());
+        	sheet.addCell(new jxl.write.Number(i+1, start+3, total, fontFormat_Content));
+        	sheet.addCell(new jxl.write.Number(i+1, start+4, Integer.parseInt(gps.get(i).get("v1").toString()), fontFormat_Content));
+        	sheet.addCell(new jxl.write.Number(i+1, start+5, Integer.parseInt(gps.get(i).get("v2").toString()), fontFormat_Content));
+        	sheet.addCell(new jxl.write.Number(i+1, start+6, Integer.parseInt(gps.get(i).get("v3").toString()), fontFormat_Content));
+        }
+        
+        Map<String,Object>  mapGps=ReportDayService.now_gpsunit_status();
+        
+        sheet.addCell(new Label(0, start+7, "交管局GPS数据库", fontFormat_Content));
+        sheet.addCell(new Label(1, start+7, mapGps.get("jg").toString().equals("1")?"OK":"NO", fontFormat_Content));
+        sheet.addCell(new Label(2, start+7, "", fontFormat_Content));
+        sheet.mergeCells(2,start+7,7,start+7);
+        
+        sheet.addCell(new Label(0, start+8, "公安局GPS数据库", fontFormat_Content));
+        sheet.addCell(new Label(1, start+8, mapGps.get("cd").toString().equals("1")?"OK":"NO", fontFormat_Content));
+        sheet.addCell(new Label(2, start+8, "", fontFormat_Content));
+        sheet.mergeCells(2,start+8,7,start+8);
+        
+        
+        sheet.addCell(new Label(0, start+9, "桥接基站、网管当前运行状态", fontFormat_Content));
+        sheet.mergeCells(0,start+9,7,start+9);
+        
+        sheet.addCell(new Label(0, start+10, "设备", fontFormat_Content));
+        sheet.addCell(new Label(1, start+10, "IP", fontFormat_Content));
+        sheet.mergeCells(1,start+10,2,start+10);
+        sheet.addCell(new Label(3, start+10, "运行状态", fontFormat_Content));
+        sheet.addCell(new Label(4, start+10, "", fontFormat_Content));
+        sheet.addCell(new Label(5, start+10, "备注", fontFormat_Content));
+        sheet.mergeCells(5,start+10,7,start+10);
+        
+        
+        sheet.addCell(new Label(0, start+11, "桥接中心工作状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+12, "东信桥接1站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+13, "东信桥接2站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+14, "东信桥接3站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+15, "MOTO桥接1站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+16, "MOTO桥接2站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+17, "MOTO桥接3站状态", fontFormat_Content));
+        sheet.addCell(new Label(0, start+18, "网管客户端登录", fontFormat_Content));
+        sheet.addCell(new Label(0, start+19, "信道资源状态监控", fontFormat_Content));
+        sheet.addCell(new Label(0, start+20, "故障告警监控功能", fontFormat_Content));
+        
+        List<Map<String,Object>> dev=ReportDayService.other_device_status();
+        for(int i=0;i<dev.size();i++){
+        	Map<String,Object> devMap=dev.get(i);
+        	sheet.addCell(new Label(1, start+11+i, devMap.get("ip").toString(), fontFormat_Content));
+        	sheet.addCell(new Label(3, start+11+i, devMap.get("status").toString().equals("1")?"OK":"NO", fontFormat_Content));
+        	if(i==dev.size()-1){
+        		 sheet.mergeCells(1,start+11+i,2,start+13+i);
+        	}else{
+        		sheet.mergeCells(1,start+11+i,2,start+11+i);
+        	}
+        }
+        
+        
+		
 		
 		
 		} catch (Exception e) {
@@ -474,12 +568,12 @@ public class ReportDayController {
 		sheet.mergeCells(0,0,5,0);
 		sheet.mergeCells(4,1,5,1);
 		sheet.setRowView(0, 600);
-		sheet.setColumnView(0, 10);
+		sheet.setColumnView(0, 20);
 		sheet.setColumnView(1, 20);
 		sheet.setColumnView(2, 20);
 		sheet.setColumnView(3, 20);
 		sheet.setColumnView(4, 20);
-		sheet.setColumnView(5, 20);
+		sheet.setColumnView(5, 30);
 		
 		sheet.addCell(new Label(0, 2, "调度台ID", fontFormat_h));
 		sheet.addCell(new Label(1, 2, "调度台名称", fontFormat_h));
@@ -539,7 +633,7 @@ public class ReportDayController {
 				sheet.setRowView(i + 2, 400);
 				sheet.addCell(new Label(0, i + 3, "1."+(i+1), fontFormat_Content));
 				sheet.addCell(new Label(1, i + 3, bean.getBsid()+"号基站", fontFormat_Content));
-				sheet.addCell(new Label(2, i + 3, "", fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(2, i + 3, bean.getRegUsers(), fontFormat_Content));
 				sheet.addCell(new jxl.write.Number(3, i + 3,bean.getTotalActiveCalls(), fontFormat_Content));
 				sheet.addCell(new Label(4, i + 3, funUtil.second_time(bean.getTotalActiveCallDuration()), fontFormat_Content));
 				sheet.addCell(new Label(5, i + 3, "", fontFormat_Content));
@@ -655,6 +749,16 @@ public class ReportDayController {
 		sheet.addCell(new Label(2, 3, String.valueOf(list_two.get("a_2")), fontFormat_Content));
 		sheet.addCell(new Label(3, 3, String.valueOf(list_two.get("a_3")), fontFormat_Content));
 		sheet.addCell(new Label(4, 3, String.valueOf(list_two.get("a_4")), fontFormat_Content));
+		
+		Map<String, Object> map1=ReportDayService.operations_question(time);
+		String str="遗留问题："+map1.get("question").toString();
+		
+		sheet.addCell(new Label(0, 4, str, fontFormat_Content));
+		
+		sheet.mergeCells(0,4,4,9);
+		
+		
+		
 		
 		
 		

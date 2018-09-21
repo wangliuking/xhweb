@@ -497,7 +497,7 @@
 		a.bsId%1000=b.bsId
 
 		where a.time between
-		#{startTime} and #{endTime}
+		#{startTime} and #{endTime} and a.sysType=1 and a.neType=4 and a.modType=3
 		order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true"

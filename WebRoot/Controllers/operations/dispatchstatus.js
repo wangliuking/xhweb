@@ -36,7 +36,7 @@ xh.load = function() {
 		$scope.operationMenu=true; //菜单变色
 		/*xh.loadUserStatusPie();*/
 	
-		$http.get("../../status/dispatch").
+		$http.get("../../status/dispatchstatus_list").
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -129,7 +129,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../status/dispatch").
+			$http.get("../../status/dispatchstatus_list").
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;

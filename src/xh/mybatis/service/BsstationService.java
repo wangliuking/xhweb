@@ -987,5 +987,19 @@ public class BsstationService {
 		return count;
 	}
 	
+	public static Map<String, Object> select_bs_by_bsid(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		Map<String, Object> map=new HashMap<String, Object>();
+		try {
+			map = mapper.select_bs_by_bsid(bsId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 
 }

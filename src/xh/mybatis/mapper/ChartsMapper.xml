@@ -9,7 +9,8 @@
 	<!--终端在线状态统计 -->
 	<select id="userStatusByChart" resultType="java.util.HashMap"
 		useCache="true">
-		select onlinestatus as name,count(id) as value from xhgmnet_radiouser
+		select onlinestatus as name,count(id) as value from
+		xhgmnet_radiouser
 		group by onlinestatus order by onlinestatus asc
 	</select>
 	<!--基站状态统计 -->
@@ -22,7 +23,8 @@
 	<!--查询资产状态图像统计 -->
 	<select id="AssetStatusByChart" resultType="java.util.HashMap"
 		useCache="true">
-		select status as name,count(id) as value from xhgmnet_business_assetinfo
+		select status as name,count(id) as value from
+		xhgmnet_business_assetinfo
 		group by status order by status asc
 	</select>
 	<!--基站分布图 -基站信息 -->
@@ -37,11 +39,31 @@
 		select name,lng,lat from xhgmnet_bs_station order by
 		bsId asc
 	</select>
-	<!--当天呼叫时间统计-->
-    <select id="hourCallTime" parameterType="map" resultType="java.util.HashMap" useCache="true">         
-    select count(*)as num,sum(Use_Time) as time,DATE_FORMAT( Call_Time, '%H' ) AS date from  xhgmnet_calllist06 
-    where Call_Time between #{starttime} and #{endtime} group by date order by date asc
-    </select>
+	<!--当天呼叫时间统计 -->
+	<select id="hourCallTime" parameterType="map" resultType="java.util.HashMap"
+		useCache="true">
+		select count(*)as num,sum(Use_Time) as time,DATE_FORMAT( Call_Time, '%H' )
+		AS date from xhgmnet_calllist06
+		where Call_Time between #{starttime} and #{endtime} group by date order by
+		date asc
+	</select>
+	<select id="excel_month_inspection" parameterType="String"
+		resultType="Map" useCache="true">
+		select a.*,b.period from (select bsid,bsname,1 as
+		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as
+		time,checkman,remainwork,'是' as complate from
+		xhgmnet_operations_inspection_movebs
+
+		UNION all
+
+		select bsid,bsname,1 as checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as
+		time,checkman,remainwork,'是' as complate from
+		xhgmnet_operations_inspection_selfbs) as a
+
+		LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId
+		where DATE_FORMAT(a.time,'%Y-%m')=#{time}
+	</select>
+
 
 
 

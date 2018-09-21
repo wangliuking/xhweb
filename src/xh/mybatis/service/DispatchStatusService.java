@@ -76,6 +76,21 @@ public class DispatchStatusService {
 		session.close();
 		return rsList;
 	}
+	public static List<Map<String,Object>> dispatchstatus_list(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+			
+		List<Map<String,Object>> rsList=new ArrayList<Map<String,Object>>();
+		try {
+			rsList = mapper.dispatchstatus();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return rsList;
+	}
 	/**
 	 * 调度台断开报警
 	 * @return

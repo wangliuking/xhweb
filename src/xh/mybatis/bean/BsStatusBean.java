@@ -201,6 +201,25 @@ public class BsStatusBean{
 	public void setIcp_status(String icp_status) {
 		this.icp_status = icp_status;
 	}
+	@Override
+	public String toString() {
+		return "BsStatusBean [bsId=" + bsId + ", status=" + status
+				+ ", period=" + period + ", groupNum=" + groupNum + ", mscNum="
+				+ mscNum + ", updateTime=" + updateTime + ", chnumber="
+				+ chnumber + ", name=" + name + ", clock_status="
+				+ clock_status + ", bscRuntime=" + bscRuntime
+				+ ", bsrRunStatus=" + bsrRunStatus + ", rx1=" + rx1 + ", rx2="
+				+ rx2 + ", bsr_state1=" + bsr_state1 + ", bsr_state2="
+				+ bsr_state2 + ", bsr_state3=" + bsr_state3 + ", bsr_state4="
+				+ bsr_state4 + ", dpx_retLoss1=" + dpx_retLoss1
+				+ ", dpx_retLoss2=" + dpx_retLoss2 + ", dpx_retLoss3="
+				+ dpx_retLoss3 + ", dpx_retLoss4=" + dpx_retLoss4
+				+ ", carrierLowNoiseRXRssi1=" + carrierLowNoiseRXRssi1
+				+ ", carrierLowNoiseRXRssi2=" + carrierLowNoiseRXRssi2
+				+ ", carrierLowNoiseRXRssi3=" + carrierLowNoiseRXRssi3
+				+ ", carrierLowNoiseRXRssi4=" + carrierLowNoiseRXRssi4
+				+ ", icp_status=" + icp_status + "]";
+	}
 	
 
 

@@ -1,45 +1,175 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.AppInspectionMapper">
-    <!--查询800M移动基站巡检表-->
-    <select id="mbsinfo" parameterType="map" resultType="map" useCache="true">
-     select * from xhgmnet_operations_inspection_movebs where 1=1
-     order by commitdate desc limit #{start},#{limit}
-    </select>   
-    <!--查询800M移动基站巡检表总数-->
-    <select id="mbsinfoCount" parameterType="map" resultType="int" useCache="true">
-     select count(*) from xhgmnet_operations_inspection_movebs 
-    </select>
-    
-    
-    
-    <!--自建基站巡检表-->
-    <select id="sbsinfo" parameterType="map" resultType="map" useCache="true">
-     select * from xhgmnet_operations_inspection_selfbs where 1=1
-     order by commitdate desc limit #{start},#{limit}
-    </select>   
-    <!--自建基站巡检表总数-->
-    <select id="sbsinfoCount" parameterType="map" resultType="int" useCache="true">
-     select count(*) from xhgmnet_operations_inspection_selfbs
-    </select>  
-    
-    <!--网管巡检表-->
-    <select id="netinfo" parameterType="map" resultType="map" useCache="true">
-     select * from xhgmnet_operations_inspection_net where 1=1
-     order by commitdate desc limit #{start},#{limit}
-    </select>   
-    <!--网管巡检表总数-->
-    <select id="netinfoCount" parameterType="map" resultType="int" useCache="true">
-     select count(*) from xhgmnet_operations_inspection_net
-    </select>  
-    
-    <!--调度台巡检表-->
-    <select id="dispatchinfo" parameterType="map" resultType="map" useCache="true">
-     select * from xhgmnet_operations_inspection_dispatch where 1=1
-     order by commitdate desc limit #{start},#{limit}
-    </select>   
-    <!--调度台巡检表总数-->
-    <select id="dispatchinfoCount" parameterType="map" resultType="int" useCache="true">
-     select count(*) from xhgmnet_operations_inspection_dispatch
-    </select> 
+	<!--查询800M移动基站巡检表 -->
+	<select id="mbsinfo" parameterType="map" resultType="xh.mybatis.bean.InspectionMbsBean"
+		useCache="true">
+		select * from xhgmnet_operations_inspection_movebs where 1=1
+		<if test="time!=null and time!=''">
+		 and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
+		
+		order by commitdate desc limit #{start},#{limit}
+	</select>
+	<!--查询800M移动基站巡检表总数 -->
+	<select id="mbsinfoCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_inspection_movebs where 1=1
+		<if test="time!=null and time!=''">
+         and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+	</select>
+
+
+
+	<!--自建基站巡检表 -->
+	<select id="sbsinfo" parameterType="map" resultType="xh.mybatis.bean.InspectionSbsBean"
+		useCache="true">
+		select * from xhgmnet_operations_inspection_selfbs where 1=1
+		<if test="time!=null and time!=''">
+         and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+		order by commitdate desc limit #{start},#{limit}
+	</select>
+	<!--自建基站巡检表总数 -->
+	<select id="sbsinfoCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_inspection_selfbs where 1=1
+		<if test="time!=null and time!=''">
+         and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+	</select>
+
+	<!--网管巡检表 -->
+	<select id="netinfo" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_operations_inspection_net where 1=1
+		order by commitdate desc limit #{start},#{limit}
+	</select>
+	<!--网管巡检表总数 -->
+	<select id="netinfoCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_inspection_net
+	</select>
+
+	<!--调度台巡检表 -->
+	<select id="dispatchinfo" parameterType="map" resultType="map"
+		useCache="true">
+		select * from xhgmnet_operations_inspection_dispatch where
+		1=1
+		order by commitdate desc limit #{start},#{limit}
+	</select>
+	<!--调度台巡检表总数 -->
+	<select id="dispatchinfoCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_inspection_dispatch
+	</select>
+	<!--交换中心巡检表 -->
+	<select id="mscinfo" parameterType="map"
+		resultType="xh.mybatis.bean.InspectionMscBean" useCache="true">
+		select * from xhgmnet_operations_inspection_msc where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(checkDate,'%Y-%m')=#{time}
+		</if>
+		order by checkDate desc limit #{start},#{limit}
+	</select>
+	<!--调度台巡检表总数 -->
+	<select id="mscCount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_operations_inspection_msc where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(checkDate,'%Y-%m')=#{time}
+		</if>
+	</select>
+	<insert id="msc_add" parameterType="xh.mybatis.bean.InspectionMscBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_inspection_msc (
+		checkDate,checkPersion,user ,a1 ,a2
+		,a3 ,a4 ,a5 ,a6 ,a7
+		,a8 ,a9 ,a10 ,a11 ,a12 ,a13 ,a14 ,a15 ,a16 ,a17 ,
+		b1 ,b2 ,b3 ,b4 ,b5 ,
+		b6 ,b7 ,b8 ,b9 ,b10 ,b11 ,b12 ,b13 ,b14 ,b15 ,b16
+		,b17 ,c1 ,c2 ,c3 ,c4
+		,c5 ,c6 ,c7 ,c8 ,c9 ,c10 ,c11 ,c12 ,c13 ,c14 ,c15
+		,c16 ,c17)values(
+		#{checkDate},#{checkPersion},#{user} ,#{a1} ,#{a2} ,
+		#{a3} ,#{a4} ,#{a5} ,#{a6} ,#{a7} ,#{a8} ,#{a9} ,#{a10} ,#{a11} ,#{a12} ,
+		#{a13} ,#{a14} ,#{a15} ,#{a16} ,#{a17} , #{b1} ,#{b2} ,#{b3} ,#{b4}
+		,#{b5} ,
+		#{b6} ,#{b7} ,#{b8} ,#{b9} ,#{b10} ,#{b11} ,#{b12} ,#{b13} ,#{b14} ,#{b15}
+		,
+		#{b16} ,#{b17} ,#{c1} ,#{c2} ,#{c3} ,#{c4} ,#{c5} ,#{c6} ,#{c7} ,#{c8} ,
+		#{c9} ,#{c10} ,#{c11} ,#{c12} ,#{c13} ,#{c14} ,#{c15} ,#{c16} ,#{c17}
+		)
+	</insert>
+	<update id="msc_edit" parameterType="xh.mybatis.bean.InspectionMscBean">
+		update xhgmnet_operations_inspection_msc set
+		checkDate=#{checkDate},checkPersion=#{checkPersion},
+		user=#{user} ,a1=#{a1} ,a2=#{a2} ,a3=#{a3} ,a4=#{a4} ,a5=#{a5} ,a6=#{a6} ,a7=#{a7}
+		,a8=#{a8} ,
+		a9=#{a9} ,a10=#{a10} ,a11=#{a11} ,a12=#{a12} ,a13=#{a13} ,a14=#{a14}
+		,a15=#{a15} ,a16=#{a16} ,
+		a17=#{a17} , b1=#{b1} ,b2=#{b2} ,b3=#{b3} ,b4=#{b4} ,b5=#{b5} , b6=#{b6}
+		,b7=#{b7} ,b8=#{b8} ,
+		b9=#{b9} ,b10=#{b10} ,b11=#{b11} ,b12=#{b12} ,b13=#{b13} ,b14=#{b14}
+		,b15=#{b15} ,b16=#{b16} ,
+		b17=#{b17} ,c1=#{c1} ,c2=#{c2} ,c3=#{c3} ,c4=#{c4} ,c5=#{c5} ,c6=#{c6} ,c7=#{c7}
+		,c8=#{c8} ,
+		c9=#{c9} ,c10=#{c10} ,c11=#{c11} ,c12=#{c12} ,c13=#{c13} ,c14=#{c14}
+		,c15=#{c15} ,c16=#{c16} ,c17=#{c17}
+		where id=#{id}
+	</update>
+	<insert id="mbs_add" parameterType="xh.mybatis.bean.InspectionMbsBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into xhgmnet_operations_inspection_movebs
+		(serialnumber,bsid,bsname,bslevel,bstype,longitude,latitude,address,checkman,commitdate,remainwork,
+		userid,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,
+		d26,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26
+		)values(#{serialnumber},#{bsid},#{bsname},#{bslevel},#{bstype},#{longitude},#{latitude},#{address},
+		#{checkman},#{commitdate},#{remainwork},#{userid},#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
+		#{d9},#{d10},#{d11},#{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{d18},#{d19},#{d20},#{d21},#{d22},#{d23},
+		#{d24},#{d25},#{d26},#{c1},#{c2},#{c3},#{c4},#{c5},#{c6},#{c7},#{c8},#{c9},#{c10},#{c11},#{c12},#{c13},
+		#{c14},#{c15},#{c16},#{c17},#{c18},#{c19},#{c20},#{c21},#{c22},#{c23},#{c24},#{c25},#{c26}
+		)
+	</insert>
+    <update id="mbs_edit" parameterType="xh.mybatis.bean.InspectionMbsBean">
+        update xhgmnet_operations_inspection_movebs set
+        bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype},longitude=#{longitude},
+        latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
+        remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},
+        d16=#{d16},d17=#{d17},d18=#{d18},d19=#{d19},d20=#{d20},d21=#{d21},d22=#{d22},d23=#{d23},
+        d24=#{d24},d25=#{d25},d26=#{d26},c1=#{c1},c2=#{c2},c3=#{c3},c4=#{c4},c5=#{c5},c6=#{c6},
+        c7=#{c7},c8=#{c8},c9=#{c9},c10=#{c10},c11=#{c11},c12=#{c12},c13=#{c13},
+        c14=#{c14},c15=#{c15},c16=#{c16},c17=#{c17},c18=#{c18},c19=#{c19},c20=#{c20},c21=#{c21},
+        c22=#{c22},c23=#{c23},c24=#{c24},c25=#{c25},c26=#{c26}
+        where id=#{id}
+    </update>
+    <insert id="sbs_add" parameterType="xh.mybatis.bean.InspectionSbsBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into xhgmnet_operations_inspection_selfbs
+        (serialnumber,bsid,bsname,bslevel,bstype,longitude,latitude,address,checkman,commitdate,remainwork,
+        userid,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,
+        d26,d27,d28,d29,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29
+        )values(#{serialnumber},#{bsid},#{bsname},#{bslevel},#{bstype},#{longitude},#{latitude},#{address},
+        #{checkman},#{commitdate},#{remainwork},#{userid},#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
+        #{d9},#{d10},#{d11},#{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{d18},#{d19},#{d20},#{d21},#{d22},#{d23},
+        #{d24},#{d25},#{d26},#{d27},#{d28},#{d29},#{c1},#{c2},#{c3},#{c4},#{c5},#{c6},#{c7},#{c8},#{c9},#{c10},#{c11},#{c12},#{c13},
+        #{c14},#{c15},#{c16},#{c17},#{c18},#{c19},#{c20},#{c21},#{c22},#{c23},#{c24},#{c25},#{c26},#{c27},#{c28},#{c29}
+        )
+    </insert>
+    <update id="sbs_edit" parameterType="xh.mybatis.bean.InspectionSbsBean">
+        update xhgmnet_operations_inspection_selfbs set
+        bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype},longitude=#{longitude},
+        latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
+        remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},
+        d16=#{d16},d17=#{d17},d18=#{d18},d19=#{d19},d20=#{d20},d21=#{d21},d22=#{d22},d23=#{d23},
+        d24=#{d24},d25=#{d25},d26=#{d26},d27=#{d27},d28=#{d28},d29=#{d29},c1=#{c1},c2=#{c2},c3=#{c3},c4=#{c4},c5=#{c5},c6=#{c6},
+        c7=#{c7},c8=#{c8},c9=#{c9},c10=#{c10},c11=#{c11},c12=#{c12},c13=#{c13},
+        c14=#{c14},c15=#{c15},c16=#{c16},c17=#{c17},c18=#{c18},c19=#{c19},c20=#{c20},c21=#{c21},
+        c22=#{c22},c23=#{c23},c24=#{c24},c25=#{c25},c26=#{c26},c27=#{c27},c28=#{c28},c29=#{c29}
+        where id=#{id}
+    </update>
 </mapper>

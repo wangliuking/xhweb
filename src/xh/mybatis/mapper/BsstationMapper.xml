@@ -667,5 +667,10 @@
 			#{item}
 		</foreach>
 	</select>
+	   <select id="select_bs_by_bsid" parameterType="int" resultType="map"
+        useCache="true">
+        select * from xhgmnet_bs_station where bsId=#{bsId}
+        
+    </select>
 
 </mapper>

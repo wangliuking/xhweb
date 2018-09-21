@@ -10,6 +10,7 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import xh.func.plugin.DocConverter;
+import xh.func.plugin.FunUtil;
 
 public class test {
 
@@ -25,9 +26,10 @@ public class test {
              executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
          }
          executor.shutdown();*/
-		 int a=78;
+
+       
 		 
-		System.out.println((float)a/100);
+		System.out.println(FunUtil.now_week_interval(new Date()));
 		
      }
 	

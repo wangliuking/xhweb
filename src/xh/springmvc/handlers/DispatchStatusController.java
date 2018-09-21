@@ -47,6 +47,23 @@ public class DispatchStatusController {
 		}
 		
 	}
+	@RequestMapping(value="/dispatchstatus_list",method = RequestMethod.GET)
+	public void dispatchstatus_list(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;		
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		result.put("success", success);
+		result.put("totals",DispatchStatusService.dispatchstatus_list().size());
+		result.put("items", DispatchStatusService.dispatchstatus_list());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 添加调度台
 	 * @param request

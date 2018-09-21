@@ -1,0 +1,89 @@
+
+<div class="modal fade" id="mscEditWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+				<div class="row" style="margin-top:5px;" id="print_dispatch">
+					<div class="col-md-12">
+						<form action="#" id="editMscForm" onSubmit="return false">
+							<table style="width:100%;border-collapse: collapse;"
+								class="table-view">
+								
+								<tr ng-show="false"><td><input name="id" ng-model="mscOneData.id"/></td></tr>
+
+								<tr>
+									<td colspan="8" style="text-align: center;">交换中心月度维护</td>
+								</tr>
+								<tr>
+									<td style="width:30%;" colspan="2">系統名称：成都市应急指挥调度无线通信网</td>
+									<td style="width:15%;">地点：亚光高新产业园</td>
+									<td style="width:10%;">巡检时间</td>
+									<td style="width:15%;color:blue"><input type="text"
+										name="checkDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-model="mscOneData.checkDate"></td>
+									<td style="width:10%;">巡检人</td>
+									<td style="width:10%;color:blue"><input type="text"
+										name="checkPersion" ng-model="mscOneData.checkPersion"></td>
+
+								</tr>
+
+								<tr style="font-weight:700;">
+									<td>序号</td>
+									<td>检查类容</td>
+									<td>检查情况</td>
+									<td colspan="2">问题描述</td>
+									<td colspan="2">处理情况及遗留问题</td>
+								</tr>
+								<tr ng-repeat="c in msc_add_win_html">
+									<td>{{c.id}}</td>
+									<td>{{c.content}}</td>
+									<td><input id="c{{c.id}}" class="magic-radio" type="radio"
+										value="{{c.a}}" name="a{{c.id}}" ng-checked="c.a==c.x"> <label
+										for="c{{c.id}}"><span>{{c.a}}</span></label> <input
+										id="d{{c.id}}" class="magic-radio" type="radio" value="{{c.b}}"
+										name="a{{c.id}}" ng-checked="c.b==c.x"> <label for="d{{c.id}}"><span>{{c.b}}</span></label>
+									</td>
+									<td colspan="2"><input type="text" name="b{{c.id}}" ng-model="c.y">
+									</td>
+									<td colspan="2"><input type="text" name="c{{c.id}}" ng-model="c.z">
+									</td>
+								</tr>
+
+							</table>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" 
+					class="btn btn-success btn-sm" id="update_msc_btn">
+					<i class="fa fa-plus"></i>&nbsp;修改
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $("#update_msc_btn").click(function() {
+    	var a=$("#editMscForm").find("input[name='checkPersion']").val();
+    	var b=$("#editMscForm").find("input[name='checkDate']").val();
+    	if(a=="" || b==""){
+    		toastr.error("巡检人和时间不能为空", '提示');
+    		return;
+    	}
+    	
+    	
+    	xh.edit_msc();
+    });
+</script>

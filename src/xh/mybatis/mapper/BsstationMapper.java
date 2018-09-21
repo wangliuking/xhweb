@@ -336,4 +336,6 @@ public interface BsstationMapper {
 	 */
 	public int  rectangleCount(Map<String,Object> map)throws Exception;
 	
+	public Map<String,Object> select_bs_by_bsid(int bsId) throws Exception;
+	
 }
