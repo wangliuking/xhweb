@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>修改基站</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="bs" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+
+							<li><span>当前位置：</span></li>
+							<li><span>业务管理</span></li>
+							<li><a href="../menu/menu_config.html" target="_self"><span>配置管理</span></a></li>
+							<li><a href="bsInfo.html" target="_self"><span>基站配置</span></a></li>
+							<li class="active"><span>修改基站</span></li>
+						</ol>
+					</div>
+					<div class="btn-group pull-right">
+						<button class="btn btn-primary btn-sm"
+							onclick="javascript:history.back(-1);">
+							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<form action="#" id="updateForm" onSubmit="return false">
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">基本信息</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站ID</label>&nbsp;<span class="text-danger">[*]</span>
+														<input type="text"  class="form-control" ng-model="data.bsId"
+															name="bsId" required="required">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站名称</label>&nbsp;<span class="text-danger">[*]</span>
+														<input type="text"  class="form-control" ng-model="data.name"
+															name="name" required="required">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站级别</label>&nbsp;<span class="text-danger">[*]</span>
+														<select name="level" class="form-control" ng-model="data.level">
+															<option value="1">一级</option>
+															<option value="2">二级</option>
+															<option value="3">三级</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>IP</label> <input type="text" 
+															class="form-control" ng-model="data.ip" name="ip">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>建设期</label><select name="period"
+															class="form-control" ng-model="data.period">
+															<option value="3">三期建设</option>
+															<option value="4">四期建设</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站类型</label>&nbsp;<span class="text-danger">[*]</span><select
+															name="type" class="form-control" ng-model="data.type">
+															<option value="0">固定基站</option>
+															<option value="1">室分信源</option>
+															<option value="2">应急站</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>设备型号</label><input type="text" 
+															class="form-control" ng-model="data.deviceType" name="deviceType">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>设备厂家</label><select name="productor"
+															class="form-control" ng-model="data.productor">
+															<option value="东方通信">东方通信</option>
+															<option value="摩托罗拉">摩托罗拉</option>
+															<option value="国人通信">国人通信</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>规划载波数</label>&nbsp;<span class="text-danger">[*]</span>
+														<select name="chnumber" class="form-control" ng-model="data.chnumber">
+															<option value="2">2</option>
+															<option value="4">4</option>
+															<option value="8">8</option>
+															<option value="16">16</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>启用载波数</label>&nbsp;<span class="text-danger">[*]</span>
+														<select name="number" class="form-control" ng-model="data.number">
+															<option value="2">2</option>
+															<option value="4">4</option>
+															<option value="8">8</option>
+															<option value="16">16</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>机房归属</label> <select name="hometype"
+															class="form-control" ng-model="data.hometype">
+															<option value="移动">移动</option>
+															<option value="铁塔">铁塔</option>
+															<option value="电信">电信</option>
+															<option value="自建">自建</option>
+															<option value="租赁">租赁</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>机柜类型</label> <select name="cabinet_type"
+															class="form-control" ng-model="data.cabinet_type">
+															<option value="V1.5">V1.5</option>
+															<option value="V1.6">V1.6</option>
+															<option value="一体机">一体机</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>额定功率</label> <input type="text" 
+															class="form-control" ng-model="data.power" name="power">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>运营商机房名</label> <input type="text" 
+															class="form-control" ng-model="data.carrierName" name="carrierName">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>是否与移动基站共址</label> <select name="is_same_address"
+															class="form-control" ng-model="data.is_same_address">
+															<option value="是" >是</option>
+															<option value="否">否</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12" style="margin-top:10px;">
+														<input id="ck1" class="magic-checkbox" type="checkbox"
+															name="status" value="1" ng-checked="data.status==1"> <label for="ck1"><span>使用状态</span></label>
+													</div>
+												</div>
+
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">位置信息</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>区域</label> <select name="area" class="form-control" ng-model="data.area">
+															<option value="绕城内" >绕城内</option>
+															<option value="绕城外">绕城外</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>行政区域</label> <input type="text" 
+															class="form-control" ng-model="data.zone" name="zone">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>经度</label> <input type="text" 
+															class="form-control" ng-model="data.lng" name="lng">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>纬度</label> <input type="text" 
+															class="form-control" ng-model="data.lat" name="lat">
+													</div>
+												</div>
+												<div class="col-md-9">
+													<div class="form-group col-md-12">
+														<label>地址</label> <input type="text" 
+															class="form-control" ng-model="data.address" name="address">
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>机房海拔(米)</label> <input type="text" 
+															class="form-control" ng-model="data.height" name="height">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">天线</div>
+											<div class="panel-body">
+											 <div class="col-md-3">
+                                                    <div class="form-group col-md-12">
+                                                        <label>gps天线数量</label> <input type="text" value=""
+                                                            class="form-control" name="gpsLineNum" ng-model="data.gpsLineNum">
+                                                    </div>
+                                                </div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>天线型号</label> <input type="text" 
+															class="form-control" ng-model="data.line_model" name="line_model">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>天线增益/dBi</label> <input type="text" 
+															class="form-control" ng-model="data.line_dbi" name="line_dbi">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>天线安装方式</label><select name="lineInstallType"
+															class="form-control" ng-model="data.lineInstallType">
+															<option value="楼顶铁塔" >楼顶铁塔</option>
+															<option value="抱杆">抱杆</option>
+															<option value="地面铁塔">地面铁塔</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>天线高度[地面到天线]</label> <input type="text" 
+															class="form-control" ng-model="data.lineHeight" name="lineHeight">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">动环</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>动环建设</label> <select name="envMonitor"
+															class="form-control" ng-model="data.envMonitor">
+															<option value="0">自建</option>
+															<option value="1">共建</option>
+															<option value="2">无</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>环空通断</label> <select name="emh_on_off"
+															class="form-control" ng-model="data.emh_on_off">
+															<option value="通">通</option>
+															<option value="断">断</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group col-md-12">
+														<label>环控通断说明</label><input type="text"
+															class="form-control"
+															name="emh_on_off_info"
+															ng-model="data.emh_on_off_info"
+															>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>门磁</label> <select name="door"
+															class="form-control" ng-model="data.door">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="被盗">被盗</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>摄像头</label> <select name="camera"
+															class="form-control" ng-model="data.camera">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="被盗">被盗</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>温湿度传感器</label> <select name="humiture"
+															class="form-control" ng-model="data.humiture">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="被盗">被盗</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>烟雾传感器</label> <select name="smoke"
+															class="form-control" ng-model="data.smoke">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="被盗">被盗</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>直流电流电压</label> <select name="ups_z"
+															class="form-control" ng-model="data.ups_z">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>交流电流电压</label> <select name="ups_j"
+															class="form-control" ng-model="data.ups_j">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>漏水检测</label> <select name="water"
+															class="form-control" ng-model="data.water">
+															<option value="正常" >正常</option>
+															<option value="异常">异常</option>
+															<option value="无">无</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>消防</label> <select name="fire" class="form-control" ng-model="data.fire">
+															<option value="已配置" >已配置</option>
+															<option value="未配置">未配置</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>消防说明</label> <select name="fire_info"
+															class="form-control" ng-model="data.fire_info">
+															<option value="运营商机房已配置" >运营商机房已配置</option>
+															<option value="自建">自建</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>空调</label> <select name="air_conditioning"
+															class="form-control" ng-model="data.air_conditioning">
+															<option value="已配置" >已配置</option>
+															<option value="未配置">未配置</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>空调说明</label> <select name="air_conditioning_info"
+															class="form-control" ng-model="data.air_conditioning_info">
+															<option value="运营商机房已配置" >运营商机房已配置</option>
+															<option value="自建">自建</option>
+
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>防雷接地</label> <select name="lightning"
+															class="form-control" ng-model="data.lightning">
+															<option value="已安装" >已安装</option>
+															<option value="未安装">未安装</option>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>空调数量</label><input type="number"
+															class="form-control" ng-model="data.conditionerCount" name="conditionerCount">
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group col-md-12">
+														<label>机房进出受限说明</label> <select name="entryLimitType"
+															class="form-control" ng-model="data.entryLimitType">
+															<option value="1" >高山站</option>
+															<option value="2">时限</option>
+															<option value="3">借钥匙</option>
+														</select>
+													</div>
+												</div>
+
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">基站供配电</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站主设备供电类型</label> <select
+															name="bs_supply_electricity_type" class="form-control" ng-model="data.bs_supply_electricity_type">
+															<option value="直流">直流</option>
+															<option value="交流" >交流</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站主设备电源下电方式</label> <select
+															name="bs_power_down_type" class="form-control" ng-model="data.bs_power_down_type">
+															<option value="EPS">EPS</option>
+															<option value="二次下电" >二次下电</option>
+															<option value="市电">市电</option>
+															<option value="蓄电池">蓄电池</option>
+															<option value="蓄电池+UPS">蓄电池+UPS</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输设备供电类型</label> <select
+															name="transfer_supply_electricity_type"
+															class="form-control" ng-model="data.transfer_supply_electricity_type">
+															<option value="直流">直流</option>
+															<option value="交流" >交流</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输设备电源下电方式</label> <select
+															name="transfer_power_down_type" class="form-control" ng-model="data.transfer_power_down_type">
+															<option value="EPS">EPS</option>
+															<option value="UPS供电">UPS供电</option>
+															<option value="市电" >市电</option>
+															<option value="逆变220V">逆电220V</option>
+
+															<option value="蓄电池+UPS">蓄电池+UPS</option>
+															<option value="无">无</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>环控设备供电类型</label> <select
+															name="emh_supply_electricity_type" class="form-control" ng-model="data.emh_supply_electricity_type">
+															<option value="直流">直流</option>
+															<option value="交流" >交流</option>
+															<option value="无">无</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>环控设备电源下电方式</label> <select
+															name="emh_power_down_type" class="form-control" ng-model="data.emh_power_down_type">
+															<option value="EPS">EPS</option>
+															<option value="UPS供电">UPS供电</option>
+															<option value="市电" >市电</option>
+															<option value="逆变220V">逆电220V</option>
+
+															<option value="蓄电池+UPS">蓄电池+UPS</option>
+															<option value="无">无</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>是否具有备用电源</label> <select name="has_spare_power"
+															class="form-control" ng-model="data.has_spare_power">
+															<option value="是">是</option>
+															<option value="否" >否</option>
+														</select>
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>后备电源说明</label><input type="text" 
+															class="form-control" ng-model="data.spare_power_info" name="spare_power_info">
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站主设备要求持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.bs_xh_require_time" name="bs_xh_require_time">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>基站主设备实际持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.bs_xh_fact_time" name="bs_xh_fact_time">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输主设备要求持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.transfer_require_time"
+															name="transfer_require_time">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输主设备实际持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.transfer_fact_time" name="transfer_fact_time">
+													</div>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>环空主设备要求持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.emh_require_time" name="emh_require_time">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>环空主设备实际持续续航时间（小时）</label><input type="text"
+															 class="form-control" ng-model="data.emh_fact_time" name="emh_fact_time">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>是否配备发电油机</label> <select name="generatorConfig"
+															class="form-control" ng-model="data.generatorConfig">
+															<option value="1">是</option>
+															<option value="0" >否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+                                                    <div class="form-group col-md-12">
+                                                        <label>是否具备发电条件</label> <select name="isGenerator"
+                                                            class="form-control" ng-model="data.isGenerator">
+                                                            <option value="1">是</option>
+                                                            <option value="0" >否</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>未配备油机说明</label><input type="text" 
+															class="form-control" ng-model="data.not_config_generator" name="not_config_generator">
+													</div>
+												</div>
+												<div class="col-md-3">
+                                                    <div class="form-group col-md-12">
+                                                        <label>是否允许临时性发电</label> <select name="is_allow_generation"
+                                                            class="form-control" ng-model="data.is_allow_generation">
+                                                            <option value="是">是</option>
+                                                            <option value="否" >否</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>发电时间</label><input type="text" 
+															class="form-control" ng-model="data.generation_date" name="generation_date">
+													</div>
+												</div>
+												<div class="col-md-3">
+                                                    <div class="form-group col-md-12">
+                                                        <label>上站时间</label><input type="text" 
+                                                            class="form-control" ng-model="data.to_bs_date" name="to_bs_date">
+                                                    </div>
+                                                </div>
+
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>上站发电所需时间</label><input type="text" 
+															class="form-control" ng-model="data.generation_to_bs_date" name="generation_to_bs_date">
+													</div>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">环境</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>灾害易发点</label> <select name="disasterPoint"
+															class="form-control" ng-model="data.disasterPoint">
+															<option value="1">是</option>
+															<option value="0" >否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>被盗易发点</label> <select name="stolenPoint"
+															class="form-control" ng-model="data.stolenPoint">
+															<option value="1">是</option>
+															<option value="0" >否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>停电</label> <select name="powerCut"
+															class="form-control" ng-model="data.powerCut">
+															<option value="1">是</option>
+															<option value="0" >否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>居民楼</label> <select name="residentialBuilding"
+															class="form-control" ng-model="data.residentialBuilding">
+															<option value="1">是</option>
+															<option value="0" >否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>气候</label><input type="text" 
+															class="form-control" ng-model="data.weather" name="weather">
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">传输信息</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输数量</label> <select name="transCount"
+															class="form-control" ng-model="data.transCount">
+															<option value="1" >1</option>
+															<option value="2">2</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>开通模式</label> <select name="transfer_open_model"
+															class="form-control" ng-model="data.transfer_open_model">
+															<option value="E1" >E1</option>
+															<option value="GRE">GRE</option>
+															<option value="VPN">VPN</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>传输方式</label> <select name="transfer_type"
+															class="form-control" ng-model="data.transfer_type">
+															<option value="光纤" >光纤</option>
+															<option value="微波">微波</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>是否同一运营商</label> <select
+															name="is_same_carrieroperator" class="form-control" ng-model="data.is_same_carrieroperator">
+															<option value="1" >是</option>
+															<option value="0">否</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>是否同网元</label> <select name="is_same_net"
+															class="form-control" ng-model="data.is_same_net">
+															<option value="1" >是</option>
+															<option value="0">否</option>
+														</select>
+													</div>
+												</div>
+												<!-- <div class="col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <label>运行商传输</label> <input type="text" 
+                                            class="form-control" ng-model="data." name="carrierLink">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <label>运营商/社会</label> <input type="text" 
+                                            class="form-control" ng-model="data." name="carrier">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <label>运营商站名</label> <input type="text" 
+                                            class="form-control" ng-model="data." name="carrierName">
+                                    </div>
+                                </div> -->
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+								<div class="row">
+									<div class="col-md-12">
+										<div class="hpanel">
+											<div class="panel-heading hbuilt">管理信息</div>
+											<div class="panel-body">
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>联系人</label> <input type="text" 
+															class="form-control" ng-model="data.contact" name="contact">
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group col-md-12">
+														<label>联系电话</label> <input type="text" 
+															class="form-control" ng-model="data.tel" name="tel">
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group col-md-12">
+														<label>备注</label>
+														<textarea class="form-control" ng-model="data.comment" name="comment" cols="60"
+															rows="3"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- row -->
+
+							</form>
+
+						</div>
+						<div class="modal-footer">
+    
+                <button type="button"
+                    class="btn btn-danger btn-block"  id="update_btn">
+                    <i class="fa fa-plus"></i>&nbsp;确认修改
+                </button>
+            </div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+
+
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<!-- 添加基站 -->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/bsInfo-edit.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+	<script type="text/javascript">
+	$("#update_btn").click(function() {
+        $('#updateForm').submit();
+    });
+    var faIcon = {
+        valid : 'fa fa-check-circle fa-lg text-success',
+        invalid : 'fa fa-times-circle fa-lg',
+        validating : 'fa fa-refresh'
+    };
+    $('#updateForm').bootstrapValidator({
+        excluded : [ ':disabled' ],
+        /* feedbackIcons: faIcon, */
+        fields : {
+            bsId : {
+                validators : {
+                    notEmpty : {
+                        message : '基站ID号不能为空'
+                    }
+                }
+            }
+
+        }
+    }).on('success.form.bv', function(e, data) {
+        e.preventDefault();
+        xh.update();
+    });
+</script>
+</body>
+</html>
