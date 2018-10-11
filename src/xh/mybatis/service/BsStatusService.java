@@ -34,17 +34,22 @@ public class BsStatusService {
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		Map<String,Object> map=mapper.emhVoiceCount();
 		
-		if(FunUtil.readXml("alarm", "bs_offine").equals("1")){
+		if(FunUtil.readXml("alarm", "bs_offine").equals("on")){
 			bs_offline_count=BsStatusService.bsOffVoiceCount();
+			System.out.println("count-bs:"+bs_offline_count);
+			
 		}
 		
 		
-		if(FunUtil.readXml("alarm", "bs_water").equals("1")){
+		if(FunUtil.readXml("alarm", "bs_water").equals("on")){
 			water_count=Integer.parseInt(map.get("water").toString());
+			System.out.println("count-w:"+water_count);
 		}
-		if(FunUtil.readXml("alarm", "bs_ups").equals("1")){
+		if(FunUtil.readXml("alarm", "bs_ups").equals("on")){
 			ups_count=Integer.parseInt(map.get("ups").toString());
+			System.out.println("count-ups:"+ups_count);
 		}
+		
 		session.close();
 		return bs_offline_count+ups_count+water_count;
 		

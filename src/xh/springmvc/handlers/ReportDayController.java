@@ -751,9 +751,13 @@ public class ReportDayController {
 		sheet.addCell(new Label(4, 3, String.valueOf(list_two.get("a_4")), fontFormat_Content));
 		
 		Map<String, Object> map1=ReportDayService.operations_question(time);
-		String str="遗留问题："+map1.get("question").toString();
+		StringBuilder sb=new StringBuilder();
+		sb.append("遗留问题：");
+		if(map1!=null){
+			sb.append(map1.get("question").toString());
+		}
 		
-		sheet.addCell(new Label(0, 4, str, fontFormat_Content));
+		sheet.addCell(new Label(0, 4, sb.toString(), fontFormat_Content));
 		
 		sheet.mergeCells(0,4,4,9);
 		
@@ -884,7 +888,7 @@ public class ReportDayController {
 					for (int i = 0; i < list.size(); i++) {
 						BsAlarmExcelBean bean =list.get(i);
 						Label value_1 = new Label(0, i + 2, bean.getPeriod()==3?"三期":"四期", fontFormat_Content);
-						Label value_2 = new Label(1, i + 2, bean.getFaulttype(), fontFormat_Content);
+						Label value_2 = new Label(1, i + 2, bean.getFaultType(), fontFormat_Content);
 						Label value_3 = new Label(2, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
 						Label value_4 = new Label(3, i + 2, bean.getName(),fontFormat_Content);
 						Label value_5 = new Label(4, i + 2, bean.getLevel(),fontFormat_Content);

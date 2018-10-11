@@ -704,7 +704,7 @@ public class BsStatusController {
 			for (int i = 0; i < list.size(); i++) {
 				BsAlarmExcelBean bean =list.get(i);
 				Label value_1 = new Label(0, i + 2, bean.getPeriod()==3?"三期":"四期", fontFormat_Content);
-				Label value_2 = new Label(1, i + 2, bean.getFaulttype(), fontFormat_Content);
+				Label value_2 = new Label(1, i + 2, bean.getFaultType(), fontFormat_Content);
 				Label value_3 = new Label(2, i + 2, String.valueOf(bean.getBsId()), fontFormat_Content);
 				Label value_4 = new Label(3, i + 2, bean.getName(),fontFormat_Content);
 				Label value_5 = new Label(4, i + 2, bean.getLevel(),fontFormat_Content);

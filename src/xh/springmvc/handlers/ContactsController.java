@@ -15,8 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jxl.Cell;
+import jxl.CellView;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.Orientation;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +45,7 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.ContactsBean;
+import xh.mybatis.bean.InspectionNetBean;
 import xh.mybatis.bean.OndutyBean;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.ContactsService;
@@ -157,6 +171,114 @@ public class ContactsController {
 		
 		
 	}
+	@RequestMapping(value = "/excel_contacts", method = RequestMethod.POST)
+	public void excel_contacts(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			String saveDir = request.getSession().getServletContext()
+					.getRealPath("/upload");
+			String pathname = saveDir + "/运维人员通讯录.xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat
+					.setBorder(Border.ALL, BorderLineStyle.NONE, Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 14,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(
+					font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(false);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+
+
+
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+
+			WritableSheet sheet = book.createSheet("运维人员通讯录", 0);
+
+			// 第1行
+			Label title = new Label(0, 0, "运维人员通讯录", fontFormat);
+			sheet.mergeCells(0, 0, 4, 0);
+			sheet.addCell(title);
+			sheet.setRowView(0, 600, false); // 设置行高
+
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			sheet.setColumnView(2, 20);
+			sheet.setColumnView(3, 20);
+			sheet.setColumnView(4, 20);
+			
+			for(int i=1;i<5;i++){
+				sheet.setRowView(i, 400, false); // 设置行高
+			}
+
+			sheet.addCell(new Label(0, 1, "序号", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "姓名", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "电话号码", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "分组", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "备注", fontFormat_h));
+			List<ContactsBean> list=ContactsService.phone_list();
+			for(int i=0;i<list.size();i++){
+				ContactsBean bean=list.get(i);
+				sheet.addCell(new jxl.write.Number(0, i+2, (i+1), fontFormat_Content));
+				sheet.addCell(new Label(1, i+2, bean.getName(), fontFormat_Content));
+				if(FunUtil.is_numberic(bean.getPhoneNumber())){
+					sheet.addCell(new jxl.write.Number(2, i+2, FunUtil.StringToLong(bean.getPhoneNumber()), fontFormat_Content));
+				}else{
+					sheet.addCell(new Label(2, i+2, bean.getPhoneNumber(), fontFormat_Content));
+				}
+				
+				sheet.addCell(new Label(3, i+2, bean.getGroupName(), fontFormat_Content));
+				sheet.addCell(new Label(4, i+2, "", fontFormat_Content));
+			}
+
+			
+			book.write();
+			book.close();
+			// DownExcelFile(response, pathname);
+			this.success = true;
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("success", success);
+			result.put("pathName", pathname);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+
 	
 	
 

@@ -1,91 +1,84 @@
 package xh.mybatis.bean;
 
 public class bsLinkConfigBean {
-	private int id; 
-	private String bsId; 
-	private String name; 
-	private String switchPort1; 
-	private String carrierOperator; 
-	private String type; 
-	private String bandwidth; 
-	private String unitType; 
-	private String transferNumber; 
-	private String basePort; 
-	private String switchElement; 
-	private String switchPort2; 
-	private String masterIp; 
-	private String cameraIp;
+	  private int id;
+	  private int bsId;
+	  private String tag;
+	  private String is_open;
+	  private String operator;
+	  private String equipment_model;
+	  private String bs_net;
+	  private String bs_net_port;
+	  private String msc_net;
+	  private String msc_net_port;
+	  private String regulation_number;
+	  private String masterIp;
+	  private String cameraIp;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getBsId() {
+	public int getBsId() {
 		return bsId;
 	}
-	public void setBsId(String bsId) {
+	public void setBsId(int bsId) {
 		this.bsId = bsId;
 	}
-	public String getName() {
-		return name;
+	public String getTag() {
+		return tag;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
-	public String getSwitchPort1() {
-		return switchPort1;
+	public String getIs_open() {
+		return is_open;
 	}
-	public void setSwitchPort1(String switchPort1) {
-		this.switchPort1 = switchPort1;
+	public void setIs_open(String is_open) {
+		this.is_open = is_open;
 	}
-	public String getCarrierOperator() {
-		return carrierOperator;
+	public String getOperator() {
+		return operator;
 	}
-	public void setCarrierOperator(String carrierOperator) {
-		this.carrierOperator = carrierOperator;
+	public void setOperator(String operator) {
+		this.operator = operator;
 	}
-	public String getType() {
-		return type;
+	public String getEquipment_model() {
+		return equipment_model;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setEquipment_model(String equipment_model) {
+		this.equipment_model = equipment_model;
 	}
-	public String getBandwidth() {
-		return bandwidth;
+	public String getBs_net() {
+		return bs_net;
 	}
-	public void setBandwidth(String bandwidth) {
-		this.bandwidth = bandwidth;
+	public void setBs_net(String bs_net) {
+		this.bs_net = bs_net;
 	}
-	public String getUnitType() {
-		return unitType;
+	public String getBs_net_port() {
+		return bs_net_port;
 	}
-	public void setUnitType(String unitType) {
-		this.unitType = unitType;
+	public void setBs_net_port(String bs_net_port) {
+		this.bs_net_port = bs_net_port;
 	}
-	public String getTransferNumber() {
-		return transferNumber;
+	public String getMsc_net() {
+		return msc_net;
 	}
-	public void setTransferNumber(String transferNumber) {
-		this.transferNumber = transferNumber;
+	public void setMsc_net(String msc_net) {
+		this.msc_net = msc_net;
 	}
-	public String getBasePort() {
-		return basePort;
+	public String getMsc_net_port() {
+		return msc_net_port;
 	}
-	public void setBasePort(String basePort) {
-		this.basePort = basePort;
+	public void setMsc_net_port(String msc_net_port) {
+		this.msc_net_port = msc_net_port;
 	}
-	public String getSwitchElement() {
-		return switchElement;
+	public String getRegulation_number() {
+		return regulation_number;
 	}
-	public void setSwitchElement(String switchElement) {
-		this.switchElement = switchElement;
-	}
-	public String getSwitchPort2() {
-		return switchPort2;
-	}
-	public void setSwitchPort2(String switchPort2) {
-		this.switchPort2 = switchPort2;
+	public void setRegulation_number(String regulation_number) {
+		this.regulation_number = regulation_number;
 	}
 	public String getMasterIp() {
 		return masterIp;
@@ -99,8 +92,18 @@ public class bsLinkConfigBean {
 	public void setCameraIp(String cameraIp) {
 		this.cameraIp = cameraIp;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "bsLinkConfigBean [id=" + id + ", bsId=" + bsId + ", tag=" + tag
+				+ ", is_open=" + is_open + ", operator=" + operator
+				+ ", equipment_model=" + equipment_model + ", bs_net=" + bs_net
+				+ ", bs_net_port=" + bs_net_port + ", msc_net=" + msc_net
+				+ ", msc_net_port=" + msc_net_port + ", regulation_number="
+				+ regulation_number + ", masterIp=" + masterIp + ", cameraIp="
+				+ cameraIp + "]";
+	}
+	  
+	  
 
 	
 }

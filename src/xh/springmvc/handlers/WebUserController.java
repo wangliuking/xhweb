@@ -88,6 +88,54 @@ public class WebUserController {
 		}
 		
 	}
+	@RequestMapping("/user/sysconfig")
+	public void sysconfig(HttpServletRequest request, HttpServletResponse response){
+		String a=funUtil.readXml("alarm", "bs_offine");
+		String b=funUtil.readXml("alarm", "bs_water");
+		String c=funUtil.readXml("alarm", "bs_ups");
+		HashMap result = new HashMap();
+		result.put("a", a);
+		result.put("b", b);
+		result.put("c", c);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/user/up_sys_config")
+	public void up_sys_config(HttpServletRequest request, HttpServletResponse response){
+	
+		String name=request.getParameter("name");
+		String value=request.getParameter("value");
+		try {
+			if(name.equals("break")){
+				funUtil.updateXML("alarm", "bs_offine",value);
+			}else if(name.equals("water")){
+				funUtil.updateXML("alarm", "bs_water",value);
+			}else if(name.equals("ups")){
+				funUtil.updateXML("alarm", "bs_ups",value);
+			}else{}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		HashMap result = new HashMap();
+		result.put("success", true);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping("/user/up_news")
 	public void up_news(HttpServletRequest request, HttpServletResponse response){
 	

@@ -31,8 +31,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsStatusBean;
+import xh.mybatis.bean.ContactsBean;
+import xh.mybatis.bean.OfficeAddressBean;
+import xh.mybatis.bean.OperationsBusBean;
+import xh.mybatis.bean.OperationsInstrumentBean;
 import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.ChartService;
+import xh.mybatis.service.ContactsService;
+import xh.mybatis.service.OfficeAddressService;
 
 @Controller
 @RequestMapping(value="/report/month")
@@ -345,6 +351,153 @@ public class ReportMonthController {
 		
 		
 		
+	}
+	
+	@RequestMapping(value = "/config_excel", method = RequestMethod.POST)
+	public void config_excel(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			String saveDir = request.getSession().getServletContext()
+					.getRealPath("/upload");
+			String pathname = saveDir + "/运维资源配置"+FunUtil.nowDateNotTime()+".xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 14,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(
+					font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			//fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+
+
+
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+
+			WritableSheet sheet = book.createSheet("办公场所&运维车辆", 0);
+
+			// 第1行
+			
+			
+			sheet.addCell(new Label(0, 0, "运维资源配置表", fontFormat));
+			sheet.mergeCells(0, 0, 4, 0);
+			sheet.addCell(new Label(0, 1, "办公地点", fontFormat));
+			sheet.mergeCells(0, 1, 4, 1);
+			sheet.setRowView(0, 600, false); // 设置行高
+
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			sheet.setColumnView(2, 50);
+			sheet.setColumnView(3, 40);
+			sheet.setColumnView(4, 40);
+			
+		
+
+			//办公场所
+			sheet.addCell(new Label(0, 2, "序号", fontFormat_h));
+			sheet.addCell(new Label(1, 2, "办公场所", fontFormat_h));
+			sheet.addCell(new Label(2, 2, "地址", fontFormat_h));
+			sheet.addCell(new Label(3, 2, "面积( m2 )", fontFormat_h));
+			sheet.addCell(new Label(4, 2, "备注", fontFormat_h));
+			List<OfficeAddressBean> list=OfficeAddressService.office_list();
+			for(int i=0;i<list.size();i++){
+				OfficeAddressBean bean=list.get(i);
+				sheet.addCell(new jxl.write.Number(0, i+3, (i+1), fontFormat_Content));
+				sheet.addCell(new Label(1, i+3, bean.getOffice(), fontFormat_Content));
+				sheet.addCell(new Label(2, i+3, bean.getAddress(), fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(3, i+3, bean.getArea(), fontFormat_Content));
+				
+				sheet.addCell(new Label(4, i+3, bean.getRemark(), fontFormat_Content));
+			}
+			//车辆
+			int pos=list.size()+4;
+			sheet.addCell(new Label(0, pos, "运维车辆", fontFormat));
+			sheet.mergeCells(0, pos, 3, pos);
+			sheet.addCell(new Label(0, pos+1, "序号", fontFormat_h));
+			sheet.addCell(new Label(1, pos+1, "车型", fontFormat_h));
+			sheet.addCell(new Label(2, pos+1, "车牌号", fontFormat_h));
+			sheet.addCell(new Label(3, pos+1, "备注", fontFormat_h));
+			List<OperationsBusBean> list2=OfficeAddressService.bus_list();
+			for(int i=0;i<list2.size();i++){
+				OperationsBusBean bean=list2.get(i);
+				sheet.addCell(new jxl.write.Number(0, pos+i+2, (i+1), fontFormat_Content));
+				sheet.addCell(new Label(1, pos+i+2, bean.getType(), fontFormat_Content));
+				sheet.addCell(new Label(2, pos+i+2, bean.getNumber(), fontFormat_Content));				
+				sheet.addCell(new Label(3, pos+i+2, bean.getRemark(), fontFormat_Content));
+			}
+			
+			//仪器仪表
+			pos=list.size()+5+list2.size();
+			sheet.addCell(new Label(0, pos, "仪器仪表", fontFormat));
+			sheet.mergeCells(0, pos, 6, pos);
+			sheet.addCell(new Label(0, pos+1, "序号", fontFormat_h));
+			sheet.addCell(new Label(1, pos+1, "名称", fontFormat_h));
+			sheet.addCell(new Label(2, pos+1, "型号", fontFormat_h));
+			sheet.addCell(new Label(3, pos+1, "S/N", fontFormat_h));
+			sheet.addCell(new Label(4, pos+1, "数量", fontFormat_h));
+			sheet.addCell(new Label(5, pos+1, "单位", fontFormat_h));
+			sheet.addCell(new Label(6, pos+1, "备注", fontFormat_h));
+			List<OperationsInstrumentBean> list3=OfficeAddressService.instrument_list();
+			for(int i=0;i<list3.size();i++){
+				OperationsInstrumentBean bean=list3.get(i);
+				sheet.addCell(new jxl.write.Number(0, pos+i+2, (i+1), fontFormat_Content));
+				sheet.addCell(new Label(1, pos+i+2, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, pos+i+2, bean.getModel(), fontFormat_Content));				
+				sheet.addCell(new Label(3, pos+i+2, bean.getSn(), fontFormat_Content));
+				sheet.addCell(new jxl.write.Number(4, pos+i+2, bean.getNumber(), fontFormat_Content));
+				sheet.addCell(new Label(5, pos+i+2, "台", fontFormat_Content));
+				sheet.addCell(new Label(6, pos+i+2, bean.getRemark(), fontFormat_Content));
+			}
+			/*for(int i=1;i<pos+list3.size();i++){
+				sheet.setRowView(i, 400, false); // 设置行高
+			}*/
+
+			
+			book.write();
+			book.close();
+			// DownExcelFile(response, pathname);
+			this.success = true;
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("success", success);
+			result.put("pathName", pathname);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 	}
  	public String bs_icp(String str){
 		if(str==null || str==""){

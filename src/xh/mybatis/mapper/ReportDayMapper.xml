@@ -46,11 +46,11 @@
 		xhgmnet.xhgmnet_operations_userstatus where bsid=a.bsid) as regUsers,
 		a.starttime
 		FROM
-		chart_day_bstotal
+		chart_day_bstotal as a
 		WHERE
-		TO_DAYS(starttime)
+		TO_DAYS(a.starttime)
 		=TO_DAYS(#{time})-1
-		and bsid in (select bsId from
+		and a.bsid in (select bsId from
 		xhgmnet.xhgmnet_bs_important)
 	</select>
 	<select id="now_week_gpsnumber" resultType="map" useCache="true" parameterType="String">

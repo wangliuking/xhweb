@@ -64,6 +64,11 @@
 xh.org.listeners.SingLoginListener   
 </listener-class>   
 </listener>
+<!-- 考核项目检查-->
+<listener>
+  <description>考核项目检查</description>
+  <listener-class>xh.org.listeners.checkListener</listener-class>
+ </listener> 
 <!-- 基站故障自动写入 -->
 <!-- <listener>
 <listener-class>   
@@ -137,8 +142,7 @@ xh.org.listeners.TcpServerListenner
   <description>ping调度台</description>
   <listener-class>xh.org.listeners.PingDispatchListener</listener-class>
  </listener>-->
-
-  
+ 
     <error-page>
     <error-code>404</error-code>
     <location>/Views/404.html</location>

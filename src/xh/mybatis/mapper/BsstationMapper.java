@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.BsElectricityBean;
+import xh.mybatis.bean.BsMachineRoomBean;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.ExcelBsInfoBean;
 import xh.mybatis.bean.bsLinkConfigBean;
 import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
@@ -215,12 +218,20 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public int  insertBs(BsstationBean bean)throws Exception;
+	
+	public int  insert_bs_machine_room(BsMachineRoomBean bean)throws Exception;
+	
+	public int  insert_bs_supply_electricity(BsElectricityBean bean)throws Exception;
 	/**
 	 * 根据基站ID修改基站
 	 * @return
 	 * @throws Exception
 	 */
 	public int  updateByBsId(BsstationBean bean)throws Exception;
+	
+	public int  update_bs_machine_room(BsMachineRoomBean bean)throws Exception;
+	
+	public int  update_bs_supply_electricity(BsElectricityBean bean)throws Exception;
 	/**
 	 * 根据基站ID查找基站
 	 * @return
@@ -266,6 +277,10 @@ public interface BsstationMapper {
 	 * @throws Exception
 	 */
 	public void  deleteBsByBsId(List<String> list)throws Exception;
+	
+	public void  delete_bs_machine_room(List<String> list)throws Exception;
+	
+	public void  delete_bs_supply_electricity(List<String> list)throws Exception;
 	/**
 	 * 查询所有基站
 	 * @return
@@ -337,5 +352,7 @@ public interface BsstationMapper {
 	public int  rectangleCount(Map<String,Object> map)throws Exception;
 	
 	public Map<String,Object> select_bs_by_bsid(int bsId) throws Exception;
+	
+	public List<ExcelBsInfoBean> excel_bs_info()throws Exception;
 	
 }

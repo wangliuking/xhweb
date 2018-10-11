@@ -132,13 +132,27 @@
                                 </a>
                             </div>
 
-							<!-- <div class="menu-box text-center" style="cursor: pointer;">
-								<a href="../operations/bsFault.html" target="_self"> <i
-									class="fa fa-file-excel-o fa-4x text-success"></i>
-									<img alt="" src="../../Resources/images/icon/64/1.png">
-									<p>故障记录表</p>
+							<div class="menu-box text-center" style="cursor: pointer;" onclick="xh.address_excel()">
+								<a href="#" target="_self"> <!-- <i
+									class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>运维通讯录</p>
 								</a>
-							</div> -->
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" onclick="xh.config_excel()">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>运维资源配置</p>
+                                </a>
+                            </div>
+                                <div class="menu-box text-center" style="cursor: pointer;" data-toggle="modal" data-target="#excel-month-bs-info">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>基站信息表</p>
+                                </a>
+                            </div>
 							<!--  -->
 							<!-- <div class="menu-box text-center" style="cursor: pointer;">
 								<a href="../business/fault.html" target="_self"> <i
@@ -456,6 +470,44 @@
             </div>
         </div>
     </div>
+    
+        <div class="modal fade" id="excel-month-bs-info" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出基站信息表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-bs-info-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
@@ -501,6 +553,14 @@
                   return;
               }
               xh.inspection_msc_month_excel(time);
+          });
+          $("#excel-month-bs-info-btn").click(function() {
+              var time = $("#excel-month-bs-info").find("input[name='time']").val();
+              if (time == "") {
+                  alert("时间不能为空");
+                  return;
+              }
+              xh.bs_excel(time);
           });
 	</script>
 </body>

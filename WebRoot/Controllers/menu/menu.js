@@ -216,3 +216,94 @@ xh.bs_month_inspection_excel = function(time) {
 	});
 
 };
+//导出运维通讯录
+xh.address_excel = function(time) {
+	xh.maskShow();
+	$.ajax({
+		url : '../../contacts/excel_contacts',
+		type : 'POST',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : true,
+		success : function(data) {
+
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;
+
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+
+};
+
+//导出运维资源配置
+xh.config_excel = function(time) {
+	xh.maskShow();
+	$.ajax({
+		url : '../../report/month/config_excel',
+		type : 'POST',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : true,
+		success : function(data) {
+
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;
+
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+
+};
+//导出基站信息
+xh.bs_excel = function(time) {
+	xh.maskShow();
+	$("#excel-month-bs-info-btn").button('loading');
+	$.ajax({
+		url : '../../bs/excel_bs_info',
+		type : 'GET',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : true,
+		success : function(data) {
+			$("#excel-month-bs-info-btn").button('reset');
+
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;
+
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			toastr.error("导出失败", '提示');
+			$("#excel-month-bs-info-btn").button('reset');
+			xh.maskHide();
+		}
+	});
+
+};

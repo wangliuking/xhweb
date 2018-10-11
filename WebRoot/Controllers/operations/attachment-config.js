@@ -42,7 +42,7 @@ xh.load = function() {
 		});
 		
 		/* 获取信息 */
-		$http.get("../../attachment/attachmentList?start=0&limit=" + pageSize).success(
+		$http.get("../../attachment/attachmentList_config?start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -97,7 +97,7 @@ xh.load = function() {
 			}, function(isConfirm) {
 				if (isConfirm) {
 					$.ajax({
-						url : '../../attachment/del',
+						url : '../../attachment/del_config',
 						type : 'post',
 						dataType : "json",
 						data : {
@@ -141,7 +141,7 @@ xh.load = function() {
 			}
 			$scope.page=page;
 			xh.maskShow();
-			$http.get("../../attachment/attachmentList?start=0&limit=" + limit)
+			$http.get("../../attachment/attachmentList_config?start=0&limit=" + limit)
 					.success(function(response) {
 						xh.maskHide();
 						$scope.data = response.items;
@@ -165,7 +165,7 @@ xh.load = function() {
 
 			xh.maskShow();
 			$http.get(
-					"../../attachment/attachmentList?start=" + start + "&limit="
+					"../../attachment/attachmentList_config?start=" + start + "&limit="
 							+ limit).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -189,7 +189,7 @@ xh.load = function() {
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../attachment/add',
+		url : '../../attachment/add_config',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -219,7 +219,7 @@ xh.add = function() {
 xh.update = function() {
 	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../attachment/update',
+		url : '../../attachment/update_config',
 		type : 'POST',
 		dataType : "json",
 		async : false,
@@ -261,7 +261,7 @@ xh.delMore = function() {
 		return;
 	}
 	$.ajax({
-		url : '../../attachment/del',
+		url : '../../attachment/del_config',
 		type : 'post',
 		dataType : "json",
 		data : {
@@ -284,76 +284,7 @@ xh.delMore = function() {
 		}
 	});
 };
-xh.excelOne = function() {
-	var $scope = angular.element(appElement).scope();
-	var time=$("#excel-one").find("input[name='time']").val();
-	$("#excel-one-btn").button('loading');
-	xh.maskShow("数据导出中");
-	$.ajax({
-		url : '../../attachment/excelOne',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : {
-			time:time
-		},
-		success : function(data) {
-			xh.maskHide();
-			$("#excel-one-btn").button('reset');
-			if (data.success) {
-				$('#edit-one').modal('hide');
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
 
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-			xh.maskHide();
-			$("#excel-one-btn").button('reset');
-		}
-	});
-};
-xh.excelTwo = function() {
-	var $scope = angular.element(appElement).scope();
-	var time=$("#excel-two").find("input[name='time']").val();
-	$("#excel-two-btn").button('loading');
-	xh.maskShow("数据导出中");
-	$.ajax({
-		url : '../../attachment/excelTwo',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : {
-			time:time
-		},
-		success : function(data) {
-			xh.maskHide();
-			$("#excel-two-btn").button('reset');
-			if (data.success) {
-				$('#edit-two').modal('hide');
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
-
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-			xh.maskHide();
-			$("#excel-two-btn").button('reset');
-		}
-	});
-};
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();

@@ -317,7 +317,11 @@
 
 		select count(neId) as total from xhgmnet_operations_bsfault
 		where
-		sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0
+		sysType=1 and neType=4 and modType=3  and alarmTag=0 and voiceTag=0 and (subModId &lt;1000  or subModId>1200)
+		 and subModId not 
+            in(select bsIds from xhgmnet_stationalarm)
+		
+		
 
 	</select>
 	<select id="emhVoiceCount" resultType="map" useCache="true">
@@ -623,7 +627,8 @@
 			a.category=2
 		</if>
 		<if test="alarmType==4">
-			and a.neType=4
+			and a.neType=4 and (a.subModId &lt;1000  or a.subModId>1200) and a.modType=3 and a.subModId not 
+			in(select bsIds from xhgmnet_stationalarm)
 		</if>
 
 		order by a.time desc
@@ -672,12 +677,11 @@
 			and(subModType=80200000000001 or
 			(subModType=51 and subModId=1003))
 		</if>
-		<if test="alarmType==3">
-			and neType=2 and modType=1000 and code=1 and category=2
-		</if>
 		<if test="alarmType==4">
-			and neType=4
-		</if>
+            and neType=4 and (subModId &lt;1000  or subModId>1200) and modType=3 and subModId not 
+            in(select bsIds from xhgmnet_stationalarm)
+        </if>
+		
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"

@@ -79,18 +79,18 @@ xh.load = function() {
 				var count=response.totals;
 			
 				
-				
+				if(count>0){
+					play=true;
+					xh.playMap3();
+					$scope.voiceTag=1;
+					
+				}else{
+					xh.stopMap3();
+					play=false;
+					$scope.voiceTag=0;
+				}
 				if($scope.roleType==3){
-					if(count>0){
-						play=true;
-						xh.playMap3();
-						$scope.voiceTag=1;
-						
-					}else{
-						xh.stopMap3();
-						play=false;
-						$scope.voiceTag=0;
-					}
+					
 				}
 				
 				

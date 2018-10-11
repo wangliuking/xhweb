@@ -1,10 +1,7 @@
 package xh.mybatis.bean;
- 
-public class BsstationBean {
-	
 
-	  private int id;
-	  private String bsId;
+public class ExcelBsInfoBean {
+	  private int bsId;
 	  private String name;
 	  private String period;
 	  private String lat;
@@ -102,18 +99,44 @@ public class BsstationBean {
 	  private String emh_on_off_info;
 	  
 	  
+	  private String tag;
+	  private String is_open;
+	  private String operator;
+	  private String equipment_model1;
+	  private String bs_net;
+	  private String bs_net_port;
+	  private String msc_net;
+	  private String msc_net_port;
+	  private String regulation_number;
+	  private String masterIp;
+	  private String cameraIp;
 	  
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	  private String tag1;
+	  private String is_open1;
+	  private String operator1;
+	  private String equipment_model2;
+	  private String bs_net1;
+	  private String bs_net_port1;
+	  private String msc_net1;
+	  private String msc_net_port1;
+	  private String regulation_number1;
+	  private String masterIp1;
+	  private String cameraIp1;
+	  
+	  private String freg1;
+	  private String freg2;
+	  private String freg3;
+	  private String freg4;
+	  private String freg5;
+	  private String freg6;
+	  private String freg7;
+	  private String freg8;
+	  
 	
-	public String getBsId() {
+	public int getBsId() {
 		return bsId;
 	}
-	public void setBsId(String bsId) {
+	public void setBsId(int bsId) {
 		this.bsId = bsId;
 	}
 	public String getName() {
@@ -428,7 +451,6 @@ public class BsstationBean {
 	public void setIs_same_net(String is_same_net) {
 		this.is_same_net = is_same_net;
 	}
-	
 	public String getBs_supply_electricity_type() {
 		return bs_supply_electricity_type;
 	}
@@ -652,34 +674,214 @@ public class BsstationBean {
 	public void setEmh_on_off_info(String emh_on_off_info) {
 		this.emh_on_off_info = emh_on_off_info;
 	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	public String getIs_open() {
+		return is_open;
+	}
+	public void setIs_open(String is_open) {
+		this.is_open = is_open;
+	}
+	public String getOperator() {
+		return operator;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	public String getEquipment_model1() {
+		return equipment_model1;
+	}
+	public void setEquipment_model1(String equipment_model1) {
+		this.equipment_model1 = equipment_model1;
+	}
+	public String getBs_net() {
+		return bs_net;
+	}
+	public void setBs_net(String bs_net) {
+		this.bs_net = bs_net;
+	}
+	public String getBs_net_port() {
+		return bs_net_port;
+	}
+	public void setBs_net_port(String bs_net_port) {
+		this.bs_net_port = bs_net_port;
+	}
+	public String getMsc_net() {
+		return msc_net;
+	}
+	public void setMsc_net(String msc_net) {
+		this.msc_net = msc_net;
+	}
+	public String getMsc_net_port() {
+		return msc_net_port;
+	}
+	public void setMsc_net_port(String msc_net_port) {
+		this.msc_net_port = msc_net_port;
+	}
+	public String getRegulation_number() {
+		return regulation_number;
+	}
+	public void setRegulation_number(String regulation_number) {
+		this.regulation_number = regulation_number;
+	}
+	public String getMasterIp() {
+		return masterIp;
+	}
+	public void setMasterIp(String masterIp) {
+		this.masterIp = masterIp;
+	}
+	public String getCameraIp() {
+		return cameraIp;
+	}
+	public void setCameraIp(String cameraIp) {
+		this.cameraIp = cameraIp;
+	}
+	public String getTag1() {
+		return tag1;
+	}
+	public void setTag1(String tag1) {
+		this.tag1 = tag1;
+	}
+	public String getIs_open1() {
+		return is_open1;
+	}
+	public void setIs_open1(String is_open1) {
+		this.is_open1 = is_open1;
+	}
+	public String getOperator1() {
+		return operator1;
+	}
+	public void setOperator1(String operator1) {
+		this.operator1 = operator1;
+	}
+	public String getEquipment_model2() {
+		return equipment_model2;
+	}
+	public void setEquipment_model2(String equipment_model2) {
+		this.equipment_model2 = equipment_model2;
+	}
+	public String getBs_net1() {
+		return bs_net1;
+	}
+	public void setBs_net1(String bs_net1) {
+		this.bs_net1 = bs_net1;
+	}
+	public String getBs_net_port1() {
+		return bs_net_port1;
+	}
+	public void setBs_net_port1(String bs_net_port1) {
+		this.bs_net_port1 = bs_net_port1;
+	}
+	public String getMsc_net1() {
+		return msc_net1;
+	}
+	public void setMsc_net1(String msc_net1) {
+		this.msc_net1 = msc_net1;
+	}
+	public String getMsc_net_port1() {
+		return msc_net_port1;
+	}
+	public void setMsc_net_port1(String msc_net_port1) {
+		this.msc_net_port1 = msc_net_port1;
+	}
+	public String getRegulation_number1() {
+		return regulation_number1;
+	}
+	public void setRegulation_number1(String regulation_number1) {
+		this.regulation_number1 = regulation_number1;
+	}
+	public String getMasterIp1() {
+		return masterIp1;
+	}
+	public void setMasterIp1(String masterIp1) {
+		this.masterIp1 = masterIp1;
+	}
+	public String getCameraIp1() {
+		return cameraIp1;
+	}
+	public void setCameraIp1(String cameraIp1) {
+		this.cameraIp1 = cameraIp1;
+	}
+	
+	public String getFreg1() {
+		return freg1;
+	}
+	public void setFreg1(String freg1) {
+		this.freg1 = freg1;
+	}
+	public String getFreg2() {
+		return freg2;
+	}
+	public void setFreg2(String freg2) {
+		this.freg2 = freg2;
+	}
+	public String getFreg3() {
+		return freg3;
+	}
+	public void setFreg3(String freg3) {
+		this.freg3 = freg3;
+	}
+	public String getFreg4() {
+		return freg4;
+	}
+	public void setFreg4(String freg4) {
+		this.freg4 = freg4;
+	}
+	public String getFreg5() {
+		return freg5;
+	}
+	public void setFreg5(String freg5) {
+		this.freg5 = freg5;
+	}
+	public String getFreg6() {
+		return freg6;
+	}
+	public void setFreg6(String freg6) {
+		this.freg6 = freg6;
+	}
+	public String getFreg7() {
+		return freg7;
+	}
+	public void setFreg7(String freg7) {
+		this.freg7 = freg7;
+	}
+	public String getFreg8() {
+		return freg8;
+	}
+	public void setFreg8(String freg8) {
+		this.freg8 = freg8;
+	}
 	@Override
 	public String toString() {
-		return "BsstationBean [id=" + id + ", bsId=" + bsId + ", name=" + name
-				+ ", period=" + period + ", lat=" + lat + ", lng=" + lng
-				+ ", chnumber=" + chnumber + ", number=" + number
-				+ ", gpsLineNum=" + gpsLineNum + ", power=" + power
-				+ ", carrier=" + carrier + ", carrierName=" + carrierName
-				+ ", carrierLink=" + carrierLink + ", height=" + height
-				+ ", line_model=" + line_model + ", line_dbi=" + line_dbi
-				+ ", lineHeight=" + lineHeight + ", lineInstallType="
-				+ lineInstallType + ", address=" + address + ", contact="
-				+ contact + ", tel=" + tel + ", ip=" + ip + ", type=" + type
-				+ ", productor=" + productor + ", deviceType=" + deviceType
-				+ ", level=" + level + ", status=" + status + ", hometype="
-				+ hometype + ", equipment_model=" + equipment_model
-				+ ", electricCharge=" + electricCharge + ", area=" + area
-				+ ", zone=" + zone + ", envMonitor=" + envMonitor
-				+ ", conditionerCount=" + conditionerCount + ", fireEquipment="
-				+ fireEquipment + ", generatorConfig=" + generatorConfig
-				+ ", isGenerator=" + isGenerator + ", entryLimitType="
-				+ entryLimitType + ", transCount=" + transCount + ", comment="
-				+ comment + ", weather=" + weather + ", disasterPoint="
-				+ disasterPoint + ", stolenPoint=" + stolenPoint
-				+ ", powerCut=" + powerCut + ", residentialBuilding="
-				+ residentialBuilding + ", highMagnetic=" + highMagnetic
-				+ ", exist=" + exist + ", appUser=" + appUser
-				+ ", cabinet_type=" + cabinet_type + ", transfer_type="
-				+ transfer_type + ", transfer_open_model="
+		return "ExcelBsInfoBean [bsId=" + bsId + ", name=" + name + ", period="
+				+ period + ", lat=" + lat + ", lng=" + lng + ", chnumber="
+				+ chnumber + ", number=" + number + ", gpsLineNum="
+				+ gpsLineNum + ", power=" + power + ", carrier=" + carrier
+				+ ", carrierName=" + carrierName + ", carrierLink="
+				+ carrierLink + ", height=" + height + ", line_model="
+				+ line_model + ", line_dbi=" + line_dbi + ", lineHeight="
+				+ lineHeight + ", lineInstallType=" + lineInstallType
+				+ ", address=" + address + ", contact=" + contact + ", tel="
+				+ tel + ", ip=" + ip + ", type=" + type + ", productor="
+				+ productor + ", deviceType=" + deviceType + ", level=" + level
+				+ ", status=" + status + ", hometype=" + hometype
+				+ ", equipment_model=" + equipment_model + ", electricCharge="
+				+ electricCharge + ", area=" + area + ", zone=" + zone
+				+ ", envMonitor=" + envMonitor + ", conditionerCount="
+				+ conditionerCount + ", fireEquipment=" + fireEquipment
+				+ ", generatorConfig=" + generatorConfig + ", isGenerator="
+				+ isGenerator + ", entryLimitType=" + entryLimitType
+				+ ", transCount=" + transCount + ", comment=" + comment
+				+ ", weather=" + weather + ", disasterPoint=" + disasterPoint
+				+ ", stolenPoint=" + stolenPoint + ", powerCut=" + powerCut
+				+ ", residentialBuilding=" + residentialBuilding
+				+ ", highMagnetic=" + highMagnetic + ", exist=" + exist
+				+ ", appUser=" + appUser + ", cabinet_type=" + cabinet_type
+				+ ", transfer_type=" + transfer_type + ", transfer_open_model="
 				+ transfer_open_model + ", is_same_address=" + is_same_address
 				+ ", is_same_carrieroperator=" + is_same_carrieroperator
 				+ ", is_same_net=" + is_same_net
@@ -712,10 +914,26 @@ public class BsstationBean {
 				+ air_conditioning + ", air_conditioning_info="
 				+ air_conditioning_info + ", lightning=" + lightning
 				+ ", emh_on_off=" + emh_on_off + ", emh_on_off_info="
-				+ emh_on_off_info + "]";
+				+ emh_on_off_info + ", tag=" + tag + ", is_open=" + is_open
+				+ ", operator=" + operator + ", equipment_model1="
+				+ equipment_model1 + ", bs_net=" + bs_net + ", bs_net_port="
+				+ bs_net_port + ", msc_net=" + msc_net + ", msc_net_port="
+				+ msc_net_port + ", regulation_number=" + regulation_number
+				+ ", masterIp=" + masterIp + ", cameraIp=" + cameraIp
+				+ ", tag1=" + tag1 + ", is_open1=" + is_open1 + ", operator1="
+				+ operator1 + ", equipment_model2=" + equipment_model2
+				+ ", bs_net1=" + bs_net1 + ", bs_net_port1=" + bs_net_port1
+				+ ", msc_net1=" + msc_net1 + ", msc_net_port1=" + msc_net_port1
+				+ ", regulation_number1=" + regulation_number1 + ", masterIp1="
+				+ masterIp1 + ", cameraIp1=" + cameraIp1 + ", freg1=" + freg1
+				+ ", freg2=" + freg2 + ", freg3=" + freg3 + ", freg4=" + freg4
+				+ ", freg5=" + freg5 + ", freg6=" + freg6 + ", freg7=" + freg7
+				+ ", freg8=" + freg8 + "]";
 	}
 	  
 	  
-
+	  
+	  
+	  
 
 }

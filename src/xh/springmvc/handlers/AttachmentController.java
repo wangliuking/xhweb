@@ -59,22 +59,35 @@ public class AttachmentController {
 			throws Exception {
 		String data = req.getParameter("data");
 		AttachmentBean bean = GsonUtil.json2Object(data, AttachmentBean.class);
-		int rs = AttachmentService.add(bean);
-		if (rs > 0) {
-			this.message = "添加备品备件成功";
-			this.success = true;
-			webLogBean.setOperator(FunUtil.getCookie(req,
-					FunUtil.readXml("web", "cookie_prefix") + "username"));
-			webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("添加备品备件");
-			webLogBean.setCreateTime(FunUtil.nowDate());
-			WebLogService.writeLog(webLogBean);
+		bean.setTime(FunUtil.nowDateNotTime());
+		Map<String,Object> paraMap=new HashMap<String, Object>();
+		paraMap.put("model", bean.getAttachment_model());
+		paraMap.put("sn", bean.getAttachment_sn());
+		int exists= AttachmentService.attachmentList_isexists(paraMap);
+		if(exists>0){
+			this.message="序列号已经存在";
+			this.success=false;
+		}else{
+			int rs = AttachmentService.add(bean);
+			
+			if (rs > 0) {
+				this.message = "添加设备成功";
+				this.success = true;
+				webLogBean.setOperator(FunUtil.getCookie(req,
+						FunUtil.readXml("web", "cookie_prefix") + "username"));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("添加设备");
+				webLogBean.setCreateTime(FunUtil.nowDate());
+				WebLogService.writeLog(webLogBean);
 
-		} else {
-			this.message = "添加备品备件失败";
-			this.success = false;
+			} else {
+				this.message = "添加设备失败";
+				this.success = false;
+			}
 		}
+		
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("success", success);
 		map.put("message", message);
@@ -91,18 +104,18 @@ public class AttachmentController {
 		AttachmentBean bean = GsonUtil.json2Object(data, AttachmentBean.class);
 		int rs = AttachmentService.update(bean);
 		if (rs > 0) {
-			this.message = "修改备品备件成功";
+			this.message = "修改设备成功";
 			this.success = true;
 			webLogBean.setOperator(FunUtil.getCookie(req,
 					FunUtil.readXml("web", "cookie_prefix") + "username"));
 			webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
 			webLogBean.setStyle(2);
-			webLogBean.setContent("修改备品备件");
+			webLogBean.setContent("修改设备");
 			webLogBean.setCreateTime(FunUtil.nowDate());
 			WebLogService.writeLog(webLogBean);
 
 		} else {
-			this.message = "修改备品备件失败";
+			this.message = "修改设备失败";
 			this.success = false;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -168,6 +181,144 @@ public class AttachmentController {
 		rep.getWriter().write(jsonstr);
 
 	}
+	
+	
+	@RequestMapping("/add_config")
+	public void add_config(HttpServletRequest req, HttpServletResponse rep)
+			throws Exception {
+		String data = req.getParameter("data");
+		AttachmentBean bean = GsonUtil.json2Object(data, AttachmentBean.class);
+		bean.setTime(FunUtil.nowDateNotTime());
+		
+		Map<String,Object> paraMap=new HashMap<String, Object>();
+		paraMap.put("name", bean.getAttachment_name());
+		paraMap.put("model", bean.getAttachment_model());
+		
+		int exists=AttachmentService.attachmentList_config_isexists(paraMap);
+		
+		
+		if(exists>0){
+			this.message="名称或者型号已经存在，请重新填写";
+			this.success=false;
+		}else{
+			int rs = AttachmentService.add_config(bean);
+			if (rs > 0) {
+				this.message = "添加备品备件成功";
+				this.success = true;
+				webLogBean.setOperator(FunUtil.getCookie(req,
+						FunUtil.readXml("web", "cookie_prefix") + "username"));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("添加备品备件");
+				webLogBean.setCreateTime(FunUtil.nowDate());
+				WebLogService.writeLog(webLogBean);
+
+			} else {
+				this.message = "添加备品备件失败";
+				this.success = false;
+			}
+		}
+		
+		
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", success);
+		map.put("message", message);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(map);
+		rep.getWriter().write(jsonstr);
+	}
+
+	@SuppressWarnings("static-access")
+	@RequestMapping("/update_config")
+	public void update_config(HttpServletRequest req, HttpServletResponse rep)
+			throws Exception {
+		String data = req.getParameter("data");
+		AttachmentBean bean = GsonUtil.json2Object(data, AttachmentBean.class);
+		int rs = AttachmentService.update_config(bean);
+		if (rs > 0) {
+			this.message = "修改备品备件成功";
+			this.success = true;
+			webLogBean.setOperator(FunUtil.getCookie(req,
+					FunUtil.readXml("web", "cookie_prefix") + "username"));
+			webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("修改备品备件");
+			webLogBean.setCreateTime(FunUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+
+		} else {
+			this.message = "修改备品备件失败";
+			this.success = false;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", success);
+		map.put("message", message);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(map);
+		rep.getWriter().write(jsonstr);
+	}
+
+	@SuppressWarnings("static-access")
+	@RequestMapping("/del_config")
+	public void del_config(HttpServletRequest req, HttpServletResponse rep)
+			throws Exception {
+		String idstr = req.getParameter("id");
+		String[] ids = idstr.split(",");
+		List<String> idlist = new ArrayList<String>();
+		for (String str : ids) {
+			idlist.add(str);
+		}
+		int rs = AttachmentService.del_config(idlist);
+		if (rs > 0) {
+			this.message = "删除备品备件成功";
+			this.success = true;
+			webLogBean.setOperator(FunUtil.getCookie(req,
+					FunUtil.readXml("web", "cookie_prefix") + "username"));
+			webLogBean.setOperatorIp(FunUtil.getIpAddr(req));
+			webLogBean.setStyle(3);
+			webLogBean.setContent("删除备品备件:id=" + idstr);
+			webLogBean.setCreateTime(FunUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+
+		} else {
+			this.message = "删除备品备件失败";
+			this.success = false;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", success);
+		map.put("message", message);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(map);
+		rep.getWriter().write(jsonstr);
+
+	}
+
+	@SuppressWarnings("static-access")
+	@RequestMapping("/attachmentList_config")
+	public void attachmentList_config(HttpServletRequest req, HttpServletResponse rep)
+			throws Exception {
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		int start = FunUtil.StringToInt(req.getParameter("start"));
+		int limit = FunUtil.StringToInt(req.getParameter("limit"));
+		pMap.put("start", start);
+		pMap.put("limit", limit);
+
+		List<AttachmentBean> list = AttachmentService.attachmentList_config(pMap);
+		int count = AttachmentService.count_config(pMap);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("items", list);
+		map.put("totals", count);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(map);
+		rep.getWriter().write(jsonstr);
+
+	}
+
+	
+	
+	
 
 	@SuppressWarnings("static-access")
 	@RequestMapping(value="/excelOne",method = RequestMethod.POST)
@@ -288,7 +439,7 @@ public class AttachmentController {
 				sheet.addCell(new Label(8, i + 3, bean.getAvai()+"%", fontFormat_Content));
 				sheet.addCell(new Label(9, i + 3, bean.getAttachment_location(), fontFormat_Content));
 				sheet.addCell(new Label(10, i + 3, bean.getAttachment_note(), fontFormat_Content));
-				sheet.setRowView(i + 3, 300);
+				
 				
 			}
 		} catch (Exception e) {

@@ -153,6 +153,8 @@ class VoiceAlarm extends TimerTask{
 		int count=0;
 		try {
 			count = BsStatusService.alarmVoiceCount();
+			
+			System.out.println("count:"+count);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

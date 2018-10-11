@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
@@ -57,6 +58,20 @@ public class FunUtil {
 
 		}
 		return str;
+	}
+	
+	public static boolean is_numberic(String str){
+		if(str==null){
+			return false;
+		}else{
+			Pattern p=Pattern.compile("[0-9]*");
+			Matcher m=p.matcher(str);
+			if(!m.matches()){
+				return false;
+			}else{
+				return true;
+			}
+		}
 	}
 
 	// 获取登录用户
@@ -383,6 +398,12 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
+	public static String date_format(String str){
+		SimpleDateFormat dd = new SimpleDateFormat(str);
+		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		String date = dd.format(new Date());
+		return date;
+	}
 
 	public static String nowDateOnly() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
@@ -394,6 +415,13 @@ public class FunUtil {
 	// 获取当前时间
 	public static String nowDateNoTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		String date = dd.format(new Date());
+		return date;
+	}
+	
+	public static String nowDateNotTime() {
+		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());
 		return date;
@@ -489,6 +517,21 @@ public class FunUtil {
 		int value = -1;
 		try {
 			value = Integer.parseInt(str.trim());
+		} catch (NumberFormatException e) {
+			// TODO: handle exception
+			log.info("数字字符串解析失败");
+			log.error(e.getMessage(), e);
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			log.info("数字字符串为空");
+			log.error(e.getMessage(), e);
+		}
+		return value;
+	}
+	public static long StringToLong(String str){
+		long value=-1;
+		try {
+			value =Long.parseLong(str.trim());
 		} catch (NumberFormatException e) {
 			// TODO: handle exception
 			log.info("数字字符串解析失败");

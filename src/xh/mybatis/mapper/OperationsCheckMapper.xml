@@ -28,18 +28,21 @@
 		filePath,comment,checkMonth)values
 		(#{applyId},#{userId},#{user},#{userName},#{tel},#{createTime},#{fileName},
 		#{filePath},#{comment},#{checkMonth})
-	</insert>	
-	
-	<!-- 查询考核明细信息 -->
-   <select id="searchDetail" parameterType="String" resultType="xh.mybatis.bean.OperationsCheckDetailBean">
-    select * from xhgmnet_operations_check_detail where time=#{time}
-   </select>
- <!--   判断考核明细信息是否存在 -->
-      <select id="detailExists" parameterType="String" resultType="int">
-    select count(id) from xhgmnet_operations_check_detail where time=#{time}
-   </select>
+	</insert>
 
-<!--     新增考核明细 -->
+	<!-- 查询考核明细信息 -->
+	<select id="searchDetail" parameterType="String"
+		resultType="xh.mybatis.bean.OperationsCheckDetailBean">
+		select * from xhgmnet_operations_check_detail where
+		time=#{time}
+	</select>
+	<!-- 判断考核明细信息是否存在 -->
+	<select id="detailExists" parameterType="String" resultType="int">
+		select count(id) from xhgmnet_operations_check_detail where
+		time=#{time}
+	</select>
+
+	<!-- 新增考核明细 -->
 	<insert id="addDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
@@ -109,8 +112,10 @@
 	</insert>
 	<!-- 修改考核明细 -->
 	<update id="updateDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean">
-	update xhgmnet_operations_check_detail set applyId=#{applyId},time=#{time},service_msc=#{service_msc},
-	service_msc_note=#{service_msc_note},service_singlebs1=#{service_singlebs1},
+		update
+		xhgmnet_operations_check_detail set
+		applyId=#{applyId},time=#{time},service_msc=#{service_msc},
+		service_msc_note=#{service_msc_note},service_singlebs1=#{service_singlebs1},
 		service_singlebs1_note=#{service_singlebs1_note},service_singlebs2=#{service_singlebs2},
 		service_singlebs2_note=#{service_singlebs2_note},
 		service_singlebs3=#{service_singlebs3},
@@ -142,17 +147,260 @@
 		other=#{other},
 		other_note=#{other_note} where time=#{time}
 	</update>
-    <update id="check2" parameterType="xh.mybatis.bean.OperationsCheckBean">
-    update xhgmnet_operations_check set checkTime=#{checkTime},checkUser=#{checkUser},status=#{status},note1=#{note1}
-    where id=#{id}
-    </update>
-    <update id="check3" parameterType="xh.mybatis.bean.OperationsCheckBean">
-    update xhgmnet_operations_check set checkTime2=#{checkTime2},status=#{status}
-    where id=#{id}
-    </update>
-    <update id="check4" parameterType="xh.mybatis.bean.OperationsCheckBean">
-    update xhgmnet_operations_check set checkTime3=#{checkTime3},status=#{status}
-    where id=#{id}
-    </update>
+	<update id="check2" parameterType="xh.mybatis.bean.OperationsCheckBean">
+		update
+		xhgmnet_operations_check set
+		checkTime=#{checkTime},checkUser=#{checkUser},status=#{status},note1=#{note1}
+		where id=#{id}
+	</update>
+	<update id="check3" parameterType="xh.mybatis.bean.OperationsCheckBean">
+		update
+		xhgmnet_operations_check set
+		checkTime2=#{checkTime2},status=#{status}
+		where id=#{id}
+	</update>
+	<update id="check4" parameterType="xh.mybatis.bean.OperationsCheckBean">
+		update
+		xhgmnet_operations_check set
+		checkTime3=#{checkTime3},status=#{status}
+		where id=#{id}
+	</update>
+	<!-- 考核机房配套设施 -->
+	<select id="check_room_equ" resultType="map">
+		SELECT
+		a.bsId,
+		a.envMonitor,
+		b.air_conditioning,
+		b.fire,
+		b.lightning,
+		c.generatorConfig,
+		c.has_spare_power,
+		d.period
+		FROM
+		xhgmnet_bs_station AS a
+		LEFT JOIN
+		xhgmnet_bs_machine_room AS b ON a.bsId = b.bsId
+		LEFT JOIN
+		xhgmnet_bs_supply_electricity AS c ON a.bsId = c.bsId
+		LEFT JOIN
+		xhgmnet_bs_station as d on a.bsId=d.bsId
+		WHERE
+		a.type != 2
+		AND a.`status`
+		= 1
+		AND (
+		a.envMonitor = 2
+		OR b.air_conditioning = "未配置"
+		OR b.fire = "未配置"
+		OR b.lightning = "未安装"
+		OR c.generatorConfig = 0
+		OR
+		c.has_spare_power !=
+		"是"
+		)
+		ORDER BY
+		a.bsId ASC
+	</select>
+	<insert id="insert_check_month_detail" useGeneratedKeys="true"
+		parameterType="xh.mybatis.bean.CheckRoomEquBean">
+		replace into
+		check_month_detail(check_type,check_child,bsId,score,period,detail,check_date)
+		values(#{check_type},#{check_child},#{bsId},#{score},#{period},#{detail},#{check_date})
+	</insert>
+	<!-- 考核运维人员是否达到20人 -->
+	<select id="check_phone_book" resultType="int">
+		select count(*) from
+		xhgmnet_phonebook
+	</select>
+	<!-- 考核运办公场所 ,考核仪器仪表 ,考核运维车辆不足3辆 -->
+	<select id="check_officeaddress" resultType="map">
+		select
+		(select
+		count(*) from xhgmnet_operation_officeaddress) as address,
+		(select
+		count(*) from xhgmnet_operations_instrument) as instrument,
+		(select
+		count(*) from xhgmnet_operations_bus) as bus
+	</select>
+	<!-- 考核备品备件完好率低于80% -->
+	<select id="check_attachment" resultType="map">
+		select x.* from (
+		SELECT
+		a.attachment_name,
+		a.attachment_model,
+		count(a.attachment_model) AS num,
+		b.attachment_conf_number,
+		CONVERT (
+		count(a.attachment_model) / b.attachment_conf_number * 100,
+		DECIMAL (10, 2)
+		) AS perc
+		FROM
+		xhgmnet_operations_attachment AS a
+		LEFT JOIN xhgmnet_operations_attachment_config AS b ON a.attachment_model
+		= b.attachment_model
+		GROUP BY
+		a.attachment_model
+		) as x where x.perc &lt;80
+	</select>
+	<!-- 考核一级基站 -->
+	<select id="check_onelevel_bs" resultType="map">
+		select
+		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		as timeout,b.period from xhgmnet_operations_bsfault as a
+		left join
+		xhgmnet_bs_station as b on CASE
+		WHEN a.bsId > 1200 and a.bsId &lt; 2000
+		THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		where a.neType=4 and
+		a.modType=3
+		and (a.bsId&lt;1000 or a.bsId>1200) and
+		(a.bsId%1000) in
+		(select
+		bsId
+		from
+		xhgmnet_bs_station where `level`=1)
+		and
+		(a.bsId%1000)
+		NOT
+		in
+		(select
+		bsIds from xhgmnet_stationalarm) and
+		a.faultRecoveryTime
+		is not
+		NULL
+		and
+		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>1
+	</select>
+	<!-- 考核二级级基站 -->
+	<select id="check_twolevel_bs" resultType="map">
+		select
+		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		as timeout,b.period from xhgmnet_operations_bsfault as a
+		left join
+		xhgmnet_bs_station as b on CASE
+		WHEN a.bsId > 1200 and a.bsId &lt; 2000
+		THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		where a.neType=4 and
+		a.modType=3
+		and (a.bsId&lt;1000 or a.bsId>1200) and
+		(a.bsId%1000) in
+		(select
+		bsId
+		from
+		xhgmnet_bs_station where `level`=2)
+		and
+		(a.bsId%1000)
+		NOT
+		in
+		(select
+		bsIds from xhgmnet_stationalarm) and
+		a.faultRecoveryTime
+		is not
+		NULL
+		and
+		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>5
+	</select>
+	<!-- 考核三级基站 -->
+	<select id="check_threelevel_bs" resultType="map">
+		select
+		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		as timeout,b.period from xhgmnet_operations_bsfault as a
+		left join
+		xhgmnet_bs_station as b on CASE
+		WHEN a.bsId > 1200 and a.bsId &lt; 2000
+		THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		where a.neType=4 and
+		a.modType=3
+		and (a.bsId&lt;1000 or a.bsId>1200) and
+		(a.bsId%1000) in
+		(select
+		bsId
+		from
+		xhgmnet_bs_station where `level`=3)
+		and
+		(a.bsId%1000)
+		NOT
+		in
+		(select
+		bsIds from xhgmnet_stationalarm) and
+		a.faultRecoveryTime
+		is not
+		NULL
+		and
+		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>9
+	</select>
+	<!-- 考核特别重大故障 -->
+	<select id="check_onelevel_fault" resultType="map">
+
+		SELECT
+		count(a.bsId) as num,
+		b.period
+		FROM
+		xhgmnet_operations_bsfault AS a
+		LEFT
+		JOIN
+		xhgmnet_bs_station AS b ON CASE
+		WHEN a.bsId > 1200 and a.bsId &lt;
+		2000 THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		WHERE
+		a.severity
+		="特别重大故障"
+		group by b.period
+	</select>
+	<!-- 考核重大故障 -->
+	<select id="check_twolevel_fault" resultType="map">
+		SELECT
+		count(a.bsId) as num,
+		b.period
+		FROM
+		xhgmnet_operations_bsfault AS a
+		LEFT
+		JOIN
+		xhgmnet_bs_station AS b ON CASE
+		WHEN a.bsId > 1200 and a.bsId &lt;
+		2000 THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		WHERE
+		a.severity
+		="重大故障"
+		group by b.period
+	</select>
+	<!-- 考核特别重大故障时间 -->
+	<!-- <select id="check_onelevel_fault_timeout" resultType="map"> SELECT 
+		a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime 
+		) AS timeout, b.period FROM xhgmnet_operations_bsfault AS a LEFT JOIN xhgmnet_bs_station 
+		AS b ON CASE WHEN a.bsId > 1200 && a.bsId &lt; 2000 THEN a.bsId % 1000 = 
+		b.bsId ELSE a.bsId = b.bsId END WHERE a.severity = "特别重大故障" AND TIMESTAMPDIFF( 
+		MINUTE, a.time, a.faultRecoveryTime ) > 5 </select> 考核重大故障时间 <select id="check_twolevel_fault_timeout" 
+		resultType="map"> SELECT a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( 
+		MINUTE, a.time, a.faultRecoveryTime ) AS timeout, b.period FROM xhgmnet_operations_bsfault 
+		AS a LEFT JOIN xhgmnet_bs_station AS b ON CASE WHEN a.bsId > 1200 && a.bsId 
+		&lt; 2000 THEN a.bsId % 1000 = b.bsId ELSE a.bsId = b.bsId END a.bsId % 1000 
+		= b.bsId WHERE a.severity = "重大故障" AND TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime 
+		) > 5 </select> 考核一般故障时间 <select id="check_threelevel_fault_timeout" resultType="map"> 
+		SELECT a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( MINUTE, a.time, 
+		a.faultRecoveryTime ) AS timeout, b.period FROM xhgmnet_operations_bsfault 
+		AS a LEFT JOIN xhgmnet_bs_station AS b ON CASE WHEN a.bsId > 1200 && a.bsId 
+		&lt; 2000 THEN a.bsId % 1000 = b.bsId ELSE a.bsId = b.bsId END WHERE a.severity 
+		= "一般故障" AND TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime ) > 5 </select> -->
 
 </mapper>
