@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
+import xh.mybatis.bean.CheckMoneyBean;
+import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
 import xh.mybatis.bean.OperationsCheckDetailBean;
+import xh.mybatis.bean.OperationsCheckScoreBean;
+import xh.mybatis.bean.ScoreBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.OperationsCheckService;
 
@@ -65,30 +70,48 @@ public class OperationsCheckController {
 	public void searchDetail(HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
-		OperationsCheckDetailBean bean=OperationsCheckService.searchDetail(time);
+		List<CheckMoneyBean> list=OperationsCheckService.searchDetail(time);
+		log.info("list-->"+list);
 		float sum=0;
-		if(bean!=null){
-			sum+=bean.getService_msc();
-			sum+=bean.getService_singlebs1();
-			sum+=bean.getService_singlebs2();
-			sum+=bean.getService_singlebs3();
-			sum+=bean.getFault_ctl1();
-			sum+=bean.getFault_ctl2();
-			sum+=bean.getFault_port_time1();
-			sum+=bean.getFault_port_time2();
-			sum+=bean.getFault_port_time3();
-			sum+=bean.getUser_service();
-			sum+=bean.getUser_train();
-			sum+=bean.getEmergency1();
-			sum+=bean.getEmergency2();
-			sum+=bean.getEmergency3();
-			sum+=bean.getInformation();
-			sum+=bean.getOther();
-			sum+=bean.getSecurity();
+		HashMap<String,Object> rs=new HashMap<String, Object>();
+		for(int i=0;i<list.size();i++){
+			CheckMoneyBean bean=list.get(i);
+			log.info("bean:"+bean);
+			rs.put("m_"+bean.getCheck_tag(), bean.getMoney());
+			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum+=bean.getMoney();
 		}
 		
 		HashMap result = new HashMap();
-		result.put("items",bean);
+		result.put("items",rs);
+		result.put("sum",sum);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/searchScore", method = RequestMethod.GET)
+	public void searchScore(HttpServletRequest request, HttpServletResponse response) {
+		String time=request.getParameter("time");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<OperationsCheckScoreBean> list=OperationsCheckService.searchScore(time);
+		log.info("list:"+list);
+		float sum=0;
+		HashMap<String,Object> rs=new HashMap<String, Object>();
+		for(int i=0;i<list.size();i++){
+			OperationsCheckScoreBean bean=list.get(i);
+			log.info("bean:"+bean);
+			rs.put("s_"+bean.getCheck_tag(), bean.getScore());
+			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum+=bean.getScore();
+		}
+		HashMap result = new HashMap();
+		result.put("items",rs);
 		result.put("sum",sum);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
@@ -102,8 +125,6 @@ public class OperationsCheckController {
 	}
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public void add(HttpServletRequest request, HttpServletResponse response) {
-		//String data=request.getParameter("data");
-		//OperationsCheckDetailBean detailBean=GsonUtil.json2Object(data, OperationsCheckDetailBean.class);
 		OperationsCheckBean checkBean=new OperationsCheckBean();
 		checkBean.setApplyId(FunUtil.RandomAlphanumeric(15));
 		checkBean.setCreateTime(FunUtil.nowDateNoTime());
@@ -115,18 +136,25 @@ public class OperationsCheckController {
 		String comment = request.getParameter("comment");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("filePath");
-		String month=request.getParameter("month");
+		String month=request.getParameter("time");
 		checkBean.setFileName(fileName);
 		checkBean.setFilePath(filePath);
 		checkBean.setComment(comment);
 		checkBean.setCheckMonth(month);
 		
-		
+		String scoreData = request.getParameter("scoreData");
+		String moneyData = request.getParameter("moneyData");
+		ScoreBean score=GsonUtil.json2Object(scoreData, ScoreBean.class);
+		MoneyBean money=GsonUtil.json2Object(moneyData, MoneyBean.class);
+		score.setTime(month);
+		money.setTime(month);
 		
 		int rst=OperationsCheckService.add(checkBean);
 		if(rst>=1){
 			this.success=true;
 			this.message="提交申请成功";
+			OperationsCheckService.addScore(score);
+			OperationsCheckService.addDetail(money);
 		}else{
 			this.success=false;
 			this.message="提交申请失败";
@@ -155,7 +183,7 @@ public class OperationsCheckController {
 		OperationsCheckBean checkBean=new OperationsCheckBean();
 		checkBean.setId(id);
 		checkBean.setCheckTime(FunUtil.nowDateNoTime());
-		checkBean.setCheckUser(user);
+		checkBean.setCheckUser(FunUtil.loginUser(request));
 		checkBean.setStatus(check);
 		checkBean.setNote1(note1);
 		int rst=OperationsCheckService.check2(checkBean);

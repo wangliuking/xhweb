@@ -3,9 +3,12 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.CheckMoneyBean;
 import xh.mybatis.bean.CheckRoomEquBean;
+import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
 import xh.mybatis.bean.OperationsCheckDetailBean;
+import xh.mybatis.bean.OperationsCheckScoreBean;
 
 public interface OperationsCheckMapper {
 	
@@ -14,11 +17,15 @@ public interface OperationsCheckMapper {
 	
 	int add(OperationsCheckBean bean)throws Exception;
 	
-	OperationsCheckDetailBean searchDetail(String time)throws Exception;
+	List<CheckMoneyBean> searchDetail(String time)throws Exception;
+	
+	List<OperationsCheckScoreBean> searchScore(String time)throws Exception;
 	
 	int detailExists(String time)throws Exception;
 	
-	int addDetail(OperationsCheckDetailBean bean)throws Exception;
+	int addDetail(List<CheckMoneyBean> bean)throws Exception;
+	
+	int addScore(List<OperationsCheckScoreBean> list)throws Exception;
 	
 	int updateDetail(OperationsCheckDetailBean bean)throws Exception;
 	
@@ -41,6 +48,20 @@ public interface OperationsCheckMapper {
 	List<Map<String,Object>> check_attachment() throws Exception;
 	
 	int insert_check_month_detail(CheckRoomEquBean bean)throws Exception;
+	
+	int insert_check_month_money_detail(CheckMoneyBean bean)throws Exception;
+	
+	/*<!-- 考核一级基站 -->*/
+	List<Map<String,Object>> check_onelevel_bs() throws Exception;
+	/*<!-- 考核二级基站 -->*/
+	List<Map<String,Object>> check_twolevel_bs() throws Exception;
+	/*<!-- 考核三级基站 -->*/
+	List<Map<String,Object>> check_threelevel_bs() throws Exception;
+	
+	/*	<!-- 考核特别重大故障 -->*/
+	List<Map<String,Object>> check_onelevel_fault() throws Exception;
+	/*	<!-- 考核重大故障 -->*/
+	List<Map<String,Object>> check_twolevel_fault() throws Exception;
 	
 
 	

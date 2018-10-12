@@ -55,12 +55,11 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="btn-group" style="padding-top:10px;padding-bottom:10px;">
-						<button class="btn btn-success btn-sm" 
+						<a class="btn btn-success btn-sm"  href="operations_check_add.html"
 						ng-if="loginUserRoleType==0 
-						|| (loginUserRoleType==3 )"
-						 data-toggle="modal" data-target="#addWin">
+						|| (loginUserRoleType==3 )">
 							<i class="fa fa-plus-circle"></i>&nbsp;发起考核申请
-						</button>
+						</a>
 
 					</div>
 				</div>
@@ -84,13 +83,14 @@
 										<th>申请人</th>
 										<th width="180px">联系方式</th>
 										<th>状态</th>
+										<th width="170px">考核月份</th>
 										<th width="170px">申请时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="9" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.userName}}</td>
@@ -98,9 +98,10 @@
 										<td ng-if="x.status==0" class="td-primary">等待管理部门审核资料</td>
 										<td ng-if="x.status==-1" class="td-danger">你提交的申请已经被拒绝了</td>
 										
-										<td ng-if="x.status==1" class="td-primary">审核通过，等待管理部门填写考核结果</td>
-										<td ng-if="x.status==2" class="td-primary">管理部门已经填写考核记录等待服务提供方确认结果</td>
+										<!-- <td ng-if="x.status==1" class="td-primary">审核通过，等待管理部门填写考核结果</td> -->
+										<td ng-if="x.status==1" class="td-primary">管理部门已经审核等待服务提供方确认结果</td>
 										<td ng-if="x.status==3" class="td-success">确认完成</td>
+										<td>{{x.checkMonth}}</td>
 										<td>{{x.createTime}}</td>
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
@@ -109,11 +110,11 @@
 											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_operations_check=='on') || loginUserRoleType==0)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核
 										</a> 
-										<a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
+										<!-- <a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
 											href="javascript:(0)" title="点击按钮填写考核结果">|<i
 												class="fa fa-hand-o-down text-danger"></i>填写考核结果
-										</a> 
-										<a ng-if="x.status==2 && (loginUserRoleType==3 || loginUserRoleType==0)" href="#"
+										</a>  -->
+										<a ng-if="x.status==1 && (loginUserRoleType==3 || loginUserRoleType==0)" href="#"
 											ng-click="check4($index)">| <i
 												class="fa fa-hand-o-down text-danger"></i>确认
 										</a>
@@ -162,136 +163,9 @@
 	
 	<!-- 进度-->
 	<div ng-include="'operations_check_progress.html'"></div>
-	<div class="modal fade" id="addWin" tabindex="-1" role="dialog"
-	aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<!-- <div class="color-line"></div> -->
-			<div class="modal-header"></div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-					<!-- row -->
-							<div class="row">
-								<form action="#" id="" onSubmit="return false"
-									enctype="multipart/form-data" method="POST">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="form-group col-md-9" style="padding-right:0px;">
-
-												<label>考核文件（注:压缩打包上传所有文件）</label> <input type="file" name="filePath"
-													id="filePath" class="form-control" />
-
-											</div>
-											<div class="form-group btn-group col-md-3">
-												<button type="button" class="btn btn-info btn-sm"
-													style="margin-top:23px;" id="uploadfile">
-													<i class="fa fa-plus-circle"></i>点击上传
-												</button>
-
-											</div>
-										</div>
-										
-
-									</div>
-									<div class="row">
-									<div class="col-md-12" style="padding-left:30px;">
-											<span style="color:red;" id="uploadResult"></span>
-										</div>
-									</div>
-								</form>
-							</div>
-							<!-- 	row -->
-							<div class="row" ng-show="false">
-								<div class="col-md-12">
-									<div class="form-group col-md-12">
-										    <input
-											type="hidden" name="fileName" value="" /> <input
-											type="hidden" name="path" value="" /> <input type="hidden"
-											name="result" value="" />
-									</div>
-								</div>
-							</div>
-							<div class="row">
-							   <div class="form-group col-md-12">
-									<label>考核月份</label>
-									<input type="text" class="form-control"
-								 ng-model="starttime" name="month"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
-								onblur="xh.searchDetail()">
-
-								</div>
-								<div class="form-group col-md-12">
-									<label>备注</label>
-									<textarea class="form-control" rows="5" cols="" name="comment"></textarea>
-
-								</div>
-
-							</div>
-					
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger btn-sm"
-					data-dismiss="modal">
-					关闭
-				</button>
-				<button type="button" class="btn btn-success btn-sm" id="addbtn">
-					提交
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-	<!-- 审核 -->
-	<div class="modal fade" id="checkWin2" tabindex="-1" role="dialog"
-	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<!-- <div class="color-line"></div> -->
-			<div class="modal-header"></div>
-			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="checkForm2" onSubmit="return false">
-					<div class="row" ng-show="false">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>ID</label><input type="text" value=""
-									class="form-control" name="id" required="required"
-									ng-model="check_id">
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-					<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>考核资料</label>
-								<p><a href="#" ng-click="download(checkData.fileName)">{{checkData.fileName}}</a></p>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>备注</label>
-								<textarea name="workNote" rows="4" cols="10" class="form-control"></textarea>
-							</div>
-						</div>
-					</div>
-					<!-- row-------end -->
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger btn-sm"
-					data-dismiss="modal">
-					关闭
-				</button>
-				<button type="button" ng-click="check2(1)"  class="btn btn-success btn-sm" id="check2BtnY">
-					同意
-				</button>
-				<button type="button"  ng-click="check2(-1)" class="btn btn-danger btn-sm" id="check2BtnN">
-					拒绝
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-	<!--、、、 审核 -->
+	
+	<div ng-include="'operations_check_examine.html'"></div>
+	
 	
 	
 	

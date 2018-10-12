@@ -7,9 +7,13 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.CheckMoneyBean;
 import xh.mybatis.bean.CheckRoomEquBean;
+import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
 import xh.mybatis.bean.OperationsCheckDetailBean;
+import xh.mybatis.bean.OperationsCheckScoreBean;
+import xh.mybatis.bean.ScoreBean;
 import xh.mybatis.mapper.OperationsCheckMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -23,6 +27,22 @@ public class OperationsCheckService {
 		List<OperationsCheckBean> list = new ArrayList<OperationsCheckBean>();
 		try {
 			list = mapper.dataList(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static List<OperationsCheckScoreBean> searchScore(String time) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<OperationsCheckScoreBean> list = new ArrayList<OperationsCheckScoreBean>();
+		try {
+			list = mapper.searchScore(time);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -70,21 +90,179 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
+	
+	public static int addScore(ScoreBean bean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<OperationsCheckScoreBean> list=new ArrayList<OperationsCheckScoreBean>();
+		OperationsCheckScoreBean score1=new OperationsCheckScoreBean();
+		score1.setCheck_month(bean.getTime());
+		score1.setCheck_tag("a1");
+		score1.setCheck_note(bean.getN_a1());
+		if(!bean.getS_a1().equals("")){
+			score1.setScore(Float.parseFloat(bean.getS_a1()));
+		}else{
+			score1.setScore(0);
+		}
+		list.add(score1);
+		OperationsCheckScoreBean score2=new OperationsCheckScoreBean();
+		score2.setCheck_month(bean.getTime());
+		score2.setCheck_tag("b1");
+		score2.setCheck_note(bean.getN_b1());
+		if(!bean.getS_b1().equals("")){
+			score2.setScore(Float.parseFloat(bean.getS_b1()));
+		}else{
+			score2.setScore(0);
+		}
+		list.add(score2);
+		OperationsCheckScoreBean score3=new OperationsCheckScoreBean();
+		score3.setCheck_month(bean.getTime());
+		score3.setCheck_tag("b2");
+		score3.setCheck_note(bean.getN_b2());
+		if(!bean.getS_b2().equals("")){
+			score3.setScore(Float.parseFloat(bean.getS_b2()));
+		}else{
+			score3.setScore(0);
+		}
+		list.add(score3);
+		OperationsCheckScoreBean score4=new OperationsCheckScoreBean();
+		score4.setCheck_month(bean.getTime());
+		score4.setCheck_tag("b3");
+		score4.setCheck_note(bean.getN_b3());
+		if(!bean.getS_b3().equals("")){
+			score4.setScore(Float.parseFloat(bean.getS_b3()));
+		}else{
+			score4.setScore(0);
+		}
+		list.add(score4);
+		OperationsCheckScoreBean score5=new OperationsCheckScoreBean();
+		score5.setCheck_month(bean.getTime());
+		score5.setCheck_tag("b4");
+		score5.setCheck_note(bean.getN_b4());
+		if(!bean.getS_b4().equals("")){
+			score5.setScore(Float.parseFloat(bean.getS_b4()));
+		}else{
+			score5.setScore(0);
+		}
+		list.add(score5);
+		OperationsCheckScoreBean score6=new OperationsCheckScoreBean();
+		score6.setCheck_month(bean.getTime());
+		score6.setCheck_tag("c1");
+		score6.setCheck_note(bean.getN_c1());
+		if(!bean.getS_c1().equals("")){
+			score6.setScore(Float.parseFloat(bean.getS_c1()));
+		}else{
+			score6.setScore(0);
+		}
+		list.add(score6);
+		
+		OperationsCheckScoreBean score7=new OperationsCheckScoreBean();
+		score7.setCheck_month(bean.getTime());
+		score7.setCheck_tag("c2");
+		score7.setCheck_note(bean.getN_c2());
+		if(!bean.getS_c2().equals("")){
+			score7.setScore(Float.parseFloat(bean.getS_c2()));
+		}else{
+			score7.setScore(0);
+		}
+		list.add(score7);
+		OperationsCheckScoreBean score8=new OperationsCheckScoreBean();
+		score8.setCheck_month(bean.getTime());
+		score8.setCheck_tag("d1");
+		score8.setCheck_note(bean.getN_d1());
+		if(!bean.getS_d1().equals("")){
+			score8.setScore(Float.parseFloat(bean.getS_d1()));
+		}else{
+			score8.setScore(0);
+		}
+		list.add(score8);
+		OperationsCheckScoreBean score9=new OperationsCheckScoreBean();
+		score9.setCheck_month(bean.getTime());
+		score9.setCheck_tag("d2");
+		score9.setCheck_note(bean.getN_d2());
+		if(!bean.getS_d2().equals("")){
+			score9.setScore(Float.parseFloat(bean.getS_d2()));
+		}else{
+			score9.setScore(0);
+		}
+		list.add(score9);
+		OperationsCheckScoreBean score10=new OperationsCheckScoreBean();
+		score10.setCheck_month(bean.getTime());
+		score10.setCheck_tag("e1");
+		score10.setCheck_note(bean.getN_e1());
+		if(!bean.getS_e1().equals("")){
+			score10.setScore(Float.parseFloat(bean.getS_e1()));
+		}else{
+			score10.setScore(0);
+		}
+		list.add(score10);
+		OperationsCheckScoreBean score11=new OperationsCheckScoreBean();
+		score11.setCheck_month(bean.getTime());
+		score11.setCheck_tag("f1");
+		score11.setCheck_note(bean.getN_f1());
+		if(!bean.getS_f1().equals("")){
+			score11.setScore(Float.parseFloat(bean.getS_f1()));
+		}else{
+			score11.setScore(0);
+		}
+		list.add(score11);
+		OperationsCheckScoreBean score12=new OperationsCheckScoreBean();
+		score12.setCheck_month(bean.getTime());
+		score12.setCheck_tag("f2");
+		score12.setCheck_note(bean.getN_f2());
+		if(!bean.getS_f2().equals("")){
+			score12.setScore(Float.parseFloat(bean.getS_f2()));
+		}else{
+			score12.setScore(0);
+		}
+		list.add(score12);
+		OperationsCheckScoreBean score13=new OperationsCheckScoreBean();
+		score13.setCheck_month(bean.getTime());
+		score13.setCheck_tag("g1");
+		score13.setCheck_note(bean.getN_g1());
+		if(!bean.getS_g1().equals("")){
+			score13.setScore(Float.parseFloat(bean.getS_g1()));
+		}else{
+			score13.setScore(0);
+		}
+		list.add(score13);
+		/*OperationsCheckScoreBean score14=new OperationsCheckScoreBean();
+		score14.setCheck_month(bean.getTime());
+		score14.setCheck_tag("sum");
+		score14.setCheck_note(bean.getN_sum());
+		if(!bean.getS_sum().equals("")){
+			score14.setScore(Float.parseFloat(bean.getS_sum()));
+		}else{
+			score14.setScore(0);
+		}
+		list.add(score14);	*/
+		int count = 0;
+		try {
+			count = mapper.addScore(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 
-	public static OperationsCheckDetailBean searchDetail(String time) {
+	public static List<CheckMoneyBean> searchDetail(String time) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OperationsCheckMapper mapper = session
 				.getMapper(OperationsCheckMapper.class);
-		OperationsCheckDetailBean bean = new OperationsCheckDetailBean();
+		List<CheckMoneyBean> list= new ArrayList<CheckMoneyBean>();
 		try {
-			bean = mapper.searchDetail(time);
+			list = mapper.searchDetail(time);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return bean;
+		return list;
 	}
 
 	public static int detailExists(String time) {
@@ -103,14 +281,201 @@ public class OperationsCheckService {
 		return count;
 	}
 
-	public static int addDetail(OperationsCheckDetailBean bean) {
+	public static int addDetail(MoneyBean bean) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);
 		OperationsCheckMapper mapper = session
 				.getMapper(OperationsCheckMapper.class);
+		List<CheckMoneyBean> list=new ArrayList<CheckMoneyBean>();
+		CheckMoneyBean score1=new CheckMoneyBean();
+		score1.setCheck_date(bean.getTime());
+		score1.setCheck_tag("a1");
+		score1.setCheck_note(bean.getN_a1());
+		if(!bean.getM_a1().equals("")){
+			score1.setMoney(Float.parseFloat(bean.getM_a1()));
+		}else{
+			score1.setMoney(0);
+		}
+		list.add(score1);
+		
+		CheckMoneyBean score2=new CheckMoneyBean();
+		score2.setCheck_date(bean.getTime());
+		score2.setCheck_tag("a2");
+		score2.setCheck_note(bean.getN_a2());
+		if(!bean.getM_a2().equals("")){
+			score2.setMoney(Float.parseFloat(bean.getM_a2()));
+		}else{
+			score2.setMoney(0);
+		}
+		list.add(score2);
+		
+		CheckMoneyBean score3=new CheckMoneyBean();
+		score3.setCheck_date(bean.getTime());
+		score3.setCheck_tag("a3");
+		score3.setCheck_note(bean.getN_a3());
+		if(!bean.getM_a3().equals("")){
+			score3.setMoney(Float.parseFloat(bean.getM_a3()));
+		}else{
+			score3.setMoney(0);
+		}
+		list.add(score3);
+		
+		CheckMoneyBean score4=new CheckMoneyBean();
+		score4.setCheck_date(bean.getTime());
+		score4.setCheck_tag("a4");
+		score4.setCheck_note(bean.getN_a4());
+		if(!bean.getM_a4().equals("")){
+			score4.setMoney(Float.parseFloat(bean.getM_a4()));
+		}else{
+			score4.setMoney(0);
+		}
+		list.add(score4);
+		
+		CheckMoneyBean score5=new CheckMoneyBean();
+		score5.setCheck_date(bean.getTime());
+		score5.setCheck_tag("b1");
+		score5.setCheck_note(bean.getN_b1());
+		if(!bean.getM_b1().equals("")){
+			score5.setMoney(Float.parseFloat(bean.getM_b1()));
+		}else{
+			score5.setMoney(0);
+		}
+		list.add(score5);
+		
+		CheckMoneyBean score6=new CheckMoneyBean();
+		score6.setCheck_date(bean.getTime());
+		score6.setCheck_tag("b2");
+		score6.setCheck_note(bean.getN_b2());
+		if(!bean.getM_b2().equals("")){
+			score6.setMoney(Float.parseFloat(bean.getM_b2()));
+		}else{
+			score6.setMoney(0);
+		}
+		list.add(score6);
+		
+		CheckMoneyBean score7=new CheckMoneyBean();
+		score7.setCheck_date(bean.getTime());
+		score7.setCheck_tag("c1");
+		score7.setCheck_note(bean.getN_c1());
+		if(!bean.getM_c1().equals("")){
+			score7.setMoney(Float.parseFloat(bean.getM_c1()));
+		}else{
+			score7.setMoney(0);
+		}
+		list.add(score7);
+		
+		CheckMoneyBean score8=new CheckMoneyBean();
+		score8.setCheck_date(bean.getTime());
+		score8.setCheck_tag("c2");
+		score8.setCheck_note(bean.getN_c2());
+		if(!bean.getM_c2().equals("")){
+			score8.setMoney(Float.parseFloat(bean.getM_c2()));
+		}else{
+			score8.setMoney(0);
+		}
+		list.add(score8);
+		
+		CheckMoneyBean score9=new CheckMoneyBean();
+		score9.setCheck_date(bean.getTime());
+		score9.setCheck_tag("c3");
+		score9.setCheck_note(bean.getN_c3());
+		if(!bean.getM_c3().equals("")){
+			score9.setMoney(Float.parseFloat(bean.getM_c3()));
+		}else{
+			score9.setMoney(0);
+		}
+		list.add(score9);
+		
+		CheckMoneyBean score10=new CheckMoneyBean();
+		score10.setCheck_date(bean.getTime());
+		score10.setCheck_tag("d1");
+		score10.setCheck_note(bean.getN_d1());
+		if(!bean.getM_d1().equals("")){
+			score10.setMoney(Float.parseFloat(bean.getM_d1()));
+		}else{
+			score10.setMoney(0);
+		}
+		list.add(score10);
+		
+		CheckMoneyBean score11=new CheckMoneyBean();
+		score11.setCheck_date(bean.getTime());
+		score11.setCheck_tag("e1");
+		score11.setCheck_note(bean.getN_e1());
+		if(!bean.getM_e1().equals("")){
+			score11.setMoney(Float.parseFloat(bean.getM_e1()));
+		}else{
+			score11.setMoney(0);
+		}
+		list.add(score11);
+		
+		CheckMoneyBean score12=new CheckMoneyBean();
+		score12.setCheck_date(bean.getTime());
+		score12.setCheck_tag("f1");
+		score12.setCheck_note(bean.getN_f1());
+		if(!bean.getM_f1().equals("")){
+			score12.setMoney(Float.parseFloat(bean.getM_f1()));
+		}else{
+			score12.setMoney(0);
+		}
+		list.add(score12);
+		
+		CheckMoneyBean score13=new CheckMoneyBean();
+		score13.setCheck_date(bean.getTime());
+		score13.setCheck_tag("g1");
+		score13.setCheck_note(bean.getN_g1());
+		if(!bean.getM_g1().equals("")){
+			score13.setMoney(Float.parseFloat(bean.getM_g1()));
+		}else{
+			score13.setMoney(0);
+		}
+		list.add(score13);
+		
+		CheckMoneyBean score14=new CheckMoneyBean();
+		score14.setCheck_date(bean.getTime());
+		score14.setCheck_tag("h1");
+		score14.setCheck_note(bean.getN_h1());
+		if(!bean.getM_h1().equals("")){
+			score14.setMoney(Float.parseFloat(bean.getM_h1()));
+		}else{
+			score14.setMoney(0);
+		}
+		list.add(score14);
+		
+		CheckMoneyBean score15=new CheckMoneyBean();
+		score15.setCheck_date(bean.getTime());
+		score15.setCheck_tag("i1");
+		score15.setCheck_note(bean.getN_i1());
+		if(!bean.getM_i1().equals("")){
+			score15.setMoney(Float.parseFloat(bean.getM_i1()));
+		}else{
+			score15.setMoney(0);
+		}
+		list.add(score15);
+		
+		CheckMoneyBean score16=new CheckMoneyBean();
+		score16.setCheck_date(bean.getTime());
+		score16.setCheck_tag("j1");
+		score16.setCheck_note(bean.getN_j1());
+		if(!bean.getM_j1().equals("")){
+			score16.setMoney(Float.parseFloat(bean.getM_j1()));
+		}else{
+			score16.setMoney(0);
+		}
+		list.add(score16);
+		
+		CheckMoneyBean score17=new CheckMoneyBean();
+		score17.setCheck_date(bean.getTime());
+		score17.setCheck_tag("k1");
+		score17.setCheck_note(bean.getN_k1());
+		if(!bean.getM_k1().equals("")){
+			score17.setMoney(Float.parseFloat(bean.getM_k1()));
+		}else{
+			score17.setMoney(0);
+		}
+		list.add(score17);
 		int count = 0;
 		try {
-			count = mapper.addDetail(bean);
+			count = mapper.addDetail(list);
 			session.commit();
 			session.close();
 		} catch (Exception e) {
@@ -166,7 +531,7 @@ public class OperationsCheckService {
 		try {
 			count = mapper.check3(checkBean);
 			session.commit();
-			if (count >= 1) {
+			/*if (count >= 1) {
 				if (detailExists(detailBean.getTime()) > 0) {
 					r = updateDetail(detailBean);
 				} else {
@@ -177,7 +542,7 @@ public class OperationsCheckService {
 				}
 			} else {
 				session.rollback();
-			}
+			}*/
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -272,6 +637,7 @@ public class OperationsCheckService {
 		return list;
 	}
 	
+	
 	public static int insert_check_month_detail(CheckRoomEquBean bean) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);
@@ -288,5 +654,105 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
+	
+	
+	public static int insert_check_month_money_detail(CheckMoneyBean bean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.insert_check_month_money_detail(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/*<!-- 考核一级基站 -->*/
+	public static List<Map<String,Object>> check_onelevel_bs()  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.check_onelevel_bs();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/*<!-- 考核二级基站 -->*/
+	public static List<Map<String,Object>> check_twolevel_bs()  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.check_twolevel_bs();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/*<!-- 考核三级基站 -->*/
+	public static List<Map<String,Object>> check_threelevel_bs()  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.check_onelevel_bs();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/*	<!-- 考核特别重大故障 -->*/
+	public static List<Map<String,Object>> check_onelevel_fault()   {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.check_onelevel_fault();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	/*	<!-- 考核重大故障 -->*/
+	public static List<Map<String,Object>> check_twolevel_fault()  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.check_twolevel_fault();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 
 }

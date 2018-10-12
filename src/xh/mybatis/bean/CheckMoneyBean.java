@@ -1,13 +1,14 @@
 package xh.mybatis.bean;
 
-public class CheckRoomEquBean {
+public class CheckMoneyBean {
 	private String check_type;
 	private String check_child;
 	private String check_tag;
 	private String bsId="0";
-	private float score;
+	private float money;
 	private String detail;
 	private String check_date;
+	private String check_note;
 	private String period;
 	public String getCheck_type() {
 		return check_type;
@@ -21,18 +22,23 @@ public class CheckRoomEquBean {
 	public void setCheck_child(String check_child) {
 		this.check_child = check_child;
 	}
+	public String getCheck_tag() {
+		return check_tag;
+	}
+	public void setCheck_tag(String check_tag) {
+		this.check_tag = check_tag;
+	}
 	public String getBsId() {
 		return bsId;
 	}
 	public void setBsId(String bsId) {
 		this.bsId = bsId;
 	}
-	
-	public float getScore() {
-		return score;
+	public float getMoney() {
+		return money;
 	}
-	public void setScore(float score) {
-		this.score = score;
+	public void setMoney(float money) {
+		this.money = money;
 	}
 	public String getDetail() {
 		return detail;
@@ -53,20 +59,20 @@ public class CheckRoomEquBean {
 		this.period = period;
 	}
 	
-	public String getCheck_tag() {
-		return check_tag;
+	public String getCheck_note() {
+		return check_note;
 	}
-	public void setCheck_tag(String check_tag) {
-		this.check_tag = check_tag;
+	public void setCheck_note(String check_note) {
+		this.check_note = check_note;
 	}
 	@Override
 	public String toString() {
-		return "CheckRoomEquBean [check_type=" + check_type + ", check_child="
-				+ check_child + ", bsId=" + bsId + ", score=" + score
-				+ ", detail=" + detail + ", check_date=" + check_date
-				+ ", period=" + period + "]";
+		return "CheckMoneyBean [check_type=" + check_type + ", check_child="
+				+ check_child + ", check_tag=" + check_tag + ", bsId=" + bsId
+				+ ", money=" + money + ", detail=" + detail + ", check_date="
+				+ check_date + ", check_note=" + check_note + ", period="
+				+ period + "]";
 	}
 	
 	
-
 }

@@ -58,9 +58,31 @@ xh.load = function() {
 			
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
+		
+		$scope.searchMoney=function(time){
+			$http.get("../../check/searchDetail?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.money_data = response.items;
+				$scope.money_sum=response.sum;
+				
+				
+			});
+		}
+		$scope.searchScore=function(time){
+			$http.get("../../check/searchScore?time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.score_data= response.items;
+				$scope.score_sum=response.sum;
+				
+				
+			});
+		}
 	    
 	    $scope.toCheck2 = function (index) {
-	    $scope.check_data=$scope.data[index]
+	    $scope.check_data=$scope.data[index];
+	   
 	    $("#checkWin2").modal('show');
 	    };
 		
@@ -80,8 +102,11 @@ xh.load = function() {
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
-			$scope.searchDetail($scope.progressData.checkMonth)
+			//$scope.searchDetail($scope.progressData.checkMonth)
 			//$scope.asset_apply_list(id);
+			 $scope.searchMoney($scope.progressData.checkMonth);
+			 $scope.searchScore($scope.progressData.checkMonth);
+			 $scope.time=$scope.progressData.checkMonth;
 			$("#progress").modal('show');
 	    };
 	    
@@ -131,24 +156,17 @@ xh.load = function() {
 	    	});
 			
 		};
-		$scope.searchDetail=function(time){
-			$http.get("../../check/searchDetail?time="+time).
-			success(function(response){
-				xh.maskHide();
-				$scope.detailData = response.items;
-				$scope.sum=response.sum;
-				
-				
-			});
-		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData=$scope.data[id];			
 				$("#checkWin1").modal('show');	
 	    };
 	    $scope.checkWin2 = function (id) {
-			$scope.checkData=$scope.data[id];			
-				$("#checkWin2").modal('show');	
+			$scope.checkData=$scope.data[id];	
+			 $scope.searchMoney($scope.checkData.checkMonth);
+			 $scope.searchScore($scope.checkData.checkMonth);
+			 $scope.time=$scope.checkData.checkMonth;
+			$("#checkWin2").modal('show');	
 	    };
 	    $scope.check2 =function(tag){
 	    	var title="";

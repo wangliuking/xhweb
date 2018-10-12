@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.CheckMoneyBean;
 import xh.mybatis.bean.CheckRoomEquBean;
 import xh.mybatis.service.OperationsCheckService;
 
@@ -32,14 +33,15 @@ public class checkListener implements ServletContextListener{
 		// TODO Auto-generated method stub
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new RoomEqup(), 1000, 60000);
+			timer.scheduleAtFixedRate(new Score(), 1000, 60000);
+			timer.scheduleAtFixedRate(new Money(), 2000, 60000);
 		}
 	}
 
 }
-class RoomEqup extends TimerTask{
+class Score extends TimerTask{
 	private OperationsCheckService service=new OperationsCheckService();
-	protected final Log log= LogFactory.getLog(RoomEqup.class);
+	protected final Log log= LogFactory.getLog(Score.class);
 
 	@Override
 	public void run() {
@@ -100,6 +102,7 @@ class RoomEqup extends TimerTask{
 				CheckRoomEquBean bean=new CheckRoomEquBean();
 				bean.setCheck_type("机房及配套设施");
 				bean.setCheck_child("机房及配套设施");
+				bean.setCheck_tag("a1");
 				bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
 				bean.setScore(score);
 				bean.setDetail(str.toString());
@@ -124,6 +127,7 @@ class RoomEqup extends TimerTask{
 			CheckRoomEquBean bean=new CheckRoomEquBean();
 			bean.setCheck_type("运维团队及设施配置");
 			bean.setCheck_child("运维团队");
+			bean.setCheck_tag("b1");
 			bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
 			bean.setScore(score);
 			bean.setDetail("运维团队，"+count+"人,少于20人");
@@ -158,6 +162,7 @@ class RoomEqup extends TimerTask{
 			CheckRoomEquBean bean=new CheckRoomEquBean();
 			bean.setCheck_type("运维团队及设施配置");
 			bean.setCheck_child("办公场所及运维设施");
+			bean.setCheck_tag("b4");
 			bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
 			bean.setScore(score);
 			bean.setDetail(str.toString());
@@ -188,6 +193,7 @@ class RoomEqup extends TimerTask{
 				CheckRoomEquBean bean=new CheckRoomEquBean();
 				bean.setCheck_type("故障管理");
 				bean.setCheck_child("备品备件-"+map.get("attachment_name"));
+				bean.setCheck_tag("d2");
 				bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
 				bean.setScore(score);
 				bean.setDetail(str.toString());
@@ -197,4 +203,127 @@ class RoomEqup extends TimerTask{
 			}
 		}
 	}
+}
+class Money extends TimerTask{
+
+	@Override
+	public void run() {
+		/*<!-- 考核一级基站 -->*/
+		check_onelevel_bs();
+		/*<!-- 考核二级基站 -->*/
+		check_twolevel_bs();
+		/*<!-- 考核三级基站 -->*/
+		check_threelevel_bs();
+		/*	<!-- 考核特别重大故障 -->*/
+		check_onelevel_fault();
+		/*	<!-- 考核重大故障 -->*/
+		check_twolevel_fault();
+		
+	}
+	/*<!-- 考核一级基站 -->*/
+	public void check_onelevel_bs(){
+		List<Map<String, Object>> list=OperationsCheckService.check_onelevel_bs();
+		float a=0;
+		int m=0;
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+			a+=Float.parseFloat(map.get("timeout").toString());
+			
+		}
+		if(a-1>0){
+			m=(int) ((a-1)*1000);
+		}
+		CheckMoneyBean bean=new CheckMoneyBean();
+		bean.setCheck_type("服务可用率");
+		bean.setCheck_child("一级基站");
+		bean.setCheck_tag("a2");
+		bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
+		bean.setMoney(m);
+		OperationsCheckService.insert_check_month_money_detail(bean);
+	}
+	/*<!-- 考核二级基站 -->*/
+	public void check_twolevel_bs(){
+		List<Map<String, Object>> list=OperationsCheckService.check_twolevel_bs();
+		float a=0;
+		int m=0;
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+			a+=Float.parseFloat(map.get("timeout").toString());
+			
+		}
+		if(a-5>0){
+			m=(int) ((a-5)*1000);
+		}
+		CheckMoneyBean bean=new CheckMoneyBean();
+		bean.setCheck_type("服务可用率");
+		bean.setCheck_child("二级基站");
+		bean.setCheck_tag("a3");
+		bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
+		bean.setMoney(m);
+		OperationsCheckService.insert_check_month_money_detail(bean);
+	}
+	/*<!-- 考核三级级基站 -->*/
+	public void check_threelevel_bs(){
+		List<Map<String, Object>> list=OperationsCheckService.check_threelevel_bs();
+		float a=0;
+		int m=0;
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+			a+=Float.parseFloat(map.get("timeout").toString());
+			
+		}
+		if(a-9>0){
+			m=(int) ((a-9)*1000);
+		}
+		CheckMoneyBean bean=new CheckMoneyBean();
+		bean.setCheck_type("服务可用率");
+		bean.setCheck_child("三级基站");
+		bean.setCheck_tag("a4");
+		bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
+		bean.setMoney(m);
+		OperationsCheckService.insert_check_month_money_detail(bean);
+	}
+	/*	<!-- 考核特别重大故障 -->*/
+	public void check_onelevel_fault(){
+		List<Map<String, Object>> list=OperationsCheckService.check_onelevel_fault();
+		int count=0;
+		int m=0;
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+			count+=Float.parseFloat(map.get("num").toString());
+			
+		}
+		if(count>0){
+			m=(int) count*20000;
+		}
+		CheckMoneyBean bean=new CheckMoneyBean();
+		bean.setCheck_type("故障控制");
+		bean.setCheck_child("特别重大故障");
+		bean.setCheck_tag("b2");
+		bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
+		bean.setMoney(m);
+		OperationsCheckService.insert_check_month_money_detail(bean);
+	}
+	/*	<!-- 考核重大故障 -->*/
+	public void check_twolevel_fault(){
+		List<Map<String, Object>> list=OperationsCheckService.check_twolevel_fault();
+		int count=0;
+		int m=0;
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+			count+=Float.parseFloat(map.get("num").toString());
+			
+		}
+		if(count>0){
+			m=(int) count*10000;
+		}
+		CheckMoneyBean bean=new CheckMoneyBean();
+		bean.setCheck_type("故障控制");
+		bean.setCheck_child("重大故障");
+		bean.setCheck_tag("b1");
+		bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
+		bean.setMoney(m);
+		OperationsCheckService.insert_check_month_money_detail(bean);
+	}
+	
 }

@@ -32,83 +32,37 @@
 
 	<!-- 查询考核明细信息 -->
 	<select id="searchDetail" parameterType="String"
-		resultType="xh.mybatis.bean.OperationsCheckDetailBean">
-		select * from xhgmnet_operations_check_detail where
-		time=#{time}
+		resultType="xh.mybatis.bean.CheckMoneyBean">
+		select * from check_month_money where
+		check_date=#{time}
+	</select>
+	<!-- 查询考核得分 -->
+	<select id="searchScore" parameterType="String"
+		resultType="xh.mybatis.bean.OperationsCheckScoreBean">
+		select * from check_month_score where check_month=#{time}
 	</select>
 	<!-- 判断考核明细信息是否存在 -->
 	<select id="detailExists" parameterType="String" resultType="int">
 		select count(id) from xhgmnet_operations_check_detail where
 		time=#{time}
 	</select>
+	<!-- 新增考核扣分 -->
+	<insert id="addScore" parameterType="java.util.List">
+		replace into
+		check_month_score(check_type,check_tag,score,check_note,check_month)values
+		<foreach collection="list" item="it" separator=",">
+			(#{it.check_type},#{it.check_tag},#{it.score},#{it.check_note},#{it.check_month})
+		</foreach>
+
+	</insert>
 
 	<!-- 新增考核明细 -->
-	<insert id="addDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean"
-		useGeneratedKeys="true" keyProperty="id">
-		insert into
-		xhgmnet_operations_check_detail
-		(
-		applyId,time,service_msc,service_msc_note,service_singlebs1,
-		service_singlebs1_note,service_singlebs2,
-		service_singlebs2_note,
-		service_singlebs3,service_singlebs3_note,
-		fault_ctl1,
-		fault_ctl1_note,
-		fault_ctl2,
-		fault_ctl2_note,
-		fault_port_time1,
-		fault_port_time1_note,
-		fault_port_time2,
-		fault_port_time2_note,
-		fault_port_time3,
-		fault_port_time3_note,
-		user_service,
-		user_service_note,
-		user_train,
-		user_train_note,
-		emergency1,
-		emergency1_note,
-		emergency2,
-		emergency2_note,
-		emergency3,
-		emergency3_note,
-		information,
-		information_note,
-		security,
-		security_note,
-		other,
-		other_note)values
-		(
-		#{applyId},#{time},#{service_msc},#{service_msc_note},#{service_singlebs1},
-		#{service_singlebs1_note},#{service_singlebs2},
-		#{service_singlebs2_note},
-		#{service_singlebs3},#{service_singlebs3_note},
-		#{fault_ctl1},
-		#{fault_ctl1_note},
-		#{fault_ctl2},
-		#{fault_ctl2_note},
-		#{fault_port_time1},
-		#{fault_port_time1_note},
-		#{fault_port_time2},
-		#{fault_port_time2_note},
-		#{fault_port_time3},
-		#{fault_port_time3_note},
-		#{user_service},
-		#{user_service_note},
-		#{user_train},
-		#{user_train_note},
-		#{emergency1},
-		#{emergency1_note},
-		#{emergency2},
-		#{emergency2_note},
-		#{emergency3},
-		#{emergency3_note},
-		#{information},
-		#{information_note},
-		#{security},
-		#{security_note},
-		#{other},
-		#{other_note})
+	<insert id="addDetail" parameterType="java.util.List">
+		replace into
+		check_month_money(check_tag,money,check_note,check_date)values
+		<foreach collection="list" item="it" separator=",">
+			(#{it.check_tag},#{it.money},#{it.check_note},#{it.check_date})
+		</foreach>
 	</insert>
 	<!-- 修改考核明细 -->
 	<update id="updateDetail" parameterType="xh.mybatis.bean.OperationsCheckDetailBean">
@@ -204,8 +158,8 @@
 	<insert id="insert_check_month_detail" useGeneratedKeys="true"
 		parameterType="xh.mybatis.bean.CheckRoomEquBean">
 		replace into
-		check_month_detail(check_type,check_child,bsId,score,period,detail,check_date)
-		values(#{check_type},#{check_child},#{bsId},#{score},#{period},#{detail},#{check_date})
+		check_month_detail(check_type,check_child,check_tag,bsId,score,period,detail,check_date)
+		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{score},#{period},#{detail},#{check_date})
 	</insert>
 	<!-- 考核运维人员是否达到20人 -->
 	<select id="check_phone_book" resultType="int">
@@ -228,20 +182,30 @@
 		SELECT
 		a.attachment_name,
 		a.attachment_model,
-		count(a.attachment_model) AS num,
+		count(a.attachment_model)
+		AS num,
 		b.attachment_conf_number,
 		CONVERT (
-		count(a.attachment_model) / b.attachment_conf_number * 100,
+		count(a.attachment_model) /
+		b.attachment_conf_number * 100,
 		DECIMAL (10, 2)
 		) AS perc
 		FROM
 		xhgmnet_operations_attachment AS a
-		LEFT JOIN xhgmnet_operations_attachment_config AS b ON a.attachment_model
-		= b.attachment_model
+		LEFT JOIN
+		xhgmnet_operations_attachment_config AS b ON a.attachment_model
+		=
+		b.attachment_model
 		GROUP BY
 		a.attachment_model
 		) as x where x.perc &lt;80
 	</select>
+	<insert id="insert_check_month_money_detail" useGeneratedKeys="true"
+		parameterType="xh.mybatis.bean.CheckMoneyBean">
+		replace into
+		check_month_money_detail(check_type,check_child,check_tag,bsId,money,period,detail,check_date)
+		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{money},#{period},#{detail},#{check_date})
+	</insert>
 	<!-- 考核一级基站 -->
 	<select id="check_onelevel_bs" resultType="map">
 		select
