@@ -14,8 +14,8 @@
         ,b.userType as userType1
         from xhgmnet_bs_devicemanage as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
         <choose>
-		<when test="roleId &lt;10000 || roleId ==10003 || roleId ==10001"> and a.userName=#{user}</when>
-		<when test="roleId ==10002"> 
+		<when test="roleType!=0 and roleType!=2"> and a.userName=#{user}</when>
+		<when test="roleType!=2"> 
 		
 		<if test="power=='on'">
 		and a.checked>=0
@@ -33,8 +33,8 @@
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_bs_devicemanage where 1=1
       <choose>
-		<when test="roleId &lt;10000 || roleId ==10003 || roleId ==10001"> and userName=#{user}</when>
-		<when test="roleId ==10002"> 
+		<when test="roleType!=0 and roleType!=2"> and userName=#{user}</when>
+		<when test="roleType!=2"> 
 		
 		<if test="power=='on'">
 		and checked>=1 

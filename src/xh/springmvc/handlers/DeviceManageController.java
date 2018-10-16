@@ -57,6 +57,7 @@ public class DeviceManageController {
         String user=funUtil.loginUser(request);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
         int roleId=userbean.getRoleId();
+        int roleType=userbean.getRoleType();
         Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -65,6 +66,7 @@ public class DeviceManageController {
         map.put("user", user);
         map.put("power", power.get("b_check_businesschange"));
         map.put("roleId", roleId);
+        map.put("roleType", roleType);
     	
 
         HashMap result = new HashMap();
