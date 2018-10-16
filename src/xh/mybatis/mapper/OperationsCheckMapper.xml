@@ -209,7 +209,7 @@
 	<!-- 考核一级基站 -->
 	<select id="check_onelevel_bs" resultType="map">
 		select
-		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		a.bsId,a.time,a.faultRecoveryTime,a.severity,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
 		as timeout,b.period from xhgmnet_operations_bsfault as a
 		left join
 		xhgmnet_bs_station as b on CASE
@@ -242,7 +242,7 @@
 	<!-- 考核二级级基站 -->
 	<select id="check_twolevel_bs" resultType="map">
 		select
-		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		a.bsId,a.time,a.faultRecoveryTime,a.severity,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
 		as timeout,b.period from xhgmnet_operations_bsfault as a
 		left join
 		xhgmnet_bs_station as b on CASE
@@ -270,12 +270,12 @@
 		is not
 		NULL
 		and
-		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>5
+		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>1
 	</select>
 	<!-- 考核三级基站 -->
 	<select id="check_threelevel_bs" resultType="map">
 		select
-		a.bsId,a.time,a.faultRecoveryTime,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
+		a.bsId,a.time,a.faultRecoveryTime,a.severity,TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)
 		as timeout,b.period from xhgmnet_operations_bsfault as a
 		left join
 		xhgmnet_bs_station as b on CASE
@@ -303,7 +303,7 @@
 		is not
 		NULL
 		and
-		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>9
+		TIMESTAMPDIFF(HOUR,a.time,a.faultRecoveryTime)>1
 	</select>
 	<!-- 考核特别重大故障 -->
 	<select id="check_onelevel_fault" resultType="map">

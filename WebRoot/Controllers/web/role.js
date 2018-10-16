@@ -255,6 +255,11 @@ xh.refresh = function() {
 };
 xh.onCheck=function(e, treeId, treeNode) {
 	xh.maskShow();
+	var id=treeNode.id;
+	var roleId=treeNode.roleId;
+	var checked=treeNode.checked?1:0
+
+	/*
 	
 	var $scope = angular.element(appElement).scope();
 	var roleId=$scope.editData.roleId;
@@ -280,17 +285,19 @@ xh.onCheck=function(e, treeId, treeNode) {
 		node.checked=zTree.getCheckedNodes(false)[i].checked;
 		node.roleId=zTree.getCheckedNodes(false)[i].roleId;
 		nocheckVal.push(node.id);
-	}
+	}*/
 	
-	if(checkVal.length>0){
+	if(0==0){
 		
 		$.ajax({
 			url : '../../web/updateMenu',
 			type : 'post',
 			dataType : "json",
 			data:{
-				checks:checkVal.join(","),
-				nochecks:nocheckVal.join(","),
+				/*checks:checkVal.join(","),
+				nochecks:nocheckVal.join(","),*/
+				id:id,
+				checked:checked,
 				roleId:roleId
 				/*formData:JSON.stringify(checkVal) //将表单序列化为JSON对象
 */				
