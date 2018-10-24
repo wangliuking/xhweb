@@ -82,6 +82,7 @@ xh.load = function() {
 		$scope.count = "5";// 每页数据显示默认值
 		$scope.bsId = $location.search().bsId;
 		$scope.bsName = $location.search().bsName;
+		$scope.comment = $location.search().comment;
 		$scope.title="";
 		$scope.show=1;
 		//发起请求开启当前基站视频流

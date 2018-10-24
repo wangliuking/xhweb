@@ -1,6 +1,9 @@
 package xh.org.listeners;
 
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -17,6 +20,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.tools.WebSocketPushHandler;
 import xh.redis.server.UserRedis;
 import xh.springmvc.handlers.GosuncnController;
@@ -43,7 +47,11 @@ public class RedisDataListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		timer = new Timer(true);
-		timer.schedule(new timerTaskForRedisData(), 60 * 1000, 30 * 1000);// 心跳任务
+		SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd 01:00:00");
+		//Date d=dd.parse(FunUtil.nowDate());
+		UserRedis.getAllUserSession();
+		timer.schedule(new timerTaskForRedisData(), 100000, 24*60*60*1000);// 心跳任务
+		
 	}
 
 }

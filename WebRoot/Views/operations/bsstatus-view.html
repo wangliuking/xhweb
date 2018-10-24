@@ -32,39 +32,45 @@
 
 .e-box {
 	/* background: red; */
+	
 }
 
-.e-box li span{
+.e-box li span {
+	line-height: 40px;
+	margin-right: 5px;
+	padding: 5px 10px 5px 10px;
+	min-width: 40px;
+	height: 40px;
+	background: #ccc;
+	border-radius: 5px;
+	color: #fff;
+	font-weight: 800;
+	cursor: pointer;
+}
 
- line-height:40px;
- margin-right:5px;
- padding:5px 10px 5px 10px;
- min-width:40px;
- height:40px;
- background:#ccc;
- border-radius:5px;
- color:#fff;
- font-weight: 800;
- cursor: pointer;
+.e-box li {
+	border-bottom: 1px solid #ccc;
 }
-.e-box li{
- border-bottom:1px solid #ccc;
+
+.e-box li span.b-green {
+	background: green;
 }
-.e-box li span.b-green{
-background:green;
+
+.e-box li span.b-yellow {
+	background: yellow;
+	color: #000;
 }
-.e-box li span.b-yellow{
-background:yellow;
-color:#000;
+
+.e-box li span.b-red {
+	background: red;
 }
-.e-box li span.b-red{
-background:red;
+
+.e-box li span.b-blue {
+	background: blue;
 }
-.e-box li span.b-blue{
-background:blue;
-}
-.emh-swt li{
- float: left;
+
+.emh-swt li {
+	float: left;
 }
 </style>
 </head>
@@ -162,10 +168,9 @@ background:blue;
 															ng-if="x.neType==24">桥接基站</span> <span
 															ng-if="x.neType==29">以太网E1网桥</span> <span
 															ng-if="x.neType==30">桥接中心</span> <span
-															ng-if="x.neType==32">媒体服务器</span>
-															<span ng-if="x.neType==100">基站环控</span>
-															</td>
-															
+															ng-if="x.neType==32">媒体服务器</span> <span
+															ng-if="x.neType==100">基站环控</span></td>
+
 
 														<td><span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
 															<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.subModId}}）</span>
@@ -222,6 +227,24 @@ background:blue;
 								<div class="col-md-12">
 									<div class="hpanel">
 										<div class="panel-heading hbuilt">
+											<i class="fa fa-question text-danger"></i>当前基站遗留问题
+										</div>
+										<div class="panel-body">
+										<div nf-if="comment!=''">
+										<p>{{comment}}</p>
+										</div>
+										<div nf-if="comment==''">
+                                        <p>无遗留问题！</p>
+                                        </div>
+										
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="hpanel">
+										<div class="panel-heading hbuilt">
 											<i class="fa fa-life-ring text-success"></i> 基站设备信息
 										</div>
 										<div class="panel-body">
@@ -231,18 +254,25 @@ background:blue;
 													<div class="panel-body">
 
 														<ul class="e-box">
-														 <li>
-														 <fieldset name="1" contextmenu="22">
-														 <span ng-repeat="x in bsrD" ng-click="bsr(x.Id)" ng-if="x.bsrIsEnable==1" ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0}">BSR({{x.Id}})</span>
-														 </fieldset>
-														 
-														 </li>
-														 <li><span ng-repeat="x in bscD" ng-click="bsc(x.Id)" ng-if="x.bscIsEnable==1" ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0}">BSC({{x.Id}})</span></li>
-														 <li><span ng-repeat="x in dpxD" ng-click="dpx(x.Id)" ng-if="x.Id<=2" ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0 
+															<li>
+																<fieldset name="1" contextmenu="22">
+																	<span ng-repeat="x in bsrD" ng-click="bsr(x.Id)"
+																		ng-if="x.bsrIsEnable==1"
+																		ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0}">BSR({{x.Id}})</span>
+																</fieldset>
+
+															</li>
+															<li><span ng-repeat="x in bscD" ng-click="bsc(x.Id)"
+																ng-if="x.bscIsEnable==1"
+																ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0}">BSC({{x.Id}})</span></li>
+															<li><span ng-repeat="x in dpxD" ng-click="dpx(x.Id)"
+																ng-if="x.Id<=2"
+																ng-class="{'b-green':x.working==0 ,'b-red':x.working!=0 
 														 || (x.retLoss/10)<7 
 														 || ((x.retLoss/10)>=7 && (x.retLoss/10)<=14),'b-yellow':x.working==0 && (x.retLoss/10)>14 && (x.retLoss/10)<=20}">DPX({{x.Id}})</span></li>
-														 <li><span ng-repeat="x in psmD" ng-click="psm(x.Id)" ng-if="x.Id<=2" 
-														 ng-class="{'b-green':(x.linkStatus==0 && x.dc12==0 
+															<li><span ng-repeat="x in psmD" ng-click="psm(x.Id)"
+																ng-if="x.Id<=2"
+																ng-class="{'b-green':(x.linkStatus==0 && x.dc12==0 
 														 && x.dc301==0 
 														 && x.dc302==0 
 														 &&x.runStatus==0 
@@ -252,8 +282,8 @@ background:blue;
 														 || x.runStatus==1 
 														 || x.tempStatus==1
 														 || x.linkStatus==1}">PSM({{x.Id}})</span></li>
-														 <li><span class="b-blue" ng-click="emh()">环控设备</span></li>
-									
+															<li><span class="b-blue" ng-click="emh()">环控设备</span></li>
+
 														</ul>
 
 													</div>
@@ -262,7 +292,9 @@ background:blue;
 											<!-- col-md-4 -->
 											<div class="col-md-8">
 												<div class="hpanel">
-													<div class="panel-heading hinner">{{title}}({{Id}})状态 <span ng-if="time!=null && time!=''">采集时间：{{time}}</span></div>
+													<div class="panel-heading hinner">
+														{{title}}({{Id}})状态 <span ng-if="time!=null && time!=''">采集时间：{{time}}</span>
+													</div>
 													<div class="panel-body">
 														<div ng-include="'bsstatus-view-bsr.html'"
 															ng-if="title=='BSR'"></div>
@@ -286,6 +318,7 @@ background:blue;
 								<!-- col-md-12 -->
 							</div>
 							<!-- row-end -->
+
 
 						</div>
 					</div>

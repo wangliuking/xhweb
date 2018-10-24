@@ -161,7 +161,7 @@ xh.org.listeners.TcpServerListenner
  <session-config>
       <session-timeout>86400</session-timeout>
 </session-config> 
-<security-constraint> 
+<!-- <security-constraint> 
 <web-resource-collection > 
 <web-resource-name >SSL</web-resource-name> 
 <url-pattern>/main.html</url-pattern>
@@ -178,6 +178,6 @@ xh.org.listeners.TcpServerListenner
 
 <auth-method>CLIENT-CERT</auth-method> 
 <realm-name>Client Cert Users-only Area</realm-name> 
-</login-config>
+</login-config> -->
     
 </web-app>

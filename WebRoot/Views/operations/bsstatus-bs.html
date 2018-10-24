@@ -1,23 +1,6 @@
 
 <div class="left-bar btn-primary" ng-click="byBsIdBtn()"><i class="fa fa-television"></i><span>{{btnText}}</span></div>
 <div class="row">
-	<!-- <div class="col-md-12">
-		<div class="btn-group">
-			<button class="btn btn-primary btn-sm" ng-click="byBsIdBtn()">
-				<i class="fa fa-television fa-x"></i>&nbsp;<span>{{btnText}}</span>
-			</button>
-			
-			<button class="btn btn-danger btn-sm" onclick="xh.excelToBsRun()"
-				id="btn-run" type="button">
-				<i class="fa fa-file-excel-o"></i>&nbsp;基站运行记录表
-			</button>
-			<button class="btn btn-danger btn-sm" onclick="xh.excelToBsstatus()"
-				id="btn-status" type="button">
-				<i class="fa fa-file-excel-o"></i>&nbsp;基站状态检查表
-			</button>
-		</div>
-
-	</div> -->
 	<div class="col-md-12" ng-if="showFlag==1">
 		<div ng-if="totals==0">未找到相关数据</div>
 		<div ng-repeat="x in data" class="bs-div" bsId-value="{{x.bsId}}"
@@ -31,22 +14,22 @@
 				<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info"
 					style="cursor: pointer;"
 					ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-					title="{{y.name}}" ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+					title="{{y.name}}" ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 				<div style="cursor: pointer;"
 					ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
 					class="td-warning bs-info" title="{{y.name}}"
 					ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-					ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+					ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 				<div style="cursor: pointer;"
 					ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
 					class="td-success bs-info" title="{{y.name}}"
 					ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-					ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+					ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 				<div style="cursor: pointer;"
 					ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
 					class="td-success bs-info" title="{{y.name}}"
 					ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-					ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+					ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 				<div style="cursor: pointer;" class="td-gray bs-info"
 					ng-if="y.status==0" title="{{y.name}}"
 					ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>
@@ -63,22 +46,22 @@
 			<div ng-if="y.status==1 && y.link!=0" class="td-danger bs-info"
 				style="cursor: pointer;" title="{{y.name}}"
 				ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-				ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+				ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 			<div style="cursor: pointer;"
 				ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum>0"
 				class="td-warning bs-info" title="{{y.name}}"
 				ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-				ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+				ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 			<div style="cursor: pointer;"
 				ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==0"
 				class="td-success bs-info" title="{{y.name}}"
 				ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-				ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+				ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 			<div style="cursor: pointer;"
 				ng-if="y.status==1 &&y.link==0 && y.deviceAlarmSum==null"
 				class="td-success bs-info" title="{{y.name}}"
 				ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)"
-				ng-click="bsView(y.bsId,y.name,y.period)">{{y.bsId}}</div>
+				ng-click="bsView(y.bsId,y.name,y.period,y.comment)">{{y.bsId}}</div>
 			<div style="cursor: pointer;" class="td-gray bs-info"
 				ng-if="y.status==0" title="{{y.name}}"
 				ng-mouseover="bsHover(y.link,y.status,y.bsId,y.name,y.groupSum,y.userSum)">{{y.bsId}}</div>

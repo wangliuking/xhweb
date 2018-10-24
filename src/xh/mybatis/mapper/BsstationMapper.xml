@@ -129,7 +129,7 @@
 	<select id="allBsInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select
-		a.bsId,a.name,a.status,a.type,a.level,a.period,a.zone,b.link,c.userSum,e.groupSum,d.deviceAlarmSum
+		a.bsId,a.name,a.status,a.type,a.level,a.period,a.zone,a.comment,b.link,c.userSum,e.groupSum,d.deviceAlarmSum
 		from xhgmnet_bs_station as a
 		left join view_bsstatus as b on
 		a.bsId=b.bsId

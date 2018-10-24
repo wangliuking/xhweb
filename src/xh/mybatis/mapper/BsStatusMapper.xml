@@ -565,9 +565,9 @@
 		xhgmnet_bs_station as b on
 
 		CASE
-		WHEN a.bsId&lt;=1200 then a.bsId=b.bsId
 		WHEN a.bsId>1200 and a.bsId&lt;2000 THEN
 		a.bsId%1000=b.bsId
+		else a.bsId=b.bsId
 
 		END
 
