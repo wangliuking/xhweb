@@ -6,6 +6,7 @@ public class CheckRoomEquBean {
 	private String check_tag;
 	private String bsId="0";
 	private float score;
+	private int fault_time=0;
 	private String detail;
 	private String check_date;
 	private String period;
@@ -59,10 +60,17 @@ public class CheckRoomEquBean {
 	public void setCheck_tag(String check_tag) {
 		this.check_tag = check_tag;
 	}
+	public int getFault_time() {
+		return fault_time;
+	}
+	public void setFault_time(int fault_time) {
+		this.fault_time = fault_time;
+	}
 	@Override
 	public String toString() {
 		return "CheckRoomEquBean [check_type=" + check_type + ", check_child="
-				+ check_child + ", bsId=" + bsId + ", score=" + score
+				+ check_child + ", check_tag=" + check_tag + ", bsId=" + bsId
+				+ ", score=" + score + ", fault_time=" + fault_time
 				+ ", detail=" + detail + ", check_date=" + check_date
 				+ ", period=" + period + "]";
 	}

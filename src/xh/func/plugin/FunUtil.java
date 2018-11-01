@@ -73,6 +73,23 @@ public class FunUtil {
 			}
 		}
 	}
+	//检测登陆密码是否包含大小写字母，数字，或则特殊字符
+	public static boolean userpass_check(String userpass){
+		boolean tag=false;
+		if(userpass==null){
+			tag=false;
+		}else{
+			if(userpass.length()<6){
+				tag=false;
+			}else{
+				String regex="^(?![0-9a-z]+$)(?![0-9A-Z]+$)(?![0-9\\W]+$)(?![a-z\\W]+$)(?![a-zA-Z]+$)(?![A-Z\\W]+$)[a-zA-Z0-9\\W_]+$";
+				Pattern p=Pattern.compile(regex);
+				Matcher m=p.matcher(userpass);
+				tag=m.matches();
+			}
+		}
+		return tag;
+	}
 
 	// 获取登录用户
 	public static String loginUser(HttpServletRequest request) {
@@ -401,6 +418,10 @@ public class FunUtil {
 	public static String date_format(String str){
 		SimpleDateFormat dd = new SimpleDateFormat(str);
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		/*Calendar c=Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(c.MONTH,-1);	
+		Date m=c.getTime();*/
 		String date = dd.format(new Date());
 		return date;
 	}

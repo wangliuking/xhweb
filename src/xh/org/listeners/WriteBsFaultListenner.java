@@ -32,6 +32,8 @@ public class WriteBsFaultListenner implements ServletContextListener{
 	
 
 
+	
+
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -53,51 +55,15 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		}
 		
 	}
+	
+/*	public static void main(String[] args) {
+		EmhEpsWater a=new EmhEpsWater();
+		a.run();
+	}*/
+	
+	
 
 }
-/*class BsFault extends TimerTask{
-	protected final Log log4j = LogFactory.getLog(BsFault.class);
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		bs_fault();
-		bs_restore();
-		log4j.info("=========================================");
-		log4j.info("基站断站故障实时写入结束");
-		log4j.info("=========================================");
-	}
-	public void bs_fault(){
-		List<BsAlarmExcelBean> list = BsStatusService.bsFaultInfo();
-		
-		for (BsAlarmExcelBean bean : list) {
-			bean.setWeekly(FunUtil.formateWeekly(bean.getTime()));
-			if(Integer.parseInt(bean.getBsId())>1000 && Integer.parseInt(bean.getBsId())<2001){
-				bean.setBsId(String.valueOf(Integer.parseInt(bean.getBsId())%1000));
-			}else{
-				bean.setBsId(bean.getBsId());
-			}
-			bean.setReason("断站");
-			
-			BsAlarmService.addBsFault(bean);
-			
-		}
-	}
-	public void bs_restore(){
-		List<BsAlarmExcelBean> list = BsStatusService.bsRestoreInfo();
-		
-		for (BsAlarmExcelBean bean : list) {
-			if(Integer.parseInt(bean.getBsId())>1000 && Integer.parseInt(bean.getBsId())<2001){
-				bean.setBsId(String.valueOf(Integer.parseInt(bean.getBsId())%1000));
-			}else{
-				bean.setBsId(bean.getBsId());
-				
-			}
-			BsAlarmService.bsRestore(bean);
-			
-		}
-	}
-	
-}*/
 //四期交流电告警
 class EmhEpsWater extends TimerTask{
 	protected final Log log4j = LogFactory.getLog( EmhEpsWater.class);

@@ -19,7 +19,11 @@ public interface OperationsCheckMapper {
 	
 	List<CheckMoneyBean> searchDetail(String time)throws Exception;
 	
+	List<CheckMoneyBean> show_money_detail(String time)throws Exception;
+	
 	List<OperationsCheckScoreBean> searchScore(String time)throws Exception;
+	
+	List<OperationsCheckScoreBean> show_score_detail(String time)throws Exception;
 	
 	int detailExists(String time)throws Exception;
 	
@@ -51,6 +55,18 @@ public interface OperationsCheckMapper {
 	
 	int insert_check_month_money_detail(CheckMoneyBean bean)throws Exception;
 	
+	int del_score(String time)throws Exception;
+	int del_money(String time)throws Exception;
+	
+	/*<!--基站故障 -->*/
+	List<Map<String,Object>> bs_error(String time) throws Exception;
+	
+	
+	/*<!--基站故障 -->*/
+	List<Map<String,Object>> bs_error_money(String time) throws Exception;
+	
+	List<Map<String,Object>> error_money_total(String time) throws Exception;
+	
 	/*<!-- 考核一级基站 -->*/
 	List<Map<String,Object>> check_onelevel_bs() throws Exception;
 	/*<!-- 考核二级基站 -->*/
@@ -62,6 +78,18 @@ public interface OperationsCheckMapper {
 	List<Map<String,Object>> check_onelevel_fault() throws Exception;
 	/*	<!-- 考核重大故障 -->*/
 	List<Map<String,Object>> check_twolevel_fault() throws Exception;
+	
+	/*	查询考核扣分明细*/
+	List<Map<String,Object>> search_score_detail(Map<String,Object> map) throws Exception;
+	
+	/*	查询考核扣分明细数量*/
+	int search_score_detail_count(Map<String,Object> map) throws Exception;
+	
+	/*	查询考核扣款明细*/
+	List<Map<String,Object>> search_money_detail(Map<String,Object> map) throws Exception;
+	
+	/*	查询考核扣款明细数量*/
+	int search_money_detail_count(Map<String,Object> map) throws Exception;
 	
 
 	

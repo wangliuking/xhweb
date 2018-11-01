@@ -50,6 +50,21 @@ public class OperationsCheckService {
 		}
 		return list;
 	}
+	public static List<OperationsCheckScoreBean> show_score_detail(String time) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<OperationsCheckScoreBean> list = new ArrayList<OperationsCheckScoreBean>();
+		try {
+			list = mapper.show_score_detail(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	public static int count(Map<String, Object> map) {
 		SqlSession session = MoreDbTools
@@ -257,6 +272,22 @@ public class OperationsCheckService {
 		List<CheckMoneyBean> list= new ArrayList<CheckMoneyBean>();
 		try {
 			list = mapper.searchDetail(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static List<CheckMoneyBean> show_money_detail(String time) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<CheckMoneyBean> list= new ArrayList<CheckMoneyBean>();
+		try {
+			list = mapper.show_money_detail(time);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -673,6 +704,91 @@ public class OperationsCheckService {
 		return count;
 	}
 	
+	public static int del_score(String time) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.del_score(time);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int del_money(String time) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.del_money(time);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/*	<!-- 基站故障 -->*/
+	public static List<Map<String,Object>> bs_error(String time)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.bs_error(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/*	<!-- 基站故障 -->*/
+	public static List<Map<String,Object>> bs_error_money(String time)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.bs_error_money(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,Object>> error_money_total(String time)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.error_money_total(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
 	/*<!-- 考核一级基站 -->*/
 	public static List<Map<String,Object>> check_onelevel_bs()  {
 		SqlSession session = MoreDbTools
@@ -752,6 +868,74 @@ public class OperationsCheckService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	/*	<!-- 查询考核扣分明细-->*/
+	public static List<Map<String,Object>> search_score_detail(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_score_detail(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/*	<!-- 查询考核扣分明细数量-->*/
+	public static int search_score_detail_count(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.search_score_detail_count(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/*	<!-- 查询考核款分明细-->*/
+	public static List<Map<String,Object>> search_money_detail(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_money_detail(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/*	<!-- 查询考核扣款明细数量-->*/
+	public static int search_money_detail_count(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.search_money_detail_count(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 

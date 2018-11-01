@@ -47,9 +47,9 @@ public class SqlServerService {
 		paraMap.put("dbname", table);
 		try {
 			list = mapper.bsmonitorList(paraMap);	
-			System.out.print("huankong->"+list.size());
+			/*System.out.print("huankong->"+list.size());*/
 			for (Map<String, Object> map : list) {
-				System.out.print("huankong->"+map.toString());
+				/*System.out.print("huankong->"+map.toString());*/
 				if(map.get("DevNode").toString().trim().equals("0021")&&map.get("NodeID").toString().equals("1001")){
 					result.put("temp", Float.parseFloat(map.get("value").toString()));
 				}

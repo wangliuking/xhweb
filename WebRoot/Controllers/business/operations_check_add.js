@@ -47,7 +47,7 @@ xh.load = function() {
 			var time=$("input[name='month']").val();
 			$scope.time=time;
 			console.log($scope.time);
-			$http.get("../../check/searchDetail?time="+time).
+			$http.get("../../check/show_money_detail?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.money_data = response.items;
@@ -59,7 +59,7 @@ xh.load = function() {
 		$scope.searchScore=function(){
 			var time=$("input[name='month']").val();
 			console.log($scope.time);
-			$http.get("../../check/searchScore?time="+time).
+			$http.get("../../check/show_score_detail?time="+time).
 			success(function(response){
 				xh.maskHide();
 				$scope.score_data= response.items;

@@ -246,6 +246,7 @@ public class BsAlarmService {
 					}
 				}else{
 					if(eps>0){
+						System.out.println("data:->"+bean);						
 						del_bs_emh_eps(bean);
 					}
 				}

@@ -36,10 +36,139 @@
 		select * from check_month_money where
 		check_date=#{time}
 	</select>
+	<select id="show_money_detail" parameterType="String"
+		resultType="xh.mybatis.bean.CheckMoneyBean">
+		select a.check_tag,SUM(a.money) as money,a.check_date FROM(
+		select check_tag,
+		CASE `level`
+		WHEN 1 THEN "一级基站"
+		WHEN 2 THEN "二级基站"
+		WHEN
+		3 THEN "三级基站" END as level,
+		period,SUM(fault_time) as
+		fault_time,SUM(check_time) as check_time,
+		ROUND((SUM(fault_time)-SUM(check_time))/60) as time,
+		CASE WHEN
+		`level`=1 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-1)*1000
+		WHEN `level`=2 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-5)*1000
+		WHEN `level`=3
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-9)*1000
+		END as
+		money,
+		check_date from check_month_money_detail where fault_time>0 and
+		period=4 and check_date=#{time} GROUP
+		BY `level`
+
+		UNION
+
+		select
+		check_tag,
+		CASE `level`
+		WHEN 1 THEN "一级基站"
+		WHEN 2 THEN "二级基站"
+		WHEN 3 THEN "三级基站" END
+		as level,
+		period,SUM(fault_time) as
+		fault_time,SUM(check_time)
+		as
+		check_time,
+		ROUND((SUM(fault_time)-SUM(check_time))/60) as time,
+		CASE
+		WHEN
+		`level`=1 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-1)*300
+		WHEN `level`=2
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-5)*300
+		WHEN
+		`level`=3
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-9)*300
+		END
+		as money,
+		check_date from check_month_money_detail where
+		fault_time>0
+		and
+		period=3 and check_date=#{time} GROUP
+		BY `level`
+
+		UNION
+
+		select
+		check_tag,
+		check_child as level,0
+		as period,fault_time,check_time,0
+		as
+		time,SUM(money) as money,check_date
+		from check_month_money_detail
+		where
+		check_type="故障控制" and check_date=#{time} GROUP BY
+		check_child
+
+		) as a
+		GROUP BY check_tag
+	</select>
+	<!-- 查询考核扣分明细 -->
+	<select id="search_score_detail" parameterType="map" resultType="map">
+		select * from check_month_detail where check_date=#{time} limit
+		#{start},#{limit}
+	</select>
+	<!-- 查询考核扣分明细数量 -->
+	<select id="search_score_detail_count" parameterType="map"
+		resultType="int">
+		select count(*) from check_month_detail where
+		check_date=#{time}
+	</select>
+
+	<!-- 查询考核扣款明细 -->
+	<select id="search_money_detail" parameterType="map" resultType="map">
+		select * from check_month_money_detail where check_date=#{time} limit
+		#{start},#{limit}
+	</select>
+	<!-- 查询考核扣款明细数量 -->
+	<select id="search_money_detail_count" parameterType="map"
+		resultType="int">
+		select count(*) from check_month_money_detail where
+		check_date=#{time}
+	</select>
 	<!-- 查询考核得分 -->
 	<select id="searchScore" parameterType="String"
 		resultType="xh.mybatis.bean.OperationsCheckScoreBean">
 		select * from check_month_score where check_month=#{time}
+	</select>
+
+	<select id="show_score_detail" parameterType="String"
+		resultType="xh.mybatis.bean.OperationsCheckScoreBean">
+		SELECT
+		check_type,
+		check_child,
+		CASE
+		WHEN check_tag="a1" AND SUM(score)>20 THEN 20
+		WHEN check_tag="b1" AND SUM(score)>3 THEN 3
+		WHEN check_tag="b2" AND SUM(score)>1 THEN 1
+		WHEN check_tag="b3" AND SUM(score)>9 THEN 9
+		WHEN check_tag="b4" AND SUM(score)>2 THEN 2
+		WHEN check_tag="c1" AND SUM(score)>10 THEN 10
+		WHEN check_tag="c2" AND SUM(score)>10 THEN 10
+		WHEN check_tag="d1" AND SUM(score)>25 THEN 25
+		WHEN check_tag="d2" AND SUM(score)>5 THEN 5
+		WHEN check_tag="e1" AND SUM(score)>5 THEN 5
+		WHEN check_tag="f1" AND SUM(score)>3 THEN 3
+		WHEN check_tag="f2" AND SUM(score)>2 THEN 2
+		WHEN check_tag="g1" AND SUM(score)>5 THEN 5
+		ELSE SUM(score)
+		END AS score,
+		check_tag,
+		check_date AS check_month
+		FROM
+		check_month_detail
+		WHERE
+		check_date = #{time}
+		GROUP BY
+		check_tag;
 	</select>
 	<!-- 判断考核明细信息是否存在 -->
 	<select id="detailExists" parameterType="String" resultType="int">
@@ -158,8 +287,8 @@
 	<insert id="insert_check_month_detail" useGeneratedKeys="true"
 		parameterType="xh.mybatis.bean.CheckRoomEquBean">
 		replace into
-		check_month_detail(check_type,check_child,check_tag,bsId,score,period,detail,check_date)
-		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{score},#{period},#{detail},#{check_date})
+		check_month_detail(check_type,check_child,check_tag,bsId,score,period,detail,check_date,fault_time)
+		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{score},#{period},#{detail},#{check_date},#{fault_time})
 	</insert>
 	<!-- 考核运维人员是否达到20人 -->
 	<select id="check_phone_book" resultType="int">
@@ -203,9 +332,234 @@
 	<insert id="insert_check_month_money_detail" useGeneratedKeys="true"
 		parameterType="xh.mybatis.bean.CheckMoneyBean">
 		replace into
-		check_month_money_detail(check_type,check_child,check_tag,bsId,money,period,detail,check_date)
-		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{money},#{period},#{detail},#{check_date})
+		check_month_money_detail(check_type,check_child,check_tag,bsId,money,period,check_date,fault_time,check_time,level)
+		values(#{check_type},#{check_child},#{check_tag},#{bsId},#{money},#{period},#{check_date},
+		#{fault_time},#{check_time},#{level})
 	</insert>
+	<!--清楚基站扣分记录 -->
+	<delete id="del_score" parameterType="String">
+		delete from
+		check_month_detail where check_date=#{time}
+	</delete>
+	<!--清楚基站扣款记录 -->
+	<delete id="del_money" parameterType="String">
+		delete from
+		check_month_money_detail where check_date=#{time}
+	</delete>
+	<!--基站 故障 -->
+	<select id="bs_error" resultType="map" parameterType="String">
+		SELECT
+		(
+		CASE
+		WHEN a.bsId > 1200
+		AND a.bsId &lt; 2000 THEN
+		a.bsId % 1000
+		ELSE
+		a.bsId
+		END
+		) AS bsId,
+		a.time,
+		a.faultRecoveryTime,
+		a.faultTimeTotal,
+		a.severity,
+		b.level,
+		TIMESTAMPDIFF(
+		MINUTE,
+		a.time,
+		a.faultRecoveryTime
+		) AS
+		timeout,
+		b.period
+		FROM
+		xhgmnet_operations_bsfault AS a
+		LEFT JOIN
+		xhgmnet_bs_station AS b ON CASE
+		WHEN a.bsId > 1200
+		AND a.bsId &lt; 2000
+		THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		WHERE
+		a.neType = 4
+		AND
+		a.modType = 3
+		AND (a.bsId &lt; 1000 OR a.bsId > 1200)
+		AND CASE
+		WHEN
+		a.bsId > 1200
+		AND a.bsId &lt; 2000 THEN
+		(a.bsId % 1000) NOT IN (
+		SELECT
+		bsIds
+		FROM
+		xhgmnet_stationalarm
+		)
+		ELSE
+		a.bsId NOT IN (
+		SELECT
+		bsIds
+		FROM
+		xhgmnet_stationalarm
+		)
+		END
+		AND a.faultRecoveryTime IS NOT NULL
+		AND
+		TIMESTAMPDIFF(
+		MINUTE,
+		a.time,
+		a.faultRecoveryTime
+		)> 60
+		and
+		DATE_FORMAT(faultRecoveryTime,"%Y-%m")=#{time}
+	</select>
+
+
+	<select id="bs_error_money" resultType="map" parameterType="String">
+
+		SELECT
+		(
+		CASE
+		WHEN a.bsId > 1200
+		AND a.bsId &lt;2000 THEN
+		a.bsId % 1000
+		ELSE
+		a.bsId
+		END
+		) AS bsId,
+		a.time,
+		a.faultRecoveryTime,
+		a.faultTimeTotal,
+		a.severity,
+		b.level,
+		sum(
+		TIMESTAMPDIFF(
+		MINUTE,
+		a.time,
+		a.faultRecoveryTime
+		)
+		) AS timeout,
+		b.period,
+		b.name,
+		sum(c.checkCutTime)
+		AS checkTime
+		FROM
+		xhgmnet_operations_bsfault AS a
+		LEFT JOIN
+		xhgmnet_bs_station AS b ON CASE
+		WHEN a.bsId > 1200
+		AND a.bsId &lt; 2000
+		THEN
+		a.bsId % 1000 = b.bsId
+		ELSE
+		a.bsId = b.bsId
+		END
+		LEFT JOIN
+		xhgmnet_bs_checkcut AS c ON a.id = c.id
+		WHERE
+		a.neType = 4
+		AND a.modType
+		= 3
+		AND (a.bsId &lt;1000 OR a.bsId > 1200)
+		AND CASE
+		WHEN a.bsId > 1200
+		AND a.bsId &lt; 2000 THEN
+		(a.bsId % 1000) NOT IN (
+		SELECT
+		bsIds
+		FROM
+		xhgmnet_stationalarm
+		)
+		ELSE
+		a.bsId NOT IN (
+		SELECT
+		bsIds
+		FROM
+		xhgmnet_stationalarm
+		)
+		END
+		AND a.faultRecoveryTime IS NOT NULL
+		AND
+		DATE_FORMAT(faultRecoveryTime, "%Y-%m") = #{time}
+		GROUP BY
+		bsId
+	</select>
+
+	<select id="error_money_total" resultType="map" parameterType="String">
+		select check_tag,
+		CASE `level`
+		WHEN 1 THEN "一级基站"
+		WHEN 2 THEN "二级基站"
+		WHEN
+		3 THEN "三级基站" END as level,
+		period,SUM(fault_time) as
+		fault_time,SUM(check_time) as check_time,
+		ROUND((SUM(fault_time)-SUM(check_time))/60) as time,
+		CASE WHEN
+		`level`=1 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-1)*1000
+		WHEN `level`=2 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-5)*1000
+		WHEN `level`=3
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-9)*1000
+		END as
+		money,
+		check_date from check_month_money_detail where fault_time>0 and
+		period=4 and check_date=#{time} GROUP
+		BY `level`
+
+		UNION
+
+		select
+		check_tag,
+		CASE `level`
+		WHEN 1 THEN "一级基站"
+		WHEN 2 THEN "二级基站"
+		WHEN 3 THEN "三级基站" END
+		as level,
+		period,SUM(fault_time) as
+		fault_time,SUM(check_time)
+		as
+		check_time,
+		ROUND((SUM(fault_time)-SUM(check_time))/60) as time,
+		CASE
+		WHEN
+		`level`=1 THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-1)*300
+		WHEN `level`=2
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-5)*300
+		WHEN
+		`level`=3
+		THEN
+		((ROUND((SUM(fault_time)-SUM(check_time))/60))-9)*300
+		END
+		as money,
+		check_date from check_month_money_detail where
+		fault_time>0
+		and
+		period=3 and check_date=#{time} GROUP
+		BY `level`
+
+		UNION
+
+		select
+		check_tag,
+		check_child as level,0
+		as period,fault_time,check_time,0
+		as
+		time,SUM(money) as money,check_date
+		from check_month_money_detail
+		where
+		check_type="故障控制" and check_date=#{time} GROUP BY
+		check_child
+
+
+
+	</select>
+
 	<!-- 考核一级基站 -->
 	<select id="check_onelevel_bs" resultType="map">
 		select
@@ -348,23 +702,6 @@
 		="重大故障"
 		group by b.period
 	</select>
-	<!-- 考核特别重大故障时间 -->
-	<!-- <select id="check_onelevel_fault_timeout" resultType="map"> SELECT 
-		a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime 
-		) AS timeout, b.period FROM xhgmnet_operations_bsfault AS a LEFT JOIN xhgmnet_bs_station 
-		AS b ON CASE WHEN a.bsId > 1200 && a.bsId &lt; 2000 THEN a.bsId % 1000 = 
-		b.bsId ELSE a.bsId = b.bsId END WHERE a.severity = "特别重大故障" AND TIMESTAMPDIFF( 
-		MINUTE, a.time, a.faultRecoveryTime ) > 5 </select> 考核重大故障时间 <select id="check_twolevel_fault_timeout" 
-		resultType="map"> SELECT a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( 
-		MINUTE, a.time, a.faultRecoveryTime ) AS timeout, b.period FROM xhgmnet_operations_bsfault 
-		AS a LEFT JOIN xhgmnet_bs_station AS b ON CASE WHEN a.bsId > 1200 && a.bsId 
-		&lt; 2000 THEN a.bsId % 1000 = b.bsId ELSE a.bsId = b.bsId END a.bsId % 1000 
-		= b.bsId WHERE a.severity = "重大故障" AND TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime 
-		) > 5 </select> 考核一般故障时间 <select id="check_threelevel_fault_timeout" resultType="map"> 
-		SELECT a.bsId, a.time, a.faultRecoveryTime, TIMESTAMPDIFF( MINUTE, a.time, 
-		a.faultRecoveryTime ) AS timeout, b.period FROM xhgmnet_operations_bsfault 
-		AS a LEFT JOIN xhgmnet_bs_station AS b ON CASE WHEN a.bsId > 1200 && a.bsId 
-		&lt; 2000 THEN a.bsId % 1000 = b.bsId ELSE a.bsId = b.bsId END WHERE a.severity 
-		= "一般故障" AND TIMESTAMPDIFF( MINUTE, a.time, a.faultRecoveryTime ) > 5 </select> -->
+
 
 </mapper>

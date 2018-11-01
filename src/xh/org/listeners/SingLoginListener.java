@@ -33,6 +33,7 @@ public class SingLoginListener implements HttpSessionListener{
 		// TODO Auto-generated method stub
 		log.info("session:"+se.getSession().getId()+"已失效");
 		logUserMap.remove(se.getSession().getId());
+		logUserMap.remove(se.getSession().getId()+"-pass");
 		logUserInfoMap.remove(se.getSession().getId());
 		loginUserPowerMap.remove(se.getSession().getId());
 		//redis start
@@ -49,7 +50,7 @@ public class SingLoginListener implements HttpSessionListener{
      *            String-登录的用户名称 
      * @return boolean-该用户是否已经登录过的标志 
      */  
-    public static boolean isLogin(HttpSession session, String sUserName) {  
+    public static boolean isLogin(HttpSession session, String sUserName,String password) {  
         boolean flag = false;  
         Map<String, Object> info = WebUserServices.userInfoByName(sUserName);
         Map<String, Object> power = WebUserServices.userPowerInfoByName(sUserName);
@@ -72,10 +73,14 @@ public class SingLoginListener implements HttpSessionListener{
                 Object val = entry.getValue();  
                 if (((String) val).equals(sUserName)) {  
                     logUserMap.remove(key);  
-                }  
+                } 
+                if (((String) val).equals(password)) {  
+                    logUserMap.remove(key);  
+                } 
             }  
             // 添加现在的sessionID和username  
             logUserMap.put(session.getId(), sUserName); 
+            logUserMap.put(session.getId()+"-pass", password); 
             logUserInfoMap.remove(session.getId());
             logUserInfoMap.put(session.getId(), info);
             
@@ -83,15 +88,14 @@ public class SingLoginListener implements HttpSessionListener{
             loginUserPowerMap.put(session.getId(), power);
         } else {// 如果该用户没登录过，直接添加现在的sessionID和username  
             flag = false;  
-            logUserMap.put(session.getId(), sUserName);      
+            logUserMap.put(session.getId(), sUserName); 
+            logUserMap.put(session.getId()+"-pass", password); 
             logUserInfoMap.put(session.getId(), info);
             loginUserPowerMap.put(session.getId(), power);
         } 
         UserRedis.ssoSession(info, power, sUserName, sessionId);
         
         log.info("登录用户数=>"+logUserInfoMap.size());
-       /* log.info("UserPowerInfo=>"+loginUserPowerMap);*/
-        /*log.info("UserPowerInfo=>"+loginUserPowerMap);*/
         return flag;  
     } 
     /** 

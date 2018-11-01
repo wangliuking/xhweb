@@ -57,18 +57,7 @@ class GetData extends TimerTask{
 		log4j.info("获取东信数据库数据执行时间"+d1);
 		log4j.info("=========================================");
 		
-		
-		
-		log4j.info("=========================================");
-		log4j.info("获取东信基站话务统计数据线程启动");
-		log4j.info("=========================================");
-		long starttime=System.currentTimeMillis();
-		EastComService.get_bs_call_data();
-		long endtime=System.currentTimeMillis();
-		float seconds = (endtime - starttime)/1000;
-		log4j.info("=========================================");
-		log4j.info("获取东信基站话务统计数据结束,历时="+seconds+" s");
-		log4j.info("=========================================");
+	
 		
 		log4j.info("=========================================");
 		log4j.info("获取东信VPN话务统计数据线程启动");
@@ -103,6 +92,19 @@ class GetData extends TimerTask{
 		log4j.info("=========================================");
 		log4j.info("获取东信MSC-DETAIL话务统计数据结束,历时="+seconds3+" ms");
 		log4j.info("=========================================");
+		
+		log4j.info("=========================================");
+		log4j.info("获取东信基站话务统计数据线程启动");
+		log4j.info("=========================================");
+		long starttime=System.currentTimeMillis();
+		EastComService.get_bs_call_data();
+		long endtime=System.currentTimeMillis();
+		float seconds = (endtime - starttime)/1000;
+		log4j.info("=========================================");
+		log4j.info("获取东信基站话务统计数据结束,历时="+seconds+" s");
+		log4j.info("=========================================");
+		
+		
 	}
 	
 	

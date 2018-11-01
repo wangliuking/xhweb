@@ -12,7 +12,8 @@ xh.load = function() {
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			$scope.loginUser = response.user;
 			$scope.loginUserVpnId = response.vpnId;
-			$scope.roleId = response.roleId ;			
+			$scope.roleId = response.roleId;	
+			$scope.roleType = response.roleType;	
 		});
 		$http.get("../../web/webMenu").success(function(response) {
 			$scope.menu=response.items;

@@ -40,8 +40,8 @@
     <insert id="createCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,period,applyTime,`desc`,situation,checked)
-        values(#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{period},#{applyTime},#{desc},#{situation},#{checked})
+        xhgmnet_bs_checkcut(id,fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,period,applyTime,`desc`,situation,checked)
+        values(#{id},#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{period},#{applyTime},#{desc},#{situation},#{checked})
     </insert>
 
     <!--运维人员发起核减申请 -->

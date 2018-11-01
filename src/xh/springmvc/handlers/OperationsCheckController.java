@@ -71,7 +71,34 @@ public class OperationsCheckController {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<CheckMoneyBean> list=OperationsCheckService.searchDetail(time);
-		log.info("list-->"+list);
+		float sum=0;
+		HashMap<String,Object> rs=new HashMap<String, Object>();
+		for(int i=0;i<list.size();i++){
+			CheckMoneyBean bean=list.get(i);
+			log.info("bean:"+bean);
+			rs.put("m_"+bean.getCheck_tag(), bean.getMoney());
+			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum+=bean.getMoney();
+		}
+		
+		HashMap result = new HashMap();
+		result.put("items",rs);
+		result.put("sum",sum);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/show_money_detail", method = RequestMethod.GET)
+	public void show_money_detail(HttpServletRequest request, HttpServletResponse response) {
+		String time=request.getParameter("time");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CheckMoneyBean> list=OperationsCheckService.show_money_detail(time);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
 		for(int i=0;i<list.size();i++){
@@ -100,6 +127,34 @@ public class OperationsCheckController {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<OperationsCheckScoreBean> list=OperationsCheckService.searchScore(time);
+		log.info("list:"+list);
+		float sum=0;
+		HashMap<String,Object> rs=new HashMap<String, Object>();
+		for(int i=0;i<list.size();i++){
+			OperationsCheckScoreBean bean=list.get(i);
+			log.info("bean:"+bean);
+			rs.put("s_"+bean.getCheck_tag(), bean.getScore());
+			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum+=bean.getScore();
+		}
+		HashMap result = new HashMap();
+		result.put("items",rs);
+		result.put("sum",sum);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/show_score_detail", method = RequestMethod.GET)
+	public void show_score_detail(HttpServletRequest request, HttpServletResponse response) {
+		String time=request.getParameter("time");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<OperationsCheckScoreBean> list=OperationsCheckService.show_score_detail(time);
 		log.info("list:"+list);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
@@ -338,6 +393,60 @@ public class OperationsCheckController {
 			e.printStackTrace();
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/search_score_detail", method = RequestMethod.GET)
+	public void search_score_detail(HttpServletRequest request, HttpServletResponse response) {
+		this.success = true;
+		int start = FunUtil.StringToInt(request.getParameter("start"));
+		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("time", time);
+		HashMap result = new HashMap();
+		result.put("items",OperationsCheckService.search_score_detail(map));
+		result.put("totals", OperationsCheckService.search_score_detail_count(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/search_money_detail", method = RequestMethod.GET)
+	public void search_money_detail(HttpServletRequest request, HttpServletResponse response) {
+		this.success = true;
+		int start = FunUtil.StringToInt(request.getParameter("start"));
+		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("time", time);
+		HashMap result = new HashMap();
+		result.put("items",OperationsCheckService.search_money_detail(map));
+		result.put("money",OperationsCheckService.error_money_total(time));
+		result.put("totals", OperationsCheckService.search_money_detail_count(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	
 
 }

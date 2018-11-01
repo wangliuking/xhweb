@@ -9,6 +9,9 @@ public class CheckMoneyBean {
 	private String detail;
 	private String check_date;
 	private String check_note;
+	private int fault_time=0;
+	private int check_time=0;
+	private int level=0;
 	private String period;
 	public String getCheck_type() {
 		return check_type;
@@ -65,12 +68,32 @@ public class CheckMoneyBean {
 	public void setCheck_note(String check_note) {
 		this.check_note = check_note;
 	}
+	
+	public int getFault_time() {
+		return fault_time;
+	}
+	public void setFault_time(int fault_time) {
+		this.fault_time = fault_time;
+	}
+	public int getCheck_time() {
+		return check_time;
+	}
+	public void setCheck_time(int check_time) {
+		this.check_time = check_time;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 	@Override
 	public String toString() {
 		return "CheckMoneyBean [check_type=" + check_type + ", check_child="
 				+ check_child + ", check_tag=" + check_tag + ", bsId=" + bsId
 				+ ", money=" + money + ", detail=" + detail + ", check_date="
-				+ check_date + ", check_note=" + check_note + ", period="
+				+ check_date + ", check_note=" + check_note + ", fault_time="
+				+ fault_time + ", check_time=" + check_time + ", period="
 				+ period + "]";
 	}
 	

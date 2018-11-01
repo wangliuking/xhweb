@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>巡检记录</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!--[if lte IE 9]>
+<script src="../../Resources/js/jquery-1.8.3.min.js"></script>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+							<li><a href="../menu/menu_count.html"><span>统计分析</span></a></li>
+							<li class="active"><span>扣分扣款明细</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group col-md-12">
+						<label>选择时间</label>&nbsp; <input name="time" class="form-control"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required"
+							ng-model="starttime" />
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group col-md-12" style="margin-top:20px;">
+						<button class="btn btn-success btn-sm" ng-click="score_refresh()">查询明细</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-body">
+							<ul id="xh-tabs" class="nav nav-tabs">
+								<li class="active"><a href="#score" data-toggle="tab"
+									ng-click='score_refresh()'>扣分明细</a></li>
+								<li><a href="#money" data-toggle="tab"
+									ng-click='money_refresh()'>扣款明细</a></li>
+
+							</ul>
+							<div class="tab-content" style="padding:20px">
+								<div class="tab-pane fade in active" id="score">
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>检查类型</th>
+																<th>检查分项</th>
+																<th>描述</th>
+																<th>扣分</th>
+																<th>考核时间</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="scoreTotal==0">
+																<td colspan="5" class="text-center">没有记录</td>
+															</tr>
+															<tr ng-repeat="x in scoreData">
+																<td>{{x.check_type}}</td>
+
+																<td>{{x.check_child}}</td>
+																<td>基站【{{x.bsId}}】,{{x.detail}}</td>
+																<td>{{x.score}}</td>
+																<td>{{x.check_date}}</td>
+
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-score"
+																ng-change="score_refresh()" ng-model="count">
+																<option value="10">10</option>
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{score_start}}-</span> <span>{{score_lastIndex}}条,</span>
+															<span>总计{{scoreTotals}}条</span>
+														</div>
+														<div class="page-paging score-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<!-- group -->
+								<div class="tab-pane fade" id="money">
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<div class="panel-heading"
+													style="color:#000;border-left:2px solid green">扣款明细</div>
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>检查类型</th>
+																<th>检查分项</th>
+																<th>描述</th>
+																<th>故障时间(分钟)</th>
+																<th>核减时间(分钟)</th>
+																<th>考核时间</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="moneyTotals==0">
+																<td colspan="6" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in moneyData">
+																<td>{{x.check_type}}</td>
+
+																<td>{{x.check_child}}</td>
+																<td>基站【{{x.bsId}}】</td>
+																<td>{{x.fault_time}}</td>
+																<td>{{x.check_time}}</td>
+																<td>{{x.check_date}}</td>
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-money"
+																ng-change="money_refresh()" ng-model="count">
+																<option value="10">10</option>
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span ng-model="index">显示{{monry_start}}-</span> <span>{{money_lastIndex}}条,</span>
+															<span>总计{{moneyTotals}}条</span>
+														</div>
+														<div class="page-paging money-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="col-md-12">
+											<div class="hpanel">
+												<div class="panel-heading"
+													style="color:#000;border-left:2px solid green">扣款明细</div>
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>描述</th>
+																<th>期数</th>
+																<th>故障时间(分钟)</th>
+																<th>核减时间(分钟)</th>
+																<th>超时时间(小时)</th>
+																<th>扣款总额</th>
+																<th>考核月份</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="x in money">
+                                                                <td>{{x.level}}</td>
+                                                                <td ng-if="x.period==3">
+                                                                                                                                                                          三期
+                                                                </td>
+                                                                <td ng-if="x.period==4">
+                                                                                                                                                                          四期
+                                                                </td>
+                                                                <td ng-if="x.period==0">
+                                                                                                                                                                          
+                                                                </td>
+
+                                                                <td>{{x.fault_time}}</td>
+                                                                <td>{{x.check_time}}</td>
+                                                                <td>{{x.time}}</td>
+                                                                <td>{{x.money}}</td>
+                                                                <td>{{x.check_date}}</td>
+                                                            </tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- panel -->
+
+
+				</div>
+			</div>
+			<!-- row---end -->
+
+		</div>
+
+
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/operations/score-money.js"></script>
+	<!-- <script type="text/javascript" src="../../Resources/js/51WebPrinter.js"></script> -->
+
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

@@ -41,6 +41,19 @@ xh.load = function() {
 		}else{
 			$('body').attr('id', "skin-blur-ocean");
 		}
+		$http.get("web/user/password").
+		success(function(response){
+			if(!response.ispass){
+				layer.open({
+					  type: 1,
+					  shade: false,
+					  title: false, //不显示标题
+					  content: $(".password-tip")
+					});
+			}
+		});
+
+		
 		
 		/*$(".side-menu a").live('click',function(){
 			$scope.mshow=$(this).attr("value");
