@@ -677,6 +677,10 @@
 			and(subModType=80200000000001 or
 			(subModType=51 and subModId=1003))
 		</if>
+		  <if test="alarmType==3">
+            and neType=2 and modType=1000 and code=1 and
+            category=2
+        </if>
 		<if test="alarmType==4">
             and neType=4 and (subModId &lt;1000  or subModId>1200) and modType=3 and subModId not 
             in(select bsIds from xhgmnet_stationalarm)
