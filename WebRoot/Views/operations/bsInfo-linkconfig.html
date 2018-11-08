@@ -12,7 +12,8 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<div class="btn-group pull-left" style="padding-bottom:5px;">
 					<button class="btn btn-success btn-sm" data-toggle="modal"
-						data-target="#addLinkconfigWin" ng-disabled="up.o_add=='off'?true:false">
+						data-target="#addLinkconfigWin"
+						ng-disabled="up.o_add=='off'?true:false">
 						<i class="fa fa-plus-circle"></i>&nbsp;添加传输配置信息
 					</button>
 
@@ -20,15 +21,15 @@
 				<table id="tb-info" class="xh-table table-hover">
 					<thead>
 						<tr class="tr-img-gray">
-							<th>交换机端口</th>
+							<th>传输类型</th>
+							<th>开通情况</th>
 							<th>运营商</th>
-							<th>类型</th>
-							<th>带宽</th>
 							<th>设备型号</th>
-							<th>调单号</th>
-							<th>基站侧端口号</th>
-							<th>中心侧网元</th>
-							<th>中心侧端口</th>
+							<th>基站网元</th>
+							<th>基站端口</th>
+							<th>交换中心网元</th>
+							<th>交换中心网元端口</th>
+							<th>电路调单号</th>
 							<th>主机IP</th>
 							<th>摄像IP</th>
 							<th>操作</th>
@@ -40,18 +41,19 @@
 						</tr>
 						<tr ng-repeat="x in linkconfigData">
 
-							<td>{{x.switchPort1}}</td>
-							<td>{{x.carrierOperator}}</td>
-							<td>{{x.type}}</td>
-							<td>{{x.bandwidth}}</td>
-							<td>{{x.unitType}}</td>
-							<td>{{x.transferNumber}}</td>
-							<td>{{x.basePort}}</td>
-							<td>{{x.switchElement}}</td>
-							<td>{{x.switchPort2}}</td>
+							<td>{{x.tag}}</td>
+							<td>{{x.is_open}}</td>
+							<td>{{x.operator}}</td>
+							<td>{{x.equipment_model}}</td>
+							<td>{{x.bs_net}}</td>
+							<td>{{x.bs_net_port}}</td>
+							<td>{{x.msc_net}}</td>
+							<td>{{x.msc_net_port}}</td>
+							<td>{{x.regulation_number}}</td>
 							<td>{{x.masterIp}}</td>
 							<td>{{x.cameraIp}}</td>
-							<td><a href="#" ng-click="delLinkconfig($index)" ng-if="up.o_delete=='on' || roleId==10000"><i
+							<td><a href="#" ng-click="delLinkconfig($index)"
+								ng-if="up.o_delete=='on' || roleId==10000"><i
 									class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
 
 						</tr>
@@ -75,104 +77,89 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<form action="#" id="addLinkconfigForm" onSubmit="return false">
 
+
+					<div class="row">
+						<div>
+							<input type="text" name="bsId" ng-model="bsData.bsId"
+								ng-show=false />
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>传输链路类型</label> <select name="tag" class="form-control">
+									<option value="1" selected="selected">传输一</option>
+									<option value="2">传输二</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>开通情况</label> <select name="is_open" class="form-control">
+                                    <option value="已开通" selected="selected">已开通</option>
+                                    <option value="未开通">未开通</option>
+                                    <option value="无">无</option>
+                                </select>
+                            </div>
+                        </div>
+                            <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>传输运营商</label> <select name="operator" class="form-control">
+                                    <option value="移动" selected="selected">移动</option>
+                                    <option value="电信">电信</option>
+                                </select>
+                            </div>
+                        </div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+
+								<label>传输设备型号</label><input type="text" value=""
+									class="form-control" name="equipment_model">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>传输基站网元</label><input type="text" value=""
+									class="form-control" name="bs_net">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>传输基站端口</label><input type="text" value=""
+									class="form-control" name="bs_net_port">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group col-md-12">
+								<label>传输交换中心网元</label><input type="text" value=""
+									class="form-control" name="msc_net">
+							</div>
+						</div>
+						<div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>输交换中心网元端口</label><input type="text" value=""
+                                    class="form-control" name="msc_net_port">
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>主机IP</label><input type="text" value=""
+                                    class="form-control" name="masterIp">
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>摄像IP</label><input type="text" value=""
+                                    class="form-control" name="cameraIp">
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>传输电路调单号</label><input type="text" value=""
+                                    class="form-control" name="regulation_number">
+                            </div>
+                        </div>
+					</div>
 					
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-							<input type="text" name="bsId" ng-model="bsData.bsId" ng-show=false />
-								<label>交换中心5700交换机端口</label><input type="text" value=""
-									class="form-control" name="switchPort1">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>设备型号</label><input type="text" value=""
-									class="form-control" name="unitType">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>主机IP</label><input type="text" value=""
-									class="form-control" name="masterIp">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>摄像头IP</label><input type="text" value=""
-									class="form-control" name="cameraIp">
-							</div>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>运营商</label><select name="carrierOperator"
-									class="form-control">
-									<option value="成度电信" selected="selected">成度电信</option>
-									<option value="成度移动">成都移动</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>传输类型</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="type" class="form-control">
-									<option value="E1" selected="selected">E1</option>
-									<option value="IP">IP</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>带宽[M]</label> <input type="text" value="2"
-									class="form-control" name="bandwidth">
-							</div>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>调单号[运营商传输线路唯一编码]</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" value="" class="form-control"
-									name="transferNumber" required="required">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>基站侧端口号[传输链路在设备上的具体接口]</label><input type="text" value=""
-									class="form-control" name="basePort">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>中心侧网元[交换中心传输设备在运营商网管中的编号]</label> <select
-									name="switchElement" class="form-control">
-									<option value="12000" selected="selected">12000</option>
-									<option value="119-239">119-239</option>
-									<option value="119-240">119-240</option>
-									<option value="119-241">119-241</option>
-									<option value="119-245">119-245</option>
-									<option value="119-246">119-246</option>
-									<option value="119-247">119-247</option>
-									<option value="ZC505">ZC505</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>中心侧端口[传输链路在设备上的具体接口]</label> <input type="text" value=""
-									class="form-control" name="switchPort2">
-							</div>
-						</div>
-
-
-					</div>
-					<!-- row -->
 
 					<!-- row -->
 
@@ -207,7 +194,6 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			
 
 		}
 	}).on('success.form.bv', function(e, data) {

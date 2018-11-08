@@ -91,9 +91,12 @@ xh.load = function() {
 		/* 显示修改基站model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
-			$scope.editData.type = $scope.editData.type.toString();
+			var url="bsInfo-edit.html";
+			url+="?data="+JSON.stringify($scope.editData);
+			window.location.href=url;
+			/*$scope.editData.type = $scope.editData.type.toString();
 			$scope.editData.level = $scope.editData.level.toString();
-			$scope.editData.period = $scope.editData.period.toString();
+			$scope.editData.period = $scope.editData.period.toString();*/
 		};
 		/* 显示修改基站model */
 		$scope.showEditModel = function() {
@@ -616,11 +619,22 @@ xh.add = function() {
 			if (data.result == 0) {
 				$('#add').modal('hide');
 
-				for (var i = 1; i < 10; i++) {
-					console.log(1);
-				}
-				xh.refresh();
-				toastr.success("添加基站成功", '提示');
+				swal({
+					title : "提示",
+					text : "添加基站信息成功",
+					type : "success",
+					showCancelButton : true,
+					confirmButtonColor : "#DD6B55",
+					confirmButtonText : "返回基站页面",
+					cancelButtonText : "继续添加基站"
+				/*
+				 * closeOnConfirm : false, closeOnCancel : false
+				 */
+				}, function(isConfirm) {
+					if (isConfirm) {
+						window.location.href="../../Views/operations/bsInfo.html";
+					}
+				});
 
 			} else {
 				swal({

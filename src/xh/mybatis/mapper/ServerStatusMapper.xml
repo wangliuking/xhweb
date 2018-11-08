@@ -48,6 +48,19 @@
     left join xhgmnet_bs_station as b on a.bsId=b.bsId  where a.icp_status=1
     order by a.bsId asc
     </select>
+        <select id="chart_server" resultType="map" useCache="true" parameterType="String">
+        select
+        server_name as name,ip,cpuLoad,
+        memSize/(1024*1024*1024) as memSize,
+        memUsed/(1024*1024*1024) as memUsed,
+        ROUND(memUsed/memSize*100,0) as
+        memPercent,
+        ROUND(diskUsed/(1024*1024*1024),2) as diskUsed,
+        ROUND((diskSize-diskUsed)/(1024*1024*1024),2) as diskSize,
+        ID
+        from
+        xhgmnet_eastcom_server_day where time=#{time}
+    </select>
    
    
 </mapper>

@@ -1,0 +1,153 @@
+<!-- row -->
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="hpanel">
+			<!-- <div class="panel-heading hbuilt">资产列表</div> -->
+			<div class="panel-body">
+				<h3 class="text-center">成都市应急指挥调度无线通信网四期工程服务项目</h3>
+				<h5 class="text-center">{{time}}服务扣分表</h5>
+				<form action="#" id="scoreForm" onsubmit="return false">
+					<table id="tb-info" class="xh-table-primary table-hover">
+						<thead>
+							<tr class="tr-gray">
+								<th>考核项</th>
+								<th>分项</th>
+								<th>考核得分</th>
+								<th width="200px">备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>机房及配套设施要求（20分）</td>
+								<td></td>
+								<td><input class="form-control" name="s_a1"
+									ng-model="score_data.s_a1" /></td>
+								<td><input class="form-control" name="n_a1"
+									ng-model="score_data.n_a1" /></td>
+							</tr>
+							<tr>
+								<td rowspan="4">运维团队及设施配置（15分）</td>
+								<td>运维团队（3）</td>
+								<td><input class="form-control" name="s_b1"
+                                    ng-model="score_data.s_b1" /></td>
+                                <td><input class="form-control" name="n_b1"
+                                    ng-model="score_data.n_b1" /></td>
+							</tr>
+							<tr>
+								<td>管理制度保障（1）</td>
+								<td><input class="form-control" name="s_b2"
+                                    ng-model="score_data.s_b2" /></td>
+                                <td><input class="form-control" name="n_b2"
+                                    ng-model="score_data.n_b2" /></td>
+							</tr>
+							<tr>
+								<td>运维响应机制（9）</td>
+								<td><input class="form-control" name="s_b3"
+                                    ng-model="score_data.s_b3" /></td>
+                                <td><input class="form-control" name="n_b3"
+                                    ng-model="score_data.n_b3" /></td>
+							</tr>
+							<tr>
+								<td>办公场所及运维设施（2）</td>
+								<td><input class="form-control" name="s_b4"
+                                    ng-model="score_data.s_b4" /></td>
+                                <td><input class="form-control" name="n_b4"
+                                    ng-model="score_data.n_b4" /></td>
+							</tr>
+
+							<tr>
+								<td rowspan="2">日常维护管理（包括运维资料、用户响应）（20分）</td>
+								<td>运维资料（10）</td>
+								<td><input class="form-control" name="s_c1"
+                                    ng-model="score_data.s_c1" /></td>
+                                <td><input class="form-control" name="n_c1"
+                                    ng-model="score_data.n_c1" /></td>
+							</tr>
+
+							<tr>
+								<td>用户响应（10）</td>
+								<td><input class="form-control" name="s_c2"
+                                    ng-model="score_data.s_c2" /></td>
+                                <td><input class="form-control" name="n_c2"
+                                    ng-model="score_data.n_c2" /></td>
+							</tr>
+
+
+							<tr>
+								<td rowspan="2">故障管理（30分）</td>
+								<td>故障控制及故障处理历时（25）</td>
+								<td><input class="form-control" name="s_d1"
+                                    ng-model="score_data.s_d1" /></td>
+                                <td><input class="form-control" name="n_d1"
+                                    ng-model="score_data.n_d1" /></td>
+							</tr>
+
+							<tr>
+								<td>备品备件（5）</td>
+								<td><input class="form-control" name="s_d2"
+                                    ng-model="score_data.s_d2" /></td>
+                                <td><input class="form-control" name="n_d2"
+                                    ng-model="score_data.n_d2" /></td>
+							</tr>
+
+							<tr>
+								<td>网络优化（5分）</td>
+								<td></td>
+								<td><input class="form-control" name="s_e1"
+                                    ng-model="score_data.s_e1" /></td>
+                                <td><input class="form-control" name="n_e1"
+                                    ng-model="score_data.n_e1" /></td>
+							</tr>
+
+
+							<tr>
+								<td rowspan="2">应急通信保障和演练（5分）</td>
+								<td>应急通信保障（3）</td>
+								<td><input class="form-control" name="s_f1"
+                                    ng-model="score_data.s_f1" /></td>
+                                <td><input class="form-control" name="n_f1"
+                                    ng-model="score_data.n_f1" /></td>
+							</tr>
+
+							<tr>
+								<td>应急演练（2）</td>
+								<td><input class="form-control" name="s_f2"
+                                    ng-model="score_data.s_f2" /></td>
+                                <td><input class="form-control" name="n_f2"
+                                    ng-model="score_data.n_f2" /></td>
+							</tr>
+							
+							 <tr>
+                                <td>培训及技术支持服务（5分）</td>
+                                <td></td>
+                                <td><input class="form-control" name="s_g1"
+                                    ng-model="score_data.s_g1" /></td>
+                                <td><input class="form-control" name="n_g1"
+                                    ng-model="score_data.n_g1" /></td>
+                            </tr>
+                            
+                             <tr>
+                                <td colspan="2">月度得分合计</td>
+                                <td colspan="2">{{score_sum}}</td>
+                            </tr>
+
+
+						</tbody>
+					</table>
+
+				</form>
+
+
+				<!-- row -->
+
+
+
+			</div>
+			<!-- panel-body--end -->
+			<!-- hpanel --end-->
+		</div>
+		<!-- col-md-12--end -->
+	</div>
+	<!-- row/ -->
+</div>

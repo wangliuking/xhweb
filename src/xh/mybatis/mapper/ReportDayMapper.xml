@@ -3,28 +3,88 @@
 <mapper namespace="xh.mybatis.mapper.ReportDayMapper">
 
 	<select id="chart_server" resultType="map" useCache="true">
-	  select server_name as name,ip,cpuLoad,
-      memSize/(1024*1024*1024) as memSize,
-      memUsed/(1024*1024*1024) as memUsed,
-      ROUND(memUsed/memSize*100,0) as memPercent,
-      ROUND(diskUsed/(1024*1024*1024),2) as diskUsed,
-      ROUND((diskSize-diskUsed)/(1024*1024*1024),2) as diskSize,
-      ID
-      from xhgmnet_eastcom_server 
+		select
+		server_name as name,ip,cpuLoad,
+		memSize/(1024*1024*1024) as memSize,
+		memUsed/(1024*1024*1024) as memUsed,
+		ROUND(memUsed/memSize*100,0) as
+		memPercent,
+		ROUND(diskUsed/(1024*1024*1024),2) as diskUsed,
+		ROUND((diskSize-diskUsed)/(1024*1024*1024),2) as diskSize,
+		ID
+		from
+		xhgmnet_eastcom_server
 	</select>
-	<select id="chart_dispatch" resultType="xh.mybatis.bean.ChartReportDispatch" useCache="true">
-	  select dstId,dstName,IP as ip,flag,setupStatus from xhgmnet_dispatch  order by dstId asc
+	<select id="chart_dispatch" resultType="xh.mybatis.bean.ChartReportDispatch"
+		useCache="true">
+		select dstId,dstName,IP as ip,flag,setupStatus,dbox_ip as dxbox_ip from
+		xhgmnet_dispatch order
+		by dstId asc
 	</select>
-	
+
 	<select id="chart_alarm_now" resultType="map" useCache="true">
-	 select COUNT(severity) as num,severity from xhgmnet_eastcom_alarminfo  where `status`!=1 GROUP BY severity
+		select
+		COUNT(severity) as num,severity from xhgmnet_eastcom_alarminfo where
+		`status`!=1 GROUP BY severity
 	</select>
-	<select id="chart_alarm_his" parameterType="map" resultType="map" useCache="true">
+	<select id="chart_alarm_his" parameterType="map" resultType="map"
+		useCache="true">
 	 <![CDATA[  
 	 select COUNT(severity) as num,severity from xhgmnet_eastcom_alarminfo  
      where `status`=1 and DATE_FORMAT(`time`,'%Y-%m-%d')=#{time} GROUP BY severity
       ]]>
 	</select>
-	
-			
+
+	<!-- 按天查询基站呼叫统计信息 -->
+	<select id="chart_bs_imp_call" resultType="xh.mybatis.bean.ChartReportImpBsBean"
+		useCache="true" parameterType="String">
+		SELECT
+		a.bsid,
+		a.TotalActiveCalls,
+		a.TotalActiveCallDuration,
+		(select count(userId) from
+		xhgmnet.xhgmnet_operations_userstatus where bsid=a.bsid) as regUsers,
+		a.starttime
+		FROM
+		chart_day_bstotal as a
+		WHERE
+		TO_DAYS(a.starttime)
+		=TO_DAYS(#{time})-1
+		and a.bsid in (select bsId from
+		xhgmnet.xhgmnet_bs_important)
+	</select>
+	<select id="now_week_gpsnumber" resultType="map" useCache="true" parameterType="String">
+		SELECT
+		*
+		FROM
+		xhgmnet_gpsinfo_day
+		WHERE
+		YEARWEEK(
+		date_format(infoTime,
+		'%Y-%m-%d')
+		) = YEARWEEK(#{day});
+	</select>
+	<select id="now_gpsunit_status" resultType="map" useCache="true">
+		SELECT
+		(select `status` from xhgmnet_user_access_list where User_Name='交管局') as jg,
+		(select `status` from xhgmnet_user_access_list where
+		User_Name='成都市公安局GPS') as cd
+		FROM
+		xhgmnet_user_access_list limit 1
+	</select>
+	<select id="other_device_status" resultType="map" useCache="true">
+		SELECT
+		*
+		FROM
+		xhgmnet_other_device_status order by sort_num asc
+	</select>
+
+	<select id="operations_question" resultType="map" useCache="true"
+		parameterType="String">
+		SELECT
+		*
+		FROM
+		xhgmnet_operations_question where write_time=#{time}
+	</select>
+
 </mapper>

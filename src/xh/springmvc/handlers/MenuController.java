@@ -109,45 +109,37 @@ public class MenuController {
 	@RequestMapping("/updateMenu")
 	public void updateMenu(HttpServletRequest request,
 			HttpServletResponse response) {
-		/*String formData = request.getParameter("formData");*/
-		String[] nochecks = request.getParameter("nochecks").split(",");
-		String[] checks = request.getParameter("checks").split(",");
+		/*String[] nochecks = request.getParameter("nochecks").split(",");
+		String[] checks = request.getParameter("checks").split(",");*/
 		String roleId = request.getParameter("roleId");
-		/*ArrayList list = GsonUtil.json2Object(formData, ArrayList.class);*/
+		String id=request.getParameter("id");
+		String checked=request.getParameter("checked");
 		
-		
-		/*ArrayList listChecks = GsonUtil.json2Object(checks, ArrayList.class);
-		ArrayList listNoChecks = GsonUtil.json2Object(nochecks, ArrayList.class);*/
-		
-		
-
-	/*	List<Map<String, Object>> paraList = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < list.size(); i++) {
-			Map<String, Object> map = GsonUtil.json2Object(list.get(i).toString(), Map.class);
-			MenuService.updateMenu(map);
-
-		}*/
-		
-		List<String> listChecks=new ArrayList<String>();
+	/*	List<String> listChecks=new ArrayList<String>();
 		for(int i=0;i<checks.length;i++){
 			listChecks.add(checks[i]);
 		}
 		List<String> listNoChecks=new ArrayList<String>();
 		for(int i=0;i<nochecks.length;i++){
 			listNoChecks.add(nochecks[i]);
-		}
+		}*/
+		
+		List<String> listChecks=new ArrayList<String>();
+		listChecks.add(id);
+		
+		
 		Map<String,Object> paraMap=new HashMap<String, Object>();
 		paraMap.put("roleId", roleId);
 		paraMap.put("idlist", listChecks);
-		paraMap.put("checked", true);
+		paraMap.put("checked", checked);
 		
 		MenuService.updateMenu(paraMap);
 		
-		Map<String,Object> paraMap2=new HashMap<String, Object>();
+		/*Map<String,Object> paraMap2=new HashMap<String, Object>();
 		paraMap2.put("roleId", roleId);
 		paraMap2.put("idlist", listNoChecks);
 		paraMap2.put("checked", false);
-		MenuService.updateMenu(paraMap2);
+		MenuService.updateMenu(paraMap2);*/
 		
 		
 		

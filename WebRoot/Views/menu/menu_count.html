@@ -54,37 +54,106 @@
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
-							<i class="fa fa-list"></i>系统数据分析
+							<i class="fa fa-list"></i>系统报表导出
 						</div>
 						<div class="panel-body">
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="../operations/chart_call.html" target="_self">
-								<!--  <i class="fa fa-file-excel-o fa-4x text-success"></i> -->
-								<img alt="" src="../../Resources/images/icon/64/3.png">
+								<a href="../operations/chart_call.html" target="_self"> <!--  <i class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img src="../../Resources/images/icon/64/10.png">
 									<p>话务统计表</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="../operations/chart_day_report.html" target="_self"><!--  <i
-									class="fa fa-file-excel-o fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/2.png">
-									<p>维护统计表</p>
+								<a href="../operations/chart_day_report.html" target="_self">
+									<!--  <i
+									class="fa fa-file-excel-o fa-4x text-success"></i> --> <img
+									alt="" src="../../Resources/images/icon/64/10.png">
+									<p>维护统计日表</p>
 								</a>
 							</div>
-							<!-- <div class="menu-box text-center" style="cursor: pointer;">
-								<a href="../operations/bsFault.html" target="_self"> <i
-									class="fa fa-file-excel-o fa-4x text-success"></i>
-									<img alt="" src="../../Resources/images/icon/64/1.png">
-									<p>故障记录表</p>
-								</a>
-							</div> -->
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="#" onclick="xh.excelToBsRun()"> <!-- <i
-									class="fa fa-file-excel-o fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/br.png">
-									<p>基站运行记录</p>
+								<a href="../operations/mplan.html" target="_self">
+									<!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>月度维护作业</p>
 								</a>
 							</div>
+							<div class="menu-box text-center" style="cursor: pointer;">
+								<a href="../operations/attachment.html" target="_self">
+									<!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>备品备件</p>
+								</a>
+							</div>
+
+							<div class="menu-box text-center" style="cursor: pointer;" 
+							data-toggle="modal" data-target="#excel-month-bs">
+								<a href="" target="_self">
+									<!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>基站月维护表</p>
+								</a>
+							</div>
+							 <div class="menu-box text-center" style="cursor: pointer;" 
+                            data-toggle="modal" data-target="#excel-month-bs-inspection">
+                                <a href="" target="_self">
+                                    <!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>基站月巡检</p>
+                                </a>
+                            </div>
+							<div class="menu-box text-center" style="cursor: pointer;" 
+							data-toggle="modal" data-target="#excel-month-inspection">
+								<a href="" target="_self">
+									<!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>巡检汇总表</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;"
+								data-toggle="modal" data-target="#excel-server">
+								<a href="" target="_self">
+									<!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>系统维护表</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;"
+							data-toggle="modal" data-target="#excel-month-msc-inspection">
+                                <a href="#"> 
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>交换中心巡检</p>
+                                </a>
+                            </div>
+
+							<div class="menu-box text-center" style="cursor: pointer;" onclick="xh.address_excel()">
+								<a href="#" target="_self"> <!-- <i
+									class="fa fa-file-excel-o fa-4x text-success"></i> -->
+									<img alt="" src="../../Resources/images/icon/64/10.png">
+									<p>运维通讯录</p>
+								</a>
+							</div>
+							<div class="menu-box text-center" style="cursor: pointer;" onclick="xh.config_excel()">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>运维资源配置</p>
+                                </a>
+                            </div>
+                                <div class="menu-box text-center" style="cursor: pointer;" data-toggle="modal" data-target="#excel-month-bs-info">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>基站信息表</p>
+                                </a>
+                            </div>
+							<!--  -->
 							<!-- <div class="menu-box text-center" style="cursor: pointer;">
 								<a href="../business/fault.html" target="_self"> <i
 									class="fa fa-pencil-square fa-4x text-danger"></i>
@@ -92,7 +161,7 @@
 									<p>考勤管理</p>
 								</a>
 							</div> -->
-							
+
 
 
 						</div>
@@ -100,6 +169,28 @@
 				</div>
 			</div>
 			<!-- row -->
+			<div class="row" ng-show="roleId==200 || roleType==3 || roleType==0">
+                <div class="col-md-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <i class="fa fa-list"></i> 扣分扣款
+                        </div>
+                        <div class="panel-body">
+                            <div class="menu-box text-center" style="cursor: pointer;">
+                                <a
+                                    href="../operations/score_money.html"
+                                    target="_self"> <!-- <i
+                                    class="fa fa-warning fa-4x text-danger"></i> --> <img alt=""
+                                    src="../../Resources/images/icon/64/22.png">
+                                    <p>扣分扣款明细</p>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+               <!--  row -->
 			<div class="row" ng-show="menu.m_132">
 				<div class="col-md-4">
 					<div class="hpanel">
@@ -108,16 +199,20 @@
 						</div>
 						<div class="panel-body">
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/36b0f088-4065-4ead-94e7-52d137776465?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-warning fa-4x text-danger"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/fx.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/36b0f088-4065-4ead-94e7-52d137776465?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-warning fa-4x text-danger"></i> --> <img alt=""
+									src="../../Resources/images/icon/64/fx.png">
 									<p>风险分析</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/ed92db76-43c0-4cb0-a3ee-256b377234e8?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-map-o fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/fx.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/ed92db76-43c0-4cb0-a3ee-256b377234e8?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-map-o fa-4x text-success"></i> --> <img alt=""
+									src="../../Resources/images/icon/64/fx.png">
 									<p>健康分析</p>
 								</a>
 							</div>
@@ -132,23 +227,29 @@
 						</div>
 						<div class="panel-body">
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/7301984d-4219-454d-9ff1-f5af0885b77c?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-line-chart fa-4x text-primary"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/rd.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/7301984d-4219-454d-9ff1-f5af0885b77c?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-line-chart fa-4x text-primary"></i> --> <img
+									alt="" src="../../Resources/images/icon/64/rd.png">
 									<p>全网热度</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/4efdf93a-051e-48b1-8498-68c6e94bbf05?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-line-chart fa-4x text-primary"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/rd.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/4efdf93a-051e-48b1-8498-68c6e94bbf05?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-line-chart fa-4x text-primary"></i> --> <img
+									alt="" src="../../Resources/images/icon/64/rd.png">
 									<p>区域热度</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/a784b0aa-5248-451f-a227-83758f5a18fa?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-line-chart fa-4x text-primary"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/rd.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/a784b0aa-5248-451f-a227-83758f5a18fa?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-line-chart fa-4x text-primary"></i> --> <img
+									alt="" src="../../Resources/images/icon/64/rd.png">
 									<p>基站热度</p>
 								</a>
 							</div>
@@ -164,23 +265,30 @@
 						</div>
 						<div class="panel-body">
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/d07281be-0b5a-45f9-aa8e-7f7b2fd8f423?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-pie-chart fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/xw.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/d07281be-0b5a-45f9-aa8e-7f7b2fd8f423?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-pie-chart fa-4x text-success"></i> --> <img alt=""
+									src="../../Resources/images/icon/64/xw.png">
 									<p>单位组行为</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/12640b13-1dc1-46a0-8716-8912fa82447f?vpnId={{loginUserVpnId}}" target="_self"> <!-- <i
-									class="fa fa-pie-chart fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/xw.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/12640b13-1dc1-46a0-8716-8912fa82447f?vpnId={{loginUserVpnId}}"
+									target="_self"> <!-- <i
+									class="fa fa-pie-chart fa-4x text-success"></i> --> <img alt=""
+									src="../../Resources/images/icon/64/xw.png">
 									<p>单位用户行为</p>
 								</a>
 							</div>
 							<div class="menu-box text-center" style="cursor: pointer;">
-								<a href="http://183.221.117.37:8888/analystrunner/50fd15d2-0efc-4bdb-9997-3dd8f676e4c3?vpnId={{loginUserVpnId}}" target="_self"><!--  <i
-									class="fa fa-pie-chart fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/xw.png">
+								<a
+									href="http://183.221.117.37:8888/analystrunner/50fd15d2-0efc-4bdb-9997-3dd8f676e4c3?vpnId={{loginUserVpnId}}"
+									target="_self">
+									<!--  <i
+									class="fa fa-pie-chart fa-4x text-success"></i> --> <img alt=""
+									src="../../Resources/images/icon/64/xw.png">
 									<p>用户聚焦</p>
 								</a>
 							</div>
@@ -195,11 +303,287 @@
 	</div>
 	<!-- 中间内容体 /-->
 
-<script type="text/javascript"
+
+	<div class="modal fade" id="excel-server" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="color-line"></div>
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">导出系统维护表</small>
+				</div>
+				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<div class="row">
+
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>时间</label>&nbsp; <input name="time" class="form-control"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+							</div>
+						</div>
+
+
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success btn-sm"
+						id="excel-server-btn" data-loading-text="数据导出中..">
+						<i class="fa "></i>&nbsp;导出
+					</button>
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="excel-month-bs" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出基站月维护表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-bs-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+   <div class="modal fade" id="excel-month-bs-inspection" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出基站月巡检表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-bs-inspection-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade" id="excel-month-inspection" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出巡检汇总表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-inspection-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="excel-month-msc-inspection" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出巡检汇总表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-inspection-msc-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="modal fade" id="excel-month-bs-info" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出基站信息表</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-bs-info-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
-<script type="text/javascript">
+	<script type="text/javascript" src="../../Controllers/menu/menu.js"></script>
+	<script type="text/javascript">
 		xh.load();
-</script>
+		$("#excel-server-btn").click(function() {
+			var time = $("#excel-server").find("input[name='time']").val();
+			if (time == "") {
+				alert("时间不能为空");
+				return;
+			}
+			xh.server_excel(time);
+		});
+		  $("#excel-month-bs-btn").click(function() {
+	            var time = $("#excel-month-bs").find("input[name='time']").val();
+	            if (time == "") {
+	                alert("时间不能为空");
+	                return;
+	            }
+	            xh.bs_month_excel(time);
+	        });
+		  $("#excel-month-bs-inspection-btn").click(function() {
+              var time = $("#excel-month-bs-inspection").find("input[name='time']").val();
+              if (time == "") {
+                  alert("时间不能为空");
+                  return;
+              }
+              xh.bs_month_inspection_excel(time);
+          });		  
+          $("#excel-month-inspection-btn").click(function() {
+              var time = $("#excel-month-inspection").find("input[name='time']").val();
+              if (time == "") {
+                  alert("时间不能为空");
+                  return;
+              }
+              xh.inspection_month_excel(time);
+          });
+          $("#excel-month-inspection-msc-btn").click(function() {
+              var time = $("#excel-month-msc-inspection").find("input[name='time']").val();
+              if (time == "") {
+                  alert("时间不能为空");
+                  return;
+              }
+              xh.inspection_msc_month_excel(time);
+          });
+          $("#excel-month-bs-info-btn").click(function() {
+              var time = $("#excel-month-bs-info").find("input[name='time']").val();
+              if (time == "") {
+                  alert("时间不能为空");
+                  return;
+              }
+              xh.bs_excel(time);
+          });
+	</script>
 </body>
 </html>

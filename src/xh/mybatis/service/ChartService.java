@@ -120,5 +120,19 @@ public class ChartService {
 		}
 		return  list;
 	}
+	public static List<Map<String,Object>>  excel_month_inspection(String time){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ChartsMapper mapper = sqlSession.getMapper(ChartsMapper.class);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.excel_month_inspection(time);
+			sqlSession.close();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
+	}
 
 }

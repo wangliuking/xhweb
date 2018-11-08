@@ -1,5 +1,6 @@
 package xh.springmvc.handlers;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -13,6 +14,20 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.Orientation;
+import jxl.format.UnderlineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.record.PageBreakRecord.Break;
@@ -25,12 +40,17 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.AssetInfoBean;
+import xh.mybatis.bean.BsElectricityBean;
+import xh.mybatis.bean.BsMachineRoomBean;
+import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.ExcelBsInfoBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.bsLinkConfigBean;
 import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
+import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.CallListServices;
 import xh.mybatis.service.WebLogService;
@@ -516,20 +536,27 @@ public class BsstationController {
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	@ResponseBody
 	public void addBs(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
 		String jsonData=request.getParameter("formData");
         BsstationBean bean=GsonUtil.json2Object(jsonData, BsstationBean.class);
+        BsElectricityBean bean2=GsonUtil.json2Object(jsonData, BsElectricityBean.class);
+        BsMachineRoomBean bean3=GsonUtil.json2Object(jsonData, BsMachineRoomBean.class);
         /*if (bean.getOpenen()==0) {
 			bean.setStatus(2);
 		}*/
-        log.info("data==>"+bean.toString());
-		int count=BsstationService.insertBs(bean);
-		if (count==0) {
+        log.info("data1==>"+bean);
+        log.info("data2==>"+bean2);
+        log.info("data3==>"+bean3);
+		int count=BsstationService.insertBs(bean, bean3, bean2);
+		
+		if (count>0) {
+			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
 			webLogBean.setContent("新增基站，bsId="+bean.getBsId()+";name="+bean.getName());
 			WebLogService.writeLog(webLogBean);
+		}else{
+			this.success=false;
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -648,7 +675,7 @@ public class BsstationController {
 		
 		Map<String,Object> paramterMap=new HashMap<String, Object>();
 		paramterMap.put("bsId", bean.getBsId());
-		paramterMap.put("transferNumber", bean.getTransferNumber());
+		paramterMap.put("regulation_number", bean.getRegulation_number());
 		int rslt=-1;
 		if (BsstationService.linkconfigExists(paramterMap)==0) {
 			rslt=BsstationService.addLinkconfig(bean);
@@ -898,20 +925,23 @@ public class BsstationController {
 	 */
 	@RequestMapping(value="/update",method = RequestMethod.POST)
 	public void updateBs(HttpServletRequest request, HttpServletResponse response){
-		this.success=true;
 		String jsonData=request.getParameter("formData");
-        BsstationBean bean=GsonUtil.json2Object(jsonData, BsstationBean.class);
-       /* if (bean.getOpenen()==0) {
-			bean.setStatus(2);
-		}*/
-        log.info("data==>"+bean.toString());
-		int count=BsstationService.updateBs(bean);
-		if (count==1) {
+		BsstationBean bean=GsonUtil.json2Object(jsonData, BsstationBean.class);
+	    BsElectricityBean bean2=GsonUtil.json2Object(jsonData, BsElectricityBean.class);
+	    BsMachineRoomBean bean3=GsonUtil.json2Object(jsonData, BsMachineRoomBean.class);
+	        log.info("data1==>"+bean);
+	        log.info("data2==>"+bean2);
+	        log.info("data3==>"+bean3);
+		int count=BsstationService.updateBs(bean,bean3,bean2);
+		if (count>0) {
+			this.success=true;
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(2);
 			webLogBean.setContent("修改基站，bsId="+bean.getBsId()+";name="+bean.getName());
 			WebLogService.writeLog(webLogBean);
+		}else{
+			this.success=false;
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -1221,6 +1251,662 @@ public class BsstationController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	@RequestMapping(value = "/excel_bs_info", method = RequestMethod.GET)
+	public void excel_bs_info(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/");
+			String pathname = saveDir + "/基站信息表-"+time+".xls";
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);			
+			WritableWorkbook book = Workbook.createWorkbook(file);
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					9, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+		
+			WritableSheet sheet0 = book.createSheet("基站信息表", 0);
+			WritableSheet sheet1 = book.createSheet("基本信息考核表", 1);
+			WritableSheet sheet2 = book.createSheet("基站信息表-传输链路", 2);
+			WritableSheet sheet3 = book.createSheet("基站信息表-供配电", 3);
+			WritableSheet sheet4 = book.createSheet("基站信息表-机房配套", 4);
+			
+			List<ExcelBsInfoBean> list = BsstationService.excel_bs_info();
+			
+			excel_bs_info(sheet0,list,fontFormat_h,fontFormat_Content);
+			excel_bs_check(sheet1,list,fontFormat_h,fontFormat_Content);
+			excel_bs_transfer(sheet2,list,fontFormat_h,fontFormat_Content);
+			excel_bs_elect(sheet3,list,fontFormat_h,fontFormat_Content);
+			excel_bs_room(sheet4,list,fontFormat_h,fontFormat_Content);
+			
+			
+			book.write();
+			book.close();
+			/*DownExcelFile(response, pathname);*/
+			 this.success=true;
+			 HashMap<String, Object> result = new HashMap<String, Object>();
+			 result.put("success", success);
+			 result.put("pathName", pathname);
+			 response.setContentType("application/json;charset=utf-8"); 
+			 String jsonstr = json.Encode(result); 
+			 response.getWriter().write(jsonstr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void excel_bs_info(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.mergeCells(0, 0, 10, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "建设周期", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "设备类型", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "区域", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "基站地址", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "运营商机房名", fontFormat_h));
+			sheet.addCell(new Label(8, 1, "经度", fontFormat_h));
+			sheet.addCell(new Label(9, 1, "纬度", fontFormat_h));
+			sheet.addCell(new Label(10, 1, "海拔/米", fontFormat_h));
+			sheet.addCell(new Label(11, 1, "是否与移动基站共址", fontFormat_h));
+			sheet.addCell(new Label(12, 1, "机房类型", fontFormat_h));
+			sheet.addCell(new Label(13, 1, "机柜类型", fontFormat_h));
+			sheet.addCell(new Label(14, 1, "基站设备型号", fontFormat_h));
+			sheet.addCell(new Label(15, 1, "基站设备厂家", fontFormat_h));
+			sheet.addCell(new Label(16, 1, "基站状态", fontFormat_h));
+			sheet.addCell(new Label(17, 1, "规划载频数", fontFormat_h));
+			sheet.addCell(new Label(18, 1, "开启载频数", fontFormat_h));
+			sheet.addCell(new Label(19, 1, "基站发射功率/dBm", fontFormat_h));
+			
+			
+			
+			sheet.addCell(new Label(20, 1, "基础频率1", fontFormat_h));
+			sheet.addCell(new Label(21, 1, "基础频率2", fontFormat_h));
+			sheet.addCell(new Label(22, 1, "基础频率3", fontFormat_h));
+			sheet.addCell(new Label(23, 1, "基础频率4", fontFormat_h));
+			sheet.addCell(new Label(24, 1, "扩容频率1", fontFormat_h));
+			sheet.addCell(new Label(25, 1, "扩容频率2", fontFormat_h));
+			sheet.addCell(new Label(26, 1, "扩容频率3", fontFormat_h));
+			sheet.addCell(new Label(27, 1, "扩容频率4", fontFormat_h));
+			
+			sheet.addCell(new Label(28, 1, "天线型号", fontFormat_h));
+			sheet.addCell(new Label(29, 1, "天线增益/dBi", fontFormat_h));
+			sheet.addCell(new Label(30, 1, "天线安装方式", fontFormat_h));
+			sheet.addCell(new Label(31, 1, "天线挂高(米）", fontFormat_h));
+			sheet.addCell(new Label(32, 1, "基站IP地址", fontFormat_h));
+			sheet.addCell(new Label(33, 1, "开通模式", fontFormat_h));
+			sheet.addCell(new Label(34, 1, "传输方式", fontFormat_h));
+			sheet.addCell(new Label(35, 1, "是否同一运营商", fontFormat_h));
+			sheet.addCell(new Label(36, 1, "是否同网元", fontFormat_h));
+			sheet.addCell(new Label(37, 1, "第一传输开通情况", fontFormat_h));
+			sheet.addCell(new Label(38, 1, "第一传输运营商", fontFormat_h));
+			sheet.addCell(new Label(39, 1, "第一传输设备型号", fontFormat_h));
+			sheet.addCell(new Label(40, 1, "第一传输基站网元", fontFormat_h));
+			sheet.addCell(new Label(41, 1, "第一传输基站端口", fontFormat_h));
+			sheet.addCell(new Label(42, 1, "第一传输交换中心网元", fontFormat_h));
+			sheet.addCell(new Label(43, 1, "第一传输交换中心网元端口", fontFormat_h));
+			sheet.addCell(new Label(44, 1, "第一传输电路调单号", fontFormat_h));
+			
+			sheet.addCell(new Label(45, 1, "第二传输开通情况", fontFormat_h));
+			sheet.addCell(new Label(46, 1, "第二传输运营商", fontFormat_h));
+			sheet.addCell(new Label(47, 1, "第二传输设备型号", fontFormat_h));
+			sheet.addCell(new Label(48, 1, "第二传输基站网元", fontFormat_h));
+			sheet.addCell(new Label(49, 1, "第二传输基站端口", fontFormat_h));
+			sheet.addCell(new Label(50, 1, "第二传输交换中心网元", fontFormat_h));
+			sheet.addCell(new Label(51, 1, "第二传输交换中心网元端口", fontFormat_h));
+			sheet.addCell(new Label(52, 1, "第二传输电路调单号", fontFormat_h));
+			
+			sheet.addCell(new Label(53, 1, "基站主设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(54, 1, "基站主设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(55, 1, "传输设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(56, 1, "传输设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(57, 1, "环控设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(58, 1, "环控设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(59, 1, "是否具有备用电源", fontFormat_h));
+			sheet.addCell(new Label(60, 1, "后备电源说明", fontFormat_h));
+			sheet.addCell(new Label(61, 1, "基站主设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(62, 1, "基站主设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(63, 1, "传输设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(64, 1, "传输设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(65, 1, "环控设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(66, 1, "环控设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(67, 1, "是否配备发电油机", fontFormat_h));
+			sheet.addCell(new Label(68, 1, "配备油机说明", fontFormat_h));
+			sheet.addCell(new Label(69, 1, "是否允许临时性发电", fontFormat_h));
+			sheet.addCell(new Label(70, 1, "发电时间", fontFormat_h));
+			sheet.addCell(new Label(71, 1, "上站时间", fontFormat_h));
+			sheet.addCell(new Label(72, 1, "上站发电所需时间", fontFormat_h));
+			
+			
+			
+			sheet.addCell(new Label(73, 1, "环控通断", fontFormat_h));
+			sheet.addCell(new Label(74, 1, "环控通断说明", fontFormat_h));
+			sheet.addCell(new Label(75, 1, "门磁", fontFormat_h));
+			sheet.addCell(new Label(76, 1, "摄像头", fontFormat_h));
+			sheet.addCell(new Label(77, 1, "温湿度传感器", fontFormat_h));
+			sheet.addCell(new Label(78, 1, "烟雾传感器", fontFormat_h));
+			sheet.addCell(new Label(79, 1, "直流电流电压", fontFormat_h));
+			sheet.addCell(new Label(80, 1, "交流电流电压", fontFormat_h));
+			sheet.addCell(new Label(81, 1, "漏水检测", fontFormat_h));
+			sheet.addCell(new Label(82, 1, "消防", fontFormat_h));
+			sheet.addCell(new Label(83, 1, "消防说明", fontFormat_h));
+			sheet.addCell(new Label(84, 1, "空调", fontFormat_h));
+			sheet.addCell(new Label(85, 1, "空调说明", fontFormat_h));
+			sheet.addCell(new Label(86, 1, "防雷接地", fontFormat_h));
+			sheet.addCell(new Label(87, 1, "备注", fontFormat_h));
+			sheet.setRowView(0, 500);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			
+			
+			for(int i=2;i<6;i++){
+				sheet.setColumnView(i, 10);
+			}			
+			sheet.setColumnView(6, 30);
+			for(int i=7;i<28;i++){
+				sheet.setColumnView(i, 10);
+			}
+			sheet.setColumnView(28, 20);
+			for(int i=29;i<68;i++){
+				sheet.setColumnView(i, 10);
+			}
+			sheet.setColumnView(68, 30);
+			for(int i=69;i<83;i++){
+				sheet.setColumnView(i, 10);
+			}
+			sheet.setColumnView(84, 20);
+			sheet.setColumnView(85, 10);
+			sheet.setColumnView(86, 20);
+			sheet.setColumnView(87, 20);
+						
+			for (int i = 0; i < list.size(); i++) {			
+				ExcelBsInfoBean bean =list.get(i);
+				sheet.addCell(new jxl.write.Number(0, 2+i, bean.getBsId(), fontFormat_Content));
+				sheet.addCell(new Label(1, 2+i, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, 2+i, bean.getLevel(), fontFormat_Content));
+				sheet.addCell(new Label(3, 2+i, bean.getPeriod(), fontFormat_Content));
+				if(bean.getType()!=null && bean.getType()!=""){
+					String str="";
+					if(bean.getType().equals("0")){
+						str="固定基站";
+					}else if(bean.getType().equals("1")){
+						str="室分信源";
+					}else if(bean.getType().equals("2")){
+						str="应急站";
+					}else{
+						
+					}
+					sheet.addCell(new Label(4, 2+i, str, fontFormat_Content));
+				}else{
+					sheet.addCell(new Label(4, 2+i, "", fontFormat_Content));
+				}
+				sheet.addCell(new Label(5, 2+i, bean.getZone(), fontFormat_Content));
+				sheet.addCell(new Label(6, 2+i, bean.getAddress(), fontFormat_Content));
+				sheet.addCell(new Label(7, 2+i, bean.getCarrierName(), fontFormat_Content));
+				sheet.addCell(new Label(8, 2+i, bean.getLng(), fontFormat_Content));
+				sheet.addCell(new Label(9, 2+i, bean.getLat(), fontFormat_Content));
+				sheet.addCell(new Label(10, 2+i, bean.getHeight(), fontFormat_Content));
+				sheet.addCell(new Label(11, 2+i, bean.getIs_same_address(), fontFormat_Content));
+				sheet.addCell(new Label(12, 2+i, bean.getHometype(), fontFormat_Content));
+				sheet.addCell(new Label(13, 2+i, bean.getCabinet_type(), fontFormat_Content));
+				sheet.addCell(new Label(14, 2+i, bean.getDeviceType(), fontFormat_Content));
+				sheet.addCell(new Label(15, 2+i, bean.getProductor(), fontFormat_Content));
+				if(bean.getStatus()!=null && bean.getStatus()!=""){
+					sheet.addCell(new Label(16, 2+i, bean.getStatus().equals("1")?"启用":"未启用", fontFormat_Content));
+				}else{
+					sheet.addCell(new Label(16, 2+i, "", fontFormat_Content));
+				}
+				
+				sheet.addCell(new Label(17, 2+i, bean.getChnumber(), fontFormat_Content));
+				sheet.addCell(new Label(18, 2+i, bean.getNumber(), fontFormat_Content));
+				sheet.addCell(new Label(19, 2+i, bean.getPower(), fontFormat_Content));
+				
+				sheet.addCell(new Label(20, 2+i, bean.getFreg1(), fontFormat_Content));
+				sheet.addCell(new Label(21, 2+i, bean.getFreg2(), fontFormat_Content));
+				sheet.addCell(new Label(22, 2+i, bean.getFreg3(), fontFormat_Content));
+				sheet.addCell(new Label(23, 2+i, bean.getFreg4(), fontFormat_Content));
+				sheet.addCell(new Label(24, 2+i, bean.getFreg5(), fontFormat_Content));
+				sheet.addCell(new Label(25, 2+i, bean.getFreg6(), fontFormat_Content));
+				sheet.addCell(new Label(26, 2+i, bean.getFreg7(), fontFormat_Content));
+				sheet.addCell(new Label(27, 2+i, bean.getFreg8(), fontFormat_Content));
+				
+				
+				
+				
+				sheet.addCell(new Label(28, 2+i, bean.getLine_model(), fontFormat_Content));
+				sheet.addCell(new Label(29, 2+i, bean.getLine_dbi(), fontFormat_Content));
+				sheet.addCell(new Label(30, 2+i, bean.getLineInstallType(), fontFormat_Content));
+				sheet.addCell(new Label(31, 2+i, bean.getLineHeight(), fontFormat_Content));
+				sheet.addCell(new Label(32, 2+i, bean.getIp(), fontFormat_Content));
+				sheet.addCell(new Label(33, 2+i, bean.getTransfer_open_model(), fontFormat_Content));
+				sheet.addCell(new Label(34, 2+i, bean.getTransfer_type(), fontFormat_Content));
+				sheet.addCell(new Label(35, 2+i, bean.getIs_same_carrieroperator(), fontFormat_Content));
+				sheet.addCell(new Label(36, 2+i, bean.getIs_same_net(), fontFormat_Content));
+				
+				//第一传输
+				sheet.addCell(new Label(37, 2+i, bean.getIs_open(), fontFormat_Content));
+				sheet.addCell(new Label(38, 2+i, bean.getOperator(), fontFormat_Content));
+				sheet.addCell(new Label(39, 2+i, bean.getEquipment_model1(), fontFormat_Content));
+				sheet.addCell(new Label(40, 2+i, bean.getBs_net(), fontFormat_Content));
+				sheet.addCell(new Label(41, 2+i, bean.getBs_net_port(), fontFormat_Content));
+				sheet.addCell(new Label(42, 2+i, bean.getMsc_net(), fontFormat_Content));
+				sheet.addCell(new Label(43, 2+i, bean.getMsc_net_port(), fontFormat_Content));
+				sheet.addCell(new Label(44, 2+i, bean.getRegulation_number(), fontFormat_Content));
+				//第二传输
+				sheet.addCell(new Label(45, 2+i, bean.getIs_open1(), fontFormat_Content));
+				sheet.addCell(new Label(46, 2+i, bean.getOperator1(), fontFormat_Content));
+				sheet.addCell(new Label(47, 2+i, bean.getEquipment_model2(), fontFormat_Content));
+				sheet.addCell(new Label(48, 2+i, bean.getBs_net1(), fontFormat_Content));
+				sheet.addCell(new Label(49, 2+i, bean.getBs_net_port1(), fontFormat_Content));
+				sheet.addCell(new Label(50, 2+i, bean.getMsc_net1(), fontFormat_Content));
+				sheet.addCell(new Label(51, 2+i, bean.getMsc_net_port1(), fontFormat_Content));
+				sheet.addCell(new Label(52, 2+i, bean.getRegulation_number1(), fontFormat_Content));
+				
+				sheet.addCell(new Label(53, 2+i, bean.getBs_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(54, 2+i, bean.getBs_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(55, 2+i, bean.getTransfer_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(56, 2+i, bean.getTransfer_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(57, 2+i, bean.getEmh_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(58, 2+i, bean.getEmh_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(59, 2+i, bean.getHas_spare_power(), fontFormat_Content));
+				sheet.addCell(new Label(60, 2+i, bean.getSpare_power_info(), fontFormat_Content));
+				sheet.addCell(new Label(61, 2+i, bean.getBs_xh_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(62, 2+i, bean.getBs_xh_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(63, 2+i, bean.getTransfer_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(64, 2+i, bean.getTransfer_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(65, 2+i, bean.getEmh_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(66, 2+i, bean.getEmh_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(67, 2+i, bean.getGeneratorConfig(), fontFormat_Content));
+				sheet.addCell(new Label(68, 2+i, bean.getNot_config_generator(), fontFormat_Content));
+				sheet.addCell(new Label(69, 2+i, bean.getIs_allow_generation(), fontFormat_Content));
+				sheet.addCell(new Label(70, 2+i, bean.getGeneration_date(), fontFormat_Content));
+				sheet.addCell(new Label(71, 2+i, bean.getTo_bs_date(), fontFormat_Content));
+				sheet.addCell(new Label(72, 2+i, bean.getGeneration_to_bs_date(), fontFormat_Content));
+				
+				
+				sheet.addCell(new Label(73, 2+i, bean.getEmh_on_off(), fontFormat_Content));
+				sheet.addCell(new Label(74, 2+i, bean.getEmh_on_off_info(), fontFormat_Content));
+				sheet.addCell(new Label(75, 2+i, bean.getDoor(), fontFormat_Content));
+				sheet.addCell(new Label(76, 2+i, bean.getCamera(), fontFormat_Content));
+				sheet.addCell(new Label(77, 2+i, bean.getHumiture(), fontFormat_Content));
+				sheet.addCell(new Label(78, 2+i, bean.getSmoke(), fontFormat_Content));
+				sheet.addCell(new Label(79, 2+i, bean.getUps_z(), fontFormat_Content));
+				sheet.addCell(new Label(80, 2+i, bean.getUps_j(), fontFormat_Content));
+				sheet.addCell(new Label(81, 2+i, bean.getWater(), fontFormat_Content));
+				sheet.addCell(new Label(82, 2+i, bean.getFire(), fontFormat_Content));
+				sheet.addCell(new Label(83, 2+i, bean.getFire_info(), fontFormat_Content));
+				sheet.addCell(new Label(84, 2+i, bean.getAir_conditioning(), fontFormat_Content));
+				sheet.addCell(new Label(85, 2+i, bean.getAir_conditioning_info(), fontFormat_Content));
+				sheet.addCell(new Label(86, 2+i, bean.getLightning(), fontFormat_Content));
+				sheet.addCell(new Label(87, 2+i, bean.getComment(), fontFormat_Content));
+				
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+	public  void excel_bs_check(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.mergeCells(0, 0, 10, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "建设周期", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "区域", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "机房类型", fontFormat_h));
+
+			sheet.addCell(new Label(6, 1, "传输链路", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "供配电", fontFormat_h));
+			sheet.addCell(new Label(8, 1, "油机", fontFormat_h));
+
+			sheet.addCell(new Label(9, 1, "动环监控", fontFormat_h));
+			sheet.addCell(new Label(10, 1, "消防", fontFormat_h));
+			sheet.addCell(new Label(11, 1, "空调", fontFormat_h));
+			sheet.addCell(new Label(12, 1, "防雷接地", fontFormat_h));
+			sheet.setRowView(0, 500);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			
+			
+			for(int i=2;i<13;i++){
+				sheet.setColumnView(i, 10);
+			}					
+			for (int i = 0; i < list.size(); i++) {			
+				ExcelBsInfoBean bean =list.get(i);
+				sheet.addCell(new jxl.write.Number(0, 2+i, bean.getBsId(), fontFormat_Content));
+				sheet.addCell(new Label(1, 2+i, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, 2+i, bean.getLevel(), fontFormat_Content));
+				sheet.addCell(new Label(3, 2+i, bean.getPeriod(), fontFormat_Content));
+				sheet.addCell(new Label(4, 2+i, bean.getZone(), fontFormat_Content));
+				sheet.addCell(new Label(5, 2+i, bean.getHometype(), fontFormat_Content));
+				
+				sheet.addCell(new Label(6, 2+i, "", fontFormat_Content));
+				if(bean.getHas_spare_power()!=null && bean.getHas_spare_power()!=""){
+					if(bean.getHas_spare_power().equals("是")){
+						sheet.addCell(new Label(7, 2+i, "是", fontFormat_Content));
+					}else{
+						sheet.addCell(new Label(7, 2+i, "否", fontFormat_Content));
+					}
+				}else{
+					sheet.addCell(new Label(7, 2+i, "否", fontFormat_Content));
+				}
+				
+				sheet.addCell(new Label(8, 2+i, bean.getGeneratorConfig(), fontFormat_Content));
+
+				if(bean.getEnvMonitor()!=null && bean.getEnvMonitor()!=""){
+					if(!bean.getEnvMonitor().equals("无")){
+						sheet.addCell(new Label(9, 2+i, "是", fontFormat_Content));
+					}else{
+						sheet.addCell(new Label(9, 2+i,"否", fontFormat_Content));
+					}
+				}else{
+					sheet.addCell(new Label(9, 2+i,"", fontFormat_Content));
+				}
+				
+				sheet.addCell(new Label(10, 2+i, bean.getFire(), fontFormat_Content));
+				sheet.addCell(new Label(11, 2+i, bean.getAir_conditioning(), fontFormat_Content));
+				sheet.addCell(new Label(12, 2+i, bean.getLightning(), fontFormat_Content));
+				
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+	public  void excel_bs_transfer(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.mergeCells(0, 0, 10, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "建设周期", fontFormat_h));
+			
+			
+			sheet.addCell(new Label(4, 1, "第一传输开通情况", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "第一传输运营商", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "第一传输设备型号", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "第一传输基站网元", fontFormat_h));
+			sheet.addCell(new Label(8, 1, "第一传输基站端口", fontFormat_h));
+			sheet.addCell(new Label(9, 1, "第一传输交换中心网元", fontFormat_h));
+			sheet.addCell(new Label(10, 1, "第一传输交换中心网元端口", fontFormat_h));
+			sheet.addCell(new Label(11, 1, "第一传输电路调单号", fontFormat_h));
+			
+			sheet.addCell(new Label(12, 1, "第二传输开通情况", fontFormat_h));
+			sheet.addCell(new Label(13, 1, "第二传输运营商", fontFormat_h));
+			sheet.addCell(new Label(14, 1, "第二传输设备型号", fontFormat_h));
+			sheet.addCell(new Label(15, 1, "第二传输基站网元", fontFormat_h));
+			sheet.addCell(new Label(16, 1, "第二传输基站端口", fontFormat_h));
+			sheet.addCell(new Label(17, 1, "第二传输交换中心网元", fontFormat_h));
+			sheet.addCell(new Label(18, 1, "第二传输交换中心网元端口", fontFormat_h));
+			sheet.addCell(new Label(19, 1, "第二传输电路调单号", fontFormat_h));
+			
+			sheet.setRowView(0, 500);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+
+			for(int i=2;i<20;i++){
+				sheet.setColumnView(i, 10);
+			}			
+			
+			for (int i = 0; i < list.size(); i++) {			
+				ExcelBsInfoBean bean =list.get(i);
+				sheet.addCell(new jxl.write.Number(0, 2+i, bean.getBsId(), fontFormat_Content));
+				sheet.addCell(new Label(1, 2+i, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, 2+i, bean.getLevel(), fontFormat_Content));
+				sheet.addCell(new Label(3, 2+i, bean.getPeriod(), fontFormat_Content));
+				
+				
+				//第一传输
+				sheet.addCell(new Label(4, 2+i, bean.getIs_open(), fontFormat_Content));
+				sheet.addCell(new Label(5, 2+i, bean.getOperator(), fontFormat_Content));
+				sheet.addCell(new Label(6, 2+i, bean.getEquipment_model1(), fontFormat_Content));
+				sheet.addCell(new Label(7, 2+i, bean.getBs_net(), fontFormat_Content));
+				sheet.addCell(new Label(8, 2+i, bean.getBs_net_port(), fontFormat_Content));
+				sheet.addCell(new Label(9, 2+i, bean.getMsc_net(), fontFormat_Content));
+				sheet.addCell(new Label(10, 2+i, bean.getMsc_net_port(), fontFormat_Content));
+				sheet.addCell(new Label(11, 2+i, bean.getRegulation_number(), fontFormat_Content));
+				//第二传输
+				sheet.addCell(new Label(12, 2+i, bean.getIs_open1(), fontFormat_Content));
+				sheet.addCell(new Label(13, 2+i, bean.getOperator1(), fontFormat_Content));
+				sheet.addCell(new Label(14, 2+i, bean.getEquipment_model2(), fontFormat_Content));
+				sheet.addCell(new Label(15, 2+i, bean.getBs_net1(), fontFormat_Content));
+				sheet.addCell(new Label(16, 2+i, bean.getBs_net_port1(), fontFormat_Content));
+				sheet.addCell(new Label(17, 2+i, bean.getMsc_net1(), fontFormat_Content));
+				sheet.addCell(new Label(18, 2+i, bean.getMsc_net_port1(), fontFormat_Content));
+				sheet.addCell(new Label(19, 2+i, bean.getRegulation_number1(), fontFormat_Content));
+				
+				
+				
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+
+	public  void excel_bs_elect(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.mergeCells(0, 0, 10, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "建设周期", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "区域", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "是否与移动基站共址", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "机房类型", fontFormat_h));
+			
+			
+			sheet.addCell(new Label(7, 1, "基站主设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(8, 1, "基站主设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(9, 1, "传输设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(10, 1, "传输设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(11, 1, "环控设备供电类型", fontFormat_h));
+			sheet.addCell(new Label(12, 1, "环控设备电源下电方式", fontFormat_h));
+			sheet.addCell(new Label(13, 1, "是否具有备用电源", fontFormat_h));
+			sheet.addCell(new Label(14, 1, "后备电源说明", fontFormat_h));
+			sheet.addCell(new Label(15, 1, "基站主设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(16, 1, "基站主设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(17, 1, "传输设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(18, 1, "传输设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(19, 1, "环控设备要求持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(20, 1, "环控设备实际持续续航时间（小时）", fontFormat_h));
+			sheet.addCell(new Label(21, 1, "是否配备发电油机", fontFormat_h));
+			sheet.addCell(new Label(22, 1, "配备油机说明", fontFormat_h));
+			sheet.addCell(new Label(23, 1, "整改措施", fontFormat_h));
+			sheet.addCell(new Label(24, 1, "是否允许临时性发电", fontFormat_h));
+			sheet.addCell(new Label(25, 1, "发电时间", fontFormat_h));
+			sheet.addCell(new Label(26, 1, "上站时间", fontFormat_h));
+			sheet.addCell(new Label(27, 1, "上站发电所需时间", fontFormat_h));
+			sheet.addCell(new Label(28, 1, "供配电是否达招标要求", fontFormat_h));
+			sheet.addCell(new Label(29, 1, "未达到招标要求原因", fontFormat_h));
+			sheet.addCell(new Label(30, 1, "整改措施", fontFormat_h));
+			
+			sheet.setRowView(0, 500);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			
+			
+			for(int i=2;i<22;i++){
+				sheet.setColumnView(i, 10);
+			}			
+			sheet.setColumnView(21, 30);
+			sheet.setColumnView(22, 30);
+
+			for(int i=23;i<29;i++){
+				sheet.setColumnView(i, 10);
+			}
+			sheet.setColumnView(29, 30);
+			sheet.setColumnView(30, 30);		
+			for (int i = 0; i < list.size(); i++) {			
+				ExcelBsInfoBean bean =list.get(i);
+				sheet.addCell(new jxl.write.Number(0, 2+i, bean.getBsId(), fontFormat_Content));
+				sheet.addCell(new Label(1, 2+i, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, 2+i, bean.getLevel(), fontFormat_Content));
+				sheet.addCell(new Label(3, 2+i, bean.getPeriod(), fontFormat_Content));
+				sheet.addCell(new Label(4, 2+i, bean.getZone(), fontFormat_Content));
+				sheet.addCell(new Label(5, 2+i, bean.getIs_same_address(), fontFormat_Content));
+				sheet.addCell(new Label(6, 2+i, bean.getHometype(), fontFormat_Content));
+				
+				
+				sheet.addCell(new Label(7, 2+i, bean.getBs_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(8, 2+i, bean.getBs_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(9, 2+i, bean.getTransfer_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(10, 2+i, bean.getTransfer_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(11, 2+i, bean.getEmh_supply_electricity_type(), fontFormat_Content));
+				sheet.addCell(new Label(12, 2+i, bean.getEmh_power_down_type(), fontFormat_Content));
+				sheet.addCell(new Label(13, 2+i, bean.getHas_spare_power(), fontFormat_Content));
+				sheet.addCell(new Label(14, 2+i, bean.getSpare_power_info(), fontFormat_Content));
+				sheet.addCell(new Label(15, 2+i, bean.getBs_xh_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(16, 2+i, bean.getBs_xh_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(17, 2+i, bean.getTransfer_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(18, 2+i, bean.getTransfer_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(19, 2+i, bean.getEmh_require_time(), fontFormat_Content));
+				sheet.addCell(new Label(20, 2+i, bean.getEmh_fact_time(), fontFormat_Content));
+				sheet.addCell(new Label(21, 2+i, bean.getGeneratorConfig(), fontFormat_Content));
+				sheet.addCell(new Label(22, 2+i, bean.getNot_config_generator(), fontFormat_Content));
+				sheet.addCell(new Label(23, 2+i, bean.getRectification_measures(), fontFormat_Content));
+				sheet.addCell(new Label(24, 2+i, bean.getIs_allow_generation(), fontFormat_Content));
+				sheet.addCell(new Label(25, 2+i, bean.getGeneration_date(), fontFormat_Content));
+				sheet.addCell(new Label(26, 2+i, bean.getTo_bs_date(), fontFormat_Content));
+				sheet.addCell(new Label(27, 2+i, bean.getGeneration_to_bs_date(), fontFormat_Content));
+				sheet.addCell(new Label(28, 2+i, bean.getIs_require(), fontFormat_Content));
+				sheet.addCell(new Label(29, 2+i, bean.getNot_require_reason(), fontFormat_Content));
+				sheet.addCell(new Label(30, 2+i, bean.getRectification_measures2(), fontFormat_Content));
+
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+    
+	public  void excel_bs_room(WritableSheet sheet,List<ExcelBsInfoBean> list,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0,0,"成都市应急指挥调度无线通信网四期基站信息统计表",fontFormat_h));
+			sheet.mergeCells(0, 0, 10, 0);
+			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
+			sheet.addCell(new Label(2, 1, "基站分级", fontFormat_h));
+			sheet.addCell(new Label(3, 1, "建设周期", fontFormat_h));
+			sheet.addCell(new Label(4, 1, "设备类型", fontFormat_h));
+			sheet.addCell(new Label(5, 1, "区域", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "是否与移动基站共址", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "机房类型", fontFormat_h));
+			
+			sheet.addCell(new Label(8, 1, "环控通断", fontFormat_h));
+			sheet.addCell(new Label(9, 1, "门磁", fontFormat_h));
+			sheet.addCell(new Label(10, 1, "摄像头", fontFormat_h));
+			sheet.addCell(new Label(11, 1, "温湿度传感器", fontFormat_h));
+			sheet.addCell(new Label(12, 1, "烟雾传感器", fontFormat_h));
+			sheet.addCell(new Label(13, 1, "直流电流电压", fontFormat_h));
+			sheet.addCell(new Label(14, 1, "交流电流电压", fontFormat_h));
+			sheet.addCell(new Label(15, 1, "漏水检测", fontFormat_h));
+			sheet.addCell(new Label(16, 1, "消防", fontFormat_h));
+			sheet.addCell(new Label(17, 1, "空调", fontFormat_h));
+			sheet.addCell(new Label(18, 1, "防雷接地", fontFormat_h));
+			sheet.setRowView(0, 500);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 20);
+			
+			
+			for(int i=2;i<19;i++){
+				sheet.setColumnView(i, 10);
+			}			
+			for (int i = 0; i < list.size(); i++) {			
+				ExcelBsInfoBean bean =list.get(i);
+				sheet.addCell(new jxl.write.Number(0, 2+i, bean.getBsId(), fontFormat_Content));
+				sheet.addCell(new Label(1, 2+i, bean.getName(), fontFormat_Content));
+				sheet.addCell(new Label(2, 2+i, bean.getLevel(), fontFormat_Content));
+				sheet.addCell(new Label(3, 2+i, bean.getPeriod(), fontFormat_Content));
+				if(bean.getType()!=null && bean.getType()!=""){
+					String str="";
+					if(bean.getType().equals("0")){
+						str="固定基站";
+					}else if(bean.getType().equals("1")){
+						str="室分信源";
+					}else if(bean.getType().equals("2")){
+						str="应急站";
+					}else{
+						
+					}
+					sheet.addCell(new Label(4, 2+i, str, fontFormat_Content));
+				}else{
+					sheet.addCell(new Label(4, 2+i, "", fontFormat_Content));
+				}
+				sheet.addCell(new Label(5, 2+i, bean.getZone(), fontFormat_Content));
+				sheet.addCell(new Label(6, 2+i, bean.getIs_same_address(), fontFormat_Content));
+				sheet.addCell(new Label(7, 2+i, bean.getHometype(), fontFormat_Content));
+				
+				
+				sheet.addCell(new Label(8, 2+i, bean.getEmh_on_off(), fontFormat_Content));
+				sheet.addCell(new Label(9, 2+i, bean.getDoor(), fontFormat_Content));
+				sheet.addCell(new Label(10, 2+i, bean.getCamera(), fontFormat_Content));
+				sheet.addCell(new Label(11, 2+i, bean.getHumiture(), fontFormat_Content));
+				sheet.addCell(new Label(12, 2+i, bean.getSmoke(), fontFormat_Content));
+				sheet.addCell(new Label(13, 2+i, bean.getUps_z(), fontFormat_Content));
+				sheet.addCell(new Label(14, 2+i, bean.getUps_j(), fontFormat_Content));
+				sheet.addCell(new Label(15, 2+i, bean.getWater(), fontFormat_Content));
+				sheet.addCell(new Label(16, 2+i, bean.getFire(), fontFormat_Content));
+				sheet.addCell(new Label(17, 2+i, bean.getAir_conditioning(), fontFormat_Content));
+				sheet.addCell(new Label(18, 2+i, bean.getLightning(), fontFormat_Content));
+
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}	
 		
 	}
 }

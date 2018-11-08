@@ -10,8 +10,11 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.BsElectricityBean;
+import xh.mybatis.bean.BsMachineRoomBean;
 import xh.mybatis.bean.BsstationBean;
 import xh.mybatis.bean.ChartBean;
+import xh.mybatis.bean.ExcelBsInfoBean;
 import xh.mybatis.bean.bsLinkConfigBean;
 import xh.mybatis.bean.bscConfigBean;
 import xh.mybatis.bean.bsrConfigBean;
@@ -547,14 +550,17 @@ public class BsstationService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static int insertBs(BsstationBean bean) {
+	public static int insertBs(BsstationBean b,BsMachineRoomBean r,BsElectricityBean be) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		int count = 0;
 		try {
-			count = mapper.selectByBsId(bean.getBsId());
-			if (count == 0) {
-				mapper.insertBs(bean);
+			if (mapper.selectByBsId(b.getBsId()) == 0) {
+				count=mapper.insertBs(b);
+				if(count>0){
+					mapper.insert_bs_machine_room(r);
+					mapper.insert_bs_supply_electricity(be);
+				}
 			}
 			sqlSession.commit();
 			sqlSession.close();
@@ -571,12 +577,16 @@ public class BsstationService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static int updateBs(BsstationBean bean) {
+	public static int updateBs(BsstationBean b,BsMachineRoomBean r,BsElectricityBean be) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		int count = 0;
 		try {
-			count = mapper.updateByBsId(bean);
+			count = mapper.updateByBsId(b);
+			if(count>0){
+				mapper.update_bs_machine_room(r);
+				mapper.update_bs_supply_electricity(be);
+			}
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -584,6 +594,19 @@ public class BsstationService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	public static List<ExcelBsInfoBean> excel_bs_info() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		List<ExcelBsInfoBean> list=new ArrayList<ExcelBsInfoBean>();
+		try {
+			list=mapper.excel_bs_info();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	/**
@@ -597,6 +620,8 @@ public class BsstationService {
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		try {
 			mapper.deleteBsByBsId(list);
+			mapper.delete_bs_machine_room(list);
+			mapper.delete_bs_supply_electricity(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
@@ -985,6 +1010,20 @@ public class BsstationService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	
+	public static Map<String, Object> select_bs_by_bsid(int bsId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
+		Map<String, Object> map=new HashMap<String, Object>();
+		try {
+			map = mapper.select_bs_by_bsid(bsId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
 	}
 	
 

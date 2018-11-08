@@ -306,14 +306,14 @@ to {
 						<div class="panel-body">
 							<div class="top-search btn-group">
 
-								<button class="btn  btn-success btn-sm" data-toggle="modal"
+								<!-- <button class="btn  btn-success btn-sm" data-toggle="modal"
 									data-target="#faultRecord">
 									<i class="fa fa-file-excel-o"></i>&nbsp;导出故障记录登记表
-								</button>
+								</button> -->
 								<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
 									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
 								</button>
-								<button class="btn btn-success btn-sm" ng-click="sureOk()">
+								<button class="btn btn-success btn-sm" ng-click="sureOk()" ng-if="roleType==0 || roleType==3">
 									<i class="fa fa-hand-stop-o"></i>&nbsp;确认告警
 								</button>
 								<button class="btn btn-primary btn-sm" data-toggle="modal" 
@@ -342,7 +342,7 @@ to {
 										<!-- <th width="150px">派单编号</th> -->
 										<th width="80px">确认状态</th>
 										
-										<th width="220px">操作</th>
+										<th width="220px" ng-if="roleType==0 || roleType==3">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -411,7 +411,7 @@ to {
 										<td ng-if="x.sureOk==0" style="background-color:#DC143C;color:#000;">未确认</td>
 										<td ng-if="x.sureOk==1" style="background-color:green;color:#fff;">已确认</td>
 										
-										<td style="width:20px;text-align:center">
+										<td style="width:20px;text-align:center" ng-if="roleType==0 || roleType==3">
 										<a href="#" ng-click="sureOneOk($index)"
 											ng-if="x.sureOk==0 && (roleType==3 || roleType==0)"> <i
 												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|确认

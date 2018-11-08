@@ -114,11 +114,11 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a> 
 
-										<a ng-if="loginUserRoleId==10003 && x.checked==0 && up.o_check_service=='on'"
+										<a ng-if="loginUserRoleType==3 && x.checked==0 && up.o_check_service=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认可以抽捡</a>
 											
-										<a ng-if="loginUserRoleId==10002 && x.checked==1 && up.o_check_service=='on'"
+										<a ng-if="loginUserRoleType==2 && x.checked==1 && up.o_check_service=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传抽检记录</a>
 

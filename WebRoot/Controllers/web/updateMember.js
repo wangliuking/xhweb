@@ -15,7 +15,7 @@ toastr.options = {
 		"showDuration" : "300",
 		"hideDuration" : "1000",
 		/* 消失时间 */
-		"timeOut" : "1000",
+		"timeOut" : "2000",
 		"extendedTimeOut" : "1000",
 		"showMethod" : "fadeIn",
 		"hideMethod" : "fadeOut",
@@ -51,7 +51,7 @@ xh.update = function() {
 				toastr.success("个人资料修改成功", '提示');
 
 			} else {
-				toastr.error("失败", '提示');
+				toastr.error(data.message, '提示');
 			}
 		},
 		error : function() {

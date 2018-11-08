@@ -1,0 +1,114 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">备品备件更新更新</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="editForm" onSubmit="return false" method="POST">
+                    <div class="row">
+                         <div class="col-md-12" ng-show=false>
+                            <input name="id" ng-model="editData.id"/>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>名称</label>&nbsp; <input name="attachment_name"
+									class="form-control" required="required"
+									ng-model="editData.attachment_name" />
+							</div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>设备描述</label>&nbsp;
+                                <textarea rows="3" cols="" class="form-control" name="attachment_desc" required="required" ng-model="editData.attachment_desc"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>型号</label>&nbsp;
+                                <input name="attachment_model" class="form-control"  required="required" ng-model="editData.attachment_model"/>
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-4">
+                            <div class="form-group col-md-12">
+                                <label>配置量</label>&nbsp;
+                                <input type="text" name="attachment_conf_number" class="form-control"  required="required" ng-model="editData.attachment_conf_number"/>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="form-group col-md-12">
+                                <label>单位</label>&nbsp;
+                                <select name="attachment_unit" class="form-control" ng-model="editData.attachment_unit">
+                                <option value="台" selected="selected">台</option>
+                                <option value="件">件</option>
+                                 <option value="个">个</option>
+                                 <option value="箱">箱</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>存放位置</label>&nbsp;
+                                <textarea rows="3" cols="" class="form-control" name="attachment_location" required="required" ng-model="editData.attachment_location"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>备注</label>&nbsp;
+                                <textarea rows="3" cols="" class="form-control" name="attachment_note" ng-model="editData.attachment_note"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm" id="edit_btn">
+					<i class="fa fa-plus"></i>&nbsp;保存
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#edit_btn").click(function() {
+		xh.update();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			filename : {
+				validators : {
+					notEmpty : {
+						message : '文件名称不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,8 @@ import org.apache.poi.ss.formula.ptg.FuncPtg;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -43,6 +47,25 @@ public class WebUserController {
 	private FlexJSON json=new FlexJSON();
 	private WebLogBean webLogBean=new WebLogBean();
 	WebUserBean userBean=new WebUserBean();
+	
+	
+	
+	@RequestMapping("/user/password")
+	public void password(HttpServletRequest request, HttpServletResponse response){
+		String userpass=SingLoginListener.logUserMap.get(request.getSession().getId()+"-pass").toString();
+		boolean tag=FunUtil.userpass_check(userpass);		
+		HashMap result = new HashMap();
+		result.put("ispass", tag);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	/**
@@ -78,6 +101,54 @@ public class WebUserController {
 		String news=funUtil.readXml("web", "news");
 		HashMap result = new HashMap();
 		result.put("news", news);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/user/sysconfig")
+	public void sysconfig(HttpServletRequest request, HttpServletResponse response){
+		String a=funUtil.readXml("alarm", "bs_offine");
+		String b=funUtil.readXml("alarm", "bs_water");
+		String c=funUtil.readXml("alarm", "bs_ups");
+		HashMap result = new HashMap();
+		result.put("a", a);
+		result.put("b", b);
+		result.put("c", c);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping("/user/up_sys_config")
+	public void up_sys_config(HttpServletRequest request, HttpServletResponse response){
+	
+		String name=request.getParameter("name");
+		String value=request.getParameter("value");
+		try {
+			if(name.equals("break")){
+				funUtil.updateXML("alarm", "bs_offine",value);
+			}else if(name.equals("water")){
+				funUtil.updateXML("alarm", "bs_water",value);
+			}else if(name.equals("ups")){
+				funUtil.updateXML("alarm", "bs_ups",value);
+			}else{}
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		HashMap result = new HashMap();
+		result.put("success", true);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -257,42 +328,51 @@ public class WebUserController {
 		bean.setUserType(userType);
 		bean.setCreateTime(createTime);
 		bean.setVpnId(vpnId);
-		int flag=WebUserServices.updateUser(bean);
-		if (flag==1) {
-			this.success=true;
-			WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
-			int userId=WebUserServices.userIdByUser(user);
-			if (userId>0) {
-				webUserRoleBean.setRoleId(funUtil.StringToInt(roleId));
-				webUserRoleBean.setUserId(userId);
-				WebUserRoleService.updateUserRole(webUserRoleBean);
+		
+		boolean tag=userPass==""?true:FunUtil.userpass_check(request.getParameter("userPass"));
+		if(tag){
+			int flag=WebUserServices.updateUser(bean);
+			if (flag==1) {
+				this.success=true;
+				WebUserRoleBean webUserRoleBean=new WebUserRoleBean();
+				int userId=WebUserServices.userIdByUser(user);
+				if (userId>0) {
+					webUserRoleBean.setRoleId(funUtil.StringToInt(roleId));
+					webUserRoleBean.setUserId(userId);
+					WebUserRoleService.updateUserRole(webUserRoleBean);
+				}
+				Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
+	            while (iter.hasNext()) {  
+	                Map.Entry entry = (Map.Entry) iter.next();  
+	                Object key = entry.getKey();  
+	                Object val = entry.getValue();  
+	                if (((String) val).equals(user)) {  
+	                	SingLoginListener.getLogUserMap().remove(key);  
+	                }  
+	            }
+				try {
+					webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
+					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
+					webLogBean.setStyle(2);
+					webLogBean.setContent("修改web登录用户，username="+user);
+					webLogBean.setCreateTime(funUtil.nowDate());
+					WebLogService.writeLog(webLogBean);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				this.message="修改用户成功";
+			}else {
+				this.success=false;
+				this.message="修改用户失败";
 			}
-			Iterator iter = SingLoginListener.getLogUserMap().entrySet().iterator(); 
-            while (iter.hasNext()) {  
-                Map.Entry entry = (Map.Entry) iter.next();  
-                Object key = entry.getKey();  
-                Object val = entry.getValue();  
-                if (((String) val).equals(user)) {  
-                	SingLoginListener.getLogUserMap().remove(key);  
-                }  
-            }
-			try {
-				webLogBean.setOperator(funUtil.getCookie(request, funUtil.readXml("web", "cookie_prefix")+"username"));
-				webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-				webLogBean.setStyle(2);
-				webLogBean.setContent("修改web登录用户，username="+user);
-				webLogBean.setCreateTime(funUtil.nowDate());
-				WebLogService.writeLog(webLogBean);
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			this.message="修改用户成功";
-		}else {
+		}else{
 			this.success=false;
-			this.message="修改用户失败";
+			this.message="密码格式不正确，密码长度必须大于6位,包含大小写字母，数字或者特殊符号";
 		}
-		this.success=true;
+		
+		
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
@@ -303,8 +383,7 @@ public class WebUserController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 	/**
 	 * 删除用户

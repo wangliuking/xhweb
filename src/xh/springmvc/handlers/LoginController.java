@@ -99,7 +99,8 @@ public class LoginController {
 				if (map.get("status").toString().equals("1")) {
 					this.success = true;
 					this.message = "登录系统成功";
-					SingLoginListener.isLogin(session, username);
+					SingLoginListener.isLogin(session, username,password);
+					
 					String role=SingLoginListener.getLogUserInfoMap().get(request.getSession().getId()).get("roleId").toString();
 					int roleId=Integer.parseInt(role);
 					Map<String,Object> menuMap=MenuService.menuList(roleId);

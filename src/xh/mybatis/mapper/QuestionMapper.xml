@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.QuestionMapper">
+	<insert id="add" parameterType="map" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into xhgmnet_operations_question
+		(question,write_time,user)values(#{question},#{time},#{user})
+
+	</insert>
+	<select id="list" parameterType="map" useCache="true" resultType="map">
+	 select a.*,b.userName from xhgmnet_operations_question  as a
+	 left join xhgmnet_web_user as b on a.user=b.user
+	 order by write_time desc
+	 limit #{start},#{limit}
+	</select>
+	
+	 <select id="count" parameterType="map" useCache="true" resultType="int">
+     select count(*) from xhgmnet_operations_question 
+    </select>
+
+</mapper>

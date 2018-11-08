@@ -23,6 +23,11 @@
 	classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
 	<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
 </object>
+<style type="text/css">
+input[type="text"] {
+	width: 100%;
+}
+</style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -63,15 +68,23 @@
 							<ul id="xh-tabs" class="nav nav-tabs">
 								<li class="active"><a href="#mbs" data-toggle="tab"
 									ng-click='mbs_refresh()'>移动基站巡检</a></li>
-								<li><a href="#sbs" data-toggle="tab" ng-click='sbs_refresh()'>
-										自建基站巡检</a></li>
+								<li><a href="#sbs" data-toggle="tab"
+									ng-click='sbs_refresh()'> 自建基站巡检</a></li>
 								<li><a href="#net" data-toggle="tab"
 									ng-click='net_refresh()'> 网管巡检</a></li>
 								<li><a href="#dispatch" data-toggle="tab"
-									ng-click='dispatch_refresh()()'> 调度台巡检</a></li>
+									ng-click='dispatch_refresh()'> 调度台巡检</a></li>
+								<li><a href="#msc" data-toggle="tab"
+									ng-click='msc_refresh()'> 交换中心巡检</a></li>
 							</ul>
 							<div class="tab-content" style="padding:20px">
 								<div class="tab-pane fade in active" id="mbs">
+								   <div class="row">
+                                        <div class="col-md-12" style="margin-bottom:5px;">
+                                            <button class="btn btn-success btn-sm"
+                                                data-target="#addMbsWin" data-toggle="modal">新增移动基站巡检记录</button>
+                                        </div>
+                                    </div>
 									<div class="row">
 										<div class="col-md-12">
 											<div class="hpanel">
@@ -108,14 +121,17 @@
 																<td><a href="#" ng-click="showMbsWin($index)"
 																	class="text-danger"> <i
 																		class="fa fa-info text-danger"></i>&nbsp;详细
-																</a></td>
+																</a>| <a href="#" ng-click="showMbsEditWin($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-edit text-danger"></i>&nbsp;编辑
+                                                                </a></td>
 															</tr>
 														</tbody>
 													</table>
-													
+
 												</div>
-											    <div class="panel-footer">
-											    <div class="page" style="margin-top:0;height:40px;">
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
 														<div class="page-info">
 															每页显示 <select id="page-limit" ng-change="mbs_refresh()"
 																ng-model="count">
@@ -124,13 +140,12 @@
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
-															</select> 条, <span>显示{{mbs_start}}-</span>
-															<span>{{mbs_lastIndex}}条,</span> 
+															</select> 条, <span>显示{{mbs_start}}-</span> <span>{{mbs_lastIndex}}条,</span>
 															<span>总计{{mbsTotals}}条</span>
 														</div>
 														<div class="page-paging mbs-page-paging"></div>
 													</div>
-											    </div>
+												</div>
 											</div>
 
 										</div>
@@ -139,6 +154,12 @@
 								<!-- group -->
 								<div class="tab-pane fade" id="sbs">
 								<div class="row">
+                                        <div class="col-md-12" style="margin-bottom:5px;">
+                                            <button class="btn btn-success btn-sm"
+                                                data-target="#addSbsWin" data-toggle="modal">新增自建基站巡检记录</button>
+                                        </div>
+                                    </div>
+									<div class="row">
 										<div class="col-md-12">
 											<div class="hpanel">
 												<!-- <div class="panel-heading"
@@ -174,36 +195,38 @@
 																<td><a href="#" ng-click="showSbsWin($index)"
 																	class="text-danger"> <i
 																		class="fa fa-info text-danger"></i>&nbsp;详细
-																</a></td>
+																</a>| <a href="#" ng-click="showSbsEditWin($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-edit text-danger"></i>&nbsp;编辑
+                                                                </a></td>
 															</tr>
 														</tbody>
 													</table>
-													
+
 												</div>
-											    <div class="panel-footer">
-											    <div class="page" style="margin-top:0;height:40px;">
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
 														<div class="page-info">
-															每页显示 <select id="page-limit-sbs" ng-change="mbs_refresh()"
-																ng-model="count">
+															每页显示 <select id="page-limit-sbs"
+																ng-change="mbs_refresh()" ng-model="count">
 																<option value="15">15</option>
 																<option value="20">20</option>
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
-															</select> 条, <span ng-model="index">显示{{sbs_start}}-</span>
-															<span>{{sbs_lastIndex}}条,</span> 
+															</select> 条, <span ng-model="index">显示{{sbs_start}}-</span> <span>{{sbs_lastIndex}}条,</span>
 															<span>总计{{sbsTotals}}条</span>
 														</div>
 														<div class="page-paging sbs-page-paging"></div>
 													</div>
-											    </div>
+												</div>
 											</div>
 
 										</div>
 									</div>
 								</div>
 								<div class="tab-pane fade" id="net">
-								<div class="row">
+									<div class="row">
 										<div class="col-md-12">
 											<div class="hpanel">
 												<!-- <div class="panel-heading"
@@ -239,25 +262,24 @@
 															</tr>
 														</tbody>
 													</table>
-													
+
 												</div>
-											    <div class="panel-footer">
-											    <div class="page" style="margin-top:0;height:40px;">
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
 														<div class="page-info">
-															每页显示 <select id="page-limit-net" ng-change="net_refresh()"
-																ng-model="count">
+															每页显示 <select id="page-limit-net"
+																ng-change="net_refresh()" ng-model="count">
 																<option value="15">15</option>
 																<option value="20">20</option>
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
-															</select> 条, <span>显示{{net_start}}-</span>
-															<span>{{net_lastIndex}}条,</span> 
+															</select> 条, <span>显示{{net_start}}-</span> <span>{{net_lastIndex}}条,</span>
 															<span>总计{{netTotals}}条</span>
 														</div>
 														<div class="page-paging net-page-paging"></div>
 													</div>
-											    </div>
+												</div>
 											</div>
 
 										</div>
@@ -265,7 +287,7 @@
 								</div>
 								<!-- radio -->
 								<div class="tab-pane fade" id="dispatch">
-								<div class="row">
+									<div class="row">
 										<div class="col-md-12">
 											<div class="hpanel">
 												<!-- <div class="panel-heading"
@@ -301,30 +323,99 @@
 															</tr>
 														</tbody>
 													</table>
-													
+
 												</div>
-											    <div class="panel-footer">
-											    <div class="page" style="margin-top:0;height:40px;">
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
 														<div class="page-info">
-															每页显示 <select id="page-limit-dispatch" ng-change="dispatch_refresh()"
-																ng-model="count">
+															每页显示 <select id="page-limit-dispatch"
+																ng-change="dispatch_refresh()" ng-model="count">
 																<option value="15">15</option>
 																<option value="20">20</option>
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
-															</select> 条, <span>显示{{dispatch_start}}-</span>
-															<span>{{dispatch_lastIndex}}条,</span> 
+															</select> 条, <span>显示{{dispatch_start}}-</span> <span>{{dispatch_lastIndex}}条,</span>
 															<span>总计{{dispatchTotals}}条</span>
 														</div>
 														<div class="page-paging dispatch-page-paging"></div>
 													</div>
-											    </div>
+												</div>
 											</div>
 
 										</div>
 									</div>
 								</div>
+								<!-- 调度台 -->
+								<div class="tab-pane fade" id="msc">
+									<div class="row">
+										<div class="col-md-12" style="margin-bottom:5px;">
+											<button class="btn btn-success btn-sm"
+												data-target="#mscAddWin" data-toggle="modal">新增交换中心巡检记录</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+                                                    style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>系统名称</th>
+																<th>地点</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+
+																<th width="120">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="mscTotals==0">
+																<td colspan="5" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in mscData">
+																<td>{{x.name}}</td>
+
+																<td>{{x.address}}</td>
+																<td>{{x.checkPersion}}</td>
+																<td>{{x.checkDate}}</td>
+																<td><a href="#" ng-click="showMscWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a>| <a href="#" ng-click="showMscEditWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-edit text-danger"></i>&nbsp;编辑
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-msc"
+																ng-change="msc_refresh()" ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{msc_start}}-</span> <span>{{msc_lastIndex}}条,</span>
+															<span>总计{{mscTotals}}条</span>
+														</div>
+														<div class="page-paging msc-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<!-- 交换中心 -->
 
 
 							</div>
@@ -343,10 +434,17 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'appInspection-movebs.html'"></div>
-	<div ng-include="'appInspection-selfbs.html'"></div>
+	<div ng-include="'appInspection-movebs-detail.html'"></div>
+    <div ng-include="'appInspection-movebs-add.html'"></div>
+    <div ng-include="'appInspection-movebs-edit.html'"></div>    
+	<div ng-include="'appInspection-selfbs-detail.html'"></div>
+	   <div ng-include="'appInspection-selfbs-add.html'"></div>
+	       <div ng-include="'appInspection-selfbs-edit.html'"></div>
 	<div ng-include="'appInspection-net.html'"></div>
 	<div ng-include="'appInspection-dispatch.html'"></div>
+	<div ng-include="'appInspection-msc-detail.html'"></div>
+	<div ng-include="'appInspection-msc-add.html'"></div>
+    <div ng-include="'appInspection-msc-edit.html'"></div>	
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
@@ -354,7 +452,7 @@
 	<script type="text/javascript"
 		src="../../Controllers/operations/appInspection.js"></script>
 	<!-- <script type="text/javascript" src="../../Resources/js/51WebPrinter.js"></script> -->
-	
+
 	<script type="text/javascript">
 		xh.load();
 	</script>

@@ -1,0 +1,56 @@
+
+<div class="modal fade" id="excel-one" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">导出月维护计划</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="excelOneForm" onSubmit="return false"
+					method="POST">
+					<div class="row">
+
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>时间</label>&nbsp; <input name="time"
+									class="form-control" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+									required="required" />
+							</div>
+						</div>
+
+
+					</div>
+
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm"
+					id="excel-one-btn" data-loading-text="数据导出中..">
+					<i class="fa "></i>&nbsp;导出
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#excel-one-btn").click(function() {
+		var time=$("#excel-one").find("input[name='time']").val();
+		if(time==""){
+			alert("时间不能为空");
+			return;
+		}
+		xh.excelOne();
+	});
+</script>

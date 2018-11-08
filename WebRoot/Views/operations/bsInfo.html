@@ -152,11 +152,11 @@
 									<div class="btn-group pull-left" style="padding-bottom:5px;">
 
 
-										<button class="btn btn-success btn-sm" data-toggle="modal"
-											data-target="#add" ng-disabled="up.o_add=='off'?true:false"
+										<a class="btn btn-success btn-sm"
+										href="bsInfo-add.html" ng-disabled="up.o_add=='off'?true:false"
 											style="margin-top:5px;">
 											<i class="fa fa-plus-circle"></i>&nbsp;添加基站
-										</button>
+										</a>
 										<button class="btn btn-info btn-sm"
 											ng-disabled="up.o_update=='off'?true:false"
 											ng-click="showEditModel()" style="margin-top:5px;">
@@ -269,8 +269,7 @@
 												<td style="width:20px;text-align:center"><a href="#"
 													ng-click="showDetailWin($index)"><i
 														class="fa fa-info text-success"></i>&nbsp;详细 </a> <a href="#"
-													ng-click="editModel($index)" data-toggle="modal"
-													data-target="#edit" ng-if="up.o_update=='on'"> <i
+													ng-click="editModel($index)" ng-if="up.o_update=='on'"> <i
 														class="fa fa-edit text-success"></i>| &nbsp;修改
 												</a> <a href="#" ng-click="delBs(x.bsId)"
 													ng-if="up.o_delete=='on'"><i
@@ -306,9 +305,8 @@
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<!-- 添加基站 -->
-	<div ng-include="'bsInfo-add.html'"></div>
 	<!-- 编辑基站 -->
-	<div ng-include="'bsInfo-edit.html'"></div>
+	<!-- <div ng-include="'bsInfo-edit.html'"></div> -->
 	<div ng-include="'bsInfo-neighbor.html'"></div>
 	<div ng-include="'bsInfo-bsrconfig.html'"></div>
 	<div ng-include="'bsInfo-bscconfig.html'"></div>

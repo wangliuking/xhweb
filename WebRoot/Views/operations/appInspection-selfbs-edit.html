@@ -1,0 +1,341 @@
+
+<div class="modal fade" id="editSbsWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+	
+				<div class="row" style="margin-top:5px;" id="print_sbs">
+					<div class="col-md-12">
+					<form action="#" id="editSbsForm" onSubmit="return false">
+				   <table style="width:100%;border-collapse: collapse;" class="table-view">
+					<tbody>
+						<tr>
+							<td colspan="8" style="text-align: center;">自建基站巡检表</td>
+						</tr>
+						<tr ng-show=false>
+                            <td ><input name="id" type="text" ng-model="sbsOneData.id"/></td>
+                        </tr>
+						<tr style="height:70px;">
+                                    <td style="width:130px;">基站ID</td>
+                                    <td style="width:250px;color:blue"><input name="bsid" type="text" ng-model="sbsOneData.bsid"/></td>
+                                    <td style="width:120px;">巡检时间</td>
+                                    <td style="color:blue" colspan="3"><input type="text" ng-model="sbsOneData.commitdate"
+                                        name="commitdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:ss:mm'})"></td>
+                                    <td style="width:100px;">巡检人</td>
+                                    <td style="width:250px;color:blue"><input name="checkman" type="text" ng-model="sbsOneData.checkman"/></td>
+                                </tr>
+						<tr style="font-weight: 700;">
+							<td>巡检项目</td>
+							<td>具体项目</td>
+							<td style="width:130px;" colspan="4">具体操作</td>
+							<td style="width:250px;">执行情况</td>
+							<td style="width:130px;">备注</td>
+						</tr>
+						<tr>
+							<td rowspan="2">天面</td>
+							<td>防倾斜</td>
+							<td colspan="4">观测铁塔、抱杆、天线是否有明显倾斜</td>
+							<td>
+                              <input id="i1" class="magic-radio" type="radio"  ng-checked="sbsOneData.d1=='有'" value="有" name="d1" checked="checked"> <label for="i1"><span>有</span></label>
+                              <input id="j1" class="magic-radio" type="radio"  ng-checked="sbsOneData.d1=='无'" value="无" name="d1"> <label for="j1"><span>无</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c1" type="text" ng-model="sbsOneData.c1"/></td>
+						</tr>
+						<tr>
+							<td>防雷情况</td>
+							<td style="height:40px;width:330px;" colspan="4">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
+                            <td>
+                              <input id="i2" class="magic-radio" type="radio"  ng-checked="sbsOneData.d2=='有'" value="有" name="d2" checked="checked"> <label for="i2"><span>有</span></label>
+                              <input id="j2" class="magic-radio" type="radio"  ng-checked="sbsOneData.d2=='无'" value="无" name="d2"> <label for="j2"><span>无</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c2" type="text" ng-model="sbsOneData.c2"/></td>
+						</tr>
+						<tr>
+							<td rowspan="7">防雷情况</td>
+							<td rowspan="4">机房安全</td>
+							<td colspan="4">灭火设备是否完好</td>
+                            <td>
+                              <input id="i3" class="magic-radio" type="radio"  ng-checked="sbsOneData.d3=='是'" value="是" name="d3" checked="checked"> <label for="i3"><span>是</span></label>
+                              <input id="j3" class="magic-radio" type="radio"  ng-checked="sbsOneData.d3=='否'" value="否" name="d3"> <label for="j3"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c3" type="text" ng-model="sbsOneData.c3"/></td>
+						</tr>
+						<tr>
+							<td  colspan="4">门、窗、锁是否完好</td>
+                            <td>
+                              <input id="i4" class="magic-radio" type="radio"  ng-checked="sbsOneData.d4=='是'" value="是" name="d4" checked="checked"> <label for="i4"><span>是</span></label>
+                              <input id="j4" class="magic-radio" type="radio"  ng-checked="sbsOneData.d4=='否'" value="否" name="d4"> <label for="j4"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c4" type="text" ng-model="sbsOneData.c4"/></td>
+						</tr>
+						<tr>
+							<td colspan="4">门窗、馈线孔等缝隙密封是否严实</td>
+                            <td>
+                              <input id="i5" class="magic-radio" type="radio"  ng-checked="sbsOneData.d5=='是'" value="是" name="d5" checked="checked"> <label for="i5"><span>是</span></label>
+                              <input id="j5" class="magic-radio" type="radio"  ng-checked="sbsOneData.d5=='否'" value="否" name="d5"> <label for="j5"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c5" type="text" ng-model="sbsOneData.c5"/></td>
+						</tr>
+						<tr>
+							<td  colspan="4">机房走线架及室内、室外铜牌安装是否规范</td>
+                            <td>
+                              <input id="i6" class="magic-radio" type="radio"  ng-checked="sbsOneData.d6=='是'" value="是" name="d6" checked="checked"> <label for="i6"><span>是</span></label>
+                              <input id="j6" class="magic-radio" type="radio"  ng-checked="sbsOneData.d6=='否'" value="否" name="d6"> <label for="j6"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c6" type="text" ng-model="sbsOneData.c6"/></td>
+						</tr>
+						<tr>
+							<td>机房温度</td>
+							<td colspan="4">空调制冷效果、温度设置及运行状态是否正常</td>
+                            <td>
+                              <input id="i7" class="magic-radio" type="radio"  ng-checked="sbsOneData.d7=='是'" value="是" name="d7" checked="checked"> <label for="i7"><span>是</span></label>
+                              <input id="j7" class="magic-radio" type="radio"  ng-checked="sbsOneData.d7=='否'" value="否" name="d7"> <label for="j7"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c7" type="text" ng-model="sbsOneData.c7"/></td>
+						</tr>
+
+
+
+						<tr>
+							<td rowspan="2">积水情况</td>
+							<td colspan="4">空调有无漏水情况</td>
+                            <td>
+                              <input id="i8" class="magic-radio" type="radio"  ng-checked="sbsOneData.d8=='正常'" value="正常" name="d8" checked="checked"> <label for="i8"><span>正常</span></label>
+                              <input id="j8" class="magic-radio" type="radio"  ng-checked="sbsOneData.d8=='异常'" value="异常" name="d8"> <label for="j8"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c8" type="text" ng-model="sbsOneData.c8"/></td>
+						</tr>
+						<tr>
+							<td colspan="4">机房有无裂缝、渗水、漏水等情况</td>
+                            <td>
+                              <input id="i9" class="magic-radio" type="radio"  ng-checked="sbsOneData.d9=='正常'" value="正常" name="d9" checked="checked"> <label for="i9"><span>正常</span></label>
+                              <input id="j9" class="magic-radio" type="radio"  ng-checked="sbsOneData.d9=='异常'" value="异常" name="d9"> <label for="j9"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c9" type="text" ng-model="sbsOneData.c9"/></td>
+						</tr>
+
+						<tr>
+							<td style="height:40px;width:130px;" rowspan="8">电源配套</td>
+							<td style="height:40px;width:130px;" rowspan="2">油机</td>
+							<td colspan="4">油机是否能正常运行</td>
+                            <td>
+                              <input id="i10" class="magic-radio" type="radio"  ng-checked="sbsOneData.d10=='正常'" value="正常" name="d10" checked="checked"> <label for="i10"><span>正常</span></label>
+                              <input id="j10" class="magic-radio" type="radio"  ng-checked="sbsOneData.d10=='异常'" value="异常" name="d10"> <label for="j10"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c10" type="text" ng-model="sbsOneData.c10"/></td>
+						</tr>
+						<tr>
+							<td colspan="4">检查油机及油机线缆有无安全隐患</td>
+                            <td>
+                              <input id="i11" class="magic-radio" type="radio"  ng-checked="sbsOneData.d11=='正常'" value="正常" name="d11" checked="checked"> <label for="i11"><span>正常</span></label>
+                              <input id="j11" class="magic-radio" type="radio"  ng-checked="sbsOneData.d11=='异常'" value="异常" name="d11"> <label for="j11"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c11" type="text" ng-model="sbsOneData.c11"/></td>
+						</tr>
+						<tr>
+							<td style="height:40px;width:130px;" rowspan="3">蓄电池</td>
+							<td colspan="4">电源线是否老化，连接是否正常，有无短路隐患</td>
+                            <td>
+                              <input id="i12" class="magic-radio" type="radio"  ng-checked="sbsOneData.d12=='正常'" value="正常" name="d12" checked="checked"> <label for="i12"><span>正常</span></label>
+                              <input id="j12" class="magic-radio" type="radio"  ng-checked="sbsOneData.d12=='异常'" value="异常" name="d12"> <label for="j12"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c12" type="text" ng-model="sbsOneData.c12"/></td>
+						</tr>
+						<tr>
+							<td colspan="4">电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾酸液逸出</td>
+                            <td>
+                              <input id="i13" class="magic-radio" type="radio"  ng-checked="sbsOneData.d13=='正常'" value="正常" name="d13" checked="checked"> <label for="i13"><span>正常</span></label>
+                              <input id="j13" class="magic-radio" type="radio"  ng-checked="sbsOneData.d13=='异常'" value="异常" name="d13"> <label for="j13"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c13" type="text" ng-model="sbsOneData.c13"/></td>
+						</tr>
+						<tr>
+							<td colspan="4">断开交流电，查看蓄电池是否正常供电</td>
+                            <td>
+                              <input id="i14" class="magic-radio" type="radio"  ng-checked="sbsOneData.d14=='正常'" value="正常" name="d14" checked="checked"> <label for="i14"><span>正常</span></label>
+                              <input id="j14" class="magic-radio" type="radio"  ng-checked="sbsOneData.d14=='异常'" value="异常" name="d14"> <label for="j14"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c14" type="text" ng-model="sbsOneData.c14"/></td>
+						</tr>
+						<tr>
+							<td style="height:40px;width:130px;">配电箱</td>
+							<td colspan="4">交流配电柜电压是否符合供电需求，空开有无跳闸隐患</td>
+                            <td>
+                              <input id="i15" class="magic-radio" type="radio"  ng-checked="sbsOneData.d15=='安全'" value="安全" name="d15" checked="checked"> <label for="i15"><span>安全</span></label>
+                              <input id="j15" class="magic-radio" type="radio"  ng-checked="sbsOneData.d15=='有隐患'" value="有隐患" name="d15"> <label for="j15"><span>有隐患</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c15" type="text" ng-model="sbsOneData.c15"/></td>
+						</tr>
+						<tr>
+							<td>照明</td>
+							<td colspan="4">机房照明设施是否完好</td>
+                            <td>
+                              <input id="i16" class="magic-radio" type="radio"  ng-checked="sbsOneData.d16=='是'" value="是" name="d16" checked="checked"> <label for="i16"><span>是</span></label>
+                              <input id="j16" class="magic-radio" type="radio"  ng-checked="sbsOneData.d16=='否'" value="否" name="d16"> <label for="j16"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c16" type="text" ng-model="sbsOneData.c16"/></td>
+						</tr>
+						<tr>
+							<td>插座</td>
+							<td colspan="4">机房插座是否有电</td>
+                            <td>
+                              <input id="i17" class="magic-radio" type="radio"  ng-checked="sbsOneData.d17=='是'" value="是" name="d17" checked="checked"> <label for="i17"><span>是</span></label>
+                              <input id="j17" class="magic-radio" type="radio"  ng-checked="sbsOneData.d17=='否'" value="否" name="d17"> <label for="j17"><span>否</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c17" type="text" ng-model="sbsOneData.c17"/></td>
+						</tr>
+						<tr>
+						    <td rowspan="5">主体设备</td>
+							<td>单板状态</td>
+							<td colspan="4">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
+                            <td>
+                              <input id="i18" class="magic-radio" type="radio"  ng-checked="sbsOneData.d18=='正常'" value="正常" name="d18" checked="checked"> <label for="i18"><span>正常</span></label>
+                              <input id="j18" class="magic-radio" type="radio"  ng-checked="sbsOneData.d18=='异常'" value="异常" name="d18"> <label for="j18"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c18" type="text" ng-model="sbsOneData.c18"/></td>
+						</tr>
+						<tr>
+							<td>告警确认</td>
+							<td colspan="4">通过与监控后台联系确认设备有无告警</td>
+                            <td>
+                              <input id="i19" class="magic-radio" type="radio"  ng-checked="sbsOneData.d19=='正常'" value="正常" name="d19" checked="checked"> <label for="i19"><span>正常</span></label>
+                              <input id="j19" class="magic-radio" type="radio"  ng-checked="sbsOneData.d19=='异常'" value="异常" name="d19"> <label for="j19"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c19" type="text" ng-model="sbsOneData.c19"/></td>
+						</tr>
+						<tr>
+							<td>连线状态</td>
+							<td colspan="4">电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误</td>
+                            <td>
+                              <input id="i20" class="magic-radio" type="radio"  ng-checked="sbsOneData.d20=='正常'" value="正常" name="d20" checked="checked"> <label for="i20"><span>正常</span></label>
+                              <input id="j20" class="magic-radio" type="radio"  ng-checked="sbsOneData.d20=='异常'" value="异常" name="d20"> <label for="j20"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c20" type="text" ng-model="sbsOneData.c20"/></td>
+						</tr>
+						<tr>
+							<td>设备加固</td>
+							<td colspan="4">设备安装是否牢固</td>
+                            <td>
+                              <input id="i21" class="magic-radio" type="radio"  ng-checked="sbsOneData.d21=='正常'" value="正常" name="d21" checked="checked"> <label for="i21"><span>正常</span></label>
+                              <input id="j21" class="magic-radio" type="radio"  ng-checked="sbsOneData.d21=='异常'" value="异常" name="d21"> <label for="j21"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c21" type="text" ng-model="sbsOneData.c21"/></td>
+						</tr>
+						<tr>
+							<td>设备温度</td>
+							<td colspan="4">设备是否有高温、异味</td>
+                            <td>
+                              <input id="i22" class="magic-radio" type="radio"  ng-checked="sbsOneData.d22=='正常'" value="正常" name="d22" checked="checked"> <label for="i22"><span>正常</span></label>
+                              <input id="j22" class="magic-radio" type="radio"  ng-checked="sbsOneData.d22=='异常'" value="异常" name="d22"> <label for="j22"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c22" type="text" ng-model="sbsOneData.c22"/></td>
+						</tr>
+						<tr>
+						    <td rowspan="4">动环监控</td>
+							<td>环境监测</td>
+							<td colspan="4">查看交直流是否正常(需值班人员配合完成)</td>
+                            <td>
+                              <input id="i23" class="magic-radio" type="radio"  ng-checked="sbsOneData.d23=='正常'" value="正常" name="d23" checked="checked"> <label for="i23"><span>正常</span></label>
+                              <input id="j23" class="magic-radio" type="radio"  ng-checked="sbsOneData.d23=='异常'" value="异常" name="d23"> <label for="j23"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c23" type="text" ng-model="sbsOneData.c23"/></td>
+						</tr>
+						<tr>
+							<td>安全监测</td>
+							<td colspan="4">查看门磁、烟感、消防、摄像头是否正常(需值班人员配合完成)</td>
+                            <td>
+                              <input id="i24" class="magic-radio" type="radio"  ng-checked="sbsOneData.d24=='正常'" value="正常" name="d24" checked="checked"> <label for="i24"><span>正常</span></label>
+                              <input id="j24" class="magic-radio" type="radio"  ng-checked="sbsOneData.d24=='异常'" value="异常" name="d24"> <label for="j24"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c24" type="text" ng-model="sbsOneData.c24"/></td>
+						</tr>
+						<tr>
+							<td>交直流电流电压</td>
+							<td colspan="4">查看交直流是否正常(需值班人员配合完成)</td>
+                            <td>
+                              <input id="i25" class="magic-radio" type="radio"  ng-checked="sbsOneData.d25=='正常'" value="正常" name="d25" checked="checked"> <label for="i25"><span>正常</span></label>
+                              <input id="j25" class="magic-radio" type="radio"  ng-checked="sbsOneData.d25=='异常'" value="异常" name="d25"> <label for="j25"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c25" type="text" ng-model="sbsOneData.c25"/></td>
+						</tr>
+						<tr>
+							<td>UPS</td>
+							<td colspan="4">查看UPS是否正常(需值班人员配合完成)</td>
+                            <td>
+                              <input id="i26" class="magic-radio" type="radio"  ng-checked="sbsOneData.d26=='正常'" value="正常" name="d26" checked="checked"> <label for="i26"><span>正常</span></label>
+                              <input id="j26" class="magic-radio" type="radio"  ng-checked="sbsOneData.d26=='异常'" value="异常" name="d26"> <label for="j26"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c26" type="text" ng-model="sbsOneData.c26"/></td>
+						</tr>
+						<tr>
+						    <td rowspan="2">清洁</td>
+							<td>机房清洁</td>
+							<td colspan="4">清洁机房内门窗、地面、墙面卫生</td>
+                            <td>
+                              <input id="i27" class="magic-radio" type="radio"  ng-checked="sbsOneData.d27=='已执行'" value="已执行" name="d27" checked="checked"> <label for="i27"><span>已执行</span></label>
+                              <input id="j27" class="magic-radio" type="radio"  ng-checked="sbsOneData.d27=='未执行'" value="未执行" name="d27"> <label for="j27"><span>未执行</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c27" type="text" ng-model="sbsOneData.c27"/></td>
+						</tr>
+						<tr>
+							<td>设备除尘</td>
+							<td colspan="4">清洁设备表面、内部、主体设备滤网</td>
+                            <td>
+                              <input id="i28" class="magic-radio" type="radio"  ng-checked="sbsOneData.d28=='已执行'" value="已执行" name="d28" checked="checked"> <label for="i28"><span>已执行</span></label>
+                              <input id="j28" class="magic-radio" type="radio"  ng-checked="sbsOneData.d28=='未执行'" value="未执行" name="d28"> <label for="j28"><span>未执行</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c28" type="text" ng-model="sbsOneData.c28"/></td>
+						</tr>
+						<tr>
+						    <td>功能</td>
+							<td>呼叫功能</td>
+							<td colspan="4">沿途呼叫测试</td>
+                            <td>
+                              <input id="i29" class="magic-radio" type="radio"  ng-checked="sbsOneData.d29=='正常'" value="正常" name="d29" checked="checked"> <label for="i29"><span>正常</span></label>
+                              <input id="j29" class="magic-radio" type="radio"  ng-checked="sbsOneData.d29=='异常'" value="异常" name="d29"> <label for="j29"><span>异常</span></label>
+                            </td>
+                           <td style="height:40px;width:130px;"><input name="c29" type="text" ng-model="sbsOneData.c29"/></td>
+						</tr>
+						<tr>
+							<td rowspan="2">遗留问题</td>
+							<td rowspan="2" colspan="7" style="color:blue"><input name="remainwork" type="text" ng-model="sbsOneData.remainwork"/></td>
+						</tr>
+					</tbody>
+				</table>
+				</form>
+				</div></div>
+
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+                <button type="button" 
+                    class="btn btn-success btn-sm" id="edit_sbs_btn">
+                    <i class="fa fa-plus"></i>&nbsp;更新
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $("#edit_sbs_btn").click(function() {
+        var a=$("#editSbsForm").find("input[name='bsid']").val();
+        var b=$("#editSbsForm").find("input[name='commitdate']").val();
+        var c=$("#editSbsForm").find("input[name='checkman']").val();
+        if(a=="" || b=="" || c==""){
+            toastr.error("巡检人,时间,基站ID不能为空", '提示');
+            return;
+        }
+        
+        
+        xh.edit_sbs();
+    });
+</script>

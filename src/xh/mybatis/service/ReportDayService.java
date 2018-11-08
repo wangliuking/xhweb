@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.ChartReportDispatch;
+import xh.mybatis.bean.ChartReportImpBsBean;
 import xh.mybatis.bean.EastMscDayBean;
 import xh.mybatis.mapper.EastComMapper;
 import xh.mybatis.mapper.ReportDayMapper;
@@ -132,6 +133,73 @@ public class ReportDayService {
 			if(map.get("a_4")==null){
 				map.put("a_4", 0);
 			}
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	public static List<ChartReportImpBsBean> chart_bs_imp_call(String time){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<ChartReportImpBsBean> list=new ArrayList<ChartReportImpBsBean>();
+		try {
+			list=mapper.chart_bs_imp_call(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,Object>> now_week_gpsnumber(String day){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.now_week_gpsnumber(day);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,Object>> other_device_status(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.other_device_status();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static Map<String,Object> operations_question(String time){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		Map<String,Object> map=new  HashMap<String, Object>();
+		try {
+			map=mapper.operations_question(time);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	public static Map<String,Object> now_gpsunit_status(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ReportDayMapper mapper=session.getMapper(ReportDayMapper.class);
+		Map<String,Object> map=new  HashMap<String, Object>();
+		try {
+			map=mapper.now_gpsunit_status();
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -274,6 +274,7 @@ public class CheckCutController {
         String desc = request.getParameter("desc");
         String situation = request.getParameter("situation");
         CheckCutBean bean = new CheckCutBean();
+        int id=FunUtil.StringToInt(request.getParameter("id"));
         bean.setFileName4(fileName4);
         bean.setFilePath4(filePath4);
         bean.setNote7(note7);
@@ -285,6 +286,7 @@ public class CheckCutController {
         bean.setRestoreTime(restoreTime);
         bean.setDesc(desc);
         bean.setSituation(situation);
+        bean.setId(id);
         System.out.println(" bean : "+bean);
         //填充申请表部分数据start
         Map<String,Object> selectMap = new HashMap<String,Object>();

@@ -7,127 +7,148 @@
 			<div class="modal-header " style="color:blue;">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-			    <span>建设期：</span>
-				<span  style="color:red;" ng-if="editData.period==3">三期</span>
-				<span  style="color:red;" ng-if="editData.period==4">四期</span>
-				&nbsp;&nbsp;&nbsp;&nbsp; 
-				<span>基站：</span>
-				<span  style="color:red;">【{{editData.bsId}}-{{editData.name}}】</span>&nbsp;&nbsp;&nbsp;&nbsp; 
-				<span>级别:</span>
-				<span  style="color:red;">【{{editData.level}}】</span> &nbsp;&nbsp;&nbsp;&nbsp;
-				<span>使用状态:</span>
-			<span ng-if="editData.tag==0"  style="color:red;">【停用】</span>
-			<span ng-if="editData.tag==1"  style="color:red;">【启用】</span>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<span>基站归属:</span><span  style="color:red;">【{{editData.hometype}}】</span>
+				<span>建设期：</span> <span style="color:red;"
+					ng-if="editData.period==3">三期</span> <span style="color:red;"
+					ng-if="editData.period==4">四期</span> &nbsp;&nbsp;&nbsp;&nbsp; <span>基站：</span>
+				<span style="color:red;">【{{editData.bsId}}-{{editData.name}}】</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>级别:</span> <span style="color:red;">【{{editData.level}}】</span>
+				&nbsp;&nbsp;&nbsp;&nbsp; <span>使用状态:</span> <span
+					ng-if="editData.tag==0" style="color:red;">【停用】</span> <span
+					ng-if="editData.tag==1" style="color:red;">【启用】</span>
+				&nbsp;&nbsp;&nbsp;&nbsp; <span>基站归属:</span><span style="color:red;">【{{editData.hometype}}】</span>
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-			
-				<form  action="#" id="editForm" onSubmit="return false">
+
+				<form action="#" id="editForm" onSubmit="return false">
 					<div class="row">
-					<div class="col-md-4" ng-show="false">
+						<div class="col-md-4" ng-show="false">
 							<div class="form-group col-md-12">
-								<label>ID</label>
-								<input type="text" value="" class="form-control" name="id" ng-model="editData.id">
+								<label>ID</label> <input type="text" value=""
+									class="form-control" name="id" ng-model="editData.id">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障归属</label>
-								<input type="text" value="" class="form-control" name="faultType" ng-model="editData.faultType">
+								<label>故障归属</label> <input type="text" value=""
+									class="form-control" name="faultType"
+									ng-model="editData.faultType">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障发生时间</label>
-								<input type="text" value="" class="form-control" name="time" ng-model="editData.time" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+								<label>故障发生时间</label> <input type="text" value=""
+									class="form-control" name="time" ng-model="editData.time"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障恢复时间</label>
-								<input type="text" value="" class="form-control" name="faultRecoveryTime" ng-model="editData.faultRecoveryTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+								<label>故障恢复时间</label> <input type="text" value=""
+									class="form-control" name="faultRecoveryTime"
+									ng-model="editData.faultRecoveryTime"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障历时[/秒]</label>
-								<input type="text" value="" class="form-control" name="faultTimeTotal" ng-model="editData.faultTimeTotal">
+								<label>故障历时[/秒]</label> <input type="text" value=""
+									class="form-control" name="faultTimeTotal"
+									ng-model="editData.faultTimeTotal">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>星期</label>
-								<input type="text" value="" class="form-control" name="weekly" ng-model="editData.weekly">
+								<label>星期</label> <input type="text" value=""
+									class="form-control" name="weekly" ng-model="editData.weekly">
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>报障来源</label>
-								<input type="text" value="" class="form-control" name="from" ng-model="editData.from">
+								<label>报障来源</label> <input type="text" value=""
+									class="form-control" name="from" ng-model="editData.from">
 							</div>
 						</div>
+						<!-- <div class="col-md-4">
+							<div class="form-group col-md-12">
+								<label>故障等级</label> <input type="text" value=""
+									class="form-control" name="severity"
+									ng-model="editData.severity">
+							</div>
+						</div> -->
+						<div class="col-md-4">
+                            <div class="form-group col-md-12">
+                                <label>故障等级</label> <select name="severity"
+                                    class="form-control" ng-model="editData.severity">
+                                    <option value="隐患故障">隐患故障</option>
+                                    <option value="一般故障">一般故障</option>
+                                    <option value="重大故障">重大故障</option>
+                                    <option value="特别重大故障">特别重大故障</option>
+                                </select>
+                            </div>
+                        </div>
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障等级</label>
-								<input type="text" value="" class="form-control" name="severity" ng-model="editData.severity">
+								<label>故障类别</label> <input type="text" value=""
+									class="form-control" name="type" ng-model="editData.type">
 							</div>
 						</div>
+						
 						<div class="col-md-4">
 							<div class="form-group col-md-12">
-								<label>故障类别</label>
-								<input type="text" value="" class="form-control" name="type" ng-model="editData.type">
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="form-group col-md-12">
-								<label>是否影响业务</label>
-								<input type="text" value="" class="form-control" name="imbusiness" ng-model="editData.imbusiness">
+								<label>是否影响业务</label> <input type="text" value=""
+									class="form-control" name="imbusiness"
+									ng-model="editData.imbusiness">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>故障原因</label>
-								<textarea rows="3" cols="" class="form-control" name="reason" ng-model="editData.reason"></textarea>
-								
+								<textarea rows="3" cols="" class="form-control" name="reason"
+									ng-model="editData.reason"></textarea>
+
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>目前处理情况</label>
-								<textarea rows="3" cols="" class="form-control" name="nowDeal" ng-model="editData.nowDeal"></textarea>
-								
+								<textarea rows="3" cols="" class="form-control" name="nowDeal"
+									ng-model="editData.nowDeal"></textarea>
+
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>故障处理结果</label>
-								<textarea rows="3" cols="" class="form-control" name="dealResult" ng-model="editData.dealResult"></textarea>
-								
+								<textarea rows="3" cols="" class="form-control"
+									name="dealResult" ng-model="editData.dealResult"></textarea>
+
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>备注</label>
-								<textarea rows="3" cols="" class="form-control" name="content" ng-model="editData.content"></textarea>
-								
+								<textarea rows="3" cols="" class="form-control" name="content"
+									ng-model="editData.content"></textarea>
+
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>故障处理人员</label>
-								<input type="text" value="" class="form-control" name="faultHandlePerson" ng-model="editData.faultHandlePerson">
+								<label>故障处理人员</label> <input type="text" value=""
+									class="form-control" name="faultHandlePerson"
+									ng-model="editData.faultHandlePerson">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group col-md-12">
-								<label>故障记录人员</label>
-								<input type="text" value="" class="form-control" name="faultRecordPerson" ng-model="editData.faultRecordPerson">
+								<label>故障记录人员</label> <input type="text" value=""
+									class="form-control" name="faultRecordPerson"
+									ng-model="editData.faultRecordPerson">
 							</div>
 						</div>
-						
+
 					</div>
-					
+
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -135,7 +156,8 @@
 					data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button type="button" ng-disabled="form.$invalid" class="btn btn-success btn-sm" id="save_btn">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="save_btn">
 					<i class="fa fa-save"></i>&nbsp;保存
 				</button>
 			</div>
@@ -155,7 +177,6 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-		
 
 		}
 	}).on('success.form.bv', function(e, data) {

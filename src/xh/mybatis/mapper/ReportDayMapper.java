@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.ChartReportDispatch;
+import xh.mybatis.bean.ChartReportImpBsBean;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastMscCallBean;
 import xh.mybatis.bean.EastMscCallDetailBean;
@@ -20,23 +21,19 @@ public interface ReportDayMapper {
 	
 	public List<Map<String,Object>> chart_alarm_his(Map<String,Object> map)throws Exception;
 	
+	public List<ChartReportImpBsBean> chart_bs_imp_call(String time)throws Exception;
+	
+	public List<Map<String,Object>> now_week_gpsnumber(String day)throws Exception;
+	
+	public List<Map<String,Object>> other_device_status()throws Exception;
+	
+	public Map<String,Object> operations_question(String time)throws Exception;
+	
+	public Map<String,Object> now_gpsunit_status()throws Exception;
 	
 	
 	
-	
-/*	public List<EastBsCallDataBean>chart_bs_call(Map<String, Object> map)throws Exception;
-	public List<EastVpnCallBean>chart_vpn_call(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_level_call(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_area_call(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_zone_call(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_zone_top10_call(Map<String, Object> map)throws Exception;
-	
-	
-	
-	public List<EastBsCallDataBean>chart_bs_call_top10(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_userreg_top10(Map<String, Object> map)throws Exception;
-	public List<EastBsCallDataBean>chart_bs_queue_top10(Map<String, Object> map)throws Exception;
-	public List<EastVpnCallBean>chart_vpn_call_top10(Map<String, Object> map)throws Exception;*/
+
 	
 	
 	

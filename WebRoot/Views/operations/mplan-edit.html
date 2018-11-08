@@ -1,0 +1,122 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">月度维护计划完成更新</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<form action="#" id="editForm" onSubmit="return false" method="POST">
+					<div ng-show="false">
+						<input name="id" ng-model="editData.id">
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>维护作业类型</label>&nbsp; <select name="mplan_type"
+									class="form-control" ng-model="editData.mplan_type">
+									<option value="临时性任务" selected="selected">临时性任务</option>
+									<option value="优化整改">优化整改</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>主要工作类容</label>&nbsp;
+								<textarea rows="3" cols="" class="form-control"
+									name="mplan_content" required="required" ng-model="editData.mplan_content"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>计划完成时间</label>&nbsp; <input name="plan_time"
+									class="form-control"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+									required="required" ng-model="editData.plan_time"/>
+							</div>
+						</div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>完成情况</label>&nbsp; <select name="result"
+                                    class="form-control" ng-model="editData.result">
+                                    <option value="提交计划">提交计划</option>
+                                    <option value="未完成">未完成</option>
+                                    <option value="已完成">已完成</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="editData.result=='已完成'">
+                            <div class="form-group col-md-12">
+                                <label>完成时间</label>&nbsp; <input name="complete_time"
+                                    class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                    required="required" ng-model="editData.complete_time"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="editData.result=='未完成'">
+                            <div class="form-group col-md-12">
+                                <label>未完成（滞后）原因</label>&nbsp;
+                                <textarea rows="3" cols="" class="form-control" name="reason" ng-model="editData.reason"></textarea>
+                            </div>
+                        </div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>&nbsp;
+								<textarea rows="3" cols="" class="form-control" name="note" ng-model="editData.note"></textarea>
+							</div>
+						</div>
+						
+					</div>
+
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm" id="edit_btn">
+					<i class="fa fa-plus"></i>&nbsp;保存
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("#edit_btn").click(function() {
+		xh.update();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+			filename : {
+				validators : {
+					notEmpty : {
+						message : '文件名称不能为空'
+					}
+				}
+			}
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.update();
+	});
+</script>

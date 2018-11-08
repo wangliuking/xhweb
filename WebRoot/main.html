@@ -14,12 +14,14 @@
 <!--common-->
 <link href="Resources/AdminEx/css/style.css" rel="stylesheet">
 <link href="Resources/AdminEx/css/style-responsive.css" rel="stylesheet">
+<link href="lib/layer-master/dist/theme/default/layer.css"
+	rel="stylesheet">
 <style type="text/css">
 marquee {
 	float: left;
 	width: 350px;
 	height: 33px;
-	color:red;
+	color: red;
 	/* margin-left: 5px; */
 	margin-top: 10px;
 	border: 0px solid #ccc;
@@ -33,11 +35,12 @@ marquee {
 	border-bottom-right-radius: 5px;
 }
 
-
 .input-group {
 	float: left;
 	margin-top: 10px;
-	margin-left: 2px; padding : 5px; height : 33px;
+	margin-left: 2px;
+	padding: 5px;
+	height: 33px;
 	border: 0px solid #ccc;
 	border-right: 0px;
 	height: 33px;
@@ -45,14 +48,24 @@ marquee {
 	-moz-border-top-left-radius: 5px;
 	-webkit-border-top-left-radius: 5px;
 	border-top-left-radius: 5px;
-	
 	-moz-border-bottom-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
 
 .input-group i {
-	color:green;
+	color: green;
+}
+
+.password-tip {
+	display: none;
+	float: left;
+	height: 170px;
+	width: 330px;
+	overflow: hidden;
+	background: #5FB878;
+	padding: 10px;
+	color:#fff;
 }
 </style>
 
@@ -63,6 +76,13 @@ marquee {
   <script src="Resources/AdminEx/js/respond.min.js"></script>
   <![endif]-->
 </head>
+<div class="password-tip">
+<p>密码修改提示！</p>
+<p>你的登陆密码过于简单，密码长度必须大于6位,包含大小写字母，数字或者特殊符号</p>
+<p>请尽快修改登陆密码</p>
+<p style="text-align: center;color:blue; font-weight:800;">修改通道：系统主界面-》右上角》修改个人资料</p>
+<p style="text-align: center;"><a style="color:red; font-weight:800; cursor: pointer;" href="Views/web/updateMember.html" target="mainframe">快捷通道,点击前往</a></p>
+</div>
 
 <body class="sticky-header" ng-app="app" ng-controller="index">
 
@@ -114,13 +134,16 @@ marquee {
 						<ul class="sub-menu-list">
 							<!-- <li class="active" ng-show="menu.m_11"><a href="map.html" target="mainframe">
 									系统状态</a></li> -->
-							<li ng-show="menu.m_11"><a href="Views/menu/menu_monitor.html" target="mainframe">系统监控</a></li>
+							<li ng-show="menu.m_11"><a
+								href="Views/menu/menu_monitor.html" target="mainframe">系统监控</a></li>
 							<!-- <li ng-show="menu.m_11"><a href="Views/operations/bsFault.html"  target="mainframe">系统告警</a></li> -->
-							<li ng-show="menu.m_12"><a href="Views/menu/menu_operations.html"
-								target="mainframe"> 服务监管</a></li>
-							<li ng-show="menu.m_13"><a href="Views/operations/appInspection.html"
-								target="mainframe">运维巡检</a></li>
-							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html" target="mainframe">统计分析</a></li>
+							<li ng-show="menu.m_12"><a
+								href="Views/menu/menu_operations.html" target="mainframe">
+									服务监管</a></li>
+							<li ng-show="menu.m_13"><a
+								href="Views/operations/appInspection.html" target="mainframe">运维巡检</a></li>
+							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
+								target="mainframe">统计分析</a></li>
 
 						</ul></li>
 					<!--  <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>综合业务</span></a>
@@ -130,40 +153,45 @@ marquee {
                         <li><a href="general.html"> 资产管理</a></li>
                     </ul>
                 </li> -->
-					
-					<li class="menu-list" ng-show="menu.m_3"><a href=""><i class="fa fa-tasks"></i>
-							<span>业务管理</span></a>
+
+					<li class="menu-list" ng-show="menu.m_3"><a href=""><i
+							class="fa fa-tasks"></i> <span>业务管理</span></a>
 						<ul class="sub-menu-list">
-							<li ng-show="menu.m_31"><a href="Views/menu/menu_business.html"
-								target="mainframe"> 网办业务</a></li>
-							<li ng-show="menu.m_32"><a href="Views/menu/menu_data.html" target="mainframe">
-									数据管理</a></li>
-							<li ng-show="menu.m_33"><a href="Views/menu/menu_radio.html" target="mainframe">
-									终端管理</a></li>
-							<li ng-show="menu.m_34"><a href="Views/menu/menu_config.html" target="mainframe">配置管理</a></li>
+							<li ng-show="menu.m_31"><a
+								href="Views/menu/menu_business.html" target="mainframe">
+									网办业务</a></li>
+							<li ng-show="menu.m_32"><a href="Views/menu/menu_data.html"
+								target="mainframe"> 数据管理</a></li>
+							<li ng-show="menu.m_33"><a href="Views/menu/menu_radio.html"
+								target="mainframe"> 终端管理</a></li>
+							<li ng-show="menu.m_34"><a
+								href="Views/menu/menu_config.html" target="mainframe">配置管理</a></li>
 
 						</ul></li>
-					<li class="menu-list" ng-show="menu.m_2"><a href=""><i class="fa fa-jpy"></i>
-							<span>资产管理</span></a>
+					<li class="menu-list" ng-show="menu.m_2"><a href=""><i
+							class="fa fa-jpy"></i> <span>资产管理</span></a>
 						<ul class="sub-menu-list">
-							<li ng-show="menu.m_21"><a href="Views/business/asset-count.html"
-								target="mainframe"> 资产概况</a></li>
-							<li ng-show="menu.m_22"><a href="Views/business/asset-info.html"
-								target="mainframe"> 资产明细</a></li>
+							<li ng-show="menu.m_21"><a
+								href="Views/business/asset-count.html" target="mainframe">
+									资产概况</a></li>
+							<li ng-show="menu.m_22"><a
+								href="Views/business/asset-info.html" target="mainframe">
+									资产明细</a></li>
 							<li ng-show="menu.m_23"><a href="Views/menu/menu_asset.html"
 								target="mainframe"> 变更管理</a></li>
 						</ul></li>
-					<li class="menu-list" ng-show="menu.m_4"><a href=""><i class="fa fa-laptop"></i>
-							<span>平台管理</span></a>
+					<li class="menu-list" ng-show="menu.m_4"><a href=""><i
+							class="fa fa-laptop"></i> <span>平台管理</span></a>
 						<ul class="sub-menu-list">
-							<li ng-show="menu.m_41"><a href="Views/web/role.html" target="mainframe">
-									角色管理</a></li>
-							<li ng-show="menu.m_42"><a href="Views/web/user.html" target="mainframe">
-									用户管理</a></li>
-							<li ng-show="menu.m_43"><a href="Views/business/access-user.html"
-								target="mainframe"> 接入用户</a></li>
-							<li ng-show="menu.m_44"><a href="Views/web/log.html" target="mainframe">
-									日志查询</a></li>
+							<li ng-show="menu.m_41"><a href="Views/web/role.html"
+								target="mainframe"> 角色管理</a></li>
+							<li ng-show="menu.m_42"><a href="Views/web/user.html"
+								target="mainframe"> 用户管理</a></li>
+							<li ng-show="menu.m_43"><a
+								href="Views/business/access-user.html" target="mainframe">
+									接入用户</a></li>
+							<li ng-show="menu.m_44"><a href="Views/web/log.html"
+								target="mainframe"> 日志查询</a></li>
 						</ul></li>
 
 
@@ -189,11 +217,12 @@ marquee {
 				<!--search start-->
 				<div class="searchform">
 					<!-- <input type="text" class="form-control" name="keyword" placeholder="公告栏" /> -->
-					
+
 					<!-- <i class="fa fa-"></i> -->
-						<span class="input-group ">公告&nbsp;<i class="fa fa-volume-up"></i></span>
-						<marquee class="" class="form-control">{{news}}</marquee>
-					
+					<span class="input-group ">公告&nbsp;<i
+						class="fa fa-volume-up"></i></span>
+					<marquee class="" class="form-control">{{news}}</marquee>
+
 					<!-- <marquee class="form-control">Welcom CSDN!</marquee> -->
 				</div>
 				<!--search end-->
@@ -201,14 +230,13 @@ marquee {
 				<!--notification menu start -->
 				<div class="menu-right">
 					<ul class="notification-menu">
-					
-					   <li ng-if="voiceTag==1"><a href="#" onclick="xh.stopMap3()"
-							class="btn btn-default dropdown-toggle info-number" data-toggle="tooltip" data-placement="right"
-                             title="关闭告警音">
-							<img src="Resources/images/icon/32/bell.png" id="close-bell" />
-							 <span class="badge">{{AlarmTotals}}</span>
-						</a>
-					  </li>
+
+						<li ng-if="voiceTag==1"><a href="#" onclick="xh.stopMap3()"
+							class="btn btn-default dropdown-toggle info-number"
+							data-toggle="tooltip" data-placement="right" title="关闭告警音"> <img
+								src="Resources/images/icon/32/bell.png" id="close-bell" /> <span
+								class="badge">{{AlarmTotals}}</span>
+						</a></li>
 
 						<li><a href="#"
 							class="btn btn-default dropdown-toggle info-number"
@@ -264,8 +292,8 @@ marquee {
 
 			<!--body wrapper start-->
 			<div class="wrapper">
-				<iframe src="map.html" id="mainframe" name="mainframe" frameborder="0"
-					scrolling="no"></iframe>
+				<iframe src="map.html" id="mainframe" name="mainframe"
+					frameborder="0" scrolling="no"></iframe>
 
 			</div>
 			<!--body wrapper end-->
@@ -279,9 +307,9 @@ marquee {
 		<!-- main content end-->
 	</section>
 	<audio id="bgMusic" loop="loop">
-	<source src="Resources/sound/alarm.mp3" type="audio/mp3">
-	<source src="Resources/sound/alarm.ogg" type="audio/ogg">
-   </audio>
+		<source src="Resources/sound/alarm.mp3" type="audio/mp3">
+		<source src="Resources/sound/alarm.ogg" type="audio/ogg">
+	</audio>
 
 	<!-- Placed js at the end of the document so the pages load faster -->
 	<script src="Resources/AdminEx/js/jquery-1.10.2.min.js"></script>
@@ -291,6 +319,7 @@ marquee {
 	<script src="Resources/AdminEx/js/modernizr.min.js"></script>
 	<script src="Resources/AdminEx/js/jquery.nicescroll.js"></script>
 	<script type="text/javascript" src="Resources/js/angular.min.js"></script>
+	<script type="text/javascript" src="lib/layer-master/dist/layer.js"></script>
 
 
 	<!--common scripts for all pages-->

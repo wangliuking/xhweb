@@ -7,6 +7,7 @@ public class ContactsBean {
 	private int id;
 	private String name;
 	private String phoneNumber;
+	private String groupName;
 	public String getName() {
 		return name;
 	}
@@ -30,6 +31,12 @@ public class ContactsBean {
 	}
 	public void setTag(int tag) {
 		this.tag = tag;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
 	

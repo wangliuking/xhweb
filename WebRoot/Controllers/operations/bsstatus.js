@@ -7,17 +7,26 @@ if (!("xh" in window)) {
 var background = "#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=bsstatus]');
+
+/*toast-top-left  顶端左边
+toast-top-right    顶端右边
+toast-top-center  顶端中间
+toast-top-full-width 顶端，宽度铺满整个屏幕
+toast-botton-right  
+toast-bottom-left
+toast-bottom-center
+toast-bottom-full-width*/
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
-	"positionClass" : "toast-top-center",
+	"positionClass" : "toast-bottom-right",
 	"closeButton" : true,
 	/* 动态效果 */
 	"toastClass" : "animated fadeInRight",
 	"showDuration" : "300",
 	"hideDuration" : "1000",
 	/* 消失时间 */
-	"timeOut" : "1000",
+	"timeOut" : "2000",
 	"extendedTimeOut" : "1000",
 	"showMethod" : "fadeIn",
 	"hideMethod" : "fadeOut",
@@ -260,10 +269,15 @@ xh.load = function() {
 			return a.bsId - b.bsId
 		}*/
 
-		$scope.bsView = function(bsId, bsName, period) {
+		$scope.bsView = function(bsId, bsName, period,comment) {
+			
+			if(bsId>2000){
+				toastr.error("简阳基站只显示基站状态", '提示');
+				return;
+			}
 
 			window.location.href = "bsstatus-view.html?bsId=" + bsId
-					+ "&period=" + period + "&bsName=" + bsName;
+					+ "&period=" + period + "&bsName=" + bsName+"&comment="+comment;
 		};
 	/*	$scope.bsHover = function(link, status, bsId, name, groupSum, userSum) {
 			// $("#aside-right-bottom").fadeToggle("fast");

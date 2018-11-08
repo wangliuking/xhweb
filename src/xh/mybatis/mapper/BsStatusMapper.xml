@@ -47,22 +47,70 @@
 	<!--导出现网基站的运行记录 -->
 	<select id="excelToBsStatus" resultType="xh.mybatis.bean.BsStatusBean"
 		useCache="true">
-		select
-		a.bsId,a.name,a.status,
-		b.clock_status,b.Returnloss1,b.Returnloss2,b.runtime as
-		bscRuntime,b.psm1runtime,b.psm2runtime,
-		c.runtime as enbRuntime
-		from
+		SELECT
+		a.period,
+		a.bsId,
+		a.`name`,
+		b.clock_status,
+		a.chnumber,
+
+
+		(SELECT working FROM xhgmnet_bs_bsr as x WHERE a.bsId=x.bsId AND
+		x.Id=1 and
+		x.freq>100 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'bsr_state1',
+		(SELECT working FROM xhgmnet_bs_bsr as x WHERE
+		a.bsId=x.bsId AND x.Id=2 and
+		x.freq>100 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'bsr_state2',
+		(SELECT working FROM xhgmnet_bs_bsr as x WHERE
+		a.bsId=x.bsId AND x.Id=3 and
+		x.freq>100 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'bsr_state3',
+		(SELECT working FROM xhgmnet_bs_bsr as x WHERE
+		a.bsId=x.bsId AND x.Id=4 and
+		x.freq>100 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'bsr_state4',
+
+
+		(SELECT retLoss FROM xhgmnet_bs_dpx as y WHERE
+		a.bsId=y.bsId AND y.Id=1 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'dpx_retLoss1',
+		(SELECT retLoss FROM xhgmnet_bs_dpx as y WHERE
+		a.bsId=y.bsId AND y.Id=2 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'dpx_retLoss2',
+		(SELECT retLoss FROM xhgmnet_bs_dpx as y WHERE
+		a.bsId=y.bsId AND y.Id=3 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'dpx_retLoss3',
+		(SELECT retLoss FROM xhgmnet_bs_dpx as y WHERE
+		a.bsId=y.bsId AND y.Id=4 and
+		DATE_FORMAT(updateTime,'%Y-%m-%d')=DATE_FORMAT(NOW(),'%Y-%m-%d')) AS
+		'dpx_retLoss4',
+
+
+		b.runtime AS bscRuntime,
+		b.psm1runtime,
+		b.psm2runtime,
+		c.carrierLowNoiseRXRssi1,c.carrierLowNoiseRXRssi2,c.carrierLowNoiseRXRssi3,c.carrierLowNoiseRXRssi4,
+		d.icp_status
+
+
+		FROM
 		xhgmnet_bs_station a
-		left join
-		xhgmnet_bsstatus b on a.bsId=b.bsId and
-		b.chId=1
-		left join
-		xhgmnet_enbstatus c on b.bsId=c.enbId
-		where a.bsId not
-		in(select bsIds
-		from xhgmnet_stationalarm) order by a.bsId
-		asc;
+		LEFT JOIN xhgmnet_bsstatus b ON a.bsId =
+		b.bsId AND b.chId = 1
+		LEFT JOIN xhgmnet_bs_bsr c ON a.bsId=c.bsId and
+		c.`master`=2
+		LEFT JOIN xhgmnet_bs_main_info as d ON a.bsId=d.bsId
+		ORDER BY
+		a.bsId ASC;
 	</select>
 	<!--导出现网基站的运行状态 -->
 	<select id="excelToBsRunStatus" resultType="xh.mybatis.bean.BsRunStatusBean"
@@ -269,15 +317,24 @@
 
 		select count(neId) as total from xhgmnet_operations_bsfault
 		where
-		sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0
+		sysType=1 and neType=4 and modType=3  and alarmTag=0 and voiceTag=0 and (subModId &lt;1000  or subModId>1200)
+		 and subModId not 
+            in(select bsIds from xhgmnet_stationalarm)
+		
+		
 
 	</select>
 	<select id="emhVoiceCount" resultType="map" useCache="true">
 		select
-		count(modType=3000 or null) as ups,count(modType=3001 or null) as
-		water from xhgmnet_operations_bsfault
-		where sysType=2 and alarmTag=0
-		and voiceTag=0
+		count(case when subModType='80200000000001' or (subModType=51 and
+		subModId=1003) then id end) as ups,
+
+		count(case when subModType='170300000000001' or(subModType=11 and subModId=1003)
+		then id end) as water
+
+		from xhgmnet_operations_bsfault
+
+		where alarmTag=0 and voiceTag=0
 
 	</select>
 	<!--基站区域列表告警 -->
@@ -444,7 +501,7 @@
 		a.bsId%1000=b.bsId
 
 		where a.time between
-		#{startTime} and #{endTime}
+		#{startTime} and #{endTime} and a.sysType=1 and a.neType=4 and a.modType=3
 		order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true"
@@ -508,9 +565,9 @@
 		xhgmnet_bs_station as b on
 
 		CASE
-		WHEN a.bsId&lt;=1200 then a.bsId=b.bsId
 		WHEN a.bsId>1200 and a.bsId&lt;2000 THEN
 		a.bsId%1000=b.bsId
+		else a.bsId=b.bsId
 
 		END
 
@@ -570,7 +627,8 @@
 			a.category=2
 		</if>
 		<if test="alarmType==4">
-			and a.neType=4
+			and a.neType=4 and (a.subModId &lt;1000  or a.subModId>1200) and a.modType=3 and a.subModId not 
+			in(select bsIds from xhgmnet_stationalarm)
 		</if>
 
 		order by a.time desc
@@ -619,12 +677,15 @@
 			and(subModType=80200000000001 or
 			(subModType=51 and subModId=1003))
 		</if>
-		<if test="alarmType==3">
-			and neType=2 and modType=1000 and code=1 and category=2
-		</if>
+		  <if test="alarmType==3">
+            and neType=2 and modType=1000 and code=1 and
+            category=2
+        </if>
 		<if test="alarmType==4">
-			and neType=4
-		</if>
+            and neType=4 and (subModId &lt;1000  or subModId>1200) and modType=3 and subModId not 
+            in(select bsIds from xhgmnet_stationalarm)
+        </if>
+		
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"
@@ -728,10 +789,13 @@
 		select a.*,b.linkstatus from xhgmnet_esight_link_monitor
 		as a
 
-		left join xhgmnet_esight_querylinklist as b on a.s_name=b.anename and
+		left join xhgmnet_esight_querylinklist as b on a.s_name=b.anename
+		and
 		a.e_name=b.znename
 
 		where b.linktype=2
 		GROUP BY a.tag
 	</select>
+
+
 </mapper>

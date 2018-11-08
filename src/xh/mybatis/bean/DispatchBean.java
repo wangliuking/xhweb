@@ -10,6 +10,7 @@ public class DispatchBean {
 	private String flag; 
 	private String alarmFlag; 
 	private String updateTime;
+	private String dbox_ip;
 	
 	public int getDstId() {
 		return dstId;
@@ -65,6 +66,13 @@ public class DispatchBean {
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	public String getDbox_ip() {
+		return dbox_ip;
+	}
+	public void setDbox_ip(String dbox_ip) {
+		this.dbox_ip = dbox_ip;
 	}
 	@Override
 	public String toString() {

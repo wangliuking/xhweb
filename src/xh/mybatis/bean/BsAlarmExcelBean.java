@@ -22,17 +22,18 @@ public class BsAlarmExcelBean {
 	private String faultHandlePerson;//故障处理人员
 	private String faultRecordPerson;//故障记录人员
 	private String hometype;//基站归属
-	private String faulttype;//故障归属
+	private String faultType;//故障归属
 	
 	
 	
 	
 	
-	public String getFaulttype() {
-		return faulttype;
+	
+	public String getFaultType() {
+		return faultType;
 	}
-	public void setFaulttype(String faulttype) {
-		this.faulttype = faulttype;
+	public void setFaultType(String faultType) {
+		this.faultType = faultType;
 	}
 	public int getPeriod() {
 		return period;

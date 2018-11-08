@@ -219,8 +219,14 @@ xh.pagging = function(currentPage, totals, $scope) {
 xh.weekly=function(dateStr){
 
 	var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-	var myDate = new Date(Date.parse(dateStr.replace(/-/g, "/")));
-	return weekDay[myDate.getDay()];
+	
+	if(dateStr!=null && dateStr!=""){
+		var myDate = new Date(Date.parse(dateStr.replace(/-/g, "/")));
+		return weekDay[myDate.getDay()];
+	}else{
+		return "";
+	}
+	
 }
 xh.today=function(){
     var today=new Date();

@@ -63,10 +63,13 @@
 		</foreach>
      )  
     </update>
+    
     <!-- 更新 -->
     <update id="updateMenuRoleId" parameterType="int">     
      update xhgmnet_web_role_menu set roleId=#{roleId} where roleId=0  
     </update>
+    
+   
 
 
 

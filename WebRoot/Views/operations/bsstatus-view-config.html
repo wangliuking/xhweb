@@ -166,42 +166,46 @@
 			</div>
 			<div class="panel-body">
 				<table id="tb-info" class="xh-table table-hover">
-					<thead>
-						<tr class="tr-gray">
-							<th>交换中心5700交换机端口</th>
-							<th>运营商</th>
-							<th>类型</th>
-							<th>带宽</th>
-							<th>设备型号</th>
-							<th>调单号</th>
-							<th>基站侧端口号</th>
-							<th>中心侧网元</th>
-							<th>中心侧端口</th>
-							<th>主机IP</th>
-							<th>摄像IP</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-if="linkconfigTotals==0">
-							<td colspan="11" class="text-center">没有记录！</td>
-						</tr>
-						<tr ng-repeat="x in linkconfigData">
-							
-							<td>{{x.switchPort1}}</td>
-							<td>{{x.carrierOperator}}</td>
-							<td>{{x.type}}</td>
-							<td>{{x.bandwidth}}</td>
-							<td>{{x.unitType}}</td>
-							<td>{{x.transferNumber}}</td>
-							<td>{{x.basePort}}</td>
-							<td>{{x.switchElement}}</td>
-							<td>{{x.switchPort2}}</td>
-							<td>{{x.masterIp}}</td>
-							<td>{{x.cameraIp}}</td>
-							
-						</tr>
-					</tbody>
-				</table>
+                    <thead>
+                        <tr class="tr-img-gray">
+                            <th>传输类型</th>
+                            <th>开通情况</th>
+                            <th>运营商</th>
+                            <th>设备型号</th>
+                            <th>基站网元</th>
+                            <th>基站端口</th>
+                            <th>交换中心网元</th>
+                            <th>交换中心网元端口</th>
+                            <th>电路调单号</th>
+                            <th>主机IP</th>
+                            <th>摄像IP</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="linkconfigTotals==0">
+                            <td colspan="12" class="text-center">没有记录！</td>
+                        </tr>
+                        <tr ng-repeat="x in linkconfigData">
+
+                            <td>{{x.tag}}</td>
+                            <td>{{x.is_open}}</td>
+                            <td>{{x.operator}}</td>
+                            <td>{{x.equipment_model}}</td>
+                            <td>{{x.bs_net}}</td>
+                            <td>{{x.bs_net_port}}</td>
+                            <td>{{x.msc_net}}</td>
+                            <td>{{x.msc_net_port}}</td>
+                            <td>{{x.regulation_number}}</td>
+                            <td>{{x.masterIp}}</td>
+                            <td>{{x.cameraIp}}</td>
+                            <td><a href="#" ng-click="delLinkconfig($index)"
+                                ng-if="up.o_delete=='on' || roleId==10000"><i
+                                    class="fa fa-trash text-success"></i>&nbsp;删除</a></td>
+
+                        </tr>
+                    </tbody>
+                </table>
 			</div>
 		</div>
 	</div>

@@ -8,7 +8,7 @@
 		select TotalActiveCalls as value,bsId from
 		pef_newbstotal where
 		starttime>=#{time} and (bsId&lt;=200 or
-		bsId>=1000)
+		bsId>1200)
 		GROUP BY bsid
 		order by TotalActiveCalls desc limit 5
 	</select>

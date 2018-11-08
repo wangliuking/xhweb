@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.AttachmentMapper">
+	<insert id="add" parameterType="AttachmentBean">
+		insert into
+		xhgmnet_operations_attachment(attachment_name,attachment_model,attachment_sn,time)
+		values(#{attachment_name},#{attachment_model},#{attachment_sn},#{time})
+	</insert>
+	<insert id="add_config" parameterType="AttachmentBean">
+		insert into
+		xhgmnet_operations_attachment_config(attachment_name,attachment_desc,attachment_model,
+		attachment_conf_number,attachment_location,attachment_note,attachment_unit,time)
+		values(#{attachment_name},#{attachment_desc},#{attachment_model},
+		#{attachment_conf_number},#{attachment_location},#{attachment_note},#{attachment_unit},#{time})
+	</insert>
+	<update id="update" parameterType="AttachmentBean">
+		update
+		xhgmnet_operations_attachment set
+		attachment_name=#{attachment_name},attachment_model=#{attachment_model},
+		attachment_sn=#{attachment_sn},time=#{time}
+		where id=#{id}
+	</update>
+	<update id="update_config" parameterType="AttachmentBean">
+		update xhgmnet_operations_attachment_config set
+		attachment_name=#{attachment_name},
+		attachment_desc=#{attachment_desc},
+		attachment_model=#{attachment_model},
+		attachment_conf_number=#{attachment_conf_number},
+		attachment_location=#{attachment_location},
+		attachment_note=#{attachment_note},
+		attachment_unit=#{attachment_unit},
+		time=#{time}
+		where id=#{id}
+	</update>
+	<delete id="del" parameterType="java.util.List">
+		delete from xhgmnet_operations_attachment where id in(
+		<foreach collection="list" separator="," item="id" index="index">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<delete id="del_config" parameterType="java.util.List">
+		delete from xhgmnet_operations_attachment_config where id in(
+		<foreach collection="list" separator="," item="id" index="index">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+	<!-- convert((attachment_reality_number/attachment_conf_number)*100,DECIMAL(10,2)) 
+		as avai -->
+	<select id="attachmentList" parameterType="map" resultType="AttachmentBean">
+		select a.attachment_sn,a.id,b.* from xhgmnet_operations_attachment as
+		a
+		left join xhgmnet_operations_attachment_config as b on
+		a.attachment_model=b.attachment_model
+		where 1=1
+		limit #{start},#{limit}
+	</select>
+	<select id="attachmentList_config_isexists" parameterType="map"
+		resultType="int">
+		select count(*) from xhgmnet_operations_attachment_config where
+		attachment_name=#{name} or attachment_model=#{model}
+	</select>
+	<select id="attachmentList_isexists" parameterType="map"
+		resultType="int">
+		select count(*) from xhgmnet_operations_attachment where attachment_sn=#{sn}
+		and attachment_model=#{model}
+	</select>
+	<select id="count" parameterType="map" resultType="int">
+		select
+		count(*) from xhgmnet_operations_attachment
+	</select>
+
+	<select id="attachmentList_config" parameterType="map"
+		resultType="AttachmentBean">
+		select * from xhgmnet_operations_attachment_config where 1=1
+		limit #{start},#{limit}
+	</select>
+	<select id="count_config" parameterType="map" resultType="int">
+		select count(*) from xhgmnet_operations_attachment_config
+	</select>
+
+
+	<select id="attachmentList_month_one" parameterType="String"
+		resultType="AttachmentBean">
+		<!-- select *,convert((attachment_reality_number/attachment_conf_number)*100,DECIMAL(10,2)) 
+			as avai from xhgmnet_operations_attachment where 1=1 and date_format(time,'%Y-%m')=#{time} -->
+		select a.*,
+		(select GROUP_CONCAT(attachment_sn) from xhgmnet_operations_attachment where
+		attachment_model=a.attachment_model) as attachment_sn,
+
+		(select count(*) from xhgmnet_operations_attachment where
+		attachment_model=a.attachment_model) as attachment_reality_number,
+		(select
+		convert((count(*)/a.attachment_conf_number)*100,DECIMAL(10,2))from
+		xhgmnet_operations_attachment where
+		attachment_model=a.attachment_model) as avai
+		from xhgmnet_operations_attachment_config as a
+		where 1=1 and date_format(a.time,'%Y-%m')=#{time} 
+	</select>
+</mapper>

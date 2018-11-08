@@ -66,9 +66,9 @@
     <three>028-69853853</three> 
 	</duty>
 	<alarm>
-	 <bs_offine>1</bs_offine>
-	 <bs_water>1</bs_water>
-	 <bs_ups>1</bs_ups>
+	 <bs_offine>on</bs_offine>
+	 <bs_water>on</bs_water>
+	 <bs_ups>on</bs_ups>
 	</alarm>
 	<doc>
 	<officeUrl>127.0.0.1</officeUrl>

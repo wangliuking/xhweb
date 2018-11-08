@@ -50,6 +50,79 @@ xh.load = function() {
 				xh.sbs_pagging(1, parseInt($scope.sbsTotals),$scope,pageSize);
 			});
 		}
+		
+		$scope.msc_add_win_text=function(){
+			$scope.msc_add_win_html=[];
+			for(var i=1;i<=17;i++){
+				var content="";
+				var a="正常",b="异常";
+				if(i==1){
+					content="机房门窗地面墙壁等是否正常";
+				}
+				if(i==2){
+					content="机房照明、电源插座是否正常";
+				}
+				if(i==3){
+					content="设备灰尘及滤网是否清洁(传输3500等)";
+				}
+				if(i==4){
+					content="机房是否清洁、是否没有杂物或易燃物品";
+				}
+				if(i==5){
+					content="消防设备是否正常";
+				}
+				if(i==6){
+					content="UPS是否正常（断电测试）";
+				}
+				if(i==7){
+					content="蓄电池是否正常（发电测试）";
+				}
+				if(i==8){
+					content="发电机是否正常（包括汽油发电机、柴油发电机）";
+				}
+				if(i==9){
+					content="空调是否正常工作、滤网是否清洁";
+				}
+				if(i==10){
+					content="环境监控系统是否正常";
+				}
+				if(i==11){
+					content="电源线是否老化";
+				}
+				if(i==12){
+					content="设备标签是否规范完、完整、走线是否正常";
+				}
+				if(i==13){
+					content="服务器是否运行正常";
+				}
+				if(i==14){
+					content="设备接地是否正常";
+				}
+				if(i==15){
+					content="服务器、单板、模块安装是否牢固可靠";
+				}
+				if(i==16){
+					content="楼顶吸盘天线是否加固，接头是否正常";
+				}
+				if(i==17){
+					content="服务器数据及配置是否备份";
+					a="已备份";
+					b="未备份";
+				}
+				
+				
+				var b={
+						id:i,
+						a:a,
+						b:b,
+						content:content
+				}
+				$scope.msc_add_win_html.push(b);
+			}
+		}
+		
+		
+		
 		/* 刷新数据 */
 		$scope.mbs_refresh = function() {
 			$scope.mbs_search(1);
@@ -63,16 +136,31 @@ xh.load = function() {
 		$scope.dispatch_refresh = function() {
 			$scope.dispatch_search(1);
 		};
+		$scope.msc_refresh = function() {
+			$scope.msc_search(1);
+		};
 		/* 显示mbsWin */
-		$scope.showMbsWin = function(id) {
+		$scope.showMbsEditWin = function(id) {
+			$scope.mbsOneData = $scope.mbsData[id];
+			$("#editMbsWin").modal('show');
+		};
+		$scope.showMbsWin=function(id){
 			$scope.mbsOneData = $scope.mbsData[id];
 			$("#mbsWin").modal('show');
-		};
+		}
 		/* 显示sbsWin */
 		$scope.showSbsWin = function(id) {
 			$scope.sbsOneData = $scope.sbsData[id];
 			$("#sbsWin").modal('show');
 		};
+		$scope.showSbsEditWin = function(id) {
+			$scope.sbsOneData = $scope.sbsData[id];
+			$("#editSbsWin").modal('show');
+		};
+		$scope.showMbsWin=function(id){
+			$scope.mbsOneData = $scope.mbsData[id];
+			$("#mbsWin").modal('show');
+		}
 		/* 显示netWin */
 		$scope.showNetWin = function(id) {
 			$scope.netOneData = $scope.netData[id];
@@ -83,6 +171,145 @@ xh.load = function() {
 			$scope.dispatchOneData = $scope.dispatchData[id];
 			$("#dispatchWin").modal('show');
 		};
+		/* 显示mscWin */
+		$scope.showMscWin = function(id) {
+			$scope.mscOneData = $scope.mscData[id];
+			$scope.dd($scope.mscOneData);
+			$("#mscDetailWin").modal('show');
+		};
+		$scope.showMscEditWin = function(id) {
+			$scope.mscOneData = $scope.mscData[id];
+			$scope.dd($scope.mscOneData);
+			$("#mscEditWin").modal('show');
+			
+			
+			
+		};
+		$scope.dd=function(data){
+			/*console.log("data="+JSON.stringify(data))*/
+			$scope.msc_add_win_html=[];
+			for(var i=1;i<=17;i++){
+				var content="";
+				var a="正常",b="异常";
+				var x="",y="",z="";
+				if(i==1){
+					content="机房门窗地面墙壁等是否正常";
+					x=data.a1;
+					y=data.b1;
+					z=data.c1;
+				}
+				if(i==2){
+					content="机房照明、电源插座是否正常";
+					x=data.a2;
+					y=data.b2;
+					z=data.c2;
+				}
+				if(i==3){
+					content="设备灰尘及滤网是否清洁(传输3500等)";
+					x=data.a3;
+					y=data.b3;
+					z=data.c3;
+				}
+				if(i==4){
+					content="机房是否清洁、是否没有杂物或易燃物品";
+					x=data.a4;
+					y=data.b4;
+					z=data.c4;
+				}
+				if(i==5){
+					content="消防设备是否正常";
+					x=data.a5;
+					y=data.b5;
+					z=data.c5;
+				}
+				if(i==6){
+					content="UPS是否正常（断电测试）";
+					x=data.a6;
+					y=data.b6;
+					z=data.c6;
+				}
+				if(i==7){
+					content="蓄电池是否正常（发电测试）";
+					x=data.a7;
+					y=data.b7;
+					z=data.c7;
+				}
+				if(i==8){
+					content="发电机是否正常（包括汽油发电机、柴油发电机）";
+					x=data.a8;
+					y=data.b8;
+					z=data.c8;
+				}
+				if(i==9){
+					content="空调是否正常工作、滤网是否清洁";
+					x=data.a9;
+					y=data.b9;
+					z=data.c9;
+				}
+				if(i==10){
+					content="环境监控系统是否正常";
+					x=data.a10;
+					y=data.b10;
+					z=data.c10;
+				}
+				if(i==11){
+					content="电源线是否老化";
+					x=data.a11;
+					y=data.b11;
+					z=data.c11;
+				}
+				if(i==12){
+					content="设备标签是否规范完、完整、走线是否正常";
+					x=data.a12;
+					y=data.b12;
+					z=data.c12;
+				}
+				if(i==13){
+					content="服务器是否运行正常";
+					x=data.a13;
+					y=data.b13;
+					z=data.c13;
+				}
+				if(i==14){
+					content="设备接地是否正常";
+					x=data.a14;
+					y=data.b14;
+					z=data.c14;
+				}
+				if(i==15){
+					content="服务器、单板、模块安装是否牢固可靠";
+					x=data.a15;
+					y=data.b15;
+					z=data.c15;
+				}
+				if(i==16){
+					content="楼顶吸盘天线是否加固，接头是否正常";
+					x=data.a16;
+					y=data.b16;
+					z=data.c16;
+				}
+				if(i==17){
+					content="服务器数据及配置是否备份";
+					x=data.a17;
+					y=data.b17;
+					z=data.c17;
+					a="已备份";
+					b="未备份";
+				}
+				
+				
+				var xx={
+						id:i,
+						a:a,
+						b:b,
+						x:x,
+						y:y,
+						z:z,
+						content:content
+				}
+				$scope.msc_add_win_html.push(xx);
+			}
+		}
 		/* 查询数据 */
 		$scope.mbs_search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -158,6 +385,25 @@ xh.load = function() {
 				$scope.dispatchData = response.items;
 				$scope.dispatchTotals = response.totals;
 				xh.dispatch_pagging(page, parseInt($scope.dispatchTotals),$scope,pageSize);
+			});
+		};
+		$scope.msc_search = function(page) {
+			var pageSize = $("#page-limit-msc").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/mscinfo?start=0&limit="+limit).
+			success(function(response){
+				xh.maskHide();
+				$scope.mscData = response.items;
+				$scope.mscTotals = response.totals;
+				xh.msc_pagging(page, parseInt($scope.mscTotals),$scope,pageSize);
 			});
 		};
 		//分页点击
@@ -265,6 +511,33 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.msc_pageClick = function(page,totals, totalPages) {
+			var pageSize = $("#page-limit-msc").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/mscinfo?start=0&limit="+limit).
+			success(function(response){
+				$scope.msc_start = (page - 1) * pageSize + 1;
+				$scope.msc_lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.msc_lastIndex = totals;
+					} else {
+						$scope.msc_start = 0;
+						$scope.msc_lastIndex = 0;
+					}
+				}
+				$scope.mscData = response.items;
+				$scope.mscTotals = response.totals;
+			});
+			
+		};
+		$scope.msc_add_win_text();
 	});
 };
 $(document).ready(function(){ 
@@ -378,6 +651,188 @@ xh.net_pagging = function(currentPage,totals, $scope,pageSize) {
 			}
 		});
 	}
+};
+//添加交换中心巡检记录
+xh.add_msc=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/msc_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addMscForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.msc_refresh();
+				$("#mscAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+//添加交换中心巡检记录
+xh.edit_msc=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/msc_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editMscForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.msc_refresh();
+				$("#mscEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.add_mbs=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/mbs_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addMbsForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.mbs_refresh();
+				$("#addMbsWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_mbs=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/mbs_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editMbsForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.mbs_refresh();
+				$("#editMbsWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.add_sbs=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/sbs_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addSbsForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.sbs_refresh();
+				$("#addSbsWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_sbs=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/sbs_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editSbsForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.mbs_refresh();
+				$("#editSbsWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
 };
 //移动基站巡检表
 xh.excelToMbs=function(){
@@ -526,6 +981,39 @@ xh.dispatch_pagging = function(currentPage,totals, $scope,pageSize) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.dispatch_pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+xh.msc_pagging = function(currentPage,totals, $scope,pageSize) {
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.msc_start = start;
+	$scope.msc_lastIndex = end;
+	$scope.mscTotals = totals;
+	if (totals > 0) {
+		$(".msc-page-paging").html('<ul class="pagination msc-pagination"></ul>');
+		$('.msc-pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.msc_pageClick(page, totals, totalPages);
 				}
 				frist = 1;
 
