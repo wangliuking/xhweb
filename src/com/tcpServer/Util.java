@@ -5,36 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tcpBean.*;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.OrderService;
 
-import com.tcpBean.DispatchTable;
-import com.tcpBean.DispatchTableAck;
-import com.tcpBean.ErrCheck;
-import com.tcpBean.ErrCheckAck;
-import com.tcpBean.ErrProTable;
-import com.tcpBean.ErrProTableAck;
-import com.tcpBean.GetAllAppList;
-import com.tcpBean.GetAllAppListAck;
-import com.tcpBean.GetAllBsList;
-import com.tcpBean.GetAllBsListAck;
-import com.tcpBean.GetForGpsDst;
-import com.tcpBean.GetForGpsDstAck;
-import com.tcpBean.GetMovebsInfo;
-import com.tcpBean.GetMovebsInfoAck;
-import com.tcpBean.GetOwnbsInfo;
-import com.tcpBean.GetOwnbsInfoAck;
-import com.tcpBean.GpsInfoUp;
-import com.tcpBean.LoginAck;
-import com.tcpBean.MovebsTable;
-import com.tcpBean.MovebsTableAck;
-import com.tcpBean.NetManagerTable;
-import com.tcpBean.NetManagerTableAck;
-import com.tcpBean.OwnbsTable;
-import com.tcpBean.OwnbsTableAck;
-import com.tcpBean.UserInfo;
-import com.tcpBean.UserInfoAck;
-import com.tcpBean.UserLogin;
 import com.tcpServer.ServerDemo.SocketThread;
 
 import net.sf.json.JSONException;
@@ -61,6 +35,8 @@ public class Util {
 	private static OwnbsTable ownbsTable;
 	private static GetMovebsInfo getMovebsInfo;
 	private static GetOwnbsInfo getOwnbsInfo;
+	private static GetBsType getBsType;
+	private static GetBsInfo getBsInfo;
 	private static GetForGpsDst getForGpsDst;
 	private static GetAllBsList getAllBsList;
 	private static GetAllAppList getAllAppList;
@@ -225,6 +201,11 @@ public class Util {
 				GetOwnbsInfoAck getOwnbsInfoAck = Service.appGetOwnbsInfoAck(getOwnbsInfo);
 				map.put("returnMessage", Object2Json(getOwnbsInfoAck));
 				return map;
+			}else if("getbstype".equals(cmdtype)){
+				getBsType = (GetBsType) JSONObject.toBean(jsonObject, GetBsType.class);
+				GetBsTypeAck getBsTypeAck = Service.appGetBsTypeAck(getBsType);
+				map.put("returnMessage", Object2Json(getBsTypeAck));
+				return map;
 			}else if("heartbeat".equals(cmdtype)){
 				map.put("returnMessage", "{\"cmdtype\":\"heartbeat\"}");			
 				return map;
@@ -253,6 +234,11 @@ public class Util {
 				getAllAppList = (GetAllAppList) JSONObject.toBean(jsonObject, GetAllAppList.class);
 				GetAllAppListAck getAllAppListAck = Service.appGetAllAppListAck(getAllAppList);
 				map.put("returnMessage", Object2Json(getAllAppListAck));
+				return map;
+			}else if("getbsinfo".equals(cmdtype)){
+				getBsInfo = (GetBsInfo) JSONObject.toBean(jsonObject, GetBsInfo.class);
+				GetBsInfoAck getBsInfoAck = Service.appGetBsInfoAck(getBsInfo);
+				map.put("returnMessage", Object2Json(getBsInfoAck));
 				return map;
 			}
 						

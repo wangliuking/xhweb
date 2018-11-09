@@ -7,43 +7,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.tcpBean.*;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.func.plugin.FunUtil;
 import xh.mybatis.mapper.EventMapper;
 import xh.mybatis.mapper.TcpMapper;
+import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.SqlServerService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.mybatis.tools.MoreDbTools;
 import xh.org.listeners.SingLoginListener;
 
-import com.tcpBean.DispatchTable;
-import com.tcpBean.DispatchTableAck;
-import com.tcpBean.ErrCheck;
-import com.tcpBean.ErrCheckAck;
-import com.tcpBean.ErrProTable;
-import com.tcpBean.ErrProTableAck;
-import com.tcpBean.GetAllAppList;
-import com.tcpBean.GetAllAppListAck;
-import com.tcpBean.GetAllBsList;
-import com.tcpBean.GetAllBsListAck;
-import com.tcpBean.GetForGpsDst;
-import com.tcpBean.GetForGpsDstAck;
-import com.tcpBean.GetMovebsInfo;
-import com.tcpBean.GetMovebsInfoAck;
-import com.tcpBean.GetOwnbsInfo;
-import com.tcpBean.GetOwnbsInfoAck;
-import com.tcpBean.GpsInfoUp;
-import com.tcpBean.LoginAck;
-import com.tcpBean.MovebsTable;
-import com.tcpBean.MovebsTableAck;
-import com.tcpBean.NetManagerTable;
-import com.tcpBean.NetManagerTableAck;
-import com.tcpBean.OwnbsTable;
-import com.tcpBean.OwnbsTableAck;
-import com.tcpBean.UserInfo;
-import com.tcpBean.UserInfoAck;
-import com.tcpBean.UserLogin;
 import com.tcpServer.ServerDemo.SocketThread;
 
 public class Service {
@@ -59,14 +35,11 @@ public class Service {
 	private static OwnbsTableAck ownbsTableAck = new OwnbsTableAck();
 	private static GetMovebsInfoAck getMovebsInfoAck = new GetMovebsInfoAck();
 	private static GetOwnbsInfoAck getOwnbsInfoAck = new GetOwnbsInfoAck();
+	private static GetBsTypeAck getBsTypeAck = new GetBsTypeAck();
+	private static GetBsInfoAck getBsInfoAck = new GetBsInfoAck();
 	private static GetForGpsDstAck getForGpsDstAck = new GetForGpsDstAck();
 	
 	private static FunUtil funUtil = new FunUtil();
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(loginAck);
-	}
 
 	/**
 	 * 登录处理
@@ -102,6 +75,105 @@ public class Service {
 			e.printStackTrace();
 		}
 		return userInfoAck;
+	}
+
+	/**
+	 * 获取基站信息
+	 */
+	public static GetBsTypeAck appGetBsTypeAck(GetBsType getBsType){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getBsTypeAck.setUserid(getBsType.getUserid());
+		String bsId = getBsType.getBsid();
+		getBsTypeAck.setBsid(bsId);
+		try {
+			if(!"".equals(bsId) && bsId!=null){
+				Map<String,Object> map = mapper.selectByBsIdNew(bsId);
+				if(map.size()>0){
+					int bslevel = (Integer) map.get("bslevel");
+					getBsTypeAck.setBslevel(String.valueOf(bslevel));
+					getBsTypeAck.setBsname(map.get("bsname").toString());
+					getBsTypeAck.setBstype(map.get("bstype").toString());
+					getBsTypeAck.setAck("0");
+				}else{
+					getBsTypeAck.setAck("1");
+				}
+				sqlSession.close();
+			}else{
+				getBsTypeAck.setAck("1");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getBsTypeAck;
+	}
+
+	public static void main(String[] args) {
+		GetBsInfo getBsInfo = new GetBsInfo();
+		getBsInfo.setBsid("6");
+		getBsInfo.setSerialnumber("aaa");
+		getBsInfo.setUserid("1");
+		System.out.println(appGetBsInfoAck(getBsInfo));
+
+	}
+
+	/**
+	 * 获取基站详细信息
+	 */
+	public static GetBsInfoAck appGetBsInfoAck(GetBsInfo getBsInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getBsInfoAck.setUserid(getBsInfo.getUserid());
+		String bsId = getBsInfo.getBsid();
+		getBsInfoAck.setBsid(bsId);
+		getBsInfoAck.setSerialnumber(getBsInfo.getSerialnumber());
+		try {
+			if(!"".equals(bsId) && bsId!=null){
+				Map<String,Object> bsinfo = mapper.selectInfoByBsId(bsId);
+				String period = bsinfo.get("period").toString();
+				getBsInfoAck.setPeriod(period);
+				getBsInfoAck.setBsinfo(bsinfo);
+				if("3".equals(period)){
+					Map<String,Object> three = SqlServerService.bsmonitorList(Integer.parseInt(bsId));
+					three.put("ups1",three.get("lv"));
+					three.put("ups2",three.get("jv"));
+					three.put("ups3",three.get("li"));
+					three.put("ups4",three.get("ji"));
+					three.put("e1","");
+					three.put("e2","");
+					three.put("e3","");
+					three.put("e4","");
+					three.put("e5","");
+					three.remove("lv");
+					three.remove("jv");
+					three.remove("li");
+					three.remove("ji");
+					getBsInfoAck.setEmhinfo(three);
+				}else if("4".equals(period)){
+					Map<String,Object> four = BsStatusService.bsEmh(Integer.parseInt(bsId));
+					four.remove("ups5");
+					four.remove("fsu1");
+					four.remove("fsu2");
+					four.remove("fsu3");
+					four.remove("fsu4");
+					four.remove("time");
+					getBsInfoAck.setEmhinfo(four);
+				}
+				String bstype = bsinfo.get("bstype").toString();;
+				if("移动".equals(bstype)){
+					List<Map<String,Object>> inspectlist = mapper.selectInspectListForMoveBs(bsId);
+					getBsInfoAck.setInspectlist(inspectlist);
+				}else if("自建".equals(bstype)){
+					List<Map<String,Object>> inspectlist = mapper.selectInspectListForSelfBs(bsId);
+					getBsInfoAck.setInspectlist(inspectlist);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getBsInfoAck;
 	}
 	
 	/**

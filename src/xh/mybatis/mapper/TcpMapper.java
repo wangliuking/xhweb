@@ -5,6 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface TcpMapper {
+	/**
+	 * 根据基站id查询移动基站最近五条巡检
+	 */
+	public List<Map<String,Object>> selectInspectListForMoveBs(String bsId)throws Exception;
+
+	/**
+	 * 根据基站id查询自建基站最近五条巡检
+	 */
+	public List<Map<String,Object>> selectInspectListForSelfBs(String bsId)throws Exception;
 	
 	/**
 	 * app根据用户id查询用户名称
@@ -16,6 +25,17 @@ public interface TcpMapper {
 	 * 
 	 */
 	public Map<String,Object> selectByBsId(String bsId)throws Exception;
+
+	/**
+	 * app根据基站id返回基站相关业务和状态信息
+	 */
+	public Map<String,Object> selectInfoByBsId(String bsId)throws Exception;
+
+	/**
+	 * app根据基站id查询基站基本信息(new)
+	 *
+	 */
+	public Map<String,Object> selectByBsIdNew(String bsId)throws Exception;
 	
 	/**
 	 * 更新派单状态

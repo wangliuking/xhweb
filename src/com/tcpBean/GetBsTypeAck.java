@@ -1,7 +1,7 @@
 package com.tcpBean;
  
 /**
- * 获取移动基站信息返回
+ * 获取基站信息返回
  * 
  * cmdtype(getmovebsinfoack)
  * userid
@@ -14,12 +14,13 @@ package com.tcpBean;
  *
  */
 
-public class GetMovebsInfoAck {
-	private String cmdtype = "getmovebsinfoack";
+public class GetBsTypeAck {
+	private String cmdtype = "getbstypeack";
 	private String userid;
 	private String bsid;
 	private String bsname;
 	private String bslevel;
+	private String bstype;
 	private String ack;
 	public String getCmdtype() {
 		return cmdtype;
@@ -57,11 +58,25 @@ public class GetMovebsInfoAck {
 	public void setAck(String ack) {
 		this.ack = ack;
 	}
-	@Override
-	public String toString() {
-		return "GetMovebsInfoAck [cmdtype=" + cmdtype + ", userid=" + userid
-				+ ", bsid=" + bsid + ", bsname=" + bsname + ", bslevel="
-				+ bslevel + ", ack=" + ack + "]";
+
+	public String getBstype() {
+		return bstype;
 	}
 
+	public void setBstype(String bstype) {
+		this.bstype = bstype;
+	}
+
+	@Override
+	public String toString() {
+		return "GetBsTypeAck{" +
+				"cmdtype='" + cmdtype + '\'' +
+				", userid='" + userid + '\'' +
+				", bsid='" + bsid + '\'' +
+				", bsname='" + bsname + '\'' +
+				", bslevel='" + bslevel + '\'' +
+				", bstype='" + bstype + '\'' +
+				", ack='" + ack + '\'' +
+				'}';
+	}
 }
