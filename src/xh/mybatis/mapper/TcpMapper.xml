@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.TcpMapper">
+	<!-- 根据基站id查询移动基站最近五条巡检 -->
+	<select id="selectInspectListForMoveBs" parameterType="String" resultType="map">
+		select * from xhgmnet_operations_inspection_movebs where bsid=#{bsId} ORDER BY commitdate desc limit 0,5
+	</select>
+
+	<!-- 根据基站id查询自建基站最近五条巡检 -->
+	<select id="selectInspectListForSelfBs" parameterType="String" resultType="map">
+		select * from xhgmnet_operations_inspection_selfbs where bsid=#{bsId} ORDER BY commitdate desc limit 0,5
+	</select>
+
 	<!-- app根据用户id查询用户名称 -->
 	<select id="selectUserName" parameterType="String" resultType="map">
 		select userName from xhgmnet_web_user where user=#{userId}
@@ -9,6 +19,16 @@
     <!-- app根据基站id查询基站基本信息 -->
 	<select id="selectByBsId" parameterType="String" resultType="map" useCache="true">
 		select bsId as bsid,name as bsname,level as bslevel from xhgmnet_bs_station where bsId=#{bsId}
+	</select>
+
+	<!-- 根据基站id查询基站相关业务信息 -->
+	<select id="selectInfoByBsId" parameterType="String" resultType="map" useCache="true">
+		select a.bsId as bsid,name as bsname,hometype as bstype,address,b.link,period from xhgmnet_bs_station as a LEFT JOIN view_bsstatus as b on a.bsId=b.bsId where a.bsId=#{bsId}
+	</select>
+
+	<!-- app根据基站id查询基站基本信息(new) -->
+	<select id="selectByBsIdNew" parameterType="String" resultType="map" useCache="true">
+		select bsId as bsid,name as bsname,level as bslevel,hometype as bstype from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
 	<!-- 更新派单状态为处理中 -->

@@ -136,7 +136,7 @@ xh.load = function() {
                 var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
                 var seconds=Math.round(leave3/1000)
                 //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
-                $scope.calcData = minutes;
+                $scope.calcData = Math.round(date3/(1000*60));
             });
             $("#sheet").modal('show');
         }
