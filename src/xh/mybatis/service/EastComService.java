@@ -1,6 +1,9 @@
 package xh.mybatis.service;
  
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,11 +151,52 @@ public class EastComService {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void get_bs_now_call_data(){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.eastcom);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:00");	   
+		   
+		   String now=df.format(new Date());
+		   int m=Integer.parseInt(now.split(" ")[1].split(":")[1])%5;	   
+		   Calendar c=Calendar.getInstance();	   
+		   int x=m+20;	   
+		   //获取20分钟以前的时间
+		   c.add(Calendar.MINUTE, -x);
+		   Date d=c.getTime();
+		   String date_time=df.format(d);
+		try {
+			List<EastBsCallDataBean> list=mapper.get_bs_now_call_data(date_time);
+			if(list!=null){
+				write_bs_now_call_data(list);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
 	public static void write_bs_call_data(List<EastBsCallDataBean> list){
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
 		EastComMapper mapper=session.getMapper(EastComMapper.class);
 		try {
 			mapper.write_bs_call_data(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void write_bs_now_call_data(List<EastBsCallDataBean> list){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_master);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		try {
+			mapper.write_bs_now_call_data(list);
 			session.commit();
 			session.close();
 		} catch (Exception e) {

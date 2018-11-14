@@ -447,14 +447,7 @@
 		FROM
 		xhgmnet_operations_bsfault AS a
 		LEFT JOIN
-		xhgmnet_bs_station AS b ON CASE
-		WHEN a.bsId > 1200
-		AND a.bsId &lt; 2000
-		THEN
-		a.bsId % 1000 = b.bsId
-		ELSE
-		a.bsId = b.bsId
-		END
+		xhgmnet_bs_station AS b ON a.bsId = b.bsId
 		LEFT JOIN
 		xhgmnet_bs_checkcut AS c ON a.id = c.id
 		WHERE

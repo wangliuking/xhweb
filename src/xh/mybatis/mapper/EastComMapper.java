@@ -17,7 +17,9 @@ public interface EastComMapper {
 	public List<Map<String,Object>> queueTopBsName(List<String> list)throws Exception;
 	
 	public List<EastBsCallDataBean> get_bs_call_data(Map<String, Object> map)throws Exception;
+	public List<EastBsCallDataBean> get_bs_now_call_data(String time)throws Exception;
 	public int write_bs_call_data(List<EastBsCallDataBean> list)throws Exception;
+	public int write_bs_now_call_data(List<EastBsCallDataBean> list)throws Exception;
 	
 	public List<EastMscCallBean> get_msc_call_data(Map<String, Object> map)throws Exception;
 	public int write_msc_call_data(List<EastMscCallBean> list)throws Exception;

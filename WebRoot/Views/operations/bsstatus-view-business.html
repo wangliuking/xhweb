@@ -26,8 +26,8 @@
 					<thead>
 						<tr class="tr-gray">
 							<th width="180px" class="sort" sort_type="desc" sort_field="bsId">基站<i class="fa fa-sort-amount-asc text-success"></i></th>
-							<th width="100px" class="sort" sort_type="desc" sort_field="">控制信道占比<i class="fa fa-sort-amount-asc text-success"></i></th>
-							<th width="100px" class="sort" sort_type="desc" sort_field="">信道使用率<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<th width="170px" class="sort" sort_type="desc" sort_field="">控制信道占比<i class="fa fa-sort-amount-asc text-success"></i></th>
+							<!-- <th width="100px" class="sort" sort_type="desc" sort_field="">信道使用率<i class="fa fa-sort-amount-asc text-success"></i></th> -->
 							<th width="100px" class="sort" sort_type="desc" sort_field="groupSum">注册组<i class="fa fa-sort-amount-asc text-success"></i></th>
 							<th width="100px" class="sort" sort_type="desc" sort_field="userSum">注册终端<i class="fa fa-sort-amount-asc text-success"></i></th>
 						</tr>
@@ -39,8 +39,9 @@
 						<tr ng-repeat="x in bs_business_info"
 							ng-click="bs_tr_click(x.bsId,x.name)">
 							<td>{{x.name}}({{x.bsId}})</td>
-							<td></td>
-							<td></td>
+							<td ng-if="x.bsId<2000">{{x.avgControlChanDownRate}}%</td>
+							<td ng-if="x.bsId>2000">{{x.loadInfo}}%</td>
+							<!-- <td></td> -->
 							<td>{{x.groupSum}}</td>
 							<td>{{x.userSum}}</td>
 						</tr>

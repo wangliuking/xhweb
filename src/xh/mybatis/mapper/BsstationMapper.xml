@@ -229,8 +229,16 @@
 	<select id="bs_business_info" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
 		select
-		a.bsId,a.name,a.status,a.type,a.level,a.period,a.zone,b.link,c.userSum,e.groupSum,d.deviceAlarmSum
+		a.bsId,a.name,a.status,a.type,a.level,a.period,a.zone,b.link,c.userSum,e.groupSum,d.deviceAlarmSum,
+		FORMAT(f.avgControlChanUpRate/100,2) as avgControlChanUpRate,
+        FORMAT(f.avgControlChanDownRate/100,2) as avgControlChanDownRate,
+        g.loadInfo
 		from xhgmnet_bs_station as a
+		left join xhgmnet_gps_voice.pef_newbstotal_now as f on a.bsId=f.bsid
+		
+		left join xhgmnet_moto_site_channel_info as g on a.bsId=(g.siteId+2000)
+		
+		
 		left join view_bsstatus as b on
 		a.bsId=b.bsId
 		left join (select count(distinct userId) as userSum ,bsId

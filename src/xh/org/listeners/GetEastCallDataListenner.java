@@ -38,6 +38,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 			try {
 				Date d1 = fTime.parse(time);
 				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
+				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -104,6 +105,28 @@ class GetData extends TimerTask{
 		log4j.info("获取东信基站话务统计数据结束,历时="+seconds+" s");
 		log4j.info("=========================================");
 		
+		
+	}
+	
+	
+}
+
+class GetChData extends TimerTask{
+	protected final Log log4j = LogFactory.getLog(GetData.class);
+	@Override
+	public void run() {
+		EastComService.get_bs_now_call_data();
+		
+		/*log4j.info("=========================================");
+		log4j.info("获取基站信道数据线程启动");
+		log4j.info("=========================================");
+		long starttime1=System.currentTimeMillis();
+		EastComService.get_bs_now_call_data();
+		long endtime1=System.currentTimeMillis();
+		float seconds1 = (endtime1 - starttime1);
+		log4j.info("=========================================");
+		log4j.info("获取东信基站信道数据结束,历时="+seconds1+" ms");
+		log4j.info("=========================================");*/
 		
 	}
 	
