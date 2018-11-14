@@ -2,6 +2,7 @@ package xh.org.listeners;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -16,22 +17,31 @@ public class test {
 
 	
 	 public static void main(String[] args) {   
-        /* ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
-                 new ArrayBlockingQueue<Runnable>(5));
- 
-         for(int i=0;i<150;i++){
-             MyTask myTask = new MyTask(i);
-             executor.execute(myTask);
-             System.out.println("线程池中线程数目："+executor.getPoolSize()+"，队列中等待执行的任务数目："+
-             executor.getQueue().size()+"，已执行玩别的任务数目："+executor.getCompletedTaskCount());
-         }
-         executor.shutdown();*/
-
+       String a=FunUtil.nowDate();
+       String[] time=a.split(" ");
+       int t2=Integer.parseInt(time[1].split(":")[1]);
+        t2=t2%5;
+       
+       
        
 		 
-		System.out.println(FunUtil.now_week_interval(new Date()));
+		System.out.println(DataTime());
 		
      }
+	 
+	 
+   public static String DataTime(){
+	   SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:00");	   
+	   
+	   String now=df.format(new Date());
+	   int m=Integer.parseInt(now.split(" ")[1].split(":")[1])%5;	   
+	   Calendar c=Calendar.getInstance();	   
+	   int x=m+20;	   
+	   //获取20分钟以前的时间
+	   c.add(Calendar.MINUTE, -x);
+	   Date d=c.getTime();
+	   return df.format(d);
+   }
 	
 	public static String RandomWord(int num) {
 		String[] beforeShuffle = new String[] { "1", "2", "3", "4", "5", "6",

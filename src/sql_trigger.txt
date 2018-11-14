@@ -64,152 +64,53 @@ IF EXISTS write_tera_alarm;
 
 CREATE TRIGGER write_tera_alarm AFTER INSERT ON xhgmnet_eastcom_alarminfo FOR EACH ROW
 BEGIN
-
-IF (
-	(
-		new.neType = 1
-		OR new.neType = 22
-	)
-	AND (
-		new.neId < 1000
-		OR new.neId >= 1200
-	)
-) THEN
-	INSERT INTO xhgmnet_operations_bsfault (
-		sysType,
-		neId,
-		neType,
-		mscId,
-		bsId,
-		time,
-		weekly,
-		`level`,
-		reason,
-		causeCode,
-		modType,
-		modId,
-		subModType,
-		subModId,
-		`code`,
-		category,
-		location,
-		faultRecoveryTime
-	)
+if(new.neType = 1 OR new.neType = 22) AND(new.neId >1200) THEN
+INSERT INTO xhgmnet_operations_bsfault (sysType,neId,neType,mscId,bsId,time,weekly,`level`,reason,causeCode,
+        modType,modId,subModType,subModId,`code`,category,location,faultRecoveryTime
+    )
 VALUES
-	(
-		1,
-		new.neId,
-		new.neType,
-		new.mscId,
-		new.neId,
-		new.time,
-		DATE_FORMAT(new.time, "%w"),
-		new.`level`,
-		new.info,
-		new.causeCode,
-		new.modType,
-		new.modId,
-		new.subModType,
-		new.subModId,
-		new.`code`,
-		new.category,
-		new.location,
-		new.retoreTime
-	);
+    (
+        1,new.neId,new.neType,new.mscId,new.neId%1000,new.time,DATE_FORMAT(new.time, "%w"),new.`level`,new.info,new.causeCode,
+        new.modType,new.modId,new.subModType,new.subModId,new.`code`,new.category,new.location,new.retoreTime
+    );
 
-
-ELSEIF (
-	(new.neType = 2 OR new.neType = 4)
-	AND (
-		new.neId < 1000
-		OR new.neId >= 1200
-	)
-) THEN
-	INSERT INTO xhgmnet_operations_bsfault (
-		sysType,
-		neId,
-		neType,
-		mscId,
-		bsId,
-		time,
-		weekly,
-		`level`,
-		reason,
-		causeCode,
-		modType,
-		modId,
-		subModType,
-		subModId,
-		`code`,
-		category,
-		location,
-		faultRecoveryTime
-	)
+ELSEIF(new.neType = 1 OR new.neType = 22) AND(new.neId <1200) THEN
+INSERT INTO xhgmnet_operations_bsfault (sysType,neId,neType,mscId,bsId,time,weekly,`level`,reason,causeCode,
+        modType,modId,subModType,subModId,`code`,category,location,faultRecoveryTime
+    )
 VALUES
-	(
-		1,
-		new.neId,
-		new.neType,
-		new.mscId,
-		new.subModId,
-		new.time,
-		DATE_FORMAT(new.time, "%w"),
-		new.`level`,
-		new.info,
-		new.causeCode,
-		new.modType,
-		new.modId,
-		new.subModType,
-		new.subModId,
-		new.`code`,
-		new.category,
-		new.location,
-		new.retoreTime
-	);
-
+    (
+        1,new.neId,new.neType,new.mscId,new.neId,new.time,DATE_FORMAT(new.time, "%w"),new.`level`,new.info,new.causeCode,
+        new.modType,new.modId,new.subModType,new.subModId,new.`code`,new.category,new.location,new.retoreTime
+    );
+ELSEIF(new.neType =4 OR new.neType = 2) AND(new.subModId <1200) THEN
+INSERT INTO xhgmnet_operations_bsfault (sysType,neId,neType,mscId,bsId,time,weekly,`level`,reason,causeCode,
+        modType,modId,subModType,subModId,`code`,category,location,faultRecoveryTime
+    )
+VALUES
+    (
+        1,new.neId,new.neType,new.mscId,new.subModId,new.time,DATE_FORMAT(new.time, "%w"),new.`level`,new.info,new.causeCode,
+        new.modType,new.modId,new.subModType,new.subModId,new.`code`,new.category,new.location,new.retoreTime
+    );
+ELSEIF(new.neType =4 OR new.neType = 2) AND(new.subModId >1200) THEN
+INSERT INTO xhgmnet_operations_bsfault (sysType,neId,neType,mscId,bsId,time,weekly,`level`,reason,causeCode,
+        modType,modId,subModType,subModId,`code`,category,location,faultRecoveryTime
+    )
+VALUES
+    (
+        1,new.neId,new.neType,new.mscId,new.subModId%1000,new.time,DATE_FORMAT(new.time, "%w"),new.`level`,new.info,new.causeCode,
+        new.modType,new.modId,new.subModType,new.subModId,new.`code`,new.category,new.location,new.retoreTime
+    );
 
 ELSE
-	INSERT INTO xhgmnet_operations_bsfault (
-		sysType,
-		neId,
-		neType,
-		mscId,
-		bsId,
-		time,
-		weekly,
-		`level`,
-		reason,
-		causeCode,
-		modType,
-		modId,
-		subModType,
-		subModId,
-		`code`,
-		category,
-		location,
-		faultRecoveryTime
-	)
+INSERT INTO xhgmnet_operations_bsfault (sysType,neId,neType,mscId,bsId,time,weekly,`level`,reason,causeCode,
+        modType,modId,subModType,subModId,`code`,category,location,faultRecoveryTime
+    )
 VALUES
-	(
-		1,
-		new.neId,
-		new.neType,
-		new.mscId,
-		0,
-		new.time,
-		DATE_FORMAT(new.time, "%w"),
-		new.`level`,
-		new.info,
-		new.causeCode,
-		new.modType,
-		new.modId,
-		new.subModType,
-		new.subModId,
-		new.`code`,
-		new.category,
-		new.location,
-		new.retoreTime
-	);
+    (
+        1,new.neId,new.neType,new.mscId,0,new.time,DATE_FORMAT(new.time, "%w"),new.`level`,new.info,new.causeCode,
+        new.modType,new.modId,new.subModType,new.subModId,new.`code`,new.category,new.location,new.retoreTime
+    );
 
 
 END

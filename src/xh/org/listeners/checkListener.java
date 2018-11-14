@@ -371,7 +371,7 @@ class Money extends TimerTask{
 				if(map.get("level").toString().equals("1")){
 					
 					if(map.get("checkTime")!=null){
-						check_time=FunUtil.StringToInt(map.get("checkTime").toString());
+						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
 					if(timeout-check_time-60>0){
 						addTag=1;
@@ -381,7 +381,7 @@ class Money extends TimerTask{
 					
 				}else if(map.get("level").toString().equals("2")){
 					if(map.get("checkTime")!=null){
-						check_time=FunUtil.StringToInt(map.get("checkTime").toString());
+						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
 					if(timeout-check_time-300>0){
 						addTag=1;
@@ -391,7 +391,7 @@ class Money extends TimerTask{
 					
 				}else if(map.get("level").toString().equals("3")){
 					if(map.get("checkTime")!=null){
-						check_time=FunUtil.StringToInt(map.get("checkTime").toString());
+						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
 					if(timeout-check_time-540>0){
 						addTag=1;

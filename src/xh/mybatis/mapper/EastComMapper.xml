@@ -21,6 +21,37 @@
 		</foreach>
 		)
 	</select>
+	
+    <!-- 定时获取东信基站呼叫统计数据 -->
+    <select id="get_bs_now_call_data" parameterType="String"
+        resultType="xh.mybatis.bean.EastBsCallDataBean">
+
+        select 
+        TotalActiveCalls,
+        TotalActiveCallDuration,
+        AverageCallDuration,
+        PTTCount,
+        QueueCount,
+        QueueDuration,
+        MaxUserRegCount,
+        MaxGroupRegCount,
+        MaxControlChanUpRate,
+        MinControlChanUpRate,
+        AvgControlChanUpRate,
+        MaxControlChanDownRate,
+        AvgTrafficChanRate,
+        MinControlChanDownRate,
+        AvgControlChanDownRate,
+        case when bsid>1200 then bsid%1000
+        else bsid end as bsid,
+        starttime,
+        endtime,
+        mscid from
+        pef_newbstotal
+        where
+        starttime=#{time} and (bsid&lt;=200 or bsid>=1000)
+
+    </select>
 
 	<!-- 定时获取东信基站呼叫统计数据 -->
 	<select id="get_bs_call_data" parameterType="map"
@@ -111,6 +142,53 @@
 			)
 		</foreach>
 	</insert>
+	<!--写入东信基站呼叫统计数据 -->
+    <insert id="write_bs_now_call_data" parameterType="java.util.List">
+        replace into pef_newbstotal_now(TotalActiveCalls,
+        TotalActiveCallDuration,
+        AverageCallDuration,
+        PTTCount,
+        QueueCount,
+        QueueDuration,
+        MaxUserRegCount,
+        MaxGroupRegCount,
+        MaxControlChanUpRate,
+        MinControlChanUpRate,
+        AvgControlChanUpRate,
+        MaxControlChanDownRate,
+        AvgTrafficChanRate,
+        MinControlChanDownRate,
+        AvgControlChanDownRate,
+        bsid,
+        starttime,
+        endtime,
+        mscid
+        )
+        values
+        <foreach collection="list" item="item" index="index"
+            separator=",">
+            (#{item.TotalActiveCalls},
+            #{item.TotalActiveCallDuration},
+            #{item.AverageCallDuration},
+            #{item.PTTCount},
+            #{item.QueueCount},
+            #{item.QueueDuration},
+            #{item.MaxUserRegCount},
+            #{item.MaxGroupRegCount},
+            #{item.MaxControlChanUpRate},
+            #{item.MinControlChanUpRate},
+            #{item.AvgControlChanUpRate},
+            #{item.MaxControlChanDownRate},
+            #{item.AvgTrafficChanRate},
+            #{item.MinControlChanDownRate},
+            #{item.AvgControlChanDownRate},
+            #{item.bsid},
+            #{item.starttime},
+            #{item.endtime},
+            #{item.mscid}
+            )
+        </foreach>
+    </insert>
 	<!--写入东信交换中心呼叫统计数据 -->
 	<insert id="write_msc_call_data" parameterType="java.util.List">
 		replace into pef_newmsctotal(TotalActiveCall,

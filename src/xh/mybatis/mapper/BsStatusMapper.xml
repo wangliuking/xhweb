@@ -564,12 +564,7 @@
 		left join
 		xhgmnet_bs_station as b on
 
-		CASE
-		WHEN a.bsId>1200 and a.bsId&lt;2000 THEN
-		a.bsId%1000=b.bsId
-		else a.bsId=b.bsId
-
-		END
+		a.bsId=b.bsId
 
 
 		left join
@@ -588,9 +583,6 @@
 		</if>
 		<if test="startTime!='' and endtime!=''">
 			and a.time between #{starttime} and #{endtime}
-		</if>
-		<if test="alarmTag!=null and alarmTag!=''">
-			and a.alarmTag=#{alarmTag}
 		</if>
 
 		<if test="level!=null and level.size()>0">
