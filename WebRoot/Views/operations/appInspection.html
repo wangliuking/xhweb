@@ -27,6 +27,15 @@
 input[type="text"] {
 	width: 100%;
 }
+.info-bs li{
+   float: left;
+   margin-right:10px;
+}
+
+.input-div div{
+ float:left;
+ margin-left:5px;
+}
 </style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
@@ -66,10 +75,8 @@ input[type="text"] {
 					<div class="hpanel">
 						<div class="panel-body">
 							<ul id="xh-tabs" class="nav nav-tabs">
-								<li class="active"><a href="#mbs" data-toggle="tab"
-									ng-click='mbs_refresh()'>移动基站巡检</a></li>
 								<li><a href="#sbs" data-toggle="tab"
-									ng-click='sbs_refresh()'> 自建基站巡检</a></li>
+									ng-click='sbs_refresh()'> 基站巡检</a></li>
 								<li><a href="#net" data-toggle="tab"
 									ng-click='net_refresh()'> 网管巡检</a></li>
 								<li><a href="#dispatch" data-toggle="tab"
@@ -78,85 +85,13 @@ input[type="text"] {
 									ng-click='msc_refresh()'> 交换中心巡检</a></li>
 							</ul>
 							<div class="tab-content" style="padding:20px">
-								<div class="tab-pane fade in active" id="mbs">
-								   <div class="row">
-                                        <div class="col-md-12" style="margin-bottom:5px;">
-                                            <button class="btn btn-success btn-sm"
-                                                data-target="#addMbsWin" data-toggle="modal">新增移动基站巡检记录</button>
-                                        </div>
-                                    </div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="hpanel">
-												<!-- <div class="panel-heading"
-													style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
-												<div class="panel-body">
-													<table id="tb-info" class="xh-table table-hover"
-														style="table-layout：fixed">
-														<thead>
-															<tr class="tr-gray">
-																<th>基站</th>
-																<th>基站级别</th>
-																<th>机房类型</th>
-																<th>遗留问题</th>
-																<th>巡检人员</th>
-																<th width="180px">巡检时间</th>
-																<th>GPS定位</th>
-																<th width="120">操作</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr ng-if="mbsTotals==0">
-																<td colspan="8" class="text-center">没有记录！</td>
-															</tr>
-															<tr ng-repeat="x in mbsData">
-																<td>{{x.bsid}}-{{x.bsname}}</td>
-
-																<td>{{x.bslevel}}</td>
-																<td>{{x.bstype}}</td>
-																<td>{{x.remainwork}}</td>
-																<td>{{x.checkman}}</td>
-																<td>{{x.commitdate}}</td>
-																<td>{{x.address}}</td>
-																<td><a href="#" ng-click="showMbsWin($index)"
-																	class="text-danger"> <i
-																		class="fa fa-info text-danger"></i>&nbsp;详细
-																</a>| <a href="#" ng-click="showMbsEditWin($index)"
-                                                                    class="text-danger"> <i
-                                                                        class="fa fa-edit text-danger"></i>&nbsp;编辑
-                                                                </a></td>
-															</tr>
-														</tbody>
-													</table>
-
-												</div>
-												<div class="panel-footer">
-													<div class="page" style="margin-top:0;height:40px;">
-														<div class="page-info">
-															每页显示 <select id="page-limit" ng-change="mbs_refresh()"
-																ng-model="count">
-																<option value="15">15</option>
-																<option value="20">20</option>
-																<option value="30">30</option>
-																<option value="40">40</option>
-																<option value="50">50</option>
-															</select> 条, <span>显示{{mbs_start}}-</span> <span>{{mbs_lastIndex}}条,</span>
-															<span>总计{{mbsTotals}}条</span>
-														</div>
-														<div class="page-paging mbs-page-paging"></div>
-													</div>
-												</div>
-											</div>
-
-										</div>
-									</div>
-								</div>
+								
 								<!-- group -->
-								<div class="tab-pane fade" id="sbs">
+								<div class="tab-pane fade in active" id="sbs">
 								<div class="row">
                                         <div class="col-md-12" style="margin-bottom:5px;">
                                             <button class="btn btn-success btn-sm"
-                                                data-target="#addSbsWin" data-toggle="modal">新增自建基站巡检记录</button>
+                                                data-target="#addSbsWin" data-toggle="modal">新增基站巡检记录</button>
                                         </div>
                                     </div>
 									<div class="row">
@@ -186,8 +121,12 @@ input[type="text"] {
 															<tr ng-repeat="x in sbsData">
 																<td>{{x.bsid}}-{{x.bsname}}</td>
 
-																<td>{{x.bslevel}}</td>
-																<td>{{x.bstype}}</td>
+																<td>{{x.level}}</td>
+																<td>
+																<span ng-if="x.hometype=='移动' || x.hometype=='电信' || x.hometype=='铁塔'">运营商机房</span>
+																<span ng-if="x.hometype=='自建'">自建机房</span>
+																<span ng-if="x.hometype=='租赁'">租赁机房</span>
+																</td>
 																<td>{{x.remainwork}}</td>
 																<td>{{x.checkman}}</td>
 																<td>{{x.commitdate}}</td>

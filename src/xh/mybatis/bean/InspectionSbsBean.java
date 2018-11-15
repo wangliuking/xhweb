@@ -74,6 +74,13 @@ public class InspectionSbsBean {
 	  private String c27;
 	  private String c28;
 	  private String c29;
+	  
+	  private String level;
+	  private String period;
+	  private String hometype;
+	  
+	  
+	  
 	public int getId() {
 		return id;
 	}
@@ -505,6 +512,25 @@ public class InspectionSbsBean {
 	}
 	public void setC29(String c29) {
 		this.c29 = c29;
+	}
+	
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+	public String getHometype() {
+		return hometype;
+	}
+	public void setHometype(String hometype) {
+		this.hometype = hometype;
 	}
 	@Override
 	public String toString() {

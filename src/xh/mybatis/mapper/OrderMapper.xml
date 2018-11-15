@@ -6,9 +6,9 @@
     <select id="orderList" parameterType="map" resultType="map" useCache="true">
      select a.*,b.userName from xhgmnet_operations_fault_task_order as a
       left join xhgmnet_web_user as b on a.userid=b.user where 1=1 
-       <if test="roleId &lt;10000">
+       <!-- <if test="roleId &lt;10000">
       and (a.userid=#{user} or a.orderAccount=#{user})
-      </if> 
+      </if>  -->
      order by dispatchtime desc limit #{start},#{limit}
     </select> 
     <!--派单记录总数-->
@@ -26,9 +26,9 @@
      <if test="type==3">
      and status!=2
      </if>
-     <if test="roleId &lt;10000">
+     <!-- <if test="roleId &lt;10000">
       and (userid=#{user} or orderAccount=#{user})
-      </if>
+      </if> -->
     </select> 
     <!-- 添加派单 --> 
     <insert id="addOrder" parameterType="com.tcpBean.ErrProTable" useGeneratedKeys="true" keyProperty="id">

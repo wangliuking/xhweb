@@ -30,7 +30,7 @@ xh.load = function() {
 		$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();
 		
-		/*获取移动基站巡检表信息*/
+	/*	获取移动基站巡检表信息
 		$scope.mbs=function(){	
 			var pageSize = $("#page-limit").val();
 			$http.get("../../app/mbsinfo?start=0&limit="+pageSize).
@@ -39,7 +39,7 @@ xh.load = function() {
 				$scope.mbsTotals = response.totals;
 				xh.mbs_pagging(1, parseInt($scope.mbsTotals),$scope,pageSize);
 			});
-		}
+		}*/
 		/*获取自建基站巡检表信息*/
 		$scope.sbs=function(){	
 			var pageSize = $("#page-limit-sbs").val();
@@ -542,7 +542,7 @@ xh.load = function() {
 };
 $(document).ready(function(){ 
 	var $scope = angular.element(appElement).scope();
-	$scope.mbs();
+	$scope.sbs();
 	}); 
 
 // 刷新数据
