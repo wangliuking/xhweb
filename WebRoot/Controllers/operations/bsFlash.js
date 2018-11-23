@@ -4,11 +4,6 @@
 if (!("xh" in window)) {
 	window.xh = {};
 };
-require.config({
-	paths : {
-		echarts : '../../lib/echarts'
-	}
-});
 var background="#fff";
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=bsAlarm]');
@@ -65,6 +60,10 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
+		};
+		$scope.search_btn = function() {
+			$scope.search(1);
+			$("#search").modal('hide');
 		};
 		/*用户列表*/
 	/*	$scope.userList=function(){
@@ -185,30 +184,7 @@ xh.load = function() {
 			$("#search").modal('toggle');
 			//$(".modal-backdrop").remove();//删除class值为modal-backdrop的标签，可去除阴影
 		}
-		/*$scope.alarmType();*/
-		$('input[name="level"]').on('click',function(){ 
-			$scope.search(1);
-			/*xh.bsBar();
-			xh.loadbsAlarmTypePie();*/
-		});
-		$('input[name="type"]').on('click',function(){ 
-			$scope.search(1);
-			/*xh.bsBar();
-			xh.loadbsAlarmTypePie();*/
-		}); 
-		$('input[name="startTime"]').blur(function(){ 
-			$scope.search(1);
-			/*xh.bsBar();
-			xh.loadbsAlarmTypePie();*/
-		});
-		$('input[name="endTime"]').blur(function(){ 
-			$scope.search(1);
-			/*xh.bsBar();
-			xh.loadbsAlarmTypePie();*/
-		});
-		setInterval(function(){
-			$scope.search($scope.page);
-		}, 5000)
+		
 	});
 };
 // 刷新数据

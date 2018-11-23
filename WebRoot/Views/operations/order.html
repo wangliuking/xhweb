@@ -51,9 +51,9 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-							<li><span>运维管理</span></li>
-							<li><span>系统运维</span></li>
-							<li class="active"><span>运维派单</span></li>
+							<!-- <li><span>运维管理</span></li>
+							<li><span>系统运维</span></li> -->
+							<li class="active"><span>派单列表</span></li>
 						</ol>
 					</div>
 				</div>
@@ -164,7 +164,7 @@
 											class="text-danger">接单中</strong> <strong ng-if="x.status==1"
 											style="color:blue">处理中</strong> <strong ng-if="x.status==2"
 											style="color:green">已完成</strong><strong ng-if="x.status==3"
-											style="color:yellow">请求审核</strong><strong ng-if="x.status==4"
+											style="color:black">请求审核</strong><strong ng-if="x.status==4"
 																					  style="color:blueviolet">挂单中</strong>
 										</td>
 										<td>{{x.userName}}</td>

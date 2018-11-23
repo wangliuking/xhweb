@@ -237,6 +237,10 @@ marquee {
 								src="Resources/images/icon/32/bell.png" id="close-bell" /> <span
 								class="badge">{{AlarmTotals}}</span>
 						</a></li>
+						<li ng-if="roleType==0 || roleType==3"><a href="Views/operations/order.html" target="mainframe"
+                            class="btn btn-default dropdown-toggle info-number"> <i
+                                class="fa fa-bell-o"></i> <span class="badge"></span> <span>派单列表</span>
+                        </a></li>
 
 						<li><a href="#"
 							class="btn btn-default dropdown-toggle info-number"

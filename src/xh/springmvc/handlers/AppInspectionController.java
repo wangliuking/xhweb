@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -366,13 +368,13 @@ public class AppInspectionController {
 		String data = request.getParameter("data");
 		InspectionSbsBean bean = GsonUtil.json2Object(data,
 				InspectionSbsBean.class);
-		Map<String, Object> bs = BsstationService.select_bs_by_bsid(bean
-				.getBsid());
-		bean.setBslevel(bs.get("level").toString());
+		/*Map<String, Object> bs = BsstationService.select_bs_by_bsid(bean
+				.getBsid());*/
+		/*bean.setBslevel(bs.get("level").toString());
 		bean.setBsname(bs.get("name").toString());
 		bean.setBstype(bs.get("hometype").toString());
 
-		System.out.println(bean);
+		System.out.println(bean);*/
 		int rst = AppInspectionServer.sbs_edit(bean);
 		if (rst > 0) {
 			this.success = true;
@@ -1299,20 +1301,12 @@ public class AppInspectionController {
 		
 
 			// 第1行
-			Label title = new Label(0, 0, "800M自建基站巡检作业表", fontFormat);
+			Label title = new Label(0, 0, "800M基站巡检作业表", fontFormat);
 			sheet.mergeCells(0, 0, 7, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
 
 			// 第2行
-			Label label_1_0 = new Label(0, 1, "基站名称", fontFormat_Content);// 创建单元格
-			Label label_1_1 = new Label(1, 1, bean.getBsname(),
-					fontFormat_Content);// 创建单元格
-			sheet.mergeCells(1, 1, 3, 1);
-			Label label_1_2 = new Label(4, 1, "基站ID", fontFormat_Content);// 创建单元格
-			Label label_1_4 = new Label(6, 1, "基站级别", fontFormat_Content);// 创建单元格
-
-
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 10);
 			sheet.setColumnView(2, 10);
@@ -1321,32 +1315,56 @@ public class AppInspectionController {
 			sheet.setColumnView(5, 40);
 			sheet.setColumnView(6, 20);
 			sheet.setColumnView(7, 30);
+			
+			StringBuilder str=new StringBuilder();
+			str.append("基站名称: ");str.append(bean.getBsname());
+			str.append("   基站ID: "); str.append(bean.getBsid());
+			str.append("   基站级别: "); str.append(bean.getLevel());
+			str.append("   巡检人： "); str.append(bean.getCheckman());
 
-			sheet.addCell(label_1_0);
-			sheet.addCell(label_1_1);
-			sheet.addCell(label_1_2);
-			sheet.addCell(new jxl.write.Number(5, 1, bean.getBsid(),fontFormat_Content));
-			sheet.addCell(label_1_4);
-			sheet.addCell(new jxl.write.Number(7, 1, FunUtil.StringToInt(bean.getBslevel()),fontFormat_Content));
-
+			sheet.addCell(new Label(0, 1, "建设周期", fontFormat_Content));
+			sheet.addCell(new Label(1, 1, bean.getPeriod(), fontFormat_Content));
+			sheet.addCell(new Label(2, 1, str.toString(), fontFormat_Content));
+			sheet.mergeCells(2, 1, 7, 1);
 			// 第3行
-			Label label_2_0 = new Label(0, 2, "机房类型", fontFormat_Content);// 创建单元格
-			Label label_2_1 = new Label(1, 2, bean.getBstype(),
+			String hometype=bean.getHometype();
+			String time="";
+			if(hometype.equals("移动") || hometype.equals("电信") || hometype.equals("铁塔")){
+				hometype="运营商机房";
+			}else if(hometype.equals("自建")){
+				hometype="自建机房";
+			}else if(hometype.equals("租赁")){
+				hometype="租赁机房";
+			}
+			if(bean.getCommitdate()!=null &&bean.getCommitdate()!="" ){
+				time=bean.getCommitdate().split(" ")[0].split("-")[0]+"年";
+				time+=bean.getCommitdate().split(" ")[0].split("-")[1]+"月";
+				time+=bean.getCommitdate().split(" ")[0].split("-")[2]+"日";
+			}
+			StringBuilder sb=new StringBuilder();
+			sb.append("机房类型:");
+			sb.append(checkbox(bean.getHometype()));
+			sb.append("          巡检时间:");
+			sb.append(time);
+			sb.append("           自能电表:");
+			sb.append(bean.getAmmeternumber());
+			
+			Label label_2_0 = new Label(0, 2, sb.toString(), fontFormat_Content);// 创建单元格
+		/*	Label label_2_1 = new Label(1, 2, checkbox(bean.getHometype()),fontFormat_Content);// 创建单元格
+			Label label_2_2 = new Label(4, 2, "巡检时间", fontFormat_Content);// 创建单元格
+			Label label_2_3 = new Label(5, 2, bean.getCommitdate(),fontFormat_Content);// 创建单元格
+			
+			Label label_2_4 = new Label(6, 2, "自能电表", fontFormat_Content);// 创建单元格
+			Label label_2_5 = new Label(7, 2, bean.getAmmeternumber(),
 					fontFormat_Content);// 创建单元格
-			Label label_2_2 = new Label(2, 2, "巡检时间", fontFormat_Content);// 创建单元格
-			Label label_2_3 = new Label(3, 2, bean.getCommitdate(),
-					fontFormat_Content);// 创建单元格
-			sheet.mergeCells(3, 2, 5, 2);
-			Label label_2_4 = new Label(6, 2, "巡检人", fontFormat_Content);// 创建单元格
-			Label label_2_5 = new Label(7, 2, bean.getCheckman(),
-					fontFormat_Content);// 创建单元格
-			sheet.addCell(label_2_0);
-			sheet.addCell(label_2_1);
+*/			sheet.addCell(label_2_0);
+			sheet.mergeCells(0, 2, 7, 2);
+		/*	sheet.addCell(label_2_1);
 			sheet.addCell(label_2_2);
 			sheet.addCell(label_2_3);
 			sheet.addCell(label_2_4);
 			sheet.addCell(label_2_5);
-
+*/
 			// 第4行
 			Label label_3_0 = new Label(0, 3, "巡检项目", fontFormat_Content);// 创建单元格
 			Label label_3_1 = new Label(1, 3, "具体项目", fontFormat_Content);// 创建单元格
@@ -1392,7 +1410,7 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 6, 0, 12);
 			Label label_6_1 = new Label(1, 6, "机房安全", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(1, 6, 1, 9);
-			Label label_6_2 = new Label(2, 6, "灭火设备是否完好", fontFormat_Content);// 创建单元格
+			Label label_6_2 = new Label(2, 6, "机房有无灭火设备", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 6, 5, 6);
 
 
@@ -1402,7 +1420,7 @@ public class AppInspectionController {
 			sheet.addCell(new Label(6, 6, checkbox(bean.getD3()),fontFormat_Content));
 			sheet.addCell(new Label(7, 6, bean.getC3(),fontFormat_Content));
 			// 第7行
-			Label label_7_2 = new Label(2, 7, "门、窗、锁是否完好", fontFormat_Content);// 创建单元格
+			Label label_7_2 = new Label(2, 7, "门、窗、锁是否完好，密封是否严实", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 7, 5, 7);
 
 			sheet.addCell(label_7_2);
@@ -1460,36 +1478,38 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 13, 0, 18);
 			Label label_13_1 = new Label(1, 13, "油机", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(1, 13, 1, 14);
-			Label label_13_2 = new Label(2, 13, "油机是否能正常运行", fontFormat_Content);// 创建单元格
-			sheet.mergeCells(2, 13, 5, 13);
+			Label label_13_2 = new Label(2, 13, "油机是否能正常运行、油机及油机线缆有无安全隐患", fontFormat_Content);// 创建单元格
+			sheet.mergeCells(2, 13, 5, 14);
 
 
 			sheet.addCell(label_13_0);
 			sheet.addCell(label_13_1);
 			sheet.addCell(label_13_2);
 			sheet.addCell(new Label(6, 13, checkbox(bean.getD10()),fontFormat_Content));
+			sheet.mergeCells(6, 13, 6, 14);
 			sheet.addCell(new Label(7, 13, bean.getC10(),fontFormat_Content));
+			sheet.mergeCells(7, 13, 7, 14);
 			// 第14行
-			Label label_14_2 = new Label(2, 14, "检查油机及油机线缆有无安全隐患",
+			/*Label label_14_2 = new Label(2, 14, "",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 14, 5, 14);
 
 
 			sheet.addCell(label_14_2);
-			sheet.addCell(new Label(6, 14, checkbox(bean.getD11()),fontFormat_Content));
-			sheet.addCell(new Label(7, 14, bean.getC11(),fontFormat_Content));
+			sheet.addCell(new Label(6, 14, ""));
+			sheet.addCell(new Label(7, 14, ""));*/
 			// 第15行
-			Label label_15_1 = new Label(1, 15, "蓄电池", fontFormat_Content);// 创建单元格
+			Label label_15_1 = new Label(1, 15, "后备电源", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(1, 15, 1, 17);
-			Label label_15_2 = new Label(2, 15, "电源线是否老化，连接是否正常，有无短路隐患",
+			Label label_15_2 = new Label(2, 15, "电源线连接是否正常，有无松动、老化、发热等情况",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 15, 5, 15);
 
 
 			sheet.addCell(label_15_1);
 			sheet.addCell(label_15_2);
-			sheet.addCell(new Label(6, 15, checkbox(bean.getD12()),fontFormat_Content));
-			sheet.addCell(new Label(7, 15, bean.getC12(),fontFormat_Content));
+			sheet.addCell(new Label(6, 15, checkbox(bean.getD11()),fontFormat_Content));
+			sheet.addCell(new Label(7, 15, bean.getC11(),fontFormat_Content));
 			// 第16行
 
 			Label label_16_2 = new Label(2, 16,
@@ -1498,17 +1518,17 @@ public class AppInspectionController {
 
 
 			sheet.addCell(label_16_2);
-			sheet.addCell(new Label(6, 16, checkbox(bean.getD13()),fontFormat_Content));
-			sheet.addCell(new Label(7, 16, bean.getC13(),fontFormat_Content));
+			sheet.addCell(new Label(6, 16, checkbox(bean.getD12()),fontFormat_Content));
+			sheet.addCell(new Label(7, 16, bean.getC12(),fontFormat_Content));
 			// 第17行
-			Label label_17_2 = new Label(2, 17, "断开交流电，查看蓄电池是否正常供电",
+			Label label_17_2 = new Label(2, 17, "查看EPS/UPS/逆变器是否正常工作",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 17, 5, 17);
 
 
 			sheet.addCell(label_17_2);
-			sheet.addCell(new Label(6, 17, checkbox(bean.getD14()),fontFormat_Content));
-			sheet.addCell(new Label(7, 17, bean.getC14(),fontFormat_Content));
+			sheet.addCell(new Label(6, 17, checkbox(bean.getD13()),fontFormat_Content));
+			sheet.addCell(new Label(7, 17, bean.getC13(),fontFormat_Content));
 
 			// 第18行
 			Label label_18_1 = new Label(1, 18, "配电箱", fontFormat_Content);// 创建单元格
@@ -1518,8 +1538,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_18_1);
 			sheet.addCell(label_18_2);
-			sheet.addCell(new Label(6, 18, checkbox(bean.getD15()),fontFormat_Content));
-			sheet.addCell(new Label(7, 18, bean.getC15(),fontFormat_Content));
+			sheet.addCell(new Label(6, 18, checkbox(bean.getD14()),fontFormat_Content));
+			sheet.addCell(new Label(7, 18, bean.getC14(),fontFormat_Content));
 			// 第19行
 			Label label_19_1 = new Label(1, 19, "照明", fontFormat_Content);// 创建单元格
 			/* sheet.mergeCells(1,19,1,9); */
@@ -1530,8 +1550,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_19_1);
 			sheet.addCell(label_19_2);
-			sheet.addCell(new Label(6, 19, checkbox(bean.getD16()),fontFormat_Content));
-			sheet.addCell(new Label(7, 19, bean.getC16(),fontFormat_Content));
+			sheet.addCell(new Label(6, 19, checkbox(bean.getD15()),fontFormat_Content));
+			sheet.addCell(new Label(7, 19, bean.getC15(),fontFormat_Content));
 			// 第20行
 			Label label_20_1 = new Label(1, 20, "插座", fontFormat_Content);// 创建单元格
 			Label label_20_2 = new Label(2, 20, "机房插座是否有电", fontFormat_Content);// 创建单元格
@@ -1540,8 +1560,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_20_1);
 			sheet.addCell(label_20_2);
-			sheet.addCell(new Label(6, 20, checkbox(bean.getD17()),fontFormat_Content));
-			sheet.addCell(new Label(7, 20, bean.getC17(),fontFormat_Content));
+			sheet.addCell(new Label(6, 20, checkbox(bean.getD16()),fontFormat_Content));
+			sheet.addCell(new Label(7, 20, bean.getC16(),fontFormat_Content));
 			// 第21行
 			Label label_21_0 = new Label(0, 21, "主体设备", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(0, 21, 0, 25);
@@ -1554,8 +1574,8 @@ public class AppInspectionController {
 			sheet.addCell(label_21_0);
 			sheet.addCell(label_21_1);
 			sheet.addCell(label_21_2);
-			sheet.addCell(new Label(6, 21, checkbox(bean.getD18()),fontFormat_Content));
-			sheet.addCell(new Label(7, 21, bean.getC18(),fontFormat_Content));
+			sheet.addCell(new Label(6, 21, checkbox(bean.getD17()),fontFormat_Content));
+			sheet.addCell(new Label(7, 21, bean.getC17(),fontFormat_Content));
 			// 第22行
 			Label label_22_1 = new Label(1, 22, "告警确认", fontFormat_Content);// 创建单元格
 			Label label_22_2 = new Label(2, 22, "通过与监控后台联系确认设备有无告警",
@@ -1564,8 +1584,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_22_1);
 			sheet.addCell(label_22_2);
-			sheet.addCell(new Label(6, 22, checkbox(bean.getD19()),fontFormat_Content));
-			sheet.addCell(new Label(7, 22, bean.getC19(),fontFormat_Content));
+			sheet.addCell(new Label(6, 22, checkbox(bean.getD18()),fontFormat_Content));
+			sheet.addCell(new Label(7, 22, bean.getC18(),fontFormat_Content));
 			// 第23行
 			Label label_23_1 = new Label(1, 23, "连线状态", fontFormat_Content);// 创建单元格
 			Label label_23_2 = new Label(2, 23,
@@ -1575,8 +1595,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_23_1);
 			sheet.addCell(label_23_2);
-			sheet.addCell(new Label(6, 23, checkbox(bean.getD20()),fontFormat_Content));
-			sheet.addCell(new Label(7, 23, bean.getC20(),fontFormat_Content));
+			sheet.addCell(new Label(6, 23, checkbox(bean.getD19()),fontFormat_Content));
+			sheet.addCell(new Label(7, 23, bean.getC19(),fontFormat_Content));
 			// 第24行
 			/*
 			 * Label label_24_0 = new Label(0, 24, "动环监控",
@@ -1589,8 +1609,8 @@ public class AppInspectionController {
 
 			sheet.addCell(label_24_1);
 			sheet.addCell(label_24_2);
-			sheet.addCell(new Label(6, 24, checkbox(bean.getD21()),fontFormat_Content));
-			sheet.addCell(new Label(7, 24, bean.getC21(),fontFormat_Content));
+			sheet.addCell(new Label(6, 24, checkbox(bean.getD20()),fontFormat_Content));
+			sheet.addCell(new Label(7, 24, bean.getC20(),fontFormat_Content));
 			// 第25行
 			Label label_25_1 = new Label(1, 25, "设备温度", fontFormat_Content);// 创建单元格
 			Label label_25_2 = new Label(2, 25, "设备是否有高温、异味",
@@ -1599,31 +1619,31 @@ public class AppInspectionController {
 
 			sheet.addCell(label_25_1);
 			sheet.addCell(label_25_2);
-			sheet.addCell(new Label(6, 25, checkbox(bean.getD22()),fontFormat_Content));
-			sheet.addCell(new Label(7, 25, bean.getC22(),fontFormat_Content));
+			sheet.addCell(new Label(6, 25, checkbox(bean.getD21()),fontFormat_Content));
+			sheet.addCell(new Label(7, 25, bean.getC21(),fontFormat_Content));
 			// 第26行
 			Label label_26_0 = new Label(0, 26, "动环监控", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(0, 26, 0, 29);
 			Label label_26_1 = new Label(1, 26, "环境监测", fontFormat_Content);// 创建单元格
-			Label label_26_2 = new Label(2, 26, "查看交直流是否正常(需值班人员配合完成)",
+			Label label_26_2 = new Label(2, 26, "查看温湿度、漏水是否正常(需值班人员配合完成)",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 26, 5, 26);
 
 			sheet.addCell(label_26_0);
 			sheet.addCell(label_26_1);
 			sheet.addCell(label_26_2);
-			sheet.addCell(new Label(6, 26, checkbox(bean.getD23()),fontFormat_Content));
-			sheet.addCell(new Label(7, 26, bean.getC23(),fontFormat_Content));
+			sheet.addCell(new Label(6, 26, checkbox(bean.getD22()),fontFormat_Content));
+			sheet.addCell(new Label(7, 26, bean.getC22(),fontFormat_Content));
 			// 第27行
 			Label label_27_1 = new Label(1, 27, "安全监测", fontFormat_Content);// 创建单元格
 			Label label_27_2 = new Label(2, 27,
-					"查看门磁、烟感、消防、摄像头是否正常(需值班人员配合完成)", fontFormat_Content);// 创建单元格
+					"查看门磁、红外传感器、烟感、摄像头是否正常(需值班人员配合完成)", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 27, 5, 27);
 
 			sheet.addCell(label_27_1);
 			sheet.addCell(label_27_2);
-			sheet.addCell(new Label(6, 27, checkbox(bean.getD24()),fontFormat_Content));
-			sheet.addCell(new Label(7, 27, bean.getC24(),fontFormat_Content));
+			sheet.addCell(new Label(6, 27, checkbox(bean.getD23()),fontFormat_Content));
+			sheet.addCell(new Label(7, 27, bean.getC23(),fontFormat_Content));
 			// 第28行
 			Label label_28_1 = new Label(1, 28, "交直流电流电压", fontFormat_Content);// 创建单元格
 			Label label_28_2 = new Label(2, 28, "查看交直流是否正常(需值班人员配合完成)",
@@ -1632,31 +1652,32 @@ public class AppInspectionController {
 
 			sheet.addCell(label_28_1);
 			sheet.addCell(label_28_2);
-			sheet.addCell(new Label(6, 28, checkbox(bean.getD25()),fontFormat_Content));
-			sheet.addCell(new Label(7, 28, bean.getC25(),fontFormat_Content));
+			sheet.addCell(new Label(6, 28, checkbox(bean.getD24()),fontFormat_Content));
+			sheet.addCell(new Label(7, 28, bean.getC24(),fontFormat_Content));
 			// 第29行
-			Label label_29_1 = new Label(1, 29, "UPS", fontFormat_Content);// 创建单元格
-			Label label_29_2 = new Label(2, 29, "查看UPS是否正常(需值班人员配合完成)",
+			Label label_29_1 = new Label(1, 29, "EPS/UPS", fontFormat_Content);// 创建单元格
+			Label label_29_2 = new Label(2, 29, "查看EPS/UPS输入、输出及电池组状态(需值班人员配合完成)",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 29, 5, 29);
 
 
 			sheet.addCell(label_29_1);
 			sheet.addCell(label_29_2);
-			sheet.addCell(new Label(6, 29, checkbox(bean.getD26()),fontFormat_Content));
-			sheet.addCell(new Label(7, 29, bean.getC26(),fontFormat_Content));
+			sheet.addCell(new Label(6, 29, checkbox(bean.getD25()),fontFormat_Content));
+			sheet.addCell(new Label(7, 29, bean.getC25(),fontFormat_Content));
 			// 第30行
-			Label label_30_0 = new Label(2, 30, "清洁", fontFormat_Content);// 创建单元格
-			sheet.mergeCells(2, 30, 5, 31);
+			Label label_30_0 = new Label(0, 30, "清洁", fontFormat_Content);// 创建单元格
+			sheet.mergeCells(0, 30, 0, 31);
 			Label label_30_1 = new Label(1, 30, "机房清洁", fontFormat_Content);// 创建单元格
 			Label label_30_2 = new Label(2, 30, "清洁机房内门窗、地面、墙面卫生",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 30, 5, 30);
 
+			sheet.addCell(label_30_0);
 			sheet.addCell(label_30_1);
 			sheet.addCell(label_30_2);
-			sheet.addCell(new Label(6, 30, checkbox(bean.getD27()),fontFormat_Content));
-			sheet.addCell(new Label(7, 30, bean.getC27(),fontFormat_Content));
+			sheet.addCell(new Label(6, 30, checkbox(bean.getD26()),fontFormat_Content));
+			sheet.addCell(new Label(7, 30, bean.getC26(),fontFormat_Content));
 			// 第31行
 			Label label_31_1 = new Label(1, 31, "设备除尘", fontFormat_Content);// 创建单元格
 			Label label_31_2 = new Label(2, 31, "清洁设备表面、内部、主体设备滤网",
@@ -1665,19 +1686,19 @@ public class AppInspectionController {
 
 			sheet.addCell(label_31_1);
 			sheet.addCell(label_31_2);
-			sheet.addCell(new Label(6, 31, checkbox(bean.getD28()),fontFormat_Content));
-			sheet.addCell(new Label(7, 31, bean.getC28(),fontFormat_Content));
+			sheet.addCell(new Label(6, 31, checkbox(bean.getD27()),fontFormat_Content));
+			sheet.addCell(new Label(7, 31, bean.getC27(),fontFormat_Content));
 			// 第32行
-			Label label_32_0 = new Label(2, 32, "功能", fontFormat_Content);// 创建单元格
+			Label label_32_0 = new Label(0, 32, "功能", fontFormat_Content);// 创建单元格
 			Label label_32_1 = new Label(1, 32, "呼叫功能", fontFormat_Content);// 创建单元格
 			Label label_32_2 = new Label(2, 32, "沿途呼叫测试", fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 32, 5, 32);
 
-
+			sheet.addCell(label_32_0);
 			sheet.addCell(label_32_1);
 			sheet.addCell(label_32_2);
-			sheet.addCell(new Label(6, 32, checkbox(bean.getD29()),fontFormat_Content));
-			sheet.addCell(new Label(7, 32, bean.getC29(),fontFormat_Content));
+			sheet.addCell(new Label(6, 32, checkbox(bean.getD28()),fontFormat_Content));
+			sheet.addCell(new Label(7, 32, bean.getC28(),fontFormat_Content));
 			// 第33行
 			Label label_33_0 = new Label(0, 33, "遗留问题", fontFormat_Content);// 创建单元格
 			Label label_33_1 = new Label(1, 33,bean.getRemainwork(), fontFormat_Content);// 创建单元格
@@ -1696,7 +1717,7 @@ public class AppInspectionController {
 		map.put("start", 0);
 		map.put("limit", 50000);
 		map.put("time", time);
-		List<InspectionMbsBean> mbsList=AppInspectionServer.mbsinfo(map);
+		//List<InspectionMbsBean> mbsList=AppInspectionServer.mbsinfo(map);
 		List<InspectionSbsBean> sbsList=AppInspectionServer.sbsinfo(map);
 		String saveDir = request.getSession().getServletContext().getRealPath("/app");
 		String pathname="";
@@ -1710,7 +1731,7 @@ public class AppInspectionController {
 	
 		
 		try {
-	 for (InspectionMbsBean bean : mbsList) {
+	 /*for (InspectionMbsBean bean : mbsList) {
 				
 				String fileName=time+"-移动基站-["+bean.getBsname()+"("+bean.getBsid()+")]巡检表.xls";
 				sb.append(fileName);
@@ -1792,11 +1813,11 @@ public class AppInspectionController {
 			book.write();
 			book.close();
 			log.info("移动基站巡检表");
-			}
+			}*/
 	 
 	 for (InspectionSbsBean bean : sbsList) {
 			
-			String fileName=time+"-自建基站-["+bean.getBsname()+"("+bean.getBsid()+")]巡检表.xls";
+			String fileName=time+"-基站-["+bean.getBsname()+"("+bean.getBsid()+")]巡检表.xls";
 			sb.append(fileName);
 			sb.append(",");
 			fileNames.add(fileName);
@@ -1858,15 +1879,13 @@ public class AppInspectionController {
 		wcf_title.setBackground(Colour.WHITE);// 背景色
 		wcf_title.setWrap(false);// 不自动换行
 
-		fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+		fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
 		fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 		fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 		fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 		fontFormat_Content.setWrap(true);// 自动换行
 
-		// 设置数字格式
-		jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
-		WritableSheet sheet = book.createSheet("移动基站巡检表", 0);
+		WritableSheet sheet = book.createSheet("基站巡检表", 0);
 		
 		excel_sbs(bean,sheet,fontFormat,fontFormat_h,fontFormat_Content);
 		
@@ -2272,6 +2291,16 @@ public class AppInspectionController {
 			} else if (str.equals("未备份")) {
 				return "□已备份   ☑未备份";
 			}
+			
+			else if (str.equals("移动") || str.equals("电信") || str.equals("铁塔")) {
+				//return "☑已备份  口未备份";
+				return " 租凭机房□      运营商机房☑          自建机房□";
+			} else if (str.equals("自建")) {
+				return " 租凭机房□      运营商机房□       自建机房☑";
+			}
+			else if (str.equals("租赁")) {
+					return " 租凭机房☑        运营商机房□       自建机房□";
+				}
 
 			else if (str.equals("已执行")) {
 				return "☑已执行  口未执行";
