@@ -370,9 +370,6 @@ public class WebUserController {
 			this.success=false;
 			this.message="密码格式不正确，密码长度必须大于6位,包含大小写字母，数字或者特殊符号";
 		}
-		
-		
-		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
