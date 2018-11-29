@@ -36,18 +36,15 @@ public class BsStatusService {
 		
 		if(FunUtil.readXml("alarm", "bs_offine").equals("on")){
 			bs_offline_count=BsStatusService.bsOffVoiceCount();
-			System.out.println("count-bs:"+bs_offline_count);
 			
 		}
 		
 		
 		if(FunUtil.readXml("alarm", "bs_water").equals("on")){
 			water_count=Integer.parseInt(map.get("water").toString());
-			System.out.println("count-w:"+water_count);
 		}
 		if(FunUtil.readXml("alarm", "bs_ups").equals("on")){
 			ups_count=Integer.parseInt(map.get("ups").toString());
-			System.out.println("count-ups:"+ups_count);
 		}
 		
 		session.close();

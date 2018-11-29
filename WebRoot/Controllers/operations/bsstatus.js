@@ -252,8 +252,10 @@ xh.load = function() {
 		};
 		//基站列表行点击
 		$scope.bs_tr_click = function(bsIdstr,name) {
+			
 			$scope.panel_group_name="";
 			$scope.panel_name=name;
+			$scope.panel_groupId=null;
 			$scope.panel_bsId=bsIdstr;
 			$scope.radioUser(bsIdstr,0);
 			$scope.bsGroup(bsIdstr);
@@ -262,7 +264,8 @@ xh.load = function() {
 		//组列表行点击
 		$scope.group_tr_click = function(groupId,name) {
 			$scope.panel_group_name=name;
-			$scope.radioUser($scope.panel_bsId,groupId);
+			$scope.panel_groupId=groupId;
+			$scope.radioUser($scope.panel_bsId,$scope.panel_groupId);
 			
 		};
 		/*$scope.sortBsId = function(a, b) {
@@ -340,49 +343,6 @@ xh.load = function() {
 			/*$(".search_bs_div").find("li").remove();
 			$("#select_bs").find("li").remove();*/
 		};
-		/* 查询数据 
-		$scope.search = function(page) {
-			var type = $("select[name='type']").val();
-			var zone = $("select[name='zone']").val();
-			var zone = $scope.zone == null ? $("select[name='zone']").val()
-					: $scope.zone;
-			var link = $("select[name='link']").val();
-			var status = $("select[name='status']").val();
-			var pageSize = $("#page-limit").val();
-			var usergroup = $("input[name='usergroup']").val();
-			var bsId = $("input[name='bsId']").val();
-			var start = 1, limit = pageSize;
-			frist = 0;
-			page = parseInt(page);
-			if (page <= 1) {
-				start = 0;
-
-			} else {
-				start = (page - 1) * pageSize;
-			}
-			 xh.maskShow(); 
-			$http.get(
-					"../../bs/allBsInfo?type=" + type + "&zone=" + zone
-							+ "&link=" + link + "&status=" + status
-							+ "&usergroup=" + usergroup + "&bsId=" + bsId)
-					.success(function(response) {
-						 xh.maskHide(); 
-						$scope.data = response.items;
-						$scope.totals = response.totals;
-						var data = [];
-
-						for (var i = 0; i < $scope.totals; i++) {
-							var dd = $scope.data[i].item;
-
-							for (var j = 0; j < dd.length; j++) {
-								data.push(dd[j]);
-							}
-						}
-						data.sort($scope.sortBsId);
-						$scope.byBsIdData = data;
-						$scope.bsBsIdTotals = data.length;
-					});
-		};*/
 		// 分页点击
 		$scope.bsPageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit-bs").val();
@@ -433,7 +393,7 @@ xh.load = function() {
 
 			$http.get(
 					"../../radio/status/oneBsRadio?bsId=" + $scope.bsId
-							+ "&start=" + start + "&limit=" + pageSize)
+							+ "&groupId="+$scope.panel_groupId+"&start=" + start + "&limit=" + pageSize)
 					.success(function(response) {
 						xh.maskHide();
 
@@ -484,11 +444,43 @@ xh.load = function() {
 
 		};
 		$scope.allBsInfo();
+		$scope.tab_index="";
+		$('#xh-tabs a').click(function (e) {  
+		   // e.preventDefault();//阻止默认行为  
+		    console.log($(this).attr("href"));
+		    $scope.tab_index=$(this).attr("href");
+		  })  
 		
 
-		/*setInterval(function() {
-			$scope.search(1);
-		}, 10000);*/
+		setInterval(function() {
+			
+			if($scope.tab_index=="#b-bs"){
+				$scope.bs_business();
+				if($scope.panel_bsId!=null && $scope.panel_bsId!=""){
+					$scope.radioUser($scope.panel_bsId,0);
+					
+					if($scope.panel_groupId!=null && $scope.panel_groupId!=""){
+						$scope.radioUser($scope.panel_bsId,$scope.panel_groupId);
+						
+					}else{
+						$scope.bsGroup($scope.panel_bsId);
+					}
+					
+				}
+			}else if($scope.tab_index=="#b-user"){
+				if(userId=$("#userId").val()!=""){
+					$scope.userstatus();
+				}
+			}else if($scope.tab_index=="#b-group"){
+				if($scope.panel_id!=null && $scope.panel_id!=""){
+					$scope.search_bs_by_regGroup($scope.panel_id);
+					$scope.search_regUser_by_regGroup($scope.panel_id);
+				}
+				
+			}
+			
+			
+		}, 5000);
 
 	});
 };

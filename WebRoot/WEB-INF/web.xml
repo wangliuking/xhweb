@@ -65,7 +65,7 @@ xh.org.listeners.SingLoginListener
 </listener-class>   
 </listener>
 <!-- 考核项目检查-->
-<!-- <listener>
+<!--  <listener>
   <description>考核项目检查</description>
   <listener-class>xh.org.listeners.checkListener</listener-class>
  </listener>  -->
@@ -83,11 +83,11 @@ xh.org.listeners.GetEastCallDataListenner
 </listener-class>   
 </listener> -->
 
-<listener>
+<!-- <listener>
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
 </listener-class>   
-</listener>
+</listener> -->
 
 <!-- 启动定时器，定时同步redis中的session相关数据-->
 <!--<listener>

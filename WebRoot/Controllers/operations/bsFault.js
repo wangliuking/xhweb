@@ -26,8 +26,8 @@ xh.load = function() {
 	var app = angular.module("app", []);
 	var pageSize = $("#page-limit").val()==null?30:$("#page-limit").val();
 	app.controller("xhcontroller", function($scope, $http) {
-		xh.maskShow();
 		$scope.count = "30";//每页数据显示默认值
+		$scope.pageValue=1;
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
@@ -67,7 +67,6 @@ xh.load = function() {
 					"level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit=30").
 			success(function(response){
-				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(1, parseInt($scope.totals),$scope);
@@ -222,7 +221,7 @@ xh.load = function() {
 		
 		/* 查询数据 */
 		$scope.search = function(page) {
-			var $scope = angular.element(appElement).scope();
+			$scope.pageValue=page;
 			var pageSize = $("#page-limit").val();
 			var bsId=$("#bsId").val();
 			var starttime=$("input[name='startTime']").val();
@@ -247,11 +246,9 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
 			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
-				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals),$scope);
@@ -281,11 +278,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
 			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
-				xh.maskHide();
+				$scope.pageValue=page;
 				
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -303,6 +299,11 @@ xh.load = function() {
 			
 		};
 		$scope.getInfo();
+		setInterval(function(){
+			$scope.search($scope.pageValue);
+		}, 10000);
+		
+		
 	});
 };
 xh.update = function() {

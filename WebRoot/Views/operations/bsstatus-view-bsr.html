@@ -6,17 +6,14 @@
 				<tr class="tr-gray">
 					<th width="120px">属性</th>
 					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
+					
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					
 					<td>工作状态</td>
-					<td style="color:red;font-weight: 800" colspan="3">
+					<td style="color:red;font-weight: 800" colspan="1">
 					<span ng-if="x.working==0" class="text-success" >正常</span>
 					<span ng-if="x.working==1" >到BSC的ICP通道断开</span>
 					<span ng-if="x.working==2" >TR异常</span> 
@@ -43,24 +40,32 @@
 					</td>
 					
 				</tr>
-				<tr>
+				<tr ng-if="x.freq!=null && x.freq!='' && x.freq!=-1">
 					<td>第一载波频点</td>
 					<td>{{x.freq |freqFormat}}</td>
-					<td>第二载波频点</td>
-					<td>{{x.freq2 |freqFormat}}</td>
-					<td>第三载波频点</td>
-					<td>{{x.freq3 |freqFormat}}</td>
 				</tr>
+				<tr ng-if="x.freq2!=null && x.freq2!='' && x.freq2!=-1">
+                    <td>第二载波频点</td>
+                    <td>{{x.freq2 |freqFormat}}</td>
+                </tr>
+                <tr ng-if="x.freq3!=null && x.freq3!='' && x.freq3!=-1">
+                    <td>第三载波频点</td>
+                    <td>{{x.freq3 |freqFormat}}</td>
+                </tr>
+                 <tr ng-if="x.freq4!=null && x.freq4!='' && x.freq4!=-1">
+                    <td>第四载波频点</td>
+                    <td>{{x.freq4 |freqFormat}}</td>
+                </tr>
 				<tr>
-					<td>第四载波频点</td>
-					<td>{{x.freq4 |freqFormat}}</td>
 					<td>是否包含主载波</td>
 					<td><span ng-if="x.master==0">未知</span> <span
 						ng-if="x.master==1">否</span> <span ng-if="x.master==2">是</span></td>
-					<td>功率</td>
-					<td><span ng-if="x.power>47">{{x.power-15}}db</span> <span
-						ng-if="x.power<=47">{{x.power}}db</span></td>
 				</tr>
+				<tr>
+                    <td>功率</td>
+                    <td><span ng-if="x.power>47">{{x.power-15}}db</span> <span
+                        ng-if="x.power<=47">{{x.power}}db</span></td>
+                </tr>
 				<!-- <tr>
 				<td>更新时间</td>
 				<td colspan="5">{{x.updateTime}}</td>

@@ -62,7 +62,7 @@
 		YEARWEEK(
 		date_format(infoTime,
 		'%Y-%m-%d')
-		) = YEARWEEK(#{day});
+		,1) = YEARWEEK(#{day},1);
 	</select>
 	<select id="now_gpsunit_status" resultType="map" useCache="true">
 		SELECT

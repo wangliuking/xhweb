@@ -341,7 +341,7 @@ public class EastComService {
 		return list;
 	}
 	public static List<EastVpnCallBean> chart_vpn_call(Map<String,Object> map){
-		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		EastComMapper mapper=session.getMapper(EastComMapper.class);
 		List<EastVpnCallBean> list=new ArrayList<EastVpnCallBean>();
 		try {

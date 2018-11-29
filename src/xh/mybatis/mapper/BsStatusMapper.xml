@@ -454,7 +454,7 @@
 	<!-- tera系统告警基站部分 导出excel -->
 	<select id="bsAlarmExcel" resultType="xh.mybatis.bean.BsAlarmExcelBean"
 		useCache="true" parameterType="map">
-		select a.bsId%1000 as bsId,
+		select a.bsId,
 		a.id,
 		CASE
 		weekly
@@ -492,13 +492,11 @@
 		a.faultType,
 		a.status,
 		a.alarmTag,b.name,b.level,b.status as
-		tag,b.hometype,b.period
+		tag,b.hometype,b.period,c.is_allow_generation,c.generation_date
 		from
 		xhgmnet_operations_bsfault as a
-		left
-		join
-		xhgmnet_bs_station as b on
-		a.bsId%1000=b.bsId
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		left join xhgmnet_bs_supply_electricity as c on a.bsId=b.bsId
 
 		where a.time between
 		#{startTime} and #{endTime} and a.sysType=1 and a.neType=4 and a.modType=3

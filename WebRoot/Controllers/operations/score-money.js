@@ -61,6 +61,10 @@ xh.load = function() {
 		
 		
 		/* 刷新数据 */
+		$scope.refresh = function() {
+			$scope.score_refresh();
+			$scope.money_refresh();
+		};
 		$scope.score_refresh = function() {
 			$scope.score_search(1);
 		};

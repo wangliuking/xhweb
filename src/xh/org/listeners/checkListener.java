@@ -366,6 +366,7 @@ class Money extends TimerTask{
 			int addTag=0;
 			String child="";
 			String tag="";
+			CheckMoneyBean bean=new CheckMoneyBean();
 			
 			if(map.get("level")!=null){
 				if(map.get("level").toString().equals("1")){
@@ -373,50 +374,51 @@ class Money extends TimerTask{
 					if(map.get("checkTime")!=null){
 						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
-					if(timeout-check_time-60>0){
+					/*if(timeout-check_time-60>0){
 						addTag=1;
-					}
+					}*/
 					tag="a2";
 					child="一级基站";
+					bean.setTimeout_standard(60);
 					
 				}else if(map.get("level").toString().equals("2")){
 					if(map.get("checkTime")!=null){
 						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
-					if(timeout-check_time-300>0){
+					/*if(timeout-check_time-300>0){
 						addTag=1;
-					}
+					}*/
 					tag="a3";
 					child="二级基站";
+					bean.setTimeout_standard(300);
 					
 				}else if(map.get("level").toString().equals("3")){
 					if(map.get("checkTime")!=null){
 						check_time=(int) Double.parseDouble(map.get("checkTime").toString());
 					}
-					if(timeout-check_time-540>0){
+					/*if(timeout-check_time-540>0){
 						addTag=1;
-					}
+					}*/
 					tag="a4";
 					child="三级基站";
+					bean.setTimeout_standard(540);
 				}else{
 				}
 				
-				if(addTag==1){
-					CheckMoneyBean bean=new CheckMoneyBean();
-					bean.setCheck_type("服务可用率");
-					bean.setCheck_child(child);
-					bean.setBsId(map.get("bsId").toString());
-					if(map.get("period")!=null){
-						bean.setPeriod(map.get("period").toString());
-					}
-					bean.setFault_time(fault_time);
-					bean.setCheck_time(check_time);
-					bean.setLevel(FunUtil.StringToInt(map.get("level").toString()));
-					bean.setCheck_tag(tag);
-					bean.setCheck_date(time);
-					bean.setMoney(money);
-					OperationsCheckService.insert_check_month_money_detail(bean);
+				bean.setCheck_type("服务可用率");
+				bean.setCheck_child(child);
+				bean.setBsId(map.get("bsId").toString());
+				if(map.get("period")!=null){
+					bean.setPeriod(map.get("period").toString());
 				}
+				bean.setFault_time(fault_time);
+				bean.setCheck_time(check_time);
+				bean.setLevel(FunUtil.StringToInt(map.get("level").toString()));
+				bean.setCheck_tag(tag);
+				bean.setCheck_date(time);
+				bean.setCheck_datetime(map.get("faultRecoveryTime").toString());
+				bean.setMoney(money);
+				OperationsCheckService.insert_check_month_money_detail(bean);
 				
 			}
 			
@@ -445,6 +447,7 @@ class Money extends TimerTask{
 				bean.setDetail("发生一次特别重大故障");
 				bean.setCheck_tag("b2");
 				bean.setCheck_date(time);
+				bean.setCheck_datetime(map.get("faultRecoveryTime").toString());
 				bean.setMoney(20000);
 				OperationsCheckService.insert_check_month_money_detail(bean);
 			}else if(map.get("severity").equals("重大故障")){
@@ -460,6 +463,7 @@ class Money extends TimerTask{
 				bean.setDetail("发生一次重大故障");
 				bean.setCheck_tag("b1");
 				bean.setCheck_date(time);
+				bean.setCheck_datetime(map.get("faultRecoveryTime").toString());
 				bean.setMoney(10000);
 				OperationsCheckService.insert_check_month_money_detail(bean);
 			}

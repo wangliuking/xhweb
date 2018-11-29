@@ -5,17 +5,13 @@
 			<tr class="tr-gray">
 					<th width="120px">属性</th>
 					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
-					<th width="120px">属性</th>
-					<th>值</th>
 				</tr>
 				
 			</thead>
 			<tbody>
 			<tr>
 					<td>工作状态</td>
-					<td colspan="3" style="color:red;font-weight: 800">
+					<td colspan="1" style="color:red;font-weight: 800">
 					<span ng-if="x.working==0" class="text-success">正常</span>
 					<span ng-if="x.working==1">到交换中心的 ICP通道断开</span> 
 					<span ng-if="x.working==2">温度异常</span> 
@@ -34,19 +30,28 @@
 					<span ng-if="x.mode==1" class="text-success">单站</span> 
 					<span ng-if="x.mode==2" class="text-success">联网</span>
 					<span ng-if="x.mode==0" class="text-info">未知</span></td>
-					<td>主备状态</td>
-					<td>
-					<span ng-if="x.master==0" class="text-info">备用</span>
+					
+					</tr>
+					
+					<tr>
+                    <td>主备状态</td>
+                    <td>
+                    <span ng-if="x.master==0" class="text-info">备用</span>
                     <span ng-if="x.master==2" class="text-success">主用</span>
-					</td>
-					<td>时钟同步状态</td>
-					<td>
-					<span ng-if="x.timeSync==1">获取同步中</span> 
-					<span ng-if="x.timeSync==2">同步</span> 
-					<span ng-if="x.timeSync==3">保持</span>
-					<span ng-if="x.timeSync==4">自由状态</span>
-					</td>
-					</tr><tr>
+                    </td>
+                    </tr>
+                    
+                    <tr>
+                    <td>时钟同步状态</td>
+                    <td>
+                    <span ng-if="x.timeSync==1">获取同步中</span> 
+                    <span ng-if="x.timeSync==2">同步</span> 
+                    <span ng-if="x.timeSync==3">保持</span>
+                    <span ng-if="x.timeSync==4">自由状态</span>
+                    </td>
+                    </tr>
+					
+					<tr>
 					<td>GPS时钟信息</td>
 					<td>
 					<span ng-if="x.gpsTime==1">GPS</span> 
@@ -54,11 +59,11 @@
 					<span ng-if="x.gpsTime==3">NTP</span>
 					<span ng-if="x.gpsTime==4">none</span>
 					</td>
-					<td>运行时长</td>
-					<td>{{x.runtime |timeFormate}}</td>
-					<!-- <td>更新时间</td>
-					<td>{{x.updateTime}}</td> -->
 				</tr>
+				    <tr>
+                    <td>运行时长</td>
+                    <td>{{x.runtime |timeFormate}}</td>
+                </tr>
 				
 			</tbody>
 		</table>
