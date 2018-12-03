@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.standard.Severity;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,10 +35,14 @@ import jxl.write.WritableWorkbook;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
@@ -50,6 +55,8 @@ import xh.mybatis.bean.BsFlashBean;
 import xh.mybatis.bean.BsRunStatusBean;
 import xh.mybatis.bean.BsStatusBean;
 import xh.mybatis.bean.EmhBean;
+import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsStatusService;
 import xh.mybatis.service.BsstationService;
 import xh.mybatis.service.BusinessService;
@@ -58,13 +65,19 @@ import xh.mybatis.service.EmhService;
 import xh.mybatis.service.PublicVariableService;
 import xh.mybatis.service.ServerStatusService;
 import xh.mybatis.service.SqlServerService;
+import xh.mybatis.service.WebLogService;
 
 @Controller
 @RequestMapping(value = "/bsstatus")
 public class BsStatusController {
 	protected final Log log = LogFactory.getLog(BsStatusController.class);
 	private FlexJSON json = new FlexJSON();
+	private WebLogBean webLogBean=new WebLogBean();
 	private boolean success;
+	
+	
+	@Autowired
+	private HttpServletRequest rq;
 	
 	/*没有核减的基站数量*/
 	@RequestMapping(value="/not_check",method = RequestMethod.GET)
@@ -82,6 +95,30 @@ public class BsStatusController {
 		int count=Constants.getBS_NOT_ORDER_NUM();
 		HashMap result = new HashMap();
 		result.put("count", count);
+		return result;
+	}
+	
+	@RequestMapping(value="/stop_check_bs",method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap stop_check_bs(@RequestParam("id") String id){
+		
+		String[] ids=id.split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : ids) {
+			list.add(string);
+		}	
+		int rs=0;
+		rs=BsStatusService.stop_check_bs(list);
+		if(rs>0){
+			webLogBean.setOperator(FunUtil.loginUser(rq));
+			webLogBean.setOperatorIp(FunUtil.getIpAddr(rq));
+			webLogBean.setStyle(2);
+			webLogBean.setContent("禁止核减:"+id);
+			webLogBean.setCreateTime(FunUtil.nowDate());
+			WebLogService.writeLog(webLogBean);
+		}
+		HashMap result = new HashMap();
+		result.put("count", rs);
 		return result;
 	}
 	

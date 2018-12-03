@@ -15,11 +15,11 @@
 	<!--查询没有核减的基站 -->
 	<select id="not_check_bs" resultType="int" useCache="true">
 		select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
-		and alarmTag=0
 		and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000 or
 		bsId>2000)
 		AND checkTag=0
 	</select>
+	
 	<!--查询没有派单的基站 -->
 	<select id="not_order_bs" resultType="int" useCache="true">
         select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
@@ -28,6 +28,14 @@
         bsId>2000)
         AND status=0
 	</select>
+	
+	<update id="stop_check_bs" parameterType="java.util.List">
+	update xhgmnet_operations_bsfault set checkTag=-1 where id in(
+	<foreach collection="list" item="id" separator=",">
+	#{id}
+	</foreach>
+	)
+	</update>
 
 
 	<!--查询所有 -->

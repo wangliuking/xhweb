@@ -91,6 +91,8 @@ public interface BsStatusMapper {
 	/*<!--查询没有派单的基站 -->*/
 	public int not_order_bs() throws Exception;
 	
+	public int stop_check_bs(List<String> list) throws Exception;
+	
 	
 	
 	/**

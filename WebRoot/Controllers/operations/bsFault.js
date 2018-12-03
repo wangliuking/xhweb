@@ -110,6 +110,58 @@ xh.load = function() {
 						$scope.userData = response.items;
 					});
 		}
+		//禁止核减
+		$scope.stop_check=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length<1) {
+				swal({
+					title : "提示",
+					text : "至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			swal({
+				title : "提示",
+				text : "确认禁止对该基站核减吗？",
+				type : "success",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			 
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../bsstatus/stop_check_bs',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : checkVal.join(",")
+						},
+						async : false,
+						success : function(data) {
+							if (data.count>0) {
+								toastr.success("成功", '提示');
+								$scope.refresh();
+
+							} else {
+								toastr.error("失败", '提示');
+							}
+						},
+						error : function() {
+							toastr.error("服务器响应失败", '提示');
+						}
+					});
+				}
+			});
+			
+		}
 		//确认告警
 		$scope.sureOk=function(){
 			var checkVal = [];

@@ -957,5 +957,23 @@ public class BsStatusService {
 		}
 		return count;
 	}
+	public static int stop_check_bs(List<String> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int rs=0;
+		try {
+			rs = mapper.stop_check_bs(list);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 }

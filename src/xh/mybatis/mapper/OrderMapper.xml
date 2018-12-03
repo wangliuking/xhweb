@@ -48,7 +48,7 @@
     </update>
     <!-- 更新基站故障状态记录 -->
     <update id="updateBsFault" parameterType="map">
-    update xhgmnet_operations_bsfault set status=#{status} where id=#{id}
+    update xhgmnet_operations_bsfault set status=#{status},orderId=#{orderId} where id=#{id}
     </update>
     <!--用户列表-->
     <select id="userList" resultType="map" useCache="true">
