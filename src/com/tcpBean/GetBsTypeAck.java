@@ -17,6 +17,7 @@ package com.tcpBean;
 public class GetBsTypeAck {
 	private String cmdtype = "getbstypeack";
 	private String userid;
+	private String period;
 	private String bsid;
 	private String bsname;
 	private String bslevel;
@@ -67,11 +68,20 @@ public class GetBsTypeAck {
 		this.bstype = bstype;
 	}
 
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
 	@Override
 	public String toString() {
 		return "GetBsTypeAck{" +
 				"cmdtype='" + cmdtype + '\'' +
 				", userid='" + userid + '\'' +
+				", period='" + period + '\'' +
 				", bsid='" + bsid + '\'' +
 				", bsname='" + bsname + '\'' +
 				", bslevel='" + bslevel + '\'' +

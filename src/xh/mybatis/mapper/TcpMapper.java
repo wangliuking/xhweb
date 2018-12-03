@@ -6,6 +6,20 @@ import java.util.Map;
 
 public interface TcpMapper {
 	/**
+	 * 查询当月已巡基站
+	 */
+	public List<Map<String,Object>> selectInspectionBsList(int month)throws Exception;
+
+	/**
+	 * 查询当月未巡基站
+	 */
+	public List<Map<String,Object>> selectNotInspectionBsList(int month)throws Exception;
+
+	/**
+	 * 查询当前所有断站
+	 */
+	public List<Map<String,Object>> selectBreakBsInfo()throws Exception;
+	/**
 	 * 根据基站id查询移动基站最近五条巡检
 	 */
 	public List<Map<String,Object>> selectInspectListForMoveBs(String bsId)throws Exception;
@@ -46,6 +60,11 @@ public interface TcpMapper {
 	 * 查询派单处理情况
 	 */
 	public Map<String,String> selectOrderStatus(String serialNum)throws Exception;
+
+	/**
+	 * 插入基站巡检表
+	 */
+	public int insertBsTable(List<String> list)throws Exception;
 	
 	/**
 	 * 插入移动基站巡检表数据

@@ -130,7 +130,7 @@ xh.load = function() {
 		//确认派单完成
 		$scope.check=function(id){
 			$.ajax({
-				url : '../../order/updateOrder',
+				url : '../../order/updateOrder?status='+2,
 				type : 'POST',
 				dataType : "json",
 				async : true,
@@ -155,6 +155,34 @@ xh.load = function() {
 				}
 			});
 		};
+
+        $scope.checkFail=function(id){
+            $.ajax({
+                url : '../../order/updateOrder?status='+1,
+                type : 'POST',
+                dataType : "json",
+                async : true,
+                data:{
+                    id:$scope.data[id].id,
+                    bsId:$scope.data[id].bsid,
+                    zbdldm:$scope.data[id].zbdldm,
+                    from:$scope.data[id].from,
+                    serialnumber:$scope.data[id].serialnumber,
+                    userid:$scope.data[id].userid
+                },
+                success : function(data) {
+
+                    if (data.success) {
+                        $scope.refresh();
+                        toastr.success("已确认改派单中的故障处理意见", '提示');
+                    } else {
+                        toastr.success("确认失败", '提示');
+                    }
+                },
+                error : function() {
+                }
+            });
+        };
 
 		/* 查询数据 */
 		$scope.search = function(page) {

@@ -111,6 +111,7 @@ public class OrderController {
 	
 	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
 	public void updateOrder(HttpServletRequest request, HttpServletResponse response) {
+		int status = Integer.parseInt(request.getParameter("status"));
 		int id=FunUtil.StringToInt(request.getParameter("id"));
 		String from=request.getParameter("from");
 		String bsid=request.getParameter("bsId");
@@ -120,7 +121,7 @@ public class OrderController {
 		this.success=true;
 		
 		Map<String,Object> map=new HashMap<String, Object>();
-		map.put("status", 2);
+		map.put("status", status);
 		map.put("id", id);
 		
 		int code=OrderService.updateOrder(map);
@@ -129,7 +130,12 @@ public class OrderController {
 		ErrCheckAck errCheckAck = new ErrCheckAck();
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
-		errCheckAck.setResult("0");
+		if(status == 2){
+			errCheckAck.setResult("0");
+		}else{
+			errCheckAck.setResult("1");
+		}
+
 		demo.startMessageThread(userid, errCheckAck);
 		
 		if(code>0){
