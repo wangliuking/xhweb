@@ -30,6 +30,8 @@ public class BsStatusService {
 		int bs_offline_count=0;
 		int ups_count=0;
 		int water_count=0;
+		int dispatch=0;
+		int link=0;
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
 		Map<String,Object> map=mapper.emhVoiceCount();
@@ -38,17 +40,21 @@ public class BsStatusService {
 			bs_offline_count=BsStatusService.bsOffVoiceCount();
 			
 		}
-		
-		
 		if(FunUtil.readXml("alarm", "bs_water").equals("on")){
 			water_count=Integer.parseInt(map.get("water").toString());
 		}
 		if(FunUtil.readXml("alarm", "bs_ups").equals("on")){
 			ups_count=Integer.parseInt(map.get("ups").toString());
 		}
+		if(FunUtil.readXml("alarm", "dispatch").equals("on")){
+			dispatch=BsAlarmService.dispatch_alarm();
+		}
+		if(FunUtil.readXml("alarm", "link").equals("on")){
+			dispatch=BsAlarmService.link_alarm();
+		}
 		
 		session.close();
-		return bs_offline_count+ups_count+water_count;
+		return bs_offline_count+ups_count+water_count+dispatch+link;
 		
 	}
 
@@ -915,6 +921,41 @@ public class BsStatusService {
 			e.printStackTrace();
 		}
 		return rMap;
+	}
+	
+	public static int not_check_bs() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count=0;
+		try {
+			count = mapper.not_check_bs();
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int not_order_bs() {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		int count=0;
+		try {
+			count = mapper.not_order_bs();
+			sqlSession.close();
+
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

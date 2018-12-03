@@ -60,101 +60,97 @@
 								<span class="label arrowed-in label-success">已恢复</span>
 							</div>
 						</div>
-					
-					<div class="form-group col-md-12">
-						<label>故障定位</label><input type="text" value=""
-							class="form-control" name="bsId" ng-model="bsAlarmData.location"
-							readonly="readonly">
-					</div>
-					<div class="form-group col-md-12">
-						<label>故障信息</label><input type="text" value=""
-							class="form-control" name="bsId" ng-model="bsAlarmData.reason"
-							readonly="readonly">
-					</div>
-					<div class="form-group col-md-12">
-						<label>故障原因</label><input type="text" value=""
-							class="form-control" name="bsId" ng-model="bsAlarmData.reason2"
-							readonly="readonly">
-					</div>
-					<div class="form-group col-md-12">
-						<label style="color:red">处理建议</label>
-						<div style="color:green">{{bsAlarmData.suggestion2}}</div>
 
+						<div class="form-group col-md-12">
+							<label>故障定位</label><input type="text" value=""
+								class="form-control" name="bsId" ng-model="bsAlarmData.location"
+								readonly="readonly">
+						</div>
+						<div class="form-group col-md-12">
+							<label>故障信息</label><input type="text" value=""
+								class="form-control" name="bsId" ng-model="bsAlarmData.reason"
+								readonly="readonly">
+						</div>
+						<div class="form-group col-md-12">
+							<label>故障原因</label><input type="text" value=""
+								class="form-control" name="bsId" ng-model="bsAlarmData.reason2"
+								readonly="readonly">
+						</div>
+						<div class="form-group col-md-12">
+							<label style="color:red">处理建议</label>
+							<div style="color:green">{{bsAlarmData.suggestion2}}</div>
+
+						</div>
 					</div>
 				</div>
+
+
+
+
 			</div>
-
-
-
-
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-danger btn-sm"
-				data-dismiss="modal">
-				<i class="fa fa-remove"></i>&nbsp;关闭
-			</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
 </div>
 
 
 <!-- 告警查询 -->
-	<div class="modal fade" id="search" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header ">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<small class="font-bold">数据筛选</small>
-				</div>
-				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-					<div class="row">
-					
+<div class="modal fade" id="search" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">数据筛选</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+				<div class="row">
+
 					<div class="col-md-12">
-					<div class="form-group col-md-12 search" style="margin-top:10px;">
-					<label>信息来源</label> &nbsp;&nbsp;&nbsp;&nbsp; 
-											<div class="radio radio-info radio-inline">
-												<input type="radio" id="sysType1" value="0"
-													name="sysType" checked="checked">
-												<label for="sysType1">全部告警</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="sysType2" value="1"
-													name="sysType"> <label
-													for="sysType2">Tetra系统</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="sysType3" value="2"
-													name="sysType" > <label
-													for="sysType3">动环网</label>
-											</div>
-										</div>
-					</div>
-						
-
-						<div class="col-md-12">
-							<div class="form-group col-md-12 search" style="margin-top:10px;">
-								<label>告警级别</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
-									id="level1" class="magic-checkbox" type="checkbox" name="level"
-									value="1" checked> <label for="level1"><span>严重告警</span></label>
-
-								<input id="level2" class="magic-checkbox" type="checkbox"
-									name="level" value="2" checked> <label for="level2"><span>主要告警</span></label>
-
-								<input id="level3" class="magic-checkbox" type="checkbox"
-									name="level" value="3" checked> <label for="level3"><span>次要告警</span></label>
-								
-								<input id="level4" class="magic-checkbox" type="checkbox"
-									name="level" value="4" checked> <label for="level4"><span>一般告警</span></label>
+						<div class="form-group col-md-12 search" style="margin-top:10px;">
+							<label>信息来源</label> &nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="sysType1" value="0" name="sysType"
+									checked="checked"> <label for="sysType1">全部告警</label>
 							</div>
-							
-
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="sysType2" value="1" name="sysType">
+								<label for="sysType2">Tetra系统</label>
+							</div>
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="sysType3" value="2" name="sysType">
+								<label for="sysType3">动环网</label>
+							</div>
 						</div>
-						
-						
-						<!-- col-md -->
+					</div>
+
+
+					<div class="col-md-12">
+						<div class="form-group col-md-12 search" style="margin-top:10px;">
+							<label>告警级别</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="level1"
+								class="magic-checkbox" type="checkbox" name="level" value="1"
+								checked> <label for="level1"><span>严重告警</span></label> <input
+								id="level2" class="magic-checkbox" type="checkbox" name="level"
+								value="2" checked> <label for="level2"><span>主要告警</span></label>
+
+							<input id="level3" class="magic-checkbox" type="checkbox"
+								name="level" value="3" checked> <label for="level3"><span>次要告警</span></label>
+
+							<input id="level4" class="magic-checkbox" type="checkbox"
+								name="level" value="4" checked> <label for="level4"><span>一般告警</span></label>
+						</div>
+
+
+					</div>
+
+
+					<!-- col-md -->
 					<!-- 	<div class="col-md-12">
 							<div class="form-group col-md-12 search" style="margin-top:5px;">
 								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="category1"
@@ -175,16 +171,16 @@
 							</div>
 
 						</div> -->
-						<div class="col-md-12">
-							<div class="form-group col-md-12 search" style="margin-top:5px;">
-								<label>告警状态</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="status1"
-									class="magic-checkbox" type="checkbox" name="alarmTag" value="1">
-									 <label for="status1"><span>恢复</span></label> <input
-									id="status2" class="magic-checkbox" type="checkbox" name="alarmTag"
-									value="0" checked> <label for="status2"><span>未恢复</span></label>
-							</div>
-
+					<div class="col-md-12">
+						<div class="form-group col-md-12 search" style="margin-top:5px;">
+							<label>告警状态</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="status1"
+								class="magic-checkbox" type="checkbox" name="alarmTag" value="1">
+							<label for="status1"><span>恢复</span></label> <input id="status2"
+								class="magic-checkbox" type="checkbox" name="alarmTag" value="0"
+								checked> <label for="status2"><span>未恢复</span></label>
 						</div>
+
+					</div>
 					<!-- 	<div class="col-md-12">
 							<div class="form-group col-md-12 search" style="margin-top:10px;">
 								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
@@ -202,64 +198,73 @@
 							</div>
 
 						</div> -->
-							<div class="col-md-12">
-					<div class="form-group col-md-12 search" style="margin-top:10px;">
-					<label>重点告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; 
-											<div class="radio radio-info radio-inline">
-												<input type="radio" id="alarmType1" value="0"
-													name="alarmType" checked="checked">
-												<label for="alarmType1">全部告警</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="alarmType5" value="4"
-													name="alarmType"> <label
-													for="alarmType5">断站</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="alarmType2" value="1"
-													name="alarmType"> <label
-													for="alarmType2">水浸</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="alarmType3" value="2"
-													name="alarmType" > <label
-													for="alarmType3">停电</label>
-											</div>
-											<div class="radio radio-info  radio-inline">
-												<input type="radio" id="alarmType4" value="3"
-													name="alarmType" > <label
-													for="alarmType4">bsr故障</label>
-											</div>
-										</div>
-					</div>
-						<!-- col-md -->
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="startTime"
-									required="required"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="xh.nowDate()">
+					<div class="col-md-12">
+						<div class="form-group col-md-12 search" style="margin-top:10px;">
+							<label>重点告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="alarmType1" value="0" name="alarmType"
+									checked="checked"> <label for="alarmType1">全部告警</label>
 							</div>
-						</div>
-						<!-- col-md -->
-						<div class="col-md-6">
-							<div class="form-group col-md-12">
-								<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="endTime"
-									required="required"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="alarmType5" value="4" name="alarmType">
+								<label for="alarmType5">断站</label>
+							</div>
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="alarmType2" value="1" name="alarmType">
+								<label for="alarmType2">水浸</label>
+							</div>
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="alarmType3" value="2" name="alarmType">
+								<label for="alarmType3">停电</label>
+							</div>
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="alarmType4" value="3" name="alarmType">
+								<label for="alarmType4">bsr故障</label>
 							</div>
 						</div>
 					</div>
-					<!-- row -->
+					<!-- <div class="col-md-12">
+						<div class="form-group col-md-12 search" style="margin-top:10px;">
+							<label>特别关注</label> &nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="radio radio-info radio-inline">
+								<input type="radio" id="important1" value="0" name="important"
+									checked="checked"> <label for="sysType1">全部告警</label>
+							</div>
+							<div class="radio radio-info  radio-inline">
+								<input type="radio" id="important2" value="1" name="important">
+								<label for="sysType2">断站，调度台，交流电，水浸</label>
+							</div>
+						</div>
+					</div> -->
+					<!-- col-md -->
+					<div class="col-md-6">
+						<div class="form-group col-md-12">
+							<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+								type="text" value="" class="form-control" name="startTime"
+								required="required"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+								value="xh.nowDate()">
+						</div>
+					</div>
+					<!-- col-md -->
+					<div class="col-md-6">
+						<div class="form-group col-md-12">
+							<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+								type="text" value="" class="form-control" name="endTime"
+								required="required"
+								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+						</div>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button"
-					class="btn btn-success btn-sm" ng-click="refresh_search()">
+				<!-- row -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm"
+					ng-click="refresh_search()">
 					<i class="fa fa-search"></i>&nbsp;查询
 				</button>
-				</div>
 			</div>
 		</div>
 	</div>
-	<!-- /告警查询 -->
+</div>
+<!-- /告警查询 -->

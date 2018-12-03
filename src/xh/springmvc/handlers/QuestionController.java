@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -60,9 +61,11 @@ public class QuestionController {
 	public void list(HttpServletRequest request, HttpServletResponse response){
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		int status=funUtil.StringToInt(request.getParameter("status"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("status", status);
 		try {
 			List<Map<String,Object>> list=QuestionService.list(map);
 			int count=QuestionService.count(map);
@@ -77,6 +80,30 @@ public class QuestionController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+			
+	}
+	
+	@RequestMapping("/handler")
+	@ResponseBody
+	public Map handler(HttpServletRequest request, HttpServletResponse response){
+		int id=Integer.parseInt(request.getParameter("id"));
+		HashMap result = new HashMap();
+		try {
+			int rst=QuestionService.update(id);
+			if(rst>0){
+				this.message="修改遗留问题成功";
+				this.success=true;
+			}else{
+				this.message="修改遗留问题失败";
+				this.success=false;
+			}			
+			result.put("success", success);
+			result.put("message", message);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return result;
 			
 	}
 

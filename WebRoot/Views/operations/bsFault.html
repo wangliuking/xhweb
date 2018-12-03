@@ -327,7 +327,6 @@ to {
 									<tr class="tr-gray">
 										<th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th>
-										<!-- <th width="70px">信息来源</th> -->
 										
 										<th width="80px">网元类型</th>
 										<th width="230px">网元名称</th>
@@ -352,8 +351,10 @@ to {
 									<tr ng-repeat="x in data">
 										<td><input type="checkbox" name="tb-check"
 											value="{{x.id}}" index="{{$index}}" /></td>
-										
-										<td><span ng-if="x.neType==1">基站</span> <span
+										<td>
+										<img ng-if="(x.neType==4 || x.neType==102 || x.neType==101 || x.neType==100) && x.voiceTag==0" 
+										src="../../Resources/images/icon/new.png" width="20px" height="20px">
+										<span ng-if="x.neType==1">基站</span> <span
 													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
 													<span ng-if="x.neType==4">网管</span> <span
 													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
@@ -373,16 +374,20 @@ to {
 													ng-if="x.neType==29">以太网E1网桥</span> <span
 													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
 													<span ng-if="x.neType==100">基站环控</span>
+													<span ng-if="x.neType==101">交换中心</span>
+													<span ng-if="x.neType==102">调度台</span>
 												</td>
 										
 										<td>
 										<span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==1 && x.neType==2">交换中心（{{x.mscId}})->{{x.name}}（{{x.bsId}}）</span>
+										<span ng-if="x.sysType==1 && x.neType==2">交换中心({{x.mscId}})->{{x.name}}({{x.bsId}})</span>
 										<span ng-if="x.sysType==1 && x.neType==4">{{x.name}}（{{x.bsId}}）</span>
 										<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
 										<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
 										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
 										<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
+										<span ng-if="x.sysType==4 && x.neType==101">{{x.location}}({{x.subModId}})</span>
+										<span ng-if="x.sysType==3 && x.neType==102">{{x.location}}({{x.subModId}})</span>
 										</td>
 										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">严重告警</td>
 												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">主要告警</td>
@@ -425,7 +430,7 @@ to {
 												class="fa fa-edit text-danger"></i>&nbsp;核减
 										</a> 
 										<a href="#" ng-click="showOrderWin($index)"
-											ng-if="x.status==0 && (up.o_order=='on' || roleType==0)"> <i
+											ng-if="x.status==0 && (up.o_order=='on' || roleType==0) && (x.neType!=101 && x.neType!=103)"> <i
 												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
 										</a>
 										

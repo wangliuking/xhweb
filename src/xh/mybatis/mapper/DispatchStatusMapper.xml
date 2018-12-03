@@ -12,7 +12,7 @@
     </select>  
     <!--获取已经安装的调度台-->
     <select id="dispatchSetup" resultType="map" useCache="true">
-     select * from xhgmnet_dispatch limit 0,100
+     select * from xhgmnet_dispatch where setupStatus =1 limit 0,500
     </select> 
     <!-- 修改调度台状态  -->
     <update id="updateDispatchStatus" parameterType="map">

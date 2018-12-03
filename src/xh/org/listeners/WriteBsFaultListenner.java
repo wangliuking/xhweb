@@ -16,11 +16,13 @@ import org.apache.commons.logging.LogFactory;
 
 import com.ctc.wstx.util.StringUtil;
 
+import xh.constant.Constants;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
 import xh.mybatis.bean.ThreeEmhAlarmBean;
 import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.BsStatusService;
+import xh.mybatis.service.DispatchStatusService;
 import xh.mybatis.service.PublicVariableService;
 import xh.mybatis.service.SqlServerService;
 
@@ -48,10 +50,12 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		
 		if(timer==null){
 			timer=new Timer();
-			timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
+			/*timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
 			timer.scheduleAtFixedRate(new EmhEpsWater(), 25000, 1000*60*3);			
 			timer.scheduleAtFixedRate(new VoiceAlarm(), 15000, 1000*15);			
-			timer.scheduleAtFixedRate(new PullEmhThreeAlarm(), 20000, 1000*60*5);
+			timer.scheduleAtFixedRate(new PullEmhThreeAlarm(), 20000, 1000*60*1);*/
+			timer.scheduleAtFixedRate(new VoiceNotCkeck(), 10000, 1*60*60*1000);
+			timer.scheduleAtFixedRate(new VoiceNotOrder(), 10000, 5*60*1000);
 		}
 		
 	}
@@ -63,6 +67,23 @@ public class WriteBsFaultListenner implements ServletContextListener{
 	
 	
 
+}
+class VoiceNotCkeck extends TimerTask{
+	protected final Log log=LogFactory.getLog(VoiceNotCkeck.class);
+
+	@Override
+	public void run() {
+		Constants.setBS_NOT_CHECK_NUM(BsStatusService.not_check_bs());
+	}
+	
+}
+class VoiceNotOrder extends TimerTask{
+	protected final Log log=LogFactory.getLog(VoiceNotOrder.class);
+
+	@Override
+	public void run() {
+		Constants.setBS_NOT_ORDER_NUM(BsStatusService.not_order_bs());
+	}
 }
 //四期交流电告警
 class EmhEpsWater extends TimerTask{
@@ -168,11 +189,13 @@ class PullEmhThreeAlarm extends TimerTask{
 					if(SqlServerService.alarmExists(threeEmhAlarmBean)==0){
 						SqlServerService.insertEmhAlarm(threeEmhAlarmBean);
 						//log.info(threeEmhAlarmBean);
+						
 						i++;
 					}
 				}else{
 					if(SqlServerService.alarmExists(threeEmhAlarmBean)>0){
 						SqlServerService.updateEmhAlarm(threeEmhAlarmBean);
+						
 						j++;
 					}
 					

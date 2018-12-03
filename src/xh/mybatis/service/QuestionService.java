@@ -27,6 +27,14 @@ public class QuestionService {
 		session.close();
 		return rst;
 	}
+	public static int update(int id) throws Exception {
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		QuestionMapper mapper=session.getMapper(QuestionMapper.class);
+		int rst=mapper.update(id);
+		session.commit();
+		session.close();
+		return rst;
+	}
 
 	public static List<Map<String, Object>> list(Map<String, Object> map)
 			throws Exception {

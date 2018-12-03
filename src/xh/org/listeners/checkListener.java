@@ -116,9 +116,9 @@ class Score extends TimerTask{
 				if(map.get("lightning").toString().equals("未安装")){
 					str.append("防雷接地-未安装;");
 				}
-				if(map.get("generatorConfig").toString().equals("0")){
+				/*if(map.get("generatorConfig").toString().equals("0")){
 					str.append("油机-无;");
-				}
+				}*/
 				if(map.get("has_spare_power").toString().equals("否")){
 					str.append("供配电-无;");
 				}

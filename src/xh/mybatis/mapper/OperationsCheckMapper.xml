@@ -246,7 +246,7 @@
 		checkTime3=#{checkTime3},status=#{status}
 		where id=#{id}
 	</update>
-	<!-- 考核机房配套设施 -->
+	<!-- 考核机房配套设施 OR c.generatorConfig = 0 -->
 	<select id="check_room_equ" resultType="map">
 		SELECT
 		a.bsId,
@@ -274,7 +274,7 @@
 		OR b.air_conditioning = "未配置"
 		OR b.fire = "未配置"
 		OR b.lightning = "未安装"
-		OR c.generatorConfig = 0
+		
 		OR
 		c.has_spare_power !=
 		"是"

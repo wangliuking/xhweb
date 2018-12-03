@@ -18,6 +18,10 @@
     <insert id="addBsFault" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
      insert into xhgmnet_operations_bsfault(bsId, weekly, time,reason)values(#{bsId},#{weekly},#{time},#{reason})
     </insert>
+    <!-- 添加调度台告警
+    <insert id="addBsFault" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
+     insert into xhgmnet_operations_bsfault(bsId, weekly, time,reason)values(#{bsId},#{weekly},#{time},#{reason})
+    </insert> -->
     <update id="bsRestore" parameterType="xh.mybatis.bean.BsAlarmExcelBean">
      update xhgmnet_operations_bsfault set faultRecoveryTime=#{faultRecoveryTime},faultTimeTotal=#{faultTimeTotal} where bsId=#{bsId} and time=#{time}
     </update>
@@ -25,6 +29,18 @@
     <select id="bsFaultIsHave" resultType="int" parameterType="int" >
     select count(*) from xhgmnet_operations_bsfault where bsId=#{bsId}
     </select>
+    <!-- 调度台异常告警统计 -->
+    <select id="dispatch_alarm" resultType="int" parameterType="int" >
+    select count(*) from xhgmnet_operations_bsfault where neType=102 AND alarmTag=0 and voiceTag=0
+    </select>
+    <!-- 链路异常告警统计 -->
+    <select id="link_alarm" resultType="int" parameterType="int" >
+    select count(*) from xhgmnet_operations_bsfault where neType=101 AND alarmTag=0 and voiceTag=0
+    </select>
+    <!-- 判断基站断站记录是否存在 -->
+   <!--  <select id="bsFaultIsHave" resultType="int" parameterType="int" >
+    select * from xhgmnet_operations_bsfault where bsId=#{bsId}
+    </select> -->
     <!-- 四期交流电列表 -->
     <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
     select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a

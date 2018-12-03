@@ -19,7 +19,7 @@ public interface DispatchStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Map<String,String>> dispatchSetup() throws Exception;
+	public List<Map<String,Object>> dispatchSetup() throws Exception;
 	
 	/**
 	 * 调度台断开报警

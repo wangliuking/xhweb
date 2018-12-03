@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
+import xh.constant.Constants;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
@@ -65,6 +66,24 @@ public class BsStatusController {
 	private FlexJSON json = new FlexJSON();
 	private boolean success;
 	
+	/*没有核减的基站数量*/
+	@RequestMapping(value="/not_check",method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap not_check(HttpServletRequest request, HttpServletResponse response){
+		int count=Constants.getBS_NOT_CHECK_NUM();
+		HashMap result = new HashMap();
+		result.put("count", count);
+		return result;
+	}
+	/*没有派单的基站数量*/
+	@RequestMapping(value="/not_order",method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap not_order(HttpServletRequest request, HttpServletResponse response){
+		int count=Constants.getBS_NOT_ORDER_NUM();
+		HashMap result = new HashMap();
+		result.put("count", count);
+		return result;
+	}
 	
 	//更新基站故障表
 	@RequestMapping(value="/editBsFault",method = RequestMethod.POST)

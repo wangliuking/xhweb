@@ -86,6 +86,11 @@ public interface BsStatusMapper {
 	 */
 	public int fourEmhAlarmListCount() throws Exception;
 	
+	/*<!--查询没有核减的基站 -->*/
+	public int not_check_bs() throws Exception;
+	/*<!--查询没有派单的基站 -->*/
+	public int not_order_bs() throws Exception;
+	
 	
 	
 	/**

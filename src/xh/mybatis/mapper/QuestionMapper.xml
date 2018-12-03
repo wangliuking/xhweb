@@ -9,13 +9,19 @@
 	</insert>
 	<select id="list" parameterType="map" useCache="true" resultType="map">
 	 select a.*,b.userName from xhgmnet_operations_question  as a
-	 left join xhgmnet_web_user as b on a.user=b.user
-	 order by write_time desc
+	 left join xhgmnet_web_user as b on a.user=b.user where 1=1	 
+	 <if test="status!=-1">
+	   and a.status=#{status}
+	 </if>
+	 order by a.write_time desc
 	 limit #{start},#{limit}
 	</select>
 	
 	 <select id="count" parameterType="map" useCache="true" resultType="int">
      select count(*) from xhgmnet_operations_question 
     </select>
+    <update id="update" parameterType="int">
+    update xhgmnet_operations_question set status=1 where id=#{id}
+    </update>
 
 </mapper>

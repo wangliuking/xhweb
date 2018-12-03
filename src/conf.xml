@@ -69,6 +69,8 @@
 	 <bs_offine>on</bs_offine>
 	 <bs_water>on</bs_water>
 	 <bs_ups>on</bs_ups>
+	 <dispatch>on</dispatch>
+	 <link>on</link>
 	</alarm>
 	<doc>
 	<officeUrl>127.0.0.1</officeUrl>

@@ -116,17 +116,21 @@ public class WebUserController {
 		String a=funUtil.readXml("alarm", "bs_offine");
 		String b=funUtil.readXml("alarm", "bs_water");
 		String c=funUtil.readXml("alarm", "bs_ups");
+		String d=funUtil.readXml("alarm", "dispatch");
+		String e=funUtil.readXml("alarm", "link");
 		HashMap result = new HashMap();
 		result.put("a", a);
 		result.put("b", b);
 		result.put("c", c);
+		result.put("d", d);
+		result.put("e", e);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
+		} catch (IOException ex) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ex.printStackTrace();
 		}
 		
 	}
@@ -142,6 +146,10 @@ public class WebUserController {
 				funUtil.updateXML("alarm", "bs_water",value);
 			}else if(name.equals("ups")){
 				funUtil.updateXML("alarm", "bs_ups",value);
+			}else if(name.equals("dispatch")){
+				funUtil.updateXML("alarm", "dispatch",value);
+			}else if(name.equals("link")){
+				funUtil.updateXML("alarm", "link",value);
 			}else{}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

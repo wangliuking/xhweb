@@ -12,6 +12,22 @@
 		<result property="mscNum" column="mscNum" javaType="java.lang.Integer"></result>
 		<result property="updateTime" column="updateTime" javaType="java.lang.String"></result>
 	</resultMap>
+	<!--查询没有核减的基站 -->
+	<select id="not_check_bs" resultType="int" useCache="true">
+		select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
+		and alarmTag=0
+		and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000 or
+		bsId>2000)
+		AND checkTag=0
+	</select>
+	<!--查询没有派单的基站 -->
+	<select id="not_order_bs" resultType="int" useCache="true">
+        select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
+        and alarmTag=0
+        and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000 or
+        bsId>2000)
+        AND status=0
+	</select>
 
 
 	<!--查询所有 -->
@@ -104,11 +120,14 @@
 
 		FROM
 		xhgmnet_bs_station a
-		LEFT JOIN xhgmnet_bsstatus b ON a.bsId =
+		LEFT JOIN xhgmnet_bsstatus b ON
+		a.bsId =
 		b.bsId AND b.chId = 1
-		LEFT JOIN xhgmnet_bs_bsr c ON a.bsId=c.bsId and
+		LEFT JOIN xhgmnet_bs_bsr c ON
+		a.bsId=c.bsId and
 		c.`master`=2
-		LEFT JOIN xhgmnet_bs_main_info as d ON a.bsId=d.bsId
+		LEFT JOIN xhgmnet_bs_main_info as d ON
+		a.bsId=d.bsId
 		ORDER BY
 		a.bsId ASC;
 	</select>
@@ -317,11 +336,12 @@
 
 		select count(neId) as total from xhgmnet_operations_bsfault
 		where
-		sysType=1 and neType=4 and modType=3  and alarmTag=0 and voiceTag=0 and (subModId &lt;1000  or subModId>1200)
-		 and subModId not 
-            in(select bsIds from xhgmnet_stationalarm)
-		
-		
+		sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0 and
+		(subModId &lt;1000 or subModId>1200)
+		and subModId not
+		in(select bsIds from xhgmnet_stationalarm)
+
+
 
 	</select>
 	<select id="emhVoiceCount" resultType="map" useCache="true">
@@ -329,12 +349,15 @@
 		count(case when subModType='80200000000001' or (subModType=51 and
 		subModId=1003) then id end) as ups,
 
-		count(case when subModType='170300000000001' or(subModType=11 and subModId=1003)
-		then id end) as water
+		count(case when
+		subModType='170300000000001' or(subModType=11 and subModId=1003)
+		then
+		id end) as water
 
 		from xhgmnet_operations_bsfault
 
-		where alarmTag=0 and voiceTag=0
+		where alarmTag=0 and
+		voiceTag=0
 
 	</select>
 	<!--基站区域列表告警 -->
@@ -406,6 +429,10 @@
 		neType=4 and modType=3 and alarmTag=0 and voiceTag=0)
 		or(sysType=2 and
 		alarmTag=0 and voiceTag=0)
+		or(sysType=3 and neType=102 and alarmTag=0
+		and voiceTag=0)
+		or(sysType=4 and neType=101 and alarmTag=0 and
+		voiceTag=0)
 
 	</update>
 	<!-- 基站断站统计 -->
@@ -458,13 +485,15 @@
 		a.id,
 		CASE
 		weekly
-		WHEN 0 THEN '星期日'
+		WHEN 0 THEN
+		'星期日'
 		WHEN 1 THEN '星期一'
 		WHEN
 		2 THEN '星期二'
 		WHEN 3 THEN
 		'星期三'
-		WHEN 4 THEN '星期四'
+		WHEN 4 THEN
+		'星期四'
 		WHEN 5 THEN '星期五'
 		WHEN 6
 		THEN '星期六'
@@ -477,7 +506,8 @@
 		a.reason,
 		a.nowDeal,
 		a.imbusiness,
-		a.dealResult ,
+		a.dealResult
+		,
 		a.faultRecoveryTime,
 		CASE WHEN
 		a.faultRecoveryTime!="" THEN
@@ -495,11 +525,14 @@
 		tag,b.hometype,b.period,c.is_allow_generation,c.generation_date
 		from
 		xhgmnet_operations_bsfault as a
-		left join xhgmnet_bs_station as b on a.bsId=b.bsId
-		left join xhgmnet_bs_supply_electricity as c on a.bsId=b.bsId
+		left join xhgmnet_bs_station as b on
+		a.bsId=b.bsId
+		left join xhgmnet_bs_supply_electricity as c on
+		a.bsId=b.bsId
 
 		where a.time between
-		#{startTime} and #{endTime} and a.sysType=1 and a.neType=4 and a.modType=3
+		#{startTime} and #{endTime} and
+		a.sysType=1 and a.neType=4 and a.modType=3
 		order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true"
@@ -617,7 +650,8 @@
 			a.category=2
 		</if>
 		<if test="alarmType==4">
-			and a.neType=4 and (a.subModId &lt;1000  or a.subModId>1200) and a.modType=3 and a.subModId not 
+			and a.neType=4 and (a.subModId &lt;1000 or
+			a.subModId>1200) and a.modType=3 and a.subModId not
 			in(select bsIds from xhgmnet_stationalarm)
 		</if>
 
@@ -667,15 +701,16 @@
 			and(subModType=80200000000001 or
 			(subModType=51 and subModId=1003))
 		</if>
-		  <if test="alarmType==3">
-            and neType=2 and modType=1000 and code=1 and
-            category=2
-        </if>
+		<if test="alarmType==3">
+			and neType=2 and modType=1000 and code=1 and
+			category=2
+		</if>
 		<if test="alarmType==4">
-            and neType=4 and (subModId &lt;1000  or subModId>1200) and modType=3 and subModId not 
-            in(select bsIds from xhgmnet_stationalarm)
-        </if>
-		
+			and neType=4 and (subModId &lt;1000 or subModId>1200) and modType=3 and
+			subModId not
+			in(select bsIds from xhgmnet_stationalarm)
+		</if>
+
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->
 	<select id="bsFaultInfo" resultType="xh.mybatis.bean.BsAlarmExcelBean"

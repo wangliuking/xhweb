@@ -54,24 +54,25 @@ xh.load = function() {
 			}
 		};
 	});
+	app.config([ '$locationProvider', function($locationProvider) {
+		$locationProvider.html5Mode({
+			enabled : true,
+			requireBase : false
+		});
+	} ]);
 
-	app.controller("bs", function($scope, $http) {
+	app.controller("bs", function($scope, $http,$location) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
-		$scope.page=1;
+		$scope.page=$location.search().page=="undefined"?10:$location.search().page;
 		$scope.zone="";
+		var start=0;
 		var bsId = $("#bsId").val();
 		var name = $("#name").val();
 		var pageSize = $("#page-limit").val();
 		var type=$("select[name='type']").val();
 		var level=$("select[name='level']").val();
-		$http.get("../../bs/list?bsId="+bsId+"&name="+name+"&type="+type+"&level="+level+"&zone="+$scope.zone+"&start=0&limit="+pageSize).
-		success(function(response){
-			xh.maskHide();
-			$scope.data = response.items;
-			$scope.totals = response.totals;
-			xh.pagging(1, parseInt($scope.totals), $scope);
-		});
+		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -92,7 +93,7 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
 			var url="bsInfo-edit.html";
-			url+="?data="+JSON.stringify($scope.editData);
+			url+="?page="+$scope.page+"&data="+JSON.stringify($scope.editData);
 			window.location.href=url;
 			/*$scope.editData.type = $scope.editData.type.toString();
 			$scope.editData.level = $scope.editData.level.toString();
@@ -600,6 +601,7 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.search($scope.page);
 	});
 };
 /* 添加基站信息 */
