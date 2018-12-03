@@ -1,23 +1,22 @@
 package com.tcpBean;
-
+ 
 /**
- * app故障处理审核结果
+ * 基站巡检作业表应答
  * 
- * cmdtype(errcheckack)
+ * cmdtype(ownbstableack)
  * serialnumber
  * userid
- * result			--审核结果：0：通过审核；1：未通过;
+ * ack					-- 0：确认收到；1：其它异常信息
  * 
  * @author 12878
  *
  */
 
-public class ErrCheckAck {
-	private String cmdtype = "errcheckack";
+public class BsInspectTableAck {
+	private String cmdtype = "bsinspecttableack";
 	private String serialnumber;
-	private String auditor;
 	private String userid;
-	private String result;
+	private String ack;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -36,29 +35,20 @@ public class ErrCheckAck {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public String getResult() {
-		return result;
+	public String getAck() {
+		return ack;
 	}
-	public void setResult(String result) {
-		this.result = result;
-	}
-
-	public String getAuditor() {
-		return auditor;
-	}
-
-	public void setAuditor(String auditor) {
-		this.auditor = auditor;
+	public void setAck(String ack) {
+		this.ack = ack;
 	}
 
 	@Override
 	public String toString() {
-		return "ErrCheckAck{" +
+		return "BsInspectTableAck{" +
 				"cmdtype='" + cmdtype + '\'' +
 				", serialnumber='" + serialnumber + '\'' +
-				", auditor='" + auditor + '\'' +
 				", userid='" + userid + '\'' +
-				", result='" + result + '\'' +
+				", ack='" + ack + '\'' +
 				'}';
 	}
 }

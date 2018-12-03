@@ -25,7 +25,7 @@ public class GetBsInfoAck {
 	private String period;
 	private Map<String,Object> bsinfo;
 	private Map<String,Object> emhinfo;
-	private List<Map<String,Object>> inspectlist;
+	private List<BsInspectTable> inspectlist;
 
 	public String getCmdtype() {
 		return cmdtype;
@@ -75,11 +75,11 @@ public class GetBsInfoAck {
 		this.emhinfo = emhinfo;
 	}
 
-	public List<Map<String, Object>> getInspectlist() {
+	public List<BsInspectTable> getInspectlist() {
 		return inspectlist;
 	}
 
-	public void setInspectlist(List<Map<String, Object>> inspectlist) {
+	public void setInspectlist(List<BsInspectTable> inspectlist) {
 		this.inspectlist = inspectlist;
 	}
 

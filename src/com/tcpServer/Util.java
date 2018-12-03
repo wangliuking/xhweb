@@ -41,6 +41,11 @@ public class Util {
 	private static GetAllBsList getAllBsList;
 	private static GetAllAppList getAllAppList;
 	private static GpsInfoUp gpsInfoUp;
+	private static BsInspectTable bsInspectTable;
+	private static GetErrBsInfo getErrBsInfo;
+	private static GetInspectBsList getInspectBsList;
+	private static GetUnInspectBsList getUnInspectBsList;
+	private static GetTotalInfo getTotalInfo;
 	
 	/**
 	 * 测试用主方法
@@ -159,6 +164,14 @@ public class Util {
 				ErrProTableAck errProTableAck = Service.appProTableAck(errProTable);
 				map.put("returnMessage", Object2Json(errProTableAck));
 				return map;
+			}else if("bsinspecttable".equals(cmdtype)){
+				Map<String, Class> classMap = new HashMap<String, Class>();
+				classMap.put("message", Map.class);
+
+				bsInspectTable = (BsInspectTable) JSONObject.toBean(jsonObject, BsInspectTable.class, classMap);
+				BsInspectTableAck bsInspectTableAck = Service.appBsInspectTableAck(bsInspectTable);
+				map.put("returnMessage", Object2Json(bsInspectTableAck));
+				return map;
 			}else if("movebstable".equals(cmdtype)){
 				Map<String, Class> classMap = new HashMap<String, Class>();
 				classMap.put("message", Map.class);
@@ -239,6 +252,26 @@ public class Util {
 				getBsInfo = (GetBsInfo) JSONObject.toBean(jsonObject, GetBsInfo.class);
 				GetBsInfoAck getBsInfoAck = Service.appGetBsInfoAck(getBsInfo);
 				map.put("returnMessage", Object2Json(getBsInfoAck));
+				return map;
+			}else if("geterrbsinfo".equals(cmdtype)){
+				getErrBsInfo = (GetErrBsInfo) JSONObject.toBean(jsonObject, GetErrBsInfo.class);
+				GetErrBsInfoAck getErrBsInfoAck = Service.appGetErrBsInfoAck(getErrBsInfo);
+				map.put("returnMessage", Object2Json(getErrBsInfoAck));
+				return map;
+			}else if("getinspectbslist".equals(cmdtype)){
+				getInspectBsList = (GetInspectBsList) JSONObject.toBean(jsonObject, GetInspectBsList.class);
+				GetInspectBsListAck getInspectBsListAck = Service.appGetInspectBsListAck(getInspectBsList);
+				map.put("returnMessage", Object2Json(getInspectBsListAck));
+				return map;
+			}else if("getuninspectbslist".equals(cmdtype)){
+				getUnInspectBsList = (GetUnInspectBsList) JSONObject.toBean(jsonObject, GetUnInspectBsList.class);
+				GetUnInspectBsListAck getUnInspectBsListAck = Service.appGetUnInspectBsListAck(getUnInspectBsList);
+				map.put("returnMessage", Object2Json(getUnInspectBsListAck));
+				return map;
+			}else if("gettotalinfo".equals(cmdtype)){
+				getTotalInfo = (GetTotalInfo) JSONObject.toBean(jsonObject, GetTotalInfo.class);
+				GetTotalInfoAck getTotalInfoAck = Service.appGetTotalInfoAck(getTotalInfo);
+				map.put("returnMessage", Object2Json(getTotalInfoAck));
 				return map;
 			}
 						

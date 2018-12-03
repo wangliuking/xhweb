@@ -1,11 +1,6 @@
 package com.tcpServer;
  
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.tcpBean.*;
 import org.apache.ibatis.session.SqlSession;
@@ -38,6 +33,11 @@ public class Service {
 	private static GetBsTypeAck getBsTypeAck = new GetBsTypeAck();
 	private static GetBsInfoAck getBsInfoAck = new GetBsInfoAck();
 	private static GetForGpsDstAck getForGpsDstAck = new GetForGpsDstAck();
+	private static BsInspectTableAck bsInspectTableAck = new BsInspectTableAck();
+	private static GetErrBsInfoAck getErrBsInfoAck = new GetErrBsInfoAck();
+	private static GetInspectBsListAck getInspectBsListAck = new GetInspectBsListAck();
+	private static GetUnInspectBsListAck getUnInspectBsListAck = new GetUnInspectBsListAck();
+	private static GetTotalInfoAck getTotalInfoAck = new GetTotalInfoAck();
 	
 	private static FunUtil funUtil = new FunUtil();
 
@@ -78,6 +78,23 @@ public class Service {
 	}
 
 	/**
+	 * 获取当前所有断站
+	 */
+	public static GetErrBsInfoAck appGetErrBsInfoAck(GetErrBsInfo getErrBsInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getErrBsInfoAck.setUserid(getErrBsInfo.getUserid());
+		getErrBsInfoAck.setSerialnumber(getErrBsInfo.getSerialnumber());
+		try {
+			getErrBsInfoAck.setBslist(mapper.selectBreakBsInfo());
+			getErrBsInfoAck.setStatus("1");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return getErrBsInfoAck;
+	}
+
+	/**
 	 * 获取基站信息
 	 */
 	public static GetBsTypeAck appGetBsTypeAck(GetBsType getBsType){
@@ -89,11 +106,17 @@ public class Service {
 		try {
 			if(!"".equals(bsId) && bsId!=null){
 				Map<String,Object> map = mapper.selectByBsIdNew(bsId);
-				if(map.size()>0){
+				if(map!=null){
 					int bslevel = (Integer) map.get("bslevel");
 					getBsTypeAck.setBslevel(String.valueOf(bslevel));
 					getBsTypeAck.setBsname(map.get("bsname").toString());
-					getBsTypeAck.setBstype(map.get("bstype").toString());
+					getBsTypeAck.setPeriod(map.get("period").toString());
+					String bsType = map.get("bstype").toString();
+					if("铁塔".equals(bsType) || "移动".equals(bsType) || "电信".equals(bsType)){
+						getBsTypeAck.setBstype("运营商机房");
+					}else{
+						getBsTypeAck.setBstype(bsType+"机房");
+					}
 					getBsTypeAck.setAck("0");
 				}else{
 					getBsTypeAck.setAck("1");
@@ -109,12 +132,83 @@ public class Service {
 		return getBsTypeAck;
 	}
 
+	/**
+	 * 获取当月已巡基站信息
+	 */
+	public static GetInspectBsListAck appGetInspectBsListAck(GetInspectBsList getInspectBsList){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getInspectBsListAck.setUserid(getInspectBsList.getUserid());
+		getInspectBsListAck.setSerialnumber(getInspectBsList.getSerialnumber());
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			int month = cal.get(Calendar.MONTH);
+			List<Map<String,Object>> list = mapper.selectInspectionBsList(month+1);
+			getInspectBsListAck.setBslist(list);
+			getInspectBsListAck.setStatus("1");
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getInspectBsListAck;
+	}
+
+	/**
+	 * 获取当月未巡基站信息
+	 */
+	public static GetUnInspectBsListAck appGetUnInspectBsListAck(GetUnInspectBsList getUnInspectBsList){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getUnInspectBsListAck.setUserid(getUnInspectBsList.getUserid());
+		getUnInspectBsListAck.setSerialnumber(getUnInspectBsList.getSerialnumber());
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			int month = cal.get(Calendar.MONTH);
+			List<Map<String,Object>> list = mapper.selectNotInspectionBsList(month+1);
+			getUnInspectBsListAck.setBslist(list);
+			getUnInspectBsListAck.setStatus("1");
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getUnInspectBsListAck;
+	}
+
+	/**
+	 * 获取统计信息
+	 */
+	public static GetTotalInfoAck appGetTotalInfoAck(GetTotalInfo getTotalInfo){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		getTotalInfoAck.setUserid(getTotalInfo.getUserid());
+		getTotalInfoAck.setSerialnumber(getTotalInfo.getSerialnumber());
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			int month = cal.get(Calendar.MONTH);
+			getTotalInfoAck.setBsnum(mapper.selectForAllBsList().size()+"");
+			getTotalInfoAck.setErrbsnum(mapper.selectBreakBsInfo().size()+"");
+			getTotalInfoAck.setInspectbsnum(mapper.selectInspectionBsList(month+1).size()+"");
+			getTotalInfoAck.setUninspectbsnum(mapper.selectNotInspectionBsList(month+1).size()+"");
+			getTotalInfoAck.setAppnum(ServerDemo.mThreadList.size()+"");
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getTotalInfoAck;
+	}
+
 	public static void main(String[] args) {
-		GetBsInfo getBsInfo = new GetBsInfo();
-		getBsInfo.setBsid("6");
-		getBsInfo.setSerialnumber("aaa");
-		getBsInfo.setUserid("1");
-		System.out.println(appGetBsInfoAck(getBsInfo));
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		int month = cal.get(Calendar.MONTH);
+		System.out.println(month);
 
 	}
 
@@ -131,6 +225,12 @@ public class Service {
 		try {
 			if(!"".equals(bsId) && bsId!=null){
 				Map<String,Object> bsinfo = mapper.selectInfoByBsId(bsId);
+				String bstype = bsinfo.get("bstype").toString();
+				if("铁塔".equals(bstype) || "移动".equals(bstype) || "电信".equals(bstype)){
+					bsinfo.put("bstype","运营商机房");
+				}else{
+					bsinfo.put("bstype",bstype+"机房");
+				}
 				String period = bsinfo.get("period").toString();
 				getBsInfoAck.setPeriod(period);
 				getBsInfoAck.setBsinfo(bsinfo);
@@ -160,14 +260,41 @@ public class Service {
 					four.remove("time");
 					getBsInfoAck.setEmhinfo(four);
 				}
-				String bstype = bsinfo.get("bstype").toString();;
-				if("移动".equals(bstype)){
-					List<Map<String,Object>> inspectlist = mapper.selectInspectListForMoveBs(bsId);
-					getBsInfoAck.setInspectlist(inspectlist);
-				}else if("自建".equals(bstype)){
-					List<Map<String,Object>> inspectlist = mapper.selectInspectListForSelfBs(bsId);
-					getBsInfoAck.setInspectlist(inspectlist);
+				List<Map<String,Object>> inspectlist = mapper.selectInspectListForSelfBs(bsId);
+
+				List<BsInspectTable> finalinspectlist = new LinkedList<BsInspectTable>();
+				for(int i=0;i<inspectlist.size();i++){
+					Map<String,Object> map = inspectlist.get(i);
+					BsInspectTable bsInspectTable = new BsInspectTable();
+					bsInspectTable.setSerialnumber(map.get("serialnumber")+"");
+					bsInspectTable.setUserid(map.get("userid")+"");
+					bsInspectTable.setPeriod(map.get("period")+"");
+					bsInspectTable.setBsname(map.get("bsname")+"");
+					bsInspectTable.setBsid(map.get("bsid")+"");
+					bsInspectTable.setBslevel(map.get("bslevel")+"");
+					bsInspectTable.setCheckman(map.get("checkman")+"");
+					bsInspectTable.setBstype(map.get("bstype")+"");
+					bsInspectTable.setCommitdate(map.get("commitdate")+"");
+					bsInspectTable.setAmmeternumber(map.get("ammeternumber")+"");
+					bsInspectTable.setLongitude(map.get("longitude")+"");
+					bsInspectTable.setLatitude(map.get("latitude")+"");
+					bsInspectTable.setAddress(map.get("address")+"");
+					bsInspectTable.setRemainwork(map.get("remainwork")+"");
+					List<Map<String,String>> resultList = new LinkedList<Map<String,String>>();
+					for(int j=1;j<29;j++){
+						String result = map.get("d"+j)+"";
+						String remarks = map.get("c"+j)+"";
+						Map<String,String> temp = new HashMap<String,String>();
+						temp.put("result",result);
+						temp.put("remarks",remarks);
+						resultList.add(temp);
+						System.out.println(" result ======"+result+"=====remarks====="+remarks);
+					}
+					bsInspectTable.setMessage(resultList);
+					finalinspectlist.add(bsInspectTable);
 				}
+				//System.out.println(inspectlist);
+				getBsInfoAck.setInspectlist(finalinspectlist);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -319,6 +446,52 @@ public class Service {
 		errProTableAck.setSerialnumber(errProTable.getSerialnumber());
 		errProTableAck.setUserid(errProTable.getUserid());
 		return errProTableAck;
+	}
+
+	/**
+	 * 基站巡检表
+	 */
+	public static BsInspectTableAck appBsInspectTableAck(BsInspectTable bsInspectTable){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		//需要入库
+		LinkedList<String> list = new LinkedList<String>();
+		list.add(bsInspectTable.getSerialnumber());
+		list.add(bsInspectTable.getPeriod());
+		list.add(bsInspectTable.getBsid());
+		list.add(bsInspectTable.getBsname());
+		list.add(bsInspectTable.getBslevel());
+		list.add(bsInspectTable.getBstype());
+		list.add(bsInspectTable.getAmmeternumber());
+		list.add(bsInspectTable.getLongitude());
+		list.add(bsInspectTable.getLatitude());
+		list.add(bsInspectTable.getAddress());
+		list.add(bsInspectTable.getCheckman());
+		list.add(bsInspectTable.getCommitdate());
+		list.add(bsInspectTable.getRemainwork());
+		list.add(bsInspectTable.getUserid());
+		List<Map<String,String>> message = bsInspectTable.getMessage();
+		for(int i=0;i<message.size();i++){
+			Map<String,String> map = message.get(i);
+			list.add(map.get("result"));
+		}
+		for(int i=0;i<message.size();i++){
+			Map<String,String> map = message.get(i);
+			list.add(map.get("remarks"));
+		}
+		System.out.println("list为："+list);
+		try {
+			mapper.insertBsTable(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bsInspectTableAck.setSerialnumber(bsInspectTable.getSerialnumber());
+		bsInspectTableAck.setUserid(bsInspectTable.getUserid());
+		bsInspectTableAck.setAck("0");
+		return bsInspectTableAck;
 	}
 	
 	/**

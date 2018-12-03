@@ -173,7 +173,9 @@
 								 ng-if="x.status==0" style="color:green"> <i class="fa fa-hand-stop-o"></i>&nbsp;重新发送
 							</a><a href="#" ng-click="check($index)"
 								class="text-success" ng-if="x.status==3"> <i class="fa fa-hand-stop-o"></i>&nbsp;请确认已解决
-							</a><span ng-if="x.status==2" style="color:gray">该单号结束!</span>
+							</a><a href="#" ng-click="checkFail($index)"
+								   class="text-success" ng-if="x.status==3"> <i class="fa fa-hand-stop-o"></i>&nbsp;该故障未解决
+										</a><span ng-if="x.status==2" style="color:gray">该单号结束!</span>
 										</td>
 									</tr>
 								</tbody>
