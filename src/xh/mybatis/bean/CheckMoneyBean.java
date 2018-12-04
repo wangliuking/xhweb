@@ -8,11 +8,13 @@ public class CheckMoneyBean {
 	private float money;
 	private String detail;
 	private String check_date;
+	private String check_datetime;
 	private String check_note;
 	private int fault_time=0;
 	private int check_time=0;
 	private int level=0;
 	private String period;
+	private int timeout_standard;
 	public String getCheck_type() {
 		return check_type;
 	}
@@ -86,6 +88,19 @@ public class CheckMoneyBean {
 	}
 	public void setLevel(int level) {
 		this.level = level;
+	}
+	
+	public String getCheck_datetime() {
+		return check_datetime;
+	}
+	public void setCheck_datetime(String check_datetime) {
+		this.check_datetime = check_datetime;
+	}
+	public int getTimeout_standard() {
+		return timeout_standard;
+	}
+	public void setTimeout_standard(int timeout_standard) {
+		this.timeout_standard = timeout_standard;
 	}
 	@Override
 	public String toString() {

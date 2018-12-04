@@ -154,7 +154,7 @@
 												<th>主叫号码</th>
 												<th>被叫号码</th>
 												<th>呼叫起始时间</th>
-												<th>接入基站id</th>
+												<th>接入基站</th>
 												<th>呼叫用时[s]</th>
 												<th>操作</th>
 											</tr>
@@ -170,7 +170,10 @@
 												<td>{{x.Caller}}</td>
 												<td>{{x.Called}}</td>
 												<td>{{x.Call_Time}}</td>
-												<td>[{{x.Call_TS_Id |bsIdFormat}}]{{x.name}}</td>
+												<td>
+												<span ng-if="x.Call_TS_Id!=null && x.Call_TS_Id!=''">[{{x.Call_TS_Id |bsIdFormat}}]{{x.name}}</span>
+												<span ng-if="x.Call_TS_Id==null || x.Call_TS_Id==''">moto</span>
+												</td>
 												<td>{{x.Use_Time}}</td>
 												<td><a href="#" ng-click="play($index)"><i
 														class="fa fa-play-circle text-success"></i>&nbsp;播放 </a>| <a

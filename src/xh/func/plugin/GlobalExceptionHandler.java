@@ -23,6 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalExceptionHandler{
 	protected final Log log=LogFactory.getLog(GlobalExceptionHandler.class.getName());
 	
+	
+	
 	@ExceptionHandler(value=Exception.class)	
 	@ResponseBody
 	public Map<String,Object> PrintException(HttpServletRequest request,Exception ex){
@@ -40,7 +42,7 @@ public class GlobalExceptionHandler{
 		map.put("url", request.getRequestURL().toString());
 		map.put("message",ex.getMessage());
 		//String json=FlexJSON.Encode(map);
-		return map;
+		return map;	
 		
 	}
 

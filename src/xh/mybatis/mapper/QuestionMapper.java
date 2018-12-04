@@ -7,6 +7,7 @@ public interface QuestionMapper {
 	
 	int count(Map<String,Object> map)throws Exception;
 	int add(Map<String,Object> map)throws Exception;
+	int update(int id)throws Exception;
 	List<Map<String,Object>> list(Map<String,Object> map) throws Exception;
 
 }

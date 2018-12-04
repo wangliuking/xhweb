@@ -28,18 +28,45 @@ xh.load = function() {
 	
 	app.controller("question", function($scope, $http) {
 		$scope.count = "15";//每页数据显示默认值
-		$http.get("../../question/list?start=0&limit=15").
+		$scope.page=1;
+		var status=$("select[name='status']").val();
+		$http.get("../../question/list?start=0&limit=15&status="+status).
 		success(function(response){
 			$scope.data = response.items;
 			$scope.totals=response.totals;
+			xh.pagging($scope.page, parseInt($scope.totals),$scope);
 		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+		$scope.handler=function(id){
+			$.ajax({
+				url:'../../question/handler',
+				type:'POST',
+				dataType:'JSON',
+				async:false,
+				data:{
+					id:id
+				},
+				success:function(response){
+					if(response.success){
+						toastr.success(response.message,"提示");
+						$scope.search($scope.page);
+					}else{
+						toastr.error(response.message,"提示");
+					}
+					
+				},
+				error:function(response){
+					toastr.error("参数错误","提示");
+				}
+			});
+		}
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var status=$("select[name='status']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -50,18 +77,19 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../question/list?start="+start+"&limit="+limit).
+			$http.get("../../question/list?start="+start+"&limit="+limit+"&status="+status).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
 				xh.pagging(page, parseInt($scope.totals),$scope);
-				
 			});
 		};
 		//分页点击
 		$scope.pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var status=$("select[name='status']").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -70,9 +98,10 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../question/list?start="+start+"&limit="+limit).
+			$http.get("../../question/list?start="+start+"&limit="+limit+"&status="+status).
 			success(function(response){
 				xh.maskHide();
+				$scope.page=page;
 				
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -123,6 +152,7 @@ xh.question = function() {
 		}
 	});
 };
+
 //刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();

@@ -14,8 +14,6 @@
 <!--common-->
 <link href="Resources/AdminEx/css/style.css" rel="stylesheet">
 <link href="Resources/AdminEx/css/style-responsive.css" rel="stylesheet">
-<link href="lib/layer-master/dist/theme/default/layer.css"
-	rel="stylesheet">
 <style type="text/css">
 marquee {
 	float: left;
@@ -57,7 +55,7 @@ marquee {
 	color: green;
 }
 
-.password-tip {
+/* .password-tip {
 	display: none;
 	float: left;
 	height: 170px;
@@ -65,8 +63,8 @@ marquee {
 	overflow: hidden;
 	background: #5FB878;
 	padding: 10px;
-	color:#fff;
-}
+	color: #fff;
+} */
 </style>
 
 
@@ -76,13 +74,16 @@ marquee {
   <script src="Resources/AdminEx/js/respond.min.js"></script>
   <![endif]-->
 </head>
-<div class="password-tip">
-<p>密码修改提示！</p>
-<p>你的登陆密码过于简单，密码长度必须大于6位,包含大小写字母，数字或者特殊符号</p>
-<p>请尽快修改登陆密码</p>
-<p style="text-align: center;color:blue; font-weight:800;">修改通道：系统主界面-》右上角》修改个人资料</p>
-<p style="text-align: center;"><a style="color:red; font-weight:800; cursor: pointer;" href="Views/web/updateMember.html" target="mainframe">快捷通道,点击前往</a></p>
-</div>
+<!-- <div class="password-tip">
+	<p>密码修改提示！</p>
+	<p>你的登陆密码过于简单，密码长度必须大于6位,包含大小写字母，数字或者特殊符号</p>
+	<p>请尽快修改登陆密码</p>
+	<p style="text-align: center;color:blue; font-weight:800;">修改通道：系统主界面-》右上角》修改个人资料</p>
+	<p style="text-align: center;">
+		<a style="color:red; font-weight:800; cursor: pointer;"
+			href="Views/web/updateMember.html" target="mainframe">快捷通道,点击前往</a>
+	</p>
+</div> -->
 
 <body class="sticky-header" ng-app="app" ng-controller="index">
 
@@ -230,6 +231,19 @@ marquee {
 				<!--notification menu start -->
 				<div class="menu-right">
 					<ul class="notification-menu">
+					
+					    <li ng-if="voiceCheckTag==1"><a href="#" onclick="xh.stopCheckMap3()"
+                            class="btn btn-default dropdown-toggle info-number"
+                            data-toggle="tooltip" data-placement="right" title="关闭核减提示音"> <img
+                                src="Resources/images/icon/32/bell3.png" id="close-check-bell" /> <span
+                                class="badge">{{CheckAlarmTotals}}</span>
+                        </a></li>
+                        <li ng-if="voiceOrderTag==1"><a href="#" onclick="xh.stopOrderMap3()"
+                            class="btn btn-default dropdown-toggle info-number"
+                            data-toggle="tooltip" data-placement="right" title="关闭派单提示音"> <img
+                                src="Resources/images/icon/32/bell4.png" id="close-order-bell" /> <span
+                                class="badge">{{OrderAlarmTotals}}</span>
+                        </a></li>
 
 						<li ng-if="voiceTag==1"><a href="#" onclick="xh.stopMap3()"
 							class="btn btn-default dropdown-toggle info-number"
@@ -237,10 +251,11 @@ marquee {
 								src="Resources/images/icon/32/bell.png" id="close-bell" /> <span
 								class="badge">{{AlarmTotals}}</span>
 						</a></li>
-						<li ng-if="roleType==0 || roleType==3"><a href="Views/operations/order.html" target="mainframe"
-                            class="btn btn-default dropdown-toggle info-number"> <i
-                                class="fa fa-bell-o"></i> <span class="badge"></span> <span>派单列表</span>
-                        </a></li>
+						<li ng-if="roleType==0 || roleType==3"><a
+							href="Views/operations/order.html" target="mainframe"
+							class="btn btn-default dropdown-toggle info-number"> <i
+								class="fa fa-bell-o"></i> <span class="badge"></span> <span>派单列表</span>
+						</a></li>
 
 						<li><a href="#"
 							class="btn btn-default dropdown-toggle info-number"
@@ -314,6 +329,37 @@ marquee {
 		<source src="Resources/sound/alarm.mp3" type="audio/mp3">
 		<source src="Resources/sound/alarm.ogg" type="audio/ogg">
 	</audio>
+	<audio id="mp3_check" loop="loop">
+		<source src="Resources/sound/Ring03.mp3" type="audio/mp3">
+		<source src="Resources/sound/Ring03.ogg" type="audio/ogg">
+	</audio>
+	<audio id="mp3_order" loop="loop">
+		<source src="Resources/sound/Ring03.mp3" type="audio/mp3">
+		<source src="Resources/sound/Ring03.ogg" type="audio/ogg">
+	</audio>
+	<div class="modal fade" id="checkPassWin" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+					<p>密码修改提示！</p>
+					<p>你的登陆密码过于简单，密码长度必须大于6位,包含大小写字母，数字或者特殊符号</p>
+					<p>请尽快修改登陆密码</p>
+					<p style="text-align: center;color:blue; font-weight:800;">修改通道：系统主界面-》右上角》修改个人资料</p>
+					<p style="text-align: center;">
+						<a style="color:red; font-weight:800; cursor: pointer;"
+							href="Views/web/updateMember.html" target="mainframe">快捷通道,点击前往</a>
+					</p>
+
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+
+
+
 
 	<!-- Placed js at the end of the document so the pages load faster -->
 	<script src="Resources/AdminEx/js/jquery-1.10.2.min.js"></script>
@@ -323,7 +369,7 @@ marquee {
 	<script src="Resources/AdminEx/js/modernizr.min.js"></script>
 	<script src="Resources/AdminEx/js/jquery.nicescroll.js"></script>
 	<script type="text/javascript" src="Resources/js/angular.min.js"></script>
-	<script type="text/javascript" src="lib/layer-master/dist/layer.js"></script>
+	<!-- <script type="text/javascript" src="lib/layer-master/dist/layer.js"></script> -->
 
 
 	<!--common scripts for all pages-->

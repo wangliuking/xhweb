@@ -39,6 +39,9 @@ public interface BsAlarmMapper {
 	/*判断基站断站记录是否存在*/
 	public int bsFaultIsHave(int bsId) throws Exception;
 	
+	public int dispatch_alarm() throws Exception;
+	public int link_alarm() throws Exception;
+	
 	/**
 	 *  告警总数
 	 * @param map

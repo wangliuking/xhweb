@@ -2,8 +2,8 @@ package xh.mybatis.bean;
 
 public class ThreeEmhAlarmBean {
 	private int JFNode;
-	private String DevNode;
-	private String NodeID;
+	private int DevNode;
+	private int NodeID;
 	private String DevName;
 	private String State;
 	private String AlarmText;
@@ -28,25 +28,24 @@ public class ThreeEmhAlarmBean {
 	}
 
 
-	public String getDevNode() {
+
+
+	public int getDevNode() {
 		return DevNode;
 	}
 
 
-	public void setDevNode(String devNode) {
+	public void setDevNode(int devNode) {
 		DevNode = devNode;
 	}
 
 
-
-
-
-	public String getNodeID() {
+	public int getNodeID() {
 		return NodeID;
 	}
 
 
-	public void setNodeID(String nodeID) {
+	public void setNodeID(int nodeID) {
 		NodeID = nodeID;
 	}
 
@@ -158,6 +157,18 @@ public class ThreeEmhAlarmBean {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	@Override
+	public String toString() {
+		return "ThreeEmhAlarmBean [JFNode=" + JFNode + ", DevNode=" + DevNode
+				+ ", NodeID=" + NodeID + ", DevName=" + DevName + ", State="
+				+ State + ", AlarmText=" + AlarmText + ", AlarmDate="
+				+ AlarmDate + ", AlarmTime=" + AlarmTime + ", RelieveDate="
+				+ RelieveDate + ", RelieveTime=" + RelieveTime + ", name="
+				+ name + ", description=" + description + ", time1=" + time1
+				+ ", time2=" + time2 + "]";
 	}
 
 

@@ -53,8 +53,12 @@ public class CallListServices {
 			list=mapper.selectCallList(map);
 			for (int i=0;i<list.size();i++) {
 				Map<String,Object> map4=list.get(i);
-				map4.put("name", map3.get("id-"+map4.get("Call_TS_Id")));
-				list2.add(map4);
+				if(map4.get("Call_TS_Id")!=null && map4.get("Call_TS_Id")!=""){
+					map4.put("name", map3.get("id-"+map4.get("Call_TS_Id")));
+					list2.add(map4);
+				}
+				
+				
 			}
 			sqlSession.close();		
 			

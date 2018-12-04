@@ -198,6 +198,7 @@ public class OrderController {
 			
 			Map<String,Object> map=new HashMap<String, Object>();
 			map.put("status", 1);
+			map.put("orderId",bean.getSerialnumber());
 			map.put("id", id);
 			log.info("id->"+id);
 			if(id>0){

@@ -3,11 +3,14 @@ package xh.org.listeners;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.WebUserServices;
 import xh.redis.server.UserRedis;
@@ -70,12 +73,15 @@ public class SingLoginListener implements HttpSessionListener{
             while (iter.hasNext()) {  
                 Map.Entry entry = (Map.Entry) iter.next();  
                 Object key = entry.getKey();  
-                Object val = entry.getValue();  
+                Object val = entry.getValue();     
                 if (((String) val).equals(sUserName)) {  
-                    logUserMap.remove(key);  
+                    //logUserMap.remove(key);  
+                	iter.remove();
+                    
                 } 
                 if (((String) val).equals(password)) {  
-                    logUserMap.remove(key);  
+                    //logUserMap.remove(key);
+                	iter.remove();
                 } 
             }  
             // 添加现在的sessionID和username  
@@ -96,6 +102,7 @@ public class SingLoginListener implements HttpSessionListener{
         UserRedis.ssoSession(info, power, sUserName, sessionId);
         
         log.info("登录用户数=>"+logUserInfoMap.size());
+       // log.info("登录用户MAP=>"+logUserMap);
         return flag;  
     } 
     /** 

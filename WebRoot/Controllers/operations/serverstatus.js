@@ -128,7 +128,7 @@ xh.load = function() {
     			var s7703_point_one =xh.createNode(400, wheight/10+360,"server7.png","S7703");
                 var S3700_point_one=xh.createNode(480, wheight/10+380,"sw1.png","S3700");
                  //中和应用平台
-                 var server_point_one=xh.createNode(550, wheight/10+380,"server4.png","综合应用与平台");
+                 var server_point_one=xh.createNode(570, wheight/10+380,"server4.png","综合应用与管理平台");
                  //中和应用平台-连线
                  var link15 = xh.createNewLink(server_point_one,S3700_point_one,5);
                  link15.strokeColor = '0,255,0';
@@ -215,13 +215,13 @@ xh.load = function() {
              
                    
                    //3700
-                   var S3700_point_two=xh.createNode(wwidth/2, wheight/10+350,"sw1.png","S3700");
+                   var S3700_point_two=xh.createNode(wwidth/2, wheight/10+370,"sw1.png","S3700");
                    
                    var link123 = xh.createNewLink(S3700_point_two,s7703_point_two,5);
                    link123.strokeColor = '0,255,0';
                    
                    //中和应用平台
-                   var server_point_two=xh.createNode(wwidth/2+30, wheight/10+400,"server4.png","综合应用与平台");
+                   var server_point_two=xh.createNode(wwidth/2+30, wheight/10+400,"server4.png","综合应用与管理平台");
                    //中和应用平台-连线
                    var link115 = xh.createNewLink(server_point_two,S3700_point_two,5);
                    link115.strokeColor = '0,255,0';
@@ -254,6 +254,11 @@ xh.load = function() {
                    xh.createNewLink(ne16_point_two_4, s57_point_two_7,"[114]",$scope.s.s_114);
                    xh.createNewLink(ne16_point_two_4, s57_point_two_8,"[115]",$scope.s.s_115);
                    xh.createNewLink(ne16_point_two_4, ne16_point_one_4,"[116]",$scope.s.s_116);
+                   
+                   //7703连线
+                   xh.createNewLink(s7703_point_one, s7703_point_two,"[117]",$scope.s.s_116);
+                   
+                   
                    
                  
                //服务器

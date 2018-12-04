@@ -22,6 +22,7 @@ toastr.options = {
 	"progressBar" : true,
 };
 var appElement = document.querySelector('[ng-controller=bs]');
+var page=1;
 xh.load = function() {
 	var app = angular.module("app", []);
 	app.config([ '$locationProvider', function($locationProvider) {
@@ -32,6 +33,7 @@ xh.load = function() {
 	} ]);
 	app.controller("bs", function($scope, $http,$location) {
 		var obj =eval('(' + $location.search().data + ')');
+		page=$location.search().page;
 		
 		$scope.data =obj;
 		
@@ -65,7 +67,8 @@ xh.update = function() {
 				 */
 				}, function(isConfirm) {
 					if (isConfirm) {
-						window.location.href="../../Views/operations/bsInfo.html";
+						window.location.href="../../Views/operations/bsInfo.html?page="+page;
+						//window.history.go(-1);
 					}
 				});
 

@@ -41,6 +41,8 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import xh.mybatis.bean.EmailBean;
 import xh.mybatis.service.EmailService;
@@ -72,6 +74,10 @@ public class FunUtil {
 				return true;
 			}
 		}
+	}
+	public static HttpServletRequest getHttpServletRequest(){
+		HttpServletRequest request=((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		return request;
 	}
 	//检测登陆密码是否包含大小写字母，数字，或则特殊字符
 	public static boolean userpass_check(String userpass){

@@ -75,13 +75,13 @@ xh.load = function() {
 			var point21 =xh.createNewNode(200,60,3,3,"");
 			var point22 =xh.createNewNode(200,530,3,3,"");
 			
-			var point1 =xh.createNewNode(width-750,height-160,3,3,"");
-			var point2 =xh.createNewNode(width-750,height-100,3,3,"");
+			var point1 =xh.createNewNode(width/2-140,height-160,3,3,"");
+			var point2 =xh.createNewNode(width/2-140,height-100,3,3,"");
 			var point31 =xh.createNewNode(width-50,height-160,3,3,"");
 			var point32 =xh.createNewNode(width-50,height-100,3,3,"");
 			
-			var point41 =xh.createNewNode(width-750,80,3,3,"");
-			var point42 =xh.createNewNode(width-750,150,3,3,"");
+			var point41 =xh.createNewNode(width/2-140,80,3,3,"");
+			var point42 =xh.createNewNode(width/2-140,150,3,3,"");
 			var point51 =xh.createNewNode(width-50,80,3,3,"");
 			var point52 =xh.createNewNode(width-50,150,3,3,"");
 			
@@ -209,7 +209,7 @@ xh.load = function() {
                     
                    
                     if(dd.length>1){
-                    	var a=10,b=0,x2=width-750,y2=0;
+                    	var a=10,b=0,x2=width/2-200,y2=0;
                     	for(var j=0;j<dd.length;j++){
         					var b=dd[j];
         					 var lineType=b.flag;

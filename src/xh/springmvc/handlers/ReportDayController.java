@@ -476,8 +476,7 @@ public class ReportDayController {
         sheet.addCell(new Label(0, start+4, "交管8009850", fontFormat_Content));
         sheet.addCell(new Label(0, start+5, "公安8000695", fontFormat_Content));
         sheet.addCell(new Label(0, start+6, "双流7088899", fontFormat_Content));
-        for(int i=0;i<gps.size();i++){
-        	
+        for(int i=0;i<gps.size();i++){   	
         	int total=Integer.parseInt(gps.get(i).get("v1").toString())+
         			Integer.parseInt(gps.get(i).get("v2").toString())+
         			Integer.parseInt(gps.get(i).get("v3").toString());
@@ -486,18 +485,27 @@ public class ReportDayController {
         	sheet.addCell(new jxl.write.Number(i+1, start+5, Integer.parseInt(gps.get(i).get("v2").toString()), fontFormat_Content));
         	sheet.addCell(new jxl.write.Number(i+1, start+6, Integer.parseInt(gps.get(i).get("v3").toString()), fontFormat_Content));
         }
+        if(gps.size()<7){
+        	int x=gps.size();
+        	for(int i=x;i<7;i++){
+        		sheet.addCell(new Label(i+1, start+3, "", fontFormat_Content));
+            	sheet.addCell(new Label(i+1, start+4, "", fontFormat_Content));
+            	sheet.addCell(new Label(i+1, start+5, "", fontFormat_Content));
+            	sheet.addCell(new Label(i+1, start+6, "", fontFormat_Content));
+        	}
+        }
         
         Map<String,Object>  mapGps=ReportDayService.now_gpsunit_status();
         
         sheet.addCell(new Label(0, start+7, "交管局GPS数据库", fontFormat_Content));
         sheet.addCell(new Label(1, start+7, mapGps.get("jg").toString().equals("1")?"OK":"NO", fontFormat_Content));
         sheet.addCell(new Label(2, start+7, "", fontFormat_Content));
-        sheet.mergeCells(2,start+7,7,start+7);
+        sheet.mergeCells(1,start+7,7,start+7);
         
         sheet.addCell(new Label(0, start+8, "公安局GPS数据库", fontFormat_Content));
         sheet.addCell(new Label(1, start+8, mapGps.get("cd").toString().equals("1")?"OK":"NO", fontFormat_Content));
         sheet.addCell(new Label(2, start+8, "", fontFormat_Content));
-        sheet.mergeCells(2,start+8,7,start+8);
+        sheet.mergeCells(1,start+8,7,start+8);
         
         
         sheet.addCell(new Label(0, start+9, "桥接基站、网管当前运行状态", fontFormat_Content));
@@ -686,6 +694,8 @@ public class ReportDayController {
 		sheet.addCell(new Label(2, nowLine+4, "组呼时长", fontFormat_Content));
 		sheet.addCell(new Label(3, nowLine+4, "个呼次数", fontFormat_Content));
 		sheet.addCell(new Label(4, nowLine+4, "个呼时长", fontFormat_Content));
+		sheet.addCell(new Label(5, nowLine+4, "", fontFormat_Content));
+		sheet.addCell(new Label(6, nowLine+4, "", fontFormat_Content));
 		
 		sheet.setRowView(nowLine+5, 400);
 		sheet.addCell(new Label(0, nowLine+5, "2.5", fontFormat_Content));
@@ -693,12 +703,16 @@ public class ReportDayController {
 		sheet.addCell(new Label(2, nowLine+5, funUtil.second_time((int) bean.getGroupCallDuration()), fontFormat_Content));
 		sheet.addCell(new Label(3, nowLine+5, String.valueOf(bean.getPrivateCalls()), fontFormat_Content));
 		sheet.addCell(new Label(4, nowLine+5, funUtil.second_time((int) bean.getPrivateCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(5, nowLine+5, "", fontFormat_Content));
+		sheet.addCell(new Label(6, nowLine+5, "", fontFormat_Content));
 		
 		sheet.addCell(new Label(0, nowLine+6, "2.6", fontFormat_Content));
 		sheet.addCell(new Label(1, nowLine+6, "电话呼叫次数", fontFormat_Content));
 		sheet.addCell(new Label(2, nowLine+6, "电话呼叫时长", fontFormat_Content));
 		sheet.addCell(new Label(3, nowLine+6, "全双工单呼次数", fontFormat_Content));
 		sheet.addCell(new Label(4, nowLine+6, "半双工单呼次数", fontFormat_Content));
+		sheet.addCell(new Label(5, nowLine+6, "", fontFormat_Content));
+		sheet.addCell(new Label(6, nowLine+6, "", fontFormat_Content));
 		
 		sheet.setRowView(nowLine+7, 400);
 		sheet.addCell(new Label(0, nowLine+7, "2.7", fontFormat_Content));
@@ -706,6 +720,8 @@ public class ReportDayController {
 		sheet.addCell(new Label(2, nowLine+7, funUtil.second_time((int) bean.getPhoneCallDuration()), fontFormat_Content));
 		sheet.addCell(new Label(3, nowLine+7, String.valueOf(bean.getPrivateDuplexCalls()), fontFormat_Content));
 		sheet.addCell(new Label(4, nowLine+7, String.valueOf(bean.getPrivateSimplexCalls()), fontFormat_Content));
+		sheet.addCell(new Label(5, nowLine+7, "", fontFormat_Content));
+		sheet.addCell(new Label(6, nowLine+7, "", fontFormat_Content));
 		
 		
 	
@@ -810,8 +826,8 @@ public class ReportDayController {
 					Label label_21 = new Label(20, 1, "基站归属",fontFormat_h);
 					Label label_22 = new Label(21, 1, "传输情况（单双链路）",fontFormat_h);
 					Label label_23 = new Label(22, 1, "停电时间",fontFormat_h);
-					Label label_24 = new Label(23, 1, "是否发电",fontFormat_h);
-					Label label_25 = new Label(24, 1, "后备电源时长",fontFormat_h);
+					Label label_24 = new Label(23, 1, "是否允许临时性发电",fontFormat_h);
+					Label label_25 = new Label(24, 1, "发电时间",fontFormat_h);
 					
 					
 					CellView cellView = new CellView();  
@@ -842,7 +858,7 @@ public class ReportDayController {
 					sheet.setColumnView(20, 10);      //基站归属
 					sheet.setColumnView(21, 10);  
 					sheet.setColumnView(22, 10);  
-					sheet.setColumnView(23, 10);  
+					sheet.setColumnView(23, 20);  
 					sheet.setColumnView(24, 10);  
 
 					sheet.addCell(label_1);
@@ -908,6 +924,10 @@ public class ReportDayController {
 						Label value_19 = new Label(18, i + 2,bean.getFaultHandlePerson() ,fontFormat_Content);
 						Label value_20 = new Label(19, i + 2, bean.getFaultRecordPerson(),fontFormat_Content);
 						Label value_21 = new Label(20, i + 2, bean.getHometype(),fontFormat_Content);
+						Label value_22 = new Label(21, i + 2, "",fontFormat_Content);
+						Label value_23 = new Label(22, i + 2, "",fontFormat_Content);
+						Label value_24 = new Label(23, i + 2, bean.getIs_allow_generation(),fontFormat_Content);
+						Label value_25 = new Label(24, i + 2, bean.getGeneration_date(),fontFormat_Content);
 						sheet.setRowView(i + 2, 300);
 						sheet.addCell(value_1);
 						sheet.addCell(value_2);
@@ -930,6 +950,11 @@ public class ReportDayController {
 						sheet.addCell(value_19);
 						sheet.addCell(value_20);
 						sheet.addCell(value_21);
+						sheet.addCell(value_22);
+						sheet.addCell(value_23);
+						sheet.addCell(value_24);
+						sheet.addCell(value_25);
+						
 					}
 		} catch (Exception e) {
 			// TODO: handle exception

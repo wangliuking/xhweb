@@ -21,37 +21,37 @@
 		</foreach>
 		)
 	</select>
-	
-    <!-- 定时获取东信基站呼叫统计数据 -->
-    <select id="get_bs_now_call_data" parameterType="String"
-        resultType="xh.mybatis.bean.EastBsCallDataBean">
 
-        select 
-        TotalActiveCalls,
-        TotalActiveCallDuration,
-        AverageCallDuration,
-        PTTCount,
-        QueueCount,
-        QueueDuration,
-        MaxUserRegCount,
-        MaxGroupRegCount,
-        MaxControlChanUpRate,
-        MinControlChanUpRate,
-        AvgControlChanUpRate,
-        MaxControlChanDownRate,
-        AvgTrafficChanRate,
-        MinControlChanDownRate,
-        AvgControlChanDownRate,
-        case when bsid>1200 then bsid%1000
-        else bsid end as bsid,
-        starttime,
-        endtime,
-        mscid from
-        pef_newbstotal
-        where
-        starttime=#{time} and (bsid&lt;=200 or bsid>=1000)
+	<!-- 定时获取东信基站呼叫统计数据 -->
+	<select id="get_bs_now_call_data" parameterType="String"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
 
-    </select>
+		select
+		TotalActiveCalls,
+		TotalActiveCallDuration,
+		AverageCallDuration,
+		PTTCount,
+		QueueCount,
+		QueueDuration,
+		MaxUserRegCount,
+		MaxGroupRegCount,
+		MaxControlChanUpRate,
+		MinControlChanUpRate,
+		AvgControlChanUpRate,
+		MaxControlChanDownRate,
+		AvgTrafficChanRate,
+		MinControlChanDownRate,
+		AvgControlChanDownRate,
+		case when bsid>1200 then bsid%1000
+		else bsid end as bsid,
+		starttime,
+		endtime,
+		mscid from
+		pef_newbstotal
+		where
+		starttime=#{time} and (bsid&lt;=200 or bsid>=1000)
+
+	</select>
 
 	<!-- 定时获取东信基站呼叫统计数据 -->
 	<select id="get_bs_call_data" parameterType="map"
@@ -143,52 +143,52 @@
 		</foreach>
 	</insert>
 	<!--写入东信基站呼叫统计数据 -->
-    <insert id="write_bs_now_call_data" parameterType="java.util.List">
-        replace into pef_newbstotal_now(TotalActiveCalls,
-        TotalActiveCallDuration,
-        AverageCallDuration,
-        PTTCount,
-        QueueCount,
-        QueueDuration,
-        MaxUserRegCount,
-        MaxGroupRegCount,
-        MaxControlChanUpRate,
-        MinControlChanUpRate,
-        AvgControlChanUpRate,
-        MaxControlChanDownRate,
-        AvgTrafficChanRate,
-        MinControlChanDownRate,
-        AvgControlChanDownRate,
-        bsid,
-        starttime,
-        endtime,
-        mscid
-        )
-        values
-        <foreach collection="list" item="item" index="index"
-            separator=",">
-            (#{item.TotalActiveCalls},
-            #{item.TotalActiveCallDuration},
-            #{item.AverageCallDuration},
-            #{item.PTTCount},
-            #{item.QueueCount},
-            #{item.QueueDuration},
-            #{item.MaxUserRegCount},
-            #{item.MaxGroupRegCount},
-            #{item.MaxControlChanUpRate},
-            #{item.MinControlChanUpRate},
-            #{item.AvgControlChanUpRate},
-            #{item.MaxControlChanDownRate},
-            #{item.AvgTrafficChanRate},
-            #{item.MinControlChanDownRate},
-            #{item.AvgControlChanDownRate},
-            #{item.bsid},
-            #{item.starttime},
-            #{item.endtime},
-            #{item.mscid}
-            )
-        </foreach>
-    </insert>
+	<insert id="write_bs_now_call_data" parameterType="java.util.List">
+		replace into pef_newbstotal_now(TotalActiveCalls,
+		TotalActiveCallDuration,
+		AverageCallDuration,
+		PTTCount,
+		QueueCount,
+		QueueDuration,
+		MaxUserRegCount,
+		MaxGroupRegCount,
+		MaxControlChanUpRate,
+		MinControlChanUpRate,
+		AvgControlChanUpRate,
+		MaxControlChanDownRate,
+		AvgTrafficChanRate,
+		MinControlChanDownRate,
+		AvgControlChanDownRate,
+		bsid,
+		starttime,
+		endtime,
+		mscid
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.TotalActiveCalls},
+			#{item.TotalActiveCallDuration},
+			#{item.AverageCallDuration},
+			#{item.PTTCount},
+			#{item.QueueCount},
+			#{item.QueueDuration},
+			#{item.MaxUserRegCount},
+			#{item.MaxGroupRegCount},
+			#{item.MaxControlChanUpRate},
+			#{item.MinControlChanUpRate},
+			#{item.AvgControlChanUpRate},
+			#{item.MaxControlChanDownRate},
+			#{item.AvgTrafficChanRate},
+			#{item.MinControlChanDownRate},
+			#{item.AvgControlChanDownRate},
+			#{item.bsid},
+			#{item.starttime},
+			#{item.endtime},
+			#{item.mscid}
+			)
+		</foreach>
+	</insert>
 	<!--写入东信交换中心呼叫统计数据 -->
 	<insert id="write_msc_call_data" parameterType="java.util.List">
 		replace into pef_newmsctotal(TotalActiveCall,
@@ -440,19 +440,28 @@
 	<!-- 虚拟专网话务统计数据 -->
 	<select id="chart_vpn_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastVpnCallBean">
-		select
-		x.vpnid,y.`name`,
-		x.TotalActiveCalls,
-		x.TotalActiveCallDuration,
-		x.AverageCallDuration,
-		x.dexTotalCalls,
-		x.TotalFailedCalls,
-		x.FailedPercentage,
-		x.NoEffectCalls
-		from
-		chart_month_vpntotal as x left join xhgmnet.xhgmnet_vpn as y on
-		x.vpnid=y.vpnId
-		where x.starttime=#{time} order by x.vpnid asc
+		SELECT
+		x.vpnId,
+		x.`name`,
+		y.TotalActiveCalls,
+		y.TotalActiveCallDuration,
+		y.AverageCallDuration,
+		y.dexTotalCalls,
+		y.TotalFailedCalls,
+		y.FailedPercentage,
+		y.NoEffectCalls
+		FROM
+		xhgmnet_vpn AS x
+		LEFT JOIN (
+		SELECT
+		*
+		FROM
+		xhgmnet_gps_voice.chart_month_vpntotal
+		WHERE
+		starttime = #{time}
+		) AS y ON x.vpnId = y.vpnid
+		ORDER BY
+		x.vpnid ASC
 
 	</select>
 	<!--基站级别话务统计数据 -->
@@ -534,7 +543,7 @@
 	<!--基站区域话务TOP统计数据 -->
 	<select id="chart_bs_zone_top10_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select 
+		select
 		count(x.bsid) as bsTotals,
 		sum(x.TotalActiveCalls) as TotalActiveCalls,
 		sum(x.TotalActiveCallDuration) as
@@ -708,7 +717,8 @@
 		totalQueueDuration,
 		totalMaxReg,maxRegGroup,
 		round((totalFailedCalls/TotalCalls),0) as FailedPercentage
-		from chart_month_msc where starttime=#{time} limit 1
+		from
+		chart_month_msc where starttime=#{time} limit 1
 	</select>
 
 </mapper>

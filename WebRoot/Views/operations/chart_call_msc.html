@@ -12,6 +12,7 @@
 					<thead>
 						<tr class="tr-gray">
 							<th>活动呼叫总数</th>
+							<th>活动呼叫总持续时间</th>
 							<th>平均呼叫持续时间</th>
 							<th>总PPT数</th>
 							<th>呼叫总数</th>
@@ -33,6 +34,7 @@
 						
 						
 							<td>{{msc_data.totalActiveCall}}</td>
+							<td>{{msc_data.totalActiveCallDuration |timeFormat}}</td>
 							<td>{{msc_data.averageCallDuration |timeFormat}}</td>
 							<td>{{msc_data.totalPTTs}}</td>
 							<td>{{msc_data.totalCalls}}</td>

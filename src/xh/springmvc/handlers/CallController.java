@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.StringValueExp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,6 +73,13 @@ public class CallController {
 		
 		/*log.info("user->"+usermap.get("user"));
 		log.info("vpnId->"+usermap.get("vpnId"));*/
+		if(bsId!=null && bsId!=""){
+			int a=Integer.parseInt(bsId);
+			if(a>200){
+				bsId=String.valueOf((a+1000));
+			}
+			
+		}
 		
 		String[] time1=starttime.split("-");
 		String[] time2=endtime.split("-");
@@ -666,7 +674,7 @@ public class CallController {
 		String time=map.get("time").toString();
 		try {
 		sheet.addCell(new Label(0, 0, time+"-交换中心话务统计"+time, fontFormat));
-		sheet.mergeCells(0,0,9,0);
+		sheet.mergeCells(0,0,11,0);
 		sheet.setRowView(0, 600);
 		sheet.setColumnView(0, 20);
 		sheet.setColumnView(1, 20);
@@ -681,36 +689,38 @@ public class CallController {
 		sheet.setColumnView(10, 20);
 		
 		sheet.addCell(new Label(0, 1, "活动呼叫总数", fontFormat_h));
-		sheet.addCell(new Label(1, 1, "平均呼叫持续时间", fontFormat_h));
-		sheet.addCell(new Label(2, 1, "总PTT数", fontFormat_h));
-		sheet.addCell(new Label(3, 1, "呼叫总数", fontFormat_h));
-		sheet.addCell(new Label(4, 1, "呼损总数", fontFormat_h));
-		sheet.addCell(new Label(5, 1, "呼损率", fontFormat_h));
-		sheet.addCell(new Label(6, 1, "未成功呼叫总数", fontFormat_h));
-		sheet.addCell(new Label(7, 1, "最大用户注册数",fontFormat_h));
-		sheet.addCell(new Label(8, 1, "排队数量", fontFormat_h));
-		sheet.addCell(new Label(9, 1, "排队持续时间", fontFormat_h));
-		sheet.addCell(new Label(10, 1, "最大组注册", fontFormat_h));
+		sheet.addCell(new Label(1, 1, "活动呼叫总持续时间", fontFormat_h));
+		sheet.addCell(new Label(2, 1, "平均呼叫持续时间", fontFormat_h));
+		sheet.addCell(new Label(3, 1, "总PTT数", fontFormat_h));
+		sheet.addCell(new Label(4, 1, "呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(5, 1, "呼损总数", fontFormat_h));
+		sheet.addCell(new Label(6, 1, "呼损率", fontFormat_h));
+		sheet.addCell(new Label(7, 1, "未成功呼叫总数", fontFormat_h));
+		sheet.addCell(new Label(8, 1, "最大用户注册数",fontFormat_h));
+		sheet.addCell(new Label(9, 1, "排队数量", fontFormat_h));
+		sheet.addCell(new Label(10, 1, "排队持续时间", fontFormat_h));
+		sheet.addCell(new Label(11, 1, "最大组注册", fontFormat_h));
 		
 		
 		
 		EastMscDayBean bean=EastComService.chart_month_msc(map);
 		sheet.setRowView(2, 400);
 		sheet.addCell(new jxl.write.Number(0, 2, bean.getTotalActiveCall(), fontFormat_Content));
-		sheet.addCell(new Label(1, 2, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
-		sheet.addCell(new jxl.write.Number(2, 2, bean.getTotalPTTs(), fontFormat_Content));
-		sheet.addCell(new jxl.write.Number(3, 2, bean.getTotalCalls(), fontFormat_Content));
-		sheet.addCell(new jxl.write.Number(4, 2, bean.getTotalFailedCalls(), fontFormat_Content));
+		sheet.addCell(new Label(1, 2, funUtil.second_time((int) bean.getTotalActiveCallDuration()), fontFormat_Content));
+		sheet.addCell(new Label(2, 2, funUtil.second_time((int) bean.getAverageCallDuration()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(3, 2, bean.getTotalPTTs(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(4, 2, bean.getTotalCalls(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(5, 2, bean.getTotalFailedCalls(), fontFormat_Content));
 		
 		
 		
-		sheet.addCell(new jxl.write.Number(5, 2, (float)bean.getFailedPercentage()/100, wcfN));
-		sheet.addCell(new jxl.write.Number(6, 2, bean.getNoEffectCalls(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(6, 2, (float)bean.getFailedPercentage()/100, wcfN));
+		sheet.addCell(new jxl.write.Number(7, 2, bean.getNoEffectCalls(), fontFormat_Content));
 		
-		sheet.addCell(new jxl.write.Number(7, 2, bean.getTotalMaxReg(), fontFormat_Content));
-		sheet.addCell(new jxl.write.Number(8, 2, bean.getTotalQueueCount(), fontFormat_Content));
-		sheet.addCell(new Label(9, 2, funUtil.second_time(bean.getTotalQueueDuration()), fontFormat_Content));
-		sheet.addCell(new jxl.write.Number(10, 2, bean.getMaxRegGroup(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(8, 2, bean.getTotalMaxReg(), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(9, 2, bean.getTotalQueueCount(), fontFormat_Content));
+		sheet.addCell(new Label(10, 2, funUtil.second_time(bean.getTotalQueueDuration()), fontFormat_Content));
+		sheet.addCell(new jxl.write.Number(11, 2, bean.getMaxRegGroup(), fontFormat_Content));
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -751,7 +761,6 @@ public class CallController {
 		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
 		for (int i = 0; i < list.size(); i++) {
 			EastVpnCallBean bean = (EastVpnCallBean) list.get(i);
-			sheet.setRowView(i + 2, 400);
 			sheet.addCell(new jxl.write.Number(0, i + 2, bean.getVpnid(), fontFormat_Content));
 			sheet.addCell(new Label(1, i + 2, String.valueOf(bean.getName()), fontFormat_Content));
 			sheet.addCell(new jxl.write.Number(2, i + 2,bean.getTotalActiveCalls(), fontFormat_Content));

@@ -24,6 +24,9 @@ public class BsAlarmExcelBean {
 	private String hometype;//基站归属
 	private String faultType;//故障归属
 	
+	private String is_allow_generation;
+	private String generation_date;
+	
 	
 	
 	
@@ -163,6 +166,18 @@ public class BsAlarmExcelBean {
 	}
 	public void setTag(int tag) {
 		this.tag = tag;
+	}
+	public String getIs_allow_generation() {
+		return is_allow_generation;
+	}
+	public void setIs_allow_generation(String is_allow_generation) {
+		this.is_allow_generation = is_allow_generation;
+	}
+	public String getGeneration_date() {
+		return generation_date;
+	}
+	public void setGeneration_date(String generation_date) {
+		this.generation_date = generation_date;
 	}
 	@Override
 	public String toString() {
