@@ -26,6 +26,7 @@ import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.OrderService;
 import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
+import xh.org.listeners.SingLoginListener;
 
 
 @Controller
@@ -130,6 +131,7 @@ public class OrderController {
 		ErrCheckAck errCheckAck = new ErrCheckAck();
 		errCheckAck.setSerialnumber(serialnumber);
 		errCheckAck.setUserid(userid);
+		errCheckAck.setAuditor(SingLoginListener.getLogUserMap().get(request.getSession().getId())+"");
 		if(status == 2){
 			errCheckAck.setResult("0");
 		}else{

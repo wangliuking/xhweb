@@ -116,6 +116,7 @@ public class Util {
 				Map<String,String> paramMap = new HashMap<String,String>();
 				paramMap.put("serialNum", serialNum);
 				paramMap.put("status", "1");
+				paramMap.put("break_order", "");
 				Service.updateUserStatus(paramMap);
 				//更新四方伟业库
 				Map<String,Object> orderMap = OrderService.selectBySerialnumber(serialNum);
@@ -131,6 +132,12 @@ public class Util {
 				errCheck = (ErrCheck) JSONObject.toBean(jsonObject, ErrCheck.class);
 				if("是".equals(errCheck.getHungorder())){
 					//app提交了挂单
+					Map<String,String> paramMap = new HashMap<String,String>();
+					paramMap.put("serialNum", errCheck.getSerialnumber());
+					paramMap.put("status", "4");
+					paramMap.put("break_order", "1");
+					Service.updateUserStatus(paramMap);
+
 					ErrCheckAck bean = new ErrCheckAck();
 					bean.setSerialnumber(errCheck.getSerialnumber());
 					bean.setUserid(errCheck.getUserid());
@@ -143,6 +150,7 @@ public class Util {
 					Map<String,String> paramMap = new HashMap<String,String>();
 					paramMap.put("serialNum", serialNum);
 					paramMap.put("status", "3");
+					paramMap.put("break_order", "");
 					Service.updateUserStatus(paramMap);
 					//发送通知邮件通知网管组进行审核
 					FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"派单审核","有派单审核，请查阅！",errCheck.getUserid());
