@@ -46,9 +46,13 @@
 		select bsId as bsid,name as bsname,level as bslevel,hometype as bstype,period from xhgmnet_bs_station where bsId=#{bsId}
 	</select>
 	
-	<!-- 更新派单状态为处理中 -->
+	<!-- 更新派单状态 -->
 	<update id="updateUserStatus" parameterType="map">
-		update xhgmnet_operations_fault_task_order set status=#{status} where serialnumber=#{serialNum}
+		update xhgmnet_operations_fault_task_order set status=#{status}
+		<if test="break_order !=null and break_order !=''">
+			,break_order=#{break_order}
+		</if>
+		 where serialnumber=#{serialNum}
 	</update>
 	
 	<!-- 查询派单处理情况 -->
