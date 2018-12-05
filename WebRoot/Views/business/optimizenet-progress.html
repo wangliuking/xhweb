@@ -57,7 +57,7 @@
 								<div class="cd-timeline-content">
 									<h2>管理方提交网络优化信息</h2>
 									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
-											onclick="xh.download()" style="color: red">{{progressData.fileName1}}</a>
+											onclick="xh.download(1)" style="color: red">{{progressData.fileName1}}</a>
 									<p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
@@ -91,7 +91,7 @@
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传网络优化方案</h2>
 									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
-											onclick="xh.download()" style="color: red">{{progressData.fileName2}}</a>
+											onclick="xh.download(2)" style="color: red">{{progressData.fileName2}}</a>
 									</p>
 									<span ng-if="progressData.checked==1"
 										class="cd-date text-danger">等待服务提供方上传网络优化方案</span> <span
@@ -131,7 +131,7 @@
 								<div class="cd-timeline-content">
 									<h2>服务提供方上传总结报告</h2>
 									<a ng-if="progressData.checked>=3" href="#" title="点击下载文件"
-											onclick="xh.download()" style="color: red">{{progressData.fileName3}}</a>
+											onclick="xh.download(3)" style="color: red">{{progressData.fileName3}}</a>
 									<!-- <p>
 										<span>备注：</span><span>备注内容</span>
 									</p> -->

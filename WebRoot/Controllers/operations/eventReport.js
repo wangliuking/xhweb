@@ -46,6 +46,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
+		$scope.page=1;
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -56,6 +57,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;
+			$scope.roleType=response.roleType;
 		});
 		$http.get(
 				"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
@@ -75,9 +77,7 @@ xh.load = function() {
 				});
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$("#filename").val("");
-			$("#contact").val("");
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 
 		/*显示详细信息*/
@@ -112,7 +112,7 @@ xh.load = function() {
 				success : function(data) {
 
 					if (data.result ==1) {
-						xh.refresh();
+						$scope.search($scope.page);
 						toastr.success(data.message, '提示');
 					} else {
 						swal({
@@ -144,13 +144,14 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
+			console.log("limit=" +$scope.page);
 			xh.maskShow();
 			$http.get(
 					"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
 							+ contact + "&status=" + status + ""
-							+ "&start=0&limit=" + pageSize).success(function(response) {
+							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals), $scope);
@@ -186,6 +187,7 @@ xh.load = function() {
 						$scope.lastIndex = 0;
 					}
 				}
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});

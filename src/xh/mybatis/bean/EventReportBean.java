@@ -16,8 +16,8 @@ public class EventReportBean implements Serializable {
 	private String recvUser;
     private String uploadUser;
     private String checkUser;
-    private Date checkTime;
-    private Date createtime;
+    private String checkTime;
+    private String createtime;
     private String note1;
     
     public int getId() {
@@ -87,19 +87,20 @@ public class EventReportBean implements Serializable {
 	public void setCheckUser(String checkUser) {
 		this.checkUser = checkUser;
 	}
-	public Date getCheckTime() {
+
+	
+	public String getCheckTime() {
 		return checkTime;
 	}
-	public void setCheckTime(Date checkTime) {
+	public void setCheckTime(String checkTime) {
 		this.checkTime = checkTime;
 	}
-	public Date getCreatetime() {
+	public String getCreatetime() {
 		return createtime;
 	}
-	public void setCreatetime(Date createtime) {
+	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
 	}
-	
 	public String getNote1() {
 		return note1;
 	}

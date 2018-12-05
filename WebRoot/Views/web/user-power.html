@@ -52,6 +52,7 @@
 			<div class="alert alert-success">
 				<i class="fa fa-close text-white pull-right" id="alert-close"></i>
 				用户：{{user}} 权限分配
+				
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -63,6 +64,10 @@
 						<button class="btn btn-danger btn-sm" id="selectOther">反选
 						</button>
 						<button class="btn btn-warning btn-sm" ng-click="save()">保存权限</button>
+						<button class="btn btn-primary btn-sm"
+                            onclick="javascript:history.back(-1);">
+                            <i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+                        </button>
 					</div>
 				</div>
 			</div>

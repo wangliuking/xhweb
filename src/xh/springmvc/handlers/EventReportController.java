@@ -93,7 +93,7 @@ public class EventReportController {
 		bean.setTel(FunUtil.loginUserInfo(request).get("tel").toString());
 		//bean.setRecvUser("10002");
 		bean.setUploadUser(funUtil.loginUser(request));
-		bean.setCreatetime(new Date());
+		bean.setCreatetime(FunUtil.nowDate());
 		log.info(bean.toString());		
 		int rlt=EventReportServices.addEventReport(bean);
 		
