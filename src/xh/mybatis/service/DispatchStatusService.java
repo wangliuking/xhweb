@@ -240,8 +240,15 @@ public class DispatchStatusService {
 	
 	//ping 调度台
 	public static boolean ping(String ipAddress) throws Exception {
-        int  timeOut =  3000 ;  //超时应该在3钞以上        
+        int  timeOut =  2000 ;  //超时应该在2钞以上        
         boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);     // 当返回值是true时，说明host是可用的，false则不可。
+        int index=0;
+        while(status==false && index<3){
+        	status = InetAddress.getByName(ipAddress).isReachable(timeOut);
+        	index++;
+        	//System.out.println("ping失败，重试！");
+        }
+        
         return status;
     }
 	public static void changePingStatus() throws Exception{
@@ -252,17 +259,15 @@ public class DispatchStatusService {
 			list = mapper.dispatchstatus();
 			for(int i=0;i<list.size();i++){
 				Map<String, Object> map=list.get(i);
-				int flag=0;
-				if(ping(map.get("IP").toString())){
-					flag=1;
-				}else{
-					flag=0;
+				int setupStatus=Integer.parseInt(map.get("setupStatus").toString());			
+				if(setupStatus==1){
+					boolean tag=ping(map.get("IP").toString());
+					Map<String, Object> map2=new HashMap<String, Object>();
+					map2.put("dstId", map.get("dstId").toString());
+					map2.put("flag", tag?1:0);
+					//System.out.println("IP->"+map.get("IP").toString()+"::"+tag);
+					mapper.updateDispatchStatus(map2);
 				}
-				/*System.out.println("IP->"+map.get("IP").toString()+"::"+flag);*/
-				Map<String, Object> map2=new HashMap<String, Object>();
-				map2.put("dstId", map.get("dstId").toString());
-				map2.put("flag", flag);
-				mapper.updateDispatchStatus(map2);
 				
 			}
 			session.close();

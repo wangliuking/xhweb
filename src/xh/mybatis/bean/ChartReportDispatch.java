@@ -51,6 +51,13 @@ public class ChartReportDispatch {
 	public void setSetupStatus(int setupStatus) {
 		this.setupStatus = setupStatus;
 	}
+	@Override
+	public String toString() {
+		return "ChartReportDispatch [dstId=" + dstId + ", dstName=" + dstName
+				+ ", ip=" + ip + ", flag=" + flag + ", setupStatus="
+				+ setupStatus + ", dxbox_ip=" + dxbox_ip + ", dxbox_runtime="
+				+ dxbox_runtime + "]";
+	}
 	
 	
 	

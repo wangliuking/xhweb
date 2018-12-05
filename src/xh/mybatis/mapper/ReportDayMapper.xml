@@ -17,9 +17,20 @@
 	</select>
 	<select id="chart_dispatch" resultType="xh.mybatis.bean.ChartReportDispatch"
 		useCache="true">
-		select dstId,dstName,IP as ip,flag,setupStatus,dbox_ip as dxbox_ip from
-		xhgmnet_dispatch order
-		by dstId asc
+		SELECT
+		a.dstId,
+		a.dstName,
+		a.IP AS ip,
+		a.flag,
+		a.setupStatus,
+		a.dbox_ip AS dxbox_ip,
+		b.runTime as dxbox_runtime
+		FROM
+		xhgmnet_dispatch as a
+		LEFT JOIN xhgmnet_dispatch_history as b on a.dstId=b.dstId and
+		b.dispatchLink=0
+		ORDER BY
+		dstId ASC
 	</select>
 
 	<select id="chart_alarm_now" resultType="map" useCache="true">
@@ -53,7 +64,8 @@
 		and a.bsid in (select bsId from
 		xhgmnet.xhgmnet_bs_important)
 	</select>
-	<select id="now_week_gpsnumber" resultType="map" useCache="true" parameterType="String">
+	<select id="now_week_gpsnumber" resultType="map" useCache="true"
+		parameterType="String">
 		SELECT
 		*
 		FROM
@@ -66,8 +78,10 @@
 	</select>
 	<select id="now_gpsunit_status" resultType="map" useCache="true">
 		SELECT
-		(select `status` from xhgmnet_user_access_list where User_Name='交管局') as jg,
 		(select `status` from xhgmnet_user_access_list where
+		User_Name='交管局') as jg,
+		(select `status` from xhgmnet_user_access_list
+		where
 		User_Name='成都市公安局GPS') as cd
 		FROM
 		xhgmnet_user_access_list limit 1
@@ -84,7 +98,8 @@
 		SELECT
 		*
 		FROM
-		xhgmnet_operations_question where write_time=#{time}
+		xhgmnet_operations_question where
+		write_time=#{time}
 	</select>
 
 </mapper>

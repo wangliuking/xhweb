@@ -115,13 +115,18 @@ xh.load = function() {
 			var checkVal = [];
 			$("[name='tb-check']:checkbox").each(function() {
 				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("value"));
+					var index=$(this).attr("index");
+					var d=$scope.data[index];
+					if(d.checkTag==0){
+						checkVal.push($(this).attr("value"));
+					}
+					
 				}
 			});
 			if (checkVal.length<1) {
 				swal({
 					title : "提示",
-					text : "至少选择一条数据",
+					text : "至少选择一条没有核减过的数据",
 					type : "error"
 				});
 				return;

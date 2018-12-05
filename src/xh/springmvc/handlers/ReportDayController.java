@@ -581,7 +581,7 @@ public class ReportDayController {
 		sheet.setColumnView(2, 20);
 		sheet.setColumnView(3, 20);
 		sheet.setColumnView(4, 20);
-		sheet.setColumnView(5, 30);
+		sheet.setColumnView(5, 50);
 		
 		sheet.addCell(new Label(0, 2, "调度台ID", fontFormat_h));
 		sheet.addCell(new Label(1, 2, "调度台名称", fontFormat_h));
@@ -596,13 +596,13 @@ public class ReportDayController {
 		
 		for (int i = 0; i < list.size(); i++) {
 			ChartReportDispatch bean =list.get(i);
-			sheet.setRowView(i + 2, 400);
+		
 			sheet.addCell(new Label(0, i + 3, String.valueOf(bean.getDstId()), fontFormat_Content));
 			sheet.addCell(new Label(1, i + 3, String.valueOf(bean.getDstName()), fontFormat_Content));
 			sheet.addCell(new Label(2, i + 3, String.valueOf(bean.getDxbox_ip()), fontFormat_Content));
 			sheet.addCell(new Label(3, i + 3, String.valueOf(bean.getIp()), fontFormat_Content));
 			sheet.addCell(new Label(4, i + 3, bean.getFlag()==0?"NO":"OK", fontFormat_Content));
-			sheet.addCell(new Label(5, i + 3, String.valueOf(bean.getDxbox_runtime()), fontFormat_Content));
+			sheet.addCell(new Label(5, i + 3, bean.getDxbox_runtime()!=null && bean.getDxbox_runtime()!=""?(bean.getDxbox_runtime()).trim():"", fontFormat_Content));
 		}
 		
 		} catch (Exception e) {
@@ -842,7 +842,7 @@ public class ReportDayController {
 					sheet.setColumnView(4, 10); //基站分级
 					sheet.setColumnView(5, 10); //使用状态
 					sheet.setColumnView(6, 10); //星期
-					sheet.setColumnView(7, 20); //故障发生时间
+					sheet.setColumnView(7, 40); //故障发生时间
 					sheet.setColumnView(8, 10); //报障来源
 					sheet.setColumnView(9, 20); //故障等级
 					sheet.setColumnView(10, 20); //故障类别
@@ -850,16 +850,16 @@ public class ReportDayController {
 					sheet.setColumnView(12, 40);//目前处理情况
 					sheet.setColumnView(13, 10);//是否影响业务
 					sheet.setColumnView(14, 50);     //故障处理结果
-					sheet.setColumnView(15, 20);      //故障恢复时间
+					sheet.setColumnView(15, 30);      //故障恢复时间
 					sheet.setColumnView(16, 20);      //故障历时
 					sheet.setColumnView(17, 50);     //备注
 					sheet.setColumnView(18, 15);      //故障处理人员
 					sheet.setColumnView(19, 15);      //故障记录人员
 					sheet.setColumnView(20, 10);      //基站归属
 					sheet.setColumnView(21, 10);  
-					sheet.setColumnView(22, 10);  
+					sheet.setColumnView(22, 30);  
 					sheet.setColumnView(23, 20);  
-					sheet.setColumnView(24, 10);  
+					sheet.setColumnView(24, 20);  
 
 					sheet.addCell(label_1);
 					sheet.addCell(label_2);
@@ -925,10 +925,10 @@ public class ReportDayController {
 						Label value_20 = new Label(19, i + 2, bean.getFaultRecordPerson(),fontFormat_Content);
 						Label value_21 = new Label(20, i + 2, bean.getHometype(),fontFormat_Content);
 						Label value_22 = new Label(21, i + 2, "",fontFormat_Content);
-						Label value_23 = new Label(22, i + 2, "",fontFormat_Content);
+						Label value_23 = new Label(22, i + 2, bean.getElc_time(),fontFormat_Content);
 						Label value_24 = new Label(23, i + 2, bean.getIs_allow_generation(),fontFormat_Content);
 						Label value_25 = new Label(24, i + 2, bean.getGeneration_date(),fontFormat_Content);
-						sheet.setRowView(i + 2, 300);
+						//sheet.setRowView(i + 2, 300);
 						sheet.addCell(value_1);
 						sheet.addCell(value_2);
 						sheet.addCell(value_3);

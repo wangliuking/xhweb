@@ -71,6 +71,8 @@
 	 <bs_ups>on</bs_ups>
 	 <dispatch>on</dispatch>
 	 <link>on</link>
+	 <bs_check>on</bs_check>
+	 <bs_order>on</bs_order>
 	</alarm>
 	<doc>
 	<officeUrl>127.0.0.1</officeUrl>

@@ -14,27 +14,30 @@
 	</resultMap>
 	<!--查询没有核减的基站 -->
 	<select id="not_check_bs" resultType="int" useCache="true">
-		select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
-		and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000 or
+		select
+		count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
+		and bsId not in(select bsIds from xhgmnet_stationalarm) and
+		(bsId&lt;1000 or
 		bsId>2000)
 		AND checkTag=0
 	</select>
-	
+
 	<!--查询没有派单的基站 -->
 	<select id="not_order_bs" resultType="int" useCache="true">
-        select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
-        and alarmTag=0
-        and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000 or
-        bsId>2000)
-        AND status=0
+		select count(*) from xhgmnet_operations_bsfault where neType=4 and modType=3
+		and alarmTag=0
+		and bsId not in(select bsIds from xhgmnet_stationalarm) and (bsId&lt;1000
+		or
+		bsId>2000)
+		AND status=0
 	</select>
-	
+
 	<update id="stop_check_bs" parameterType="java.util.List">
-	update xhgmnet_operations_bsfault set checkTag=-1 where id in(
-	<foreach collection="list" item="id" separator=",">
-	#{id}
-	</foreach>
-	)
+		update xhgmnet_operations_bsfault set checkTag=-1 where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
 	</update>
 
 
@@ -130,12 +133,14 @@
 		xhgmnet_bs_station a
 		LEFT JOIN xhgmnet_bsstatus b ON
 		a.bsId =
-		b.bsId AND b.chId = 1
-		LEFT JOIN xhgmnet_bs_bsr c ON
+		b.bsId AND b.chId = 1 and b.link=0
+		LEFT JOIN xhgmnet_bs_bsr c
+		ON
 		a.bsId=c.bsId and
 		c.`master`=2
 		LEFT JOIN xhgmnet_bs_main_info as d ON
 		a.bsId=d.bsId
+		where a.bsId&lt;1000 or a.bsId>2000
 		ORDER BY
 		a.bsId ASC;
 	</select>
@@ -347,7 +352,8 @@
 		sysType=1 and neType=4 and modType=3 and alarmTag=0 and voiceTag=0 and
 		(subModId &lt;1000 or subModId>1200)
 		and subModId not
-		in(select bsIds from xhgmnet_stationalarm)
+		in(select bsIds
+		from xhgmnet_stationalarm)
 
 
 
@@ -530,28 +536,45 @@
 		a.faultType,
 		a.status,
 		a.alarmTag,b.name,b.level,b.status as
-		tag,b.hometype,b.period,c.is_allow_generation,c.generation_date
+		tag,b.hometype,b.period,c.is_allow_generation,c.generation_date,
+		d.time as elc_time
 		from
 		xhgmnet_operations_bsfault as a
-		left join xhgmnet_bs_station as b on
+		left join
+		xhgmnet_bs_station as b on
 		a.bsId=b.bsId
-		left join xhgmnet_bs_supply_electricity as c on
-		a.bsId=b.bsId
+		left join
+		xhgmnet_bs_supply_electricity as c on
+		a.bsId=c.bsId
+		left join (select
+		x.bsId ,max(x.time) as time,time_day from (SELECT
+		bsId,time,DATE_FORMAT(time,"%Y-%m-%d") as time_day
+		FROM
+		xhgmnet_operations_bsfault
+		WHERE
+		sysType = 2
+		AND modType = 3000
+		AND (
+		subModType = 80200000000001
+		OR (
+		subModType = 51
+		AND subModId = 1003
+		)
+		)
+		and DATE_FORMAT(time,"%Y-%m")=DATE_FORMAT(#{startTime},"%Y-%m")) as x GROUP BY x.time_day) as d
+		 on a.bsId=d.bsId and DATE_FORMAT(a.time,"%Y-%m-%d")=d.time_day
 
 		where a.time between
 		#{startTime} and #{endTime} and
-		a.sysType=1 and a.neType=4 and a.modType=3
+		a.sysType=1 and
+		a.neType=4 and a.modType=3
 		order by a.time asc
 	</select>
 	<select id="bsFaultList" resultType="map" useCache="true"
 		parameterType="map">
 
 		select
-		CASE
-		WHEN a.bsId>=1200 and a.bsId&lt;2000 THEN a.bsId%1000
-		ELSE
-		a.bsId
-		END bsId,
+		a.bsId,
 
 		a.id,
 		a.sysType,a.neId,a.neType,a.mscId,a.location,
@@ -612,10 +635,6 @@
 		a.category=c.category
 		and a.code=c.code and a.causeCode=c.causeCode and
 		a.sysType=1
-
-
-		<!-- (a.bsId%1000=b.bsId and a.neType=1) or (a.subModId%1000=b.bsId and 
-			a.neType=2) or (a.subModId%1000=b.bsId and a.neType=4) -->
 		where a.level&lt;5
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
@@ -660,7 +679,14 @@
 		<if test="alarmType==4">
 			and a.neType=4 and (a.subModId &lt;1000 or
 			a.subModId>1200) and a.modType=3 and a.subModId not
-			in(select bsIds from xhgmnet_stationalarm)
+			in(select bsIds
+			from xhgmnet_stationalarm)
+		</if>
+		<if test="alarmType==5">
+			and a.neType=101
+		</if>
+		<if test="alarmType==6">
+			and a.neType=102
 		</if>
 
 		order by a.time desc
@@ -714,9 +740,16 @@
 			category=2
 		</if>
 		<if test="alarmType==4">
-			and neType=4 and (subModId &lt;1000 or subModId>1200) and modType=3 and
+			and neType=4 and (subModId &lt;1000 or subModId>1200) and
+			modType=3 and
 			subModId not
 			in(select bsIds from xhgmnet_stationalarm)
+		</if>
+		<if test="alarmType==5">
+			and neType=101
+		</if>
+		<if test="alarmType==6">
+			and neType=102
 		</if>
 
 	</select>

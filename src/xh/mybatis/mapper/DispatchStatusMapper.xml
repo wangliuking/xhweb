@@ -4,7 +4,7 @@
 
     <!--调度台状态-->
     <select id="dispatchstatus" resultType="map" useCache="true">
-     select * from xhgmnet_dispatch order by sort asc limit 0,100
+     select * from xhgmnet_dispatch  order by sort asc limit 0,100
     </select> 
     <!-- 根据调度台ID判断调度台是否存在 -->
     <select id="dispatchExists" parameterType="int" resultType="int" useCache="true">
