@@ -86,7 +86,7 @@ xh.load = function() {
 			$http.get("bsAlarm/voiceAlarm").success(function(response) {
 				$scope.AlarmTotals = response.totals;
 				var count = response.totals;
-				if ($scope.roleType == 3 || $scope.roleType == 0) {
+				if ($scope.roleId == 301 || $scope.roleType == 0) {
 					if (count>0) {
 						play = true;
 						xh.playMap3();

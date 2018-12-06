@@ -70,11 +70,11 @@ xh.org.listeners.SingLoginListener
   <listener-class>xh.org.listeners.checkListener</listener-class>
  </listener>  -->
 <!-- 基站故障自动写入 -->
-<listener>
+<!-- <listener>
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   
-</listener>
+</listener> -->
 
 <!--定时获取东信基站话务统计 -->
 <!-- <listener>
@@ -83,11 +83,11 @@ xh.org.listeners.GetEastCallDataListenner
 </listener-class>   
 </listener> -->
 
-<!-- <listener>
+<listener>
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
 </listener-class>   
-</listener> -->
+</listener>
 
 <!-- 启动定时器，定时同步redis中的session相关数据-->
 <!--<listener>

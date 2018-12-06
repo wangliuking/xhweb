@@ -114,6 +114,49 @@ public class UploadController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/img")
+	@ResponseBody
+	public void img(@RequestParam("pathName") MultipartFile file,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		
+
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/Resources/upload/";
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String[] data = sdf.format(d).split(" ")[0].split("-");
+		path += data[0] + "/" + data[1] + "/" + data[2];
+		String savePath = "/Resources/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
+
+		
+	
+		if(uploadFile(request,file,path)){
+			this.success = true;
+			this.message = "文件上传成功";
+		}else{
+			this.success = false;
+			this.message = "文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + name);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 下载文件

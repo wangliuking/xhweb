@@ -83,7 +83,8 @@ public class BsStatusController {
 	@RequestMapping(value="/not_check",method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap not_check(HttpServletRequest request, HttpServletResponse response){
-		int count=Constants.getBS_NOT_CHECK_NUM();
+		String tag=FunUtil.readXml("alarm", "bs_check");
+		int count=tag.equals("on")?Constants.getBS_NOT_CHECK_NUM():0;
 		HashMap result = new HashMap();
 		result.put("count", count);
 		return result;
@@ -92,7 +93,8 @@ public class BsStatusController {
 	@RequestMapping(value="/not_order",method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap not_order(HttpServletRequest request, HttpServletResponse response){
-		int count=Constants.getBS_NOT_ORDER_NUM();
+		String tag=FunUtil.readXml("alarm", "bs_order");
+		int count=tag.equals("on")?Constants.getBS_NOT_ORDER_NUM():0;
 		HashMap result = new HashMap();
 		result.put("count", count);
 		return result;

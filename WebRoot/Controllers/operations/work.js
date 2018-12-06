@@ -50,6 +50,7 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			console.log("loginuser="+$scope.loginUser);
 			$scope.loginUserRoleId = response.roleId;
+			$scope.roleType = response.roleType;
 		});
 		$http.get(
 				"../../work/worklist?filename=" + filename + "" + "&contact="

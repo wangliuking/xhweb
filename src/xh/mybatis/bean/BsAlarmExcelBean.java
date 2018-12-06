@@ -22,10 +22,11 @@ public class BsAlarmExcelBean {
 	private String faultHandlePerson;//故障处理人员
 	private String faultRecordPerson;//故障记录人员
 	private String hometype;//基站归属
-	private String faultType;//故障归属
+	private String faultType;//故障归属elc_time
 	
 	private String is_allow_generation;
 	private String generation_date;
+	private String elc_time;
 	
 	
 	
@@ -178,6 +179,13 @@ public class BsAlarmExcelBean {
 	}
 	public void setGeneration_date(String generation_date) {
 		this.generation_date = generation_date;
+	}
+	
+	public String getElc_time() {
+		return elc_time;
+	}
+	public void setElc_time(String elc_time) {
+		this.elc_time = elc_time;
 	}
 	@Override
 	public String toString() {

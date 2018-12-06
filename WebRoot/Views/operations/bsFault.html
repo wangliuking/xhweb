@@ -306,10 +306,10 @@ to {
 						<div class="panel-body">
 							<div class="top-search btn-group">
 
-								<button class="btn  btn-danger btn-sm" ng-click="stop_check()">
+								<button ng-if="roleType==0 || roleType==3" class="btn  btn-danger btn-sm" ng-click="stop_check()">
 									<i class="fa fa-file-excel-o"></i>&nbsp;禁止核减
 								</button>
-								<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)" ng-if="up.o_order=='on' || roleId==10000">
+								<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)" ng-if="roleType==0 || roleType==3">
 									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
 								</button>
 								<button class="btn btn-success btn-sm" ng-click="sureOk()" ng-if="roleType==0 || roleType==3">

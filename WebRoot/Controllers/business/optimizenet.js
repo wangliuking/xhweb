@@ -490,18 +490,18 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(){
+xh.download=function(tag){
 	var $scope = angular.element(appElement).scope();
 	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
-		if(checked == 0 && $scope.checkData.fileName1!=null){
+	if(tag != -1){
+		if(tag == 1){
 			fileName = $scope.checkData.fileName1;
 		}
-		else if(checked == 2 && $scope.checkData.fileName2!=null){
+		else if(tag == 2){
 			fileName = $scope.checkData.fileName2;
 		}
-		else if(checked == 4 && $scope.checkData.fileName3!=null){
+		else if(tag ==3){
 			fileName = $scope.checkData.fileName3;
 		}
 	}

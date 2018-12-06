@@ -37,10 +37,14 @@ class pingTask extends TimerTask{
 	@Override
 	public void run() {
 		try {
+			Long start=System.currentTimeMillis();
 			log.info("=========================================");
 			log.info("ping调度台状态线程开始运行");
 			log.info("=========================================");
 			DispatchStatusService.changePingStatus();
+			log.info("=========================================");
+			log.info("ping调度台状态线程结束:"+(System.currentTimeMillis()-start));
+			log.info("=========================================");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

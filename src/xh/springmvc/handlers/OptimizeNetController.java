@@ -555,7 +555,7 @@ public class OptimizeNetController {
 			HttpServletRequest request) {
 		// ----发送通知邮件
 		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("入网申请");
+		emailBean.setTitle("网络优化");
 		emailBean.setRecvUser(recvUser);
 		emailBean.setSendUser(funUtil.loginUser(request));
 		emailBean.setContent(content);
