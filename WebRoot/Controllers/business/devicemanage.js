@@ -304,6 +304,7 @@ xh.check2 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("#checkForm2")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -327,6 +328,7 @@ xh.check3 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				$("#checkForm3")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

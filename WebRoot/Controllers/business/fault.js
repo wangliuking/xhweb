@@ -275,6 +275,7 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				//$("#addForm")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -299,6 +300,7 @@ xh.check1 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin1').modal('hide');
+				$("#checkForm1")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -313,6 +315,10 @@ xh.check1 = function() {
 
 /*管理方上传*/
 xh.check2 = function() {
+	if (parseInt($("#checkForm2").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../fault/uploadRequest',
 		type : 'POST',
@@ -322,7 +328,8 @@ xh.check2 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm2")[0].reset();
+				$("#checkForm2").find("#uploadResult_Request").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -346,6 +353,7 @@ xh.check3 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				$("#checkForm3")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -359,6 +367,10 @@ xh.check3 = function() {
 };
 /*服务方上传*/
 xh.check4 = function() {
+	if (parseInt($("#checkForm4").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../fault/uploadFinish',
 		type : 'POST',
@@ -368,7 +380,8 @@ xh.check4 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm4")[0].reset();
+				$("#checkForm4").find("#uploadResult_Finish").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -391,6 +404,7 @@ xh.check5 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
+				$("#checkForm5")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -414,6 +428,7 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
+				$("#checkForm6")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -474,13 +489,18 @@ xh.check8 = function() {
 
 /* 上传文件 */
 xh.upload = function(index) {
+	var form=null;
+	var path="";
+	var note="";
 	if (index == 1) {
 		path = 'filePath_Request';
 		note = 'uploadResult_Request';
+		form=$("#checkForm2");
 	}
 	if (index == 2) {
 		path = 'filePath_Finish';
 		note = 'uploadResult_Finish';
+		form=$("#checkForm4");
 	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
@@ -499,12 +519,12 @@ xh.upload = function(index) {
 			console.log(data.filePath)
 			xh.maskHide();
 			if (data.success) {
-				$("#"+note).html(data.message);
-				$("input[name='result']").val(1);
-				$("input[name='fileName']").val(data.fileName);
-				$("input[name='path']").val(data.filePath);
+				form.find("#"+note).html(data.message);
+				form.find("input[name='result']").val(1);
+				form.find("input[name='fileName']").val(data.fileName);
+				form.find("input[name='path']").val(data.filePath);
 			} else {
-				$("#"+note).html(data.message);
+				form.find("#"+note).html(data.message);
 			}
 
 		},

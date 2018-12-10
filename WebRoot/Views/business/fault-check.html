@@ -95,15 +95,18 @@
 						</div>
 					</div>
 					<div class="row">
+					<div class="form-group col-md-12" ng-show="false">
+					                               <input type="text" name="result" class="form-control"/> 
+                                <input type="text" name="fileName"/> 
+                                <input type="text" name="path"/> 
+					</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>故障请求信息</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath_Request" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
-							    <input type="hidden" name="result" class="form-control"/> 
-							    <input type="hidden" name="fileName"/> 
-							    <input type="hidden" name="path"/> 
+
 								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
 								<span id="uploadResult_Request" style="color:red"></span>
 							</div>
@@ -220,15 +223,18 @@
 						</div>
 					</div>
 					<div class="row">
+					<div class="form-group col-md-12" ng-show=false>
+					  <input type="text" name="result" class="form-control"/> 
+                                <input type="text" name="fileName"/> 
+                                <input type="text" name="path"/> 
+					</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>故障处理报告</label>&nbsp;<span class="text-danger">[*]</span> 
 								<input type="file" name="filePath" id="filePath_Finish" class="form-control"/> 
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
-							    <input type="hidden" name="result" class="form-control"/> 
-							    <input type="hidden" name="fileName"/> 
-							    <input type="hidden" name="path"/> 
+							  
 								<a href="#" onclick="xh.upload(2)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
 								<span id="uploadResult_Finish" style="color:red"></span>
 							</div>
@@ -536,25 +542,9 @@
 		validating : 'fa fa-refresh'
 	};
 	$("#check_btn2").click(function() {
-		if ($("input[name='result']").val() != 1) {
-			alert("请先上传文件！");
-			return false;
-		}
-		/* if ($("input[name='result']").val()!=2) {
-			alert("请等待上传完成！");
-			return false;
-		} */
 		 $('#checkForm2').submit();
 	});
 	$("#check_btn4").click(function() {
-		if ($("input[name='result']").val() != 1) {
-			alert("请先上传文件！");
-			return false;
-		}
-		/* if ($("input[name='result']").val()!=2) {
-			alert("请等待上传完成！");
-			return false;
-		} */
 		 $('#checkForm4').submit();
 	});
 	//管理方审核提交

@@ -74,5 +74,19 @@ public class WebLogService {
 		}
 		return count;
 	}
+	
+	public static List<Map<String, Object>> test(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebLogMapper mapper=sqlSession.getMapper(WebLogMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
+		try{
+			list=mapper.test();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 }

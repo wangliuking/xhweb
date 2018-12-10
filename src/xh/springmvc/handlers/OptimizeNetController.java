@@ -413,7 +413,7 @@ public class OptimizeNetController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotifytoSingle(user, "总结报告已审核", request);
+            FunUtil.sendMsgToOneUser(user,"资产核查","总结报告已审核", request);
             //----END
         } else {
             this.message = "总结报告审核失败";

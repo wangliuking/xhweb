@@ -459,6 +459,7 @@ xh.check1 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin1').modal('hide');
+				$('#checkForm1')[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -482,6 +483,7 @@ xh.check2 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin2').modal('hide');
+				$("#checkForm2")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -495,7 +497,7 @@ xh.check2 = function() {
 };
 /* 上传编组方案 */
 xh.check3 = function() {
-	if (parseInt($("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm3").find("input[name='result']").val()) !== 1) {
 		toastr.error("你还没有上传编组方案不能提交", '提示');
 		return;
 	}
@@ -509,6 +511,8 @@ xh.check3 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin3').modal('hide');
+				$("#checkForm3")[0].reset();
+				$("#checkForm3").find("#uploadResultBZ").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -532,6 +536,7 @@ xh.check4 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin4').modal('hide');
+				$("#checkForm4")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -555,6 +560,7 @@ xh.check5 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin5').modal('hide');
+				$("#checkForm5")[0].reset();
 				xh.refresh();
 				swal({
 					title : "提示",
@@ -599,7 +605,7 @@ xh.check6 = function() {
 };
 /* 上传通知函 */
 xh.check7 = function() {
-	if (parseInt($("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm7").find("input[name='result']").val()) !== 1) {
 		toastr.error("你还没有上传通知函不能提交", '提示');
 		return;
 	}
@@ -613,6 +619,8 @@ xh.check7 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin7').modal('hide');
+				$("#checkForm7")[0].reset();
+				$("#checkForm7").find("#uploadResultNote").html();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -664,6 +672,7 @@ xh.check9 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin9').modal('hide');
+				$("#checkForm9")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -677,7 +686,7 @@ xh.check9 = function() {
 };
 /* 上传采购设备信息 */
 xh.check10 = function() {
-	if (parseInt($("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm10").find("input[name='result']").val()) !== 1) {
 		toastr.error("你还没有上传采购设备信息不能提交", '提示');
 		return;
 	}
@@ -691,6 +700,8 @@ xh.check10 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin10').modal('hide');
+				$("#checkForm10")[0].reset();
+				$("#checkForm10").find("#uploadResultCG").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -732,7 +743,7 @@ xh.updateCheckById = function(id,checkedNum,sendUser) {
 /* 上传技术方案 */
 xh.check11 = function() {
 	var $scope = angular.element(appElement).scope();
-	if (parseInt($("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm11").find("input[name='result']").val()) != 1) {
 		toastr.error("你还没有上传文件不能提交", '提示');
 		return;
 	}
@@ -750,6 +761,7 @@ xh.check11 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin11').modal('hide');
+				$("#checkForm11")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -773,6 +785,7 @@ xh.check12 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin12').modal('hide');
+				$("#checkForm12")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -796,6 +809,8 @@ xh.check13 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin13').modal('hide');
+				 $("#checkForm13")[0].reset();
+				 $("#checkForm13").find("#uploadResultFJ").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -819,6 +834,7 @@ xh.check14 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin14').modal('hide');
+				$("#checkForm14")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -832,6 +848,10 @@ xh.check14 = function() {
 };
 /* 上传编制资源配置技术方案 */
 xh.check15 = function() {
+	if (parseInt($("#checkForm15").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传资源配置技术方案", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../net/uploadFile',
 		type : 'POST',
@@ -842,6 +862,8 @@ xh.check15 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin15').modal('hide');
+				$("#checkForm15")[0].reset();
+				$("#checkForm15").find("#uploadResultBZ1").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -865,6 +887,7 @@ xh.check16 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin16').modal('hide');
+				$("#checkForm16")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -878,6 +901,10 @@ xh.check16 = function() {
 };
 /* 用户上传协议文件*/
 xh.check17 = function() {
+	if (parseInt($("#checkForm17").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传协议文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../net/uploadHT',
 		type : 'POST',
@@ -888,6 +915,8 @@ xh.check17 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin17').modal('hide');
+				$("#checkForm17")[0].reset();
+				$("#checkForm17").find("#uploadResultXY").html();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -911,6 +940,7 @@ xh.check18 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin18').modal('hide');
+				 $("#checkForm18")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -960,6 +990,7 @@ xh.check100 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin100').modal('hide');
+				$("#checkForm100")[0].reset();
 				xh.refresh();
 				swal({
 					title : "提示",
@@ -980,9 +1011,13 @@ xh.check100 = function() {
 /* 上传文件 */
 xh.upload = function(index) {
 	var $scope = angular.element(appElement).scope();
+	var form=null;
+	var path="";
+	var note="";
 	if (index == 1) {
 		path = 'filePathBZ';
 		note = 'uploadResultBZ';
+		form=$("#checkForm3");
 	}
 	if (index == 2) {
 		path = 'filePathGH';
@@ -991,30 +1026,37 @@ xh.upload = function(index) {
 	if (index == 3) {
 		path = 'filePathNote';
 		note = 'uploadResultNote';
+		form=$("#checkForm7");
 	}
 	if (index == 4) {
 		path = 'filePathHT';
 		note = 'uploadResultHT';
+		form=$("#checkForm8");
 	}
 	if (index == 5) {
 		path = 'filePathCG';
 		note = 'uploadResultCG';
+		form=$("#checkForm10");
 	}
 	if (index == 6) {
 		path = 'filePathJS';
 		note = 'uploadResultJS';
+		form=$("#checkForm11");
 	}
 	if (index == 7) {
 		path = 'filePathFJ';
 		note = 'uploadResultFJ';
+		form=$("#checkForm13");
 	}
 	if (index == 8) {
 		path = 'filePathBZ1';
 		note = 'uploadResultBZ1';
+		form=$("#checkForm15");
 	}
 	if (index == 9) {
 		path = 'filePathXY';
 		note = 'uploadResultXY';
+		form=$("#checkForm17");
 	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
@@ -1035,12 +1077,12 @@ xh.upload = function(index) {
 			console.log(data.filePath)
 			xh.maskHide();
 			if (data.success) {
-				$("#"+note).html(data.message);
-				$("input[name='result']").val(1);
-				$("input[name='fileName']").val(data.fileName);
-				$("input[name='path']").val(data.filePath);
+				form.find("#"+note).html(data.message);
+				form.find("input[name='result']").val(1);
+				form.find("input[name='fileName']").val(data.fileName);
+				form.find("input[name='path']").val(data.filePath);
 			} else {
-				$("#"+note).html(data.message);
+				form.find("#"+note).html(data.message);
 			}
 
 		},

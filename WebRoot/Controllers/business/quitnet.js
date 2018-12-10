@@ -328,6 +328,7 @@ xh.check1 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin1').modal('hide');
+				$("#checkForm1")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -351,6 +352,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("#checkForm2")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -364,6 +366,10 @@ xh.check2 = function() {
 };
 
 xh.check3 = function() {
+	if (parseInt($("#checkForm3").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../quitnet/checkedThree',
 		type : 'POST',
@@ -373,7 +379,8 @@ xh.check3 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm3")[0].reset();
+				$("#checkForm3").find("#uploadResult1").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -397,6 +404,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("#checkForm4")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -409,6 +417,10 @@ xh.check4 = function() {
 	});
 };
 xh.check5 = function() {
+	if (parseInt($("#checkForm5").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../quitnet/checkedFive',
 		type : 'POST',
@@ -419,7 +431,8 @@ xh.check5 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm5")[0].reset();
+				$("#checkForm5").find("#uploadResult2").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -442,6 +455,7 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
+				$("#checkForm6")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -454,6 +468,10 @@ xh.check6 = function() {
 	});
 };
 xh.check7 = function() {
+	if (parseInt($("#checkForm7").find("input[name='result']").val()) !== 1) {
+		toastr.error("你还没有上传文件", '提示');
+		return;
+	}
 	$.ajax({
 		url : '../../quitnet/checkedSeven',
 		type : 'POST',
@@ -464,7 +482,8 @@ xh.check7 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin7').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm7")[0].reset();
+				$("#checkForm7").find("#uploadResult3").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -488,6 +507,7 @@ xh.check8 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin8').modal('hide');
+				$("#checkForm8")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -502,17 +522,23 @@ xh.check8 = function() {
 
 /*上传文件*/
 xh.upload = function(index) {
+	var form=null;
+	var path="";
+	var note="";
 	if (index == 1) {
 		path = 'filePath1';
 		note = 'uploadResult1';
+		form=$("#checkForm3");
 	}
 	if (index == 2) {
 		path = 'filePath2';
 		note = 'uploadResult2';
+		form=$("#checkForm5");
 	}
 	if (index == 3) {
 		path = 'filePath3';
 		note = 'uploadResult3';
+		form=$("#checkForm7");
 	}
 	if ($("#" + path).val() == "") {
 		toastr.error("你还没选择文件", '提示');
@@ -531,10 +557,10 @@ xh.upload = function(index) {
 			console.log(data.filePath)
 			xh.maskHide();
 			if (data.success) {
-				$("#"+note).html(data.message);
-				$("input[name='result']").val(1);
-				$("input[name='fileName']").val(data.fileName);
-				$("input[name='path']").val(data.filePath);
+				form.find("#"+note).html(data.message);
+				form.find("input[name='result']").val(1);
+				form.find("input[name='fileName']").val(data.fileName);
+				form.find("input[name='path']").val(data.filePath);
 			} else {
 				$("#"+note).html(data.message);
 			}

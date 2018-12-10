@@ -345,4 +345,28 @@ public class FaultBean {
 		this.information = information;
 	}
 
+	@Override
+	public String toString() {
+		return "FaultBean [id=" + id + ", unit=" + unit + ", person=" + person
+				+ ", tel=" + tel + ", information=" + information + ", time="
+				+ time + ", time1=" + time1 + ", time2=" + time2 + ", note1="
+				+ note1 + ", note2=" + note2 + ", note=" + note + ", user1="
+				+ user1 + ", user2=" + user2 + ", checked=" + checked
+				+ ", faultType=" + faultType + ", userName=" + userName
+				+ ", user_MainManager=" + user_MainManager + ", user3=" + user3
+				+ ", note3=" + note3 + ", time3=" + time3
+				+ ", fileName_Request=" + fileName_Request
+				+ ", filePath_Request=" + filePath_Request
+				+ ", fileName_Finish=" + fileName_Finish + ", filePath_Finish="
+				+ filePath_Finish + ", user=" + user + ", faultReason="
+				+ faultReason + ", faultDoMethod=" + faultDoMethod
+				+ ", DeviceContact=" + DeviceContact + ", DeviceFault="
+				+ DeviceFault + ", NetFault=" + NetFault + ", UserVisit="
+				+ UserVisit + ", DeadLine=" + DeadLine + ", faultReason2="
+				+ faultReason2 + ", faultDoMethod2=" + faultDoMethod2
+				+ ", user4=" + user4 + ", time4=" + time4 + ", note4=" + note4
+				+ ", checkUser=" + checkUser + "]";
+	}
+	
+
 }

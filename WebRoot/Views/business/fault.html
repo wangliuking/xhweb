@@ -13,8 +13,8 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="../../lib/layer-master/src/theme/layer.css">
+<!-- <link rel="stylesheet" type="text/css"
+	href="../../lib/layer-master/src/theme/layer.css"> -->
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -81,10 +81,10 @@
 										<th>用户单位</th>
 										<th width="100px">联系人</th>
 										<th width="100px">联系方式</th>
-										<th>故障信息</th>
+										<th width="160px">故障信息</th>
 										<th width="180px">申请时间</th>
-										<th width="160px">状态</th>
-										<th width="180px">操作详情</th>
+										<th>状态</th>
+										<th width="200px">操作详情</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
@@ -101,14 +101,14 @@
 										<td ng-if="x.checked==7" class="td-success">流程结束</td> -->
 										<td ng-if="x.checked==-2" class="td-danger">用户拒绝</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方领导审核</td>
-										<td ng-if="x.checked==1" class="td-warning">等待经办人处理</td>
-										<td ng-if="x.checked==2" class="td-warning">等待管理方上传故障请求信息</td>
-										<td ng-if="x.checked==3" class="td-warning">等待亚光审核</td>
-										<td ng-if="x.checked==4" class="td-warning">等待亚光维修故障</td>
-										<td ng-if="x.checked==5" class="td-warning">等待管理方审核故障完成信息</td>
-										<td ng-if="x.checked==6" class="td-warning">等待管理方记录故障完成信息</td>
-										<td ng-if="x.checked==7" class="td-warning">等待用户回访确认</td>
+										<td ng-if="x.checked==0" class="">等待管理方领导审核</td>
+										<td ng-if="x.checked==1" class="">等待经办人处理</td>
+										<td ng-if="x.checked==2" class="">等待管理方上传故障请求信息</td>
+										<td ng-if="x.checked==3" class="">等待亚光审核</td>
+										<td ng-if="x.checked==4" class="">等待亚光维修故障</td>
+										<td ng-if="x.checked==5" class="">等待管理方审核故障完成信息</td>
+										<td ng-if="x.checked==6" class="">等待管理方记录故障完成信息</td>
+										<td ng-if="x.checked==7" class="">等待用户回访确认</td>
 										<td ng-if="x.checked==8" class="td-success">流程结束</td>
 										<td style="text-align:center">
 

@@ -123,7 +123,7 @@ public class FaultController {
 		FaultBean bean = GsonUtil.json2Object(jsonData, FaultBean.class);
 		bean.setUserName(funUtil.loginUser(request));
 		bean.setTime(funUtil.nowDate());
-		log.info("data==>" + bean.toString());
+		log.info("data==>" + bean);
 		
 		int rst = FaultService.insertFault(bean);
 		if (rst == 1) {
@@ -131,7 +131,7 @@ public class FaultController {
 			webLogBean.setOperator(funUtil.loginUser(request));
 			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
 			webLogBean.setStyle(1);
-			webLogBean.setContent("故障申请信息，data=" + bean.toString());
+			webLogBean.setContent("故障申请信息，data=" + bean.getInformation());
 			WebLogService.writeLog(webLogBean);
 			
 			//----发送通知邮件

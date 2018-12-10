@@ -116,7 +116,7 @@ public class UploadController {
 	}
 	@RequestMapping("/img")
 	@ResponseBody
-	public void img(@RequestParam("pathName") MultipartFile file,
+	public void img(@RequestParam(value="pathname",required = false) CommonsMultipartFile file,
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		

@@ -37,6 +37,11 @@
      <if test="style!=0">
          and style=#{style}
      </if>
-    </select>   
+    </select>  
+    
+    <select id="test" resultType="map">
+    select * from score
+    
+    </select> 
 
 </mapper>

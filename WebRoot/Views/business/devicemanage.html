@@ -88,11 +88,11 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>用户单位</th>
-										<th>联系人</th>
-										<th>业务变更信息</th>
+										<th width="180px">用户单位</th>
+										<th width="100px">联系人</th>
+										<th width="180px">业务变更信息</th>
 										<th width="180px">申请时间</th>
-										<th width="160px">状态</th>
+										<th>状态</th>
 										<th width="180px">操作详情</th>
 									</tr>
 								</thead>
@@ -106,9 +106,9 @@
 										<td>{{x.request}}</td>
 										<td>{{x.time}}</td>
 										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
-										<td ng-if="x.checked==0" class="td-warning">等待管理方领导审核业务变更信息</td>
-										<td ng-if="x.checked==1" class="td-warning">经办人处理业务变更中！</td>
-										<td ng-if="x.checked==2" class="td-warning">等待用户单位确认</td>
+										<td ng-if="x.checked==0" >等待管理方领导审核业务变更信息</td>
+										<td ng-if="x.checked==1" >经办人处理业务变更中！</td>
+										<td ng-if="x.checked==2" >等待用户单位确认</td>
 										<td ng-if="x.checked==3" class="td-success">结束</td>
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
