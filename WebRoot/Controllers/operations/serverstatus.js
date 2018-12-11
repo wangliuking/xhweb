@@ -256,7 +256,7 @@ xh.load = function() {
                    xh.createNewLink(ne16_point_two_4, ne16_point_one_4,"[116]",$scope.s.s_116);
                    
                    //7703连线
-                   xh.createNewLink(s7703_point_one, s7703_point_two,"[117]",$scope.s.s_116);
+                   xh.createNewLink(s7703_point_one, s7703_point_two,"[117]",$scope.s.s_117);
                    
                    
                    
