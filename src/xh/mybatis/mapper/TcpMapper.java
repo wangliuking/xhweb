@@ -136,4 +136,9 @@ public interface TcpMapper {
 	 */
 	public List<Map<String,String>> selectForAllAppLocation(List<String> list)throws Exception;
 
+	/**
+	 * 更新发电派单状态
+	 */
+	public int updateGenTableStatus(Map<String,Object> map)throws Exception;
+
 }

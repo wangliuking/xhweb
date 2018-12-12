@@ -186,5 +186,10 @@
 		</foreach>
 		) GROUP BY userId) b on a.userId=b.userId and a.uploadTime=b.uploadTime
 	</select>
+
+	<!-- 更新派单状态 -->
+	<update id="updateGenTableStatus" parameterType="map">
+		update xhgmnet_operations_bs_elec_generation set status=#{status} where serialnumber=#{serialNum}
+	</update>
 	
 </mapper>

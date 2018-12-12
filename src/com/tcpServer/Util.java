@@ -46,6 +46,11 @@ public class Util {
 	private static GetInspectBsList getInspectBsList;
 	private static GetUnInspectBsList getUnInspectBsList;
 	private static GetTotalInfo getTotalInfo;
+	private static GenTable genTable;
+	private static GenTableAck genTableAck;
+	private static GenCheck genCheck;
+	private static GetGenArg getGenArg;
+	private static GetPowerOnTime getPowerOnTime;
 	
 	/**
 	 * 测试用主方法
@@ -280,6 +285,35 @@ public class Util {
 				getTotalInfo = (GetTotalInfo) JSONObject.toBean(jsonObject, GetTotalInfo.class);
 				GetTotalInfoAck getTotalInfoAck = Service.appGetTotalInfoAck(getTotalInfo);
 				map.put("returnMessage", Object2Json(getTotalInfoAck));
+				return map;
+			}else if("gentable".equals(cmdtype)){
+				genTable = (GenTable) JSONObject.toBean(jsonObject, GenTable.class);
+				GenTableAck genTableAck = Service.appGenTableAck(genTable);
+				map.put("returnMessage", Object2Json(genTableAck));
+				return map;
+			}else if("gentableack".equals(cmdtype)){
+				genTableAck = (GenTableAck) JSONObject.toBean(jsonObject, GenTableAck.class);
+				//更新状态
+				Map<String,Object> param = new HashMap<>();
+				param.put("serialnumber",genTableAck.getSerialnumber());
+				param.put("status",0);
+				Service.updateGenTableStatus(param);
+				map.put("returnMessage", "");
+				return map;
+			}else if("gencheck".equals(cmdtype)){
+				genCheck = (GenCheck) JSONObject.toBean(jsonObject, GenCheck.class);
+				GenCheckAck genCheckAck = Service.appGenCheckAck(genCheck);
+				map.put("returnMessage", Object2Json(genCheckAck));
+				return map;
+			}else if("getgenarg".equals(cmdtype)){
+				getGenArg = (GetGenArg) JSONObject.toBean(jsonObject, GetGenArg.class);
+				GetGenArgAck getGenArgAck = Service.appGetGenArgAck(getGenArg);
+				map.put("returnMessage", Object2Json(getGenArgAck));
+				return map;
+			}else if("getpowerontime".equals(cmdtype)){
+				getPowerOnTime = (GetPowerOnTime) JSONObject.toBean(jsonObject, GetPowerOnTime.class);
+				GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
+				map.put("returnMessage", Object2Json(getPowerOnTimeAck));
 				return map;
 			}
 						
