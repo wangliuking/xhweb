@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="add" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm ">
+	<div class="modal-dialog modal-md ">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -47,7 +47,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>故障现象</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="information" class="form-control" onchange="list(this)">
+									name="information" id="info-select" class="form-control" onchange="list(this)">
 									<option value="不能开机" selected="selected">不能开机</option>
 									<option value="终端显示无信号">终端显示无信号</option>
 									<option value="显示已建立呼叫但无声音">显示已建立呼叫但无声音</option>
@@ -56,17 +56,15 @@
 									<option value="区域内信号突然变弱">区域内信号突然变弱</option>
 									<option value="其它">其它</option>
 								</select>
-								<textarea
-									style="width:400px;height:100px;max-width:400px;max-height:100px; display: none"
-									name="" id="content" class="form-control" required="required" maxlength="70"></textarea>
+								<textarea style="display: none;" rows="6" cols="10"
+									name=""  id="content" class="form-control" required="required" maxlength="70"></textarea>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>故障描述</label>&nbsp;<span class="text-danger">[*]</span> <textarea
-									style="height:100px;max-width:400px;max-height:100px;"
+								<label>故障描述</label>&nbsp;<span class="text-danger">[*]</span> <textarea rows="5"
 									name="faultReason" id="content" class="form-control" required="required" maxlength="70"></textarea>
 							</div>
 						</div>
@@ -106,17 +104,30 @@
 </div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
+		var info=$("#info-select");
+		var content = $("#content");
+		
+		if(info.val()=="其他" && content.val()==""){
+			alert("请描述其他故障现象");
+			return;
+		}
 		$('#addForm').submit();
 	});
 	function list(obj){
 		var index = obj.selectedIndex;
 		var op = obj.options[index];
 		if(op.value == "其它"){
-			$(obj).fadeOut();
-			$(obj).remove();
 			var content = $("#content");
+			var info=$("#info-select");
 			content.attr("name","information");
+			info.attr("name","");
 			content.fadeIn();
+		}else{
+			var content = $("#content");
+			var info=$("#info-select");
+			info.attr("name","information");
+			content.attr("name","");
+			content.fadeOut();
 		}
 	}
 	var faIcon = {

@@ -258,11 +258,11 @@
 				<div class="btn-group">
 					<button type="button" class="btn btn-success btn-sm"
 						id="check_btn3" onclick="clk_check_btn3();"
-						ng-if="loginUser==checkData.user && checkData.checked!=5">批量归还设备
+						ng-if="loginUser==checkData.user && checkData.checked==4">批量归还设备
 					</button>
 					<button type="button" class="btn btn-success btn-sm"
 						id="check_btn4" onclick="clk_check_btn4();"
-						ng-if="loginUser==checkData.user1 && checkData.checked!=5">批量确认归还设备
+						ng-if="loginUser==checkData.user1 && checkData.checked==4">批量确认归还设备
 					</button>
 				</div>
 				<form action="#" id="checkForm3" onSubmit="return false">
@@ -307,13 +307,13 @@
 								<td ng-if="x.status==1">在借</td>
 								<td ng-if="x.status==2">待确认</td>
 								<td ng-if="x.status==3">归还审核中</td>
-								<td><a ng-if="x.status==2 && loginUser==checkData.user"
+								<td><!-- <a ng-if="x.status==2 && loginUser==checkData.user"
 									href="#" ng-click="checkSuccess($index,1)"><i
-										class="fa fa-check text-success"></i>确认 </a> <a
+										class="fa fa-check text-success"></i>确认 </a> --> <a
 									ng-if="x.status==1 && loginUser==checkData.user" href="#"
 									ng-click="checkSuccess($index,3)"><i
 										class="fa fa-check text-success"></i>归还</a> <a
-									ng-if="x.status==3 && loginUser==checkData.user2" href="#"
+									ng-if="x.status==3 && loginUser==checkData.user1" href="#"
 									ng-click="checkSuccess($index,0)"><i
 										class="fa fa-check text-success"></i>确认归还</a> <a
 									ng-if="x.status==0" href="#">#</a></td>

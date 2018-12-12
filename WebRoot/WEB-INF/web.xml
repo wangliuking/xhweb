@@ -138,10 +138,10 @@ xh.org.listeners.TcpServerListenner
  </listener> -->
 
 <!-- ping调度台线程 -->
-<listener>
+<!-- <listener>
   <description>ping调度台</description>
   <listener-class>xh.org.listeners.PingDispatchListener</listener-class>
- </listener>
+ </listener> -->
  
     <error-page>
     <error-code>404</error-code>

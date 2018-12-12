@@ -18,7 +18,7 @@
 		<when test="roleId &lt;10000 || roleId ==10001"> and a.userName=#{user}</when>
 		<when test="roleId ==10002"> 		
 		<if test="power=='on'">
-		 and a.checked>=0 
+		 and a.checked>=-1
 		</if>
 		<if test="power!='on'">
 		and a.checked>=1  and a.checkUser=#{user}

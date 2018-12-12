@@ -145,30 +145,58 @@ xh.load = function() {
 		//邮件连接跳转
 		$scope.tolocation=function(title){
 			var url="";
-			if(title=="入网申请"){url="../business/joinnet.html";}
-			else if(title=="业务变更申请"){
-				url="../business/devicemanage.html";
-			}else if(title=="故障申报"){
-				url="../business/fault.html";
-			}else if(title=="租借设备"){
-				url="../business/lend.html";
-			}else if(title=="退网申请"){
-				url="../business/quitnet.html";
-			}else if(title=="应急处置演练"){
-				url="../business/emergency.html";
-			}else if(title=="服务抽检"){
-				url="../business/qualitycheck.html";
-			}else if(title=="网络优化"){
-				url="../business/optimizenet.html";
-			}else if(title=="通信保障申请"){
-				url="../business/communicationsupport.html";
-			}else if(title=="资产变更申请"){
+			switch(title){
+			case "资产状态变更":
+				url="../business/asset-update-status.html";
+			    break;
+			case "报废资产":
+				url="../business/asset_scrap_apply.html";
+			    break;
+			case "资产核查":
 				url="../business/assetCheck.html";
-			}else if(title=="核减流程"){
-				console.log(" title : "+title);
-                url="../business/checkCut.html";
-			}else{
-
+			    break;
+			case "新增资产":
+				url="../business/asset_add_apply.html";
+			    break;
+			case "工作记录":
+				url="../operations/work.html";
+			    break;
+			case "应急处置演练":
+				url="../business/emergency.html";
+			    break;
+			case "核减流程":
+				url="../business/checkCut.html";
+			    break;
+			case "网络优化":
+				url="../business/optimizenet.html";
+			    break;
+			case "入网申请":
+				url="../business/joinnet.html";
+			    break;
+			case "故障申报":
+				url="../business/fault.html";
+			    break;
+			case "租借设备":
+				url="../business/lend.html";
+			    break;
+			case "退网申请":
+				url="../business/quitnet.html";
+			    break;
+			case "服务抽检":
+				url="../business/qualitycheck.html";
+			    break;
+			case "通信保障申请":
+				url="../business/communicationsupport.html";
+			    break;
+			case "报废资产":
+				url="../business/asset_scrap_apply.html";
+			    break;
+			case "工作联系单":
+				url="../operations/task.html";
+			    break;
+			default:
+				url="email.html";
+				
 			}
 			window.location.href=url;
 		}

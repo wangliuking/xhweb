@@ -28,5 +28,7 @@ public interface WebLogMapper {
 	 * @throws Exception
 	 */
 	public int logInfoCount(Map<String, Object> map)throws Exception;
+	
+	public List<Map<String, Object>> test()throws Exception;
 
 }
