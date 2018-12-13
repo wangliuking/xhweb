@@ -254,6 +254,14 @@ xh.load = function() {
 			
 			$("#order").modal('show');
 		};
+		/*通知发电*/
+        $scope.showGorderWin = function(index){
+			var data=$scope.data[index];
+			$scope.userList();
+			$scope.orderData=$scope.data[index];
+			
+			$("#gorder").modal('show');
+		};
 		/* 显示按钮修改model */
 	/*	$scope.showEditModel = function() {
 			var checkVal = [];
@@ -433,6 +441,49 @@ xh.refresh = function() {
 	$scope.refresh();
 
 };
+xh.gorder=function(){
+	var form=$("#gorder-form");
+	var userid=form.find("span[name='userid']").text();
+	if(userid==""){
+		toastr.error("接单人不能为空", '提示');
+		return;
+	}
+	if(form.find("div[name='dispatchman']").text()==""){
+		toastr.error("派单人不能为空", '提示');
+		return;
+	}
+	var formData={
+		id:form.find("div[name='id']").text()==""?0:form.find("div[name='id']").text(),
+		bsid:form.find("div[name='bsId']").text(),
+		bsname:form.find("div[name='name']").text(),
+		userid:userid,
+		note:form.find("div[name='note']").text(),
+		time:form.find("div[name='time']").text()
+	}
+	$.ajax({
+		url : '../../elec/gorder',
+		data : {
+			formData:JSON.stringify(formData)			
+		},
+		type : 'post',
+		dataType : "json",
+		async : false,
+		success : function(response) {
+			var data = response;
+			if(data.success){
+				toastr.success("派单成功", '提示');
+				xh.refresh();
+			}else{
+				toastr.error("派单失败", '提示');
+			}
+			
+
+		},
+		failure : function(response) {
+			toastr.error("派单失败", '提示');
+		}
+	});
+}
 xh.order=function(){
 	var userid=$("span[name='userid']").text();
 	var errtype=$("span[name='errtype']").text();

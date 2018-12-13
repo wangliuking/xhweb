@@ -14,26 +14,28 @@
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<input  type="text" name="id" ng-value="faultDataById.id">
-								<input  type="text" name="bsId" ng-value="faultDataById.bsId">
-								<input  type="text" name="name" ng-value="faultDataById.name">
-								<input  type="text" name="breakTime" ng-value="faultDataById.time">
-								<input  type="text" name="restoreTime" ng-value="faultDataById.faultRecoveryTime">
+								<input type="text" name="id" ng-value="faultDataById.id">
+								<input type="text" name="bsId" ng-value="faultDataById.bsId">
+								<input type="text" name="name" ng-value="faultDataById.name">
+								<input type="text" name="breakTime"
+									ng-value="faultDataById.time"> <input type="text"
+									name="restoreTime" ng-value="faultDataById.faultRecoveryTime">
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>提交核减申请(如不选择上传文件，系统会自动生成表格)</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="file" name="filePath" id="filePath1" class="form-control"/>
+								<label>提交核减申请(如不选择上传文件，系统会自动生成表格)</label>&nbsp;<span
+									class="text-danger">[*]</span> <input type="file"
+									name="filePath" id="filePath1" class="form-control" />
 							</div>
-							<div class="form-group col-md-4"style="margin-top:30px;" >
-							    <input type="hidden" name="result" class="form-control"/>
-							    <input type="hidden" name="fileName"/>
-							    <input type="hidden" name="path"/>
-								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
-								<span id="uploadResult1" style="color:red"></span>
+							<div class="form-group col-md-4" style="margin-top:30px;">
+								<input type="hidden" name="result" class="form-control" /> <input
+									type="hidden" name="fileName" /> <input type="hidden"
+									name="path" /> <a href="#" onclick="xh.upload(1)"
+									class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp; <span
+									id="uploadResult1" style="color:red"></span>
 							</div>
 						</div>
 					</div>
@@ -49,7 +51,8 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>详细情况</label>
-								<textarea name="situation" rows="3" cols="10" class="form-control"></textarea>
+								<textarea name="situation" rows="3" cols="10"
+									class="form-control"></textarea>
 							</div>
 						</div>
 					</div>
@@ -77,6 +80,107 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="gorder" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">通知相关人员上站发电</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+				<div class="order">
+					<form action="" onsubmit="false" id="gorder-form">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;">
+							<!-- <thead>
+                    <tr>
+                    <th></th>
+                    </tr>
+                    </thead> -->
+							<tbody>
+								<tr>
+									<td colspan="6" style="text-align: center;">上站发电任务单
+										<div contenteditable="true" class="input-div" name="id"
+											ng-show="false">{{orderData.id}}</div> <span name="from"
+										ng-show="false">{{orderData.from}}</span> <span name="zbdldm"
+										ng-show="false">{{orderData.zbdldm}}</span>
+
+									</td>
+								</tr>
+								<tr>
+									<td style="width:100px">基站ID</td>
+									<td style="width:200px"><div contenteditable="true" class="input-div"
+											name="bsId">{{orderData.bsId}}</div></td>
+									<td style="width:100px">基站名称</td>
+									<td colspan="3"><div contenteditable="true"
+											class="input-div" name="name" ng-show="true">{{orderData.name}}</div></td>
+								</tr>
+
+								<tr ng-show="false">
+									<td colspan="6" style="text-align: center;background:#ccc;">
+										基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}
+									</td>
+								</tr>
+
+								<tr>
+									
+									
+                                    <td>故障时间</td>
+                                    <td><div contenteditable="true" class="input-div"
+                                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                                            name="time">{{orderData.time}}</div></td>
+                                    
+                                
+									<td style="width:80px;">接单人</td>
+									<td>
+
+										<div class="slDiv">
+											<span class="btnSelect">点击搜索</span> <span id="userid2"
+												name="userid" ng-show=false></span>
+											<div class="ulDiv order_man">
+												<ul>
+													<li ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</li>
+												</ul>
+											</div>
+										</div> <!-- <div contenteditable="true" class="input-div">
+                                <select class="form-control" name="userid">
+                                    <optgroup label="用户">
+                                     <option ng-repeat="x in userData" value="{{x.user}}" >{{x.userName}}</option>
+                                    </optgroup>
+                                   
+                                </select>
+                                </div> -->
+									</td>
+								</tr>
+
+								
+								<tr>
+                                    <td>备注</td>
+                                    <td colspan="3"><div contenteditable="true" class="input-div"
+                                            name="note"></div></td>
+                                    
+                                </tr>
+
+							</tbody>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm"
+					data-dismiss="modal" id="gorder-btn">
+					<i class="fa fa-remove"></i>&nbsp;发起通知
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
@@ -97,7 +201,18 @@
 	});
 </script>
 <script>
-	$(function() {
-		$("[data-toggle='tooltip']").tooltip();
-	});
+$('.slDiv .btnSelect').on('click',function(){  
+    $(this).siblings('.ulDiv').toggleClass('ulShow');  
+});  
+$('.slDiv .order_man ul').delegate('li','click',function(){  
+          var selTxt=$(this).text();
+          var userid=$(this).attr("value");
+         
+          $('.slDiv .btnSelect').text(selTxt); 
+          $('.slDiv #userid2').text(userid); 
+          $('.ulDiv').removeClass('ulShow');  
+}); 
+$("#gorder-btn").click(function() {
+	xh.gorder();
+});
 </script>
