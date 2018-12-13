@@ -448,39 +448,34 @@ xh.gorder=function(){
 		toastr.error("接单人不能为空", '提示');
 		return;
 	}
-	if(form.find("div[name='dispatchman']").text()==""){
-		toastr.error("派单人不能为空", '提示');
-		return;
-	}
 	var formData={
 		id:form.find("div[name='id']").text()==""?0:form.find("div[name='id']").text(),
 		bsid:form.find("div[name='bsId']").text(),
 		bsname:form.find("div[name='name']").text(),
 		userid:userid,
 		note:form.find("div[name='note']").text(),
-		time:form.find("div[name='time']").text()
+		time:form.find("div[name='time']").text(),
+		recv_user_name:form.find("div[id='recv-user-name']").text(),
+		send_user_name:form.find("div[id='send-user-name']").text()
 	}
 	$.ajax({
 		url : '../../elec/gorder',
-		data : {
-			formData:JSON.stringify(formData)			
-		},
+		data :formData,
 		type : 'post',
 		dataType : "json",
 		async : false,
 		success : function(response) {
 			var data = response;
 			if(data.success){
-				toastr.success("派单成功", '提示');
+				toastr.success(data.message, '提示');
+				form.find("div[name='note']").text("")
 				xh.refresh();
 			}else{
-				toastr.error("派单失败", '提示');
+				toastr.error(data.message, '提示');
 			}
-			
-
 		},
 		failure : function(response) {
-			toastr.error("派单失败", '提示');
+			toastr.error("参数错误", '提示');
 		}
 	});
 }

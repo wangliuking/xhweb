@@ -139,8 +139,10 @@
 									<td>
 
 										<div class="slDiv">
-											<span class="btnSelect">点击搜索</span> <span id="userid2"
-												name="userid" ng-show=false></span>
+											<span class="btnSelect">点击搜索</span> 
+											<span id="userid2" name="userid" ng-show=false></span>
+											<span id="recv-user-name"  ng-show=false></span>
+											<span id="send-user-name"  ng-show=false></span>
 											<div class="ulDiv order_man">
 												<ul>
 													<li ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</li>
@@ -207,8 +209,9 @@ $('.slDiv .btnSelect').on('click',function(){
 $('.slDiv .order_man ul').delegate('li','click',function(){  
           var selTxt=$(this).text();
           var userid=$(this).attr("value");
-         
+          
           $('.slDiv .btnSelect').text(selTxt); 
+          $('.slDiv #recv-user-name').text(selTxt); 
           $('.slDiv #userid2').text(userid); 
           $('.ulDiv').removeClass('ulShow');  
 }); 

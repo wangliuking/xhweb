@@ -294,7 +294,7 @@ public class Util {
 			}else if("gentableack".equals(cmdtype)){
 				genTableAck = (GenTableAck) JSONObject.toBean(jsonObject, GenTableAck.class);
 				//更新状态
-				Map<String,Object> param = new HashMap<>();
+				Map<String,Object> param = new HashMap<String,Object>();
 				param.put("serialnumber",genTableAck.getSerialnumber());
 				param.put("status",0);
 				Service.updateGenTableStatus(param);
