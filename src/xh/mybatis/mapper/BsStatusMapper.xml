@@ -578,7 +578,7 @@
 
 		a.id,
 		a.sysType,a.neId,a.neType,a.mscId,a.location,
-		a.modType,a.modId,a.subModType,
+		a.modType,a.modId,a.subModType,a.iselec,
 		a.subModId,a.code,a.category,a.causeCode,a.sureOk,checkTag,voiceTag,
 		a.orderId,
 		CASE

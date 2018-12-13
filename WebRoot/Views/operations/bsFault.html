@@ -206,6 +206,7 @@ to {
 			</div>
 		</div>
 	</div>
+	<!-- <div id="btn-div">55555555555555555555555555555</div> -->
 
 	<!-- 中间内容体 -->
 	<div id="wrapper">
@@ -328,7 +329,7 @@ to {
 											id="table-checkbox" class="table-check" /></th>
 										
 										<th width="80px">网元类型</th>
-										<th width="230px">网元名称</th>
+										<th width="180px">网元名称</th>
 										<th width="80px">告警级别</th>
 										<!-- <th width="70px">告警类型</th> -->
 										
@@ -340,7 +341,7 @@ to {
 										<!-- <th width="150px">派单编号</th> -->
 										<th width="80px">确认状态</th>
 										
-										<th width="220px" ng-if="roleType==0 || roleType==3">操作</th>
+										<th width="250px" ng-if="roleType==0 || roleType==3">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -432,6 +433,14 @@ to {
 											ng-if="x.status==0 && (up.o_order=='on' || roleType==0) && (x.neType!=101 && x.neType!=103)"> <i
 												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
 										</a>
+										<a href="#" ng-click="showGorderWin($index)"
+                                            ng-if="x.iselec==0 
+                                            && (roleType==0 || roleType==3)
+                                            && x.sysType==2
+                                            && x.modType==3000
+                                            && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))"> <i
+                                                class="fa fa-comments-o text-danger"></i>&nbsp;|通知发电
+                                        </a>
 										
 										<!-- <span ng-if="x.status==1" style="color:red">已经派单!!</span> -->
 										</td>
