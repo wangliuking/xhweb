@@ -204,11 +204,11 @@ public class Service {
 	}
 
 	public static void main(String[] args) {
-
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		int month = cal.get(Calendar.MONTH);
-		System.out.println(month);
+		try {
+			System.out.println(BsStatusService.bsEmh(185));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 	}
 
@@ -847,6 +847,97 @@ public class Service {
 			e.printStackTrace();
 		}
 		return getAllAppListAck;
+	}
+
+	/**
+	 * 发电派单返回
+	 */
+	public static GenTableAck appGenTableAck(GenTable genTable){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GenTableAck genTableAck = new GenTableAck();
+		genTableAck.setSerialnumber(genTable.getSerialnumber());
+		genTableAck.setUserid(genTable.getUserid());
+		try{
+
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return genTableAck;
+	}
+
+	/**
+	 * 更新发电派单状态
+	 */
+	public static void updateGenTableStatus(Map<String,Object> param){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		try{
+			mapper.updateGenTableStatus(param);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 发电校验请求
+	 */
+	public static GenCheckAck appGenCheckAck(GenCheck genCheck){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GenCheckAck genCheckAck = new GenCheckAck();
+		genCheckAck.setUserid(genCheck.getUserid());
+		genCheckAck.setSerialnumber(genCheck.getSerialnumber());
+		try{
+
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return genCheckAck;
+	}
+
+	/**
+	 * 获取发电电流电压参数
+	 */
+	public static GetGenArgAck appGetGenArgAck(GetGenArg getGenArg){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GetGenArgAck getGenArgAck = new GetGenArgAck();
+		getGenArgAck.setUserid(getGenArg.getUserid());
+		getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
+		try{
+
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getGenArgAck;
+	}
+
+	/**
+	 * 获取市电恢复时间
+	 */
+	public static GetPowerOnTimeAck appGetPowerOnTimeAck(GetPowerOnTime getPowerOnTime){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		GetPowerOnTimeAck getPowerOnTimeAck = new GetPowerOnTimeAck();
+		getPowerOnTimeAck.setUserid(getPowerOnTime.getUserid());
+		getPowerOnTimeAck.setSerialnumber(getPowerOnTime.getSerialnumber());
+		try{
+
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getPowerOnTimeAck;
 	}
 	
 }
