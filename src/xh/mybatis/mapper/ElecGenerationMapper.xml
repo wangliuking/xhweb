@@ -2,36 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.ElecGenerationMapper">
 	<select id="list" parameterType="map" resultType="map">
-		select
-		bsId,time,faultRecoveryTime,location,alarmTag,iselec from
-		xhgmnet_operations_bsfault where sysType=2 and modType=3000
-		and(subModType=80200000000001 or (subModType=51 and subModId=1003))
-		
+		select a.*,b.name,b.period,b.level,b.type,c.userName,c.tel,d.userName as send_userName,
+		d.tel as send_tel
+		from xhgmnet_operations_bs_elec_generation as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		left join xhgmnet_web_user as c on c.user=a.recv_user
+		left join xhgmnet_web_user as d on d.user=a.send_user
+		where 1=1
+
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
 		<if test="starttime!=null and starttime!=''">
-			and date_format(time,'%Y-%m-%d')>#{starttime}
+			and date_format(dispatchtime,'%Y-%m-%d')>#{starttime}
 		</if>
 		<if test="endtime!=null and endtime!=''">
-			and date_format(time,'%Y-%m-%d') &lt;#{endtime}
+			and date_format(dispatchtime,'%Y-%m-%d') &lt;#{endtime}
 		</if>
-		order by time desc LIMIT #{start},#{limit}
+		order by dispatchtime desc LIMIT #{start},#{limit}
 	</select>
 	<select id="count" parameterType="map" resultType="int">
 		select
-		count(*) from xhgmnet_operations_bsfault where sysType=2 and
-		modType=3000
-		and(subModType=80200000000001 or (subModType=51 and
-		subModId=1003))
-		  <if test="bsId!=null and bsId!=''">
-            and bsId=#{bsId}
-        </if>
-        <if test="starttime!=null and starttime!=''">
-            and date_format(time,'%Y-%m-%d')>#{starttime}
-        </if>
-        <if test="endtime!=null and endtime!=''">
-            and date_format(time,'%Y-%m-%d') &lt;#{endtime}
-        </if>
+		count(*) from xhgmnet_operations_bs_elec_generation
+		<if test="bsId!=null and bsId!=''">
+			and bsId=#{bsId}
+		</if>
+		<if test="starttime!=null and starttime!=''">
+			and date_format(dispatchtime,'%Y-%m-%d')>#{starttime}
+		</if>
+		<if test="endtime!=null and endtime!=''">
+			and date_format(dispatchtime,'%Y-%m-%d') &lt;#{endtime}
+		</if>
 	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_bs_elec_generation(bsfault_id,bsId,serialnumber,send_user,
+		recv_user,poweroff_time,comment,dispatchtime)values
+		(#{fault_id},#{bsId},#{serialnumber},#{send_user},#{recv_user},#{poweroff_time},#{comment},
+		#{dispatchtime})
+	</insert>
+	<update id="update_fault" parameterType="int">
+		update xhgmnet_operations_bsfault set iselec=1 where id=#{id}
+	</update>
+	   <update id="check" parameterType="map">
+        update xhgmnet_operations_bs_elec_generation set status=#{status} where id=#{id}
+    </update>
 </mapper>

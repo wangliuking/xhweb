@@ -17,12 +17,42 @@ public class ElecGenerationService {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
 		List<Map<String,Object>> list=mapper.list(map);
+		sqlSession.close();
 		return list;
 	}
 	public static int count(Map<String,Object> map) throws Exception{
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
-		return mapper.count(map);
+		int count=mapper.count(map);
+		 sqlSession.close();
+		return count;
+	}
+	public static int insert(Map<String,Object> map) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		int rs=mapper.insert(map);
+	    sqlSession.commit();
+	    sqlSession.close();
+	    
+		return rs;
+	}
+	public static int update_fault(int id) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		int rs=mapper.update_fault(id);
+	    sqlSession.commit();
+	    sqlSession.close();
+	    
+		return rs;
+	}
+	public static int check(Map<String,Object> map) throws Exception{
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		ElecGenerationMapper mapper=sqlSession.getMapper(ElecGenerationMapper.class);
+		int rs=mapper.check(map);
+	    sqlSession.commit();
+	    sqlSession.close();
+	    
+		return rs;
 	}
 
 	

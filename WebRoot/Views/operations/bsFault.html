@@ -441,6 +441,13 @@ to {
                                             && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))"> <i
                                                 class="fa fa-comments-o text-danger"></i>&nbsp;|通知发电
                                         </a>
+                                        <span style="color:red"
+                                            ng-if="x.iselec==1
+                                            && (roleType==0 || roleType==3)
+                                            && x.sysType==2
+                                            && x.modType==3000
+                                            && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))">&nbsp;|已通知发电!
+                                        </span>
 										
 										<!-- <span ng-if="x.status==1" style="color:red">已经派单!!</span> -->
 										</td>

@@ -89,45 +89,120 @@ xh.load = function() {
 			$("#detail").modal('show');
 			$scope.editData = $scope.data[id];
 		};
-		/*下载工作记录*/
-		$scope.download = function(path) {
-			var index=path.lastIndexOf("/");
-			var name=path.substring(index+1,path.length);	
-			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
-			if(xh.isfile(path)){
-				window.open(downUrl, '_self',
-				'width=1,height=1,toolbar=no,menubar=no,location=no');
-			}else{
-				toastr.error("文件不存在", '提示');
-			}
+		$scope.showDetail=function(index){
+			$("#gorder-detail").modal('show');
+			$scope.detailData = $scope.data[index];
+		}
+		$scope.resend=function(index){
+			var data=$scope.data[index];
 			
-		};
-		/*签收*/
-		$scope.sign=function(index){
-			var id=$scope.data[index].id;
+			var formData={
+				id:data.bsfault_id,
+				bsid:data.bsId,
+				bsname:data.name,
+				userid:data.recv_user,
+				note:data.comment,
+				time:date_format(data.poweroff_time),
+				recv_user_name:data.userName,
+				send_user_name:data.send_userName,
+				serialnumber:data.serialnumber,
+				dispatchtime:data.dispatchtime
+			}
 			$.ajax({
-				url : '../../work/signwork',
+				url : '../../elec/resend_order',
+				data :formData,
+				type : 'post',
+				dataType : "json",
+				async : false,
+				success : function(response) {
+					var data = response;
+					if(data.success){
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+					}else{
+						toastr.error(data.message, '提示');
+					}
+				},
+				failure : function(response) {
+					toastr.error("参数错误", '提示');
+				}
+			});
+		}
+		$scope.showPic=function(){
+			var data=$scope.detailData;
+			$("#picWin").modal('show');
+			
+		}
+		/*审核*/
+		$scope.showCheckWin=function(index){
+			$("#checkWin").modal('show');
+			$scope.checkData=$scope.data[index];
+		}
+		
+		$scope.check=function(){
+			$.ajax({
+				url : '../../elec/check',
 				type : 'POST',
 				dataType : "json",
 				async : true,
 				data:{
-					id:id,
-					recvUser:$scope.data[index].uploadUser
+					id:$scope.checkData.id,
+					userid:$scope.checkData.recv_user,
+					status:$("#checkForm").find("select[name='checked']").val()
 				},
 				success : function(data) {
 
-					if (data.result ==1) {
-						xh.refresh();
+					if (data.success) {
+						$scope.refresh();
+						$("#checkWin").modal('hide');
 						toastr.success(data.message, '提示');
 					} else {
-						swal({
-							title : "提示",
-							text : data.message,
-							type : "error"
-						});
+						toastr.error(data.message, '提示');
 					}
 				},
 				error : function() {
+					toastr.success("服务器响应失败", '提示');
+				}
+			});
+			
+		};
+		$scope.cancel_order=function(index){
+			var id=$scope.data[index].id;
+			swal({
+				title : "提示",
+				text : "确定要取消该单号吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../elec/cancelOrder',
+						type : 'POST',
+						dataType : "json",
+						async : true,
+						data:{
+							id:id,
+							userid:$scope.data[index].recv_user,
+						},
+						success : function(data) {
+
+							if (data.success) {
+								$scope.refresh();
+								toastr.success(data.message, '提示');
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.success("服务器响应失败", '提示');
+						}
+					});
 				}
 			});
 			
@@ -192,6 +267,7 @@ xh.load = function() {
 			});
 
 		};
+		
 	});
 };
 //刷新数据
@@ -270,3 +346,30 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+
+function  date_format(text){
+	if(text!=null && text!=""){
+		var date=new Date();
+		date.setTime(text);
+		var m_year=date.getFullYear();
+		var m_month=date.getMonth()+1;
+		var m_day=date.getDate();
+		var m_hour=date.getHours();
+		var m_minute=date.getMinutes();
+		var m_sec=date.getSeconds();
+		var time=m_year;
+		time+="-";
+		time+=m_month>=10?m_month:("0"+m_month);
+		time+="-";
+		time+=m_day>=10?m_day:("0"+m_day);
+		time+=" ";
+		time+=m_hour>=10?m_hour:("0"+m_hour);
+		time+=":";
+		time+=m_minute>=10?m_minute:("0"+m_minute);
+		time+=":";
+		time+=m_sec>=10?m_sec:("0"+m_sec);
+		return time;
+	}else{
+		return "";
+	}
+}

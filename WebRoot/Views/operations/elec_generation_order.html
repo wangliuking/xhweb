@@ -1,0 +1,203 @@
+
+<div class="modal fade" id="gorder-detail" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">发电通知</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+				<div class="order">
+					<form action="" onsubmit="false" id="order-form">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;">
+							<!-- <thead>
+					<tr>
+					<th></th>
+					</tr>
+					</thead> -->
+							<tbody>
+								<tr>
+									<td colspan="6" style="text-align: center;">发电通知</td>
+								</tr>
+								<tr>
+									<td>基站ID</td>
+									<td>{{detailData.bsId}}</td>
+									<td>基站名称</td>
+									<td>{{detailData.name}}</td>
+
+								</tr>
+								<tr>
+									<td>故障时间</td>
+									<td>{{detailData.poweroff_time |timeFormat}}</td>
+									<td>派单时间</td>
+									<td>{{detailData.dispatchtime |timeFormat}}</td>
+								</tr>
+								<tr>
+
+									<td>派单人</td>
+									<td>{{detailData.send_userName}}</td>
+									<td>接单人</td>
+									<td>{{detailData.userName}}</td>
+								</tr>
+								<tr>
+
+									<td>备注</td>
+									<td colspan="3">{{detailData.comment}}</td>
+								</tr>
+								<tr>
+
+									<td>开始发电时间</td>
+									<td>{{detailData.gen_start_time | timeFormat}}</td>
+									<td>发电电流</td>
+									<td>{{detailData.generation_v}}</td>
+
+								</tr>
+								<tr>
+									<td>发电电压</td>
+									<td>{{detailData.generation_i}}</td>
+
+									<td>发电图片</td>
+									<td><a href="#" ng-if="detailData.gen_on_pic==null 
+									|| detailData.gen_on_pic==''" ng-click="showPic()">显示图片</a></td>
+
+								</tr>
+								<tr>
+									<td>发电备注</td>
+									<td colspan="3">{{detailData.gen_on_note}}</td>
+								</tr>
+								<tr>
+
+									<td>市电恢复时间</td>
+									<td>{{detailData.poweron_time}}</td>
+									<td>停止发电时间</td>
+									<td>{{detailData.gen_end_time}}</td>
+								</tr>
+								<tr>
+
+									<td>收油机图片</td>
+									<td><a href="#" ng-if="detailData.gen_off_pic!=null 
+                                    && detailData.gen_off_pic!=''">显示图片</a></td>
+									<td>收油机时间</td>
+									<td>{{detailData.gen_off_time}}</td>
+								</tr>
+								<tr>
+
+									<td>收油机备注</td>
+									<td colspan="3">{{detailData.gen_off_note}}</td>
+								</tr>
+								<tr>
+
+                                    <td>地址</td>
+                                    <td colspan="3">{{detailData.address}}</td>
+                                </tr>
+                                <tr>
+
+                                    <td>状态</td>
+                                    <td colspan="3">
+                                        <span ng-if="detailData.status==0">接单中</span>
+                                        <span ng-if="detailData.status==1">等待处理</span>
+                                        <span ng-if="detailData.status==2">审核中</span>
+                                        <span ng-if="detailData.status==3" style="color:red">发电中</span>
+                                        <span ng-if="detailData.status==4" style="color:green">发电结束</span>
+                                        <span ng-if="detailData.status==5" style="color:red">单号已被取消</span>
+                                        </td>
+                                </tr>
+
+							</tbody>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header"></div>
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+                <form action="#" id="checkForm" onSubmit="return false">
+                    <div class="row" ng-show="false">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
+                                    type="text" value="" class="form-control" name="id"
+                                    required="required" ng-model="checkData.id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
+                                    class="form-control" name="checked" id="status">
+                                    <option value="1" selected="selected">审核通过</option>
+                                    <option value="-1">拒绝</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                  <!--   <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>备注</label>
+                                <textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- row-------end -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+                <button type="button" class="btn btn-success btn-sm" ng-click="check()">
+                    <i class="fa fa-plus"></i>&nbsp;提交意见
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="picWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-body">
+             <div class="big-pic">
+            <img alt="" src="../../pic/main3.jpg" width="580px"  height="400px">
+            </div>
+            <div class="small-pic" style="height:100px;">
+            <ul>
+            <li><img alt="" src="../../pic/main3.jpg" width="100px" height="100px"></li>
+            <li><img alt="" src="../../pic/main4.jpg" width="100px" height="100px"></li>
+            <li><img alt="" src="../../pic/main3.jpg" width="100px" height="100px"></li>
+            </ul>
+            </div>
+            </div>
+			<!--  <div class="modal-footer">
+            </div> -->
+		</div>
+    </div>
+</div>
+<<script type="text/javascript">
+$(".small-pic ul li").delegate("img","click",function(){
+    $(".big-pic img").attr("src",$(this).attr("src"));
+})
+</script>
+
+

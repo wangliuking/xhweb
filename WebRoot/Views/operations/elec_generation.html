@@ -18,6 +18,13 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+.small-pic ul li{
+ float: left;
+ margin-right:10px;
+ cursor: pointer;
+}
+</style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -76,7 +83,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="starttime">起始时间</label>
+										<label for="starttime">派单起始时间</label>
 										<div>
 											<input type="text" class="form-control" id="starttime"
 												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
@@ -84,7 +91,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="starttime">结束时间</label>
+										<label for="starttime">派单结束时间</label>
 										<div>
 											<input type="text" class="form-control" id="endtime"
 												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
@@ -121,9 +128,12 @@
 									<tr class="tr-gray">
 										<th width="230px">基站</th>
 										<th width="180px">告警时间</th>
-										<!-- <th width="100px">联系方式</th>
-										<th width="100px">上传者</th> -->
+										<th width="180px">派单时间</th>
+										<th width="100px">接单人</th>
+										<th width="100px">接单人电话</th>
+										<th width="100px">状态</th>
 										<th>状态</th>
+										
 										<th width="200px">操作</th>
 									</tr>
 								</thead>
@@ -132,25 +142,37 @@
 										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.location}}({{x.bsId}})</td>
-										<td>{{x.time |timeFormat}}</td>
-										<!-- <td>{{x.tel}}</td>
-										<td>{{x.uploadUser}}</td> -->
+										<td>{{x.name}}({{x.bsId}})</td>
+										<td>{{x.poweroff_time |timeFormat}}</td>
+										<td>{{x.dispatchtime |timeFormat}}</td>
+										<td>{{x.userName}}</td>
+										<td>{{x.tel}}</td>
 										<td>
-										<span ng-if="x.iselec==0">未处理</span>
-										<span ng-if="x.iselec==1" style="color:red">发电中</span>
-										<span ng-if="x.iselec==2" style="color:green">发电结束</span>
+										<span ng-if="x.status==0">接单中</span>
+										<span ng-if="x.status==1">等待处理</span>
+										<span ng-if="x.status==2">审核中</span>
+										<span ng-if="x.status==3" style="color:red">发电中</span>
+										<span ng-if="x.status==4" style="color:green">发电结束</span>
+										<span ng-if="x.status==5" style="color:red">单号已被取消</span>
 										</td>
-										<td><a ng-if="x.iselec==0" href="#"
-											ng-click="sign($index)">&nbsp;<i
-												class="fa fa-comments-o text-success"></i>通知发电
-										</a></td>
-										<!-- <td style="width:20px;text-align:center"><a href="#"
-											ng-click="editModel($index)" data-toggle="modal"> <i
-												class="fa fa-newspaper-o text-success"></i>&nbsp;详情
+										<td>{{x.comment}}</td>
+										<td>
+										<a  href="#"
+											ng-click="showDetail($index)">&nbsp;详情
 										</a>
-										<a ng-if="x.status==0 && up.o_check_work=='on'" href="#" ng-click="sign($index)">|&nbsp;<i class="fa fa-edit text-success"></i>签收</a>
-										</td> -->
+										<a  href="#" ng-if="x.status==0 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                            ng-click="resend($index)">&nbsp;重发
+                                        </a>
+                                        <a  href="#" ng-if="x.status==2 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                            ng-click="showCheckWin($index)">&nbsp;审核
+                                        </a>
+                                        <a  href="#" ng-if="x.status<4 && (roleType==0 || roleType==3 || loginUserRoleId==301)"
+                                            ng-click="cancel_order($index)">&nbsp;取消单号
+                                        </a>
+                                        
+										
+										</td>
+										
 
 
 									</tr>
@@ -183,19 +205,14 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'work-detail.html'"></div>
-	<div ng-include="'work-add.html'"></div>
+	<div ng-include="'elec_generation_order.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript"
 		src="../../Controllers/operations/elec_generation.js"></script>
-	<script type="text/javascript"
-		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>
