@@ -64,7 +64,13 @@ xh.load = function() {
 	app.controller("bs", function($scope, $http,$location) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
-		$scope.page=$location.search().page=="undefined"?10:$location.search().page;
+		
+		if(typeof($location.search().page)=="undefined"){
+			$scope.page=1;
+		}else{
+			$scope.page=$location.search().page;
+		}
+		
 		$scope.zone="";
 		var start=0;
 		var bsId = $("#bsId").val();

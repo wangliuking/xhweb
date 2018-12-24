@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.Top10Mapper">
+	<select id="offline_bs" parameterType="map" resultType="map">
+		select
+		count(a.bsId) as total ,concat(b.name,'[',a.bsId,']') as bsId from xhgmnet_operations_bsfault as a
+		left join xhgmnet_bs_station as b on a.bsId=b.bsId
+		where
+		a.neType=4 and a.modType=3  and (a.bsId &lt;1000 or a.bsId &gt;2000)
+		<if test="type==1">
+         and date_format(a.time,'%Y年第%u周')=#{time}
+        </if>
+		<if test="type==2">
+		 and date_format(a.time,'%Y-%m')=#{time}
+		</if>
+		<if test="type==3">
+         and CONCAT(date_format(a.time, '%Y'),quarter(a.time))=#{jd}
+        </if>
+		<if test="type==4">
+         and date_format(a.time,'%Y')=#{time}
+        </if>
+		GROUP BY a.bsId ORDER BY total desc LIMIT 10
+	</select>
+	<select id="elec" parameterType="map" resultType="map">
+		select count(bsId) as total ,bsId from xhgmnet_operations_bsfault where
+		sysType=2 and modType=3000 and (bsId &lt;1000 or bsId &gt;2000)
+		and(subModType=80200000000001 or
+		(subModType=51 and
+		subModId=1003))
+	<if test="type==1">
+         and date_format(time,'%Y年第%u周')=#{time}
+        </if>
+        <if test="type==2">
+         and date_format(time,'%Y-%m')=#{time}
+        </if>
+        <if test="type==3">
+         and CONCAT(date_format(time, '%Y'),quarter(time))=#{jd}
+        </if>
+        <if test="type==4">
+         and date_format(time,'%Y')=#{time}
+        </if>
+
+		GROUP BY bsId ORDER BY total DESC LIMIT 10
+	</select>
+</mapper>

@@ -852,15 +852,8 @@
 
 	<select id="linkStatus" resultType="map" useCache="true"
 		parameterType="map">
-		select a.*,b.linkstatus from xhgmnet_esight_link_monitor
-		as a
-
-		left join xhgmnet_esight_querylinklist as b on a.s_name=b.anename
-		and
-		a.e_name=b.znename
-
-		where b.linktype=2
-		GROUP BY a.tag
+		select * from xhgmnet_esight_link_monitor
+		GROUP BY tag
 	</select>
 
 

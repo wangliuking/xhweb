@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tcpBean.GenCheckAck;
 import com.tcpBean.GenTable;
 import com.tcpServer.ServerDemo;
 
@@ -151,6 +152,7 @@ public class ElecGenerationController {
 		int id=funUtil.StringToInt(request.getParameter("id"));
 		int status=funUtil.StringToInt(request.getParameter("status"));
 		String userid=request.getParameter("userid");
+		String serialnumber=request.getParameter("serialnumber");
 		
 		if(status==1){
 			status=3;
@@ -163,10 +165,14 @@ public class ElecGenerationController {
 		int rs=ElecGenerationService.check(map);
 		if(rs>0){
 			this.success=true;
-			this.message="成功";
-			GenTable bean=new GenTable();
+			this.message="成功";			
+			GenCheckAck bean=new GenCheckAck();			
 			bean.setUserid(userid);
-			ServerDemo demo=new ServerDemo();
+			bean.setSerialnumber(serialnumber);		
+			bean.setAuditor(FunUtil.loginUser(request));
+			bean.setAck(status==1?"1":"0");
+			
+			ServerDemo demo=new ServerDemo();			
 			demo.startMessageThread(bean.getUserid(), bean);
 		}else{
 			this.success=false;

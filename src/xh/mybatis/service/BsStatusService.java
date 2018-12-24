@@ -909,7 +909,7 @@ public class BsStatusService {
 			list = mapper.linkStatus();
 			
 			for (Map<String, Object> map : list) {
-				rMap.put("s_"+map.get("tag"),map.get("linkstatus"));
+				rMap.put("s_"+map.get("tag"),map.get("status"));
 			}
 			sqlSession.close();
 

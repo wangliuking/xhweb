@@ -148,6 +148,8 @@ xh.load = function() {
 				data:{
 					id:$scope.checkData.id,
 					userid:$scope.checkData.recv_user,
+					serialnumber:$scope.checkData.serialnumber,
+					bsId:$scope.checkData.bsId,
 					status:$("#checkForm").find("select[name='checked']").val()
 				},
 				success : function(data) {
@@ -275,40 +277,6 @@ xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
-};
-/* 添加 */
-xh.add = function() {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../work/addwork',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
-		},
-		success : function(data) {
-			$("#add_btn").button('reset');
-			if (data.result ==1) {
-				$('#add').modal('hide');
-				xh.refresh();
-				toastr.success(data.message, '提示');
-				$("input[name='result']").val("");
-            	$("input[name='fileName']").val("");
-            	$("input[name='filePath']").val("");
-            	$("#uploadResult").html("");
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
-		},
-		error : function() {
-			$("#add_btn").button('reset');
-		}
-	});
 };
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
