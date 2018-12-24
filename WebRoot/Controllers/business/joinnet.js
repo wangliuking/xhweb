@@ -42,12 +42,14 @@ xh.load = function() {
 	app.controller("xhcontroller",function($scope, $http, $location) {
 		xh.maskShow();
 		$scope.count = "15";// 每页数据显示默认值
+		$scope.userseriaName="";
 
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;
+			$scope.roleType = response.roleType;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -89,6 +91,12 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
+			$http.get("../../net/net_db?id="+$scope.checkData.id).success(
+					function(response) {
+						$scope.db = response.items;
+						$scope.db_totals = response.totals;
+						
+					});
 			
 			$scope.progressData = $scope.checkData;
 			$("#progress").modal('show');
@@ -102,6 +110,15 @@ xh.load = function() {
 			$scope.signData = $scope.data[id];
 			$("#joinNet_register").modal('show');
 		};
+		$scope.net_db=function(){
+			var id=$scope.checkData.id;
+			$http.get("../../net/net_db?id="+id).success(
+					function(response) {
+						$scope.db = response.items;
+						$scope.db_totals = response.totals;
+						
+					});
+		}
 		/* 显示添加用户窗口 */
 		$scope.addUser = function(id) {
 			$scope.joinNetProcessId = $scope.data[id].id;
@@ -111,7 +128,7 @@ xh.load = function() {
 					$scope.userbusinessData = response.items;
 					$scope.userbusinessTotals = response.totals;
 					if ($scope.userbusinessTotals > 0) {
-						$scope.userbusinessName = $scope.userbusinessData[0].id;
+						$scope.userbusinessName = $scope.userbusinessData[0].id.toString();
 					}
 				});
 			// 获取无线用户互联属性
@@ -119,7 +136,7 @@ xh.load = function() {
 				$scope.userseriaData = response.items;
 				$scope.userseriaTotals = response.totals;
 				if ($scope.userseriaTotals > 0) {
-					$scope.userseriaName = $scope.userseriaData[0].name;
+					$scope.userseriaName = $scope.userseriaData[0].id.toString();
 				}
 			});
 			// 获取msclist
@@ -127,7 +144,7 @@ xh.load = function() {
 				$scope.msc = response.items;
 				$scope.mscNum = response.totals;
 				if ($scope.mscNum > 0) {
-					$scope.mscName = $scope.msc[0].name;
+					$scope.mscName = $scope.msc[0].mscId.toString();
 				}
 			});
 			// 获取虚拟专网属性
@@ -135,7 +152,7 @@ xh.load = function() {
 				$scope.va = response.items;
 				$scope.vaNum = response.totals;
 				if ($scope.vaNum > 0) {
-					$scope.vaName = $scope.va[0].name;
+					$scope.vaName = $scope.va[0].vaid.toString();
 				}
 			});
 			// 获取vpnList
@@ -143,7 +160,7 @@ xh.load = function() {
 				$scope.vpn = response.items;
 				$scope.vpnNum = response.totals;
 				if ($scope.vpnNum > 0) {
-					$scope.vpnName = $scope.vpn[0].name;
+					$scope.vpnName = $scope.vpn[0].vpnId.toString();
 				}
 			});
 			$("#add").modal('show');
@@ -153,29 +170,28 @@ xh.load = function() {
 		$scope.addGroup = function(id) {
 			$scope.joinNetProcessId = $scope.data[id].id;
 			// 获取无线用户业务属性
-			$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize)
-					.success(function(response) {
-						$scope.userbusinessData = response.items;
-						$scope.userbusinessTotals = response.totals;
-						if ($scope.userbusinessTotals > 0) {
-							$scope.userbusinessName = $scope.userbusinessData[0].id;
-						}
-					});
+			$http.get("../../radiouserbusiness/list?start=0&limit="+ pageSize).success(
+				function(response) {
+					$scope.userbusinessData = response.items;
+					$scope.userbusinessTotals = response.totals;
+					if ($scope.userbusinessTotals > 0) {
+						$scope.userbusinessName = $scope.userbusinessData[0].id.toString();
+					}
+				});
 			// 获取无线用户互联属性
-			$http.get("../../radiouserseria/list?start=0&limit="+ pageSize)
-					.success(function(response) {
-							$scope.userseriaData = response.items;
-							$scope.userseriaTotals = response.totals;
-							if ($scope.userseriaTotals > 0) {
-								$scope.userseriaName = $scope.userseriaData[0].name;
-							}
-						});
+			$http.get("../../radiouserseria/list?start=0&limit="+ pageSize).success(function(response) {
+				$scope.userseriaData = response.items;
+				$scope.userseriaTotals = response.totals;
+				if ($scope.userseriaTotals > 0) {
+					$scope.userseriaName = $scope.userseriaData[0].id.toString();
+				}
+			});
 			// 获取msclist
 			$http.get("../../talkgroup/mscList").success(function(response) {
 				$scope.msc = response.items;
 				$scope.mscNum = response.totals;
 				if ($scope.mscNum > 0) {
-					$scope.mscName = $scope.msc[0].name;
+					$scope.mscName = $scope.msc[0].mscId.toString();
 				}
 			});
 			// 获取虚拟专网属性
@@ -183,7 +199,7 @@ xh.load = function() {
 				$scope.va = response.items;
 				$scope.vaNum = response.totals;
 				if ($scope.vaNum > 0) {
-					$scope.vaName = $scope.va[0].name;
+					$scope.vaName = $scope.va[0].vaid.toString();
 				}
 			});
 			// 获取vpnList
@@ -191,7 +207,7 @@ xh.load = function() {
 				$scope.vpn = response.items;
 				$scope.vpnNum = response.totals;
 				if ($scope.vpnNum > 0) {
-					$scope.vpnName = $scope.vpn[0].name;
+					$scope.vpnName = $scope.vpn[0].vpnId.toString();
 				}
 			});
 			$("#addTalkGroup").modal('show');
@@ -1095,6 +1111,7 @@ xh.upload = function(index) {
 
 /* 经办人添加无线用户 */
 xh.addUser = function() {
+	xh.maskShow();
 	$.ajax({
 		url : '../../radiouser/add',
 		type : 'POST',
@@ -1106,6 +1123,7 @@ xh.addUser = function() {
 		},
 		/*data : $("#addUserForm").serializeArray(),*/
 		success : function(data) {
+			xh.maskHide();
 			if (data.success) {
 				$('#add').modal('hide');
 				toastr.success(data.message, '提示');
@@ -1115,12 +1133,14 @@ xh.addUser = function() {
 			}
 		},
 		error : function() {
+			xh.maskHide();
 			toastr.error("参数错误", '提示');
 		}
 	});
 }
 /* 经办人添加组 */
 xh.addTGroup = function() {
+	xh.maskShow();
 	$.ajax({
 		url : '../../talkgroup/add',
 		type : 'POST',
@@ -1132,7 +1152,7 @@ xh.addTGroup = function() {
 		},
 		/*data : $("#addTalkGroupForm").serializeArray(),*/
 		success : function(data) {
-
+			xh.maskHide();
 			if (data.success) {
 				$('#addTalkGroup').modal('hide');
 				toastr.success(data.message, '提示');
@@ -1142,6 +1162,7 @@ xh.addTGroup = function() {
 			}
 		},
 		error : function() {
+			xh.maskHide();
 			toastr.error("参数错误", '提示');
 		}/*,
 		complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数

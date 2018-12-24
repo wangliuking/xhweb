@@ -424,11 +424,11 @@ public class FunUtil {
 	public static String date_format(String str){
 		SimpleDateFormat dd = new SimpleDateFormat(str);
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-		/*Calendar c=Calendar.getInstance();
+		Calendar c=Calendar.getInstance();
 		c.setTime(new Date());
-		c.add(c.MONTH,-1);	
-		Date m=c.getTime();*/
-		String date = dd.format(new Date());
+		c.add(c.MONTH,-0);
+		Date m=c.getTime();
+		String date = dd.format(m);
 		return date;
 	}
 

@@ -56,6 +56,11 @@
 		</when>
 		</choose>
 	</select>
+	<!-- 查找编程底板 -->
+	<select id="net_db" resultType="map" parameterType="int" useCache="true">
+	select * from xhgmnet_business_net_programingtemplate where id_JoinNet=#{id}
+	
+	</select>
 	<!--查询最新一条有线接入ID -->
 	<select id="YXMAXID" resultType="int" useCache="true">
 		SELECT max(id) ID FROM `xhgmnet_business_net` where serviceType='有线接入';

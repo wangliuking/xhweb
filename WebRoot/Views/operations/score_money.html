@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>巡检记录</title>
+<title>扣分扣款记录</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -155,6 +155,7 @@
 																<th>描述</th>
 																<th>故障时间(分钟)</th>
 																<th>核减时间(分钟)</th>
+																<th>超时时长(小时)</th>
 																<th>考核时间</th>
 															</tr>
 														</thead>
@@ -169,6 +170,7 @@
 																<td>基站【{{x.bsId}}】</td>
 																<td>{{x.fault_time}}</td>
 																<td>{{x.check_time}}</td>
+																<td>{{x.timeout}}</td>
 																<td>{{x.check_date}}</td>
 															</tr>
 														</tbody>

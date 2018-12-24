@@ -95,6 +95,26 @@ public class JoinNetController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/net_db", method = RequestMethod.GET)
+	public void net_db(HttpServletRequest request,
+			HttpServletResponse response) {
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		List<Map<String, Object>> list=JoinNetService.net_db(id);
+
+		HashMap result = new HashMap();
+		result.put("items",list);
+		result.put("totals",list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
 	public void applyProgress(HttpServletRequest request,

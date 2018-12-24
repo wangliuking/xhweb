@@ -15,6 +15,8 @@ public interface JoinNetMapper {
 	 */
 	public List<JoinNetBean> selectAll(Map<String, Object> map)throws Exception;
 	
+	public List<Map<String, Object>> net_db(int id)throws Exception;
+	
 	/**
 	 * 申请进度查询
 	 * @param id

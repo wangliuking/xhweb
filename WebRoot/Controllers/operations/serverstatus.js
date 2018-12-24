@@ -112,15 +112,15 @@ xh.load = function() {
     			var c3560_point_one_4 =xh.createNewNode(150, wheight/10+315,2,2,"");
     			//思科C3560-连线
     			var link5 = xh.createNewLink(c3560_point_one_1, ne16_point_one_1,5);
-                 link5.strokeColor = '220,220,220';
+                 link5.strokeColor = '0,255,0';
                  var link6 = xh.createNewLink(c3560_point_one_2, ne16_point_one_2,5);
-                 link6.strokeColor = '220,220,220';
+                 link6.strokeColor = '0,255,0';
                  var link7 = xh.createNewLink(c3560_point_one_1, c3560_point_one_2,5);
-                 link7.strokeColor = '220,220,220';
+                 link7.strokeColor = '0,255,0';
                  var link8 = xh.createNewLink(c3560_point_one_1, c3560_point_one_3,5);
-                 link8.strokeColor = '220,220,220';
+                 link8.strokeColor = '0,255,0';
                  var link9 = xh.createNewLink(c3560_point_one_2, c3560_point_one_4,5);
-                 link9.strokeColor = '220,220,220';
+                 link9.strokeColor = '0,255,0';
     			
     			
     			//核心交换机
@@ -155,7 +155,7 @@ xh.load = function() {
                 xh.createNewLink(ne16_point_one_3, s57_point_one_6,"[11]",$scope.s.s_11);
                 xh.createNewLink(ne16_point_one_3, s57_point_one_5,"[12]",$scope.s.s_12);
                 xh.createNewLink(ne16_point_one_3, ne16_point_one_4,"[13]",$scope.s.s_13);
-                xh.createNewLink(ne16_point_one_4, S3700_point_one,"[14]",$scope.s.s_14);
+                xh.createNewLink(s7703_point_one, S3700_point_one,"[14]",$scope.s.s_14);
                 xh.createNewLink(ne16_point_one_4, s57_point_one_8,"[15]",$scope.s.s_15);
                 xh.createNewLink(ne16_point_one_4, s57_point_one_7,"[16]",$scope.s.s_16);
      			//交换中心2
@@ -188,17 +188,17 @@ xh.load = function() {
      			
      			var c3560_point_two_3 =xh.createNewNode(wwidth/2+400, wheight/10+215,2,2,"");
      			var c3560_point_two_4 =xh.createNewNode(wwidth/2+400, wheight/10+315,2,2,"");
-     			//思科C3560-连线
+     			//思科C3560-连线---- 未检测'220,220,220'
      			 var link109 = xh.createNewLink(c3560_point_two_1, ne16_point_two_1,5);
-                  link109.strokeColor = '220,220,220';
+                  link109.strokeColor = '0,255,0';
                   var link110 = xh.createNewLink(c3560_point_two_2, ne16_point_two_2,5);
-                  link110.strokeColor = '220,220,220';
+                  link110.strokeColor = '0,255,0';
                   var link111 = xh.createNewLink(c3560_point_two_1, c3560_point_two_2,5);
-                  link111.strokeColor = '220,220,220';
+                  link111.strokeColor = '0,255,0';
                   var link112 = xh.createNewLink(c3560_point_two_1, c3560_point_two_3,5);
-                  link112.strokeColor = '220,220,220';
+                  link112.strokeColor = '0,255,0';
                   var link113 = xh.createNewLink(c3560_point_two_2, c3560_point_two_4,5);
-                  link113.strokeColor = '220,220,220';
+                  link113.strokeColor = '0,255,0';
                 
                 //核心交换机
       			

@@ -31,6 +31,19 @@ public class JoinNetService {
 		}
 		return list;
 	}
+	public static List<Map<String, Object>> net_db(int id){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.net_db(id);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/**
 	 * 申请进度查询
 	 * @param id

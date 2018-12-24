@@ -123,7 +123,11 @@
 
 	<!-- 查询考核扣款明细 -->
 	<select id="search_money_detail" parameterType="map" resultType="map">
-		select * from check_month_money_detail where check_date=#{time} limit
+		select a.*,IF(b.timeout!='',b.timeout,0) as timeout
+		from check_month_money_detail as a
+		LEFT JOIN (select * from check_month_timeout where check_date=#{time})
+		as b on a.bsId=b.bsId
+		where a.check_date=#{time} limit
 		#{start},#{limit}
 	</select>
 	<!-- 查询考核扣款明细数量 -->
@@ -144,23 +148,32 @@
 		check_type,
 		check_child,
 		CASE
-		WHEN check_tag="a1" AND SUM(score)>20 THEN 20
+		WHEN check_tag="a1" AND
+		SUM(score)>20 THEN 20
 		WHEN check_tag="b1" AND SUM(score)>3 THEN 3
-		WHEN check_tag="b2" AND SUM(score)>1 THEN 1
-		WHEN check_tag="b3" AND SUM(score)>9 THEN 9
+		WHEN
+		check_tag="b2" AND SUM(score)>1 THEN 1
+		WHEN check_tag="b3" AND
+		SUM(score)>9 THEN 9
 		WHEN check_tag="b4" AND SUM(score)>2 THEN 2
-		WHEN check_tag="c1" AND SUM(score)>10 THEN 10
-		WHEN check_tag="c2" AND SUM(score)>10 THEN 10
+		WHEN
+		check_tag="c1" AND SUM(score)>10 THEN 10
+		WHEN check_tag="c2" AND
+		SUM(score)>10 THEN 10
 		WHEN check_tag="d1" AND SUM(score)>25 THEN 25
 		WHEN check_tag="d2" AND SUM(score)>5 THEN 5
-		WHEN check_tag="e1" AND SUM(score)>5 THEN 5
+		WHEN check_tag="e1" AND
+		SUM(score)>5 THEN 5
 		WHEN check_tag="f1" AND SUM(score)>3 THEN 3
-		WHEN check_tag="f2" AND SUM(score)>2 THEN 2
-		WHEN check_tag="g1" AND SUM(score)>5 THEN 5
+		WHEN
+		check_tag="f2" AND SUM(score)>2 THEN 2
+		WHEN check_tag="g1" AND
+		SUM(score)>5 THEN 5
 		ELSE SUM(score)
 		END AS score,
 		check_tag,
-		check_date AS check_month
+		check_date AS
+		check_month
 		FROM
 		check_month_detail
 		WHERE
@@ -274,7 +287,7 @@
 		OR b.air_conditioning = "未配置"
 		OR b.fire = "未配置"
 		OR b.lightning = "未安装"
-		
+
 		OR
 		c.has_spare_power !=
 		"是"
