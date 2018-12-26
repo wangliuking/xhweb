@@ -65,10 +65,10 @@ xh.org.listeners.SingLoginListener
 </listener-class>   
 </listener>
 <!-- 考核项目检查-->
- <listener>
+<!-- <listener>
   <description>考核项目检查</description>
   <listener-class>xh.org.listeners.checkListener</listener-class>
- </listener> 
+ </listener> -->
 <!-- 基站故障自动写入 -->
 <!-- <listener>
 <listener-class>   

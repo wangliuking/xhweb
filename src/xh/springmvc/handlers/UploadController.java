@@ -119,11 +119,10 @@ public class UploadController {
 	public void img(@RequestParam(value="pathname",required = false) CommonsMultipartFile file,
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		
-		
+
 
 		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/Resources/upload/";
+				+ "/Resources/appImg/";
 		String name = file.getOriginalFilename();
 		// 获取当前时间
 		Date d = new Date();

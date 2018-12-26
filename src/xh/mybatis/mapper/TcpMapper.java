@@ -55,6 +55,11 @@ public interface TcpMapper {
 	 * 更新派单状态
 	 */
 	public int updateUserStatus(Map<String,String> map)throws Exception;
+
+	/**
+	 * 更新发电状态
+	 */
+	public int updateElecStatus(Map<String,String> map)throws Exception;
 	
 	/**
 	 * 查询派单处理情况

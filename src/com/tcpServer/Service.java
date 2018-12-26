@@ -381,6 +381,22 @@ public class Service {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 更新发电状态
+	 */
+	public static void updateElecStatus(Map<String,String> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		try{
+			mapper.updateElecStatus(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 派单确认请求
@@ -893,7 +909,6 @@ public class Service {
 		genCheckAck.setUserid(genCheck.getUserid());
 		genCheckAck.setSerialnumber(genCheck.getSerialnumber());
 		try{
-
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -912,7 +927,6 @@ public class Service {
 		getGenArgAck.setUserid(getGenArg.getUserid());
 		getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
 		try{
-
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
