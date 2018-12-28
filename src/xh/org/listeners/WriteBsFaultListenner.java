@@ -60,11 +60,6 @@ public class WriteBsFaultListenner implements ServletContextListener{
 		
 	}
 	
-/*	public static void main(String[] args) {
-		EmhEpsWater a=new EmhEpsWater();
-		a.run();
-	}*/
-	
 	
 
 }

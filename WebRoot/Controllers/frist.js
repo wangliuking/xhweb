@@ -133,8 +133,10 @@ xh.load = function() {
 				$("#emh").html($scope.emh);
 				$("#msc").html($scope.mscCount);
 				xh.groupTop5($scope.group);
+				
 				xh.userTop5($scope.radio);
 				xh.callTop5($scope.channelQueueTop5);
+				//xh.bs($scope.group);
 				xh.map($scope.geoCoord,$scope.bsNames);
 				
 			});
@@ -544,6 +546,113 @@ xh.callTop5=function(data){
 	};*/
 	
 }
+xh.bs = function(data) {
+	
+	var height=document.documentElement.clientHeight;
+	var width=document.documentElement.clientWidth;
+	var resizeBarContainer = function() {
+		$("#group-top5").width((width/12)*3);
+		$("#group-top5").height((height-200)/3);
+	};
+	  resizeBarContainer();
+	 
+	// 基于准备好的dom，初始化echarts实例
+	var chart = null;
+	if (chart != null) {
+		chart.clear();
+		chart.dispose();
+	}
+	require([ 'echarts', 'echarts/chart/bar','echarts/chart/line' ], function(ec) {
+		chart = ec.init(document.getElementById('group-top5'));
+		chart.showLoading({
+			text : '正在努力的读取数据中...'
+		});
+		var option = {
+			    title : {
+			        text: ''/*,
+			        subtext: '纯属虚构'*/
+			    },
+			    tooltip : {
+					trigger : 'item'
+				},
+			    calculable : true,
+			    xAxis : [
+					      {
+		                    type: 'value',
+		                    name:'断站次数(次)',
+		                  
+		                    boundaryGap : [0, 0.01]/*,
+		                    min: 0,
+		                    
+		                    position: 'left',
+		                    axisLabel: {
+		                        formatter: '{value}'
+		                    }*/
+		                    }
+					    ],
+			    yAxis : [
+			        {
+			            type : 'category',
+			            name:'基站',
+			            left:200,
+			            data : []
+			        }
+			    ],
+			    grid: {
+			         x: 150
+			       },
+			    
+			    series : [
+			        {
+			            
+			            type:'bar',
+			            name:'断站次数',
+			            barWidth:5,
+			            data:[],
+			            itemStyle:{
+			            	normal:{
+			            		color:'#FF82AB',
+			            		label:{
+			            			 show: true,//是否展示
+				                        textStyle: {
+				                       		fontWeight:'bolder',
+				                        	fontSize : '12',
+				                        	color:'#fff',
+				                            fontFamily : '微软雅黑',
+				                        }
+
+					            }
+			            		}},
+			           
+			        }
+			    ]
+			};
+
+		var xData=[],yData=[]
+		
+		if(data.length>0){
+			for(var i=data.length-1;i>0;i--){
+				xData.push(data[i].name);
+				yData.push(data[i].value);
+			}
+			
+			option.series[0].data = yData;
+			option.yAxis[0].data = xData;
+			chart.hideLoading();
+			chart.setOption(option);
+		}else{
+			$("#group-top5").html("没有数据")
+		}
+		
+
+	});
+	
+	// 用于使chart自适应高度和宽度
+	window.onresize = function() {
+		// 重置容器高宽
+		 resizeBarContainer();
+	};
+};
 xh.groupTop5=function(data){
 	// 设置容器宽高
 	var height=document.documentElement.clientHeight;
@@ -577,23 +686,14 @@ xh.groupTop5=function(data){
 			        trigger: 'item',
 			        formatter: "{a} <br/>{b} : {c}"
 			    },
-			   
-			   /* legend: {
-			    	 orient : 'vertical',
-				        x : 'left',
-				        textStyle:{
-				        	color:'#fff',
-				        },
-			        data : leglend
-			    },*/
 			    calculable : false,
 			    series : [
 			              {
 					            name:'基站注册组',
 					            type:'funnel',
-					            width: 60,
+					            width: 100,
 					            height:'80%',
-					            maxSize: '30%',
+					            maxSize: '40%',
 					            sort: 'descending', //数据排序，如果是：ascending，则是金字塔状 
 					            gap: 1, //数据图像间距 
 					            itemStyle: {//图像样式 
@@ -605,7 +705,7 @@ xh.groupTop5=function(data){
 					            },
 					  
 					            
-					            x:'10%',
+					            x:'8%',
 					            y:10,
 					            data:data
 					        }

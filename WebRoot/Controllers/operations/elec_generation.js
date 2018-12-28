@@ -130,8 +130,20 @@ xh.load = function() {
 		}
 		$scope.showPic=function(){
 			var data=$scope.detailData;
+			$scope.pic=data.gen_on_pic.split("|");
+			$scope.pic_one=$scope.pic[0];
 			$("#picWin").modal('show');
 			
+		}
+		$scope.showOffPic=function(){
+			var data=$scope.detailData;
+			$scope.pic=data.gen_off_pic.split("|");
+			$scope.pic_one=$scope.pic[0];
+			$("#picWin").modal('show');
+			
+		}
+		$scope.pic_on_click=function(e){
+			$scope.pic_one=e;
 		}
 		/*审核*/
 		$scope.showCheckWin=function(index){
