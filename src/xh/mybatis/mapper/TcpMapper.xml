@@ -54,6 +54,12 @@
 		</if>
 		 where serialnumber=#{serialNum}
 	</update>
+
+	<!-- 更新发电状态 -->
+	<update id="updateElecStatus" parameterType="map">
+		update xhgmnet_operations_bs_elec_generation set status=#{status}
+		where serialnumber=#{serialNum}
+	</update>
 	
 	<!-- 查询派单处理情况 -->
 	<select id="selectOrderStatus" parameterType="String" resultType="map" useCache="true">

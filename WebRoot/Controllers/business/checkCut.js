@@ -92,7 +92,6 @@ xh.load = function() {
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
-			$("#table-checkbox").prop("checked", false);
 		};
 
 		/*跳转到进度页面*/
@@ -218,23 +217,37 @@ xh.load = function() {
 			}, function(isConfirm) {
 				if (isConfirm) {
 					$.ajax({
-						url : '../../business/deleteAsset',
-						type : 'post',
+						url : '../../checkCut/deleteCheckCutById?id='+id,
+						type : 'get',
 						dataType : "json",
-						data : {
-							deleteIds : id
-						},
 						async : false,
 						success : function(data) {
-							if (data.success) {
-								toastr.success(data.message, '提示');
-								$scope.refresh();
-							} else {
-								toastr.error(data.message, '提示');
-							}
-						},
-						error : function() {
-							$scope.refresh();
+                            if (data.success) {
+                                toastr.success('删除成功', '提示');
+                                $scope.refresh();
+                            } else {
+                                toastr.error('删除失败', '提示');
+                            }
+                            /*$.ajax({
+                                url : '../../checkCut/updateCheckTag',
+                                type : 'post',
+                                dataType : "json",
+                                data : {
+                                    id : id
+                                },
+                                async : false,
+                                success : function(data) {
+                                    if (data.success) {
+                                        toastr.success('删除成功', '提示');
+                                        $scope.refresh();
+                                    } else {
+                                        toastr.error('删除失败', '提示');
+                                    }
+                                },
+                                error : function() {
+                                    $scope.refresh();
+                                }
+                            });*/
 						}
 					});
 				}
@@ -244,13 +257,14 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
-			/*var type = $("#type").val();
-			var name = $("#name").val();
-			var model = $("#model").val();
-			var serialNumber = $("#serialNumber").val();
-			var from = $("#from").val();
-			var status = $("#status").val();
-			var pageSize = $("#page-limit").val();*/
+			var bsId = $("#bsId").val();
+			var bsName = $("#bsName").val();
+            var status = $('#status option:selected') .val();
+            if(status == 100){
+            	status = "";
+			}
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
 			frist = 0;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -259,7 +273,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start=0&limit=" + limit).
+			$http.get("../../checkCut/selectAll?start=0&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -272,6 +286,15 @@ xh.load = function() {
 		}
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
+            var bsId = $("#bsId").val();
+            var bsName = $("#bsName").val();
+            var status = $('#status option:selected') .val();
+            if(status == 100){
+                status = "";
+            }
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
@@ -281,7 +304,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -305,7 +328,7 @@ xh.load = function() {
 xh.sheetChange = function() {
     var bean={
         id:$("div[name='id']").text(),
-        bsId:$("input[name='bsId']").val(),
+        bsId:$("input[name='bsIdTemp']").val(),
         name:$("input[name='name']").val(),
         hometype:$("input[name='hometype']").val(),
         transfer:$("input[name='transfer']").val(),

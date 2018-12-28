@@ -27,15 +27,14 @@
                                     <br/>
                                     <div class="form-inline">
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
-                                        <input type="hidden" ng-value="sheetData.bsId" name="bsId"/>
+                                        <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
                                         <input type="hidden" ng-value="sheetData.name" name="name"/>
-                                        {{sheetData.bsId}}-{{sheetData.name}}基站
-                                    ，
+                                        {{sheetData.bsId}}-{{sheetData.name}}基站，
                                         <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
                                         <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}};
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
                                     <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
                                         <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
@@ -49,13 +48,13 @@
                                     <br/>
                                     <br/>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
-                                        <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}</div>
+                                        <div contenteditable="true" style="height: 50px;width:870px;padding-left: 30px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                     <br/>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime"/>断站，至
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，
-                                        历时<input style="border: 0px;outline:none;width: 25px" type="text" ng-value="calcData"/>分钟，申请核减时间：
+                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.breakTime" name="breakTime"/>{{sheetData.breakTime}}断站，至
+                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.restoreTime" name="restoreTime"/>{{sheetData.restoreTime}}恢复，
+                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-value="calcData"/>{{calcData}}分钟，申请核减时间：
                                         <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。
                                         <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
                                         <br/>
@@ -78,20 +77,24 @@
                             </tr>
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
-                                    <div contenteditable="true" style="height: 30px;width:160px;"
+                                    <div contenteditable="true" style="height: 30px;width:200px;"
                                          class="textarea-div pull-right" name="applyTime">{{sheetData.applyTime}}</div>
                                 </td>
                             </tr>
 
                             <tr>
-                                <td style="height:50px;width:100px;border-right:none;">拟制：</td>
+                                <td style="height:50px;width:100px;">拟制：</td>
                                 <td style="height:50px;width:343px;border:none;">
-                                    <div contenteditable="true"
+                                    <div ng-if="roleId==301" contenteditable="true"
+                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
+                                    <div ng-if="roleId!=301" contenteditable="false"
                                          class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
                                 </td>
                                 <td style="height:50px;width:100px;border-right:none;">审核：</td>
-                                <td style="height:50px;width:343px;border:none;">
-                                    <div contenteditable="true"
+                                <td style="height:50px;width:343px;">
+                                    <div ng-if="roleId==10003" contenteditable="true"
+                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
+                                    <div ng-if="roleId!=10003" contenteditable="false"
                                          class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
                                 </td>
                             </tr>
@@ -99,15 +102,19 @@
                             <tr>
                                 <td style="height:80px;width:100%;border-top: none;border-bottom: none;" colspan="6">
                                     <p>成都市软件产业发展中心 （意见）</p>
-                                    <div contenteditable="true" style="height: 80px;width:870px;"
+                                    <div ng-if="roleId==10002" contenteditable="true" style="height: 80px;width:870px;"
+                                         class="textarea-div " name="suggest">{{sheetData.suggest}}</div>
+                                    <div ng-if="roleId!=10002" contenteditable="false" style="height: 80px;width:870px;"
                                          class="textarea-div " name="suggest">{{sheetData.suggest}}</div>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
-                                    <div contenteditable="true" style="height: 30px;width:100px;"
+                                    <div ng-if="roleId==10002" contenteditable="true" style="height: 30px;width:100px;"
                                         class="textarea-div pull-right" name="persion3">{{sheetData.persion3}}</div>
+                                    <div ng-if="roleId!=10002" contenteditable="false" style="height: 30px;width:100px;"
+                                         class="textarea-div pull-right" name="persion3">{{sheetData.persion3}}</div>
                                 </td>
                             </tr>
                             </tbody>

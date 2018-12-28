@@ -90,8 +90,43 @@ xh.load = function() {
         /* 显示核减model */
         $scope.checkCutModel = function(id) {
             $scope.faultDataById = $scope.data[id];
-            $("#add").modal('show');
-            console.log($scope.faultDataById);
+			var serialId = $scope.data[id].id;
+			var bsId = $scope.data[id].bsId;
+            var name = $scope.data[id].name;
+            var breakTime = $scope.data[id].time;
+            var restoreTime = $scope.data[id].faultRecoveryTime;
+            $.ajax({
+                url : '../../checkCut/createCheckSheet?id='+serialId+"&bsId="+bsId+"&name="+name+"&breakTime="+breakTime+"&restoreTime="+restoreTime,
+                type : 'GET',
+                dataType : "json",
+                async : false,
+                success : function(response) {
+                    $scope.sheetData = response.items;
+                    var data= response.items;  //开始时间
+                    var date1 = data.breakTime;
+                    var date2 = data.restoreTime;    //结束时间
+                    var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
+                    //------------------------------
+                    //计算出相差天数
+                    var days=Math.floor(date3/(24*3600*1000))
+                    //计算出小时数
+                    var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+                    var hours=Math.floor(leave1/(3600*1000))
+                    //计算相差分钟数
+                    var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+                    var minutes=Math.floor(leave2/(60*1000))
+                    //计算相差秒数
+                    var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+                    var seconds=Math.round(leave3/1000)
+                    //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
+                    $scope.calcData = Math.round(date3/(1000*60));
+                    $("#add").modal('show');
+                },
+                error : function() {
+                }
+            });
+
+
         };
 		/* 显示警告详情 */
 		$scope.showDetails = function(id){
@@ -806,6 +841,55 @@ xh.upload = function(index) {
         error : function(data, status, e)// 服务器响应失败处理函数
         {
             alert(e);
+        }
+    });
+};
+
+/*修改核减申请表*/
+xh.sheetChange = function() {
+    var bean={
+        id:$("div[name='id']").text(),
+        bsId:$("input[name='bsId']").val(),
+        name:$("input[name='name']").val(),
+        hometype:$("input[name='hometype']").val(),
+        transfer:$("input[name='transfer']").val(),
+        transferCompare:$("input[name='transferCompare']").val(),
+        transferOne:$("input[name='transferOne']").val(),
+        transferTwo:$("input[name='transferTwo']").val(),
+        powerOne:$("input[name='powerOne']").val(),
+        powerTimeOne:$("input[name='powerTimeOne']").val(),
+        powerTwo:$("input[name='powerTwo']").val(),
+        powerTimeTwo:$("input[name='powerTimeTwo']").val(),
+        maintainTime:$("input[name='maintainTime']").val(),
+        isPower:$("input[name='isPower']").val(),
+        firstDesc:$("input[name='firstDesc']").val(),
+        desc:$("div[name='desc']").text(),
+        breakTime:$("input[name='breakTime']").val(),
+        restoreTime:$("input[name='restoreTime']").val(),
+        checkCutTime:$("input[name='checkCutTime']").val(),
+        alarmTime:$("input[name='alarmTime']").val(),
+        situation:$("div[name='situation']").text(),
+        rules:$("input[name='rules']").val(),
+        period:$("div[name='period']").text(),
+        applyTime:$("div[name='applyTime']").text(),
+        suggest:$("div[name='suggest']").text(),
+        persion3:$("div[name='persion3']").text(),
+        persion1:$("div[name='persion1']").text(),
+        persion2:$("div[name='persion2']").text()
+    }
+    $.ajax({
+        url : '../../checkCut/sheetChange',
+        type : 'POST',
+        dataType : "json",
+        data : {"bean" : JSON.stringify(bean)},
+        success : function(data) {
+            $("#checkCut-btn").button('reset');
+            $('#sheet').modal('hide');
+            xh.refresh();
+            toastr.success(data.message, '提示');
+        },
+        error : function() {
+            $("#checkCut-btn").button('reset');
         }
     });
 };

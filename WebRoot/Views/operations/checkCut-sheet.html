@@ -1,0 +1,132 @@
+<div class="modal fade" id="sheet" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header ">
+
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <small class="font-bold">故障核减申请书</small>
+            </div>
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+                <div class="order">
+                    <form action="" onsubmit="false" id="checkCut-form">
+                        <table id="order-table"
+                               style="width:100%;border-collapse: collapse;">
+                            <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center;font-size: 18px;">
+                                    故障核减申请书
+                                    <div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetData.id}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
+                                    <br/>
+                                    <div class="form-inline">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站,
+                                        {{sheetData.hometype}};{{sheetData.transfer}},{{sheetData.transferCompare}},{{sheetData.transferOne}},
+                                        {{sheetData.transferTwo}}; {{sheetData.powerOne}},续航时间大于{{sheetData.powerTimeOne}},
+                                        网络柜由{{sheetData.powerTwo}},续航时间大于{{sheetData.powerTimeTwo}},维护上站时间{{sheetData.maintainTime}},
+                                        {{sheetData.isPower}}。 {{sheetData.isPowerTime}}
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故障原因
+                                        <input style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc"/>
+                                    <br/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
+                                        <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="desc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}</div>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime"/>断站，至
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime"/>恢复，
+                                        历时<input style="border: 0px;outline:none;width: 25px" type="text" ng-value="calcData"/>分钟，申请核减时间：
+                                        <input style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>分钟。
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
+                                        <br/>
+                                        <div contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input style="border: 0px;outline:none;width: 190px" type="text" ng-value="sheetData.rules" name="rules"/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
+                                    </div>
+                                    <div style="height: 150px;width:870px;" readonly="readonly"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
+                                    colspan="6">
+                                    <div contenteditable="true" style="height: 30px;width:260px;"
+                                         class="textarea-div pull-right" name="period">{{sheetData.period}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
+                                    <div contenteditable="true" style="height: 30px;width:160px;"
+                                         class="textarea-div pull-right" name="applyTime">{{sheetData.applyTime}}</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm"
+                        data-dismiss="modal" id="checkCut-btn">
+                    <i class="fa fa-remove"></i>&nbsp;保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#checkCut-btn").click(function () {
+        $('#checkCut-form').submit();
+    });
+    var faIcon = {
+        valid: 'fa fa-check-circle fa-lg text-success',
+        invalid: 'fa fa-times-circle fa-lg',
+        validating: 'fa fa-refresh'
+    };
+    $('#checkCut-form').bootstrapValidator({
+        excluded: [':disabled'],
+        /* feedbackIcons: faIcon, */
+        fields: {
+            user: {
+                validators: {
+                    notEmpty: {
+                        message: '用户名不能为空'
+                    }
+                }
+            },
+            roleId: {
+                validators: {
+                    notEmpty: {
+                        message: '角色不能为空'
+                    }
+                }
+            },
+            userPass: {
+                validators: {
+                    notEmpty: {
+                        message: '密码不能为空'
+                    }
+                }
+            }
+
+        }
+    }).on('success.form.bv', function (e, data) {
+        e.preventDefault();
+        /* xh.add(); */
+        xh.sheetChange();
+    });
+</script>

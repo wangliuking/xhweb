@@ -302,8 +302,15 @@ public class Util {
 				return map;
 			}else if("gencheck".equals(cmdtype)){
 				genCheck = (GenCheck) JSONObject.toBean(jsonObject, GenCheck.class);
-				GenCheckAck genCheckAck = Service.appGenCheckAck(genCheck);
-				map.put("returnMessage", Object2Json(genCheckAck));
+				String serialNum = genCheck.getSerialnumber();
+				Map<String,String> paramMap = new HashMap<String,String>();
+				paramMap.put("serialNum", serialNum);
+				paramMap.put("status", "");
+				Service.updateElecStatus(paramMap);
+				//发送通知邮件通知网管组进行审核
+				FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"发电审核","有发电审核，请查阅！",genCheck.getUserid());
+				//GenCheckAck genCheckAck = Service.appGenCheckAck(genCheck);
+				map.put("returnMessage", "");
 				return map;
 			}else if("getgenarg".equals(cmdtype)){
 				getGenArg = (GetGenArg) JSONObject.toBean(jsonObject, GetGenArg.class);

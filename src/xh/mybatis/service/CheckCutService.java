@@ -111,6 +111,28 @@ public class CheckCutService {
     }
 
     /**
+     *删除
+     * @param
+     * @return
+     */
+    public static int deleteCheckCutById(int id){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.deleteCheckCutById(id);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
      * 申请
      * @param bean
      * @return

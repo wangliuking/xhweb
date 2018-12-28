@@ -27,6 +27,13 @@ public interface CheckCutMapper {
      */
     public int dataCount(Map<String, Object> map)throws Exception;
     /**
+     * 删除
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public int deleteCheckCutById(int id)throws Exception;
+    /**
      * 申请
      * @param bean
      * @return

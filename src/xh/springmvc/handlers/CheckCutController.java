@@ -48,6 +48,11 @@ public class CheckCutController {
         this.success = true;
         int start = funUtil.StringToInt(request.getParameter("start"));
         int limit = funUtil.StringToInt(request.getParameter("limit"));
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("bsName");
+        String status = request.getParameter("checked");
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
         String user=funUtil.loginUser(request);
         //unit = WebUserServices.selectUnitByUser(user);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
@@ -58,6 +63,11 @@ public class CheckCutController {
         map.put("limit", limit);
         map.put("user", user);
         map.put("roleId", roleId);
+        map.put("bsId", bsId);
+        map.put("name", name);
+        map.put("status", status);
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
 
         HashMap result = new HashMap();
         result.put("success", success);
@@ -195,6 +205,32 @@ public class CheckCutController {
     }
 
     /**
+     * 根据id删除核减记录
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/deleteCheckCutById", method = RequestMethod.GET)
+    public void deleteCheckCutById(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        int id = Integer.parseInt(request.getParameter("id"));
+        int res = CheckCutService.deleteCheckCutById(id);
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("message", res);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 更新bsfault派单状态
      *
      * @param request
@@ -252,6 +288,79 @@ public class CheckCutController {
             dayForWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
         }
         return week[dayForWeek];
+    }
+
+    /**
+     *  发起核减的位置自动填充表格
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/createCheckSheet", method = RequestMethod.GET)
+    public void createCheckSheet(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        String bsId = request.getParameter("bsId");
+        int id=FunUtil.StringToInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String breakTime = request.getParameter("breakTime");
+        String restoreTime = request.getParameter("restoreTime");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setBsId(bsId);
+        bean.setId(id);
+        bean.setName(name);
+        bean.setBreakTime(breakTime);
+        bean.setRestoreTime(restoreTime);
+        //填充申请表部分数据start
+        Map<String,Object> selectMap = new HashMap<String,Object>();
+        selectMap.put("bsId",Integer.parseInt(bsId));
+        Map<String,Object> res = CheckCutService.selectBsInformationById(selectMap);
+        bean.setHometype("基站所在机房归属"+res.get("roomType"));//机房类型
+        //判断传输类型
+        if("已开通".equals(res.get("transferOneIsOpen")) && "已开通".equals(res.get("transferTwoIsOpen"))){
+            bean.setTransfer("双传输");
+        }else if("已开通".equals(res.get("transferOneIsOpen")) || "已开通".equals(res.get("transferTwoIsOpen"))){
+            bean.setTransfer("单传输");
+        }else{
+            bean.setTransfer("无传输");
+        }
+        String isSameOperator = res.get("isSameOperator")+"";
+        //判断是否同一运营商
+        if("0".equals(isSameOperator)){
+            bean.setTransferCompare("不同运营商");
+        }else if("1".equals(isSameOperator)){
+            bean.setTransferCompare("相同运营商");
+        }
+        bean.setTransferOne("第一传输运营商"+res.get("transferOneOperator"));
+        bean.setTransferTwo("第二传输运营商"+res.get("transferOneOperator"));
+        bean.setPowerOne("基站由"+res.get("bsDevicePowerMode")+"供电");
+        bean.setPowerTimeOne(res.get("bsDeviceNowTime")+"小时");
+        bean.setPowerTwo(res.get("transferDevicePowerMode")+"供电");
+        bean.setPowerTimeTwo(res.get("transferDeviceNowTime")+"小时");
+        bean.setMaintainTime(res.get("toBsTime")+"分钟");
+        if("是".equals(res.get("isPermitTempPower"))){
+            bean.setIsPower("基站允许发电");
+            bean.setIsPowerTime("发电时间:"+res.get("powerTime"));
+        }else if("否".equals(res.get("isPermitTempPower"))){
+            bean.setIsPower("基站不允许发电");
+        }
+        bean.setPeriod("成都市应急调度指挥无线通信网"+res.get("period")+"项目部");
+        Calendar cal = Calendar.getInstance();
+        bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
+        //System.out.println(" bean : "+bean);
+        //填充申请表部分数据end
+
+        HashMap result = new HashMap();
+        result.put("items", bean);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -331,12 +440,12 @@ public class CheckCutController {
         int rst = CheckCutService.createCheckCut(bean);
 
         if (rst == 1) {
-            this.message = "核减申请信息已经成功提交";
+            this.message = "核减信息已生成，请进入核减流程发起申请";
             //----给运维负责人发送通知邮件
             FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","有核减申请，请查阅！",request);
             //----END
         } else {
-            this.message = "核减申请信息未成功提交";
+            this.message = "核减申请生成失败";
         }
         HashMap result = new HashMap();
         result.put("success", success);
