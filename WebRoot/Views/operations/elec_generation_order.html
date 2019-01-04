@@ -62,8 +62,8 @@
 									<td>{{detailData.generation_i}}</td>
 
 									<td>发电图片</td>
-									<td><a href="#" ng-if="detailData.gen_on_pic==null 
-									|| detailData.gen_on_pic==''" ng-click="showPic()">显示图片</a></td>
+									<td><a href="#" ng-if="detailData.gen_on_pic!=null 
+									&& detailData.gen_on_pic!=''" ng-click="showPic()">显示图片</a></td>
 
 								</tr>
 								<tr>
@@ -81,7 +81,7 @@
 
 									<td>收油机图片</td>
 									<td><a href="#" ng-if="detailData.gen_off_pic!=null 
-                                    && detailData.gen_off_pic!=''">显示图片</a></td>
+                                    && detailData.gen_off_pic!=''" ng-click="showOffPic()">显示图片</a></td>
 									<td>收油机时间</td>
 									<td>{{detailData.gen_off_time}}</td>
 								</tr>
@@ -179,13 +179,11 @@
             <div class="color-line"></div>
             <div class="modal-body">
              <div class="big-pic">
-            <img alt="" src="../../pic/main3.jpg" width="580px"  height="400px">
+            <img alt="" src="../../pic/{{pic_one}}" width="580px"  height="400px">
             </div>
             <div class="small-pic" style="height:100px;">
             <ul>
-            <li><img alt="" src="../../pic/main3.jpg" width="100px" height="100px"></li>
-            <li><img alt="" src="../../pic/main4.jpg" width="100px" height="100px"></li>
-            <li><img alt="" src="../../pic/main3.jpg" width="100px" height="100px"></li>
+            <li ng-repeat=" x in pic"><img ng-click="pic_on_click(x)" alt="" src="../../pic/{{x}}" width="100px" height="100px"></li>
             </ul>
             </div>
             </div>
@@ -194,10 +192,7 @@
 		</div>
     </div>
 </div>
-<<script type="text/javascript">
-$(".small-pic ul li").delegate("img","click",function(){
-    $(".big-pic img").attr("src",$(this).attr("src"));
-})
+<script type="text/javascript">
 </script>
 
 

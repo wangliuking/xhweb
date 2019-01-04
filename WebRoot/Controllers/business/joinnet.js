@@ -91,12 +91,6 @@ xh.load = function() {
 			 * 
 			 * });
 			 */
-			$http.get("../../net/net_db?id="+$scope.checkData.id).success(
-					function(response) {
-						$scope.db = response.items;
-						$scope.db_totals = response.totals;
-						
-					});
 			
 			$scope.progressData = $scope.checkData;
 			$("#progress").modal('show');
@@ -165,6 +159,16 @@ xh.load = function() {
 			});
 			$("#add").modal('show');
 		};
+		$scope.downdb=function(index){
+			var filename=$scope.db[index].fileName;
+			var filepath = "/Resources/upload/net/template/" + filename;
+			var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
+			if(xh.isfile(filepath)){
+				window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error("文件不存在", '提示');
+			}
+		}
 
 		/* 显示添加组窗口 */
 		$scope.addGroup = function(id) {

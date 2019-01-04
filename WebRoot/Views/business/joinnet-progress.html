@@ -16,7 +16,7 @@
 					<li
 						ng-if="(roleType==0 || roleType==2) && checkData.checked>12
 					&& checkData.serviceType=='无线接入'"><a
-						href="#db" data-toggle="tab">编程底板</a></li>
+						href="#db" data-toggle="tab" ng-click="net_db()">编程底板</a></li>
 				</ul>
 				<div class="tab-content" style="padding: 20px">
 					<div class="tab-pane fade in active" id="info">
@@ -572,9 +572,20 @@
 					</div>
 					<div class="tab-pane fade " id="db">
 						<p ng-if="db_totals==0">还没有上传编程底板</p>
-						<ul ng-if="db_totals>0">
-							<li ng-repeat="x in db">{{x.fileName}}</li>
-						</ul>
+						<table id="tb-info" class="xh-table table-hover">
+                              
+                                <tbody>
+                                    <tr ng-if="db_totals==0">
+                                        <td colspan="11" class="text-center">没有记录！</td>
+                                    </tr>
+                                    <tr ng-repeat="x in db">
+                                        <td>{{x.fileName}}</td>
+                                        <td> <a href="#" ng-click="downdb($index)">下载</a></td>        
+                                    </tr>
+                                </tbody>
+                            </table>
+						
+						
 					</div>
 				</div>
 			</div>
