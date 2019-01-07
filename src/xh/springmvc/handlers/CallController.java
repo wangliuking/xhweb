@@ -345,8 +345,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_msc_call", method = RequestMethod.GET)
 	public void chart_msc_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		EastMscDayBean bean =EastComService.chart_month_msc(map);
 		
 		HashMap result = new HashMap();
@@ -366,8 +376,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_call", method = RequestMethod.GET)
 	public void chart_bs_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_call(map);
 		
 		HashMap result = new HashMap();
@@ -386,8 +406,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_vpn_call", method = RequestMethod.GET)
 	public void chart_vpn_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastVpnCallBean> list=EastComService.chart_vpn_call(map);
 		
 		HashMap result = new HashMap();
@@ -406,8 +436,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_level_area_call", method = RequestMethod.GET)
 	public void chart_bs_level_area_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> level_list=EastComService.chart_bs_level_call(map);
 		List<EastBsCallDataBean> area_list=EastComService.chart_bs_area_call(map);
 		
@@ -428,8 +468,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_zone_call", method = RequestMethod.GET)
 	public void chart_bs_zone_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_zone_call(map);
 		
 		HashMap result = new HashMap();
@@ -448,8 +498,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_zone_top10_call", method = RequestMethod.GET)
 	public void chart_bs_zone_top10_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_zone_top10_call(map);
 		
 		HashMap result = new HashMap();
@@ -469,8 +529,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_call_top10", method = RequestMethod.GET)
 	public void chart_bs_call_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_call_top10(map);
 		
 		HashMap result = new HashMap();
@@ -489,8 +559,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_userreg_top10", method = RequestMethod.GET)
 	public void chart_bs_userreg_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_userreg_top10(map);
 		
 		HashMap result = new HashMap();
@@ -509,8 +589,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_bs_queue_top10", method = RequestMethod.GET)
 	public void chart_bs_queue_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastBsCallDataBean> list=EastComService.chart_bs_queue_top10(map);
 		
 		HashMap result = new HashMap();
@@ -529,8 +619,18 @@ public class CallController {
 	@RequestMapping(value = "/chart_vpn_call_top10", method = RequestMethod.GET)
 	public void chart_vpn_call_top10(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		List<EastVpnCallBean> list=EastComService.chart_vpn_call_top10(map);
 		
 		HashMap result = new HashMap();
@@ -549,8 +649,18 @@ public class CallController {
 	@RequestMapping(value = "/excel_call", method = RequestMethod.GET)
 	public void excel_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
+		String endtime=request.getParameter("endtime");
+		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
+		if(type==4){
+			String a=time.split(" ")[1];
+			if(a.length()==1){
+				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
+			}
+		}
 		map.put("time", time);
+		map.put("type", type);
+		map.put("endtime", endtime);
 		try {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload/call");
 			String pathname = saveDir + "/话务统计-"+time+".xls";
