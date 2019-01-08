@@ -97,10 +97,10 @@ xh.load = function() {
 				
 			}else if(type==4){
 				a="选择开始时间";
-				b="WdatePicker({dateFmt:'yyyy-MM-dd H'})";
+				b="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})";
 				c="开始时间";
 				x="选择结束时间";
-				y="WdatePicker({dateFmt:'yyyy-MM-dd H'})";
+				y="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})";
 				z="结束时间"
 			}else{
 				a="选择年份";
@@ -481,6 +481,7 @@ xh.load = function() {
 xh.excel=function(){
 	var time=$("#starttime").val()==""?xh.getPreMonth():$("#starttime").val();
 	var type=$("select[name='type']").val();
+	var endtime=$("#endtime").val();
 	xh.maskShow("正在分析数据，请耐心等待");
 	$("#btn-excel").button('loading');
 	$.ajax({
@@ -489,7 +490,8 @@ xh.excel=function(){
 		dataType : "json",
 		data : {
 			time:time,
-			type:type
+			type:type,
+			endtime:endtime
 		},
 		async : true,
 		success : function(data) {

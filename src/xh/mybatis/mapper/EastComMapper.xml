@@ -336,7 +336,7 @@
             starttime=#{time}
         </if>
         <if test="type==4">
-            date_format(starttime,'%Y-%m-%d %H') between #{time} and
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
             #{endtime}
         </if>
          GROUP BY bsid) as x
@@ -371,7 +371,7 @@
             starttime=#{time}
         </if>
         <if test="type==4">
-            date_format(starttime,'%Y-%m-%d %H') between #{time} and
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
             #{endtime}
         </if>
          GROUP BY bsid ORDER
@@ -408,7 +408,7 @@
             starttime=#{time}
         </if>
         <if test="type==4">
-            date_format(starttime,'%Y-%m-%d %H') between #{time} and
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
             #{endtime}
         </if>
          GROUP BY bsid ORDER
@@ -446,7 +446,7 @@
             starttime=#{time}
         </if>
         <if test="type==4">
-            date_format(starttime,'%Y-%m-%d %H') between #{time} and
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
             #{endtime}
         </if>
          GROUP BY bsid ORDER BY QueueCount DESC ) AS a,
@@ -500,7 +500,7 @@
 		</if>
 		<if test="type==4">
 			xhgmnet_gps_voice.pef_newvpntotal where
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		group by vpnid) AS y ON x.vpnId = y.vpnid
@@ -555,7 +555,7 @@
 			x.starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(x.starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		and y.level>0 group by y.`level` order by y.level
@@ -608,7 +608,7 @@
 			x.starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(x.starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		and y.area is not null group by y.area
@@ -659,7 +659,7 @@
 			x.starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(x.starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		and y.zone is not null and
@@ -749,7 +749,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		group by zone
@@ -772,7 +772,7 @@
 			x.starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(x.starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		group by y.zone order by
@@ -826,7 +826,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		GROUP BY bsid) as a,(select sum(TotalActiveCalls) as totals from
@@ -853,7 +853,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		) as b) as x
@@ -901,7 +901,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		GROUP BY bsid) as x
@@ -953,7 +953,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		GROUP BY bsid) as a,
@@ -982,7 +982,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		) as b) as x
@@ -1049,7 +1049,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		GROUP BY
@@ -1082,7 +1082,7 @@
 			starttime=#{time}
 		</if>
 		<if test="type==4">
-			date_format(starttime,'%Y-%m-%d %H') between #{time} and
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
 			#{endtime}
 		</if>
 		) AS b
@@ -1137,7 +1137,7 @@
 			chart_month_msc where starttime=#{time}
 		</if>
 		<if test="type==4">
-			pef_newmsctotal where date_format(starttime,'%Y-%m-%d %H')
+			pef_newmsctotal where date_format(starttime,'%Y-%m-%d %H:00:00')
 			between #{time} and
 			#{endtime}
 		</if>

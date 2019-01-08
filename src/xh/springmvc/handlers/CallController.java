@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -348,12 +349,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -379,12 +374,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -409,12 +398,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -439,12 +422,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -471,12 +448,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -501,12 +472,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -532,12 +497,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -562,12 +521,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -592,12 +545,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -622,12 +569,6 @@ public class CallController {
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
@@ -647,28 +588,34 @@ public class CallController {
 	
 	}
 	@RequestMapping(value = "/excel_call", method = RequestMethod.GET)
-	public void excel_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
+	@ResponseBody
+	public  HashMap<String, Object> excel_call(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String time=request.getParameter("time");
 		String endtime=request.getParameter("endtime");
 		int type=Integer.parseInt(request.getParameter("type"));
 		Map<String,Object> map=new HashMap<String, Object>();
-		if(type==4){
-			String a=time.split(" ")[1];
-			if(a.length()==1){
-				time=time.split(" ")[0]+" 0"+time.split(" ")[1];
-			}
-		}
 		map.put("time", time);
 		map.put("type", type);
 		map.put("endtime", endtime);
+		 this.success=true;
+		 HashMap<String, Object> result = new HashMap<String, Object>();
 		try {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload/call");
-			String pathname = saveDir + "/话务统计-"+time+".xls";
+			String pathname = saveDir + "/话务统计["+time.replace(":", "")+"].xls";
+			if(!endtime.equals("")){
+				pathname=saveDir + "/话务统计-["+time.replace(":", "")+"-"+endtime.replace(":", "")+"].xls";
+			}
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
 			}
-			File file = new File(pathname);			
+			File file = new File(pathname);	
+			if(file.exists()){
+				result.put("success", success);
+				 result.put("pathName", pathname);
+				 log.info("文件存在，直接下载");
+				return result;
+			}
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
@@ -764,18 +711,15 @@ public class CallController {
 			book.close();
 			log.info(time+"-基站话务统计");
 			/*DownExcelFile(response, pathname);*/
-			 this.success=true;
-			 HashMap<String, Object> result = new HashMap<String, Object>();
 			 result.put("success", success);
 			 result.put("pathName", pathname);
-			 response.setContentType("application/json;charset=utf-8"); 
-			 String jsonstr = json.Encode(result); 
-			 response.getWriter().write(jsonstr);
+			 return result;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
+		return null;
 		
 	}
 	
