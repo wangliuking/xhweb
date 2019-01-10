@@ -148,7 +148,7 @@
 
 								<button class="btn btn-danger btn-sm" data-toggle="modal"
 									data-target="#add" ng-disabled="">
-									<i class="fa fa-plus-circle"></i>&nbsp;下达任务
+									<i class="fa fa-plus-circle"></i>&nbsp;填写工作联系单
 								</button>
 							</div>
 							<div class="form-group"></div>
@@ -182,7 +182,9 @@
 										<span ng-if="x.status==1" style="color:green">已确认</span>
 										</td>
 										<td><a href="#" ng-click="sign($index)" 
-										ng-if="loginUser.roleType==3 && x.status==0">确认</a></td>
+										ng-if="((loginUser.roleType==3 && x.user_type==2) 
+										|| (loginUser.roleType==2 && x.user_type==3) 
+										|| loginUser.roleType==0) && x.status==0">确认</a></td>
 										
 										
 									</tr>

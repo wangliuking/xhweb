@@ -47,9 +47,17 @@
     left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
     where a.deviceId = "080200000000001" and a.singleId = "008001"
     </select>
+    <!--008334->电池组电压；  -->
     <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
     select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 
-    where  fsuId=#{fsuId} and (singleId = "008304" or singleId = "008334" or singleId = "008408" or singleId = "008315")
+    where  fsuId=#{fsuId} and  (singleId = "008304" or singleId = "008334" or 
+    singleId = "008408" or singleId = "008315" or
+    singleId = "017021" or singleId = "017031" or singleId = "076509" or singleId = "092316" or singleId = "092301"
+    )
+    </select>
+    <select id="bs_ji_four_compar" resultType="map" parameterType="map">
+    select e4  from ${table} where fsuId=#{fsuId} ORDER BY createTime DESC LIMIT 2;
+    )
     </select>
     <!-- 四期水浸列表 -->
     <select id="bs_water_four" resultType="xh.mybatis.bean.BsJiFourBean" >

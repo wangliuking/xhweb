@@ -60,6 +60,8 @@ public class WorkContactController {
 		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
 		bean.setAddUser(funUtil.loginUser(request));
 		bean.setTaskId(FunUtil.RandomAlphanumeric(20));
+		bean.setTime(bean.getTime().split(" ")[0]);
+		bean.setUser_type(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
 		
 		int rst=WorkContactService.add(bean);
 		if(rst>0){
@@ -70,8 +72,13 @@ public class WorkContactController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("工作联系单信息，data=" + bean.getReason());
 			WebLogService.writeLog(webLogBean);
+			if(bean.getUser_type()==3){
+				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 2, "工作联系单", "管理部门下发了工作联系单，请尽快查收", request);	
+			}else if(bean.getUser_type()==2){
+				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 3, "工作联系单", "管理部门下发了工作联系单，请尽快查收", request);
+			}
 			
-			FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 3, "工作联系单", "管理部门下发了工作联系单，请尽快查收", request);
+			
 			
 		}else{
 			this.message="工作联系单下发失败";
