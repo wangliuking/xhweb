@@ -55,7 +55,7 @@
     singleId = "017021" or singleId = "017031" or singleId = "076509" or singleId = "092316" or singleId = "092301"
     )
     </select>
-    <select id="bs_ji_four_compar" resultType="map" parameterType="map">
+    <select id="bs_ji_four_e4" resultType="map" parameterType="map">
     select e4  from ${table} where fsuId=#{fsuId} ORDER BY createTime DESC LIMIT 2;
     )
     </select>

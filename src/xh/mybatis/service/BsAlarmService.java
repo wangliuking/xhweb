@@ -1,6 +1,8 @@
 package xh.mybatis.service;
  
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -271,7 +273,8 @@ public class BsAlarmService {
 			for(int i=0,a=list.size();i<a;i++){
 				bean=list.get(i);
 				eps=bs_emh_eps(bean);
-				if(bean.getSingleValue()==1){
+				e4=e4(bean.getFsuId());
+				if(e4){
 					Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 					if(eps==0){
 					  /* if(Double.parseDouble(compare.get("ups1").toString())<20){
@@ -533,6 +536,43 @@ public class BsAlarmService {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	public static boolean e4(String fsuId) {
+		boolean tag=false;
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("fsuId", fsuId);
+		String table="xhgmnet_emh_sensor_history";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		int month = cal.get(Calendar.MONTH)+1;
+		table+=month<10?(0+String.valueOf(month)):month;
+		map.put("table", table);
+		
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		
+		try {
+			list=mapper.bs_ji_four_e4(map);
+			if(list.size()==2){
+				String a=list.get(0).get("e4").toString();
+				String b=list.get(0).get("e4").toString();
+				if(a.equals(b)){
+					tag=true;
+				}
+				
+			}
+			
+			
+			
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tag;
 	}
 
 }
