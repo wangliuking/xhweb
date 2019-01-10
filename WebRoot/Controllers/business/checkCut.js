@@ -327,7 +327,7 @@ xh.load = function() {
 /*修改核减申请表*/
 xh.sheetChange = function() {
     var bean={
-        id:$("div[name='id']").text(),
+        id:$("input[name='id']").val(),
         bsId:$("input[name='bsIdTemp']").val(),
         name:$("input[name='name']").val(),
         hometype:$("input[name='hometype']").val(),
@@ -634,6 +634,14 @@ xh.pagging = function(currentPage, totals, $scope) {
 			}
 		});
 	}
+};
+
+xh.print_order=function() {
+    var LODOP = getLodop();
+    LODOP.PRINT_INIT("故障核减申请书");
+    LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A3");
+    LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
+    LODOP.PREVIEW();
 };
 
 /*$http({

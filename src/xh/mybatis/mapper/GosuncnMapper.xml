@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xh.mybatis.mapper.GosuncnMapper" >
 
@@ -220,33 +220,33 @@
 		</if>
 
 		<if test="startUps1!='' and endUps1!=''">
-			and ups1 between #{startUps1} and #{endUps1}
+			and ups1+0 between #{startUps1}+0 and #{endUps1}+0
 		</if>
 		<if test="startUps1=='' and endUps1!=''">
-			and ups1 &lt; #{endUps1}
+			and ups1+0 &lt; #{endUps1}+0
 		</if>
 		<if test="startUps1!='' and endUps1==''">
-			and ups1 &gt; #{startUps1}
+			and ups1+0 &gt; #{startUps1}+0
 		</if>
 
 		<if test="startUps4!='' and endUps4!=''">
-			and ups4 between #{startUps4} and #{endUps4}
+			and ups4+0 between #{startUps4}+0 and #{endUps4}+0
 		</if>
 		<if test="startUps4=='' and endUps4!=''">
-			and ups4 &lt; #{endUps4}
+			and ups4+0 &lt; #{endUps4}+0
 		</if>
 		<if test="startUps4!='' and endUps4==''">
-			and ups4 &gt; #{startUps4}
+			and ups4+0 &gt; #{startUps4}+0
 		</if>
 
 		<if test="startE1!='' and endE1!=''">
-			and e1 between #{startE1} and #{endE1}
+			and e1+0 between #{startE1}+0 and #{endE1}+0
 		</if>
 		<if test="startE1=='' and endE1!=''">
-			and e1 &lt; #{endE1}
+			and e1+0 &lt; #{endE1}+0
 		</if>
 		<if test="startE1!='' and endE1==''">
-			and e1 &gt; #{startE1}
+			and e1+0 &gt; #{startE1}+0
 		</if>
 		order by createTime limit #{start},#{limit}
 	</select>
@@ -262,33 +262,33 @@
 		</if>
 
 		<if test="startUps1!='' and endUps1!=''">
-			and ups1 between #{startUps1} and #{endUps1}
+			and ups1+0 between #{startUps1}+0 and #{endUps1}+0
 		</if>
 		<if test="startUps1=='' and endUps1!=''">
-			and ups1 &lt; #{endUps1}
+			and ups1+0 &lt; #{endUps1}+0
 		</if>
 		<if test="startUps1!='' and endUps1==''">
-			and ups1 &gt; #{startUps1}
+			and ups1+0 &gt; #{startUps1}+0
 		</if>
 
 		<if test="startUps4!='' and endUps4!=''">
-			and ups4 between #{startUps4} and #{endUps4}
+			and ups4+0 between #{startUps4}+0 and #{endUps4}+0
 		</if>
 		<if test="startUps4=='' and endUps4!=''">
-			and ups4 &lt; #{endUps4}
+			and ups4+0 &lt; #{endUps4}+0
 		</if>
 		<if test="startUps4!='' and endUps4==''">
-			and ups4 &gt; #{startUps4}
+			and ups4+0 &gt; #{startUps4}+0
 		</if>
 
 		<if test="startE1!='' and endE1!=''">
-			and e1 between #{startE1} and #{endE1}
+			and e1+0 between #{startE1}+0 and #{endE1}+0
 		</if>
 		<if test="startE1=='' and endE1!=''">
-			and e1 &lt; #{endE1}
+			and e1+0 &lt; #{endE1}+0
 		</if>
 		<if test="startE1!='' and endE1==''">
-			and e1 &gt; #{startE1}
+			and e1+0 &gt; #{startE1}+0
 		</if>
 	</select>
 	<!--查询单个基站本月电压情况用于显示曲线图 -->

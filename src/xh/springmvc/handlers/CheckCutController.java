@@ -63,6 +63,8 @@ public class CheckCutController {
         map.put("limit", limit);
         map.put("user", user);
         map.put("roleId", roleId);
+        System.out.println("user:"+user);
+        System.out.println("roleId:"+roleId);
         map.put("bsId", bsId);
         map.put("name", name);
         map.put("status", status);

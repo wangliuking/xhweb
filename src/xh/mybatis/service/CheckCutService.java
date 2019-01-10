@@ -17,10 +17,10 @@ public class CheckCutService {
      * 申请记录
      * @return
      */
-    public static List<CheckCutBean> selectAll(Map<String, Object> map){
+    public static List<Map<String,Object>> selectAll(Map<String, Object> map){
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
-        List<CheckCutBean> list=new ArrayList<CheckCutBean>();
+        List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
         try {
             list = mapper.selectAll(map);
             sqlSession.close();
