@@ -25,58 +25,56 @@ xh.load = function() {
 	var contact = $("#contact").val();
 	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();
-    app.filter('weekly',function(){
-    	return function(text){
-    		return text+"  "+xh.weekly(text);
-    	}
-    })
-
+	app.filter('weekly', function() {
+		return function(text) {
+			return text + "  " + xh.weekly(text);
+		}
+	})
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
-		$scope.count = "20";// 每页数据显示默认值
+		$scope.count = "20";// 每页数据显示默认值;
+		$scope.NO=xh.No();
 		/* 获取用户权限 */
-		$http.get("../../web/loginUserPower").success(
-				function(response) {
-					$scope.up = response;
-				});
-		$scope.nowDate=xh.today();
+		$http.get("../../web/loginUserPower").success(function(response) {
+			$scope.up = response;
+		});
+		$scope.nowDate = xh.today();
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response
 		});
-		$http.get(
-				"../../WorkContact/list?&start=0&limit=" + pageSize).success(
+		$http.get("../../WorkContact/list?&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
-		
+
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
 
-		/*显示详细信息*/
+		/* 显示详细信息 */
 		$scope.detail = function(id) {
 			$("#detail").modal('show');
 			$scope.detailData = $scope.data[id];
 		};
-		
-		/*签收*/
-		$scope.sign=function(index){
-			var id=$scope.data[index].taskId;
+
+		/* 签收 */
+		$scope.sign = function(index) {
+			var id = $scope.data[index].taskId;
 			$.ajax({
 				url : '../../WorkContact/sign',
 				type : 'POST',
 				dataType : "json",
 				async : true,
-				data:{
-					taskId:id,
-					addUser:$scope.data[index].addUser
+				data : {
+					taskId : id,
+					addUser : $scope.data[index].addUser
 				},
 				success : function(data) {
 
@@ -91,7 +89,7 @@ xh.load = function() {
 					toastr.success("系统错误", '提示');
 				}
 			});
-			
+
 		};
 
 		/* 查询数据 */
@@ -109,7 +107,8 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?start="+start+"&limit=" + pageSize).success(function(response) {
+					"../../WorkContact/list?start=" + start + "&limit="
+							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
@@ -128,7 +127,8 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?start="+start+"&limit=" + pageSize).success(function(response) {
+					"../../WorkContact/list?start=" + start + "&limit="
+							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -147,7 +147,7 @@ xh.load = function() {
 		};
 	});
 };
-//刷新数据
+// 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
@@ -161,8 +161,9 @@ xh.add = function() {
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+		data : {
+			formData : xh.serializeJson($("#addForm").serializeArray())
+		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
 			$("#add_btn").button('reset');
@@ -216,24 +217,59 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
-xh.weekly=function(dateStr){
+xh.weekly = function(dateStr) {
 
-	var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-	
-	if(dateStr!=null && dateStr!=""){
+	var weekDay = [ "星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" ];
+
+	if (dateStr != null && dateStr != "") {
 		var myDate = new Date(Date.parse(dateStr.replace(/-/g, "/")));
 		return weekDay[myDate.getDay()];
-	}else{
+	} else {
 		return "";
 	}
-	
+
 }
-xh.today=function(){
-    var today=new Date();
-    var h=today.getFullYear();
-    var m=today.getMonth()+1;
-    var d=today.getDate();
-    m= m<10?"0"+m:m;   //  这里判断月份是否<10,如果是在月份前面加'0'
-    d= d<10?"0"+d:d;        //  这里判断日期是否<10,如果是在日期前面加'0'
-    return h+"-"+m+"-"+d;
+xh.today = function() {
+	var today = new Date();
+	var h = today.getFullYear();
+	var m = today.getMonth() + 1;
+	var d = today.getDate();
+	var week = today.getDay();
+	
+	var str = '';
+	if (week == 0) {
+		str = "星期日";
+	} else if (week == 1) {
+		str = "星期一";
+	} else if (week == 2) {
+		str = "星期二";
+	} else if (week == 3) {
+		str = "星期三";
+	} else if (week == 4) {
+		str = "星期四";
+	} else if (week == 5) {
+		str = "星期五";
+	} else if (week == 6) {
+		str = "星期六";
+	}
+	m = m < 10 ? "0" + m : m; // 这里判断月份是否<10,如果是在月份前面加'0'
+	d = d < 10 ? "0" + d : d; // 这里判断日期是否<10,如果是在日期前面加'0'
+	return h + "-" + m + "-" + d +" "+str;
+}
+xh.No = function() {
+	var today = new Date();
+	var y = today.getFullYear();
+	var m = today.getMonth() + 1;
+	var d = today.getDate();
+	var h=today.getHours();
+	var m2=today.getMinutes();
+	var s=today.getSeconds();
+	var str='CDYJW-YYJR-';
+	m = m < 10 ? "0" + m : m; // 这里判断月份是否<10,如果是在月份前面加'0'
+	d = d < 10 ? "0" + d : d; // 这里判断日期是否<10,如果是在日期前面加'0'
+	h = h < 10 ? "0" + h : h; // 这里判断日期是否<10,如果是在日期前面加'0'
+	m2 = m2 < 10 ? "0" + m2 : m2; // 这里判断日期是否<10,如果是在日期前面加'0'
+	s = s < 10 ? "0" + s : s; // 这里判断日期是否<10,如果是在日期前面加'0'
+
+	return str+y+m+d+h+m2+s;
 }

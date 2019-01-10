@@ -26,6 +26,7 @@ public interface BsAlarmMapper {
 	public List<Map<String,Object>> selectTop5() throws Exception;
 	public List<BsJiFourBean> bs_ji_four() throws Exception;
 	public List<BsJiFourBean> bs_ji_four_compare(String fsuId) throws Exception;
+	public List<Map<String,Object>> bs_ji_four_e4(Map<String,Object> map) throws Exception;
 	public List<BsJiFourBean> bs_water_four() throws Exception;
 	
 	public int bs_emh_eps(BsJiFourBean bean) throws Exception;

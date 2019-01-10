@@ -21,11 +21,15 @@ public class test {
        String[] time=a.split(" ");
        int t2=Integer.parseInt(time[1].split(":")[1]);
         t2=t2%5;
-       
-       
+        
+        String table="xhgmnet_emh_sensor_history";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		int month = cal.get(Calendar.MONTH)+1;
+		table+=month<10?(0+String.valueOf(month)):month;
        
 		 
-		System.out.println(DataTime());
+		System.out.println(table);
 		
      }
 	 

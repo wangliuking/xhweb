@@ -1,6 +1,8 @@
 package xh.mybatis.service;
  
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -237,11 +239,33 @@ public class BsAlarmService {
 		}
 		return count;
 	}
+	
+	
+/*	if(bean.getSingleId().equals("008304")){ //eps输入相电压
+		rs.put("ups1", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("008315")){//eps输出相电压
+		rs.put("ups2", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("008334")){//电池组电压
+		rs.put("ups4", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("017021")){
+		rs.put("ups5", bean.getSingleValue());//市电开关量 0：正常
+	}else if(bean.getSingleId().equals("017031")){//油机开关量 1：正在告警 ；0：正在发电
+		rs.put("ups6", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("076509")){//电表通讯状态0：正常
+		rs.put("ups7", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("092316")){//电表当前读数
+		rs.put("ups8", bean.getSingleValue());
+	}else if(bean.getSingleId().equals("092301")){//电表电压
+		rs.put("ups9", bean.getSingleValue());
+	}else{
+		rs.put("tag", bean.getSingleValue());
+	}*/			
 	public static void bs_ji_four() {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
 		int eps=0;
+		boolean e4=false;
 		BsJiFourBean bean=new BsJiFourBean();
 		try {
 			list=mapper.bs_ji_four();
@@ -249,10 +273,11 @@ public class BsAlarmService {
 			for(int i=0,a=list.size();i<a;i++){
 				bean=list.get(i);
 				eps=bs_emh_eps(bean);
-				if(bean.getSingleValue()==1){
+				e4=e4(bean.getFsuId());
+				if(e4){
 					Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 					if(eps==0){
-					   if(Double.parseDouble(compare.get("ups1").toString())<20){
+					  /* if(Double.parseDouble(compare.get("ups1").toString())<20){
 							
 							bean.setDescription("市电中断");
 						}else if(
@@ -269,7 +294,36 @@ public class BsAlarmService {
 							 bean.setDescription("电池电压过低");
 						}else{
 							bean.setDescription("eps故障");
-						}
+						}*/
+						
+						 if(string_to_double(compare.get("ups5"))==1){
+							 if(string_to_double(compare.get("ups7"))==1){
+
+									bean.setDescription("市电中断");
+							 }
+							
+							}else if(e4 && string_to_double(compare.get("ups7"))==1){
+								     bean.setDescription("市电中断");
+							}else if(string_to_double(compare.get("ups1"))<20){
+								
+								bean.setDescription("市电中断");
+							}else if(
+									(string_to_double(compare.get("ups1"))>
+							         string_to_double(compare.get("ups2"))) && 
+							         string_to_double(compare.get("ups2"))!=0){
+								     bean.setDescription("市电电压过高");
+							}else if(
+									(string_to_double(compare.get("ups1"))<
+							         string_to_double(compare.get("ups2"))) && 
+							         string_to_double(compare.get("ups1"))!=0){
+								     bean.setDescription("市电电压过低");
+							}else if(string_to_double(compare.get("ups4"))<46){
+								 bean.setDescription("电池电压过低");
+							}else{
+								bean.setDescription("eps故障");
+							}
+						 
+						 
 						   write_bs_emh_eps(bean);
 						
 					}
@@ -289,6 +343,14 @@ public class BsAlarmService {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Double string_to_double(Object str){
+		if(str==null || str.equals("")){
+			return (double) -1;
+		}else{
+			return Double.parseDouble(str.toString());
+		}
+	}
 	public static Map<String,Object> bs_ji_four_compare(String fsuId) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
@@ -303,12 +365,23 @@ public class BsAlarmService {
 			for(int i=0,a=list.size();i<a;i++){
 				bean=list.get(i);
 				/*singleId = "008304" or singleId = "008334" or singleId = "008408" or singleId = "008315"*/
-				if(bean.getSingleId().equals("008304")){
+				 /*singleId = "017021" or singleId = "017031" or singleId = "076509" or singleId = "092316"*/
+				if(bean.getSingleId().equals("008304")){ //eps输入相电压
 					rs.put("ups1", bean.getSingleValue());
-				}else if(bean.getSingleId().equals("008315")){
+				}else if(bean.getSingleId().equals("008315")){//eps输出相电压
 					rs.put("ups2", bean.getSingleValue());
-				}else if(bean.getSingleId().equals("008334")){
+				}else if(bean.getSingleId().equals("008334")){//电池组电压
 					rs.put("ups4", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("017021")){
+					rs.put("ups5", bean.getSingleValue());//市电开关量 0：正常
+				}else if(bean.getSingleId().equals("017031")){//油机开关量 1：正在告警 ；0：正在发电
+					rs.put("ups6", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("076509")){//电表通讯状态0：正常
+					rs.put("ups7", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("092316")){//电表当前读数
+					rs.put("ups8", bean.getSingleValue());
+				}else if(bean.getSingleId().equals("092301")){//电表电压
+					rs.put("ups9", bean.getSingleValue());
 				}else{
 					rs.put("tag", bean.getSingleValue());
 				}			
@@ -463,6 +536,43 @@ public class BsAlarmService {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	public static boolean e4(String fsuId) {
+		boolean tag=false;
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("fsuId", fsuId);
+		String table="xhgmnet_emh_sensor_history";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		int month = cal.get(Calendar.MONTH)+1;
+		table+=month<10?(0+String.valueOf(month)):month;
+		map.put("table", table);
+		
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		
+		try {
+			list=mapper.bs_ji_four_e4(map);
+			if(list.size()==2){
+				String a=list.get(0).get("e4").toString();
+				String b=list.get(0).get("e4").toString();
+				if(a.equals(b)){
+					tag=true;
+				}
+				
+			}
+			
+			
+			
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tag;
 	}
 
 }

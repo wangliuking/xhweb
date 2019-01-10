@@ -12,8 +12,8 @@
 	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.WorkContactBean">
 	insert into xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
-	content,addUser)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
-	#{code},#{content},#{addUser})
+	content,addUser,user_type)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
+	#{code},#{content},#{addUser},#{user_type})
 	</insert>
 	<update id="sign" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set status=1,checkTime=#{checkTime},checkUser=#{checkUser}
