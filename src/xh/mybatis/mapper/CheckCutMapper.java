@@ -11,7 +11,7 @@ public interface CheckCutMapper {
      * @return
      * @throws Exception
      */
-    public List<CheckCutBean> selectAll(Map<String, Object> map)throws Exception;
+    public List<Map<String,Object>> selectAll(Map<String, Object> map)throws Exception;
 
     /**
      * 申请进度查询

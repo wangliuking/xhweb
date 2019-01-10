@@ -67,6 +67,11 @@ public class CheckCutBean {
     private String suggest;
     private String persion3;
 
+    private String unit1;
+    private String initType1;
+    private String userType1;
+    private String bsPeriod;
+
     public int getId() {
         return id;
     }
@@ -587,6 +592,37 @@ public class CheckCutBean {
         this.isPowerTime = isPowerTime;
     }
 
+    public String getUnit1() {
+        return unit1;
+    }
+
+    public void setUnit1(String unit1) {
+        this.unit1 = unit1;
+    }
+
+    public String getInitType1() {
+        return initType1;
+    }
+
+    public void setInitType1(String initType1) {
+        this.initType1 = initType1;
+    }
+
+    public String getUserType1() {
+        return userType1;
+    }
+
+    public void setUserType1(String userType1) {
+        this.userType1 = userType1;
+    }
+
+    public String getBsPeriod() {
+        return bsPeriod;
+    }
+
+    public void setBsPeriod(String bsPeriod) {
+        this.bsPeriod = bsPeriod;
+    }
 
     @Override
     public String toString() {
@@ -656,6 +692,10 @@ public class CheckCutBean {
                 ", persion2='" + persion2 + '\'' +
                 ", suggest='" + suggest + '\'' +
                 ", persion3='" + persion3 + '\'' +
+                ", unit1='" + unit1 + '\'' +
+                ", initType1='" + initType1 + '\'' +
+                ", userType1='" + userType1 + '\'' +
+                ", bsPeriod='" + bsPeriod + '\'' +
                 '}';
     }
 }
