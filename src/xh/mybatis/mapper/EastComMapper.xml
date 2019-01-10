@@ -42,14 +42,16 @@
 		AvgTrafficChanRate,
 		MinControlChanDownRate,
 		AvgControlChanDownRate,
-		case when bsid>1200 then bsid%1000
+		case
+		when bsid>1200 then bsid%1000
 		else bsid end as bsid,
 		starttime,
 		endtime,
 		mscid from
 		pef_newbstotal
 		where
-		starttime=#{time} and (bsid&lt;=200 or bsid>=1000)
+		starttime=#{time} and (bsid&lt;=200 or
+		bsid>=1000)
 
 	</select>
 
@@ -301,138 +303,157 @@
 	<!-- 基站话务统计数据 -->
 	<select id="chart_bs_call" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		<!-- select x.bsid,y.`name`,y.`level`,y.area, x.TotalActiveCalls, x.TotalActiveCallDuration, 
-			x.AverageCallDuration, x.PTTCount, x.QueueCount, x.QueueDuration, x.MaxUserRegCount, 
-			x.MaxGroupRegCount from chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station 
-			as y on x.bsid=y.bsId where x.starttime=#{time} order by x.bsid asc -->
+		SELECT T1.*, T2.call_sort, T3.user_sort, T4.queue_sort
+		FROM ( select x.*,y.`name`,y.`level`,y.area,y.zone
+		from (select bsid, sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		where 
+       <if test="type==1">
+            starttime between #{time} and #{endtime}
+        </if>
+        <if test="type==2">
+            starttime=#{time}
+        </if>
+        <if test="type==3">
+            starttime=#{time}
+        </if>
+        <if test="type==4">
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+            #{endtime}
+        </if>
+         GROUP BY bsid) as x
+		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId ) AS T1
 
-		SELECT
-		T1.*, T2.call_sort,
-		T3.user_sort,
-		T4.queue_sort
-		FROM
-		(
-		SELECT
-		x.bsid,
-		y.`name`,
-		y.`level`,
-		y.area,
-		x.TotalActiveCalls,
-		x.TotalActiveCallDuration,
-		x.AverageCallDuration,
-		x.PTTCount,
-		x.QueueCount,
-		x.QueueDuration,
-		x.MaxUserRegCount,
-		x.MaxGroupRegCount,
-		x.starttime
-		FROM
-		chart_month_bstotal AS x
-		LEFT JOIN
-		xhgmnet.xhgmnet_bs_station AS y ON x.bsid = y.bsId
+
+		LEFT JOIN ( SELECT a.bsid, CASE WHEN @rowtotal = a.TotalActiveCalls THEN
+		@rownum WHEN @rowtotal := a.TotalActiveCalls THEN @rownum :=@rownum +
+		1 WHEN @rowtotal = 0
+		THEN @rownum :=@rownum + 1 END AS call_sort FROM ( SELECT bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls FROM 
+		<if test="type==1">
+            chart_day_bstotal
+        </if>
+        <if test="type==2">
+            chart_week_bstotal
+        </if>
+        <if test="type==3">
+            chart_month_bstotal
+        </if>
+        <if test="type==4">
+            chart_hour_bstotal
+        </if>
 		WHERE
-		x.starttime =
-		#{time}
-		) AS T1
-		LEFT JOIN (
-		SELECT
-		a.bsid,
-		CASE
-		WHEN @rowtotal =
-		a.TotalActiveCalls THEN
-		@rownum
-		WHEN @rowtotal := a.TotalActiveCalls
-		THEN
-		@rownum :=@rownum + 1
-		WHEN @rowtotal = 0 THEN
-		@rownum :=@rownum + 1
-		END AS call_sort
-		FROM
-		(
-		SELECT
-		bsid,
-		TotalActiveCalls
-		FROM
-		chart_month_bstotal
-		WHERE
-		starttime = #{time}
-		ORDER BY
-		TotalActiveCalls
-		DESC
-		) AS a,
-		(
-		SELECT
-		@rownum := 0 ,@rowtotal := NULL
-		) r
-		) AS T2 ON T1.bsid
-		= T2.bsid
-		LEFT JOIN (
-		SELECT
-		a.bsid,
-		CASE
-		WHEN @rowtotal1 =
-		a.MaxUserRegCount THEN
+		<if test="type==1">
+            starttime between #{time} and #{endtime}
+        </if>
+        <if test="type==2">
+            starttime=#{time}
+        </if>
+        <if test="type==3">
+            starttime=#{time}
+        </if>
+        <if test="type==4">
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+            #{endtime}
+        </if>
+         GROUP BY bsid ORDER
+		BY TotalActiveCalls DESC ) AS a,
+		( SELECT @rownum := 0 ,@rowtotal := NULL ) r ) AS T2 ON T1.bsid =
+		T2.bsid
+
+
+		LEFT JOIN ( SELECT a.bsid, CASE WHEN @rowtotal1 = a.MaxUserRegCount THEN
 		@rownum1
-		WHEN @rowtotal1 := a.MaxUserRegCount
-		THEN
-		@rownum1 :=@rownum1 + 1
-		WHEN @rowtotal1 = 0 THEN
-		@rownum1 :=@rownum1
-		+ 1
-		END AS user_sort
-		FROM
-		(
-		SELECT
-		bsid,
-		MaxUserRegCount
-		FROM
-		chart_month_bstotal
-		WHERE
-		starttime = #{time}
-		ORDER BY
-		MaxUserRegCount
-		DESC
-		) AS a,
-		(
-		SELECT
-		@rownum1 := 0 ,@rowtotal1 := NULL
-		) r
-		) AS T3 ON
-		T1.bsid = T3.bsid
-		LEFT JOIN (
-		SELECT
-		a.bsid,
-		CASE
-		WHEN @rowtotal2 =
-		a.QueueCount THEN
-		@rownum2
-		WHEN @rowtotal2 := a.QueueCount THEN
-		@rownum2
-		:=@rownum2 + 1
-		WHEN @rowtotal2 = 0 THEN
-		@rownum2 :=@rownum2 + 1
-		END AS
-		queue_sort
-		FROM
-		(
-		SELECT
-		bsid,
-		QueueCount
-		FROM
-		chart_month_bstotal
-		WHERE
-		starttime = #{time}
-		ORDER BY
-		QueueCount DESC
-		) AS a,
-		(
-		SELECT
-		@rownum2 := 0
-		,@rowtotal2 := NULL
-		) r
-		) AS T4 ON T1.bsId = T4.bsid
-		ORDER BY
-		T1.bsid ASC
+		WHEN @rowtotal1 := a.MaxUserRegCount THEN @rownum1 :=@rownum1 + 1 WHEN
+		@rowtotal1 = 0 THEN @rownum1 :=@rownum1 + 1 END AS user_sort
+		FROM ( SELECT bsid, max(MaxUserRegCount) as MaxUserRegCount FROM
+		<if test="type==1">
+            chart_day_bstotal
+        </if>
+        <if test="type==2">
+            chart_week_bstotal
+        </if>
+        <if test="type==3">
+            chart_month_bstotal
+        </if>
+        <if test="type==4">
+            chart_hour_bstotal
+        </if>
+         WHERE
+		<if test="type==1">
+            starttime between #{time} and #{endtime}
+        </if>
+        <if test="type==2">
+            starttime=#{time}
+        </if>
+        <if test="type==3">
+            starttime=#{time}
+        </if>
+        <if test="type==4">
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+            #{endtime}
+        </if>
+         GROUP BY bsid ORDER
+		BY MaxUserRegCount DESC ) AS a,
+		( SELECT @rownum1 := 0 ,@rowtotal1 := NULL ) r ) AS T3 ON T1.bsid =
+		T3.bsid
+
+
+
+
+		LEFT JOIN ( SELECT a.bsid, CASE WHEN @rowtotal2 = a.QueueCount THEN
+		@rownum2 WHEN @rowtotal2 := a.QueueCount THEN @rownum2 :=@rownum2 + 1
+		WHEN @rowtotal2 = 0 THEN @rownum2 :=@rownum2 + 1 END AS queue_sort
+		FROM ( SELECT bsid, sum(QueueCount) AS QueueCount FROM
+		<if test="type==1">
+            chart_day_bstotal
+        </if>
+        <if test="type==2">
+            chart_week_bstotal
+        </if>
+        <if test="type==3">
+            chart_month_bstotal
+        </if>
+        <if test="type==4">
+            chart_hour_bstotal
+        </if>
+		WHERE 
+		<if test="type==1">
+            starttime between #{time} and #{endtime}
+        </if>
+        <if test="type==2">
+            starttime=#{time}
+        </if>
+        <if test="type==3">
+            starttime=#{time}
+        </if>
+        <if test="type==4">
+            date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+            #{endtime}
+        </if>
+         GROUP BY bsid ORDER BY QueueCount DESC ) AS a,
+		( SELECT @rownum2 := 0 ,@rowtotal2 := NULL ) r ) AS T4 ON T1.bsId =
+		T4.bsid ORDER BY T1.bsid ASC
+
+
 
 
 
@@ -450,16 +471,39 @@
 		y.TotalFailedCalls,
 		y.FailedPercentage,
 		y.NoEffectCalls
+
 		FROM
 		xhgmnet_vpn AS x
 		LEFT JOIN (
 		SELECT
-		*
+		vpnid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(dexTotalCalls) AS dexTotalCalls,
+		sum(TotalFailedCalls) AS
+		TotalFailedCalls,
+		FailedPercentage,
+		sum(NoEffectCalls) AS NoEffectCalls
 		FROM
-		xhgmnet_gps_voice.chart_month_vpntotal
-		WHERE
-		starttime = #{time}
-		) AS y ON x.vpnId = y.vpnid
+		<if test="type==1">
+			xhgmnet_gps_voice.chart_day_vpntotal where starttime
+			between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			xhgmnet_gps_voice.chart_week_vpntotal where
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			xhgmnet_gps_voice.chart_month_vpntotal where
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			xhgmnet_gps_voice.pef_newvpntotal where
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		group by vpnid) AS y ON x.vpnId = y.vpnid
 		ORDER BY
 		x.vpnid ASC
 
@@ -470,7 +514,8 @@
 		select
 		y.`level`,
 		count(x.bsid) as bsTotals,
-		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
 		round((sum(x.TotalActiveCallDuration)/60),0) as
 		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as
@@ -482,11 +527,38 @@
 		max(x.MaxUserRegCount) as MaxUserRegCount,
 		max(x.MaxGroupRegCount) as
 		MaxGroupRegCount
-		from chart_month_bstotal as x left join
+		from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		as x left join
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
 		where
-		x.starttime=#{time} and y.level>0 group by y.`level` order by y.level
+
+		<if test="type==1">
+			x.starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			x.starttime=#{time}
+		</if>
+		<if test="type==3">
+			x.starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		and y.level>0 group by y.`level` order by y.level
 		asc
 
 	</select>
@@ -496,7 +568,8 @@
 		select
 		y.area,
 		count(x.bsid) as bsTotals,
-		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
 		round((sum(x.TotalActiveCallDuration)/10),0) as
 		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as
@@ -508,11 +581,37 @@
 		max(x.MaxUserRegCount) as MaxUserRegCount,
 		max(x.MaxGroupRegCount) as
 		MaxGroupRegCount
-		from chart_month_bstotal as x left join
+		from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		as x left join
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
 		where
-		x.starttime=#{time} and y.area is not null group by y.area
+		<if test="type==1">
+			x.starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			x.starttime=#{time}
+		</if>
+		<if test="type==3">
+			x.starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		and y.area is not null group by y.area
 	</select>
 	<!--基站区域话务统计数据 -->
 	<select id="chart_bs_zone_call" parameterType="map"
@@ -520,7 +619,8 @@
 		select
 		y.zone,
 		count(x.bsid) as bsTotals,
-		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
 		sum(x.TotalActiveCallDuration) as
 		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as
@@ -534,10 +634,37 @@
 		max(x.MaxGroupRegCount) as
 		MaxGroupRegCount
 		from
-		chart_month_bstotal as x left join xhgmnet.xhgmnet_bs_station as y on
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		as x left join xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
-		where x.starttime=#{time} and y.zone is not null and
-		y.zone !='移动基站' group by y.zone order by zone
+		where
+		<if test="type==1">
+			x.starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			x.starttime=#{time}
+		</if>
+		<if test="type==3">
+			x.starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		and y.zone is not null and
+		y.zone !='移动基站' group by
+		y.zone order by zone
 		asc
 	</select>
 	<!--基站区域话务TOP统计数据 -->
@@ -545,18 +672,22 @@
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
 		select
 		count(x.bsid) as bsTotals,
-		sum(x.TotalActiveCalls) as TotalActiveCalls,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
 		sum(x.TotalActiveCallDuration) as
 		TotalActiveCallDuration,
 		round(avg(x.AverageCallDuration),0) as
 		AverageCallDuration,
 		sum(x.PTTCount) as PTTCount,
-		sum(x.QueueCount) as QueueCount,
+		sum(x.QueueCount) as
+		QueueCount,
 		sum(x.QueueDuration) as QueueDuration,
 		max(x.MaxUserRegCount) as
 		MaxUserRegCount,
-		max(x.MaxGroupRegCount) as MaxGroupRegCount,y.zone,
-		ROUND(sum(x.TotalActiveCalls)/x.totals*100,2) as percent,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount,y.zone,
+		ROUND(sum(x.TotalActiveCalls)/x.totals*100,2)
+		as percent,
 		x.starttime
 
 		from (select
@@ -572,29 +703,79 @@
 		T2.totals,
 		T1.starttime
 		from
-		chart_month_bstotal as
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		as
 		T1,(
 		select sum(totals) as
 		totals from (
 		select
 		sum(a.TotalActiveCalls)
 		as totals,b.zone from
-		chart_month_bstotal as a
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		as a
 		left join
 		xhgmnet.xhgmnet_bs_station as b on
 		a.bsid=b.bsId
 		where
-		starttime=#{time}
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
 		group by zone
 		) as e) as T2
 
 		) as x
 
 		left join
-		xhgmnet.xhgmnet_bs_station as y on
+		xhgmnet.xhgmnet_bs_station as
+		y on
 		x.bsid=y.bsId
 		where
-		x.starttime=#{time} group by y.zone order by
+		<if test="type==1">
+			x.starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			x.starttime=#{time}
+		</if>
+		<if test="type==3">
+			x.starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(x.starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		group by y.zone order by
 		TotalActiveCalls desc
 		limit 10
 
@@ -607,97 +788,311 @@
 	<!-- 基站话务TOP10 -->
 	<select id="chart_bs_call_top10" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select x.*,y.`name`,y.`level`,y.area,y.zone from (select
-		T1.bsid,
-		T1.TotalActiveCalls,
-		T1.TotalActiveCallDuration,
-		T1.AverageCallDuration,
-		T1.PTTCount,
-		T1.QueueCount,
-		T1.QueueDuration,
-		T1.MaxUserRegCount,
-		T1.MaxGroupRegCount,
-		ROUND(T1.TotalActiveCalls/T2.totals*100,2) as percent,
-		T1.starttime
-		from chart_month_bstotal as T1,(select sum(totals) as totals from
-		(select TotalActiveCalls as totals from chart_month_bstotal where
-		starttime=#{time}) as a) as T2
-		) as x
-		left join
-		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		select x.*,y.`name`,y.`level`,y.area,y.zone from
+		(select
+		a.*,ROUND(a.TotalActiveCalls/b.totals*100,2) as percent,b.totals from
+		(select bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount,
+		starttime
+		from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
 		where
-		x.starttime=#{time} order by TotalActiveCalls desc limit 10
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		GROUP BY bsid) as a,(select sum(TotalActiveCalls) as totals from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		WHERE
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		) as b) as x
 
+		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		order by TotalActiveCalls desc limit 10
 	</select>
 	<!-- 基站话务最大注册用户TOP10 -->
 	<select id="chart_bs_userreg_top10" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select
-		x.bsid,y.`name`,y.`level`,y.area,y.zone,
-		x.TotalActiveCalls,
-		x.TotalActiveCallDuration,
-		x.AverageCallDuration,
-		x.PTTCount,
-		x.QueueCount,
-		x.QueueDuration,
-		x.MaxUserRegCount,
-		x.MaxGroupRegCount
-		from chart_month_bstotal as x left join
-		xhgmnet.xhgmnet_bs_station as y on
-		x.bsid=y.bsId
+
+		select x.*, y.`name`,y.`level`,y.area,y.zone FROM (SELECT
+		bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount
+
+		from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
 		where
-		x.starttime=#{time} order by MaxUserRegCount desc limit 10
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		GROUP BY bsid) as x
+
+		left join xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId order by
+		x.MaxUserRegCount desc limit 10
+
+
+
 	</select>
 	<!-- 基站话务排队TOP10 -->
 	<select id="chart_bs_queue_top10" parameterType="map"
 		resultType="xh.mybatis.bean.EastBsCallDataBean">
-		select x.*,y.`name`,y.`level`,y.area,y.zone from (select
-		T1.bsid,
-		T1.TotalActiveCalls,
-		T1.TotalActiveCallDuration,
-		T1.AverageCallDuration,
-		T1.PTTCount,
-		T1.QueueCount,
-		T1.QueueDuration,
-		T1.MaxUserRegCount,
-		T1.MaxGroupRegCount,
-		ROUND(T1.QueueCount/T2.totals*100,2) as percent,
-		T1.starttime
-		from
-		chart_month_bstotal as T1,(select sum(totals) as totals from (select
-		QueueCount as totals from chart_month_bstotal where starttime=#{time}
-		) as a) as T2 ) as x
-		left join
-		xhgmnet.xhgmnet_bs_station as y on
-		x.bsid=y.bsId
+
+		select x.*,y.`name`,y.`level`,y.area,y.zone
+		from (select
+		a.*,ROUND(a.QueueCount/b.totals*100,2) as percent from
+		(select bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
 		where
-		x.starttime=#{time} order by QueueCount desc limit
-		10
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		GROUP BY bsid) as a,
+		(select sum(QueueCount) as totals
+		from
+		<if test="type==1">
+			chart_day_bstotal
+		</if>
+		<if test="type==2">
+			chart_week_bstotal
+		</if>
+		<if test="type==3">
+			chart_month_bstotal
+		</if>
+		<if test="type==4">
+			chart_hour_bstotal
+		</if>
+		where
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		) as b) as x
+
+		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		order by
+		QueueCount desc limit 10
+
+
 	</select>
 	<!-- 虚拟专网话务TOP10 -->
 	<select id="chart_vpn_call_top10" parameterType="map"
 		resultType="xh.mybatis.bean.EastVpnCallBean">
-		select x.*,y.`name`from(select
+		SELECT
+		x.*, y.`name`
+		FROM
+		(
+		SELECT
+		a.*, ROUND(
+		a.TotalActiveCalls / b.totals
+		* 100,
+		2
+		) AS percent
+		FROM
+		(
+		SELECT
 		T1.vpnid,
-		T1.TotalActiveCalls,
-		T1.TotalActiveCallDuration,
-		T1.AverageCallDuration,
-		T1.dexTotalCalls,
-		T1.TotalFailedCalls,
+		sum(T1.TotalActiveCalls) AS
+		TotalActiveCalls,
+		sum(T1.TotalActiveCallDuration) AS
+		TotalActiveCallDuration,
+		round(
+		avg(T1.AverageCallDuration),
+		0
+		) AS
+		AverageCallDuration,
+		sum(T1.dexTotalCalls) AS dexTotalCalls,
+		sum(T1.TotalFailedCalls) AS TotalFailedCalls,
 		T1.FailedPercentage,
-		T1.NoEffectCalls,
-		ROUND(T1.TotalActiveCalls/T2.totals*100,2) as percent,
+		sum(T1.NoEffectCalls) AS NoEffectCalls,
 		T1.starttime
-		from chart_month_vpntotal as T1,(
-		select sum(totals) as totals from
-		(select TotalActiveCalls as totals from chart_month_vpntotal where
-		starttime=#{time} ) as a) as
-		T2) as x
-		left join xhgmnet.xhgmnet_vpn as y
-		on x.vpnid=y.vpnId
-		where
-		x.starttime=#{time} order by x.TotalActiveCalls
-		desc limit 10
+		FROM
+		<if test="type==1">
+			chart_day_vpntotal
+		</if>
+		<if test="type==2">
+			chart_week_vpntotal
+		</if>
+		<if test="type==3">
+			chart_month_vpntotal
+		</if>
+		<if test="type==4">
+			pef_newvpntotal
+		</if>
+		AS T1
+		WHERE
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		GROUP BY
+		vpnid
+		) AS a,
+		(
+		SELECT
+		sum(TotalActiveCalls) AS totals
+		FROM
+		<if test="type==1">
+			chart_day_vpntotal
+		</if>
+		<if test="type==2">
+			chart_week_vpntotal
+		</if>
+		<if test="type==3">
+			chart_month_vpntotal
+		</if>
+		<if test="type==4">
+			pef_newvpntotal
+		</if>
+		WHERE
+		<if test="type==1">
+			starttime between #{time} and #{endtime}
+		</if>
+		<if test="type==2">
+			starttime=#{time}
+		</if>
+		<if test="type==3">
+			starttime=#{time}
+		</if>
+		<if test="type==4">
+			date_format(starttime,'%Y-%m-%d %H:00:00') between #{time} and
+			#{endtime}
+		</if>
+		) AS b
+		) AS x
+		LEFT JOIN xhgmnet.xhgmnet_vpn AS y ON x.vpnid = y.vpnId
+		ORDER BY
+		x.TotalActiveCalls DESC
+		LIMIT 10
+
+
 
 	</select>
 
@@ -710,15 +1105,44 @@
 	<select id="chart_month_msc" parameterType="map"
 		resultType="xh.mybatis.bean.EastMscDayBean">
 		select
-		TotalActiveCall,TotalActiveCallDuration,AverageCallDuration,TotalCalls,
-		TotalFailedCalls,NoEffectCalls,starttime,mscid,
-		totalPTTs,
-		totalQueueCount,
-		totalQueueDuration,
-		totalMaxReg,maxRegGroup,
-		round((totalFailedCalls/TotalCalls),0) as FailedPercentage
+		sum(TotalActiveCall) AS TotalActiveCall,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(TotalCalls) AS TotalCalls,
+		sum(TotalFailedCalls) AS
+		TotalFailedCalls,
+		sum(NoEffectCalls) AS NoEffectCalls,
+		DATE_FORMAT(starttime, '%Y-%m-%d') AS starttime,
+		mscid,
+		sum(totalPTTs)
+		as totalPTTs,
+		sum(totalQueueCount) as totalQueueCount,
+		sum(totalQueueDuration) as totalQueueDuration,
+		max(totalMaxReg) as
+		totalMaxReg,
+		max(maxRegGroup) as maxRegGroup,
+
+		round((sum(TotalFailedCalls)/sum(TotalCalls)),0) as FailedPercentage
+
+
 		from
-		chart_month_msc where starttime=#{time} limit 1
+		<if test="type==1">
+			chart_day_msc where starttime between #{time} and
+			#{endtime}
+		</if>
+		<if test="type==2">
+			chart_week_msc where starttime=#{time}
+		</if>
+		<if test="type==3">
+			chart_month_msc where starttime=#{time}
+		</if>
+		<if test="type==4">
+			pef_newmsctotal where date_format(starttime,'%Y-%m-%d %H:00:00')
+			between #{time} and
+			#{endtime}
+		</if>
+
+		limit 1
 	</select>
 
 </mapper>

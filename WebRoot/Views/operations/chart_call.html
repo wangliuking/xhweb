@@ -61,24 +61,40 @@
 						<div class="panel-body">
 							<!-- row -->
 							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label for="starttime">时间</label>
+									<div class="form-group col-md-2">
+										<label for="status">统计周期</label>
 										<div>
-											<input type="text" class="form-control " id="starttime"
-												placeholder="时间" ng-model="starttime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
+											<select name="type" class="form-control"
+												ng-change="showDate()" ng-model="type" id="type">
+												<option value="4">小时</option>
+												<option value="1">天</option>
+												<option value="2">周</option>
+												<option value="3">月</option>
+												<!-- <option value="3">季度</option> -->
+											<!-- 	<option value="4">年</option> -->
+											</select>
 										</div>
 									</div>
-									<!-- <div class="form-group">
-										<label for="endtime">结束时间</label>
+									<div class="form-group col-md-2">
+										<label for="starttime">选择月份</label>
 										<div>
-											<input type="text" class="form-control" id="endtime"
-												placeholder="结束时间" ng-model="endtime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+											<input type="text" name="starttime" class="form-control" id="starttime"
+												ng-model="time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM',isShowWeek:true})"
+												placeholder="月">
 										</div>
-									</div> -->
-									<div class="form-group">
+									</div>
+									<div class="form-group col-md-2" ng-show="type==4 || type==1">
+                                        <label for="endtime">结束时间</label>
+                                        <div>
+                                            <input type="text" name="endtime" class="form-control" id="endtime"
+                                                
+                                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:00:00'})"
+                                                placeholder="结束时间">
+                                        </div>
+                                    </div>
+
+									<div class="form-group col-md-2">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button type="submit" class="btn btn-sm btn-success"
 												ng-click="refresh()">
@@ -86,23 +102,15 @@
 											</button>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group col-md-3">
 										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button  class="btn btn-sm btn-primary"
-												onclick="xh.excel()" id="btn-excel" data-loading-text="正在分析数据">
+											<button class="btn btn-sm btn-primary" onclick="xh.excel()"
+												id="btn-excel" data-loading-text="正在分析数据">
 												<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;导出数据
 											</button>
 										</div>
 									</div>
-									<!-- <div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button type="submit" class="btn btn-sm btn-success"
-												onclick="xh.postData()">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;POST数据
-											</button>
-										</div>
-									</div> -->
-								</form>
+									
 							</div>
 							<!-- row -->
 						</div>
@@ -118,7 +126,7 @@
 						</div>
 						<div class="panel-body">
 							<ul id="xh-tabs" class="nav nav-tabs">
-							<li class="active"><a href="#msc" data-toggle="tab"
+								<li class="active"><a href="#msc" data-toggle="tab"
 									ng-click='chart_msc_call()'>交换中心话务统计</a></li>
 								<li><a href="#bs" data-toggle="tab"
 									ng-click='chart_bs_call()'>基站话务统计</a></li>
@@ -138,7 +146,7 @@
 									ng-click='chart_vpn_call_top10()'>虚拟专网用户话务TOP10统计</a></li>
 							</ul>
 							<div class="tab-content" style="padding:20px">
-							<div class="tab-pane fade in active" id="msc">
+								<div class="tab-pane fade in active" id="msc">
 									<div ng-include="'chart_call_msc.html'"></div>
 								</div>
 								<div class="tab-pane fade " id="bs">

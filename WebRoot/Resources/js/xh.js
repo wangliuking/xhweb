@@ -446,7 +446,7 @@ xh.getPreMonth = function() {
 	var strYear = yesterday.getFullYear();
 
 	var strDay = yesterday.getDate();
-	var strMonth = yesterday.getMonth();
+	var strMonth = yesterday.getMonth()+1;
 
 	if (strMonth < 10) {
 		strMonth = "0" + strMonth;
