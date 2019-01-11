@@ -289,6 +289,8 @@ public class Util {
 			}else if("gentable".equals(cmdtype)){
 				genTable = (GenTable) JSONObject.toBean(jsonObject, GenTable.class);
 				GenTableAck genTableAck = Service.appGenTableAck(genTable);
+				genTableAck.setSerialnumber(genTable.getSerialnumber());
+				genTableAck.setUserid(genTable.getUserid());
 				map.put("returnMessage", Object2Json(genTableAck));
 				return map;
 			}else if("gentableack".equals(cmdtype)){
@@ -315,11 +317,19 @@ public class Util {
 			}else if("getgenarg".equals(cmdtype)){
 				getGenArg = (GetGenArg) JSONObject.toBean(jsonObject, GetGenArg.class);
 				GetGenArgAck getGenArgAck = Service.appGetGenArgAck(getGenArg);
+				getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
+				getGenArgAck.setGeni("10");
+				getGenArgAck.setGenv("50");
+				getGenArgAck.setAck("0");
 				map.put("returnMessage", Object2Json(getGenArgAck));
 				return map;
 			}else if("getpowerontime".equals(cmdtype)){
 				getPowerOnTime = (GetPowerOnTime) JSONObject.toBean(jsonObject, GetPowerOnTime.class);
 				GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
+				getPowerOnTimeAck.setSerialnumber(getPowerOnTime.getSerialnumber());
+				getPowerOnTimeAck.setPowerontime("2019-01-11 15:00:00");
+				getPowerOnTimeAck.setGenofftime("2019-01-11 17:00:00");
+				getPowerOnTimeAck.setAck("0");
 				map.put("returnMessage", Object2Json(getPowerOnTimeAck));
 				return map;
 			}
