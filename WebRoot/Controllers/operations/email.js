@@ -28,6 +28,7 @@ xh.load = function() {
 	app.controller("user", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
+		$scope.page=1;
 		/*获取邮件信息*/
 		$http.get("../../center/email/list?start=0&limit="+pageSize).
 		success(function(response){
@@ -38,7 +39,7 @@ xh.load = function() {
 		});
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 		/* 显示详细model */
 		$scope.detail = function(id) {
@@ -106,6 +107,7 @@ xh.load = function() {
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(page, parseInt($scope.totals),$scope);
+				$scope.page=page;
 			});
 		};
 		//分页点击
@@ -139,6 +141,7 @@ xh.load = function() {
 				}
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
 			});
 			
 		};

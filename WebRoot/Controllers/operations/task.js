@@ -35,15 +35,22 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值;
 		$scope.NO=xh.No();
+		$scope.sendUnit="";
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(function(response) {
 			$scope.up = response;
+			
 		});
 		$scope.nowDate = xh.today();
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
-			$scope.loginUser = response
+			$scope.loginUser = response;
+			if($scope.loginUser.roleType==2){
+				$scope.sendUnit="成都市软件产业发展中心"
+			}else if($scope.loginUser.roleType==3 || $scope.loginUser.roleType==0){
+				$scope.sendUnit="成都亚光电子股份有限公司"
+			}
 		});
 		$http.get("../../WorkContact/list?&start=0&limit=" + pageSize).success(
 				function(response) {
@@ -264,7 +271,7 @@ xh.No = function() {
 	var h=today.getHours();
 	var m2=today.getMinutes();
 	var s=today.getSeconds();
-	var str='CDYJW-YYJR-';
+	var str='CDYJW-';
 	m = m < 10 ? "0" + m : m; // 这里判断月份是否<10,如果是在月份前面加'0'
 	d = d < 10 ? "0" + d : d; // 这里判断日期是否<10,如果是在日期前面加'0'
 	h = h < 10 ? "0" + h : h; // 这里判断日期是否<10,如果是在日期前面加'0'

@@ -285,7 +285,12 @@ xh.load = function() {
 			
 			$scope.nowDate=xh.nowDate();
 			$scope.userList();
-			$scope.orderData=$scope.data[index];
+			if(index>=0){
+				$scope.orderData=$scope.data[index];
+			}else{
+				$scope.orderData=[];
+			}
+			
 			
 			$("#order").modal('show');
 		};
@@ -526,27 +531,27 @@ xh.order=function(){
 		toastr.error("故障类型,等级不能为空", '提示');
 		return;
 	}
-	if($("div[name='dispatchman']").text()==""){
+	if($("#order").find("input[name='dispatchman']")==""){
 		toastr.error("派单人不能为空", '提示');
 		return;
 	}
 	var formData={
-		id:$("div[name='id']").text()==""?0:$("div[name='id']").text(),
-		from:$("span[name='from']").text(),
-		zbdldm:$("span[name='zbdldm']").text(),
-		bsid:$("div[name='bsId']").text(),
-		bsname:$("div[name='name']").text(),
+		id:$("#order").find("input[name='id']").val()==""?0:$("#order").find("input[name='id']").val(),
+		from:$("#order").find("span[name='from']").text(),
+		zbdldm:$("#order").find("span[name='zbdldm']").text(),
+		bsid:$("#order").find("input[name='bsId']").val(),
+		bsname:$("#order").find("input[name='name']").val(),
 		userid:userid,
-		dispatchtime:$("div[name='dispatchtime']").text(),
-		dispatchman:$("div[name='dispatchman']").text(),
+		dispatchtime:$("#order").find("input[name='dispatchtime']").val(),
+		dispatchman:$("#order").find("input[name='dispatchman']").val(),
 		errtype:errtype,
 		errlevel:errlevel,
-		errfoundtime:$("div[name='errfoundtime']").text(),
-		errslovetime:$("div[name='errslovetime']").text(),
-		progress:$("div[name='progress']").text(),
-		proresult:$("div[name='proresult']").text(),
-		workman:$("div[name='workman']").text(),
-		auditor:$("div[name='auditor']").text(),
+		errfoundtime:$("#order").find("input[name='errfoundtime']").val(),
+		errslovetime:$("#order").find("input[name='errslovetime']").val(),
+		progress:$("#order").find("textarea[name='progress']").val(),
+		proresult:$("#order").find("textarea[name='proresult']").val(),
+		workman:$("#order").find("input[name='workman']").val(),
+		auditor:$("#order").find("input[name='auditor']").val(),
 	}
 	$.ajax({
 		url : '../../order/writeOrder',
@@ -573,7 +578,7 @@ xh.order=function(){
 		}
 	});
 }
-xh.worder=function(){
+/*xh.worder=function(){
 	var userid=$("#worder-form").find("span[name='userid']").text()
 	if(userid==""){
 		toastr.error("接单人不能为空", '提示');
@@ -618,7 +623,7 @@ xh.worder=function(){
 			toastr.error("派单失败", '提示');
 		}
 	});
-}
+}*/
 /* 数据分页 */
 xh.pagging = function(currentPage,totals, $scope) {
 	var pageSize = $("#page-limit").val();

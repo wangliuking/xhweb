@@ -24,34 +24,37 @@
 								<tr>
 									<td colspan="6" style="text-align: center;">
 									故障处理任务单
-									<div contenteditable="true" class="input-div" name="id" ng-show="false">{{orderData.id}}</div>
-									<span name="from" ng-show="false">{{orderData.from}}</span>
-									<span name="zbdldm" ng-show="false">{{orderData.zbdldm}}</span>
-									
 									</td>
+								</tr>
+								<tr>
+								<input ng-show="false" class="input-div" name="id" ng-model="orderData.id">
+                                    <input ng-show="false" class="input-div" name="from" ng-model="orderData.from">
+                                    <input ng-show="false" class="input-div" name="zbdldm" ng-model="orderData.zbdldm">
 								</tr>
 								<tr>
 									<td>基站ID</td>
-									<td><div contenteditable="true" class="input-div" name="bsId">{{orderData.bsId}}</div></td>
+									<td><input class="input-div" name="bsId" ng-model="orderData.bsId"></td>
 									<td>基站名称</td>
-									<td colspan="3"><div contenteditable="true" class="input-div" name="name" ng-show="true">{{orderData.name}}</div></td>
-								</tr>
-								
-								<tr ng-show="false">
-									<td colspan="6" style="text-align: center;background:#ccc;">
-									基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}
+									<td colspan="3">
+									<input class="input-div" name="name" ng-model="orderData.name">
 									</td>
 								</tr>
 								
+							<!-- 	<tr ng-show="false">
+									<td colspan="6" style="text-align: center;background:#ccc;">
+									基站ID：{{orderData.bsId}}&nbsp;&nbsp;&nbsp;基站名称：{{orderData.name}}
+									</td>
+								</tr> -->
+								
 								<tr>
 									<td style="height:40px;width:130px;">派单时间</td>
-									<td style="height:40px;width:250px;"><div
-											contenteditable="true" class="input-div"
-											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-											name="dispatchtime">{{nowDate}}</div></td>
+									<td style="height:40px;width:250px;">
+									<input class="input-div" name="dispatchtime" ng-model="nowDate">
+									</td>
 									<td style="height:40px;width:100px;">派单人</td>
-									<td style="height:40px;width:140px;"><div
-											contenteditable="true" class="input-div" name="dispatchman">{{userName}}</div></td>
+									<td style="height:40px;width:140px;">
+									<input class="input-div" name="dispatchman" ng-model="userName">
+								    </td>
 									<td style="width:80px;">接单人</td>
 									<td>
 
@@ -134,35 +137,38 @@
 								</tr>
 								<tr>
 									<td>故障发现时间</td>
-									<td><div contenteditable="true" class="input-div"
-											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-											name="errfoundtime"></div></td>
+									<td>
+									<input class="input-div" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                                            name="errfoundtime" ng-model="orderData.time">
+									</td>
 									<td>故障恢复时间</td>
-									<td colspan="3"><div contenteditable="true"
-											class="input-div"
-											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
-											name="errslovetime"></div></td>
+									<td colspan="3">
+									<input class="input-div" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                                            name="errslovetime">
+									</td>
 								</tr>
 								<tr>
 									<td>处理进展</td>
-									<td colspan="5"><div contenteditable="true"
-											class="textarea-div" name="progress"></div></td>
+									<td colspan="5"><textarea
+											class="textarea-div" name="progress"></textarea></td>
 								</tr>
 								<tr>
 									<td colspan="6" style="color:red">注：故障处理暂未恢复或预处理临时恢复，交付抢修组进行下一步处理。</td>
 								</tr>
 								<tr>
 									<td>处理结果</td>
-									<td colspan="5"><div contenteditable="true"
-											class="textarea-div" name="proresult"></div></td>
+									<td colspan="5"><textarea ng-disabled="true"
+											class="textarea-div" name="proresult"></textarea></td>
 								</tr>
 								<tr>
 									<td>处理人</td>
-									<td colspan="2"><div contenteditable="true"
-											class="input-div" name="workman"></div></td>
+									<td colspan="2">
+									<input class="input-div" ng-disabled="true" name="workman">
+									</td>
 									<td>审核人</td>
-									<td colspan="2"><div contenteditable="true"
-											class="input-div" name="auditor"></div></td>
+									<td colspan="2">
+									<input class="input-div" ng-disabled="true" name="auditor">
+									</td>
 								</tr>
 							</tbody>
 						</table>
