@@ -150,6 +150,26 @@
                 <property name="poolMaximumActiveConnections" value="300" /> 
 			</dataSource>
 		</environment>
+		<!-- gps语音从数据库 -->
+        <environment id="sf156">
+            <!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
+            <transactionManager type="JDBC" />
+
+            <!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+            <!-- POOLED 表示支持JDBC数据源连接池 -->
+            <!-- UNPOOLED 表示不支持数据源连接池 -->
+            <!-- JNDI 表示支持外部数据源连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${xh.sf156.driver}" />
+                <property name="url" value="${xh.sf156.url}" />
+                <property name="username" value="${xh.sf156.username}" />
+                <property name="password" value="${xh.sf156.password}" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolPingQuery" value="SELECT NOW()" />
+                <property name="poolPingEnabled" value="true" />
+                <property name="poolMaximumActiveConnections" value="300" /> 
+            </dataSource>
+        </environment>
 		<!-- eastcom -->
 		<environment id="eastcom">
 			<!-- type="JDBC" 代表使用JDBC的提交和回滚来管理事务 -->
