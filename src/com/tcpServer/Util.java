@@ -296,7 +296,7 @@ public class Util {
 				//更新状态
 				Map<String,Object> param = new HashMap<String,Object>();
 				param.put("serialnumber",genTableAck.getSerialnumber());
-				param.put("status",0);
+				param.put("status",1);
 				Service.updateGenTableStatus(param);
 				map.put("returnMessage", "");
 				return map;
