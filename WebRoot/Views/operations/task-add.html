@@ -44,10 +44,12 @@
 								<tr>
 									<td width="130px">发文单位 &nbsp;<span style="color:red">(必填)</span></td>
 									<td colspan="3">
-										<select name="sendUnit" class="form-select">
-                                                <option value="成都市软件产业发展中心" selected="selected">成都市软件产业发展中心</option>
+									<input type="text" class="form-input"
+                                        name="sendUnit" required="required" ng-model="sendUnit" readonly="readonly">
+										<!-- <select name="sendUnit" class="form-select"  ng-readonly="true" ng-model="sendUnit">
+                                                <option value="成都市软件产业发展中心" >成都市软件产业发展中心</option>
                                                 <option value="成都亚光电子股份有限公司">成都亚光电子股份有限公司</option>
-                                            </select>
+                                            </select> -->
 										
 									</td>
 								</tr>
