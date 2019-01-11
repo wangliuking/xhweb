@@ -82,6 +82,12 @@ xh.load = function() {
 			$scope.order = response.totals
 
 		});
+		$scope.getEmail=function(){
+			$http.get("center/email/noReadEmailCount").success(function(response) {
+				$scope.email = response.totals
+
+			});
+		}
 		$scope.alarmCount = function() {
 			$http.get("bsAlarm/voiceAlarm").success(function(response) {
 				$scope.AlarmTotals = response.totals;
@@ -176,6 +182,7 @@ xh.load = function() {
 		setInterval(function() {
 			$scope.alarmCount();
 			$scope.news_fun();
+			$scope.getEmail();
 		}, 10000);
 		setInterval(function() {
 			$scope.voice_not_check();
