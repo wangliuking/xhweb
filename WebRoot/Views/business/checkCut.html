@@ -152,7 +152,7 @@
 								ng-model="loginUser">
 								<thead>
 									<tr class="tr-gray">
-										<th>联系人</th>
+										<th>发起人</th>
 										<th>请求内容</th>
 										<th>基站id</th>
 										<th>基站名称</th>
@@ -175,7 +175,7 @@
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.bsPeriod}}期</td>
-										<td>{{x.desc}}</td>
+										<td>{{x.rules}}</td>
 										<td>{{x.breakTime}}</td>
                                         <td ng-if="x.requestTime == '' "></td>
                                         <td ng-if="x.requestTime != '' ">{{x.requestTime}}</td>
@@ -209,9 +209,9 @@
 											   href="#" ng-click="checkWin($index)">|<i
 													class="fa fa-hand-o-down text-danger"></i> 管理方审核核减申请</a>
 
-											<a ng-if="roleId==10003 && x.checked==2"
+											<a ng-if="roleId==301 && x.checked==2"
 											   href="#" ng-click="checkWin($index)">|<i
-													class="fa fa-hand-o-down text-danger"></i> 向管理方提交资料</a>
+													class="fa fa-hand-o-down text-danger"></i> 补充核减资料</a>
 
 											<a ng-if="roleId==10003 && x.checked==3"
 											   href="#" ng-click="checkWin($index)">|<i
@@ -220,7 +220,7 @@
 											<a href="#" ng-click="sheetShow($index)">|<i
 													class="fa fa-hand-o-down text-danger"></i> 查看表格</a>
 
-											<a href="#" ng-click="delBs(x.id)">|<i
+											<a ng-if="roleId==10003" href="#" ng-click="delBs(x.id)">|<i
 													class="fa fa-times-circle text-danger"></i> 删除</a>
 
 										</td>

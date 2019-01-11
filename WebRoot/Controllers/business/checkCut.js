@@ -53,11 +53,13 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.businessMenu=true; //菜单变色
-		
+
 		//获取登录用户
 		$http.get("../../web/loginUserInfo").
 		success(function(response){
 			xh.maskHide();
+			$scope.userNameAdd = response.userName;
+			$scope.telAdd = response.tel;
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleType = response.roleType;
 			$scope.roleId = response.roleId;
@@ -93,6 +95,14 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search(1);
 		};
+
+		/*重新计算*/
+		$scope.calAgain = function () {
+            var date1 = $("input[name='breakTime']").val();
+            var date2 = $("input[name='restoreTime']").val();    //结束时间
+            var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
+            $scope.calcData = Math.round(date3/(1000*60));
+        }
 
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
@@ -135,7 +145,12 @@ xh.load = function() {
                 var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
                 var seconds=Math.round(leave3/1000)
                 //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
-                $scope.calcData = Math.round(date3/(1000*60));
+                if(date2 == null || date2 == "0000-00-00 00:00:00"){
+                    $scope.calcData = 0;
+				}else{
+                    $scope.calcData = Math.round(date3/(1000*60));
+				}
+
             });
             $("#sheet").modal('show');
         }
@@ -327,7 +342,7 @@ xh.load = function() {
 /*修改核减申请表*/
 xh.sheetChange = function() {
     var bean={
-        id:$("input[name='id']").val(),
+        id:$("input[name='sheetId']").val(),
         bsId:$("input[name='bsIdTemp']").val(),
         name:$("input[name='name']").val(),
         hometype:$("input[name='hometype']").val(),
@@ -643,7 +658,6 @@ xh.print_order=function() {
     LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
     LODOP.PREVIEW();
 };
-
 /*$http({
 method : "POST",
 url : "../../bs/list",
