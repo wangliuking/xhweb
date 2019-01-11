@@ -73,10 +73,9 @@ public class BsAlarmService {
 	 * @throws Exception
 	 */
 	public List<BsAlarmBean> selectBsAlarmList(Map<String,Object> map) throws Exception{
-		SqlSession session=DbTools.getSession();
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsAlarmMapper mapper=session.getMapper(BsAlarmMapper.class);
 	        List<BsAlarmBean> BsAlarm=mapper.selectBsAlarmList(map);
-	        session.commit();
 	        session.close();
 	        return BsAlarm;   
 	}
@@ -274,63 +273,55 @@ public class BsAlarmService {
 				bean=list.get(i);
 				eps=bs_emh_eps(bean);
 				e4=e4(bean.getFsuId());
+				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 				if(e4){
-					Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
+					
 					if(eps==0){
-					  /* if(Double.parseDouble(compare.get("ups1").toString())<20){
-							
-							bean.setDescription("市电中断");
-						}else if(
-								(Double.parseDouble(compare.get("ups1").toString())>
-						         Double.parseDouble(compare.get("ups2").toString())) && 
-						         Double.parseDouble(compare.get("ups2").toString())!=0){
-							     bean.setDescription("市电电压过高");
-						}else if(
-								(Double.parseDouble(compare.get("ups1").toString())<
-						         Double.parseDouble(compare.get("ups2").toString())) && 
-						         Double.parseDouble(compare.get("ups1").toString())!=0){
-							     bean.setDescription("市电电压过低");
-						}else if(Double.parseDouble(compare.get("ups4").toString())<46){
-							 bean.setDescription("电池电压过低");
-						}else{
-							bean.setDescription("eps故障");
-						}*/
-						
 						 if(string_to_double(compare.get("ups5"))==1){
 							 if(string_to_double(compare.get("ups7"))==1){
 
 									bean.setDescription("市电中断");
+									 write_bs_emh_eps(bean);
 							 }
 							
 							}else if(e4 && string_to_double(compare.get("ups7"))==1){
 								     bean.setDescription("市电中断");
+								     write_bs_emh_eps(bean);
 							}else if(string_to_double(compare.get("ups1"))<20){
 								
 								bean.setDescription("市电中断");
-							}else if(
-									(string_to_double(compare.get("ups1"))>
-							         string_to_double(compare.get("ups2"))) && 
-							         string_to_double(compare.get("ups2"))!=0){
-								     bean.setDescription("市电电压过高");
-							}else if(
-									(string_to_double(compare.get("ups1"))<
-							         string_to_double(compare.get("ups2"))) && 
-							         string_to_double(compare.get("ups1"))!=0){
-								     bean.setDescription("市电电压过低");
+								 write_bs_emh_eps(bean);
 							}else if(string_to_double(compare.get("ups4"))<46){
 								 bean.setDescription("电池电压过低");
-							}else{
+								 write_bs_emh_eps(bean);
+							}else if(bean.getSingleValue()==1){
 								bean.setDescription("eps故障");
+								 write_bs_emh_eps(bean);
+								 
+							}else{
+								bean.setDescription("市电未知故障");
+								 write_bs_emh_eps(bean);
+								 
 							}
-						 
-						 
-						   write_bs_emh_eps(bean);
-						
 					}
 				}else{
 					if(eps>0){
 						System.out.println("data:->"+bean);						
 						del_bs_emh_eps(bean);
+					}else{
+						if(
+								(string_to_double(compare.get("ups1"))>
+						         string_to_double(compare.get("ups2"))) && 
+						         string_to_double(compare.get("ups2"))!=0){
+							     bean.setDescription("市电电压过高");
+							     write_bs_emh_eps(bean);
+						}else if(
+								(string_to_double(compare.get("ups1"))<
+						         string_to_double(compare.get("ups2"))) && 
+						         string_to_double(compare.get("ups1"))!=0){
+							     bean.setDescription("市电电压过低");
+							     write_bs_emh_eps(bean);
+						}
 					}
 				}
 			}
@@ -539,7 +530,7 @@ public class BsAlarmService {
 	}
 	public static boolean e4(String fsuId) {
 		boolean tag=false;
-		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		BsAlarmMapper mapper = sqlSession.getMapper(BsAlarmMapper.class);
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("fsuId", fsuId);
@@ -556,16 +547,13 @@ public class BsAlarmService {
 			list=mapper.bs_ji_four_e4(map);
 			if(list.size()==2){
 				String a=list.get(0).get("e4").toString();
-				String b=list.get(0).get("e4").toString();
+				String b=list.get(1).get("e4").toString();
 				if(a.equals(b)){
 					tag=true;
 				}
 				
 			}
 			
-			
-			
-			sqlSession.commit();
 			sqlSession.close();
 
 		} catch (Exception e) {

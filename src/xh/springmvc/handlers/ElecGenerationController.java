@@ -98,6 +98,7 @@ public class ElecGenerationController {
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
 			bean.setWorkman(recv_user_name);
+			bean.setProstate(String.valueOf(0));
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
 		}else{
@@ -137,6 +138,7 @@ public class ElecGenerationController {
 		bean.setPowerofftime(time);
 		bean.setRemarka(note);
 		bean.setWorkman(recv_user_name);
+		bean.setProstate(String.valueOf(0));
 		ServerDemo demo=new ServerDemo();
 		demo.startMessageThread(bean.getUserid(), bean);
 		HashMap result = new HashMap();
