@@ -313,7 +313,9 @@ public class CheckCutController {
         bean.setName(name);
         bean.setBreakTime(breakTime);
         bean.setRestoreTime(restoreTime);
+
         //填充申请表部分数据start
+        Calendar cal = Calendar.getInstance();
         Map<String,Object> selectMap = new HashMap<String,Object>();
         selectMap.put("bsId",Integer.parseInt(bsId));
         Map<String,Object> res = CheckCutService.selectBsInformationById(selectMap);
@@ -347,7 +349,7 @@ public class CheckCutController {
             bean.setIsPower("基站不允许发电");
         }
         bean.setPeriod("成都市应急调度指挥无线通信网"+res.get("period")+"项目部");
-        Calendar cal = Calendar.getInstance();
+        bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
         //填充申请表部分数据end
