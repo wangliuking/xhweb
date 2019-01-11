@@ -73,9 +73,9 @@ public class WorkContactController {
 			webLogBean.setContent("工作联系单信息，data=" + bean.getReason());
 			WebLogService.writeLog(webLogBean);
 			if(bean.getUser_type()==3){
-				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 2, "工作联系单", "管理部门下发了工作联系单，请尽快查收", request);	
+				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 2, "工作联系单", "有新的工作联系单，请尽快查收", request);	
 			}else if(bean.getUser_type()==2){
-				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 3, "工作联系单", "管理部门下发了工作联系单，请尽快查收", request);
+				FunUtil.sendMsgToUserByGroupPower("recv_work_contact", 3, "工作联系单", "有新的工作联系单，请尽快查收", request);
 			}
 			
 			

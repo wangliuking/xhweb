@@ -406,7 +406,7 @@ xh.load = function() {
 		$scope.getInfo();
 		setInterval(function(){
 			$scope.search($scope.pageValue);
-		}, 10000);
+		}, 30000);
 		
 		
 	});
