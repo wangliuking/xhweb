@@ -94,13 +94,16 @@ public class ElecGenerationController {
 			bean.setBsname(bsname);
 			bean.setBsid(String.valueOf(bsid));
 			bean.setDispatchtime(map.get("dispatchtime").toString());
+			bean.setAddress(BsstationService.select_bs_by_bsid(bsid).get("address").toString());
 			bean.setDispatchman(FunUtil.loginUser(request));
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
 			bean.setWorkman(recv_user_name);
 			bean.setProstate(String.valueOf(0));
+			System.out.println(bean);
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
+			
 		}else{
 			this.success=false;
 			this.message="失败";
