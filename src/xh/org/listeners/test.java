@@ -29,7 +29,7 @@ public class test {
 		table+=month<10?(0+String.valueOf(month)):month;
        
 		 
-		System.out.println(table);
+		System.out.println(false || false || false);
 		
      }
 	 

@@ -265,13 +265,14 @@ public class BsAlarmService {
 		List<BsJiFourBean> list=new ArrayList<BsJiFourBean>();
 		int eps=0;
 		boolean e4=false;
-		BsJiFourBean bean=new BsJiFourBean();
 		try {
 			list=mapper.bs_ji_four();
 			
 			for(int i=0,a=list.size();i<a;i++){
-				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
+				BsJiFourBean bean=new BsJiFourBean();
 				bean=list.get(i);
+				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
+				
 				eps=bs_emh_eps(bean);
 				e4=e4(bean.getFsuId());
 				boolean x=string_to_double(compare.get("ups1"))>

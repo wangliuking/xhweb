@@ -94,7 +94,7 @@ public class ElecGenerationController {
 			bean.setBsname(bsname);
 			bean.setBsid(String.valueOf(bsid));
 			bean.setDispatchtime(map.get("dispatchtime").toString());
-			bean.setDispatchman(send_user_name);
+			bean.setDispatchman(FunUtil.loginUser(request));
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
 			bean.setWorkman(recv_user_name);
