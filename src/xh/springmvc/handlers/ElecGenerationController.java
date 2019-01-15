@@ -207,6 +207,7 @@ public class ElecGenerationController {
 			GenTable bean=new GenTable();
 			bean.setUserid(userid);
 			bean.setSerialnumber(serialnumber);
+			bean.setProstate("5");
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
 		}else{
