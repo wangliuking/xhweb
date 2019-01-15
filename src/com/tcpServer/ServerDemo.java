@@ -196,7 +196,7 @@ public class ServerDemo {
 							//查询此userId是否有未发送的消息
 							Thread.sleep(5000);
 							for(int i=0;i<unsentMessageList.size();i++){
-								if(unsentMessageList.get(i).get("userId").equals(this.userId)){//未发送消息中存在此userId
+								if(unsentMessageList.get(i).get("userId").equals(tempMap.get("userId"))){//未发送消息中存在此userId
 									System.out.println("准备发送未收到的消息！！！！！ "+unsentMessageList.get(i).get("userId"));
 									startMessageThread(unsentMessageList.get(i).get("userId")+"",unsentMessageList.get(i).get("objectMessage"));
 									unsentMessageList.remove(i);

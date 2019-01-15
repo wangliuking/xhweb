@@ -367,9 +367,9 @@ xh.sheetChange = function() {
         period:$("div[name='period']").text(),
         applyTime:$("div[name='applyTime']").text(),
         suggest:$("div[name='suggest']").text(),
-        persion3:$("div[name='persion3']").text(),
-        persion1:$("div[name='persion1']").text(),
-        persion2:$("div[name='persion2']").text()
+        persion3:$("input[name='persion3']").val(),
+        persion1:$("input[name='persion1']").val(),
+        persion2:$("input[name='persion2']").val()
     }
     $.ajax({
         url : '../../checkCut/sheetChange',
@@ -381,7 +381,6 @@ xh.sheetChange = function() {
             $('#sheet').modal('hide');
             xh.refresh();
             toastr.success(data.message, '提示');
-            $("input[name='checkCutTime']").val("");
         },
         error : function() {
             $("#checkCut-btn").button('reset');

@@ -4,6 +4,7 @@ public class GenTableAck {
     private String cmdtype = "gentableack";
     private String userid;
     private String serialnumber;
+    private String prostate;
 
     public String getCmdtype() {
         return cmdtype;
@@ -29,12 +30,21 @@ public class GenTableAck {
         this.serialnumber = serialnumber;
     }
 
+    public String getProstate() {
+        return prostate;
+    }
+
+    public void setProstate(String prostate) {
+        this.prostate = prostate;
+    }
+
     @Override
     public String toString() {
         return "GenTableAck{" +
                 "cmdtype='" + cmdtype + '\'' +
                 ", userid='" + userid + '\'' +
                 ", serialnumber='" + serialnumber + '\'' +
+                ", prostate='" + prostate + '\'' +
                 '}';
     }
 }

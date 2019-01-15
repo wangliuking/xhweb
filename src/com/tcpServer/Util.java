@@ -294,10 +294,13 @@ public class Util {
 			}else if("gentableack".equals(cmdtype)){
 				genTableAck = (GenTableAck) JSONObject.toBean(jsonObject, GenTableAck.class);
 				//更新状态
+				String prostate = genTableAck.getProstate();
 				Map<String,Object> param = new HashMap<String,Object>();
-				param.put("serialnumber",genTableAck.getSerialnumber());
-				param.put("status",1);
-				Service.updateGenTableStatus(param);
+				if("0".equals(prostate)){
+					param.put("serialnumber",genTableAck.getSerialnumber());
+					param.put("status",1);
+					Service.updateGenTableStatus(param);
+				}
 				map.put("returnMessage", "");
 				return map;
 			}else if("gencheck".equals(cmdtype)){

@@ -23,7 +23,7 @@
                                 <td colspan="6" style="text-align: center;font-size: 18px;">
                                     故障核减申请书
                                     <!--div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetData.id}}</div>-->
-                                    <input type="hidden" name="sheetId" ng-model="sheetData.id"/>
+                                    <input type="hidden" name="sheetId" ng-value="sheetData.id"/>
                                 </td>
                             </tr>
                             <tr>
@@ -31,21 +31,21 @@
                                     <br/>
                                     <div class="form-inline">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
-                                        <input type="hidden" ng-model="sheetData.bsId" name="bsIdTemp"/>
-                                        <input type="hidden" ng-model="sheetData.name" name="name"/>
+                                        <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
+                                        <input type="hidden" ng-value="sheetData.name" name="name"/>
                                         {{sheetData.bsId}}-{{sheetData.name}}基站，
-                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-model="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
-                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-model="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
-                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-model="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
-                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-model="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-model="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-model="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
+                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
+                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
+                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
+                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 160px" type="text" ng-model="sheetData.firstDesc" name="firstDesc"/>
@@ -108,17 +108,23 @@
                             <tr>
                                 <td style="height:50px;width:100px;">拟制：</td>
                                 <td style="height:50px;width:343px;">
-                                    <div ng-if="roleId==301" contenteditable="true"
+                                    <input  ng-if="roleId==301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1"/>
+                                    <input  ng-if="roleId!=301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1" readonly="readonly"/>
+
+                                    <!--<div ng-if="roleId==301" contenteditable="true"
                                          class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
                                     <div ng-if="roleId!=301" contenteditable="false"
-                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
+                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>-->
                                 </td>
                                 <td style="height:50px;width:100px;border-right:none;">审核：</td>
                                 <td style="height:50px;width:343px;">
-                                    <div ng-if="roleId==10003" contenteditable="true"
+                                    <input  ng-if="roleId==10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2"/>
+                                    <input  ng-if="roleId!=10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2" readonly="readonly"/>
+
+                                    <!--<div ng-if="roleId==10003" contenteditable="true"
                                          class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
                                     <div ng-if="roleId!=10003" contenteditable="false"
-                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
+                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>-->
                                 </td>
                             </tr>
 
@@ -134,10 +140,13 @@
 
                             <tr>
                                 <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
-                                    <div ng-if="roleId==10002" contenteditable="true" style="height: 30px;width:100px;float: right;"
+                                    <input  ng-if="roleId==10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3"/>
+                                    <input  ng-if="roleId!=10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3" readonly="readonly"/>
+
+                                    <!--<div ng-if="roleId==10002" contenteditable="true" style="height: 30px;width:100px;float: right;"
                                          class="textarea-div" name="persion3">{{sheetData.persion3}}</div>
                                     <div ng-if="roleId!=10002" contenteditable="false" style="height: 30px;width:100px;float: right;"
-                                         class="textarea-div" name="persion3">{{sheetData.persion3}}</div>
+                                         class="textarea-div" name="persion3">{{sheetData.persion3}}</div>-->
                                 </td>
                             </tr>
                             </tbody>

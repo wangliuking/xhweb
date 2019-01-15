@@ -348,7 +348,7 @@ public class CheckCutController {
         }else if("否".equals(res.get("isPermitTempPower"))){
             bean.setIsPower("基站不允许发电");
         }
-        bean.setPeriod("成都市应急调度指挥无线通信网"+res.get("period")+"项目部");
+        bean.setPeriod("成都市应急指挥调度无线通信网"+res.get("period")+"项目部");
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
