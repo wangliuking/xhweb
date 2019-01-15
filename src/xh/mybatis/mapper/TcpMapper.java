@@ -1,5 +1,7 @@
 package xh.mybatis.mapper;
 
+import com.tcpBean.GenTable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +61,7 @@ public interface TcpMapper {
 	/**
 	 * 更新发电状态
 	 */
-	public int updateElecStatus(Map<String,String> map)throws Exception;
+	public int updateElecStatus(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 查询派单处理情况
@@ -145,5 +147,25 @@ public interface TcpMapper {
 	 * 更新发电派单状态
 	 */
 	public int updateGenTableStatus(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 查询发电电压和电流
+	 */
+	public List<Map<String,Object>> selectForGenVI(String bsId)throws  Exception;
+
+	/**
+	 * 查询市电恢复时间
+	 */
+	public List<Map<String,Object>> selectForPowerOnTime(String bsId)throws  Exception;
+
+	/**
+	 * 查询停止发电时间
+	 */
+	public List<Map<String,Object>> selectForGenOffTime(String bsId)throws  Exception;
+
+	/**
+	 * 更新发电单号
+	 */
+	public int updateForGenTable(GenTable genTable)throws Exception;
 
 }

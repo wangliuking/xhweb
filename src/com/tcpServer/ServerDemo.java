@@ -107,7 +107,7 @@ public class ServerDemo {
 
 	/**
 	 * 关闭与SocketThread所代表的客户端的连接
-	 * @param socketThread要关闭的客户端
+	 * @param
 	 * @throws IOException
 	 */
 	public void closeSocketClient(SocketThread socketThread) throws IOException {
@@ -194,6 +194,7 @@ public class ServerDemo {
 							//将此线程与userId进行绑定
 							this.userId=tempMap.get("userId");
 							//查询此userId是否有未发送的消息
+							Thread.sleep(5000);
 							for(int i=0;i<unsentMessageList.size();i++){
 								if(unsentMessageList.get(i).get("userId").equals(this.userId)){//未发送消息中存在此userId
 									System.out.println("准备发送未收到的消息！！！！！ "+unsentMessageList.get(i).get("userId"));

@@ -135,7 +135,7 @@ public class Util {
 				return map;
 			}else if("errcheck".equals(cmdtype)){
 				errCheck = (ErrCheck) JSONObject.toBean(jsonObject, ErrCheck.class);
-				if("是".equals(errCheck.getHungorder())){
+				if("1".equals(errCheck.getHungorder())){
 					//app提交了挂单
 					Map<String,String> paramMap = new HashMap<String,String>();
 					paramMap.put("serialNum", errCheck.getSerialnumber());
@@ -146,7 +146,7 @@ public class Util {
 					ErrCheckAck bean = new ErrCheckAck();
 					bean.setSerialnumber(errCheck.getSerialnumber());
 					bean.setUserid(errCheck.getUserid());
-					bean.setResult("4");
+					bean.setResult("0");
 					//发送通知邮件通知网管组进行审核
 					FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"派单审核","有挂单情况",errCheck.getUserid());
 					map.put("returnMessage", Object2Json(bean));
@@ -289,8 +289,6 @@ public class Util {
 			}else if("gentable".equals(cmdtype)){
 				genTable = (GenTable) JSONObject.toBean(jsonObject, GenTable.class);
 				GenTableAck genTableAck = Service.appGenTableAck(genTable);
-				genTableAck.setSerialnumber(genTable.getSerialnumber());
-				genTableAck.setUserid(genTable.getUserid());
 				map.put("returnMessage", Object2Json(genTableAck));
 				return map;
 			}else if("gentableack".equals(cmdtype)){
@@ -304,10 +302,10 @@ public class Util {
 				return map;
 			}else if("gencheck".equals(cmdtype)){
 				genCheck = (GenCheck) JSONObject.toBean(jsonObject, GenCheck.class);
-				String serialNum = genCheck.getSerialnumber();
-				Map<String,String> paramMap = new HashMap<String,String>();
-				paramMap.put("serialNum", serialNum);
-				paramMap.put("status", "");
+				String serialnumber = genCheck.getSerialnumber();
+				Map<String,Object> paramMap = new HashMap<String,Object>();
+				paramMap.put("serialnumber", serialnumber);
+				paramMap.put("status", 2);
 				Service.updateElecStatus(paramMap);
 				//发送通知邮件通知网管组进行审核
 				FunUtil.sendMsgToUserByGroupPowerWithoutReq("r_order",3,"发电审核","有发电审核，请查阅！",genCheck.getUserid());
@@ -317,19 +315,11 @@ public class Util {
 			}else if("getgenarg".equals(cmdtype)){
 				getGenArg = (GetGenArg) JSONObject.toBean(jsonObject, GetGenArg.class);
 				GetGenArgAck getGenArgAck = Service.appGetGenArgAck(getGenArg);
-				getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
-				getGenArgAck.setGeni("10");
-				getGenArgAck.setGenv("50");
-				getGenArgAck.setAck("0");
 				map.put("returnMessage", Object2Json(getGenArgAck));
 				return map;
 			}else if("getpowerontime".equals(cmdtype)){
 				getPowerOnTime = (GetPowerOnTime) JSONObject.toBean(jsonObject, GetPowerOnTime.class);
 				GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
-				getPowerOnTimeAck.setSerialnumber(getPowerOnTime.getSerialnumber());
-				getPowerOnTimeAck.setPowerontime("2019-01-11 15:00:00");
-				getPowerOnTimeAck.setGenofftime("2019-01-11 17:00:00");
-				getPowerOnTimeAck.setAck("0");
 				map.put("returnMessage", Object2Json(getPowerOnTimeAck));
 				return map;
 			}

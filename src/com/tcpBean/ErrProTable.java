@@ -28,6 +28,7 @@ public class ErrProTable {
 	private String errslovetime;
 	private String progress;
 	private String proresult;
+	private String hungup;
 	private String workman;
 	private String auditor;
 	private String longitude;
@@ -224,20 +225,41 @@ public class ErrProTable {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "ErrProTable [cmdtype=" + cmdtype + ", id=" + id
-				+ ", serialnumber=" + serialnumber + ", userid=" + userid
-				+ ", orderAccount=" + orderAccount + ", bsid=" + bsid
-				+ ", bsname=" + bsname + ", dispatchtime=" + dispatchtime
-				+ ", dispatchman=" + dispatchman + ", errtype=" + errtype
-				+ ", errlevel=" + errlevel + ", errfoundtime=" + errfoundtime
-				+ ", errslovetime=" + errslovetime + ", progress=" + progress
-				+ ", proresult=" + proresult + ", workman=" + workman
-				+ ", auditor=" + auditor + ", longitude=" + longitude
-				+ ", latitude=" + latitude + ", address=" + address
-				+ ", zbdldm=" + zbdldm + ", from=" + from + ", status="
-				+ status + "]";
+	public String getHungup() {
+		return hungup;
 	}
 
+	public void setHungup(String hungup) {
+		this.hungup = hungup;
+	}
+
+	@Override
+	public String toString() {
+		return "ErrProTable{" +
+				"cmdtype='" + cmdtype + '\'' +
+				", id=" + id +
+				", serialnumber='" + serialnumber + '\'' +
+				", userid='" + userid + '\'' +
+				", orderAccount='" + orderAccount + '\'' +
+				", bsid='" + bsid + '\'' +
+				", bsname='" + bsname + '\'' +
+				", dispatchtime='" + dispatchtime + '\'' +
+				", dispatchman='" + dispatchman + '\'' +
+				", errtype='" + errtype + '\'' +
+				", errlevel='" + errlevel + '\'' +
+				", errfoundtime='" + errfoundtime + '\'' +
+				", errslovetime='" + errslovetime + '\'' +
+				", progress='" + progress + '\'' +
+				", proresult='" + proresult + '\'' +
+				", hungup='" + hungup + '\'' +
+				", workman='" + workman + '\'' +
+				", auditor='" + auditor + '\'' +
+				", longitude='" + longitude + '\'' +
+				", latitude='" + latitude + '\'' +
+				", address='" + address + '\'' +
+				", zbdldm='" + zbdldm + '\'' +
+				", from='" + from + '\'' +
+				", status='" + status + '\'' +
+				'}';
+	}
 }
