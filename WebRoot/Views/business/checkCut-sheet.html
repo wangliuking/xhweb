@@ -23,7 +23,7 @@
                                 <td colspan="6" style="text-align: center;font-size: 18px;">
                                     故障核减申请书
                                     <!--div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetData.id}}</div>-->
-                                    <input type="hidden" name="sheetId" ng-value="sheetData.id"/>
+                                    <input type="hidden" name="sheetId" ng-model="sheetData.id"/>
                                 </td>
                             </tr>
                             <tr>
@@ -31,25 +31,25 @@
                                     <br/>
                                     <div class="form-inline">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
-                                        <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
-                                        <input type="hidden" ng-value="sheetData.name" name="name"/>
+                                        <input type="hidden" ng-model="sheetData.bsId" name="bsIdTemp"/>
+                                        <input type="hidden" ng-model="sheetData.name" name="name"/>
                                         {{sheetData.bsId}}-{{sheetData.name}}基站，
-                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
-                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
-                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
-                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
+                                        <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-model="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
+                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-model="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-model="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
+                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-model="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-model="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
+                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-model="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-model="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-model="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 160px" type="text" ng-value="sheetData.firstDesc" name="firstDesc" readonly="readonly"/>
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 160px" type="text" ng-model="sheetData.firstDesc" name="firstDesc"/>
+                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 160px" type="text" ng-model="sheetData.firstDesc" name="firstDesc" readonly="readonly"/>
                                         <br/>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
@@ -58,29 +58,29 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.breakTime" name="breakTime" readonly="readonly"/>断站，至
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.restoreTime" name="restoreTime" readonly="readonly"/>恢复，
-                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-value="calcData" name="calcData"/>{{calcData}}分钟，申请核减时间：
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 30px" type="text" ng-value="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-value="sheetData.alarmTime" name="alarmTime"/>
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" readonly="readonly"/>断站，至
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
+                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" readonly="readonly"/>恢复，
+                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，申请核减时间：
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>
+                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
+                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.alarmTime" name="alarmTime"/>
                                         <br/>
                                         <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
                                         <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <select name="rules" style="border: none;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.1 自然灾害））'" >根据考核细则（3.2.1 自然灾害）</option>
+                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.1 自然灾害）'" >根据考核细则（3.2.1 自然灾害）</option>
                                             <option ng-selected="sheetData.rules == '根据考核细则（3.2.2 市政施工）'" >根据考核细则（3.2.2 市政施工）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.3 突发事件'" >根据考核细则（3.2.3 突发事件）</option>
+                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.3 突发事件）'" >根据考核细则（3.2.3 突发事件）</option>
                                             <option ng-selected="sheetData.rules == '根据考核细则（3.2.4 已预先告知维护/整改作业）'" >根据考核细则（3.2.4 已预先告知维护/整改作业）</option>
                                             <option ng-selected="sheetData.rules == '根据考核细则（3.2.5 业主原因）'" >根据考核细则（3.2.5 业主原因）</option>
                                             <option ng-selected="sheetData.rules == '根据考核细则（3.2.6 夜间停电或天气原因）'" >根据考核细则（3.2.6 夜间停电或天气原因）</option>
                                         </select>
 
-                                        <!--<input style="border: 0px;outline:none;width: 190px" type="hidden" ng-value="sheetData.rules" name="rules"/>-->
+                                        <!--<input style="border: 0px;outline:none;width: 190px" type="hidden" ng-model="sheetData.rules" name="rules"/>-->
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
                                     </div>

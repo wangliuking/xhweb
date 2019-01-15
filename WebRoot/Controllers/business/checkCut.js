@@ -381,6 +381,7 @@ xh.sheetChange = function() {
             $('#sheet').modal('hide');
             xh.refresh();
             toastr.success(data.message, '提示');
+            $("input[name='checkCutTime']").val("");
         },
         error : function() {
             $("#checkCut-btn").button('reset');
