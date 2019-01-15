@@ -196,6 +196,7 @@ public class ElecGenerationController {
 		
 		int id=funUtil.StringToInt(request.getParameter("id"));
 		String userid=request.getParameter("userid");
+		String serialnumber=request.getParameter("serialnumber");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("status", 5);
@@ -205,6 +206,7 @@ public class ElecGenerationController {
 			this.message="成功";
 			GenTable bean=new GenTable();
 			bean.setUserid(userid);
+			bean.setSerialnumber(serialnumber);
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
 		}else{
