@@ -385,7 +385,7 @@ public class Service {
 	/**
 	 * 更新发电状态
 	 */
-	public static void updateElecStatus(Map<String,String> map){
+	public static void updateElecStatus(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		try{
@@ -875,7 +875,8 @@ public class Service {
 		genTableAck.setSerialnumber(genTable.getSerialnumber());
 		genTableAck.setUserid(genTable.getUserid());
 		try{
-
+			mapper.updateForGenTable(genTable);
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -891,7 +892,10 @@ public class Service {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		try{
-			mapper.updateGenTableStatus(param);
+			int count = mapper.updateGenTableStatus(param);
+			System.out.println("param : "+param);
+			System.out.println("更新后update记录为："+count);
+			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -926,7 +930,20 @@ public class Service {
 		GetGenArgAck getGenArgAck = new GetGenArgAck();
 		getGenArgAck.setUserid(getGenArg.getUserid());
 		getGenArgAck.setSerialnumber(getGenArg.getSerialnumber());
+		getGenArgAck.setBsid(getGenArg.getBsid());
 		try{
+			List<Map<String,Object>> list = mapper.selectForGenVI(getGenArg.getBsid());
+			if(list!=null && list.size()>0){
+				Map<String,Object> map = new HashMap<String,Object>();
+				for(int i=0;i<list.size();i++){
+					map.put(list.get(i).get("singleId")+"",list.get(i).get("singleValue")+"");
+				}
+				getGenArgAck.setGenv(map.get("092301")+"");
+				getGenArgAck.setGeni(map.get("092304")+"");
+				getGenArgAck.setAck("0");
+			}else{
+				getGenArgAck.setAck("1");
+			}
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -945,7 +962,15 @@ public class Service {
 		getPowerOnTimeAck.setUserid(getPowerOnTime.getUserid());
 		getPowerOnTimeAck.setSerialnumber(getPowerOnTime.getSerialnumber());
 		try{
-
+			List<Map<String,Object>> powerOnTimeList = mapper.selectForPowerOnTime(getPowerOnTime.getBsid());
+			List<Map<String,Object>> genOffTimeList = mapper.selectForGenOffTime(getPowerOnTime.getBsid());
+			if(powerOnTimeList != null && powerOnTimeList.size()>0 && genOffTimeList != null && genOffTimeList.size()>0){
+				getPowerOnTimeAck.setPowerontime(powerOnTimeList.get(0).get("alarmTime")+"");
+				getPowerOnTimeAck.setGenofftime(genOffTimeList.get(0).get("alarmTime")+"");
+				getPowerOnTimeAck.setAck("0");
+			}else{
+				getPowerOnTimeAck.setAck("1");
+			}
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -58,7 +58,7 @@
 	<!-- 更新发电状态 -->
 	<update id="updateElecStatus" parameterType="map">
 		update xhgmnet_operations_bs_elec_generation set status=#{status}
-		where serialnumber=#{serialNum}
+		where serialnumber=#{serialnumber}
 	</update>
 	
 	<!-- 查询派单处理情况 -->
@@ -70,7 +70,7 @@
 	<update id="updateFaultOrder" parameterType="map">
 		update xhgmnet_operations_fault_task_order set bsid=#{bsid},bsname=#{bsname},dispatchtime=#{dispatchtime},dispatchman=#{dispatchman},
 		errtype=#{errtype},errlevel=#{errlevel},errfoundtime=#{errfoundtime},errslovetime=#{errslovetime},progress=#{progress},proresult=#{proresult},
-		workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
+		break_order=#{hungup},workman=#{workman},auditor=#{auditor},longitude=#{longitude},latitude=#{latitude},address=#{address} where serialnumber=#{serialnumber}
 		and userid=#{userid}
 	</update>
 
@@ -195,7 +195,26 @@
 
 	<!-- 更新派单状态 -->
 	<update id="updateGenTableStatus" parameterType="map">
-		update xhgmnet_operations_bs_elec_generation set status=#{status} where serialnumber=#{serialNum}
+		update xhgmnet_operations_bs_elec_generation set status=#{status} where serialnumber=#{serialnumber}
 	</update>
+
+	<!-- 查询发电电压和电流 -->
+	<select id="selectForGenVI" parameterType="String" resultType="map">
+		select b.* from xhgmnet_emh_fsuid4bsid as a LEFT JOIN xhgmnet_emh_sensor_status as b on a.fsuId = b.fsuId where a.siteId=#{bsId} and  (singleId = "092301" or singleId = "092304")
+	</select>
 	
+	<!-- 查询市电恢复时间 -->
+	<select id="selectForPowerOnTime" parameterType="String" resultType="map">
+		select b.* from xhgmnet_emh_fsuid4bsid as a LEFT JOIN xhgmnet_emh_sensor_alarm as b on a.fsuId = b.fsuId where a.siteId=#{bsId} and alarmId="017021" and alarmFlag="END" ORDER BY startTime desc limit 1
+	</select>
+
+	<!-- 查询停止发电时间 -->
+	<select id="selectForGenOffTime" parameterType="String" resultType="map">
+		select b.* from xhgmnet_emh_fsuid4bsid as a LEFT JOIN xhgmnet_emh_sensor_alarm as b on a.fsuId = b.fsuId where a.siteId=#{bsId} and alarmId="017021" and alarmFlag="END" ORDER BY startTime desc limit 1
+	</select>
+
+	<!-- 更新发电记录表 -->
+	<update id="updateForGenTable" parameterType="com.tcpBean.GenTable">
+		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},status=4 where serialnumber=#{serialnumber}
+	</update>
 </mapper>

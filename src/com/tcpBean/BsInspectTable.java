@@ -41,6 +41,7 @@ public class BsInspectTable {
 	private String longitude;
 	private String latitude;
 	private String address;
+	private List<String> picurl;
 	private List<Map<String,String>> message;
 	private String remainwork;
 	public String getCmdtype() {
@@ -142,6 +143,14 @@ public class BsInspectTable {
 		this.period = period;
 	}
 
+	public List<String> getPicurl() {
+		return picurl;
+	}
+
+	public void setPicurl(List<String> picurl) {
+		this.picurl = picurl;
+	}
+
 	@Override
 	public String toString() {
 		return "BsInspectTable{" +
@@ -159,6 +168,7 @@ public class BsInspectTable {
 				", longitude='" + longitude + '\'' +
 				", latitude='" + latitude + '\'' +
 				", address='" + address + '\'' +
+				", picurl=" + picurl +
 				", message=" + message +
 				", remainwork='" + remainwork + '\'' +
 				'}';
