@@ -94,13 +94,16 @@ public class ElecGenerationController {
 			bean.setBsname(bsname);
 			bean.setBsid(String.valueOf(bsid));
 			bean.setDispatchtime(map.get("dispatchtime").toString());
-			bean.setDispatchman(send_user_name);
+			bean.setAddress(BsstationService.select_bs_by_bsid(bsid).get("address").toString());
+			bean.setDispatchman(FunUtil.loginUser(request));
 			bean.setPowerofftime(time);
 			bean.setRemarka(note);
 			bean.setWorkman(recv_user_name);
 			bean.setProstate(String.valueOf(0));
+			System.out.println(bean);
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
+			
 		}else{
 			this.success=false;
 			this.message="失败";
@@ -193,6 +196,7 @@ public class ElecGenerationController {
 		
 		int id=funUtil.StringToInt(request.getParameter("id"));
 		String userid=request.getParameter("userid");
+		String serialnumber=request.getParameter("serialnumber");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("status", 5);
@@ -202,6 +206,7 @@ public class ElecGenerationController {
 			this.message="成功";
 			GenTable bean=new GenTable();
 			bean.setUserid(userid);
+			bean.setSerialnumber(serialnumber);
 			ServerDemo demo=new ServerDemo();
 			demo.startMessageThread(bean.getUserid(), bean);
 		}else{

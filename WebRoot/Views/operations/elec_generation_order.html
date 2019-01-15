@@ -54,12 +54,12 @@
 									<td>开始发电时间</td>
 									<td>{{detailData.gen_start_time | timeFormat}}</td>
 									<td>发电电流</td>
-									<td>{{detailData.generation_v}}</td>
+									<td>{{detailData.generation_i}}</td>
 
 								</tr>
 								<tr>
 									<td>发电电压</td>
-									<td>{{detailData.generation_i}}</td>
+									<td>{{detailData.generation_v}}</td>
 
 									<td>发电图片</td>
 									<td><a href="#" ng-if="detailData.gen_on_pic!=null 
@@ -73,9 +73,9 @@
 								<tr>
 
 									<td>市电恢复时间</td>
-									<td>{{detailData.poweron_time}}</td>
+									<td>{{detailData.poweron_time | timeFormat}}</td>
 									<td>停止发电时间</td>
-									<td>{{detailData.gen_end_time}}</td>
+									<td>{{detailData.gen_end_time | timeFormat}}</td>
 								</tr>
 								<tr>
 
@@ -83,7 +83,7 @@
 									<td><a href="#" ng-if="detailData.gen_off_pic!=null 
                                     && detailData.gen_off_pic!=''" ng-click="showOffPic()">显示图片</a></td>
 									<td>收油机时间</td>
-									<td>{{detailData.gen_off_time}}</td>
+									<td>{{detailData.gen_off_time | timeFormat}}</td>
 								</tr>
 								<tr>
 

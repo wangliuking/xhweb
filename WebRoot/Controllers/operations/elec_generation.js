@@ -182,6 +182,7 @@ xh.load = function() {
 		};
 		$scope.cancel_order=function(index){
 			var id=$scope.data[index].id;
+			var serialnumber=$scope.data[index].serialnumber;
 			swal({
 				title : "提示",
 				text : "确定要取消该单号吗？",
@@ -203,6 +204,7 @@ xh.load = function() {
 						data:{
 							id:id,
 							userid:$scope.data[index].recv_user,
+							serialnumber:serialnumber
 						},
 						success : function(data) {
 

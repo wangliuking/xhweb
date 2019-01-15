@@ -618,7 +618,7 @@
 		a.status,
 		a.level as alarmLevel,
 		a.alarmTag,b.name,b.level,b.status as
-		tag,b.hometype,b.period,
+		tag,b.hometype,b.period,b.address,
 		c.reason as reason2,c.suggestion as
 		suggestion2
 		from

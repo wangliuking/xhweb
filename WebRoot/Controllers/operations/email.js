@@ -197,6 +197,12 @@ xh.load = function() {
 			case "工作联系单":
 				url="../operations/task.html";
 			    break;
+			case "发电审核":
+				url="../operations/elec_generation.html";
+			    break;
+			case "派单审核":
+				url="../operations/order.html";
+			    break;
 			default:
 				url="email.html";
 				
