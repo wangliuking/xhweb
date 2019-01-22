@@ -50,7 +50,7 @@ public class BsStatusService {
 			dispatch=BsAlarmService.dispatch_alarm();
 		}
 		if(FunUtil.readXml("alarm", "link").equals("on")){
-			dispatch=BsAlarmService.link_alarm();
+			link=BsAlarmService.link_alarm();
 		}
 		
 		session.close();

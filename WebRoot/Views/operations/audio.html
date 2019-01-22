@@ -175,10 +175,16 @@
 												<span ng-if="x.Call_TS_Id==null || x.Call_TS_Id==''">moto</span>
 												</td>
 												<td>{{x.Use_Time}}</td>
-												<td><a href="#" ng-click="play($index)"><i
+												<td ng-if="x.Call_TS_Id!=null && x.Call_TS_Id!=''"><a href="#" ng-click="play($index)"><i
 														class="fa fa-play-circle text-success"></i>&nbsp;播放 </a>| <a
 													href="#" ng-click="download($index)"><i
-														class="fa fa-download text-success"></i>下载</a></td>
+														class="fa fa-download text-success"></i>下载</a>
+												</td>
+												<td style="color:gray" ng-if="x.Call_TS_Id==null || x.Call_TS_Id==''"><span><i
+                                                        class="fa fa-play-circle"></i>&nbsp;播放 </span>| <span
+                                                    href="#"><i
+                                                        class="fa fa-download"></i>下载</span>
+                                                </td>
 											</tr>
 										</tbody>
 									</table>
