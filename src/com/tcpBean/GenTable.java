@@ -28,6 +28,8 @@ public class GenTable {
     private String removegentime;
     private List<String> genoffpiclist;
     private String remarkgenoff;
+    private String gen_on_pic;
+    private String gen_off_pic;
 
     public String getCmdtype() {
         return cmdtype;
@@ -229,6 +231,22 @@ public class GenTable {
         this.remarkgenoff = remarkgenoff;
     }
 
+    public String getGen_on_pic() {
+        return gen_on_pic;
+    }
+
+    public void setGen_on_pic(String gen_on_pic) {
+        this.gen_on_pic = gen_on_pic;
+    }
+
+    public String getGen_off_pic() {
+        return gen_off_pic;
+    }
+
+    public void setGen_off_pic(String gen_off_pic) {
+        this.gen_off_pic = gen_off_pic;
+    }
+
     @Override
     public String toString() {
         return "GenTable{" +
@@ -257,6 +275,8 @@ public class GenTable {
                 ", removegentime='" + removegentime + '\'' +
                 ", genoffpiclist=" + genoffpiclist +
                 ", remarkgenoff='" + remarkgenoff + '\'' +
+                ", gen_on_pic='" + gen_on_pic + '\'' +
+                ", gen_off_pic='" + gen_off_pic + '\'' +
                 '}';
     }
 }
