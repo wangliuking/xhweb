@@ -489,7 +489,7 @@ public class Service {
 		String pic = "";
 		for(int i=0;i<picList.size();i++){
 			String tempPic = picList.get(i);
-			pic += tempPic + ";";
+			pic += tempPic + "|";
 		}
 		list.add(pic);
 		list.add(bsInspectTable.getUserid());
@@ -881,6 +881,25 @@ public class Service {
 		GenTableAck genTableAck = new GenTableAck();
 		genTableAck.setSerialnumber(genTable.getSerialnumber());
 		genTableAck.setUserid(genTable.getUserid());
+        List<String> genonpiclist = genTable.getGenonpiclist();
+        if(genonpiclist!=null && genonpiclist.size()>0){
+            String str = "";
+            for(int i=0;i<genonpiclist.size();i++){
+                String temp = genonpiclist.get(i);
+                str+=temp+"|";
+            }
+            genTable.setGen_on_pic(str);
+        }
+
+        List<String> getGenoffpiclist = genTable.getGenoffpiclist();
+        if(getGenoffpiclist!=null && getGenoffpiclist.size()>0){
+            String str = "";
+            for(int i=0;i<getGenoffpiclist.size();i++){
+                String temp = getGenoffpiclist.get(i);
+                str+=temp+"|";
+            }
+            genTable.setGen_off_pic(str);
+        }
 		try{
 			mapper.updateForGenTable(genTable);
 			sqlSession.commit();
