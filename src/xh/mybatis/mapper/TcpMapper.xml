@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.TcpMapper">
 	<!-- 查询当月已巡基站信息 -->
@@ -215,6 +215,6 @@
 
 	<!-- 更新发电记录表 -->
 	<update id="updateForGenTable" parameterType="com.tcpBean.GenTable">
-		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},status=4,genonpiclist=#{genonpiclist},genoffpiclist=#{genoffpiclist} where serialnumber=#{serialnumber}
+		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},status=4,gen_on_pic=#{genonpiclist},gen_off_pic=#{genoffpiclist} where serialnumber=#{serialnumber}
 	</update>
 </mapper>
