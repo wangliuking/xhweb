@@ -254,9 +254,9 @@ app.controller("map", function($scope, $http) {
 						//判断是级别还是区域
 						if(!isNaN(params)){
 							var tempD = response.items;	
-							console.log(response);
+							//console.log(response);
 							var tempData = dataWithoutZero(tempD);
-							
+                            console.log(tempData);
 							//首页下方数据展示start
 							var a = z.join(",");
 							var b = t.join(",");
@@ -274,6 +274,7 @@ app.controller("map", function($scope, $http) {
 							option.series[4].markPoint.data=baseMark(tempData)[4];
 							option.series[5].markPoint.data=baseMark(tempData)[5];
 							option.series[6].markPoint.data=flashMark(tempData);//闪烁效果
+							console.log(baseMark(tempData));
 							overlay.setOption(option);
 						}else{
 							var tempD = response.items;	

@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.tcpServer.ServerFTP;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -24,6 +25,7 @@ import xh.springmvc.handlers.GosuncnController;
 
 public class TcpServerListenner implements ServletContextListener{
 	private Timer timer = null;
+	private Timer timer1 = null;
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
@@ -35,7 +37,9 @@ public class TcpServerListenner implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
 		timer = new Timer(true);
+		timer1 = new Timer(true);
 		timer.schedule(new TcpServerThread(), 20 * 1000);
+		timer1.schedule(new TcpServerFTP(), 10 * 1000);
 	}
 
 }
@@ -55,5 +59,17 @@ class TcpServerThread extends TimerTask {
 			e.printStackTrace();
 		}
 
+	}
+}
+
+/**
+ * FTP服务器开启线程
+ */
+class TcpServerFTP extends TimerTask {
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		ServerFTP serverFTP = new ServerFTP();
+		serverFTP.start();
 	}
 }

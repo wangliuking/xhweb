@@ -120,7 +120,8 @@ public class UploadController {
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
-
+		System.out.println("进入上传文件方法！！！");
+		System.out.println(file);
 		String path = request.getSession().getServletContext().getRealPath("")
 				+ "/Resources/appImg/";
 		String name = file.getOriginalFilename();

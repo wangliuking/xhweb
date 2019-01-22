@@ -485,6 +485,13 @@ public class Service {
 		list.add(bsInspectTable.getCheckman());
 		list.add(bsInspectTable.getCommitdate());
 		list.add(bsInspectTable.getRemainwork());
+		List<String> picList = bsInspectTable.getPicurl();
+		String pic = "";
+		for(int i=0;i<picList.size();i++){
+			String tempPic = picList.get(i);
+			pic += tempPic + ";";
+		}
+		list.add(pic);
 		list.add(bsInspectTable.getUserid());
 		List<Map<String,String>> message = bsInspectTable.getMessage();
 		for(int i=0;i<message.size();i++){
@@ -966,7 +973,7 @@ public class Service {
 			List<Map<String,Object>> genOffTimeList = mapper.selectForGenOffTime(getPowerOnTime.getBsid());
 			if(powerOnTimeList != null && powerOnTimeList.size()>0 && genOffTimeList != null && genOffTimeList.size()>0){
 				getPowerOnTimeAck.setPowerontime(powerOnTimeList.get(0).get("alarmTime")+"");
-				getPowerOnTimeAck.setGenofftime(genOffTimeList.get(0).get("alarmTime")+"");
+				getPowerOnTimeAck.setGenofftime(genOffTimeList.get(0).get("startTime")+"");
 				getPowerOnTimeAck.setAck("0");
 			}else{
 				getPowerOnTimeAck.setAck("1");
