@@ -10,8 +10,14 @@ import java.net.Socket;
 public class ServerFTP {
 
     public static void main(String[] args) {
-
-        try {
+        String str = ServerFTP.class.getResource("").toString();
+        String[] temp = str.split("WEB-INF");
+        String[] temp1 = temp[0].split("file:/");
+        String path = temp1[1]+"pic";
+        //path.replace("\\","\\/\\/");
+        String finalPath = path.replace("/","\\\\");
+        System.out.println(finalPath);
+        /*try {
             ServerSocket server = new ServerSocket(7800);
             while(true){
                 Socket s = server.accept();//阻塞方法
@@ -20,7 +26,7 @@ public class ServerFTP {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void start(){
@@ -57,8 +63,16 @@ class UploadThread implements Runnable{
 
             BufferedInputStream bin = new BufferedInputStream(s.getInputStream());
 
-            File dir = new File("D:\\mypic");
+            String str = ServerFTP.class.getResource("").toString();
+            String[] temp = str.split("WEB-INF");
+            String[] temp1 = temp[0].split("file:/");
+            String path = temp1[1]+"pic";
+            String finalPath = path.replace("/","\\\\");
+            //String finalPath = "F:\\myPic";
+            System.out.println(finalPath);
 
+            File dir = new File(finalPath);
+            System.out.println(dir);
             if(!dir.exists()){
                 dir.mkdir();//文件夹不存在,创建mypic文件夹
             }
