@@ -14,6 +14,7 @@ public class WorkContactBean {
 	private int user_type;
 	private String checkUser;
 	private String checkTime;
+	private String userName;
 	private int status;
 	public int getStatus() {
 		return status;
@@ -99,6 +100,13 @@ public class WorkContactBean {
 	}
 	public void setUser_type(int user_type) {
 		this.user_type = user_type;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	@Override
 	public String toString() {
