@@ -336,7 +336,7 @@ public class CheckCutController {
             bean.setTransferCompare("相同运营商");
         }
         bean.setTransferOne("第一传输运营商"+res.get("transferOneOperator"));
-        bean.setTransferTwo("第二传输运营商"+res.get("transferOneOperator"));
+        bean.setTransferTwo("第二传输运营商"+res.get("transferTwoOperator"));
         bean.setPowerOne("基站由"+res.get("bsDevicePowerMode")+"供电");
         bean.setPowerTimeOne(res.get("bsDeviceNowTime")+"小时");
         bean.setPowerTwo(res.get("transferDevicePowerMode")+"供电");

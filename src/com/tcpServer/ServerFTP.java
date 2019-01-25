@@ -60,6 +60,11 @@ class UploadThread implements Runnable{
             BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
             String data = reader.readLine();
+            //String data = "test.jpg";
+            /*String[] tempData = d.split("jpg");
+            String data = tempData[0]+"jpg";
+            System.out.println(data);
+            Thread.sleep(1000 * 10);*/
 
             BufferedInputStream bin = new BufferedInputStream(s.getInputStream());
 
@@ -77,12 +82,11 @@ class UploadThread implements Runnable{
                 dir.mkdir();//文件夹不存在,创建mypic文件夹
             }
 
-            int count=1;
-            //我觉得这里的后缀名，需要通过发送方也发过来的
-            File file = new File(dir, data+".jpg");
+            //int count=1;
+            File file = new File(dir, data.trim());
 
             while(file.exists()){
-                file = new File(dir,data+".jpg"); //带号的文件名
+                file = new File(dir,data.trim()); //带号的文件名
             }
 
             FileOutputStream fout = new FileOutputStream(file);
@@ -93,18 +97,19 @@ class UploadThread implements Runnable{
             int count1 = 0;
             while( (len=bin.read(buf))!=-1){
                 fout.write(buf, 0, len);
-                System.out.println("loading！！！"+count1++);
+                //System.out.println("loading！！！"+count1+++"==="+data);
             }
+            System.out.println("传输完成！！！");
             //图片接收完毕
 
             //向客户端发送回馈信息
             OutputStream out = s.getOutputStream();
             out.write( "success!!!".getBytes() );
-
+            Thread.sleep(300);
             fout.close();
             s.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

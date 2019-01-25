@@ -110,16 +110,23 @@ public class ServerDemo {
 	 * @param
 	 * @throws IOException
 	 */
-	public void closeSocketClient(SocketThread socketThread) throws IOException {
-		if (socketThread.socket != null && !socketThread.socket.isClosed()) {
-			if (socketThread.reader != null)
-				socketThread.reader.close();
-			if (socketThread.writer != null)
-				socketThread.writer.close();
-			socketThread.socket.close();
+	public void closeSocketClient(SocketThread socketThread) {
+		try {
+			if (socketThread.socket != null && !socketThread.socket.isClosed()) {
+				if (socketThread.reader != null)
+					socketThread.reader.close();
+				if (socketThread.writer != null)
+					socketThread.writer.close();
+				socketThread.socket.close();
+			}
+			mThreadList.remove(socketThread);
+			socketThread = null;
+		} catch (IOException e) {
+			// TODO: handle exception
+			System.out.println("关闭线程出现错误！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
+			e.printStackTrace();
 		}
-		mThreadList.remove(socketThread);
-		socketThread = null;
+	
 	}
 
 	/**
@@ -241,6 +248,9 @@ public class ServerDemo {
 				}
 				
 			} catch (Exception e) {
+				//出现异常，关闭该线程
+				System.out.println("出现异常了！！！！！！马上关闭该线程！！！！！！！！！！！！");
+				closeSocketClient(this);
 				e.printStackTrace();
 			}
 
