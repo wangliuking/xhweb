@@ -876,6 +876,7 @@ public class Service {
 	 * 发电派单返回
 	 */
 	public static GenTableAck appGenTableAck(GenTable genTable){
+		System.out.println("genTable开始为："+genTable);
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		GenTableAck genTableAck = new GenTableAck();
@@ -900,6 +901,7 @@ public class Service {
             }
             genTable.setGen_off_pic(str);
         }
+        System.out.println("genTable结束为："+genTable);
 		try{
 			mapper.updateForGenTable(genTable);
 			sqlSession.commit();
