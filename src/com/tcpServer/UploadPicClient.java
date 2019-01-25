@@ -1,10 +1,5 @@
 package com.tcpServer;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -40,6 +35,11 @@ public class UploadPicClient {
         //上传
         try {
             Socket s = new Socket("localhost", 7799);
+
+            BufferedWriter writer  = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+
+            writer.write("test"+"\n");
+            writer.flush();
 
             BufferedInputStream bin = new BufferedInputStream(new FileInputStream(str));
 
