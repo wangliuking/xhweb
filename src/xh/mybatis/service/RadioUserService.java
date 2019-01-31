@@ -227,5 +227,26 @@ public class RadioUserService {
 		}
 		return list;
 	}
+	/**
+	 * 标记moto手台
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static int update_moto(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
+		int count = 0;
+		try {
+			count = mapper.update_moto(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

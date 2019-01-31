@@ -15,6 +15,8 @@ public class WorkContactBean {
 	private String checkUser;
 	private String checkTime;
 	private String userName;
+	private String filePath;
+	private String fileName;
 	private int status;
 	public int getStatus() {
 		return status;
@@ -107,6 +109,18 @@ public class WorkContactBean {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	@Override
 	public String toString() {

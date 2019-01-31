@@ -62,10 +62,12 @@ public class RadioUserController {
 		String E_name=request.getParameter("E_name");
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		int is_moto=funUtil.StringToInt(request.getParameter("is_moto"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("C_ID", C_ID);
 		map.put("E_name", E_name);
 		map.put("vpnId", vpnId);
+		map.put("is_moto", is_moto);
 		map.put("start", start);
 		map.put("limit", limit);
 		
@@ -473,6 +475,40 @@ public class RadioUserController {
 		
 		HashMap result = new HashMap();
 		this.success=true;
+		result.put("success", success);
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 标记为moto手台
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/mark_moto",method = RequestMethod.POST)
+	public synchronized void mark_moto(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("id");
+		int is_moto=Integer.parseInt(request.getParameter("is_moto"));
+		List<String> list = new ArrayList<String>();
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			list.add(str);
+			
+		}
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("is_moto", is_moto);
+		map.put("list", list);
+		int rs=RadioUserService.update_moto(map);
+		if(rs>0){
+			success=true;
+		}
+		
+		HashMap result = new HashMap();
 		result.put("success", success);
 		String jsonstr = json.Encode(result);
 		try {

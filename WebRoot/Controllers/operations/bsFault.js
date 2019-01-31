@@ -28,6 +28,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		$scope.count = "30";//每页数据显示默认值
 		$scope.pageValue=1;
+		$scope.page=1;
 		/*$scope.starttime=xh.getBeforeDay(7);
 		$scope.endtime=xh.getOneDay();*/
 		$scope.nowDate=xh.getOneDay();
@@ -35,6 +36,7 @@ xh.load = function() {
 		var bsId=$("#bsId").val();
 		var starttime=$("#starttime").val();
 		var endtime=$("#endtime").val();
+		
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -76,10 +78,10 @@ xh.load = function() {
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 		$scope.refresh_search = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 			$("#search").modal('hide');
 		};
 		/* 显示链接修改model */
@@ -356,6 +358,7 @@ xh.load = function() {
 			success(function(response){
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
 				xh.pagging(page, parseInt($scope.totals),$scope);
 			});
 		};
@@ -398,6 +401,7 @@ xh.load = function() {
 						$scope.lastIndex = 0;
 					}
 				}
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});

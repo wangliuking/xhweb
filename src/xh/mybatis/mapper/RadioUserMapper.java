@@ -72,5 +72,12 @@ public interface RadioUserMapper {
 	 * 根据vpnId查询所有无线用户id
 	 */
 	public List<String> selectCIdByVpnId(Map<String,Object> map)throws Exception;
+	/**
+	 * 标记moto手台
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int  update_moto(Map<String,Object> map)throws Exception;
 
 }

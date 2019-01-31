@@ -46,9 +46,9 @@
 					<div id="hbreadcrumb" class="pull-left">
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
-                            <li><span>业务管理</span></li>
-                            <li><a href="../menu/menu_data.html" target="_self"><span>数据管理</span></a></li>
-                            <li><span>基础数据</span></li>
+							<li><span>业务管理</span></li>
+							<li><a href="../menu/menu_data.html" target="_self"><span>数据管理</span></a></li>
+							<li><span>基础数据</span></li>
 							<li class="active"><span>入网终端</span></li>
 						</ol>
 					</div>
@@ -58,7 +58,7 @@
 		<div class="content animate-panel">
 			<!-- row -->
 			<div class="row">
-				
+
 				<div class="col-md-12">
 					<div class="row">
 						<div class="col-md-12">
@@ -87,28 +87,19 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<div class="col-sm-offset-2" style="padding-top:22px">
+												<div class="btn-group" style="padding-top:22px">
 													<button type="submit" class="btn btn-sm btn-success"
-														ng-click="search(1)">
+														ng-click="search_eastcom()">
 														<i class="fa fa-search"></i>&nbsp;&nbsp;查询
 													</button>
+													<button type="submit" class="btn btn-sm btn-success"
+                                                        ng-click="search_moto()">
+                                                        <i class="fa fa-search"></i>&nbsp;&nbsp;查询moto手台
+                                                    </button>
 												</div>
 											</div>
-											<div class="form-group">
-												<div class="col-sm-offset-2" style="padding-top:22px">
-													<button class="btn btn-warning btn-sm" ng-click="refresh()">
-														<i class="fa fa-refresh"></i>&nbsp;刷新
-													</button>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="col-sm-offset-2" style="padding-top:22px">
-													<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
-													ng-disabled="up.b_delete=='off'?true:false">
-													<i class="fa fa-trash"></i>&nbsp;批量删除
-													</button>
-												</div>
-											</div>
+
+
 										</form>
 									</div>
 								</div>
@@ -120,10 +111,30 @@
 
 							<div class="hpanel">
 								<div class="panel-heading hbuilt">
-									
+
 									<i class="fa fa-reorder"></i> 终端列表
 								</div>
 								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="btn-group">
+
+												<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
+													ng-disabled="up.b_delete=='off'?true:false">批量删除</button>
+												<button class="btn btn-success btn-sm"
+													onclick="xh.mark_moto()"
+													ng-disabled="up.b_delete=='off'?true:false">
+													标记moto终端</button>
+												<button class="btn btn-danger btn-sm"
+													onclick="xh.cancel_mark_moto()"
+													ng-disabled="up.b_delete=='off'?true:false">取消
+													标记moto终端</button>
+
+											</div>
+
+										</div>
+
+									</div>
 
 
 									<!-- row -->
@@ -139,16 +150,17 @@
 												<th>警员编号</th>
 												<th>用户所在单位</th>
 												<th>警察种类</th>
+												<th>moto终端</th>
 												<th>操作</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-if="totals==0">
-												<td colspan="9" class="text-center">没有记录！</td>
+												<td colspan="10" class="text-center">没有记录！</td>
 											</tr>
 											<tr ng-repeat="x in data">
 												<td><input type="checkbox" name="tb-check"
-													value="{{x.C_ID}}" index="{{$index}}" /></td>
+													value="{{x.C_ID}}" index="{{$index}}" moto="{{x.is_moto}}" /></td>
 												<td>{{x.C_ID}}</td>
 												<td>{{x.E_name}}</td>
 												<td>{{x.mscName}}</td>
@@ -161,14 +173,17 @@
 												<td ng-if="x.E_type=='3'">户籍警</td>
 												<td ng-if="x.E_type=='4'">机关民警</td>
 												<td ng-if="x.E_type==''"></td>
-												<td><a href="#" ng-click="editModel($index)" data-toggle="modal" ng-if="up.b_update=='on'?true:false"> <i
-														class="fa fa-edit text-success"></i>&nbsp;修改
+												<td><span ng-if="x.is_moto==1" style="color:red;font-weight:800">是</span></td>
+												<td><a href="#" ng-click="editModel($index)"
+													data-toggle="modal" ng-if="up.b_update=='on'?true:false">
+														<i class="fa fa-edit text-success"></i>&nbsp;修改
 												</a><a href="#" ng-if="up.b_update=='off'?true:false"> <i
 														class="fa fa-edit text-success"></i>&nbsp;无法修改
-												</a>| <a href="#" ng-click="delBs(x.C_ID)" ng-if="up.b_delete=='on'?true:false"><i
-													class="fa fa-trash text-success"></i>&nbsp;删除</a>
-													<a href="#" ng-if="up.b_delete=='off'?true:false"><i
-													class="fa fa-trash text-success"></i>&nbsp;无法删除</a></td>
+												</a>| <a href="#" ng-click="delBs(x.C_ID)"
+													ng-if="up.b_delete=='on'?true:false"><i
+														class="fa fa-trash text-success"></i>&nbsp;删除</a> <a href="#"
+													ng-if="up.b_delete=='off'?true:false"><i
+														class="fa fa-trash text-success"></i>&nbsp;无法删除</a></td>
 											</tr>
 										</tbody>
 									</table>

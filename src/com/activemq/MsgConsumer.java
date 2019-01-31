@@ -21,12 +21,11 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class MsgConsumer {
 	 //1、创建工厂连接对象，需要制定ip和端口号
-	private static final String BROKER_URL = "failover://tcp://localhost:61616";
 	 
 	public static void main(String[] args) throws JMSException {
  
 		//1、创建工厂连接对象，需要制定ip和端口号
-        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://127.0.0.1:61616");
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://127.0.0.1:6666");
         //2、使用连接工厂创建一个连接对象
         Connection connection = connectionFactory.createConnection();
         //3、开启连接
