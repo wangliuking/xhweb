@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.RadioUserMotoMapper">
+	<!--根据无线用户ID判断用户是否存在 -->
+	<select id="radioUserIsExists" parameterType="xh.mybatis.bean.RadioUserMotoBean"
+		resultType="int" useCache="true">
+		select count(*) from xhgmnet_radiouser_moto
+		where C_ID=#{id}
+	</select>
+	<!--根据无线用户ID，名称查找相关记录 -->
+	<select id="radiouserById" parameterType="map" resultType="map"
+		useCache="true">
+		select a.*,b.RadioSerialNumber,b.RadioReferenceID,b.SecurityGroup as SGroup from xhgmnet_radiouser_moto as a
+		left join xhgmnet_radio as b on a.C_ID=b.RadioID
+		 where 1=1
+		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
+			and a.C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="RadioUserAlias !=null and RadioUserAlias !=''">
+			and a.RadioUserAlias like concat('%',#{RadioUserAlias},'%')
+		</if>
+		order by a.C_ID limit #{start},#{limit}
+	</select>
+	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
+	<select id="count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_radiouser_moto where 1=1
+
+		<if test="C_ID!=null and C_ID!=''">
+			and C_ID like concat('%',#{C_ID},'%')
+		</if>
+		<if test="RadioUserAlias!=null and RadioUserAlias!=''">
+			and RadioUserAlias like concat('%',#{RadioUserAlias},'%')
+		</if>
+	</select>
+
+	<!--增加无线用户 -->
+	<insert id="insertRadioUser" useGeneratedKeys="true"
+		keyProperty="id" parameterType="xh.mybatis.bean.RadioUserMotoBean">
+		insert into
+		xhgmnet_radiouser_moto(C_ID,RadioUserAlias,SecurityGroup,EmergencyAlarmComments,InterconnectEnabled,PacketDataEnabled,
+		ShortDataEnabled,FullDuplexEnabled,ExtendedBandchannelscanbeassigned,RadioUserCapabilityProfileAlias,
+		RadioUserValidSitesProfileAlias,RadioUserInterconnectProfileAlias,UserEnabled,LogonRequired,AssignedIPAddress,
+		AccessPointName,AssignedRAG,ReadyTimer,ICMPEnabled,NetworkIngressFilteringEnabled,MultislotPacketDataEnabled,TalkgroupAlias,
+		EnableAmbienceListeningMonitoring,EnableAmbienceListeningInitiation,DirectDialNumber,PABXAccessEnabled,PSTNAccessEnabled,
+		QAMDataEnabled,StoreandForwardEnabled)
+		values(#{C_ID},#{RadioUserAlias},#{SecurityGroup},#{EmergencyAlarmComments},#{InterconnectEnabled},
+		#{PacketDataEnabled},#{ShortDataEnabled},#{FullDuplexEnabled},#{ExtendedBandchannelscanbeassigned},
+		#{RadioUserCapabilityProfileAlias},#{RadioUserValidSitesProfileAlias},#{RadioUserInterconnectProfileAlias},
+		#{UserEnabled},#{LogonRequired},#{AssignedIPAddress},#{AccessPointName},#{AssignedRAG},
+		#{ReadyTimer},#{ICMPEnabled},#{NetworkIngressFilteringEnabled},#{MultislotPacketDataEnabled},
+		#{TalkgroupAlias},#{EnableAmbienceListeningMonitoring},#{EnableAmbienceListeningInitiation},#{DirectDialNumber},
+		#{PABXAccessEnabled},#{PSTNAccessEnabled},#{QAMDataEnabled},#{StoreandForwardEnabled})
+	</insert>
+
+	<!--更新无线用户 -->
+	<update id="updateByRadioUserId" parameterType="xh.mybatis.bean.RadioUserMotoBean">
+		update
+		xhgmnet_radiouser_moto set
+		RadioUserAlias=#{RadioUserAlias},InterconnectEnabled=#{InterconnectEnabled},PacketDataEnabled=#{PacketDataEnabled},
+		ShortDataEnabled=#{ShortDataEnabled},FullDuplexEnabled=#{FullDuplexEnabled},UserEnabled=#{UserEnabled}
+		where C_ID=#{C_ID}
+	</update>
+
+	<!--删除无线用户 -->
+	<delete id="deleteByRadioUserId" parameterType="java.util.List">
+		delete from xhgmnet_radiouser_moto where C_ID in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<select id="radioList" resultType="map" useCache="true">
+		select * from xhgmnet_radio where RadioID not in(select C_ID from xhgmnet_radiouser_moto) limit 10000
+	</select>
+	<select id="radio_one" resultType="xh.mybatis.bean.RadioBean" useCache="true">
+        select * from xhgmnet_radio where RadioID=#{RadioID}
+    </select>
+	<select id="securityGroupList" resultType="map" useCache="true">
+		select sn from xhgmnet_vpn limit 10000
+	</select>
+
+
+
+</mapper>

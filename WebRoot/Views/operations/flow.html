@@ -124,8 +124,8 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>用户名称</th>
-										<th>上行流量(G)</th>
-										<th>下行流量(G)</th>
+										<th>上行流量</th>
+										<th>下行流量</th>
 										<th>统计时间</th>
 									</tr>
 								</thead>
@@ -135,8 +135,8 @@
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.userName}}</td>
-										<td>{{x.up}}</td>
-										<td>{{x.down}}</td>
+										<td>{{x.up |flowFormat}}</td>
+										<td>{{x.down |flowFormat}}</td>
 										<td>{{x.time}}</td>
 									</tr>
 								</tbody>

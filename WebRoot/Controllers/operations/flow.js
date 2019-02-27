@@ -34,6 +34,19 @@ xh.load = function() {
 			}
 		};
 	});
+	app.filter('flowFormat',function(){
+		return function(text){
+			if(text>1024){
+				return (text/1024).toFixed(2)+"(MB)";
+			}else if(text>1024*1024){
+				return (text/1024/1024).toFixed(2)+"(GB)";
+			}else if(text<1024 && text>0){
+				return text+"(KB)";
+			}else{
+				return 0;
+			}
+		}
+	})
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
@@ -127,7 +140,7 @@ xh.load = function() {
 					    yAxis : [
 							      {
 				                    type: 'value',
-				                    name:'流量G'
+				                    name:'流量(MB)'
 				                    }
 							    ],
 					    xAxis : [
@@ -205,8 +218,8 @@ xh.load = function() {
 						if(data.length>0){
 							for(var i=0;i<data.length;i++){
 								xData.push(data[i].userName);
-								yData.push(data[i].up);
-								y2Data.push(data[i].down);
+								yData.push((data[i].up/1024).toFixed(2));
+								y2Data.push((data[i].down/1024).toFixed(2));
 							}
 							
 							option.series[0].data = yData;

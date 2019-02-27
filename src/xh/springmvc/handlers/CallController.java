@@ -610,12 +610,12 @@ public class CallController {
 				Path.mkdirs();
 			}
 			File file = new File(pathname);	
-			if(file.exists()){
+			/*if(file.exists()){
 				result.put("success", success);
 				 result.put("pathName", pathname);
 				 log.info("文件存在，直接下载");
 				return result;
-			}
+			}*/
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
