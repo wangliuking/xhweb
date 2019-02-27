@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.ToWordFileMapper">
+
+	<select id="system_call" parameterType="map" resultType="map">
+		select (
+		select count(bsId) FROM xhgmnet.xhgmnet_bs_station WHERE 1=1
+		<if test="period==3 or period==4">
+			and period=#{period}
+		</if>
+		AND
+		`status`=1) as bsTotals,
+		TotalCalls,TotalActiveCall,round(TotalActiveCallDuration/60,0) as
+		TotalActiveCallDuration,AverageCallDuration,TotalFailedCalls,NoEffectCalls,
+		totalQueueCount,totalMaxReg, maxRegGroup,
+		CONCAT(round((TotalCalls-TotalFailedCalls)/TotalCalls*100,3),'%') as
+		FailedPercentage,
+		(select SUM(total) FROM xhgmnet_gpsinfo_day WHERE
+		DATE_FORMAT(infoTime,'%Y-%m')=#{time}) as gpsTotals
+		from
+		chart_month_msc
+		WHERE starttime=#{time}
+	</select>
+
+	<select id="system_bs_call" parameterType="String" resultType="map">
+		select sum(TotalActiveCalls) TotalCalls, SUM(QueueCount) as QueueCount
+		from
+		chart_month_bstotal
+		WHERE starttime=#{time}
+	</select>
+
+	<select id="system_call_year" parameterType="String" resultType="map">
+		select
+		TotalCalls,TotalActiveCallDuration,totalQueueCount,starttime,LEFT(starttime,4)
+		as yearstr,right(starttime,2) as monthstr
+		from chart_month_msc
+		WHERE
+		LOCATE(#{year},starttime)
+	</select>
+
+	<select id="system_gps_year" parameterType="String" resultType="map">
+		select SUM(total) as totals,DATE_FORMAT(infoTime,'%Y') as
+		yearstr,DATE_FORMAT(infoTime,'%m') as monthstr FROM
+		xhgmnet_gpsinfo_day WHERE
+		DATE_FORMAT(infoTime,'%Y')=#{year} GROUP BY
+		DATE_FORMAT(infoTime,'%m')
+	</select>
+
+	<select id="system_call_level" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.`level`,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/60),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount
+		from chart_month_bstotal
+		as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where
+		x.starttime=#{time}
+		and y.level>0 group by y.`level` order by y.level
+		asc
+	</select>
+
+	<select id="system_call_year_level" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.`level`,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/60),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount,
+		x.starttime
+		from chart_month_bstotal
+		as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where x.starttime BETWEEN #{starttime} and #{endtime}
+		and y.level>0 group by y.`level`,x.starttime order by y.level
+		asc
+	</select>
+
+	<select id="system_call_area" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.area,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/10),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount
+		from chart_month_bstotal
+		as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where
+		x.starttime=#{time}
+		and y.area is not null and y.area!='' group by
+		y.area
+	</select>
+
+
+	<select id="system_call_year_area" parameterType="map"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		y.area,
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
+		round((sum(x.TotalActiveCallDuration)/10),0) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount,x.starttime
+		from chart_month_bstotal
+		as x left join
+		xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId
+		where x.starttime BETWEEN #{starttime} and #{endtime}
+		and y.area is not null and y.area!='' group by
+		y.area,x.starttime
+	</select>
+
+	<select id="system_call_zone_top10" parameterType="String"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select
+		count(x.bsid) as bsTotals,
+		sum(x.TotalActiveCalls) as
+		TotalActiveCalls,
+		sum(x.TotalActiveCallDuration) as
+		TotalActiveCallDuration,
+		round(avg(x.AverageCallDuration),0) as
+		AverageCallDuration,
+		sum(x.PTTCount) as PTTCount,
+		sum(x.QueueCount) as
+		QueueCount,
+		sum(x.QueueDuration) as QueueDuration,
+		max(x.MaxUserRegCount) as
+		MaxUserRegCount,
+		max(x.MaxGroupRegCount) as
+		MaxGroupRegCount,y.zone,
+		ROUND(sum(x.TotalActiveCalls)/x.totals*100,2)
+		as percent,
+		x.starttime
+
+		from (select
+		T1.bsid,
+		T1.TotalActiveCalls,
+		T1.TotalActiveCallDuration,
+		T1.AverageCallDuration,
+		T1.PTTCount,
+		T1.QueueCount,
+		T1.QueueDuration,
+		T1.MaxUserRegCount,
+		T1.MaxGroupRegCount,
+		T2.totals,
+		T1.starttime
+		from chart_month_bstotal
+		as
+		T1,(
+		select sum(totals) as
+		totals from (
+		select
+		sum(a.TotalActiveCalls)
+		as
+		totals,b.zone from chart_month_bstotal
+		as a
+		left join
+		xhgmnet.xhgmnet_bs_station as b on
+		a.bsid=b.bsId
+		where starttime=#{time}
+		group by zone
+		) as e) as T2
+
+		) as x
+
+		left join
+		xhgmnet.xhgmnet_bs_station as
+		y on
+		x.bsid=y.bsId
+		where starttime=#{time}
+		group by y.zone order by
+		TotalActiveCalls desc
+		limit 10
+
+	</select>
+	<select id="system_call_bs_top10" parameterType="String"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select x.*,y.`name`,y.`level`,y.area,y.zone from
+		(select
+		a.*,ROUND(a.TotalActiveCalls/b.totals*100,2) as percent,b.totals from
+		(select bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount,
+		starttime
+		from chart_month_bstotal
+		where starttime=#{time}
+		GROUP BY bsid) as
+		a,(select sum(TotalActiveCalls) as totals from
+		chart_month_bstotal
+		where starttime=#{time}
+		) as b) as x
+
+		left join
+		xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		order by
+		TotalActiveCalls desc limit 10
+
+
+	</select>
+
+	<select id="system_call_queue_top10" parameterType="String"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+		select x.*,y.`name`,y.`level`,y.area,y.zone
+		from (select
+		a.*,ROUND(a.QueueCount/b.totals*100,2) as percent from
+		(select bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount from chart_month_bstotal
+		where starttime=#{time}
+		GROUP BY bsid) as a,
+		(select sum(QueueCount) as totals
+		from chart_month_bstotal
+		where starttime=#{time}
+		) as b) as x
+
+		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		order by
+		QueueCount desc limit 10
+
+
+
+	</select>
+
+	<select id="system_call_vpn_top10" parameterType="String"
+		resultType="xh.mybatis.bean.EastVpnCallBean">
+		SELECT
+		x.*, y.`name`
+		FROM
+		(
+		SELECT
+		a.*, ROUND(
+		(a.TotalActiveCalls-a.NoEffectCalls) / a.TotalActiveCalls
+		* 100,
+		2
+		) AS percent
+		FROM
+		(
+		SELECT
+		T1.vpnid,
+		sum(T1.TotalActiveCalls) AS
+		TotalActiveCalls,
+		sum(T1.TotalActiveCallDuration) AS
+		TotalActiveCallDuration,
+		round(
+		avg(T1.AverageCallDuration),
+		0
+		) AS
+		AverageCallDuration,
+		sum(T1.dexTotalCalls) AS dexTotalCalls,
+		sum(T1.TotalFailedCalls) AS TotalFailedCalls,
+		T1.FailedPercentage,
+		sum(T1.NoEffectCalls) AS NoEffectCalls,
+		T1.starttime
+		FROM chart_month_vpntotal
+		AS T1
+		WHERE starttime=#{time}
+		GROUP BY
+		vpnid
+		) AS a,
+		(
+		SELECT
+		sum(TotalActiveCalls) AS totals
+		FROM chart_month_vpntotal
+		WHERE starttime=#{time}
+		) AS b
+		) AS x
+		LEFT JOIN xhgmnet.xhgmnet_vpn AS y ON x.vpnid = y.vpnId
+		ORDER BY
+		x.TotalActiveCalls DESC
+		LIMIT 10
+
+
+
+	</select>
+	<select id="chart_bs_userreg_top10" parameterType="String"
+		resultType="xh.mybatis.bean.EastBsCallDataBean">
+
+		select x.*, y.`name`,y.`level`,y.area,y.zone FROM (SELECT
+		bsid,
+		sum(TotalActiveCalls) AS TotalActiveCalls,
+		sum(TotalActiveCallDuration) AS TotalActiveCallDuration,
+		round(avg(AverageCallDuration), 0) AS AverageCallDuration,
+		sum(PTTCount) AS PTTCount,
+		sum(QueueCount) AS QueueCount,
+		sum(QueueDuration) AS QueueDuration,
+		max(MaxUserRegCount) AS
+		MaxUserRegCount,
+		max(MaxGroupRegCount) AS MaxGroupRegCount,starttime
+
+		from chart_month_bstotal
+		where starttime=#{time}
+		GROUP BY bsid) as x
+
+		left join xhgmnet.xhgmnet_bs_station as y on
+		x.bsid=y.bsId order by
+		x.MaxUserRegCount desc limit 10
+	</select>
+
+</mapper>

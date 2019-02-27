@@ -26,6 +26,9 @@
 		<if test="E_name !=null and E_name !=''">
 			and E_name like concat('%',#{E_name},'%')
 		</if>
+		<if test="is_moto==1">
+            and is_moto=1
+        </if>
 		order by C_ID limit #{start},#{limit}
 	</select>
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
@@ -45,6 +48,9 @@
 		<if test="vpnId!=null and vpnId!=''">
 		 and E_vpnId=#{vpnId}
 		</if>
+		<if test="is_moto==1">
+            and is_moto=1
+        </if>
 	</select>
 
 	<!--根据无线用户ID,查找用户信息 -->
@@ -127,6 +133,16 @@
 		</if>
 		and E_vpnId=#{vpnId}
 	</select>
+	   <!--标记终端为moto手台 -->
+    <update id="update_moto" parameterType="java.util.Map">
+        update
+        xhgmnet_radiouser set is_moto=#{is_moto} where C_ID in(
+        <foreach collection="list" item="id" separator=",">
+        #{id}
+        </foreach>
+        )
+        
+    </update>
 
 
 </mapper>

@@ -4,9 +4,9 @@
 	<select id="month_user_flow" parameterType="map" resultType="map">
 		select
 		DATE_FORMAT(a.writetime,"%Y-%m") as time ,user,
-		CONVERT(SUM(CASE a.type WHEN 32 THEN a.flow ELSE 0 END)/1024,DECIMAL(10,2)) as up,
+		CONVERT(SUM(CASE a.type WHEN 32 THEN a.flow ELSE 0 END),DECIMAL(10,2)) as up,
 		CONVERT(SUM(CASE a.type WHEN 35 THEN a.flow ELSE 0
-		END)/1024,DECIMAL(10,2)) as down,
+		END),DECIMAL(10,2)) as down,
 		b.User_Name as userName
 		from xhgmnet_esight_traffic_monitor_hour as a
 		LEFT JOIN xhgmnet_user_access_list as b on a.`user`=b.User_Ip

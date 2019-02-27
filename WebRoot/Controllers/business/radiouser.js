@@ -36,7 +36,8 @@ xh.load = function() {
 	app.controller("radiouser", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
-		$scope.systemMenu = true; // 菜单变色
+		$scope.page=1;
+		$scope.moto=0;
 		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -46,7 +47,7 @@ xh.load = function() {
 		
 		$http.get(
 				"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name
-						+ "&start=0&limit=" + pageSize).success(
+						+ "&is_moto="+$scope.moto+"&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -100,7 +101,17 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$("#C_ID").val("");
 			$("#E_name").val("");
+			$scope.search($scope.page);
+		};
+		$scope.search_moto = function() {
+			$scope.moto=1;
 			$scope.search(1);
+			
+		};
+		$scope.search_eastcom = function() {
+			$scope.moto=0;
+			$scope.search(1);
+			
 		};
 		/*显示添加基站model*/
 		$scope.addModel = function(){
@@ -198,12 +209,13 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name + "&start="
+					"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name + "&is_moto="+$scope.moto+"&start="
 							+ start + "&limit=" + limit).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.items;
 						$scope.totals = response.totals;
+						$scope.page=page;
 						xh.pagging(page, parseInt($scope.totals), $scope);
 					});
 		};
@@ -221,7 +233,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name + "&start="
+					"../../radiouser/list?C_ID=" + C_ID + "&E_name=" + E_name + "&is_moto="+$scope.moto+"&start="
 							+ start + "&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();
@@ -235,6 +247,7 @@ xh.load = function() {
 								$scope.lastIndex = 0;
 							}
 						}
+						$scope.page=page;
 						$scope.data = response.items;
 						$scope.totals = response.totals;
 					});
@@ -291,6 +304,16 @@ xh.update = function() {
 };
 /* 批量删除基站 */
 xh.delMore = function() {
+	var checkVal = [];
+	$("[name='tb-check']:checkbox").each(function() {
+		if ($(this).is(':checked')) {
+			checkVal.push($(this).attr("value"));
+		}
+	});
+	if (checkVal.length < 1) {
+		toastr.error("请至少选择一条数据", '提示');
+		return;
+	}
 	swal({
 		title : "提示",
 		text : "确定要删除该无线用户信息吗？",
@@ -304,16 +327,6 @@ xh.delMore = function() {
 	 */
 	}, function(isConfirm) {
 		if (isConfirm) {
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("value"));
-				}
-			});
-			if (checkVal.length < 1) {
-				toastr.error("批量删除无线用户失败", '提示');
-				return;
-			}
 			$.ajax({
 				url : '../../radiouser/del',
 				type : 'post',
@@ -328,6 +341,102 @@ xh.delMore = function() {
 						xh.refresh();
 					} else {
 						toastr.error("删除无线用户失败", '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+		}
+	});
+
+};
+xh.mark_moto = function() {
+	var checkVal = [];
+	$("[name='tb-check']:checkbox").each(function() {
+		if ($(this).is(':checked') && $(this).attr("moto")==0) {
+			checkVal.push($(this).attr("value"));
+		}
+	});
+	if (checkVal.length < 1) {
+		toastr.error("请至少选择一条不是moto手台的数据", '提示');
+		return;
+	}
+	swal({
+		title : "提示",
+		text : "确定要将选中的手台标记为moto手台",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消"
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+			$.ajax({
+				url : '../../radiouser/mark_moto',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : checkVal.join(","),
+					is_moto:1
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success("标记成功", '提示');
+						xh.refresh();
+					} else {
+						toastr.error("标记失败", '提示');
+					}
+				},
+				error : function() {
+				}
+			});
+		}
+	});
+
+};
+xh.cancel_mark_moto = function() {
+	var checkVal = [];
+	$("[name='tb-check']:checkbox").each(function() {
+		if ($(this).is(':checked') && $(this).attr("moto")==1) {
+			checkVal.push($(this).attr("value"));
+		}
+	});
+	if (checkVal.length < 1) {
+		toastr.error("请至少选择一条是moto手台的数据", '提示');
+		return;
+	}
+	swal({
+		title : "提示",
+		text : "确定要将选中的手台取消标记为moto手台",
+		type : "info",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "确定",
+		cancelButtonText : "取消"
+	/*
+	 * closeOnConfirm : false, closeOnCancel : false
+	 */
+	}, function(isConfirm) {
+		if (isConfirm) {
+			$.ajax({
+				url : '../../radiouser/mark_moto',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : checkVal.join(","),
+					is_moto:0
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success("取消标记成功", '提示');
+						xh.refresh();
+					} else {
+						toastr.error("取消标记失败", '提示');
 					}
 				},
 				error : function() {

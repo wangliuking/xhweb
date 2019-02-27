@@ -36,6 +36,7 @@ xh.load = function() {
 		$scope.count = "20";// 每页数据显示默认值;
 		$scope.NO=xh.No();
 		$scope.sendUnit="";
+		$scope.page=1;
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(function(response) {
 			$scope.up = response;
@@ -62,13 +63,25 @@ xh.load = function() {
 
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 
 		/* 显示详细信息 */
 		$scope.detail = function(id) {
 			$("#detail").modal('show');
 			$scope.detailData = $scope.data[id];
+		};
+		$scope.download = function(path) {
+			var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);	
+			var downUrl = "../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
+			if(xh.isfile(path)){
+				window.open(downUrl, '_self',
+				'width=1,height=1,toolbar=no,menubar=no,location=no');
+			}else{
+				toastr.error("文件不存在", '提示');
+			}
+			
 		};
 
 		/* 签收 */
@@ -119,6 +132,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
@@ -149,6 +163,7 @@ xh.load = function() {
 				}
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page;
 			});
 
 		};
@@ -163,6 +178,11 @@ xh.refresh = function() {
 /* 添加 */
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
+	if($("input[name='pathName']").val()!='' && $("input[name='filePath']").val()=='' ){
+		alert("你选择了附件，还没上传");
+		$("#add_btn").button('reset');
+		return;
+	}
 	$.ajax({
 		url : '../../WorkContact/add',
 		type : 'POST',
@@ -178,6 +198,13 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
+				$("input[name='result']").val("");
+            	$("input[name='fileName']").val("");
+            	$("input[name='filePath']").val("");
+            	$("input[name='pathName']").val('');
+            	$file =$("input[name='pathName");
+            	$file.remove();
+            	 $('.file').append('<input  class="form-control" type="file" id="pathName" name="pathName" />');
 			} else {
 				toastr.error(data.message, '提示');
 			}

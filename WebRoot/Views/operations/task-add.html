@@ -87,6 +87,24 @@
 											
 											</textarea></td>
 								</tr>
+								<tr>
+                                    <td width="130px">附件 </td>
+                                    <td colspan="2" class="file">
+                                    <input  class="form-control" type="file" id="pathName" name="pathName" />
+                                    </td>
+                                    <td>
+                                    <button type="button" 
+                                    class="btn btn-info btn-sm" style="margin-top:3px;"
+                                    id="uploadfile">
+                                    <i class="fa fa-plus-circle"></i>点击上传
+                                </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                <input type="hidden" name="fileName" value="" /> 
+                        <input type="hidden" name="filePath" value="" /> 
+                        <input type="hidden" name="result" value="" />
+                                </tr>
 
 							</table>
 
@@ -134,4 +152,46 @@
 		$("#add_btn").button('loading');
 		xh.add();
 	});
+
+	
+	
+	$("#uploadfile").click(function() {
+        if ($('#pathName').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        $("input[name='result']").val(2);
+        $("#uploadfile").attr("disabled", true);
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'pathName', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                $("#uploadfile").attr("disabled", false);
+                xh.maskHide();
+                if (data.success) {
+                    $("input[name='result']").val(1);
+                    $("input[name='fileName']").val(data.fileName);
+                    $("input[name='filePath']").val(data.filePath);
+                    $("#uploadResult").html("文件上传成功");
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    $("input[name='result']").val(0);
+                    toastr.error("文件上传失败", '提示');
+                    $("#uploadResult").html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                $("#uploadfile").attr("disabled", false);
+                xh.maskHide();
+            }
+        });
+    });
 </script>

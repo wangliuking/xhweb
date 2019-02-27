@@ -3,8 +3,10 @@
 <mapper namespace="xh.mybatis.mapper.WorkContactMapper">
 	<select id="list" resultType="xh.mybatis.bean.WorkContactBean"
 		parameterType="map">
-		select * from xhgmnet_operations_workcontact where 1=1
-		order by time desc
+		select a.*,b.userName from xhgmnet_operations_workcontact as  a
+		left join xhgmnet_web_user as b on a.addUser=b.user
+		 where 1=1
+		order by a.time desc
 		limit #{start},#{limit}
 	</select>
 	<select id="list_count" resultType="int">
@@ -12,8 +14,8 @@
 	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.WorkContactBean">
 	insert into xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
-	content,addUser,user_type)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
-	#{code},#{content},#{addUser},#{user_type})
+	content,addUser,user_type,filePath,fileName)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
+	#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName})
 	</insert>
 	<update id="sign" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set status=1,checkTime=#{checkTime},checkUser=#{checkUser}

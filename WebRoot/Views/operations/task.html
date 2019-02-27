@@ -161,6 +161,7 @@
 										<th >事由</th>
 										<th>类型</th>
 										<th>发文单位</th>
+										<th>发文人</th>
 										<th>收文单位</th>
 										<th>时间</th>
 										<th>状态</th>
@@ -169,12 +170,13 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
 										<td>{{x.type}}</td>
 										<td>{{x.sendUnit}}</td>
+										<td>{{x.userName}}</td>
 										<td>{{x.recvUnit}}</td>
 										<td>{{x.time}}</td>
 										<td>

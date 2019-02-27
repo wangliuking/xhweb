@@ -1,0 +1,155 @@
+<!-- 添加无线用户 -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+
+				<small class="font-bold">修改moto用户</small>
+
+				<!-- <label for="tj"
+                    style="float:right">批量</label> <input type="checkbox" id="tj"
+                    ng-model="isChecked1" style="float:right" /> -->
+			</div>
+			<div class="modal-body pad-0"
+				style=" max-height:80%;overflow: scroll;">
+				<form action="#" id="editForm" onSubmit="return false">
+					<div class="col-md-12 form-heading form-heading-white">基本信息</div>
+
+					<div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>ID</label> <input type="text" ng-model="editData.C_ID"
+							class="form-control" name="C_ID" readonly="readonly">
+					</div>
+					<div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>别名</label> <input type="text" ng-model="editData.RadioUserAlias"
+							class="form-control" name="RadioUserAlias">
+					</div>
+
+
+					<!-- <div class="form-group col-md-6">
+                        <label>安全组</label> <select class="form-control" name="SecurityGroup"
+                            ng-model="SecurityGroup">
+                            <option ng-repeat="x in securityGroupList" value="{{x.sn}}">{{x.sn}}</option>
+                        </select>
+                    </div> -->
+
+					<div class="form-group col-md-6">
+						<label>安全组</label> <input type="text"
+							ng-model="editData.SGroup" class="form-control"
+							name="SecurityGroup" readonly="readonly">
+					</div>
+
+
+
+
+					<div class="col-md-12 form-heading form-heading-white">配置参数</div>
+					<div class="form-group col-md-12">
+						<span>互联许可 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="InterconnectEnabled1" value="1"
+								name="InterconnectEnabled" ng-checked="editData.InterconnectEnabled==1"> <label
+								for="InterconnectEnabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="InterconnectEnabled2" value="0"
+								name="InterconnectEnabled" ng-checked="editData.InterconnectEnabled==0"> <label
+								for="InterconnectEnabled2">否</label>
+						</div>
+					</div>
+					<div class="form-group col-md-12">
+						<span>允许分组数据 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="PacketDataEnabled1" value="1"
+								name="PacketDataEnabled" ng-checked="editData.PacketDataEnabled==1"> <label
+								for="PacketDataEnabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="PacketDataEnabled2" value="0"
+								name="PacketDataEnabled" ng-checked="editData.PacketDataEnabled==0"> <label
+								for="PacketDataEnabled2">否</label>
+						</div>
+					</div>
+
+					<div class="form-group col-md-12">
+						<span>允许短数据 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="ShortDataEnabled1" value="1"
+								name="ShortDataEnabled" ng-checked="editData.ShortDataEnabled==1"> <label
+								for="ShortDataEnabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="ShortDataEnabled2" value="0"
+								name="ShortDataEnabled" ng-checked="editData.ShortDataEnabled==0"> <label for="ShortDataEnabled2">否</label>
+						</div>
+
+
+					</div>
+
+					<div class="form-group col-md-12">
+						<span>允许全双工 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="FullDuplexEnabled1" value="1"
+								name="FullDuplexEnabled" ng-checked="editData.FullDuplexEnabled==1"> <label
+								for="FullDuplexEnabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="FullDuplexEnabled2" value="0"
+								name="FullDuplexEnabled" ng-checked="editData.FullDuplexEnabled==0"> <label
+								for="FullDuplexEnabled2">否</label>
+						</div>
+
+
+					</div>
+
+					<div class="form-group col-md-12">
+						<span>用户使能 &nbsp;&nbsp;</span>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="UserEnabled1" value="1"
+								name="UserEnabled" ng-checked="editData.UserEnabled==1"> <label
+								for="UserEnabled1">是</label>
+						</div>
+						<div class="radio radio-info radio-inline">
+
+							<input type="radio" id="UserEnabled2" value="0"
+								name="UserEnabled" ng-checked="editData.UserEnabled==0"> <label for="UserEnabled2">否</label>
+						</div>
+
+
+					</div>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success btn-sm"
+					id="update_user_btn" data-loading-text="Loading..."
+					autocomplete="off">
+					<i class="fa fa-edit"></i>&nbsp;修改
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$("#update_user_btn").click(function() {
+
+		$('#addForm').submit();
+		xh.update();
+
+	});
+</script>
+<!-- 添加无线用户---end -->

@@ -77,6 +77,7 @@ public class RadioUserBean {
 	private String onlinestatus;
 	private String callstatus;
 	private int id_JoinNet=0;
+	private int is_moto=0;
 	private String time;
 	public int getId() {
 		return id;
@@ -547,6 +548,12 @@ public class RadioUserBean {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public int getIs_moto() {
+		return is_moto;
+	}
+	public void setIs_moto(int is_moto) {
+		this.is_moto = is_moto;
 	}
 	@Override
 	public String toString() {
