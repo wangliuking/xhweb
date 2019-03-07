@@ -50,7 +50,7 @@
 		group by regStatus order by regStatus asc 
 	</select> 
 	<!--终端在线统计 -->
-	<select id="userOnline" parameterType="map" resultType="int"
+	<select id="/" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_userstatus where bsId>0 and regStatus in(1,2,3)
 		and userId in (select C_ID  from xhgmnet.xhgmnet_radiouser)

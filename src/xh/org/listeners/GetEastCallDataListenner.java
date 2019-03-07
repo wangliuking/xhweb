@@ -38,7 +38,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 			try {
 				Date d1 = fTime.parse(time);
 				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
-				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
+				//timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
