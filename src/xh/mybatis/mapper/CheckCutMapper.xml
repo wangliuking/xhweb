@@ -22,6 +22,9 @@
         <if test="startTime != null  and startTime != ''">
             and requestTime BETWEEN #{startTime} and #{endTime}
         </if>
+        <if test="roleId != null  and roleId == 10002 ">
+            and a.checked BETWEEN 1 and 4
+        </if>
         order by a.id desc limit #{start},#{limit}
     </select>
     <!--查询申请所有记录总数 -->
@@ -38,6 +41,9 @@
         </if>
         <if test="startTime != null  and startTime != ''">
             and requestTime BETWEEN #{startTime} and #{endTime}
+        </if>
+        <if test="roleId != null  and roleId == 10002 ">
+            and a.checked BETWEEN 1 and 4
         </if>
     </select>
 

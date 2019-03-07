@@ -71,7 +71,7 @@ xh.load = function() {
 					$scope.up = response;
 					//console.log(response);
 		});
-		
+
 		/*获取申请记录表*/
 		$http.get("../../checkCut/selectAll?start=0&limit=" + pageSize).
 		success(function(response){
@@ -92,8 +92,8 @@ xh.load = function() {
 		});
 		
 		/* 刷新数据 */
-		$scope.refresh = function() {
-			$scope.search(1);
+		$scope.refresh = function(page) {
+			$scope.search(page);
 		};
 
 		/*重新计算*/
@@ -239,7 +239,7 @@ xh.load = function() {
 						success : function(data) {
                             if (data.success) {
                                 toastr.success('删除成功', '提示');
-                                $scope.refresh();
+                                $scope.refresh(1);
                             } else {
                                 toastr.error('删除失败', '提示');
                             }
@@ -288,7 +288,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start=0&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -379,7 +379,8 @@ xh.sheetChange = function() {
         success : function(data) {
             $("#checkCut-btn").button('reset');
             $('#sheet').modal('hide');
-            xh.refresh();
+            var page = $(".page.active").find("a").text();
+            xh.refresh(page);
             toastr.success(data.message, '提示');
         },
         error : function() {
@@ -403,7 +404,7 @@ xh.add = function() {
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				$("input[name='result']").val(1);
-				xh.refresh();
+				xh.refresh(1);
 				toastr.success(data.message, '提示');
 			} else {
 				toastr.error(data.message, '提示');
@@ -426,7 +427,7 @@ xh.checkneg2 = function() {
 
             if (data.result ==1) {
                 $('#checkWin-2').modal('hide');
-                xh.refresh();
+                xh.refresh(1);
                 toastr.success(data.message, '提示');
 
             } else {
@@ -449,7 +450,7 @@ xh.check1 = function() {
 
             if (data.result ==1) {
                 $('#checkWin1').modal('hide');
-                xh.refresh();
+                xh.refresh(1);
                 toastr.success(data.message, '提示');
 
             } else {
@@ -472,7 +473,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				xh.refresh();
+				xh.refresh(1);
 				toastr.success(data.message, '提示');
 
 			} else {
@@ -496,7 +497,7 @@ xh.check3 = function() {
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
 				$("input[name='result']").val(1);
-				xh.refresh();
+				xh.refresh(1);
 				toastr.success(data.message, '提示');
 
 			} else {
@@ -518,7 +519,7 @@ xh.check4 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				xh.refresh();
+				xh.refresh(1);
 				toastr.success(data.message, '提示');
 
 			} else {
@@ -609,10 +610,10 @@ xh.download=function(){
 };
 
 // 刷新数据
-xh.refresh = function() {
+xh.refresh = function(page) {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
-	$scope.refresh();
+	$scope.refresh(page);
 };
 
 /* 数据分页 */

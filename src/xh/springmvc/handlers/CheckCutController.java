@@ -443,14 +443,14 @@ public class CheckCutController {
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.createCheckCut(bean);
 
-        if (rst == 1) {
+        /*if (rst == 1) {
             this.message = "核减信息已生成，请进入核减流程发起申请";
             //----给运维负责人发送通知邮件
             FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","有核减申请，请查阅！",request);
             //----END
         } else {
             this.message = "核减申请生成失败";
-        }
+        }*/
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);
