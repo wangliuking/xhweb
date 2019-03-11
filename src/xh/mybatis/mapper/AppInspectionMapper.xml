@@ -25,9 +25,10 @@
 	<!--自建基站巡检表 -->
 	<select id="sbsinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionSbsBean" useCache="true">
-		select a.*,b.period,b.level,b.hometype from
+		select a.*,b.period,b.level,b.hometype,TRUNCATE(ABS((a.latitude-b.lat)),7) as lat_value,TRUNCATE(ABS((a.longitude-b.lng)),7) as lng_value from
 		xhgmnet_operations_inspection_selfbs as a
-		LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId where 1=1
+		LEFT JOIN xhgmnet_bs_station
+		as b on a.bsid=b.bsId where 1=1
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
@@ -46,12 +47,18 @@
 	<select id="netinfo" parameterType="map" resultType="map"
 		useCache="true">
 		select * from xhgmnet_operations_inspection_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--网管巡检表总数 -->
 	<select id="netinfoCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_inspection_net
+		select count(*) from xhgmnet_operations_inspection_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 	</select>
 
 	<!--调度台巡检表 -->
@@ -59,29 +66,50 @@
 		useCache="true">
 		select * from xhgmnet_operations_inspection_dispatch where
 		1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--调度台巡检表总数 -->
 	<select id="dispatchinfoCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_inspection_dispatch
+		select count(*) from xhgmnet_operations_inspection_dispatch where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 	</select>
 	<!--交换中心巡检表 -->
 	<select id="mscinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionMscBean" useCache="true">
 		select * from xhgmnet_operations_inspection_msc where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(checkDate,'%Y-%m')=#{time}
+		<if test="year!=null and year!='' and year==1">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y')=#{time}
+			</if>
 		</if>
+		<if test="year==null || year==''">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y-%m')=#{time}
+			</if>
+		</if>
+
 		order by checkDate desc limit #{start},#{limit}
 	</select>
 	<!--调度台巡检表总数 -->
 	<select id="mscCount" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_inspection_msc where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(checkDate,'%Y-%m')=#{time}
-		</if>
+		<if test="year!=null and year!='' and year==1">
+            <if test="time!=null and time!=''">
+                and date_format(checkDate,'%Y')=#{time}
+            </if>
+        </if>
+        <if test="year==null || year==''">
+            <if test="time!=null and time!=''">
+                and date_format(checkDate,'%Y-%m')=#{time}
+            </if>
+        </if>
 	</select>
 	<insert id="msc_add" parameterType="xh.mybatis.bean.InspectionMscBean"
 		useGeneratedKeys="true" keyProperty="id">
@@ -150,7 +178,8 @@
 		)
 	</insert>
 	<update id="mbs_edit" parameterType="xh.mybatis.bean.InspectionMbsBean">
-		update xhgmnet_operations_inspection_movebs set
+		update
+		xhgmnet_operations_inspection_movebs set
 		bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype},longitude=#{longitude},
 		latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
 		remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
@@ -164,7 +193,8 @@
 	</update>
 	<insert id="sbs_add" parameterType="xh.mybatis.bean.InspectionSbsBean"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into xhgmnet_operations_inspection_selfbs
+		insert into
+		xhgmnet_operations_inspection_selfbs
 		(serialnumber,bsid,bsname,bslevel,bstype,longitude,latitude,address,checkman,commitdate,remainwork,
 		userid,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,
 		d26,d27,d28,d29,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,ammeternumber
@@ -177,7 +207,8 @@
 	</insert>
 	<!-- bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype}, -->
 	<update id="sbs_edit" parameterType="xh.mybatis.bean.InspectionSbsBean">
-		update xhgmnet_operations_inspection_selfbs set
+		update
+		xhgmnet_operations_inspection_selfbs set
 		longitude=#{longitude},
 		latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
 		remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
@@ -189,4 +220,9 @@
 		c22=#{c22},c23=#{c23},c24=#{c24},c25=#{c25},c26=#{c26},c27=#{c27},c28=#{c28},c29=#{c29},ammeternumber=#{ammeternumber}
 		where id=#{id}
 	</update>
+
+	<delete id="del_sbs" parameterType="int">
+		delete from
+		xhgmnet_operations_inspection_selfbs where id=#{id}
+	</delete>
 </mapper>

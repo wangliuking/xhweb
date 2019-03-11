@@ -22,13 +22,38 @@ toastr.options = {
 		"hideMethod" : "fadeOut",
 		"progressBar" : true,
 	};
+/*经度（东西方向）1M实际度：360°/31544206M=1.141255544679108e-5=0.00001141
+纬度（南北方向）1M实际度：360°/40030173M=8.993216192195822e-6=0.00000899*/
 xh.load = function() {
 	var app = angular.module("app", []);
+	app.filter('py', function() { // 可以注入依赖
+		return function(x) {
+			var lat1=0.00000899;
+			var lng1=0.00001141
+			var lat2=parseFloat(x.lat_value);
+			var lng2=parseFloat(x.lng_value);
+			
+			var plat=lat2/lat1;
+			var plng=lng2/lng1;
+			
+			if(plat>500 || plng>500){
+				return "偏移约："+((plat>plng)?plat.toFixed(0):plng.toFixed(0))+"米"
+			}else{
+				return "正常"
+			}
+		};
+	});
 	app.controller("xhcontroller", function($scope, $http) {
 		/*xh.maskShow();*/
 		$scope.count = "15";//每页数据显示默认值
-		$scope.starttime=xh.getBeforeDay(7);
-		$scope.endtime=xh.getOneDay();
+		$scope.time=xh.getNowMonth();
+		$scope.year=xh.getNowYear();
+		
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
 		
 	/*	获取移动基站巡检表信息
 		$scope.mbs=function(){	
@@ -43,7 +68,7 @@ xh.load = function() {
 		/*获取自建基站巡检表信息*/
 		$scope.sbs=function(){	
 			var pageSize = $("#page-limit-sbs").val();
-			$http.get("../../app/sbsinfo?start=0&limit="+pageSize).
+			$http.get("../../app/sbsinfo?time="+$scope.time+"&start=0&limit="+pageSize).
 			success(function(response){
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
@@ -120,7 +145,10 @@ xh.load = function() {
 				$scope.msc_add_win_html.push(b);
 			}
 		}
-		
+		$scope.refresh = function() {
+			$scope.sbs_search(1);
+			$('#xh-tabs a:first').tab('show')
+		};
 		
 		
 		/* 刷新数据 */
@@ -322,7 +350,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mbsinfo?start=0&limit="+limit).
+			$http.get("../../app/mbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.mbsData = response.items;
@@ -330,6 +358,34 @@ xh.load = function() {
 				xh.mbs_pagging(page, parseInt($scope.mbsTotals),$scope,pageSize);
 			});
 		};
+		$scope.del_bs=function(id){
+			$scope.sbsOneData = $scope.sbsData[id];
+			$.ajax({
+				url : '../../app/del_sbs',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.sbsOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.sbs_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
 		$scope.sbs_search = function(page) {
 			var pageSize = $("#page-limit-sbs").val();
 			var start = 1, limit = pageSize;
@@ -341,7 +397,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?start=0&limit="+limit).
+			$http.get("../../app/sbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.sbsData = response.items;
@@ -360,7 +416,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/netinfo?start=0&limit="+limit).
+			$http.get("../../app/netinfo?time="+$("#month_net").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.netData = response.items;
@@ -379,7 +435,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/dispatchinfo?start=0&limit="+limit).
+			$http.get("../../app/dispatchinfo?time="+$("#month_dispatch").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.dispatchData = response.items;
@@ -398,7 +454,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mscinfo?start=0&limit="+limit).
+			$http.get("../../app/mscinfo?time="+$("#month_msc").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.mscData = response.items;
@@ -416,7 +472,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mbsinfo?start=0&limit="+limit).
+			$http.get("../../app/mbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.mbs_start = (page - 1) * pageSize + 1;
 				$scope.mbs_lastIndex = page * pageSize;
@@ -442,7 +498,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?start=0&limit="+limit).
+			$http.get("../../app/sbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.sbs_start = (page - 1) * pageSize + 1;
 				$scope.sbs_lastIndex = page * pageSize;
@@ -468,7 +524,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/netinfo?start=0&limit="+limit).
+			$http.get("../../app/netinfo?time="+$("#month_net").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.net_start = (page - 1) * pageSize + 1;
 				$scope.net_lastIndex = page * pageSize;
@@ -494,7 +550,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/dispatchinfo?start=0&limit="+limit).
+			$http.get("../../app/dispatchinfo?time="+$("#month_dispatch").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.dispatch_start = (page - 1) * pageSize + 1;
 				$scope.dispatch_lastIndex = page * pageSize;
@@ -520,7 +576,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mscinfo?start=0&limit="+limit).
+			$http.get("../../app/mscinfo?time="+$("#month_msc").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.msc_start = (page - 1) * pageSize + 1;
 				$scope.msc_lastIndex = page * pageSize;
@@ -1061,4 +1117,45 @@ xh.print_dispatch=function() {
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_dispatch").innerHTML);
 	 LODOP.PREVIEW();  	
 };
+xh.getNowMonth=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    } 
+    var strYesterday=strYear+"-"+strMonth;   
+    return  strYesterday;
+}
+xh.getNowYear=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+    var strYesterday=strYear;   
+    return  strYesterday;
+}
+/*经纬度差和米单位的换算
+地球半径：6371000M
+地球周长：2 * 6371000M * π = 40030173
+纬度38°地球周长：40030173 * cos38 = 31544206M
+任意地球经度周长：40030173M
+
+
+经度（东西方向）1M实际度：360°/31544206M=1.141255544679108e-5=0.00001141
+纬度（南北方向）1M实际度：360°/40030173M=8.993216192195822e-6=0.00000899*/
 

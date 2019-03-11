@@ -43,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -68,6 +69,30 @@ public class AppInspectionController {
 	protected final Log log = LogFactory.getLog(AppInspectionController.class);
 	private WebLogBean webLogBean = new WebLogBean();
 	private FlexJSON json = new FlexJSON();
+	
+	/**
+	 * 删除巡检基站记录
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/del_sbs", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> del_sbs(HttpServletRequest request, HttpServletResponse response) {
+		int id = FunUtil.StringToInt(request.getParameter("id"));
+		int rs=AppInspectionServer.del_sbs(id);
+		if(rs>0){
+			this.success=true;
+			this.message="删除基站巡检记录成功";
+		}else{
+			this.success=false;
+			this.message="删除失败";
+		}
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		return result;
+
+	}
 
 	/* <!--查询800M移动基站巡检表--> */
 	@RequestMapping(value = "/mbsinfo", method = RequestMethod.GET)
@@ -99,12 +124,14 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("time", time);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
-		result.put("totals", AppInspectionServer.sbsinfoCount());
+		result.put("totals", AppInspectionServer.sbsinfoCount(map));
 		result.put("items", AppInspectionServer.sbsinfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
@@ -123,12 +150,14 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("time", time);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
-		result.put("totals", AppInspectionServer.netinfoCount());
+		result.put("totals", AppInspectionServer.netinfoCount(map));
 		result.put("items", AppInspectionServer.netinfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
@@ -148,12 +177,14 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("time", time);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
-		result.put("totals", AppInspectionServer.dispatchinfoCount());
+		result.put("totals", AppInspectionServer.dispatchinfoCount(map));
 		result.put("items", AppInspectionServer.dispatchinfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
@@ -172,12 +203,15 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("time", time);
+		map.put("year", 1);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
-		result.put("totals", AppInspectionServer.mscCount());
+		result.put("totals", AppInspectionServer.mscCount(map));
 		result.put("items", AppInspectionServer.mscinfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);

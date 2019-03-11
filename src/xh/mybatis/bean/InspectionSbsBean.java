@@ -79,6 +79,9 @@ public class InspectionSbsBean {
 	  private String period;
 	  private String hometype;
 	  
+	  private String lat_value;
+	  private String lng_value;
+	  
 	  
 	  
 	public int getId() {
@@ -531,6 +534,19 @@ public class InspectionSbsBean {
 	}
 	public void setHometype(String hometype) {
 		this.hometype = hometype;
+	}
+	
+	public String getLat_value() {
+		return lat_value;
+	}
+	public void setLat_value(String lat_value) {
+		this.lat_value = lat_value;
+	}
+	public String getLng_value() {
+		return lng_value;
+	}
+	public void setLng_value(String lng_value) {
+		this.lng_value = lng_value;
 	}
 	@Override
 	public String toString() {

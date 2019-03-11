@@ -97,10 +97,9 @@
 									<td>防雷情况</td>
 									<td style="height:40px;width:330px;" colspan="5">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d2=='有'"
-										ng-checked="sbsOneData.d2=='有'"> <label><span>有</span></label>
+										ng-checked="sbsOneData.d2=='正常'"> <label><span>正常</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d2=='无'"> <label><span>无</span></label></td>
+										ng-checked="sbsOneData.d2=='异常'"> <label><span>异常</span></label></td>
 									<td style="height:40px;width:130px;" colspan="2">{{sbsOneData.c2}}</td>
 								</tr>
 								<tr>
@@ -108,9 +107,9 @@
 									<td rowspan="4">机房安全</td>
 									<td colspan="5">机房有无灭火设备</td>
 									<td><input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d3=='是'"> <label><span>是</span></label>
+										ng-checked="sbsOneData.d3=='有'"> <label><span>有</span></label>
 										<input class="magic-checkbox" type="checkbox"
-										ng-checked="sbsOneData.d3=='否'"> <label><span>否</span></label></td>
+										ng-checked="sbsOneData.d3=='无'"> <label><span>无</span></label></td>
 									<td style="height:40px;width:130px;" colspan="2">{{sbsOneData.c3}}</td>
 								</tr>
 								<tr>

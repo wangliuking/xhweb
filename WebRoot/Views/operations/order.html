@@ -60,7 +60,7 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
-			<div class="row" ng-show="false">
+			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
 						<div class="panel-heading hbuilt">
@@ -73,28 +73,27 @@
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label for="filename">文件名</label>
+										<label for="filename">基站ID/名称</label>
 										<div>
-											<input type="text" class="form-control" id="filename"
+											<input type="text" class="form-control" id="bs"
 												width="20px">
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="contact">联系人</label>
+										<label for="contact">起始时间</label>
 										<div>
-											<input type="text" class="form-control" id="contact">
+											<input type="text" class="form-control" id="starttime"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="status">状态选择</label>
-										<div>
-											<select id="status" class="form-control" style="width:159px;">
-												<option value="0">未签收</option>
-												<option value="1">签收</option>
-												<option value="2" selected>全部</option>
-											</select>
-										</div>
-									</div>
+                                        <label for="contact">结束时间</label>
+                                        <div>
+                                            <input type="text" class="form-control" id="endtime"
+                                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                                        </div>
+                                    </div>
+									
 
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
@@ -106,8 +105,9 @@
 									</div>
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button class="btn btn-warning btn-sm" ng-click="refresh()">
-												<i class="fa fa-refresh"></i>&nbsp;刷新
+											<button class="btn btn-primary btn-sm" id="btn-excel" data-loading-text="正在分析数据" 
+											ng-click="excel()">
+												<i class="fa fa-file-excel-o"></i>&nbsp;导出excel
 											</button>
 										</div>
 									</div>
@@ -139,7 +139,7 @@
 										<th >基站</th>
 										<th width="180px">派单时间</th>
 										<th >故障类型</th>
-										<th >故障等级</th>
+										<th >处理进展</th>
 										<th>派单人</th>
 										<th >状态</th>
 										<th >接单人</th>
@@ -157,7 +157,7 @@
 									【{{x.bsid}}-{{x.bsname}}】 </a></td>
 										<td>{{x.dispatchtime}}</td>
 										<td>{{x.errtype}}</td>
-										<td>{{x.errlevel}}</td>
+										<td>{{x.progress}}</td>
 										<td>{{x.dispatchman}}</td>
 										<td>
 										<strong ng-if="x.status==0"

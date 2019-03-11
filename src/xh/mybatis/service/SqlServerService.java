@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 
+import xh.mybatis.bean.EmhThreeBean;
 import xh.mybatis.bean.ThreeEmhAlarmBean;
 import xh.mybatis.mapper.SqlServerMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -426,6 +427,27 @@ public class SqlServerService {
 		}
 		sqlSession.close();
 		return rs;
+	}
+	public static List<String> all_table() throws Exception {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<String> list =mapper.all_table();
+		sqlSession.close();
+		return list;
+	}
+	public static List<EmhThreeBean> tb_dev_info(Map<String,Object> map) throws Exception {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.sqlServer);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		List<EmhThreeBean> list =mapper.tb_dev_info(map);
+		sqlSession.close();
+		return list;
+	}
+	public static void insertEmh(List<EmhThreeBean> list) throws Exception {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		mapper.insertEmh(list);
+		sqlSession.commit();
+		sqlSession.close();
 	}
 	
 

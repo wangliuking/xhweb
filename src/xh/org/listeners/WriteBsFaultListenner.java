@@ -186,7 +186,7 @@ class PullEmhThreeAlarm extends TimerTask{
 						//log.info("write:"+threeEmhAlarmBean);
 						
 						i++;
-					}
+				 }
 				}else{
 					if(SqlServerService.alarmExists(threeEmhAlarmBean)>0){
 						SqlServerService.updateEmhAlarm(threeEmhAlarmBean);

@@ -77,11 +77,11 @@ xh.org.listeners.WriteBsFaultListenner
 </listener>-->
 
 <!--定时获取东信基站话务统计 -->
-<!-- <listener>
+ <listener>
 <listener-class>   
 xh.org.listeners.GetEastCallDataListenner  
 </listener-class>   
-</listener> -->
+</listener>
 
 <listener>
 <listener-class>   

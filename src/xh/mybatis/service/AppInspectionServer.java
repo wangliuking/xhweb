@@ -60,12 +60,12 @@ public class AppInspectionServer {
 		return list;
 	}
 	/*<!--自建基站巡检表总数-->*/
-	public static int sbsinfoCount(){
+	public static int sbsinfoCount(Map<String,Object> map){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
 		int count=0;
 		try {
-			count = mapper.sbsinfoCount();
+			count = mapper.sbsinfoCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -91,12 +91,12 @@ public class AppInspectionServer {
 		return list;
 	}
 	/*<!--网管巡检表总数-->*/
-	public static int netinfoCount(){
+	public static int netinfoCount(Map<String,Object> map){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
 		int count=0;
 		try {
-			count = mapper.netinfoCount();
+			count = mapper.netinfoCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -121,12 +121,12 @@ public class AppInspectionServer {
 		return list;
 	}
 	/*<!--调度台巡检表总数-->*/
-	public static int dispatchinfoCount(){
+	public static int dispatchinfoCount(Map<String,Object> map){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
 		int count=0;
 		try {
-			count = mapper.dispatchinfoCount();
+			count = mapper.dispatchinfoCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -152,12 +152,12 @@ public class AppInspectionServer {
 		return list;
 	}
 	/*<!--交换中心巡检表总数-->*/
-	public static int mscCount(){
+	public static int mscCount(Map<String,Object> map){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
 		int count=0;
 		try {
-			count = mapper.mscCount();
+			count = mapper.mscCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -248,6 +248,21 @@ public class AppInspectionServer {
 		int count=0;
 		try {
 			count = mapper.sbs_edit(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int del_sbs(int id){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_sbs(id);
 			session.commit();
 			session.close();
 		} catch (Exception e) {

@@ -3,6 +3,7 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.EmhThreeBean;
 import xh.mybatis.bean.ThreeEmhAlarmBean;
 
 public interface SqlServerMapper {
@@ -75,4 +76,8 @@ public interface SqlServerMapper {
 	public int alarmExists(ThreeEmhAlarmBean bean) throws Exception;
 	public int updateEmhAlarm(ThreeEmhAlarmBean bean) throws Exception;
 	public int insertEmhAlarm(ThreeEmhAlarmBean bean) throws Exception;
+	
+	public List<String> all_table() throws Exception;
+	public List<EmhThreeBean> tb_dev_info(Map<String,Object> map) throws Exception;
+	public int insertEmh(List<EmhThreeBean> list) throws Exception;
 }
