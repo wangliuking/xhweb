@@ -132,6 +132,7 @@ public class AppInspectionController {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.sbsinfoCount(map));
+		result.put("bstotals", BsstationService.select_bs_by_type(0));
 		result.put("items", AppInspectionServer.sbsinfo(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
@@ -213,6 +214,130 @@ public class AppInspectionController {
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.mscCount(map));
 		result.put("items", AppInspectionServer.mscinfo(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@RequestMapping(value = "/dispatch_add", method = RequestMethod.POST)
+	public void dispatch_add(HttpServletRequest request, HttpServletResponse response) {
+		String data = request.getParameter("data");
+		InspectionDispatchBean bean = GsonUtil.json2Object(data,
+				InspectionDispatchBean.class);
+		bean.setUserid(FunUtil.loginUser(request));
+
+		System.out.println(bean);
+		int rst = AppInspectionServer.dispatch_add(bean);
+		if (rst > 0) {
+			this.success = true;
+			this.message = "添加调度台巡检记录成功！";
+		} else {
+			this.success = false;
+			this.message = "添加调度台巡检记录失败！";
+		}
+
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@RequestMapping(value = "/dispatch_edit", method = RequestMethod.POST)
+	public void dispatch_edit(HttpServletRequest request,
+			HttpServletResponse response) {
+		String data = request.getParameter("data");
+		InspectionDispatchBean bean = GsonUtil.json2Object(data,
+				InspectionDispatchBean.class);
+
+		System.out.println(bean);
+		int rst = AppInspectionServer.dispatch_edit(bean);
+		if (rst > 0) {
+			this.success = true;
+			this.message = "修改交调度台巡检记录成功！";
+		} else {
+			this.success = false;
+			this.message = "修改调度台巡检记录失败！";
+		}
+
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@RequestMapping(value = "/net_add", method = RequestMethod.POST)
+	public void net_add(HttpServletRequest request, HttpServletResponse response) {
+		String data = request.getParameter("data");
+		InspectionNetBean bean = GsonUtil.json2Object(data,
+				InspectionNetBean.class);
+		bean.setUserid(FunUtil.loginUser(request));
+
+		System.out.println(bean);
+		int rst = AppInspectionServer.net_add(bean);
+		if (rst > 0) {
+			this.success = true;
+			this.message = "添加网管巡检记录成功！";
+		} else {
+			this.success = false;
+			this.message = "添加网管巡检记录失败！";
+		}
+
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@RequestMapping(value = "/net_edit", method = RequestMethod.POST)
+	public void net_edit(HttpServletRequest request,
+			HttpServletResponse response) {
+		String data = request.getParameter("data");
+		InspectionNetBean bean = GsonUtil.json2Object(data,
+				InspectionNetBean.class);
+
+		System.out.println(bean);
+		int rst = AppInspectionServer.net_edit(bean);
+		if (rst > 0) {
+			this.success = true;
+			this.message = "修改交网管巡检记录成功！";
+		} else {
+			this.success = false;
+			this.message = "修改网管巡检记录失败！";
+		}
+
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = FlexJSON.Encode(result);
 		try {
@@ -1746,11 +1871,17 @@ public class AppInspectionController {
 	@RequestMapping(value = "/excel_bs", method = RequestMethod.POST)
 	public void app_bs(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String time=request.getParameter("time");
+		String[] ids=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : ids) {
+			list.add(string);
+		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", 0);
 		map.put("limit", 50000);
 		map.put("time", time);
+		map.put("ids", list);
 		//List<InspectionMbsBean> mbsList=AppInspectionServer.mbsinfo(map);
 		List<InspectionSbsBean> sbsList=AppInspectionServer.sbsinfo(map);
 		String saveDir = request.getSession().getServletContext().getRealPath("/app");
@@ -1765,89 +1896,6 @@ public class AppInspectionController {
 	
 		
 		try {
-	 /*for (InspectionMbsBean bean : mbsList) {
-				
-				String fileName=time+"-移动基站-["+bean.getBsname()+"("+bean.getBsid()+")]巡检表.xls";
-				sb.append(fileName);
-				sb.append(",");
-				fileNames.add(fileName);
-				
-			
-			pathname = saveDir + "/"+fileName;
-			File Path = new File(saveDir);
-			if (!Path.exists()) {
-				Path.mkdirs();
-			}
-			File file = new File(pathname);
-			WritableWorkbook book = Workbook.createWorkbook(file);
-			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
-					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
-			WritableCellFormat fontFormat = new WritableCellFormat(font);
-			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
-			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
-			fontFormat.setWrap(true); // 自动换行
-			fontFormat.setBackground(Colour.WHITE);// 背景颜色
-			fontFormat
-					.setBorder(Border.ALL, BorderLineStyle.NONE, Colour.BLACK);
-			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
-
-			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
-					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
-					Colour.BLACK);
-			// 应用字体
-			WritableCellFormat fontFormat_h = new WritableCellFormat(
-					font_header);
-			// 设置其他样式
-			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
-			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
-			fontFormat_h.setWrap(false);// 不自动换行
-
-			// 设置主题内容字体格式
-			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
-					11, WritableFont.NO_BOLD, false,
-					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
-			// 应用字体
-
-			WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,
-					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
-					jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色
-
-			WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义
-
-			WritableCellFormat fontFormat_Content = new WritableCellFormat(
-					font_Content);
-
-			// 设置其他样式
-
-			wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
-			wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			wcf_title.setBackground(Colour.WHITE);// 背景色
-			wcf_title.setWrap(false);// 不自动换行
-
-			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
-			fontFormat_Content.setWrap(true);// 自动换行
-
-			// 设置数字格式
-			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
-			WritableSheet sheet = book.createSheet("移动基站巡检表", 0);
-			
-			excel_mbs(bean,sheet,fontFormat,fontFormat_h,fontFormat_Content);
-			
-			
-
-
-			book.write();
-			book.close();
-			log.info("移动基站巡检表");
-			}*/
 	 
 	 for (InspectionSbsBean bean : sbsList) {
 			
@@ -1945,6 +1993,112 @@ public class AppInspectionController {
 
 		}
 	}
+	// 基站故障记录登记表
+		@RequestMapping(value = "/excel_bs_one", method = RequestMethod.POST)
+		public void app_bs_one(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			String time=request.getParameter("time");
+			int id=Integer.parseInt(request.getParameter("id"));
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("start", 0);
+			map.put("limit", 50000);
+			map.put("time", time);
+			map.put("id", id);
+			//List<InspectionMbsBean> mbsList=AppInspectionServer.mbsinfo(map);
+			List<InspectionSbsBean> sbsList=AppInspectionServer.sbsinfo(map);
+			String saveDir = request.getSession().getServletContext().getRealPath("/app");
+			String pathname="";
+	        ArrayList<String> fileNames=new ArrayList<String>();
+	        StringBuilder sb=new StringBuilder();
+	        
+	        InspectionSbsBean bean=sbsList.get(0);
+			
+			try {
+				String fileName=time+"-基站-["+bean.getBsname()+"("+bean.getBsid()+")]巡检表.xls";
+				sb.append(fileName);
+				sb.append(",");
+				fileNames.add(fileName);
+			pathname = saveDir + "/"+fileName;
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat
+					.setBorder(Border.ALL, BorderLineStyle.NONE, Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(
+					font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setWrap(false);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					11, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+
+			WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,
+					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色
+
+			WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义
+
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(
+					font_Content);
+
+			// 设置其他样式
+
+			wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcf_title.setBackground(Colour.WHITE);// 背景色
+			wcf_title.setWrap(false);// 不自动换行
+
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+
+			WritableSheet sheet = book.createSheet("基站巡检表", 0);
+			
+			excel_sbs(bean,sheet,fontFormat,fontFormat_h,fontFormat_Content);
+			book.write();
+			book.close();
+			log.info("基站巡检表");
+				this.success = true;
+				HashMap<String, Object> result = new HashMap<String, Object>();
+				result.put("success", success);
+				result.put("fileName", sb.deleteCharAt(sb.length()-1).toString());
+				result.put("pathName", pathname);
+				response.setContentType("application/json;charset=utf-8");
+				String jsonstr = json.Encode(result);
+				response.getWriter().write(jsonstr);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+		}
 
 	public void excel_mbs( InspectionMbsBean bean,
 			WritableSheet sheet, WritableCellFormat fontFormat,

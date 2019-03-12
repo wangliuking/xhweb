@@ -833,5 +833,10 @@
 		select * from xhgmnet_bs_station where bsId=#{bsId}
 
 	</select>
+	   <select id="select_bs_by_type" parameterType="int" resultType="int"
+        useCache="true">
+        select count(*) from xhgmnet_bs_station where type=#{type}
+
+    </select>
 
 </mapper>

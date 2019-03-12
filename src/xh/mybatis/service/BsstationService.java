@@ -38,6 +38,19 @@ public class BsstationService {
 		}
 		return list;
 	}
+	public static int select_bs_by_type(int type){
+		SqlSession session =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsstationMapper mapper=session.getMapper(BsstationMapper.class);
+		int count=0;
+		try {
+			count = mapper.select_bs_by_type(type);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
 	public static List<Map<String, Object>> search_regUser_by_regGroup(int groupId) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);

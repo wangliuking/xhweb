@@ -148,7 +148,7 @@
         AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX from ${table}
 	</select>
 	<insert id="insertEmh" parameterType="java.util.List"
-		keyProperty="id" useGeneratedKeys="true">
+		keyProperty="id" useGeneratedKeys="false">
 		insert into
 		xhgmnet_operations_emh_three(bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
 		AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX)values

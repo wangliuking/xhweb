@@ -72,6 +72,7 @@ xh.load = function() {
 			success(function(response){
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
+				$scope.sbsAllTotals = response.bstotals;
 				xh.sbs_pagging(1, parseInt($scope.sbsTotals),$scope,pageSize);
 			});
 		}
@@ -145,6 +146,96 @@ xh.load = function() {
 				$scope.msc_add_win_html.push(b);
 			}
 		}
+		$scope.dispatch_add_win_text=function(){
+			$scope.dispatch_add_win_html=[];
+			for(var i=1;i<=8;i++){
+				var content="";
+				var a="正常",b="异常";
+				if(i==1){
+					content="调度台安装环境是否完成正常";
+				}
+				if(i==2){
+					content="调度台电源是否正常开启";
+				}
+				if(i==3){
+					content="调度台是否正常登录";
+				}
+				if(i==4){
+					content="调度台配置是否正常";
+				}
+				if(i==5){
+					content="调度台录音是否正常";
+				}
+				if(i==6){
+					content="语音、短信业务测试是否正常";
+				}
+				if(i==7){
+					content="调度业务测试是否正常";
+				}
+				if(i==8){
+					content="环境温度是否工作正常";
+				}
+				
+				
+				var b={
+						id:i,
+						a:a,
+						b:b,
+						content:content
+				}
+				$scope.dispatch_add_win_html.push(b);
+			}
+		}
+		$scope.net_add_win_text=function(){
+			$scope.net_add_win_html=[];
+			for(var i=1;i<=11;i++){
+				var content="";
+				var a="正常",b="异常";
+				if(i==1){
+					content="网管安装环境是否完成正常";
+				}
+				if(i==2){
+					content="网管电源是否正常开启";
+				}
+				if(i==3){
+					content="网管是否正常登录";
+				}
+				if(i==4){
+					content="配置管理查看是否正常";
+				}
+				if(i==5){
+					content="用户管理查看是否正常";
+				}
+				if(i==6){
+					content="故障管理查看是否正常";
+				}
+				if(i==7){
+					content="安全管理查看是否正常";
+				}
+				if(i==8){
+					content="辅助管理查看是否正常";
+				}
+				if(i==9){
+					content="性能管理查看是否正常";
+				}
+				if(i==10){
+					content="拓扑管理查看是否正常";
+				}
+				if(i==11){
+					content="环境温度是否工作正常";
+				}
+				
+				
+				var b={
+						id:i,
+						a:a,
+						b:b,
+						content:content
+				}
+				$scope.net_add_win_html.push(b);
+			}
+		}
+		
 		$scope.refresh = function() {
 			$scope.sbs_search(1);
 			$('#xh-tabs a:first').tab('show')
@@ -192,12 +283,32 @@ xh.load = function() {
 		/* 显示netWin */
 		$scope.showNetWin = function(id) {
 			$scope.netOneData = $scope.netData[id];
+			$scope.data_net_html($scope.netOneData);
 			$("#netWin").modal('show');
+		};
+		$scope.showNetAddWin = function() {
+			$scope.net_add_win_text();
+			$("#netAddWin").modal('show');
+		};
+		$scope.showNetEditWin = function(id) {
+			$scope.netOneData = $scope.netData[id];
+			$scope.data_net_html($scope.netOneData);
+			$("#netEditWin").modal('show');
 		};
 		/* 显示dispatchWin */
 		$scope.showDispatchWin = function(id) {
 			$scope.dispatchOneData = $scope.dispatchData[id];
-			$("#dispatchWin").modal('show');
+			$scope.data_dispatch_html($scope.dispatchOneData);
+			$("#dispatchDetailWin").modal('show');
+		};
+		$scope.showDispatchEditWin = function(id) {
+			$scope.dispatchOneData = $scope.dispatchData[id];
+			$scope.data_dispatch_html($scope.dispatchOneData);
+			$("#dispatchEditWin").modal('show');
+		};
+		$scope.showDispatchAddWin = function() {
+			$scope.dispatch_add_win_text();
+			$("#dispatchAddWin").modal('show');
 		};
 		/* 显示mscWin */
 		$scope.showMscWin = function(id) {
@@ -336,6 +447,179 @@ xh.load = function() {
 						content:content
 				}
 				$scope.msc_add_win_html.push(xx);
+			}
+		}
+		$scope.data_dispatch_html=function(data){
+			$scope.dispatch_add_win_html=[];
+			for(var i=1;i<=8;i++){
+				var content="";
+				var a="正常",b="异常";
+				var w="",x="",y="",z="";
+				if(i==1){
+					content="调度台安装环境是否完成正常";
+					w=data.comment1;
+					x=data.d1;
+					y=data.p1;
+					z=data.r1;
+				}
+				if(i==2){
+					content="调度台电源是否正常开启";
+					w=data.comment2;
+					x=data.d2;
+					y=data.p2;
+					z=data.r2;
+				}
+				if(i==3){
+					content="调度台是否正常登录";
+					w=data.comment3;
+					x=data.d3;
+					y=data.p3;
+					z=data.r3;
+				}
+				if(i==4){
+					content="调度台配置是否正常";
+					w=data.comment4;
+					x=data.d4;
+					y=data.p4;
+					z=data.r4;
+				}
+				if(i==5){
+					content="调度台录音是否正常";
+					w=data.comment5;
+					x=data.d5;
+					y=data.p5;
+					z=data.r5;
+				}
+				if(i==6){
+					content="语音、短信业务测试是否正常";
+					w=data.comment6;
+					x=data.d6;
+					y=data.p6;
+					z=data.r6;
+				}
+				if(i==7){
+					content="调度业务测试是否正常";
+					w=data.comment7;
+					x=data.d7;
+					y=data.p7;
+					z=data.r7;
+				}
+				if(i==8){
+					content="环境温度是否工作正常";
+					w=data.comment8;
+					x=data.d8;
+					y=data.p8;
+					z=data.r8;
+				}
+				
+				var xx={
+						id:i,
+						a:a,
+						b:b,
+						w:w,
+						x:x,
+						y:y,
+						z:z,
+						content:content
+				}
+				$scope.dispatch_add_win_html.push(xx);
+			}
+		}
+		$scope.data_net_html=function(data){
+			$scope.net_add_win_html=[];
+			for(var i=1;i<=11;i++){
+				var content="";
+				var a="正常",b="异常";
+				var w="",x="",y="",z="";
+				if(i==1){
+					content="网管安装环境是否完成正常";
+					w=data.comment1;
+					x=data.d1;
+					y=data.p1;
+					z=data.r1;
+				}
+				if(i==2){
+					content="网管电源是否正常开启";
+					w=data.comment2;
+					x=data.d2;
+					y=data.p2;
+					z=data.r2;
+				}
+				if(i==3){
+					content="网管是否正常登录";
+					w=data.comment3;
+					x=data.d3;
+					y=data.p3;
+					z=data.r3;
+				}
+				if(i==4){
+					content="配置管理查看是否正常";
+					w=data.comment4;
+					x=data.d4;
+					y=data.p4;
+					z=data.r4;
+				}
+				if(i==5){
+					content="用户管理查看是否正常";
+					w=data.comment5;
+					x=data.d5;
+					y=data.p5;
+					z=data.r5;
+				}
+				if(i==6){
+					content="故障管理查看是否正常";
+					w=data.comment6;
+					x=data.d6;
+					y=data.p6;
+					z=data.r6;
+				}
+				if(i==7){
+					content="安全管理查看是否正常";
+					w=data.comment7;
+					x=data.d7;
+					y=data.p7;
+					z=data.r7;
+				}
+				if(i==8){
+					content="辅助管理查看是否正常";
+					w=data.comment8;
+					x=data.d8;
+					y=data.p8;
+					z=data.r8;
+				}
+				if(i==9){
+					content="性能管理查看是否正常";
+					w=data.comment9;
+					x=data.d9;
+					y=data.p9;
+					z=data.r9;
+				}
+				if(i==10){
+					content="拓扑管理查看是否正常";
+					w=data.comment10;
+					x=data.d10;
+					y=data.p10;
+					z=data.r10;
+				}
+				if(i==11){
+					content="环境温度是否工作正常";
+					w=data.comment11;
+					x=data.d11;
+					y=data.p11;
+					z=data.r11;
+				}
+				
+				var xx={
+						id:i,
+						a:a,
+						b:b,
+						w:w,
+						x:x,
+						y:y,
+						z:z,
+						content:content
+				}
+				$scope.net_add_win_html.push(xx);
 			}
 		}
 		/* 查询数据 */
@@ -593,13 +877,128 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.bs_month_inspection_excel = function(index) {
+			xh.maskShow();
+			var time=$("#month").val();
+			$scope.sbsOneData = $scope.sbsData[index];
+			
+			$.ajax({
+				url : '../../app/excel_bs_one',
+				type : 'POST',
+				dataType : "json",
+				data : {
+					time:time,
+					id:$scope.sbsOneData.id
+				},
+				async : true,
+				success : function(data) {
+					xh.maskHide();
+					if (data.success) {
+						window.location.href = "../../bsstatus/downExcel?filePath="
+							+ data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
+				}
+			});
+
+		};
+		$scope.excel_bs_more=function(){
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("value"));
+				}
+			});
+			if (checkVal.length < 1) {
+				swal({
+					title : "提示",
+					text : "请至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			xh.maskShow();
+			var time=$("#month").val();
+			$.ajax({
+				url : '../../app/excel_bs',
+				type : 'POST',
+				dataType : "json",
+				data : {
+					time:time,
+					id:checkVal.join(",")
+				},
+				async : true,
+				success : function(data) {
+					xh.maskHide();
+					if (data.success) {
+						 $.download('../../app/download', 'post', data.zipName, data.fileName); // 下载文件
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
+				}
+			});
+		}
+		$scope.inspection_month_excel = function() {
+			 var time = $("#excel-month-inspection").find("input[name='time']").val();
+             if (time == "") {
+                 alert("时间不能为空");
+                 return;
+             }
+			xh.maskShow();
+			//$("#excel-month-inspection-btn").button('loading');
+			
+			$.ajax({
+				url : '../../report/month/excel_month_inspection',
+				type : 'get',
+				dataType : "json",
+				data : {
+					time:time
+				},
+				async : true,
+				success : function(data) {
+
+					//$("#excel-month-inspection-btn").button('reset');
+					xh.maskHide();
+					if (data.success) {
+						window.location.href = "../../bsstatus/downExcel?filePath="
+								+ data.pathName;
+
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					/*$("#excel-month-inspection-btn").button('reset');*/
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
+				}
+			});
+
+		};
 		$scope.msc_add_win_text();
+		//$scope.dispatch_add_win_text();
 	});
 };
 $(document).ready(function(){ 
 	var $scope = angular.element(appElement).scope();
 	$scope.sbs();
 	}); 
+jQuery.download = function(url, method, zipName, filename){
+    jQuery('<form action="'+url+'" method="post">' +  // action请求路径及推送方法
+                '<input type="text" name="zipName" value="'+zipName+'"/>' + // 文件路径
+                '<input type="text" name="fileName" value="'+filename+'"/>' + // 文件名称
+            '</form>')
+    .appendTo('body').submit().remove();
+};
 
 // 刷新数据
 /*xh.refresh = function() {
@@ -707,6 +1106,126 @@ xh.net_pagging = function(currentPage,totals, $scope,pageSize) {
 			}
 		});
 	}
+};
+xh.add_dispatch=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/dispatch_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addDispatchForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.dispatch_refresh();
+				$("#dispatchAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_dispatch=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/dispatch_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editDispatchForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.dispatch_refresh();
+				$("#dispatchEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.add_net=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/net_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addNetForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.net_refresh();
+				$("#netAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_net=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/net_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editNetForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.net_refresh();
+				$("#netEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
 };
 //添加交换中心巡检记录
 xh.add_msc=function(){
@@ -878,7 +1397,7 @@ xh.edit_sbs=function(){
 			//$("#btn-mbs").button('reset');
 			if (data.success) {
 				toastr.success(data.message, '提示');
-				$scope.mbs_refresh();
+				$scope.sbs_refresh();
 				$("#editSbsWin").modal('hide');
 			} else {
 				toastr.error(data.message, '提示');

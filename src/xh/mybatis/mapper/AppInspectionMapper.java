@@ -3,8 +3,10 @@ package xh.mybatis.mapper;
 import java.util.List;
 import java.util.Map;
 
+import xh.mybatis.bean.InspectionDispatchBean;
 import xh.mybatis.bean.InspectionMbsBean;
 import xh.mybatis.bean.InspectionMscBean;
+import xh.mybatis.bean.InspectionNetBean;
 import xh.mybatis.bean.InspectionSbsBean;
 
 public interface AppInspectionMapper {
@@ -39,6 +41,14 @@ public interface AppInspectionMapper {
 	
 	/*<!--交互按中心巡检表-->*/
 	public int mscCount(Map<String,Object> map)throws Exception;
+	
+	public int dispatch_add(InspectionDispatchBean bean)throws Exception;
+	
+	public int dispatch_edit(InspectionDispatchBean bean)throws Exception;
+	
+	public int net_add(InspectionNetBean bean)throws Exception;
+	
+	public int net_edit(InspectionNetBean bean)throws Exception;
 	
 	public int msc_add(InspectionMscBean bean)throws Exception;
 	
