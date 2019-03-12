@@ -91,6 +91,21 @@ public class DispatchStatusService {
 		session.close();
 		return rsList;
 	}
+	public static List<Map<String,Object>> select_by_setup(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);
+			
+		List<Map<String,Object>> rsList=new ArrayList<Map<String,Object>>();
+		try {
+			rsList = mapper.select_by_setup();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return rsList;
+	}
 	public static List<Map<String,Object>> dispatchSetup(){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		DispatchStatusMapper mapper = session.getMapper(DispatchStatusMapper.class);

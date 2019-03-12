@@ -313,7 +313,7 @@ public class ReportMonthController {
 			sheet.addCell(new Label(4, 1, "巡检时间", fontFormat_h));
 			sheet.addCell(new Label(5, 1, "巡检人员", fontFormat_h));
 			sheet.addCell(new Label(6, 1, "存在问题", fontFormat_h));
-			sheet.addCell(new Label(7, 1, "遗留问题", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "整改情况 ", fontFormat_h));
 			sheet.addCell(new Label(8, 1, "是否完成", fontFormat_h));
 			sheet.setRowView(0, 600);
 			sheet.setColumnView(0, 10);

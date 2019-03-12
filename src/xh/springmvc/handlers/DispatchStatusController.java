@@ -47,6 +47,20 @@ public class DispatchStatusController {
 		}
 		
 	}
+	@RequestMapping(value="/select_by_setup",method = RequestMethod.GET)
+	public void select_by_setup(HttpServletRequest request, HttpServletResponse response){	
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		result.put("items", DispatchStatusService.select_by_setup());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = FlexJSON.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping(value="/dispatchstatus_list",method = RequestMethod.GET)
 	public void dispatchstatus_list(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;		

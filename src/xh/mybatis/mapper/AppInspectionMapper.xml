@@ -25,7 +25,9 @@
 	<!--自建基站巡检表 -->
 	<select id="sbsinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionSbsBean" useCache="true">
-		select a.*,b.period,b.level,b.hometype,TRUNCATE(ABS((a.latitude-b.lat)),7) as lat_value,TRUNCATE(ABS((a.longitude-b.lng)),7) as lng_value from
+		select
+		a.*,b.period,b.level,b.hometype,TRUNCATE(ABS((a.latitude-b.lat)),7) as
+		lat_value,TRUNCATE(ABS((a.longitude-b.lng)),7) as lng_value from
 		xhgmnet_operations_inspection_selfbs as a
 		LEFT JOIN xhgmnet_bs_station
 		as b on a.bsid=b.bsId where 1=1
@@ -33,15 +35,15 @@
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
 		<if test="id!=null and id!=''">
-		 and a.id=#{id}
+			and a.id=#{id}
 		</if>
 		<if test="ids!=null and ids!=''">
-         and a.id in (
-        <foreach collection="ids" item="id" separator=",">
-            #{id}
-        </foreach>
-        )
-        </if>
+			and a.id in (
+			<foreach collection="ids" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--自建基站巡检表总数 -->
@@ -52,8 +54,8 @@
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
 		<if test="id!=null and id!=''">
-         and id=#{id}
-        </if>
+			and id=#{id}
+		</if>
 	</select>
 
 	<!--网管巡检表 -->
@@ -114,15 +116,15 @@
 		useCache="true">
 		select count(*) from xhgmnet_operations_inspection_msc where 1=1
 		<if test="year!=null and year!='' and year==1">
-            <if test="time!=null and time!=''">
-                and date_format(checkDate,'%Y')=#{time}
-            </if>
-        </if>
-        <if test="year==null || year==''">
-            <if test="time!=null and time!=''">
-                and date_format(checkDate,'%Y-%m')=#{time}
-            </if>
-        </if>
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y')=#{time}
+			</if>
+		</if>
+		<if test="year==null || year==''">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y-%m')=#{time}
+			</if>
+		</if>
 	</select>
 	<insert id="msc_add" parameterType="xh.mybatis.bean.InspectionMscBean"
 		useGeneratedKeys="true" keyProperty="id">
@@ -177,73 +179,73 @@
 		where id=#{id}
 	</update>
 	<insert id="dispatch_add" parameterType="xh.mybatis.bean.InspectionDispatchBean"
-        useGeneratedKeys="true" keyProperty="id">
-        insert into
-        xhgmnet_operations_inspection_dispatch
-        (serialnumber,dispatchname,dispatchplace,checkman,commitdate,
-        userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,
-        d1,d2,d3,d4,d5,d6,d7,d8,
-        p1,p2,p3,p4,p5,p6,p7,p8,
-        r1,r2,r3,r4,r5,r6,r7,r8
-        )values(#{serialnumber},#{dispatchname},#{dispatchplace},
-        #{checkman},#{commitdate},#{userid},
-        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},
-        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
-        #{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},
-        #{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8}
-        )
-    </insert>
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_inspection_dispatch
+		(serialnumber,dispatchname,dispatchplace,checkman,commitdate,
+		userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,
+		d1,d2,d3,d4,d5,d6,d7,d8,
+		p1,p2,p3,p4,p5,p6,p7,p8,
+		r1,r2,r3,r4,r5,r6,r7,r8
+		)values(#{serialnumber},#{dispatchname},#{dispatchplace},
+		#{checkman},#{commitdate},#{userid},
+		#{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},
+		#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
+		#{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},
+		#{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8}
+		)
+	</insert>
 	<update id="dispatch_edit" parameterType="xh.mybatis.bean.InspectionDispatchBean">
-        update
-        xhgmnet_operations_inspection_dispatch set
-        dispatchname=#{dispatchname},dispatchplace=#{dispatchplace},checkman=#{checkman},
-        commitdate=#{commitdate},
-        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
-        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},
-        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
-        d7=#{d7},d8=#{d8},p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
-        p7=#{p7},p8=#{p8},r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
-        r7=#{r7},r8=#{r8}
-        where id=#{id}
-    </update>
-    
-    <insert id="net_add" parameterType="xh.mybatis.bean.InspectionNetBean"
-        useGeneratedKeys="true" keyProperty="id">
-        insert into
-        xhgmnet_operations_inspection_net
-        (serialnumber,managername,managerplace,checkman,commitdate,
-        userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
-        d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,
-        p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,
-        r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11
-        )values(#{serialnumber},#{managername},#{managerplace},
-        #{checkman},#{commitdate},#{userid},
-        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},#{comment9},#{comment10},#{comment11},
-        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
-        #{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},#{p9},#{p10},#{p11},
-        #{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8},#{r9},#{r10},#{r11}
-        )
-    </insert>
-    <update id="net_edit" parameterType="xh.mybatis.bean.InspectionNetBean">
-        update
-        xhgmnet_operations_inspection_net set
-        managername=#{managername},managerplace=#{managerplace},checkman=#{checkman},
-        commitdate=#{commitdate},
-        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
-        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
-        comment11=#{comment11},
-        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
-        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
-        p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
-        p7=#{p7},p8=#{p8},p9=#{p9},p10=#{p10},p11=#{p11},
-        r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
-        r7=#{r7},r8=#{r8},r9=#{r9},r10=#{r10},r11=#{r11}
-        where id=#{id}
-    </update>
-    
-    
-    
-    
+		update
+		xhgmnet_operations_inspection_dispatch set
+		dispatchname=#{dispatchname},dispatchplace=#{dispatchplace},checkman=#{checkman},
+		commitdate=#{commitdate},
+		comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+		comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},
+		d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+		d7=#{d7},d8=#{d8},p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
+		p7=#{p7},p8=#{p8},r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
+		r7=#{r7},r8=#{r8}
+		where id=#{id}
+	</update>
+
+	<insert id="net_add" parameterType="xh.mybatis.bean.InspectionNetBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_inspection_net
+		(serialnumber,managername,managerplace,checkman,commitdate,
+		userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+		d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,
+		p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,
+		r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11
+		)values(#{serialnumber},#{managername},#{managerplace},
+		#{checkman},#{commitdate},#{userid},
+		#{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},#{comment9},#{comment10},#{comment11},
+		#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+		#{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},#{p9},#{p10},#{p11},
+		#{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8},#{r9},#{r10},#{r11}
+		)
+	</insert>
+	<update id="net_edit" parameterType="xh.mybatis.bean.InspectionNetBean">
+		update
+		xhgmnet_operations_inspection_net set
+		managername=#{managername},managerplace=#{managerplace},checkman=#{checkman},
+		commitdate=#{commitdate},
+		comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+		comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+		comment11=#{comment11},
+		d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+		d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+		p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
+		p7=#{p7},p8=#{p8},p9=#{p9},p10=#{p10},p11=#{p11},
+		r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
+		r7=#{r7},r8=#{r8},r9=#{r9},r10=#{r10},r11=#{r11}
+		where id=#{id}
+	</update>
+
+
+
+
 	<insert id="mbs_add" parameterType="xh.mybatis.bean.InspectionMbsBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
@@ -305,4 +307,28 @@
 		delete from
 		xhgmnet_operations_inspection_selfbs where id=#{id}
 	</delete>
+	<delete id="del_net" parameterType="java.util.List">
+		delete from
+		xhgmnet_operations_inspection_net where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<delete id="del_dispatch" parameterType="java.util.List">
+		delete from
+		xhgmnet_operations_inspection_dispatch where id=(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<delete id="del_msc" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_msc where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
 </mapper>

@@ -93,6 +93,75 @@ public class AppInspectionController {
 		return result;
 
 	}
+	@RequestMapping(value = "/del_net", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> del_net(HttpServletRequest request, HttpServletResponse response) {
+		String[] id = request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		
+		for (String str : id) {
+			list.add(str);
+		}
+		int rs=AppInspectionServer.del_net(list);
+		if(rs>0){
+			this.success=true;
+			this.message="删除网管巡检记录成功";
+		}else{
+			this.success=false;
+			this.message="删除失败";
+		}
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		return result;
+
+	}
+	@RequestMapping(value = "/del_msc", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> del_msc(HttpServletRequest request, HttpServletResponse response) {
+		String[] id = request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		
+		for (String str : id) {
+			list.add(str);
+		}
+		int rs=AppInspectionServer.del_msc(list);
+		if(rs>0){
+			this.success=true;
+			this.message="删除交换中心巡检记录成功";
+		}else{
+			this.success=false;
+			this.message="删除失败";
+		}
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		return result;
+
+	}
+	@RequestMapping(value = "/del_dispatch", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> del_dispatch(HttpServletRequest request, HttpServletResponse response) {
+		String[] id = request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		
+		for (String str : id) {
+			list.add(str);
+		}
+		int rs=AppInspectionServer.del_dispatch(list);
+		if(rs>0){
+			this.success=true;
+			this.message="删除调度台巡检记录成功";
+		}else{
+			this.success=false;
+			this.message="删除失败";
+		}
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("success", success);
+		result.put("message", message);
+		return result;
+
+	}
 
 	/* <!--查询800M移动基站巡检表--> */
 	@RequestMapping(value = "/mbsinfo", method = RequestMethod.GET)
@@ -2451,33 +2520,33 @@ public class AppInspectionController {
 			return "";
 		} else {
 			if (str.equals("有")) {
-				return "☑ 有  口无";
+				return "☑  有  口 无";
 			} else if (str.equals("无")) {
-				return "□有   ☑无";
+				return "□ 有   ☑ 无";
 			}
 
 			else if (str.equals("是")) {
-				return "☑是  口否";
+				return "☑ 是  口 否";
 			} else if (str.equals("否")) {
-				return "□是   ☑否";
+				return "□ 是   ☑ 否";
 			}
 
 			else if (str.equals("正常")) {
-				return "☑正常  口异常";
+				return "☑ 正常  口 异常";
 			} else if (str.equals("异常")) {
-				return "□正常   ☑异常";
+				return "□ 正常   ☑ 异常";
 			}
 			
 			else if (str.equals("安全")) {
-				return "☑安全  口有隐患";
+				return "☑ 安全  口 有隐患";
 			} else if (str.equals("有隐患")) {
-				return "□安全   ☑有隐患";
+				return "□ 安全   ☑ 有隐患";
 			}
 
 			else if (str.equals("已备份")) {
-				return "☑已备份  口未备份";
+				return "☑ 已备份  口 未备份";
 			} else if (str.equals("未备份")) {
-				return "□已备份   ☑未备份";
+				return "□ 已备份   ☑ 未备份";
 			}
 			
 			else if (str.equals("移动") || str.equals("电信") || str.equals("铁塔")) {
@@ -2491,9 +2560,9 @@ public class AppInspectionController {
 				}
 
 			else if (str.equals("已执行")) {
-				return "☑已执行  口未执行";
+				return "☑ 已执行  口 未执行";
 			} else if (str.equals("已执行")) {
-				return "□已执行   ☑未执行";
+				return "□ 已执行   ☑ 未执行";
 			} else {
 				return "";
 			}

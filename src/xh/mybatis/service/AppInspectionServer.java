@@ -334,4 +334,49 @@ public class AppInspectionServer {
 		session.close();
 		return count;
 	}
+	public static int del_net(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_net(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int del_msc(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_msc(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int del_dispatch(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_dispatch(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
 }

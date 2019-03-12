@@ -44,4 +44,7 @@
     <update id="updateDispatchAlarmStatus">
       update xhgmnet_dispatch set alarmFlag=1 where setupStatus=1 and flag=0
     </update>
+        <select id="select_by_setup" resultType="map" useCache="true">
+	select * from xhgmnet_dispatch where setupStatus=1
+    </select> 
 </mapper>

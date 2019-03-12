@@ -63,5 +63,11 @@ public interface AppInspectionMapper {
 	public int sbs_edit(InspectionSbsBean bean)throws Exception;
 	
 	public int del_sbs(int id)throws Exception;
+	
+	public int del_net(List<String> list)throws Exception;
+	
+	public int del_msc(List<String> list)throws Exception;
+	
+	public int del_dispatch(List<String> list)throws Exception;
 
 }

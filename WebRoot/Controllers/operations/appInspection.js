@@ -36,11 +36,23 @@ xh.load = function() {
 			var plat=lat2/lat1;
 			var plng=lng2/lng1;
 			
-			if(plat>500 || plng>500){
-				return "偏移约："+((plat>plng)?plat.toFixed(0):plng.toFixed(0))+"米"
+			
+			if(plat<plng){
+				if(plat>500){
+					return "偏移约："+plat.toFixed(0)+"米"
+				}else{
+					return "正常"
+				}
 			}else{
-				return "正常"
+				if(plng>500){
+					return "偏移约："+plng.toFixed(0)+"米"
+				}else{
+					return "正常"
+				}
 			}
+			
+			
+			
 		};
 	});
 	app.controller("xhcontroller", function($scope, $http) {
@@ -54,6 +66,16 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
+		$scope.dispatchlist=function(){	
+			$http.get("../../status/select_by_setup").
+			success(function(response){
+				$scope.dData = response.items;
+			});
+		};
+		
+		$scope.select=function(index){
+			alert(index);
+		}
 		
 	/*	获取移动基站巡检表信息
 		$scope.mbs=function(){	
@@ -304,6 +326,7 @@ xh.load = function() {
 		$scope.showDispatchEditWin = function(id) {
 			$scope.dispatchOneData = $scope.dispatchData[id];
 			$scope.data_dispatch_html($scope.dispatchOneData);
+			
 			$("#dispatchEditWin").modal('show');
 		};
 		$scope.showDispatchAddWin = function() {
@@ -670,6 +693,90 @@ xh.load = function() {
 			});
 			
 		}
+		$scope.del_net=function(id){
+			$scope.netOneData = $scope.netData[id];
+			$.ajax({
+				url : '../../app/del_net',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.netOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.net_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.del_msc=function(id){
+			$scope.mscOneData = $scope.mscData[id];
+			$.ajax({
+				url : '../../app/del_msc',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.mscOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.msc_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.del_dispatch=function(id){
+			$scope.dispatchOneData = $scope.dispatchData[id];
+			$.ajax({
+				url : '../../app/del_dispatch',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.dispatchOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.dispatch_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
 		$scope.sbs_search = function(page) {
 			var pageSize = $("#page-limit-sbs").val();
 			var start = 1, limit = pageSize;
@@ -985,6 +1092,7 @@ xh.load = function() {
 
 		};
 		$scope.msc_add_win_text();
+		$scope.dispatchlist();
 		//$scope.dispatch_add_win_text();
 	});
 };

@@ -13,6 +13,7 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+<link href="../../Resources/css/bootstrap-select.css" rel="stylesheet" type="text/css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -273,7 +274,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 																<th>GPS定位</th>
-																<th width="120">操作</th>
+																<th width="150">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -295,6 +296,10 @@ input[type="text"] {
 																<a href="#" ng-click="showNetEditWin($index)"
                                                                     class="text-danger" ng-if="up.o_update=='on'"> <i
                                                                         class="fa fa-edit text-danger"></i>|&nbsp;编辑
+                                                                </a>
+                                                                <a href="#" ng-click="del_net($index)"
+                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
+                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
                                                                 </a>
 																</td>
 															</tr>
@@ -363,7 +368,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 																<th>GPS定位</th>
-																<th width="120">操作</th>
+																<th width="150">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -383,7 +388,12 @@ input[type="text"] {
 																</a><a href="#" ng-click="showDispatchEditWin($index)"
 																	class="text-danger" ng-if="up.o_update=='on'"> <i
 																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
-																</a></td>
+																</a>
+																<a href="#" ng-click="del_dispatch($index)"
+                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
+                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
+                                                                </a>
+																</td>
 															</tr>
 														</tbody>
 													</table>
@@ -450,7 +460,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 
-																<th width="120">操作</th>
+																<th width="150">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -469,7 +479,12 @@ input[type="text"] {
 																</a><a href="#" ng-click="showMscEditWin($index)"
 																	class="text-danger" ng-if="up.o_update=='on'"> <i
 																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
-																</a></td>
+																</a>
+																<a href="#" ng-click="del_msc($index)"
+                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
+                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
+                                                                </a>
+																</td>
 															</tr>
 														</tbody>
 													</table>
@@ -567,6 +582,8 @@ input[type="text"] {
 	<div ng-include="'appInspection-msc-edit.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript" src="../../Resources/js/bootstrap-select.js">
+	</script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"

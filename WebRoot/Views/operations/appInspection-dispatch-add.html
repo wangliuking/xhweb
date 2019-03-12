@@ -9,25 +9,39 @@
 				<!-- <small class="font-bold">自建基站巡检表</small> -->
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				
+
 				<div class="row" style="margin-top:5px;" id="print_dispatch">
 					<div class="col-md-12">
-					<form action="#" id="addDispatchForm" onSubmit="return false">
-						<table style="width:100%;border-collapse: collapse;" class="table-view">
-						
+						<form action="#" id="addDispatchForm" onSubmit="return false">
+							<table style="width:100%;border-collapse: collapse;"
+								class="table-view">
+
 								<tr>
-									<td colspan="8" style="text-align: center;">调度台巡检表
-									</td>
+									<td colspan="8" style="text-align: center;">调度台巡检表</td>
 								</tr>
 								<tr>
 									<td style="width:10%;">调度台名称</td>
-									<td style="width:20%;color:blue"><input  type="text" name="dispatchname"></td>
+									<td style="width:20%;color:blue">
+										<!-- <input  type="text" name="dispatchname"> -->
+										<div class="col-lg-4">
+											<select
+												class="selectpicker show-tick"
+												data-live-search="true" ng-change="select(select.value)">
+												<option ng-repeat="x in dData" value="{{x.dstId}}">{{x.dstName}}</option>
+												<option ng-for="let x of dData;let i=index" value="{{i}}">{{x.dstName}}</option>
+											</select>
+										</div>
+									</td>
 									<td style="width:10%;">地点</td>
-									<td style="width:15%;color:blue"><input  type="text" name="dispatchplace"></td>
+									<td style="width:15%;color:blue"><input type="text"
+										name="dispatchplace"></td>
 									<td style="width:13%;">巡检时间</td>
-									<td style="width:15%;color:blue"><input  type="text" name="commitdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></td>
+									<td style="width:15%;color:blue"><input type="text"
+										name="commitdate"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></td>
 									<td style="width:10%;">巡检人</td>
-									<td style="width:10%;color:blue"><input  type="text" name="checkman"></td>
+									<td style="width:10%;color:blue"><input type="text"
+										name="checkman"></td>
 
 								</tr>
 
@@ -39,56 +53,54 @@
 									<td>问题描述</td>
 									<td colspan="2">处理情况及遗留问题</td>
 								</tr>
-							
-                                
-                                <tr ng-repeat="c in dispatch_add_win_html">
-                                    <td>{{c.id}}</td>
-                                    <td>{{c.content}}</td>
-                                     <td colspan="2"><input type="text" name="comment{{c.id}}">
-                                    </td>
-                                    <td><input id="dispatch-addc{{c.id}}" class="magic-radio" type="radio"
-                                        value="{{c.a}}" name="d{{c.id}}" ng-checked="true"> <label
-                                        for="dispatch-addc{{c.id}}"><span>{{c.a}}</span></label> <input
-                                        id="dispatch-addd{{c.id}}" class="magic-radio" type="radio" value="{{c.b}}"
-                                        name="d{{c.id}}" > <label for="dispatch-addd{{c.id}}"><span>{{c.b}}</span></label>
-                                    </td>
-                                    <td><input type="text" name="p{{c.id}}">
-                                    </td>
-                                    <td colspan="2"><input type="text" name="r{{c.id}}">
-                                    </td>
-                                </tr>
-								
-								
-							
-						</table>
+
+
+								<tr ng-repeat="c in dispatch_add_win_html">
+									<td>{{c.id}}</td>
+									<td>{{c.content}}</td>
+									<td colspan="2"><input type="text" name="comment{{c.id}}">
+									</td>
+									<td><input id="dispatch-addc{{c.id}}" class="magic-radio"
+										type="radio" value="{{c.a}}" name="d{{c.id}}"
+										ng-checked="true"> <label for="dispatch-addc{{c.id}}"><span>{{c.a}}</span></label>
+										<input id="dispatch-addd{{c.id}}" class="magic-radio"
+										type="radio" value="{{c.b}}" name="d{{c.id}}"> <label
+										for="dispatch-addd{{c.id}}"><span>{{c.b}}</span></label></td>
+									<td><input type="text" name="p{{c.id}}"></td>
+									<td colspan="2"><input type="text" name="r{{c.id}}">
+									</td>
+								</tr>
+
+
+
+							</table>
 						</form>
 					</div>
 				</div>
 
 			</div>
 			<div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm"
-                    data-dismiss="modal">
-                    <i class="fa fa-remove"></i>&nbsp;关闭
-                </button>
-                <button type="button" 
-                    class="btn btn-success btn-sm" id="add_dispatch_btn">
-                    <i class="fa fa-plus"></i>&nbsp;新增
-                </button>
-            </div>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					id="add_dispatch_btn">
+					<i class="fa fa-plus"></i>&nbsp;新增
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-    $("#add_dispatch_btn").click(function() {
-        var a=$("#addDispatchForm").find("input[name='commitdate']").val();
-        var b=$("#addDispatchForm").find("input[name='checkman']").val();
-        if(a=="" || b==""){
-            toastr.error("巡检人和时间不能为空", '提示');
-            return;
-        }
-        
-        
-        xh.add_dispatch();
-    });
+	$("#add_dispatch_btn").click(function() {
+		var a = $("#addDispatchForm").find("input[name='commitdate']").val();
+		var b = $("#addDispatchForm").find("input[name='checkman']").val();
+		if (a == "" || b == "") {
+			toastr.error("巡检人和时间不能为空", '提示');
+			return;
+		}
+
+		xh.add_dispatch();
+	});
 </script>
