@@ -280,10 +280,10 @@ public class CheckCutService {
      * @param
      * @return
      */
-    public static Map<String,Object> selectBsInformationById(Map<String, Object> map) {
+    public static List<Map<String,Object>> selectBsInformationById(Map<String, Object> map) {
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
-        Map<String,Object> result = null;
+        List<Map<String,Object>> result = null;
         try {
             result = mapper.selectBsInformationById(map);
         } catch (Exception e) {

@@ -51,6 +51,7 @@ public class Util {
 	private static GenCheck genCheck;
 	private static GetGenArg getGenArg;
 	private static GetPowerOnTime getPowerOnTime;
+	private static SearchBsByName searchBsByName;
 	
 	/**
 	 * 测试用主方法
@@ -324,6 +325,11 @@ public class Util {
 				getPowerOnTime = (GetPowerOnTime) JSONObject.toBean(jsonObject, GetPowerOnTime.class);
 				GetPowerOnTimeAck getPowerOnTimeAck = Service.appGetPowerOnTimeAck(getPowerOnTime);
 				map.put("returnMessage", Object2Json(getPowerOnTimeAck));
+				return map;
+			}else if("searchbsbyname".equals(cmdtype)){
+				searchBsByName = (SearchBsByName) JSONObject.toBean(jsonObject, SearchBsByName.class);
+				SearchBsByNameAck searchBsByNameAck = Service.appSearchBsByNameAck(searchBsByName);
+				map.put("returnMessage", Object2Json(searchBsByNameAck));
 				return map;
 			}
 						

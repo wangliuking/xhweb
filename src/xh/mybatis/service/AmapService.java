@@ -322,6 +322,24 @@ public class AmapService {
 	}
 	
 	/**
+	 * 新增终端号
+	 */
+	public int addRadioId(Map<String,Object> param){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		int res = 0;
+		try{
+			res = mapper.addRadioId(param);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/**
 	 * 查询需要显示的终端手台
 	 */
 	public static List<String> srcVisable(){

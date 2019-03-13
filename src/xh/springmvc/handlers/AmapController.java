@@ -473,6 +473,32 @@ public class AmapController {
 	}
 	
 	/**
+	 * 新增终端号
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/map/addRadioId",method=RequestMethod.GET)
+	public void addRadioId(HttpServletRequest request, HttpServletResponse response){	
+		try {		
+			String radioIdAdd = request.getParameter("radioIdAdd");
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("radioIdAdd", radioIdAdd);
+			AmapService amapService = new AmapService();
+			amapService.addRadioId(param);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("success", "success");
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * 根据用户查询需要显示的基站
 	 * @author wlk
 	 * @param request

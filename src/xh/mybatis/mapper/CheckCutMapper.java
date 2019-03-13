@@ -87,6 +87,6 @@ public interface CheckCutMapper {
     /**
      * 根据基站id查询详细信息，用于填充核减表
      */
-    public Map<String,Object> selectBsInformationById(Map<String,Object> map)throws Exception;
+    public List<Map<String,Object>> selectBsInformationById(Map<String,Object> map)throws Exception;
 
 }

@@ -288,6 +288,9 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
+			console.log("================");
+            console.log(start+"~~~"+page);
+            console.log("================");
 			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
 			success(function(response){
 				xh.maskHide();
@@ -655,32 +658,7 @@ xh.pagging = function(currentPage, totals, $scope) {
 xh.print_order=function() {
     var LODOP = getLodop();
     LODOP.PRINT_INIT("故障核减申请书");
-    LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A3");
+    LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
     LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
     LODOP.PREVIEW();
 };
-/*$http({
-method : "POST",
-url : "../../bs/list",
-data : {
-	bsId : bsId,
-	name : name,
-	start : start,
-	limit : pageSize
-},
-headers : {
-	'Content-Type' : 'application/x-www-form-urlencoded'
-},
-transformRequest : function(obj) {
-	var str = [];
-	for ( var p in obj) {
-		str.push(encodeURIComponent(p) + "="
-				+ encodeURIComponent(obj[p]));
-	}
-	return str.join("&");
-}
-}).success(function(response) {
-xh.maskHide();
-$scope.data = response.items;
-$scope.totals = response.totals;
-});*/

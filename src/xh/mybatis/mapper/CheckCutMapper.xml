@@ -121,7 +121,7 @@
 
     <!-- 根据基站id查询详细信息，用于填充核减表 -->
     <select id="selectBsInformationById" parameterType="map" resultType="map">
-        select * from xhgmnet_bs_information where bsId=#{bsId}
+        select a.hometype,a.period,b.*,c.tag,c.is_open,c.operator from xhgmnet_bs_station a left join xhgmnet_bs_supply_electricity b on a.bsId=b.bsId left join xhgmnet_bs_link_config c on a.bsId=c.bsId where a.bsId=#{bsId} order by c.tag
     </select>
 
 </mapper>
