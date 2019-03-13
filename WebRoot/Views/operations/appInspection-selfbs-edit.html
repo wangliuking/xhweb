@@ -17,7 +17,9 @@
 								class="table-view">
 								<tbody>
 									<tr>
-										<td colspan="10" style="text-align: center;">800M基站巡检巡检作业表</td>
+										<td colspan="10" style="text-align: center;">800M基站巡检巡检作业表
+										<input name="id" ng-model="sbsOneData.id" ng-show="false">
+										</td>
 									</tr>
 							         <tr>
                                     <td style="width:80px;">建设周期</td>
@@ -29,7 +31,7 @@
                                     <td style="width:150px;">基站级别</td>
                                     <td style="width:150px;color:blue">{{sbsOneData.bslevel}}</td>
                                     <td style="width:150px;">巡检人</td>
-                                    <td style="width:150px;color:blue" colspan="2">{{sbsOneData.checkman}}</td>
+                                    <td style="width:150px;color:blue" colspan="2">{{sbsOneData.checkman}} <input ng-show="false" name="checkman" ng-model="sbsOneData.checkman"></td>
 
                                 </tr>
                                <tr>
@@ -49,9 +51,9 @@
                                         name="hometype"> <label for="hometype3"><span>自建机房</span></label>
                                     </td>
                                     <td style="width:180px;">巡检时间</td>
-                                    <td style="width:250px;color:blue">{{sbsOneData.commitdate}}</td>
+                                    <td style="width:250px;color:blue">{{sbsOneData.commitdate}}<input ng-show="false" name="commitdate" ng-model="sbsOneData.commitdate"></td>
                                     <td style="width:100px;">自能电表</td>
-                                    <td style="width:250px;color:blue">{{sbsOneData.ammeternumber}}</td>
+                                    <td style="width:250px;color:blue">{{sbsOneData.ammeternumber}}<input ng-show="false" name="ammeternumber" ng-model="sbsOneData.ammeternumber"></td>
                                 </tr>
                                 <tr style="font-weight: 700;">
                                     <td>巡检项目</td>
@@ -77,11 +79,11 @@
 										<td>防雷情况</td>
 										<td style="height:40px;width:330px;" colspan="5">避雷针是否正常，接地线焊点是否锈蚀，天线支架、走线架是否接地，馈线是否三点接地</td>
 										<td><input id="i2" class="magic-radio" type="radio"
-											ng-checked="sbsOneData.d2=='有'" value="有" name="d2"
-											checked="checked"> <label for="i2"><span>有</span></label>
+											ng-checked="sbsOneData.d2=='正常'" value="正常" name="d2"
+											checked="checked"> <label for="i2"><span>正常</span></label>
 											<input id="j2" class="magic-radio" type="radio"
-											ng-checked="sbsOneData.d2=='无'" value="无" name="d2">
-											<label for="j2"><span>无</span></label></td>
+											ng-checked="sbsOneData.d2=='异常'" value="异常" name="d2">
+											<label for="j2"><span>异常</span></label></td>
 										<td style="height:40px;width:130px;" colspan="3"><input name="c2"
 											type="text" ng-model="sbsOneData.c2" /></td>
 									</tr>
@@ -90,11 +92,11 @@
 										<td rowspan="4">机房安全</td>
 										<td colspan="5">机房有无灭火设备</td>
 										<td><input id="i3" class="magic-radio" type="radio"
-											ng-checked="sbsOneData.d3=='是'" value="是" name="d3"
-											checked="checked"> <label for="i3"><span>是</span></label>
+											ng-checked="sbsOneData.d3=='有'" value="有" name="d3"
+											checked="checked"> <label for="i3"><span>有</span></label>
 											<input id="j3" class="magic-radio" type="radio"
-											ng-checked="sbsOneData.d3=='否'" value="否" name="d3">
-											<label for="j3"><span>否</span></label></td>
+											ng-checked="sbsOneData.d3=='无'" value="无" name="d3">
+											<label for="j3"><span>无</span></label></td>
 										<td style="height:40px;width:130px;" colspan="3"><input name="c3"
 											type="text" ng-model="sbsOneData.c3" /></td>
 									</tr>

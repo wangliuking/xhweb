@@ -1,106 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.SqlServerMapper">
-   
-    <!--查询基站环控列表-->
-    <select id="bsmonitorList" parameterType="map" resultType="map" useCache="true" timeout="1">
-     select DevNode,NodeID,NodeAttribute,value,AlarmValue from ${dbname}
-    </select>
-    <!--查询三期基站环控告警列表-->
-    <!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
-     select DevName as deviceName,value as singleValue,AlarmEX  from ${dbname} where AlarmState=1
-    </select>  -->
-   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true" timeout="1">
-     select NodeAttribute,DevName,value,AlarmEX,AlarmGrade from ${dbname} where AlarmState=1
-    </select>
-   <!--   <select id="bsmonitorAlarmList" parameterType="map" resultType="map" useCache="true">
-     select AlarmText,AlarmDate,AlarmTime from tb_AlarmRecording where State='报警' and JFNode=#{bsId} and AlarmDate=#{time}
-    </select> -->
-    
-    <!-- 三期环控交流电告警 -->
-    <select id="bsJiAlarm" parameterType="String" resultType="map" useCache="true" timeout="1">
-    <!-- select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime from 
-    (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
-      from ( select * from tb_AlarmRecording  where AlarmDate=#{time} and state='报警' 
-      and DevNode='0051' and NodeID='1003' ) as T1) as T  -->
-      select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime,T.DevNode,T.NodeID,flag as bell from tb_AlarmRecording as T  
-      where AlarmDate=#{time} and state='报警' 
-      and ((DevNode='0051' and NodeID='1003') or(DevNode='0011' and NodeID='1003'))
-    </select>
-    
-    <!-- 三期环控交流电告警数目 -->
-    <select id="bsJiAlarmCount" parameterType="String" resultType="int" useCache="true" timeout="1"> 
-		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
-		and State='报警' and ((DevNode='0051' and NodeID='1003') or(DevNode='0011' and NodeID='1003')) and flag=0
-    </select>
-    
-    <!--更新告警状态  -->
-    <update id="updateAlarmStatus" parameterType="map" timeout="1">
-    update  tb_AlarmRecording set flag=1 
-    where id in(select id from tb_AlarmRecording where AlarmDate=#{time} and State='报警' 
-    and ((DevNode='0051' and NodeID='1003') or(DevNode='0011' and NodeID='1003')) and flag=0)
-    </update>
-   <!-- 环控告警统计 -->
-	<select id="MapEmhAlarmCount" parameterType="String" resultType="int" useCache="true" timeout="1">
-		select count(*) as total from tb_AlarmRecording where AlarmDate=#{time} 
+
+	<!--查询基站环控列表 -->
+	<select id="bsmonitorList" parameterType="map" resultType="map"
+		useCache="true" timeout="1">
+		select
+		DevNode,NodeID,NodeAttribute,value,AlarmValue from ${dbname}
+	</select>
+	<!--查询三期基站环控告警列表 -->
+	<!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" 
+		useCache="true"> select DevName as deviceName,value as singleValue,AlarmEX 
+		from ${dbname} where AlarmState=1 </select> -->
+	<select id="bsmonitorAlarmList" parameterType="map" resultType="map"
+		useCache="true" timeout="1">
+		select
+		NodeAttribute,DevName,value,AlarmEX,AlarmGrade from ${dbname} where
+		AlarmState=1
+	</select>
+	<!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" 
+		useCache="true"> select AlarmText,AlarmDate,AlarmTime from tb_AlarmRecording 
+		where State='报警' and JFNode=#{bsId} and AlarmDate=#{time} </select> -->
+
+	<!-- 三期环控交流电告警 -->
+	<select id="bsJiAlarm" parameterType="String" resultType="map"
+		useCache="true" timeout="1">
+		<!-- select T.JFNode as bsId,T.AlarmText as name,T.AlarmDate,T.AlarmTime 
+			from (select ROW_NUMBER() OVER ( order by JFNode,AlarmTime ASC ) as row_number,T1.* 
+			from ( select * from tb_AlarmRecording where AlarmDate=#{time} and state='报警' 
+			and DevNode='0051' and NodeID='1003' ) as T1) as T -->
+		select T.JFNode as bsId,T.AlarmText as
+		name,T.AlarmDate,T.AlarmTime,T.DevNode,T.NodeID,flag as bell from
+		tb_AlarmRecording as T
+		where AlarmDate=#{time} and state='报警'
+		and
+		((DevNode='0051' and NodeID='1003') or(DevNode='0011' and
+		NodeID='1003'))
+	</select>
+
+	<!-- 三期环控交流电告警数目 -->
+	<select id="bsJiAlarmCount" parameterType="String" resultType="int"
+		useCache="true" timeout="1">
+		select count(*) as total from
+		tb_AlarmRecording where AlarmDate=#{time}
+		and State='报警' and
+		((DevNode='0051' and NodeID='1003') or(DevNode='0011'
+		and
+		NodeID='1003')) and flag=0
+	</select>
+
+	<!--更新告警状态 -->
+	<update id="updateAlarmStatus" parameterType="map" timeout="1">
+		update tb_AlarmRecording set flag=1
+		where id in(select id from
+		tb_AlarmRecording where AlarmDate=#{time} and
+		State='报警'
+		and
+		((DevNode='0051' and NodeID='1003') or(DevNode='0011' and
+		NodeID='1003')) and flag=0)
+	</update>
+	<!-- 环控告警统计 -->
+	<select id="MapEmhAlarmCount" parameterType="String" resultType="int"
+		useCache="true" timeout="1">
+		select count(*) as total from
+		tb_AlarmRecording where AlarmDate=#{time}
 		and State='报警'
 	</select>
 	<!-- 三期所有基站环控告警列表 -->
-	<select id="EmhAlarmList" parameterType="map" resultType="map" useCache="true" timeout="1">
-		select top 500 *  from tb_AlarmRecording where AlarmDate=#{time} 	
-		and State='报警' 
-		
-		
+	<select id="EmhAlarmList" parameterType="map" resultType="map"
+		useCache="true" timeout="1">
+		select top 500 * from tb_AlarmRecording where AlarmDate=#{time}
+		and
+		State='报警'
+
+
 		<if test="door==0">
-		and DevNode!='0011' and NodeID!='1002'
+			and DevNode!='0011' and NodeID!='1002'
 		</if>
 		<if test="smoke==0">
-		and DevNode!='0011' and NodeID!='1001'
+			and DevNode!='0011' and NodeID!='1001'
 		</if>
 		<if test="red==0">
-		and DevNode!='0011' and NodeID!='1004'
+			and DevNode!='0011' and NodeID!='1004'
 		</if>
 		<if test="water==0">
-		and DevNode!='0011' and NodeID!='1003'
+			and DevNode!='0011' and NodeID!='1003'
 		</if>
 		<if test="temp==0">
-		and DevNode!='0021'
+			and DevNode!='0021'
 		</if>
 		<if test="ups==0">
-		and DevNode!='0051' and NodeID!='1002'
+			and DevNode!='0051' and NodeID!='1002'
 		</if>
 		<if test="i==0">
-		and DevNode='0000'
+			and DevNode='0000'
 		</if>
 		<if test="fsu==0">
-		and DevNode='0000'
+			and DevNode='0000'
 		</if>
 		order by AlarmTime desc
 	</select>
-	<!--  查询三期基站环控通断状态  wlk-->
-	<select id="selectConnectStatusForEMH3" resultType="map" useCache="true">
+	<!-- 查询三期基站环控通断状态 wlk -->
+	<select id="selectConnectStatusForEMH3" resultType="map"
+		useCache="true">
 		select * from tb_JFConnect
 	</select>
-	<select id="perDayAlarm" resultType="xh.mybatis.bean.ThreeEmhAlarmBean" useCache="true" >
-	select * from tb_AlarmRecording where datediff(day,AlarmDate,getdate())=0
+	<select id="perDayAlarm" resultType="xh.mybatis.bean.ThreeEmhAlarmBean"
+		useCache="true">
+		select * from tb_AlarmRecording where
+		datediff(day,AlarmDate,getdate())=0
 	</select>
-	<select id="alarmExists" resultType="int" useCache="true" >
-	select count(*) from xhgmnet_emh_three_alarm where bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID} and State=0	
+	<select id="alarmExists" resultType="int" useCache="true">
+		select
+		count(*) from xhgmnet_emh_three_alarm where bsId=#{JFNode} and
+		DevNode=#{DevNode} and NodeID=#{NodeID} and State=0
 	</select>
 	<update id="updateEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean">
-	update xhgmnet_emh_three_alarm set State=1,RelieveTime=#{RelieveTime} where bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID}
-	and State=0	and AlarmTime &lt;#{AlarmTime}
+		update
+		xhgmnet_emh_three_alarm set State=1,RelieveTime=#{RelieveTime} where
+		bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID}
+		and State=0
+		and AlarmTime &lt;#{AlarmTime}
 	</update>
-	<insert id="insertEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean" keyProperty="id" useGeneratedKeys="true">
-	insert into xhgmnet_emh_three_alarm(bsId,DevNode,NodeID,DevName,AlarmText,AlarmTime,RelieveTime,State,name,description)values(
-	#{JFNode},#{DevNode},#{NodeID},#{DevName},#{AlarmText},#{AlarmTime},#{RelieveTime},#{State},#{name},#{description}
-	)
+	<insert id="insertEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean"
+		keyProperty="id" useGeneratedKeys="true">
+		insert into
+		xhgmnet_emh_three_alarm(bsId,DevNode,NodeID,DevName,AlarmText,AlarmTime,RelieveTime,State,name,description)values(
+		#{JFNode},#{DevNode},#{NodeID},#{DevName},#{AlarmText},#{AlarmTime},#{RelieveTime},#{State},#{name},#{description}
+		)
 	</insert>
-    <select id="three_alarm_isexis" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean" resultType="int"  useCache="true" >
-    select count(*) from xhgmnet_operations_bsfault where bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID} and State=0   
-    </select>
-	
-	
-    
+	<select id="three_alarm_isexis" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean"
+		resultType="int" useCache="true">
+		select count(*) from
+		xhgmnet_operations_bsfault where bsId=#{JFNode} and
+		DevNode=#{DevNode}
+		and NodeID=#{NodeID} and State=0
+	</select>
+
+	<select id="all_table" resultType="String" useCache="true">
+		select name
+		from sys.tables WHERE name LIKE 'tb_DEV0%' ORDER BY name asc
+	</select>
+
+	<select id="tb_dev_info" parameterType="map" resultType="xh.mybatis.bean.EmhThreeBean"
+		useCache="true">
+		select JFNode as bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,State,
+        AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX from ${table}
+	</select>
+	<insert id="insertEmh" parameterType="java.util.List"
+		keyProperty="id" useGeneratedKeys="false">
+		insert into
+		xhgmnet_operations_emh_three(bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
+		AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX)values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.bsId},#{item.DevNode},#{item.NodeID},#{item.DevName},#{item.NodeAttribute},#{item.State},#{item.value},#{item.AlarmValue},
+			#{item.AlarmAdduction},#{item.AlarmState},#{item.AlarmGrade},#{item.AlarmEX})
+		</foreach>
+
+	</insert> 
+	<!-- <insert id="insertEmh" parameterType="xh.mybatis.bean.EmhThreeBean"
+        keyProperty="id" useGeneratedKeys="true">
+        insert into
+        xhgmnet_operations_emh_three(bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
+        AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX)values
+         (#{bsId},#{DevNode},#{NodeID},#{DevName},#{NodeAttribute},#{State},#{value},#{AlarmValue},
+            #{AlarmAdduction},#{AlarmState},#{AlarmGrade},#{AlarmEX})
+
+    </insert> -->
+
+
+
+
+
+
+
 
 </mapper>

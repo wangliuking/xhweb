@@ -79,5 +79,7 @@ public interface DispatchStatusMapper {
 	 * @throws Exception
 	 */
 	public int deleteDispatch(List<String> list) throws Exception;
+	
+	public List<Map<String,Object>> select_by_setup() throws Exception;
 
 }

@@ -1,0 +1,95 @@
+
+<div class="modal fade" id="netEditWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				
+				<div class="row" style="margin-top:5px;">
+					<div class="col-md-12">
+					<form action="#" id="editNetForm" onSubmit="return false">
+						<table style="width:100%;border-collapse: collapse;" class="table-view">
+						
+								<tr>
+									<td colspan="8" style="text-align: center;">网管巡检表
+									<input ng-show="false" type="text" name="id" ng-model="netOneData.id">
+									</td>
+								</tr>
+								<tr>
+                                    <td style="width:10%;">网管名称</td>
+                                    <td style="width:20%;color:blue"><input type="text" ng-model="netOneData.managername" name="managername"></td>
+                                    <td style="width:15%;">地点</td>
+                                    <td style="width:10%;color:blue"><input type="text" ng-model="netOneData.managerplace" name="managerplace"></td>
+                                    <td style="width:13%;">巡检时间</td>
+                                    <td style="width:15%;color:blue"><input type="text" ng-model="netOneData.commitdate" name="commitdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></td>
+                                    <td style="width:10%;">巡检人</td>
+                                    <td style="width:10%;color:blue"><input type="text" ng-model="netOneData.checkman" name="checkman"></td>
+
+                                </tr>
+
+								<tr style="font-weight:700;">
+									<td>序号</td>
+									<td>检查类容</td>
+									<td colspan="2">备注</td>
+									<td>检查情况</td>
+									<td>问题描述</td>
+									<td colspan="2">处理情况及遗留问题</td>
+								</tr>
+							
+                                
+                                <tr ng-repeat="c in net_add_win_html">
+                                    <td>{{c.id}}</td>
+                                    <td>{{c.content}}</td>
+                                     <td colspan="2"><input type="text" name="comment{{c.id}}" ng-model="c.w">
+                                    </td>
+                                    <td><input id="net-editc{{c.id}}" class="magic-radio" type="radio"
+                                        value="{{c.a}}" name="d{{c.id}}" ng-checked="c.a==c.x"> <label
+                                        for="net-editc{{c.id}}"><span>{{c.a}}</span></label> <input
+                                        id="net-editd{{c.id}}" class="magic-radio" type="radio" value="{{c.b}}"
+                                        name="d{{c.id}}" ng-checked="c.b==c.x"> <label for="net-editd{{c.id}}"><span>{{c.b}}</span></label>
+                                    </td>
+                                    <td ><input type="text" name="p{{c.id}}" ng-model="c.y">
+                                    </td>
+                                    <td colspan="2"><input type="text" name="r{{c.id}}" ng-model="c.z">
+                                    </td>
+                                </tr>
+								
+								
+							
+						</table>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+                <button type="button" 
+                    class="btn btn-success btn-sm" id="update_net_btn">
+                    <i class="fa fa-plus"></i>&nbsp;修改
+                </button>
+            </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $("#update_net_btn").click(function() {
+        var a=$("#editNetForm").find("input[name='commitdate']").val();
+        var b=$("#editNetForm").find("input[name='checkman']").val();
+        if(a=="" || b==""){
+            toastr.error("巡检人和时间不能为空", '提示');
+            return;
+        }
+        
+        
+        xh.edit_net();
+    });
+</script>

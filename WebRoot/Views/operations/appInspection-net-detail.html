@@ -1,0 +1,82 @@
+
+<div class="modal fade" id="netWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="btn-group">
+							<button type="button" class="btn btn-success btn-sm" onclick="xh.print_net()">
+								<i class="fa fa-print"></i>&nbsp;打印
+							</button>
+							<button class="btn btn-danger btn-sm"
+								onclick="xh.excelToDispatch()" type="button">
+								<i class="fa fa-file-excel-o"></i>&nbsp;导出
+							</button>
+						</div> 
+					</div>
+				</div>
+				<div class="row" style="margin-top:5px;" id="print_net">
+				<style type="text/css" id="style1">
+                .table-view{border-collapse:collapse;text-align: center;word-break: break-word;}
+                .table-view td{border:1px solid #ccc;border-collapse:collapse;}
+                </style>
+					<div class="col-md-12">
+						<table style="width:100%;border-collapse: collapse;" class="table-view">
+						
+								<tr>
+									<td colspan="8" style="text-align: center;">网管巡检表</td>
+								</tr>
+								<tr>
+									<td style="width:10%;">网管名称</td>
+									<td style="width:20%;color:blue">{{netOneData.managername}}</td>
+									<td style="width:10%;">地点</td>
+									<td style="width:15%;color:blue">{{netOneData.managerplace}}</td>
+									<td style="width:13%;">巡检时间</td>
+									<td style="width:15%;color:blue">{{netOneData.commitdate}}</td>
+									<td style="width:10%;">巡检人</td>
+									<td style="width:10%;color:blue">{{netOneData.checkman}}</td>
+
+								</tr>
+
+								<tr style="font-weight:700;">
+									<td>序号</td>
+									<td>检查类容</td>
+									<td colspan="2">备注</td>
+									<td>检查情况</td>
+									<td>问题描述</td>
+									<td colspan="2">处理情况及遗留问题</td>
+								</tr>
+								<tr ng-repeat="c in net_add_win_html">
+                                    <td>{{c.id}}</td>
+                                    <td>{{c.content}}</td>
+                                    <td>{{c.w}}</td>
+                                    <td><input class="magic-radio" type="radio"
+                                        value="{{c.a}}" name="d{{c.id}}" ng-checked="c.a==c.x"> <label
+                                        ><span>{{c.a}}</span></label> <input
+                                         class="magic-radio" type="radio" value="{{c.b}}"
+                                        name="d{{c.id}}" ng-checked="c.b==c.x"> <label ><span>{{c.b}}</span></label>
+                                    </td>
+                                    <td colspan="2">{{c.y}}
+                                    </td>
+                                    <td colspan="2">{{c.z}}
+                                    </td>
+                                </tr>
+								
+								
+							
+						</table>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>

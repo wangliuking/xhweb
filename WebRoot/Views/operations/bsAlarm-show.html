@@ -181,6 +181,7 @@
 						</div>
 
 					</div>
+					
 					<!-- 	<div class="col-md-12">
 							<div class="form-group col-md-12 search" style="margin-top:10px;">
 								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
@@ -230,6 +231,10 @@
                                 <input type="radio" id="alarmType6" value="5" name="alarmType">
                                 <label for="alarmType6">交换中心主设备链路告警</label>
                             </div>
+                            <div class="radio radio-info  radio-inline">
+                                <input type="radio" id="alarmType7" value="7" name="alarmType">
+                                <label for="alarmType7">高温</label>
+                            </div>
 						</div>
 					</div>
 					<!-- <div class="col-md-12">
@@ -246,9 +251,9 @@
 						</div>
 					</div> -->
 					<!-- col-md -->
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group col-md-12">
-							<label>开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+							<label>开始时间</label>&nbsp;<input
 								type="text" value="" class="form-control" name="startTime"
 								required="required"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
@@ -256,16 +261,31 @@
 						</div>
 					</div>
 					<!-- col-md -->
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group col-md-12">
-							<label>结束时间</label>&nbsp;<span class="text-danger">[*]</span> <input
+							<label>结束时间</label>&nbsp;<input
 								type="text" value="" class="form-control" name="endTime"
 								required="required"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 						</div>
 					</div>
+					<!-- col-md -->
+                    <div class="col-md-3">
+                        <div class="form-group col-md-12">
+                            <label>基站ID</label>&nbsp;<input
+                                type="text" value="" class="form-control" id="bs-Id">
+                        </div>
+                    </div>
+                    <!-- col-md -->
+                    <div class="col-md-3">
+                        <div class="form-group col-md-12">
+                            <label>网元名称</label>&nbsp;<input
+                                type="text" value="" class="form-control" id="bsName">
+                        </div>
+                    </div>
 				</div>
 				<!-- row -->
+				
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success btn-sm"

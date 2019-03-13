@@ -639,6 +639,9 @@
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
 		</if>
+		<if test="bsName!=null and bsName!=''">
+            and a.location like concat(concat('%',#{bsName}),'%')
+        </if>
 		<if test="startTime!='' and endtime!=''">
 			and a.time between #{starttime} and #{endtime}
 		</if>
@@ -688,6 +691,9 @@
 		<if test="alarmType==6">
 			and a.neType=102
 		</if>
+		<if test="alarmType==7">
+            and a.reason like '温度高%'
+        </if>
 
 		order by a.time desc
 
@@ -701,6 +707,9 @@
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
+		<if test="bsName!=null and bsName!=''">
+            and location like concat(concat('%',#{bsName}),'%')
+        </if>
 		<if test="startTime!='' and endtime!=''">
 			and time between #{starttime} and #{endtime}
 		</if>
@@ -751,6 +760,9 @@
 		<if test="alarmType==6">
 			and neType=102
 		</if>
+		<if test="alarmType==7">
+            and reason like '温度高%'
+        </if>
 
 	</select>
 	<!-- tera系统告警基站部分,获取当前的断站列表 -->

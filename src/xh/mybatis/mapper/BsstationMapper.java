@@ -355,4 +355,6 @@ public interface BsstationMapper {
 	
 	public List<ExcelBsInfoBean> excel_bs_info()throws Exception;
 	
+	public int select_bs_by_type(int type) throws Exception;
+	
 }

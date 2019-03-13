@@ -37,6 +37,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
 		var pageSize = $("#page-limit").val();
+		$scope.page=1;
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -60,7 +61,7 @@ xh.load = function() {
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 		};
 	
 		$scope.resend=function(index){
@@ -184,9 +185,53 @@ xh.load = function() {
             });
         };
 
+		$scope.excel = function(page) {
+			var bs=$("#bs").val();
+			var starttime=$("#starttime").val();
+			var endtime=$("#endtime").val();
+			if(starttime==""){
+				toastr.error("请选择起始时间", '提示');
+				return;
+			}
+			xh.maskShow("正在分析数据，请耐心等待");
+			$("#btn-excel").button('loading');
+			$.ajax({
+				url : '../../order/excel',
+				type : 'GET',
+				dataType : "json",
+				async : true,
+				data:{
+					bs:bs,
+					starttime:starttime,
+					endtime:endtime
+				},
+				success : function(data) {
+
+					$("#btn-excel").button('reset');
+					xh.maskHide();
+					if (data.success) {
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+						
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					$("#btn-excel").button('reset');
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
+				}
+			});
+			
+			
+		};
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var bs=$("#bs").val();
+			var starttime=$("#starttime").val();
+			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -198,17 +243,21 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get(
-					"../../order/orderlist?start=0&limit=" + pageSize).success(function(response) {
+			$http.get("../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var bs=$("#bs").val();
+			var starttime=$("#starttime").val();
+			var endtime=$("#endtime").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -218,7 +267,8 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../order/orderlist?start="+start+"&limit=" + pageSize).success(function(response) {
+					"../../order/orderlist?start="+start+"&bs="+bs+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -232,6 +282,7 @@ xh.load = function() {
 				}
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.page=page
 			});
 
 		};

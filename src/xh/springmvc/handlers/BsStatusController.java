@@ -197,6 +197,7 @@ public class BsStatusController {
 		String starttime=request.getParameter("starttime");
 		String endtime=request.getParameter("endtime");
 		String level=request.getParameter("level");
+		String bsName=request.getParameter("bsName");
 		/*String alarmType_value=request.getParameter("alarmType_value");*/
 		String alarmTag_value=request.getParameter("alarmTag_value");
 		List<String> a=new ArrayList<String>();
@@ -234,6 +235,7 @@ public class BsStatusController {
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("bsId", bsId);
+		map.put("bsName", bsName);
 		map.put("level",a);
 		map.put("sysType",sysType);
 		map.put("alarmType",alarmType);

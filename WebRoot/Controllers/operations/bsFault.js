@@ -330,7 +330,8 @@ xh.load = function() {
 		$scope.search = function(page) {
 			$scope.pageValue=page;
 			var pageSize = $("#page-limit").val();
-			var bsId=$("#bsId").val();
+			var bsId=$("#bs-Id").val();
+			var bsName=$("#bsName").val();
 			var starttime=$("input[name='startTime']").val();
 			var endtime=$("input[name='endTime']").val();
 			var alarmType=$("input[name='alarmType']:checked").val();
@@ -353,7 +354,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.data = response.items;
@@ -365,7 +366,8 @@ xh.load = function() {
 		//分页点击
 		$scope.pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var bsId=$("#bsId").val();
+			var bsId=$("#bs-Id").val();
+			var bsName=$("#bsName").val();
 			var starttime=$("input[name='startTime']").val();
 			var endtime=$("input[name='endTime']").val();
 			var alarmType=$("input[name='alarmType']:checked").val();
@@ -386,7 +388,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.pageValue=page;

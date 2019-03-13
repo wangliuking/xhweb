@@ -305,15 +305,16 @@ public class ReportMonthController {
 	public  void excel_inspection(String time,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
 			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检记录汇总表", fontFormat_h));
-			sheet.mergeCells(0, 0, 7, 0);
+			sheet.mergeCells(0, 0, 8, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
 			sheet.addCell(new Label(2, 1, "期数", fontFormat_h));
 			sheet.addCell(new Label(3, 1, "应巡检次数", fontFormat_h));
 			sheet.addCell(new Label(4, 1, "巡检时间", fontFormat_h));
 			sheet.addCell(new Label(5, 1, "巡检人员", fontFormat_h));
-			sheet.addCell(new Label(6, 1, "备注", fontFormat_h));
-			sheet.addCell(new Label(7, 1, "是否完成", fontFormat_h));
+			sheet.addCell(new Label(6, 1, "存在问题", fontFormat_h));
+			sheet.addCell(new Label(7, 1, "整改情况 ", fontFormat_h));
+			sheet.addCell(new Label(8, 1, "是否完成", fontFormat_h));
 			sheet.setRowView(0, 600);
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 20);
@@ -321,8 +322,9 @@ public class ReportMonthController {
 			sheet.setColumnView(3, 20);
 			sheet.setColumnView(4, 20);
 			sheet.setColumnView(5, 20);
-			sheet.setColumnView(6, 50);
+			sheet.setColumnView(6, 20);
 			sheet.setColumnView(7, 20);
+			sheet.setColumnView(8, 20);
 
 			
 			List<Map<String,Object>> list=ChartService.excel_month_inspection(time);
@@ -330,14 +332,15 @@ public class ReportMonthController {
 			for (int i = 0; i < list.size(); i++) {
 				Map<String,Object> map=list.get(i);
 				
-				sheet.addCell(new jxl.write.Number(0, i + 2,Integer.parseInt(map.get("bsid").toString()),fontFormat_Content));				
-				sheet.addCell(new Label(1, i + 2, map.get("bsname").toString(), fontFormat_Content));
-				sheet.addCell(new jxl.write.Number(2, i + 2,Integer.parseInt(map.get("period").toString()),fontFormat_Content));
+				sheet.addCell(new Label(0, i + 2,map.get("bsid").toString(),fontFormat_Content));				
+				sheet.addCell(new Label(1, i + 2, map.get("name").toString(), fontFormat_Content));
+				sheet.addCell(new Label(2, i + 2,map.get("period").toString(),fontFormat_Content));
 				sheet.addCell(new jxl.write.Number(3, i + 2,Integer.parseInt(map.get("checkTimes").toString()),fontFormat_Content));
-				sheet.addCell(new Label(4, i + 2, map.get("time").toString(), fontFormat_Content));
-				sheet.addCell(new Label(5, i + 2, map.get("checkman").toString(), fontFormat_Content));
-				sheet.addCell(new Label(6, i + 2, map.get("remainwork").toString(), fontFormat_Content));
-				sheet.addCell(new Label(7, i + 2, map.get("complate").toString(), fontFormat_Content));
+				sheet.addCell(new Label(4, i + 2, map.get("time")==null?"":map.get("time").toString(), fontFormat_Content));
+				sheet.addCell(new Label(5, i + 2, map.get("checkman")==null?"":map.get("checkman").toString(), fontFormat_Content));
+				sheet.addCell(new Label(6, i + 2, "", fontFormat_Content));
+				sheet.addCell(new Label(7, i + 2, "", fontFormat_Content));
+				sheet.addCell(new Label(8, i + 2, "是", fontFormat_Content));
 				
 				
 			}

@@ -56,7 +56,7 @@
     )
     </select>
     <select id="bs_ji_four_e4" resultType="map" parameterType="map">
-    select e4  from ${table} where fsuId=#{fsuId}   ORDER BY createTime DESC LIMIT 2
+    select e4  from ${table} where fsuId=#{fsuId}   ORDER BY createTime DESC LIMIT 5
     </select>
     <!-- 四期水浸列表 -->
     <select id="bs_water_four" resultType="xh.mybatis.bean.BsJiFourBean" >

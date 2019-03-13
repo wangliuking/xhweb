@@ -25,11 +25,24 @@
 	<!--自建基站巡检表 -->
 	<select id="sbsinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionSbsBean" useCache="true">
-		select a.*,b.period,b.level,b.hometype from
+		select
+		a.*,b.period,b.level,b.hometype,TRUNCATE(ABS((a.latitude-b.lat)),7) as
+		lat_value,TRUNCATE(ABS((a.longitude-b.lng)),7) as lng_value from
 		xhgmnet_operations_inspection_selfbs as a
-		LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId where 1=1
+		LEFT JOIN xhgmnet_bs_station
+		as b on a.bsid=b.bsId where 1=1
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
+		<if test="id!=null and id!=''">
+			and a.id=#{id}
+		</if>
+		<if test="ids!=null and ids!=''">
+			and a.id in (
+			<foreach collection="ids" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
 		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
@@ -40,47 +53,95 @@
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
+		<if test="id!=null and id!=''">
+			and id=#{id}
+		</if>
 	</select>
 
 	<!--网管巡检表 -->
 	<select id="netinfo" parameterType="map" resultType="map"
 		useCache="true">
 		select * from xhgmnet_operations_inspection_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--网管巡检表总数 -->
 	<select id="netinfoCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_inspection_net
+		select count(*) from xhgmnet_operations_inspection_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 	</select>
+	
+	   <!--直放站巡检表 -->
+    <select id="verticalinfo" parameterType="map" resultType="xh.mybatis.bean.InspectionVerticalBean"
+        useCache="true">
+        select * from xhgmnet_operations_inspection_vertical where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+        order by commitdate desc limit #{start},#{limit}
+    </select>
+    <!--直放站巡检表总数 -->
+    <select id="verticalinfoCount" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from xhgmnet_operations_inspection_vertical where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+    </select>
 
 	<!--调度台巡检表 -->
 	<select id="dispatchinfo" parameterType="map" resultType="map"
 		useCache="true">
 		select * from xhgmnet_operations_inspection_dispatch where
 		1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--调度台巡检表总数 -->
 	<select id="dispatchinfoCount" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_operations_inspection_dispatch
+		select count(*) from xhgmnet_operations_inspection_dispatch where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(commitdate,'%Y-%m')=#{time}
+		</if>
 	</select>
 	<!--交换中心巡检表 -->
 	<select id="mscinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionMscBean" useCache="true">
 		select * from xhgmnet_operations_inspection_msc where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(checkDate,'%Y-%m')=#{time}
+		<if test="year!=null and year!='' and year==1">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y')=#{time}
+			</if>
 		</if>
+		<if test="year==null || year==''">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y-%m')=#{time}
+			</if>
+		</if>
+
 		order by checkDate desc limit #{start},#{limit}
 	</select>
 	<!--调度台巡检表总数 -->
 	<select id="mscCount" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_inspection_msc where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(checkDate,'%Y-%m')=#{time}
+		<if test="year!=null and year!='' and year==1">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y')=#{time}
+			</if>
+		</if>
+		<if test="year==null || year==''">
+			<if test="time!=null and time!=''">
+				and date_format(checkDate,'%Y-%m')=#{time}
+			</if>
 		</if>
 	</select>
 	<insert id="msc_add" parameterType="xh.mybatis.bean.InspectionMscBean"
@@ -135,6 +196,103 @@
 		,c17=#{c17}
 		where id=#{id}
 	</update>
+	<insert id="dispatch_add" parameterType="xh.mybatis.bean.InspectionDispatchBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_inspection_dispatch
+		(serialnumber,dispatchname,dispatchplace,checkman,commitdate,
+		userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,
+		d1,d2,d3,d4,d5,d6,d7,d8,
+		p1,p2,p3,p4,p5,p6,p7,p8,
+		r1,r2,r3,r4,r5,r6,r7,r8
+		)values(#{serialnumber},#{dispatchname},#{dispatchplace},
+		#{checkman},#{commitdate},#{userid},
+		#{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},
+		#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
+		#{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},
+		#{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8}
+		)
+	</insert>
+	<update id="dispatch_edit" parameterType="xh.mybatis.bean.InspectionDispatchBean">
+		update
+		xhgmnet_operations_inspection_dispatch set
+		dispatchname=#{dispatchname},dispatchplace=#{dispatchplace},checkman=#{checkman},
+		commitdate=#{commitdate},
+		comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+		comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},
+		d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+		d7=#{d7},d8=#{d8},p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
+		p7=#{p7},p8=#{p8},r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
+		r7=#{r7},r8=#{r8}
+		where id=#{id}
+	</update>
+
+	<insert id="net_add" parameterType="xh.mybatis.bean.InspectionNetBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		xhgmnet_operations_inspection_net
+		(serialnumber,managername,managerplace,checkman,commitdate,
+		userid,comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+		d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,
+		p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,
+		r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11
+		)values(#{serialnumber},#{managername},#{managerplace},
+		#{checkman},#{commitdate},#{userid},
+		#{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},#{comment8},#{comment9},#{comment10},#{comment11},
+		#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+		#{p1},#{p2},#{p3},#{p4},#{p5},#{p6},#{p7},#{p8},#{p9},#{p10},#{p11},
+		#{r1},#{r2},#{r3},#{r4},#{r5},#{r6},#{r7},#{r8},#{r9},#{r10},#{r11}
+		)
+	</insert>
+	<update id="net_edit" parameterType="xh.mybatis.bean.InspectionNetBean">
+		update
+		xhgmnet_operations_inspection_net set
+		managername=#{managername},managerplace=#{managerplace},checkman=#{checkman},
+		commitdate=#{commitdate},
+		comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+		comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+		comment11=#{comment11},
+		d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+		d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+		p1=#{p1},p2=#{p2},p3=#{p3},p4=#{p4},p5=#{p5},p6=#{p6},
+		p7=#{p7},p8=#{p8},p9=#{p9},p10=#{p10},p11=#{p11},
+		r1=#{r1},r2=#{r2},r3=#{r3},r4=#{r4},r5=#{r5},r6=#{r6},
+		r7=#{r7},r8=#{r8},r9=#{r9},r10=#{r10},r11=#{r11}
+		where id=#{id}
+	</update>
+	
+	<insert id="vertical_add" parameterType="xh.mybatis.bean.InspectionVerticalBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into
+        xhgmnet_operations_inspection_vertical
+        (serialnumber,name,place,checkman,commitdate,userid,
+        comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+        comment12,comment13,comment14,comment15,comment16,comment17,
+        d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,question,ammeternumber
+        )values(#{serialnumber},#{name},#{place},#{checkman},#{commitdate},#{userid},
+        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},
+        #{comment8},#{comment9},#{comment10},#{comment11},
+        #{comment12},#{comment13},#{comment14},#{comment15},#{comment16},#{comment17},
+        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+        #{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{question},#{ammeternumber}
+        )
+    </insert>
+    <update id="vertical_edit" parameterType="xh.mybatis.bean.InspectionVerticalBean">
+        update
+        xhgmnet_operations_inspection_vertical set
+        place=#{place},checkman=#{checkman},commitdate=#{commitdate},
+        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+        comment11=#{comment11},
+        comment12=#{comment12},comment13=#{comment13},comment14=#{comment14},comment15=#{comment15},
+        comment16=#{comment16},comment17=#{comment17},
+        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+        d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},question=#{question},
+        ammeternumber=#{ammeternumber}
+        where id=#{id}
+    </update>
+	
 	<insert id="mbs_add" parameterType="xh.mybatis.bean.InspectionMbsBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
@@ -150,7 +308,8 @@
 		)
 	</insert>
 	<update id="mbs_edit" parameterType="xh.mybatis.bean.InspectionMbsBean">
-		update xhgmnet_operations_inspection_movebs set
+		update
+		xhgmnet_operations_inspection_movebs set
 		bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype},longitude=#{longitude},
 		latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
 		remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
@@ -164,29 +323,67 @@
 	</update>
 	<insert id="sbs_add" parameterType="xh.mybatis.bean.InspectionSbsBean"
 		useGeneratedKeys="true" keyProperty="id">
-		insert into xhgmnet_operations_inspection_selfbs
+		insert into
+		xhgmnet_operations_inspection_selfbs
 		(serialnumber,bsid,bsname,bslevel,bstype,longitude,latitude,address,checkman,commitdate,remainwork,
 		userid,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,
-		d26,d27,d28,d29,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,c29,ammeternumber
+		d26,d27,d28,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c28,ammeternumber
 		)values(#{serialnumber},#{bsid},#{bsname},#{bslevel},#{bstype},#{longitude},#{latitude},#{address},
 		#{checkman},#{commitdate},#{remainwork},#{userid},#{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},
 		#{d9},#{d10},#{d11},#{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{d18},#{d19},#{d20},#{d21},#{d22},#{d23},
-		#{d24},#{d25},#{d26},#{d27},#{d28},#{d29},#{c1},#{c2},#{c3},#{c4},#{c5},#{c6},#{c7},#{c8},#{c9},#{c10},#{c11},#{c12},#{c13},
-		#{c14},#{c15},#{c16},#{c17},#{c18},#{c19},#{c20},#{c21},#{c22},#{c23},#{c24},#{c25},#{c26},#{c27},#{c28},#{c29},#{ammeternumber}
+		#{d24},#{d25},#{d26},#{d27},#{d28},#{c1},#{c2},#{c3},#{c4},#{c5},#{c6},#{c7},#{c8},#{c9},#{c10},#{c11},#{c12},#{c13},
+		#{c14},#{c15},#{c16},#{c17},#{c18},#{c19},#{c20},#{c21},#{c22},#{c23},#{c24},#{c25},#{c26},#{c27},#{c28},#{ammeternumber}
 		)
 	</insert>
 	<!-- bsid=#{bsid},bsname=#{bsname},bslevel=#{bslevel},bstype=#{bstype}, -->
 	<update id="sbs_edit" parameterType="xh.mybatis.bean.InspectionSbsBean">
-		update xhgmnet_operations_inspection_selfbs set
-		longitude=#{longitude},
-		latitude=#{latitude},address=#{address},checkman=#{checkman},commitdate=#{commitdate},
+		update
+		xhgmnet_operations_inspection_selfbs set
+		checkman=#{checkman},commitdate=#{commitdate},
 		remainwork=#{remainwork},d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
 		d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},
 		d16=#{d16},d17=#{d17},d18=#{d18},d19=#{d19},d20=#{d20},d21=#{d21},d22=#{d22},d23=#{d23},
-		d24=#{d24},d25=#{d25},d26=#{d26},d27=#{d27},d28=#{d28},d29=#{d29},c1=#{c1},c2=#{c2},c3=#{c3},c4=#{c4},c5=#{c5},c6=#{c6},
+		d24=#{d24},d25=#{d25},d26=#{d26},d27=#{d27},d28=#{d28},c1=#{c1},c2=#{c2},c3=#{c3},c4=#{c4},c5=#{c5},c6=#{c6},
 		c7=#{c7},c8=#{c8},c9=#{c9},c10=#{c10},c11=#{c11},c12=#{c12},c13=#{c13},
 		c14=#{c14},c15=#{c15},c16=#{c16},c17=#{c17},c18=#{c18},c19=#{c19},c20=#{c20},c21=#{c21},
-		c22=#{c22},c23=#{c23},c24=#{c24},c25=#{c25},c26=#{c26},c27=#{c27},c28=#{c28},c29=#{c29},ammeternumber=#{ammeternumber}
+		c22=#{c22},c23=#{c23},c24=#{c24},c25=#{c25},c26=#{c26},c27=#{c27},c28=#{c28},ammeternumber=#{ammeternumber}
 		where id=#{id}
 	</update>
+
+	<delete id="del_sbs" parameterType="int">
+		delete from
+		xhgmnet_operations_inspection_selfbs where id=#{id}
+	</delete>
+	<delete id="del_net" parameterType="java.util.List">
+		delete from
+		xhgmnet_operations_inspection_net where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<delete id="del_dispatch" parameterType="java.util.List">
+		delete from
+		xhgmnet_operations_inspection_dispatch where id=(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<delete id="del_msc" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_msc where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <delete id="del_vertical" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_vertical where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
 </mapper>
