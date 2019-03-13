@@ -39,6 +39,7 @@ public class Service {
 	private static GetUnInspectBsListAck getUnInspectBsListAck = new GetUnInspectBsListAck();
 	private static GetTotalInfoAck getTotalInfoAck = new GetTotalInfoAck();
 	
+	
 	private static FunUtil funUtil = new FunUtil();
 
 	/**
@@ -1005,6 +1006,32 @@ public class Service {
 			e.printStackTrace();
 		}
 		return getPowerOnTimeAck;
+	}
+	
+	/**
+	 * 根据基站名称模糊查询基站列表
+	 */
+	public static SearchBsByNameAck appSearchBsByNameAck(SearchBsByName searchBsByName){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		SearchBsByNameAck searchBsByNameAck = new SearchBsByNameAck();
+		searchBsByNameAck.setUserid(searchBsByName.getUserid());
+		try{
+			List<Map<String,String>> list = mapper.selectBsListByName(searchBsByName.getBsname());
+			LinkedList<Map<String,String>> bslist = new LinkedList<Map<String,String>>();
+			if(list.size() > 0){
+				for(int i=0;i<list.size();i++){
+					Map<String,String> temp = list.get(i);
+					bslist.add(temp);
+				}
+			}
+			searchBsByNameAck.setBslist(bslist);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return searchBsByNameAck;
 	}
 	
 }

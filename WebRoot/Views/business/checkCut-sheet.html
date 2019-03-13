@@ -10,13 +10,9 @@
             </div>
             <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 
-                <div class="order" id="print_checkcut">
-                    <style type="text/css" id="style1">
-                        .table-view{border-collapse:collapse;}
-                        .table-view td{border:1px solid #ccc;border-collapse:collapse;}
-                    </style>
+                <div class="order">
                     <form action="" onsubmit="false" id="checkCut-form">
-                        <table id="order-table" class="table-view"
+                        <table class="table-view"
                                style="border-collapse: collapse;">
                             <tbody>
                             <tr>
@@ -39,9 +35,9 @@
                                         <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间大于
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，网络柜由
-                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间大于
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，
+                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
                                         <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
                                         <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
@@ -152,6 +148,98 @@
                             </tbody>
                         </table>
                     </form>
+                </div>
+
+                <div id="print_checkcut" ng-show="false">
+                    <style type="text/css" id="style1">
+                        .table-view{border-collapse:collapse;}
+                        .table-view td{border:1px solid #ccc;border-collapse:collapse;}
+                    </style>
+                    <table class="table-view"
+                           style="border-collapse: collapse;">
+                        <tbody>
+                        <tr>
+                            <td colspan="6" style="text-align: center;font-size: 18px;">
+                                故障核减申请书
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:150px;width:auto;border-bottom: none;" colspan="6">
+                                <br/>
+                                <div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
+                                    {{sheetData.bsId}}-{{sheetData.name}}基站， {{sheetData.hometype}}； {{sheetData.transfer}}，{{sheetData.transferCompare}}， {{sheetData.transferOne}}， {{sheetData.transferTwo}}； {{sheetData.powerOne}}，续航时间 {{sheetData.powerTimeOne}}， {{sheetData.powerTwo}}，续航时间 {{sheetData.powerTimeTwo}}，维护上站时间 {{sheetData.maintainTime}}，{{sheetData.isPower}}。 {{sheetData.isPowerTime}}
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
+                                    {{sheetData.firstDesc}}
+                                    <br/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}
+                                    <br/>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{sheetData.breakTime}}断站，至
+                                    {{sheetData.restoreTime}}恢复，
+                                    历时{{calcData}}分钟，申请核减时间：
+                                    {{sheetData.checkCutTime}} 分钟。
+                                    <br/>
+                                    <div class="textarea-div">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {{sheetData.rules}}
+                                    <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
+                                </div>
+                                <div style="height: 150px;width:auto;" readonly="readonly"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:30px;width:auto;border-top: none;border-bottom: none;"
+                                colspan="6">
+                                <div  style="height: 30px;width:300px;float: right;">{{sheetData.period}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height:30px;width:auto;border-top: none;border-bottom: none;" colspan="6">
+                                <div style="height: 30px;width:auto;float: right;">{{sheetData.applyTime}}</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="height:230px;width:auto;border-top: none;border-bottom: none;" colspan="6">
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="height:50px;width:80px;">拟制：</td>
+                            <td style="height:50px;width:320px;">
+                                {{sheetData.persion1}}
+                            </td>
+                            <td style="height:50px;width:80px;border-right:none;">审核：</td>
+                            <td style="height:50px;width:320px;">
+                                {{sheetData.persion2}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="height:80px;width:auto;border-top: none;border-bottom: none;" colspan="6">
+                                <p>成都市软件产业发展中心 （意见）</p>
+                                <div contenteditable="true" style="height: 80px;width:auto;" class="textarea-div ">{{sheetData.suggest}}</div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="height:30px;width:auto;border-top: none;padding-right: 30px;" colspan="6">
+                                <div style="height: 30px;width:auto;float: right;">{{sheetData.persion3}}</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
 

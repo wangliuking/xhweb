@@ -77,6 +77,35 @@ xh.load = function() {
 			});
 		}
 		
+		//新增终端号
+		$scope.addParam=function(){
+			var radioIdAdd=$("#radioIdAdd").val();
+			if(radioIdAdd == '' || radioIdAdd == null){
+				alert("请输入终端id号!");
+				return false;
+			}
+			$.ajax({
+				url : '../../amap/map/addRadioId?radioIdAdd='+radioIdAdd,
+				type : 'get',
+				dataType : "json",
+				contentType: "application/json",
+				success : function(data) {
+                    $http.get("../../amap/map/selectForAllVisableStatus").success(
+                        function(response) {
+                            $scope.selectForAllVisableStatus=response.items;
+                            $scope.mapInitStr=response.mapInitStr;
+                            console.log("selectForAllVisableStatus : "+$scope.selectForAllVisableStatus);
+                            console.log("mapInitStr : "+$scope.mapInitStr);
+                        });
+					toastr.success("新增成功", '提示');					
+				},
+				error : function() {
+					toastr.error("新增失败", '提示');
+				}
+			});
+		}
+
+		
 		//保存参数配置
 		$scope.saveParam=function(){
 			var mapInit=$('.radioTemp input:radio:checked').val();

@@ -21,10 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/checkCut")
@@ -68,8 +65,28 @@ public class CheckCutController {
         map.put("bsId", bsId);
         map.put("name", name);
         map.put("status", status);
-        map.put("startTime", startTime);
-        map.put("endTime", endTime);
+
+        if(startTime == null || "".equals(startTime)){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            //获取当前月第一天：
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, 0);
+            c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+            String first = format.format(c.getTime());
+            //System.out.println("===============first:"+first);
+
+            //获取当前月最后一天
+            Calendar ca = Calendar.getInstance();
+            ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+            String last = format.format(ca.getTime());
+            //System.out.println("===============last:"+last);
+
+            map.put("startTime", first+" 00:00:00");
+            map.put("endTime", last+" 23:59:59");
+        }else{
+            map.put("startTime", startTime);
+            map.put("endTime", endTime);
+        }
 
         HashMap result = new HashMap();
         result.put("success", success);
@@ -214,7 +231,7 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/deleteCheckCutById", method = RequestMethod.GET)
     public void deleteCheckCutById(HttpServletRequest request,
-                               HttpServletResponse response) {
+                                   HttpServletResponse response) {
         this.success = true;
         int id = Integer.parseInt(request.getParameter("id"));
         int res = CheckCutService.deleteCheckCutById(id);
@@ -259,12 +276,19 @@ public class CheckCutController {
     }
 
     public static void main(String[] args) {
-        String s = "73";
-        int id = Integer.parseInt(s);
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("bsId",id);
-        Map<String,Object> res = CheckCutService.selectBsInformationById(map);
-        System.out.println(" powerTime : "+res.get("powerTime"));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //获取当前月第一天：
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+        String first = format.format(c.getTime());
+        System.out.println("===============first:"+first);
+
+        //获取当前月最后一天
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String last = format.format(ca.getTime());
+        System.out.println("===============last:"+last);
     }
 
     /**
@@ -300,7 +324,7 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/createCheckSheet", method = RequestMethod.GET)
     public void createCheckSheet(HttpServletRequest request,
-                               HttpServletResponse response) {
+                                 HttpServletResponse response) {
         this.success = true;
         String bsId = request.getParameter("bsId");
         int id=FunUtil.StringToInt(request.getParameter("id"));
@@ -318,34 +342,37 @@ public class CheckCutController {
         Calendar cal = Calendar.getInstance();
         Map<String,Object> selectMap = new HashMap<String,Object>();
         selectMap.put("bsId",Integer.parseInt(bsId));
-        Map<String,Object> res = CheckCutService.selectBsInformationById(selectMap);
-        bean.setHometype("基站所在机房归属"+res.get("roomType"));//机房类型
+        List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
+        Map<String,Object> res = list.get(0);
+        bean.setHometype("基站所在机房归属"+res.get("hometype"));//机房类型
         //判断传输类型
-        if("已开通".equals(res.get("transferOneIsOpen")) && "已开通".equals(res.get("transferTwoIsOpen"))){
+        if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
             bean.setTransfer("双传输");
-        }else if("已开通".equals(res.get("transferOneIsOpen")) || "已开通".equals(res.get("transferTwoIsOpen"))){
+        }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
             bean.setTransfer("单传输");
         }else{
             bean.setTransfer("无传输");
         }
-        String isSameOperator = res.get("isSameOperator")+"";
         //判断是否同一运营商
-        if("0".equals(isSameOperator)){
-            bean.setTransferCompare("不同运营商");
-        }else if("1".equals(isSameOperator)){
+        String transferOne = list.get(0).get("operator")+"";
+        String transferTwo = list.get(1).get("operator")+"";
+        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("相同运营商");
+        }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("不同运营商");
         }
-        bean.setTransferOne("第一传输运营商"+res.get("transferOneOperator"));
-        bean.setTransferTwo("第二传输运营商"+res.get("transferTwoOperator"));
-        bean.setPowerOne("基站由"+res.get("bsDevicePowerMode")+"供电");
-        bean.setPowerTimeOne(res.get("bsDeviceNowTime")+"小时");
-        bean.setPowerTwo(res.get("transferDevicePowerMode")+"供电");
-        bean.setPowerTimeTwo(res.get("transferDeviceNowTime")+"小时");
-        bean.setMaintainTime(res.get("toBsTime")+"分钟");
-        if("是".equals(res.get("isPermitTempPower"))){
+
+        bean.setTransferOne("第一传输运营商"+transferOne);
+        bean.setTransferTwo("第二传输运营商"+transferTwo);
+        bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+        bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
+        bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
+        bean.setMaintainTime(res.get("generation_to_bs_date")+"分钟");
+        if("是".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站允许发电");
-            bean.setIsPowerTime("发电时间:"+res.get("powerTime"));
-        }else if("否".equals(res.get("isPermitTempPower"))){
+            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
+        }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
         }
         bean.setPeriod("成都市应急指挥调度无线通信网"+res.get("period")+"项目部");
@@ -404,45 +431,49 @@ public class CheckCutController {
         //填充申请表部分数据start
         Map<String,Object> selectMap = new HashMap<String,Object>();
         selectMap.put("bsId",Integer.parseInt(bsId));
-        Map<String,Object> res = CheckCutService.selectBsInformationById(selectMap);
-        bean.setHometype("基站所在机房归属"+res.get("roomType"));//机房类型
+        List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
+        Map<String,Object> res = list.get(0);
+        bean.setHometype("基站所在机房归属"+res.get("hometype"));//机房类型
         //判断传输类型
-        if("已开通".equals(res.get("transferOneIsOpen")) && "已开通".equals(res.get("transferTwoIsOpen"))){
+        if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
             bean.setTransfer("双传输");
-        }else if("已开通".equals(res.get("transferOneIsOpen")) || "已开通".equals(res.get("transferTwoIsOpen"))){
+        }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
             bean.setTransfer("单传输");
         }else{
             bean.setTransfer("无传输");
         }
-        String isSameOperator = res.get("isSameOperator")+"";
         //判断是否同一运营商
-        if("0".equals(isSameOperator)){
-            bean.setTransferCompare("不同运营商");
-        }else if("1".equals(isSameOperator)){
+        String transferOne = list.get(0).get("operator")+"";
+        String transferTwo = list.get(1).get("operator")+"";
+        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("相同运营商");
+        }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("不同运营商");
         }
-        bean.setTransferOne("第一传输运营商"+res.get("transferOneOperator"));
-        bean.setTransferTwo("第二传输运营商"+res.get("transferOneOperator"));
-        bean.setPowerOne("基站由"+res.get("bsDevicePowerMode")+"供电");
-        bean.setPowerTimeOne(res.get("bsDeviceNowTime")+"小时");
-        bean.setPowerTwo(res.get("transferDevicePowerMode")+"供电");
-        bean.setPowerTimeTwo(res.get("transferDeviceNowTime")+"小时");
-        bean.setMaintainTime(res.get("toBsTime")+"分钟");
-        if("是".equals(res.get("isPermitTempPower"))){
+
+        bean.setTransferOne("第一传输运营商"+transferOne);
+        bean.setTransferTwo("第二传输运营商"+transferTwo);
+        bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+        bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
+        bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
+        bean.setMaintainTime(res.get("generation_to_bs_date")+"分钟");
+        if("是".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站允许发电");
-            bean.setIsPowerTime("发电时间:"+res.get("powerTime"));
-        }else if("否".equals(res.get("isPermitTempPower"))){
+            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
+        }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
         }
-        bean.setPeriod("成都市应急调度指挥无线通信网"+res.get("period")+"项目部");
+        bean.setPeriod("成都市应急指挥调度无线通信网"+res.get("period")+"期项目部");
         Calendar cal = Calendar.getInstance();
+        bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
         //填充申请表部分数据end
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.createCheckCut(bean);
-
+        this.message = "核减信息已生成，请进入核减流程发起申请";
         /*if (rst == 1) {
             this.message = "核减信息已生成，请进入核减流程发起申请";
             //----给运维负责人发送通知邮件
@@ -474,7 +505,7 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/insertCheckCut", method = RequestMethod.POST)
     public void insertCheckCut(HttpServletRequest request,
-                        HttpServletResponse response) {
+                               HttpServletResponse response) {
         this.success = true;
         String id = request.getParameter("id");
         String userUnit = request.getParameter("userUnit");
@@ -500,7 +531,7 @@ public class CheckCutController {
             this.message = "核减申请信息已经成功提交";
             //----给运维负责人发送通知邮件
             FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","有核减申请，请查阅！",request);
-           //----END
+            //----END
         } else {
             this.message = "核减申请信息未成功提交";
         }
@@ -620,7 +651,7 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/checkedThree", method = RequestMethod.POST)
     public void checkedThree(HttpServletRequest request,
-                           HttpServletResponse response) {
+                             HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String fileName = request.getParameter("fileName");
@@ -664,7 +695,7 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/checkedFour", method = RequestMethod.POST)
     public void checkedFour(HttpServletRequest request,
-                             HttpServletResponse response) {
+                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
         String note5 = request.getParameter("note5");
@@ -705,12 +736,12 @@ public class CheckCutController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(@RequestParam("filePath") MultipartFile file,
                        HttpServletRequest request,HttpServletResponse response) {
-    	
 
-		// 获取当前时间
-		Date d = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
-		String data = funUtil.MD5(sdf.format(d));
+
+        // 获取当前时间
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+        String data = funUtil.MD5(sdf.format(d));
         String path = request.getSession().getServletContext()
                 .getRealPath("")+"/Resources/upload/CheckCut";
         String fileName = file.getOriginalFilename();
@@ -727,8 +758,8 @@ public class CheckCutController {
             this.success=true;
             this.message="文件上传成功";
             fileName=data+"-"+fileName;
-			File rename = new File(path,fileName);
-			targetFile.renameTo(rename);
+            File rename = new File(path,fileName);
+            targetFile.renameTo(rename);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -133,6 +133,11 @@
 		) ORDER BY infoTime DESC) as gpsTable GROUP BY srcId
 	</select>
 	
+	<!-- 新增终端号 -->
+	<insert id="addRadioId" parameterType="map">
+		insert into xhgmnet_radio_gis_visable(radioId,radioName,visable) values (#{radioIdAdd},#{radioIdAdd},"0")
+	</insert>
+	
 	<!-- 查询所有需要显示的手台 -->
 	<select id="selectForAllVisable" resultType="String">
 		select radioId from xhgmnet_radio_gis_visable where visable=1
@@ -217,4 +222,9 @@
 	<update id="updateForGenTable" parameterType="com.tcpBean.GenTable">
 		update xhgmnet_operations_bs_elec_generation set gen_start_time=#{genontime},generation_v=#{genv},generation_i=#{geni},check_user=#{auditor},address=#{address},check_time=#{audittime},gen_on_note=#{remarkgenon},poweron_time=#{powerontime},gen_end_time=#{genofftime},gen_off_time=#{removegentime},gen_off_note=#{remarkgenoff},status=4,gen_on_pic=#{gen_on_pic},gen_off_pic=#{gen_off_pic} where serialnumber=#{serialnumber}
 	</update>
+	
+	<!-- 根据基站名称模糊查询基站列表 -->
+	<select id="selectBsListByName" parameterType="String" resultType="map">
+		select bsId as bsid,name as bsname from xhgmnet_bs_station where name like concat("%",#{name},"%");
+	</select>
 </mapper>

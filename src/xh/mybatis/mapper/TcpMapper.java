@@ -167,5 +167,15 @@ public interface TcpMapper {
 	 * 更新发电单号
 	 */
 	public int updateForGenTable(GenTable genTable)throws Exception;
+	
+	/**
+	 * 模糊查询基站名称
+	 */
+	public List<Map<String,String>> selectBsListByName(String name)throws  Exception;
+	
+	/**
+	 * 新增终端号
+	 */
+	public int addRadioId(Map<String,Object> param)throws Exception;
 
 }
