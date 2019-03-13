@@ -11,6 +11,7 @@ import xh.mybatis.bean.InspectionMbsBean;
 import xh.mybatis.bean.InspectionMscBean;
 import xh.mybatis.bean.InspectionNetBean;
 import xh.mybatis.bean.InspectionSbsBean;
+import xh.mybatis.bean.InspectionVerticalBean;
 import xh.mybatis.mapper.AppInspectionMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -99,6 +100,36 @@ public class AppInspectionServer {
 		int count=0;
 		try {
 			count = mapper.netinfoCount(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	/*<!--直放站巡检表-->*/
+	public static List<InspectionVerticalBean> verticalinfo(Map<String, Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<InspectionVerticalBean> list=new ArrayList<InspectionVerticalBean>();
+		try {
+			list = mapper.verticalinfo(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	/*<!--直放站巡检表总数-->*/
+	public static int verticalinfoCount(Map<String,Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.verticalinfoCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -319,6 +350,39 @@ public class AppInspectionServer {
 		session.close();
 		return count;
 	}
+	
+	public static int vertical_add(InspectionVerticalBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.vertical_add(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int vertical_edit(InspectionVerticalBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.vertical_edit(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	
+	
 	public static int del_sbs(int id){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
@@ -370,6 +434,21 @@ public class AppInspectionServer {
 		int count=0;
 		try {
 			count = mapper.del_dispatch(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int del_vertical(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_vertical(list);
 			session.commit();
 			session.close();
 		} catch (Exception e) {

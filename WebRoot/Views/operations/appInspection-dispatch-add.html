@@ -24,21 +24,20 @@
 									<td style="width:20%;color:blue">
 										<!-- <input  type="text" name="dispatchname"> -->
 										<div class="col-lg-4">
-											<select
-												class="selectpicker show-tick"
-												data-live-search="true" ng-change="select(select.value)">
-												<option ng-repeat="x in dData" value="{{x.dstId}}">{{x.dstName}}</option>
-												<option ng-for="let x of dData;let i=index" value="{{i}}">{{x.dstName}}</option>
+											<select 
+												class="selectpicker show-tick select-style" 
+												data-live-search="true" name="dispatchname">
+												<option ng-repeat="x in dData" value="{{x.dstName}}">{{x.dstName}}</option>
 											</select>
 										</div>
 									</td>
 									<td style="width:10%;">地点</td>
 									<td style="width:15%;color:blue"><input type="text"
 										name="dispatchplace"></td>
-									<td style="width:13%;">巡检时间</td>
+									<td style="width:15%;">巡检时间</td>
 									<td style="width:15%;color:blue"><input type="text"
 										name="commitdate"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"></td>
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></td>
 									<td style="width:10%;">巡检人</td>
 									<td style="width:10%;color:blue"><input type="text"
 										name="checkman"></td>

@@ -8,6 +8,7 @@ import xh.mybatis.bean.InspectionMbsBean;
 import xh.mybatis.bean.InspectionMscBean;
 import xh.mybatis.bean.InspectionNetBean;
 import xh.mybatis.bean.InspectionSbsBean;
+import xh.mybatis.bean.InspectionVerticalBean;
 
 public interface AppInspectionMapper {
 	
@@ -30,6 +31,12 @@ public interface AppInspectionMapper {
 	/*<!--网管巡检表-->*/
 	public int netinfoCount(Map<String,Object> map)throws Exception;
 	
+	/*<!--直放站巡检表-->*/
+	public List<InspectionVerticalBean> verticalinfo(Map<String,Object> map)throws Exception;
+	
+	/*<!--直放站巡检表-->*/
+	public int verticalinfoCount(Map<String,Object> map)throws Exception;
+	
 	/*<!--调度台巡检表-->*/
 	public List<Map<String,Object>> dispatchinfo(Map<String,Object> map)throws Exception;
 	
@@ -50,6 +57,10 @@ public interface AppInspectionMapper {
 	
 	public int net_edit(InspectionNetBean bean)throws Exception;
 	
+	public int vertical_add(InspectionVerticalBean bean)throws Exception;
+	
+	public int vertical_edit(InspectionVerticalBean bean)throws Exception;
+	
 	public int msc_add(InspectionMscBean bean)throws Exception;
 	
 	public int msc_edit(InspectionMscBean bean)throws Exception;
@@ -69,5 +80,7 @@ public interface AppInspectionMapper {
 	public int del_msc(List<String> list)throws Exception;
 	
 	public int del_dispatch(List<String> list)throws Exception;
+	
+	public int del_vertical(List<String> list)throws Exception;
 
 }

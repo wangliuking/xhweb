@@ -13,7 +13,8 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-<link href="../../Resources/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+<link href="../../Resources/css/bootstrap-select.css" rel="stylesheet"
+	type="text/css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -41,6 +42,9 @@ input[type="text"] {
 
 .vertical-tab li {
 	
+}
+.select-style{
+ background:#fff;
 }
 </style>
 </head>
@@ -95,6 +99,11 @@ input[type="text"] {
 								<ul class="nav nav-tabs">
 									<li class="active"><a href="#sbs" data-toggle="tab"
 										ng-click='sbs_refresh()'> 基站巡检</a></li>
+
+									<li><a href="#vertical" data-toggle="tab"
+										ng-click='vertical_refresh()'>直放站巡检</a></li>
+									<li><a href="#romm" data-toggle="tab"
+										ng-click='room_refresh()'>室内覆盖巡检</a></li>
 
 									<li><a href="#net" data-toggle="tab"
 										ng-click='net_refresh()'> 网管巡检</a></li>
@@ -242,20 +251,20 @@ input[type="text"] {
 											</div>
 										</div>
 
-									
-										
-                                        <div class="btn-group col-md-10" style="padding-top:24px;">
-                                            <button type="submit" class="btn btn-sm btn-primary"
-                                                ng-click="net_refresh()">
-                                                <i class="fa fa-search"></i>&nbsp;&nbsp;查询
-                                            </button>
-                                            <button type="submit" class="btn btn-sm btn-success"
-                                                ng-click="showNetAddWin()">
-                                                <i class="fa fa-plus"></i>&nbsp;&nbsp;新增网管巡检记录
-                                            </button>
-                                            
 
-                                        </div>
+
+										<div class="btn-group col-md-10" style="padding-top:24px;">
+											<button type="submit" class="btn btn-sm btn-primary"
+												ng-click="net_refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="showNetAddWin()">
+												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增网管巡检记录
+											</button>
+
+
+										</div>
 
 									</div>
 									<div class="row">
@@ -274,7 +283,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 																<th>GPS定位</th>
-																<th width="150">操作</th>
+																<th width="200">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -288,18 +297,20 @@ input[type="text"] {
 																<td>{{x.checkman}}</td>
 																<td>{{x.commitdate}}</td>
 																<td>{{x.address}}</td>
-																<td>
-																<a href="#" ng-click="showNetWin($index)"
+																<td><a href="#" ng-click="showNetWin($index)"
 																	class="text-danger"> <i
 																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a> <a href="#" ng-click="showNetEditWin($index)"
+																	class="text-danger" ng-if="up.o_update=='on'"> <i
+																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_net($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
 																</a>
-																<a href="#" ng-click="showNetEditWin($index)"
-                                                                    class="text-danger" ng-if="up.o_update=='on'"> <i
-                                                                        class="fa fa-edit text-danger"></i>|&nbsp;编辑
-                                                                </a>
-                                                                <a href="#" ng-click="del_net($index)"
-                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
-                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
+																<a href="#"
+                                                                    ng-click="excelToNet($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
                                                                 </a>
 																</td>
 															</tr>
@@ -368,7 +379,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 																<th>GPS定位</th>
-																<th width="150">操作</th>
+																<th width="200">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -388,10 +399,14 @@ input[type="text"] {
 																</a><a href="#" ng-click="showDispatchEditWin($index)"
 																	class="text-danger" ng-if="up.o_update=='on'"> <i
 																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_dispatch($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
 																</a>
-																<a href="#" ng-click="del_dispatch($index)"
-                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
-                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
+																 <a href="#"
+                                                                    ng-click="excelToDispatch($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
                                                                 </a>
 																</td>
 															</tr>
@@ -460,7 +475,7 @@ input[type="text"] {
 																<th>巡检人员</th>
 																<th width="180px">巡检时间</th>
 
-																<th width="150">操作</th>
+																<th width="200">操作</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -479,10 +494,14 @@ input[type="text"] {
 																</a><a href="#" ng-click="showMscEditWin($index)"
 																	class="text-danger" ng-if="up.o_update=='on'"> <i
 																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_msc($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
 																</a>
-																<a href="#" ng-click="del_msc($index)"
-                                                                    class="text-danger" ng-if="up.o_delete=='on'"> <i
-                                                                        class="fa fa-delete text-danger"></i>|&nbsp;删除
+																<a href="#"
+                                                                    ng-click="excelToMsc($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
                                                                 </a>
 																</td>
 															</tr>
@@ -512,6 +531,107 @@ input[type="text"] {
 									</div>
 								</div>
 								<!-- 交换中心 -->
+
+								<!-- 直放站巡检 -->
+								<div class="tab-pane fade" id="vertical">
+									<div class="row">
+										<div class="form-group col-md-2">
+											<label for="starttime">选择月</label>
+											<div>
+												<input type="text" class="form-control" ng-model="time"
+													id="month_vertical" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+													placeholder="选择月份">
+											</div>
+										</div>
+
+
+
+										<div class="btn-group col-md-10" style="padding-top:24px;">
+											<button type="submit" class="btn btn-sm btn-primary"
+												ng-click="vertical_refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="showVerticalAddWin()">
+												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增直放站巡检记录
+											</button>
+
+
+										</div>
+
+									</div>
+									<div class="row">
+
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+                                                    style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>直放站名称</th>
+																<th>电表读数</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th width="200">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="verticalTotals==0">
+																<td colspan="6" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in verticalData">
+																<td>{{x.name}}</td>
+
+																<td>{{x.ammeternumber}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td><a href="#" ng-click="showVerticalWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a> <a href="#" ng-click="showVerticalEditWin($index)"
+																	class="text-danger" ng-if="up.o_update=='on'"> <i
+																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_vertical($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
+																</a>
+																<a href="#"
+                                                                    ng-click="excelToVertical($index)"
+                                                                    class="text-danger"> <i
+                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+                                                                </a>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-vertical"
+																ng-change="vertical_refresh()" ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{vertical_start}}-</span> <span>{{vertical_lastIndex}}条,</span>
+															<span>总计{{verticalTotals}}条</span>
+														</div>
+														<div class="page-paging vertical-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!--          直放站 -->
 
 
 							</div>
@@ -580,9 +700,15 @@ input[type="text"] {
 	<div ng-include="'appInspection-msc-detail.html'"></div>
 	<div ng-include="'appInspection-msc-add.html'"></div>
 	<div ng-include="'appInspection-msc-edit.html'"></div>
+    <div ng-include="'appInspection-msc-detail.html'"></div>	
+	<div ng-include="'appInspection-vertical-add.html'"></div>
+	<div ng-include="'appInspection-vertical-edit.html'"></div>
+	   <div ng-include="'appInspection-vertical-detail.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript" src="../../Resources/js/bootstrap-select.js">
+	<script type="text/javascript"
+		src="../../Resources/js/bootstrap-select.js">
+		
 	</script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>

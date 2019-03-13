@@ -98,6 +98,15 @@ xh.load = function() {
 				xh.sbs_pagging(1, parseInt($scope.sbsTotals),$scope,pageSize);
 			});
 		}
+		$scope.vertical=function(){	
+			var pageSize = $("#page-limit-vertical").val();
+			$http.get("../../app/verticalinfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			success(function(response){
+				$scope.verticalData = response.items;
+				$scope.verticalTotals = response.totals;
+				xh.vertical_pagging(1, parseInt($scope.verticalTotals),$scope,pageSize);
+			});
+		}
 		
 		$scope.msc_add_win_text=function(){
 			$scope.msc_add_win_html=[];
@@ -280,6 +289,9 @@ xh.load = function() {
 		$scope.msc_refresh = function() {
 			$scope.msc_search(1);
 		};
+		$scope.vertical_refresh = function() {
+			$scope.vertical_search(1);
+		};
 		/* 显示mbsWin */
 		$scope.showMbsEditWin = function(id) {
 			$scope.mbsOneData = $scope.mbsData[id];
@@ -317,6 +329,21 @@ xh.load = function() {
 			$scope.data_net_html($scope.netOneData);
 			$("#netEditWin").modal('show');
 		};
+		
+		/*直放站*/
+		$scope.showVerticalAddWin = function() {
+			$scope.net_add_win_text();
+			$("#verticalAddWin").modal('show');
+		};
+		$scope.showVerticalEditWin = function(id) {
+			$scope.verticalOneData = $scope.verticalData[id];
+			$("#verticalEditWin").modal('show');
+		};
+		$scope.showVerticalWin = function(id) {
+			$scope.verticalOneData = $scope.verticalData[id];
+			$("#verticalDetailWin").modal('show');
+		};
+		
 		/* 显示dispatchWin */
 		$scope.showDispatchWin = function(id) {
 			$scope.dispatchOneData = $scope.dispatchData[id];
@@ -721,6 +748,34 @@ xh.load = function() {
 			});
 			
 		}
+		$scope.del_vertical=function(id){
+			$scope.verticalOneData = $scope.verticalData[id];
+			$.ajax({
+				url : '../../app/del_vertical',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.verticalOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.vertical_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
 		$scope.del_msc=function(id){
 			$scope.mscOneData = $scope.mscData[id];
 			$.ajax({
@@ -813,6 +868,25 @@ xh.load = function() {
 				$scope.netData = response.items;
 				$scope.netTotals = response.totals;
 				xh.net_pagging(page, parseInt($scope.netTotals),$scope,pageSize);
+			});
+		};
+		$scope.vertical_search = function(page) {
+			var pageSize = $("#page-limit-vertical").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/verticalinfo?time="+$("#month_vertical").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				xh.maskHide();
+				$scope.verticalData = response.items;
+				$scope.verticalTotals = response.totals;
+				xh.vertical_pagging(page, parseInt($scope.verticalTotals),$scope,pageSize);
 			});
 		};
 		$scope.dispatch_search = function(page) {
@@ -932,6 +1006,32 @@ xh.load = function() {
 			});
 			
 		};
+		$scope.vertical_pageClick = function(page,totals, totalPages) {
+			var pageSize = $("#page-limit-vertical").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/verticalinfo?time="+$("#month_vertical").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				$scope.vertical_start = (page - 1) * pageSize + 1;
+				$scope.vertical_lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.vertical_lastIndex = totals;
+					} else {
+						$scope.vertical_start = 0;
+						$scope.vertical_lastIndex = 0;
+					}
+				}
+				$scope.verticalData = response.items;
+				$scope.verticalTotals = response.totals;
+			});
+			
+		};
 		$scope.dispatch_pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit-dispatch").val();
 			var start = 1, limit = pageSize;
@@ -1013,6 +1113,121 @@ xh.load = function() {
 				}
 			});
 
+		};
+		$scope.excelToDispatch=function(index){
+			xh.maskShow();
+			$scope.dispatchOneData = $scope.dispatchData[index];
+			$.ajax({
+				url : '../../app/excel_dispatch',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.dispatchOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
+		};
+		$scope.excelToNet=function(index){
+			$scope.netOneData = $scope.netData[index];
+			xh.maskShow();
+			//$("#btn-mbs").button('loading')
+			$.ajax({
+				url : '../../app/excel_net',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.netOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
+		};
+		$scope.excelToVertical=function(index){
+			$scope.verticalOneData = $scope.verticalData[index];
+			xh.maskShow();
+			//$("#btn-mbs").button('loading')
+			$.ajax({
+				url : '../../app/excel_vertical',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.verticalOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
+		};
+		$scope.excelToMsc=function(index){
+			$scope.mscOneData = $scope.mscData[index];
+			xh.maskShow();
+			//$("#btn-mbs").button('loading')
+			$.ajax({
+				url : '../../app/excel_msc',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.mscOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
 		};
 		$scope.excel_bs_more=function(){
 			var checkVal = [];
@@ -1208,6 +1423,39 @@ xh.net_pagging = function(currentPage,totals, $scope,pageSize) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.net_pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+xh.vertical_pagging = function(currentPage,totals, $scope,pageSize) {
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.vertical_start = start;
+	$scope.vertical_lastIndex = end;
+	$scope.verticalTotals = totals;
+	if (totals > 0) {
+		$(".vertical-page-paging").html('<ul class="pagination vertical-pagination"></ul>');
+		$('.vertical-pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.vertical_pageClick(page, totals, totalPages);
 				}
 				frist = 1;
 
@@ -1517,6 +1765,66 @@ xh.edit_sbs=function(){
 		}
 	});
 };
+xh.add_vertical=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/vertical_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addVerticalForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.vertical_refresh();
+				$("#verticalAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_vertical=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/vertical_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editVerticalForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.net_refresh();
+				$("#verticalEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
 //移动基站巡检表
 xh.excelToMbs=function(){
 	var $scope = angular.element(appElement).scope();
@@ -1609,35 +1917,6 @@ xh.excelToNet=function(){
 	});
 };
 //导出调度台巡检
-xh.excelToDispatch=function(){
-	var $scope = angular.element(appElement).scope();
-	xh.maskShow();
-	//$("#btn-mbs").button('loading')
-	$.ajax({
-		url : '../../app/excel_dispatch',
-		type : 'post',
-		dataType : "json",
-		data : {
-			excelData:JSON.stringify($scope.dispatchOneData)
-		},
-		
-		async : false,
-		success : function(data) {
-			xh.maskHide();
-			//$("#btn-mbs").button('reset');
-			if (data.success) {
-				
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-			} else {
-				toastr.error("导出失败", '提示');
-			}
-		},
-		error : function() {
-			xh.maskHide();
-			toastr.error("导出失败", '提示');
-		}
-	});
-};
 xh.dispatch_pagging = function(currentPage,totals, $scope,pageSize) {
 	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
 			.ceil(parseInt(totals, 10) / pageSize);
@@ -1739,9 +2018,16 @@ xh.print_net=function() {
 };
 xh.print_dispatch=function() {
 	var LODOP = getLodop();
-	LODOP.PRINT_INIT("网管巡检");
+	LODOP.PRINT_INIT("调度台巡检");
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_dispatch").innerHTML);
+	 LODOP.PREVIEW();  	
+};
+xh.print_vertical=function() {
+	var LODOP = getLodop();
+	LODOP.PRINT_INIT("直放站巡检");
+	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_vertical").innerHTML);
 	 LODOP.PREVIEW();  	
 };
 xh.getNowMonth=function()   

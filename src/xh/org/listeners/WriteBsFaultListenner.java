@@ -19,6 +19,7 @@ import com.ctc.wstx.util.StringUtil;
 import xh.constant.Constants;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.BsAlarmExcelBean;
+import xh.mybatis.bean.EmhThreeBean;
 import xh.mybatis.bean.ThreeEmhAlarmBean;
 import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.BsStatusService;
@@ -143,6 +144,43 @@ class VoiceAlarm extends TimerTask{
 		
 	}
 	
+}
+class PullThreeEmh extends TimerTask{
+	protected final Log log=LogFactory.getLog(PullEmhThreeAlarm.class);
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		log.info("=========================================");
+		log.info("基站三期环控告警写入开始");
+		log.info("=========================================");
+		try {
+			List<ThreeEmhAlarmBean> list=SqlServerService.perDayAlarm();
+			
+			List<String> tablelist=SqlServerService.all_table();
+			int i=0,j=0;
+			for (String string : tablelist) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("table", string);
+
+				List<EmhThreeBean> list2=SqlServerService.tb_dev_info(map);
+				for (EmhThreeBean emhThreeBean : list2) {
+					ThreeEmhAlarmBean bean=new ThreeEmhAlarmBean();
+					if(emhThreeBean.getAlarmState().equals("1")){
+					bean.setJFNode(emhThreeBean.getBsId());
+					//bean.setDevNode(emhThreeBean.getDevNode());
+						
+					}
+				}
+					
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
 class PullEmhThreeAlarm extends TimerTask{
 	protected final Log log=LogFactory.getLog(PullEmhThreeAlarm.class);

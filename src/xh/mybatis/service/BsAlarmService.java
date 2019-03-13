@@ -286,20 +286,13 @@ public class BsAlarmService {
 		        	if(e4 || x || y){
 						
 						if(eps==0){
-							if((e4 && string_to_double(compare.get("ups7"))==1) 
-									|| string_to_double(compare.get("ups1"))<20){
+							if(e4|| string_to_double(compare.get("ups1"))<20 || bean.getSingleValue()==1){
 									     bean.setDescription("市电中断");
 									     write_bs_emh_eps(bean);
-									     System.out.println("没有记录：写入-》"+bean);
+									     /*System.out.println("没有记录：写入-》"+bean);*/
 							}else if(string_to_double(compare.get("ups4"))<46){
 									 bean.setDescription("电池电压过低");
 									 write_bs_emh_eps(bean);
-									 System.out.println("没有记录：写入-》"+bean);
-							}else if(bean.getSingleValue()==1){
-									bean.setDescription("eps故障");
-									 write_bs_emh_eps(bean);
-									 System.out.println("没有记录：写入-》"+bean);
-									 
 							}else if(x){
 									     bean.setDescription("市电电压过高");
 									     write_bs_emh_eps(bean);
@@ -309,7 +302,6 @@ public class BsAlarmService {
 							}else{
 									bean.setDescription("市电未知故障");
 									 write_bs_emh_eps(bean);
-									 System.out.println("没有记录：写入-》"+bean);
 									 
 							}
 						}
@@ -321,59 +313,23 @@ public class BsAlarmService {
 					}
 		        	
 		        }else{//已整改
-		        	
+		        	if(string_to_double(compare.get("ups5"))==1 || e4){
+						
+						if(eps==0){
+							 bean.setDescription("市电中断");
+							 write_bs_emh_eps(bean);
+						}
+					}else{
+						if(eps>0){
+							System.out.println("记录已经存在：更新-》"+bean);					
+							del_bs_emh_eps(bean);
+						}
+					}
 		        }
 		        
 		        
 				
-				if(e4 || x || y){
-					
-					if(eps==0){
-						 if(string_to_double(compare.get("ups5"))==1){
-							     if(string_to_double(compare.get("ups7"))==1){
-
-									bean.setDescription("市电中断");
-									 write_bs_emh_eps(bean);
-									 System.out.println("没有记录：写入-》"+bean);
-							      }
-							
-						}else if(e4 && string_to_double(compare.get("ups7"))==1){
-								     bean.setDescription("市电中断");
-								     write_bs_emh_eps(bean);
-								     System.out.println("没有记录：写入-》"+bean);
-						}else if(string_to_double(compare.get("ups1"))<20){
-								
-								 bean.setDescription("市电中断");
-								 write_bs_emh_eps(bean);
-								 System.out.println("没有记录：写入-》"+bean);
-						}else if(string_to_double(compare.get("ups4"))<46){
-								 bean.setDescription("电池电压过低");
-								 write_bs_emh_eps(bean);
-								 System.out.println("没有记录：写入-》"+bean);
-						}else if(bean.getSingleValue()==1){
-								bean.setDescription("eps故障");
-								 write_bs_emh_eps(bean);
-								 System.out.println("没有记录：写入-》"+bean);
-								 
-						}else if(x){
-								     bean.setDescription("市电电压过高");
-								     write_bs_emh_eps(bean);
-						}else if(y){
-								     bean.setDescription("市电电压过低");
-								     write_bs_emh_eps(bean);
-						}else{
-								bean.setDescription("市电未知故障");
-								 write_bs_emh_eps(bean);
-								 System.out.println("没有记录：写入-》"+bean);
-								 
-						}
-					}
-				}else{
-					if(eps>0){
-						System.out.println("记录已经存在：更新-》"+bean);					
-						del_bs_emh_eps(bean);
-					}
-				}
+				
 			}
 			
 			sqlSession.close();
@@ -594,10 +550,13 @@ public class BsAlarmService {
 		
 		try {
 			list=mapper.bs_ji_four_e4(map);
-			if(list.size()==2){
+			if(list.size()==5){
 				String a=list.get(0)==null?"":list.get(0).get("e4").toString();
 				String b=list.get(1)==null?"":list.get(1).get("e4").toString();
-				if(a==b){
+				String c=list.get(2)==null?"":list.get(2).get("e4").toString();
+				String d=list.get(3)==null?"":list.get(3).get("e4").toString();
+				String e=list.get(4)==null?"":list.get(4).get("e4").toString();
+				if(a==b && b==c && c==d && d==e && !a.equals("")){
 					tag=true;
 				}
 				

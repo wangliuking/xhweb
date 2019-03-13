@@ -75,6 +75,24 @@
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
 	</select>
+	
+	   <!--直放站巡检表 -->
+    <select id="verticalinfo" parameterType="map" resultType="xh.mybatis.bean.InspectionVerticalBean"
+        useCache="true">
+        select * from xhgmnet_operations_inspection_vertical where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+        order by commitdate desc limit #{start},#{limit}
+    </select>
+    <!--直放站巡检表总数 -->
+    <select id="verticalinfoCount" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from xhgmnet_operations_inspection_vertical where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+    </select>
 
 	<!--调度台巡检表 -->
 	<select id="dispatchinfo" parameterType="map" resultType="map"
@@ -242,10 +260,39 @@
 		r7=#{r7},r8=#{r8},r9=#{r9},r10=#{r10},r11=#{r11}
 		where id=#{id}
 	</update>
-
-
-
-
+	
+	<insert id="vertical_add" parameterType="xh.mybatis.bean.InspectionVerticalBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into
+        xhgmnet_operations_inspection_vertical
+        (serialnumber,name,place,checkman,commitdate,userid,
+        comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+        comment12,comment13,comment14,comment15,comment16,comment17,
+        d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,question,ammeternumber
+        )values(#{serialnumber},#{name},#{place},#{checkman},#{commitdate},#{userid},
+        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},
+        #{comment8},#{comment9},#{comment10},#{comment11},
+        #{comment12},#{comment13},#{comment14},#{comment15},#{comment16},#{comment17},
+        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+        #{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{question},#{ammeternumber}
+        )
+    </insert>
+    <update id="vertical_edit" parameterType="xh.mybatis.bean.InspectionVerticalBean">
+        update
+        xhgmnet_operations_inspection_vertical set
+        place=#{place},checkman=#{checkman},commitdate=#{commitdate},
+        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+        comment11=#{comment11},
+        comment12=#{comment12},comment13=#{comment13},comment14=#{comment14},comment15=#{comment15},
+        comment16=#{comment16},comment17=#{comment17},
+        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+        d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},question=#{question},
+        ammeternumber=#{ammeternumber}
+        where id=#{id}
+    </update>
+	
 	<insert id="mbs_add" parameterType="xh.mybatis.bean.InspectionMbsBean"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
@@ -326,6 +373,14 @@
 	<delete id="del_msc" parameterType="java.util.List">
         delete from
         xhgmnet_operations_inspection_msc where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <delete id="del_vertical" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_vertical where id=(
         <foreach collection="list" item="id" separator=",">
             #{id}
         </foreach>
