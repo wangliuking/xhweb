@@ -17,6 +17,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EmhThreeBean;
 import xh.mybatis.service.EastComService;
 import xh.mybatis.service.SqlServerService;
@@ -47,7 +48,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 				Date d1 = fTime.parse(time);
 				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
 				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
-				timer.scheduleAtFixedRate(new CollectionData(),5000,5*60*1000);
+				timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -159,18 +160,27 @@ class CollectionData extends TimerTask{
 				map.put("table", string);
 
 				List<EmhThreeBean> list2=SqlServerService.tb_dev_info(map);
-				SqlServerService.insertEmh(list2);
-				/*for (EmhThreeBean bean : list2) {
-					log4j.info("ffff->"+bean.toString());
-					SqlServerService.insertEmh(bean);
-				}*/
+				//SqlServerService.insertEmh(list2);
+				for (EmhThreeBean bean : list2) {
+					EmhThreeBean emh_three_one=SqlServerService.emh_three_one(bean);
+					bean.setUpdateTime(FunUtil.nowDate());
+					if(emh_three_one!=null){
+						if(!bean.getValue().equals(emh_three_one.getValue()) || 
+								!bean.getAlarmState().equals(emh_three_one.getAlarmState())){
+							SqlServerService.insertEmh(bean);
+						}
+					}else{
+						SqlServerService.insertEmh(bean);
+					}
+					
+				}
 				
 				
 			}
 			long endtime1=System.currentTimeMillis();
 			float seconds1 = (endtime1 - starttime1);
 			log4j.info("=========================================");
-			log4j.info("获取三期基站环控数据结束,历时="+seconds1+" ms");
+			log4j.info("获取三期基站环控数据结束,历时="+(seconds1/1000)+" ms");
 			log4j.info("=========================================");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

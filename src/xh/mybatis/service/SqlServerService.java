@@ -442,12 +442,20 @@ public class SqlServerService {
 		sqlSession.close();
 		return list;
 	}
-	public static void insertEmh(List<EmhThreeBean> list) throws Exception {
+	public static void insertEmh(EmhThreeBean bean) throws Exception {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
-		mapper.insertEmh(list);
+		mapper.insertEmh(bean);
 		sqlSession.commit();
 		sqlSession.close();
+	}
+	public static EmhThreeBean emh_three_one(EmhThreeBean bean) throws Exception {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		SqlServerMapper mapper = sqlSession.getMapper(SqlServerMapper.class);
+		EmhThreeBean bea=mapper.emh_three_one(bean);
+		
+		sqlSession.close();
+		return bea;
 	}
 	
 

@@ -81,8 +81,8 @@ xh.org.listeners.WriteBsFaultListenner
 <listener-class>   
 xh.org.listeners.GetEastCallDataListenner  
 </listener-class>   
-</listener> -->
-
+</listener>
+ -->
 <listener>
 <listener-class>   
 xh.org.listeners.TcpServerListenner   
