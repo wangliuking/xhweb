@@ -147,9 +147,9 @@ marquee {
 								href="Views/operations/appInspection.html" target="mainframe">运维巡检</a></li>
 							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
 								target="mainframe">统计分析</a></li>
-							<li ng-show="menu.m_14"><a href="Views/menu/menu_fault.html"
+							<li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
                                 target="mainframe">故障处理</a></li>
-                            <li ng-show="menu.m_14"><a href="Views/web/system-config.html"
+                            <li ng-if="roleType==3 || roleType==0"><a href="Views/web/system-config.html"
                                 target="mainframe">告警提示配置</a></li>
 
 						</ul></li>
