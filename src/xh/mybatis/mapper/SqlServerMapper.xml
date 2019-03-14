@@ -120,7 +120,7 @@
 		xhgmnet_emh_three_alarm set State=1,RelieveTime=#{RelieveTime} where
 		bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID}
 		and State=0
-		and AlarmTime &lt;#{AlarmTime}
+		<!-- and AlarmTime &lt;#{AlarmTime} -->
 	</update>
 	<insert id="insertEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean"
 		keyProperty="id" useGeneratedKeys="true">
@@ -144,7 +144,7 @@
 
 	<select id="tb_dev_info" parameterType="map" resultType="xh.mybatis.bean.EmhThreeBean"
 		useCache="true">
-		select JFNode as bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,State,
+		select JFNode as bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
         AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX from ${table}
 	</select>
 	<insert id="insertEmh" parameterType="java.util.List"
