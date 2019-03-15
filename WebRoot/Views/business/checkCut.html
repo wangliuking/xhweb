@@ -97,6 +97,30 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label>建设周期</label>
+										<div>
+											<select class="form-control" id="bsPeriod" name="bsPeriod" style="width:158px;">
+												<option value="" >全部</option>
+												<option value="3">三期</option>
+												<option value="4">四期</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label>核减依据</label>
+										<div>
+											<select class="form-control" id="bsRules"  name="bsRules" style="width:158px;">
+												<option value="" >全部</option>
+												<option value="自然灾害" >自然灾害</option>
+												<option value="市政施工" >市政施工</option>
+												<option value="突发事件">突发事件</option>
+												<option value="已预先告知维护/整改作业" >已预先告知维护/整改作业</option>
+												<option value="业主原因" >业主原因</option>
+												<option value="夜间停电或天气原因" >夜间停电或天气原因</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="starttime">起始时间</label>
 										<div>
 											<input type="text" class="form-control" id="startTime" name="startTime"
@@ -117,6 +141,14 @@
 											<button type="submit" class="btn btn-sm btn-success"
 													ng-click="refresh(1)">
 												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+													ng-click="exportWord()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;批量导出word
 											</button>
 										</div>
 									</div>
@@ -153,7 +185,6 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>发起人</th>
-										<th>请求内容</th>
 										<th>基站id</th>
 										<th>基站名称</th>
 										<th>建设周期</th>
@@ -162,6 +193,7 @@
 										<th>申请时间</th>
 										<th>状态</th>
 										<th>操作详情</th>
+										<th>打印情况</th>
 									</tr>
 								</thead>
 								<tbody ng-model="loginUserRoleId">
@@ -171,11 +203,10 @@
 									<tr ng-repeat="x in data">
                                         <td ng-if="x.userUnit == '' "></td>
                                         <td ng-if="x.userUnit != '' ">{{x.userUnit}}</td>
-										<td>基站核减</td>
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.bsPeriod}}期</td>
-										<td>{{x.rules}}</td>
+										<td>{{x.rules | changeValue}}</td>
 										<td>{{x.breakTime}}</td>
                                         <td ng-if="x.requestTime == '' "></td>
                                         <td ng-if="x.requestTime != '' ">{{x.requestTime}}</td>
@@ -224,6 +255,8 @@
 													class="fa fa-times-circle text-danger"></i> 删除</a>
 
 										</td>
+										<td ng-if="x.isPrint==0" class="td-danger">未打印</td>
+										<td ng-if="x.isPrint==1" class="td-success">已打印</td>
 									</tr>
 								</tbody>
 							</table>
@@ -264,20 +297,25 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
+	<!-- 表格-->
+	<div ng-include="'checkCut-sheet.html'"></div>
 	<!-- 添加 -->
 	<div ng-include="'checkCut-add.html'"></div>
 	<!-- 进度-->
 	<div ng-include="'checkCut-progress.html'"></div>
 	<!-- 审核-->
 	<div ng-include="'checkCut-check.html'"></div>
-	<!-- 表格-->
-	<div ng-include="'checkCut-sheet.html'"></div>
+
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript"
+			src="../../Resources/js/FileSaver.js"></script>
+	<script type="text/javascript"
+			src="../../Resources/js/jquery.wordexport.js"></script>
 	<script type="text/javascript" src="../../Controllers/business/checkCut.js"></script>
 	<script type="text/javascript"
 		src="../../lib/layer-master/src/layer.js"></script>

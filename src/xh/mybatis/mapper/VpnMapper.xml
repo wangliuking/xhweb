@@ -7,7 +7,7 @@
   </resultMap>
   
   <select id="selectAllName" resultType="java.util.HashMap" parameterType="map">
-  	select vpnId,pId,name from xhgmnet_vpn where 1=1
+  	select vpnId,pId,c_name from xhgmnet_vpn where 1=1
   	<if test="vpnId !=null and vpnId !='' and pId == '0'">
   		and pId=#{vpnId} or vpnId=#{vpnId}
   	</if>
@@ -23,9 +23,14 @@
   <update id="updateByVpnId" parameterType="map">
   	update xhgmnet_vpn set name=#{name} where vpnId=#{vpnId}
   </update>
+
+    <!-- 根据pId查询所有子单位 -->
+    <select id="selectByPId" resultType="int" parameterType="java.lang.String">
+        select vpnId from xhgmnet_vpn where pId=#{pId} ORDER BY vpnId
+    </select>
   
   <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
-  	insert into xhgmnet_vpn(pId,name,sn,time) values(#{pId},#{name},#{sn},now())
+  	insert into xhgmnet_vpn(vpnId,pId,name,sn,time) values(#{vpnId},#{pId},#{name},#{sn},now())
   </insert>
   
   <!-- 添加之前查询vpnId是否重复 -->

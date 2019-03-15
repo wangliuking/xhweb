@@ -125,6 +125,19 @@ public class BusinessVpnController {
 	public void insertByVpnId(HttpServletRequest request, HttpServletResponse response,VpnBean bean){	
 			this.success=true;
 			HashMap result = new HashMap();
+			String pId = bean.getpId();
+
+			List<Integer> vpnIdList = BusinessVpnService.selectByPId(pId);
+			if(vpnIdList.size() == 0){
+				String vpnId = pId + "0001";
+				bean.setVpnId(vpnId);
+			}else{
+				int index = vpnIdList.size()-1;
+				int temp = Integer.parseInt(vpnIdList.get(index)+"");
+				int vpnId = temp + 1;
+				bean.setVpnId(vpnId+"");
+			}
+
 			result.put("success", success);
 			result.put("items", BusinessVpnService.insertByVpnId(bean));
 			String jsonstr = json.Encode(result);

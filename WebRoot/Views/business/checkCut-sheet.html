@@ -245,8 +245,17 @@
 
             </div>
             <div class="modal-footer">
+                <button ng-if="roleId==10003 && nowChecked==0" type="button" class="btn btn-success btn-sm" ng-click="checkWin(nowIndex)">
+                    <i class="fa fa-check-square"></i>&nbsp;复核
+                </button>
+                <button ng-if="roleId==10002 && nowChecked==1" type="button" class="btn btn-success btn-sm" ng-click="checkWin(nowIndex)">
+                    <i class="fa fa-check-square"></i>&nbsp;审核
+                </button>
                 <button type="button" class="btn btn-success btn-sm" onclick="xh.print_order()">
                     <i class="fa fa-print"></i>&nbsp;打印
+                </button>
+                <button type="button" class="btn btn-success btn-sm" onclick="xh.exportWord()">
+                    <i class="fa fa-print"></i>&nbsp;导出
                 </button>
                 <button type="button" class="btn btn-success btn-sm"
                         data-dismiss="modal" id="checkCut-btn">

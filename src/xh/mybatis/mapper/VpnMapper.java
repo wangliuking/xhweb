@@ -50,5 +50,9 @@ public interface VpnMapper {
 	 * 查询所有一级单位
 	 */
 	public List<Map<String,Object>> selectParentVpnId()throws Exception;
+	/**
+	 * 根据pId查询所有子单位
+	 */
+	public List<Integer> selectByPId(String pId)throws Exception;
 	
 }

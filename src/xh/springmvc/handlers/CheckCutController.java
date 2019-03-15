@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import xh.func.plugin.DownLoadUtils;
-import xh.func.plugin.FlexJSON;
-import xh.func.plugin.FunUtil;
+import xh.func.plugin.*;
 import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsAlarmService;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.zip.ZipOutputStream;
 
 @Controller
 @RequestMapping(value = "/checkCut")
@@ -48,6 +47,8 @@ public class CheckCutController {
         String bsId = request.getParameter("bsId");
         String name = request.getParameter("bsName");
         String status = request.getParameter("checked");
+        String bsPeriod = request.getParameter("bsPeriod");
+        String bsRules = request.getParameter("bsRules");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         String user=funUtil.loginUser(request);
@@ -65,6 +66,8 @@ public class CheckCutController {
         map.put("bsId", bsId);
         map.put("name", name);
         map.put("status", status);
+        map.put("bsPeriod", bsPeriod);
+        map.put("bsRules", bsRules);
 
         if(startTime == null || "".equals(startTime)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -238,6 +241,34 @@ public class CheckCutController {
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("message", res);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新打印状态
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/updatePrintStatusById", method = RequestMethod.GET)
+    public void updatePrintStatusById(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        CheckCutService.updatePrintStatusById(id);
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("message", message);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -838,4 +869,34 @@ public class CheckCutController {
     }
 
 
+    /**
+     * 测试word压缩导出
+     */
+    @RequestMapping(value = "/downLoadZipFile")
+    public void downLoadZipFile(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("startTime",startTime);
+        param.put("endTime",endTime);
+        List<Map<String,Object>> list = CheckCutService.exportWordByTime(param);
+
+        String zipName = "myfile.zip";
+        WordTest wordTest = new WordTest();
+        List<String> fileList = wordTest.run(list);//查询数据库中记录
+        response.setContentType("APPLICATION/OCTET-STREAM");
+        response.setHeader("Content-Disposition","attachment; filename="+zipName);
+        ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
+        try {
+            for(Iterator<String> it = fileList.iterator(); it.hasNext();){
+                String str = it.next();
+                ZipUtils.doCompress(str, out);
+                response.flushBuffer();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            out.close();
+        }
+    }
 }

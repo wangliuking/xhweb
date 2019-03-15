@@ -41,6 +41,20 @@ xh.load = function() {
                 return parseFloat(text);
         };
     });
+
+    app.filter('changeValue', function() { //可以注入依赖
+        return function(text) {
+        	if(text == null || text == ""){
+				return "";
+			}else{
+                //console.log(text);
+                var arr1 = text.split("（");
+                var arr2 = arr1[1].split("）");
+                var arr3 = arr2[0].split(" ");
+                return arr3[1];
+			}
+        };
+    });
 	
 	var pageSize = $("#page-limit").val();
     app.config(['$locationProvider', function ($locationProvider) {
@@ -96,6 +110,16 @@ xh.load = function() {
 			$scope.search(page);
 		};
 
+		$scope.exportWord = function () {
+			var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            if(startTime == "" || endTime == ""){
+            	alert("请选择需要导出的时间!");
+            	return false;
+			}
+            window.location.href="../../checkCut/downLoadZipFile?startTime="+startTime+"&endTime="+endTime;
+        }
+
 		/*重新计算*/
 		$scope.calAgain = function () {
             var date1 = $("input[name='breakTime']").val();
@@ -124,6 +148,8 @@ xh.load = function() {
 
         $scope.sheetShow = function(id){
             var temp = $scope.data[id];
+            $scope.nowIndex = id;
+            $scope.nowChecked = temp.checked;
             var sheetId = temp.id;
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
@@ -275,6 +301,8 @@ xh.load = function() {
 			var bsId = $("#bsId").val();
 			var bsName = $("#bsName").val();
             var status = $('#status option:selected') .val();
+            var bsPeriod = $('#bsPeriod option:selected') .val();
+            var bsRules = $('#bsRules option:selected') .val();
             if(status == 100){
             	status = "";
 			}
@@ -291,7 +319,7 @@ xh.load = function() {
 			console.log("================");
             console.log(start+"~~~"+page);
             console.log("================");
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -307,6 +335,8 @@ xh.load = function() {
             var bsId = $("#bsId").val();
             var bsName = $("#bsName").val();
             var status = $('#status option:selected') .val();
+            var bsPeriod = $('#bsPeriod option:selected') .val();
+            var bsRules = $('#bsRules option:selected') .val();
             if(status == 100){
                 status = "";
             }
@@ -322,7 +352,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -656,9 +686,23 @@ xh.pagging = function(currentPage, totals, $scope) {
 };
 
 xh.print_order=function() {
+    var $scope = angular.element(appElement).scope();
+    var id = $scope.sheetData.id;
+
     var LODOP = getLodop();
     LODOP.PRINT_INIT("故障核减申请书");
     LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
     LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
     LODOP.PREVIEW();
+
+    //更新打印状态
+    $.ajax({
+        url : '../../checkCut/updatePrintStatusById?id='+id,
+        type : 'GET',
+        dataType : "json",
+        async : true,
+        success : function(data) {
+
+        }
+    });
 };

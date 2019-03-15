@@ -173,7 +173,7 @@ var start = function(dataForTree) {
 	} ];*/
 	var zNodes = [];
 	for(var i=0;i<dataForTree.length;i++){
-		var tempMap = {"id":dataForTree[i].vpnId,"pId":dataForTree[i].pId,"name":dataForTree[i].name};
+		var tempMap = {"id":dataForTree[i].vpnId,"pId":dataForTree[i].pId,"name":dataForTree[i].c_name};
 		zNodes.push(tempMap);
 	}
 
@@ -316,8 +316,19 @@ xh.add = function() {
 		success : function(data) {
 			if (data.items != 0) {
 				$('#add').modal('hide');
-				xh.load();
-				toastr.success("添加成功", '提示');			
+				//xh.load();
+				toastr.success("添加成功", '提示');
+
+                $.ajax({
+                    url : '../../vpn/list',
+                    type : 'get',
+                    dataType : "json",
+                    async : false,
+                    success : function(data) {
+                        start(data.items);
+                    }
+                });
+
 			} else {
 				toastr.error("添加失败,已存在相同vpnId", '提示');
 			}
