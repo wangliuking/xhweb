@@ -161,8 +161,8 @@ xh.load = function() {
             var LODOP = getLodop();
             LODOP.PRINT_INIT("故障核减申请书");
             LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
-            LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
-            LODOP.ADD_PRINT_IMAGE(100,0,243,50,"URL:192.168.120.161:8080/Views/business/sign/test.png");
+            LODOP.ADD_PRINT_HTML("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
+
             LODOP.PREVIEW();
 
             //更新打印状态
