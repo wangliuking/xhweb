@@ -285,6 +285,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															 <th width="30px"><input type="checkbox" class="table-check" /></th>
 																<th>网管名称</th>
 																<th>地点</th>
 																<th>巡检人员</th>
@@ -295,9 +296,11 @@ input[type="text"] {
 														</thead>
 														<tbody>
 															<tr ng-if="netTotals==0">
-																<td colspan="6" class="text-center">没有记录！</td>
+																<td colspan="7" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in netData">
+															<td><input type="checkbox" name="tb-check" id="n-check"
+                                                                    value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.managername}}</td>
 
 																<td>{{x.managerplace}}</td>
@@ -382,6 +385,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															<th width="30px"><input type="checkbox" class="table-check" /></th>
 																<th>调度台名称</th>
 																<th>地点</th>
 																<th>巡检人员</th>
@@ -392,9 +396,12 @@ input[type="text"] {
 														</thead>
 														<tbody>
 															<tr ng-if="dispatchTotals==0">
-																<td colspan="6" class="text-center">没有记录！</td>
+																<td colspan="7" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in dispatchData">
+															 
+															     <td><input type="checkbox" name="tb-check" id="d-check"
+                                                                    value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.dispatchname}}</td>
 
 																<td>{{x.dispatchplace}}</td>
@@ -479,6 +486,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															<th width="30px"><input type="checkbox" class="table-check" /></th>
 																<th>系统名称</th>
 																<th>地点</th>
 																<th>巡检人员</th>
@@ -489,9 +497,12 @@ input[type="text"] {
 														</thead>
 														<tbody>
 															<tr ng-if="mscTotals==0">
-																<td colspan="5" class="text-center">没有记录！</td>
+																<td colspan="6" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in mscData">
+
+																<td><input type="checkbox" name="tb-check"
+																	id="m-check" value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.name}}</td>
 
 																<td>{{x.address}}</td>
@@ -582,6 +593,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															    <th width="30px"><input type="checkbox" class="table-check" /></th>
 																<th>直放站名称</th>
 																<th>电表读数</th>
 																<th>巡检人员</th>
@@ -594,6 +606,8 @@ input[type="text"] {
 																<td colspan="6" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in verticalData">
+															    <td><input type="checkbox" name="tb-check" id="v-check"
+                                                                    value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.name}}</td>
 
 																<td>{{x.ammeternumber}}</td>
@@ -684,6 +698,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															<th width="30px"><input type="checkbox" class="table-check" /></th>
 																<th>室内覆盖站名称</th>
 																<th>电表读数</th>
 																<th>巡检人员</th>
@@ -693,9 +708,11 @@ input[type="text"] {
 														</thead>
 														<tbody>
 															<tr ng-if="starTotals==0">
-																<td colspan="5" class="text-center">没有记录！</td>
+																<td colspan="6" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in roomData">
+															 <td><input type="checkbox" name="tb-check" id="r-check"
+                                                                    value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.name}}</td>
 
 																<td>{{x.ammeternumber}}</td>
@@ -786,6 +803,7 @@ input[type="text"] {
 														style="table-layout：fixed">
 														<thead>
 															<tr class="tr-gray">
+															<th width="30px"><input type="checkbox" class="table-check" /></th>
 															    <th>基站编号</th>
 																<th>基站名称</th>
 																<th>基站级别</th>
@@ -797,9 +815,11 @@ input[type="text"] {
 														</thead>
 														<tbody>
 															<tr ng-if="starTotals==0">
-																<td colspan="7" class="text-center">没有记录！</td>
+																<td colspan="8" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in starData">
+															 <td><input type="checkbox" name="tb-check" id="s-check"
+                                                                    value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.bsId}}</td>
 <td>{{x.name}}</td>
 																<td>{{x.level}}</td>

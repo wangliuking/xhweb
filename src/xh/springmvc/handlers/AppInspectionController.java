@@ -41,9 +41,13 @@ import jxl.write.biff.RowsExceededException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -72,6 +76,7 @@ public class AppInspectionController {
 	protected final Log log = LogFactory.getLog(AppInspectionController.class);
 	private WebLogBean webLogBean = new WebLogBean();
 	private FlexJSON json = new FlexJSON();
+	private AppInspectionExcelController app=new AppInspectionExcelController();
 
 	/**
 	 * 删除巡检基站记录
@@ -1600,7 +1605,8 @@ public class AppInspectionController {
 	}
 
 	@RequestMapping(value = "/excel_vertical", method = RequestMethod.POST)
-	public void excel_vertical(HttpServletRequest request,
+	@ResponseBody
+	public HashMap<String, Object> excel_vertical(HttpServletRequest request,
 			HttpServletResponse response) {
 		String excelData = request.getParameter("excelData");
 
@@ -1862,13 +1868,12 @@ public class AppInspectionController {
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("success", success);
 			result.put("pathName", pathname);
-			response.setContentType("application/json;charset=utf-8");
-			String jsonstr = json.Encode(result);
-			response.getWriter().write(jsonstr);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
+		return null;
 	}
 	@RequestMapping(value = "/excel_room", method = RequestMethod.POST)
 	public void excel_room(HttpServletRequest request,
@@ -3158,37 +3163,66 @@ public class AppInspectionController {
 
 	}
 
-	// 基站故障记录登记表
-	@RequestMapping(value = "/excel_bs", method = RequestMethod.POST)
-	public void app_bs(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	@RequestMapping(value = "/excel_batch", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> excel_batch(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String time = request.getParameter("time");
-		String[] ids = request.getParameter("id").split(",");
-		List<String> list = new ArrayList<String>();
-		for (String string : ids) {
-			list.add(string);
-		}
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("start", 0);
-		map.put("limit", 50000);
-		map.put("time", time);
-		map.put("ids", list);
-		// List<InspectionMbsBean> mbsList=AppInspectionServer.mbsinfo(map);
-		List<InspectionSbsBean> sbsList = AppInspectionServer.sbsinfo(map);
-		String saveDir = request.getSession().getServletContext()
-				.getRealPath("/app");
-		String pathname = "";
+		String data = request.getParameter("data");
+		int type=Integer.parseInt(request.getParameter("type"));
+		String saveDir = request.getSession().getServletContext().getRealPath("/app");
+		HashMap<String, Object> rs=new HashMap<String, Object>();
 		// 设置下载的压缩包名
-		String zipName = time + "-基站月度巡检.zip";
+				String zipName = time + "-基站月度巡检.zip";
+				if(type==1){
+					zipName = time + "-基站月度巡检.zip";
+					List<InspectionSbsBean> sbsList=GsonUtil.json2Object(data, new TypeToken<List<InspectionSbsBean>>(){}.getType());
+					rs=app_bs(sbsList,saveDir,time,zipName);
+				}else if(type==2){
+					zipName = time + "-直放站月度巡检.zip";
+					List<InspectionVerticalBean> sbsList=GsonUtil.json2Object(data, new TypeToken<List<InspectionVerticalBean>>(){}.getType());
+					StringBuilder sb = new StringBuilder();
+					ArrayList<String> fileNames = new ArrayList<String>();
+					String pathname = "";
+					for (InspectionVerticalBean bean : sbsList) {
+						String fileName = time + "-直放站-[" + bean.getName()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						app.excel_vertical(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName", sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);
+					rs.put("pathName", pathname);					
+				}else if(type==3){
+					zipName = time + "-室内覆盖站月度巡检.zip";
+				}else if(type==4){
+					zipName = time + "-卫星通信车载便携站月度巡检.zip";
+				}else if(type==5){
+					zipName = time + "-网管月度巡检.zip";
+				}else if(type==6){
+					zipName = time + "-调度台月度巡检.zip";
+				}else if(type==7){
+					zipName = time + "-交换中心月度巡检.zip";
+		     }	
+				return rs;
+				
+			
+	
+	}
+	public HashMap<String, Object> app_bs(List<InspectionSbsBean> sbsList,String saveDir,String time,String zipName)
+			throws Exception {
+		String pathname = "";
+		
 		ArrayList<String> fileNames = new ArrayList<String>();
 		StringBuilder sb = new StringBuilder();
-		/*
-		 * response.setContentType("application/x-msdownload");
-		 * response.setHeader("content-disposition",
-		 * "attachment;filename="+URLEncoder.encode(zipName, "utf-8"));
-		 */
-
 		try {
 
 			for (InspectionSbsBean bean : sbsList) {
@@ -3283,14 +3317,14 @@ public class AppInspectionController {
 			result.put("success", success);
 			result.put("fileName", sb.deleteCharAt(sb.length() - 1).toString());
 			result.put("zipName", zipName);
-			result.put("pathName", pathname);
-			response.setContentType("application/json;charset=utf-8");
-			String jsonstr = json.Encode(result);
-			response.getWriter().write(jsonstr);
+			result.put("pathName", pathname);	
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
+		return null;
+		
 	}
 
 	// 基站故障记录登记表

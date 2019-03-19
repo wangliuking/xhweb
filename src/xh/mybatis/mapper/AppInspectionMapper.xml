@@ -318,7 +318,7 @@
     </insert>
     <update id="vertical_edit" parameterType="xh.mybatis.bean.InspectionVerticalBean">
         update
-        xhgmnet_operations_inspection_vertical set
+        xhgmnet_operations_inspection_vertical set name=#{name},
         place=#{place},checkman=#{checkman},commitdate=#{commitdate},
         comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
         comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},

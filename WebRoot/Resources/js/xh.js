@@ -46,11 +46,6 @@ $(document).ready(function() {
 		var flag = $(this).is(':checked') ? 1 : 0;
 		if ($(this).is(':checked')) {
 			$("[name='tb-check']").prop("checked", true);// 全选
-			/*
-			 * $("[name='tb-check']:checkbox").each(function(){
-			 * if($(this).is(':checked')){ checkVal.push($(this).attr("value")); }
-			 * });
-			 */
 		} else {
 			$("[name='tb-check']").prop("checked", false);// 反选
 		}

@@ -1,5 +1,7 @@
 package xh.func.plugin;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.Gson;
 
 public class GsonUtil {
@@ -11,5 +13,10 @@ public class GsonUtil {
     public static <T> T json2Object(String json, Class<T> clazz) {  
         Gson gson = new Gson();  
         return gson.fromJson(json, clazz);  
+    } 
+    //new TypeToken<List<Person>>(){}.getType()
+    public static <T> T json2Object(String json, Type type) {  
+        Gson gson = new Gson();  
+        return gson.fromJson(json, type);  
     } 
 }
