@@ -1,0 +1,148 @@
+
+<div class="modal fade" id="editWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">用户需求处理详情</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" onsubmit="return false" id="editForm">
+					<table style="width:100%;border-collapse: collapse;"
+						class="table-view">
+						<tbody>
+						
+						   <tr ng-show="false"><td><input name="id" ng-model="editData.id"></td></tr>
+
+							<tr>
+								<td style="text-align: center; width:200px">时间/联系人</td>
+								<td>
+									<div class="form-group col-md-12">
+										<input type="text" class="form-control" name="time"
+											onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" ng-model="editData.time"
+											required="required">
+									</div>
+								</td>
+								<td>
+									<div class="form-group col-md-12">
+										<input type="text" class="form-control" name="contact_person"
+											required="required" ng-model="editData.contact_person">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">地点</td>
+
+								<td colspan="2">
+									<div class="form-group col-md-12">
+										<input type="text" class="form-control" name="address"
+											required="required" ng-model="editData.address">
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+                                <td style="text-align: center;">现象描述</td>
+
+                                <td colspan="2">
+                                    <div class="form-group col-md-12">
+                                        <textarea rows="2" cols="" class="form-control" name="description"
+                                            required="required" ng-model="editData.description"></textarea>
+                                    </div>
+                                </td>
+                            </tr>
+							<tr>
+								<td style="text-align: center;">接单响应</td>
+								<td colspan="2">
+									<div class="form-group col-md-12">
+										
+										<textarea rows="2" cols="" class="form-control" name="response"
+                                            required="required" ng-model="editData.response"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">处理跟踪</td>
+								<td colspan="2">
+									<div class="form-group col-md-12">
+									
+										<textarea rows="2" cols="" class="form-control" name="handle"
+                                            required="required" ng-model="editData.handle"></textarea>
+									</div>
+								</td>
+							</tr>
+						
+							<tr>
+								<td style="text-align: center;">处理结果</td>
+								<td colspan="2">
+									<div class="form-group col-md-12">
+									
+										<textarea rows="2" cols="" class="form-control" name="result"
+                                            required="required" ng-model="editData.result"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">备注</td>
+								<td colspan="2">
+									<div class="form-group col-md-12">
+										<textarea rows="2" cols="" class="form-control" name="note"
+                                            ng-model="editData.note"></textarea>
+									</div>
+								</td>
+							</tr>
+							
+							<tr>
+                                <td style="text-align: center;">处理状态</td>
+                                <td colspan="2">
+                                    <div class="form-group col-md-12">
+                                        <select class="form-control" name="state" >
+                                        <option value="已处理" ng-check="editData.state=='已处理'">已处理</option>
+                                        <option value="未处理" ng-check="editData.state=='未处理'">未处理</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="edit_btn">
+						<i class="fa fa-edit"></i>&nbsp;更新
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#edit_btn").click(function() {
+		$('#editForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		feedbackIcons : faIcon,
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.edit();
+	});
+</script>

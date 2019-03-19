@@ -477,9 +477,10 @@ public class ReportDayController {
         sheet.addCell(new Label(0, start+5, "公安8000695", fontFormat_Content));
         sheet.addCell(new Label(0, start+6, "双流7088899", fontFormat_Content));
         for(int i=0;i<gps.size();i++){   	
-        	int total=Integer.parseInt(gps.get(i).get("v1").toString())+
+        	/*int total=Integer.parseInt(gps.get(i).get("v1").toString())+
         			Integer.parseInt(gps.get(i).get("v2").toString())+
-        			Integer.parseInt(gps.get(i).get("v3").toString());
+        			Integer.parseInt(gps.get(i).get("v3").toString());*/
+        	int total=Integer.parseInt(gps.get(i).get("total").toString());
         	sheet.addCell(new jxl.write.Number(i+1, start+3, total, fontFormat_Content));
         	sheet.addCell(new jxl.write.Number(i+1, start+4, Integer.parseInt(gps.get(i).get("v1").toString()), fontFormat_Content));
         	sheet.addCell(new jxl.write.Number(i+1, start+5, Integer.parseInt(gps.get(i).get("v2").toString()), fontFormat_Content));

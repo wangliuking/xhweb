@@ -1,0 +1,78 @@
+
+<div class="modal fade" id="detailWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">用户需求处理详情</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="row" style="margin-bottom:5px;">
+					<div class="col-md-12">
+						<div class="btn-group">
+							<button type="button" class="btn btn-success btn-sm"
+								onclick="xh.print()">
+								<i class="fa fa-print"></i>&nbsp;打印
+							</button>
+
+						</div>
+					</div>
+				</div>
+				<div class="order" id="print">
+					<style type="text/css" id="style1">
+.table-view {
+	border-collapse: collapse;
+}
+
+.table-view td {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+</style>
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;" class="table-view">
+							<tbody>
+								
+								<tr>
+									<td style="text-align: center; width:200px">时间/联系人</td>
+									<td>{{editData.time}}</td>
+									<td>{{editData.contact_person}}</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">地点</td>
+									<td colspan="2">{{editData.address}}</td>
+								</tr>
+								<tr>
+                                    <td style="text-align: center;">现象描述</td>
+                                    <td colspan="2">{{editData.description}}</td>
+                                </tr>
+								<tr>
+									<td style="text-align: center;">接单响应</td>
+									<td colspan="2">{{editData.response}}</td>
+								</tr>
+								<tr>
+                                    <td style="text-align: center;">处理跟踪</td>
+                                    <td colspan="2">{{editData.handle}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">处理结果</td>
+                                    <td colspan="2">{{editData.result}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">备注</td>
+                                    <td colspan="2">{{editData.note}}</td>
+                                </tr>
+								
+
+							</tbody>
+						</table>
+				</div>
+
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
