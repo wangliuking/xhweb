@@ -118,6 +118,39 @@ xh.load = function() {
             	return false;
 			}
             window.location.href="../../checkCut/downLoadZipFile?startTime="+startTime+"&endTime="+endTime;
+        };
+
+        $scope.sign = function () {
+            window.location.href="../../../JSsignature_pad/JSsignature_pad.html";
+        }
+
+        /**
+		 * 发起签名
+         */
+        $scope.signNow = function () {
+            $.ajax({
+                url : '../../checkCut/signNow',
+                type : 'get',
+                dataType : "json",
+                async : false,
+                success : function(data) {
+                    if (data.success) {
+                        //修改person的值
+						if($scope.roleId == "301"){
+                            $scope.sheetData.persion1 = "sign/"+$scope.loginUser+".png";
+                            console.log($scope.sheetData);
+						}else if($scope.roleId == "10003"){
+                            $scope.sheetData.persion2 = "sign/"+$scope.loginUser+".png";
+                            console.log($scope.sheetData);
+                        }else if($scope.roleId == "10002"){
+                            $scope.sheetData.persion3 = "sign/"+$scope.loginUser+".png";
+                            console.log($scope.sheetData);
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
         }
 
 		/*重新计算*/
@@ -483,6 +516,7 @@ xh.check1 = function() {
 
             if (data.result ==1) {
                 $('#checkWin1').modal('hide');
+                $('#sheet').modal('hide');
                 xh.refresh(1);
                 toastr.success(data.message, '提示');
 
@@ -506,6 +540,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+                $('#sheet').modal('hide');
 				xh.refresh(1);
 				toastr.success(data.message, '提示');
 
