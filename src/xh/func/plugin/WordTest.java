@@ -4,10 +4,13 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import xh.mybatis.service.CheckCutService;
+
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.oreilly.servlet.Base64Encoder;
 
 public class WordTest {
 
@@ -168,8 +171,9 @@ public class WordTest {
             e.printStackTrace();
         }
 
-        Base64.Encoder encoder = Base64.getEncoder();
-        return encoder.encodeToString(data);
+        
+       
+        return Base64Encoder.encode(data);
     }
 
 }

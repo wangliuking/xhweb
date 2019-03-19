@@ -144,7 +144,7 @@ input[type="text"] {
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增基站巡检记录
 											</button>
 											<button type="submit" class="btn btn-sm btn-danger"
-												ng-click="excel_bs_more()">
+												ng-click="excel_batch(1)">
 												<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
 											</button>
 
@@ -189,7 +189,7 @@ input[type="text"] {
 																<td colspan="11" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in sbsData">
-																<td><input type="checkbox" name="tb-check"
+																<td><input type="checkbox" name="tb-check" id="bs-check"
 																	value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.bsid}}-{{x.bsname}}</td>
 
@@ -265,6 +265,10 @@ input[type="text"] {
 												ng-click="showNetAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增网管巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(5)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>
@@ -360,6 +364,10 @@ input[type="text"] {
 												ng-click="showDispatchAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增调度台巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(6)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 										</div>
 
@@ -452,6 +460,10 @@ input[type="text"] {
 												data-target="#mscAddWin" data-toggle="modal">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增交换中心巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(7)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 										</div>
 
@@ -550,6 +562,10 @@ input[type="text"] {
 												ng-click="showVerticalAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增直放站巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(2)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>
@@ -648,6 +664,10 @@ input[type="text"] {
 												ng-click="showRoomAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增室内覆盖站巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(3)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>
@@ -746,6 +766,10 @@ input[type="text"] {
 												ng-click="showStarAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增卫星通信车载便携站巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(4)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>

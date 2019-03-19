@@ -1481,13 +1481,70 @@ xh.load = function() {
 				}
 			});
 		};
-		$scope.excel_bs_more=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("value"));
+		$scope.excel_batch=function(index){
+			var checkVal =[];
+			var time="";
+			if(index==1){
+				time=$("#month").val();
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.sbsData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==2){
+				time=$("#month_vertical").val();
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.verticalData[$(this).attr("index")]);
+					}
+				});
+			}
+			
+			
+			if (checkVal.length < 1) {
+				swal({
+					title : "提示",
+					text : "请至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			xh.maskShow();
+			
+			$.ajax({
+				url : '../../app/excel_bs',
+				type : 'POST',
+				dataType : "json",
+				data : {
+					time:time,
+					id:checkVal.join(",")
+				},
+				async : true,
+				success : function(data) {
+					xh.maskHide();
+					if (data.success) {
+						 $.download('../../app/download', 'post', data.zipName, data.fileName); // 下载文件
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
 				}
 			});
+		}
+		$scope.exl_batch=function(index){
+			var checkVal = [];
+			if(index==1){
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($(this).attr("value"));
+					}
+				});
+			}
+			
+			
 			if (checkVal.length < 1) {
 				swal({
 					title : "提示",

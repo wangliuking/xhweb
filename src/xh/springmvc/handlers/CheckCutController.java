@@ -1,19 +1,27 @@
 package xh.springmvc.handlers;
 
 import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import Decoder.BASE64Decoder;
+
+import com.oreilly.servlet.Base64Decoder;
+
 import xh.func.plugin.*;
 import xh.mybatis.bean.CheckCutBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.CheckCutService;
 import xh.mybatis.service.WebUserServices;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -335,8 +343,8 @@ public class CheckCutController {
             e.printStackTrace();
         }
 
-        Base64.Encoder encoder = Base64.getEncoder();
-        System.out.println(encoder.encode(data));
+      /*  Base64.Encoder encoder = Base64.getEncoder();
+        System.out.println(encoder.encode(data));*/
     }
 
     /**
@@ -923,10 +931,10 @@ public class CheckCutController {
     @RequestMapping(value = "/uploadImg",method = RequestMethod.POST)
     public void uploadImg(HttpServletRequest req,HttpServletResponse resp) {
         String imageFiles = req.getParameter("imgStr");
-        Base64.Decoder decoder = Base64.getDecoder();
+        BASE64Decoder decoder=new BASE64Decoder();
         byte[] imageByte = null;
         try {
-            imageByte = decoder.decode(imageFiles);
+            imageByte = decoder.decodeBuffer(imageFiles);
             for (int i = 0; i < imageByte.length; ++i) {
                 if (imageByte[i] < 0) {
                     imageByte[i] += 256;
