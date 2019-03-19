@@ -7,7 +7,9 @@ import xh.mybatis.bean.InspectionDispatchBean;
 import xh.mybatis.bean.InspectionMbsBean;
 import xh.mybatis.bean.InspectionMscBean;
 import xh.mybatis.bean.InspectionNetBean;
+import xh.mybatis.bean.InspectionRoomBean;
 import xh.mybatis.bean.InspectionSbsBean;
+import xh.mybatis.bean.InspectionStarBean;
 import xh.mybatis.bean.InspectionVerticalBean;
 
 public interface AppInspectionMapper {
@@ -37,6 +39,18 @@ public interface AppInspectionMapper {
 	/*<!--直放站巡检表-->*/
 	public int verticalinfoCount(Map<String,Object> map)throws Exception;
 	
+	/*<!--室内覆盖巡检表-->*/
+	public List<InspectionRoomBean> roominfo(Map<String,Object> map)throws Exception;
+	
+	/*<!--室内覆盖巡检表-->*/
+	public int roominfoCount(Map<String,Object> map)throws Exception;
+	
+	/*<!--卫星通信车载便携站巡检表-->*/
+	public List<InspectionStarBean> starinfo(Map<String,Object> map)throws Exception;
+	
+	/*<!--卫星通信车载便携站巡检表-->*/
+	public int starinfoCount(Map<String,Object> map)throws Exception;
+	
 	/*<!--调度台巡检表-->*/
 	public List<Map<String,Object>> dispatchinfo(Map<String,Object> map)throws Exception;
 	
@@ -61,6 +75,14 @@ public interface AppInspectionMapper {
 	
 	public int vertical_edit(InspectionVerticalBean bean)throws Exception;
 	
+	public int room_add(InspectionRoomBean bean)throws Exception;
+	
+	public int room_edit(InspectionRoomBean bean)throws Exception;
+	
+	public int star_add(InspectionStarBean bean)throws Exception;
+	
+	public int star_edit(InspectionStarBean bean)throws Exception;
+	
 	public int msc_add(InspectionMscBean bean)throws Exception;
 	
 	public int msc_edit(InspectionMscBean bean)throws Exception;
@@ -82,5 +104,9 @@ public interface AppInspectionMapper {
 	public int del_dispatch(List<String> list)throws Exception;
 	
 	public int del_vertical(List<String> list)throws Exception;
+	
+	public int del_room(List<String> list)throws Exception;
+	
+	public int del_star(List<String> list)throws Exception;
 
 }

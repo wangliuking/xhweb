@@ -15,13 +15,13 @@ public class Base64Util {
 	public static String encode(String str){
 		Base64 base64=new Base64();
 		String result="";
-		/*try {
+		try {
 			byte[] text=str.getBytes("UTF-8");
 			result = base64.encodeToString(text);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		return result;
 	}
 
@@ -33,12 +33,12 @@ public class Base64Util {
 	public static String decode(String str){
 		Base64 base64=new Base64();
 		String result="";
-		/*try {
+	   try {
 			result = new String(base64.decode(str), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		return result;
 		
 		

@@ -13,6 +13,8 @@ public class EmhThreeBean {
 	private String AlarmState;
 	private String AlarmGrade;
 	private String AlarmEX;
+	
+	private String updateTime;
 	public int getBsId() {
 		return bsId;
 	}
@@ -86,6 +88,12 @@ public class EmhThreeBean {
 	}
 	public void setAlarmEX(String alarmEX) {
 		AlarmEX = alarmEX;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 	@Override
 	public String toString() {

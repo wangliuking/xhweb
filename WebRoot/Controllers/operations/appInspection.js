@@ -107,6 +107,24 @@ xh.load = function() {
 				xh.vertical_pagging(1, parseInt($scope.verticalTotals),$scope,pageSize);
 			});
 		}
+		$scope.room=function(){	
+			var pageSize = $("#page-limit-room").val();
+			$http.get("../../app/roominfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			success(function(response){
+				$scope.roomData = response.items;
+				$scope.roomTotals = response.totals;
+				xh.room_pagging(1, parseInt($scope.roomTotals),$scope,pageSize);
+			});
+		}
+		$scope.star=function(){	
+			var pageSize = $("#page-limit-star").val();
+			$http.get("../../app/starinfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			success(function(response){
+				$scope.starData = response.items;
+				$scope.starTotals = response.totals;
+				xh.star_pagging(1, parseInt($scope.starTotals),$scope,pageSize);
+			});
+		}
 		
 		$scope.msc_add_win_text=function(){
 			$scope.msc_add_win_html=[];
@@ -292,6 +310,12 @@ xh.load = function() {
 		$scope.vertical_refresh = function() {
 			$scope.vertical_search(1);
 		};
+		$scope.room_refresh = function() {
+			$scope.room_search(1);
+		};
+		$scope.star_refresh = function() {
+			$scope.star_search(1);
+		};
 		/* 显示mbsWin */
 		$scope.showMbsEditWin = function(id) {
 			$scope.mbsOneData = $scope.mbsData[id];
@@ -332,7 +356,6 @@ xh.load = function() {
 		
 		/*直放站*/
 		$scope.showVerticalAddWin = function() {
-			$scope.net_add_win_text();
 			$("#verticalAddWin").modal('show');
 		};
 		$scope.showVerticalEditWin = function(id) {
@@ -342,6 +365,31 @@ xh.load = function() {
 		$scope.showVerticalWin = function(id) {
 			$scope.verticalOneData = $scope.verticalData[id];
 			$("#verticalDetailWin").modal('show');
+		};
+		/*室内覆盖站*/
+		$scope.showRoomAddWin = function() {
+			$("#roomAddWin").modal('show');
+		};
+		$scope.showRoomEditWin = function(id) {
+			$scope.roomOneData = $scope.roomData[id];
+			$("#roomEditWin").modal('show');
+		};
+		$scope.showRoomWin = function(id) {
+			$scope.roomOneData = $scope.roomData[id];
+			$("#roomDetailWin").modal('show');
+		};
+		
+		/*卫星通信车载便携站*/
+		$scope.showStarAddWin = function() {
+			$("#starAddWin").modal('show');
+		};
+		$scope.showStarEditWin = function(id) {
+			$scope.starOneData = $scope.starData[id];
+			$("#starEditWin").modal('show');
+		};
+		$scope.showStarWin = function(id) {
+			$scope.starOneData = $scope.starData[id];
+			$("#starDetailWin").modal('show');
 		};
 		
 		/* 显示dispatchWin */
@@ -776,6 +824,62 @@ xh.load = function() {
 			});
 			
 		}
+		$scope.del_room=function(id){
+			$scope.roomOneData = $scope.roomData[id];
+			$.ajax({
+				url : '../../app/del_room',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.roomOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.room_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.del_star=function(id){
+			$scope.starOneData = $scope.starData[id];
+			$.ajax({
+				url : '../../app/del_star',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:$scope.starOneData.id
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.star_refresh();
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
 		$scope.del_msc=function(id){
 			$scope.mscOneData = $scope.mscData[id];
 			$.ajax({
@@ -887,6 +991,44 @@ xh.load = function() {
 				$scope.verticalData = response.items;
 				$scope.verticalTotals = response.totals;
 				xh.vertical_pagging(page, parseInt($scope.verticalTotals),$scope,pageSize);
+			});
+		};
+		$scope.room_search = function(page) {
+			var pageSize = $("#page-limit-room").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/roominfo?time="+$("#month_room").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				xh.maskHide();
+				$scope.roomData = response.items;
+				$scope.roomTotals = response.totals;
+				xh.room_pagging(page, parseInt($scope.roomTotals),$scope,pageSize);
+			});
+		};
+		$scope.star_search = function(page) {
+			var pageSize = $("#page-limit-star").val();
+			var start = 1, limit = pageSize;
+			frist = 0;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/starinfo?time="+$("#month_star").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				xh.maskHide();
+				$scope.starData = response.items;
+				$scope.starTotals = response.totals;
+				xh.star_pagging(page, parseInt($scope.starTotals),$scope,pageSize);
 			});
 		};
 		$scope.dispatch_search = function(page) {
@@ -1029,6 +1171,58 @@ xh.load = function() {
 				}
 				$scope.verticalData = response.items;
 				$scope.verticalTotals = response.totals;
+			});
+			
+		};
+		$scope.room_pageClick = function(page,totals, totalPages) {
+			var pageSize = $("#page-limit-vertical").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/roominfo?time="+$("#month_room").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				$scope.room_start = (page - 1) * pageSize + 1;
+				$scope.room_lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.room_lastIndex = totals;
+					} else {
+						$scope.room_start = 0;
+						$scope.room_lastIndex = 0;
+					}
+				}
+				$scope.roomData = response.items;
+				$scope.roomTotals = response.totals;
+			});
+			
+		};
+		$scope.star_pageClick = function(page,totals, totalPages) {
+			var pageSize = $("#page-limit-vertical").val();
+			var start = 1, limit = pageSize;
+			page = parseInt(page);
+			if (page <= 1) {
+				start = 0;
+			} else {
+				start = (page - 1) * pageSize;
+			}
+			$http.get("../../app/starinfo?time="+$("#month_star").val()+"&start="+start+"&limit="+limit).
+			success(function(response){
+				$scope.star_start = (page - 1) * pageSize + 1;
+				$scope.star_lastIndex = page * pageSize;
+				if (page == totalPages) {
+					if (totals > 0) {
+						$scope.star_lastIndex = totals;
+					} else {
+						$scope.star_start = 0;
+						$scope.star_lastIndex = 0;
+					}
+				}
+				$scope.starData = response.items;
+				$scope.starTotals = response.totals;
 			});
 			
 		};
@@ -1200,6 +1394,64 @@ xh.load = function() {
 				}
 			});
 		};
+		$scope.excelToRoom=function(index){
+			$scope.roomOneData = $scope.roomData[index];
+			xh.maskShow();
+			//$("#btn-mbs").button('loading')
+			$.ajax({
+				url : '../../app/excel_room',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.roomOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
+		};
+		$scope.excelToStar=function(index){
+			$scope.starOneData = $scope.starData[index];
+			xh.maskShow();
+			//$("#btn-mbs").button('loading')
+			$.ajax({
+				url : '../../app/excel_star',
+				type : 'post',
+				dataType : "json",
+				data : {
+					excelData:JSON.stringify($scope.starOneData)
+				},
+				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					//$("#btn-mbs").button('reset');
+					if (data.success) {
+						
+						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("导出失败", '提示');
+				}
+			});
+		};
 		$scope.excelToMsc=function(index){
 			$scope.mscOneData = $scope.mscData[index];
 			xh.maskShow();
@@ -1229,13 +1481,70 @@ xh.load = function() {
 				}
 			});
 		};
-		$scope.excel_bs_more=function(){
-			var checkVal = [];
-			$("[name='tb-check']:checkbox").each(function() {
-				if ($(this).is(':checked')) {
-					checkVal.push($(this).attr("value"));
+		$scope.excel_batch=function(index){
+			var checkVal =[];
+			var time="";
+			if(index==1){
+				time=$("#month").val();
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.sbsData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==2){
+				time=$("#month_vertical").val();
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.verticalData[$(this).attr("index")]);
+					}
+				});
+			}
+			
+			
+			if (checkVal.length < 1) {
+				swal({
+					title : "提示",
+					text : "请至少选择一条数据",
+					type : "error"
+				});
+				return;
+			}
+			xh.maskShow();
+			
+			$.ajax({
+				url : '../../app/excel_bs',
+				type : 'POST',
+				dataType : "json",
+				data : {
+					time:time,
+					id:checkVal.join(",")
+				},
+				async : true,
+				success : function(data) {
+					xh.maskHide();
+					if (data.success) {
+						 $.download('../../app/download', 'post', data.zipName, data.fileName); // 下载文件
+					} else {
+						toastr.error("导出失败", '提示');
+					}
+				},
+				error : function() {
+					toastr.error("导出失败", '提示');
+					xh.maskHide();
 				}
 			});
+		}
+		$scope.exl_batch=function(index){
+			var checkVal = [];
+			if(index==1){
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($(this).attr("value"));
+					}
+				});
+			}
+			
+			
 			if (checkVal.length < 1) {
 				swal({
 					title : "提示",
@@ -1456,6 +1765,72 @@ xh.vertical_pagging = function(currentPage,totals, $scope,pageSize) {
 			onPageClick : function(event, page) {
 				if (frist == 1) {
 					$scope.vertical_pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+xh.room_pagging = function(currentPage,totals, $scope,pageSize) {
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.room_start = start;
+	$scope.room_lastIndex = end;
+	$scope.roomTotals = totals;
+	if (totals > 0) {
+		$(".room-page-paging").html('<ul class="pagination room-pagination"></ul>');
+		$('.room-pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.room_pageClick(page, totals, totalPages);
+				}
+				frist = 1;
+
+			}
+		});
+	}
+};
+xh.star_pagging = function(currentPage,totals, $scope,pageSize) {
+	var totalPages = (parseInt(totals, 10) / pageSize) < 1 ? 1 : Math
+			.ceil(parseInt(totals, 10) / pageSize);
+	var start = (currentPage - 1) * pageSize + 1;
+	var end = currentPage * pageSize;
+	if (currentPage == totalPages) {
+		if (totals > 0) {
+			end = totals;
+		} else {
+			start = 0;
+			end = 0;
+		}
+	}
+	$scope.star_start = start;
+	$scope.star_lastIndex = end;
+	$scope.starTotals = totals;
+	if (totals > 0) {
+		$(".star-page-paging").html('<ul class="pagination star-pagination"></ul>');
+		$('.star-pagination').twbsPagination({
+			totalPages : totalPages,
+			visiblePages : 10,
+			version : '1.1',
+			startPage : currentPage,
+			onPageClick : function(event, page) {
+				if (frist == 1) {
+					$scope.star_pageClick(page, totals, totalPages);
 				}
 				frist = 1;
 
@@ -1813,8 +2188,128 @@ xh.edit_vertical=function(){
 			//$("#btn-mbs").button('reset');
 			if (data.success) {
 				toastr.success(data.message, '提示');
-				$scope.net_refresh();
+				$scope.vertical_refresh();
 				$("#verticalEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.add_room=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/room_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addRoomForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.room_refresh();
+				$("#roomAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_room=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/room_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editRoomForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.room_refresh();
+				$("#roomEditWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.add_star=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/star_add',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#addStarForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.star_refresh();
+				$("#starAddWin").modal('hide');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			xh.maskHide();
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.edit_star=function(){
+	var $scope = angular.element(appElement).scope();
+	xh.maskShow();
+	//$("#btn-mbs").button('loading')
+	$.ajax({
+		url : '../../app/star_edit',
+		type : 'post',
+		dataType : "json",
+		data : {
+			data:xh.serializeJson($("#editStarForm").serializeArray())
+		},
+		
+		async : false,
+		success : function(data) {
+			xh.maskHide();
+			//$("#btn-mbs").button('reset');
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$scope.star_refresh();
+				$("#starEditWin").modal('hide');
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -2028,6 +2523,13 @@ xh.print_vertical=function() {
 	LODOP.PRINT_INIT("直放站巡检");
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_vertical").innerHTML);
+	 LODOP.PREVIEW();  	
+};
+xh.print_star=function() {
+	var LODOP = getLodop();
+	LODOP.PRINT_INIT("卫星通信车载便携站巡检");
+	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_star").innerHTML);
 	 LODOP.PREVIEW();  	
 };
 xh.getNowMonth=function()   

@@ -43,8 +43,9 @@ input[type="text"] {
 .vertical-tab li {
 	
 }
-.select-style{
- background:#fff;
+
+.select-style {
+	background: #fff;
 }
 </style>
 </head>
@@ -102,8 +103,10 @@ input[type="text"] {
 
 									<li><a href="#vertical" data-toggle="tab"
 										ng-click='vertical_refresh()'>直放站巡检</a></li>
-									<li><a href="#romm" data-toggle="tab"
+									<li><a href="#room" data-toggle="tab"
 										ng-click='room_refresh()'>室内覆盖巡检</a></li>
+									<li><a href="#star" data-toggle="tab"
+										ng-click='star_refresh()'>卫星通信车载便携站巡检</a></li>
 
 									<li><a href="#net" data-toggle="tab"
 										ng-click='net_refresh()'> 网管巡检</a></li>
@@ -141,7 +144,7 @@ input[type="text"] {
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增基站巡检记录
 											</button>
 											<button type="submit" class="btn btn-sm btn-danger"
-												ng-click="excel_bs_more()">
+												ng-click="excel_batch(1)">
 												<i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
 											</button>
 
@@ -186,7 +189,7 @@ input[type="text"] {
 																<td colspan="11" class="text-center">没有记录！</td>
 															</tr>
 															<tr ng-repeat="x in sbsData">
-																<td><input type="checkbox" name="tb-check"
+																<td><input type="checkbox" name="tb-check" id="bs-check"
 																	value="{{x.id}}" index="{{$index}}" /></td>
 																<td>{{x.bsid}}-{{x.bsname}}</td>
 
@@ -262,6 +265,10 @@ input[type="text"] {
 												ng-click="showNetAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增网管巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(5)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>
@@ -306,13 +313,10 @@ input[type="text"] {
 																</a> <a href="#" ng-click="del_net($index)"
 																	class="text-danger" ng-if="up.o_delete=='on'"> <i
 																		class="fa fa-delete text-danger"></i>|&nbsp;删除
-																</a>
-																<a href="#"
-                                                                    ng-click="excelToNet($index)"
-                                                                    class="text-danger"> <i
-                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
-                                                                </a>
-																</td>
+																</a> <a href="#" ng-click="excelToNet($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
 															</tr>
 														</tbody>
 													</table>
@@ -360,6 +364,10 @@ input[type="text"] {
 												ng-click="showDispatchAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增调度台巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(6)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 										</div>
 
@@ -402,13 +410,10 @@ input[type="text"] {
 																</a> <a href="#" ng-click="del_dispatch($index)"
 																	class="text-danger" ng-if="up.o_delete=='on'"> <i
 																		class="fa fa-delete text-danger"></i>|&nbsp;删除
-																</a>
-																 <a href="#"
-                                                                    ng-click="excelToDispatch($index)"
-                                                                    class="text-danger"> <i
-                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
-                                                                </a>
-																</td>
+																</a> <a href="#" ng-click="excelToDispatch($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
 															</tr>
 														</tbody>
 													</table>
@@ -455,6 +460,10 @@ input[type="text"] {
 												data-target="#mscAddWin" data-toggle="modal">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增交换中心巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(7)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 										</div>
 
@@ -497,13 +506,10 @@ input[type="text"] {
 																</a> <a href="#" ng-click="del_msc($index)"
 																	class="text-danger" ng-if="up.o_delete=='on'"> <i
 																		class="fa fa-delete text-danger"></i>|&nbsp;删除
-																</a>
-																<a href="#"
-                                                                    ng-click="excelToMsc($index)"
-                                                                    class="text-danger"> <i
-                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
-                                                                </a>
-																</td>
+																</a> <a href="#" ng-click="excelToMsc($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
 															</tr>
 														</tbody>
 													</table>
@@ -539,7 +545,8 @@ input[type="text"] {
 											<label for="starttime">选择月</label>
 											<div>
 												<input type="text" class="form-control" ng-model="time"
-													id="month_vertical" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+													id="month_vertical"
+													onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
 													placeholder="选择月份">
 											</div>
 										</div>
@@ -555,6 +562,10 @@ input[type="text"] {
 												ng-click="showVerticalAddWin()">
 												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增直放站巡检记录
 											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(2)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
 
 
 										</div>
@@ -597,13 +608,10 @@ input[type="text"] {
 																</a> <a href="#" ng-click="del_vertical($index)"
 																	class="text-danger" ng-if="up.o_delete=='on'"> <i
 																		class="fa fa-delete text-danger"></i>|&nbsp;删除
-																</a>
-																<a href="#"
-                                                                    ng-click="excelToVertical($index)"
-                                                                    class="text-danger"> <i
-                                                                        class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
-                                                                </a>
-																</td>
+																</a> <a href="#" ng-click="excelToVertical($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
 															</tr>
 														</tbody>
 													</table>
@@ -632,6 +640,213 @@ input[type="text"] {
 								</div>
 
 								<!--          直放站 -->
+
+								<!-- 室内覆盖巡检 -->
+								<div class="tab-pane fade" id="room">
+									<div class="row">
+										<div class="form-group col-md-2">
+											<label for="starttime">选择月</label>
+											<div>
+												<input type="text" class="form-control" ng-model="time"
+													id="month_room" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+													placeholder="选择月份">
+											</div>
+										</div>
+
+
+
+										<div class="btn-group col-md-10" style="padding-top:24px;">
+											<button type="submit" class="btn btn-sm btn-primary"
+												ng-click="room_refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="showRoomAddWin()">
+												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增室内覆盖站巡检记录
+											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(3)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
+
+
+										</div>
+
+									</div>
+									<div class="row">
+
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+                                                    style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+																<th>室内覆盖站名称</th>
+																<th>电表读数</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th width="200">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="starTotals==0">
+																<td colspan="5" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in roomData">
+																<td>{{x.name}}</td>
+
+																<td>{{x.ammeternumber}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td><a href="#" ng-click="showRoomWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a> <a href="#" ng-click="showRoomEditWin($index)"
+																	class="text-danger" ng-if="up.o_update=='on'"> <i
+																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_room($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
+																</a> <a href="#" ng-click="excelToRoom($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-room"
+																ng-change="room_refresh()" ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{room_start}}-</span> <span>{{room_lastIndex}}条,</span>
+															<span>总计{{roomTotals}}条</span>
+														</div>
+														<div class="page-paging room-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!--          室内覆盖站 -->
+
+								<!-- 卫星通信车载便携站巡检 -->
+								<div class="tab-pane fade" id="star">
+									<div class="row">
+										<div class="form-group col-md-2">
+											<label for="starttime">选择月</label>
+											<div>
+												<input type="text" class="form-control" ng-model="time"
+													id="month_star" onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+													placeholder="选择月份">
+											</div>
+										</div>
+
+
+
+										<div class="btn-group col-md-10" style="padding-top:24px;">
+											<button type="submit" class="btn btn-sm btn-primary"
+												ng-click="star_refresh()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+											</button>
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="showStarAddWin()">
+												<i class="fa fa-plus"></i>&nbsp;&nbsp;新增卫星通信车载便携站巡检记录
+											</button>
+											<button type="submit" class="btn btn-sm btn-danger"
+                                                ng-click="excel_batch(4)">
+                                                <i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;批量导出巡检记录
+                                            </button>
+
+
+										</div>
+
+									</div>
+									<div class="row">
+
+										<div class="col-md-12">
+											<div class="hpanel">
+												<!-- <div class="panel-heading"
+                                                    style="color:#000;border-left:2px solid green">800M移动基站巡检记录</div> -->
+												<div class="panel-body">
+													<table id="tb-info" class="xh-table table-hover"
+														style="table-layout：fixed">
+														<thead>
+															<tr class="tr-gray">
+															    <th>基站编号</th>
+																<th>基站名称</th>
+																<th>基站级别</th>
+																<th>基站类型</th>
+																<th>巡检人员</th>
+																<th width="180px">巡检时间</th>
+																<th width="200">操作</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-if="starTotals==0">
+																<td colspan="7" class="text-center">没有记录！</td>
+															</tr>
+															<tr ng-repeat="x in starData">
+																<td>{{x.bsId}}</td>
+<td>{{x.name}}</td>
+																<td>{{x.level}}</td>
+																<td>{{x.type}}</td>
+																<td>{{x.checkman}}</td>
+																<td>{{x.commitdate}}</td>
+																<td><a href="#" ng-click="showStarWin($index)"
+																	class="text-danger"> <i
+																		class="fa fa-info text-danger"></i>&nbsp;详细
+																</a> <a href="#" ng-click="showStarEditWin($index)"
+																	class="text-danger" ng-if="up.o_update=='on'"> <i
+																		class="fa fa-edit text-danger"></i>|&nbsp;编辑
+																</a> <a href="#" ng-click="del_star($index)"
+																	class="text-danger" ng-if="up.o_delete=='on'"> <i
+																		class="fa fa-delete text-danger"></i>|&nbsp;删除
+																</a> <a href="#" ng-click="excelToStar($index)"
+																	class="text-danger"> <i
+																		class="fa fa-file-excel-o text-danger"></i>|&nbsp;导出
+																</a></td>
+															</tr>
+														</tbody>
+													</table>
+
+												</div>
+												<div class="panel-footer">
+													<div class="page" style="margin-top:0;height:40px;">
+														<div class="page-info">
+															每页显示 <select id="page-limit-star"
+																ng-change="star_refresh()" ng-model="count">
+																<option value="15">15</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="40">40</option>
+																<option value="50">50</option>
+															</select> 条, <span>显示{{star_start}}-</span> <span>{{star_lastIndex}}条,</span>
+															<span>总计{{starTotals}}条</span>
+														</div>
+														<div class="page-paging star-page-paging"></div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!--卫星通信车载便携站 -->
 
 
 							</div>
@@ -700,10 +915,16 @@ input[type="text"] {
 	<div ng-include="'appInspection-msc-detail.html'"></div>
 	<div ng-include="'appInspection-msc-add.html'"></div>
 	<div ng-include="'appInspection-msc-edit.html'"></div>
-    <div ng-include="'appInspection-msc-detail.html'"></div>	
+	<div ng-include="'appInspection-msc-detail.html'"></div>
 	<div ng-include="'appInspection-vertical-add.html'"></div>
 	<div ng-include="'appInspection-vertical-edit.html'"></div>
-	   <div ng-include="'appInspection-vertical-detail.html'"></div>
+	<div ng-include="'appInspection-vertical-detail.html'"></div>
+	<div ng-include="'appInspection-room-add.html'"></div>
+	<div ng-include="'appInspection-room-edit.html'"></div>
+	<div ng-include="'appInspection-room-detail.html'"></div>
+	<div ng-include="'appInspection-star-add.html'"></div>
+	<div ng-include="'appInspection-star-edit.html'"></div>
+	<div ng-include="'appInspection-star-detail.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

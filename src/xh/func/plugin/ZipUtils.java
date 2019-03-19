@@ -27,7 +27,7 @@ public class ZipUtils {
             out = new ZipOutputStream(new FileOutputStream(zipFile));
             doCompress(srcFile, out);
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             out.close();//记得关闭资源
         }

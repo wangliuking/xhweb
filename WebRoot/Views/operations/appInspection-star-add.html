@@ -1,0 +1,397 @@
+
+<div class="modal fade" id="starAddWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-llg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<!-- <small class="font-bold">自建基站巡检表</small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+				<div class="row" style="margin-top:5px;">
+					<div class="col-md-12">
+						<form action="#" id="addStarForm" onSubmit="return false">
+							<table style="width:100%;border-collapse: collapse;"
+								class="table-view">
+
+								<tr>
+									<td colspan="8" style="text-align: center;">卫星通信车载便携站巡检表</td>
+								</tr>
+								<tr>
+									<td style="width:10%;">基站名称</td>
+									<td><input type="text" name="name"></td>
+									<td>基站号</td>
+									<td><input type="text" name="bsId"></td>
+									<td>基站级别</td>
+									<td><input type="text" name="level"></td>
+									<td>巡检人员</td>
+									<td><input type="text" name="checkman"></td>
+
+								</tr>
+								<tr>
+									<td>基站类型</td>
+									<td><input id="type1" class="magic-radio" type="radio"
+										value="车载" name="type" ng-checked="true"> <label
+										for="type1"><span>车载</span></label> <input id="type2"
+										class="magic-radio" type="radio" value="便携" name="type">
+										<label for="type2"><span>便携</span></label></td>
+									<td>巡检时间</td>
+									<td><input type="text"
+										name="commitdate"
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></td>
+
+								</tr>
+
+								<tr style="font-weight:700;">
+									<td>巡检项目</td>
+									<td>具体项目</td>
+									<td colspan="2">具体操作</td>
+									<td colspan="2">执行情况</td>
+									<td colspan="2">备注</td>
+								</tr>
+
+
+								<tr>
+									<td>天 面</td>
+									<td>防倾斜</td>
+									<td colspan="2">集群天线是否竖起正常</td>
+									<td colspan="2"><input id="s-adda1" class="magic-radio"
+										type="radio" value="是" name="d1" ng-checked="true"> <label
+										for="s-adda1"><span>是</span></label> <input id="s-addb1"
+										class="magic-radio" type="radio" value="否" name="d1">
+										<label for="s-addb1"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment1"></td>
+								</tr>
+
+								<tr>
+									<td rowspan="3">卫星设备</td>
+									<td>天线</td>
+									<td colspan="2">卫星天线寻星是否正常</td>
+									<td colspan="2"><input id="s-adda2" class="magic-radio"
+										type="radio" value="正常" name="d2" ng-checked="true"> <label
+										for="s-adda2"><span>正常</span></label> <input id="s-addb2"
+										class="magic-radio" type="radio" value="异常" name="d2">
+										<label for="s-addb2"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment2"></td>
+								</tr>
+								<tr>
+									<td>天线控制器</td>
+									<td colspan="2">天线对星控制模式、数据是否正常</td>
+									<td colspan="2"><input id="s-adda3" class="magic-radio"
+										type="radio" value="正常" name="d3" ng-checked="true"> <label
+										for="s-adda3"><span>正常</span></label> <input id="s-addb3"
+										class="magic-radio" type="radio" value="异常" name="d3">
+										<label for="s-addb3"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment3"></td>
+								</tr>
+								<tr>
+									<td>卫星调制解调器</td>
+									<td colspan="2">卫星调制解调器是否正常</td>
+									<td colspan="2"><input id="s-adda4" class="magic-radio"
+										type="radio" value="正常" name="d4" ng-checked="true"> <label
+										for="s-adda4"><span>正常</span></label> <input id="s-addb4"
+										class="magic-radio" type="radio" value="异常" name="d4">
+										<label for="s-addb4"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment4"></td>
+								</tr>
+
+								<tr>
+									<td rowspan="3">主体设备</td>
+									<td>单板状态</td>
+									<td colspan="2">检查各单板运行状态、供电情况是否正常，设备是否有明显告警</td>
+									<td colspan="2"><input id="s-adda5" class="magic-radio"
+										type="radio" value="正常" name="d5" ng-checked="true"> <label
+										for="s-adda5"><span>正常</span></label> <input id="s-addb5"
+										class="magic-radio" type="radio" value="异常" name="d5">
+										<label for="s-addb5"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment5"></td>
+								</tr>
+
+								<tr>
+									<td>设备加固</td>
+									<td colspan="2">设备安装是否牢固</td>
+									<td colspan="2"><input id="s-adda6" class="magic-radio"
+										type="radio" value="正常" name="d6" ng-checked="true"> <label
+										for="s-adda6"><span>正常</span></label> <input id="s-addb6"
+										class="magic-radio" type="radio" value="异常" name="d6">
+										<label for="s-addb6"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment6"></td>
+								</tr>
+
+								<tr>
+									<td>设备温度</td>
+									<td colspan="2">设备是否有高温、异味</td>
+									<td colspan="2"><input id="s-adda7" class="magic-radio"
+										type="radio" value="正常" name="d7" ng-checked="true"> <label
+										for="s-adda7"><span>正常</span></label> <input id="s-addb7"
+										class="magic-radio" type="radio" value="异常" name="d7">
+										<label for="s-addb7"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment7"></td>
+								</tr>
+
+								<tr>
+									<td rowspan="7">电源配套</td>
+									<td rowspan="2">发电机</td>
+									<td colspan="2">发电机是否能正常运行</td>
+									<td colspan="2"><input id="s-adda8" class="magic-radio"
+										type="radio" value="正常" name="d8" ng-checked="true"> <label
+										for="s-adda8"><span>正常</span></label> <input id="s-addb8"
+										class="magic-radio" type="radio" value="异常" name="d8">
+										<label for="s-addb8"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment8"></td>
+								</tr>
+
+								<tr>
+									<td colspan="2">发电机及引电线缆有无老化、发热等情况</td>
+									<td colspan="2"><input id="s-adda9" class="magic-radio"
+										type="radio" value="正常" name="d9" ng-checked="true"> <label
+										for="s-adda9"><span>正常</span></label> <input id="s-addb9"
+										class="magic-radio" type="radio" value="异常" name="d9">
+										<label for="s-addb9"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment9"></td>
+								</tr>
+
+								<tr>
+									<td rowspan="3">UPS</td>
+									<td colspan="2">电源连接线有无松动、老化、发热等情况</td>
+									<td colspan="2"><input id="s-adda10" class="magic-radio"
+										type="radio" value="正常" name="d10" ng-checked="true"> <label
+										for="s-adda10"><span>正常</span></label> <input id="s-addb10"
+										class="magic-radio" type="radio" value="异常" name="d10">
+										<label for="s-addb10"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment10"></td>
+								</tr>
+
+								<tr>
+									<td colspan="2">电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾、酸液逸出</td>
+									<td colspan="2"><input id="s-adda11" class="magic-radio"
+										type="radio" value="正常" name="d11" ng-checked="true"> <label
+										for="s-adda11"><span>正常</span></label> <input id="s-addb11"
+										class="magic-radio" type="radio" value="异常" name="d11">
+										<label for="s-addb11"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment11"></td>
+								</tr>
+
+								<tr>
+									<td colspan="2">断开交流电及发电机电源输入，查看UPS输出是否正常</td>
+									<td colspan="2"><input id="s-adda12" class="magic-radio"
+										type="radio" value="正常" name="d12" ng-checked="true"> <label
+										for="s-adda12"><span>正常</span></label> <input id="s-addb12"
+										class="magic-radio" type="radio" value="异常" name="d12">
+										<label for="s-addb12"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment12"></td>
+								</tr>
+
+								<tr>
+									<td>照明</td>
+									<td colspan="2">车内照明设施是否完好</td>
+									<td colspan="2"><input id="s-adda13" class="magic-radio"
+										type="radio" value="是" name="d13" ng-checked="true"> <label
+										for="s-adda13"><span>是</span></label> <input id="s-addb13"
+										class="magic-radio" type="radio" value="否" name="d13">
+										<label for="s-addb13"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment13"></td>
+								</tr>
+
+								<tr>
+									<td>插座</td>
+									<td colspan="2">车内插座是否有电</td>
+									<td colspan="2"><input id="s-adda14" class="magic-radio"
+										type="radio" value="是" name="d14" ng-checked="true"> <label
+										for="s-adda14"><span>是</span></label> <input id="s-addb14"
+										class="magic-radio" type="radio" value="否" name="d14">
+										<label for="s-addb14"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment14"></td>
+								</tr>
+
+
+								<tr>
+									<td rowspan="6">隐患检查</td>
+									<td rowspan="5">车内安全</td>
+									<td colspan="2">灭火设备是否完好</td>
+									<td colspan="2"><input id="s-adda15" class="magic-radio"
+										type="radio" value="是" name="d15" ng-checked="true"> <label
+										for="s-adda15"><span>是</span></label> <input id="s-addb15"
+										class="magic-radio" type="radio" value="否" name="d15">
+										<label for="s-addb15"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment15"></td>
+								</tr>
+
+								<tr>
+									<td colspan="2">车门、车窗、车锁是否完好</td>
+									<td colspan="2"><input id="s-adda16" class="magic-radio"
+										type="radio" value="是" name="d16" ng-checked="true"> <label
+										for="s-adda16"><span>是</span></label> <input id="s-addb16"
+										class="magic-radio" type="radio" value="否" name="d16">
+										<label for="s-addb16"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment16"></td>
+								</tr>
+								<tr>
+									<td colspan="2">车门、车窗、馈线孔等缝隙密封是否严实</td>
+									<td colspan="2"><input id="s-adda17" class="magic-radio"
+										type="radio" value="是" name="d17" ng-checked="true"> <label
+										for="s-adda17"><span>是</span></label> <input id="s-addb17"
+										class="magic-radio" type="radio" value="否" name="d17">
+										<label for="s-addb17"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment17"></td>
+								</tr>
+								<tr>
+									<td colspan="2">空调有无漏水情况</td>
+									<td colspan="2"><input id="s-adda18" class="magic-radio"
+										type="radio" value="正常" name="d18" ng-checked="true"> <label
+										for="s-adda18"><span>正常</span></label> <input id="s-addb18"
+										class="magic-radio" type="radio" value="异常" name="d18">
+										<label for="s-addb18"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment18"></td>
+								</tr>
+								<tr>
+									<td colspan="2">车体有无裂缝、渗水、漏水等情况</td>
+									<td colspan="2"><input id="s-adda19" class="magic-radio"
+										type="radio" value="正常" name="d19" ng-checked="true"> <label
+										for="s-adda19"><span>正常</span></label> <input id="s-addb19"
+										class="magic-radio" type="radio" value="异常" name="d19">
+										<label for="s-addb19"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment19"></td>
+								</tr>
+
+								<tr>
+									<td>车内温度</td>
+									<td colspan="2">空调制冷效果及运行状态是否正常</td>
+									<td colspan="2"><input id="s-adda20" class="magic-radio"
+										type="radio" value="是" name="d20" ng-checked="true"> <label
+										for="s-adda20"><span>是</span></label> <input id="s-addb20"
+										class="magic-radio" type="radio" value="否" name="d20">
+										<label for="s-addb20"><span>否</span></label></td>
+									<td colspan="2"><input type="text" name="comment20"></td>
+								</tr>
+
+								<tr>
+									<td rowspan="5">车 辆</td>
+									<td >外观</td>
+									<td colspan="2">车辆外观是否正常，有无擦挂、破损</td>
+									<td colspan="2"><input id="s-adda21" class="magic-radio"
+										type="radio" value="正常" name="d21" ng-checked="true"> <label
+										for="s-adda21"><span>正常</span></label> <input id="s-addb21"
+										class="magic-radio" type="radio" value="异常" name="d21">
+										<label for="s-addb21"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment21"></td>
+								</tr>
+								
+								<tr>
+                                    <td>仪表盘</td>
+                                    <td colspan="2">显示是否正常</td>
+                                    <td colspan="2"><input id="s-adda22" class="magic-radio"
+                                        type="radio" value="正常" name="d22" ng-checked="true"> <label
+                                        for="s-adda22"><span>正常</span></label> <input id="s-addb22"
+                                        class="magic-radio" type="radio" value="异常" name="d22">
+                                        <label for="s-addb22"><span>异常</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment22"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>指示灯</td>
+                                    <td colspan="2">各指示灯是否正常</td>
+                                    <td colspan="2"><input id="s-adda23" class="magic-radio"
+                                        type="radio" value="正常" name="d23" ng-checked="true"> <label
+                                        for="s-adda23"><span>正常</span></label> <input id="s-addb23"
+                                        class="magic-radio" type="radio" value="异常" name="d23">
+                                        <label for="s-addb23"><span>异常</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment23"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>操作</td>
+                                    <td colspan="2">刹车、启动、运行是否正常</td>
+                                    <td colspan="2"><input id="s-adda24" class="magic-radio"
+                                        type="radio" value="正常" name="d24" ng-checked="true"> <label
+                                        for="s-adda24"><span>正常</span></label> <input id="s-addb24"
+                                        class="magic-radio" type="radio" value="异常" name="d24">
+                                        <label for="s-addb24"><span>异常</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment24"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>顶起装置</td>
+                                    <td colspan="2">是否收放正常</td>
+                                    <td colspan="2"><input id="s-adda25" class="magic-radio"
+                                        type="radio" value="正常" name="d25" ng-checked="true"> <label
+                                        for="s-adda25"><span>正常</span></label> <input id="s-addb25"
+                                        class="magic-radio" type="radio" value="异常" name="d25">
+                                        <label for="s-addb25"><span>异常</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment25"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td rowspan="2">清    洁</td>
+                                    <td>车内清洁</td>
+                                    <td colspan="2">清洁车内门、窗、地面、桌椅卫生</td>
+                                    <td colspan="2"><input id="s-adda26" class="magic-radio"
+                                        type="radio" value="已执行" name="d26" ng-checked="true"> <label
+                                        for="s-adda26"><span>已执行</span></label> <input id="s-addb26"
+                                        class="magic-radio" type="radio" value="未执行" name="d26">
+                                        <label for="s-addb26"><span>未执行</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment26"></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>设备除尘</td>
+                                    <td colspan="2">清洁设备表面、内部</td>
+                                    <td colspan="2"><input id="s-adda27" class="magic-radio"
+                                        type="radio" value="已执行" name="d27" ng-checked="true"> <label
+                                        for="s-adda27"><span>已执行</span></label> <input id="s-addb27"
+                                        class="magic-radio" type="radio" value="未执行" name="d27">
+                                        <label for="s-addb27"><span>未执行</span></label></td>
+                                    <td colspan="2"><input type="text" name="comment27"></td>
+                                </tr>
+
+								<tr>
+									<td>功 能</td>
+									<td>呼叫功能</td>
+									<td colspan="2">基站覆盖范围内呼叫测试</td>
+									<td colspan="2"><input id="s-adda28" class="magic-radio"
+										type="radio" value="正常" name="d28" ng-checked="true"> <label
+										for="s-adda28"><span>正常</span></label> <input id="s-addb28"
+										class="magic-radio" type="radio" value="异常" name="d28">
+										<label for="s-addb28"><span>异常</span></label></td>
+									<td colspan="2"><input type="text" name="comment28"></td>
+								</tr>
+
+								<tr>
+									<td>遗留问题</td>
+									<td colspan="7"><input type="text" name="question"></td>
+								</tr>
+
+							</table>
+						</form>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button type="button" class="btn btn-success btn-sm"
+					id="add_star_btn">
+					<i class="fa fa-plus"></i>&nbsp;新增
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_star_btn").click(function() {
+		var a = $("#addStarForm").find("input[name='commitdate']").val();
+		var b = $("#addStarForm").find("input[name='checkman']").val();
+		var c = $("#addStarForm").find("input[name='name']").val();
+		if (a == "" || b == "" || c == "") {
+			toastr.error("基站名称，巡检人和时间不能为空", '提示');
+			return;
+		}
+
+		xh.add_star();
+	});
+</script>

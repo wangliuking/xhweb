@@ -18,6 +18,11 @@
 		NodeAttribute,DevName,value,AlarmEX,AlarmGrade from ${dbname} where
 		AlarmState=1
 	</select>
+	<select id="emh_three_one" parameterType="xh.mybatis.bean.EmhThreeBean" resultType="xh.mybatis.bean.EmhThreeBean"
+        useCache="true">
+        select * from xhgmnet_operations_emh_three WHERE 
+        id=(select MAX(id)from xhgmnet_operations_emh_three WHERE bsId=#{bsId} and DevNode=#{DevNode} and NodeID=#{NodeID});
+    </select>
 	<!-- <select id="bsmonitorAlarmList" parameterType="map" resultType="map" 
 		useCache="true"> select AlarmText,AlarmDate,AlarmTime from tb_AlarmRecording 
 		where State='报警' and JFNode=#{bsId} and AlarmDate=#{time} </select> -->
@@ -120,7 +125,7 @@
 		xhgmnet_emh_three_alarm set State=1,RelieveTime=#{RelieveTime} where
 		bsId=#{JFNode} and DevNode=#{DevNode} and NodeID=#{NodeID}
 		and State=0
-		and AlarmTime &lt;#{AlarmTime}
+		<!-- and AlarmTime &lt;#{AlarmTime} -->
 	</update>
 	<insert id="insertEmhAlarm" parameterType="xh.mybatis.bean.ThreeEmhAlarmBean"
 		keyProperty="id" useGeneratedKeys="true">
@@ -144,10 +149,10 @@
 
 	<select id="tb_dev_info" parameterType="map" resultType="xh.mybatis.bean.EmhThreeBean"
 		useCache="true">
-		select JFNode as bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,State,
+		select JFNode as bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
         AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX from ${table}
 	</select>
-	<insert id="insertEmh" parameterType="java.util.List"
+	<!-- <insert id="insertEmh" parameterType="java.util.List"
 		keyProperty="id" useGeneratedKeys="false">
 		insert into
 		xhgmnet_operations_emh_three(bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
@@ -158,16 +163,16 @@
 			#{item.AlarmAdduction},#{item.AlarmState},#{item.AlarmGrade},#{item.AlarmEX})
 		</foreach>
 
-	</insert> 
-	<!-- <insert id="insertEmh" parameterType="xh.mybatis.bean.EmhThreeBean"
+	</insert>  -->
+	<insert id="insertEmh" parameterType="xh.mybatis.bean.EmhThreeBean"
         keyProperty="id" useGeneratedKeys="true">
         insert into
         xhgmnet_operations_emh_three(bsId,DevNode,NodeID,DevName,NodeAttribute,State,value,
-        AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX)values
+        AlarmValue,AlarmAdduction,AlarmState,AlarmGrade,AlarmEX,updateTime)values
          (#{bsId},#{DevNode},#{NodeID},#{DevName},#{NodeAttribute},#{State},#{value},#{AlarmValue},
-            #{AlarmAdduction},#{AlarmState},#{AlarmGrade},#{AlarmEX})
+            #{AlarmAdduction},#{AlarmState},#{AlarmGrade},#{AlarmEX},#{updateTime})
 
-    </insert> -->
+    </insert>
 
 
 

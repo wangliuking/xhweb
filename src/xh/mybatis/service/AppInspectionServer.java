@@ -10,7 +10,9 @@ import xh.mybatis.bean.InspectionDispatchBean;
 import xh.mybatis.bean.InspectionMbsBean;
 import xh.mybatis.bean.InspectionMscBean;
 import xh.mybatis.bean.InspectionNetBean;
+import xh.mybatis.bean.InspectionRoomBean;
 import xh.mybatis.bean.InspectionSbsBean;
+import xh.mybatis.bean.InspectionStarBean;
 import xh.mybatis.bean.InspectionVerticalBean;
 import xh.mybatis.mapper.AppInspectionMapper;
 import xh.mybatis.tools.MoreDbTools;
@@ -130,6 +132,66 @@ public class AppInspectionServer {
 		int count=0;
 		try {
 			count = mapper.verticalinfoCount(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	/*<!--室内覆盖巡检表-->*/
+	public static List<InspectionRoomBean> roominfo(Map<String, Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<InspectionRoomBean> list=new ArrayList<InspectionRoomBean>();
+		try {
+			list = mapper.roominfo(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	/*<!--室内覆盖巡检表总数-->*/
+	public static int roominfoCount(Map<String,Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.roominfoCount(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	
+	public static List<InspectionStarBean> starinfo(Map<String, Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<InspectionStarBean> list=new ArrayList<InspectionStarBean>();
+		try {
+			list = mapper.starinfo(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	/*<!--卫星通信车载便携站巡检表总数-->*/
+	public static int starinfoCount(Map<String,Object> map){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.starinfoCount(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -382,6 +444,68 @@ public class AppInspectionServer {
 		return count;
 	}
 	
+	public static int room_add(InspectionRoomBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.room_add(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int room_edit(InspectionRoomBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.room_edit(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	
+	public static int star_add(InspectionStarBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.star_add(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int star_edit(InspectionStarBean bean){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.star_edit(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	
 	
 	public static int del_sbs(int id){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
@@ -449,6 +573,37 @@ public class AppInspectionServer {
 		int count=0;
 		try {
 			count = mapper.del_vertical(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	public static int del_room(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_room(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return count;
+	}
+	
+	public static int del_star(List<String> list){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		int count=0;
+		try {
+			count = mapper.del_star(list);
 			session.commit();
 			session.close();
 		} catch (Exception e) {

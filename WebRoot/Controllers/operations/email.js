@@ -203,6 +203,9 @@ xh.load = function() {
 			case "派单审核":
 				url="../operations/order.html";
 			    break;
+			case "提交报告":
+				url="../operations/eventReport.html";
+			    break;
 			default:
 				url="email.html";
 				

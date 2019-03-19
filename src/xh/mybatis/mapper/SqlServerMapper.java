@@ -79,5 +79,7 @@ public interface SqlServerMapper {
 	
 	public List<String> all_table() throws Exception;
 	public List<EmhThreeBean> tb_dev_info(Map<String,Object> map) throws Exception;
-	public int insertEmh(List<EmhThreeBean> list) throws Exception;
+	public int insertEmh(EmhThreeBean bean) throws Exception;
+	
+	public EmhThreeBean emh_three_one(EmhThreeBean bean) throws Exception;
 }

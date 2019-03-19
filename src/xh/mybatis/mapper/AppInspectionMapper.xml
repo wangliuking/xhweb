@@ -93,6 +93,45 @@
             and date_format(commitdate,'%Y-%m')=#{time}
         </if>
     </select>
+    
+    
+        
+       <!--室内覆盖巡检表 -->
+    <select id="roominfo" parameterType="map" resultType="xh.mybatis.bean.InspectionRoomBean"
+        useCache="true">
+        select * from xhgmnet_operations_inspection_room where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+        order by commitdate desc limit #{start},#{limit}
+    </select>
+    <!--室内覆盖巡检表总数 -->
+    <select id="roominfoCount" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from xhgmnet_operations_inspection_room where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+    </select>
+    
+           <!--卫星通信车载便携站巡检表 -->
+    <select id="starinfo" parameterType="map" resultType="xh.mybatis.bean.InspectionStarBean"
+        useCache="true">
+        select * from xhgmnet_operations_inspection_statellite where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+        order by commitdate desc limit #{start},#{limit}
+    </select>
+    <!--卫星通信车载便携站巡检表总数 -->
+    <select id="starinfoCount" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from xhgmnet_operations_inspection_statellite where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(commitdate,'%Y-%m')=#{time}
+        </if>
+    </select>
+    
 
 	<!--调度台巡检表 -->
 	<select id="dispatchinfo" parameterType="map" resultType="map"
@@ -292,6 +331,78 @@
         ammeternumber=#{ammeternumber}
         where id=#{id}
     </update>
+    
+    <insert id="room_add" parameterType="xh.mybatis.bean.InspectionRoomBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into
+        xhgmnet_operations_inspection_room
+        (serialnumber,name,place,checkman,commitdate,userid,
+        comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+        comment12,comment13,comment14,comment15,comment16,comment17,
+        d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,question,ammeternumber
+        )values(#{serialnumber},#{name},#{place},#{checkman},#{commitdate},#{userid},
+        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},
+        #{comment8},#{comment9},#{comment10},#{comment11},
+        #{comment12},#{comment13},#{comment14},#{comment15},#{comment16},#{comment17},
+        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+        #{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{question},#{ammeternumber}
+        )
+    </insert>
+    <update id="room_edit" parameterType="xh.mybatis.bean.InspectionRoomBean">
+        update
+        xhgmnet_operations_inspection_room set
+        place=#{place},checkman=#{checkman},commitdate=#{commitdate},
+        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+        comment11=#{comment11},
+        comment12=#{comment12},comment13=#{comment13},comment14=#{comment14},comment15=#{comment15},
+        comment16=#{comment16},comment17=#{comment17},
+        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+        d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},d17=#{d17},question=#{question},
+        ammeternumber=#{ammeternumber}
+        where id=#{id}
+    </update>
+    
+     <insert id="star_add" parameterType="xh.mybatis.bean.InspectionStarBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into
+        xhgmnet_operations_inspection_statellite
+        (serialnumber,name,place,bsId,level,type,checkman,commitdate,userid,
+        comment1,comment2,comment3,comment4,comment5,comment6,comment7,comment8,comment9,comment10,comment11,
+        comment12,comment13,comment14,comment15,comment16,comment17,comment18,comment19,comment20,comment21,
+        comment22,comment23,comment24,comment25,comment26,comment27,comment28,
+        d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20,d21,d22,d23,d24,d25,d26,d27,d28,
+        question
+        )values(#{serialnumber},#{name},#{place},#{bsId},#{level},#{type},#{checkman},#{commitdate},#{userid},
+        #{comment1},#{comment2},#{comment3},#{comment4},#{comment5},#{comment6},#{comment7},
+        #{comment8},#{comment9},#{comment10},#{comment11},
+        #{comment12},#{comment13},#{comment14},#{comment15},#{comment16},#{comment17},#{comment18},#{comment19},
+        #{comment20},#{comment21},#{comment22},#{comment23},#{comment24},#{comment25},#{comment26},#{comment27},#{comment28},
+        #{d1},#{d2},#{d3},#{d4},#{d5},#{d6},#{d7},#{d8},#{d9},#{d10},#{d11},
+        #{d12},#{d13},#{d14},#{d15},#{d16},#{d17},#{d18},#{d19},#{d20},
+        #{d21},#{d22},#{d23},#{d24},#{d25},#{d26},#{d27},#{d28},
+        #{question}
+        )
+    </insert>
+    <update id="star_edit" parameterType="xh.mybatis.bean.InspectionStarBean">
+        update
+        xhgmnet_operations_inspection_statellite set
+        place=#{place},checkman=#{checkman},commitdate=#{commitdate},
+        comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
+        comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
+        comment11=#{comment11},
+        comment12=#{comment12},comment13=#{comment13},comment14=#{comment14},comment15=#{comment15},
+        comment16=#{comment16},comment17=#{comment17},comment18=#{comment18},comment19=#{comment19},comment20=#{comment20},
+        comment21=#{comment21},comment22=#{comment22},comment23=#{comment23},comment24=#{comment24},
+        comment25=#{comment25},comment26=#{comment26},comment27=#{comment28},
+        d1=#{d1},d2=#{d2},d3=#{d3},d4=#{d4},d5=#{d5},d6=#{d6},
+        d7=#{d7},d8=#{d8},d9=#{d9},d10=#{d10},d11=#{d11},
+        d12=#{d12},d13=#{d13},d14=#{d14},d15=#{d15},d16=#{d16},d17=#{d17},d18=#{d18},d19=#{d19},
+        d20=#{d20},d21=#{d21},d22=#{d22},d23=#{d23},d24=#{d24},d25=#{d25},d26=#{d26},d27=#{d27},
+        d28=#{d28},question=#{question}
+        where id=#{id}
+    </update>
 	
 	<insert id="mbs_add" parameterType="xh.mybatis.bean.InspectionMbsBean"
 		useGeneratedKeys="true" keyProperty="id">
@@ -381,6 +492,22 @@
     <delete id="del_vertical" parameterType="java.util.List">
         delete from
         xhgmnet_operations_inspection_vertical where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+     <delete id="del_room" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_room where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+         <delete id="del_star" parameterType="java.util.List">
+        delete from
+        xhgmnet_operations_inspection_statellite where id=(
         <foreach collection="list" item="id" separator=",">
             #{id}
         </foreach>
