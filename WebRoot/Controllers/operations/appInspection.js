@@ -1493,12 +1493,49 @@ xh.load = function() {
 				});
 			}else if(index==2){
 				time=$("#month_vertical").val();
-				$("[id='bs-check']:checkbox").each(function() {
+				$("[id='v-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
 						checkVal.push($scope.verticalData[$(this).attr("index")]);
 					}
 				});
+			}else if(index==3){
+				time=$("#month_room").val();
+				$("[id='r-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.roomData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==4){
+				time=$("#month_star").val();
+				$("[id='s-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.starData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==5){
+				time=$("#month_net").val();
+				$("[id='n-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.netData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==6){
+				time=$("#month_dispatch").val();
+				$("[id='d-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.dispatchData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==7){
+				time=$("#month_msc").val();
+				$("[id='m-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.mscData[$(this).attr("index")]);
+					}
+				});
 			}
+			
+			console.log("ss->"+JSON.stringify(checkVal))
 			
 			
 			if (checkVal.length < 1) {
@@ -1512,12 +1549,13 @@ xh.load = function() {
 			xh.maskShow();
 			
 			$.ajax({
-				url : '../../app/excel_bs',
+				url : '../../app/excel_batch',
 				type : 'POST',
 				dataType : "json",
 				data : {
 					time:time,
-					id:checkVal.join(",")
+					type:index,
+					data:JSON.stringify(checkVal)
 				},
 				async : true,
 				success : function(data) {
