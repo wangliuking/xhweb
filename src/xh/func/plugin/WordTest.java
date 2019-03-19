@@ -4,8 +4,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import xh.mybatis.service.CheckCutService;
-
-import javax.swing.text.html.HTMLDocument;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -14,6 +12,7 @@ import java.util.regex.Pattern;
 public class WordTest {
 
     private Configuration configuration = null;
+    private static String globalPath = "C:\\";
 
     public WordTest(){
         configuration = new Configuration();
@@ -36,7 +35,7 @@ public class WordTest {
     }
 
     public List<String> run(List<Map<String,Object>> list) {
-        createDir("D:\\down");
+        createDir(globalPath+"down");
 
         for(int i=0;i<list.size();i++){
             Map<String,Object> temp = list.get(i);
@@ -52,11 +51,22 @@ public class WordTest {
 
         Template t=null;
         try {
-            configuration.setDirectoryForTemplateLoading(new File("D:\\"));
+            configuration.setDirectoryForTemplateLoading(new File(globalPath));
             t = configuration.getTemplate("checkcut.ftl");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //将img转为base64
+        String temp1 = getImgStr(dataMap.get("persion1")+"");
+        System.out.println("temp1 : "+temp1);
+        dataMap.put("persion1",temp1);
+        String temp2 = getImgStr(dataMap.get("persion2")+"");
+        System.out.println("temp2 : "+temp2);
+        dataMap.put("persion2",temp2);
+        String temp3 = getImgStr(dataMap.get("persion3")+"");
+        System.out.println("temp3 : "+temp3);
+        dataMap.put("persion3",temp3);
+
         String tempBreakTime = dataMap.get("breakTime")+"";
         //去除时间中的特殊符号
         //可以在中括号内加上任何想要替换的字符
@@ -67,7 +77,7 @@ public class WordTest {
         Matcher m = p.matcher(tempBreakTime);//这里把想要替换的字符串传进来
         String breakTime = m.replaceAll(aa).trim();
 
-        File outFile = new File("D:\\down\\"+dataMap.get("name")+breakTime+".doc"); //导出文件
+        File outFile = new File(globalPath+"down\\"+dataMap.get("name")+breakTime+".doc"); //导出文件
         Writer out = null;
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
@@ -127,7 +137,7 @@ public class WordTest {
     }
 
     private static List<String> searchFile(){
-        File file = new File("D:\\down");
+        File file = new File(globalPath+"down");
         File[] files = file.listFiles();
         List<String> list = new LinkedList<String>();
         for(int i=0;i<files.length;i++){
@@ -135,6 +145,31 @@ public class WordTest {
             System.out.println(files[i].getName()+"==="+files[i].getPath());
         }
         return list;
+    }
+
+    public String getImgStr(String person){
+        if(person == null || "".equals(person)){
+            return "";
+        }
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        System.out.println(temp[0]);
+
+        String imgFile = temp[0]+"Views/business/"+person;
+        InputStream in = null;
+        byte[] data = null;
+
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(data);
     }
 
 }

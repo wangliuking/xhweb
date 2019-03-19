@@ -4,10 +4,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xh.func.plugin.*;
 import xh.mybatis.bean.CheckCutBean;
@@ -307,7 +304,7 @@ public class CheckCutController {
     }
 
     public static void main(String[] args) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        /*SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         //获取当前月第一天：
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, 0);
@@ -319,7 +316,27 @@ public class CheckCutController {
         Calendar ca = Calendar.getInstance();
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
         String last = format.format(ca.getTime());
-        System.out.println("===============last:"+last);
+        System.out.println("===============last:"+last);*/
+        CheckCutController checkCutController = new CheckCutController();
+        String path = checkCutController.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        System.out.println(temp[0]);
+
+        String imgFile = temp[0]+"Views/business/sign/admin.png";
+        InputStream in = null;
+        byte[] data = null;
+
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        System.out.println(encoder.encode(data));
     }
 
     /**
@@ -881,7 +898,7 @@ public class CheckCutController {
         param.put("endTime",endTime);
         List<Map<String,Object>> list = CheckCutService.exportWordByTime(param);
 
-        String zipName = "myfile.zip";
+        String zipName = "checkcut.zip";
         WordTest wordTest = new WordTest();
         List<String> fileList = wordTest.run(list);//查询数据库中记录
         response.setContentType("APPLICATION/OCTET-STREAM");
@@ -899,4 +916,101 @@ public class CheckCutController {
             out.close();
         }
     }
+
+    /**
+     * 解析base64并保存
+     */
+    @RequestMapping(value = "/uploadImg",method = RequestMethod.POST)
+    public void uploadImg(HttpServletRequest req,HttpServletResponse resp) {
+        String imageFiles = req.getParameter("imgStr");
+        Base64.Decoder decoder = Base64.getDecoder();
+        byte[] imageByte = null;
+        try {
+            imageByte = decoder.decode(imageFiles);
+            for (int i = 0; i < imageByte.length; ++i) {
+                if (imageByte[i] < 0) {
+                    imageByte[i] += 256;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String files = funUtil.loginUser(req) + ".png";
+
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        String filename = temp[0]+"Views/business/sign/"+files;
+        System.out.println(filename);
+
+        try {
+            File imageFile = new File(filename);
+            imageFile.createNewFile();
+            if (!imageFile.exists()) {
+                imageFile.createNewFile();
+            }else{
+                imageFile.delete();
+                imageFile.createNewFile();
+            }
+            OutputStream imageStream = new FileOutputStream(imageFile);
+            imageStream.write(imageByte);
+            imageStream.flush();
+            imageStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("message", message);
+        resp.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            resp.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 发起签名
+     */
+    @RequestMapping(value = "/signNow",method = RequestMethod.GET)
+    public void signNow(HttpServletRequest req,HttpServletResponse resp) {
+        HashMap result = new HashMap();
+        String files = funUtil.loginUser(req) + ".png";
+
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        String filename = temp[0]+"Views/business/sign/"+files;
+        System.out.println(filename);
+
+        try {
+            File imageFile = new File(filename);
+            if (!imageFile.exists()) {
+                result.put("success", false);
+                result.put("message", "该用户未进行电子签名录入，请先录入电子签名！");
+            }else{
+                result.put("success", true);
+                result.put("message", "签名成功！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        resp.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            resp.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
 }

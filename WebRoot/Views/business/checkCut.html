@@ -144,11 +144,19 @@
 											</button>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group" ng-if="roleId != 10002">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button type="submit" class="btn btn-sm btn-success"
 													ng-click="exportWord()">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;批量导出word
+												<i class="fa fa-search"></i>&nbsp;&nbsp;导出word
+											</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+													ng-click="sign()">
+												<i class="fa fa-search"></i>&nbsp;&nbsp;录入电子签名
 											</button>
 										</div>
 									</div>

@@ -104,23 +104,17 @@
                             <tr>
                                 <td style="height:50px;width:100px;">拟制：</td>
                                 <td style="height:50px;width:343px;">
-                                    <input  ng-if="roleId==301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1"/>
-                                    <input  ng-if="roleId!=301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1" readonly="readonly"/>
-
-                                    <!--<div ng-if="roleId==301" contenteditable="true"
-                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>
-                                    <div ng-if="roleId!=301" contenteditable="false"
-                                         class="textarea-div" name="persion1">{{sheetData.persion1}}</div>-->
+                                    <!--<input  ng-if="roleId==301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1"/>
+                                    <input  ng-if="roleId!=301" type="text" style="height: 30px;width:230px;border: none;" name="persion1" ng-model="sheetData.persion1" readonly="readonly"/>-->
+                                    <input  type="hidden" name="persion1" ng-value="sheetData.persion1"/>
+                                    <img ng-if="sheetData.persion1 != null && sheetData.persion1 != ''" ng-src="{{sheetData.persion1}}" width="243" height="50"/>
                                 </td>
                                 <td style="height:50px;width:100px;border-right:none;">审核：</td>
                                 <td style="height:50px;width:343px;">
-                                    <input  ng-if="roleId==10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2"/>
-                                    <input  ng-if="roleId!=10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2" readonly="readonly"/>
-
-                                    <!--<div ng-if="roleId==10003" contenteditable="true"
-                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>
-                                    <div ng-if="roleId!=10003" contenteditable="false"
-                                         class="textarea-div" name="persion2">{{sheetData.persion2}}</div>-->
+                                   <!-- <input  ng-if="roleId==10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2"/>
+                                    <input  ng-if="roleId!=10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2" readonly="readonly"/>-->
+                                    <input  type="hidden" name="persion2" ng-value="sheetData.persion2"/>
+                                    <img ng-if="sheetData.persion2 != null && sheetData.persion2 != ''" ng-src="{{sheetData.persion2}}" width="243" height="50"/>
                                 </td>
                             </tr>
 
@@ -136,13 +130,13 @@
 
                             <tr>
                                 <td style="height:30px;width:200px;border-top: none;padding-right: 30px;" colspan="6">
-                                    <input  ng-if="roleId==10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3"/>
-                                    <input  ng-if="roleId!=10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3" readonly="readonly"/>
-
-                                    <!--<div ng-if="roleId==10002" contenteditable="true" style="height: 30px;width:100px;float: right;"
-                                         class="textarea-div" name="persion3">{{sheetData.persion3}}</div>
-                                    <div ng-if="roleId!=10002" contenteditable="false" style="height: 30px;width:100px;float: right;"
-                                         class="textarea-div" name="persion3">{{sheetData.persion3}}</div>-->
+                                    <div style="float: right;">
+                                        <span>签字：</span>
+                                        <!--<input  ng-if="roleId==10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3"/>
+                                        <input  ng-if="roleId!=10002" type="text" style="height: 30px;width:100px;float: right;border: none;" name="persion3" ng-model="sheetData.persion3" readonly="readonly"/>-->
+                                        <input  type="hidden" name="persion3" ng-value="sheetData.persion3"/>
+                                        <img ng-if="sheetData.persion3 != null && sheetData.persion3 != ''" ng-src="{{sheetData.persion3}}" width="243" height="50"/>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -245,6 +239,9 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" ng-click="signNow()">
+                    <i class="fa fa-check-square"></i>&nbsp;签名
+                </button>
                 <button ng-if="roleId==10003 && nowChecked==0" type="button" class="btn btn-success btn-sm" ng-click="checkWin(nowIndex)">
                     <i class="fa fa-check-square"></i>&nbsp;复核
                 </button>
@@ -253,9 +250,6 @@
                 </button>
                 <button type="button" class="btn btn-success btn-sm" onclick="xh.print_order()">
                     <i class="fa fa-print"></i>&nbsp;打印
-                </button>
-                <button type="button" class="btn btn-success btn-sm" onclick="xh.exportWord()">
-                    <i class="fa fa-print"></i>&nbsp;导出
                 </button>
                 <button type="button" class="btn btn-success btn-sm"
                         data-dismiss="modal" id="checkCut-btn">
