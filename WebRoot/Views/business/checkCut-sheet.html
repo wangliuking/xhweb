@@ -212,11 +212,11 @@
                         <tr>
                             <td style="height:50px;width:80px;">拟制：</td>
                             <td style="height:50px;width:320px;">
-                                {{sheetData.persion1}}
+                                <img ng-if="sheetData.persion1 != null && sheetData.persion1 != ''" ng-src="{{sheetData.persion1}}" width="243" height="50"/>
                             </td>
                             <td style="height:50px;width:80px;border-right:none;">审核：</td>
                             <td style="height:50px;width:320px;">
-                                {{sheetData.persion2}}
+                                <img ng-if="sheetData.persion2 != null && sheetData.persion2 != ''" ng-src="{{sheetData.persion2}}" width="243" height="50"/>
                             </td>
                         </tr>
 
@@ -229,7 +229,10 @@
 
                         <tr>
                             <td style="height:30px;width:auto;border-top: none;padding-right: 30px;" colspan="6">
-                                <div style="height: 30px;width:auto;float: right;">{{sheetData.persion3}}</div>
+                                <div style="height: 50px;width:auto;float: right;">
+                                    <span>签字: </span>
+                                    <img ng-if="sheetData.persion3 != null && sheetData.persion3 != ''" ng-src="{{sheetData.persion3}}" width="243" height="50"/>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -248,7 +251,7 @@
                 <button ng-if="roleId==10002 && nowChecked==1" type="button" class="btn btn-success btn-sm" ng-click="checkWin(nowIndex)">
                     <i class="fa fa-check-square"></i>&nbsp;审核
                 </button>
-                <button type="button" class="btn btn-success btn-sm" onclick="xh.print_order()">
+                <button type="button" class="btn btn-success btn-sm" ng-click="print_order(sheetData.persion1,sheetData.persion2,sheetData.persion3)">
                     <i class="fa fa-print"></i>&nbsp;打印
                 </button>
                 <button type="button" class="btn btn-success btn-sm"
