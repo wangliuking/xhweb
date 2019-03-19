@@ -293,5 +293,38 @@ public class CheckCutService {
         }
         return result;
     }
+
+    public static int updatePrintStatusById(int id){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result = 0;
+        try {
+            result = mapper.updatePrintStatusById(id);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     * 查询list用于导出word
+     * @return
+     */
+    public static List<Map<String,Object>> exportWordByTime(Map<String, Object> map){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+        try {
+            list = mapper.exportWordByTime(map);
+            sqlSession.close();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
     
 }

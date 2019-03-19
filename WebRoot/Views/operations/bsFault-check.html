@@ -15,9 +15,9 @@
 								<input type="text" name="id" ng-value="faultDataById.id">
 								<input type="text" name="bsId" ng-value="faultDataById.bsId">
 								<input type="text" name="name" ng-value="faultDataById.name">
-								<input type="text" name="breakTime"
+								<!--<input type="text" name="breakTime"
 									ng-value="faultDataById.time"> <input type="text"
-									name="restoreTime" ng-value="faultDataById.faultRecoveryTime">
+									name="restoreTime" ng-value="faultDataById.faultRecoveryTime">-->
 							</div>
 						</div>
 					</div>
@@ -47,11 +47,11 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-4">
 								<label>故障时间</label>
-								<input type="text" class="form-control" ng-value="sheetData.breakTime" readonly="readonly" />
+								<input type="text" class="form-control" id="breakTime" name="breakTime" ng-value="sheetData.breakTime" readonly="readonly" />
 							</div>
 							<div class="form-group col-md-4">
 								<label>恢复时间</label>
-								<input type="text" class="form-control" ng-value="sheetData.restoreTime" readonly="readonly" />
+								<input type="text" class="form-control" id="restoreTime" name="restoreTime" ng-value="sheetData.restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="startCalc()"/>
 							</div>
 							<div class="form-group col-md-4">
 								<label>故障历时(分钟)</label>

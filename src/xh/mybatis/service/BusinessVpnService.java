@@ -1,9 +1,6 @@
 package xh.mybatis.service;
  
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -121,6 +118,25 @@ public class BusinessVpnService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	/**
+	 * 查询
+	 * @param root
+	 * @return
+	 */
+	public static List<Integer> selectByPId(String pId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		VpnMapper mapper=sqlSession.getMapper(VpnMapper.class);
+		List<Integer> list = new LinkedList<Integer>();
+		try {
+			list = mapper.selectByPId(pId);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  list;
 	}
 	
 	

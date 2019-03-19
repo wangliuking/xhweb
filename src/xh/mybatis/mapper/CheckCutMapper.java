@@ -89,4 +89,13 @@ public interface CheckCutMapper {
      */
     public List<Map<String,Object>> selectBsInformationById(Map<String,Object> map)throws Exception;
 
+    public int updatePrintStatusById(int id)throws  Exception;
+
+    /**
+     * 查询list用于导出word
+     * @return
+     * @throws Exception
+     */
+    public List<Map<String,Object>> exportWordByTime(Map<String, Object> map)throws Exception;
+
 }
