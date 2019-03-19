@@ -351,7 +351,7 @@
     <update id="room_edit" parameterType="xh.mybatis.bean.InspectionRoomBean">
         update
         xhgmnet_operations_inspection_room set
-        place=#{place},checkman=#{checkman},commitdate=#{commitdate},
+        place=#{place},checkman=#{checkman},commitdate=#{commitdate},name=#{name},
         comment1=#{comment1},comment2=#{comment2},comment3=#{comment3},comment4=#{comment4},comment5=#{comment5},
         comment6=#{comment6},comment7=#{comment7},comment8=#{comment8},comment9=#{comment9},comment10=#{comment10},
         comment11=#{comment11},
