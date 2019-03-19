@@ -305,6 +305,25 @@
 															FSU
 														</div>
 													</div>
+													<br/>
+													<div class="form-group" style="width:100px;margin-bottom:7px;">
+														<div class="list-group-item" style="color:black;padding-top:5px;padding-bottom:5px;font-size:12px;">
+															<div class="pull-right">
+																<input id="device10" class="toggle-switch" type="checkbox" value="170600000000001"
+																	   checked> <label for="device10"></label>
+															</div>
+															市电
+														</div>
+													</div>
+													<div class="form-group" style="width:100px;margin-bottom:7px;">
+														<div class="list-group-item" style="color:black;padding-top:5px;padding-bottom:5px;font-size:12px;">
+															<div class="pull-right">
+																<input id="device11" class="toggle-switch" type="checkbox" value="170800000000001"
+																	   checked> <label for="device11"></label>
+															</div>
+															油机
+														</div>
+													</div>
 
 												</form>
 											</div>
@@ -380,6 +399,8 @@
 														<td ng-if="x.deviceId == '170500000000001'">红外</td>
 														<td ng-if="x.deviceId == '170700000000001'">门磁</td>
 														<td ng-if="x.deviceId == '920100000000001'">电表</td>
+														<td ng-if="x.deviceId == '170600000000001'">市电</td>
+														<td ng-if="x.deviceId == '170800000000001'">油机</td>
 
 														<td ng-if="x.alarmId == '008001'">市电告警(中断或电压不正常)</td>
 														<td ng-if="x.alarmId != '008001'">{{x.alarmDesc}}</td>													

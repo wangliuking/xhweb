@@ -153,6 +153,30 @@ xh.load = function() {
             });
         }
 
+        //打印
+        $scope.print_order=function(persion1,persion2,persion3) {
+        	console.log(persion1);
+            var id = $scope.sheetData.id;
+
+            var LODOP = getLodop();
+            LODOP.PRINT_INIT("故障核减申请书");
+            LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
+            LODOP.ADD_PRINT_HTML("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
+
+            LODOP.PREVIEW();
+
+            //更新打印状态
+            $.ajax({
+                url : '../../checkCut/updatePrintStatusById?id='+id,
+                type : 'GET',
+                dataType : "json",
+                async : true,
+                success : function(data) {
+
+                }
+            });
+        };
+
 		/*重新计算*/
 		$scope.calAgain = function () {
             var date1 = $("input[name='breakTime']").val();
@@ -720,24 +744,4 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 };
 
-xh.print_order=function() {
-    var $scope = angular.element(appElement).scope();
-    var id = $scope.sheetData.id;
 
-    var LODOP = getLodop();
-    LODOP.PRINT_INIT("故障核减申请书");
-    LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
-    LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_checkcut").innerHTML);
-    LODOP.PREVIEW();
-
-    //更新打印状态
-    $.ajax({
-        url : '../../checkCut/updatePrintStatusById?id='+id,
-        type : 'GET',
-        dataType : "json",
-        async : true,
-        success : function(data) {
-
-        }
-    });
-};
