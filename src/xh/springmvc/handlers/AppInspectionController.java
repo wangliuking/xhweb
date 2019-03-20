@@ -12,6 +12,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -3173,15 +3174,15 @@ public class AppInspectionController {
 		HashMap<String, Object> rs=new HashMap<String, Object>();
 		// 设置下载的压缩包名
 				String zipName = time + "-基站月度巡检.zip";
+				StringBuilder sb = new StringBuilder();
+				ArrayList<String> fileNames = new ArrayList<String>();
 				if(type==1){
 					zipName = time + "-基站月度巡检.zip";
 					List<InspectionSbsBean> sbsList=GsonUtil.json2Object(data, new TypeToken<List<InspectionSbsBean>>(){}.getType());
 					rs=app_bs(sbsList,saveDir,time,zipName);
 				}else if(type==2){
 					zipName = time + "-直放站月度巡检.zip";
-					List<InspectionVerticalBean> sbsList=GsonUtil.json2Object(data, new TypeToken<List<InspectionVerticalBean>>(){}.getType());
-					StringBuilder sb = new StringBuilder();
-					ArrayList<String> fileNames = new ArrayList<String>();
+					List<InspectionVerticalBean> sbsList=GsonUtil.json2Object(data, new TypeToken<List<InspectionVerticalBean>>(){}.getType());					
 					String pathname = "";
 					for (InspectionVerticalBean bean : sbsList) {
 						String fileName = time + "-直放站-[" + bean.getName()+"]巡检表.xls";
@@ -3196,22 +3197,120 @@ public class AppInspectionController {
 						}
 						File file = new File(pathname);
 						app.excel_vertical(file, bean);
+						
 					}
 					rs.put("success", true);
-					rs.put("fileName", sb.deleteCharAt(sb.length() - 1).toString());
-					rs.put("zipName", zipName);
-					rs.put("pathName", pathname);					
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
+									
 				}else if(type==3){
 					zipName = time + "-室内覆盖站月度巡检.zip";
+					List<InspectionRoomBean> list=GsonUtil.json2Object(data, new TypeToken<List<InspectionRoomBean>>(){}.getType());					
+					String pathname = "";
+					for (InspectionRoomBean bean : list) {
+						String fileName = time + "-室内覆盖站-[" + bean.getName()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						app.excel_room(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
 				}else if(type==4){
 					zipName = time + "-卫星通信车载便携站月度巡检.zip";
+					List<InspectionStarBean> list=GsonUtil.json2Object(data, new TypeToken<List<InspectionStarBean>>(){}.getType());					
+					String pathname = "";
+					for (InspectionStarBean bean : list) {
+						String fileName = time + "-卫星通信车载便携站-[" + bean.getName()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						//app.excel_net(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
 				}else if(type==5){
 					zipName = time + "-网管月度巡检.zip";
+					List<InspectionNetBean> list=GsonUtil.json2Object(data, new TypeToken<List<InspectionNetBean>>(){}.getType());					
+					String pathname = "";
+					for (InspectionNetBean bean : list) {
+						String fileName = time + "-网管-[" + bean.getManagername()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						app.excel_net(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
 				}else if(type==6){
 					zipName = time + "-调度台月度巡检.zip";
+					List<InspectionDispatchBean> list=GsonUtil.json2Object(data, new TypeToken<List<InspectionDispatchBean>>(){}.getType());					
+					String pathname = "";
+					for (InspectionDispatchBean bean : list) {
+						String fileName = time + "-调度台-[" + bean.getDispatchname()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						app.excel_dispatch(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
 				}else if(type==7){
 					zipName = time + "-交换中心月度巡检.zip";
+					List<InspectionMscBean> list=GsonUtil.json2Object(data, new TypeToken<List<InspectionMscBean>>(){}.getType());					
+					String pathname = "";
+					for (InspectionMscBean bean : list) {
+						String fileName = time + "-交换中心-[" + bean.getName()+"]巡检表.xls";
+						sb.append(fileName);
+						sb.append(",");
+						fileNames.add(fileName);
+
+						pathname = saveDir + "/" + fileName;
+						File Path = new File(saveDir);
+						if (!Path.exists()) {
+							Path.mkdirs();
+						}
+						File file = new File(pathname);
+						app.excel_msc(file, bean);
+					}
+					rs.put("success", true);
+					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
+					rs.put("zipName", zipName);	
 		     }	
+				
+				
 				return rs;
 				
 			
@@ -3789,8 +3888,19 @@ public class AppInspectionController {
 
 		String saveDir = request.getSession().getServletContext()
 				.getRealPath("/app");
+		
+		
 		ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
-		for (String name : fileNames) {
+		
+		List<String> tempList = new ArrayList<String>();
+        for(String i : fileNames){
+            if(!tempList.contains(i)){
+                tempList.add(i);
+            }
+        }
+        System.out.println("dddd->"+Arrays.toString(tempList.toArray()));
+		
+		for (String name : tempList) {
 			File file = new File(saveDir + "/" + name);
 			zos.putNextEntry(new ZipEntry(name));
 			FileInputStream fis = new FileInputStream(file);
