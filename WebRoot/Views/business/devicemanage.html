@@ -90,7 +90,7 @@
 									<tr class="tr-gray">
 										<th width="180px">用户单位</th>
 										<th width="100px">联系人</th>
-										<th width="180px">业务变更信息</th>
+										<th >业务变更信息</th>
 										<th width="180px">申请时间</th>
 										<th>状态</th>
 										<th width="180px">操作详情</th>
@@ -113,14 +113,14 @@
 										<td style="text-align:center"><a href="#"
 											ng-click="toProgress($index)"><i
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情 </a> <a
-											ng-if="loginUserRoleId==10002 && x.checked==0 && up.b_check_businesschange=='on'" href="#"
+											ng-if="userL.roleType==2 && x.checked==0 && up.b_check_businesschange=='on'" href="#"
 											ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a> <a
-											ng-if="	loginUserRoleId==10002 && x.checked==1 && loginUser == x.checkUser"
+											ng-if="	userL.roleType==2 && x.checked==1 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知用户确认</a> <a
 											class="text-danger"
-											ng-if="loginUser==x.userName && loginUserRoleId==1000 && x.checked==2"
+											ng-if="loginUser==x.userName && userL.roleType>3 && x.checked==2"
 											href="#" ng-click="checkWin($index)">|<i
 												class="fa fa-hand-o-down text-danger"></i>&nbsp;确认
 										</a></td>

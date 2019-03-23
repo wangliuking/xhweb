@@ -151,6 +151,14 @@
 									<p>基站信息表</p>
 								</a>
 							</div>
+							<div class="menu-box text-center" style="cursor: pointer;"
+                                data-toggle="modal" data-target="#excel-month-report-info">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/43.png">
+                                    <p>运维月报</p>
+                                </a>
+                            </div>
 							<!--  -->
 							<!-- <div class="menu-box text-center" style="cursor: pointer;">
 								<a href="../business/fault.html" target="_self"> <i
@@ -199,7 +207,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6" ng-if="roleType==3 || roleType==0">
                     <div class="hpanel">
                         <div class="panel-heading hbuilt">
                             <i class="fa fa-list"></i> 
@@ -557,6 +565,44 @@
 			</div>
 		</div>
 	</div>
+ 
+	<div class="modal fade" id="excel-month-report-info" tabindex="-1"
+        role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                    <small class="font-bold">导出运维月报</small>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-report-info-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
@@ -619,6 +665,16 @@
 					}
 					xh.bs_excel(time);
 				});
+	    $("#excel-month-report-info-btn").click(
+	            function() {
+	                var time = $("#excel-month-report-info").find(
+	                        "input[name='time']").val();
+	                if (time == "") {
+	                    alert("时间不能为空");
+	                    return;
+	                }
+	                xh.month_excel(time);
+	            });
 	</script>
 </body>
 </html>

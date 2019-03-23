@@ -78,6 +78,32 @@ public class AppInspectionController {
 	private WebLogBean webLogBean = new WebLogBean();
 	private FlexJSON json = new FlexJSON();
 	private AppInspectionExcelController app=new AppInspectionExcelController();
+	
+	@RequestMapping(value = "/repeater_list", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap<String, Object> repeater_list(HttpServletRequest request,
+			HttpServletResponse response) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("items", AppInspectionServer.repeater_list());
+		return result;
+	}
+	@RequestMapping(value = "/room_list", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap<String, Object> room_list(HttpServletRequest request,
+			HttpServletResponse response) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("items", AppInspectionServer.room_list());
+		return result;
+	}
+	@RequestMapping(value = "/portable_list", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap<String, Object> portable_list(HttpServletRequest request,
+			HttpServletResponse response) {
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("items", AppInspectionServer.portable_list());
+		return result;
+	}
+	
 
 	/**
 	 * 删除巡检基站记录

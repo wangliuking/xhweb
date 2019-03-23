@@ -30,6 +30,22 @@ xh.load = function() {
 			return text + "  " + xh.weekly(text);
 		}
 	})
+	app.filter('textArea', function() {
+		return function(text) {
+			
+			var encodedStr = "" ;
+		    if (text=="") {
+		    	return encodedStr ;
+		    }
+		    else {
+		    	var str = text.replace(/<br>/g,"<br />");
+		        for (var i = 0 ; i < str.length ; i ++){
+		            encodedStr += "&#" + str.substring(i, i + 1).charCodeAt().toString(10) + ";" ;
+		        }
+		    }
+		    return encodedStr ;
+		}
+	})
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
@@ -70,6 +86,9 @@ xh.load = function() {
 		$scope.detail = function(id) {
 			$("#detail").modal('show');
 			$scope.detailData = $scope.data[id];
+			//text.replace(/<br>/g,"<br />");
+			var str=$scope.detailData.content;
+			$("#df").html(str.replace(/<br>/g,"<br />"))
 		};
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");

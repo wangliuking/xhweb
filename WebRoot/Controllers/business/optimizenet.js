@@ -52,6 +52,7 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
 			$scope.loginUserRoleType = response.roleType;
+			$scope.user=response;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(

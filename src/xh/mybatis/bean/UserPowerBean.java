@@ -28,6 +28,7 @@ public class UserPowerBean {
 	private String o_check_system_up="off";//审核系统升级
 	private String o_check_asset_update_status="off";//审核资产状态变更
 	private String o_check_operations_check="off";//审核运维考核
+	private String o_task="off";//确认工作联系单
 
 	
 	
@@ -329,6 +330,13 @@ public class UserPowerBean {
 	}
 	public void setO_check_asset_update_status(String o_check_asset_update_status) {
 		this.o_check_asset_update_status = o_check_asset_update_status;
+	}
+	
+	public String getO_task() {
+		return o_task;
+	}
+	public void setO_task(String o_task) {
+		this.o_task = o_task;
 	}
 	@Override
 	public String toString() {

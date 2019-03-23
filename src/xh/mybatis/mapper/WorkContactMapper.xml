@@ -3,10 +3,11 @@
 <mapper namespace="xh.mybatis.mapper.WorkContactMapper">
 	<select id="list" resultType="xh.mybatis.bean.WorkContactBean"
 		parameterType="map">
-		select a.*,b.userName from xhgmnet_operations_workcontact as  a
+		select a.*,b.userName,c.userName as checkUserName from xhgmnet_operations_workcontact as  a
 		left join xhgmnet_web_user as b on a.addUser=b.user
+		left join xhgmnet_web_user as c on a.checkUser=c.user
 		 where 1=1
-		order by a.time desc
+		order by a.time desc,id desc
 		limit #{start},#{limit}
 	</select>
 	<select id="list_count" resultType="int">

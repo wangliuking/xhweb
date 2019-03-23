@@ -213,6 +213,98 @@ public class WebRoleController {
 		}
 		
 	}
+	public HashMap  CreateRole(Map<String,Object> rmap){
+		String role=rmap.get("role").toString();
+		int roleId=Integer.parseInt(rmap.get("roleId").toString());
+		int roleType=Integer.parseInt(rmap.get("roleType").toString());
+		int parentRoleId=Integer.parseInt(rmap.get("parentRoleId").toString());
+		String loginUser=rmap.get("loginUser").toString();
+		String loginIp=rmap.get("loginIp").toString();
+		
+		
+		String createTime=funUtil.nowDate();
+		WebRoleBean bean=new WebRoleBean();		
+		bean.setRoleType(roleType);
+		bean.setRoleId(roleId);
+		bean.setRole(role);
+		bean.setParentId(parentRoleId);
+		bean.setCreateTime(createTime);
+		String checked="checked6";
+		switch (roleType) {
+		case 0:
+			checked="checked";
+			break;
+		case 1:
+			checked="checked1";
+			break;
+		case 2:
+			checked="checked2";
+			break;
+		case 3:
+			checked="checked3";
+			break;
+		case 4:
+			checked="checked4";
+			break;
+		case 5:
+			checked="checked5";
+			break;
+		case 6:
+			checked="checked6";
+			break;
+		default:
+			checked="checked6";
+			break;
+		}
+		int flag=WebRoleService.addRole(bean);
+		if (flag==0) {						
+			webLogBean.setOperator(loginUser);
+			webLogBean.setOperatorIp(loginIp);
+			webLogBean.setStyle(1);
+			webLogBean.setContent("新增web角色，role="+role);
+			WebLogService.writeLog(webLogBean);
+			WebRoleBean roleBean=WebRoleService.roleOne(String.valueOf(roleId));
+			Map<String,Object> map=new HashMap<String, Object>();
+
+			map.put("roleType", roleBean.getRoleType());
+			map.put("checkedstr", checked);
+			map.put("roleId", roleId);
+			map.put("parentId", roleBean.getParentId());
+			log.info("add group->"+map);
+			if(MenuService.menuExistsByParentId(map)==0){	
+				log.info("add group  parent menu   is not have->"+map);
+				if(MenuService.menuExists(map)==0){
+					log.info("add group  parent menu 1->"+map);					
+					MenuService.addMenu(map);
+					MenuService.updateMenuRoleId(roleId);
+				}
+			}else{
+				log.info("add group  parent menu  is have->"+map);
+				if(MenuService.menuExists(map)==0){
+					log.info("add group  parent menu 2->"+map);
+					MenuService.addParentMenu(map);
+					MenuService.updateMenuRoleId(roleId);
+				}else{
+					
+				}
+			}
+			
+			
+			this.success=true;
+			this.message="添加角色成功";
+		}else if(flag==1){
+			this.success=false;
+			this.message="角色已经存在";
+		}else {
+			this.success=false;
+			this.message="添加角色失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		return result;
+		
+	}
 	/**
 	 * 修改角色
 	 * @param request

@@ -68,7 +68,7 @@
 											<select id="fileType" class="form-control" style="width:159px;">
 												<option value="所有报告" selected>所有报告</option>
 												<option value="周报">周报</option>
-												<option value="月报">月报</option>
+												<option value="月例会文件">月例会文件</option>
 												<option value="系统监控表">系统监控表</option>
 												<option value="故障记录登记表">故障记录登记表</option>
 												<option value="故障处理报告">故障处理报告</option>
@@ -78,18 +78,20 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="filename">文件名</label>
+										<label for="filename">时间</label>
 										<div>
-											<input type="text" class="form-control" id="filename"
-												width="20px">
+											<input type="text" class="form-control" ng-model="time"
+                                                    id="time"
+                                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+                                                    placeholder="选择月份">
 										</div>
 									</div>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<label for="contact">联系人</label>
 										<div>
 											<input type="text" class="form-control" id="contact">
 										</div>
-									</div>
+									</div> -->
 									<div class="form-group">
 										<label for="status">状态选择</label>
 										<div>
@@ -137,12 +139,13 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
+									    <th>时间</th>
 									    <th>报告类型</th>
 										<th>文件名称</th>
 										<th>联系人</th>
 										<th>联系方式</th>
 										<th>状态</th>
-										<th>发送时间</th>
+										
 										<th width="180px">操作</th>
 									</tr>
 								</thead>
@@ -151,6 +154,7 @@
 										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
+									   <td>{{x.createtime |dateFormat}}</td>
 									    <td>{{x.fileType}}</td>
 										<td>{{x.fileName}}</td>
 										<td>{{x.contact}}</td>
@@ -164,7 +168,7 @@
 										<span ng-if="x.status==1"
 											style="color:green;">已通过审核</span>
 										</td>
-										<td>{{x.createtime |dateFormat}}</td>
+										
 										<td style="width:20px;text-align:center"><a href="#"
 											ng-click="editModel($index)" data-toggle="modal"> <i
 												class="fa fa-newspaper-o text-success"></i>&nbsp;详情

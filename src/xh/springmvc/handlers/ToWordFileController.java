@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import jxl.write.Label;
 
 import org.apache.commons.lang.WordUtils;
@@ -22,6 +25,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.Month;
 import org.jfree.data.time.TimeSeries;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import xh.func.plugin.ChartUtil;
 import xh.func.plugin.FunUtil;
@@ -48,6 +55,8 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
 
+@Controller
+@RequestMapping(value="/word")
 public class ToWordFileController {
 	/**
 	 * 页眉
@@ -67,12 +76,29 @@ public class ToWordFileController {
 	public static void main(String[] args) {
 
 		try {
-			to_word("2019-01",3,"D:/系统运行维护服务月报-2018年6月.doc");
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+	@RequestMapping(value="/monthword",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> monthword(HttpServletRequest request,HttpServletResponse response){
+		String saveDir = request.getSession().getServletContext().getRealPath("/download");
+		String time=request.getParameter("time");
+		String pathname = saveDir + "/系统运行维护服务月报  -"+time+".doc";
+		try {
+			to_word("2019-01",3,pathname);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 HashMap<String, Object> result = new HashMap<String, Object>();
+		 result.put("success", true);
+		 result.put("pathName", pathname);
+		 return result;
 	}
 
 	public static void to_word(String time,int period,String path) throws Exception {

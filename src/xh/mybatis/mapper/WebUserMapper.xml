@@ -218,6 +218,7 @@
 		o_check_system_up=#{o_check_system_up},
 		o_check_asset_update_status=#{o_check_asset_update_status},
 		o_check_operations_check=#{o_check_operations_check},
+		o_task=#{o_task},
 
 		p_add=#{p_add},
 		p_update=#{p_update},

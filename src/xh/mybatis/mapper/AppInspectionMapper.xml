@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.AppInspectionMapper">
+
+<!-- 直放站 -->
+    <select id="repeater_list" resultType="map" useCache="true">
+        select * from xhgmnet_bs_station_repeater 
+    </select>
+     <select id="room_list" resultType="map" useCache="true">
+        select * from xhgmnet_bs_station_coverage 
+    </select>
+      <select id="portable_list" resultType="map" useCache="true">
+        select * from xhgmnet_bs_station_portable 
+    </select>
+
+
 	<!--查询800M移动基站巡检表 -->
 	<select id="mbsinfo" parameterType="map"
 		resultType="xh.mybatis.bean.InspectionMbsBean" useCache="true">

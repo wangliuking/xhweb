@@ -158,12 +158,15 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
-										<th >事由</th>
+									    <th>时间</th>
+										
 										<th>类型</th>
 										<th>发文单位</th>
 										<th>发文人</th>
-										<th>收文单位</th>
-										<th>时间</th>
+										<th >事由</th>
+										<th>确认人员</th>
+										<th>确认时间</th>
+										
 										<th>状态</th>
 										<th>操作</th>
 									</tr>
@@ -173,21 +176,20 @@
 										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
+									<td>{{x.time}}</td>
+										
 										<td>{{x.type}}</td>
 										<td>{{x.sendUnit}}</td>
 										<td>{{x.userName}}</td>
-										<td>{{x.recvUnit}}</td>
-										<td>{{x.time}}</td>
+										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
+										<td>{{x.checkUserName}}</td>
+										<td>{{x.checkTime}}</td>
+										
 										<td>
 										<span ng-if="x.status==0">未确认</span>
 										<span ng-if="x.status==1" style="color:green">已确认</span>
 										</td>
-										<td><a href="#" ng-click="sign($index)" 
-										ng-if="((loginUser.roleType==3 && x.user_type==2) 
-										|| (loginUser.roleType==2 && x.user_type==3) 
-										|| loginUser.roleType==0) && x.status==0">确认</a></td>
-										
+										<td><a  href="#" ng-click="sign($index)" ng-if="up.o_task=='on' && x.status==0">确认</a></td>								
 										
 									</tr>
 								</tbody>

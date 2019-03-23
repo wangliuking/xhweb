@@ -62,7 +62,8 @@ public class WorkContactController {
 		bean.setTaskId(FunUtil.RandomAlphanumeric(20));
 		bean.setTime(bean.getTime().split(" ")[0]);
 		bean.setUser_type(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
-		System.out.println("type->"+Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
+		bean.setContent(bean.getContent().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
+		System.out.println("type->"+bean.getContent());
 		
 		int rst=WorkContactService.add(bean);
 		if(rst>0){

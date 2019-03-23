@@ -1,6 +1,7 @@
 package xh.mybatis.bean;
 
 public class WorkContactBean {
+	private int id;
 	private String taskId;
 	private String reason;
 	private String type;
@@ -15,9 +16,18 @@ public class WorkContactBean {
 	private String checkUser;
 	private String checkTime;
 	private String userName;
+	private String checkUserName;
 	private String filePath;
 	private String fileName;
 	private int status;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getStatus() {
 		return status;
 	}
@@ -121,6 +131,13 @@ public class WorkContactBean {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	public String getCheckUserName() {
+		return checkUserName;
+	}
+	public void setCheckUserName(String checkUserName) {
+		this.checkUserName = checkUserName;
 	}
 	@Override
 	public String toString() {

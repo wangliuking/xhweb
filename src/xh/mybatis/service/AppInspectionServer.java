@@ -19,6 +19,49 @@ import xh.mybatis.tools.MoreDbTools;
 
 public class AppInspectionServer {
 	
+	public static List<Map<String, Object>> repeater_list(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.repeater_list();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	public static List<Map<String, Object>> room_list(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.room_list();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	public static List<Map<String, Object>> portable_list(){
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AppInspectionMapper mapper = session.getMapper(AppInspectionMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list = mapper.portable_list();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return list;
+	}
+	
 	/*<!--查询800M移动基站巡检表-->*/
 	public static List<InspectionMbsBean> mbsinfo(Map<String, Object> map){
 		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);

@@ -48,8 +48,7 @@ public class EventReportController {
 	@ResponseBody
 	public Map<String,Object> worklist(HttpServletRequest request, HttpServletResponse response){
 		this.success=true;
-		String fileName=request.getParameter("filename");
-		String contact=request.getParameter("contact");
+		String time=request.getParameter("time");
 		String fileType = request.getParameter("fileType");
 		int status=funUtil.StringToInt(request.getParameter("status"));
 		int start=funUtil.StringToInt(request.getParameter("start"));
@@ -63,8 +62,7 @@ public class EventReportController {
 		map.put("loginuser", funUtil.loginUser(request));
 		map.put("roleType", FunUtil.loginUserInfo(request).get("roleType"));
 		map.put("power", power);
-		map.put("fileName", fileName);
-		map.put("contact", contact);
+		map.put("time", time);
 		map.put("status", status);
 		map.put("fileType", fileType);
 		map.put("start", start);
