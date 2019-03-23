@@ -43,7 +43,7 @@ public class GosuncnController {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		//String startTime = sdf.format(d).toString();
 		try {
-			List<String> list = new LinkedList<>();
+			List<String> list = new LinkedList<String>();
 			Long d1 = sdf.parse(startTime).getTime();
 			Long d2 = sdf.parse(endTime).getTime();
 			while(true){
@@ -719,7 +719,7 @@ public class GosuncnController {
 		String endTime=request.getParameter("endTime");
 
 		//产生时间轴start
-		List<String> timeList = new LinkedList<>();
+		List<String> timeList = new LinkedList<String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
