@@ -378,6 +378,43 @@ public class GosuncnService {
 		}
 		return result;
 	}
+
+	/**
+	 * 三期环控历史数据总数
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	public static int emh3HistoryCount(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		int count = 0;
+		try {
+			count = mapper.emh3HistoryCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	/**
+	 * 三期环控历史数据查询
+	 */
+	public static List<HashMap<String,String>> emh3History(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.emh3History(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	/**
 	 * 环控历史数据总数
@@ -408,6 +445,24 @@ public class GosuncnService {
 		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 		try {
 			list = mapper.emhHistory(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
+	 * 查询三期单个基站的电压情况用于显示曲线图
+	 *
+	 */
+	public static List<HashMap<String,String>> emh3HistoryForBsId(Map<String, Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
+		try {
+			list = mapper.emh3HistoryForBsId(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

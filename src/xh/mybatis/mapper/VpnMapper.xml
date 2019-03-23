@@ -30,7 +30,7 @@
     </select>
   
   <insert id="insertByVpnId" parameterType="xh.mybatis.bean.VpnBean">
-  	insert into xhgmnet_vpn(vpnId,pId,name,sn,time) values(#{vpnId},#{pId},#{name},#{sn},now())
+  	insert into xhgmnet_vpn(vpnId,pId,name,c_name,type,time) values(#{vpnId},#{pId},#{name},#{c_name},#{type},now())
   </insert>
   
   <!-- 添加之前查询vpnId是否重复 -->
@@ -40,7 +40,7 @@
   
   <!-- 查询所有一级单位 -->
   <select id="selectParentVpnId" resultType="map">
-  	select vpnId,name from xhgmnet_vpn where pId=0
+  	select vpnId,c_name as name from xhgmnet_vpn where pId=0
   </select>
   
 </mapper>

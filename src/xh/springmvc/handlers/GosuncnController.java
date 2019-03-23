@@ -37,10 +37,30 @@ public class GosuncnController {
 	private FlexJSON json=new FlexJSON();
 
 	public static void main(String[] args) {
-		Date d = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String startTime = sdf.format(d).toString()+" 00:00:00";
-		System.out.println("当前时间：" + d);
+		String startTime = "2019-03-20 15:15:15";
+		String endTime = "2019-03-20 17:18:59";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		//String startTime = sdf.format(d).toString();
+		try {
+			List<String> list = new LinkedList<>();
+			Long d1 = sdf.parse(startTime).getTime();
+			Long d2 = sdf.parse(endTime).getTime();
+			while(true){
+				if(d1<d2){
+					list.add(sdf1.format(d1));
+					d1+=1000*60;
+				}else{
+					//list.add(sdf1.format(d2));
+					break;
+				}
+			}
+			System.out.println(list);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+
 	}
 
 	
@@ -518,6 +538,52 @@ public class GosuncnController {
 		}
 		
 	}
+
+	/**
+	 * 查询3期环控历史数据
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/emh3History",method = RequestMethod.GET)
+	public void emh3History(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String bsId=request.getParameter("bsId");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+
+
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		map.put("start", start);
+		map.put("limit", limit);
+
+		HashMap result = new HashMap();
+		int data1 = GosuncnService.emh3HistoryCount(map);
+		List<HashMap<String, String>> data2;
+		if(data1>0){
+			data2 = GosuncnService.emh3History(map);
+		}else{
+			data2 = null;
+		}
+
+		result.put("success", success);
+		result.put("totals",data1);
+		result.put("items", data2);
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Refresh", "1");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 	/**
 	 * 查询环控历史数据
@@ -601,6 +667,37 @@ public class GosuncnController {
 	}
 
 	/**
+	 * 查询三期单个基站的历史数据用于曲线图展示
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/emh3HistoryForBsId",method = RequestMethod.GET)
+	public void emh3HistoryForBsId(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String bsId=request.getParameter("bsId");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
+		HashMap result = new HashMap();
+		List<HashMap<String, String>> list = GosuncnService.emh3HistoryForBsId(map);
+		result.put("success", success);
+		result.put("items", list);
+		response.setContentType("application/json;charset=utf-8");
+		response.setHeader("Refresh", "1");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
 	 * 查询单个基站的历史数据用于曲线图展示
 	 * @param request
 	 * @param response
@@ -620,6 +717,28 @@ public class GosuncnController {
 		String bsId=request.getParameter("bsId");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
+
+		//产生时间轴start
+		List<String> timeList = new LinkedList<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Long d1 = sdf.parse(startTime).getTime();
+			Long d2 = sdf.parse(endTime).getTime();
+			while(true){
+				if(d1<d2){
+					timeList.add(sdf1.format(d1));
+					d1+=1000*60;
+				}else{
+					break;
+				}
+			}
+			//System.out.println(list);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		//产生时间轴end
+
 		if(!"".equals(startTime)){
 			currentMonth=startTime.substring(5, 7);
 		}
@@ -642,6 +761,7 @@ public class GosuncnController {
 
 		result.put("success", success);
 		result.put("items", list);
+		result.put("timeList",timeList);
 		response.setContentType("application/json;charset=utf-8");
 		response.setHeader("Refresh", "1");
 		String jsonstr = json.Encode(result);

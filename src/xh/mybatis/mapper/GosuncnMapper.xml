@@ -207,6 +207,30 @@
 		where a.envMonitor!=2 and a.bsId<=2038 ORDER BY a.bsId
 	]]>
 	</select>
+
+	<!--三期环控历史数据 -->
+	<select id="emh3History" parameterType="map" resultType="java.util.HashMap"
+			useCache="true">
+		select a.*,b.name from xhgmnet_operations_emh_three a left join xhgmnet_bs_station b on a.bsId=b.bsId where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and a.bsId=#{bsId}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and updateTime between #{startTime} and #{endTime}
+		</if>
+		order by updateTime desc limit #{start},#{limit}
+	</select>
+
+	<select id="emh3HistoryCount" parameterType="map" resultType="int"
+			useCache="true">
+		select count(*) from xhgmnet_operations_emh_three where 1=1
+		<if test="bsId!=null and bsId!=''">
+			and bsId=#{bsId}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and updateTime between #{startTime} and #{endTime}
+		</if>
+	</select>
 	
 	<!--环控历史数据 -->
 	<select id="emhHistory" parameterType="map" resultType="java.util.HashMap"
@@ -248,7 +272,7 @@
 		<if test="startE1!='' and endE1==''">
 			and e1+0 &gt; #{startE1}+0
 		</if>
-		order by createTime limit #{start},#{limit}
+		order by createTime desc limit #{start},#{limit}
 	</select>
 	<!--环控历史数据总数 -->
 	<select id="emhHistoryCount" parameterType="map" resultType="int"
@@ -291,10 +315,24 @@
 			and e1+0 &gt; #{startE1}+0
 		</if>
 	</select>
+
+	<!--查询单个基站本月电压情况用于显示曲线图 -->
+	<select id="emh3HistoryForBsId" parameterType="map" resultType="java.util.HashMap"
+			useCache="true">
+		select value ups1,updateTime createTime from xhgmnet_operations_emh_three where DevNode=0051 and NodeID=1003
+		<if test="bsId!=null and bsId!=''">
+			and bsId=#{bsId}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and updateTime between #{startTime} and #{endTime}
+		</if>
+		order by updateTime
+	</select>
+
 	<!--查询单个基站本月电压情况用于显示曲线图 -->
 	<select id="emhHistoryForBsId" parameterType="map" resultType="java.util.HashMap"
 			useCache="true">
-		select ups1,ups4,e1,createTime from ${currentMonth} where 1=1
+		select ups1,ups4,e1,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime from ${currentMonth} where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
