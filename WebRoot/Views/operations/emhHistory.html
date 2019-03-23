@@ -77,6 +77,14 @@
                                         </div>
                                         <div class="form-group">
                                             <div>
+                                                <select class="form-control" id="period"  name="period" style="width:158px;">
+                                                    <option value="4" >四期</option>
+                                                    <option value="3" >三期</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
                                                 <input type="text" class="form-control" id="startTime"
                                                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
                                                        placeholder="起始时间">
@@ -181,7 +189,8 @@
                             <div class="panel-body">
 
                                 <!-- row -->
-                                <table id="tb-info" class="xh-table table-hover">
+                                <div ng-if="bsPeriod == 4">
+                                    <table id="tb-info" class="xh-table table-hover">
                                     <thead>
                                     <tr class="tr-gray">
                                         <th>基站ID</th>
@@ -230,7 +239,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="page">
+                                    <div class="page">
                                     <div class="page-info">
                                         每页显示 <select id="page-limit" ng-change="refresh()"
                                                      ng-model="count">
@@ -244,6 +253,50 @@
                                             ng-model="totals">总计{{totals}}条</span>
                                     </div>
                                     <div class="page-paging"></div>
+                                </div>
+                                </div>
+
+                                <div ng-if="bsPeriod == 3">
+                                    <table id="tb-info" class="xh-table table-hover">
+                                        <thead>
+                                        <tr class="tr-gray">
+                                            <th>基站ID</th>
+                                            <th>名称</th>
+                                            <th>设备名称</th>
+                                            <th>监测类型</th>
+                                            <th>测量值</th>
+                                            <th>更新时间</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-if="totals==0">
+                                            <td colspan="6" class="text-center">没有记录！</td>
+                                        </tr>
+                                        <tr ng-repeat="x in data">
+                                            <td>{{x.bsId}}</td>
+                                            <td>{{x.name}}</td>
+                                            <td>{{x.DevName}}</td>
+                                            <td>{{x.NodeAttribute}}</td>
+                                            <td>{{x.value}}</td>
+                                            <td>{{x.updateTime}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="page">
+                                        <div class="page-info">
+                                            每页显示 <select id="page-limit" ng-change="refresh()"
+                                                         ng-model="count">
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="50">50</option>
+                                        </select> 条, <span ng-model="index">显示{{start}}-</span><span
+                                                ng-model="lastIndex">{{lastIndex}}条,</span> <span
+                                                ng-model="totals">总计{{totals}}条</span>
+                                        </div>
+                                        <div class="page-paging"></div>
+                                    </div>
                                 </div>
 
                             </div>

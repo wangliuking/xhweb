@@ -64,8 +64,7 @@
 						</div>
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
-							
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">
+									<button ng-if="up.o_check_system_up == 'on' && loginUserRoleType == 3" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">
 										<i class="fa fa-plus-circle"></i>&nbsp;系统升级
 									</button>
 								</div>
@@ -110,7 +109,7 @@
 										<td ng-if="x.checked==5" class="td-warning">成功创建实施组，可进行升级</td>
 										<td ng-if="x.checked==6" class="td-warning">升级进行中</td>
 										<td ng-if="x.checked==7" class="td-warning">升级成功，可提交工作记录</td>
-										<td ng-if="x.checked==8" class="td-warning">已发送升级工作记录给项目负责人</td>
+										<td ng-if="x.checked==8" class="td-warning">已上传文件报告</td>
 										<td ng-if="x.checked==9" class="td-success">系统升级完成</td>
 										<td style="text-align:center">
 
@@ -119,65 +118,61 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
-										<a ng-if="x.checked==-5"
+										<a ng-if="x.checked==-5 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
 
-										<a ng-if="x.checked==-4"
+										<a ng-if="x.checked==-4 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行回退操作</a>
 
-										<a ng-if="x.checked==-3"
+										<a ng-if="x.checked==-3 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认是否再次提交申请</a>
 
-										<a ng-if="x.checked==-2"
+										<a ng-if="x.checked==-2 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
 
-										<a ng-if="x.checked==-1"
+										<a ng-if="x.checked==-1 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
 
-										<a ng-if="x.checked==0"
+										<a ng-if="x.checked==0 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;项目经理审核系统升级方案</a>
 												
-									    <a ng-if="x.checked==1"
+									    <a ng-if="x.checked==1 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 2"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方审核系统升级方案</a>
 
-										<a ng-if="x.checked==2"
+										<a ng-if="x.checked==2 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交升级申请</a>
 
-										<a ng-if="x.checked==3"
+										<a ng-if="x.checked==3 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 2"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方负责人审核升级申请</a>
 
-										<a ng-if="x.checked==4"
+										<a ng-if="x.checked==4 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;创建实施组</a>
 										
-										<a ng-if="x.checked==5"
+										<a ng-if="x.checked==5 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行系统升级</a>
 										
-										<a ng-if="x.checked==6"
+										<a ng-if="x.checked==6 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;反馈升级结果</a>
 
-										<a ng-if="x.checked==7"
+										<a ng-if="x.checked==7 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交工作记录</a>
 
-										<a ng-if="x.checked==8"
+										<a ng-if="x.checked==8 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方反馈结果</a>
-
-										<!--<a ng-if="loginUserRoleType==3"
-											   href="#" ng-click="sheetShow($index)"><i
-													class="fa fa-send-o text-waring"></i>| &nbsp;查看表格</a>-->
 
 										</td>
 									</tr>

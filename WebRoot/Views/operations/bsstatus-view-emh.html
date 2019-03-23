@@ -521,7 +521,7 @@
 <script type='text/javascript'>
 var $scope = angular.element(appElement).scope();
 var bsId = $scope.cameraId();
-var IP = "192.168.120.161";
+var IP = "192.168.120.150";
 console.log(bsId+"==="+IP);
   jwplayer('mediaspace').setup({
     'flashplayer': 'player.swf',
@@ -535,7 +535,7 @@ console.log(bsId+"==="+IP);
 $(function(){
 	$("#changeNet").click(function(){
 		jwplayer('mediaspace').remove();
-		if("192.168.120.161"==IP){
+		if("192.168.120.150"==IP){
 			$(".currentNet").text("外网");
 			IP="183.221.117.37";
 			console.log(IP);
@@ -549,7 +549,7 @@ $(function(){
 			  });
 		}else{
 			$(".currentNet").text("内网");
-			IP="192.168.120.161";
+			IP="192.168.120.150";
 			console.log(IP);
 			jwplayer('mediaspace').setup({
 			    'flashplayer': 'player.swf',

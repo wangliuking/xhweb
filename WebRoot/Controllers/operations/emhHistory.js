@@ -56,6 +56,7 @@ xh.load = function() {
 		// xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
+        $scope.bsPeriod = 4;
 		$http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start=0&limit="+pageSize+
 			"&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
 		success(function(response){
@@ -78,7 +79,7 @@ xh.load = function() {
 			$scope.search(1);
 		};
 		
-		/* 显示model */
+		/* 导出 */
 		$scope.showAddModel = function(id) {
             var bsId = $("#bsId").val();
             var startTime = $("#startTime").val();
@@ -97,6 +98,8 @@ xh.load = function() {
 		
 		/* 查询数据 */
 		$scope.search = function(page) {
+            var period = $("#period").val();
+            $scope.bsPeriod = period;
 			var pageSize = $("#page-limit").val();
 			var bsId = $("#bsId").val();
 			var startTime = $("#startTime").val();
@@ -127,14 +130,25 @@ xh.load = function() {
 			}
 			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit+
-                "&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
-			success(function(response){
-				xh.maskHide();
-				$scope.data = response.items;
-				$scope.totals = response.totals;
-				xh.pagging(page, parseInt($scope.totals), $scope);
-			});
+			if(period == 4){
+                $http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit+
+                    "&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
+                success(function(response){
+                    xh.maskHide();
+                    $scope.data = response.items;
+                    $scope.totals = response.totals;
+                    xh.pagging(page, parseInt($scope.totals), $scope);
+                });
+			}else if(period == 3){
+                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
+                success(function(response){
+                    xh.maskHide();
+                    $scope.data = response.items;
+                    $scope.totals = response.totals;
+                    xh.pagging(page, parseInt($scope.totals), $scope);
+                });
+			}
+
 
 			//生成曲线图
             //时间比对
@@ -143,16 +157,29 @@ xh.load = function() {
             var tempTime = (d2-d1)/1000/3600/24;
             //
 			if(bsId!="" && tempTime<3){
-                $http.get("../../gonsuncn/emhHistoryForBsId?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime).
-                success(function(response){
-                    var dataEcharts = response.items;
-                    // 开启echarts加载
-                    dataEchartsView(dataEcharts);
-                });
+			    if(period == 4){
+                    $http.get("../../gonsuncn/emhHistoryForBsId?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime).
+                    success(function(response){
+                        var dataEcharts = response.items;
+                        var timeList = response.timeList;
+                        // 开启echarts加载
+                        dataEchartsView(dataEcharts,timeList);
+                    });
+                }else if(period == 3){
+                    $http.get("../../gonsuncn/emh3HistoryForBsId?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime).
+                    success(function(response){
+                        var dataEcharts = response.items;
+                        // 开启echarts加载
+                        dataEchartsView(dataEcharts);
+                    });
+                }
+
 			}
 		};
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
+            var period = $("#period").val();
+            $scope.bsPeriod = period;
 			var pageSize = $("#page-limit").val();
 			var bsId = $("#bsId").val();
 			var startTime = $("#startTime").val();
@@ -173,23 +200,43 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize+
-                "&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
-			success(function(response){
-				xh.maskHide();
-				$scope.start = (page - 1) * pageSize + 1;
-				$scope.lastIndex = page * pageSize;
-				if (page == totalPages) {
-					if (totals > 0) {
-						$scope.lastIndex = totals;
-					} else {
-						$scope.start = 0;
-						$scope.lastIndex = 0;
-					}
-				}
-				$scope.data = response.items;
-				$scope.totals = response.totals;
-			});
+            if(period == 4){
+                $http.get("../../gonsuncn/emhHistory?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize+
+                    "&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1).
+                success(function(response){
+                    xh.maskHide();
+                    $scope.start = (page - 1) * pageSize + 1;
+                    $scope.lastIndex = page * pageSize;
+                    if (page == totalPages) {
+                        if (totals > 0) {
+                            $scope.lastIndex = totals;
+                        } else {
+                            $scope.start = 0;
+                            $scope.lastIndex = 0;
+                        }
+                    }
+                    $scope.data = response.items;
+                    $scope.totals = response.totals;
+                });
+			}else if(period == 3){
+                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
+                success(function(response){
+                    xh.maskHide();
+                    $scope.start = (page - 1) * pageSize + 1;
+                    $scope.lastIndex = page * pageSize;
+                    if (page == totalPages) {
+                        if (totals > 0) {
+                            $scope.lastIndex = totals;
+                        } else {
+                            $scope.start = 0;
+                            $scope.lastIndex = 0;
+                        }
+                    }
+                    $scope.data = response.items;
+                    $scope.totals = response.totals;
+                });
+			}
+
 			
 		};
 	});
@@ -241,21 +288,21 @@ xh.pagging = function(currentPage, totals, $scope) {
 };
 
 /* 传感器统计图 */
-function dataEchartsView(dataEcharts) {
+function dataEchartsView(dataEcharts,timeList) {
 	var ups1=[];
 	var ups4=[];
 	var e1=[];
-	var createTime=[];
-	for(var i=0;i<dataEcharts.length;i++){
-        var tempUps1 = parseInt(dataEcharts[i]["ups1"]);
-        var tempUps4 = parseInt(dataEcharts[i]["ups4"]);
-        var tempE1 = parseInt(dataEcharts[i]["e1"]);
-        var tempCreateTime = dataEcharts[i]["createTime"];
+	var createTimeList=[];
+    for(var j=0;j<dataEcharts.length;j++){
+        var tempUps1 = parseInt(dataEcharts[j]["ups1"]);
+        var tempUps4 = parseInt(dataEcharts[j]["ups4"]);
+        var tempE1 = parseInt(dataEcharts[j]["e1"]);
+        var createTime = dataEcharts[j]["createTime"];
         ups1.push(tempUps1);
         ups4.push(tempUps4);
-        e1.push(tempE1);
-        createTime.push(tempCreateTime);
-	}
+        e1.push(tempE1)
+        createTimeList.push(createTime);
+    }
     // 设置容器宽高
     var resizeBarContainer = function() {
         $("#alarmPie").width(parseInt($("#alarmPie").parent().width()));
@@ -302,9 +349,19 @@ function dataEchartsView(dataEcharts) {
                 {
                     type : 'category',
                     boundaryGap : false,
-                    data : createTime
+                    data : createTimeList
                 }
             ],
+            dataZoom: [
+                {
+                    type: 'slider',
+                    show: true,
+                    yAxisIndex: [0],
+                    left: '96%',
+                    bottom: '5%',
+                    start: 0,
+                    end: 100
+                }],
             yAxis : [
                 {
                     type : 'value',

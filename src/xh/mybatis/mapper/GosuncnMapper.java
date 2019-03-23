@@ -125,6 +125,16 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public List<Map<String,String>> selectFor4EMH()throws Exception;
+
+	/**
+	 * 三期环控历史数据
+	 */
+	public List<HashMap<String,String>> emh3History(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 三期环控历史数据总数
+	 */
+	public int emh3HistoryCount(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 环控历史数据
@@ -140,6 +150,11 @@ public interface GosuncnMapper {
 	 * 查询单个基站本月电压情况用于显示曲线图
 	 */
 	public List<HashMap<String,String>> emhHistoryForBsId(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 查询三期单个基站电压情况用于显示曲线图
+	 */
+	public List<HashMap<String,String>> emh3HistoryForBsId(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 删除NVR所有通道信息

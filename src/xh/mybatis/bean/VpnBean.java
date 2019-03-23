@@ -6,8 +6,10 @@ public class VpnBean implements Serializable{
 	String vpnId;
 	String pId;
 	String name;
+	String c_name;
 	String sn;
 	String time;
+	String type;
 	public String getVpnId() {
 		return vpnId;
 	}
@@ -38,10 +40,33 @@ public class VpnBean implements Serializable{
 	public void setTime(String time) {
 		this.time = time;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getC_name() {
+		return c_name;
+	}
+
+	public void setC_name(String c_name) {
+		this.c_name = c_name;
+	}
+
 	@Override
 	public String toString() {
-		return "VpnBean [vpnId=" + vpnId + ", pId=" + pId + ", name=" + name
-				+ ", sn=" + sn + ", time=" + time + "]";
+		return "VpnBean{" +
+				"vpnId='" + vpnId + '\'' +
+				", pId='" + pId + '\'' +
+				", name='" + name + '\'' +
+				", c_name='" + c_name + '\'' +
+				", sn='" + sn + '\'' +
+				", time='" + time + '\'' +
+				", type='" + type + '\'' +
+				'}';
 	}
-	
 }

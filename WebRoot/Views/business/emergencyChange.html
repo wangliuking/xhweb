@@ -65,7 +65,7 @@
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
+									<button ng-if="up.o_check_emergency == 'on' && loginUserRoleType == 3" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
 										<i class="fa fa-plus-circle"></i>&nbsp;应急演练
 									</button>			
 									
@@ -106,23 +106,23 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==0"
+										<a ng-if="loginUserRoleType==3 && x.checked==0 && up.o_check_emergency == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;创建演练组</a>
 												
-									    <a ng-if="loginUserRoleType==3 && x.checked==1"
+									    <a ng-if="loginUserRoleType==3 && x.checked==1 && up.o_check_emergency == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知演练组进行演练</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==2"
+										<a ng-if="loginUserRoleType==3 && x.checked==2 && roleId == emergencyGroupId"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;实施演练</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==3"
+										<a ng-if="loginUserRoleType==3 && x.checked==3 && roleId == emergencyGroupId"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交工作总结</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==4"
+										<a ng-if="loginUserRoleType==3 && x.checked==4 && up.o_check_emergency == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方发起报告</a>
 
