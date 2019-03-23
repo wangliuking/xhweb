@@ -186,6 +186,36 @@ jQuery.download = function(url, method, zipName, filename){
             '</form>')
     .appendTo('body').submit().remove();
 };
+xh.month_excel = function(time) {
+	xh.maskShow();
+	$("#excel-month-report-info-btn").button('loading');
+	$.ajax({
+		url : '../../word/monthword',
+		type : 'POST',
+		dataType : "json",
+		data : {
+			time:time
+		},
+		async : true,
+		success : function(data) {
+
+			$("#excel-month-report-info-btn").button('reset');
+			xh.maskHide();
+			if (data.success) {
+				window.location.href = "../../bsstatus/downExcel?filePath="
+					+ data.pathName;
+			} else {
+				toastr.error("导出失败", '提示');
+			}
+		},
+		error : function() {
+			$("#excel-month-report-info-btn").button('reset');
+			toastr.error("导出失败", '提示');
+			xh.maskHide();
+		}
+	});
+
+};
 xh.bs_month_inspection_excel = function(time) {
 	xh.maskShow();
 	$("#excel-month-bs-inspection-btn").button('loading');

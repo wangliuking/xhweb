@@ -50,7 +50,8 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleId = response.roleId;	
+			$scope.loginUserRoleId = response.roleId;
+			$scope.userL = response;
 		});
 		
 		/*获取申请记录表*/

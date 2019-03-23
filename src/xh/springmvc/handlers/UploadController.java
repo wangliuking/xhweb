@@ -79,15 +79,15 @@ public class UploadController {
 		
 		
 
-		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/Resources/upload/";
+		String path = request.getSession().getServletContext().getRealPath("")+ "/upload/";
+		
 		String name = file.getOriginalFilename();
 		// 获取当前时间
 		Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String[] data = sdf.format(d).split(" ")[0].split("-");
 		path += data[0] + "/" + data[1] + "/" + data[2];
-		String savePath = "/Resources/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
+		String savePath = "/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
 
 		
 	
@@ -123,14 +123,14 @@ public class UploadController {
 		System.out.println("进入上传文件方法！！！");
 		System.out.println(file);
 		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/Resources/appImg/";
+				+ "/upload/appImg/";
 		String name = file.getOriginalFilename();
 		// 获取当前时间
 		Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String[] data = sdf.format(d).split(" ")[0].split("-");
 		path += data[0] + "/" + data[1] + "/" + data[2];
-		String savePath = "/Resources/upload/" + data[0] + "/" + data[1] + "/"+ data[2];
+		String savePath = "/upload/appImg/" + data[0] + "/" + data[1] + "/"+ data[2];
 
 		
 	

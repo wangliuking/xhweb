@@ -1172,8 +1172,7 @@ public class JoinNetController {
 			HttpServletResponse response) {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("id"));
-		int loginUserRoleId = funUtil.StringToInt(request
-				.getParameter("loginUserRoleId"));
+		int loginUserRoleId = funUtil.StringToInt(request.getParameter("loginUserRoleId"));
 		int checkId = funUtil.StringToInt(request.getParameter("checkId"));
 		int verifyId = funUtil.StringToInt(request.getParameter("checked"));
 		

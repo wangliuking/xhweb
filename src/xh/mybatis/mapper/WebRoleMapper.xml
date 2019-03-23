@@ -41,7 +41,7 @@
      select * from xhgmnet_web_role where roleId=#{roleId}
     </select> 
     <!--添加角色-->    
-    <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="xh.mybatis.bean.WebRoleBean">
+    <insert id="addRole" useGeneratedKeys="true" keyProperty="id" parameterType="xh.mybatis.bean.WebRoleBean">
       insert into xhgmnet_web_role(roleId,role,createTime,roleType,parentId)
       values(#{roleId},#{role},#{createTime},#{roleType},#{parentId})
     </insert> 

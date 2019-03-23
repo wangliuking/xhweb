@@ -57,7 +57,8 @@
 			as time,checkman,remainwork,'是' as complate from xhgmnet_operations_inspection_selfbs) 
 			as a LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId where DATE_FORMAT(a.time,'%Y-%m')=#{time} -->
 
-		SELECT a.period,a.bsid,a.name, 1 as checkTimes,b.time,b.checkman from
+		SELECT a.period,a.bsid,a.name, 1 as checkTimes,b.time,b.checkman,1 as
+		type from
 		xhgmnet_bs_station as a
 		left JOIN (select bsId,DATE_FORMAT(commitdate,'%Y-%m-%d') as
 		time,checkman,remainwork from xhgmnet_operations_inspection_selfbs
@@ -66,15 +67,41 @@
 		UNION ALL
 
 		select 3 as period,"调度台" as bsid,dispatchname as name,1 as
-		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman from
+		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman,2 as
+		type from
 		xhgmnet_operations_inspection_dispatch
 		where DATE_FORMAT(commitdate,'%Y-%m')=#{time}
 
 		UNION ALL
 
 		select 3 as period,"网管" as bsid,managername as name,1 as
-		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman from
+		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman,3 as
+		type from
 		xhgmnet_operations_inspection_net
+		where DATE_FORMAT(commitdate,'%Y-%m')=#{time}
+		UNION ALL
+
+		select b.period,"直放站" as bsid, a.name,1 as
+		checkTimes,DATE_FORMAT(a.commitdate,'%Y-%m-%d') as time,a.checkman,4
+		as type from
+		xhgmnet_operations_inspection_vertical as a
+		LEFT JOIN xhgmnet_bs_station_repeater as b on a.`name`=b.bsName
+		where DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
+
+		UNION ALL
+
+		select b.period,"室内覆盖" as bsid, a.name,1 as
+		checkTimes,DATE_FORMAT(a.commitdate,'%Y-%m-%d') as time,a.checkman,4
+		as type from
+		xhgmnet_operations_inspection_room as a
+		LEFT JOIN xhgmnet_bs_station_coverage as b on a.`name`=b.name
+		where DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
+
+		UNION ALL
+		select 4 as period,"便携站" as bsid,name,1 as
+		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman,3 as
+		type from
+		xhgmnet_operations_inspection_statellite
 		where DATE_FORMAT(commitdate,'%Y-%m')=#{time}
 
 

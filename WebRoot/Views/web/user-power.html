@@ -17,6 +17,11 @@
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<style type="text/css">
+.input-bo{
+ border:1px solid #000;
+}
+</style>
 </head>
 <body ng-app="app" ng-controller="power" class="fixed-iframe">
 	<!-- splash screen-->
@@ -52,22 +57,21 @@
 			<div class="alert alert-success">
 				<i class="fa fa-close text-white pull-right" id="alert-close"></i>
 				用户：{{user}} 权限分配
-				
+
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="btn-group" style="padding-bottom:2px;">
 						<button class="btn btn-success btn-sm" id="selectAll">全选
 						</button>
-						<button class="btn btn-info btn-sm" id="selectNo">全不选
-						</button>
+						<button class="btn btn-info btn-sm" id="selectNo">全不选</button>
 						<button class="btn btn-danger btn-sm" id="selectOther">反选
 						</button>
 						<button class="btn btn-warning btn-sm" ng-click="save()">保存权限</button>
 						<button class="btn btn-primary btn-sm"
-                            onclick="javascript:history.back(-1);">
-                            <i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
-                        </button>
+							onclick="javascript:history.back(-1);">
+							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+						</button>
 					</div>
 				</div>
 			</div>
@@ -87,8 +91,8 @@
 			</div> -->
 			<form action="#" id="form" onSubmit="return false">
 				<div class="row" ng-show="false">
-					<input type="text" name="userId" value="" ng-model="userId" />
-					<input type="text" name="user" value="" ng-model="user" />
+					<input type="text" name="userId" value="" ng-model="userId" /> <input
+						type="text" name="user" value="" ng-model="user" />
 				</div>
 				<div class="row">
 					<div class="col-md-12">
@@ -101,8 +105,8 @@
 								运维管理模块权限
 							</div>
 							<div class="panel-body">
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_report" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_report=='on'"
@@ -113,13 +117,13 @@
 								</div>
 								<!-- col-md-3 -->
 								<div class="form-group col-md-3">
-									<div class="list-group-item">
-										<div class="pull-right">
+									<div class="list-group-item input-bo">
+										<div class="pull-right ">
 											<input id="o_check_service" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_service=='on'"
 												name="o_check_service"> <label for="o_check_service"></label>
 										</div>
-										服务抽检审核
+										服务抽检
 									</div>
 								</div>
 								<!-- col-md-3 -->
@@ -131,7 +135,7 @@
 												name="o_check_netoptimize"> <label
 												for="o_check_netoptimize"></label>
 										</div>
-										网络优化审核
+										网络优化
 									</div>
 								</div>
 								<!-- col-md-3 -->
@@ -143,12 +147,12 @@
 												name="o_check_emergency"> <label
 												for="o_check_emergency"></label>
 										</div>
-										应急处置演练审核
+										应急处置演练
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_work" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_work=='on'"
@@ -158,8 +162,8 @@
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_change" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_change=='on'"
@@ -168,40 +172,44 @@
 										资产核查审核
 									</div>
 								</div>
-									<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<!-- col-md-3 -->
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_add_asset" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_add_asset=='on'"
-												name="o_check_add_asset"> <label for="o_check_add_asset"></label>
+												name="o_check_add_asset"> <label
+												for="o_check_add_asset"></label>
 										</div>
 										新增资产审核
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_scrap_asset" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_scrap_asset=='on'"
-												name="o_check_scrap_asset"> <label for="o_check_scrap_asset"></label>
+												name="o_check_scrap_asset"> <label
+												for="o_check_scrap_asset"></label>
 										</div>
 										报废资产审核
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_asset_update_status" class="toggle-switch"
-												type="checkbox" ng-checked="data.o_check_asset_update_status=='on'"
-												name="o_check_asset_update_status"> <label for="o_check_asset_update_status"></label>
+												type="checkbox"
+												ng-checked="data.o_check_asset_update_status=='on'"
+												name="o_check_asset_update_status"> <label
+												for="o_check_asset_update_status"></label>
 										</div>
 										资产状态变更审核
 									</div>
 								</div>
-									<!-- col-md-3 -->
+								<!-- col-md-3 -->
 								<div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
@@ -209,44 +217,47 @@
 												type="checkbox" ng-checked="data.o_check_fault=='on'"
 												name="o_check_fault"> <label for="o_check_fault"></label>
 										</div>
-										故障处理审核
+										故障申报处理
 									</div>
 								</div>
-											<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<!-- col-md-3 -->
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="o_check_operations_check" class="toggle-switch"
-												type="checkbox" ng-checked="data.o_check_operations_check=='on'"
-												name="o_check_operations_check"> <label for="o_check_operations_check"></label>
+												type="checkbox"
+												ng-checked="data.o_check_operations_check=='on'"
+												name="o_check_operations_check"> <label
+												for="o_check_operations_check"></label>
 										</div>
 										运维考核审核
 									</div>
 								</div>
-										<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<!-- col-md-3 -->
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
-											<input id="o_check_cut" class="toggle-switch"
-												type="checkbox" ng-checked="data.o_check_cut=='on'"
-												name="o_check_cut"> <label for="o_check_cut"></label>
+											<input id="o_check_cut" class="toggle-switch" type="checkbox"
+												ng-checked="data.o_check_cut=='on'" name="o_check_cut">
+											<label for="o_check_cut"></label>
 										</div>
 										核减审核
 									</div>
 								</div>
-											<!-- col-md-3 -->
+								<!-- col-md-3 -->
 								<div class="form-group col-md-3">
-									<div class="list-group-item">
+									<div class="list-group-item ">
 										<div class="pull-right">
 											<input id="o_check_system_up" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_system_up=='on'"
-												name="o_check_system_up"> <label for="o_check_system_up"></label>
+												name="o_check_system_up"> <label
+												for="o_check_system_up"></label>
 										</div>
 										审核系统升级
 									</div>
 								</div>
-									<!-- col-md-3 -->
-								<div class="form-group col-md-3">
+								<!-- col-md-3 -->
+								<!-- <div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
 											<input id="o_check_duty" class="toggle-switch"
@@ -256,18 +267,19 @@
 										运维值班文件审核
 									</div>
 								</div>
-									<!-- col-md-3 -->
+								col-md-3
 								<div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
 											<input id="o_check_inspection" class="toggle-switch"
 												type="checkbox" ng-checked="data.o_check_inspection=='on'"
-												name="o_check_inspection"> <label for="o_check_inspection"></label>
+												name="o_check_inspection"> <label
+												for="o_check_inspection"></label>
 										</div>
 										运维巡检文件审核
 									</div>
-								</div>
-									<!-- col-md-3 -->
+								</div> -->
+								<!-- col-md-3 -->
 								<div class="form-group col-md-3">
 									<div class="list-group-item">
 										<div class="pull-right">
@@ -312,6 +324,18 @@
 									</div>
 								</div>
 								<!-- col-md-3 -->
+								<!-- col-md-3 -->
+								<div class="form-group col-md-3">
+									<div class="list-group-item">
+										<div class="pull-right">
+											<input id="o_task" class="toggle-switch" type="checkbox"
+												ng-checked="data.o_task=='on'" name="o_task"> <label
+												for="o_task"></label>
+										</div>
+										确认工作联系单
+									</div>
+								</div>
+								<!-- col-md-3 -->
 							</div>
 						</div>
 					</div>
@@ -335,7 +359,7 @@
 												type="checkbox" ng-checked="data.b_check_joinnet=='on'"
 												name="b_check_joinnet"> <label for="b_check_joinnet"></label>
 										</div>
-										审核入网申请
+										入网处理
 									</div>
 								</div>
 								<!-- col-md-3 -->
@@ -346,12 +370,12 @@
 												type="checkbox" ng-checked="data.b_check_quitnet=='on'"
 												name="b_check_quitnet"> <label for="b_check_quitnet"></label>
 										</div>
-										审核退网申请
+										退网处理
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="b_check_businesschange" class="toggle-switch"
 												type="checkbox"
@@ -370,7 +394,7 @@
 												type="checkbox" ng-checked="data.b_check_fault=='on'"
 												name="b_check_fault"> <label for="b_check_fault"></label>
 										</div>
-										审核故障申报申请
+										故障申报处理
 									</div>
 								</div>
 								<!-- col-md-3 -->
@@ -383,12 +407,12 @@
 												name="b_check_communicationsupport"> <label
 												for="b_check_communicationsupport"></label>
 										</div>
-										审核通信保障申请
+										通信保障申请处理
 									</div>
 								</div>
 								<!-- col-md-3 -->
-								<div class="form-group col-md-3">
-									<div class="list-group-item">
+								<div class="form-group col-md-3" >
+									<div class="list-group-item input-bo">
 										<div class="pull-right">
 											<input id="b_check_lend" class="toggle-switch"
 												type="checkbox" ng-checked="data.b_check_lend=='on'"
@@ -455,7 +479,7 @@
 					</div>
 				</div>
 				<!--  row----end -->
-				<div class="row">
+				<div class="row" ng-if="userL.roleType==0 || userL.roleType==3">
 					<div class="col-md-12">
 						<div class="hpanel">
 							<div class="panel-heading hbuilt">
@@ -514,8 +538,8 @@
 													<div class="list-group-item">
 														<div class="pull-right">
 															<input id="p_power" class="toggle-switch" type="checkbox"
-																ng-checked="data.p_power=='on'" name="p_power"> <label
-																for="p_power"></label>
+																ng-checked="data.p_power=='on'" name="p_power">
+															<label for="p_power"></label>
 														</div>
 														权限分配
 													</div>
@@ -538,7 +562,7 @@
 				<!-- row -->
 
 			</form>
-			
+
 		</div>
 	</div>
 	<!-- 中间内容体 /-->

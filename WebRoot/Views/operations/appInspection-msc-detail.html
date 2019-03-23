@@ -9,8 +9,20 @@
 				<!-- <small class="font-bold">自建基站巡检表</small> -->
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-
-				<div class="row" style="margin-top:5px;" id="print_dispatch">
+<div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success btn-sm" onclick="xh.print_msc()">
+                                <i class="fa fa-print"></i>&nbsp;打印
+                            </button>
+                        </div> 
+                    </div>
+                </div>
+				<div class="row" style="margin-top:5px;" id="print_msc">
+				<style type="text/css" id="style1">
+                .table-view{border-collapse:collapse;text-align: center;word-break: break-word;}
+                .table-view td{border:1px solid #ccc;border-collapse:collapse;}
+                </style>
 					<div class="col-md-12">
 							<table style="width:100%;border-collapse: collapse;"
 								class="table-view">
@@ -21,7 +33,7 @@
 								</tr>
 								<tr>
 									<td style="width:30%;" colspan="2">系統名称：成都市应急指挥调度无线通信网</td>
-									<td style="width:15%;">地点：亚光高新产业园</td>
+									<td style="width:17%;">地点：亚光高新产业园</td>
 									<td style="width:10%;">巡检时间</td>
 									<td style="width:15%;color:blue">{{mscOneData.checkDate}}</td>
 									<td style="width:10%;">巡检人</td>
@@ -39,12 +51,16 @@
 								<tr ng-repeat="c in msc_add_win_html">
 									<td>{{c.id}}</td>
 									<td>{{c.content}}</td>
-									<td><input class="magic-radio" type="radio"
-										value="{{c.a}}" name="a{{c.id}}" ng-checked="c.a==c.x"> <label
-										><span>{{c.a}}</span></label> <input
-										 class="magic-radio" type="radio" value="{{c.b}}"
-										name="a{{c.id}}" ng-checked="c.b==c.x"> <label ><span>{{c.b}}</span></label>
-									</td>
+									<td>
+									<input class="magic-radio" type="radio" value="{{c.a}}" ng-checked="c.a==c.x"> 
+									<label>
+									<span>{{c.a}}</span>
+									</label>
+                                    <input class="magic-radio" type="radio" value="{{c.b}}" ng-checked="c.b==c.x"> 
+                                    <label>
+                                    <span>{{c.b}}</span>
+                                    </label>
+                                    </td>
 									<td colspan="2">{{c.y}}
 									</td>
 									<td colspan="2">{{c.z}}

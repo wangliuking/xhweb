@@ -51,6 +51,7 @@ xh.load = function() {
 			console.log("loginuser="+$scope.loginUser);
 			$scope.loginUserRoleId = response.roleId;
 			$scope.roleType = response.roleType;
+			$scope.userL=response;
 		});
 		$http.get(
 				"../../work/worklist?filename=" + filename + "" + "&contact="
@@ -209,6 +210,8 @@ xh.add = function() {
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				xh.refresh();
+				//$("#addForm")[0].reset();
+				$("#addForm").data('bootstrapValidator').resetForm();
 				toastr.success(data.message, '提示');
 				$("input[name='result']").val("");
             	$("input[name='fileName']").val("");

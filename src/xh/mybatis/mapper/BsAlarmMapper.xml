@@ -45,15 +45,15 @@
     <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
     select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
     left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
-    where a.deviceId = "080200000000001" and a.singleId = "008001"
     </select>
     <!--008334->电池组电压；  -->
-    <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
-    select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 
-    where  fsuId=#{fsuId} and  (singleId = "008304" or singleId = "008334" or 
+   <!--  and  (singleId = "008304" or singleId = "008334" or 
     singleId = "008408" or singleId = "008315" or
     singleId = "017021" or singleId = "017031" or singleId = "076509" or singleId = "092316" or singleId = "092301"
-    )
+    ) -->
+    <select id="bs_ji_four_compare" resultType="xh.mybatis.bean.BsJiFourBean" parameterType="String">
+    select fsuId,deviceId,updateTime,singleId,singleValue from xhgmnet_emh_sensor_status 
+    where  fsuId=#{fsuId} 
     </select>
     <select id="bs_ji_four_e4" resultType="map" parameterType="map">
     select e4  from ${table} where fsuId=#{fsuId}   ORDER BY createTime DESC LIMIT 5

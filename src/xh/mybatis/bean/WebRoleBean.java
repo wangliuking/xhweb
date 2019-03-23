@@ -1,6 +1,7 @@
 package xh.mybatis.bean;
 
 public class WebRoleBean {
+	private int id;
 	private int roleType;
 	private int roleId;
 	private int parentId;

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.FaultLevelMapper">
+
+	<select id="one_list" parameterType="map"
+		resultType="xh.mybatis.bean.FaultOneBean" useCache="true">
+		select * from xhgmnet_operations_fault_one where type=#{type}
+		<if test="time!=null and time!=''">
+			and date_format(produce_time,'%Y-%m')=#{time}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+	<insert id="one_add" parameterType="xh.mybatis.bean.FaultOneBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into xhgmnet_operations_fault_one(produce_time,recovery_time,
+		total_time,reason,fault_type,type,area,note,record_person)values(
+		#{produce_time},#{recovery_time},#{total_time},#{reason},#{fault_type},#{type},#{area},#{note},#{record_person}
+		)
+	</insert>
+	<update id="one_update" parameterType="xh.mybatis.bean.FaultOneBean">
+		update xhgmnet_operations_fault_one set
+		produce_time=#{produce_time},recovery_time=#{recovery_time},
+		total_time=#{total_time},reason=#{reason},fault_type=#{fault_type},type=#{type},area=#{area},note=#{note},
+		record_person=#{record_person} where id=#{id}
+	</update>
+	<select id="one_count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(1) from xhgmnet_operations_fault_one where type=#{type}
+		<if test="time!=null and time!=''">
+			and date_format(produce_time,'%Y-%m')=#{time}
+		</if>
+	</select>
+
+
+
+	<select id="three_list" parameterType="map"
+		resultType="xh.mybatis.bean.FaultThreeBean" useCache="true">
+		select * from xhgmnet_operations_fault_three where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(time,'%Y-%m')=#{time}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+	<update id="three_update" parameterType="xh.mybatis.bean.FaultThreeBean">
+		update xhgmnet_operations_fault_three set
+		fault_from=#{fault_from},reason=#{reason},content=#{content},
+		faultHandlePerson=#{faultHandlePerson},faultRecordPerson=#{faultRecordPerson}
+		where id=#{id}
+	</update>
+	<select id="one_count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(1) from xhgmnet_operations_fault_three where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(time,'%Y-%m')=#{time}
+		</if>
+	</select>
+
+
+	<select id="four_list" parameterType="map"
+		resultType="xh.mybatis.bean.FaultFourBean" useCache="true">
+		select * from xhgmnet_operations_fault_four where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(produce_time,'%Y-%m')=#{time}
+		</if>
+		order by id asc limit #{start},#{limit}
+	</select>
+	<insert id="four_add" parameterType="xh.mybatis.bean.FaultFourBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into xhgmnet_operations_fault_four(bsId,produce_time,recovery_time,
+		total_time,description,handle_process,handle_result,handle_person,check_person)values(#{bsId},
+		#{produce_time},#{recovery_time},#{total_time},#{description},#{handle_process},
+		#{handle_result},#{handle_person},#{check_person}
+		)
+	</insert>
+	<update id="four_update" parameterType="xh.mybatis.bean.FaultFourBean">
+		update xhgmnet_operations_fault_four set
+		produce_time=#{produce_time},recovery_time=#{recovery_time},
+		total_time=#{total_time},description=#{description},handle_process=#{handle_process},
+		handle_result=#{handle_result},handle_person=#{handle_person},check_person=#{check_person}
+		 where id=#{id}
+	</update>
+	<select id="four_count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(1) from xhgmnet_operations_fault_four where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(produce_time,'%Y-%m')=#{time}
+		</if>
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

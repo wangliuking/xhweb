@@ -271,6 +271,7 @@ public class BsAlarmService {
 			for(int i=0,a=list.size();i<a;i++){
 				BsJiFourBean bean=new BsJiFourBean();
 				bean=list.get(i);
+				bean.setDeviceId("0802");
 				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 				
 				eps=bs_emh_eps(bean);
@@ -551,12 +552,12 @@ public class BsAlarmService {
 		try {
 			list=mapper.bs_ji_four_e4(map);
 			if(list.size()==5){
-				String a=list.get(0)==null?"":list.get(0).get("e4").toString();
-				String b=list.get(1)==null?"":list.get(1).get("e4").toString();
-				String c=list.get(2)==null?"":list.get(2).get("e4").toString();
-				String d=list.get(3)==null?"":list.get(3).get("e4").toString();
-				String e=list.get(4)==null?"":list.get(4).get("e4").toString();
-				if(a==b && b==c && c==d && d==e && !a.equals("")){
+				Double a=list.get(0)==null?0:Double.parseDouble(list.get(0).get("e4").toString());
+				Double b=list.get(1)==null?0:Double.parseDouble(list.get(1).get("e4").toString());
+				Double c=list.get(2)==null?0:Double.parseDouble(list.get(2).get("e4").toString());
+				Double d=list.get(3)==null?0:Double.parseDouble(list.get(3).get("e4").toString());
+				Double e=list.get(4)==null?0:Double.parseDouble(list.get(4).get("e4").toString());
+				if(a==b && b==c && c==d && d==e){
 					tag=true;
 				}
 				

@@ -51,6 +51,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleId = response.roleId;	
+			$scope.userL=response
 		});
 		
 		/*获取申请记录表*/
@@ -108,28 +109,28 @@ xh.load = function() {
 					$scope.user=$scope.userData[0].user;
 				}
 			});
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==0){
+			if($scope.userL.roleType==2 && $scope.checkData.checked==0){
 				$("#checkWin8").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==1){
+			if($scope.userL.roleType==2 && $scope.checkData.checked==1){
 				$("#checkWin1").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==2){
+			if($scope.userL.roleType==2 && $scope.checkData.checked==2){
 				$("#checkWin2").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==3){
+			if($scope.userL.roleType==3 && $scope.checkData.checked==3){
 				$("#checkWin3").modal('show');
 			}
-			if($scope.loginUserRoleId==10003 && $scope.checkData.checked==4){
+			if($scope.userL.roleType==3 && $scope.checkData.checked==4){
 				$("#checkWin4").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==5){
+			if($scope.userL.roleType==2 && $scope.checkData.checked==5){
 				$("#checkWin5").modal('show');
 			}
-			if($scope.loginUserRoleId==10002 && $scope.checkData.checked==6){
+			if($scope.userL.roleType==2 && $scope.checkData.checked==6){
 				$("#checkWin6").modal('show');
 			}
-			if($scope.loginUserRoleId==1000 && $scope.checkData.checked==7){
+			if($scope.userL.roleType>3 && $scope.checkData.checked==7){
 				$("#checkWin7").modal('show');
 			}
 	    };

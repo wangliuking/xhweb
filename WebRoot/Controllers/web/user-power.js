@@ -43,6 +43,15 @@ xh.load = function() {
 				$scope.data = response.items;
 			});
 		};
+		/* 获取用户权限 */
+		$http.get("../../web/loginUserPower").success(
+				function(response) {
+					$scope.up = response;
+		});
+		// 获取登录用户
+		$http.get("../../web/loginUserInfo").success(function(response) {
+			$scope.userL = response;
+		});
 		$scope.save=function(){
 			$.ajax({
 				url : '../../web/user/setuserpower',

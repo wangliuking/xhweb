@@ -21,9 +21,17 @@
 								</tr>
 								<tr>
 									<td style="width:10%;">基站名称</td>
-									<td><input type="text" name="name"></td>
+									<td>
+									<div class="col-lg-4">
+									 <select ng-model="rd"
+                                                class="selectpicker show-tick select-style"
+                                                data-live-search="true" ng-init="rd = portableListData[0]"
+                                                ng-options="x.bsName for x in portableListData">
+                                            </select> <input name="name" ng-model="rd.bsName" ng-show="false">
+                                        </div>
+									</td>
 									<td>基站号</td>
-									<td><input type="text" name="bsId"></td>
+									<td><input type="text" name="bsId" ng-model="rd.Id"></td>
 									<td>基站级别</td>
 									<td><input type="text" name="level"></td>
 									<td>巡检人员</td>

@@ -104,7 +104,7 @@
 										<td ng-if="x.checked==0" class="">等待管理方领导审核</td>
 										<td ng-if="x.checked==1" class="">等待经办人处理</td>
 										<td ng-if="x.checked==2" class="">等待管理方上传故障请求信息</td>
-										<td ng-if="x.checked==3" class="">等待亚光审核</td>
+										<td ng-if="x.checked==3" class="">等待亚光确认</td>
 										<td ng-if="x.checked==4" class="">等待亚光维修故障</td>
 										<td ng-if="x.checked==5" class="">等待管理方审核故障完成信息</td>
 										<td ng-if="x.checked==6" class="">等待管理方记录故障完成信息</td>
@@ -117,15 +117,15 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;详情
 										</a> 
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==0 && up.b_check_fault=='on'"
+										<a ng-if="userL.roleType==2 && x.checked==0 && up.b_check_fault=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核</a>
 												
-											<a ng-if="loginUserRoleId==10002 && x.checked==2 && loginUser == x.checkUser"
+											<a ng-if="userL.roleType==2 && x.checked==2 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传上传故障请求记录</a>
 											
-										<a ng-if="loginUserRoleId==10003 && x.checked==3 && up.b_check_fault=='on'"
+										<a ng-if="userL.roleType==3 && x.checked==3 && up.b_check_fault=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认收到通知</a>	
 									
@@ -133,20 +133,20 @@
 												
 												
 												
-									 <a ng-if="loginUser == x.user2 && loginUserRoleId==10003 && x.checked==4 && up.b_check_fault=='on'"
+									 <a ng-if="loginUser == x.user2 && userL.roleType==3 && x.checked==4 && up.b_check_fault=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传故障处理报告</a>
 												
 												
-									<a ng-if="loginUserRoleId==10002 && x.checked==5 && loginUser == x.checkUser"
+									<a ng-if="userL.roleType==2 && x.checked==5 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;故障处理报告</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核故障处理报告</a>
 									
-									<a ng-if="loginUserRoleId==10002 && x.checked==6 && loginUser == x.checkUser"
+									<a ng-if="userL.roleType==2 && x.checked==6 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;记录故障信息</a>
 
-										<a ng-if="loginUserRoleId==10002 && x.checked==1 && loginUser == x.checkUser"
+										<a ng-if="userL.roleType==2 && x.checked==1 && loginUser == x.checkUser"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;处理</a>
 										

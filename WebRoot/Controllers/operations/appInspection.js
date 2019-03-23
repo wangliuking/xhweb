@@ -72,10 +72,24 @@ xh.load = function() {
 				$scope.dData = response.items;
 			});
 		};
-		
-		$scope.select=function(index){
-			alert(index);
-		}
+		$scope.repeater_list=function(){	
+			$http.get("../../app/repeater_list").
+			success(function(response){
+				$scope.repeaterListData = response.items;
+			});
+		};
+		$scope.room_list=function(){	
+			$http.get("../../app/room_list").
+			success(function(response){
+				$scope.roomListData = response.items;
+			});
+		};
+		$scope.portable_list=function(){	
+			$http.get("../../app/portable_list").
+			success(function(response){
+				$scope.portableListData = response.items;
+			});
+		};
 		
 	/*	获取移动基站巡检表信息
 		$scope.mbs=function(){	
@@ -1655,6 +1669,9 @@ xh.load = function() {
 		};
 		$scope.msc_add_win_text();
 		$scope.dispatchlist();
+		$scope.repeater_list();
+		$scope.room_list();
+		$scope.portable_list();
 		//$scope.dispatch_add_win_text();
 	});
 };
@@ -2528,11 +2545,11 @@ xh.printExists=function() {
 	
     
 };
-xh.print_mbs=function() {
+xh.print_msc=function() {
 	var LODOP = getLodop();
-	LODOP.PRINT_INIT("移动基站巡检");
+	LODOP.PRINT_INIT("交换中心巡检");
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
-	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_mbs").innerHTML);
+	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_msc").innerHTML);
 	 LODOP.PREVIEW();  	
 };
 xh.print_sbs=function() {

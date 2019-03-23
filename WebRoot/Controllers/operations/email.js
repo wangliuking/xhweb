@@ -146,9 +146,10 @@ xh.load = function() {
 			
 		};
 		//邮件连接跳转
-		$scope.tolocation=function(title){
+		$scope.tolocation=function(id){
 			var url="";
-			switch(title){
+			$scope.editData = $scope.data[id];
+			switch($scope.editData.title){
 			case "资产状态变更":
 				url="../business/asset-update-status.html";
 			    break;
@@ -204,12 +205,17 @@ xh.load = function() {
 				url="../operations/order.html";
 			    break;
 			case "提交报告":
-				url="../operations/eventReport.html";
+				url="../operations/reportCheck.html";
+			    break;
+			case "业务变更申请":
+				url="../business/devicemanage.html";
 			    break;
 			default:
 				url="email.html";
 				
 			}
+			
+			$scope.setReaded($scope.editData.id);
 			window.location.href=url;
 		}
 	});

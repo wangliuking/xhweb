@@ -22,9 +22,9 @@ var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
 	var app = angular.module("app", []);
 	var fileType = $("#fileType").val();
-	var filename = $("#filename").val();
-	var contact = $("#contact").val();
+	var time = $("#time").val();
 	var status = $("#status").val();
+	
 	
 	var pageSize = $("#page-limit").val();
 
@@ -47,6 +47,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
 		$scope.page=1;
+		$scope.time=xh.dateNowFormat("month");
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -60,8 +61,7 @@ xh.load = function() {
 			$scope.roleType=response.roleType;
 		});
 		$http.get(
-				"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
-						+ contact + "&status=" + status + ""
+				"../../eventReport/list?fileType="+fileType+"&time=" + $scope.time + "" + "&status=" + status + ""
 						+ "&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
@@ -131,8 +131,7 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var filename = $("#filename").val();
-			var contact = $("#contact").val();
+			var time = $("#time").val();
 			var status = $("#status").val();
 			var fileType = $("#fileType").val();
 			var start = 1, limit = pageSize;
@@ -147,8 +146,7 @@ xh.load = function() {
 			console.log("limit=" +$scope.page);
 			xh.maskShow();
 			$http.get(
-					"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
-							+ contact + "&status=" + status + ""
+					"../../eventReport/list?fileType="+fileType+"&time=" + time + "" + "&status=" + status + ""
 							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.page=page;
@@ -160,8 +158,7 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var filename = $("#filename").val();
-			var contact = $("#contact").val();
+			var time = $("#time").val();
 			var status = $("#status").val();
 			var fileType = $("#fileType").val();
 			var start = 1, limit = pageSize;
@@ -173,8 +170,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../eventReport/list?fileType="+fileType+"&filename=" + filename + "" + "&contact="
-							+ contact + "&status=" + status + ""
+					"../../eventReport/list?fileType="+fileType+"&time=" + time + "" + "&status=" + status + ""
 							+ "&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

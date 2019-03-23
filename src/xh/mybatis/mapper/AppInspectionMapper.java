@@ -14,6 +14,12 @@ import xh.mybatis.bean.InspectionVerticalBean;
 
 public interface AppInspectionMapper {
 	
+	public List<Map<String,Object>> repeater_list()throws Exception;
+	
+	public List<Map<String,Object>> room_list()throws Exception;
+	
+	public List<Map<String,Object>> portable_list()throws Exception;
+	
 	/*<!--查询800M移动基站巡检表-->*/
 	public List<InspectionMbsBean> mbsinfo(Map<String,Object> map)throws Exception;
 	
