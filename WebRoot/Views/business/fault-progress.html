@@ -125,7 +125,7 @@
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<div class="cd-timeline-block" ng-if="progressData.faultType==1">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<2"></div>
 								<div class="cd-timeline-img cd-green"
@@ -142,7 +142,7 @@
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<div class="cd-timeline-block" ng-if="progressData.faultType==1">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<3"></div>
 								<div class="cd-timeline-img cd-green"
@@ -165,7 +165,7 @@
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<div class="cd-timeline-block" ng-if="progressData.faultType==1">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<4"></div>
 								<div class="cd-timeline-img cd-green"
@@ -187,7 +187,7 @@
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<div class="cd-timeline-block" ng-if="progressData.faultType==1">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<5"></div>
 								<div class="cd-timeline-img cd-green"
@@ -206,7 +206,7 @@
 										时间：{{progressData.time3}}</span>
 								</div>
 							</div>
-							<div class="cd-timeline-block">
+							<div class="cd-timeline-block" >
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<6"></div>
 								<div class="cd-timeline-img cd-green"

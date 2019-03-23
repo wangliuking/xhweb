@@ -138,7 +138,16 @@
 	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
-		fields : {}
+		fields : {
+			time : {
+				trigger:'change',
+                validators : {
+                    notEmpty : {
+                        message : 'Please enter a value'
+                    }
+                }
+            }
+		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
 		$("#add_btn").button('loading');
