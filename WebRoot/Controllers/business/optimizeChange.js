@@ -50,7 +50,8 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleType = response.roleType;	
+			$scope.loginUserRoleType = response.roleType;
+			$scope.roleId = response.roleId;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -113,7 +114,6 @@ xh.load = function() {
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
-			//$http.get("../../web/user/userlist10002").
 			$http.get("../../web/user/getUserList?roleId=10003").
 			success(function(response){
 				$scope.userData = response.items;
@@ -121,25 +121,31 @@ xh.load = function() {
 				if($scope.userTotals>0){
 					$scope.user=$scope.userData[0].user;
 				}
+
+				console.log($scope.checkData);
+
+                if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
+                    $("#checkWin1").modal('show');
+                }
+                if($scope.loginUserRoleType==3 && $scope.checkData.checked==1){
+                    $("#checkWin2").modal('show');
+                }
+                if($scope.loginUserRoleType==2 && $scope.checkData.checked==2){
+                    $("#checkWin3").modal('show');
+                }
+                if($scope.loginUserRoleType==3 && $scope.checkData.checked==3){
+                    $("#checkWin4").modal('show');
+                }
+                if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
+                    $("#checkWin5").modal('show');
+                }
+                if($scope.loginUserRoleType==3 && $scope.checkData.checked==5){
+                    $("#checkWin6").modal('show');
+                }
+
 			});
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==0){
-				$("#checkWin1").modal('show');
-			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==1){
-				$("#checkWin2").modal('show');
-			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==2){
-				$("#checkWin3").modal('show');
-			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==3){
-				$("#checkWin4").modal('show');
-			}
-			if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
-				$("#checkWin5").modal('show');
-			}
-            if($scope.loginUserRoleType==3 && $scope.checkData.checked==4){
-                $("#checkWin6").modal('show');
-            }
+			//console.log($scope.checkData);
+
 
 	    };
 		/* 显示修改model */

@@ -65,7 +65,7 @@
 						<div class="panel-body">
 						<div class="btn-group" ng-model="loginUserRoleId">
 							
-									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3">
+									<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"  ng-if="loginUserRoleType == 3 && roleId == 302">
 										<i class="fa fa-plus-circle"></i>&nbsp;优化整改
 									</button>			
 									
@@ -108,32 +108,31 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==0"
+										<a ng-if="loginUserRoleType==3 && x.checked==0 && up.o_check_netoptimize == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核整改申请表</a>
 												
-									    <a ng-if="loginUserRoleType==3 && x.checked==1"
+									    <a ng-if="loginUserRoleType==3 && x.checked==1 && up.o_check_netoptimize == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方负责人发起审批</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==2"
+										<a ng-if="loginUserRoleType==2 && x.checked==2 && up.o_check_netoptimize == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审批优化整改方案</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==3"
+										<a ng-if="loginUserRoleType==3 && x.checked==3 && up.o_check_netoptimize == 'on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知抢修组进行整改</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==4"
+										<a ng-if="loginUserRoleType==3 && x.checked==4 && roleId == 302"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;抢修组开始整改</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==5"
+										<a ng-if="loginUserRoleType==3 && x.checked==5 && roleId == 302"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交整改报告</a>
 
-										<a ng-if="loginUserRoleType==3"
-											   href="#" ng-click="sheetShow($index)">|<i
+										<a href="#" ng-click="sheetShow($index)">|<i
 													class="fa fa-send-o text-waring"></i>&nbsp;查看表格</a>
 										
 

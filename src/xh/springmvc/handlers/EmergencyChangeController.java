@@ -153,13 +153,27 @@ public class EmergencyChangeController {
         this.success = true;
         String emergencyGroupId = request.getParameter("emergencyGroupId");
         String emergencyGroupName = request.getParameter("emergencyGroupName");
-        Map<String,Object> map = new HashMap<String,Object>();
+        /*Map<String,Object> map = new HashMap<String,Object>();
         map.put("roleId",emergencyGroupId);
         map.put("role",emergencyGroupName);
         map.put("roleType",3);
-        map.put("createTime",FunUtil.nowDate());
+        map.put("createTime",FunUtil.nowDate());*/
 
-        int res = EmergencyChangeService.createEmergencyGroup(map);
+        //int res = EmergencyChangeService.createEmergencyGroup(map);
+
+        WebRoleController webRoleController = new WebRoleController();
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("role",emergencyGroupName);
+        param.put("roleId",emergencyGroupId);
+        param.put("roleType",3);
+        param.put("parentRoleId","10003");
+        param.put("loginUser",funUtil.loginUser(request));
+        param.put("loginIp",funUtil.getIpAddr(request));
+        Map<String,Object> resultObj = webRoleController.CreateRole(param);
+        int res = 0;
+        if("添加角色成功".equals(resultObj.get("message"))){
+            res = 1;
+        }
         if(res>0){
             int id = funUtil.StringToInt(request.getParameter("id"));
             //int checked = funUtil.StringToInt(request.getParameter("checked"));
@@ -220,7 +234,7 @@ public class EmergencyChangeController {
         this.message = "已通知"+prepareEmergencyGroupId+"演练组准备演练";
         if (rst == 1) {
             //通知演练组进行演练
-            FunUtil.sendMsgToUserByGroupPower("r_emergency",3,"应急演练","演练组准备进行应急演练",request);
+            FunUtil.sendMsgToUserByGroupPower("r_emergency",3,"应急演练",prepareEmergencyGroupId+"演练组准备进行应急演练",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);

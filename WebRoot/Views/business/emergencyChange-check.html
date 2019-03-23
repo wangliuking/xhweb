@@ -29,7 +29,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>请输入创建演练组的编号</label>&nbsp;<span class="text-danger">[*]</span>
-								<input  type="text" value="" class="form-control" name="emergencyGroupId" id="emergencyGroupId"
+								<input  type="text" value="" class="form-control" name="emergencyGroupId" id="emergencyGroupId" placeholder="501"
 										required="required" >
 							</div>
 						</div>
@@ -89,7 +89,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>演练组编号</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="prepareEmergencyGroupId" id="prepareEmergencyGroupId"
+									type="text" ng-value="checkData.emergencyGroupId" class="form-control" name="prepareEmergencyGroupId" id="prepareEmergencyGroupId"
 									required="required">
 							</div>
 						</div>
@@ -143,7 +143,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>实施演练组编号</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="preparedEmergencyGroupId" id="preparedEmergencyGroupId"
+									type="text" ng-value="checkData.emergencyGroupId" class="form-control" name="preparedEmergencyGroupId" id="preparedEmergencyGroupId"
 									required="required">
 							</div>
 						</div>
@@ -313,6 +313,10 @@
 		$('#checkForm4').submit();
 	});
 	$("#check_btn5").click(function() {
+        if ($("input[name='result']").val() != 1) {
+            alert("请先上传文件！");
+            return false;
+        }
 		$('#checkForm5').submit();
 	});
 	var faIcon = {

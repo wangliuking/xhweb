@@ -51,7 +51,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleType = response.roleType;
-			$scope.roleId = response;
+			$scope.roleId = response.roleId;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
