@@ -13,22 +13,22 @@
         ,b.unitType as initType1
         ,b.userType as userType1
         from xhgmnet_bs_emergencyChange as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
-        <choose>
+        <!--<choose>
         <when test="roleId &lt; 10000">
          and a.userName=#{user}
-        </when>    
-        </choose>
+        </when>
+        </choose>-->
 
         order by id desc limit #{start},#{limit}
     </select>
     <!--查询申请所有记录总数 -->
     <select id="dataCount" parameterType="map" resultType="int" useCache="true">
         select count(id) from xhgmnet_bs_emergencyChange where 1=1
-        <choose>
+        <!--<choose>
         <when test="roleId &lt; 10000">
          and userName=#{user}
-        </when>   
-        </choose>
+        </when>
+        </choose>-->
     </select>
     <!--查询申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"

@@ -114,15 +114,15 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知演练组进行演练</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==2 && roleId == emergencyGroupId"
+										<a ng-if="loginUserRoleType==3 && x.checked==2 && roleId == x.emergencyGroupId"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;实施演练</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==3 && roleId == emergencyGroupId"
+										<a ng-if="loginUserRoleType==3 && x.checked==3 && roleId == x.emergencyGroupId"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交工作总结</a>
 
-										<a ng-if="loginUserRoleType==3 && x.checked==4 && up.o_check_emergency == 'on'"
+										<a ng-if="loginUserRoleType==3 && x.checked==4 && up.o_check_emergency == 'on' && roleId != x.emergencyGroupId"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;向管理方发起报告</a>
 

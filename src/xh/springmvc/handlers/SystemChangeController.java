@@ -402,13 +402,25 @@ public class SystemChangeController {
         //创建实施组
         String ImplId = request.getParameter("ImplId");
         String ImplName = request.getParameter("ImplName");
-        Map<String,Object> map = new HashMap<String,Object>();
+        /*Map<String,Object> map = new HashMap<String,Object>();
         map.put("roleId",ImplId);
         map.put("role",ImplName);
         map.put("roleType",3);
-        map.put("createTime",FunUtil.nowDate());
-
-        int res = SystemChangeService.createSystemGroup(map);
+        map.put("createTime",FunUtil.nowDate());*/
+        WebRoleController webRoleController = new WebRoleController();
+        Map<String,Object> param = new HashMap<String,Object>();
+        param.put("role",ImplName);
+        param.put("roleId",ImplId);
+        param.put("roleType",3);
+        param.put("parentRoleId","10003");
+        param.put("loginUser",funUtil.loginUser(request));
+        param.put("loginIp",funUtil.getIpAddr(request));
+        Map<String,Object> resultObj = webRoleController.CreateRole(param);
+        //int res = SystemChangeService.createSystemGroup(map);
+        int res = 0;
+        if("添加角色成功".equals(resultObj.get("message"))){
+            res = 1;
+        }
         int rst = 0;
         if(res>0){
             int id = funUtil.StringToInt(request.getParameter("id"));

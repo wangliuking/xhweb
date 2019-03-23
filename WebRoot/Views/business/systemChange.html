@@ -162,11 +162,11 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行系统升级</a>
 										
-										<a ng-if="x.checked==6 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
+										<a ng-if="x.checked==6 && up.o_check_system_up == 'on' && roleId == x.ImplId && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;反馈升级结果</a>
 
-										<a ng-if="x.checked==7 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
+										<a ng-if="x.checked==7 && up.o_check_system_up == 'on' && roleId == x.ImplId && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交工作记录</a>
 

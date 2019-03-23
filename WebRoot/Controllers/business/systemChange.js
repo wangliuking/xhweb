@@ -50,8 +50,9 @@ xh.load = function() {
 		success(function(response){
 			xh.maskHide();
 			$scope.loginUser = response.user;
-			$scope.loginUserRoleType = response.roleType;	
-		});
+			$scope.loginUserRoleType = response.roleType;
+            $scope.roleId = response.roleId;
+        });
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -85,15 +86,17 @@ xh.load = function() {
 
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
-			$scope.editData = $scope.data[id];
-			$scope.checkData=$scope.editData;
-			/*$http.get("../../net/applyProgress?id="+$scope.editData.id).
-			success(function(response){
-				$scope.progressData = response.items;
-				
-			});*/
-			$scope.progressData=$scope.editData;
-			$("#progress").modal('show');
+
+            var temp = $scope.data[id];
+            var sheetId = temp.id;
+            $http.get("../../systemChange/sheetShow?id="+sheetId).success(function (response) {
+                $scope.sheetData = response.items;
+                $scope.editData = $scope.data[id];
+                $scope.checkData=$scope.editData;
+                $scope.progressData=$scope.editData;
+                $("#progress").modal('show');
+            });
+
 	    };
 	    /*是否需要整改*/
 		// $scope.dropnetChange=function(){
@@ -295,7 +298,7 @@ xh.load = function() {
 /*修改系统升级表格*/
 xh.sheetChange = function() {
     var bean={
-        "id":$("div[name='id']").text(),
+        "id":$("#sheetTempId").val(),
         systemChangeStartTime:$("div[name='systemChangeStartTime']").text(),
         systemChangeExcTime:$("div[name='systemChangeExcTime']").text(),
         systemChangeType:$("input[name='systemChangeType']:checked").val(),
