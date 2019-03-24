@@ -30,6 +30,7 @@ import xh.mybatis.bean.OperationsCheckScoreBean;
 import xh.mybatis.bean.ScoreBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.OperationsCheckService;
+import xh.mybatis.service.WebLogService;
 
 
 @Controller
@@ -210,6 +211,12 @@ public class OperationsCheckController {
 			this.message="提交申请成功";
 			OperationsCheckService.addScore(score);
 			OperationsCheckService.addDetail(money);
+			webLogBean.setOperator(FunUtil.loginUser(request));
+			webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
+			webLogBean.setStyle(1);
+			webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
+			WebLogService.writeLog(webLogBean);
+			FunUtil.sendMsgToUserByGroupPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了核减申请，请查收", request);	
 		}else{
 			this.success=false;
 			this.message="提交申请失败";
@@ -245,7 +252,7 @@ public class OperationsCheckController {
 		if(rst>=1){
 			this.success=true;
 			this.message="审核信息成功";
-			FunUtil.sendMsgToOneUser(user, "考核", "管理部门已经审核你提交的考核申请信息", request);
+			FunUtil.sendMsgToOneUser(user, "运维考核", "管理部门已经审核你提交的考核申请信息", request);
 		}else{
 			this.success=false;
 			this.message="审核信息失败";
@@ -283,7 +290,7 @@ public class OperationsCheckController {
 		if(rst>=1){
 			this.success=true;
 			this.message="填写记录成功";
-			FunUtil.sendMsgToOneUser(user, "考核", "管理部门已经填写了考核记录，请确认", request);
+			FunUtil.sendMsgToOneUser(user, "运维考核", "管理部门已经填写了考核记录，请确认", request);
 		}else{
 			this.success=false;
 			this.message="填写记录失败";
@@ -313,7 +320,7 @@ public class OperationsCheckController {
 		if(rst>=1){
 			this.success=true;
 			this.message="确认成功";
-			FunUtil.sendMsgToOneUser(user, "考核", "服务方确认了考核结果", request);
+			FunUtil.sendMsgToOneUser(user, "运维考核", "服务方确认了考核结果", request);
 		}else{
 			this.success=false;
 			this.message="确认失败";

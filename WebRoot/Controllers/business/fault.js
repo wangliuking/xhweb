@@ -599,6 +599,8 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 };
 
+
+
 /*$http({
 method : "POST",
 url : "../../bs/list",

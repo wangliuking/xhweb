@@ -210,6 +210,21 @@ xh.load = function() {
 			case "业务变更申请":
 				url="../business/devicemanage.html";
 			    break;
+			case "系统升级":
+				url="../business/systemChange.html";
+			    break;
+			case "应急演练":
+				url="../business/emergencyChange.html";
+			    break;
+			case "核减流程":
+				url="../business/checkCut.html";
+			    break;
+			case "优化整改":
+				url="../business/optimizeChange.html";
+			    break;
+			case "运维考核":
+				url="../business/operations_check.html";
+			    break;
 			default:
 				url="email.html";
 				

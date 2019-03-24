@@ -691,3 +691,6 @@ xh.dateNowFormat=function(tag){
 			return h+"-"+m+"-"+d;
 		}
 }
+xh.validatorTime=function(obj,time) {
+	$("#"+obj).data("bootstrapValidator").updateStatus(time,"NOT_VALIDATED", null).validateField(time);
+}
