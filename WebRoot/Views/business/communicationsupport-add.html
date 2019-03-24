@@ -48,13 +48,13 @@
 							<div class="form-group col-md-12">
 								<label>保障开始时间</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="supportTime"
-									required="required" onfocus="WdatePicker()">
+									required="required" onfocus="WdatePicker({onpicked:xh.validatorTime('addForm','supportTime')})">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>保障结束时间</label>&nbsp;<span class="text-danger">[*]</span><span class="text-danger"></span><input type="text" value="" class="form-control" name="endTime"
-									required="required" onfocus="WdatePicker()">
+									required="required" onfocus="WdatePicker({onpicked:xh.validatorTime('addForm','endTime')})">
 							</div>
 						</div>
 					</div>

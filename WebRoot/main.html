@@ -145,6 +145,8 @@ marquee {
 									服务监管</a></li>
 							<li ng-show="menu.m_13"><a
 								href="Views/operations/appInspection.html" target="mainframe">运维巡检</a></li>
+							<li ng-if="roleType==3 || roleType==0"><a href="Views/operations/user_need.html"
+                                target="mainframe">用户需求处理</a></li>
 							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
 								target="mainframe">统计分析</a></li>
 							<li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
@@ -275,26 +277,17 @@ marquee {
 							class="btn btn-default dropdown-toggle info-number"> <i
 								class="fa fa-bell-o"></i> <span class="badge"></span> <span>派单列表</span>
 						</a></li> -->
-
-						<li><a href="Views/operations/email.html" target="mainframe"
+                       <li  ng-if="roleType==0 || roleType==3"><a href="Views/operations/sendsms.html" target="mainframe"
+                            class="btn btn-default dropdown-toggle info-number"
+                            > <img alt="" src="Resources/images/icon/32/sms.png">  <span>发送短信</span>
+                        </a>
+                        </li>
+						<li ><a href="Views/operations/email.html" target="mainframe"
 							class="btn btn-default dropdown-toggle info-number"
-							> <img alt="" src="Resources/images/icon/32/sms.png"> <span
+							> <img alt="" src="Resources/images/icon/32/email.png"> <span
 								class="badge">{{email}}</span> <span>站内信</span>
 						</a>
-							<!-- <div class="dropdown-menu dropdown-menu-head pull-right">
-								<h5 class="title">新消息</h5>
-								<ul class="dropdown-list normal-list">
-									<li class="new"><a href="Views/operations/email.html"
-										target="mainframe"> <span class="label label-danger"><i
-												class="fa fa-envelope-o"></i></span> <span>你有新消息，请查收</span>
-									</a></li>
-
-								</ul>
-							</div> --></li>
-						<!-- <li><a href="Views/monitor/event.html" target="mainframe"
-							class="btn btn-default dropdown-toggle info-number"> <i
-								class="fa fa-bell-o"></i> <span class="badge">4</span> <span>待办事项</span>
-						</a></li> -->
+					    </li>
 						<li><a href="#"
 							class="btn btn-default dropdown-toggle info-number"
 							data-toggle="dropdown"> <img alt="" src="Resources/images/icon/32/code.png"> <span

@@ -116,7 +116,7 @@ xh.add = function() {
 					confirmButtonColor : "#DD6B55",
 					confirmButtonText : "提交申请成功，返回申请列表",
 					cancelButtonText : "取消",
-						closeOnCancel : false
+				    closeOnCancel : true
 				/*
 				 * closeOnConfirm : false, closeOnCancel : false
 				 */

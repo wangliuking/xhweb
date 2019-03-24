@@ -176,8 +176,22 @@ xh.check1 = function() {
 			xh.maskHide();
 			if (data.success) {
 				$('#checkWin').modal('hide');
-				toastr.success(data.message, '提示');
-				xh.refresh();
+				swal({
+					title : "提示",
+					text : "录入成功",
+					type : "success",
+					showCancelButton : true,
+					confirmButtonColor : "#DD6B55",
+					confirmButtonText : "录入完成，返回申请列表",
+					cancelButtonText : "继续添加",
+				    closeOnCancel : true
+				}, function(isConfirm) {
+					if (isConfirm) {
+						window.history.back();
+					}
+				});
+				/*toastr.success(data.message, '提示');
+				xh.refresh();*/
 			} else {
 				toastr.error(data.message, '提示');
 			}
