@@ -214,10 +214,10 @@ public class OptimizeChangeController {
         if (rst == 1) {
             if(checked == 1){
                 //运维负责人审核通过，发送通知邮件给运维组
-                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人通过了优化整改申请",request);
+                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","运维负责人通过了优化整改申请",request);
             }else if(checked == -1){
                 //运维负责人审核不通过，发送通知邮件给运维组
-                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人不通过优化整改申请",request);
+                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","运维负责人不通过优化整改申请",request);
             }
         }
 
@@ -264,7 +264,7 @@ public class OptimizeChangeController {
         int rst = OptimizeChangeService.checkedTwo(bean);
         if (rst == 1) {
             //通知管理方负责人
-            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","已提交优化整改申请，请查阅！",request);
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",2,"优化整改","已提交优化整改申请，请查阅！",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -353,7 +353,7 @@ public class OptimizeChangeController {
         int rst = OptimizeChangeService.checkedFour(bean);
         if (rst == 1) {
             //通知抢修组进行整改
-            FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","抢修组准备进行整改",request);
+            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","抢修组准备进行整改",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);

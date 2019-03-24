@@ -234,7 +234,7 @@ public class EmergencyChangeController {
         this.message = "已通知"+prepareEmergencyGroupId+"演练组准备演练";
         if (rst == 1) {
             //通知演练组进行演练
-            FunUtil.sendMsgToUserByGroupPower("r_emergency",3,"应急演练",prepareEmergencyGroupId+"演练组准备进行应急演练",request);
+            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练",prepareEmergencyGroupId+"演练组准备进行应急演练",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);

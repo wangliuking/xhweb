@@ -480,7 +480,7 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedSix(bean);
         if(rst == 1){
             //通知实施组执行系统升级
-            FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级","准备进行系统升级！",request);
+            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","准备进行系统升级！",request);
         }
 
         HashMap result = new HashMap();

@@ -89,6 +89,7 @@ xh.load = function() {
 
             var temp = $scope.data[id];
             var sheetId = temp.id;
+            $scope.sheetNowId = sheetId;
             $http.get("../../systemChange/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
                 $scope.editData = $scope.data[id];
