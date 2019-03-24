@@ -1383,7 +1383,7 @@ function init(data,markData) {
 		var j;
 		var objTemp = [];	
 		for (j = 0; j < data.length; j++) {
-			if(data[j].bsStatus!=0 && data[j].zone!="简阳" && data[j].status!=0){
+			if(data[j].bsStatus!=0 && data[j].status!=0){
 				var x = {
 						name : data[j].name,
 						id : data[j].bsId
@@ -2232,10 +2232,8 @@ function flashMark(data){
 function dataWithoutZero(data){
 	var newData = [];
 	for(var i=0;i<data.length;i++){
-		if(data[i].lat!=0 && data[i].lng!=0){
-			/*if(data[i].status!=0){*/
-				newData.push(data[i]);
-			/*}*/		
+		if(data[i].lat!=0 && data[i].lng!=0 && data[i].status!=0){
+            newData.push(data[i]);
 		}
 	}
 	return newData;

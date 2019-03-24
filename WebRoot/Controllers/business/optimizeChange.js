@@ -105,6 +105,7 @@ xh.load = function() {
         $scope.sheetShow = function(id){
             var temp = $scope.data[id];
             var sheetId = temp.id;
+            $scope.sheetNowId = sheetId;
             $http.get("../../optimizeChange/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
             });
