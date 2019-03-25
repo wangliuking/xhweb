@@ -48,12 +48,12 @@ public class WriteBsFaultListenner implements ServletContextListener {
 
 		if (timer == null) {
 			timer = new Timer();
-			// timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
+			timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
 			timer.scheduleAtFixedRate(new EmhEpsWater(), 25000, 1000*60*2);
-			//timer.scheduleAtFixedRate(new VoiceAlarm(), 15000, 1000*15);
-			//timer.scheduleAtFixedRate(new PullThreeEmh(), 20000, 1000 * 60 * 2);
-			//timer.scheduleAtFixedRate(new VoiceNotCkeck(), 10000,1*60*60*1000);
-			//timer.scheduleAtFixedRate(new VoiceNotOrder(), 10000, 5*60*1000);
+			timer.scheduleAtFixedRate(new VoiceAlarm(), 15000, 1000*15);
+			timer.scheduleAtFixedRate(new PullThreeEmh(), 20000, 1000 * 60 * 2);
+			timer.scheduleAtFixedRate(new VoiceNotCkeck(), 10000,1*60*60*1000);
+			timer.scheduleAtFixedRate(new VoiceNotOrder(), 10000, 5*60*1000);
 		}
 
 	}

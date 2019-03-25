@@ -90,6 +90,18 @@
 									required="required" ng-model="editData.price">
 							</div>
 						</div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label for="starttime">采购时间</label>
+                                <div>
+                                    <input type="text" class="form-control" name="buyTime"
+                                        placeholder="采购时间" 
+                                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','buyTime')})" 
+                                        required="required"
+                                        ng-model="editData.buyTime">
+                                </div>
+                            </div>
+                        </div>
 
 					</div>
 					<!-- row-------end -->

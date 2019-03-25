@@ -60,7 +60,7 @@
 
 										<div class="slDiv">
 											<span id="btnSelect">点击搜索</span>
-											<span id="userid" name="userid" ng-show=false></span>
+											<input id="userid" name="userid" ng-show=false></input>
 											<div class="ulDiv order_man">
 												<ul>
 													<li ng-repeat="x in userData" value="{{x.user}}">{{x.userName}}</li>
@@ -201,7 +201,7 @@
 			  var userid=$(this).attr("value");
 			 
 			  $('.slDiv #btnSelect').text(selTxt); 
-			  $('.slDiv #userid').text(userid); 
+			  $('.slDiv #userid').val(userid); 
 			  $('.ulDiv').removeClass('ulShow');  
 	}); 
 	 $('.slDiv #btnType').on('click',function(){  
@@ -236,27 +236,7 @@
 		excluded : [ ':disabled' ],
 		/* feedbackIcons: faIcon, */
 		fields : {
-			user : {
-				validators : {
-					notEmpty : {
-						message : '用户名不能为空'
-					}
-				}
-			},
-			roleId : {
-				validators : {
-					notEmpty : {
-						message : '角色不能为空'
-					}
-				}
-			},
-			userPass : {
-				validators : {
-					notEmpty : {
-						message : '密码不能为空'
-					}
-				}
-			}
+			
 
 		}
 	}).on('success.form.bv', function(e, data) {
