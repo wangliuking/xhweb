@@ -300,11 +300,9 @@
 												</tr>
 												<tr>
 													<td style="height:40px;width:10%;">升级申请时间</td>
-													<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="systemChangeStartTime"
-																							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">{{sheetData.systemChangeStartTime}}</div></td>
+													<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeStartTime" /></td>
 													<td style="height:40px;width:10%;">升级执行时间</td>
-													<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="systemChangeExcTime"
-																							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">{{sheetData.systemChangeExcTime}}</div></td>
+													<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeExcTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeExcTime" /></td>
 												</tr>
 
 												<tr>
@@ -317,35 +315,31 @@
 												</tr>
 												<tr>
 													<td>版本(旧)</td>
-													<td><div contenteditable="true" class="textarea-div" name="versionOld" >{{sheetData.versionOld}}</div></td>
+													<td><input class="sheetInput" name="versionOld" ng-model="sheetData.versionOld" /></td>
 													<td>版本(新)</td>
-													<td colspan="3"><div contenteditable="true" class="textarea-div" name="versionNew" >{{sheetData.versionNew}}</div></td>
+													<td colspan="3"><input class="sheetInput" name="versionNew" ng-model="sheetData.versionNew" /></td>
 												</tr>
 												<tr>
 													<td>新版解决问题</td>
-													<td colspan="5"><div contenteditable="true"
-																		 class="textarea-div" name="solutionNewVersion" >{{sheetData.solutionNewVersion}}</div></td>
+													<td colspan="5"><input class="sheetInput" name="solutionNewVersion" ng-model="sheetData.solutionNewVersion" /></td>
 												</tr>
 												<tr>
 													<td>升级步骤及结果</td>
-													<td colspan="5"><div contenteditable="true"
-																		 class="textarea-div" name="processAndResult" >{{sheetData.processAndResult}}</div></td>
+													<td colspan="5"><input class="sheetInput" name="processAndResult" ng-model="sheetData.processAndResult" /></td>
 												</tr>
 												<tr>
 													<td>备注</td>
-													<td colspan="5"><div contenteditable="true"
-																		 class="textarea-div" name="systemChangeNote" >{{sheetData.systemChangeNote}}</div></td>
+													<td colspan="5"><input class="sheetInput" name="systemChangeNote" ng-model="sheetData.systemChangeNote" /></td>
 												</tr>
 												<tr>
 													<td>执行人员</td>
-													<td colspan="5"><div contenteditable="true"
-																		 class="textarea-div" name="excPerson" >{{sheetData.excPerson}}</div></td>
+													<td colspan="5"><input class="sheetInput" name="excPerson" ng-model="sheetData.excPerson" /></td>
 												</tr>
 												<tr>
 													<td>监督人</td>
-													<td><div contenteditable="true" class="textarea-div" name="supervisePersion" >{{sheetData.supervisePersion}}</div></td>
+													<td><input class="sheetInput" name="supervisePersion" ng-model="sheetData.supervisePersion" /></td>
 													<td>编号</td>
-													<td colspan="3"><div contenteditable="true" class="textarea-div" name="serialNumber" >{{sheetData.serialNumber}}</div></td>
+													<td colspan="3"><input class="sheetInput" name="serialNumber" ng-model="sheetData.serialNumber" /></td>
 												</tr>
 												</tbody>
 											</table>

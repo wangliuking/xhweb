@@ -34,6 +34,13 @@ public interface EmergencyChangeMapper {
      * @throws Exception
      */
     public int insertEmergencyChange(EmergencyChangeBean bean)throws Exception;
+
+    /**
+     *为演练组增加默认权限
+     *
+     */
+    public int insertDefaultPower(Map<String,Object> param)throws Exception;
+
     /**
      *
      * @param bean

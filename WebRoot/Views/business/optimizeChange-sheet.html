@@ -19,15 +19,14 @@
 								<tr>
 									<td colspan="6" style="text-align: center;">
 									系统升级记录表
-									<div contenteditable="true" class="input-div" name="id" ng-show="false">{{sheetNowId}}</div>
+									<input name="sheetNowId" ng-show="false" ng-model="sheetNowId" />
 									</td>
 								</tr>
 								<tr>
 									<td style="height:40px;width:10%;">时间</td>
-									<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="optimizeChangeTime"
-											 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">{{sheetData.optimizeChangeTime}}</div></td>
+									<td style="height:40px;width:30%;"><input class="sheetInput" name="optimizeChangeTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.optimizeChangeTime" /></td>
 									<td style="height:40px;width:10%;">基站(地点)</td>
-									<td style="height:40px;width:30%;"><div contenteditable="true" class="textarea-div" name="bsAddress">{{sheetData.bsAddress}}</div></td>
+									<td style="height:40px;width:30%;"><input class="sheetInput" name="bsAddress" ng-model="sheetData.bsAddress" /></td>
 								</tr>
 
 								<tr>
@@ -42,24 +41,21 @@
 								</tr>
 								<tr>
 									<td>优化整改原因</td>
-									<td colspan="5"><div contenteditable="true"
-											class="textarea-div" name="optimizeReason" >{{sheetData.optimizeReason}}</div></td>
+									<td colspan="5"><input class="sheetInput" name="optimizeReason" ng-model="sheetData.optimizeReason" /></td>
 								</tr>
 								<tr>
 									<td>优化整改措施及结果</td>
-									<td colspan="5"><div contenteditable="true"
-											class="textarea-div" name="processAndResult" >{{sheetData.processAndResult}}</div></td>
+									<td colspan="5"><input class="sheetInput" name="processAndResult" ng-model="sheetData.processAndResult" /></td>
 								</tr>
 								<tr>
 									<td>备注</td>
-									<td colspan="5"><div contenteditable="true"
-														 class="textarea-div" name="optimizeChangeNote" >{{sheetData.optimizeChangeNote}}</div></td>
+									<td colspan="5"><input class="sheetInput" name="optimizeChangeNote" ng-model="sheetData.optimizeChangeNote" /></td>
 								</tr>
 								<tr>
 									<td>整改人员</td>
-									<td><div contenteditable="true" class="textarea-div" name="excPersion" >{{sheetData.excPersion}}</div></td>
+									<td><input class="sheetInput" name="excPersion" ng-model="sheetData.excPersion" /></td>
 									<td>编号</td>
-									<td colspan="3"><div contenteditable="true" class="textarea-div" name="serialNumber" >{{sheetData.serialNumber}}</div></td>
+									<td colspan="3"><input class="sheetInput" name="serialNumber" ng-model="sheetData.serialNumber" /></td>
 								</tr>
 							</tbody>
 						</table>

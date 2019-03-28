@@ -13,6 +13,12 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+	<style>
+		.sheetInput{
+			border:none;
+			width:100%;
+		}
+	</style>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -97,9 +103,9 @@
 										<td ng-if="x.checked==0" class="td-warning">等待运维负责人审核优化整改申请表</td>
 										<td ng-if="x.checked==1" class="td-warning">运维负责人审核通过，可以对管理方负责人发起审批</td>
 										<td ng-if="x.checked==2" class="td-warning">等待管理方负责人审批优化整改方案</td>
-										<td ng-if="x.checked==3" class="td-warning">管理方负责人审批通过，可以对抢修组通知整改</td>
-										<td ng-if="x.checked==4" class="td-warning">已通知抢修组进行整改</td>
-										<td ng-if="x.checked==5" class="td-warning">抢修组整改中</td>
+										<td ng-if="x.checked==3" class="td-warning">管理方负责人审批通过，可以对运维组通知整改</td>
+										<td ng-if="x.checked==4" class="td-warning">已通知运维组进行整改</td>
+										<td ng-if="x.checked==5" class="td-warning">运维组整改中</td>
 										<td ng-if="x.checked==6" class="td-success">整改完成</td>
 										<td style="text-align:center">
 
@@ -122,11 +128,11 @@
 										
 										<a ng-if="loginUserRoleType==3 && x.checked==3 && up.o_check_netoptimize == 'on'"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知抢修组进行整改</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;通知运维组进行整改</a>
 
 										<a ng-if="loginUserRoleType==3 && x.checked==4 && roleId == 302"
 											href="#" ng-click="checkWin($index)"><i
-												class="fa fa-hand-o-down text-danger"></i>| &nbsp;抢修组开始整改</a>
+												class="fa fa-hand-o-down text-danger"></i>| &nbsp;运维组开始整改</a>
 
 										<a ng-if="loginUserRoleType==3 && x.checked==5 && roleId == 302"
 											   href="#" ng-click="checkWin($index)"><i

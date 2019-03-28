@@ -307,12 +307,41 @@ public class SystemChangeService {
         return bean;
     }
 
+    public static Map<String,Object> selectSystemChangeById(Map<String, Object> param) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        Map<String,Object> res = null;
+        try {
+            res = mapper.selectSystemChangeById(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return res;
+    }
+
     public static int sheetChange(SystemChangeSheet bean){
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
         int result = 0;
         try {
             result = mapper.sheetChange(bean);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    public static int insertDefaultPower(Map<String,Object> param){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        int result = 0;
+        try {
+            result = mapper.insertDefaultPower(param);
             sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();

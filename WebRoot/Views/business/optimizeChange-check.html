@@ -90,14 +90,14 @@
 							<div class="form-group col-md-12">
 								<label>优化整改发起人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="userName"
-									required="required" ng-model="checkData.userName">
+									required="required" ng-model="checkData.userName" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>运维审核负责人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="user2"
-									required="required" ng-model="checkData.user2">
+									required="required" ng-model="checkData.user2" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -239,10 +239,10 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-6">
-								<label>抢修组编号</label>&nbsp;<span class="text-danger">[*]</span>
+								<label>运维组编号</label>&nbsp;<span class="text-danger">[*]</span>
 								<input
-										type="text" value="" class="form-control" name="repairTeamId" id="repairTeamId"
-										required="required">
+										type="text" value="302" class="form-control" name="repairTeamId" id="repairTeamId"
+										required="required" readonly="readonly">
 							</div>
 						</div>
 						<div class="col-md-12">

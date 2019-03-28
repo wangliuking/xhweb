@@ -45,6 +45,10 @@ public interface SystemChangeMapper {
 
     public SystemChangeSheet sheetShow(Map<String,Object> param)throws Exception;
 
+    public Map<String,Object> selectSystemChangeById(Map<String,Object> param)throws Exception;
+
     public int sheetChange(SystemChangeSheet bean)throws  Exception;
+
+    public int insertDefaultPower(Map<String,Object> param)throws  Exception;
 
 }

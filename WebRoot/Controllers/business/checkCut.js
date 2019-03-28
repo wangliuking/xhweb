@@ -55,6 +55,18 @@ xh.load = function() {
 			}
         };
     });
+
+    app.filter('changePeriod', function() { //可以注入依赖
+        return function(text) {
+            if("成都市应急调度指挥无线通信网4期项目部" == text){
+            	return "成都市应急调度指挥无线通信网四期项目部";
+			}else if("成都市应急调度指挥无线通信网3期项目部" == text){
+                return "成都市应急调度指挥无线通信网三期项目部";
+            }else{
+            	return text;
+			}
+        };
+    });
 	
 	var pageSize = $("#page-limit").val();
     app.config(['$locationProvider', function ($locationProvider) {

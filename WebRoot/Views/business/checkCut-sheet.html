@@ -87,9 +87,9 @@
                                 <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
                                     colspan="6">
                                     <div ng-if="roleId==301" contenteditable="true" style="height: 30px;width:300px;float: right;"
-                                          name="period">{{sheetData.period}}</div>
+                                          name="period">{{sheetData.period | changePeriod}}</div>
                                     <div ng-if="roleId!=301" contenteditable="false" style="height: 30px;width:300px;float: right;"
-                                         name="period">{{sheetData.period}}</div>
+                                         name="period">{{sheetData.period | changePeriod}}</div>
                                 </td>
                             </tr>
                             <tr>
@@ -194,7 +194,7 @@
                         <tr>
                             <td style="height:30px;width:auto;border-top: none;border-bottom: none;"
                                 colspan="6">
-                                <div  style="height: 30px;width:300px;float: right;">{{sheetData.period}}</div>
+                                <div  style="height: 30px;width:300px;float: right;">{{sheetData.period | changePeriod}}</div>
                             </td>
                         </tr>
                         <tr>
