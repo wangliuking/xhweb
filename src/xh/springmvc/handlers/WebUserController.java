@@ -36,6 +36,7 @@ import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserRoleService;
 import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
+import xh.redis.server.UserRedis;
 
 @Controller
 @RequestMapping("/web")
@@ -546,7 +547,9 @@ public class WebUserController {
 	                Object key = entry.getKey();  
 	                Object val = entry.getValue();  
 	                if (((String) val).equals(bean.getUser())) {  
-	                	SingLoginListener.getLogUserMap().remove(key);  
+	                	SingLoginListener.getLogUserMap().remove(key);
+	                	UserRedis.delSession(request.getSession().getId());
+	                	
 	                }  
 	            }  
 			message="设置用户权限成功";

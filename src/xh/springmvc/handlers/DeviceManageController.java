@@ -131,7 +131,7 @@ public class DeviceManageController {
             log.info("发送邮件");
 
             //----发送通知邮件
-            sendNotifytoGroup("b_check_businesschange",10002, "业务变更申请信息，["+bean.getRequest()+"]请审核!", request);
+            FunUtil.sendMsgToUserByPower("b_check_businesschange",2, "业务变更申请","业务变更申请信息，["+bean.getRequest()+"]请审核!", request);
             //----END
         } else {
             this.message = "业务变更申请信息提交失败";
@@ -186,7 +186,11 @@ public class DeviceManageController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotifytoSingle(user, "业务变更申请，请及时处理处理!", request);
+            if(checked==1){
+            	sendNotifytoSingle(user, "业务变更申请，请及时处理处理!", request);
+            }else{
+            	sendNotifytoSingle(user, "你提交的业务变更申请，被拒绝了！", request);
+            }
             //----END
         } else {
             this.message = "审核提交失败";

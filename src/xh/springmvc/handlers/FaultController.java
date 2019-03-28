@@ -290,7 +290,11 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "服务管理方请重新处理故障。。。", request);
+			if(checked==6){
+				sendNotifytoSingle(user, "你的故障处理报告已经审核通过，请等待管理方记录故障记录", request);
+			}else{
+				sendNotifytoSingle(user, "故障处理报告审核未通过，请重新上传", request);
+			}
 			//----END
 		} else {
 			this.message = "通知服务管理方处理失败";
@@ -423,6 +427,7 @@ public class FaultController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String user = request.getParameter("user");
+		String person = request.getParameter("person");
 		FaultBean bean = new FaultBean();
 		bean.setId(id);
 		bean.setChecked(checked);
@@ -439,7 +444,12 @@ public class FaultController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "用户提交了故障申请信息，请尽快做出相应处理", request);
+			if(checked==-1){
+				sendNotifytoSingle(person, "你提交的故障申报申请被拒绝了", request);
+			}else{
+				sendNotifytoSingle(user, "用户提交了故障申请信息，请尽快做出相应处理", request);
+			}
+			
 			//----END
 		} else {
 			this.message = "故障申报审核失败";

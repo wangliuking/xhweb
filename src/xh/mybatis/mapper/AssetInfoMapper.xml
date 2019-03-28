@@ -48,7 +48,7 @@
 		<if test="applyTag!=null and applyTag!=''">
 			and applyTag=#{applyTag}
 		</if>
-		order by createTime desc limit #{start},#{limit}
+		order by id desc limit #{start},#{limit}
 	</select>
 	<select id="assetInfoByserialNumberExists" parameterType="String"
 		resultType="int" useCache="true">

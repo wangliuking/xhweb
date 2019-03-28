@@ -316,7 +316,7 @@ xh.check1 = function() {
 
 /*管理方上传*/
 xh.check2 = function() {
-	if (parseInt($("#checkForm2").find("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm2").find("input[name='result']").val()) != 1) {
 		toastr.error("你还没有上传文件", '提示');
 		return;
 	}
@@ -329,7 +329,7 @@ xh.check2 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				$("#checkForm2")[0].reset();
+				$("#checkForm2").find("input[name='result']").val("")
 				$("#checkForm2").find("#uploadResult_Request").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -354,7 +354,7 @@ xh.check3 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
-				$("#checkForm3")[0].reset();
+				$("#checkForm3").find("textarea[name='note2']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -368,7 +368,7 @@ xh.check3 = function() {
 };
 /*服务方上传*/
 xh.check4 = function() {
-	if (parseInt($("#checkForm4").find("input[name='result']").val()) !== 1) {
+	if (parseInt($("#checkForm4").find("input[name='result']").val()) !=1) {
 		toastr.error("你还没有上传文件", '提示');
 		return;
 	}
@@ -381,7 +381,7 @@ xh.check4 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				$("#checkForm4")[0].reset();
+				$("#checkForm4").find("input[name='result']").val("");
 				$("#checkForm4").find("#uploadResult_Finish").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -405,7 +405,8 @@ xh.check5 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
-				$("#checkForm5")[0].reset();
+				$("#checkForm5").find("textarea[name='note3']").val("");
+				//$("#checkForm5")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -429,7 +430,7 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
-				$("#checkForm6")[0].reset();
+				$("#checkForm6").find("textarea[name='note4']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

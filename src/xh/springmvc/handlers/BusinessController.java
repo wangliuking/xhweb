@@ -1108,7 +1108,11 @@ public class BusinessController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核新增资产申请");
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToOneUser(user, "新增资产", "领导已经审核你提交的申请", request);
+			if(checked==0){
+				FunUtil.sendMsgToOneUser(user, "新增资产", "你的新增资产申请已经被拒绝了：("+comment+")", request);
+			}else{
+				FunUtil.sendMsgToOneUser(user, "新增资产", "你的新增资产申请已经通过，请将资产录入系统", request);
+			}
 
 		} else {
 			this.success = false;
@@ -1338,8 +1342,7 @@ public class BusinessController {
 							bean.setPrice(rs.getCell(j++, i).getContents());
 							bean.setProName(rs.getCell(j++, i).getContents());
 							
-							bean.setFrom(asset_from(rs.getCell(j++, i)
-									.getContents()));
+							bean.setFrom(asset_from(rs.getCell(j++, i).getContents()));
 							bean.setBuyTime(rs.getCell(j++, i).getContents());
 							
 							bean.setStatus(asset_status(rs.getCell(j++, i)
@@ -1349,6 +1352,7 @@ public class BusinessController {
 							bean.setIsLock(1);
 							bean.setAddUser(FunUtil.loginUser(request));
 							list.add(bean);
+							log.info(bean.toString());
 							/*System.out.println(bean);*/
 						}
 
@@ -1537,7 +1541,11 @@ public class BusinessController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核报废资产申请");
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToOneUser(user, "报废资产", "领导已经审核你提交的申请", request);
+			if(checked==0){
+				FunUtil.sendMsgToOneUser(user, "报废资产", "你提交的报废资产申请审核未通过："+comment, request);
+			}else{
+				FunUtil.sendMsgToOneUser(user, "报废资产", "你提交的报废资产申请审核已通过", request);
+			}
 
 		} else {
 			this.success = false;
@@ -2063,7 +2071,11 @@ public class BusinessController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("审核资产状态变更申请");
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToOneUser(user, "资产状态变更", "领导已经审核你提交的申请", request);
+			if(checked==0){
+				FunUtil.sendMsgToOneUser(user, "资产状态变更", "你提交的资产状态申请审核未通过："+comment, request);
+			}else{
+				FunUtil.sendMsgToOneUser(user, "资产状态变更", "你提交的资产状态申请审核已经通过", request);
+			}
 
 		} else {
 			this.success = false;

@@ -23,14 +23,14 @@
 							<div class="form-group col-md-12">
 								<label>单位联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="person"
-									required="required">
+									required="required" ng-model="userL.userName">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>联系电话</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="tel"
-									required="required">
+									required="required" ng-model="userL.tel">
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -42,13 +42,13 @@
 							</div>
 						</div>
 					</div>
-					<!-- row-------end -->
+					<!-- row-------end onchange="list(this) "   id="info-select"-->
 
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>故障现象</label>&nbsp;<span class="text-danger">[*]</span> <select
-									name="information" id="info-select" class="form-control" onchange="list(this)">
+									name="information" id="info-select"  class="form-control" onchange="list(this) ">
 									<option value="不能开机" selected="selected">不能开机</option>
 									<option value="终端显示无信号">终端显示无信号</option>
 									<option value="显示已建立呼叫但无声音">显示已建立呼叫但无声音</option>

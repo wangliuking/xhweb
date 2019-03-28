@@ -160,7 +160,11 @@ public class AssetCheckController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("管理部门领导审核资产核查申请");
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToOneUser(account,"资产核查","你提交的资产核查申请领导已经处理，请尽快完成核查相关工作", request);
+			if(status==1){
+				FunUtil.sendMsgToOneUser(account,"资产核查","你提交的资产核查申请领导已经处理，请尽快完成核查相关工作", request);
+			}else{
+				FunUtil.sendMsgToOneUser(account,"资产核查","你提交的资产核查申请被拒绝了", request);
+			}
 			
 			
 		}else{
