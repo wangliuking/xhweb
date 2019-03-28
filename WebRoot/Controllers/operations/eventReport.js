@@ -212,6 +212,8 @@ xh.add = function() {
 
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("#addForm")[0].reset();
+				$("form[enctype='multipart/form-data']")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				$("input[name='result']").val("");

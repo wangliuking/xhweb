@@ -42,6 +42,8 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.BsStatusBean;
+import xh.mybatis.bean.RecordCommunicationBean;
+import xh.mybatis.bean.RecordEmergencyBean;
 import xh.mybatis.bean.UserNeedBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.bean.WebUserBean;
@@ -128,7 +130,190 @@ public class UserNeedController {
 			this.message="删除成功";
 			this.success=true;
 		}else{
-			this.message="添加失败";
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	
+	@RequestMapping(value="/communication_list", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap communication_list(HttpServletRequest request, HttpServletResponse response) {
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("time", time);
+		HashMap result = new HashMap();
+		result.put("items",UserNeedService.communication_list(map));
+		result.put("totals", UserNeedService.communication_list_count(map));		
+		return result;
+	}
+	@RequestMapping(value="/add_communication", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap add_communication(@RequestBody RecordCommunicationBean bean) {
+		
+		System.out.println("bean-->"+bean.toString());
+		int rs=UserNeedService.add_communication(bean);
+		if(rs>0){
+			this.message="添加成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/update_communication", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap update_communication(@RequestBody RecordCommunicationBean bean) {
+		int rs=UserNeedService.update_communication(bean);
+		if(rs>0){
+			this.message="修改成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/upload_communication", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap upload_communication(@RequestBody RecordCommunicationBean bean) {
+		int rs=UserNeedService.upload_communication(bean);
+		if(rs>0){
+			this.message="上传成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/del_communication", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap del_communication(HttpServletRequest request, HttpServletResponse response) {
+		String[] id=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : id) {
+			list.add(string);
+		}
+		
+		int rs=UserNeedService.del_communication(list);
+		if(rs>0){
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/emergency_list", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap emergency_list(HttpServletRequest request, HttpServletResponse response) {
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("time", time);
+		HashMap result = new HashMap();
+		result.put("items",UserNeedService.emergency_list(map));
+		result.put("totals", UserNeedService.emergency_list_count(map));		
+		return result;
+	}
+	@RequestMapping(value="/add_emergency", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap add_emergency(@RequestBody RecordEmergencyBean bean) {
+		
+		System.out.println("bean-->"+bean.toString());
+		int rs=UserNeedService.add_emergency(bean);
+		if(rs>0){
+			this.message="添加成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/update_emergency", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap update_emergency(@RequestBody RecordEmergencyBean bean) {
+		int rs=UserNeedService.update_emergency(bean);
+		if(rs>0){
+			this.message="修改成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/upload_emergency", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap upload_emergency(@RequestBody RecordEmergencyBean bean) {
+		int rs=UserNeedService.upload_emergency(bean);
+		if(rs>0){
+			this.message="上传成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/del_emergency", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap del_emergency(HttpServletRequest request, HttpServletResponse response) {
+		String[] id=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : id) {
+			list.add(string);
+		}
+		
+		int rs=UserNeedService.del_emergency(list);
+		if(rs>0){
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="失败";
 			this.success=false;
 		}
 		HashMap result = new HashMap();

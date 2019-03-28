@@ -21,6 +21,9 @@
     <select id="noReadEmailCount" parameterType="map" resultType="int" useCache="true">
      select count(*) from xhgmnet_notify where status=0 and recvUser=#{loginUser}
     </select> 
+    <select id="noVoiceEmailCount" parameterType="map" resultType="int" useCache="true">
+     select count(*) from xhgmnet_notify where isvoice=0 and recvUser=#{loginUser}
+    </select> 
     <!--标记为已读-->
     <update id="updateById" parameterType="java.util.List">
         update xhgmnet_notify set status=1 where id in(
@@ -28,6 +31,9 @@
             #{id}
         </foreach>
      )  
+    </update>
+    <update id="updateVoice">
+        update xhgmnet_notify set isvoice=1 where isvoice=0
     </update>
     <!--根据ID删除邮件-->
     <delete id="deleteById" parameterType="java.util.List">

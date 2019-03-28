@@ -210,7 +210,6 @@ public class FunUtil {
 			// ----END
 		}
 	}
-
 	/** app向网管组发送通知邮件 */
 	public static void sendMsgToUserByGroupPowerWithoutReq(String powerstr,
 			int roleType, String title, String content, String userid) {

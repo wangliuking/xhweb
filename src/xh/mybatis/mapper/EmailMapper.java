@@ -49,5 +49,9 @@ public interface EmailMapper {
 	 * @throws Exception
 	 */
 	public int deleteById(List<String> list)throws Exception;
+	
+	public int noVoiceEmailCount(Map<String, Object> map)throws Exception;
+	
+	public int updateVoice()throws Exception;
 
 }

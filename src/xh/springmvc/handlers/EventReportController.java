@@ -111,7 +111,7 @@ public class EventReportController {
 			emailBean.setTime(funUtil.nowDate());
 			EmailService.insertEmail(emailBean);*/
 			
-			FunUtil.sendMsgToUserByPower("o_check_report", 2, "提交报告", "服务方提交了报告，请签收", request);
+			FunUtil.sendMsgToUserByPower("o_check_report", 2, "提交报告", "服务方提交了"+bean.getFileType()+"，请签收", request);
 			
 			
 			

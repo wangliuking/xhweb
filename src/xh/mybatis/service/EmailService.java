@@ -123,5 +123,32 @@ public class EmailService {
 		}
 		return result;
 	}
+	public static int noVoiceEmailCount(Map<String, Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
+		int count=0;
+		try{
+			count=mapper.noVoiceEmailCount(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int updateVoice(){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		EmailMapper mapper=sqlSession.getMapper(EmailMapper.class);
+		int count=0;
+		try{
+			count=mapper.updateVoice();
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 
 }

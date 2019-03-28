@@ -1,0 +1,100 @@
+
+<div class="modal fade" id="addWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">隐患故障</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" onsubmit="return false" id="addForm">
+				<div class="row">
+                       
+                        <div class="form-group col-md-12">
+                            <label>基站ID</label> <input class="form-control" name="bsId"
+                               >
+                        </div>
+                        
+                        
+                    
+                        <div class="form-group col-md-12">
+                            <label>故障说明</label>
+                            <textarea class="form-control" name="description" 
+                                rows="3" ng-model="editData.description"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>处理进展</label>
+                            <textarea class="form-control" name="handle_process" rows="3"
+                                ng-model="editData.handle_process"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>处理结果</label>
+                            <textarea class="form-control" name="handle_result" rows="3"
+                                ng-model="editData.handle_result"></textarea>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <label>故障时间</label> <input type="text" class="form-control"
+                                name="produce_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:xh.validatorTime('addForm','produce_time')})"
+                                required="required">
+                        </div>
+                         <div class="form-group col-md-6">
+                            <label>故障恢复时间</label> <input type="text" class="form-control"
+                                name="recovery_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:xh.validatorTime('addForm','recovery_time')})"
+                                required="required">
+                        </div>
+                       
+                     
+               
+                        <div class="form-group col-md-6">
+                            <label>处理人</label> <input class="form-control"
+                                name="handle_person">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>审核人</label> <input class="form-control"
+                                name="check_person" >
+                        </div>
+
+                    </div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="add_btn">
+						<i class="fa fa-plus"></i>&nbsp;新增
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#addForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		feedbackIcons : faIcon,
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.add();
+	});
+</script>

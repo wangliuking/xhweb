@@ -69,6 +69,8 @@ public class MemberCenterController {
 		this.success=true;
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("loginUser", funUtil.loginUser(request));
+		
+		
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals",EmailService.noReadEmailCount(map));
@@ -151,6 +153,43 @@ public class MemberCenterController {
 		HashMap result = new HashMap();
 		result.put("success", true);
 		result.put("items",bean);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/email/updateVoice",method = RequestMethod.POST)
+	@ResponseBody
+	public void updateVoice(HttpServletRequest request, HttpServletResponse response){
+		int rslt=EmailService.updateVoice();
+		HashMap result = new HashMap();
+		this.success=true;
+		result.put("success", success);
+		result.put("result", rslt);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@RequestMapping(value="/email/noVoiceEmailCount",method = RequestMethod.GET)
+	@ResponseBody
+	public void noVoiceEmailCount(HttpServletRequest request, HttpServletResponse response){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("loginUser", funUtil.loginUser(request));
+		System.out.println("map->"+map);
+		int rslt=EmailService.noVoiceEmailCount(map);
+		HashMap result = new HashMap();
+		result.put("count", rslt);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

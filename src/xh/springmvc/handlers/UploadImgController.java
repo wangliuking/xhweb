@@ -2,10 +2,15 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +26,55 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Controller
 @RequestMapping(value = "/img")
 public class UploadImgController {
+	
+	@RequestMapping("/upload2")
+	@ResponseBody
+    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,HttpServletRequest request){
+	//用来检测程序运行时间
+    long  startTime=System.currentTimeMillis();
+    System.out.println("fileName："+file.getOriginalFilename());
+    String savePath =  request.getSession().getServletContext().getRealPath("")+ "/Resources/upload";
+    File filess = new File(savePath);
+    if(!filess.exists()&&!filess.isDirectory()){
+        System.out.println("目录或文件不存在！");
+        filess.mkdir();
+    }
+    try {
+        //获取输出流
+    	/*savePath+new Date().getTime()+file.getOriginalFilename()*/
+        OutputStream os=new FileOutputStream("E:/123.txt");
+        //获取输入流 CommonsMultipartFile 中可以直接得到文件的流
+        InputStream is=file.getInputStream();
+        byte[] bts = new byte[1024];
+        //一个一个字节的读取并写入
+        int count=0;
+        while((count=is.read(bts))>0)
+        {
+            os.write(bts,0,count);
+        }
+        
+       os.flush();
+       os.close();
+       is.close();
+      
+    } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    long  endTime=System.currentTimeMillis();
+    System.out.println("采用流上传的方式的运行时间："+String.valueOf(endTime-startTime)+"ms");
+    return "success";
+}
 	
 	@RequestMapping("/upload")
 	@ResponseBody
@@ -77,6 +126,7 @@ public class UploadImgController {
             //4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
             List<FileItem> list = fileUpload.parseRequest(request);
             result.put("list", list.size());
+            System.out.println(Arrays.toString(list.toArray()));
             for (FileItem item : list) {
                 //如果fileitem中封装的是普通输入项的数据
                 if(item.isFormField()){
@@ -114,23 +164,20 @@ public class UploadImgController {
                     System.out.println("保存路径为:"+savePathStr);
                     //创建一个文件输出流
                     FileOutputStream fos = new FileOutputStream(savePathStr+File.separator+fileName);
-                    //获取读通道
+                  /*  //获取读通道
                     FileChannel readChannel = ((FileInputStream)fis).getChannel();
                     //获取读通道
-                    FileChannel writeChannel = fos.getChannel();
+                    FileChannel writeChannel = fos.getChannel();*/
                     //创建一个缓冲区
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    byte[] by=new byte[1024];
                     //判断输入流中的数据是否已经读完的标识
                     int length = 0;
                     //循环将输入流读入到缓冲区当中，(len=in.read(buffer))>0就表示in里面还有数据
-                    while(true){
-                        buffer.clear();
-                        int len = readChannel.read(buffer);//读入数据
-                        if(len < 0){
-                            break;//读取完毕 
-                        }
-                        buffer.flip();
-                        writeChannel.write(buffer);//写入数据
+                    int count=0;
+                    while((count=fis.read(by))>0)
+                    {
+                    	fos.write(by,0,count);
                     }
                     //关闭输入流
                     fis.close();

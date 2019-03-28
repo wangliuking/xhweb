@@ -113,6 +113,7 @@ xh.load = function() {
 						console.log("pahe:"+$scope.page);
 						$scope.refresh();
 						toastr.success(data.message, '提示');
+						$("#checkForm")[0].reset();
 						$("#checkWin").modal('hide')
 					} else {
 						toastr.error(data.message, '提示');

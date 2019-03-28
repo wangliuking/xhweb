@@ -1,0 +1,99 @@
+
+<div class="modal fade" id="editWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">重大故障记录</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" onsubmit="return false" id="editForm">
+				<div class="row">
+				<input type="text" ng-show=false name="id" ng-model="editData.id">
+				<input type="text" ng-show=false name="type" ng-model="editData.type">
+				</div>
+					<div class="row">
+                        <div class="form-group col-md-4">
+                        <label>故障发生时间</label>
+                            <input type="text" class="form-control" name="produce_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:xh.validatorTime('addForm','produce_time')})"
+                                required="required" ng-model="editData.produce_time">
+                        </div>
+                        <div class="form-group col-md-4">
+                        <label>故障恢复时间</label>
+                            <input type="text" class="form-control" name="recovery_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+                                ng-model="editData.recovery_time">
+                        </div>
+                          <div class="form-group col-md-4">
+                        <label>故障类型</label>
+                                <select name="fault_type"  class="form-control" ng-model="editData.fault_type">
+                                <option value="传输故障">传输故障</option>
+                                <option value="电源问题">电源问题</option>
+                                <option value="网络优化">网络优化</option>
+                                <option value="设备故障">设备故障</option>
+                                <option value="机房配套">机房配套</option>
+                                <option value="其他">其他</option>
+                                </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>故障原因</label>
+                            <textarea class="form-control" name="reason"
+                                rows="3"  ng-model="editData.reason"></textarea>
+                        </div>
+                      
+                         <div class="form-group col-md-12">
+                        <label>影响范围</label>
+                            <textarea class="form-control" name="area"
+                                rows="3"  ng-model="editData.area"></textarea>
+                        </div>
+                         <div class="form-group col-md-12">
+                        <label>备注</label>
+                            <textarea class="form-control" name="note"
+                                 rows="3"  ng-model="editData.note"></textarea>
+                        </div>
+                          <div class="form-group col-md-12">
+                        <label>记录人</label>
+                            <input class="form-control" name="record_person"
+                                required="required"  ng-model="editData.record_person">
+                        </div>
+                    </div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="edit_btn">
+						<i class="fa fa-edit"></i>&nbsp;更新
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#edit_btn").click(function() {
+		$('#editForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		feedbackIcons : faIcon,
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.edit();
+	});
+</script>

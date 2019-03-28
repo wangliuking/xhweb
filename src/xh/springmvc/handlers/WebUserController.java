@@ -270,7 +270,7 @@ public class WebUserController {
 		bean.setCreateTime(createTime);
 		bean.setVpnId(vpnId);
 		int flag=WebUserServices.insertUser(bean);
-		if (flag==0) {
+		if (flag==1) {
 			
 			int userId=WebUserServices.userIdByUser(user);
 			if (userId>0) {
@@ -294,14 +294,13 @@ public class WebUserController {
 			}
 			this.success=true;
 			this.message="添加用户成功";
-		}else if(flag==1){
+		}else if(flag==-2){
 			this.success=false;
 			this.message="用户已经存在";
 		}else {
 			this.success=false;
 			this.message="添加用户失败";
 		}
-		this.success=true;
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);

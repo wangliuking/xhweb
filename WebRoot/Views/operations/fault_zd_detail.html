@@ -1,0 +1,67 @@
+
+<div class="modal fade" id="detailWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">重大故障</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="order">
+					<style type="text/css" id="style1">
+.table-view {
+	border-collapse: collapse;
+}
+
+.table-view td {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+</style>
+					<table id="order-table"
+						style="width:100%;border-collapse: collapse;" class="table-view">
+						<tbody>
+
+							<tr>
+								<td style="text-align: center;">故障发生时间</td>
+								<td colspan="2">{{editData.produce_time}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">故障恢复时间</td>
+								<td colspan="2">{{editData.recovery_time}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">故障类型</td>
+								<td colspan="2">{{editData.fault_type}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">故障原因</td>
+								<td colspan="2">{{editData.reason}}</td>
+							</tr>
+							<tr>
+                                <td style="text-align: center;">影响范围</td>
+                                <td colspan="2">{{editData.area}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">备注</td>
+                                <td colspan="2">{{editData.note}}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">记录人</td>
+                                <td colspan="2">{{editData.record_person}}</td>
+                            </tr>
+
+
+
+						</tbody>
+					</table>
+				</div>
+
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>

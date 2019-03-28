@@ -1,0 +1,84 @@
+
+<div class="modal fade" id="editWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">通信保障记录</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" onsubmit="return false" id="editForm">
+					<div class="row">
+					     <div class="form-group col-md-12" ng-show=false>
+					     <input type="text" class="form-control" name="id" ng-model="editData.id">
+					     </div>
+                        <div class="form-group col-md-12">
+                        <label>保障名称</label>
+                            <input type="text" class="form-control" name="name"
+                                required="required" ng-model="editData.name">
+                           
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>保障开始时间</label>
+                            <input type="text" class="form-control" name="start_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','start_time')})"
+                                required="required" ng-model="editData.start_time">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>保障结束时间</label>
+                            <input type="text" class="form-control" name="end_time"
+                                onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','end_time')})"
+                                required="required" ng-model="editData.end_time">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>保障区域</label>
+                            <input type="text" class="form-control" name="zone"
+                                required="required" ng-model="editData.zone">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>保障级别</label>
+                                <select name="level"  class="form-control" ng-model="editData.level">
+                                <option value="一般通信保障">一般通信保障</option>
+                                <option value="重大通信保障">重大通信保障</option>
+                                </select>
+                        </div>
+                    </div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="edit_btn">
+						<i class="fa fa-edit"></i>&nbsp;更新
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#edit_btn").click(function() {
+		$('#editForm').submit();
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		feedbackIcons : faIcon,
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		xh.edit();
+	});
+</script>
