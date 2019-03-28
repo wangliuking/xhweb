@@ -80,4 +80,9 @@
         fileName3=#{fileName3},filePath3=#{filePath3} where id=#{id}
     </update>
 
+    <!-- 为应急演练组添加默认权限 -->
+    <insert id="insertDefaultPower" parameterType="map">
+        insert into xhgmnet_web_role_action(roleId,r_emergency) values(#{roleId},'on');
+    </insert>
+
 </mapper>

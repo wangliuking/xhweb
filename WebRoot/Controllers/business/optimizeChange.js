@@ -280,15 +280,15 @@ xh.load = function() {
 /*修改系统升级表格*/
 xh.sheetChange = function() {
     var bean={
-        "id":$("div[name='id']").text(),
-        optimizeChangeTime:$("div[name='optimizeChangeTime']").text(),
-        bsAddress:$("div[name='bsAddress']").text(),
+        "id":$("input[name='sheetNowId']").val(),
+        optimizeChangeTime:$("input[name='optimizeChangeTime']").val(),
+        bsAddress:$("input[name='bsAddress']").val(),
         optimizeChangeType:$("input[name='optimizeChangeType']:checked").val(),
-        optimizeReason:$("div[name='optimizeReason']").text(),
-        processAndResult:$("div[name='processAndResult']").text(),
-        optimizeChangeNote:$("div[name='optimizeChangeNote']").text(),
-        excPersion:$("div[name='excPersion']").text(),
-        serialNumber:$("div[name='serialNumber']").text()
+        optimizeReason:$("input[name='optimizeReason']").val(),
+        processAndResult:$("input[name='processAndResult']").val(),
+        optimizeChangeNote:$("input[name='optimizeChangeNote']").val(),
+        excPersion:$("input[name='excPersion']").val(),
+        serialNumber:$("input[name='serialNumber']").val()
     }
     $.ajax({
         url : '../../optimizeChange/sheetChange',

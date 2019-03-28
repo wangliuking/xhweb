@@ -173,6 +173,8 @@ public class EmergencyChangeController {
         int res = 0;
         if("添加角色成功".equals(resultObj.get("message"))){
             res = 1;
+            //为演练组增加临时权限
+            EmergencyChangeService.insertDefaultPower(param);
         }
         if(res>0){
             int id = funUtil.StringToInt(request.getParameter("id"));
@@ -234,7 +236,7 @@ public class EmergencyChangeController {
         this.message = "已通知"+prepareEmergencyGroupId+"演练组准备演练";
         if (rst == 1) {
             //通知演练组进行演练
-            FunUtil.sendMsgToUserByPower("o_check_emergency",3,"应急演练",prepareEmergencyGroupId+"演练组准备进行应急演练",request);
+            FunUtil.sendMsgToUserByGroupPower("r_emergency",3,"应急演练",prepareEmergencyGroupId+"演练组准备进行应急演练",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);

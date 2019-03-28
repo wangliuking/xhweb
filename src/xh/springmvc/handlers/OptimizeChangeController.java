@@ -214,10 +214,10 @@ public class OptimizeChangeController {
         if (rst == 1) {
             if(checked == 1){
                 //运维负责人审核通过，发送通知邮件给运维组
-                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","运维负责人通过了优化整改申请",request);
+                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人通过了优化整改申请",request);
             }else if(checked == -1){
                 //运维负责人审核不通过，发送通知邮件给运维组
-                FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","运维负责人不通过优化整改申请",request);
+                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维负责人不通过优化整改申请",request);
             }
         }
 
@@ -308,6 +308,7 @@ public class OptimizeChangeController {
             }else if(checked == -2){
                 //管理方审批不通过，向运维负责人发送通知消息
                 FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","管理方拒绝了优化整改",request);
+                FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","管理方拒绝了优化整改",request);
             }
         }
         HashMap result = new HashMap();
@@ -352,8 +353,8 @@ public class OptimizeChangeController {
 
         int rst = OptimizeChangeService.checkedFour(bean);
         if (rst == 1) {
-            //通知抢修组进行整改
-            FunUtil.sendMsgToUserByPower("o_check_netoptimize",3,"优化整改","抢修组准备进行整改",request);
+            //通知运维组进行整改
+            FunUtil.sendMsgToUserByGroupPower("r_netoptimize",3,"优化整改","运维组准备进行整改",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -370,7 +371,7 @@ public class OptimizeChangeController {
         }
     }
     /**
-     * 抢修组确认通知
+     * 运维组确认通知
      *
      * @param request
      * @param response

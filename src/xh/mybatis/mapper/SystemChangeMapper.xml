@@ -135,4 +135,14 @@
         #{solutionNewVersion},#{processAndResult},#{systemChangeNote},#{excPerson},#{supervisePersion},#{serialNumber})
     </update>
 
+    <!-- 根据id查询记录 -->
+    <select id="selectSystemChangeById" parameterType="map" resultType="map">
+        select * from xhgmnet_bs_systemChange where id=#{id}
+    </select>
+
+    <!-- 为实施组添加默认权限 -->
+    <insert id="insertDefaultPower" parameterType="map">
+        insert into xhgmnet_web_role_action(roleId,r_system_up) values(#{roleId},'on');
+    </insert>
+
 </mapper>

@@ -174,7 +174,7 @@ public class SystemChangeController {
         if (rst == 1) {
             this.message = "系统升级方案已经成功提交";
             //----向项目经理发送通知邮件
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案已经提交",request);
+            FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","系统升级方案已经提交",request,funUtil.loginUser(request));
         } else {
             this.message = "系统升级方案提交失败";
         }
@@ -221,10 +221,16 @@ public class SystemChangeController {
             }else if(checked == -1){
                 //项目经理审核不通过
                 //项目经理发送通知邮件给项目负责人
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案审核不通过",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","系统升级方案审核不通过",request);
             }else if (checked == -6){
                 //项目经理已经取消流程
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理已取消流程",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","系统升级方案审核不通过",request);
             }
 
         }
@@ -270,14 +276,23 @@ public class SystemChangeController {
             if(checked == 2){
                 //管理方负责人审核通过
                 //管理方负责人发送通知邮件给项目负责人
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方通过审核",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方通过审核",request);
             }else if(checked == -1){
                 //管理方负责人审核不通过
                 //管理方负责人发送通知邮件给项目负责人
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方审核不通过",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方审核不通过",request);
             }else if (checked == -6){
                 //管理方负责人已经取消流程
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方负责人已取消流程",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方负责人已取消流程",request);
             }
 
         }
@@ -366,11 +381,17 @@ public class SystemChangeController {
             if(checked == 4){
                 //管理方负责人同意申请
                 //管理方负责人发送通知邮件给项目负责人
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方同意进行升级",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方负责人同意申请",request);
             }else if(checked == -3){
                 //管理方负责人不同意升级
                 //管理方负责人发送通知邮件给项目经理
-                FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","管理方不同意进行升级",request);
+                Map<String,Object> tempParam = new HashMap<String,Object>();
+                tempParam.put("id",id);
+                Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+                FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","管理方不同意进行升级",request,tempMap.get("userName")+"");
             }
 
         }
@@ -420,6 +441,8 @@ public class SystemChangeController {
         int res = 0;
         if("添加角色成功".equals(resultObj.get("message"))){
             res = 1;
+            //为实施组增加临时权限
+            SystemChangeService.insertDefaultPower(param);
         }
         int rst = 0;
         if(res>0){
@@ -439,7 +462,7 @@ public class SystemChangeController {
 
         if (rst == 1) {
             //通知项目负责人已经成功创建实施组
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","已成功创建了实施组",request);
+
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -480,7 +503,8 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedSix(bean);
         if(rst == 1){
             //通知实施组执行系统升级
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","准备进行系统升级！",request);
+            FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级",ExcImplId+"实施组准备进行系统升级！",request);
+            message = "已通知实施组";
         }
 
         HashMap result = new HashMap();
@@ -520,7 +544,10 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedSenven(bean);
         if(rst == 1){
             //通知项目负责人升级的结果
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","请查阅系统升级的结果",request);
+            Map<String,Object> tempParam = new HashMap<String,Object>();
+            tempParam.put("id",id);
+            Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+            FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","请查阅系统升级的结果",request);
         }
 
         HashMap result = new HashMap();
@@ -564,7 +591,10 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedEight(bean);
         if (rst == 1) {
             //向项目负责人发送通知邮件
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","实施组已提交工作记录，请查阅",request);
+            Map<String,Object> tempParam = new HashMap<String,Object>();
+            tempParam.put("id",id);
+            Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+            FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","实施组已提交工作记录，请查阅",request);
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -651,7 +681,7 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedNegOne(bean);
         if(rst == 1){
             //通知项目经理已重新拟制了升级方案
-            FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","系统升级方案已重新拟制，请查阅",request);
+            FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","系统升级方案已经提交",request,funUtil.loginUser(request));
         }
         HashMap result = new HashMap();
         result.put("success", success);
@@ -692,10 +722,16 @@ public class SystemChangeController {
         if (rst == 1) {
            if(checked == 2){
                //项目经理同意继续提交申请
-               FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理同意再次提交系统升级申请",request);
+               Map<String,Object> tempParam = new HashMap<String,Object>();
+               tempParam.put("id",id);
+               Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+               FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","项目经理同意再次提交系统升级申请",request);
            }else if(checked == -6){
                //项目经理不同意继续提交申请，流程结束
-               FunUtil.sendMsgToUserByPower("o_check_system_up",3,"系统升级","项目经理不同意继续提交系统升级申请，流程已结束",request);
+               Map<String,Object> tempParam = new HashMap<String,Object>();
+               tempParam.put("id",id);
+               Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
+               FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","项目经理不同意继续提交系统升级申请，流程已结束",request);
            }
         }
         HashMap result = new HashMap();

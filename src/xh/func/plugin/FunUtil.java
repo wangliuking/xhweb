@@ -13,17 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -161,6 +151,36 @@ public class FunUtil {
 		map.put("roleType", roleType);
 		List<Map<String, Object>> items = WebUserServices
 				.emailRecvUsersByPower(map);
+		log.info("邮件发送：" + items);
+		for (Map<String, Object> item : items) {
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle(title);
+			emailBean.setRecvUser(item.get("user").toString());
+			emailBean.setSendUser(loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+	}
+
+	/** 根据用户权限向用户发送邮件（过滤指定用户） */
+	public static void sendMsgToUserByPowerFilter(String powerstr, int roleType,
+											String title, String content, HttpServletRequest request,String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("powerstr", powerstr);
+		map.put("roleType", roleType);
+		List<Map<String, Object>> temp = WebUserServices
+				.emailRecvUsersByPower(map);
+		List<Map<String,Object>> items = new LinkedList<Map<String,Object>>();
+		for(int i=0;i<temp.size();i++){
+			Map<String,Object> tempMap = temp.get(i);
+			String tempUser = tempMap.get("user")+"";
+			if(!userId.equals(tempUser)){
+				items.add(tempMap);
+			}
+		}
 		log.info("邮件发送：" + items);
 		for (Map<String, Object> item : items) {
 			// ----发送通知邮件

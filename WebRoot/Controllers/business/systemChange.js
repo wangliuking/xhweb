@@ -300,17 +300,17 @@ xh.load = function() {
 xh.sheetChange = function() {
     var bean={
         "id":$("#sheetTempId").val(),
-        systemChangeStartTime:$("div[name='systemChangeStartTime']").text(),
-        systemChangeExcTime:$("div[name='systemChangeExcTime']").text(),
+        systemChangeStartTime:$("input[name='systemChangeStartTime']").val(),
+        systemChangeExcTime:$("input[name='systemChangeExcTime']").val(),
         systemChangeType:$("input[name='systemChangeType']:checked").val(),
-        versionOld:$("div[name='versionOld']").text(),
-        versionNew:$("div[name='versionNew']").text(),
-        solutionNewVersion:$("div[name='solutionNewVersion']").text(),
-        processAndResult:$("div[name='processAndResult']").text(),
-        systemChangeNote:$("div[name='systemChangeNote']").text(),
-        excPerson:$("div[name='excPerson']").text(),
-        supervisePersion:$("div[name='supervisePersion']").text(),
-        serialNumber:$("div[name='serialNumber']").text()
+        versionOld:$("input[name='versionOld']").val(),
+        versionNew:$("input[name='versionNew']").val(),
+        solutionNewVersion:$("input[name='solutionNewVersion']").val(),
+        processAndResult:$("input[name='processAndResult']").val(),
+        systemChangeNote:$("input[name='systemChangeNote']").val(),
+        excPerson:$("input[name='excPerson']").val(),
+        supervisePersion:$("input[name='supervisePersion']").val(),
+        serialNumber:$("input[name='serialNumber']").val()
     }
     $.ajax({
         url : '../../systemChange/sheetChange',
