@@ -36,6 +36,7 @@ import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserRoleService;
 import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
+import xh.redis.server.UserRedis;
 
 @Controller
 @RequestMapping("/web")
@@ -270,7 +271,7 @@ public class WebUserController {
 		bean.setCreateTime(createTime);
 		bean.setVpnId(vpnId);
 		int flag=WebUserServices.insertUser(bean);
-		if (flag==0) {
+		if (flag==1) {
 			
 			int userId=WebUserServices.userIdByUser(user);
 			if (userId>0) {
@@ -294,14 +295,13 @@ public class WebUserController {
 			}
 			this.success=true;
 			this.message="添加用户成功";
-		}else if(flag==1){
+		}else if(flag==-2){
 			this.success=false;
 			this.message="用户已经存在";
 		}else {
 			this.success=false;
 			this.message="添加用户失败";
 		}
-		this.success=true;
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
@@ -547,7 +547,9 @@ public class WebUserController {
 	                Object key = entry.getKey();  
 	                Object val = entry.getValue();  
 	                if (((String) val).equals(bean.getUser())) {  
-	                	SingLoginListener.getLogUserMap().remove(key);  
+	                	SingLoginListener.getLogUserMap().remove(key);
+	                	UserRedis.delSession(request.getSession().getId());
+	                	
 	                }  
 	            }  
 			message="设置用户权限成功";

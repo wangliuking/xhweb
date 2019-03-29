@@ -218,7 +218,7 @@ public class QualityCheckController {
 			WebLogService.writeLog(webLogBean);
 
 			// ----发送通知邮件
-			sendNotifytoSingle(user, "运维质量抽查申请信息审核，请服务提供方方人员审核并尽快处理", request);
+			sendNotifytoSingle(user, "服务提供方已经确认可以进行抽检！", request);
 			// ----EN
 		}
 
@@ -251,6 +251,7 @@ public class QualityCheckController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
+		String user1 = request.getParameter("user1");
 		QualityCheckBean bean = new QualityCheckBean();
 		bean.setId(id);
 		bean.setChecked(2);
@@ -268,6 +269,8 @@ public class QualityCheckController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传抽查记录，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
+			// ----发送通知邮件
+			sendNotifytoSingle(user1, "管理方上传了记录，本次抽检任务结束！", request);
 		} else {
 			this.message = "上传抽查结果失败";
 		}
@@ -567,7 +570,7 @@ public class QualityCheckController {
 			HttpServletRequest request) {
 		// ----发送通知邮件
 		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle("入网申请");
+		emailBean.setTitle("服务抽检");
 		emailBean.setRecvUser(recvUser);
 		emailBean.setSendUser(funUtil.loginUser(request));
 		emailBean.setContent(content);

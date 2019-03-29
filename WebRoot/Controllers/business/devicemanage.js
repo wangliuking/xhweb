@@ -258,6 +258,7 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("#addForm")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

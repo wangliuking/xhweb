@@ -264,7 +264,10 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
-				$("input[name='result']").val(1);
+				$("input[name='result']").val("");
+				$("input[type='file']").val("");
+				$("#addForm").data('bootstrapValidator').resetForm();
+				$("#uploadResult1").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -289,6 +292,7 @@ xh.check1 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin1').modal('hide');
+				$("#checkForm1")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -312,7 +316,8 @@ xh.check2 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				$("input[name='result']").val(1);
+				$("#checkForm2")[0].reset();
+				$("#uploadResult2").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

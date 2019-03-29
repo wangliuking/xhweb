@@ -143,14 +143,18 @@ marquee {
 							<li ng-show="menu.m_12"><a
 								href="Views/menu/menu_operations.html" target="mainframe">
 									服务监管</a></li>
+						 <li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
+                                target="mainframe">故障处理</a></li>
+							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
+                                target="mainframe">统计分析</a></li>
 							<li ng-show="menu.m_13"><a
 								href="Views/operations/appInspection.html" target="mainframe">运维巡检</a></li>
 							<li ng-if="roleType==3 || roleType==0"><a href="Views/operations/user_need.html"
                                 target="mainframe">用户需求处理</a></li>
-							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"
-								target="mainframe">统计分析</a></li>
-							<li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
-                                target="mainframe">故障处理</a></li>
+                            <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_ensure.html"
+                                target="mainframe">通信保障记录</a></li>
+                            <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_emergency.html"
+                                target="mainframe">应急演练记录</a></li>
                             <li ng-if="roleType==3 || roleType==0"><a href="Views/web/system-config.html"
                                 target="mainframe">告警提示配置</a></li>
 
@@ -349,6 +353,10 @@ marquee {
 		<source src="Resources/sound/order2.mp3" type="audio/mp3">
 		<source src="Resources/sound/order2.ogg" type="audio/ogg">
 	</audio>
+	<audio id="mp3_email">
+        <source src="Resources/sound/sms.mp3" type="audio/mp3">
+        <source src="Resources/sound/sms.ogg" type="audio/ogg">
+    </audio>
 	<div class="modal fade" id="checkPassWin" tabindex="-1" role="dialog"
 		aria-hidden="true">
 		<div class="modal-dialog">

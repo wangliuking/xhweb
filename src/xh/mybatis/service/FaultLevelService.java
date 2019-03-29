@@ -10,9 +10,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.FaultFourBean;
-import xh.mybatis.bean.FaultLevelMapper;
 import xh.mybatis.bean.FaultOneBean;
 import xh.mybatis.bean.FaultThreeBean;
+import xh.mybatis.mapper.FaultLevelMapper;
 import xh.mybatis.mapper.MenuMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -125,6 +125,20 @@ public class FaultLevelService {
 		}
 		return count;
 	}
+	public static int three_update(FaultThreeBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		int count=0;
+		try {
+			count=mapper.three_update(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static int four_add(FaultFourBean bean){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
@@ -145,6 +159,49 @@ public class FaultLevelService {
 		int count=0;
 		try {
 			count=mapper.four_update(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public static int one_del(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		int count=0;
+		try {
+			count=mapper.one_del(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int three_del(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		int count=0;
+		try {
+			count=mapper.three_del(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int four_del(List<String> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
+		int count=0;
+		try {
+			count=mapper.one_del(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

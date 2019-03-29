@@ -182,7 +182,7 @@ public class OptimizeNetController {
                            HttpServletResponse response) {
         this.success = true;
         int id = funUtil.StringToInt(request.getParameter("id"));
-        int checked = funUtil.StringToInt(request.getParameter("checked"));
+        //int checked = funUtil.StringToInt(request.getParameter("checked"));
         String note2 = request.getParameter("note2");
         String user = request.getParameter("userName");
         OptimizeNetBean bean = new OptimizeNetBean();
@@ -305,7 +305,12 @@ public class OptimizeNetController {
             
             if(dropnet==-1){
             	//----发送通知邮件
-                sendNotifytoSingle(user, "优化方案已经审核", request);
+                if(checked==1){
+                	sendNotifytoSingle(user, "优化方案被拒绝，请重新上传方案", request);
+                	
+                }else{
+                	sendNotifytoSingle(user, "优化方案已经通过审核", request);
+                }
                 //----END
             }else{
             	//----发送通知邮件
@@ -413,7 +418,11 @@ public class OptimizeNetController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            FunUtil.sendMsgToOneUser(user,"资产核查","总结报告已审核", request);
+            if(checked==3){
+            	FunUtil.sendMsgToOneUser(user,"网络优化","总结报审核未通过，请重新上传", request);
+            }else{
+            	FunUtil.sendMsgToOneUser(user,"网络优化","总结报告审核通过", request);
+            }
             //----END
         } else {
             this.message = "总结报告审核失败";

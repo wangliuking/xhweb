@@ -88,6 +88,16 @@ xh.load = function() {
 
 			});
 		}
+		$scope.getVoiceEmail=function(){
+			$http.get("center/email/noVoiceEmailCount").success(function(response) {
+				$scope.voiceEmailCount = response.count;
+				if($scope.voiceEmailCount>0){
+					$scope.updateVoice();
+					xh.playEmailMap3();
+				}
+			});
+		}
+		
 		$scope.alarmCount = function() {
 			$http.get("bsAlarm/voiceAlarm").success(function(response) {
 				$scope.AlarmTotals = response.totals;
@@ -160,6 +170,19 @@ xh.load = function() {
 				}
 			});
 		};
+		$scope.updateVoice = function() {
+			$.ajax({
+				url : 'center/email/updateVoice',
+				type : 'POST',
+				dataType : "json",
+				data : {},
+				async : false,
+				success : function(data) {
+				},
+				error : function() {
+				}
+			});
+		};
 		// 更新基站断站告警状态
 		$scope.updateAlarm = function() {
 			$.ajax({
@@ -183,6 +206,7 @@ xh.load = function() {
 			$scope.alarmCount();
 			$scope.news_fun();
 			$scope.getEmail();
+			$scope.getVoiceEmail();
 		}, 10000);
 		setInterval(function() {
 			$scope.voice_not_check();
@@ -212,6 +236,12 @@ xh.playCheckMap3 = function() {
 };
 xh.playOrderMap3 = function() {
 	var audio = document.getElementById("mp3_order");
+	// 重新播放
+	audio.currentTime = 0;
+	audio.play();
+};
+xh.playEmailMap3 = function() {
+	var audio = document.getElementById("mp3_email");
 	// 重新播放
 	audio.currentTime = 0;
 	audio.play();
@@ -252,6 +282,17 @@ xh.stopOrderMap3 = function() {
 		audio.currentTime = 0;
 		$scope.voiceOrderTag = 0;
 		$("#close-order-bell").attr('src', 'Resources/images/icon/32/bell-off.png')
+	}
+};
+xh.stopEmailMap3 = function() {
+	var audio = document.getElementById("mp3_email");
+	var $scope = angular.element(appElement).scope();
+	// 停止
+	if (audio != null) {
+		audio.pause();
+		audio.currentTime = 0;
+		$scope.voiceOrderTag = 0;
+		//$("#close-order-bell").attr('src', 'Resources/images/icon/32/bell-off.png')
 	}
 };
 xh.aa = function() {

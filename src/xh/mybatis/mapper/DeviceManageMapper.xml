@@ -15,7 +15,7 @@
         from xhgmnet_bs_devicemanage as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
         <choose>
 		<when test="roleType!=0 and roleType!=2"> and a.userName=#{user}</when>
-		<when test="roleType!=2"> 
+		<when test="roleType==2"> 
 		
 		<if test="power=='on'">
 		and a.checked>=0

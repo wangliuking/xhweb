@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,11 @@ import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.FaultFourBean;
 import xh.mybatis.bean.FaultOneBean;
+import xh.mybatis.bean.FaultThreeBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.FaultLevelService;
 import xh.mybatis.service.FaultService;
+import xh.mybatis.service.UserNeedService;
 
 @Controller
 public class FaultLevelController {
@@ -48,11 +51,13 @@ public class FaultLevelController {
 	public HashMap one_list(HttpServletRequest request,HttpServletResponse response){
 		int start = funUtil.StringToInt(request.getParameter("start"));
 		int limit = funUtil.StringToInt(request.getParameter("limit"));
+		int type=Integer.parseInt(request.getParameter("type"));
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("time",time);
+		map.put("type",type);
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("items", FaultLevelService.one_list(map));
@@ -94,7 +99,7 @@ public class FaultLevelController {
 	@RequestMapping(value = "/faultlevel/one_add", method = RequestMethod.POST)
 	@ResponseBody
 	public HashMap one_add(@RequestBody FaultOneBean bean){
-		int rs=FaultLevelService.one_add(bean);
+		int rs=FaultLevelService.one_add(bean);	
 		if(rs>0){
 			this.success=true;
 			this.message="添加成功";
@@ -139,6 +144,22 @@ public class FaultLevelController {
 		result.put("message",message);
 		return result;		
 	}
+	@RequestMapping(value = "/faultlevel/three_update", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap three_update(@RequestBody FaultThreeBean bean){
+		int rs=FaultLevelService.three_update(bean);
+		if(rs>0){
+			this.success=true;
+			this.message="修改成功";
+		}else{
+			this.success=false;
+			this.message="修改失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		return result;		
+	}
 	@RequestMapping(value = "/faultlevel/four_update", method = RequestMethod.POST)
 	@ResponseBody
 	public HashMap four_update(@RequestBody FaultFourBean bean){
@@ -154,6 +175,72 @@ public class FaultLevelController {
 		result.put("success", success);
 		result.put("message",message);
 		return result;		
+	}
+	@RequestMapping(value="/faultlevel/one_del", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap one_del(HttpServletRequest request, HttpServletResponse response) {
+		String[] id=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : id) {
+			list.add(string);
+		}
+		
+		int rs=FaultLevelService.one_del(list);
+		if(rs>0){
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/faultlevel/three_del", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap three_del(HttpServletRequest request, HttpServletResponse response) {
+		String[] id=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : id) {
+			list.add(string);
+		}
+		
+		int rs=FaultLevelService.three_del(list);
+		if(rs>0){
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
+	@RequestMapping(value="/faultlevel/four_del", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap four_del(HttpServletRequest request, HttpServletResponse response) {
+		String[] id=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String string : id) {
+			list.add(string);
+		}
+		
+		int rs=FaultLevelService.four_del(list);
+		if(rs>0){
+			this.message="删除成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
 	}
 
 }

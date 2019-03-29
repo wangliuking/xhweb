@@ -527,7 +527,7 @@ xh.gorder=function(){
 	});
 }
 xh.order=function(){
-	var userid=$("span[name='userid']").text();
+	var userid=$("input[name='userid']").val();
 	var errtype=$("span[name='errtype']").text();
 	var errlevel=$("span[name='errlevel']").text();
 	if(userid==""){

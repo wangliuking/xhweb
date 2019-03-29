@@ -230,7 +230,6 @@ public class FunUtil {
 			// ----END
 		}
 	}
-
 	/** app向网管组发送通知邮件 */
 	public static void sendMsgToUserByGroupPowerWithoutReq(String powerstr,
 			int roleType, String title, String content, String userid) {
@@ -720,12 +719,12 @@ public class FunUtil {
 		return imptimeBegin + "," + imptimeEnd;
 	}
 
-	public static List<Date> findNowWeekDays() throws Exception {
-
-		String time_interval = now_week_interval(new Date());
+	public static List<Date> findNowWeekDays(String time) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String time_interval = now_week_interval(sdf.parse(time));
 		String start = time_interval.split(",")[0];
 		String end = time_interval.split(",")[1];
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 
 		Date dBegin = sdf.parse(start);
 		Date dEnd = sdf.parse(end);

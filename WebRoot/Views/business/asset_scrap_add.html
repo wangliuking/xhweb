@@ -89,7 +89,7 @@
 								<div>
 									<input type="text" class="form-control" name="buyTime"
 										placeholder="采购时间" 
-										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" required="required">
+										onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','buyTime')})" required="required">
 								</div>
 							</div>
 						</div>

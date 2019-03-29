@@ -1,7 +1,11 @@
-package xh.mybatis.bean;
+package xh.mybatis.mapper;
 
 import java.util.List;
 import java.util.Map;
+
+import xh.mybatis.bean.FaultFourBean;
+import xh.mybatis.bean.FaultOneBean;
+import xh.mybatis.bean.FaultThreeBean;
 
 public interface FaultLevelMapper {
 	
@@ -17,7 +21,12 @@ public interface FaultLevelMapper {
 	int four_add(FaultFourBean bean);
 	
 	int one_update(FaultOneBean bean);
+	int three_update(FaultThreeBean bean);
 	int four_update(FaultFourBean bean);
+	
+	int one_del(List<String> list);
+	int three_del(List<String> list);
+	int four_del(List<String> list);
 	
 	
 	

@@ -271,7 +271,9 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
-				$("input[name='result']").val(1);
+				$("input[type='hidden']").val("");
+				$("span[id='uploadResult1']").text("");
+				$("#addForm").data('bootstrapValidator').resetForm();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 			} else {
@@ -341,6 +343,7 @@ xh.check1 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin1').modal('hide');
+				$("#checkForm1").find("textarea[name='note2']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -364,7 +367,8 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				$("input[name='result']").val(1);
+				$("input[type='hidden']").val("");
+				$("span[id='uploadResult2']").text("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -387,6 +391,7 @@ xh.check3 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				$("#checkForm3").find("textarea[name='note3']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -410,7 +415,8 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				$("input[name='result']").val(1);
+				$("input[type='hidden']").val("");
+				$("span[id='uploadResult3']").text("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

@@ -317,7 +317,7 @@ public class ServerStatusController {
 		sheet.addCell(new Label(6, start+1, "周六", fontFormat_h));
 		sheet.addCell(new Label(7, start+1, "周日", fontFormat_h));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
-        List<Date> lDate=FunUtil.findNowWeekDays();
+        List<Date> lDate=FunUtil.findNowWeekDays(day);
         
         sheet.addCell(new Label(0, start+2, "区域/时间", fontFormat_h));
         for(int i=0;i<lDate.size();i++){

@@ -263,8 +263,10 @@ public class WebUserServices {
 		try {
 			count=mapper.userIsExists(bean.getUser());
 			if(count==0){
-				mapper.insertUser(bean);
+				count=mapper.insertUser(bean);
 				sqlSession.commit();
+			}else{
+				count=-2;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

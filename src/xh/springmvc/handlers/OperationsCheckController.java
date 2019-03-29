@@ -216,7 +216,7 @@ public class OperationsCheckController {
 			webLogBean.setStyle(1);
 			webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
 			WebLogService.writeLog(webLogBean);
-			FunUtil.sendMsgToUserByGroupPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了核减申请，请查收", request);	
+			FunUtil.sendMsgToUserByPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了考核申请，请查收", request);	
 		}else{
 			this.success=false;
 			this.message="提交申请失败";
@@ -252,7 +252,11 @@ public class OperationsCheckController {
 		if(rst>=1){
 			this.success=true;
 			this.message="审核信息成功";
-			FunUtil.sendMsgToOneUser(user, "运维考核", "管理部门已经审核你提交的考核申请信息", request);
+			if(check==1){
+				FunUtil.sendMsgToOneUser(user, "运维考核", "管理部门已经审核通过了你提交的考核信息", request);
+			}else{
+				FunUtil.sendMsgToOneUser(user, "运维考核", "管理部门拒绝了你的考核申请信息："+note1, request);
+			}
 		}else{
 			this.success=false;
 			this.message="审核信息失败";

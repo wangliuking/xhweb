@@ -141,7 +141,8 @@ public class EmergencyController {
             WebLogService.writeLog(webLogBean);
 
             //----发送通知邮件
-            sendNotifytoGroup("o_check_emergency",10003, "应急演练任务", request);
+            FunUtil.sendMsgToUserByPower("o_check_emergency", 3, "应急处置演练", "应急处置演练任务", request);
+           // sendNotifytoGroup("o_check_emergency",10003, "应急演练任务", request);
             //----END
         } else {
             this.message = "应急演练申请信息提交失败";
@@ -252,7 +253,7 @@ public class EmergencyController {
                 //----END
             }else{
             	//----发送通知邮件
-                sendNotifytoSingle(user, "应急处置演练计划审核不通过", request);
+                sendNotifytoSingle(user, "应急处置演练计划审核不通过,请重新上传演练计划", request);
                 //----END
             }
         } else {

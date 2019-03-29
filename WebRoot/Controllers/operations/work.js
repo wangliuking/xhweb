@@ -217,6 +217,7 @@ xh.add = function() {
             	$("input[name='fileName']").val("");
             	$("input[name='filePath']").val("");
             	$("#uploadResult").html("");
+            	$("#addForm").find("textarea[name='note']").val("");
 			} else {
 				swal({
 					title : "提示",

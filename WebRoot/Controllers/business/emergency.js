@@ -270,6 +270,7 @@ xh.add = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#add').modal('hide');
+				$("#addForm").find("textarea[name='note1']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -294,6 +295,10 @@ xh.check1 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin1').modal('hide');
+				$("#checkForm1")[0].reset();
+				$("#checkForm1").find("input[type='hidden']").val("");
+				$("#checkForm1").find("span[id='uploadResult1']").text("");
+				
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -340,6 +345,10 @@ xh.check3 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
+				$("#checkForm3").find("input[type='hidden']").val("");
+				$("#checkForm3").find("span[id='uploadResult2']").text("");
+				$("#checkForm3").data('bootstrapValidator').resetForm();
+				$("#checkForm3").find("textarea[name='note3']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -351,7 +360,6 @@ xh.check3 = function() {
 		}
 	});
 };
-/*服务方上传*/
 xh.check4 = function() {
 	$.ajax({
 		url : '../../emergency/checkedFour',
@@ -363,6 +371,7 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
+				$("#checkForm4").find("textarea[name='note4']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

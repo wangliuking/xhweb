@@ -73,7 +73,7 @@
 
 					</div>
 				</form>
-				<form action="#" id="" onSubmit="return false"
+				<form action="#" id="uploadForm" onSubmit="return false"
 					enctype="multipart/form-data" method="POST">
 					<div class="row">
 						<div class="col-md-8">
@@ -147,6 +147,7 @@
 			error : function(data, status, e)//服务器响应失败处理函数
 			{
 				alert(e);
+				 console.info("error status: "+status + " data: "+ JSON.stringify(data)  + " e: "+ e );
 				$("#uploadfile").attr("disabled", false);
 				xh.maskHide();
 			}

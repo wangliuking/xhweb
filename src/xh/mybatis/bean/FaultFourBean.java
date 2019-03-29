@@ -6,12 +6,16 @@ public class FaultFourBean {
 	  private String  bsName;
 	  private String  produce_time;
 	  private String  recovery_time;
-	  private String  total_time;
+	  private int  total_time;
 	  private String  description;
 	  private String  handle_process;
 	  private String  handle_result;
 	  private String  handle_person;
 	  private String  check_person;
+	  
+		private String period;
+		private String level;
+		private String name;
 	public int getId() {
 		return id;
 	}
@@ -42,11 +46,30 @@ public class FaultFourBean {
 	public void setRecovery_time(String recovery_time) {
 		this.recovery_time = recovery_time;
 	}
-	public String getTotal_time() {
+	
+	public int getTotal_time() {
 		return total_time;
 	}
-	public void setTotal_time(String total_time) {
+	public void setTotal_time(int total_time) {
 		this.total_time = total_time;
+	}
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getDescription() {
 		return description;
