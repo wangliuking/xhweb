@@ -351,4 +351,19 @@ public class SystemChangeService {
         return result;
     }
 
+    public static int updateTypeAndQuestionById(SystemChangeBean bean){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        SystemChangeMapper mapper = sqlSession.getMapper(SystemChangeMapper.class);
+        int result = 0;
+        try {
+            result = mapper.updateTypeAndQuestionById(bean);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
 }

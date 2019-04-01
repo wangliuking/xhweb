@@ -80,7 +80,7 @@
 									<tr class="tr-gray">
 										<th width="180px">联系单位</th>
 										<th>联系人</th>
-										<th>请求内容</th>
+										<th>类型</th>
 										<!-- <th></th> -->
 										<th width="180px">申请时间</th>
 										<th>状态</th>
@@ -94,7 +94,9 @@
 									<tr ng-repeat="x in data">
 										<td>{{x.unit1}}</td>
 										<td>{{x.userUnit}}</td>
-										<td>系统升级</td>
+										<td ng-if="x.systemChangeType == 1">服务器硬件</td>
+										<td ng-if="x.systemChangeType == 2">服务器软件</td>
+										<td ng-if="x.systemChangeType == 3">基站版本</td>
 										<td>{{x.requestTime}}</td>
 
 										<td ng-if="x.checked==-6" class="td-danger">项目经理已取消流程</td>
@@ -104,7 +106,7 @@
 										<td ng-if="x.checked==-3" class="td-danger">管理方不同意升级申请</td>
 
 										<td ng-if="x.checked==-2" class="td-danger">管理方负责人审核不通过</td>
-										<td ng-if="x.checked==-1" class="td-danger">项目经理审核不通过</td>
+										<td ng-if="x.checked==-1" class="td-danger">管理方审核不通过</td>
 										<td ng-if="x.checked==0" class="td-warning">已上传系统升级方案</td>
 										<td ng-if="x.checked==1" class="td-warning">项目经理审核通过</td>
 										<td ng-if="x.checked==2" class="td-warning">管理方审核通过，可提交升级申请</td>
@@ -112,10 +114,10 @@
 										<td ng-if="x.checked==3" class="td-warning">已提交升级申请</td>
 										<td ng-if="x.checked==4" class="td-warning">管理方同意升级申请，可创建实施组</td>
 
-										<td ng-if="x.checked==5" class="td-warning">成功创建实施组，可进行升级</td>
+										<td ng-if="x.checked==5" class="td-warning">等待项目负责人开始升级</td>
 										<td ng-if="x.checked==6" class="td-warning">升级进行中</td>
 										<td ng-if="x.checked==7" class="td-warning">升级成功，可提交工作记录</td>
-										<td ng-if="x.checked==8" class="td-warning">已上传文件报告</td>
+										<td ng-if="x.checked==8" class="td-warning">升级进行中</td>
 										<td ng-if="x.checked==9" class="td-success">系统升级完成</td>
 										<td style="text-align:center">
 
@@ -140,9 +142,9 @@
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
 
-										<a ng-if="x.checked==-1 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
+										<!--<a ng-if="x.checked==-1 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
-													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>-->
 
 										<a ng-if="x.checked==0 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
@@ -156,7 +158,7 @@
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;提交升级申请</a>
 
-										<a ng-if="x.checked==3 && up.o_check_system_up == 'on' && loginUser != x.userName && loginUserRoleType == 2"
+										<a ng-if="x.checked==3 && up.o_check_system_up == 'on' && loginUserRoleType == 2"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;管理方负责人审核升级申请</a>
 
@@ -168,7 +170,7 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;执行系统升级</a>
 										
-										<a ng-if="x.checked==6 && up.o_check_system_up == 'on' && roleId == x.ImplId && loginUserRoleType == 3"
+										<a ng-if="x.checked==6 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;反馈升级结果</a>
 

@@ -55,6 +55,8 @@ public class SystemChangeBean {
     private String filePath4;
     private int dropnet;
     private String tel;
+    private String systemChangeType;
+    private String solutionNewVersion;
 
     private String implId;
     private String excImplId;
@@ -500,6 +502,22 @@ public class SystemChangeBean {
         this.time10 = time10;
     }
 
+    public String getSystemChangeType() {
+        return systemChangeType;
+    }
+
+    public void setSystemChangeType(String systemChangeType) {
+        this.systemChangeType = systemChangeType;
+    }
+
+    public String getSolutionNewVersion() {
+        return solutionNewVersion;
+    }
+
+    public void setSolutionNewVersion(String solutionNewVersion) {
+        this.solutionNewVersion = solutionNewVersion;
+    }
+
     @Override
     public String toString() {
         return "SystemChangeBean{" +
@@ -556,6 +574,8 @@ public class SystemChangeBean {
                 ", filePath4='" + filePath4 + '\'' +
                 ", dropnet=" + dropnet +
                 ", tel='" + tel + '\'' +
+                ", systemChangeType='" + systemChangeType + '\'' +
+                ", solutionNewVersion='" + solutionNewVersion + '\'' +
                 ", implId='" + implId + '\'' +
                 ", excImplId='" + excImplId + '\'' +
                 '}';

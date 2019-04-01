@@ -40,7 +40,7 @@
     <insert id="insertSystemChange" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.SystemChangeBean">
         insert into
-        xhgmnet_bs_systemChange(userUnit,tel,fileName1,filePath1,note1,requestTime,userName) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName})
+        xhgmnet_bs_systemChange(userUnit,tel,fileName1,filePath1,note1,requestTime,userName,systemChangeType,solutionNewVersion,checked) values(#{userUnit},#{tel},#{fileName1},#{filePath1},#{note1},#{requestTime},#{userName},#{systemChangeType},#{solutionNewVersion},#{checked})
     </insert>
 
     <!--审核系统升级方案 -->
@@ -144,5 +144,10 @@
     <insert id="insertDefaultPower" parameterType="map">
         insert into xhgmnet_web_role_action(roleId,r_system_up) values(#{roleId},'on');
     </insert>
+
+    <!--更新类型和新版解决问题字段-->
+    <update id="updateTypeAndQuestionById" parameterType="xh.mybatis.bean.SystemChangeBean">
+        update xhgmnet_bs_systemChange set systemChangeType=#{systemChangeType},solutionNewVersion=#{solutionNewVersion} where id=#{id}
+    </update>
 
 </mapper>

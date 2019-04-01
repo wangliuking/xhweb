@@ -58,7 +58,7 @@
 								<div class="cd-timeline-content">
 									<h2>项目负责人拟制升级方案</h2>
 									<a href="#" title="点击下载文件"
-											onclick="xh.download()" style="color: red">{{progressData.fileName1}}</a>
+											onclick="xh.download(1)" style="color: red">{{progressData.fileName1}}</a>
 									<p>
 										<span>发起人：</span><span>{{progressData.userName}}</span>
 									</p>
@@ -70,7 +70,7 @@
 										提交时间：{{progressData.requestTime}}</span>
 								</div>
 							</div>
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked==0"></div>
 								<div class="cd-timeline-img cd-green"
@@ -93,9 +93,9 @@
 										class="cd-date text-success font-bold">审核通过！
 										</br>时间：{{progressData.time2}}</span>
 								</div>
-							</div>
+							</div>-->
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<1"></div>
 								<div class="cd-timeline-img cd-green"
@@ -118,10 +118,10 @@
 										  class="cd-date text-success font-bold">审核通过！
 										</br>时间：{{progressData.time3}}</span>
 								</div>
-							</div>
+							</div>-->
 
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									 ng-if="progressData.checked<2"></div>
 								<div class="cd-timeline-img cd-green"
@@ -129,7 +129,7 @@
 								<div class="cd-timeline-content">
 									<h2>提交升级申请</h2>
 									<a href="#" title="点击下载文件"
-									   onclick="xh.download()" style="color: red">{{progressData.fileName2}}</a>
+									   onclick="xh.download(2)" style="color: red">{{progressData.fileName2}}</a>
 									<p>
 										<span>创建人：</span><span>{{progressData.user4}}</span>
 									</p>
@@ -140,7 +140,7 @@
 										  class="cd-date text-success font-bold">已提交系统升级申请
 										</br>时间：{{progressData.time4}}</span>
 								</div>
-							</div>
+							</div>-->
 
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
@@ -158,15 +158,15 @@
 									</p>
 									<span ng-if="progressData.checked==-3"
 										  class="cd-date text-danger font-bold">管理方负责人不同意升级
-										</br>时间：{{progressData.time4}}</span>
+										</br>时间：{{progressData.time5}}</span>
 									<span ng-if="progressData.checked>=4"
 										  class="cd-date text-success font-bold">管理方负责人同意升级
-										</br>时间：{{progressData.time4}}</span>
+										</br>时间：{{progressData.time5}}</span>
 								</div>
 							</div>
 
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<4"></div>
 								<div class="cd-timeline-img cd-green"
@@ -184,7 +184,7 @@
 										class="cd-date text-success font-bold">{{progressData.ImplId}}实施组已创建
 										</br>时间：{{progressData.time6}}</span>
 								</div>
-							</div>
+							</div>-->
 
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
@@ -209,7 +209,7 @@
 							</div>
 
 							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									ng-if="progressData.checked<6"></div>
 								<div class="cd-timeline-img cd-green"
@@ -229,10 +229,10 @@
 										class="cd-date text-success font-bold">系统升级成功！
 										</br>时间：{{progressData.time8}}</span>
 								</div>
-							</div>
+							</div>-->
 							<!-- cd-timeline-block end-->
 
-							<div class="cd-timeline-block">
+							<!--<div class="cd-timeline-block">
 								<div class="cd-timeline-img cd-gray"
 									 ng-if="progressData.checked<7"></div>
 								<div class="cd-timeline-img cd-green"
@@ -240,7 +240,7 @@
 								<div class="cd-timeline-content">
 									<h2>提交工作记录</h2>
 									<a href="#" title="点击下载文件"
-									   onclick="xh.download()" style="color: red">{{progressData.fileName3}}</a>
+									   onclick="xh.download(3)" style="color: red">{{progressData.fileName3}}</a>
 									<p>
 									<p>
 										<span>确认人：</span><span>{{progressData.user9}}</span>
@@ -252,7 +252,7 @@
 										  class="cd-date text-success font-bold">已提交工作记录！
 										</br>时间：{{progressData.time9}}</span>
 								</div>
-							</div>
+							</div>-->
 							<!-- cd-timeline-block end-->
 
 							<div class="cd-timeline-block">
@@ -263,7 +263,7 @@
 								<div class="cd-timeline-content">
 									<h2>向管理方反馈结果</h2>
 									<a href="#" title="点击下载文件"
-									   onclick="xh.download()" style="color: red">{{progressData.fileName4}}</a>
+									   onclick="xh.download(4)" style="color: red">{{progressData.fileName4}}</a>
 									<p>
 									<p>
 										<span>反馈人：</span><span>{{progressData.user10}}</span>
@@ -308,9 +308,9 @@
 												<tr>
 													<td>类型</td>
 													<td colspan="5"><div contenteditable="true" name="progress">
-														<input  type="radio" name="systemChangeType" value="1" ng-checked="sheetData.systemChangeType=='1'">服务器硬件
-														<input  type="radio" name="systemChangeType" value="2" ng-checked="sheetData.systemChangeType=='2'">服务器软件
-														<input  type="radio" name="systemChangeType" value="3" ng-checked="sheetData.systemChangeType=='3'">基站版本
+														<input  type="radio" name="systemChangeType" value="1" ng-checked="editData.systemChangeType=='1'">服务器硬件
+														<input  type="radio" name="systemChangeType" value="2" ng-checked="editData.systemChangeType=='2'">服务器软件
+														<input  type="radio" name="systemChangeType" value="3" ng-checked="editData.systemChangeType=='3'">基站版本
 													</div></td>
 												</tr>
 												<tr>
@@ -321,7 +321,7 @@
 												</tr>
 												<tr>
 													<td>新版解决问题</td>
-													<td colspan="5"><input class="sheetInput" name="solutionNewVersion" ng-model="sheetData.solutionNewVersion" /></td>
+													<td colspan="5"><input class="sheetInput" name="solutionNewVersion" ng-model="editData.solutionNewVersion" /></td>
 												</tr>
 												<tr>
 													<td>升级步骤及结果</td>
@@ -356,8 +356,8 @@
 			</button>
 		</div> -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success btn-sm"
-						data-dismiss="modal" id="systemChange-btn">
+				<button type="button" class="btn btn-success btn-sm" ng-if="up.o_check_system_up == 'on' && loginUser == editData.userName && loginUserRoleType == 3"
+						data-dismiss="modal" ng-click="toUpdateSheet()">
 					<i class="fa fa-remove"></i>&nbsp;保存
 				</button>
 			<button type="button" class="btn btn-danger btn-sm"
@@ -368,46 +368,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-    $("#systemChange-btn").click(function() {
-        $('#systemChange-form').submit();
-    });
-    var faIcon = {
-        valid : 'fa fa-check-circle fa-lg text-success',
-        invalid : 'fa fa-times-circle fa-lg',
-        validating : 'fa fa-refresh'
-    };
-    $('#systemChange-form').bootstrapValidator({
-        excluded : [ ':disabled' ],
-        /* feedbackIcons: faIcon, */
-        fields : {
-            user : {
-                validators : {
-                    notEmpty : {
-                        message : '用户名不能为空'
-                    }
-                }
-            },
-            roleId : {
-                validators : {
-                    notEmpty : {
-                        message : '角色不能为空'
-                    }
-                }
-            },
-            userPass : {
-                validators : {
-                    notEmpty : {
-                        message : '密码不能为空'
-                    }
-                }
-            }
-
-        }
-    }).on('success.form.bv', function(e, data) {
-        e.preventDefault();
-        /* xh.add(); */
-        xh.sheetChange();
-    });
-</script>
