@@ -466,7 +466,7 @@ public class FunUtil {
 		 //获取三十天前日期
 		Calendar theCa = Calendar.getInstance();
 		theCa.setTime(new Date());
-		theCa.add(theCa.DATE, -27);//最后一个数字30可改，30天的意思
+		theCa.add(theCa.DATE, -10);//最后一个数字30可改，30天的意思
 		Date start = theCa.getTime();
 		String startDate = dd.format(new Date());//三十天之前日期
 		
@@ -474,15 +474,13 @@ public class FunUtil {
 		
 		String date = dd.format(new Date());
 		return startDate;
-	}
-	
+	}	
 	public static String nowDateNotTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());
 		return date;
 	}
-
 	public static long nowTimeMill(String dString) {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));

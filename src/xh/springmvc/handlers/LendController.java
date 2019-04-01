@@ -63,6 +63,7 @@ public class LendController {
 		map.put("user", user.trim());
 	    map.put("power", power.get("b_check_lend"));
 	    map.put("roleId", roleId);
+	    map.put("roleType", userbean.getRoleType());
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("totals", LendService.lendlistCount(map));
@@ -225,7 +226,12 @@ public class LendController {
 			webLogBean.setContent("租借设备审核成功，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
 			// ----发送通知邮件
-			sendNotifytoSingle(bean.getUser2(), "用户提交了租借设备申请，请根据相应要求准备设备清单", request);
+			if(bean.getChecked()==-1){
+				sendNotifytoSingle(bean.getUser(), "管理部门拒绝了你提交的租借申请："+bean.getNote1(), request);
+			}else{
+				sendNotifytoSingle(bean.getUser2(), "用户提交了租借设备申请，请根据相应要求准备设备清单", request);
+			}
+			
 			// ----END
 		} else {
 			this.message = "审核失败";
@@ -510,6 +516,8 @@ public class LendController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("确认租借清单，data=" + id);
 			WebLogService.writeLog(webLogBean);
+			sendNotifytoSingle(user1, "用户确认了租借清单", request);
+			sendNotifytoSingle(user2, "用户确认了租借清单", request);
 		} else {
 			this.message = "确认租借清单失败";
 		}
@@ -540,6 +548,10 @@ public class LendController {
 		this.success = true;
 		int id = funUtil.StringToInt(request.getParameter("lendId"));
 		int status = funUtil.StringToInt(request.getParameter("status"));
+		String user=request.getParameter("user");
+		String user1=request.getParameter("user1");
+		String user2=request.getParameter("user2");
+		
 		String checkId = request.getParameter("checkId");
 		List<String> checkIds = Arrays.asList(checkId.split(","));
 		Map<String, Object> mapforLend = new HashMap<String, Object>();
@@ -572,8 +584,10 @@ public class LendController {
 				this.message = "验收设备完成";
 			} else if(status == 3) {
 				this.message = "设备归还待审核";
+				sendNotifytoSingle(user1, "用户提交了归还设备申请", request);
 			} else if(status == 0){
 				this.message = "设备已归还";
+				sendNotifytoSingle(user1, "管理方已经确认设备归还", request);
 				// ----发送通知邮件
 				//sendNotifytoSingle(manager, "归还设备，请审核", request);
 				// ----END

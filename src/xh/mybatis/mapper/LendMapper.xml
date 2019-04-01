@@ -4,16 +4,20 @@
 
 	<select id="lendlist" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
-		SELECT a.*,b.status as num FROM xhgmnet_business_lend as a
+		SELECT a.*,b.status as num ,c.num2 FROM xhgmnet_business_lend as a
 		left join
 		(select count(status) as status,lendId from xhgmnet_business_lend_info
 		where status=3 group by lendId) as b
-		on a.id=b.lendId where 1=1
+		on a.id=b.lendId 
+		left join 
+        (select count(status) as num2,lendId from xhgmnet_business_lend_info
+        where status=1 group by lendId) as c
+        on a.id=c.lendId where 1=1
 		<choose>
-			<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003">
+			<when test="roleType>2">
 				and a.user=#{user}
 			</when>
-			<when test="roleId ==10002">
+			<when test="roleType==2">
 				<if test="power=='on'">
 					and a.checked>=-10
 				</if>
@@ -29,8 +33,8 @@
 	<select id="lendlistCount" resultType="int" useCache="true">
 		select count(*) from xhgmnet_business_lend where 1=1
 		<choose>
-			<when test="roleId &lt;10000 || roleId ==10001 || roleId ==10003"> and user=#{user}</when>
-			<when test="roleId ==10002">
+			<when test="roleType>2"> and user=#{user}</when>
+			<when test="roleType==2">
 				<if test="power=='on'">
 					and checked>=0
 				</if>

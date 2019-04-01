@@ -18,18 +18,18 @@
 		from xhgmnet_business_net as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
 		
 		<choose>
-		<when test="roleId &lt;10000"> and a.userName=#{user}</when>
-		<when test="roleId ==10002"> 
+		<when test="roleType>3"> and a.userName=#{user}</when>
+		<when test="roleType==2"> 
 		
 		<if test="power=='on'">
-		and a.checked>=1 
+		and (a.checked>=1 or a.checked &lt;-1) 
 		</if>
 		<if test="power!='on'">
-		and a.checked>=2  and a.user3=#{user}
+		and a.user3=#{user}
 		</if>
 		
 		</when>
-		<when test="roleId ==10003">
+		<when test="roleType==3">
 		and a.serviceType='有线接入' and a.checked>=8
 		</when>
 		</choose>
@@ -40,20 +40,20 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_net where 1=1
 		<choose>
-		<when test="roleId &lt;10000"> and userName=#{user}</when>
-		<when test="roleId ==10002"> 
-		
-		<if test="power=='on'">
-		and checked>=1 
-		</if>
-		<if test="power!='on'">
-		and checked>=2  and user3=#{user}
-		</if>
-		
-		</when>
-		<when test="roleId ==10003">
-		and serviceType='有线接入' and checked>=8
-		</when>
+		<when test="roleType>3"> and userName=#{user}</when>
+        <when test="roleType==2"> 
+        
+        <if test="power=='on'">
+        and (checked>=1 or checked &lt;-1) 
+        </if>
+        <if test="power!='on'">
+        and user3=#{user}
+        </if>
+        
+        </when>
+        <when test="roleType==3">
+        and serviceType='有线接入' and checked>=8
+        </when>
 		</choose>
 	</select>
 	<!-- 查找编程底板 -->
@@ -207,7 +207,7 @@
 	</update>
 	<!--服务提供方完成应用接入 -->
 	<update id="applicationAccess9" parameterType="xh.mybatis.bean.JoinNetBean">
-		update xhgmnet_business_net set note7=#{note7},time9=#{time9},checked=#{checked} where id=#{id}
+		update xhgmnet_business_net set user4=#{user4},note7=#{note7},time9=#{time9},checked=#{checked} where id=#{id}
 	</update>
 	<!--管理方审核应用接入 -->
 	<update id="applicationAccess10" parameterType="xh.mybatis.bean.JoinNetBean">

@@ -13,6 +13,7 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+									<input type="text" name="user" ng-model="checkData.userName">
 							</div>
 						</div>
 					</div>
@@ -218,20 +219,12 @@
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="id"
-									required="required" ng-model="checkData.id"> <label>type</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value="0"
-									name="type"> <label>ID</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="backUser" required="required"
-									ng-model="checkData.user2"> <label>ID</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="sendUser" required="required"
-									ng-model="checkData.userName"> <label>User</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="managerUser" required="required"
-									ng-model="checkData.user1">
+								<input type="text" name="id" required="required" ng-model="checkData.id"> 
+								<input type="text" value="0" name="type"> 
+								<input type="text" name="userName" ng-model="checkData.userName"> 
+								<input type="text" name="user1" ng-model="checkData.user1"> 
+								<input type="text" name="user2" ng-model="checkData.user2"> 
+								<input type="text" name="user3" ng-model="checkData.user3"> 
 							</div>
 
 						</div>
@@ -1096,22 +1089,12 @@
 					<div class="row" ng-show="false">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
-								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="id"
-									required="required" ng-model="checkData.id"> <label>type</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value="1"
-									name="type"> <label>User</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="backUser" required="required"
-									ng-model="checkData.user3"> <label>User</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="sendUser" required="required"
-									ng-model="checkData.userName"> <label>User</label>&nbsp;<span
-									class="text-danger">[*]</span> <input type="text" value=""
-									class="form-control" name="managerUser" required="required"
-									ng-model="checkData.user1"> <input type="text" value=""
-									class="form-control" name="user2" required="required"
-									ng-model="checkData.user2">
+								<input type="text"  name="id" ng-model="checkData.id">
+								<input type="text" value="1" name="type">
+								<input type="text"  name="userName" ng-model="checkData.userName">
+								<input type="text"  name="user1" ng-model="checkData.user1">
+								<input type="text"  name="user2" ng-model="checkData.user2">
+								<input type="text"  name="user3" ng-model="checkData.user3">
 							</div>
 						</div>
 					</div>
@@ -1215,6 +1198,9 @@
 									class="text-danger">[*]</span> <input type="text" value=""
 									class="form-control" name="sendUser" required="required"
 									ng-model="checkData.user2">
+									<input type="text" value=""
+                                    class="form-control" name="userName" 
+                                    ng-model="checkData.userName">
 							</div>
 						</div>
 					</div>
@@ -1312,6 +1298,9 @@
 									ng-model="checkData.user3"> <input type="text" value=""
 									class="form-control" name="userName" required="required"
 									ng-model="checkData.userName">
+									<input type="text" value=""
+                                    class="form-control" name="user4" 
+                                    ng-model="checkData.user4">
 							</div>
 						</div>
 					</div>
@@ -1558,14 +1547,14 @@
 		;
 		sendAjax();
 		function sendAjax() {
-			if (j >= ss.length) //采用递归的方式循环发送ajax请求
+			 if (j >= ss.length) //采用递归的方式循环发送ajax请求
 			{
 				$("#fileMutiply").val("");
 				j = 0;
 				alert("上传成功文件个数：" + countS + "\n上传失败文件个数：" + countF
 						+ "\n上传失败文件名为：" + fialdFileName);
 				return;
-			}
+			} 
 			var formData = new FormData();
 			formData.append('files', ss[j]); //将该file对象添加到formData对象中
 			formData.append('joinNetId', $('#id4ProgramingTemplate').val())
@@ -1573,6 +1562,7 @@
 				url : '../../net/upload1',
 				type : 'POST',
 				cache : false,
+				async : true,
 				data : {},//需要什么参数，自己配置
 				data : formData,//文件以formData形式传入
 				processData : false,

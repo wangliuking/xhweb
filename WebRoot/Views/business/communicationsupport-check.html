@@ -1035,7 +1035,6 @@
 </div>
 
 
-<!--  管理方向用户单位发送通信保障需求确认消息（该请求消息可包含上传附件的功能） -->
 <div class="modal fade" id="checkWin17" tabindex="-1" role="dialog"
 	aria-hidden="true">
 	<div class="modal-dialog modal-md">
@@ -1051,6 +1050,8 @@
 								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" value="" class="form-control" name="id"
 									required="required" ng-model="checkData.id">
+									<input  type="text" name="userName" ng-model="checkData.userName">
+									<input  type="text" name="user1" ng-model="checkData.user1">
 							</div>
 						</div>
 					</div>
@@ -1058,14 +1059,14 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									class="form-control" name="checked">
+									class="form-control" name="checked" ng-init="s_check='2'" ng-model="s_check">
 									<option value="2" selected="selected">审核通过</option>
 									<option value="-1">拒绝</option>
 								</select>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-show="s_check==2">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>经办人</label>&nbsp;<span class="text-danger">[*]</span> <select

@@ -186,7 +186,6 @@ public class MemberCenterController {
 	public void noVoiceEmailCount(HttpServletRequest request, HttpServletResponse response){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("loginUser", funUtil.loginUser(request));
-		System.out.println("map->"+map);
 		int rslt=EmailService.noVoiceEmailCount(map);
 		HashMap result = new HashMap();
 		result.put("count", rslt);

@@ -114,7 +114,10 @@ xh.load = function() {
 				data:{
 					lendId:$scope.dataLend[id].lendId,
 					checkId:$scope.checkedSerialNumber,
-					status:status
+					status:status,
+					user1:$scope.user1,
+					user2:$scope.user2,
+					user:$scope.user
 				},
 				success : function(data) {
 					if (data.result) {
@@ -512,7 +515,7 @@ xh.check2 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
-				$("#checkForm2")[0].reset();
+				$('#checkForm2').find("textarea[name='note1']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

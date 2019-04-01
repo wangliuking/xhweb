@@ -71,6 +71,7 @@ public class CommunicationSupportController {
 		map.put("user", user);
 		map.put("power", power.get("b_check_communicationsupport"));
 		map.put("roleId", roleId);
+		map.put("roleType", userbean.getRoleType());
 
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -215,6 +216,8 @@ public class CommunicationSupportController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String user = request.getParameter("user");
+		String user1 = request.getParameter("user1");
+		String userName=request.getParameter("userName");
 		CommunicationSupportBean bean = new CommunicationSupportBean();
 		bean.setId(id);
 		bean.setChecked(checked);
@@ -230,7 +233,13 @@ public class CommunicationSupportController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "通信保障", request);
+			if(checked==-1){
+				sendNotifytoSingle(userName, "你提交的通讯保障申请被拒绝了", request);
+				sendNotifytoSingle(user1, "本次保障任务被管理部门拒绝了", request);
+			}else{
+				sendNotifytoSingle(user, "用户提交了通信保障任务，请处理相关事宜", request);
+			}
+			
 			//----END
 		} else {
 			this.message = "通知管理方处理失败";

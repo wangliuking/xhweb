@@ -77,6 +77,7 @@ public class JoinNetController {
 		map.put("user", user);
 		map.put("power", power.get("b_check_joinnet"));
 		map.put("roleId", roleId);
+		map.put("roleType", userbean.getRoleType());
 		
 		
 
@@ -239,6 +240,7 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int checked = funUtil.StringToInt(request.getParameter("checked"));
 		String note1 = request.getParameter("note1");
+		String user = request.getParameter("user");
 		JoinNetBean bean = new JoinNetBean();
 		bean.setId(id);
 		bean.setChecked(checked);
@@ -256,8 +258,11 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 
 			// ----发送通知邮件
-			sendNotifytoGroup("b_check_joinnet", 10002,
-					"入网申请信息审核，请管理部门指定并移交经办人办理。", request);
+			if(checked==-1){
+				FunUtil.sendMsgToOneUser(user, "入网申请", "你提交的入网申请被拒绝了", request);
+			}else{
+				FunUtil.sendMsgToUserByPower("b_check_joinnet", 2,"入网申请", "用户申请入网，请管理部门指定并移交经办人办理。", request);
+			}
 			// ----END
 		} else {
 			this.message = "审核提交失败";
@@ -431,9 +436,10 @@ public class JoinNetController {
 		String loginUser = funUtil.loginUser(request);
 
 		String note4 = request.getParameter("note4");
-		String backUser = request.getParameter("backUser");
-		String sendUser = request.getParameter("sendUser");
-		String managerUser = request.getParameter("managerUser");
+		String userName = request.getParameter("userName");
+		String user1 = request.getParameter("user1");
+		String user2 = request.getParameter("user2");
+		String user3 = request.getParameter("user3");
 		
 
 		JoinNetBean bean = new JoinNetBean();
@@ -450,20 +456,20 @@ public class JoinNetController {
 			}
 			rst = JoinNetService.checkFile(bean);
 		} else {
-			if (!loginUser.equals(sendUser)) {
+			if (!loginUser.equals(userName)) {
 				if (checked == 1) {
 					bean.setChecked(5);
 				} else {
-					bean.setChecked(3);
+					bean.setChecked(100);
 				}
 				bean.setTime6(funUtil.nowDate());
 				rst = JoinNetService.checkFile5(bean);
 			} else {
 				if (checked == 1) {
 					bean.setChecked(7);
-					sendUser = managerUser;
+					//sendUser = managerUser;
 				} else {
-					bean.setChecked(3);
+					bean.setChecked(100);
 				}
 				bean.setTime7(funUtil.nowDate());
 				rst = JoinNetService.checkFile7(bean);
@@ -473,11 +479,17 @@ public class JoinNetController {
 		
 		if (rst == 1) {
 			if(type==0){
-				if (checked == 1) {
+				/*if (checked == 1) {
 					sendNotifytoSingle(sendUser, "入网申请信息审核，编组方案已审核，请确认"
 							+ bean.getNote4(), request);
 				} else {
 					sendNotifytoSingle(backUser, bean.getNote4(), request);
+				}*/
+				if(checked==0){
+					FunUtil.sendMsgToOneUser(user3, "入网申请", "你提交的编组方案被拒绝了("+note4+")，请重新上传。", request);
+				}else{
+					FunUtil.sendMsgToOneUser(user3, "入网申请", "你提交的编组方案审核通过，等待用户确认方案", request);
+					FunUtil.sendMsgToOneUser(userName, "入网申请", "管理方上传了编组方案，请确认方案", request);
 				}
 				this.message = "审核编组方案成功";
 				webLogBean.setOperator(funUtil.loginUser(request));
@@ -488,12 +500,12 @@ public class JoinNetController {
 			}else{
 				
 				if(bean.getChecked()==5){
-					sendNotifytoSingle(backUser, "领导已经审核资源配置文件，等待用户确认", request);
-					sendNotifytoSingle(sendUser, "领导已经审核资源配置文件，等待用户确认", request);
+					sendNotifytoSingle(user3, "领导已经审核资源配置文件，等待用户确认", request);
+					sendNotifytoSingle(userName, "领导已经审核资源配置文件，等待用户确认", request);
 				}else if(bean.getChecked()==7){
-					sendNotifytoSingle(backUser, "用户已经确认资源配置文件", request);
+					sendNotifytoSingle(user3, "用户已经确认资源配置文件", request);
 				}else{
-					sendNotifytoSingle(backUser, "资源配置文件审核不通过", request);
+					sendNotifytoSingle(user3, "资源配置文件审核不通过,请重新上传", request);
 				}
 				
 				
@@ -610,10 +622,12 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("确认编组方案，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-
-			// ----发送通知邮件
-			sendNotifytoSingle(sendUser, "审核样机入网送检申请（合同附件）成功,请用户上传采购设备信息。",
-					request);
+			
+			if(checked==0){
+				FunUtil.sendMsgToOneUser(sendUser, "入网申请", "样机入网送检申请（合同附件）,审核未通过，请重新提交", request);
+			}else{
+				FunUtil.sendMsgToOneUser(sendUser, "入网申请", "审核样机入网送检申请（合同附件）成功,请用户上传采购设备信息", request);
+			}
 			// ----END
 		} else {
 			this.message = "确认编组方案失败";
@@ -951,6 +965,7 @@ public class JoinNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		int type = funUtil.StringToInt(request.getParameter("type"));
 		String sendUser = request.getParameter("sendUser");
+		String userName = request.getParameter("userName");
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("path");
 		JoinNetBean bean = new JoinNetBean();
@@ -970,6 +985,7 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 			if (type == 1) {
 				sendNotifytoSingle(sendUser, "协议已上传。", request);
+				sendNotifytoSingle(userName, "有线接入工作，已经结束。", request);
 			}
 		} else {
 			this.message = "上传合同失败";
@@ -1019,8 +1035,7 @@ public class JoinNetController {
 			webLogBean.setStyle(5);
 			webLogBean.setContent("上传采购设备信息，data=" + bean.toString());
 			WebLogService.writeLog(webLogBean);
-
-			sendNotifytoSingle(sendUser, "上传采购设备信息成功。", request);
+			sendNotifytoSingle(sendUser, "用户已经上传采购设备信息，请在平台上对相关终端开户", request);
 		} else {
 			this.message = "上传采购设备信息失败";
 		}
@@ -1137,7 +1152,8 @@ public class JoinNetController {
 			if (checked == 3) {
 				sendNotifytoSingle(operator, "有线申请评估技术方案审核通过，请上传资源配置技术方案。。。", request);
 			} else {
-				sendNotifytoSingle(proposer, bean.getNote2(), request);
+				sendNotifytoSingle(proposer, "评估技术方案审核没有通过："+bean.getNote2()+",请重新上传", request);
+				sendNotifytoSingle(proposer, "评估技术方案审核没有通过："+bean.getNote2()+",等待用户重新上传", request);
 			}
 			// ----发送通知邮件
 			// sendNotify(reciver, "入网申请信息审核，请上传编组方案。。。", request);
@@ -1175,8 +1191,10 @@ public class JoinNetController {
 		int loginUserRoleId = funUtil.StringToInt(request.getParameter("loginUserRoleId"));
 		int checkId = funUtil.StringToInt(request.getParameter("checkId"));
 		int verifyId = funUtil.StringToInt(request.getParameter("checked"));
+		WebUserBean userbean = WebUserServices.selectUserByUser(FunUtil.loginUser(request));
 		
 		String user3=request.getParameter("user3");
+		String user4=request.getParameter("user4");
 		String userName=request.getParameter("userName");
 		String sendUser = request.getParameter("sendUser");
 		String managerUser = request.getParameter("managerUser");
@@ -1223,14 +1241,18 @@ public class JoinNetController {
 			WebLogService.writeLog(webLogBean);
 
 			if (loginUserRoleId == 10002 && checkId == 7) {
-				sendNotifytoGroup("b_check_joinnet", 10003,"请根据相关手续安排用户应用接入",request);
+				FunUtil.sendMsgToUserByPower("b_check_joinnet", 3, "入网申请", "请根据相关手续安排用户应用接入", request);
 			}
 			if (loginUserRoleId == 10003 && checkId == 8) {
 				sendNotifytoSingle(user3, "应用已接入完成，请审核", request);
 			}
 			if (loginUserRoleId == 10002 && checkId == 9) {
-				sendNotifytoSingle(userName, "有线入网接入申请已经通过，应用接入已经完成，请知悉", request);
-				sendNotifytoSingle(userName, "有线入网接入申请已经通过，应用接入已经完成，请知悉", request);
+				if(verifyId==0){
+					sendNotifytoSingle(user4, "应用接入工作不达标！请完善相关工作，再次提交验收！", request);
+				}else{
+					sendNotifytoSingle(user4, "应用接入工作验收合格！", request);
+				}
+				
 			}
 			// ----发送通知邮件
 			// sendNotify(user3, "入网申请信息审核，请上传编组方案。。。", request);
