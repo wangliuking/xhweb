@@ -1,85 +1,51 @@
 package xh.org.socket;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.RadioBean;
+import xh.mybatis.bean.TalkGroupBean;
+import xh.mybatis.service.TalkGroupService;
 import xh.protobuf.MotoCorba;
-import xh.protobuf.RadioAddReqBean;
+import xh.protobuf.RadioUserBean;
 
 
-public class MotoTcpKeepAliveClient extends Thread {
-	protected final Log log = LogFactory.getLog(MotoTcpKeepAliveClient.class);
+public class MotoTcpClient extends Thread {
+	protected final Log log = LogFactory.getLog(MotoTcpClient.class);
 	private String ip;
 	private int port;
 	private static Socket socket;
-	private static int timeout = 10 * 1000;
+	private static int timeout = 100 * 1000;
 	private static byte[] result;
 	private static byte[] bufferFlag = {};
 	private static int slot;
 	private static long timeStart;
-	private static String date;
-	private static String fileName;
-	private static String filePath;
 	private static int comID = -1;
 	private static int bufLen = -1;
-	private static int usetime = -1;
 	private static String callId;
 	private static byte[] readBuf;
 	private static int dataLen = 0;
-	private static String callType;
-	private static int m_calling = 0;
-	private static int m_countin = 0;
 	private static byte[] writeBuf = {};
-	private static long time = 0;
-	private static int m_rssi = 0;
-	private static int muticastsrc_bsid;
-	public static int cbsId=0;
-	private static ArrayList colorList;
-	private static HashMap<String, ArrayList> colorMap = new HashMap<String, ArrayList>();
-	private static ArrayList<HashMap<String, Object>> callList = new ArrayList<HashMap<String, Object>>();
-	private static ArrayList<HashMap<String, Object>> bsInfoList = new ArrayList<HashMap<String, Object>>();
-	private static HashMap<String, Object> startTimeMap = new HashMap<String, Object>();
-	private static HashMap<String, Map> callMap = new HashMap<String, Map>();
-	private static HashMap<String, String> rssi_map = new HashMap<String, String>();
 
 	private boolean connected = false;
 	private NetDataTypeTransform dd = new NetDataTypeTransform();
 
-	public enum BsControlType {
-		STATUS, // 获取状态
-		REBOOT, // 重启系统
-		INTERFERE, // 干扰
-		RSSI, // 获取RSSI
-		SLEEP, // 基站联网/脱网
-		GPSDATA, // 获取GPS
-		PWSET, // 功率设置(content为功率值,范围1-50)
-		PWRELOAD
-		// 功率标定
-	}
 
 	public void run() {
 
@@ -105,9 +71,8 @@ public class MotoTcpKeepAliveClient extends Thread {
 			try {
 				socket.setSoTimeout(timeout);
 			} catch (SocketException e) {
-				/* log.info("timeout SocketException"); */
-				//告警类型：1：断站；2：中心；3：交换；4：温度;5:gps失锁；6：反向功率过大；7：交流；8：功率
-				log.debug("moto tcp recvData timeout 50s,socket is closed and reconnecting!");
+				log.info("moto tcp recvData timeout ,socket is closed and reconnecting!");
+
 				try {
 					socket.close();
 				} catch (IOException e1) {
@@ -132,51 +97,78 @@ public class MotoTcpKeepAliveClient extends Thread {
 				input = socket.getInputStream();
 				if (socket.isConnected()) {
 					connected = true;
-					log.debug("moto TCP Connected success!!");
-					
-					RadioAddReqBean bean=new RadioAddReqBean();
+					log.info("MOTO TCP CONNECTED SUCCESS!!");
+					RadioBean bean=new RadioBean();
 					bean.setRadioID("12345");
 					bean.setRadioReferenceID("12345");
 					bean.setRadioSerialNumber("ggtt444");
 					bean.setSecurityGroup("亚光");
-					SendData.RadioAddReq(bean);
-
-					/*try {
-						Timer timer = new Timer();
-						timer.schedule(new HeartBeat(socket), 2000, 3 * 1000);
-					} catch (IOException e) {
-						log.info("Timer");
-					}*/
+					//SendData.RadioAddReq(bean);
+					//SendData.RadioUpdateReq(bean);
+					//SendData.RadioDelReq(bean);
+					
+					
+				/*	required string RadioID	= 1;       
+				  	required string RadioUserAlias	= 2;  
+				  	required string SecurityGroup	= 3; 
+				  	required string RadioUserCapabilityProfileAlias	= 4;
+					optional string UserEnabled 	= 5; 
+				  	optional string InterconnectEnabled	= 6; 
+					optional string PacketDataEnabled	= 7; 
+					optional string ShortDataEnabled	= 8; 
+					optional string FullDuplexEnabled	= 9; */ 
+					
+					RadioUserBean bean2=new RadioUserBean();
+					bean2.setRadioID("12345");
+					bean2.setRadioUserAlias("2ssd");
+					bean2.setSecurityGroup("亚光");
+					bean2.setRadioUserCapabilityProfileAlias("dddd");
+					bean2.setUserEnabled("1");
+					bean2.setInterconnectEnabled("NO");
+					bean2.setPacketDataEnabled("NO");
+					bean2.setShortDataEnabled("YES");
+					bean2.setFullDuplexEnabled("NO");
+					
+					SendData.RadioUserAddReq(bean2);
+					SendData.RadioUserUpdateReq(bean2);
+					SendData.RadioUserDelReq(bean2);
+					
+					
+					
+					
+					
+					
 				}
 				// read body
-				byte[] buf = new byte[4096];// 收到的包字节数组
+				byte[] buf = new byte[40960];// 收到的包字节数组
 				byte[] bufH = new byte[2];// 收到的包字节数组
 				byte[] realBuf = new byte[10240];
 
 				while (connected) {
 					int len = input.read(buf);
 					int recvLen = len;
+					
+					
 					if (len > 0 && len + writeBuf.length >= 4) {
 						readBuf = new byte[len + writeBuf.length];
 						System.arraycopy(writeBuf, 0, readBuf, 0,
 								writeBuf.length);
 						System.arraycopy(buf, 0, readBuf, writeBuf.length, len);
 						len = len + writeBuf.length;
+						
+						log.info("DS<-MOTO接收数据："+FunUtil.BytesToHexS(readBuf));
 
 						System.arraycopy(readBuf, 0, bufH, 0, 2);
 						String packageHeader = HexString(bufH);
-						
-						/*log.info("TCP数据：->writebuf="+func.BytesToHexS(writeBuf));
-						log.info("TCP数据：->readBuf="+func.BytesToHexS(readBuf));*/
 						if (!packageHeader.equals("c4d7")) {
 							log.error("SocketError1111:>>!c4d7");
 							log.info(packageHeader);
 							this.writeBuf=new byte[0];
-							
-							/* writeBuf=null; */
 						} else {
 							int length = dd.BigByteArrayToShort(readBuf, 2);
+							log.info("数据解析长度="+length);
 							if (length + 4 > len) {
+								log.info("接收数据长度="+length+"小于一包的长度="+len);
 								byte[] temp = new byte[writeBuf.length];
 								System.arraycopy(writeBuf, 0, temp, 0,
 										writeBuf.length);
@@ -187,15 +179,19 @@ public class MotoTcpKeepAliveClient extends Thread {
 										recvLen);
 								// break;
 							} else if (length + 4 == len) {
-								int comId = dd.BigByteArrayToShort(readBuf, 4);
+								log.info("刚好一包数据长度");
+								
+					            int commId=dd.BigByteArrayToShort(readBuf,8);
+					           /* int status=dd.SmallByteArrayToInt(buf, 20);*/
+								/*int comId = dd.BigByteArrayToShort(readBuf, 4);
 								String callid = dd.ByteArraytoString(readBuf,
-										6, 8);
-								comID = comId;
+										6, 8);*/
+								comID = commId;
 
-								callId = dd.ByteArraytoString(readBuf, 6, 8);
-								handler(comId, length + 4, callid, readBuf, len);
+								/*callId = dd.ByteArraytoString(readBuf, 6, 8);*/
+								handler(commId, length + 4,readBuf, len);
 							} else if (len > length + 4) {
-
+								log.info("接收数据长度="+length+"大于一包的长度="+len);
 								for (int i = 0; i <= len;) {
 
 									System.arraycopy(readBuf, i, realBuf, 0,
@@ -214,7 +210,7 @@ public class MotoTcpKeepAliveClient extends Thread {
 												0, len - i);
 										break;
 									} else {
-										int comId = dd.BigByteArrayToShort(
+										/*int comId = dd.BigByteArrayToShort(
 												realBuf, 4);
 										String callid = dd.ByteArraytoString(
 												realBuf, 6, 8);
@@ -223,11 +219,12 @@ public class MotoTcpKeepAliveClient extends Thread {
 										comID = comId;
 
 										callId = dd.ByteArraytoString(realBuf,
-												6, 8);
-										handler(comId, dataLen, callid,
-												realBuf, len);
+												6, 8);*/
+										
+							            int commId=dd.BigByteArrayToShort(readBuf,8);
+										handler(commId, dataLen,realBuf, len);
 										i += length + 4;
-										writeBuf = null;
+										writeBuf=null;
 									}
 
 								}
@@ -236,14 +233,14 @@ public class MotoTcpKeepAliveClient extends Thread {
 
 					} else {
 						socket.close();
-						log.debug("====TCP connection is closed!!====");
-						log.debug("====reconnection now!!====");
+						log.info("====TCP connection is closed!!====");
+						log.info("====reconnection now!!====");
+					
 						connected = false;
 					}
 				}
-
 			} catch (SocketException e) {
-				log.debug("TCP connection trying");
+				log.info("MOTO TCP connection trying");
 				if (socket.isConnected() || socket != null) {
 					try {
 						socket.close();
@@ -260,7 +257,7 @@ public class MotoTcpKeepAliveClient extends Thread {
 				}
 			} catch (UnknownHostException e) {
 			} catch (IOException e) {
-				log.debug("recvData timeout 10s,socket is closed and reconnecting!");
+				log.info("recvData timeout 10s,socket is closed and reconnecting!");
 				try {
 					socket.close();
 
@@ -277,13 +274,30 @@ public class MotoTcpKeepAliveClient extends Thread {
 
 	}
 
-	public void handler(int comId, int len, String callid, byte[] buf,
-			int length) throws Exception {
-
+	public void handler(int comId,int len,byte[] buf,int length) throws Exception {
+		
 		try {
 			switch (comId) {
 			case 5:
-				RadioAddRsp(len,buf);// 呼叫信息
+				RadioAddRsp(len,buf);
+				break;
+			case 7:
+				RadioDelRsp(len,buf);
+				break;
+			case 9:
+				RadioUpdateRsp(len,buf);
+				break;
+			case 13:
+				RadioUserAddRsp(len,buf);
+				break;
+			case 15:
+				RadioUserDelRsp(len,buf);
+				break;
+			case 17:
+				RadioUserUpdateRsp(len,buf);
+				break;
+			case 200:
+				ACK(len,buf);
 				break;
 			default:
 				break;
@@ -305,35 +319,12 @@ public class MotoTcpKeepAliveClient extends Thread {
 			log.error(e.getMessage(), e);
 		}catch(NoSuchMethodError e){
 			log.error(e.getMessage(), e);
-		} catch (Exception e) {
+		}catch (Exception e) {
 			// TODO: handle exception
 			log.error(e.getMessage(), e);
 		}
 	}
 
-	
-	
-	public void RadioAddRsp(int len, byte[] buf) {
-		result = new byte[len - 26];
-		System.arraycopy(buf, 24, result, 0, len - 26);
-		MotoCorba.RadioAddRsp resp=null;
-		try {
-			resp=MotoCorba.RadioAddRsp.parseFrom(result);
-			xh.protobuf.RadioAddRspBean bean=new xh.protobuf.RadioAddRspBean();
-			bean.setResult(resp.getResult());
-			bean.setDetail(resp.getResult());
-			log.info("MOTO->DS:"+bean.toString());
-			
-		}catch (Error e) {
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-
-	
 	// 转16进制
 	public String HexString(byte[] src) {
 		String str = "";
@@ -342,21 +333,136 @@ public class MotoTcpKeepAliveClient extends Thread {
 		str = Integer.toHexString(v1) + Integer.toHexString(v2);
 		return str;
 	}
-
+	public void RadioAddRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioAddRsp resp=null;
+		try {
+			resp=MotoCorba.RadioAddRsp.parseFrom(result);
+			xh.protobuf.RadioAddRspBean bean=new xh.protobuf.RadioAddRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioDelRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioDelRsp resp=null;
+		try {
+			resp=MotoCorba.RadioDelRsp.parseFrom(result);
+			xh.protobuf.RadioDelRspBean bean=new xh.protobuf.RadioDelRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioUpdateRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioUpdateRsp resp=null;
+		try {
+			resp=MotoCorba.RadioUpdateRsp.parseFrom(result);
+			xh.protobuf.RadioUpdateRspBean bean=new xh.protobuf.RadioUpdateRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioUserAddRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioUserAddRsp resp=null;
+		try {
+			resp=MotoCorba.RadioUserAddRsp.parseFrom(result);
+			xh.protobuf.RadioUserAddRspBean bean=new xh.protobuf.RadioUserAddRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioUserDelRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioUserDelRsp resp=null;
+		try {
+			resp=MotoCorba.RadioUserDelRsp.parseFrom(result);
+			xh.protobuf.RadioUserDelRspBean bean=new xh.protobuf.RadioUserDelRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioUserUpdateRsp(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioUserUpdateRsp resp=null;
+		try {
+			resp=MotoCorba.RadioUserUpdateRsp.parseFrom(result);
+			xh.protobuf.RadioUserUpdateRspBean bean=new xh.protobuf.RadioUserUpdateRspBean();
+			bean.setResult(resp.getResult());
+			bean.setDetail(resp.getDetail());
+			log.info("MOTO->DS:"+bean.toString());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void ACK(int len, byte[] buf) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.Ack resp=null;
+		try {
+			resp=MotoCorba.Ack.parseFrom(result);
+			log.info("MOTO->DS: ACK="+resp.getAck());
+			
+		}catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static byte[] getBufferFlag() {
 		return bufferFlag;
 	}
 
 	public static void setBufferFlag(byte[] bufferFlag) {
-		MotoTcpKeepAliveClient.bufferFlag = bufferFlag;
-	}
-
-	public static String getFilePath() {
-		return filePath;
-	}
-
-	public static void setFilePath(String filePath) {
-		MotoTcpKeepAliveClient.filePath = filePath;
+		MotoTcpClient.bufferFlag = bufferFlag;
 	}
 
 	public static long getTimeStart() {
@@ -364,31 +470,16 @@ public class MotoTcpKeepAliveClient extends Thread {
 	}
 
 	public static void setTimeStart(long timeStart) {
-		MotoTcpKeepAliveClient.timeStart = timeStart;
+		MotoTcpClient.timeStart = timeStart;
 	}
 
-	public static String getDate() {
-		return date;
-	}
-
-	public static void setDate(String date) {
-		MotoTcpKeepAliveClient.date = date;
-	}
-
-	public static String getFileName() {
-		return fileName;
-	}
-
-	public static void setFileName(String fileName) {
-		MotoTcpKeepAliveClient.fileName = fileName;
-	}
 
 	public static Socket getSocket() {
 		return socket;
 	}
 
 	public static void setSocket(Socket socket) {
-		MotoTcpKeepAliveClient.socket = socket;
+		MotoTcpClient.socket = socket;
 	}
 
 	public static byte[] getResult() {
@@ -396,7 +487,7 @@ public class MotoTcpKeepAliveClient extends Thread {
 	}
 
 	public static void setResult(byte[] result) {
-		MotoTcpKeepAliveClient.result = result;
+		MotoTcpClient.result = result;
 	}
 
 	public int getSlot() {
@@ -407,9 +498,7 @@ public class MotoTcpKeepAliveClient extends Thread {
 		this.slot = slot;
 	}
 
-	public MotoTcpKeepAliveClient(String ip, int port) {
-		this.ip = ip;
-		this.port = port;
+	public MotoTcpClient() {
 	}
 
 	public boolean isConnected() {
@@ -425,7 +514,7 @@ public class MotoTcpKeepAliveClient extends Thread {
 	}
 
 	public static void setComID(int comID) {
-		MotoTcpKeepAliveClient.comID = comID;
+		MotoTcpClient.comID = comID;
 	}
 
 	public static int getBufLen() {
@@ -433,129 +522,29 @@ public class MotoTcpKeepAliveClient extends Thread {
 	}
 
 	public static void setBufLen(int bufLen) {
-		MotoTcpKeepAliveClient.bufLen = bufLen;
+		MotoTcpClient.bufLen = bufLen;
 	}
 
-	public static int getUsetime() {
-		return usetime;
-	}
-
-	public static void setUsetime(int usetime) {
-		MotoTcpKeepAliveClient.usetime = usetime;
-	}
 
 	public static String getCallId() {
 		return callId;
 	}
 
 	public static void setCallId(String callId) {
-		MotoTcpKeepAliveClient.callId = callId;
+		MotoTcpClient.callId = callId;
 	}
 
-	public static String getCallType() {
-		return callType;
-	}
-
-	public static void setCallType(String callType) {
-		MotoTcpKeepAliveClient.callType = callType;
-	}
 
 	public static byte[] getWriteBuf() {
 		return writeBuf;
 	}
 
 	public static void setWriteBuf(byte[] writeBuf) {
-		MotoTcpKeepAliveClient.writeBuf = writeBuf;
+		MotoTcpClient.writeBuf = writeBuf;
 	}
 
-	public static long getTime() {
-		return time;
-	}
+	
 
-	public static void setTime(long time) {
-		MotoTcpKeepAliveClient.time = time;
-	}
-
-	public static ArrayList<HashMap<String, Object>> getCallList() {
-		return callList;
-	}
-
-	public static void setCallList(ArrayList<HashMap<String, Object>> callList) {
-		MotoTcpKeepAliveClient.callList = callList;
-	}
-
-	public static HashMap<String, Object> getStartTimeMap() {
-		return startTimeMap;
-	}
-
-	public static void setStartTimeMap(HashMap<String, Object> startTimeMap) {
-		MotoTcpKeepAliveClient.startTimeMap = startTimeMap;
-	}
-
-	public static ArrayList<HashMap<String, Object>> getBsInfoList() {
-		return bsInfoList;
-	}
-
-	public static void setBsInfoList(
-			ArrayList<HashMap<String, Object>> bsInfoList) {
-		MotoTcpKeepAliveClient.bsInfoList = bsInfoList;
-	}
-
-	public static ArrayList getColorList() {
-		return colorList;
-	}
-
-	public static void setColorList(ArrayList colorList) {
-		MotoTcpKeepAliveClient.colorList = colorList;
-	}
-
-	public static HashMap<String, Map> getCallMap() {
-		return callMap;
-	}
-
-	public static void setCallMap(HashMap<String, Map> callMap) {
-		MotoTcpKeepAliveClient.callMap = callMap;
-	}
-
-	public static int getM_rssi() {
-		return m_rssi;
-	}
-
-	public static void setM_rssi(int m_rssi) {
-		MotoTcpKeepAliveClient.m_rssi = m_rssi;
-	}
-
-	public static HashMap<String, String> getRssi_map() {
-		return rssi_map;
-	}
-
-	public static void setRssi_map(HashMap<String, String> rssi_map) {
-		MotoTcpKeepAliveClient.rssi_map = rssi_map;
-	}
-
-	public static int getM_calling() {
-		return m_calling;
-	}
-
-	public static void setM_calling(int m_calling) {
-		MotoTcpKeepAliveClient.m_calling = m_calling;
-	}
-
-	public static HashMap<String, ArrayList> getColorMap() {
-		return colorMap;
-	}
-
-	public static void setColorMap(HashMap<String, ArrayList> colorMap) {
-		MotoTcpKeepAliveClient.colorMap = colorMap;
-	}
-
-	public static int getM_countin() {
-		return m_countin;
-	}
-
-	public static void setM_countin(int m_countin) {
-		MotoTcpKeepAliveClient.m_countin = m_countin;
-	}
 
 }
 

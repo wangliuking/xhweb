@@ -8,11 +8,10 @@ import xh.func.plugin.FunUtil;
 public class MotoMessageStruct {
 	protected final Log log = LogFactory.getLog(MotoMessageStruct.class);
 	private short CMDHeader=(short) 0xC4D7;//commandHeader	2	命令开始字段  
-	private  short Length=22;           //length	2	后接数据长度
+	private  short Length=16;           //length	2	后接数据长度
+	private  int TargetId=0;           //4	设备号
 	private short CMDId;             //2  命令id
 	private String CallID;           //8 业务流水号
-	private int SeqNum=0;            //2  业务内序号
-	private String Reserved="";         //8 保留字段。
 	private short CheckSum=(short)0x0000;//checksum	2	校验码       //18
 	
 	
@@ -46,18 +45,17 @@ public class MotoMessageStruct {
 		CallID = callID;
 	}
 
-	public int getSeqNum() {
-		return SeqNum;
+	
+	public int getTargetId() {
+		return TargetId;
 	}
-	public void setSeqNum(int seqNum) {
-		SeqNum = seqNum;
+
+
+	public void setTargetId(int targetId) {
+		TargetId = targetId;
 	}
-	public String getReserved() {
-		return Reserved;
-	}
-	public void setReserved(String reserved) {
-		Reserved = reserved;
-	}
+
+
 	public short getCheckSum() {
 		return CheckSum;
 	}

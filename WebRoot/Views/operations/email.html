@@ -75,8 +75,14 @@
 										onclick="xh.setReaded()">
 										<i class="fa fa-edit"></i>&nbsp;标记为已读
 									</button>
+									<button class="btn btn-success btn-sm" ng-disabled=""
+                                       ng-click="hasRead(1)">&nbsp;已读邮件
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" ng-disabled=""
+                                        ng-click="hasRead(0)">&nbsp;未读邮件
+                                    </button>
 									<button class="btn btn-warning btn-sm" ng-click="search(1)">
-										<i class="fa fa-refresh"></i>&nbsp;刷新
+										&nbsp;全部邮件
 									</button>
 								</div>
 							</div>

@@ -11,23 +11,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.Timer;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ArrayUtils;
 
 import xh.func.plugin.DocConverter;
 import xh.func.plugin.FunUtil;
+import xh.org.socket.MotoTcpClient;
+import xh.org.socket.TcpKeepAliveClient;
 
 public class test {
 
 	public static void main(String[] args) {
-		// 准备数据
-        List<String> data = new ArrayList<String>();
-        for (int i = 0; i < 30; i++) {
-            data.add("item" + i);
-        }
-       handleList(data, 7);
-       System.out.println(ArrayUtils.toString(data));
+      MotoTcpClient tcp=new MotoTcpClient();
+       tcp.start();
+    
 	}
 
 	public synchronized static void handleList(List<String> data, int threadNum) {

@@ -45,9 +45,11 @@ public class MemberCenterController {
 		this.success=true;
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String status=request.getParameter("status");
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("status", status);
 		map.put("loginUser", funUtil.loginUser(request));
 		HashMap result = new HashMap();
 		result.put("success", success);
