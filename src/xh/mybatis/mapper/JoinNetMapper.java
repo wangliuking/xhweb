@@ -17,6 +17,8 @@ public interface JoinNetMapper {
 	
 	public List<Map<String, Object>> net_db(int id)throws Exception;
 	
+	public List<Map<String, Object>> programingTemplateList(Map<String, Object> map)throws Exception;
+	
 	/**
 	 * 申请进度查询
 	 * @param id
@@ -31,6 +33,8 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public List<Integer> getUserCIDByID(int id)throws Exception;
+	
+	
 	/**
 	 * 总数
 	 * @return
@@ -57,6 +61,8 @@ public interface JoinNetMapper {
 	 * @throws Exception
 	 */
 	public int insertProgramingTemplate(Map<String, String> map)throws Exception;
+	
+	public int existsProgramingTemplate(Map<String, String> map)throws Exception;
 	/**
 	 * 管理方审核
 	 * @param bean

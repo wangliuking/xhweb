@@ -44,6 +44,19 @@ public class JoinNetService {
 		}
 		return list;
 	}
+	public static List<Map<String, Object>> programingTemplateList(Map<String, Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String, Object>>();
+		try {
+			list = mapper.programingTemplateList(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/**
 	 * 申请进度查询
 	 * @param id
@@ -154,13 +167,28 @@ public class JoinNetService {
 	 * @param map
 	 * @return
 	 */
+	public static int existsProgramingTemplate(Map<String, String> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
+		int result=0;
+		try {
+			result=mapper.existsProgramingTemplate(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	public static int insertProgramingTemplate(Map<String, String> map){
 		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.master);
 		JoinNetMapper mapper = sqlSession.getMapper(JoinNetMapper.class);
 		int result=0;
 		try {
-			result=mapper.insertProgramingTemplate(map);
-			sqlSession.commit();
+			if(existsProgramingTemplate(map)==0){
+				result=mapper.insertProgramingTemplate(map);
+				sqlSession.commit();
+			}			
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

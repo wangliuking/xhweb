@@ -131,7 +131,7 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>审核意见</label>&nbsp;<span class="text-danger">[*]</span> <select
-									class="form-control" name="checked">
+									class="form-control" name="checked" ng-init="c_check=1" ng-model="c_check">
 									<option value="1" ng-selected="1">审核通过</option>
 									<option value="-1">拒绝</option>
 								</select>
@@ -146,7 +146,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-show="c_check==1">
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>指定经办人</label>&nbsp;<span class="text-danger">[*]</span> <select

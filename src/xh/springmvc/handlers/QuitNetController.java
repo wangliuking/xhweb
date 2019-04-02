@@ -343,7 +343,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "处理方案审核通过，请服务提供方上传实施报告。。。", request);
+			sendNotifytoSingle(user, "服务提供方已经确认收到了退网处理方案", request);
 			//----END
 		} else {
 			this.message = "处理方案审核失败";
@@ -419,6 +419,7 @@ public class QuitNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String note6 = request.getParameter("note6");
 		String user = request.getParameter("user");
+		String userName = request.getParameter("userName");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setUser6(funUtil.loginUser(request));
 		bean.setId(id);
@@ -437,7 +438,8 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-//			sendNotifytoSingle(user, "实施方案审核成功，流程结束。。。", request);
+     		sendNotifytoSingle(user, "管理方已经确认了你提交的是实施方案，流程结束。。。", request);
+     		sendNotifytoSingle(userName, "本次退网工作已经结束！", request);
 			//----END
 		} else {
 			this.message = "实施方案审核失败";
@@ -486,7 +488,7 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "处理方案审核，请服务提供方审核。。。", request);
+			sendNotifytoSingle(user, "经办人上传了实施报告，请尽快审核", request);
 			//----END
 		} else {
 			this.message = "处理方案提交失败";
@@ -514,6 +516,7 @@ public class QuitNetController {
 		int id = funUtil.StringToInt(request.getParameter("id"));
 		String note8 = request.getParameter("note8");
 		String user = request.getParameter("user");
+		String userName = request.getParameter("userName");
 		QuitNetBean bean = new QuitNetBean();
 		bean.setUser8(funUtil.loginUser(request));
 		bean.setId(id);
@@ -532,7 +535,9 @@ public class QuitNetController {
 			WebLogService.writeLog(webLogBean);
 
 			//----发送通知邮件
-			sendNotifytoSingle(user, "处理方案审核通过，请服务提供方上传实施报告。。。", request);
+			sendNotifytoSingle(user, "领导已经确认了你提交的实施报告", request);
+			sendNotifytoSingle(userName, "你的网申请已经处理结束！", request);
+			//sendNotifytoSingle(user, "处理方案审核通过，请服务提供方上传实施报告。。。", request);
 			//----END
 		} else {
 			this.message = "审核提交失败";

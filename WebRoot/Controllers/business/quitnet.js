@@ -305,6 +305,7 @@ xh.quit = function() {
 			$("#add_btn").button('reset');
 			if (data.result ==1) {
 				$('#quit').modal('hide');
+				$("#addForm")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -380,7 +381,9 @@ xh.check3 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
-				$("#checkForm3")[0].reset();
+				$('#checkForm3').find("input[name='result']").val("");
+				$('#checkForm3').find("input[name='fileName']").val("");
+				$('#checkForm3').find("input[name='filePath']").val("");
 				$("#checkForm3").find("#uploadResult1").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -432,7 +435,9 @@ xh.check5 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
-				$("#checkForm5")[0].reset();
+				$('#checkForm5').find("input[name='result']").val("");
+				$('#checkForm5').find("input[name='fileName']").val("");
+				$('#checkForm5').find("input[name='filePath']").val("");
 				$("#checkForm5").find("#uploadResult2").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -456,7 +461,7 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
-				$("#checkForm6")[0].reset();
+				$('#checkForm6').find("textarea[name='note6']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -483,8 +488,10 @@ xh.check7 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin7').modal('hide');
-				$("#checkForm7")[0].reset();
-				$("#checkForm7").find("#uploadResult3").html("");
+				$('#checkForm7').find("input[name='result']").val("");
+				$('#checkForm7').find("input[name='fileName']").val("");
+				$('#checkForm7').find("input[name='filePath']").val("");
+				$('#checkForm7').find("#uploadResult3").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -508,7 +515,7 @@ xh.check8 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin8').modal('hide');
-				$("#checkForm8")[0].reset();
+				$('#checkForm8').find("textarea[name='note8']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

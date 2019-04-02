@@ -393,8 +393,8 @@ xh.check2 = function() {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
 				//$("input[name='result']").val(1);
-				$('#checkForm2')[0].reset();
-				$("#uploadResult1").html("");
+				$('#checkForm2').find("input[name='result']").val("");
+				$('#checkForm2').find("#uploadResult1").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -419,7 +419,7 @@ xh.check3 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
-				$('#checkForm3')[0].reset();
+				$('#checkForm3').find("textarea[name='note2']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -444,8 +444,8 @@ xh.check4 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				$('#checkForm4')[0].reset();
-				$("#uploadResult2").html("");
+				$('#checkForm4').find("input[name='result']").val("");
+				$('#checkForm4').find("#uploadResult2").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -470,7 +470,7 @@ xh.check5 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin5').modal('hide');
-				$('#checkForm5')[0].reset();
+				$('#checkForm5').find("textarea[name='note3']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -495,8 +495,8 @@ xh.check6 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin6').modal('hide');
-				$('#checkForm6')[0].reset();
-				$("#uploadResult3").html("");
+				$('#checkForm6').find("input[name='result']").val("");
+				$('#checkForm6').find("#uploadResult3").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -523,7 +523,7 @@ xh.check7 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin7').modal('hide');
-				$('#checkForm7')[0].reset();
+				$('#checkForm7').find("textarea[name='note4']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -548,8 +548,10 @@ xh.check8 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin8').modal('hide');
-				$('#checkForm8')[0].reset();
-				$("#uploadResult4").html("");
+				$('#checkForm8').find("input[name='result']").val("");
+				$('#checkForm8').find("input[name='fileName']").val("");
+				$('#checkForm8').find("input[name='filePath']").val("");
+				$('#checkForm8').find("#uploadResult4").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -598,8 +600,10 @@ xh.check10 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin10').modal('hide');
-				$('#checkForm10')[0].reset();
-				$("#uploadResult5").html("");
+				$('#checkForm10').find("input[name='result']").val("");
+				$('#checkForm10').find("input[name='fileName']").val("");
+				$('#checkForm10').find("input[name='filePath']").val("");
+				$('#checkForm10').find("#uploadResult5").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -623,7 +627,7 @@ xh.check11 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin11').modal('hide');
-				$('#checkForm11')[0].reset();
+				$('#checkWin11').find("textarea[name='note6']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -648,8 +652,10 @@ xh.check12 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin12').modal('hide');
-				$('#checkForm12')[0].reset();
-				$("#uploadResult6").html("");
+				$('#checkForm12').find("input[name='result']").val("");
+				$('#checkForm12').find("input[name='fileName']").val("");
+				$('#checkForm12').find("input[name='filePath']").val("");
+				$('#checkForm12').find("#uploadResult6").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -698,8 +704,10 @@ xh.check14 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin14').modal('hide');
-				$('#checkForm14')[0].reset();
-				$("#uploadResult7").html("");
+				$('#checkForm14').find("input[name='result']").val("");
+				$('#checkForm14').find("input[name='fileName']").val("");
+				$('#checkForm14').find("input[name='filePath']").val("");
+				$('#checkForm14').find("#uploadResult7").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -724,6 +732,7 @@ xh.check15 = function() {
 
 			if (data.result ==1) {
 				$('#checkWin15').modal('hide');
+				$('#checkForm15').find("textarea[name='note8']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

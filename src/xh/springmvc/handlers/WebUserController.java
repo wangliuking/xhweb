@@ -548,7 +548,7 @@ public class WebUserController {
 	                Object val = entry.getValue();  
 	                if (((String) val).equals(bean.getUser())) {  
 	                	SingLoginListener.getLogUserMap().remove(key);
-	                	UserRedis.delSession(request.getSession().getId());
+	                	UserRedis.delSession(key.toString());
 	                	
 	                }  
 	            }  

@@ -479,7 +479,7 @@ xh.check1 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin1').modal('hide');
-				$('#checkForm1')[0].reset();
+				$('#checkForm1').find("textarea[name='note1']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -503,7 +503,7 @@ xh.check2 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin2').modal('hide');
-				$("#checkForm2")[0].reset();
+				$('#checkForm2').find("textarea[name='note2']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -531,8 +531,11 @@ xh.check3 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin3').modal('hide');
-				$("#checkForm3")[0].reset();
-				$("#checkForm3").find("#uploadResultBZ").html("");
+				$('#checkForm3').find("input[name='result']").val("");
+				$('#checkForm3').find("input[name='fileName']").val("");
+				$('#checkForm3').find("input[name='filePath']").val("");
+				$('#checkForm3').find("#uploadResultBZ").html("");
+				$('#checkForm3').find("textarea[name='note3']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -556,7 +559,7 @@ xh.check4 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin4').modal('hide');
-				$("#checkForm4")[0].reset();
+				$('#checkForm4').find("textarea[name='note4']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -580,7 +583,7 @@ xh.check5 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin5').modal('hide');
-				$("#checkForm5")[0].reset();
+				$('#checkForm5').find("textarea[name='note5']").val("");
 				xh.refresh();
 				swal({
 					title : "提示",
@@ -639,7 +642,6 @@ xh.check7 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin7').modal('hide');
-				$("#checkForm7")[0].reset();
 				$("#checkForm7").find("#uploadResultNote").html();
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -692,7 +694,7 @@ xh.check9 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin9').modal('hide');
-				$("#checkForm9")[0].reset();
+				$("#checkWin9").find("#note6").html();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -720,7 +722,9 @@ xh.check10 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin10').modal('hide');
-				$("#checkForm10")[0].reset();
+				$('#checkForm10').find("input[name='result']").val("");
+				$('#checkForm10').find("input[name='fileName']").val("");
+				$('#checkForm10').find("input[name='filePath']").val("");
 				$("#checkForm10").find("#uploadResultCG").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
@@ -781,7 +785,9 @@ xh.check11 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin11').modal('hide');
-				$("#checkForm11")[0].reset();
+				$('#checkForm11').find("input[name='result']").val("");
+				$('#checkForm11').find("input[name='fileName']").val("");
+				$('#checkForm11').find("input[name='filePath']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -829,8 +835,11 @@ xh.check13 = function() {
 
 			if (data.result == 1) {
 				$('#checkWin13').modal('hide');
-				 $("#checkForm13")[0].reset();
+				$('#checkForm13').find("input[name='result']").val("");
+				$('#checkForm13').find("input[name='fileName']").val("");
+				$('#checkForm13').find("input[name='filePath']").val("");
 				 $("#checkForm13").find("#uploadResultFJ").html("");
+				 $('#checkForm13').find("textarea[name='note2_suggest']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 
@@ -854,7 +863,7 @@ xh.check14 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin14').modal('hide');
-				$("#checkForm14")[0].reset();
+				$('#checkWin14').find("textarea[name='note2']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -882,8 +891,11 @@ xh.check15 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin15').modal('hide');
-				$("#checkForm15")[0].reset();
+				$('#checkForm15').find("input[name='result']").val("");
+				$('#checkForm15').find("input[name='fileName']").val("");
+				$('#checkForm15').find("input[name='filePath']").val("");
 				$("#checkForm15").find("#uploadResultBZ1").html("");
+				$('#checkForm15').find("textarea[name='note3']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -907,7 +919,7 @@ xh.check16 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin16').modal('hide');
-				$("#checkForm16")[0].reset();
+				$('#checkForm16').find("textarea[name='note4']").val("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -935,8 +947,10 @@ xh.check17 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin17').modal('hide');
-				$("#checkForm17")[0].reset();
-				$("#checkForm17").find("#uploadResultXY").html();
+				$('#checkWin17').find("input[name='result']").val("");
+				$('#checkWin17').find("input[name='fileName']").val("");
+				$('#checkWin17').find("input[name='filePath']").val("");
+				$("#checkForm17").find("#span_result_GH").html();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				
@@ -960,7 +974,6 @@ xh.check18 = function() {
 			
 			if (data.result == 1) {
 				$('#checkWin18').modal('hide');
-				 $("#checkForm18")[0].reset();
 				xh.refresh();
 				toastr.success(data.message, '提示');
 				

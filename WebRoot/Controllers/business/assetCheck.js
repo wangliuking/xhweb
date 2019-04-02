@@ -243,6 +243,9 @@ xh.check2 = function(checked) {
 
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
+				$("#checkForm2").find("input[type='hidden']").val("");
+				$("#checkWin2").find("textarea[name='note2']").val("");
+				$("#checkWin2").find("span[id='uploadResult']").html("");
 				xh.refresh();
 				toastr.success(data.message, '提示');
 

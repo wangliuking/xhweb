@@ -15,18 +15,16 @@
 		from xhgmnet_business_communicationsupport as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user where 1=1
 		
 		<choose>
-		<when test="roleId &lt;10000"> and a.userName=#{user}</when>
-		<when test="roleId ==10002"> 
-		
+		<when test="roleType>3"> and a.userName=#{user}</when>
+		<when test="roleType==2"> 
 		<if test="power=='on'">
-		and a.checked>=1 
-		</if>
-		<if test="power!='on'">
-		and a.checked>=2  and a.checkUser=#{user}
-		</if>
-		
+        and (a.checked>=1 or a.checked=-1) 
+        </if>
+        <if test="power!='on'">
+        and a.checked>=2  and a.checkUser=#{user}
+        </if>
 		</when>
-		<when test="roleId ==10003">
+		<when test="roleType==3">
 		and a.checked>=5
 		</when>
 		</choose>
@@ -37,20 +35,18 @@
 	<select id="dataCount" parameterType="map" resultType="int" useCache="true">
 		select count(id) from xhgmnet_business_communicationsupport where 1=1
 		<choose>
-		<when test="roleId &lt;10000"> and userName=#{user}</when>
-		<when test="roleId ==10002"> 
-		
-		<if test="power=='on'">
-		and checked>=1 
-		</if>
-		<if test="power!='on'">
-		and checked>=2  and checkUser=#{user}
-		</if>
-		
-		</when>
-		<when test="roleId ==10003">
-		and checked>=5
-		</when>
+		<when test="roleType>3"> and userName=#{user}</when>
+        <when test="roleType==2"> 
+        <if test="power=='on'">
+        and (checked>=1 or checked=-1) 
+        </if>
+        <if test="power!='on'">
+        and checked>=2  and checkUser=#{user}
+        </if>
+        </when>
+        <when test="roleType==3">
+        and checked>=5
+        </when>
 		</choose>
 	</select>
 	<!--查询保障申请进度 -->
