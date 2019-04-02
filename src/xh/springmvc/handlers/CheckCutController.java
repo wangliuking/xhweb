@@ -431,7 +431,14 @@ public class CheckCutController {
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
         }
-        bean.setPeriod("成都市应急指挥调度无线通信网"+res.get("period")+"项目部");
+        String tempPeriod = res.get("period")+"";
+        String period = "";
+        if("3".equals(tempPeriod)){
+            period = "三";
+        }else if("4".equals(tempPeriod)){
+            period = "四";
+        }
+        bean.setPeriod("成都市应急指挥调度无线通信网"+period+"期项目部");
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
@@ -520,7 +527,14 @@ public class CheckCutController {
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
         }
-        bean.setPeriod("成都市应急指挥调度无线通信网"+res.get("period")+"期项目部");
+        String tempPeriod = res.get("period")+"";
+        String period = "";
+        if("3".equals(tempPeriod)){
+            period = "三";
+        }else if("4".equals(tempPeriod)){
+            period = "四";
+        }
+        bean.setPeriod("成都市应急指挥调度无线通信网"+period+"期项目部");
         Calendar cal = Calendar.getInstance();
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));

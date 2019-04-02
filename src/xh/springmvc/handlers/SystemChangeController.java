@@ -129,12 +129,19 @@ public class SystemChangeController {
         SystemChangeSheet bean = (SystemChangeSheet)JSONObject.toBean(jsonobject, SystemChangeSheet.class);
         this.success = true;
         int res = SystemChangeService.sheetChange(bean);
-        //更新主表字段
+        //更新主表字段和状态
         SystemChangeBean tempBean = new SystemChangeBean();
         tempBean.setId(bean.getId());
         tempBean.setSystemChangeType(bean.getSystemChangeType());
         tempBean.setSolutionNewVersion(bean.getSolutionNewVersion());
-        SystemChangeService.updateTypeAndQuestionById(tempBean);
+        tempBean.setUser10(funUtil.loginUser(request));
+        tempBean.setTime10(FunUtil.nowDate());
+        int rst = SystemChangeService.updateTypeAndQuestionById(tempBean);
+
+        if (rst == 1) {
+            //向管理方负责人发送通知邮件
+            FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","项目负责人已反馈系统升级结果，请查阅",request);
+        }
 
         this.message = "保存成功";
         HashMap result = new HashMap();

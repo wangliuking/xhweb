@@ -86,7 +86,8 @@
 										<div>
 											<select class="form-control" id="status" name="status" style="width:158px;">
 												<option value="100">全部</option>
-												<option value="-2">不通过</option>
+												<option value="-2">运维负责人不通过</option>
+												<option value="-1">管理方不通过</option>
 												<option value="0">已发起</option>
 												<option value="1">复核通过</option>
 												<option value="2">审核通过</option>
@@ -218,7 +219,8 @@
 										<td>{{x.breakTime}}</td>
                                         <td ng-if="x.requestTime == '' "></td>
                                         <td ng-if="x.requestTime != '' ">{{x.requestTime}}</td>
-										<td ng-if="x.checked==-2" class="td-danger">不通过</td>
+										<td ng-if="x.checked==-2" class="td-danger">运维负责人不通过</td>
+										<td ng-if="x.checked==-1" class="td-danger">管理方不通过</td>
 										<td ng-if="x.checked==0" class="td-warning">已发起</td>
 										<td ng-if="x.checked==1" class="td-warning">复核通过</td>
 										<td ng-if="x.checked==2" class="td-warning">审核通过</td>
@@ -235,6 +237,10 @@
 											<a ng-if="roleId==301 && x.checked==7"
 											   href="#" ng-click="checkWin($index)">|<i
 													class="fa fa-hand-o-down text-danger"></i> 发起核减申请</a>
+
+											<a ng-if="roleId==301 && x.checked==-1"
+											   href="#" ng-click="checkWin($index)">|<i
+													class="fa fa-hand-o-down text-danger"></i> 重新发起核减申请</a>
 
 											<a ng-if="roleId==301 && x.checked==-2"
 											   href="#" ng-click="checkWin($index)">|<i

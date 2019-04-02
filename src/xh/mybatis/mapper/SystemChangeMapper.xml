@@ -147,7 +147,7 @@
 
     <!--更新类型和新版解决问题字段-->
     <update id="updateTypeAndQuestionById" parameterType="xh.mybatis.bean.SystemChangeBean">
-        update xhgmnet_bs_systemChange set systemChangeType=#{systemChangeType},solutionNewVersion=#{solutionNewVersion} where id=#{id}
+        update xhgmnet_bs_systemChange set systemChangeType=#{systemChangeType},solutionNewVersion=#{solutionNewVersion},checked=9,user10=#{user10},time10=#{time10} where id=#{id}
     </update>
 
 </mapper>

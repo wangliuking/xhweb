@@ -126,6 +126,10 @@
 												class="fa fa-file-text-o text-success"> </i>&nbsp;申请资料及进度
 										</a>
 
+										<a ng-if="x.checked==9 && up.o_check_system_up == 'on'"
+											   href="#" ng-click="sheetShow($index)"><i
+													class="fa fa-hand-o-down text-danger"></i>| &nbsp;查看升级记录表</a>
+
 										<a ng-if="x.checked==-5 && up.o_check_system_up == 'on' && loginUser == x.userName && loginUserRoleType == 3"
 											   href="#" ng-click="checkWin($index)"><i
 													class="fa fa-hand-o-down text-danger"></i>| &nbsp;重新拟制升级方案</a>
@@ -227,6 +231,8 @@
 	<div ng-include="'systemChange-add.html'"></div>
 	<!-- 进度-->
 	<div ng-include="'systemChange-progress.html'"></div>
+	<!-- 升级表-->
+	<div ng-include="'systemChange-sheet.html'"></div>
 	<!-- 审核-->
 	<div ng-include="'systemChange-check.html'"></div>
 	<script type="text/javascript"

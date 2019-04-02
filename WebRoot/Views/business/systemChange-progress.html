@@ -13,7 +13,6 @@
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
 					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
-					<li><a href="#sheet" data-toggle="tab">系统升级记录表</a> </li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane fade in active text-danger" id="info">
@@ -262,14 +261,8 @@
 									 ng-if="progressData.checked>=8"></div>
 								<div class="cd-timeline-content">
 									<h2>向管理方反馈结果</h2>
-									<a href="#" title="点击下载文件"
-									   onclick="xh.download(4)" style="color: red">{{progressData.fileName4}}</a>
-									<p>
 									<p>
 										<span>反馈人：</span><span>{{progressData.user10}}</span>
-									</p>
-									<p>
-										<span>备注：</span><span>{{progressData.note10}}</span>
 									</p>
 									<span ng-if="progressData.checked>=9"
 										  class="cd-date text-success font-bold">已向管理方反馈升级结果！
@@ -286,66 +279,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane fade " id="sheet" ng-model="sheetData">
-						<div class="order">
-							<form action="" onsubmit="false" id="systemChange-form">
-											<table id="order-table"
-												   style="width:100%;border-collapse: collapse;">
-												<tbody>
-												<tr>
-													<td colspan="6" style="text-align: center;">
-														系统升级记录表
-														<input type="hidden" id="sheetTempId" ng-value="sheetNowId"/>
-													</td>
-												</tr>
-												<tr>
-													<td style="height:40px;width:10%;">升级申请时间</td>
-													<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeStartTime" /></td>
-													<td style="height:40px;width:10%;">升级执行时间</td>
-													<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeExcTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeExcTime" /></td>
-												</tr>
 
-												<tr>
-													<td>类型</td>
-													<td colspan="5"><div contenteditable="true" name="progress">
-														<input  type="radio" name="systemChangeType" value="1" ng-checked="editData.systemChangeType=='1'">服务器硬件
-														<input  type="radio" name="systemChangeType" value="2" ng-checked="editData.systemChangeType=='2'">服务器软件
-														<input  type="radio" name="systemChangeType" value="3" ng-checked="editData.systemChangeType=='3'">基站版本
-													</div></td>
-												</tr>
-												<tr>
-													<td>版本(旧)</td>
-													<td><input class="sheetInput" name="versionOld" ng-model="sheetData.versionOld" /></td>
-													<td>版本(新)</td>
-													<td colspan="3"><input class="sheetInput" name="versionNew" ng-model="sheetData.versionNew" /></td>
-												</tr>
-												<tr>
-													<td>新版解决问题</td>
-													<td colspan="5"><input class="sheetInput" name="solutionNewVersion" ng-model="editData.solutionNewVersion" /></td>
-												</tr>
-												<tr>
-													<td>升级步骤及结果</td>
-													<td colspan="5"><input class="sheetInput" name="processAndResult" ng-model="sheetData.processAndResult" /></td>
-												</tr>
-												<tr>
-													<td>备注</td>
-													<td colspan="5"><input class="sheetInput" name="systemChangeNote" ng-model="sheetData.systemChangeNote" /></td>
-												</tr>
-												<tr>
-													<td>执行人员</td>
-													<td colspan="5"><input class="sheetInput" name="excPerson" ng-model="sheetData.excPerson" /></td>
-												</tr>
-												<tr>
-													<td>监督人</td>
-													<td><input class="sheetInput" name="supervisePersion" ng-model="sheetData.supervisePersion" /></td>
-													<td>编号</td>
-													<td colspan="3"><input class="sheetInput" name="serialNumber" ng-model="sheetData.serialNumber" /></td>
-												</tr>
-												</tbody>
-											</table>
-										</form>
-						</div>
-					</div>
 				</div>
 			</div>
 

@@ -529,7 +529,8 @@ xh.checkneg2 = function() {
 
             if (data.result ==1) {
                 $('#checkWin-2').modal('hide');
-                xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
                 toastr.success(data.message, '提示');
 
             } else {
@@ -553,7 +554,8 @@ xh.check1 = function() {
             if (data.result ==1) {
                 $('#checkWin1').modal('hide');
                 $('#sheet').modal('hide');
-                xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
                 toastr.success(data.message, '提示');
 
             } else {
@@ -577,7 +579,8 @@ xh.check2 = function() {
 			if (data.result ==1) {
 				$('#checkWin2').modal('hide');
                 $('#sheet').modal('hide');
-				xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
 				toastr.success(data.message, '提示');
 
 			} else {
@@ -601,7 +604,8 @@ xh.check3 = function() {
 			if (data.result ==1) {
 				$('#checkWin3').modal('hide');
 				$("input[name='result']").val(1);
-				xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
 				toastr.success(data.message, '提示');
 
 			} else {
@@ -623,7 +627,8 @@ xh.check4 = function() {
 		success : function(data) {
 			if (data.result ==1) {
 				$('#checkWin4').modal('hide');
-				xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
 				toastr.success(data.message, '提示');
 
 			} else {
