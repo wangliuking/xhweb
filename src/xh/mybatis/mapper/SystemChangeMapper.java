@@ -51,4 +51,6 @@ public interface SystemChangeMapper {
 
     public int insertDefaultPower(Map<String,Object> param)throws  Exception;
 
+    public int updateTypeAndQuestionById(SystemChangeBean bean)throws  Exception;
+
 }

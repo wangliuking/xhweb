@@ -15,22 +15,38 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>联系人</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="userUnit"
+									type="text" ng-value="addUserTemp" class="form-control" name="userUnit"
 									required="required">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>联系方式</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="tel"
+									type="text" ng-value="addTelTemp" class="form-control" name="tel"
 									required="required">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>类型</label>&nbsp;<span class="text-danger">[*]</span> <select
+									class="form-control" name="systemChangeTypeAdd">
+								<option value="1" selected="selected">服务器硬件</option>
+								<option value="2">服务器软件</option>
+								<option value="3">基站版本</option>
+							</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>解决问题</label>&nbsp;<span class="text-danger">[*]</span> <input
+									type="text"  class="form-control" name="solutionNewVersionAdd">
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>系统升级任务</label>&nbsp;<span class="text-danger">[*]</span>
+								<label>系统升级方案</label>&nbsp;<span class="text-danger">[*]</span>
 								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
 							</div>	
 							<div class="form-group col-md-4"style="margin-top:30px;" >

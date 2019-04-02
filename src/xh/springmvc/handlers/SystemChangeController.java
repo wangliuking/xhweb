@@ -129,6 +129,13 @@ public class SystemChangeController {
         SystemChangeSheet bean = (SystemChangeSheet)JSONObject.toBean(jsonobject, SystemChangeSheet.class);
         this.success = true;
         int res = SystemChangeService.sheetChange(bean);
+        //更新主表字段
+        SystemChangeBean tempBean = new SystemChangeBean();
+        tempBean.setId(bean.getId());
+        tempBean.setSystemChangeType(bean.getSystemChangeType());
+        tempBean.setSolutionNewVersion(bean.getSolutionNewVersion());
+        SystemChangeService.updateTypeAndQuestionById(tempBean);
+
         this.message = "保存成功";
         HashMap result = new HashMap();
         result.put("message",message);
@@ -159,6 +166,9 @@ public class SystemChangeController {
         String tel = request.getParameter("tel");
         String fileName = request.getParameter("fileName");
         String filePath = request.getParameter("path");
+        String systemChangeType = request.getParameter("systemChangeTypeAdd");
+        String solutionNewVersion = request.getParameter("solutionNewVersionAdd");
+
         SystemChangeBean bean = new SystemChangeBean();
         bean.setUserUnit(userUnit);
         bean.setTel(tel);
@@ -167,6 +177,9 @@ public class SystemChangeController {
         bean.setNote1(note1);
         bean.setUserName(funUtil.loginUser(request));
         bean.setRequestTime(FunUtil.nowDate());
+        bean.setSystemChangeType(systemChangeType);
+        bean.setSolutionNewVersion(solutionNewVersion);
+        bean.setChecked(3);
 
         log.info("data==>" + bean.toString());
         int rst = SystemChangeService.insertSystemChange(bean);
@@ -174,7 +187,8 @@ public class SystemChangeController {
         if (rst == 1) {
             this.message = "系统升级方案已经成功提交";
             //----向项目经理发送通知邮件
-            FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","系统升级方案已经提交",request,funUtil.loginUser(request));
+           // FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","系统升级方案已经提交",request,funUtil.loginUser(request));
+            FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","项目负责人提交了系统升级申请，请确认",request);
         } else {
             this.message = "系统升级方案提交失败";
         }
@@ -378,20 +392,20 @@ public class SystemChangeController {
         this.message = "管理方已审核";
         int rst = SystemChangeService.checkedFour(bean);
         if (rst == 1) {
-            if(checked == 4){
+            if(checked == 5){
                 //管理方负责人同意申请
                 //管理方负责人发送通知邮件给项目负责人
                 Map<String,Object> tempParam = new HashMap<String,Object>();
                 tempParam.put("id",id);
                 Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
                 FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方负责人同意申请",request);
-            }else if(checked == -3){
+            }else if(checked == -1){
                 //管理方负责人不同意升级
                 //管理方负责人发送通知邮件给项目经理
                 Map<String,Object> tempParam = new HashMap<String,Object>();
                 tempParam.put("id",id);
                 Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
-                FunUtil.sendMsgToUserByPowerFilter("o_check_system_up",3,"系统升级","管理方不同意进行升级",request,tempMap.get("userName")+"");
+                FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","管理方负责人不同意申请",request);
             }
 
         }
@@ -494,7 +508,7 @@ public class SystemChangeController {
         String note7 = request.getParameter("note7");
         SystemChangeBean bean = new SystemChangeBean();
         bean.setId(id);
-        bean.setChecked(6);
+        bean.setChecked(8);
         bean.setUser7(funUtil.loginUser(request));
         bean.setTime7(FunUtil.nowDate());
         bean.setNote7(note7);
@@ -503,8 +517,10 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedSix(bean);
         if(rst == 1){
             //通知实施组执行系统升级
-            FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级",ExcImplId+"实施组准备进行系统升级！",request);
-            message = "已通知实施组";
+            /*FunUtil.sendMsgToUserByGroupPower("r_system_up",3,"系统升级",ExcImplId+"实施组准备进行系统升级！",request);
+            message = "已通知实施组";*/
+            //通知管理方正在进行系统升级
+            FunUtil.sendMsgToUserByPower("o_check_system_up",2,"系统升级","项目负责人开始了系统升级",request);
         }
 
         HashMap result = new HashMap();
@@ -544,10 +560,10 @@ public class SystemChangeController {
         int rst = SystemChangeService.checkedSenven(bean);
         if(rst == 1){
             //通知项目负责人升级的结果
-            Map<String,Object> tempParam = new HashMap<String,Object>();
+            /*Map<String,Object> tempParam = new HashMap<String,Object>();
             tempParam.put("id",id);
             Map<String,Object> tempMap = SystemChangeService.selectSystemChangeById(tempParam);
-            FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","请查阅系统升级的结果",request);
+            FunUtil.sendMsgToOneUser(tempMap.get("userName")+"","系统升级","请查阅系统升级的结果",request);*/
         }
 
         HashMap result = new HashMap();
@@ -808,7 +824,7 @@ public class SystemChangeController {
         String fileName = file.getOriginalFilename();
         //String fileName = new Date().getTime()+".jpg";
         log.info("path==>"+path);
-        log.info("fileName==>"+fileName);;
+        log.info("fileName==>"+fileName);
         File targetFile = new File(path, fileName);
         if (!targetFile.exists()) {
             targetFile.mkdirs();

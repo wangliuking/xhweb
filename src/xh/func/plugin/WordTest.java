@@ -61,13 +61,13 @@ public class WordTest {
         }
         //将img转为base64
         String temp1 = getImgStr(dataMap.get("persion1")+"");
-        System.out.println("temp1 : "+temp1);
+        //System.out.println("temp1 : "+temp1);
         dataMap.put("persion1",temp1);
         String temp2 = getImgStr(dataMap.get("persion2")+"");
-        System.out.println("temp2 : "+temp2);
+        //System.out.println("temp2 : "+temp2);
         dataMap.put("persion2",temp2);
         String temp3 = getImgStr(dataMap.get("persion3")+"");
-        System.out.println("temp3 : "+temp3);
+        //System.out.println("temp3 : "+temp3);
         dataMap.put("persion3",temp3);
 
         String tempBreakTime = dataMap.get("breakTime")+"";
@@ -83,8 +83,8 @@ public class WordTest {
         File outFile = new File(globalPath+"down\\"+dataMap.get("name")+breakTime+".doc"); //导出文件
         Writer out = null;
         try {
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));
-        } catch (FileNotFoundException e1) {
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"utf-8"));
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
 

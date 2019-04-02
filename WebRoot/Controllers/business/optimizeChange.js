@@ -52,6 +52,8 @@ xh.load = function() {
 			$scope.loginUser = response.user;
 			$scope.loginUserRoleType = response.roleType;
 			$scope.roleId = response.roleId;
+			$scope.addUserTemp = response.user;
+            $scope.addTelTemp = response.tel;
 		});
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -522,11 +524,20 @@ xh.upload = function(index) {
 		}
 	});
 };
-xh.download=function(){
+xh.download=function(param){
 	var $scope = angular.element(appElement).scope();
 	var checked = $scope.checkData.checked;
 	var fileName = null;
-	if(checked != -1){
+    if(param == 1){
+        fileName = $scope.checkData.fileName1;
+    }else if(param == 2){
+        fileName = $scope.checkData.fileName2;
+    }else if(param == 3){
+        fileName = $scope.checkData.fileName3;
+    }else if(param == 4){
+        fileName = $scope.checkData.fileName4;
+    }
+	/*if(checked != -1){
 		if(checked == 0 && $scope.checkData.fileName1!=null){
 			fileName = $scope.checkData.fileName1;
 		}
@@ -536,7 +547,7 @@ xh.download=function(){
 		else if(checked == 4 && $scope.checkData.fileName3!=null){
 			fileName = $scope.checkData.fileName3;
 		}
-	}
+	}*/
 	var filepath = "/Resources/upload/optimizeChange/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	if(xh.isfile(filepath)){
