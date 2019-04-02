@@ -116,6 +116,27 @@ public class JoinNetController {
 		}
 
 	}
+	@RequestMapping(value = "/programingTemplateList", method = RequestMethod.GET)
+	public void programingTemplateList(HttpServletRequest request,
+			HttpServletResponse response) {
+		int id = funUtil.StringToInt(request.getParameter("id"));
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("id_JoinNet", id);
+		List<Map<String, Object>> list=JoinNetService.programingTemplateList(map);
+
+		HashMap result = new HashMap();
+		result.put("items",list);
+		result.put("totals",list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
 	public void applyProgress(HttpServletRequest request,
@@ -818,10 +839,13 @@ public class JoinNetController {
 					e.printStackTrace();
 					this.message = "文件上传失败";
 				}
+			}else {
+				this.success = false;
+				isSuccess = -1;
 			}
 		} else {
-			this.success = true;
-			isSuccess = 0;
+			this.success = false;
+			isSuccess = -1;
 		}
 
 		HashMap result = new HashMap();

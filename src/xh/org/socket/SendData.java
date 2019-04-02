@@ -14,13 +14,21 @@ import java.net.UnknownHostException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
+
+
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.smsBean;
+import xh.protobuf.MotoCorba;
+import xh.protobuf.RadioAddReqBean;
+import xh.protobuf.MotoMessageStruct;
 
 public class SendData {
 	private String message = "";
 	private Socket socket = null;
 	protected static final Log log = LogFactory.getLog(SendData.class);
+	
+	private static MotoMessageStruct header=new MotoMessageStruct();
 
 	public void connection() {
 		try {
@@ -1021,6 +1029,52 @@ public class SendData {
 		log.info("sendTalkGroupSavalidRegionData-length:" + info.length);
 		log.info("sendTalkGroupSavalidRegionData:" + getData.toString());
 
+	}
+	//moto
+	public static String RadioAddReq(RadioAddReqBean bean)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		MotoCorba.RadioGetReq.Builder builder=MotoCorba.RadioGetReq.newBuilder();
+		
+		/*message RadioGetReq{  
+			required string RadioID	= 1;       
+			required string RadioReferenceID	= 2;  
+			required string RadioSerialNumber	= 3; 
+			required string SecurityGroup	= 4; 
+			｝*/
+		builder.setRadioID(bean.getRadioID());
+		builder.setRadioReferenceID(bean.getRadioReferenceID());
+		builder.setRadioSerialNumber(bean.getRadioSerialNumber());
+		builder.setSecurityGroup(bean.getSecurityGroup());
+		
+		MotoCorba.RadioGetReq req=builder.build();		
+		byte[] buffer = req.toByteArray();
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out=MotoTcpKeepAliveClient.getSocket().getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeShort((short) 4);// commandId 2 命令ID
+		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.writeShort(header.getSeqNum());
+		;// segNum 2 分片总数
+		dos.write(dd.LongData(header.getReserved(), 8));
+		/**************** content ***********************/
+		dos.write(buffer);
+		/**************** content ***********************/
+		dos.writeShort(header.getCheckSum());
+
+		byte[] info = bos.toByteArray();
+		if (MotoTcpKeepAliveClient.getSocket().isConnected()) {
+			log.info("DS->MOTO:"+bean.toString());
+			out.write(info);
+		} else {
+			return "NO";
+		}
+		return "OK";
 	}
 
 	public String getMessage() {

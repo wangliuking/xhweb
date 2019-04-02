@@ -81,6 +81,16 @@
 		xhgmnet_business_net(serviceType,netTime,serviceTime,unitPerson,tel,department,userName,checked,talkGroupNum,talkRequirment,apply0,apply1,apply2,apply3)
 		values(#{serviceType},#{netTime},#{serviceTime},#{unitPerson},#{tel},#{department},#{userName},#{checked},#{talkGroupNum},#{talkRequirment},#{apply0},#{apply1},#{apply2},#{apply3})
 	</insert>
+	<select id="existsProgramingTemplate" parameterType="map" resultType="int">
+	select count(*) from xhgmnet_business_net_programingTemplate
+	where fileName=#{fileName} and id_JoinNet=#{id_JoinNet}
+	
+	</select>
+	<select id="programingTemplateList" parameterType="map" resultType="map">
+    select * from xhgmnet_business_net_programingTemplate
+    where id_JoinNet=#{id_JoinNet}
+    
+    </select>
 	<!--导入编程模板 -->
 	<insert id="insertProgramingTemplate" useGeneratedKeys="true" keyProperty="id"
 		parameterType="map" >

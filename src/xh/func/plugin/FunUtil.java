@@ -96,7 +96,7 @@ public class FunUtil {
 					.get(request.getSession().getId()).toString();
 		} catch (NullPointerException e) {
 			// TODO: handle exception
-			log.info("获取的登录用户失败");
+			//log.info("获取的登录用户失败");
 
 		}
 		return user;

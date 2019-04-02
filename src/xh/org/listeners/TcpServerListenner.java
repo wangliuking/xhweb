@@ -13,6 +13,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.tcpServer.ServerFTP;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -36,6 +37,8 @@ public class TcpServerListenner implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
+		
+		
 		timer = new Timer(true);
 		timer1 = new Timer(true);
 		timer.schedule(new TcpServerThread(), 20 * 1000);

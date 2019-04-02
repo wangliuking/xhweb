@@ -1551,8 +1551,14 @@
 			{
 				$("#fileMutiply").val("");
 				j = 0;
-				alert("上传成功文件个数：" + countS + "\n上传失败文件个数：" + countF
-						+ "\n上传失败文件名为：" + fialdFileName);
+						swal({
+		                    title : "提示",
+		                    text :"上传成功文件个数：" + countS + "\n上传失败文件个数：" + countF
+	                        + "\n上传失败文件名为：" + fialdFileName,
+		                    type : "info"
+		                });
+						$("#listOfFiles").html("");
+						/* $("#checkWin20").modal('hidden'); */
 				return;
 			} 
 			var formData = new FormData();
