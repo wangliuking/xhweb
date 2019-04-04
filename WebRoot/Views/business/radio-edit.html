@@ -26,8 +26,15 @@
                     </div>
                     <div class="form-group col-md-12">
                         <label>安全组</label> <input type="text" value=""
-                            class="form-control" name="SecurityGroup" ng-model="editData.SecurityGroup" >
+                            class="form-control" name="SecurityGroup" ng-model="editData.SecurityGroup"  required="required">
                     </div>
+                   
+                   <!--   <div class="form-group col-md-12">
+                        <label>安全组</label> <select class="form-control" name="SecurityGroup"
+                            ng-model="editData.SecurityGroup">
+                            <option ng-repeat="x in securityGroupList" value="{{x.sn}}">{{x.sn}}</option>
+                        </select>
+                    </div> -->
 					
 
 				</form>

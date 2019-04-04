@@ -18,8 +18,10 @@ import org.apache.commons.logging.LogFactory;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import xh.constant.ConstantMap;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.RadioBean;
+import xh.mybatis.bean.RadioUserMotoBean;
 import xh.mybatis.bean.TalkGroupBean;
 import xh.mybatis.service.TalkGroupService;
 import xh.protobuf.MotoCorba;
@@ -98,14 +100,14 @@ public class MotoTcpClient extends Thread {
 				if (socket.isConnected()) {
 					connected = true;
 					log.info("MOTO TCP CONNECTED SUCCESS!!");
-					RadioBean bean=new RadioBean();
+					/*RadioBean bean=new RadioBean();
 					bean.setRadioID("12345");
 					bean.setRadioReferenceID("12345");
 					bean.setRadioSerialNumber("ggtt444");
 					bean.setSecurityGroup("亚光");
-					//SendData.RadioAddReq(bean);
-					//SendData.RadioUpdateReq(bean);
-					//SendData.RadioDelReq(bean);
+					SendData.RadioAddReq(bean);*/
+					/*SendData.RadioUpdateReq(bean);
+					SendData.RadioDelReq(bean);*/
 					
 					
 				/*	required string RadioID	= 1;       
@@ -118,7 +120,7 @@ public class MotoTcpClient extends Thread {
 					optional string ShortDataEnabled	= 8; 
 					optional string FullDuplexEnabled	= 9; */ 
 					
-					RadioUserBean bean2=new RadioUserBean();
+					/*RadioUserBean bean2=new RadioUserBean();
 					bean2.setRadioID("12345");
 					bean2.setRadioUserAlias("2ssd");
 					bean2.setSecurityGroup("亚光");
@@ -127,11 +129,11 @@ public class MotoTcpClient extends Thread {
 					bean2.setInterconnectEnabled("NO");
 					bean2.setPacketDataEnabled("NO");
 					bean2.setShortDataEnabled("YES");
-					bean2.setFullDuplexEnabled("NO");
+					bean2.setFullDuplexEnabled("NO");*/
 					
-					SendData.RadioUserAddReq(bean2);
+					/*SendData.RadioUserAddReq(bean2);
 					SendData.RadioUserUpdateReq(bean2);
-					SendData.RadioUserDelReq(bean2);
+					SendData.RadioUserDelReq(bean2);*/
 					
 					
 					
@@ -184,19 +186,18 @@ public class MotoTcpClient extends Thread {
 					            int commId=dd.BigByteArrayToShort(readBuf,8);
 					           /* int status=dd.SmallByteArrayToInt(buf, 20);*/
 								/*int comId = dd.BigByteArrayToShort(readBuf, 4);
-								String callid = dd.ByteArraytoString(readBuf,
-										6, 8);*/
+								String callid = dd.ByteArraytoString(readBuf,6, 8);*/
 								comID = commId;
 
-								/*callId = dd.ByteArraytoString(readBuf, 6, 8);*/
-								handler(commId, length + 4,readBuf, len);
+								callId = dd.ByteArraytoString(readBuf, 10, 8);
+								handler(commId, length + 4,readBuf, len,callId);
 							} else if (len > length + 4) {
-								log.info("接收数据长度="+length+"大于一包的长度="+len);
 								for (int i = 0; i <= len;) {
 
 									System.arraycopy(readBuf, i, realBuf, 0,
 											len - i);
 									length = dd.BigByteArrayToShort(realBuf, 2);
+									
 									dataLen = length + 4;
 									System.arraycopy(realBuf, 0, bufH, 0, 2);
 									packageHeader = HexString(bufH);
@@ -220,9 +221,10 @@ public class MotoTcpClient extends Thread {
 
 										callId = dd.ByteArraytoString(realBuf,
 												6, 8);*/
+										callId = dd.ByteArraytoString(realBuf,10, 8);
 										
-							            int commId=dd.BigByteArrayToShort(readBuf,8);
-										handler(commId, dataLen,realBuf, len);
+							            int commId=dd.BigByteArrayToShort(realBuf,8);
+										handler(commId, dataLen,realBuf, len,callId);
 										i += length + 4;
 										writeBuf=null;
 									}
@@ -274,30 +276,36 @@ public class MotoTcpClient extends Thread {
 
 	}
 
-	public void handler(int comId,int len,byte[] buf,int length) throws Exception {
+	public void handler(int comId,int len,byte[] buf,int length,String callId) throws Exception {
 		
 		try {
 			switch (comId) {
+			case 3:
+				RadioGetRsp(len,buf,callId);
+				break;
 			case 5:
-				RadioAddRsp(len,buf);
+				RadioAddRsp(len,buf,callId);
 				break;
 			case 7:
-				RadioDelRsp(len,buf);
+				RadioDelRsp(len,buf,callId);
 				break;
 			case 9:
-				RadioUpdateRsp(len,buf);
+				RadioUpdateRsp(len,buf,callId);
+				break;
+			case 11:
+				RadioUserGetRsp(len,buf,callId);
 				break;
 			case 13:
-				RadioUserAddRsp(len,buf);
+				RadioUserAddRsp(len,buf,callId);
 				break;
 			case 15:
-				RadioUserDelRsp(len,buf);
+				RadioUserDelRsp(len,buf,callId);
 				break;
 			case 17:
-				RadioUserUpdateRsp(len,buf);
+				RadioUserUpdateRsp(len,buf,callId);
 				break;
 			case 200:
-				ACK(len,buf);
+				ACK(len,buf,callId);
 				break;
 			default:
 				break;
@@ -333,115 +341,182 @@ public class MotoTcpClient extends Thread {
 		str = Integer.toHexString(v1) + Integer.toHexString(v2);
 		return str;
 	}
-	public void RadioAddRsp(int len, byte[] buf) {
+	public void RadioAddRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioAddRsp resp=null;
 		try {
 			resp=MotoCorba.RadioAddRsp.parseFrom(result);
 			xh.protobuf.RadioAddRspBean bean=new xh.protobuf.RadioAddRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS[RadioAddRsp]:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		} catch (Exception e) {
+		} */catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void RadioDelRsp(int len, byte[] buf) {
+	public void RadioDelRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioDelRsp resp=null;
 		try {
 			resp=MotoCorba.RadioDelRsp.parseFrom(result);
 			xh.protobuf.RadioDelRspBean bean=new xh.protobuf.RadioDelRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS[RadioDelRsp]:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		} catch (Exception e) {
+		} */catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void RadioUpdateRsp(int len, byte[] buf) {
+	public void RadioUpdateRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioUpdateRsp resp=null;
 		try {
 			resp=MotoCorba.RadioUpdateRsp.parseFrom(result);
 			xh.protobuf.RadioUpdateRspBean bean=new xh.protobuf.RadioUpdateRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS[RadioUpdateRsp]:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		}catch (Exception e) {
+		}*/catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void RadioUserAddRsp(int len, byte[] buf) {
+	public void RadioUserAddRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioUserAddRsp resp=null;
 		try {
 			resp=MotoCorba.RadioUserAddRsp.parseFrom(result);
 			xh.protobuf.RadioUserAddRspBean bean=new xh.protobuf.RadioUserAddRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		} catch (Exception e) {
+		} */catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void RadioUserDelRsp(int len, byte[] buf) {
+	public void RadioUserDelRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioUserDelRsp resp=null;
 		try {
 			resp=MotoCorba.RadioUserDelRsp.parseFrom(result);
 			xh.protobuf.RadioUserDelRspBean bean=new xh.protobuf.RadioUserDelRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		} catch (Exception e) {
+		} */catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void RadioUserUpdateRsp(int len, byte[] buf) {
+	public void RadioUserUpdateRsp(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.RadioUserUpdateRsp resp=null;
 		try {
 			resp=MotoCorba.RadioUserUpdateRsp.parseFrom(result);
 			xh.protobuf.RadioUserUpdateRspBean bean=new xh.protobuf.RadioUserUpdateRspBean();
+			ConstantMap.getMotoResultMap().put(callId,resp.getResult());
+			ConstantMap.getMotoResultMap().put(callId+"-info",resp.getResult());
 			bean.setResult(resp.getResult());
 			bean.setDetail(resp.getDetail());
-			log.info("MOTO->DS:"+bean.toString());
+			log.info("MOTO->DS:callId="+callId+";"+bean.toString());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		} catch (Exception e) {
+		}*/ catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void ACK(int len, byte[] buf) {
+	public void RadioGetRsp(int len, byte[] buf,String callId) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioGetRsp resp=null;
+		try {
+			resp=MotoCorba.RadioGetRsp.parseFrom(result);
+			RadioBean bean=new RadioBean();
+			bean.setRadioID(resp.getRadioID());
+			bean.setRadioReferenceID(resp.getRadioReferenceID());
+			bean.setRadioSerialNumber(resp.getRadioSerialNumber());
+			bean.setSecurityGroup(resp.getSecurityGroup());
+			bean.setCallId(callId);
+			ConstantMap.getMotoResultMap().put(callId,resp.getRadioID());
+			ConstantMap.getMotoResultMap().put(callId+"map",bean);
+			log.info("MOTO->DS[RadioGetRsp]:callId="+callId+";"+bean.toString());
+			
+		}/*catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		}*/ catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void RadioUserGetRsp(int len, byte[] buf,String callId) {
+		result = new byte[len - 20];
+		System.arraycopy(buf, 18, result, 0, len - 20);
+		MotoCorba.RadioUserGetRsp resp=null;
+		try {
+			resp=MotoCorba.RadioUserGetRsp.parseFrom(result);
+			/*RadioUserBean bean=new RadioUserBean();*/
+			RadioUserMotoBean bean=new RadioUserMotoBean();
+			bean.setC_ID(Integer.parseInt(resp.getRadioUserAlias()));
+			bean.setRadioID(resp.getRadioID());
+			bean.setRadioUserAlias(resp.getRadioUserAlias());
+			bean.setSecurityGroup(resp.getSecurityGroup());
+			bean.setRadioUserCapabilityProfileAlias(resp.getRadioUserCapabilityProfileAlias());
+			bean.setUserEnabled(resp.getUserEnabled().equals("Y")?"1":"0");
+			bean.setInterconnectEnabled(resp.getInterconnectEnabled().equals("Y")?"1":"0");
+			bean.setPacketDataEnabled(resp.getPacketDataEnabled().equals("Y")?"1":"0");
+			bean.setShortDataEnabled(resp.getShortDataEnabled().equals("Y")?"1":"0");
+			bean.setFullDuplexEnabled(resp.getFullDuplexEnabled().equals("Y")?"1":"0");
+			bean.setEnableAmbienceListeningMonitoring(resp.getEnableAmbienceListeningMonitoring().equals("Y")?"1":"0");
+			bean.setEnableAmbienceListeningInitiation(resp.getEnableAmbienceListeningInitiation().equals("Y")?"1":"0");
+			bean.setCallId(callId);
+			ConstantMap.getMotoResultMap().put(callId,resp.getRadioID());
+			ConstantMap.getMotoResultMap().put(callId+"map",bean);
+			log.info("MOTO->DS[RadioUserGetRsp]:callId="+callId+";"+bean.toString());
+			
+		}/*catch (InvalidProtocolBufferException e) {
+			log.info("MOTO->DS:数据解析出错");
+		}*/ catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void ACK(int len, byte[] buf,String callId) {
 		result = new byte[len - 20];
 		System.arraycopy(buf, 18, result, 0, len - 20);
 		MotoCorba.Ack resp=null;
@@ -449,9 +524,9 @@ public class MotoTcpClient extends Thread {
 			resp=MotoCorba.Ack.parseFrom(result);
 			log.info("MOTO->DS: ACK="+resp.getAck());
 			
-		}catch (InvalidProtocolBufferException e) {
+		}/*catch (InvalidProtocolBufferException e) {
 			log.info("MOTO->DS:数据解析出错");
-		}catch (Exception e) {
+		}*/catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

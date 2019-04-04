@@ -1059,7 +1059,7 @@ public class SendData {
 		dos.writeInt(header.getTargetId());
 		;
 		dos.writeShort((short) 4);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
@@ -1105,7 +1105,7 @@ public class SendData {
 		dos.writeInt(header.getTargetId());
 		;
 		dos.writeShort((short) 6);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
@@ -1150,7 +1150,7 @@ public class SendData {
 		dos.writeInt(header.getTargetId());
 		;
 		dos.writeShort((short) 8);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
@@ -1197,7 +1197,7 @@ public class SendData {
 		dos.writeInt(header.getTargetId());
 		;
 		dos.writeShort((short) 12);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
@@ -1244,7 +1244,7 @@ public class SendData {
 		dos.writeInt(header.getTargetId());
 		;
 		dos.writeShort((short) 14);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
@@ -1290,7 +1290,7 @@ public class SendData {
 			dos.writeInt(header.getTargetId());
 			;
 			dos.writeShort((short) 16);// commandId 2 命令ID
-			dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
+			dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 			/**************** content ***********************/
 			dos.write(buffer);
 			/**************** content ***********************/
@@ -1306,6 +1306,80 @@ public class SendData {
 			}
 			return "OK";
 		}
+		// 获取终端
+		public static String RadioGetReq(RadioBean bean)
+				throws IOException {
+			// 创建客户端的Socket服务，指定目的主机和端口。
+			NetDataTypeTransform dd = new NetDataTypeTransform();
+			MotoCorba.RadioGetReq.Builder builder = MotoCorba.RadioGetReq
+					.newBuilder();
+			builder.setRadioID(bean.getRadioID());
+
+			MotoCorba.RadioGetReq req = builder.build();
+			byte[] buffer = req.toByteArray();
+			// 发送数据，应该获取Socket流中的输出流。
+			OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(bos);
+
+			dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+			dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+			dos.writeInt(header.getTargetId());
+			;
+			dos.writeShort((short) 2);// commandId 2 命令ID
+			dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+			/**************** content ***********************/
+			dos.write(buffer);
+			/**************** content ***********************/
+			dos.writeShort(header.getCheckSum());
+
+			byte[] info = bos.toByteArray();
+			if (MotoTcpClient.getSocket().isConnected()) {
+				log.info("DS->MOTO[RadioGetReq]:" + bean.toString());
+				log.info("DS->MOTO[RadioGetReq]:" + FunUtil.BytesToHexS(info));
+				out.write(info);
+			} else {
+				return "NO";
+			}
+			return "OK";
+		}
+		// 获取终端用户
+				public static String RadioUserGetReq(RadioUserBean bean)
+						throws IOException {
+					// 创建客户端的Socket服务，指定目的主机和端口。
+					NetDataTypeTransform dd = new NetDataTypeTransform();
+					MotoCorba.RadioUserGetReq.Builder builder = MotoCorba.RadioUserGetReq
+							.newBuilder();
+					builder.setRadioUserAlias(bean.getRadioUserAlias());
+
+					MotoCorba.RadioUserGetReq req = builder.build();
+					byte[] buffer = req.toByteArray();
+					// 发送数据，应该获取Socket流中的输出流。
+					OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					DataOutputStream dos = new DataOutputStream(bos);
+
+					dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+					dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+					dos.writeInt(header.getTargetId());
+					;
+					dos.writeShort((short) 10);// commandId 2 命令ID
+					dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+					/**************** content ***********************/
+					dos.write(buffer);
+					/**************** content ***********************/
+					dos.writeShort(header.getCheckSum());
+
+					byte[] info = bos.toByteArray();
+					if (MotoTcpClient.getSocket().isConnected()) {
+						log.info("DS->MOTO[RadioUserGetReq]:" + bean.toString());
+						log.info("DS->MOTO[RadioUserGetReq]:" + FunUtil.BytesToHexS(info));
+						out.write(info);
+					} else {
+						return "NO";
+					}
+					return "OK";
+				}
 
 	public String getMessage() {
 		return message;

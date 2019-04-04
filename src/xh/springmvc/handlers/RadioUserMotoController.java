@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import xh.constant.ConstantLog;
+import xh.constant.ConstantMap;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.ChartBean;
 import xh.mybatis.bean.JoinNetBean;
-import xh.mybatis.bean.RadioUserBean;
+import xh.mybatis.bean.RadioBean;
+import xh.protobuf.RadioUserBean;
 import xh.mybatis.bean.RadioUserMotoBean;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.CallListServices;
@@ -36,7 +39,9 @@ import xh.mybatis.service.TalkGroupService;
 import xh.mybatis.service.UcmService;
 import xh.mybatis.service.WebLogService;
 import xh.org.listeners.SingLoginListener;
+import xh.org.socket.MotoTcpClient;
 import xh.org.socket.RadioUserStruct;
+import xh.org.socket.SendData;
 import xh.org.socket.TcpKeepAliveClient;
 @Controller
 @RequestMapping(value="/usermoto")
@@ -61,12 +66,13 @@ public class RadioUserMotoController {
 		String vpnId = tempMap.get("vpnId").toString();
 		
 		String C_ID=request.getParameter("C_ID");
-		String M_RadioUserAlias=request.getParameter("M_RadioUserAlias");
+		String type=request.getParameter("type");
+		
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("C_ID", C_ID);
-		map.put("M_RadioUserAlias", M_RadioUserAlias);
+		map.put("type", type);
 		map.put("start", start);
 		map.put("limit", limit);
 		
@@ -83,6 +89,57 @@ public class RadioUserMotoController {
 			e.printStackTrace();
 		}
 		
+	}
+	@RequestMapping(value="/radioUserMotoGet",method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap radioUserMotoGet(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String radioUserAlias=request.getParameter("radioUserAlias");
+		
+		/*int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);*/
+		RadioUserMotoBean bean2=new RadioUserMotoBean();
+		if(MotoTcpClient.getSocket().isConnected()){
+			RadioUserBean bean=new RadioUserBean();
+			bean.setRadioUserAlias(radioUserAlias);
+			bean.setCallId(FunUtil.RandomAlphanumeric(8));
+			SendData.RadioUserGetReq(bean);
+			long nowtime=System.currentTimeMillis();
+			tag:for(;;){			
+				long tt=System.currentTimeMillis();
+				if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+					this.success=true;
+					if(ConstantMap.getMotoResultMap().get(bean.getCallId()).equals("0")){
+						this.message="没有查询到相关数据";
+						this.success=false;
+					}else{
+						bean2=(RadioUserMotoBean) ConstantMap.getMotoResultMap().get(bean.getCallId()+"map");
+						RadioUserMotoService.vAdd(bean2);
+						this.message="获取数据成功";
+					}	
+					ConstantMap.getMotoResultMap().remove(bean.getCallId());
+					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"map");
+					break tag;
+				}else{
+					if(tt-nowtime>10000){
+						this.success=false;
+						this.message="查询数据超时";
+						break tag;
+					}
+				}
+			}			
+		}else{
+			this.success=false;
+			this.message="连接服务失败";
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message",message);
+		result.put("data",bean2);
+		return result;
 	}
 
 	@RequestMapping(value="/radioList",method = RequestMethod.GET)
@@ -103,66 +160,51 @@ public class RadioUserMotoController {
 	 * 添加无线用户
 	 * @param request
 	 * @param response
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="/add",method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Map<String,Object> insertRadioUser(HttpServletRequest request, HttpServletResponse response){
+	public synchronized Map<String,Object> insertRadioUser(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		String formData=request.getParameter("formData");
-		int resultCode=0;
-		int timeout=0;
-		int status=0;		
+		String formData=request.getParameter("formData");	
 		RadioUserMotoBean userbean=GsonUtil.json2Object(formData, RadioUserMotoBean.class);	
-		//userbean.setTime(funUtil.nowDate());
-		if(userbean.getC_IDE()==0 || userbean.getC_IDS()==0){
-			if(RadioUserMotoService.radioUserIsExists(userbean.getC_ID())>0){
-				this.success=false;
-				this.message="该用户已经存在";
-			}else{
-				int rs=RadioUserMotoService.insertRadioUser(userbean);
-				if(rs>0){
+		if(userbean.getRadioUserAlias()==null){
+			userbean.setRadioUserAlias(String.valueOf(userbean.getC_ID()));
+		}
+		if(RadioUserMotoService.radioUserIsExists(userbean.getC_ID())==0){
+			if(RadioUserMotoService.radio_one(String.valueOf(userbean.getC_ID()))!=null ){
+				userbean.setRadioID(String.valueOf(userbean.getC_ID()));
+				userbean.setSecurityGroup(RadioUserMotoService.radio_one(String.valueOf(userbean.getC_ID())).getSecurityGroup());
+				if(userbean.getRadioUserCapabilityProfileAlias()==null){
+					userbean.setRadioUserCapabilityProfileAlias(userbean.getSecurityGroup());
+				}
+				xh.protobuf.RadioUserBean bean=new xh.protobuf.RadioUserBean();
+				bean.setRadioID(String.valueOf(userbean.getC_ID()));
+				bean.setRadioUserAlias(String.valueOf(userbean.getC_ID()));
+				bean.setSecurityGroup(userbean.getSecurityGroup());
+				bean.setRadioUserCapabilityProfileAlias(userbean.getRadioUserCapabilityProfileAlias());
+				bean.setUserEnabled(userbean.getUserEnabled().equals("1")?"Y":"N");
+				bean.setInterconnectEnabled(userbean.getInterconnectEnabled().equals("1")?"Y":"N");
+				bean.setPacketDataEnabled(userbean.getPacketDataEnabled().equals("1")?"Y":"N");
+				bean.setShortDataEnabled(userbean.getShortDataEnabled().equals("1")?"Y":"N");
+				bean.setFullDuplexEnabled(userbean.getFullDuplexEnabled().equals("1")?"Y":"N");
+				bean.setCallId(FunUtil.RandomAlphanumeric(8));
+				Map<String,Object> map=RadioUserMotoService.insertRadioUser(userbean,bean);
+				if(Integer.parseInt(map.get("rs").toString())>0){
 					this.success=true;
 					this.message="添加用户成功";
-					webLogBean.setOperator(funUtil.loginUser(request));
-					webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-					webLogBean.setStyle(1);
-					webLogBean.setContent("新增moto用户用户，id="+userbean.getC_ID());
-					webLogBean.setCreateTime(funUtil.nowDate());
-					WebLogService.writeLog(webLogBean);
+					FunUtil.WriteLog(request, ConstantLog.ADD, "添加moto用户："+bean.getRadioID());
 				}else{
-					this.message="参数错误";
+					this.message="用户添加失败："+map.get("errMsg")==null?"":map.get("errMsg").toString();
 					this.success=false;
 				}
-				
+			}else{
+				this.message="终端ID:["+userbean.getC_ID()+"]不存在，请先添加终端ID";
+				this.success=false;
 			}
 		}else{
-			for(int i=userbean.getC_IDS();i<=userbean.getC_IDE();i++){
-				userbean.setC_ID(i);
-				userbean.setRadioUserAlias(String.valueOf(i));
-				System.out.println("bean->"+RadioUserMotoService.radio_one(String.valueOf(i)));
-				
-				if(RadioUserMotoService.radioUserIsExists(userbean.getC_ID())==0){
-					if(RadioUserMotoService.radio_one(String.valueOf(i))!=null ){
-						userbean.setSecurityGroup(RadioUserMotoService.radio_one(String.valueOf(i)).getSecurityGroup());
-						int rs=RadioUserMotoService.insertRadioUser(userbean);
-						if(rs>0){
-							this.success=true;
-							this.message="添加用户成功";
-							webLogBean.setOperator(funUtil.loginUser(request));
-							webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-							webLogBean.setStyle(1);
-							webLogBean.setContent("新增moto用户用户，id="+userbean.getC_ID());
-							webLogBean.setCreateTime(funUtil.nowDate());
-							WebLogService.writeLog(webLogBean);
-						}else{
-							this.message="参数错误";
-							this.success=false;
-						}
-					}
-						
-					
-				}
-			}
+			this.message="用户已经存在";
+			this.success=false;
 		}
 		Map<String,Object> rmap=new HashMap<String, Object>();
 		rmap.put("success", success);
@@ -172,25 +214,29 @@ public class RadioUserMotoController {
 	
 	@RequestMapping(value="/update",method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Map<String,Object> updateByRadioUserId(HttpServletRequest request, HttpServletResponse response){
+	public synchronized Map<String,Object> updateByRadioUserId(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		String formData=request.getParameter("formData");
-		int resultCode=0;
-		int timeout=0;
-		int status=0;		
+		String formData=request.getParameter("formData");		
 		RadioUserMotoBean userbean=GsonUtil.json2Object(formData, RadioUserMotoBean.class);	
-		int rs=RadioUserMotoService.updateByRadioUserId(userbean);
-		if(rs>0){
+		xh.protobuf.RadioUserBean bean=new xh.protobuf.RadioUserBean();
+		bean.setRadioID(String.valueOf(userbean.getC_ID()));
+		bean.setRadioUserAlias(String.valueOf(userbean.getC_ID()));
+		bean.setSecurityGroup(userbean.getSecurityGroup());
+		bean.setRadioUserCapabilityProfileAlias(userbean.getRadioUserCapabilityProfileAlias());
+		bean.setUserEnabled(userbean.getUserEnabled().equals("1")?"Y":"N");
+		bean.setInterconnectEnabled(userbean.getInterconnectEnabled().equals("1")?"Y":"N");
+		bean.setPacketDataEnabled(userbean.getPacketDataEnabled().equals("1")?"Y":"N");
+		bean.setShortDataEnabled(userbean.getShortDataEnabled().equals("1")?"Y":"N");
+		bean.setFullDuplexEnabled(userbean.getFullDuplexEnabled().equals("1")?"Y":"N");
+		bean.setCallId(FunUtil.RandomAlphanumeric(8));
+		Map<String,Object> map=RadioUserMotoService.updateByRadioUserId(userbean,bean);
+		if(Integer.parseInt(map.get("rs").toString())>0){
 			this.success=true;
 			this.message="修改用户成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("修改moto用户用户，id="+userbean.getC_ID());
-			webLogBean.setCreateTime(funUtil.nowDate());
-			WebLogService.writeLog(webLogBean);
+			FunUtil.WriteLog(request, ConstantLog.UPDATE, "修改moto用户："+bean.getRadioID());
 		}else{
-			this.message="参数错误";
+			this.message="修改数据失败："+map.get("errMsg")==null?"":map.get("errMsg").toString();
+			this.success=false;
 			this.success=false;
 		}
 		
@@ -201,36 +247,31 @@ public class RadioUserMotoController {
 		return rmap;
 		}
 	
-	/**
-	 * 添加无线用户
-	 * @param request
-	 * @param response
-	 */
 	@RequestMapping(value="/deleteByRadioUserId",method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Map<String,Object> deleteByRadioUserId(HttpServletRequest request, HttpServletResponse response){
+	public synchronized Map<String,Object> deleteByRadioUserId(HttpServletRequest request, HttpServletResponse response) throws Exception{		
+		String formData=request.getParameter("formData");		
+		RadioUserMotoBean userbean=GsonUtil.json2Object(formData, RadioUserMotoBean.class);	
 		
-		String[] ids=request.getParameter("ids").split(",");
-		int resultCode=0;
-		int timeout=0;
-		int status=0;
-		List<String> list=new ArrayList<String>();
-		
-		for (String str: ids) {
-			list.add(str);
-		}
-		int rs=RadioUserMotoService.deleteByRadioUserId(list);
-		if(rs>0){
+		System.out.println("dd->"+userbean.toString());
+		xh.protobuf.RadioUserBean bean=new xh.protobuf.RadioUserBean();
+		bean.setRadioID(String.valueOf(userbean.getC_ID()));
+		bean.setRadioUserAlias(String.valueOf(userbean.getC_ID()));
+		bean.setSecurityGroup(userbean.getSecurityGroup());
+		bean.setRadioUserCapabilityProfileAlias(userbean.getRadioUserCapabilityProfileAlias());
+		bean.setUserEnabled(userbean.getUserEnabled().equals("1")?"Y":"N");
+		bean.setInterconnectEnabled(userbean.getInterconnectEnabled().equals("1")?"Y":"N");
+		bean.setPacketDataEnabled(userbean.getPacketDataEnabled().equals("1")?"Y":"N");
+		bean.setShortDataEnabled(userbean.getShortDataEnabled().equals("1")?"Y":"N");
+		bean.setFullDuplexEnabled(userbean.getFullDuplexEnabled().equals("1")?"Y":"N");
+		bean.setCallId(FunUtil.RandomAlphanumeric(8));
+		Map<String,Object> map=RadioUserMotoService.deleteByRadioUserId(bean);
+		if(Integer.parseInt(map.get("rs").toString())>0){
 			this.success=true;
 			this.message="删除用户成功";
-			webLogBean.setOperator(funUtil.loginUser(request));
-			webLogBean.setOperatorIp(funUtil.getIpAddr(request));
-			webLogBean.setStyle(1);
-			webLogBean.setContent("删除moto用户用户，id="+ids);
-			webLogBean.setCreateTime(funUtil.nowDate());
-			WebLogService.writeLog(webLogBean);
+			FunUtil.WriteLog(request, ConstantLog.DELETE, "删除moto用户："+bean.getRadioID());
 		}else{
-			this.message="删除失败";
+			this.message="删除数据失败："+map.get("errMsg")==null?"":map.get("errMsg").toString();
 			this.success=false;
 		}
 		Map<String,Object> rmap=new HashMap<String, Object>();

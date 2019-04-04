@@ -34,8 +34,11 @@ import org.dom4j.io.XMLWriter;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import xh.constant.ConstantLog;
 import xh.mybatis.bean.EmailBean;
+import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.EmailService;
+import xh.mybatis.service.WebLogService;
 import xh.mybatis.service.WebUserServices;
 import xh.org.listeners.SingLoginListener;
 
@@ -101,6 +104,16 @@ public class FunUtil {
 		}
 		return user;
 
+	}
+	
+	public static void  WriteLog(HttpServletRequest request,ConstantLog log,String content){
+		WebLogBean webLogBean=new WebLogBean();
+		webLogBean.setOperator(loginUser(request));
+		webLogBean.setOperatorIp(getIpAddr(request));
+		webLogBean.setStyle(Integer.parseInt(log.toString()));
+		webLogBean.setContent(content);
+		webLogBean.setCreateTime(nowDate());
+		WebLogService.writeLog(webLogBean);
 	}
 
 	public static int getDaysOfMonth(Date date) {

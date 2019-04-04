@@ -22,6 +22,9 @@ public class RadioUserBean {
 	private String PacketDataEnabled	; 
 	private String ShortDataEnabled	; 
 	private String FullDuplexEnabled	;
+	private String callId;
+	private String EnableAmbienceListeningMonitoring;
+	private String EnableAmbienceListeningInitiation;
 	public String getRadioID() {
 		return RadioID;
 	}
@@ -77,16 +80,24 @@ public class RadioUserBean {
 	public void setFullDuplexEnabled(String fullDuplexEnabled) {
 		FullDuplexEnabled = fullDuplexEnabled;
 	}
+	
+	public String getCallId() {
+		return callId;
+	}
+	public void setCallId(String callId) {
+		this.callId = callId;
+	}
 	@Override
 	public String toString() {
-		return "RadioUserAddReqBean [RadioID=" + RadioID + ", RadioUserAlias="
+		return "RadioUserBean [RadioID=" + RadioID + ", RadioUserAlias="
 				+ RadioUserAlias + ", SecurityGroup=" + SecurityGroup
 				+ ", RadioUserCapabilityProfileAlias="
 				+ RadioUserCapabilityProfileAlias + ", UserEnabled="
 				+ UserEnabled + ", InterconnectEnabled=" + InterconnectEnabled
 				+ ", PacketDataEnabled=" + PacketDataEnabled
 				+ ", ShortDataEnabled=" + ShortDataEnabled
-				+ ", FullDuplexEnabled=" + FullDuplexEnabled + "]";
+				+ ", FullDuplexEnabled=" + FullDuplexEnabled + ", callId="
+				+ callId + "]";
 	}  
 	
 	

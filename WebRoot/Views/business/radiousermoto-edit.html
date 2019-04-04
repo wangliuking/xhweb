@@ -18,7 +18,7 @@
 					<div class="col-md-12 form-heading form-heading-white">基本信息</div>
 
 					<div class="form-group col-md-6" ng-if="!isChecked1">
-						<label>ID</label> <input type="text" ng-model="editData.C_ID"
+						<label>ID</label> <input type="text" ng-model="editData.userId"
 							class="form-control" name="C_ID" readonly="readonly">
 					</div>
 					<div class="form-group col-md-6" ng-if="!isChecked1">
@@ -39,6 +39,11 @@
 							ng-model="editData.SGroup" class="form-control"
 							name="SecurityGroup" readonly="readonly">
 					</div>
+					<div class="form-group col-md-6" ng-if="!isChecked1">
+                        <label>无线用户功能配置文件别名</label> 
+                        <input type="text" ng-model="editData.RadioUserCapabilityProfileAlias" class="form-control"
+                            name="RadioUserCapabilityProfileAlias">
+                    </div>
 
 
 

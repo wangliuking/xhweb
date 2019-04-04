@@ -92,10 +92,10 @@
 														ng-click="search_eastcom()">
 														<i class="fa fa-search"></i>&nbsp;&nbsp;查询
 													</button>
-													<button type="submit" class="btn btn-sm btn-success"
+													<!-- <button type="submit" class="btn btn-sm btn-success"
                                                         ng-click="search_moto()">
                                                         <i class="fa fa-search"></i>&nbsp;&nbsp;查询moto手台
-                                                    </button>
+                                                    </button> -->
 												</div>
 											</div>
 										</form>
@@ -113,20 +113,20 @@
 									<i class="fa fa-reorder"></i> 终端列表
 								</div>
 								<div class="panel-body">
-									<div class="row">
+									<div class="row" ng-show=false>
 										<div class="col-md-12">
 											<div class="btn-group">
 
 												<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
 													ng-disabled="up.b_delete=='off'?true:false">批量删除</button>
-												<button class="btn btn-success btn-sm"
+												<!-- <button class="btn btn-success btn-sm"
 													onclick="xh.mark_moto()"
 													ng-disabled="up.b_delete=='off'?true:false">
 													标记moto终端</button>
 												<button class="btn btn-danger btn-sm"
 													onclick="xh.cancel_mark_moto()"
 													ng-disabled="up.b_delete=='off'?true:false">取消
-													标记moto终端</button>
+													标记moto终端</button> -->
 
 											</div>
 
@@ -148,7 +148,6 @@
 												<th>警员编号</th>
 												<th>用户所在单位</th>
 												<th>警察种类</th>
-												<th>moto终端</th>
 												<th>操作</th>
 											</tr>
 										</thead>
@@ -171,7 +170,6 @@
 												<td ng-if="x.E_type=='3'">户籍警</td>
 												<td ng-if="x.E_type=='4'">机关民警</td>
 												<td ng-if="x.E_type==''"></td>
-												<td><span ng-if="x.is_moto==1" style="color:red;font-weight:800">是</span></td>
 												<td><a href="#" ng-click="editModel($index)"
 													data-toggle="modal" ng-if="up.b_update=='on'?true:false">
 														<i class="fa fa-edit text-success"></i>&nbsp;修改

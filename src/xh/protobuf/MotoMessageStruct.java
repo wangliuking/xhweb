@@ -16,7 +16,7 @@ public class MotoMessageStruct {
 	
 	
 	public MotoMessageStruct() {
-		this.CallID=FunUtil.RandomAlphanumeric(8);
+		//this.CallID=FunUtil.RandomAlphanumeric(8);
 	}
 	
 

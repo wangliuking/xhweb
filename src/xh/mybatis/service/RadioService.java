@@ -12,14 +12,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 
+import xh.constant.ConstantMap;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.RadioBean;
 import xh.mybatis.mapper.RadioMapper;
 import xh.mybatis.tools.MoreDbTools;
+import xh.org.socket.MotoTcpClient;
+import xh.org.socket.SendData;
 
-public class RadioService implements RadioMapper {
+public class RadioService {
 	protected  static  Log log=LogFactory.getLog(RadioService.class);
-	@Override
 	public List<RadioBean> list(Map<String, Object> map) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
@@ -33,13 +35,12 @@ public class RadioService implements RadioMapper {
 		}
 		return list;
 	}
-	@Override
-	public int count() throws Exception {
+	public int count(Map<String,Object> map) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
 		int count=0;
 		try {
-			count=mapper.count();
+			count=mapper.count(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -47,48 +48,172 @@ public class RadioService implements RadioMapper {
 		}
 		return count;
 	}
-	@Override
-	public int add(RadioBean bean) throws Exception {
+	public Map<String,Object> add(RadioBean bean) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
 		int rs=0;
-		try {
-			rs=mapper.add(bean);
-			session.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("RadioID", bean.getRadioID());
+		map.put("RadioSerialNumber", bean.getRadioSerialNumber());
+		Map<String,Object> rsmap=new HashMap<String, Object>();
+		if(count(map)==0){
+			if(MotoTcpClient.getSocket().isConnected()){
+				SendData.RadioAddReq(bean);
+				long nowtime=System.currentTimeMillis();
+				Tag:for(;;){
+					long tt=System.currentTimeMillis();
+					if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+						String v=ConstantMap.getMotoResultMap().get(bean.getCallId()).toString();
+						if(v.toLowerCase().equals("ok")){
+							try {
+								rs=mapper.add(bean);
+								rsmap.put("rs", rs);
+								session.commit();
+								session.close();
+								break Tag;
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								break Tag;
+							}
+						}
+						else{
+							rsmap.put("rs", rs);
+							rsmap.put("errMsg",ConstantMap.getMotoResultMap().get(bean.getCallId()+"-info"));
+						}
+						ConstantMap.getMotoResultMap().remove(bean.getCallId());
+						ConstantMap.getMotoResultMap().remove(bean.getCallId()+"-info");
+					}else{
+						if(tt-nowtime>5000){
+							rsmap.put("rs", rs);
+							rsmap.put("errMsg","返回数据超时");
+							break Tag;
+						}
+					}
+				}
+			}else{
+				rsmap.put("rs", rs);
+				rsmap.put("errMsg","连接服务失败");
+			}
+		}else{
+			rsmap.put("rs", -1);
 		}
+		
+		return rsmap;
+	}
+	public int vAdd(RadioBean bean) throws Exception {
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		RadioMapper mapper=session.getMapper(RadioMapper.class);
+		int rs=0;
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("RadioID", bean.getRadioID());
+		map.put("RadioSerialNumber", bean.getRadioSerialNumber());
+		if(count(map)==0){
+			try {
+				rs=mapper.add(bean);
+				session.commit();
+				session.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return rs;
 	}
-	@Override
-	public int update(RadioBean bean) throws Exception {
+	public Map<String,Object> update(RadioBean bean) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
 		int rs=0;
-		try {
-			rs=mapper.update(bean);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Map<String,Object> rsmap=new HashMap<String, Object>();
+		if(MotoTcpClient.getSocket().isConnected()){
+			SendData.RadioUpdateReq(bean);
+			long nowtime=System.currentTimeMillis();
+			Tag:for(;;){
+				long tt=System.currentTimeMillis();
+				if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+					String v=ConstantMap.getMotoResultMap().get(bean.getCallId()).toString();
+					if(v.toLowerCase().equals("ok")){
+						try {
+							rs=mapper.update(bean);
+							session.commit();
+							rsmap.put("rs", rs);
+							session.close();
+							break Tag;
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break Tag;
+						}
+					}else{
+						rsmap.put("rs", rs);
+						rsmap.put("errMsg",ConstantMap.getMotoResultMap().get(bean.getCallId()+"-info"));
+					}
+					ConstantMap.getMotoResultMap().remove(bean.getCallId());
+					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"-info");
+				}else{
+					if(tt-nowtime>5000){
+						rsmap.put("rs", rs);
+						rsmap.put("errMsg","返回数据超时");
+						break Tag;
+					}
+				}
+			}
+		}else{
+			rsmap.put("rs", rs);
+			rsmap.put("errMsg","连接服务失败");
 		}
-		return rs;
+		
+		return rsmap;
 	}
-	@Override
-	public int delete(List<String> list) throws Exception {
+	public Map<String,Object> delete(RadioBean bean) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
-		int rs=0;
-		try {
-			rs=mapper.delete(list);
-			session.commit();
-			session.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String[] ids=bean.getRadioID().split(",");
+		List<String> list=new ArrayList<String>();
+		
+		for (String string : ids) {
+			list.add(string);
 		}
-		return rs;
+		int rs=0;
+		Map<String,Object> rsmap=new HashMap<String, Object>();
+		if(MotoTcpClient.getSocket().isConnected()){
+			SendData.RadioDelReq(bean);
+			long nowtime=System.currentTimeMillis();
+			Tag:for(;;){
+				long tt=System.currentTimeMillis();
+				if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+					String v=ConstantMap.getMotoResultMap().get(bean.getCallId()).toString();
+					if(v.toLowerCase().equals("ok")){
+						try {
+							rs=mapper.delete(list);
+							rsmap.put("rs", rs);
+							session.commit();
+							session.close();
+							break Tag;
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							break Tag;
+						}
+					}else{
+						rsmap.put("rs", rs);
+						rsmap.put("errMsg",ConstantMap.getMotoResultMap().get(bean.getCallId()+"-info"));
+					}
+					ConstantMap.getMotoResultMap().remove(bean.getCallId());
+					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"-info");
+				}else{
+					if(tt-nowtime>5000){
+						rsmap.put("rs", rs);
+						rsmap.put("errMsg","返回数据超时");
+						break Tag;
+					}
+				}
+			}
+		}else{
+			rsmap.put("rs", rs);
+			rsmap.put("errMsg","连接服务失败");
+		}
+		return rsmap;
 	}
 }

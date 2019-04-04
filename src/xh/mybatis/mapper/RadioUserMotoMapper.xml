@@ -10,28 +10,56 @@
 	<!--根据无线用户ID，名称查找相关记录 -->
 	<select id="radiouserById" parameterType="map" resultType="map"
 		useCache="true">
-		select a.*,b.RadioSerialNumber,b.RadioReferenceID,b.SecurityGroup as SGroup from xhgmnet_radiouser_moto as a
-		left join xhgmnet_radio as b on a.C_ID=b.RadioID
-		 where 1=1
+		  select a.C_ID as userId,a.E_name,b.`name` as mscName,c.`name` as
+        vpnName,d.RadioID,d.RadioSerialNumber,d.RadioReferenceID,d.SecurityGroup
+        as SGroup,e.*
+        from xhgmnet_radiouser as a
+        LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId
+        LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId
+        LEFT JOIN xhgmnet_radio as d on a.C_ID=d.RadioID
+        LEFT JOIN xhgmnet_radiouser_moto as e on a.C_ID=e.C_ID
+		where 1=1
 		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
-			and a.C_ID like concat('%',#{C_ID},'%')
+			and a.C_ID=#{C_ID}
 		</if>
-		<if test="RadioUserAlias !=null and RadioUserAlias !=''">
-			and a.RadioUserAlias like concat('%',#{RadioUserAlias},'%')
-		</if>
+		 <if test="type==0">
+         and e.C_ID is null
+         </if>
+          <if test="type==1">
+         and e.C_ID>0
+         </if>
+		<!-- <if test="RadioUserAlias !=null and RadioUserAlias !=''">
+			and a.RadioUserAlias like
+			concat('%',#{RadioUserAlias},'%')
+		</if> -->
 		order by a.C_ID limit #{start},#{limit}
 	</select>
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
 	<select id="count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(*) from xhgmnet_radiouser_moto where 1=1
+		select count(*)
+        from xhgmnet_radiouser as a
+        LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId
+        LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId
+        LEFT JOIN xhgmnet_radio as d on a.C_ID=d.RadioID
+        LEFT JOIN xhgmnet_radiouser_moto as e on a.C_ID=e.C_ID
+        where 1=1
 
 		<if test="C_ID!=null and C_ID!=''">
-			and C_ID like concat('%',#{C_ID},'%')
+			and a.C_ID =#{C_ID}
 		</if>
-		<if test="RadioUserAlias!=null and RadioUserAlias!=''">
+		<if test="type!=null and type!=''">
+		 <if test="type==0">
+		 and  e.C_ID is null
+		 </if>
+		  <if test="type==1">
+         and e.C_ID>0
+         </if>
+         
+        </if>
+		<!-- <if test="RadioUserAlias!=null and RadioUserAlias!=''">
 			and RadioUserAlias like concat('%',#{RadioUserAlias},'%')
-		</if>
+		</if> -->
 	</select>
 
 	<!--增加无线用户 -->
@@ -71,13 +99,17 @@
 		)
 	</delete>
 	<select id="radioList" resultType="map" useCache="true">
-		select * from xhgmnet_radio where RadioID not in(select C_ID from xhgmnet_radiouser_moto) limit 10000
+		select * from
+		xhgmnet_radio where RadioID not in(select C_ID from
+		xhgmnet_radiouser_moto) limit 10000
 	</select>
-	<select id="radio_one" resultType="xh.mybatis.bean.RadioBean" useCache="true">
-        select * from xhgmnet_radio where RadioID=#{RadioID}
-    </select>
+	<select id="radio_one" resultType="xh.mybatis.bean.RadioBean"
+		useCache="true">
+		select * from xhgmnet_radio where RadioID=#{RadioID}
+	</select>
 	<select id="securityGroupList" resultType="map" useCache="true">
-		select sn from xhgmnet_vpn limit 10000
+		select
+		sn from xhgmnet_vpn limit 10000
 	</select>
 
 
