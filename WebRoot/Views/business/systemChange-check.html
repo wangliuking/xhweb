@@ -649,40 +649,66 @@
 				向管理方反馈结果
 			</div>
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
-				<form action="#" id="checkForm9" onSubmit="return false" enctype="multipart/form-data" method="POST">
-					<div class="row" ng-show="false">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>ID</label>&nbsp;<span class="text-danger">[*]</span> <input
-									type="text" value="" class="form-control" name="id"
-									required="required" ng-model="checkData.id">
-							</div>
-						</div>
+				<div id="sheet" ng-model="sheetData">
+					<div class="order">
+						<form action="" onsubmit="false" id="systemChange-form">
+							<table id="order-table"
+								   style="width:100%;border-collapse: collapse;">
+								<tbody>
+								<tr>
+									<td colspan="6" style="text-align: center;">
+										系统升级记录表
+										<input type="hidden" id="sheetTempId" ng-value="sheetNowId"/>
+									</td>
+								</tr>
+								<tr>
+									<td style="height:40px;width:10%;">升级申请时间</td>
+									<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeStartTime" /></td>
+									<td style="height:40px;width:10%;">升级执行时间</td>
+									<td style="height:40px;width:30%;"><input class="sheetInput" name="systemChangeExcTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="sheetData.systemChangeExcTime" /></td>
+								</tr>
+
+								<tr>
+									<td>类型</td>
+									<td colspan="5"><div contenteditable="true" name="progress">
+										<input  type="radio" name="systemChangeType" value="1" ng-checked="editData.systemChangeType=='1'">服务器硬件
+										<input  type="radio" name="systemChangeType" value="2" ng-checked="editData.systemChangeType=='2'">服务器软件
+										<input  type="radio" name="systemChangeType" value="3" ng-checked="editData.systemChangeType=='3'">基站版本
+									</div></td>
+								</tr>
+								<tr>
+									<td>版本(旧)</td>
+									<td><input class="sheetInput" name="versionOld" ng-model="sheetData.versionOld" /></td>
+									<td>版本(新)</td>
+									<td colspan="3"><input class="sheetInput" name="versionNew" ng-model="sheetData.versionNew" /></td>
+								</tr>
+								<tr>
+									<td>新版解决问题</td>
+									<td colspan="5"><input class="sheetInput" name="solutionNewVersion" ng-model="editData.solutionNewVersion" /></td>
+								</tr>
+								<tr>
+									<td>升级步骤及结果</td>
+									<td colspan="5"><input class="sheetInput" name="processAndResult" ng-model="sheetData.processAndResult" /></td>
+								</tr>
+								<tr>
+									<td>备注</td>
+									<td colspan="5"><input class="sheetInput" name="systemChangeNote" ng-model="sheetData.systemChangeNote" /></td>
+								</tr>
+								<tr>
+									<td>执行人员</td>
+									<td colspan="5"><input class="sheetInput" name="excPerson" ng-model="sheetData.excPerson" /></td>
+								</tr>
+								<tr>
+									<td>监督人</td>
+									<td><input class="sheetInput" name="supervisePersion" ng-model="sheetData.supervisePersion" /></td>
+									<td>编号</td>
+									<td colspan="3"><input class="sheetInput" name="serialNumber" ng-model="sheetData.serialNumber" /></td>
+								</tr>
+								</tbody>
+							</table>
+						</form>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-8">
-								<label>提交升级结果</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="file" name="filePath" id="filePath4" class="form-control"/>
-							</div>
-							<div class="form-group col-md-4"style="margin-top:30px;" >
-								<input type="hidden" name="result" class="form-control"/>
-								<input type="hidden" name="fileName"/>
-								<input type="hidden" name="path"/>
-								<a href="#" onclick="xh.upload(4)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
-								<span id="uploadResult4" style="color:red"></span>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group col-md-12">
-								<label>备注</label>
-								<textarea name="note10" rows="4" cols="10" class="form-control"></textarea>
-							</div>
-						</div>
-					</div>
-				</form>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger btn-sm"
@@ -752,11 +778,7 @@
         $('#checkForm8').submit();
     });
     $("#check_btn9").click(function() {
-        if ($("input[name='result']").val() != 1) {
-            alert("请先上传文件！");
-            return false;
-        }
-        $('#checkForm9').submit();
+        xh.sheetChange();
     });
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
