@@ -97,8 +97,10 @@
 		as x left join
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
-		where x.starttime BETWEEN #{starttime} and #{endtime}
-		and y.level>0 group by y.`level`,x.starttime order by y.level
+		where x.starttime
+		BETWEEN #{starttime} and #{endtime}
+		and y.level>0 group by
+		y.`level`,x.starttime order by y.level
 		asc
 	</select>
 
@@ -153,8 +155,10 @@
 		as x left join
 		xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId
-		where x.starttime BETWEEN #{starttime} and #{endtime}
-		and y.area is not null and y.area!='' group by
+		where x.starttime
+		BETWEEN #{starttime} and #{endtime}
+		and y.area is not null and
+		y.area!='' group by
 		y.area,x.starttime
 	</select>
 
@@ -267,15 +271,19 @@
 		sum(QueueDuration) AS QueueDuration,
 		max(MaxUserRegCount) AS
 		MaxUserRegCount,
-		max(MaxGroupRegCount) AS MaxGroupRegCount from chart_month_bstotal
+		max(MaxGroupRegCount) AS MaxGroupRegCount from
+		chart_month_bstotal
 		where starttime=#{time}
 		GROUP BY bsid) as a,
-		(select sum(QueueCount) as totals
+		(select
+		sum(QueueCount) as totals
 		from chart_month_bstotal
-		where starttime=#{time}
+		where
+		starttime=#{time}
 		) as b) as x
 
-		left join xhgmnet.xhgmnet_bs_station as y on x.bsid=y.bsId
+		left join xhgmnet.xhgmnet_bs_station as y
+		on x.bsid=y.bsId
 		order by
 		QueueCount desc limit 10
 
@@ -294,7 +302,8 @@
 		(a.TotalActiveCalls-a.NoEffectCalls) / a.TotalActiveCalls
 		* 100,
 		2
-		) AS percent
+		) AS
+		percent
 		FROM
 		(
 		SELECT
@@ -313,7 +322,8 @@
 		T1.FailedPercentage,
 		sum(T1.NoEffectCalls) AS NoEffectCalls,
 		T1.starttime
-		FROM chart_month_vpntotal
+		FROM
+		chart_month_vpntotal
 		AS T1
 		WHERE starttime=#{time}
 		GROUP BY
@@ -323,10 +333,12 @@
 		SELECT
 		sum(TotalActiveCalls) AS totals
 		FROM chart_month_vpntotal
-		WHERE starttime=#{time}
+		WHERE
+		starttime=#{time}
 		) AS b
 		) AS x
-		LEFT JOIN xhgmnet.xhgmnet_vpn AS y ON x.vpnid = y.vpnId
+		LEFT JOIN xhgmnet.xhgmnet_vpn AS y ON
+		x.vpnid = y.vpnId
 		ORDER BY
 		x.TotalActiveCalls DESC
 		LIMIT 10
@@ -356,6 +368,92 @@
 		left join xhgmnet.xhgmnet_bs_station as y on
 		x.bsid=y.bsId order by
 		x.MaxUserRegCount desc limit 10
+	</select>
+
+	<select id="xj_bs_all_type_num" parameterType="int" resultType="map">
+		select SUM(bs) as
+		bs,SUM(room) as room,SUM(vertical) as
+		vertical,SUM(bus) as
+		bus ,SUM(bs+room+vertical+bus) as total FROM
+		(select count(1) as bs,0 as room,0 as
+		vertical,0 as bus from
+		xhgmnet_bs_station WHERE type=0 AND
+		period=#{period} union ALL
+		select 0
+		as
+		bs,count(1) as room,0 as
+		vertical,0 as bus from
+		xhgmnet_bs_station_coverage WHERE
+		period=#{period} union ALL
+		select 0 as
+		bs,0
+		as room,count(1) as
+		vertical,0 as bus from
+		xhgmnet_bs_station_repeater
+		WHERE
+		period=#{period} union ALL
+		select 0 as
+		bs,0 as room,0 as
+		vertical,count(1) as bus from
+		xhgmnet_bs_station_portable ) as a
+	</select>
+	<select id="xj_bs_num" parameterType="map" resultType="map">
+		select
+		SUM(bs) as bs,SUM(room) as room,SUM(vertical) as vertical,SUM(bus) as
+		bus,SUM(bs+room+vertical+bus) as total from (
+		select count(1) as bs,0
+		as room,0 as vertical,0 as bus from
+		xhgmnet_operations_inspection_movebs as a
+		LEFT JOIN xhgmnet_bs_station
+		as b on a.bsid=b.bsId WHERE
+		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
+		AND b.period=#{period} UNION ALL
+
+		select 0 as bs,count(1) as room,0 as
+		vertical,0 as bus from
+		xhgmnet_operations_inspection_room as a
+		LEFT JOIN
+		xhgmnet_bs_station_coverage as b on a.name=b.`name` WHERE
+		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time} AND b.period=#{period} UNION
+		ALL
+
+		select 0 as bs,0 as room,count(1) as vertical,0 as bus from
+		xhgmnet_operations_inspection_vertical as a
+		LEFT JOIN
+		xhgmnet_bs_station_repeater as b on a.name=b.bsName WHERE
+		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time} AND b.period=#{period} union
+		ALL
+
+
+		select 0 as bs,0 as room,0 as vertical,count(1) as bus from
+		xhgmnet_operations_inspection_statellite as a
+		LEFT JOIN
+		xhgmnet_bs_station_portable as b on a.name=b.bsName WHERE
+		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
+
+		) as x
+
+	</select>
+	<select id="fault_num" parameterType="map" resultType="map">
+		select SUM(one+two+three+four) as total,SUM(one) as one,SUM(two) as
+		two,SUM(three) as three,SUM(four) as four FROM
+		(select count(*) as one,0 as two,0 as three,0 as four from
+		xhgmnet_operations_fault_one WHERE type=1 AND
+		DATE_FORMAT(produce_time,"%Y-%m")=#{time} UNION ALL
+
+		select 0 as one ,count(*) as two,0 as three,0 as four from
+		xhgmnet_operations_fault_one WHERE type=2 AND
+		DATE_FORMAT(produce_time,"%Y-%m")=#{time} UNION ALL
+
+		select 0 as one,0 as two,count(*) as three,0 as four from
+		xhgmnet_operations_bsfault_three WHERE
+		DATE_FORMAT(time,"%Y-%m")=#{time} UNION ALL
+
+		select 0 as one,0 as two,0 as three,count(*) as four from
+		xhgmnet_operations_fault_four WHERE
+		DATE_FORMAT(produce_time,"%Y-%m")=#{time} ) as x
+
+
 	</select>
 
 </mapper>

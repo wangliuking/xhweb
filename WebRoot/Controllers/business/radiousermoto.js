@@ -28,6 +28,22 @@ toastr.options = {
 	"progressBar" : true,
 };
 var appElement = document.querySelector('[ng-controller=radiouser]');
+/*$(window).on('load',function(){
+	$(".selectpicker").selectpicker('refresh');
+})*/
+//绑定bootstrap-select事件
+/*$("#radioS").on('shown.bs.select',function(e){
+        //为input绑定事件
+       $orgid.prev().find("input").keyup(function(){
+           //为input增加id属性，见下方截图
+           $orgid.prev().find("input").attr('id',"orgname");
+           var orgname = $('#orgname').val().trim();
+           var data = {
+               'name':orgname
+           }
+           initOrglist($orgid,data);
+       })
+   });*/
 xh.load = function() {
 	var app = angular.module("app", []);
 	var C_ID = $("#C_ID").val();
@@ -257,6 +273,12 @@ xh.add = function() {
 			return;
 		}
 		
+	}else{
+		var id=$("#addForm").find("input[name='C_ID']").val();
+		if(id==""){
+			toastr.error("用户ID号码不能为空", '提示');
+			return;
+		}
 	}
 	$("#add_user_btn").button('loading');
 	if(check){
@@ -286,7 +308,11 @@ xh.addUser = function(data) {
 				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error(data.message, '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
 			}
 		},
 		error : function() {

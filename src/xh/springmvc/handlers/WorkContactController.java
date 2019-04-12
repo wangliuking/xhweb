@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import xh.constant.ConstantLog;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
@@ -37,14 +39,17 @@ public class WorkContactController {
 	public void list(HttpServletRequest request, HttpServletResponse response){
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		String type=request.getParameter("type");
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
-		List<WorkContactBean> list=WorkContactService.list(map);
+		map.put("time",time);
+		map.put("type",type);
 		HashMap result = new HashMap();
-		result.put("totals",WorkContactService.list_count());
-		result.put("items", list);
+		result.put("totals",WorkContactService.list_count(map));
+		result.put("items", WorkContactService.list(map));
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -63,6 +68,7 @@ public class WorkContactController {
 		bean.setTime(bean.getTime().split(" ")[0]);
 		bean.setUser_type(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
 		bean.setContent(bean.getContent().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
+		bean.setContent(bean.getContent().replaceAll(" ", "&nbsp;"));
 		System.out.println("type->"+bean.getContent());
 		
 		int rst=WorkContactService.add(bean);
@@ -128,14 +134,29 @@ public class WorkContactController {
 		result.put("success",success);
 		result.put("message", message);
 		return result;
-		/*response.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(result);
-		try {
-			response.getWriter().write(jsonstr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+	}	
+	@RequestMapping("/del")
+	@ResponseBody
+	public Map<String,Object> del(HttpServletRequest request, HttpServletResponse response){
+		String[] ids=request.getParameter("id").split(",");
+		List<String> list=new ArrayList<String>();
+		for (String str : ids) {
+			list.add(str);
+		}
+		int rst=WorkContactService.del(list);
+		if(rst>0){
+			this.message="删除成功";
+			this.success=true;
+			FunUtil.WriteLog(request, ConstantLog.DELETE, "删除工作联系单："+ids);
+		}else{
+			this.message="删除失败";
+			this.success=false;
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);
+		return result;
 	}	
 
 }

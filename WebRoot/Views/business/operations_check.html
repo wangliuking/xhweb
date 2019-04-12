@@ -12,13 +12,16 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="../../lib/layer-master/src/theme/layer.css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+    classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -52,28 +55,66 @@
 			</div>
 		</div>
 		<div class="content animate-panel">
+			
 			<div class="row">
 				<div class="col-md-12">
-					<div class="btn-group" style="padding-top:10px;padding-bottom:10px;">
-						<a class="btn btn-success btn-sm"  href="operations_check_add.html"
-						ng-if="loginUserRoleType==0 
-						|| (loginUserRoleType==3 )">
-							<i class="fa fa-plus-circle"></i>&nbsp;发起考核申请
-						</a>
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label>月份</label>
+										<div>
+											<input type="text" class="form-control" id="time"
+												placeholder="月份" ng-model="time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
+										</div>
+									</div>
 
+
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="search(1)">
+												<i class="fa fa-search"></i>&nbsp;查询
+											</button>
+										</div>
+									</div>
+
+
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<!-- row -->
+			<div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group"
+                        style="padding-top:10px;padding-bottom:10px;">
+                        <a class="btn btn-success btn-sm" href="operations_check_add.html"
+                            ng-if="loginUserRoleType==0 
+                        || (loginUserRoleType==3 )">
+                            <i class="fa fa-plus-circle"></i>&nbsp;发起考核申请
+                        </a>
 
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
 			<!-- row -->
 			<div class="row">
 
 				<div class="col-md-12">
 					<div class="hpanel">
-					  <div class="panel-heading hbuilt">
-								
-						申请列表</div>
+						<div class="panel-heading hbuilt">申请列表</div>
 						<div class="panel-body">
 
 							<table id="tb-info" class="xh-table table-hover"
@@ -97,7 +138,7 @@
 										<td>{{x.tel}}</td>
 										<td ng-if="x.status==0" class="td-primary">等待管理部门审核资料</td>
 										<td ng-if="x.status==-1" class="td-danger">你提交的申请已经被拒绝了</td>
-										
+
 										<!-- <td ng-if="x.status==1" class="td-primary">审核通过，等待管理部门填写考核结果</td> -->
 										<td ng-if="x.status==1" class="td-primary">管理部门已经审核等待服务提供方确认结果</td>
 										<td ng-if="x.status==3" class="td-success">确认完成</td>
@@ -109,17 +150,14 @@
 											<a href="#" ng-click="checkWin2($index)"
 											ng-if="x.status==0 &&((loginUserRoleType==2 && up.o_check_operations_check=='on') || loginUserRoleType==0)">|<i
 												class="fa fa-hand-o-down text-danger"></i>审核
-										</a> 
-										<!-- <a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
+										</a> <!-- <a ng-if="loginUser==x.checkUser && x.status==1 && up.o_check_operations_check=='on'" ng-click="toDeal($index)"
 											href="javascript:(0)" title="点击按钮填写考核结果">|<i
 												class="fa fa-hand-o-down text-danger"></i>填写考核结果
-										</a>  -->
-										<a ng-if="x.status==1 && (loginUserRoleType==3 || loginUserRoleType==0)" href="#"
-											ng-click="check4($index)">| <i
+										</a>  --> <a
+											ng-if="x.status==1 && (loginUserRoleType==3 || loginUserRoleType==0)"
+											href="#" ng-click="check4($index)">| <i
 												class="fa fa-hand-o-down text-danger"></i>确认
-										</a>
-										
-										</td>
+										</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -160,16 +198,16 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	
+
 	<!-- 进度-->
 	<div ng-include="'operations_check_progress.html'"></div>
-	
+
 	<div ng-include="'operations_check_examine.html'"></div>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
@@ -178,15 +216,13 @@
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/operations_check.js"></script>
-	<script type="text/javascript"
-		src="../../lib/layer-master/src/layer.js"></script>
 	<script type="text/javascript">
 		xh.load();
 		$("#addbtn").click(function() {
 			xh.add();
 		});
 	</script>
-<script>
+	<script>
 		$("#uploadfile").click(function() {
 			if ($('#filePath').val() == "") {
 				alert("请选择需要上传的文件！");

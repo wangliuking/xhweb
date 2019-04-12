@@ -32,38 +32,38 @@ public class SendData {
 		try {
 			socket = new Socket(FunUtil.readXml("gps", "ip"),
 					Integer.parseInt(FunUtil.readXml("gps", "port")));
-			log.info("---------------------------------");
-			log.info("GPS设置客户端已建立链接:");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已建立链接:");
+			log.debug("---------------------------------");
 		} catch (UnknownHostException e) {
 			message = "没有找到主机，请检查端口号或者主机IP地址是否正确";
-			log.info("---------------------------------");
-			log.info("GPS-》" + message);
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
 		} catch (IOException e) {
 			message = "网络无响应";
 			System.out.println(message);
-			log.info("---------------------------------");
-			log.info("GPS-》" + message);
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
 			// e.printStackTrace();
 		}
 		try {
 			socket.setSoTimeout(10000);
 		} catch (SocketException e1) {
 			message = "对方没有应答";
-			log.info("---------------------------------");
-			log.info("GPS设置客户端已经关闭连接");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已经关闭连接");
+			log.debug("---------------------------------");
 			e1.printStackTrace();
 		}
 		try {
 			socket.setKeepAlive(true);
 		} catch (SocketException e) {
 			message = "网络已经断开";
-			log.info("---------------------------------");
-			log.info("GPS网络已经断开");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS网络已经断开");
+			log.debug("---------------------------------");
 			// e.printStackTrace();
 		}// 开启保持活动状态的套接字
 			// socket.setSoTimeout(10000);
@@ -104,10 +104,10 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("ImmGps-length:" + info.length);
-		log.info("ImmGps:" + getData.toString());
+		log.debug("ImmGps-length:" + info.length);
+		log.debug("ImmGps:" + getData.toString());
 		socket.close();
-		log.info("socket连接自动关闭");
+		log.debug("socket连接自动关闭");
 		return "success";
 
 	}
@@ -145,10 +145,10 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("GpsEn-length:" + info.length);
-		log.info("GpsEn:" + getData.toString());
+		log.debug("GpsEn-length:" + info.length);
+		log.debug("GpsEn:" + getData.toString());
 		socket.close();
-		log.info("socket连接自动关闭");
+		log.debug("socket连接自动关闭");
 		return "success";
 
 	}
@@ -188,8 +188,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("GpsTrigger-length:" + info.length);
-		log.info("GpsTrigger:" + getData.toString());
+		log.debug("GpsTrigger-length:" + info.length);
+		log.debug("GpsTrigger:" + getData.toString());
 		// 获得服务器发过来的数据，先获得输入流
 
 		InputStream in = socket.getInputStream();
@@ -211,8 +211,8 @@ public class SendData {
 				}
 				System.out.print("\n");
 				System.out.println(status);
-				log.info(str);
-				log.info(status);
+				log.debug(str);
+				log.debug(status);
 				if (status == 0 || status == 24) {
 					message = "success";
 				} else {
@@ -224,10 +224,10 @@ public class SendData {
 			} while (comm != 54);
 			// 注意：read会产生阻塞
 			socket.close();
-			log.info("socket连接自动关闭");
+			log.debug("socket连接自动关闭");
 		} catch (SocketTimeoutException e) {
 			message = "对方回复超时";
-			log.info(message);
+			log.debug(message);
 			// TODO: handle exception
 		}
 
@@ -273,8 +273,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("DGNAData-length:" + info.length);
-		log.info("DGNAData:" + bean.toString());
+		log.debug("DGNAData-length:" + info.length);
+		log.debug("DGNAData:" + bean.toString());
 
 	}
 
@@ -309,8 +309,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("KillData-length:" + info.length);
-		log.info("KillData:" + getData.toString());
+		log.debug("KillData-length:" + info.length);
+		log.debug("KillData:" + getData.toString());
 
 	}
 
@@ -351,8 +351,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendRadioUserSavalidSiteData-length:" + info.length);
-		log.info("sendRadioUserSavalidSiteData:" + getData.toString());
+		log.debug("sendRadioUserSavalidSiteData-length:" + info.length);
+		log.debug("sendRadioUserSavalidSiteData:" + getData.toString());
 
 	}
 
@@ -394,8 +394,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendTalkGroupSavalidSiteData:" + info.length);
-		log.info("sendTalkGroupSavalidSiteData:" + getData.toString());
+		log.debug("sendTalkGroupSavalidSiteData:" + info.length);
+		log.debug("sendTalkGroupSavalidSiteData:" + getData.toString());
 
 	}
 
@@ -435,8 +435,8 @@ public class SendData {
 
 			byte[] info = bos.toByteArray();
 			out.write(info);
-			log.info("sendSms:" + info.length);
-			log.info("sendSms:" + getData.toString());
+			log.debug("sendSms:" + info.length);
+			log.debug("sendSms:" + getData.toString());
 
 			// 获得服务器发过来的数据，先获得输入流
 
@@ -472,7 +472,7 @@ public class SendData {
 			if (header != 0xc4d7) {
 				message = "接收的数据包头不正确";
 			}
-			log.info("发送状态:" + status + ";message:" + message);
+			log.debug("发送状态:" + status + ";message:" + message);
 
 			socket.close();
 			return status;
@@ -543,8 +543,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("RadioUserData-length:" + info.length);
-		log.info("RadioUserData:" + getData.toString());
+		log.debug("RadioUserData-length:" + info.length);
+		log.debug("RadioUserData:" + getData.toString());
 
 	}
 
@@ -591,8 +591,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("TalkGroupData-length:" + info.length);
-		log.info("TalkGroupData:" + getData.toString());
+		log.debug("TalkGroupData-length:" + info.length);
+		log.debug("TalkGroupData:" + getData.toString());
 
 	}
 
@@ -644,9 +644,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("MultiGroupData-length:" + info.length);
-		log.info("MultiGroupData:" + getData.toString());
-		/* log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info)) */;
+		log.debug("MultiGroupData-length:" + info.length);
+		log.debug("MultiGroupData:" + getData.toString());
+		/* log.debug("MultiGroupData-info:" + FunUtil.BytesToHexS(info)) */;
 
 	}
 
@@ -701,9 +701,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("DispatchUserData-length:" + info.length);
-		log.info("DispatchUserData:" + getData.toString());
-		/* log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info)); */
+		log.debug("DispatchUserData-length:" + info.length);
+		log.debug("DispatchUserData:" + getData.toString());
+		/* log.debug("DispatchUserData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 
@@ -742,8 +742,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendStatusSetData-length:" + info.length);
-		log.info("sendStatusSetData:" + getData.toString());
+		log.debug("sendStatusSetData-length:" + info.length);
+		log.debug("sendStatusSetData:" + getData.toString());
 
 	}
 
@@ -778,8 +778,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendStatusSetUnitData-length:" + info.length);
-		log.info("sendStatusSetUnitData:" + getData.toString());
+		log.debug("sendStatusSetUnitData-length:" + info.length);
+		log.debug("sendStatusSetUnitData:" + getData.toString());
 
 	}
 
@@ -831,8 +831,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("RadioUserAttrData-length:" + info.length);
-		log.info("RadioUserAttrData:" + getData.toString());
+		log.debug("RadioUserAttrData-length:" + info.length);
+		log.debug("RadioUserAttrData:" + getData.toString());
 
 	}
 
@@ -888,9 +888,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("TalkGroupAttrData-length:" + info.length);
-		log.info("TalkGroupAttrData:" + getData.toString());
-		/* log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info)); */
+		log.debug("TalkGroupAttrData-length:" + info.length);
+		log.debug("TalkGroupAttrData:" + getData.toString());
+		/* log.debug("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 
@@ -943,8 +943,8 @@ public class SendData {
 		byte[] info = bos.toByteArray();
 
 		out.write(info);
-		log.info("sendDispatchUserIAData-length:" + info.length);
-		log.info("sendDispatchUserIAData:" + getData.toString());
+		log.debug("sendDispatchUserIAData-length:" + info.length);
+		log.debug("sendDispatchUserIAData:" + getData.toString());
 
 	}
 
@@ -984,8 +984,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendRadioUserSavalidRegionData-length:" + info.length);
-		log.info("sendRadioUserSavalidRegionData:" + getData.toString());
+		log.debug("sendRadioUserSavalidRegionData-length:" + info.length);
+		log.debug("sendRadioUserSavalidRegionData:" + getData.toString());
 
 	}
 
@@ -1025,8 +1025,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendTalkGroupSavalidRegionData-length:" + info.length);
-		log.info("sendTalkGroupSavalidRegionData:" + getData.toString());
+		log.debug("sendTalkGroupSavalidRegionData-length:" + info.length);
+		log.debug("sendTalkGroupSavalidRegionData:" + getData.toString());
 
 	}
 
@@ -1067,8 +1067,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		if (MotoTcpClient.getSocket().isConnected()) {
-			log.info("DS->MOTO[RadioAddReq]:" + bean.toString());
-			log.info("DS->MOTO[RadioAddReq]:" + FunUtil.BytesToHexS(info));
+			log.debug("DS->MOTO[RadioAddReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioAddReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
@@ -1113,8 +1113,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		if (MotoTcpClient.getSocket().isConnected()) {
-			log.info("DS->MOTO[RadioDelReq]:" + bean.toString());
-			log.info("DS->MOTO[RadioDelReq]:" + FunUtil.BytesToHexS(info));
+			log.debug("DS->MOTO[RadioDelReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioDelReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
@@ -1158,8 +1158,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		if (MotoTcpClient.getSocket().isConnected()) {
-			log.info("DS->MOTO[RadioUpdateReq]:" + bean.toString());
-			log.info("DS->MOTO[RadioUpdateReq]:" + FunUtil.BytesToHexS(info));
+			log.debug("DS->MOTO[RadioUpdateReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUpdateReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
@@ -1205,8 +1205,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		if (MotoTcpClient.getSocket().isConnected()) {
-			log.info("DS->MOTO[RadioUserAddReq]:" + bean.toString());
-			log.info("DS->MOTO[RadioUserAddReq]:" + FunUtil.BytesToHexS(info));
+			log.debug("DS->MOTO[RadioUserAddReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUserAddReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
@@ -1252,8 +1252,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		if (MotoTcpClient.getSocket().isConnected()) {
-			log.info("DS->MOTO[RadioUserDelReq]:" + bean.toString());
-			log.info("DS->MOTO[RadioUserDelReq]:" + FunUtil.BytesToHexS(info));
+			log.debug("DS->MOTO[RadioUserDelReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUserDelReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
@@ -1298,8 +1298,8 @@ public class SendData {
 
 			byte[] info = bos.toByteArray();
 			if (MotoTcpClient.getSocket().isConnected()) {
-				log.info("DS->MOTO[RadioUserUpdateReq]:" + bean.toString());
-				log.info("DS->MOTO[RadioUserUpdateReq]:" + FunUtil.BytesToHexS(info));
+				log.debug("DS->MOTO[RadioUserUpdateReq]:" + bean.toString());
+				log.debug("DS->MOTO[RadioUserUpdateReq]:" + FunUtil.BytesToHexS(info));
 				out.write(info);
 			} else {
 				return "NO";
@@ -1335,8 +1335,8 @@ public class SendData {
 
 			byte[] info = bos.toByteArray();
 			if (MotoTcpClient.getSocket().isConnected()) {
-				log.info("DS->MOTO[RadioGetReq]:" + bean.toString());
-				log.info("DS->MOTO[RadioGetReq]:" + FunUtil.BytesToHexS(info));
+				log.debug("DS->MOTO[RadioGetReq]:" + bean.toString());
+				log.debug("DS->MOTO[RadioGetReq]:" + FunUtil.BytesToHexS(info));
 				out.write(info);
 			} else {
 				return "NO";
@@ -1372,8 +1372,8 @@ public class SendData {
 
 					byte[] info = bos.toByteArray();
 					if (MotoTcpClient.getSocket().isConnected()) {
-						log.info("DS->MOTO[RadioUserGetReq]:" + bean.toString());
-						log.info("DS->MOTO[RadioUserGetReq]:" + FunUtil.BytesToHexS(info));
+						log.debug("DS->MOTO[RadioUserGetReq]:" + bean.toString());
+						log.debug("DS->MOTO[RadioUserGetReq]:" + FunUtil.BytesToHexS(info));
 						out.write(info);
 					} else {
 						return "NO";

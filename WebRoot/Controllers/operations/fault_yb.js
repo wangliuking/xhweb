@@ -50,7 +50,7 @@ xh.load = function() {
 			xh.maskHide();
 			$scope.userL = response;
 		});
-		$http.get("../../faultlevel/three_list?time="+$scope.time+"&start=0&limit=" + pageSize).success(
+		$http.get("../../faultlevel/three_list?time="+$scope.time+"&start=0&limit=" + $scope.count).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -65,28 +65,43 @@ xh.load = function() {
 	
 		$scope.del=function(id){
 			$scope.oneData = $scope.data[id];
-			$.ajax({
-				url : '../../faultlevel/three_del',
-				type : 'post',
-				dataType : "json",
-				data : {
-					id:$scope.oneData.id
-				},				
-				async : false,
-				success : function(data) {
-					xh.maskHide();
-					//$("#btn-mbs").button('reset');
-					if (data.success) {
-						toastr.success(data.message, '提示');
-						$scope.refresh();
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
-					xh.maskHide();
-					toastr.error("系统错误", '提示');
-				}
+			swal({
+				title : "提示",
+				text : "确定要删除记录吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			    closeOnConfirm : true, 
+			    closeOnCancel : true,
+			    }, function(isConfirm) {
+				    if (isConfirm) {
+				    	$.ajax({
+							url : '../../faultlevel/three_del',
+							type : 'post',
+							dataType : "json",
+							data : {
+								id:$scope.oneData.id
+							},				
+							async : false,
+							success : function(data) {
+								xh.maskHide();
+								//$("#btn-mbs").button('reset');
+								if (data.success) {
+									toastr.success(data.message, '提示');
+									$scope.refresh();
+								} else {
+									toastr.error(data.message, '提示');
+								}
+							},
+							error : function() {
+								xh.maskHide();
+								toastr.error("系统错误", '提示');
+							}
+						});
+						
+				    }
 			});
 			
 		}

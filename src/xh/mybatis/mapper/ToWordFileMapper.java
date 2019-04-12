@@ -31,5 +31,14 @@ public interface ToWordFileMapper {
 	public List<EastVpnCallBean> system_call_vpn_top10(String time) throws Exception;
 	
 	public List<EastBsCallDataBean> chart_bs_userreg_top10(String time) throws Exception;
+	
+	
+	public Map<String,Object> xj_bs_all_type_num(int period) throws Exception;
+	
+	public Map<String,Object> xj_bs_num(Map<String,Object> map) throws Exception;
+	
+	public Map<String,Object> fault_num(Map<String,Object> map) throws Exception;
+	
+	
 
 }

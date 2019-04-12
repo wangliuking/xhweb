@@ -7,11 +7,23 @@
 		left join xhgmnet_web_user as b on a.addUser=b.user
 		left join xhgmnet_web_user as c on a.checkUser=c.user
 		 where 1=1
+		 <if test="time!=null and time!=''">
+		 and date_format(a.time,'%Y-%m')=#{time}
+		 </if>
+		 <if test="type!=null and type!=''">
+         and a.type=#{type}
+         </if>
 		order by a.time desc,id desc
 		limit #{start},#{limit}
 	</select>
-	<select id="list_count" resultType="int">
-		select count(*) from xhgmnet_operations_workcontact
+	<select id="list_count" resultType="int" parameterType="map">
+		select count(*) from xhgmnet_operations_workcontact where 1=1
+		 <if test="time!=null and time!=''">
+         and date_format(time,'%Y-%m')=#{time}
+         </if>
+         <if test="type!=null and type!=''">
+         and type=#{type}
+         </if>
 	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.WorkContactBean">
 	insert into xhgmnet_operations_workcontact(taskId,reason,type,sendUnit,recvUnit,copyUnit,time,code,
@@ -22,5 +34,13 @@
 	update xhgmnet_operations_workcontact set status=1,checkTime=#{checkTime},checkUser=#{checkUser}
 	where taskId=#{taskId}
 	</update>
+	
+	<delete id="del" parameterType="java.util.List">
+	delete from xhgmnet_operations_workcontact where id in(
+	<foreach collection="list" item="id" separator=",">
+	${id}
+	</foreach>
+	)
+	</delete>
 
 </mapper>

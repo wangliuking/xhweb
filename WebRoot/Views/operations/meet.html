@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>工作联系单</title>
+<title>会议纪要</title>
 <meta name="keywords" content="keyword1,keyword2,keyword3">
 <meta name="description" content="this is my page">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,43 +13,16 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-<style type="text/css">
-.form-table {
-	margin-top: 10px;
-	width: 100%;
-	color: #000;
-	/* table-layout:fixed; */
-	border-collapse: collapse;
-	/* text-align: center; */
-
-	/* transform:rotate(2deg);  */
-}
-
-.form-table tr td {
-	/* word-wrap:break-word;
-	white-space: nowrap; */
-	border: 1px solid #ccc;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.form-input {
-	outline: none;
-	border: none;
-	width: 100%;
-}
-
-.form-select {
-	outline: none;
-	border: none;
-	width: 100%;
-}
-</style>
 <!-- <script type="text/javascript" src="../../Resources/js/jquery-1.7.2.js"></script> -->
 <!--[if lte IE 9]>
 <script src="../../Resources/js/respond.min.js"></script>
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+    classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
 </head>
 <body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
 	<!-- splash screen-->
@@ -74,16 +47,16 @@
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
-							<li class="active"><span>工作联系单</span></li>
+						<!-- 	<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li> -->
+							<li class="active"><span>会议纪要</span></li>
 						</ol>
 					</div>
-					<div class="btn-group pull-right">
+					<!-- <div class="btn-group pull-right">
 						<button class="btn btn-primary btn-sm"
 							onclick="javascript:history.back(-1);">
 							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
 						</button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -91,7 +64,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-heading hbuilt">
+						<div class="panel-heading hbuilt" >
 							<div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
 							</div>
@@ -101,30 +74,14 @@
 							<div id="search-div">
 								<form class="form-inline" role="form">
 									<div class="form-group">
-										<label for="filename">时间</label>
+										<label for="filename">月份</label>
 										<div>
-											<input type="text" class="form-control" id="time"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
-										</div>
+                                            <input type="text" class="form-control" id="time"
+                                                placeholder="月份" 
+                                                onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
+                                        </div>
 									</div>
-
-									<div class="form-group">
-										<label for="status">类型 </label>
-										<div>
-											<select id="type" class="form-control" style="width:159px;">
-												<option value="" selected="selected">==全部==</option>
-												<option value="通信保障">通信保障</option>
-												<option value="应急处置演练">应急处置演练</option>
-												<option value="服务抽检">服务抽检</option>
-												<option value="网络优化与整改">网络优化与整改</option>
-												<option value="故障处理">故障处理</option>
-												<option value="频率干扰排查">频率干扰排查</option>
-												<option value="信号覆盖测试">信号覆盖测试</option>
-												<option value="支持与配合工作">支持与配合工作</option>
-												<option value="其他事项">其他事项</option>
-											</select>
-										</div>
-									</div>
+									
 
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
@@ -134,7 +91,7 @@
 											</button>
 										</div>
 									</div>
-
+									
 
 								</form>
 							</div>
@@ -146,14 +103,15 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-heading hbuilt">工作联系单列表</div>
+						<div class="panel-heading hbuilt">会议纪要列表</div>
 						<div class="panel-body">
 							<div class="btn-group pull-left" style="padding-bottom:5px;">
 
-								<button class="btn btn-danger btn-sm" data-toggle="modal"
-									data-target="#add" ng-disabled="">
-									<i class="fa fa-plus-circle"></i>&nbsp;填写工作联系单
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#add" ng-if="userL.roleType==0 || (up.o_add=='on' && userL.roleType==3)">
+									<!-- <i class="fa fa-plus-circle"></i> -->&nbsp;添加会议纪要
 								</button>
+                               
 							</div>
 							<div class="form-group"></div>
 							<!-- row -->
@@ -162,41 +120,26 @@
 							<table id="tb-info" class="xh-table table-hover">
 								<thead>
 									<tr class="tr-gray">
-										<th>时间</th>
-
-										<th>类型</th>
-										<th>发文单位</th>
-										<th>发文人</th>
-										<th>事由</th>
-										<th>确认人员</th>
-										<th>确认时间</th>
-
-										<th>状态</th>
+										<th >会议名称</th>
+										<th>会议地址</th>
+										<th>会议时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
+										<td colspan="4" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
-										<td>{{x.time}}</td>
-
-										<td>{{x.type}}</td>
-										<td>{{x.sendUnit}}</td>
-										<td>{{x.userName}}</td>
-										<td><a href="#" ng-click="detail($index)">{{x.reason}}</a></td>
-										<td>{{x.checkUserName}}</td>
-										<td>{{x.checkTime}}</td>
-
-										<td><span ng-if="x.status==0">未确认</span> <span
-											ng-if="x.status==1" style="color:green">已确认</span></td>
-										<td><a href="#" ng-click="sign($index)"
-											ng-if="loginUser.roleType!=x.user_type && up.o_task=='on' && x.status==0">确认</a>
-											<a href="#" ng-click="del($index)"
-                                            ng-if="up.o_delete=='on'">删除</a>
+										<td>{{x.name}}</td>
+										<td>{{x.address}}</td>
+										<td>{{x | timeFormat}}</td>
+										<td style="text-align:center">
+										<a href="#" ng-click="detailModel($index)"> &nbsp;详情</a>
+										<a href="#" ng-click="editModel($index)" ng-if="userL.roleType==0 || userL.roleType==3"> |&nbsp;修改</a>
 										</td>
-
+										
+										
 									</tr>
 								</tbody>
 							</table>
@@ -210,9 +153,8 @@
 										<option value="50">50</option>
 									</select> <span>条,</span> <span ng-model="index">显示{{start}}-</span><span
 										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span> <i
-										class="fa fa-refresh page-refresh" title="刷新数据"
-										ng-click="refresh()"></i>
+										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
 								</div>
 								<div class="page-paging"></div>
 							</div>
@@ -227,15 +169,17 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'task-detail.html'"></div>
-	<div ng-include="'task-add.html'"></div>
+	<div ng-include="'meet-detail.html'"></div>
+	<div ng-include="'meet-add.html'"></div>
+	<div ng-include="'meet-update.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+
 	<script type="text/javascript"
-		src="../../Controllers/operations/task.js"></script>
+		src="../../Controllers/operations/meet.js"></script>
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript">

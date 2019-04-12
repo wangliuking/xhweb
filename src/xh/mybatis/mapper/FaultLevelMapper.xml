@@ -12,7 +12,7 @@
 	</select>
 	<select id="three_list" parameterType="map"
 		resultType="xh.mybatis.bean.FaultThreeBean" useCache="true">
-		select a.*,b.period,b.name,b.level from xhgmnet_operations_fault_three as a
+		select a.*,b.period,b.name,b.level from xhgmnet_operations_bsfault_three  as a
 		left join xhgmnet_bs_station as b on a.bsId=b.bsId
 		 where 1=1
 		<if test="time!=null and time!=''">
@@ -57,9 +57,9 @@
 	</update>
 	<update id="three_update" parameterType="xh.mybatis.bean.FaultThreeBean">
 		update
-		xhgmnet_operations_fault_three set
+		xhgmnet_operations_bsfault_three  set
 		fault_from=#{fault_from},reason=#{reason},content=#{content},faultRecoveryTime=#{faultRecoveryTime},
-		faultTimeTotal=#{faultTimeTotal},content=#{content},faultType=#{faultType},
+		faultTimeTotal=#{faultTimeTotal},content=#{content},fault_type=#{fault_type},
 		faultHandlePerson=#{faultHandlePerson},faultRecordPerson=#{faultRecordPerson}
 		where id=#{id}
 	</update>
@@ -80,7 +80,7 @@
 	</select>
 	<select id="three_count" parameterType="map" resultType="int"
 		useCache="true">
-		select count(1) from xhgmnet_operations_fault_three where 1=1
+		select count(1) from xhgmnet_operations_bsfault_three  where 1=1
 		<if test="time!=null and time!=''">
 			and date_format(time,'%Y-%m')=#{time}
 		</if>
@@ -104,7 +104,7 @@
 	</delete>
 	<delete id="three_del" parameterType="java.util.List">
 		delete from
-		xhgmnet_operations_fault_three where id=(
+		xhgmnet_operations_bsfault_three  where id=(
 		<foreach collection="list" item="id" separator=",">
 			#{id}
 		</foreach>

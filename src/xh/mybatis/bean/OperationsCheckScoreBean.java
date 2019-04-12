@@ -3,6 +3,7 @@ package xh.mybatis.bean;
 public class OperationsCheckScoreBean {
 	private String check_type;
 	private String check_tag;
+	private int period;
 	private float score;
 	private String check_note;
 	private String check_month;
@@ -35,6 +36,13 @@ public class OperationsCheckScoreBean {
 	}
 	public void setCheck_month(String check_month) {
 		this.check_month = check_month;
+	}
+	
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
 	}
 	@Override
 	public String toString() {

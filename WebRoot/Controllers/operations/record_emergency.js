@@ -53,7 +53,7 @@ xh.load = function() {
 			$scope.loginUserRoleId = response.roleId;
 		});*/
 		//获取派单列表
-		$http.get("../../userneed/emergency_list?start=0&limit=" + pageSize).success(
+		$http.get("../../userneed/emergency_list?start=0&limit=" + $scope.count).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
@@ -68,29 +68,44 @@ xh.load = function() {
 	
 		$scope.del=function(id){
 			$scope.oneData = $scope.data[id];
-			$.ajax({
-				url : '../../userneed/del_emergency',
-				type : 'post',
-				dataType : "json",
-				data : {
-					id:$scope.oneData.id
-				},				
-				async : false,
-				success : function(data) {
-					xh.maskHide();
-					//$("#btn-mbs").button('reset');
-					if (data.success) {
-						toastr.success(data.message, '提示');
-						$scope.refresh();
-					} else {
-						toastr.error(data.message, '提示');
-					}
-				},
-				error : function() {
-					xh.maskHide();
-					toastr.error("系统错误", '提示');
-				}
+			swal({
+				title : "提示",
+				text : "确定要删除记录吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			    closeOnConfirm : true, 
+			    closeOnCancel : true,
+			    }, function(isConfirm) {
+				    if (isConfirm) {
+				    	$.ajax({
+							url : '../../userneed/del_emergency',
+							type : 'post',
+							dataType : "json",
+							data : {
+								id:$scope.oneData.id
+							},				
+							async : false,
+							success : function(data) {
+								xh.maskHide();
+								//$("#btn-mbs").button('reset');
+								if (data.success) {
+									toastr.success(data.message, '提示');
+									$scope.refresh();
+								} else {
+									toastr.error(data.message, '提示');
+								}
+							},
+							error : function() {
+								xh.maskHide();
+								toastr.error("系统错误", '提示');
+							}
+						});
+				    }
 			});
+			
 			
 		}
 
@@ -167,7 +182,8 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var starttime=$("#time").val();
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -178,8 +194,8 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../userneed/emergency_list?start="+start+"&time="+starttime+"" +
-					"&limit=" + pageSize).success(function(response) {
+			$http.get("../../userneed/emergency_list?start="+start+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
@@ -190,7 +206,8 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var starttime=$("#time").val();
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -200,8 +217,8 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../userneed/emergency_list?start="+start+"&time="+starttime+"" +
-					"&limit=" + pageSize).success(function(response) {
+					"../../userneed/emergency_list?start="+start+"&starttime="+starttime+"" +
+					"&endtime="+endtime+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;

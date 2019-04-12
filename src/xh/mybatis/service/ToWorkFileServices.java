@@ -190,6 +190,45 @@ public class ToWorkFileServices {
 		}
 		return list;
 	}
+	public static Map<String,Object> xj_bs_all_type_num(int period){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			map=mapper.xj_bs_all_type_num(period);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	public static Map<String,Object> xj_bs_num(Map<String,Object> mapstr){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			map=mapper.xj_bs_num(mapstr);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	public static Map<String,Object> fault_num(Map<String,Object> mapstr){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		Map<String,Object> map=new HashMap<String, Object>();
+		try {
+			map=mapper.fault_num(mapstr);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
 
 
 }

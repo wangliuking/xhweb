@@ -10,53 +10,40 @@
 	<!--根据无线用户ID，名称查找相关记录 -->
 	<select id="radiouserById" parameterType="map" resultType="map"
 		useCache="true">
-		  select a.C_ID as userId,a.E_name,b.`name` as mscName,c.`name` as
-        vpnName,d.RadioID,d.RadioSerialNumber,d.RadioReferenceID,d.SecurityGroup
-        as SGroup,e.*
-        from xhgmnet_radiouser as a
-        LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId
-        LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId
-        LEFT JOIN xhgmnet_radio as d on a.C_ID=d.RadioID
-        LEFT JOIN xhgmnet_radiouser_moto as e on a.C_ID=e.C_ID
+		select a.*,b.RadioID,b.RadioSerialNumber,b.RadioReferenceID,b.SecurityGroup
+        as SGroup,c.C_ID as userId,c.E_name  from xhgmnet_radiouser_moto as a
+LEFT JOIN xhgmnet_radio as b on a.C_ID=b.RadioID
+LEFT JOIN xhgmnet_radiouser as c on a.C_ID=c.C_ID
 		where 1=1
 		<if test="C_ID !=null and C_ID !='' and C_ID !=0">
 			and a.C_ID=#{C_ID}
 		</if>
-		 <if test="type==0">
-         and e.C_ID is null
+		<!-- <if test="type!=null and type!=''">
+         <if test="type==0">
+         and  e.C_ID is null
          </if>
           <if test="type==1">
          and e.C_ID>0
          </if>
+         
+        </if> -->
 		<!-- <if test="RadioUserAlias !=null and RadioUserAlias !=''">
 			and a.RadioUserAlias like
 			concat('%',#{RadioUserAlias},'%')
 		</if> -->
-		order by a.C_ID limit #{start},#{limit}
+		order by a.C_ID asc limit #{start},#{limit}
 	</select>
 	<!--根据无线用户ID，无线用户名称查找相关记录总数 -->
 	<select id="count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*)
-        from xhgmnet_radiouser as a
-        LEFT JOIN xhgmnet_msclist as b on a.E_mscId=b.mscId
-        LEFT JOIN xhgmnet_vpn as c on a.E_vpnId=c.vpnId
-        LEFT JOIN xhgmnet_radio as d on a.C_ID=d.RadioID
-        LEFT JOIN xhgmnet_radiouser_moto as e on a.C_ID=e.C_ID
+        from xhgmnet_radiouser_moto 
         where 1=1
 
 		<if test="C_ID!=null and C_ID!=''">
-			and a.C_ID =#{C_ID}
+			and C_ID =#{C_ID}
 		</if>
-		<if test="type!=null and type!=''">
-		 <if test="type==0">
-		 and  e.C_ID is null
-		 </if>
-		  <if test="type==1">
-         and e.C_ID>0
-         </if>
-         
-        </if>
+		
 		<!-- <if test="RadioUserAlias!=null and RadioUserAlias!=''">
 			and RadioUserAlias like concat('%',#{RadioUserAlias},'%')
 		</if> -->

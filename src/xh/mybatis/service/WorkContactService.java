@@ -27,12 +27,12 @@ public class WorkContactService {
 		}
 		return list;
 	}
-	public static int list_count() {
+	public static int list_count(Map<String,Object> map) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
 		int count=0;
 		try {
-			count=mapper.list_count();
+			count=mapper.list_count(map);
 			sqlSession.close();
 
 		} catch (Exception e) {
@@ -62,6 +62,21 @@ public class WorkContactService {
 		int count=0;
 		try {
 			count=mapper.sign(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int del(List<String> list) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.del(list);
 			sqlSession.commit();
 			sqlSession.close();
 

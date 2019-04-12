@@ -143,6 +143,8 @@ marquee {
 							<li ng-show="menu.m_12"><a
 								href="Views/menu/menu_operations.html" target="mainframe">
 									服务监管</a></li>
+									<li ng-if="roleType==2 || roleType==3 || roleType==0"><a href="Views/operations/meet.html"
+                                target="mainframe">会议纪要</a></li>
 						 <li ng-if="roleType==3 || roleType==0"><a href="Views/menu/menu_fault.html"
                                 target="mainframe">故障处理</a></li>
 							<li ng-show="menu.m_14"><a href="Views/menu/menu_count.html"

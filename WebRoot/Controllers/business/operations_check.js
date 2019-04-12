@@ -30,6 +30,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
+		$scope.time=xh.getNowMonth();
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -49,7 +50,7 @@ xh.load = function() {
 
 		
 		/*获取记录表*/
-		$http.get("../../check/data?start=0&limit=" + pageSize).
+		$http.get("../../check/data?time="+$scope.time+"&start=0&limit=" + pageSize).
 		success(function(response){
 			xh.maskHide();
 			$scope.data = response.items;
@@ -63,8 +64,10 @@ xh.load = function() {
 			$http.get("../../check/searchDetail?time="+time).
 			success(function(response){
 				xh.maskHide();
-				$scope.money_data = response.items;
-				$scope.money_sum=response.sum;
+				$scope.money_data3 = response.items3;
+				$scope.money_sum3=response.sum3;
+				$scope.money_data4 = response.items4;
+				$scope.money_sum4=response.sum4;
 				
 				
 			});
@@ -73,8 +76,10 @@ xh.load = function() {
 			$http.get("../../check/searchScore?time="+time).
 			success(function(response){
 				xh.maskHide();
-				$scope.score_data= response.items;
-				$scope.score_sum=response.sum;
+				$scope.score_data3= response.items3;
+				$scope.score_sum3=response.sum3;
+				$scope.score_data4= response.items4;
+				$scope.score_sum4=response.sum4;
 				
 				
 			});
@@ -246,6 +251,7 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var time = $("#time").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -256,7 +262,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../check/data?start="+start+"&limit=" + pageSize).
+			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -274,6 +280,7 @@ xh.load = function() {
 		//分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var time = $("#time").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -282,7 +289,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../check/data?start="+start+"&limit=" + pageSize).
+			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -431,4 +438,40 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 
+};
+var WebPrinter; //声明为全局变量 
+xh.printExists=function() {
+	
+	try{ 
+	    var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM')); 
+		if ((LODOP!=null)&&(typeof(LODOP.VERSION)!="undefined")) alert("本机已成功安装过Lodop控件!\n  版本号:"+LODOP.VERSION); 
+	 }catch(err){ 
+		//alert("Error:本机未安装或需要升级!"); 
+	 }   
+};
+/*ADD_PRINT_TABLE(Top,Left,Width,Height,strHtml)*/
+xh.print_score3=function() {
+	var LODOP = getLodop();
+	LODOP.PRINT_INIT("wwwww");
+	LODOP.SET_PRINT_PAGESIZE(0, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print_score3").innerHTML);
+	 LODOP.PREVIEW();  	
+};
+xh.print_score4=function() {
+	var LODOP = getLodop();
+	LODOP.SET_PRINT_PAGESIZE(0, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print_score4").innerHTML);
+	 LODOP.PREVIEW();  	
+};
+xh.print_money3=function() {
+	var LODOP = getLodop();
+	LODOP.SET_PRINT_PAGESIZE(0, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print_money3").innerHTML);
+	 LODOP.PREVIEW();  	
+};
+xh.print_money4=function() {
+	var LODOP = getLodop();
+	LODOP.SET_PRINT_PAGESIZE(0, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print_money4").innerHTML);
+	 LODOP.PREVIEW();  	
 };

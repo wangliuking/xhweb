@@ -35,7 +35,7 @@ public class RadioService {
 		}
 		return list;
 	}
-	public int count(Map<String,Object> map) throws Exception {
+	public static int count(Map<String,Object> map) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
 		int count=0;
@@ -101,7 +101,7 @@ public class RadioService {
 		
 		return rsmap;
 	}
-	public int vAdd(RadioBean bean) throws Exception {
+	public static int vAdd(RadioBean bean) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		RadioMapper mapper=session.getMapper(RadioMapper.class);
 		int rs=0;

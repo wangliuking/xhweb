@@ -20,15 +20,30 @@ toastr.options = {
 };
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
-	var app = angular.module("app", [])
+	var app = angular.module("app", []);
+	var status = $("#status").val();
+	var pageSize = $("#page-limit").val();
 	
-
-	app.filter('qualitystatus', function() { // 可以注入依赖
+	app.filter('timeFormat', function() { // 可以注入依赖
 		return function(text) {
-			if (text == 0) {
-				return "未签收";
-			} else if (text == 1) {
-				return "签收";
+			if(text==null){
+				return "";
+			}else{
+				var t1=text.start_time;
+				var t2=text.end_time;
+				var tt=t1.split(" ")[0]+" "+t1.split(" ")[1].split(":")[0]+":"+t1.split(" ")[1].split(":")[1];
+				tt+="-"+t2.split(" ")[1].split(":")[0]+":"+t1.split(" ")[1].split(":")[1];
+				return tt;
+			}
+		};
+	});
+	app.filter('singleTimeFormat', function() { // 可以注入依赖
+		return function(text) {
+			if(text==null){
+				return "";
+			}else{
+				var t1=text
+				return t1.split(" ")[0];
 			}
 		};
 	});
@@ -36,10 +51,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值
-		var pageSize = $("#page-limit").val();
 		$scope.page=1;
-		$scope.time=xh.dateNowFormat("month");
-		$scope.time_day=xh.dateNowFormat("day");
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -48,86 +60,49 @@ xh.load = function() {
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
-			$scope.userL = response;
+			$scope.loginUser = response.user;
+			console.log("loginuser="+$scope.loginUser);
+			$scope.loginUserRoleId = response.roleId;
+			$scope.roleType = response.roleType;
+			$scope.userL=response;
 		});
-		$http.get("../../faultlevel/one_list?type=1&time="+$scope.time+"&start=0&limit=" + $scope.count).success(
+		$http.get(
+				"../../meet/meetlist?&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
-		
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
-	
-		$scope.del=function(id){
-			$scope.oneData = $scope.data[id];
-			swal({
-				title : "提示",
-				text : "确定要删除记录吗？",
-				type : "info",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "确定",
-				cancelButtonText : "取消",
-			    closeOnConfirm : true, 
-			    closeOnCancel : true,
-			    }, function(isConfirm) {
-				    if (isConfirm) {
-				    	$.ajax({
-							url : '../../faultlevel/one_del',
-							type : 'post',
-							dataType : "json",
-							data : {
-								id:$scope.oneData.id
-							},				
-							async : false,
-							success : function(data) {
-								xh.maskHide();
-								//$("#btn-mbs").button('reset');
-								if (data.success) {
-									toastr.success(data.message, '提示');
-									$scope.refresh();
-								} else {
-									toastr.error(data.message, '提示');
-								}
-							},
-							error : function() {
-								xh.maskHide();
-								toastr.error("系统错误", '提示');
-							}
-						});
-				    }
-			});
-			
-			
-		}
 
-		/*显示详细信息*/
-		$scope.show_detail = function(id) {
-			$("#detailWin").modal('show');
+		$scope.editModel = function(id) {
+			$("#edit").modal('show');
 			$scope.editData = $scope.data[id];
-			
+			var str=$scope.data[id].person;
+			str=str.replace(/<br>/g,"\r\n");
+			str=str.replace(/&nbsp;/g," ");
+			$("#editForm").find("textarea[name='person']").val(str)
+			/*
+			var str=$scope.detailData.person;
+			$("#df1").html(str.replace(/<br>/g,"<br />"))*/
 		};
-		$scope.show_add_win = function(id) {
-			$("#addWin").modal('show');
-			
+		$scope.detailModel = function(id) {
+			$("#detail").modal('show');
+			$scope.detailData = $scope.data[id];
+			var str=$scope.detailData.person;
+			str=str.replace(/<br>/g,"<br />");
+			str=str.replace(/" "/g,"&nbsp;")
+			$("#df2").html(str)
 		};
-		$scope.show_edit = function(id) {
-			$scope.editData = $scope.data[id];
-			$("#editWin").modal('show');
-			
-		};
-	
-		
 
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
-			var starttime=$("#time").val();
+			var time = $("#time").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -137,20 +112,21 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
+			console.log("limit=" + limit);
 			xh.maskShow();
-			$http.get("../../faultlevel/one_list?type=1&start="+start+"&time="+starttime+"" +
-					"&limit=" + pageSize).success(function(response) {
+			$http.get(
+					"../../meet/meetlist?time="+time+"&start=0&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				$scope.page=page
+				$scope.page=page;
 				xh.pagging(page, parseInt($scope.totals), $scope);
 			});
 		};
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
-			var starttime=$("#time").val();
+			var time = $("#time").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -160,8 +136,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../faultlevel/one_list?type=1&start="+start+"&time="+starttime+"" +
-					"&limit=" + pageSize).success(function(response) {
+					"../../meet/meetlist?time="+time+"&start="+start+"&limit=" + pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
@@ -173,9 +148,9 @@ xh.load = function() {
 						$scope.lastIndex = 0;
 					}
 				}
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
-				$scope.page=page
 			});
 
 		};
@@ -189,89 +164,51 @@ xh.refresh = function() {
 };
 /* 添加 */
 xh.add = function() {
-	var $scope = angular.element(appElement).scope();
 	$.ajax({
-		url : '../../faultlevel/one_add',
+		url : '../../meet/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:xh.serializeJson($("#addForm").serializeArray()) ,
-		contentType : 'application/json;charset=utf-8', //设置请求头信息 
+		data:{
+			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+		},
 		success : function(data) {
 			if (data.success) {
-				$('#addWin').modal('hide');
+				$('#add').modal('hide');
 				xh.refresh();
 				$("#addForm")[0].reset();
 				$("#addForm").data('bootstrapValidator').resetForm();
 				toastr.success(data.message, '提示');
 			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
+				toastr.error(data.message, '提示');
 			}
 		},
-		error : function() {
+		error : function(e) {
+			toastr.error(e, '提示');
 		}
 	});
 };
-xh.upload = function() {
-	var $scope = angular.element(appElement).scope();
+xh.update= function() {
 	$.ajax({
-		url : '../../userneed/upload_communication',
+		url : '../../meet/update',
 		type : 'POST',
 		dataType : "json",
 		async : true,
-		data:xh.serializeJson($("#uploadForm").serializeArray()) ,
-		contentType : 'application/json;charset=utf-8', //设置请求头信息 
-		success : function(data) {
-
-			if (data.success) {
-				$('#upload').modal('hide');
-				xh.refresh();
-				$("#uploadForm")[0].reset();
-				$("#uploadForm").data('bootstrapValidator').resetForm();
-				$("#uploadResult").html("");
-				 toastr.success("文件上传成功", '提示');
-			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
-			}
+		data:{
+			formData:xh.serializeJson($("#editForm").serializeArray()) //将表单序列化为JSON对象
 		},
-		error : function() {
-		}
-	});
-};
-xh.edit = function() {
-	var $scope = angular.element(appElement).scope();
-	$.ajax({
-		url : '../../faultlevel/one_update',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data:xh.serializeJson($("#editForm").serializeArray()) ,
-		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
-
 			if (data.success) {
-				$('#editWin').modal('hide');
+				$('#edit').modal('hide');
 				xh.refresh();
-				toastr.success(data.message, '提示');
-			
 				$("#editForm").data('bootstrapValidator').resetForm();
+				toastr.success(data.message, '提示');
 			} else {
-				swal({
-					title : "提示",
-					text : data.message,
-					type : "error"
-				});
+				toastr.error(data.message, '提示');
 			}
 		},
-		error : function() {
+		error : function(e) {
+			toastr.error(e, '提示');
 		}
 	});
 };
@@ -311,10 +248,20 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+var WebPrinter; //声明为全局变量 
+xh.printExists=function() {
+	
+	try{ 
+	    var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM')); 
+		if ((LODOP!=null)&&(typeof(LODOP.VERSION)!="undefined")) alert("本机已成功安装过Lodop控件!\n  版本号:"+LODOP.VERSION); 
+	 }catch(err){ 
+		//alert("Error:本机未安装或需要升级!"); 
+	 }   
+};
+/*ADD_PRINT_TABLE(Top,Left,Width,Height,strHtml)*/
 xh.print=function() {
 	var LODOP = getLodop();
-	LODOP.PRINT_INIT("用户需求处理");
-	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
-	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print").innerHTML);
+	LODOP.SET_PRINT_PAGESIZE(0, 0, 0, "A4");
+	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print").innerHTML);
 	 LODOP.PREVIEW();  	
 };

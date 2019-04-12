@@ -320,7 +320,11 @@ xh.add = function() {
 				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error(data.message, '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
 			}
 		},
 		error : function() {

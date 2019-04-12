@@ -16,7 +16,7 @@ public class FaultThreeBean {
 	private String content;
 	private String faultHandlePerson;
 	private String faultRecordPerson;
-	private String faultType;
+	private String fault_type;
 
 	public String getPeriod() {
 		return period;
@@ -140,12 +140,14 @@ public class FaultThreeBean {
 		this.faultRecordPerson = faultRecordPerson;
 	}
 
-	public String getFaultType() {
-		return faultType;
+	public String getFault_type() {
+		return fault_type;
 	}
 
-	public void setFaultType(String faultType) {
-		this.faultType = faultType;
+	public void setFault_type(String fault_type) {
+		this.fault_type = fault_type;
 	}
+
+	
 
 }

@@ -21,10 +21,8 @@ toastr.options = {
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 xh.load = function() {
 	var app = angular.module("app", []);
-	var filename = $("#filename").val();
-	var contact = $("#contact").val();
-	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();
+	
 	app.filter('weekly', function() {
 		return function(text) {
 			return text + "  " + xh.weekly(text);
@@ -88,7 +86,9 @@ xh.load = function() {
 			$scope.detailData = $scope.data[id];
 			//text.replace(/<br>/g,"<br />");
 			var str=$scope.detailData.content;
-			$("#df").html(str.replace(/<br>/g,"<br />"))
+			str=str.replace(/<br>/g,"<br />");
+			str=str.replace(/" "/g,"&nbsp;")
+			$("#df").html(str)
 		};
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
@@ -130,10 +130,54 @@ xh.load = function() {
 			});
 
 		};
+		$scope.del=function(id){
+			$scope.oneData = $scope.data[id];
+			swal({
+				title : "提示",
+				text : "确定要删除记录吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			    closeOnConfirm : true, 
+			    closeOnCancel : true,
+			    }, function(isConfirm) {
+				    if (isConfirm) {
+				    	$.ajax({
+							url : '../../WorkContact/del',
+							type : 'post',
+							dataType : "json",
+							data : {
+								id:$scope.oneData.id
+							},				
+							async : false,
+							success : function(data) {
+								xh.maskHide();
+								//$("#btn-mbs").button('reset');
+								if (data.success) {
+									toastr.success(data.message, '提示');
+									$scope.refresh();
+								} else {
+									toastr.error(data.message, '提示');
+								}
+							},
+							error : function() {
+								xh.maskHide();
+								toastr.error("系统错误", '提示');
+							}
+						});
+				    }
+			});
+			
+			
+		}
 
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var time = $("#time").val();
+			var type = $("#type").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -146,7 +190,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?start=" + start + "&limit="
+					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -158,6 +202,8 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var time = $("#time").val();
+			var type = $("#type").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -167,7 +213,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?start=" + start + "&limit="
+					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

@@ -139,9 +139,11 @@ public class RadioUserMotoService {
 					}else{
 						rsmap.put("rs", rs);
 						rsmap.put("errMsg",ConstantMap.getMotoResultMap().get(userbean.getCallId()+"-info"));
+						
 					}
 					ConstantMap.getMotoResultMap().remove(userbean.getCallId());
 					ConstantMap.getMotoResultMap().remove(userbean.getCallId()+"-info");
+					break Tag;
 				}else{
 					if(tt-nowtime>5000){
 						rsmap.put("rs", rs);
@@ -163,6 +165,7 @@ public class RadioUserMotoService {
 		RadioUserMotoMapper mapper = sqlSession.getMapper(RadioUserMotoMapper.class);
 		int rs = 0;
 		try {
+			
 			rs=mapper.insertRadioUser(bean);
 			sqlSession.commit();
 			sqlSession.close();
@@ -204,6 +207,7 @@ public class RadioUserMotoService {
 					}
 					ConstantMap.getMotoResultMap().remove(userbean.getCallId());
 					ConstantMap.getMotoResultMap().remove(userbean.getCallId()+"-info");
+					break Tag;
 				}else{
 					if(tt-nowtime>5000){
 						rsmap.put("rs", rs);
@@ -256,6 +260,7 @@ public class RadioUserMotoService {
 					}
 					ConstantMap.getMotoResultMap().remove(bean.getCallId());
 					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"-info");
+					break Tag;
 				}else{
 					if(tt-nowtime>5000){
 						rsmap.put("rs", rs);
