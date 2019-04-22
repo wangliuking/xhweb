@@ -37,7 +37,7 @@ public class MotoTcpClient extends Thread {
 	private String ip;
 	private int port;
 	private static Socket socket;
-	private static int timeout = 100 * 1000;
+	private static int timeout = 60 *60* 1000;
 	private static byte[] result;
 	private static byte[] bufferFlag = {};
 	private static int slot;
@@ -72,7 +72,7 @@ public class MotoTcpClient extends Thread {
 			try {
 				socket.setKeepAlive(true);
 			} catch (SocketException e) {
-				/* log.debug("KeepAlive SocketException"); */
+				/* log.info("KeepAlive SocketException"); */
 			}
 			try {
 				socket.setSoTimeout(timeout);

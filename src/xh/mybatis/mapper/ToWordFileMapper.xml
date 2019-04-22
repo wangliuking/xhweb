@@ -435,25 +435,50 @@
 
 	</select>
 	<select id="fault_num" parameterType="map" resultType="map">
-		select SUM(one+two+three+four) as total,SUM(one) as one,SUM(two) as
-		two,SUM(three) as three,SUM(four) as four FROM
-		(select count(*) as one,0 as two,0 as three,0 as four from
+		select
+		SUM(one+two+three+four) as total,SUM(one) as one,SUM(two) as
+		two,SUM(three) as three,SUM(four) as four, SUM(checked) as checked
+		FROM
+		(select count(*) as one,0 as two,0 as three,0 as four,0 as checked
+		from
 		xhgmnet_operations_fault_one WHERE type=1 AND
 		DATE_FORMAT(produce_time,"%Y-%m")=#{time} UNION ALL
 
-		select 0 as one ,count(*) as two,0 as three,0 as four from
+		select 0 as one
+		,count(*) as two,0 as three,0 as four,0 as checked from
 		xhgmnet_operations_fault_one WHERE type=2 AND
 		DATE_FORMAT(produce_time,"%Y-%m")=#{time} UNION ALL
 
-		select 0 as one,0 as two,count(*) as three,0 as four from
+		select 0 as one,0
+		as two,count(*) as three,0 as four,count(checkTag=1 or NULL) as
+		checked from
 		xhgmnet_operations_bsfault_three WHERE
 		DATE_FORMAT(time,"%Y-%m")=#{time} UNION ALL
 
-		select 0 as one,0 as two,0 as three,count(*) as four from
+		select 0 as one,0 as two,0
+		as three,count(*) as four,0 as checked from
 		xhgmnet_operations_fault_four WHERE
 		DATE_FORMAT(produce_time,"%Y-%m")=#{time} ) as x
-
-
+	</select>
+	<select id="fault_level" parameterType="map" resultType="map">
+		select
+		count(*) as total,count(checkTag=1 or NULL) as
+		checked,(count(*)
+		-count(checkTag=1 or NULL)) as afterCheck,`level`,period from
+		(select
+		a.*,b.`level` ,b.period from xhgmnet_operations_bsfault_three as a
+		LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId) as x
+		WHERE
+		DATE_FORMAT(time,"%Y-%m")=#{time} AND level>0 AND period=#{period}
+		GROUP BY
+		level ORDER BY level ASC
+	</select>
+	<select id="fault_level_pie" parameterType="map" resultType="map">
+		select count(*) as total,`level`,DATE_FORMAT(time,'%m') as month,
+		period from
+		(select a.*,b.`level` ,b.period from xhgmnet_operations_bsfault_three as a
+		LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId) as x
+		WHERE DATE_FORMAT(time,"%Y")=#{time} AND LEVEL=#{level} AND period=#{period}
 	</select>
 
 </mapper>

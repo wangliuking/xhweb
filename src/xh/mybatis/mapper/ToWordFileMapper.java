@@ -40,5 +40,10 @@ public interface ToWordFileMapper {
 	public Map<String,Object> fault_num(Map<String,Object> map) throws Exception;
 	
 	
+	public List<Map<String,Object>> fault_level(Map<String,Object> map) throws Exception;
+	
+	public List<Map<String,Object>> fault_level_pie(Map<String,Object> map) throws Exception;
+	
+	
 
 }

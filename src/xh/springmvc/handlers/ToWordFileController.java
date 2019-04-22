@@ -1544,15 +1544,25 @@ public class ToWordFileController {
 		    
 		    table.addCell(new Cell(new Paragraph("特别重大故障",tableheaderFont)),1,0);
 		    table.addCell(new Cell(new Paragraph(map.get("one")==null?String.valueOf(0):map.get("one").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
 		   
 		    table.addCell(new Cell(new Paragraph("重大故障",tableheaderFont)),2,0);
 		    table.addCell(new Cell(new Paragraph(map.get("two")==null?String.valueOf(0):map.get("two").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
 		    
 		    table.addCell(new Cell(new Paragraph("一般故障",tableheaderFont)),3,0);
 		    table.addCell(new Cell(new Paragraph(map.get("three")==null?String.valueOf(0):map.get("three").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("checked")==null?String.valueOf(0):map.get("checked").toString(),tableheaderFont)));
+		    int num=Integer.parseInt(map.get("three")==null?String.valueOf(0):map.get("three").toString());
+		    int chk1=Integer.parseInt(map.get("checked")==null?String.valueOf(0):map.get("checked").toString());
+		    table.addCell(new Cell(new Paragraph(String.valueOf(num-chk1),tableheaderFont)));
 		    
 		    table.addCell(new Cell(new Paragraph("合计",tableheaderFont)),4,0);
 		    table.addCell(new Cell(new Paragraph(map.get("total")==null?String.valueOf(0):map.get("total").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("checked")==null?String.valueOf(0):map.get("checked").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(num-chk1),tableheaderFont)));
 		    document.add(table);
 		    
 		    DefaultCategoryDataset dcd=new DefaultCategoryDataset();
@@ -1565,7 +1575,7 @@ public class ToWordFileController {
 				 Map<String,Object> m2=ToWorkFileServices.fault_num(m);
 				 dcd.addValue(Math.round(Double.valueOf(m2.get("total")==null?
 						 String.valueOf(0):m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
-				 timeSeries.add(new Month(i,2019),Double.valueOf(m2.get("total")==null?
+				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2.get("total")==null?
 						 String.valueOf(0):m2.get("total").toString()));
 			 }
 		        try {
@@ -1668,8 +1678,133 @@ public class ToWordFileController {
 	     title.setFont(rtfGsBt3); 
 	     title.setSpacingBefore(6);
 	     title.setSpacingAfter(6);
-		 document.add(title); 	
-	
+		 document.add(title); 
+
+	        Paragraph tn=new Paragraph();
+			tn.setAlignment(Element.ALIGN_CENTER);
+			tn.setFont(tableTitleFont);
+			tn.setSpacingAfter(1);
+			tn.add("表十一 一般故障分析（按基站等级分类）");
+		    document.add(tn);
+		    Table table = new Table(6);
+	        int width[] = {25,25,25,30,50,20};//设置每列宽度比例  
+	        //table.setWidths(width);  
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度 
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度   
+	        table.addCell(new Cell(new Paragraph("基站类别",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("故障次数",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("申请核减",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("核减后断站",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("处理超时（次）",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("超时时间（小时）",tableheaderFont)));
+		 
+		 Map<String,Object> mapPara=new HashMap<String, Object>();
+		 mapPara.put("time", time);
+		 mapPara.put("period", 4);
+		 
+		 List<Map<String,Object>> list=ToWorkFileServices.fault_level(mapPara);
+		 Map<String, Object> map1=new HashMap<String, Object>();
+		 Map<String, Object> map2=new HashMap<String, Object>();
+		 Map<String, Object> map3=new HashMap<String, Object>();
+		 int total=0,checked=0,afterCheck=0;
+		 for (Map<String, Object> map : list) {
+			 
+			/* System.out.println("mmmmmm->"+map);*/
+			 total+=Integer.parseInt(map.get("total").toString());
+			 checked+=Integer.parseInt(map.get("checked").toString());
+			 afterCheck+=Integer.parseInt(map.get("afterCheck").toString());
+			 
+			if(map.get("level").toString().equals("1")){
+				map1.put("total", map.get("total"));
+				map1.put("checked", map.get("checked"));
+				map1.put("afterCheck", map.get("afterCheck"));
+			}else if(map.get("level").toString().equals("2")){
+				map2.put("total", map.get("total"));
+				map2.put("checked", map.get("checked"));
+				map2.put("afterCheck", map.get("afterCheck"));
+			}else if(map.get("level").toString().equals("3")){
+				map3.put("total", map.get("total"));
+				map3.put("checked", map.get("checked"));
+				map3.put("afterCheck", map.get("afterCheck"));
+			}
+		}
+		table.addCell(new Cell(new Paragraph("一级基站",tableheaderFont)),1,0);
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("二级基站",tableheaderFont)),2,0);
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("三级基站",tableheaderFont)),3,0);
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("合计",tableheaderFont)),4,0);
+		table.addCell(new Cell(new Paragraph(String.valueOf(total),tableheaderFont)),4,1);
+		table.addCell(new Cell(new Paragraph(String.valueOf(checked),tableheaderFont)),4,2);
+		table.addCell(new Cell(new Paragraph(String.valueOf(afterCheck),tableheaderFont)),4,3);
+		document.add(table);
+		
+		 DefaultPieDataset dpd=new DefaultPieDataset();
+		 for (Map<String, Object> map : list) {
+			
+				 
+				if(map.get("level").toString().equals("1")){
+					 dpd.setValue("一级基站",(Number) map.get("total"));
+				}else if(map.get("level").toString().equals("2")){
+					dpd.setValue("二级基站",(Number) map.get("total"));
+				}else if(map.get("level").toString().equals("3")){
+					dpd.setValue("三级基站",(Number) map.get("total"));
+				}
+			}
+	       
+	       ChartUtil.PieImg("一般故障基站等级占比", dpd,0);
+	       Image img=Image.getInstance("D:/chart.png");
+	       document.add(img);
+	       
+	       list=new ArrayList<Map<String,Object>>();
+	       mapPara.clear();
+	       mapPara.put("time", time.split(",")[0]);
+		   mapPara.put("period", 4);
+	       list=ToWorkFileServices.fault_level_pie(mapPara);
+	       
+	       DefaultCategoryDataset dcd=new DefaultCategoryDataset();
+		   TimeSeries timeSeries=new TimeSeries(Integer.parseInt(time.split("-")[0])+"系统故障趋势图");
+		    
+			 for(int i=1;i<=12;i++){
+				 Map<String,Object> m=new HashMap<String, Object>();
+				 Map<String,Object> m2=new HashMap<String, Object>();
+				 for (Map<String, Object> map : list) {
+					if(Integer.parseInt(map.get("month").toString())==i){
+						m2=map;
+					}
+				}
+				 dcd.addValue(Math.round(Double.valueOf(m2==null?"0":m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
+				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2==null?"0":m2.get("total").toString()));
+			 }
+		        try {
+					ChartUtil.LineImg("一级基站故障次数", timeSeries);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        img=Image.getInstance("D:/chart.png");
+			    document.add(img);
+	       
 	}
 	
 	

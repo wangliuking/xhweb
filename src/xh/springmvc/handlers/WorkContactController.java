@@ -59,6 +59,31 @@ public class WorkContactController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/list2")
+	public void list2(HttpServletRequest request, HttpServletResponse response){
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
+		String type=request.getParameter("type");
+		start=(start-1)*limit;
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("start", start);
+		map.put("limit",limit);
+		map.put("time",time);
+		map.put("type",type);
+		HashMap result = new HashMap();
+		result.put("totals",WorkContactService.list_count(map));
+		result.put("data", WorkContactService.list(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@RequestMapping("/add")
 	public void add(HttpServletRequest request, HttpServletResponse response){
 		String data=request.getParameter("formData");

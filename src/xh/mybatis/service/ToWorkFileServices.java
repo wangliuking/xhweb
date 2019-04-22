@@ -229,6 +229,32 @@ public class ToWorkFileServices {
 		}
 		return map;
 	}
+	public static List<Map<String,Object>> fault_level(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.fault_level(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static List<Map<String,Object>> fault_level_pie(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.fault_level_pie(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 
 }
