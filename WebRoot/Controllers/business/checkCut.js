@@ -506,7 +506,8 @@ xh.add = function() {
 			if (data.result ==1) {
 				$('#add').modal('hide');
 				$("input[name='result']").val(1);
-				xh.refresh(1);
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
 				toastr.success(data.message, '提示');
 			} else {
 				toastr.error(data.message, '提示');
