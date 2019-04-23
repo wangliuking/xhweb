@@ -40,9 +40,7 @@
                                         class="magic-radio" type="radio" value="便携" name="type" ng-checked="starOneData.type=='便携'">
                                         <label for="type2"><span>便携</span></label></td>
                                     <td>巡检时间</td>
-                                    <td><input type="text"
-                                        name="commitdate"
-                                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-model="starOneData.commitdate"></td>
+                                    <td>{{starOneData.commitdate  |timeFormatNoTime}}</td>
 
                                 </tr>
 
