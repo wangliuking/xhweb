@@ -78,6 +78,19 @@ xh.load = function() {
             $("#endE1").val("");
 			$scope.search(1);
 		};
+
+		//根据基站id改变建设期
+        $scope.changePeriod = function () {
+            var bsId = $("#bsId").val();
+            $http.get("../../bs/list?bsId="+bsId+"&name=&type=-1&level=-1&zone=&start=0&limit=20").
+            success(function(response){
+                var list = response.items;
+                var periodValue = list[0].period;
+                /*console.log("=====");
+                console.log(periodValue);*/
+                $("#period").val(periodValue);
+            });
+        }
 		
 		/* 导出 */
 		$scope.showAddModel = function(id) {
@@ -140,7 +153,8 @@ xh.load = function() {
                     xh.pagging(page, parseInt($scope.totals), $scope);
                 });
 			}else if(period == 3){
-                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
+			   var deviceType = $("#deviceType").val();
+                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&deviceType="+deviceType+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+limit).
                 success(function(response){
                     xh.maskHide();
                     $scope.data = response.items;
@@ -166,7 +180,8 @@ xh.load = function() {
                         dataEchartsView(dataEcharts,timeList);
                     });
                 }else if(period == 3){
-                    $http.get("../../gonsuncn/emh3HistoryForBsId?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime).
+                    var deviceType = $("#deviceType").val();
+                    $http.get("../../gonsuncn/emh3HistoryForBsId?bsId="+bsId+"&deviceType="+deviceType+"&startTime="+startTime+"&endTime="+endTime).
                     success(function(response){
                         var dataEcharts = response.items;
                         // 开启echarts加载
@@ -219,7 +234,8 @@ xh.load = function() {
                     $scope.totals = response.totals;
                 });
 			}else if(period == 3){
-                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
+                var deviceType = $("#deviceType").val();
+                $http.get("../../gonsuncn/emh3History?bsId="+bsId+"&deviceType="+deviceType+"&startTime="+startTime+"&endTime="+endTime+"&start="+start+"&limit="+pageSize).
                 success(function(response){
                     xh.maskHide();
                     $scope.start = (page - 1) * pageSize + 1;

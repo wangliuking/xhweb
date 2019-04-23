@@ -71,7 +71,7 @@
                                     <form class="form-inline" role="form">
                                         <div class="form-group">
                                             <div>
-                                                <input type="text" class="form-control" id="bsId" width="20px"
+                                                <input type="text" class="form-control" id="bsId" width="20px" ng-blur="changePeriod()"
                                                        placeholder="基站ID">
                                             </div>
                                         </div>
@@ -95,6 +95,22 @@
                                                 <input type="text" class="form-control" id="endTime"
                                                        onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
                                                        placeholder="结束时间">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
+                                                <select class="form-control" id="deviceType"  name="deviceType" style="width:158px;">
+                                                    <option value="00211001" >温度(三期)</option>
+                                                    <option value="00211002" >湿度(三期)</option>
+                                                    <option value="00111001" >烟感(三期)</option>
+                                                    <option value="00111002" >门禁(三期)</option>
+                                                    <option value="00111003" >漏水(三期)</option>
+                                                    <option value="00111004" >消防(三期)</option>
+                                                    <option value="00511001" >直流电压(三期)</option>
+                                                    <option value="00511002" >直流电流(三期)</option>
+                                                    <option value="00511003" >交流电压(三期)</option>
+                                                    <option value="00511004" >交流电流(三期)</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
