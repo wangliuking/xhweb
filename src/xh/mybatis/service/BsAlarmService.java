@@ -268,14 +268,16 @@ public class BsAlarmService {
 		try {
 			list=mapper.bs_ji_four();
 			
+			
 			for(int i=0,a=list.size();i<a;i++){
 				BsJiFourBean bean=new BsJiFourBean();
 				bean=list.get(i);
 				bean.setDeviceId("080200000000001");
+				bean.setUpdateTime(FunUtil.nowDate());
 				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 				
 				eps=bs_emh_eps(bean);
-				e4=e4(bean.getFsuId());
+				//e4=e4(bean.getFsuId());
 				boolean x=string_to_double(compare.get("ups1"))>
 		         string_to_double(compare.get("ups2")) && 
 		         string_to_double(compare.get("ups2"))!=0;

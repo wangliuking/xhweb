@@ -24,8 +24,12 @@ toastr.options = {
 	};
 /*经度（东西方向）1M实际度：360°/31544206M=1.141255544679108e-5=0.00001141
 纬度（南北方向）1M实际度：360°/40030173M=8.993216192195822e-6=0.00000899*/
+var userL="";
 xh.load = function() {
 	var app = angular.module("app", []);
+	$.get("../../web/loginUserInfo").success(function(response) {
+		userL = response;
+	});
 	app.filter('py', function() { // 可以注入依赖
 		return function(x) {
 			var lat1=0.00000899;
@@ -51,6 +55,31 @@ xh.load = function() {
 				}
 			}
 			
+			
+			
+		};
+	});
+	app.filter('timeFormatNoTime', function() { // 可以注入依赖
+		return function(x) {
+			if(x!=null && x!=''){
+				return x.split(" ")[0];
+			}else{
+				return "";
+			}
+			
+		};
+	});
+	app.filter('timeFormat', function() { // 可以注入依赖
+		return function(x) {
+			if(userL.roleType==3 || userL.roleType==0){
+				return x;
+			}else{
+				if(x!=null && x!=''){
+					return x.split(" ")[0];
+				}else{
+					return "";
+				}
+			}
 			
 			
 		};

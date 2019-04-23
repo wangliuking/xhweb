@@ -1,0 +1,128 @@
+<style type="text/css">
+/*选中的值右边对齐*/
+.bui-select-form .bui-box .span1 {
+	text-align: right;
+}
+</style>
+<div class="bui-page page-form">
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">上传事件报告</div>
+		<div class="bui-bar-right"></div>
+	</header>
+	<main>
+		<form action="#" id="addForm" onSubmit="return false">
+			<!-- <h3 class="section-title">基本信息</h3> -->
+			<!-- <h3 class="section-title">报告类型</h3> -->
+			<ul class="bui-list bui-select-form" >
+				<li class="bui-btn-title">报告类型</li>
+				<li class="bui-btn bui-box" id="select2"><label>请选择报告类型</label>
+					<div class="span1">周报</div> <i class="icon-listright"></i></li>
+				<li class="bui-btn bui-box clearactive">
+					<div class="span1">
+						<div class="bui-input">
+							 <input name="fileType" b-model="page.type" type="hidden">
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h3 class="section-title">备注</h3>
+			<ul class="bui-list">
+				<li class="bui-btn clearactive">
+					<div class="bui-input">
+						<textarea class="bui-input" name="note" cols="30" rows="10"
+							placeholder="请输入内容"></textarea>
+					</div>
+				</li>
+			</ul>
+			<h3 class="section-title">文件</h3>
+			<div class="container-y">
+				<div class="bui-box-space">
+					<div class="span3">
+						<input name="pathName" id="pathName" type="file">
+					</div>
+					<div class="span1">
+						<div id="uploadfile" class="bui-btn large success"
+							b-click="page.upload">点击上传</div>
+					</div>
+					<div>
+						<input type="hidden" name="fileName" value="" /> 
+						<input type="hidden" name="filePath" value="" /> 
+						<input type="hidden" name="result" value="" />
+					</div>
+				</div>
+			</div>
+			<div class="container-y">
+				<div class="bui-box-space">
+					<div class="span1" id="filelist" style="height:100px;color:#000">
+					
+					</div>
+				</div>
+			</div>
+			<!-- <ul class="bui-list">
+            <li class="bui-btn clearactive">
+                <div  class="bui-input">
+                    <input name="pathName" type="file" value="" placeholder="请选择文件">
+                </div>
+            </li>
+        </ul>-->
+
+			<div class="container-y">
+				<div class="bui-box-space">
+					<div class="span1">
+						<div class="bui-btn round primary" b-click="page.add">提交信息</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</main>
+</div>
+<!-- select 静态弹出自定义框 放在body层-->
+<div id="select-dialog" class="bui-dialog" style="display:none;">
+	<div class="bui-dialog-head bui-box-align-middle">
+		<div class="span1">请选择报告类型</div>
+		<div id="makeSure" class="bui-btn primary round">确定</div>
+	</div>
+	<div class="bui-dialog-main">
+		<div class="bui-list">
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">周报</div>
+				<input id="check-1" type="checkbox" class="bui-choose"
+					checked="checked" value="周报" text="周报">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">月例会文件</div>
+				<input id="check-2" type="checkbox" class="bui-choose" value="月例会文件"
+					text="月例会文件">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">系统监控表</div>
+				<input id="check-3" type="checkbox" class="bui-choose" value="系统监控表"
+					text="系统监控表">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">故障记录登记表</div>
+				<input id="check-4" type="checkbox" class="bui-choose"
+					value="故障记录登记表" text="故障记录登记表">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">故障处理报告</div>
+				<input id="check-5" type="checkbox" class="bui-choose"
+					value="故障处理报告" text="故障处理报告">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">巡检计划</div>
+				<input id="check-6" type="checkbox" class="bui-choose" value="巡检计划"
+					text="巡检计划">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">问题整改计划表</div>
+				<input id="check-7" type="checkbox" class="bui-choose"
+					value="问题整改计划表" text="问题整改计划表">
+			</div>
+
+		</div>
+	</div>
+</div>

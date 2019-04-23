@@ -24,8 +24,17 @@ import xh.org.socket.TcpKeepAliveClient;
 public class test {
 
 	public static void main(String[] args) {
-      MotoTcpClient tcp=new MotoTcpClient();
-       tcp.start();
+     int[] a={86,85,88,92,83,86,84,84,72,79,87,87,72,89,81,92,76,85,81,73,66,75,84,77,89,81,82,78,87,80,85,89,99,78,88,78,75,88,75,84,82,
+    		  87,66,75,78,82,80,80,74,85,86,94,78,74,80,90,83,77,60,76,72,73,68,85,74,73,71,72,83,76,78,72,73,81,79,82,82,82,77,80,77,67};
+     
+     int x=0;
+     float y=0;
+     for (int i : a) {
+		x+=i;
+	}
+     
+     y=(float)x/a.length;
+     System.out.print(a.length);
     
 	}
 
