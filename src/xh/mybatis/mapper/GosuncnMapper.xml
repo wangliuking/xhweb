@@ -215,6 +215,12 @@
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
 		</if>
+		<if test="DevNode!=null and DevNode!=''">
+			and DevNode=#{DevNode}
+		</if>
+		<if test="NodeId!=null and NodeId!=''">
+			and NodeId=#{NodeId}
+		</if>
 		<if test="startTime!=null and startTime!=''">
 			and updateTime between #{startTime} and #{endTime}
 		</if>
@@ -226,6 +232,12 @@
 		select count(*) from xhgmnet_operations_emh_three where 1=1
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
+		</if>
+		<if test="DevNode!=null and DevNode!=''">
+			and DevNode=#{DevNode}
+		</if>
+		<if test="NodeId!=null and NodeId!=''">
+			and NodeId=#{NodeId}
 		</if>
 		<if test="startTime!=null and startTime!=''">
 			and updateTime between #{startTime} and #{endTime}

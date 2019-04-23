@@ -550,12 +550,17 @@ public class GosuncnController {
 		String bsId=request.getParameter("bsId");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
+		String deviceType = request.getParameter("deviceType");
 
 
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("bsId", bsId);
+		if(deviceType != null && !"".equals(deviceType)){
+			map.put("DevNode", deviceType.substring(0,4));
+			map.put("NodeId", deviceType.substring(4,8));
+		}
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		map.put("start", start);
