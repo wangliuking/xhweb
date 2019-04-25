@@ -97,8 +97,9 @@
 										<td>{{x.userUnit}}</td>
 										<td>网络优化</td>
 										<td>{{x.requestTime}}</td>
+										<td ng-if="x.checked==-3" class="td-danger">总结报告审核未通过，请重新上传</td>
 										<td ng-if="x.checked==-2" class="td-danger">中断状态</td>
-										<td ng-if="x.checked==-1" class="td-danger">申请已被拒绝</td>
+										<td ng-if="x.checked==-1" class="td-danger">优化方案审核不通过，请重新上传方案</td>
 										<td ng-if="x.checked==0" class="td-warning">等待服务提供方确认消息</td>
 										<td ng-if="x.checked==1" class="td-warning">等待服务提供方上传网络优化方案</td>
 										<td ng-if="x.checked==2" class="td-warning">等待管理方审核网络优化方案</td>
@@ -115,7 +116,7 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;确认通知</a>
 												
-									    <a ng-if="loginUserRoleType==3 && x.checked==1 && up.o_check_netoptimize=='on'"
+									    <a ng-if="loginUserRoleType==3 && (x.checked==1 || x.checked==-1) && up.o_check_netoptimize=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传优化方案</a>
 										
@@ -123,7 +124,7 @@
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;审核优化方案</a>
 										
-										<a ng-if="loginUserRoleType==3 && x.checked==3 && up.o_check_netoptimize=='on'"
+										<a ng-if="loginUserRoleType==3 && (x.checked==3 || x.checked==-3) && up.o_check_netoptimize=='on'"
 											href="#" ng-click="checkWin($index)"><i
 												class="fa fa-hand-o-down text-danger"></i>| &nbsp;上传总结报告</a>
 

@@ -71,7 +71,7 @@ loader.define(function(require,exports,module) {
 })
 function add(){
 	$.ajax({
-		url : '../../../WorkContact/add',
+		url : xh.getUrl()+'WorkContact/add',
 		type : 'POST',
 		dataType : "json",
 		async : false,
@@ -119,7 +119,7 @@ function upload() {
         $("#uploadfile").attr("disabled", true);
         xh.maskShow("正在上传文件，请耐心等待");
         $.ajaxFileUpload({
-            url : '../../../uploadFile/upload', //用于文件上传的服务器端请求地址
+            url : xh.getUrl()+'uploadFile/upload', //用于文件上传的服务器端请求地址
             secureuri : false, //是否需要安全协议，一般设置为false
             fileElementId : 'pathName', //文件上传域的ID
             dataType : 'json', // 返回值类型 一般设置为json
@@ -167,15 +167,21 @@ function No() {
 	return str+y+m+d+h+m2+s;
 }
 function sss(){
-	$.get("../../../web/loginUserInfo").success(function(res) {
-		if(parseInt(res.roleType)==2){
+	bui.ajax({
+        url: xh.getUrl()+"web/loginUserInfo",
+        method:'GET',
+        dataType : "json",
+        data: {},
+        async : false
+    }).then(function(data){
+    	if(parseInt(res.roleType)==2){
         	str="成都市软件产业发展中心";
         
         }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
         	str="成都亚光电子股份有限公司";
-        	console.log(str)
 		}
 		return str;
-		
-	});
+    },function(res,status){
+        console.log(status);
+    })
 }

@@ -1,0 +1,107 @@
+<style type="text/css">
+/*选中的值右边对齐*/
+.bui-select-form .bui-box .span1 {
+	text-align: right;
+}
+</style>
+<div class="bui-page page-form">
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">发起应急处置演练任务</div>
+		<div class="bui-bar-right"></div>
+	</header>
+	<main>
+		<form action="#" id="addForm" onSubmit="return false">
+
+			
+			<ul class="bui-list">
+				
+				<li class="bui-btn bui-box clearactive"><label
+                    class="bui-label">联系人:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                            <input name="applicant" b-model="page.applicant" type="text"
+                                required="required" placeholder="请输入联系人">
+                        </div>
+                    </div>
+                </li>
+				<li class="bui-btn bui-box clearactive"><label
+					class="bui-label">联系方式:</label>
+					<div class="span1">
+						<div class="bui-input">
+							<input name="tel" b-model="page.tel" type="text"
+								required="required" placeholder="请输入联系方式">
+						</div>
+					</div>
+				</li>
+			</ul>
+			
+			<h3 class="section-title">备注</h3>
+            <ul class="bui-list">
+                <li class="bui-btn clearactive">
+                    <div class="bui-input">
+                        <textarea class="bui-input" name="note1" cols="30" rows="10"
+                            placeholder="请输入内容"></textarea>
+                    </div>
+                </li>
+            </ul>
+
+			<div class="container-y">
+				<div class="bui-box-space">
+					<div class="span1">
+						<div class="bui-btn round primary" b-click="page.add">提交信息</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</main>
+</div>
+<!-- select 静态弹出自定义框 放在body层-->
+<div id="select-dialog" class="bui-dialog" style="display:none;">
+	<div class="bui-dialog-head bui-box-align-middle">
+		<div class="span1">请选择报告类型</div>
+		<div id="makeSure" class="bui-btn primary round">确定</div>
+	</div>
+	<div class="bui-dialog-main">
+		<div class="bui-list">
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">周报</div>
+				<input id="check-1" type="checkbox" class="bui-choose"
+					checked="checked" value="周报" text="周报">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">月例会文件</div>
+				<input id="check-2" type="checkbox" class="bui-choose" value="月例会文件"
+					text="月例会文件">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">系统监控表</div>
+				<input id="check-3" type="checkbox" class="bui-choose" value="系统监控表"
+					text="系统监控表">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">故障记录登记表</div>
+				<input id="check-4" type="checkbox" class="bui-choose"
+					value="故障记录登记表" text="故障记录登记表">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">故障处理报告</div>
+				<input id="check-5" type="checkbox" class="bui-choose"
+					value="故障处理报告" text="故障处理报告">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">巡检计划</div>
+				<input id="check-6" type="checkbox" class="bui-choose" value="巡检计划"
+					text="巡检计划">
+			</div>
+			<div class="bui-btn bui-btn-line bui-box">
+				<div class="span1">问题整改计划表</div>
+				<input id="check-7" type="checkbox" class="bui-choose"
+					value="问题整改计划表" text="问题整改计划表">
+			</div>
+
+		</div>
+	</div>
+</div>

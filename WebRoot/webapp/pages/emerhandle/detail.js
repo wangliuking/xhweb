@@ -3,7 +3,7 @@
 var params="";
 loader.define(function(require,exports,module){
     var pageview = {};
-
+    console.log(xh.getUrl());
     // 主要业务初始化
     pageview.init = function() {
         // 这里写main模块的业务
@@ -12,11 +12,10 @@ loader.define(function(require,exports,module){
             scope:'page',
             data:{
                 list:params,
-                show1:(gl_para.userL.roleType==3 && params.checked==0)?true:false,
-                show2:(gl_para.userL.roleType==3 && (params.checked==1 || params.checked==-1))?true:false,
-                show3:(gl_para.userL.roleType==2 && params.checked==2)?true:false,
-                show4:(gl_para.userL.roleType==3 && params.checked==3)?true:false,
-                show5:(gl_para.userL.roleType==2 && params.checked==4)?true:false
+                show1:(gl_para.userL.roleType==3 && gl_para.up.o_check_emergency=='on' && params.checked==0)?true:false,
+                show2:(gl_para.userL.roleType==2 && gl_para.up.o_check_emergency=='on' && (params.checked==1 || params.checked==-1))?true:false,
+                show3:(gl_para.userL.roleType==3 && gl_para.up.o_check_emergency=='on' && params.checked==2)?true:false,
+                show4:(gl_para.userL.roleType==2 && gl_para.up.o_check_emergency=='on' && params.checked==3)?true:false
                 
             },
             methods:{
@@ -30,11 +29,7 @@ loader.define(function(require,exports,module){
             			fileName = params.fileName2;
             			filePath = params.filePath2;
             		}
-            		else if(type == 3){
-            			fileName = params.fileName3;
-            			filePath = params.filePath3;
-            		}
-            		var filepath = "/Resources/upload/optimizenet/" + fileName;
+            		var filepath = "/Resources/upload/emergency/" + fileName;
             		if(fileName!=null && fileName!=""){
             			var index=filepath.lastIndexOf("/");
             			var name=filepath.substring(index+1,filepath.length);	
@@ -63,14 +58,14 @@ loader.define(function(require,exports,module){
             mask: false,
             effect: "fadeInRight"
         });
-        var checkDialog4 = bui.dialog({
-            id: "#check-dg4",
+        var checkDialog3 = bui.dialog({
+            id: "#check-dg3",
             fullscreen: true,
             mask: false,
             effect: "fadeInRight"
         });
-        var checkDialog5 = bui.dialog({
-            id: "#check-dg5",
+        var checkDialog4 = bui.dialog({
+            id: "#check-dg4",
             fullscreen: true,
             mask: false,
             effect: "fadeInRight"
@@ -82,14 +77,10 @@ loader.define(function(require,exports,module){
         	checkDialog2.open();
         });
         $("#check3").click(function() {
-        	router.load({ url: "check3.html", 
-        		param:params});
+        	checkDialog3.open();
         });
         $("#check4").click(function() {
         	checkDialog4.open();
-        });
-        $("#check5").click(function() {
-        	checkDialog5.open();
         });
         $("#progress").click(function() {
         	router.load({ url: "progress.html", 
@@ -117,7 +108,7 @@ loader.define(function(require,exports,module){
 });
 function sureBtn(){
 	$.ajax({
-		url : xh.getUrl()+'optimizenet/checkedOne',
+		url : xh.getUrl()+'emergency/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -150,10 +141,10 @@ function sureBtn(){
 }
 function uploadFile(tag) {
 	var path="",uiDialog="";
-	 if(tag==2){
-		 path = 'filePath2';uiDialog="check-dg2";
-	 }else if(tag==3){
-		 path = 'filePath3';uiDialog="check-dg4";
+	 if(tag==1){
+		 path = 'filePath1';uiDialog="check-dg";
+	 }else if(tag==2){
+		 path = 'filePath2';uiDialog="check-dg3";
 	 }else{
 		 return;
 	 }
@@ -168,7 +159,7 @@ function uploadFile(tag) {
      uiLoading.show();
      uiMask.show();
       $.ajaxFileUpload({
-          url : xh.getUrl()+'optimizenet/upload', // 用于文件上传的服务器端请求地址
+          url : xh.getUrl()+'emergency/upload', // 用于文件上传的服务器端请求地址
           secureuri : false, // 是否需要安全协议，一般设置为false
           fileElementId : path, // 文件上传域的ID
           dataType : 'json', // 返回值类型 一般设置为json
@@ -178,10 +169,10 @@ function uploadFile(tag) {
         	  uiLoading.hide();
         	  uiMask.hide();
               if (data.success) {
-            	  if(tag==2){
-            		  checkedTwo(data);
-            	  }else if(tag==3){
-            		  checkedFour(data);
+            	  if(tag==1){
+            		  checkedOne(data);
+            	  }else if(tag==2){
+            		  checkedThree(data);
             	  }
               } else {
             	  $("#"+uiDialog).find("input[name='result']").val(0);
@@ -197,21 +188,20 @@ function uploadFile(tag) {
           }
       });
   }
-
-function checkedTwo(data){
-	$("#check-dg2").find("input[name='result']").val(1);
-	$("#check-dg2").find("input[name='fileName']").val(data.fileName);
-	$("#check-dg2").find("input[name='path']").val(data.filePath);
+function checkedOne(data){
+	$("#check-dg").find("input[name='result']").val(1);
+	$("#check-dg").find("input[name='fileName']").val(data.fileName);
+	$("#check-dg").find("input[name='path']").val(data.filePath);
 	$.ajax({
-		url : xh.getUrl()+'optimizenet/checkedTwo',
+		url : xh.getUrl()+'emergency/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data : {
 			id:params.id,
 			userName:params.userName,
-			fileName: $("#check-dg2").find("input[name='fileName']").val(),
-			path:$("#check-dg2").find("input[name='path']").val()
+			fileName: $("#check-dg").find("input[name='fileName']").val(),
+			path:$("#check-dg").find("input[name='path']").val()
 		},
 		success : function(data) {
 
@@ -235,20 +225,87 @@ function checkedTwo(data){
 		}
 	});
 }
-function checkedFour(data){
-	$("#check-dg4").find("input[name='result']").val(1);
-	$("#check-dg4").find("input[name='fileName']").val(data.fileName);
-	$("#check-dg4").find("input[name='path']").val(data.filePath);
+function checkedTwo(tag){
 	$.ajax({
-		url : xh.getUrl()+'optimizenet/checkedFour',
+		url : xh.getUrl()+'emergency/checkedTwo',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			id:params.id,
+			user1:params.user1,
+			checked: tag
+		},
+		success : function(data) {
+
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				bui.back({
+					callback:function(){
+						loader.require(["table"],function(res){
+							res.refresh();
+							res.init();
+	                    })
+					}
+				});
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.success("系统错误", '提示');
+		}
+	});
+}
+function checkedThree(data){
+	$("#check-dg3").find("input[name='result']").val(1);
+	$("#check-dg3").find("input[name='fileName']").val(data.fileName);
+	$("#check-dg3").find("input[name='path']").val(data.filePath);
+	$.ajax({
+		url : xh.getUrl()+'emergency/checkedThree',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data : {
 			id:params.id,
 			userName:params.userName,
-			fileName: $("#check-dg4").find("input[name='fileName']").val(),
-			path:$("#check-dg4").find("input[name='path']").val()
+			note3:$("#check-dg3").find("textarea[name='note3']").val(),
+			fileName: $("#check-dg3").find("input[name='fileName']").val(),
+			path:$("#check-dg3").find("input[name='path']").val()
+		},
+		success : function(data) {
+
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				bui.back({
+					callback:function(){
+						loader.require(["table"],function(res){
+							res.refresh();
+							res.init();
+	                    })
+					}
+				});
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.success("系统错误", '提示');
+		}
+	});
+}
+function checkedFour(){
+	$.ajax({
+		url : xh.getUrl()+'emergency/checkedFour',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			id:params.id,
+			user1:params.user1,
+			note4: $("#check-dg4").find("textarea[name='note4']").val()
 		},
 		success : function(data) {
 

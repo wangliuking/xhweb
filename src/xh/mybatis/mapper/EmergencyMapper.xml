@@ -71,7 +71,7 @@
     <!--服务提供方上传-->
     <update id="checkedFour" parameterType="xh.mybatis.bean.EmergencyBean">
         update xhgmnet_bs_emergency set
-        user3=#{user3},time4=#{time4},level=#{level},checked=#{checked} where id=#{id}
+        user3=#{user3},time4=#{time4},level=#{level},note4=#{note4},checked=#{checked} where id=#{id}
     </update>
 
     <!--管理方审核 -->

@@ -26,7 +26,7 @@ loader.define(function(require,exports,module){
             methods:{
             	sure:function(e){
             		$.ajax({
-        				url : '../../../WorkContact/sign',
+        				url : xh.getUrl()+'WorkContact/sign',
         				type : 'POST',
         				dataType : "json",
         				async : true,
@@ -61,7 +61,7 @@ loader.define(function(require,exports,module){
             		if(path!=null && path!=""){
             			var index=path.lastIndexOf("/");
             			var name=path.substring(index+1,path.length);	
-            			var downUrl = "../../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
+            			var downUrl = xh.getUrl()+"uploadFile/downfile?filePath="+path+"&fileName=" + name;
             			if(xh.isfileapp(path)){
             				window.open(downUrl, '_self',
             				'width=1,height=1,toolbar=no,menubar=no,location=no');

@@ -74,8 +74,8 @@ xh.org.listeners.SingLoginListener
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   
-</listener>
--->
+</listener> -->
+
 
 <!--定时获取东信基站话务统计 -->
 <!--  <listener>

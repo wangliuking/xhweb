@@ -21,7 +21,7 @@ loader.define(function(require,exports,module){
 	      });
 		 uiList=bui.list({
 		        id: "#listStore",
-		        url: "../../../qualitycheck/selectAll2",
+		        url: xh.getUrl()+"qualitycheck/selectAll2",
 		        page: 1,
 		        pageSize: 10,
 		        
@@ -119,7 +119,7 @@ function template(data) {
              }
         	
         	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="detail.html" param='${json}'>
+        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/service/detail.html" param='${json}'>
             <div class="span4">
             <p class="item-text">申请时间：${el.requestTime}</p>
             <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
@@ -135,7 +135,7 @@ function template(data) {
 };
 function login(params){
 	bui.ajax({
-        url: "../../../web/login",
+        url: xh.getUrl()+"web/login",
         method:'post',
         dataType : "json",
         data: {
@@ -156,31 +156,4 @@ function login(params){
         toastr.error("登录超时", '提示');
      // status = "timeout" || "error" || "abort", "parsererror"
     })
-	
-	
-	
-	/*$.ajax({
-		url : '../../../web/login',
-		type : 'POST',
-		dataType : "json",
-		data : {
-			username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-		},
-		 data : $("#loginForm").serializeArray(), 
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				//toastr.success("success", '提示');
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.error("登录超时", '提示');
-
-		}
-	});*/
 }

@@ -3,7 +3,9 @@ loader.define(function(require,exports,module){
 	var pageview = {}, uiList="",bs="";
 	pageview.init = function () {
 		    params = router.getPageParams();
+		   
 		    if(params.userName!=undefined){
+		    	 console.log(JSON.stringify(params))
 		    	login(params);
 		    }; 
 		    var className="show";
@@ -21,7 +23,7 @@ loader.define(function(require,exports,module){
 	      });
 		 uiList=bui.list({
 		        id: "#listStore",
-		        url: "../../../qualitycheck/selectAll2",
+		        url: xh.getUrl()+"emergency/selectAll2",
 		        page: 1,
 		        pageSize: 10,
 		        
@@ -86,28 +88,50 @@ function template(data) {
         	switch (el.checked) {
             case 0:
             	if(gl_para.userL.roleType==3){
-            		str= '请确认是否可以抽检';
+            		str= '请上传演练计划';
             	}else{
-            		str= '等待服务提供方确认是否可以抽检';
+            		str= '等待服务提供方上传演练计划';
             	}
                 
                 textClass='text-primary';
                 subClass = 'bui-sub primary';
-                subText="待确认";
+                subText="待上传";
                 break;
             case 1:
             	if(gl_para.userL.roleType==3){
-            		str= '等待管理方上传抽检记录';
+            		str= '等待管理方审核演练计划';
             	}else{
-            		str='请管理方上传抽检记录';
+            		str='请审核审核演练计划';
+            	}
+                
+                textClass='text-primary';
+                subClass = 'bui-sub primary';
+                subText="待审核";
+                break;
+            case 2:
+            	if(gl_para.userL.roleType==3){
+            		str= '请上传应急处置演练报告';
+            	}else{
+            		str='等待服务提供方上传应急处置演练报告';
             	}
                 
                 textClass='text-warning';
                 subClass = 'bui-sub warning';
-                subText="处理中";
+                subText="待上传";
                 break;
-             case 2:
-                 str = '结束';
+            case 3:
+            	if(gl_para.userL.roleType==3){
+            		str= '等待管理方确认应急处置演练报告';
+            	}else{
+            		str='请确认确认应急处置演练报告';
+            	}
+                
+                textClass='text-warning';
+                subClass = 'bui-sub warning';
+                subText="待确认";
+                break;
+             case 4:
+                 str = '结束； 评价：'+getLevel(el.level);
                  textClass='text-success';
                  subClass = 'bui-sub success';
                  subText="结束";
@@ -122,6 +146,7 @@ function template(data) {
         	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="detail.html" param='${json}'>
             <div class="span4">
             <p class="item-text">申请时间：${el.requestTime}</p>
+            <p class="item-text"><span class="bui-label">联系单位：</span><span class="bui-value">${el.unit1}</span></p>
             <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
             
             <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
@@ -133,9 +158,24 @@ function template(data) {
     }
     return html; 
 };
+function getLevel(level){
+	if(level==null || level==''){
+		return "没有收到任何评价";
+	}else if(level==1){
+		return "优";
+	}else if(level==2){
+		return "良";
+	}else if(level==3){
+		return "中";
+	}else if(level==4){
+		return "差";
+	}else{
+		return"没有收到任何评价";
+	}
+}
 function login(params){
 	bui.ajax({
-        url: "../../../web/login",
+        url: xh.getUrl()+"web/login",
         method:'post',
         dataType : "json",
         data: {
@@ -156,31 +196,5 @@ function login(params){
         toastr.error("登录超时", '提示');
      // status = "timeout" || "error" || "abort", "parsererror"
     })
-	
-	
-	
-	/*$.ajax({
-		url : '../../../web/login',
-		type : 'POST',
-		dataType : "json",
-		data : {
-			username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-		},
-		 data : $("#loginForm").serializeArray(), 
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				//toastr.success("success", '提示');
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.error("登录超时", '提示');
 
-		}
-	});*/
 }

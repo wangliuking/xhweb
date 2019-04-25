@@ -21,7 +21,7 @@ loader.define(function(require,exports,module){
 	      });
 		 uiList=bui.list({
 		        id: "#listStore",
-		        url: "../../../optimizenet/selectAll2",
+		        url: xh.getUrl()+"optimizenet/selectAll2",
 		        page: 1,
 		        pageSize: 10,
 		        
@@ -84,11 +84,39 @@ function template(data) {
         	var status=el.status;
         	var str="",textClass="",subClass="",subText="";
         	switch (el.checked) {
+       	     case -1:
+          	   if(gl_para.userL.roleType==3){
+          		str= '网络优化方案审核不通过，请重新上传';
+          	  }else{
+          		str='网络优化方案审核不通过,等待重新上传';
+             	}
+              
+              textClass='text-danger';
+              subClass = 'bui-sub danger';
+              subText="处理中";
+              break;
+        	 case -2:
+        		 str= '网络优化任务中断，结束';
+                 textClass='text-danger';
+                 subClass = 'bui-sub danger';
+                 subText="中断";
+                 break;
+        	 case -3:
+        		 if(gl_para.userL.roleType==3){
+        			 str= '总结报告审核未通过，请重新上传<br>'+el.note4;
+               	  }else{
+               		 str= '总结报告审核未通过，等待服务提供方重新上传<br>'+el.note4;
+                  	}
+        		 
+                 textClass='text-danger';
+                 subClass = 'bui-sub danger';
+                 subText="未通过";
+                 break;
             case 0:
             	if(gl_para.userL.roleType==3){
-            		str= '请确认是否可以抽检';
+            		str= '请确认通知';
             	}else{
-            		str= '等待服务提供方确认是否可以抽检';
+            		str= '等待服务提供方确认信息';
             	}
                 
                 textClass='text-primary';
@@ -97,16 +125,49 @@ function template(data) {
                 break;
             case 1:
             	if(gl_para.userL.roleType==3){
-            		str= '等待管理方上传抽检记录';
+            		str= '请上传上传网络优化方案';
             	}else{
-            		str='请管理方上传抽检记录';
+            		str='等待服务提供方上传网络优化方案';
             	}
                 
                 textClass='text-warning';
                 subClass = 'bui-sub warning';
                 subText="处理中";
                 break;
-             case 2:
+            case 2:
+            	if(gl_para.userL.roleType==3){
+            		str= '等待管理方审核网络优化方案';
+            	}else{
+            		str='请审核网络优化方案';
+            	}
+                
+                textClass='text-warning';
+                subClass = 'bui-sub warning';
+                subText="处理中";
+                break;
+            case 3:
+            	if(gl_para.userL.roleType==3){
+            		str= '请上传总结报告';
+            	}else{
+            		str='等待服务提供方上传总结报告';
+            	}
+                
+                textClass='text-warning';
+                subClass = 'bui-sub warning';
+                subText="处理中";
+                break;
+            case 4:
+            	if(gl_para.userL.roleType==3){
+            		str= '等待管理方审核总结报告';
+            	}else{
+            		str='请审核总结报告';
+            	}
+                
+                textClass='text-warning';
+                subClass = 'bui-sub warning';
+                subText="处理中";
+                break;
+             case 5:
                  str = '结束';
                  textClass='text-success';
                  subClass = 'bui-sub success';
@@ -136,7 +197,7 @@ function template(data) {
 };
 function login(params){
 	bui.ajax({
-        url: "../../../web/login",
+        url: xh.getUrl()+"web/login",
         method:'post',
         dataType : "json",
         data: {
@@ -157,31 +218,4 @@ function login(params){
         toastr.error("登录超时", '提示');
      // status = "timeout" || "error" || "abort", "parsererror"
     })
-	
-	
-	
-	/*$.ajax({
-		url : '../../../web/login',
-		type : 'POST',
-		dataType : "json",
-		data : {
-			username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-		},
-		 data : $("#loginForm").serializeArray(), 
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				//toastr.success("success", '提示');
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.error("登录超时", '提示');
-
-		}
-	});*/
 }

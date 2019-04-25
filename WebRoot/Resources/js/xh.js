@@ -712,3 +712,20 @@ xh.dateNowFormat=function(tag){
 xh.validatorTime=function(obj,time) {
 	$("#"+obj).data("bootstrapValidator").updateStatus(time,"NOT_VALIDATED", null).validateField(time);
 }
+xh.getUrl=function(){
+	 var scripts = document.getElementsByTagName('script'),
+	   
+	    path, i, ln, scriptSrc, match;
+
+	for (i = 0, ln = scripts.length; i < ln; i++) {
+	    scriptSrc = scripts[i].src;
+
+	    match = scriptSrc.match(/xh\.js$/);
+
+	    if (match) {
+	        path = scriptSrc.substring(0, scriptSrc.length - match[0].length-13);
+	        break;
+	    }
+	}
+ return path;
+}

@@ -1,0 +1,64 @@
+<style>
+.page-form .bui-fluid-space-3 {
+	padding-top: .2rem;
+}
+
+.page-form .bui-fluid-space-3 .bui-check {
+	margin-bottom: .2rem;
+}
+</style>
+<div class="bui-page page-form">
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<a class="bui-btn btn-back"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">审核优化方案</div>
+		<div class="bui-bar-right"></div>
+	</header>
+	<main>
+		<div class="section-title">是否中断优化任务</div>
+	
+		<ul class="bui-list">
+			<li class="bui-btn bui-box"><input id="dropnet1" type="radio"
+				class="bui-radio" name="dropnet" value="1" b-model="page.dropnet">
+				<div class="span1">
+					<label for="dropnet1">中断</label>
+				</div></li>
+			<li class="bui-btn bui-box bui-btn-line"><input id="dropnet2"
+				type="radio" class="bui-radio" name="dropnet" value="-1" checked="checked" b-model="page.dropnet">
+				<div class="span1">
+					<label for="dropnet2">不中断</label>
+				</div></li>
+		</ul>
+		<div class="section-title" b-show="page.show">审核意见</div>
+    
+        <ul class="bui-list" b-show="page.show">
+            <li class="bui-btn bui-box"><input id="checked1" type="radio"
+                class="bui-radio" name="checked" value="3" checked="checked">
+                <div class="span1">
+                    <label for="checked1">通过</label>
+                </div></li>
+            <li class="bui-btn bui-box bui-btn-line"><input id="checked2"
+                type="radio" class="bui-radio" name="checked" value="-1">
+                <div class="span1">
+                    <label for="checked2">不通过</label>
+                </div></li>
+        </ul>
+		<div class="section-title">备注</div>
+		<ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note3" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn round primary" b-click="page.check">提交信息</div>
+                    </div>
+                </div>
+            </div>
+		</main>
+</div>

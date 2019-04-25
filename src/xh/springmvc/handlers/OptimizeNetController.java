@@ -336,7 +336,7 @@ public class OptimizeNetController {
             
             if(dropnet==-1){
             	//----发送通知邮件
-                if(checked==1){
+                if(checked==-1){
                 	sendNotifytoSingle(user, "优化方案被拒绝，请重新上传方案", request);
                 	
                 }else{
@@ -434,7 +434,7 @@ public class OptimizeNetController {
         if(checked == 5){
             bean.setChecked(5);
         }else if(checked == 3) {
-            bean.setChecked(3);
+            bean.setChecked(-3);
         }
         bean.setUser4(funUtil.loginUser(request));
         bean.setTime4(funUtil.nowDate());
