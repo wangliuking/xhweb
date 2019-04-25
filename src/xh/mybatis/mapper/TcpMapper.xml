@@ -124,13 +124,13 @@
 	
 	<!-- 查询最近一分钟手台gps信息 -->
 	<select id="selectForGpsDst" resultType="map" parameterType="map">
-		select srcId,longitude,latitude from (select * from ${currentMonth} where infoTime > DATE_SUB(NOW(),INTERVAL 1 MINUTE) 
+		select srcId,longitude,latitude,MAX(infoTime) from ${currentMonth} where infoTime > DATE_SUB(NOW(),INTERVAL 10 MINUTE)
 		and srcId in (
 		<foreach collection="list" item="item" index="index"
-			separator=",">
+				 separator=",">
 			#{item}
 		</foreach>
-		) ORDER BY infoTime DESC) as gpsTable GROUP BY srcId
+		)  GROUP BY srcId
 	</select>
 	
 	<!-- 新增终端号 -->
