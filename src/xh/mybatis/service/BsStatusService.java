@@ -487,6 +487,7 @@ public class BsStatusService {
 		for (EmhBean emhBean : list) {
 			map.put(emhBean.getSingleId(), emhBean.getSingleValue());
 			map.put("time", emhBean.getUpdateTime());
+			map.put(emhBean.getDeviceId(), emhBean.getUpdateTime());
 		}
 		DecimalFormat df = new DecimalFormat("#.0");
 
@@ -496,6 +497,9 @@ public class BsStatusService {
 
 				result.put("time", map.get("time").toString());
 				// 开关量
+				if (map.get("170300000000001") != null) {
+					result.put("time1", map.get("170300000000001")+"");
+				}
 				if (map.get("017001") != null) {
 					result.put("water",
 							Float.parseFloat(map.get("017001").toString()));// 水浸告警
@@ -514,7 +518,9 @@ public class BsStatusService {
 				}
 
 				// 温湿度
-
+				if (map.get("170100000000001") != null) {
+					result.put("time2", map.get("170100000000001")+"");
+				}
 				if (map.get("017301") != null) {
 					result.put("temp", df.format(Float.parseFloat(map.get(
 							"017301").toString())));// 温度XX ℃
@@ -525,6 +531,9 @@ public class BsStatusService {
 				}
 
 				// UPS
+				if (map.get("080200000000001") != null) {
+					result.put("time3", map.get("080200000000001")+"");
+				}
 				if (map.get("008304") != null) {
 					result.put("ups1",
 							Float.parseFloat(map.get("008304").toString()));// 输入相电压Ua
@@ -546,7 +555,9 @@ public class BsStatusService {
 							Float.parseFloat(map.get("008408").toString()));// 电池方式工作状态
 				}
 				// FSU
-
+				if (map.get("760300000000001") != null) {
+					result.put("time4", map.get("760300000000001")+"");
+				}
 				if (map.get("076002") != null) {
 					result.put("fsu1",
 							Float.parseFloat(map.get("076002").toString()));// 非智能设备采集器通信状态告警
@@ -573,6 +584,9 @@ public class BsStatusService {
 
 				}*/
 				// 智能电表
+				if (map.get("920100000000001") != null) {
+					result.put("time5", map.get("920100000000001")+"");
+				}
 				if (map.get("092301") != null) {
 					result.put("e1",
 							Float.parseFloat(map.get("092301").toString()));// 电压--->相电压Ua
