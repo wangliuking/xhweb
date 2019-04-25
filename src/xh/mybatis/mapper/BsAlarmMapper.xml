@@ -45,6 +45,7 @@
     <select id="bs_ji_four" resultType="xh.mybatis.bean.BsJiFourBean">
     select a.fsuId,a.deviceId,a.updateTime,a.singleId,a.singleValue,b.siteId as bsId,b.siteName as name from xhgmnet_emh_sensor_status as a
     left join xhgmnet_emh_fsuid4bsid as b on a.fsuId=b.fsuId
+    WHERE   a.singleId in('008304','008315','008334','017021','017031','076509','092316','092301') AND b.siteId IS NOT NULL
     </select>
     <!--008334->电池组电压；  -->
    <!--  and  (singleId = "008304" or singleId = "008334" or 

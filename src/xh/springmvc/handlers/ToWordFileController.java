@@ -51,6 +51,7 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.style.RtfParagraphStyle;
@@ -74,9 +75,11 @@ public class ToWordFileController {
 	public static Rectangle pageSize = PageSize.A4;
 
 	public static void main(String[] args) {
-
+		String saveDir = "D:/";
+		String time="2019-03";
+		String pathname = saveDir + "/系统运行维护服务月报  -"+time+".doc";
 		try {
-			
+			to_word(time,3,pathname);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -157,7 +160,7 @@ public class ToWordFileController {
 			// 创建段落
 			Paragraph p1 = new Paragraph("成都市应急指挥调度无线通信网三期工程", new Font(bfChinese, 20, Font.BOLD));
 			Paragraph p2 = new Paragraph("系统运行维护服务月报", new Font(bfChinese, 19, Font.BOLD));
-			Paragraph p3 = new Paragraph("2018年6月", new Font(bfChinese, 18, Font.BOLD));
+			Paragraph p3 = new Paragraph(time, new Font(bfChinese, 18, Font.BOLD));
 			
 			// 设置段落为居中对齐
 			p1.setAlignment(Paragraph.ALIGN_CENTER);
@@ -479,6 +482,26 @@ public class ToWordFileController {
 			      word_10(time,document,c,rtfGsBt2,title);
 			      c.clear();
 			      word_11(time,document,c,rtfGsBt2,title);
+			      c.clear();
+			      word_12(time,document,c,rtfGsBt2,title);
+			      c.clear();
+			      word_13(time,document,c,rtfGsBt2,title);
+			      /*4.2巡检*/
+			      c.clear();
+			      word_14(time,document,c,rtfGsBt2,title);
+			      /*4.3故障处理与分析*/
+			      c.clear();
+			      word_15(time,document,c,rtfGsBt2,title);
+			      /*4.3故障处理与分析3.1、特别重大故障*/
+			      c.clear();
+			      word_16(time,document,c,rtfGsBt2,title);
+			      /*4.3故障处理与分析3.2、重大故障*/
+			      c.clear();
+			      word_17(time,document,c,rtfGsBt2,title);
+			      /*4.3故障处理与分析3.3、一般故障*/
+			      c.clear();
+			      word_18(time,document,c,rtfGsBt2,title);
+			      
 		      
 		    
 		    
@@ -1229,5 +1252,560 @@ public class ToWordFileController {
        c.add(str.toString());
        document.add(c);
 	}
+	/*四 基础运维工作*/
+	public static void word_12(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		
+		
+		 title=new Paragraph("四 基础运维工作");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt1); 
+	     title.setSpacingAfter(6);
+		 document.add(title); 
+		 StringBuilder str=new StringBuilder();
+		 str.append("   项目部运维严格遵守《成都应急网运维管理制度》，其中包含《交换中心机房管理制度》、《值班与交接班制度》、《保密制度》、《维护作业计");
+		 str.append("划管理制度》、《仪器仪表及备品备件管理制度》、《通信故障管理制度》、《巡检制度》、《维护资项目部料管理制度》；切实按照《成都应急网应急通信保障预案》响应应急通信保障。");
+		 c.add(str.toString());
+		 document.add(c);
+		 c.clear();
+		 str=new StringBuilder();
+		 str.append("   系统基础运维工作主要包括交换中心监控，巡检，故障抢修，基站、交换中心或传输优化整改，"
+		 		+ "用户投诉响应，培训与技术支持服务，应急演练，应急通信保障等。");
+		 c.add(str.toString());
+		 document.add(c);		 
+	}
+	/*4.1交换中心*/
+	public static void word_13(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		
+		
+		 title=new Paragraph("1 交换中心监控");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt2); 
+	     title.setSpacingAfter(6);
+		 document.add(title); 
+		 
+		 StringBuilder str=new StringBuilder();
+		 str.append("  本月交换中心运行正常，完成7×24小时系统监控并填写了31份系统日常维护表。"
+		 		+ "本月后台监控发现隐患25起，24起处理完成均为现场处理，"
+		 		+ "1起遗留至下月处理。详见3.4、隐患故障。");
+		 c.add(str.toString());
+		 document.add(c);
+		 
+		 //设置Table表格,创建一个三列的表格  
+	        Paragraph tn=new Paragraph();
+			tn.setAlignment(Element.ALIGN_CENTER);
+			tn.setFont(tableTitleFont);
+			tn.setSpacingAfter(1);
+			tn.add("表九 后台监控反馈表");
+		    document.add(tn);
+		    Table table = new Table(6);
+	        int width[] = {25,25,25,30,50,20};//设置每列宽度比例  
+	        //table.setWidths(width);  
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度 
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度  
+	        Cell cell;
+	        cell=new Cell(new Paragraph("7×24小时系统监控",tableheaderFont));
+	        cell.setRowspan(2);
+		    table.addCell(cell); 
+		    table.addCell(new Cell(new Paragraph("应填写系统日常维护表（份）",tableheaderFont))); 
+		    table.addCell(new Cell(new Paragraph("实际填写系统日常维护表（份）",tableheaderFont))); 
+		    table.addCell(new Cell(new Paragraph("后台监控发现隐患数量",tableheaderFont))); 
+		    table.addCell(new Cell(new Paragraph("隐患处理数量",tableheaderFont))); 
+		    table.addCell(new Cell(new Paragraph("备注",tableheaderFont))); 
+		    document.add(table);
+	}
+	/*4.2巡检*/
+	public static void word_14(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		
+		
+		 title=new Paragraph("2 巡检");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt2); 
+	     title.setSpacingBefore(6);
+	     title.setSpacingAfter(6);
+		 document.add(title); 	
+		 
+		 Map<String,Object> map=new HashMap<String, Object>();
+		 map=ToWorkFileServices.xj_bs_all_type_num(4);
+		 
+		 
+		 StringBuilder str=new StringBuilder();
+		 str.append("全网"+(map.get("bs")==null?String.valueOf(0):map.get("bs").toString())+"个固定基站、");
+		 str.append(map.get("room")==null?0:map.get("room")+"个室内覆盖站、");
+		 str.append(map.get("vertical")==null?0:map.get("vertical")+"个直放站、");
+		 str.append(map.get("bus")==null?0:map.get("bus")+"辆应急通信车，");
+		 str.append("实际完成巡检"+map.get("total")==null?0:map.get("bus")+"次");
+		 str.append("巡检过程中发现隐患    起，已处理   起，详见《巡检记录汇总表》。");
+		 c.add(str.toString());
+		 document.add(c); 
+		 //设置Table表格,创建一个三列的表格  
+	        Paragraph tn=new Paragraph();
+			tn.setAlignment(Element.ALIGN_CENTER);
+			tn.setFont(tableTitleFont);
+			tn.setSpacingAfter(1);
+			tn.add("表十 巡检反馈表");
+		    document.add(tn);
+		    Table table = new Table(9);
+	        int width[] = {25,25,25,30,50,20};//设置每列宽度比例  
+	        //table.setWidths(width);  
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度 
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度   
+		    table.addCell(new Cell(new Paragraph("资源类别",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("资源数量",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("应该巡检次数",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("实际巡检数量",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("隐患数量",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("隐患处理数量",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("应填写系统巡检表（份）",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("实际填写系统巡检表（份）",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("备注",tableheaderFont)));
+		    
+		    Map<String,Object> map2=new HashMap<String, Object>();
+		    Map<String,Object> mapPara=new HashMap<String, Object>();
+		    mapPara.put("time", time);
+		    mapPara.put("period", 4);
+		    map2=ToWorkFileServices.xj_bs_num(mapPara);
+		    
+		    table.addCell(new Cell(new Paragraph("固定基站",tableheaderFont)),1,0);
+		    table.addCell(new Cell(new Paragraph(map.get("bs")==null?String.valueOf(0):map.get("bs").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("bs")==null?String.valueOf(0):map.get("bs").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map2.get("bs")==null?String.valueOf(0):map2.get("bs").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("bs")==null?String.valueOf(0):map.get("bs").toString(),tableheaderFont)),1,6);
+		    table.addCell(new Cell(new Paragraph(map2.get("bs")==null?String.valueOf(0):map2.get("bs").toString(),tableheaderFont)),1,7);
+		   
+		    table.addCell(new Cell(new Paragraph("室内覆盖",tableheaderFont)),2,0);
+		    table.addCell(new Cell(new Paragraph(map.get("room")==null?String.valueOf(0):map.get("room").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("room")==null?String.valueOf(0):map.get("room").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map2.get("room")==null?String.valueOf(0):map2.get("room").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("room")==null?String.valueOf(0):map.get("room").toString(),tableheaderFont)),2,6);
+		    table.addCell(new Cell(new Paragraph(map2.get("room")==null?String.valueOf(0):map2.get("room").toString(),tableheaderFont)),2,7);
+		   
+		    
+		    table.addCell(new Cell(new Paragraph("直放站",tableheaderFont)),3,0);
+		    table.addCell(new Cell(new Paragraph(map.get("vertical")==null?String.valueOf(0):map.get("vertical").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("vertical")==null?String.valueOf(0):map.get("vertical").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map2.get("vertical")==null?String.valueOf(0):map2.get("vertical").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("vertical")==null?String.valueOf(0):map.get("vertical").toString(),tableheaderFont)),3,6);
+		    table.addCell(new Cell(new Paragraph(map2.get("vertical")==null?String.valueOf(0):map2.get("vertical").toString(),tableheaderFont)),3,7);
+		   
+		    
+		    table.addCell(new Cell(new Paragraph("应急通信车",tableheaderFont)),4,0);
+		    table.addCell(new Cell(new Paragraph(map.get("bus")==null?String.valueOf(0):map.get("bus").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("bus")==null?String.valueOf(0):map.get("bus").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map2.get("bus")==null?String.valueOf(0):map2.get("bus").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("bus")==null?String.valueOf(0):map.get("bus").toString(),tableheaderFont)),4,6);
+		    table.addCell(new Cell(new Paragraph(map2.get("bus")==null?String.valueOf(0):map2.get("bus").toString(),tableheaderFont)),4,7);
+		   
+		    
+		    table.addCell(new Cell(new Paragraph("合计",tableheaderFont)),5,0);
+		    table.addCell(new Cell(new Paragraph(map.get("total")==null?String.valueOf(0):map.get("total").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("total")==null?String.valueOf(0):map.get("total").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map2.get("total")==null?String.valueOf(0):map2.get("total").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("total")==null?String.valueOf(0):map.get("total").toString(),tableheaderFont)),5,6);
+		    table.addCell(new Cell(new Paragraph(map2.get("total")==null?String.valueOf(0):map2.get("total").toString(),tableheaderFont)),5,7);
+ 
+ 
+		    document.add(table);		 
+	}
+	/*4.3故障处理与分析*/
+	public static void word_15(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		/*rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12);*/ 
+		/*	设置标题3格式	*/ 
+		RtfParagraphStyle rtfGsBt3 = RtfParagraphStyle.STYLE_HEADING_3; 
+		/*rtfGsBt3.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt3.setStyle(Font.NORMAL); 
+		rtfGsBt3.setSize(10); */
+		
+		
+		 title=new Paragraph("3 故障处理与分析");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt2); 
+	     title.setSpacingBefore(6);
+	     title.setSpacingAfter(6);
+		 document.add(title); 	
+		 
+		 Map<String,Object> map=new HashMap<String, Object>();
+		 Map<String,Object> mapPara=new HashMap<String, Object>();
+		 mapPara.put("time", time);
+		 map=ToWorkFileServices.fault_num(mapPara);
+		 
+		 
+		 StringBuilder str=new StringBuilder();
+		 str.append("本月系统发生故障"+(map.get("total")==null?String.valueOf(0):map.get("total").toString())+"起， ");
+		 str.append("特别重大故障"+(map.get("one")==null?String.valueOf(0):map.get("one").toString())+"，起");
+		 str.append("重大故障"+(map.get("two")==null?String.valueOf(0):map.get("two").toString())+"起，");
+		 str.append("一般故障"+(map.get("three")==null?String.valueOf(0):map.get("three").toString())+"起，");
+		 str.append("其中维护计划作业       起，");
+		 str.append("隐患故障"+(map.get("four")==null?String.valueOf(0):map.get("four").toString())+"起。");
+		 c.add(str.toString());
+		 document.add(c);
+		 //设置Table表格,创建一个三列的表格  
+	       /* Paragraph tn=new Paragraph();
+			tn.setAlignment(Element.ALIGN_CENTER);
+			tn.setFont(tableTitleFont);
+			tn.setSpacingAfter(1);
+			tn.add("表十 巡检反馈表");
+		    document.add(tn);*/
+		    Table table = new Table(5);
+	        int width[] = {25,25,25,30,50,20};//设置每列宽度比例  
+	        //table.setWidths(width);  
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度 
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度   
+		    table.addCell(new Cell(new Paragraph("故障类别",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("故障次数",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("申请核减",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("核减后",tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph("备注",tableheaderFont)));
+		    
+		    
+		    table.addCell(new Cell(new Paragraph("特别重大故障",tableheaderFont)),1,0);
+		    table.addCell(new Cell(new Paragraph(map.get("one")==null?String.valueOf(0):map.get("one").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		   
+		    table.addCell(new Cell(new Paragraph("重大故障",tableheaderFont)),2,0);
+		    table.addCell(new Cell(new Paragraph(map.get("two")==null?String.valueOf(0):map.get("two").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(0),tableheaderFont)));
+		    
+		    table.addCell(new Cell(new Paragraph("一般故障",tableheaderFont)),3,0);
+		    table.addCell(new Cell(new Paragraph(map.get("three")==null?String.valueOf(0):map.get("three").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("checked")==null?String.valueOf(0):map.get("checked").toString(),tableheaderFont)));
+		    int num=Integer.parseInt(map.get("three")==null?String.valueOf(0):map.get("three").toString());
+		    int chk1=Integer.parseInt(map.get("checked")==null?String.valueOf(0):map.get("checked").toString());
+		    table.addCell(new Cell(new Paragraph(String.valueOf(num-chk1),tableheaderFont)));
+		    
+		    table.addCell(new Cell(new Paragraph("合计",tableheaderFont)),4,0);
+		    table.addCell(new Cell(new Paragraph(map.get("total")==null?String.valueOf(0):map.get("total").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(map.get("checked")==null?String.valueOf(0):map.get("checked").toString(),tableheaderFont)));
+		    table.addCell(new Cell(new Paragraph(String.valueOf(num-chk1),tableheaderFont)));
+		    document.add(table);
+		    
+		    DefaultCategoryDataset dcd=new DefaultCategoryDataset();
+		    
+		    TimeSeries timeSeries=new TimeSeries(Integer.parseInt(time.split("-")[0])+"系统故障趋势图");
+		    
+			 for(int i=1;i<=12;i++){
+				 Map<String,Object> m=new HashMap<String, Object>();		 
+				 m.put("time", time.split("-")[0]+"-"+(i<10?"0"+i:i));
+				 Map<String,Object> m2=ToWorkFileServices.fault_num(m);
+				 dcd.addValue(Math.round(Double.valueOf(m2.get("total")==null?
+						 String.valueOf(0):m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
+				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2.get("total")==null?
+						 String.valueOf(0):m2.get("total").toString()));
+			 }
+		        try {
+					ChartUtil.LineImg("系统故障趋势图", timeSeries);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        Image img=Image.getInstance("D:/chart.png");
+			    document.add(img);
+	        
+	}
+	/*4.3.1特别重大故障*/
+	public static void word_16(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		/*	设置标题3格式	*/ 
+		RtfParagraphStyle rtfGsBt3 = RtfParagraphStyle.STYLE_HEADING_3; 
+		/*rtfGsBt3.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt3.setStyle(Font.NORMAL); 
+		rtfGsBt3.setSize(10); */
+		
+		
+		 title=new Paragraph("3.1、特别重大故障");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt3); 
+	     title.setSpacingBefore(6);
+	     title.setSpacingAfter(6);
+		 document.add(title); 	
+	
+	}
+	/*4.3.2重大故障*/
+	public static void word_17(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		/*	设置标题3格式	*/ 
+		RtfParagraphStyle rtfGsBt3 = RtfParagraphStyle.STYLE_HEADING_3; 
+		rtfGsBt3.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt3.setStyle(Font.NORMAL); 
+		rtfGsBt3.setSize(10); 
+		
+		
+		 title=new Paragraph("3.2、重大故障");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt3); 
+	     title.setSpacingBefore(6);
+	     title.setSpacingAfter(6);
+		 document.add(title); 	
+	
+	}
+	/*4.3..3、一般故障*/
+	public static void word_18(String time,Document document,Paragraph c,RtfParagraphStyle rtfGsBt,Paragraph title) throws Exception{
+		BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);	
+		Font tableheaderFont = new Font(bfChinese, 10, Font.BOLD);
+		Font tableTitleFont = new Font(bfChinese, 10, Font.NORMAL);
+		
+		/*	设置标题1格式	*/ 
+		RtfParagraphStyle rtfGsBt1 = RtfParagraphStyle.STYLE_HEADING_1; 
+		rtfGsBt1.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt1.setStyle(Font.BOLD); 
+		rtfGsBt1.setSize(14); 
+		/*	设置标题2格式	*/ 
+		RtfParagraphStyle rtfGsBt2 = RtfParagraphStyle.STYLE_HEADING_2; 
+		rtfGsBt2.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt2.setStyle(Font.NORMAL); 
+		rtfGsBt2.setSize(12); 
+		/*	设置标题3格式	*/ 
+		RtfParagraphStyle rtfGsBt3 = RtfParagraphStyle.STYLE_HEADING_3; 
+		rtfGsBt3.setAlignment(Element.ALIGN_LEFT); 
+		rtfGsBt3.setStyle(Font.NORMAL); 
+		rtfGsBt3.setSize(10); 
+		
+		
+		 title=new Paragraph("3.3、一般故障");
+	     title.setAlignment(Element.ALIGN_LEFT);  
+	     title.setFont(rtfGsBt3); 
+	     title.setSpacingBefore(6);
+	     title.setSpacingAfter(6);
+		 document.add(title); 
+
+	        Paragraph tn=new Paragraph();
+			tn.setAlignment(Element.ALIGN_CENTER);
+			tn.setFont(tableTitleFont);
+			tn.setSpacingAfter(1);
+			tn.add("表十一 一般故障分析（按基站等级分类）");
+		    document.add(tn);
+		    Table table = new Table(6);
+	        int width[] = {25,25,25,30,50,20};//设置每列宽度比例  
+	        //table.setWidths(width);  
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度 
+	        table.setWidth(100);//占页面宽度比例  
+	        table.setAlignment(1);
+	        table.setAlignment(Element.ALIGN_CENTER);//居中  
+	        table.setAlignment(Element.ALIGN_MIDDLE);//垂直居中  
+	        table.setAutoFillEmptyCells(true);//自动填满  
+	        table.setBorderWidth(1);//边框宽度   
+	        table.addCell(new Cell(new Paragraph("基站类别",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("故障次数",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("申请核减",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("核减后断站",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("处理超时（次）",tableheaderFont)));
+	        table.addCell(new Cell(new Paragraph("超时时间（小时）",tableheaderFont)));
+		 
+		 Map<String,Object> mapPara=new HashMap<String, Object>();
+		 mapPara.put("time", time);
+		 mapPara.put("period", 4);
+		 
+		 List<Map<String,Object>> list=ToWorkFileServices.fault_level(mapPara);
+		 Map<String, Object> map1=new HashMap<String, Object>();
+		 Map<String, Object> map2=new HashMap<String, Object>();
+		 Map<String, Object> map3=new HashMap<String, Object>();
+		 int total=0,checked=0,afterCheck=0;
+		 for (Map<String, Object> map : list) {
+			 
+			/* System.out.println("mmmmmm->"+map);*/
+			 total+=Integer.parseInt(map.get("total").toString());
+			 checked+=Integer.parseInt(map.get("checked").toString());
+			 afterCheck+=Integer.parseInt(map.get("afterCheck").toString());
+			 
+			if(map.get("level").toString().equals("1")){
+				map1.put("total", map.get("total"));
+				map1.put("checked", map.get("checked"));
+				map1.put("afterCheck", map.get("afterCheck"));
+			}else if(map.get("level").toString().equals("2")){
+				map2.put("total", map.get("total"));
+				map2.put("checked", map.get("checked"));
+				map2.put("afterCheck", map.get("afterCheck"));
+			}else if(map.get("level").toString().equals("3")){
+				map3.put("total", map.get("total"));
+				map3.put("checked", map.get("checked"));
+				map3.put("afterCheck", map.get("afterCheck"));
+			}
+		}
+		table.addCell(new Cell(new Paragraph("一级基站",tableheaderFont)),1,0);
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map1==null?"0":map1.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("二级基站",tableheaderFont)),2,0);
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map2==null?"0":map2.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("三级基站",tableheaderFont)),3,0);
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("total").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("checked").toString(),tableheaderFont)));
+		table.addCell(new Cell(new Paragraph(map3==null?"0":map3.get("afterCheck").toString(),tableheaderFont)));
+		
+		table.addCell(new Cell(new Paragraph("合计",tableheaderFont)),4,0);
+		table.addCell(new Cell(new Paragraph(String.valueOf(total),tableheaderFont)),4,1);
+		table.addCell(new Cell(new Paragraph(String.valueOf(checked),tableheaderFont)),4,2);
+		table.addCell(new Cell(new Paragraph(String.valueOf(afterCheck),tableheaderFont)),4,3);
+		document.add(table);
+		
+		 DefaultPieDataset dpd=new DefaultPieDataset();
+		 for (Map<String, Object> map : list) {
+			
+				 
+				if(map.get("level").toString().equals("1")){
+					 dpd.setValue("一级基站",(Number) map.get("total"));
+				}else if(map.get("level").toString().equals("2")){
+					dpd.setValue("二级基站",(Number) map.get("total"));
+				}else if(map.get("level").toString().equals("3")){
+					dpd.setValue("三级基站",(Number) map.get("total"));
+				}
+			}
+	       
+	       ChartUtil.PieImg("一般故障基站等级占比", dpd,0);
+	       Image img=Image.getInstance("D:/chart.png");
+	       document.add(img);
+	       
+	       list=new ArrayList<Map<String,Object>>();
+	       mapPara.clear();
+	       mapPara.put("time", time.split(",")[0]);
+		   mapPara.put("period", 4);
+	       list=ToWorkFileServices.fault_level_pie(mapPara);
+	       
+	       DefaultCategoryDataset dcd=new DefaultCategoryDataset();
+		   TimeSeries timeSeries=new TimeSeries(Integer.parseInt(time.split("-")[0])+"系统故障趋势图");
+		    
+			 for(int i=1;i<=12;i++){
+				 Map<String,Object> m=new HashMap<String, Object>();
+				 Map<String,Object> m2=new HashMap<String, Object>();
+				 for (Map<String, Object> map : list) {
+					if(Integer.parseInt(map.get("month").toString())==i){
+						m2=map;
+					}
+				}
+				 dcd.addValue(Math.round(Double.valueOf(m2==null?"0":m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
+				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2==null?"0":m2.get("total").toString()));
+			 }
+		        try {
+					ChartUtil.LineImg("一级基站故障次数", timeSeries);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        img=Image.getInstance("D:/chart.png");
+			    document.add(img);
+	       
+	}
+	
 	
 }

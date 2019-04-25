@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.MeetMapper">
+
+	<select id="meetlist" parameterType="map" resultType="xh.mybatis.bean.MeetBean"
+		useCache="true">
+		select * from xhgmnet_operations_meet where 1=1
+		<if test="time !=null and time !=''">
+			and date_format(start_time,'%Y-%m')=#{time}
+		</if>
+		order by id desc limit #{start},#{limit}
+	</select>
+
+	<select id="meetcount" parameterType="map" resultType="int"
+		useCache="true">
+		select count(1) from xhgmnet_operations_meet where 1=1
+		<if test="time !=null and time !=''">
+			and date_format(start_time,'%Y-%m')=#{time}
+		</if>
+	</select>
+	<insert id="add" useGeneratedKeys="true" keyProperty="id"
+		parameterType="xh.mybatis.bean.MeetBean">
+		insert into
+		xhgmnet_operations_meet(start_time,end_time,address,person,content,
+		check_info,user_need,emergency_info,other_info,sign,name,type)
+		values(#{start_time},#{end_time},#{address},#{person},#{content},#{check_info},
+		#{user_need},#{emergency_info},#{other_info},#{sign},#{name},#{type})
+	</insert>
+	<update id="update" parameterType="xh.mybatis.bean.WorkBean">
+		update xhgmnet_operations_meet set
+		start_time=#{start_time},end_time=#{end_time},
+		address=#{address},person=#{person},content=#{content},check_info=#{check_info},
+		user_need=#{user_need},emergency_info=#{emergency_info},other_info=#{other_info},
+		sign=#{sign},name=#{name},type=#{type}
+		where id=#{id}
+	</update>
+	<delete id="del" parameterType="java.util.List">
+		delete from xhgmnet_operations_meet where id in(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

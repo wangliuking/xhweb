@@ -17,11 +17,11 @@ public interface OperationsCheckMapper {
 	
 	int add(OperationsCheckBean bean)throws Exception;
 	
-	List<CheckMoneyBean> searchDetail(String time)throws Exception;
+	List<CheckMoneyBean> searchDetail(Map<String, Object> map)throws Exception;
 	
 	List<CheckMoneyBean> show_money_detail(String time)throws Exception;
 	
-	List<OperationsCheckScoreBean> searchScore(String time)throws Exception;
+	List<OperationsCheckScoreBean> searchScore(Map<String, Object> map)throws Exception;
 	
 	List<OperationsCheckScoreBean> show_score_detail(String time)throws Exception;
 	

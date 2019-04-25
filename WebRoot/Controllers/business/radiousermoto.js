@@ -27,6 +27,23 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var appElement = document.querySelector('[ng-controller=radiouser]');
+/*$(window).on('load',function(){
+	$(".selectpicker").selectpicker('refresh');
+})*/
+//绑定bootstrap-select事件
+/*$("#radioS").on('shown.bs.select',function(e){
+        //为input绑定事件
+       $orgid.prev().find("input").keyup(function(){
+           //为input增加id属性，见下方截图
+           $orgid.prev().find("input").attr('id',"orgname");
+           var orgname = $('#orgname').val().trim();
+           var data = {
+               'name':orgname
+           }
+           initOrglist($orgid,data);
+       })
+   });*/
 xh.load = function() {
 	var app = angular.module("app", []);
 	var C_ID = $("#C_ID").val();
@@ -39,6 +56,9 @@ xh.load = function() {
 		$scope.page=1;
 		$scope.moto=0;
 		$scope.m_radio="";
+		$scope.C_ID="";
+		$scope.dd="";
+	
 		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -47,20 +67,34 @@ xh.load = function() {
 		});
 		
 		$http.get(
-				"../../usermoto/list?C_ID=" + C_ID + "&E_name=" + E_name
-						+ "&is_moto="+$scope.moto+"&start=0&limit=" + pageSize).success(
+				"../../usermoto/list?C_ID=" + C_ID
+						+ "&type=1&start=0&limit=" + pageSize).success(
 				function(response) {
 					xh.maskHide();
 					$scope.data = response.items;
 					$scope.totals = response.totals;
 					xh.pagging(1, parseInt($scope.totals), $scope);
 				});
-		$scope.radioList=function(){
+		$scope.radioListData=function(){
 			$http.get("../../usermoto/radioList").success(
 					function(response) {
 						$scope.radioList = response.items;
 						
 					});
+		}
+		$scope.getUser=function(radioUserAlias){
+			$http.get("../../usermoto/radioUserMotoGet?radioUserAlias="+radioUserAlias).success(
+					function(response) {
+						var data= response;
+						if(data.success){
+							toastr.success(data.message, '提示');
+							$scope.refresh();
+						}else{
+							toastr.error(data.message, '提示');
+						}
+						
+						
+			});
 		}
 		$scope.securityGroupList=function(){
 			$http.get("../../usermoto/securityGroupList").success(
@@ -73,10 +107,10 @@ xh.load = function() {
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$("#C_ID").val("");
-			$("#RadioUserAlias").val("");
+			/*$("#C_ID").val("");
+			$("#RadioUserAlias").val("");*/
 			$scope.search($scope.page);
-			$scope.radioList();
+			$scope.radioListData();
 		};
 		$scope.search_moto = function() {
 			$scope.moto=1;
@@ -139,7 +173,7 @@ xh.load = function() {
 						type : 'post',
 						dataType : "json",
 						data : {
-							ids : id
+							formData :JSON.stringify($scope.data[id])
 						},
 						async : false,
 						success : function(data) {
@@ -165,7 +199,7 @@ xh.load = function() {
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
 			var C_ID = $("#C_ID").val();
-			var E_name = $("#RadioUserAlias").val();
+			var type = $("#type").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -178,7 +212,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../usermoto/list?C_ID=" + C_ID + "&E_name=" + E_name + "&is_moto="+$scope.moto+"&start="
+					"../../usermoto/list?C_ID=" + C_ID + "&type=" + type + "&is_moto="+$scope.moto+"&start="
 							+ start + "&limit=" + limit).success(
 					function(response) {
 						xh.maskHide();
@@ -192,7 +226,7 @@ xh.load = function() {
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var C_ID = $("#C_ID").val();
-			var E_name = $("#RadioUserAlias").val();
+			var type = $("#type").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -202,7 +236,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../usermoto/list?C_ID=" + C_ID + "&E_name=" + E_name + "&is_moto="+$scope.moto+"&start="
+					"../../usermoto/list?C_ID=" + C_ID + "&type=" + type + "&is_moto="+$scope.moto+"&start="
 							+ start + "&limit=" + pageSize).success(
 					function(response) {
 						xh.maskHide();
@@ -222,39 +256,72 @@ xh.load = function() {
 					});
 
 		};
-		$scope.radioList();
+		$scope.radioListData();
 		$scope.securityGroupList();
 	});
 };
-xh.add = function() {
+xh.add = function() {	
+	var dd=JSON.parse(xh.serializeJson($("#addForm").serializeArray()));
+	var check=$("#add").find("input[name='more']").prop('checked');
+	if(check){
+         if(dd.C_IDS=="" || dd.C_IDE==""){
+        	 toastr.error("用户ID号码范围不正确", '提示');      	 
+ 			return;
+		}
+		if(dd.C_IDE<dd.C_IDS){
+			toastr.error("用户ID号码范围不正确", '提示');
+			return;
+		}
+		
+	}else{
+		var id=$("#addForm").find("input[name='C_ID']").val();
+		if(id==""){
+			toastr.error("用户ID号码不能为空", '提示');
+			return;
+		}
+	}
+	$("#add_user_btn").button('loading');
+	if(check){
+		for(var i=dd.C_IDS;i<=dd.C_IDE;i++){
+			dd.C_ID=i;
+			xh.addUser(JSON.stringify(dd));
+		}
+	}else{
+		xh.addUser(JSON.stringify(dd));
+	}
+	$("#add_user_btn").button('reset');
+};
+xh.addUser = function(data) {
 	xh.maskShow();
-	$("#add_user_btn").button('loading')
 	$.ajax({
 		url : '../../usermoto/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
-			formData:xh.serializeJson($("#addForm").serializeArray()) //将表单序列化为JSON对象
+			formData:data
 		},
 		success : function(data) {
 			xh.maskHide();
-			$("#add_user_btn").button('reset');
-
 			if (data.success) {
 				$('#add').modal('hide');			
 				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error(data.message, '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
 			}
 		},
 		error : function() {
 			xh.maskHide();
-			$("#add_user_btn").button('reset');
+			
 		}
 	});
 };
+
 /* 修改基站信息 */
 xh.update = function() {
 	xh.maskShow();

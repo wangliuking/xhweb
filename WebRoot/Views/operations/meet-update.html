@@ -1,0 +1,143 @@
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body pad-0">
+				<form action="#" id="editForm" onSubmit="return false">
+				
+				   <div class="row" ng-show=false>
+				   <input name="id" ng-model="editData.id">
+				   </div>
+
+					<div class="row">
+
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>会议名称</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea rows="2" required="required" class="form-control" 
+								cols="" name="name" ng-model="editData.name"></textarea>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group col-md-6">
+								<label>会议开始时间</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="start_time"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',onpicked:xh.validatorTime('addForm','start_time')})" 
+									required="required" ng-model="editData.start_time">
+							</div>
+							<div class="form-group col-md-6">
+								<label>会议结束时间</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="end_time"
+									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',onpicked:xh.validatorTime('addForm','end_time')})" 
+									required="required" ng-model="editData.end_time">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>会议地址</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea rows="2" class="form-control" cols="" name="address" 
+								required="required" ng-model="editData.address"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>会议人员</label>&nbsp;<span class="text-danger">[*]</span>
+								<textarea rows="4" class="form-control" cols="" name="person" 
+								required="required"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>会议类容</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="2" class="form-control" cols="" name="content" 
+                                required="required" ng-model="editData.content"></textarea>
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>月度运维考核情况</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="2" class="form-control" cols="" name="check_info" 
+                                required="required" ng-model="editData.check_info"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>响应及用户需求受理</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="2" class="form-control" cols="" name="user_need" 
+                                required="required" ng-model="editData.user_need"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>应急通信保障和演练</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="2" class="form-control" cols="" name="emergency_info" 
+                                required="required" ng-model="editData.emergency_info"></textarea>
+                            </div>
+                        </div>
+                      
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>其他</label>
+                                <textarea rows="2" class="form-control" cols="" name="other_info" 
+                                ng-model="editData.other_info"></textarea>
+                            </div>
+                        </div>
+                         <div class="col-md-12" ng-show=false>
+                            <div class="form-group col-md-12">
+                                <label>签字栏</label>
+                                <textarea rows="2" class="form-control" cols="" name="sign"
+                                ng-model="editData.sign"></textarea>
+                            </div>
+                        </div>
+					</div>
+
+
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="form.$invalid"
+					class="btn btn-success btn-sm" id="edit_btn">
+					<i class="fa fa-plus"></i>&nbsp;修改
+				</button>
+				<button type="button" class="btn btn-danger btn-sm"
+					data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+	$("#edit_btn").click(function() {
+		$('#editForm').submit();
+
+	});
+	var faIcon = {
+		valid : 'fa fa-check-circle fa-lg text-success',
+		invalid : 'fa fa-times-circle fa-lg',
+		validating : 'fa fa-refresh'
+	};
+	$('#editForm').bootstrapValidator({
+		excluded : [ ':disabled' ],
+		/* feedbackIcons: faIcon, */
+		fields : {
+
+		}
+	}).on('success.form.bv', function(e, data) {
+		e.preventDefault();
+		//$("#add_btn").button('loading');
+		xh.update();
+	});
+</script>

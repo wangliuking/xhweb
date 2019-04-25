@@ -5,17 +5,23 @@
 	<select id="dataList" parameterType="map"
 		resultType="xh.mybatis.bean.OperationsCheckBean">
 		select * from xhgmnet_operations_check where 1=1
-		<if test="roleType!=0 and roleType!=2 and roleType!=3">
+		<!-- <if test="roleType!=0 and roleType!=2 and roleType!=3">
 			and user=#{user}
+		</if> -->
+		<if test="time!=null and time!=''">
+		 and checkMonth=#{time}
 		</if>
 		order by id desc limit #{start},#{limit}
 	</select>
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(*) from xhgmnet_operations_check where 1=1
-		<if test="roleType!=0 and roleType!=2 and roleType!=3">
+		<!-- <if test="roleType!=0 and roleType!=2 and roleType!=3">
 			and user=#{user}
-		</if>
+		</if> -->
+		<if test="time!=null and time!=''">
+         and checkMonth=#{time}
+        </if>
 	</select>
 
 	<!-- 新增考核信息 -->
@@ -29,10 +35,12 @@
 	</insert>
 
 	<!-- 查询考核明细信息 -->
-	<select id="searchDetail" parameterType="String"
+	<select id="searchDetail" parameterType="map"
 		resultType="xh.mybatis.bean.CheckMoneyBean">
-		select * from check_month_money where
-		check_date=#{time}
+		select * from check_month_money where check_date=#{time} 
+		<if test="period!=null">
+		and period=#{period}
+		</if>
 	</select>
 	<select id="show_money_detail" parameterType="String"
 		resultType="xh.mybatis.bean.CheckMoneyBean">
@@ -94,9 +102,12 @@
 		check_date=#{time}
 	</select>
 	<!-- 查询考核得分 -->
-	<select id="searchScore" parameterType="String"
+	<select id="searchScore" parameterType="map"
 		resultType="xh.mybatis.bean.OperationsCheckScoreBean">
 		select * from check_month_score where check_month=#{time}
+		<if test="period!=null">
+		and period=#{period}
+		</if>
 	</select>
 
 	<select id="show_score_detail" parameterType="String"
@@ -146,9 +157,9 @@
 	<!-- 新增考核扣分 -->
 	<insert id="addScore" parameterType="java.util.List">
 		replace into
-		check_month_score(check_type,check_tag,score,check_note,check_month)values
+		check_month_score(check_type,check_tag,score,check_note,check_month,period)values
 		<foreach collection="list" item="it" separator=",">
-			(#{it.check_type},#{it.check_tag},#{it.score},#{it.check_note},#{it.check_month})
+			(#{it.check_type},#{it.check_tag},#{it.score},#{it.check_note},#{it.check_month},#{it.period})
 		</foreach>
 
 	</insert>
@@ -156,9 +167,9 @@
 	<!-- 新增考核明细 -->
 	<insert id="addDetail" parameterType="java.util.List">
 		replace into
-		check_month_money(check_tag,money,check_note,check_date)values
+		check_month_money(check_tag,money,check_note,check_date,period)values
 		<foreach collection="list" item="it" separator=",">
-			(#{it.check_tag},#{it.money},#{it.check_note},#{it.check_date})
+			(#{it.check_tag},#{it.money},#{it.check_note},#{it.check_date},#{it.period})
 		</foreach>
 	</insert>
 	<!-- 修改考核明细 -->

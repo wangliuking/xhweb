@@ -21,17 +21,35 @@
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="col-md-12 form-heading form-heading-white">基本信息</div>
 
-					<div class="form-group col-md-6" ng-if="!isChecked1">
-						<label>ID</label> <select class="form-control"
+					<!-- <div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>ID</label> <select class="form-control "
 							ng-model="radioData" ng-options="x.RadioID for x in radioList"
-							ng-change="radio(radioData)">
+							ng-change="radio(radioData)" data-live-search="true"
+							>
 
-						</select>
-						<input type="text"
-                            ng-model="m_radio.RadioID" class="form-control"
-                            name="C_ID" ng-show=false>
-					</div>
+						</select> <input type="text" ng-model="m_radio.RadioID"
+							class="form-control" name="C_ID" ng-show=false>
 
+
+
+						
+
+
+
+					</div> -->              
+					<!-- <div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>ID</label> <select ng-model="dd"
+							class="form-control selectpicker show-tick select-style"
+							data-live-search="true" ng-init="dd = radioList[0]"
+							ng-options="x.RadioID for x in radioList" ng-change="radio(dd)">
+						</select> <input name="C_ID" ng-model="dd.RadioID" ng-show="false">
+					</div> -->
+					
+					<div class="form-group col-md-12" ng-if="!isChecked1">
+                        <label>ID</label> 
+                        <input type="number" name="C_ID" class="form-control">
+                    </div>
+					
 					<div class="form-group col-md-6" ng-if="isChecked1">
 						<label class="text-primary">起始ID</label> <input type="number"
 							class="form-control" name="C_IDS"
@@ -42,7 +60,7 @@
 							class="form-control" name="C_IDE"
 							oninput="if(value.length>20)value=value.slice(0,20)">
 					</div>
-					<div class="form-group col-md-6" ng-if="!isChecked1">
+					<div class="form-group col-md-6" ng-if="!isChecked1" ng-show=false>
 						<label>别名</label> <input type="text" ng-model="m_radio.RadioID"
 							class="form-control" name="RadioUserAlias">
 					</div>
@@ -55,11 +73,17 @@
 						</select>
 					</div> -->
 
-					<div class="form-group col-md-6" ng-if="!isChecked1">
+					<!-- <div class="form-group col-md-6" ng-if="!isChecked1">
 						<label>安全组</label> <input type="text"
 							ng-model="m_radio.SecurityGroup" class="form-control"
 							name="SecurityGroup">
 					</div>
+
+					<div class="form-group col-md-6" ng-if="!isChecked1">
+						<label>无线用户功能配置文件别名</label> <input type="text"
+							ng-model="m_radio.SecurityGroup" class="form-control"
+							name="RadioUserCapabilityProfileAlias">
+					</div> -->
 
 
 
@@ -70,13 +94,13 @@
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="InterconnectEnabled1" value="1"
-								name="InterconnectEnabled" checked="true"> <label
+								name="InterconnectEnabled"> <label
 								for="InterconnectEnabled1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="InterconnectEnabled2" value="0"
-								name="InterconnectEnabled"> <label
+								name="InterconnectEnabled" checked="true"> <label
 								for="InterconnectEnabled2">否</label>
 						</div>
 					</div>
@@ -85,13 +109,13 @@
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="PacketDataEnabled1" value="1"
-								name="PacketDataEnabled" checked="true"> <label
+								name="PacketDataEnabled"> <label
 								for="PacketDataEnabled1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="PacketDataEnabled2" value="0"
-								name="PacketDataEnabled"> <label
+								name="PacketDataEnabled" checked="true"> <label
 								for="PacketDataEnabled2">否</label>
 						</div>
 					</div>
@@ -118,13 +142,13 @@
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="FullDuplexEnabled1" value="1"
-								name="FullDuplexEnabled" checked="true"> <label
+								name="FullDuplexEnabled"> <label
 								for="FullDuplexEnabled1">是</label>
 						</div>
 						<div class="radio radio-info radio-inline">
 
 							<input type="radio" id="FullDuplexEnabled2" value="0"
-								name="FullDuplexEnabled"> <label
+								name="FullDuplexEnabled" checked="true"> <label
 								for="FullDuplexEnabled2">否</label>
 						</div>
 

@@ -3,6 +3,7 @@ package xh.springmvc.handlers;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,9 +49,11 @@ public class OperationsCheckController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
+		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
+		map.put("time", time);
 		map.put("user", FunUtil.loginUser(request));
 	    map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();
@@ -70,21 +73,37 @@ public class OperationsCheckController {
 	@RequestMapping(value = "/searchDetail", method = RequestMethod.GET)
 	public void searchDetail(HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<CheckMoneyBean> list=OperationsCheckService.searchDetail(time);
-		float sum=0;
-		HashMap<String,Object> rs=new HashMap<String, Object>();
-		for(int i=0;i<list.size();i++){
-			CheckMoneyBean bean=list.get(i);
+		Map<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("time", time);
+		map3.put("period", 3);		
+		List<CheckMoneyBean> list3=OperationsCheckService.searchDetail(map3);
+		Map<String, Object> map4 = new HashMap<String, Object>();
+		map4.put("time", time);
+		map4.put("period", 4);		
+		List<CheckMoneyBean> list4=OperationsCheckService.searchDetail(map4);
+		float sum3=0,sum4=0;
+		HashMap<String,Object> rs3=new HashMap<String, Object>();
+		HashMap<String,Object> rs4=new HashMap<String, Object>();
+		for(int i=0;i<list3.size();i++){
+			CheckMoneyBean bean=list3.get(i);
 			log.info("bean:"+bean);
-			rs.put("m_"+bean.getCheck_tag(), bean.getMoney());
-			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
-			sum+=bean.getMoney();
+			rs3.put("m_"+bean.getCheck_tag(), bean.getMoney());
+			rs3.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum3+=bean.getMoney();
+		}
+		for(int i=0;i<list4.size();i++){
+			CheckMoneyBean bean=list4.get(i);
+			log.info("bean:"+bean);
+			rs4.put("m_"+bean.getCheck_tag(), bean.getMoney());
+			rs4.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum4+=bean.getMoney();
 		}
 		
 		HashMap result = new HashMap();
-		result.put("items",rs);
-		result.put("sum",sum);
+		result.put("items3",rs3);
+		result.put("sum3",sum3);
+		result.put("items4",rs4);
+		result.put("sum4",sum4);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -126,21 +145,35 @@ public class OperationsCheckController {
 	@RequestMapping(value = "/searchScore", method = RequestMethod.GET)
 	public void searchScore(HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<OperationsCheckScoreBean> list=OperationsCheckService.searchScore(time);
-		log.info("list:"+list);
-		float sum=0;
-		HashMap<String,Object> rs=new HashMap<String, Object>();
-		for(int i=0;i<list.size();i++){
-			OperationsCheckScoreBean bean=list.get(i);
-			log.info("bean:"+bean);
-			rs.put("s_"+bean.getCheck_tag(), bean.getScore());
-			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
-			sum+=bean.getScore();
+		Map<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("time", time);
+		map3.put("period", 3);	
+		Map<String, Object> map4 = new HashMap<String, Object>();
+		map4.put("time", time);
+		map4.put("period", 4);	
+		List<OperationsCheckScoreBean> list3=OperationsCheckService.searchScore(map3);
+		List<OperationsCheckScoreBean> list4=OperationsCheckService.searchScore(map4);
+		
+		float sum3=0,sum4=0;
+		HashMap<String,Object> rs3=new HashMap<String, Object>();
+		HashMap<String,Object> rs4=new HashMap<String, Object>();
+		for(int i=0;i<list3.size();i++){
+			OperationsCheckScoreBean bean=list3.get(i);
+			rs3.put("s_"+bean.getCheck_tag(), bean.getScore());
+			rs3.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum3+=bean.getScore();
+		}
+		for(int i=0;i<list4.size();i++){
+			OperationsCheckScoreBean bean=list4.get(i);
+			rs4.put("s_"+bean.getCheck_tag(), bean.getScore());
+			rs4.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
+			sum4+=bean.getScore();
 		}
 		HashMap result = new HashMap();
-		result.put("items",rs);
-		result.put("sum",sum);
+		result.put("items3",rs3);
+		result.put("sum3",sum3);
+		result.put("items4",rs4);
+		result.put("sum4",sum4);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -198,19 +231,31 @@ public class OperationsCheckController {
 		checkBean.setComment(comment);
 		checkBean.setCheckMonth(month);
 		
-		String scoreData = request.getParameter("scoreData");
-		String moneyData = request.getParameter("moneyData");
-		ScoreBean score=GsonUtil.json2Object(scoreData, ScoreBean.class);
-		MoneyBean money=GsonUtil.json2Object(moneyData, MoneyBean.class);
-		score.setTime(month);
-		money.setTime(month);
-		
+		String score3Data = request.getParameter("score3Data");
+		String score4Data = request.getParameter("score4Data");
+		String money3Data = request.getParameter("money3Data");
+		String money4Data = request.getParameter("money4Data");
+		ScoreBean score3=GsonUtil.json2Object(score3Data, ScoreBean.class);
+		ScoreBean score4=GsonUtil.json2Object(score4Data, ScoreBean.class);
+		MoneyBean money3=GsonUtil.json2Object(money3Data, MoneyBean.class);
+		MoneyBean money4=GsonUtil.json2Object(money4Data, MoneyBean.class);
+		score3.setTime(month);
+		score3.setPeriod(3);
+		score4.setTime(month);
+		score4.setPeriod(4);
+		money3.setTime(month);
+		money3.setPeriod(3);
+		money4.setTime(month);
+		money4.setPeriod(4);
+
 		int rst=OperationsCheckService.add(checkBean);
 		if(rst>=1){
 			this.success=true;
 			this.message="提交申请成功";
-			OperationsCheckService.addScore(score);
-			OperationsCheckService.addDetail(money);
+			OperationsCheckService.addScore(score3);
+			OperationsCheckService.addScore(score4);
+			OperationsCheckService.addDetail(money3);
+			OperationsCheckService.addDetail(money4);
 			webLogBean.setOperator(FunUtil.loginUser(request));
 			webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
 			webLogBean.setStyle(1);

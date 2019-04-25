@@ -46,12 +46,78 @@ xh.load = function() {
 		
 		
 		$scope.dataList=function(){
-			$http.get("../../radio/list?start=0&limit="+pageSize).success(function(response){
+			var id=$("#C_ID").val();
+			$http.get("../../radio/list?id="+id+"&start=0&limit="+pageSize).success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				xh.pagging(1, parseInt($scope.totals), $scope);
 			})
+		}
+		$scope.getMethodOne=function(){
+			var id1=$("input[name='id1']").val();
+			var id2=$("input[name='id2']").val();
+			if(id1=="" || id2==""){
+				toastr.error("终端ID号范围不正确", '提示');
+				return;
+			}
+			if(id1>id2){
+				toastr.error("终端ID号范围不正确", '提示');
+				return;
+			}
+			if(id2-id1>500){
+				toastr.error("一次批量最大500个ID", '提示');
+				return;
+			}
+			xh.maskShow();
+			$("textarea[name='log']").val("");
+			for(var i=id1;i<=id2;i++){
+				$http.get("../../radio/radioGet?radioId="+i).success(function(response){
+					xh.maskHide();
+					var data = response;
+					if(data.success){
+						$("textarea[name='log']").val($("textarea[name='log']").val()+"\n"+"获取终端ID:"+data.data.radioID+"成功");
+					}else{
+						//toastr.info("获取终端ID:"+i+"失败", '提示');
+						$("textarea[name='log']").val($("textarea[name='log']").val()+"\n"+"获取终端ID:"+data.data.radioID+"失败");
+					}
+				})
+			}
+			$scope.dataList();
+			xh.maskHide();
+		}
+		$scope.getMethodTwo=function(){
+			var id3=$("textarea[name='id3']").val();
+			if(id3==""){
+				toastr.error("内容不能为空", '提示');
+				return;
+			}
+			xh.maskShow();
+			$("textarea[name='log']").val("");
+			var idstr=id3.split("|");
+			
+			for(var i=0;i<idstr.length;i++){
+				var id=idstr[i];
+				$http.get("../../radio/radioGet?radioId="+id).success(function(response){
+					xh.maskHide();
+					var data = response;
+					if(data.success){
+						$("textarea[name='log']").val($("textarea[name='log']").val()+"\n"+"获取终端ID:"+data.data.radioID+"成功");
+					}else{
+						//toastr.info("获取终端ID:"+i+"失败", '提示');
+						$("textarea[name='log']").val($("textarea[name='log']").val()+"\n"+"获取终端ID:"+data.data.radioID+"失败");
+					}
+				})
+			}
+			$scope.dataList();
+			xh.maskHide();
+		}
+		$scope.securityGroupList=function(){
+			$http.get("../../usermoto/securityGroupList").success(
+					function(response) {
+						$scope.securityGroupList = response.items;
+						
+					});
 		}
 		
 		
@@ -118,7 +184,7 @@ xh.load = function() {
 						type : 'post',
 						dataType : "json",
 						data : {
-							ids : $scope.data[id].RadioID
+							formData : JSON.stringify($scope.data[id])
 						},
 						async : false,
 						success : function(data) {
@@ -126,11 +192,7 @@ xh.load = function() {
 								toastr.success(data.message, '提示');
 								$scope.refresh();
 							} else {
-								swal({
-									title : "提示",
-									text : "删除失败",
-									type : "error"
-								});
+								toastr.error(data.message, '提示');
 							}
 						},
 						error : function() {
@@ -140,9 +202,48 @@ xh.load = function() {
 				}
 			});
 		};
+		/* 批量删除基站 */
+		$scope.delMore = function() {
+			var checkVal = [];
+			$("[name='tb-check']:checkbox").each(function() {
+				if ($(this).is(':checked')) {
+					checkVal.push($(this).attr("index"));
+				}
+			});
+			if (checkVal.length < 1) {
+				toastr.error("请至少选择一条数据", '提示');
+				return;
+			}
+			for(var i=0;i<checkVal.length;i++){
+				
+				$.ajax({
+					url : '../../radio/delete',
+					type : 'post',
+					dataType : "json",
+					data : {
+						formData : JSON.stringify($scope.data[checkVal[i]])
+					},
+					async : false,
+					success : function(data) {
+						if (data.success) {
+							toastr.success("删除"+data.data+"成功", '提示');
+							$scope.refresh();
+						} else {
+							toastr.error(data.message+"["+data.data+"]", '提示');
+						}
+					},
+					error : function() {
+						$scope.refresh();
+					}
+				});
+			}
+			
+
+		};
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var id=$("#C_ID").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -153,7 +254,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../radio/list?start="+start+"&limit="+pageSize).success(
+			$http.get("../../radio/list?id="+id+"&start="+start+"&limit="+pageSize).success(
 					function(response) {
 						xh.maskHide();
 						$scope.data = response.items;
@@ -165,6 +266,7 @@ xh.load = function() {
 		// 分页点击
 		$scope.pageClick = function(page, totals, totalPages) {
 			var pageSize = $("#page-limit").val();
+			var id=$("#C_ID").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -173,7 +275,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../radio/list?start="+start+"&limit="+pageSize).success(
+			$http.get("../../radio/list?id="+id+"&start="+start+"&limit="+pageSize).success(
 					function(response) {
 						xh.maskHide();
 						$scope.start = (page - 1) * pageSize + 1;
@@ -194,10 +296,12 @@ xh.load = function() {
 		};
 		
 		$scope.dataList();
+		$scope.securityGroupList();
 	});
 };
-/* 添加基站信息 */
+/* 添加 */
 xh.add = function() {
+	xh.maskShow();
 	$.ajax({
 		url : '../../radio/add',
 		type : 'POST',
@@ -208,20 +312,27 @@ xh.add = function() {
 		},
 		success : function(data) {
 
+			xh.maskHide();
 			if (data.success) {
-				$('#add').modal('hide');	
+				$('#add').modal('hide');
+				$("#addForm")[0].reset();
 				//$(".modal-backdrop").remove();
 				toastr.success(data.message, '提示');
 				xh.refresh();
 			} else {
-				toastr.error("添加无线终端失败", '提示');
+				swal({
+					title : "提示",
+					text : data.message,
+					type : "error"
+				});
 			}
 		},
 		error : function() {
+			xh.maskHide();
 		}
 	});
 };
-/* 修改基站信息 */
+/* 修改 */
 xh.update = function() {
 	$.ajax({
 		url : '../../radio/update',
@@ -244,54 +355,7 @@ xh.update = function() {
 		}
 	});
 };
-/* 批量删除基站 */
-xh.delMore = function() {
-	var checkVal = [];
-	$("[name='tb-check']:checkbox").each(function() {
-		if ($(this).is(':checked')) {
-			checkVal.push($(this).attr("value"));
-		}
-	});
-	if (checkVal.length < 1) {
-		toastr.error("请至少选择一条数据", '提示');
-		return;
-	}
-	swal({
-		title : "提示",
-		text : "确定要删除该无线终端信息吗？",
-		type : "info",
-		showCancelButton : true,
-		confirmButtonColor : "#DD6B55",
-		confirmButtonText : "确定",
-		cancelButtonText : "取消"
-	/*
-	 * closeOnConfirm : false, closeOnCancel : false
-	 */
-	}, function(isConfirm) {
-		if (isConfirm) {
-			$.ajax({
-				url : '../../radio/delete',
-				type : 'post',
-				dataType : "json",
-				data : {
-					ids : checkVal.join(",")
-				},
-				async : false,
-				success : function(data) {
-					if (data.success) {
-						toastr.success(data.message, '提示');
-						xh.refresh();
-					} else {
-						toastr.error("删除失败", '提示');
-					}
-				},
-				error : function() {
-				}
-			});
-		}
-	});
 
-};
 xh.mark_moto = function() {
 	var checkVal = [];
 	$("[name='tb-check']:checkbox").each(function() {

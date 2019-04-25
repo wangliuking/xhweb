@@ -3,172 +3,122 @@
 
 	<div class="col-md-12">
 		<div class="hpanel">
-			<!-- <div class="panel-heading hbuilt">资产列表</div> -->
+			<div class="panel-heading hbuilt text-center">
+               <h3 class="text-center">成都市应急指挥调度无线通信网<span style="color:red">三期</span>工程服务项目</h3>
+                <h5 class="text-center">{{time}}服务扣款表</h5>
+            </div>
 			<div class="panel-body">
-				<h3 class="text-center">成都市应急指挥调度无线通信网四期工程服务项目</h3>
-				<h5 class="text-center">{{time}}服务扣款表</h5>
-				<form action="#" id="moneyForm" onsubmit="return false">
+				<form action="#" id="money3Form" onsubmit="return false">
 					<table id="tb-info" class="xh-table-primary table-hover">
 						<thead>
 							<tr class="tr-gray">
-								<th>考核项</th>
-								<th>分项</th>
-								<th>标准</th>
+								 <th width="200px">考核项</th>
+                                <th width="200px">分项</th>
+								<th width="300px">标准</th>
 								<th width="100px">服务费扣款</th>
-								<th width="200px">备注</th>
+								<th >备注</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td rowspan="4">服务可用率</td>
+								<td rowspan="5">服务可用率</td>
 								<td>交换中心可用率</td>
 
-								<td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除50000元</td>
+								<td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除10000元</td>
 								<td><input class="form-control" name="m_a1"
-									ng-model="money_data.m_a1" /></td>
+									ng-model="money_data3.m_a1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
 								<td><input class="form-control" name="n_a1"
-									ng-model="money_data.n_a1" /></td>
+									ng-model="money_data3.n_a1" /></td>
 							</tr>
+							 <tr>
+                                <td>桥接站或地铁互联设备可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除300元</td>
+                                <td><input class="form-control" name="m_l1"
+                                    ng-model="money_data3.m_l1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_l1"
+                                    ng-model="money_data3.n_l1" /></td>
+                            </tr>
 							<tr>
 								<td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
-								<td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+								<td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除(300元)</td>
 								<td><input class="form-control" name="m_a2"
-                                    ng-model="money_data.m_a2" /></td>
+                                    ng-model="money_data3.m_a2" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a2"
-                                    ng-model="money_data.n_a2" /></td>
+                                    ng-model="money_data3.n_a2" /></td>
 							</tr>
 							<tr>
-								<td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+								<td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除(300元)</td>
 								<td><input class="form-control" name="m_a3"
-                                    ng-model="money_data.m_a3" /></td>
+                                    ng-model="money_data3.m_a3" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a3"
-                                    ng-model="money_data.n_a3" /></td>
+                                    ng-model="money_data3.n_a3" /></td>
 							</tr>
 							<tr>
-								<td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+								<td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除(300元)</td>
 								<td><input class="form-control" name="m_a4"
-                                    ng-model="money_data.m_a4" /></td>
+                                    ng-model="money_data3.m_a4" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a4"
-                                    ng-model="money_data.n_a4" /></td>
+                                    ng-model="money_data3.n_a4" /></td>
 							</tr>
 							<tr>
 								<td rowspan="2">故障控制</td>
 								<td>重大故障</td>
 								<td>每发生1次扣除10000元</td>
 								<td><input class="form-control" name="m_b1"
-                                    ng-model="money_data.m_b1" /></td>
+                                    ng-model="money_data3.m_b1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_b1"
-                                    ng-model="money_data.n_b1" /></td>
+                                    ng-model="money_data3.n_b1" /></td>
 							</tr>
 							<tr>
 								<td>特别重大故障</td>
 								<td>每发生1次扣除20000元</td>
 								<td><input class="form-control" name="m_b2"
-                                    ng-model="money_data.m_b2" /></td>
+                                    ng-model="money_data3.m_b2" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_b2"
-                                    ng-model="money_data.n_b2" /></td>
+                                    ng-model="money_data3.n_b2" /></td>
 							</tr>
-							<tr>
-								<td rowspan="3">故障通报时间</td>
-								<td>特别重大故障</td>
-								<td>每超出5分钟扣除500元</td>
-								<td><input class="form-control" name="m_c1"
-                                    ng-model="money_data.m_c1" /></td>
-                                <td><input class="form-control" name="n_c1"
-                                    ng-model="money_data.n_c1" /></td>
-							</tr>
-							<tr>
-								<td>重大故障</td>
-								<td>每超出5分钟扣除200元</td>
-								<td><input class="form-control" name="m_c2"
-                                    ng-model="money_data.m_c2" /></td>
-                                <td><input class="form-control" name="n_c2"
-                                    ng-model="money_data.n_c2" /></td>
-							</tr>
-							<tr>
-								<td>一般故障</td>
-								<td>每超出5分钟扣除100元</td>
-								<td><input class="form-control" name="m_c3"
-                                    ng-model="money_data.m_c3" /></td>
-                                <td><input class="form-control" name="n_c3"
-                                    ng-model="money_data.n_c3" /></td>
-							</tr>
+							
 							<tr>
 								<td>用户服务响应</td>
 								<td></td>
-								<td>超出要求时间扣除1000元</td>
+								<td>超出要求时间扣除500元</td>
 								<td><input class="form-control" name="m_d1"
-                                    ng-model="money_data.m_d1" /></td>
+                                    ng-model="money_data3.m_d1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_d1"
-                                    ng-model="money_data.n_d1" /></td>
-							</tr>
-							<tr>
-								<td>用户培训服务</td>
-								<td></td>
-								<td>全年培训少于2次，每次扣50000元</td>
-								<td><input class="form-control" name="m_e1"
-                                    ng-model="money_data.m_e1" /></td>
-                                <td><input class="form-control" name="n_e1"
-                                    ng-model="money_data.n_e1" /></td>
-							</tr>
+                                    ng-model="money_data3.n_d1" /></td>
+							</tr>							
 							<tr>
 								<td>应急通信保障</td>
 								<td></td>
 								<td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
 								<td><input class="form-control" name="m_f1"
-                                    ng-model="money_data.m_f1" /></td>
+                                    ng-model="money_data3.m_f1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_f1"
-                                    ng-model="money_data.n_f1" /></td>
+                                    ng-model="money_data3.n_f1" /></td>
 							</tr>
 							<tr>
 								<td>应急通信保障演练</td>
 								<td></td>
 								<td>每季度完成1次，每缺1次扣10000元</td>
 								<td><input class="form-control" name="m_g1"
-                                    ng-model="money_data.m_g1" /></td>
+                                    ng-model="money_data3.m_g1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_g1"
-                                    ng-model="money_data.n_g1" /></td>
+                                    ng-model="money_data3.n_g1" /></td>
 							</tr>
-							<tr>
-								<td>系统应急处置演练</td>
-								<td></td>
-								<td>每季度完成1次，每缺1次扣10000元</td>
-								<td><input class="form-control" name="m_h1"
-                                    ng-model="money_data.m_h1" /></td>
-                                <td><input class="form-control" name="n_h1"
-                                    ng-model="money_data.n_h1" /></td>
-							</tr>
-							<tr>
-								<td>运维资料</td>
-								<td></td>
-								<td>每缺1项扣500元</td>
-								<td><input class="form-control" name="m_i1"
-                                    ng-model="money_data.m_i1" /></td>
-                                <td><input class="form-control" name="n_i1"
-                                    ng-model="money_data.n_i1" /></td>
-							</tr>
-							<tr>
-								<td>安全保密</td>
-								<td></td>
-								<td>每发生1次泄密事件扣50000元</td>
-								<td><input class="form-control" name="m_j1"
-                                    ng-model="money_data.m_j1" /></td>
-                                <td><input class="form-control" name="n_j1"
-                                    ng-model="money_data.n_j1" /></td>
-							</tr>
-							<tr>
-								<td>其他要求</td>
-								<td></td>
-								<td>基站搬迁及卫星链路开通</td>
-								<td><input class="form-control" name="m_k1"
-                                    ng-model="money_data.m_k1" /></td>
-                                <td><input class="form-control" name="n_k1"
-                                    ng-model="money_data.n_k1" /></td>
-							</tr>
+							
 							<tr>
 								<td>合计扣款</td>
-								<td colspan="4">{{money_sum}}</td>
+								<td colspan="4">{{money_sum3}}</td>
 							</tr>
+							<tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="text-align: left;">
+                                <span>成都市软件产业发展中心：</span> 
+                                <span style="margin-left:50%;">成都亚光电子股份有限公司：</span></td>
+                            </tr>
 
 
 
@@ -189,4 +139,220 @@
 		<!-- col-md-12--end -->
 	</div>
 	<!-- row/ -->
+	<div class="col-md-12">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt text-center">
+              <h3 class="text-center">成都市应急指挥调度无线通信网<span style="color:red">四期</span>工程服务项目</h3>
+                <h5 class="text-center">{{time}}服务扣款表</h5>
+            </div>
+            <div class="panel-body">
+                
+                <form action="#" id="money4Form" onsubmit="return false">
+                    <table id="tb-info" class="xh-table-primary table-hover">
+                        <thead>
+                            <tr class="tr-gray">
+                                <th width="200px">考核项</th>
+                                <th width="200px">分项</th>
+                                <th width="300px">标准</th>
+                                <th width="100px">服务费扣款</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="6">服务可用率</td>
+                                <td>交换中心可用率</td>
+
+                                <td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除50000元</td>
+                                <td><input class="form-control" name="m_a1"
+                                    ng-model="money_data4.m_a1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_a1"
+                                    ng-model="money_data4.n_a1" /></td>
+                            </tr>
+                            <tr>
+                                <td>Moto交换中心可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除10000元</td>
+                                <td><input class="form-control" name="m_m1"
+                                    ng-model="money_data4.m_m1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_m1"
+                                    ng-model="money_data4.n_m1" /></td>
+                            </tr>
+                            <tr>
+                                <td>公网集群可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除10000元</td>
+                                <td><input class="form-control" name="m_n1"
+                                    ng-model="money_data4.m_n1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_n1"
+                                    ng-model="money_data4.n_n1" /></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
+                                <td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td><input class="form-control" name="m_a2"
+                                    ng-model="money_data4.m_a2" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_a2"
+                                    ng-model="money_data4.n_a2" /></td>
+                            </tr>
+                            <tr>
+                                <td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td><input class="form-control" name="m_a3"
+                                    ng-model="money_data4.m_a3" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_a3"
+                                    ng-model="money_data4.n_a3" /></td>
+                            </tr>
+                            <tr>
+                                <td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td><input class="form-control" name="m_a4"
+                                    ng-model="money_data4.m_a4" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_a4"
+                                    ng-model="money_data4.n_a4" /></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">故障控制</td>
+                                <td>重大故障</td>
+                                <td>每发生1次扣除10000元</td>
+                                <td><input class="form-control" name="m_b1"
+                                    ng-model="money_data4.m_b1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_b1"
+                                    ng-model="money_data4.n_b1" /></td>
+                            </tr>
+                            <tr>
+                                <td>特别重大故障</td>
+                                <td>每发生1次扣除20000元</td>
+                                <td><input class="form-control" name="m_b2"
+                                    ng-model="money_data4.m_b2" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_b2"
+                                    ng-model="money_data4.n_b2" /></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">故障通报时间</td>
+                                <td>特别重大故障</td>
+                                <td>每超出5分钟扣除500元</td>
+                                <td><input class="form-control" name="m_c1"
+                                    ng-model="money_data4.m_c1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_c1"
+                                    ng-model="money_data4.n_c1" /></td>
+                            </tr>
+                            <tr>
+                                <td>重大故障</td>
+                                <td>每超出5分钟扣除200元</td>
+                                <td><input class="form-control" name="m_c2"
+                                    ng-model="money_data4.m_c2" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_c2"
+                                    ng-model="money_data4.n_c2" /></td>
+                            </tr>
+                            <tr>
+                                <td>一般故障</td>
+                                <td>每超出5分钟扣除100元</td>
+                                <td><input class="form-control" name="m_c3"
+                                    ng-model="money_data4.m_c3" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_c3"
+                                    ng-model="money_data4.n_c3" /></td>
+                            </tr>
+                            <tr>
+                                <td>用户服务响应</td>
+                                <td></td>
+                                <td>超出要求时间扣除1000元</td>
+                                <td><input class="form-control" name="m_d1"
+                                    ng-model="money_data4.m_d1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_d1"
+                                    ng-model="money_data4.n_d1" /></td>
+                            </tr>
+                            <tr>
+                                <td>用户培训服务</td>
+                                <td></td>
+                                <td>全年培训少于2次，每次扣50000元</td>
+                                <td><input class="form-control" name="m_e1"
+                                    ng-model="money_data4.m_e1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_e1"
+                                    ng-model="money_data4.n_e1" /></td>
+                            </tr>
+                            <tr>
+                                <td>应急通信保障</td>
+                                <td></td>
+                                <td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
+                                <td><input class="form-control" name="m_f1"
+                                    ng-model="money_data4.m_f1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_f1"
+                                    ng-model="money_data4.n_f1" /></td>
+                            </tr>
+                            <tr>
+                                <td>应急通信保障演练</td>
+                                <td></td>
+                                <td>每季度完成1次，每缺1次扣10000元</td>
+                                <td><input class="form-control" name="m_g1"
+                                    ng-model="money_data4.m_g1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_g1"
+                                    ng-model="money_data4.n_g1" /></td>
+                            </tr>
+                            <tr>
+                                <td>系统应急处置演练</td>
+                                <td></td>
+                                <td>每季度完成1次，每缺1次扣10000元</td>
+                                <td><input class="form-control" name="m_h1"
+                                    ng-model="money_data4.m_h1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_h1"
+                                    ng-model="money_data4.n_h1" /></td>
+                            </tr>
+                            <tr>
+                                <td>运维资料</td>
+                                <td></td>
+                                <td>每缺1项扣500元</td>
+                                <td><input class="form-control" name="m_i1"
+                                    ng-model="money_data4.m_i1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_i1"
+                                    ng-model="money_data4.n_i1" /></td>
+                            </tr>
+                            <tr>
+                                <td>安全保密</td>
+                                <td></td>
+                                <td>每发生1次泄密事件扣50000元</td>
+                                <td><input class="form-control" name="m_j1"
+                                    ng-model="money_data4.m_j1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_j1"
+                                    ng-model="money_data4.n_j1" /></td>
+                            </tr>
+                            <tr>
+                                <td>其他要求</td>
+                                <td></td>
+                                <td>基站搬迁及卫星链路开通</td>
+                                <td><input class="form-control" name="m_k1"
+                                    ng-model="money_data4.m_k1" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
+                                <td><input class="form-control" name="n_k1"
+                                    ng-model="money_data4.n_k1" /></td>
+                            </tr>
+                            <tr>
+                                <td>合计扣款</td>
+                                <td colspan="4">{{money_sum4}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="text-align: left;">
+                                <span>成都市软件产业发展中心：</span> 
+                                <span style="margin-left:50%;">成都亚光电子股份有限公司：</span></td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+
+                </form>
+
+
+                <!-- row -->
+
+                
+
+            </div>
+            <!-- panel-body--end -->
+            <!-- hpanel --end-->
+        </div>
+        <!-- col-md-12--end -->
+    </div>
+    <!-- row/ -->
 </div>

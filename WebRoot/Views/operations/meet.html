@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>会议纪要</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!-- <script type="text/javascript" src="../../Resources/js/jquery-1.7.2.js"></script> -->
+<!--[if lte IE 9]>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
+<object id="LODOP_OB"
+    classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+    <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+		<div class="small-header transition animated fadeIn">
+			<div class="title-panel">
+				<div class="panel-body">
+					<div id="hbreadcrumb" class="pull-left">
+						<ol class="hbreadcrumb breadcrumb">
+							<li><span>当前位置：</span></li>
+							<li><span>运维管理</span></li>
+						<!-- 	<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li> -->
+							<li class="active"><span>会议纪要</span></li>
+						</ol>
+					</div>
+					<!-- <div class="btn-group pull-right">
+						<button class="btn btn-primary btn-sm"
+							onclick="javascript:history.back(-1);">
+							<i class="fa fa-mail-reply-all"></i>&nbsp;&nbsp;返回上一级
+						</button>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="content animate-panel">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt" >
+							<div class="panel-tools">
+								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
+							</div>
+							<i class="fa fa-search"></i> 查询数据
+						</div>
+						<div class="panel-body">
+							<div id="search-div">
+								<form class="form-inline" role="form">
+									<div class="form-group">
+										<label for="filename">月份</label>
+										<div>
+                                            <input type="text" class="form-control" id="time"
+                                                placeholder="月份" 
+                                                onfocus="WdatePicker({dateFmt:'yyyy-MM'})">
+                                        </div>
+									</div>
+									
+
+									<div class="form-group">
+										<div class="col-sm-offset-2" style="padding-top:22px">
+											<button type="submit" class="btn btn-sm btn-success"
+												ng-click="search(1)">
+												<i class="fa fa-search"></i>&nbsp;查询
+											</button>
+										</div>
+									</div>
+									
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+						<div class="panel-heading hbuilt">会议纪要列表</div>
+						<div class="panel-body">
+							<div class="btn-group pull-left" style="padding-bottom:5px;">
+
+								<button class="btn btn-success btn-sm" data-toggle="modal"
+									data-target="#add" ng-if="userL.roleType==0 || (up.o_add=='on' && userL.roleType==3)">
+									<!-- <i class="fa fa-plus-circle"></i> -->&nbsp;添加会议纪要
+								</button>
+                               
+							</div>
+							<div class="form-group"></div>
+							<!-- row -->
+
+							<!-- row -->
+							<table id="tb-info" class="xh-table table-hover">
+								<thead>
+									<tr class="tr-gray">
+										<th >会议名称</th>
+										<th>会议地址</th>
+										<th>会议时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-if="totals==0">
+										<td colspan="4" class="text-center">没有记录！</td>
+									</tr>
+									<tr ng-repeat="x in data">
+										<td>{{x.name}}</td>
+										<td>{{x.address}}</td>
+										<td>{{x | timeFormat}}</td>
+										<td style="text-align:center">
+										<a href="#" ng-click="detailModel($index)"> &nbsp;详情</a>
+										<a href="#" ng-click="editModel($index)" ng-if="userL.roleType==0 || userL.roleType==3"> |&nbsp;修改</a>
+										</td>
+										
+										
+									</tr>
+								</tbody>
+							</table>
+							<div class="page">
+								<div class="page-info">
+									<span>每页显示</span><select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> <span>条,</span> <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
+								</div>
+								<div class="page-paging"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- row/ -->
+	</div>
+	<!-- 中间内容体 /-->
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<div ng-include="'meet-detail.html'"></div>
+	<div ng-include="'meet-add.html'"></div>
+	<div ng-include="'meet-update.html'"></div>
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+
+	<script type="text/javascript"
+		src="../../Controllers/operations/meet.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

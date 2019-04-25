@@ -11,13 +11,10 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
-<link rel="stylesheet" href="../../Resources/css/My.css">
-<link rel="stylesheet" href="../../lib/metisMenu/dist/metisMenu.min.css" />
-<link rel="stylesheet"
-	href="../../lib/bootstrap-3.3.6/css/bootstrap.css" />
-<link rel="stylesheet" href="../../lib/sweetalert/lib/sweet-alert.css" />
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+<link href="../../Resources/css/bootstrap-select.css" rel="stylesheet"
+	type="text/css">
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
 <script src="../../Resources/js/respond.min.js"></script>
@@ -73,17 +70,20 @@
 									<div id="search-div">
 										<form class="form-inline" role="form">
 											<div class="form-group">
-												<label for="bsId">无线用户ID</label>
+												<label for="bsId">用户ID</label>
 												<div>
 													<input type="text" class="form-control" id="C_ID"
-														placeholder="无线用户ID号" width="20px">
+														placeholder="用户ID号" width="20px">
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="name">无线用户名称</label>
+												<label for="name">用户类型</label>
 												<div>
-													<input type="text" class="form-control" id="RadioUserAlias"
-														placeholder="无线用户名称">
+													<select id="type" class="form-control">
+														<!-- <option value="">所有用户</option> -->
+														<option value="1" selected="selected">moto用户</option>
+														<!-- <option value="0">非moto用户</option> -->
+													</select>
 												</div>
 											</div>
 											<div class="form-group">
@@ -92,7 +92,7 @@
 														ng-click="search_moto()">
 														<i class="fa fa-search"></i>&nbsp;&nbsp;查询
 													</button>
-													
+
 												</div>
 											</div>
 										</form>
@@ -113,14 +113,12 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="btn-group">
-											<button class="btn btn-success btn-sm"
-                                                    ng-click="addModel()"
-                                                    ng-disabled="up.b_add=='off'?true:false">
-                                                                                                                            添加终端用户</button>
+												<button class="btn btn-success btn-sm" ng-click="addModel()"
+													ng-disabled="up.b_add=='off'?true:false">添加终端用户</button>
 
 												<button class="btn btn-danger btn-sm" onclick="xh.delMore()"
 													ng-disabled="up.b_delete=='off'?true:false">批量删除</button>
-												
+
 
 											</div>
 
@@ -139,10 +137,11 @@
 												<th>名称</th>
 												<th>机身号</th>
 												<th>安全组</th>
-												<th>用户使能 </th>
+												<th>用户使能</th>
 												<th>允许分组数据</th>
 												<th>允许短数据</th>
 												<th>允许全双工</th>
+												<!-- <th>是否在moto开户</th> -->
 												<th>操作</th>
 											</tr>
 										</thead>
@@ -154,33 +153,34 @@
 												<td><input type="checkbox" name="tb-check"
 													value="{{x.C_ID}}" index="{{$index}}" /></td>
 												<td>{{x.C_ID}}</td>
-												<td>{{x.RadioUserAlias}}</td>
+												<td>{{x.E_name}}</td>
 												<td>{{x.RadioSerialNumber}}</td>
 												<td>{{x.SGroup}}</td>
+												<td><span ng-if="x.UserEnabled==1">是</span> <span
+													ng-if="x.UserEnabled==0">否</span></td>
+												<td><span ng-if="x.PacketDataEnabled==1">是</span> <span
+													ng-if="x.PacketDataEnabled==0">否</span></td>
+												<td><span ng-if="x.ShortDataEnabled==1">是</span> <span
+													ng-if="x.ShortDataEnabled==0">否</span></td>
+												<td><span ng-if="x.FullDuplexEnabled==1">是</span> <span
+													ng-if="x.FullDuplexEnabled==0">否</span></td>
+												<!-- <td><span ng-if="x.C_ID!=null"
+													style="color:green;font-weight:800">是</span> <span
+													ng-if="x.C_ID==null" style="color:red;font-weight:800">否</span>
+												</td>  -->
 												<td>
-												<span ng-if="x.UserEnabled==1">是</span>
-												<span ng-if="x.UserEnabled==0">否</span>
-												</td>
-												<td>
-                                                <span ng-if="x.PacketDataEnabled==1">是</span>
-                                                <span ng-if="x.PacketDataEnabled==0">否</span>
-                                                </td>
-                                                <td>
-                                                <span ng-if="x.ShortDataEnabled==1">是</span>
-                                                <span ng-if="x.ShortDataEnabled==0">否</span>
-                                                </td>
-                                                <td>
-                                                <span ng-if="x.FullDuplexEnabled==1">是</span>
-                                                <span ng-if="x.FullDuplexEnabled==0">否</span>
-                                                </td>
-												<td><a href="#" ng-click="editModel($index)"
+													<!-- <a href="#" ng-click="editModel($index)"
 													data-toggle="modal" ng-if="up.b_update=='on'?true:false">
 														<i class="fa fa-edit text-success"></i>&nbsp;修改
-												</a><a href="#" ng-if="up.b_update=='off'?true:false"> <i
-														class="fa fa-edit text-success"></i>&nbsp;无法修改
-												</a>| <a href="#" ng-click="del(x.C_ID)"
+												</a> --> <a href="#" ng-click="del($index)"
 													ng-if="up.b_delete=='on'?true:false"><i
-														class="fa fa-trash text-success"></i>&nbsp;删除</a> </td>
+														class="fa fa-trash text-success"></i>&nbsp;删除</a> <!-- <a href="#"
+													ng-click="getUser(x.userId)"
+													ng-if="up.b_add=='on'?true:false && x.C_ID==null"><i
+														class="fa fa-trash text-success"></i>|&nbsp;拉取</a> -->
+
+
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -216,16 +216,10 @@
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<script src="../../Resources/js/jquery-2.2.3.min.js"></script>
-	<script src="../../lib/bootstrap-3.3.6/js/bootstrap.min.js"></script>
-	<script src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script src="../../lib/sweetalert/lib/sweet-alert.min.js"></script>
-	<script type="text/javascript"
-		src="../../Resources/js/xhbootstrap-js.js"></script>
-	<script type="text/javascript"
-		src="../../lib/metisMenu/dist/metisMenu.min.js"></script>
-	<script type="text/javascript"
-		src="../../Controllers/business/radiousermoto.js"></script>
+	<script src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script src="../../Resources/js/bootstrap-select.js">		
+	</script>
+	<script src="../../Controllers/business/radiousermoto.js"></script>
 	<script type="text/javascript">
 		xh.load();
 	</script>

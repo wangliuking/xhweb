@@ -3166,15 +3166,15 @@ public final class MotoCorba {
     boolean hasRadioID();
     String getRadioID();
     
-    // required string RadioReferenceID = 2;
+    // optional string RadioReferenceID = 2;
     boolean hasRadioReferenceID();
     String getRadioReferenceID();
     
-    // required string RadioSerialNumber = 3;
+    // optional string RadioSerialNumber = 3;
     boolean hasRadioSerialNumber();
     String getRadioSerialNumber();
     
-    // required string SecurityGroup = 4;
+    // optional string SecurityGroup = 4;
     boolean hasSecurityGroup();
     String getSecurityGroup();
   }
@@ -3239,7 +3239,7 @@ public final class MotoCorba {
       }
     }
     
-    // required string RadioReferenceID = 2;
+    // optional string RadioReferenceID = 2;
     public static final int RADIOREFERENCEID_FIELD_NUMBER = 2;
     private java.lang.Object radioReferenceID_;
     public boolean hasRadioReferenceID() {
@@ -3271,7 +3271,7 @@ public final class MotoCorba {
       }
     }
     
-    // required string RadioSerialNumber = 3;
+    // optional string RadioSerialNumber = 3;
     public static final int RADIOSERIALNUMBER_FIELD_NUMBER = 3;
     private java.lang.Object radioSerialNumber_;
     public boolean hasRadioSerialNumber() {
@@ -3303,7 +3303,7 @@ public final class MotoCorba {
       }
     }
     
-    // required string SecurityGroup = 4;
+    // optional string SecurityGroup = 4;
     public static final int SECURITYGROUP_FIELD_NUMBER = 4;
     private java.lang.Object securityGroup_;
     public boolean hasSecurityGroup() {
@@ -3347,18 +3347,6 @@ public final class MotoCorba {
       if (isInitialized != -1) return isInitialized == 1;
       
       if (!hasRadioID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRadioReferenceID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRadioSerialNumber()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasSecurityGroup()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3629,18 +3617,6 @@ public final class MotoCorba {
           
           return false;
         }
-        if (!hasRadioReferenceID()) {
-          
-          return false;
-        }
-        if (!hasRadioSerialNumber()) {
-          
-          return false;
-        }
-        if (!hasSecurityGroup()) {
-          
-          return false;
-        }
         return true;
       }
       
@@ -3729,7 +3705,7 @@ public final class MotoCorba {
         onChanged();
       }
       
-      // required string RadioReferenceID = 2;
+      // optional string RadioReferenceID = 2;
       private java.lang.Object radioReferenceID_ = "";
       public boolean hasRadioReferenceID() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
@@ -3765,7 +3741,7 @@ public final class MotoCorba {
         onChanged();
       }
       
-      // required string RadioSerialNumber = 3;
+      // optional string RadioSerialNumber = 3;
       private java.lang.Object radioSerialNumber_ = "";
       public boolean hasRadioSerialNumber() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -3801,7 +3777,7 @@ public final class MotoCorba {
         onChanged();
       }
       
-      // required string SecurityGroup = 4;
+      // optional string SecurityGroup = 4;
       private java.lang.Object securityGroup_ = "";
       public boolean hasSecurityGroup() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
@@ -8062,7 +8038,7 @@ public final class MotoCorba {
   public interface RadioUserGetReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
-    // required string RadioID = 1;
+    // optional string RadioID = 1;
     boolean hasRadioID();
     String getRadioID();
     
@@ -8070,11 +8046,11 @@ public final class MotoCorba {
     boolean hasRadioUserAlias();
     String getRadioUserAlias();
     
-    // required string SecurityGroup = 3;
+    // optional string SecurityGroup = 3;
     boolean hasSecurityGroup();
     String getSecurityGroup();
     
-    // required string RadioUserCapabilityProfileAlias = 4;
+    // optional string RadioUserCapabilityProfileAlias = 4;
     boolean hasRadioUserCapabilityProfileAlias();
     String getRadioUserCapabilityProfileAlias();
     
@@ -8097,6 +8073,18 @@ public final class MotoCorba {
     // optional string FullDuplexEnabled = 9;
     boolean hasFullDuplexEnabled();
     String getFullDuplexEnabled();
+    
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    boolean hasRadioUserValidSitesProfileAlias();
+    String getRadioUserValidSitesProfileAlias();
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    boolean hasEnableAmbienceListeningMonitoring();
+    String getEnableAmbienceListeningMonitoring();
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    boolean hasEnableAmbienceListeningInitiation();
+    String getEnableAmbienceListeningInitiation();
   }
   public static final class RadioUserGetReq extends
       com.google.protobuf.GeneratedMessage
@@ -8127,7 +8115,7 @@ public final class MotoCorba {
     }
     
     private int bitField0_;
-    // required string RadioID = 1;
+    // optional string RadioID = 1;
     public static final int RADIOID_FIELD_NUMBER = 1;
     private java.lang.Object radioID_;
     public boolean hasRadioID() {
@@ -8191,7 +8179,7 @@ public final class MotoCorba {
       }
     }
     
-    // required string SecurityGroup = 3;
+    // optional string SecurityGroup = 3;
     public static final int SECURITYGROUP_FIELD_NUMBER = 3;
     private java.lang.Object securityGroup_;
     public boolean hasSecurityGroup() {
@@ -8223,7 +8211,7 @@ public final class MotoCorba {
       }
     }
     
-    // required string RadioUserCapabilityProfileAlias = 4;
+    // optional string RadioUserCapabilityProfileAlias = 4;
     public static final int RADIOUSERCAPABILITYPROFILEALIAS_FIELD_NUMBER = 4;
     private java.lang.Object radioUserCapabilityProfileAlias_;
     public boolean hasRadioUserCapabilityProfileAlias() {
@@ -8415,6 +8403,102 @@ public final class MotoCorba {
       }
     }
     
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    public static final int RADIOUSERVALIDSITESPROFILEALIAS_FIELD_NUMBER = 10;
+    private java.lang.Object radioUserValidSitesProfileAlias_;
+    public boolean hasRadioUserValidSitesProfileAlias() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    public String getRadioUserValidSitesProfileAlias() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          radioUserValidSitesProfileAlias_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getRadioUserValidSitesProfileAliasBytes() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        radioUserValidSitesProfileAlias_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    public static final int ENABLEAMBIENCELISTENINGMONITORING_FIELD_NUMBER = 11;
+    private java.lang.Object enableAmbienceListeningMonitoring_;
+    public boolean hasEnableAmbienceListeningMonitoring() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    public String getEnableAmbienceListeningMonitoring() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningMonitoring_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningMonitoringBytes() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningMonitoring_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    public static final int ENABLEAMBIENCELISTENINGINITIATION_FIELD_NUMBER = 12;
+    private java.lang.Object enableAmbienceListeningInitiation_;
+    public boolean hasEnableAmbienceListeningInitiation() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    public String getEnableAmbienceListeningInitiation() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningInitiation_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningInitiationBytes() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningInitiation_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       radioID_ = "";
       radioUserAlias_ = "";
@@ -8425,25 +8509,16 @@ public final class MotoCorba {
       packetDataEnabled_ = "";
       shortDataEnabled_ = "";
       fullDuplexEnabled_ = "";
+      radioUserValidSitesProfileAlias_ = "";
+      enableAmbienceListeningMonitoring_ = "";
+      enableAmbienceListeningInitiation_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
-      if (!hasRadioID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasRadioUserAlias()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasSecurityGroup()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRadioUserCapabilityProfileAlias()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8480,6 +8555,15 @@ public final class MotoCorba {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBytes(9, getFullDuplexEnabledBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getEnableAmbienceListeningInitiationBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -8525,6 +8609,18 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(9, getFullDuplexEnabledBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getEnableAmbienceListeningInitiationBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8668,6 +8764,12 @@ public final class MotoCorba {
         bitField0_ = (bitField0_ & ~0x00000080);
         fullDuplexEnabled_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        radioUserValidSitesProfileAlias_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        enableAmbienceListeningMonitoring_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningInitiation_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
       
@@ -8742,6 +8844,18 @@ public final class MotoCorba {
           to_bitField0_ |= 0x00000100;
         }
         result.fullDuplexEnabled_ = fullDuplexEnabled_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.radioUserValidSitesProfileAlias_ = radioUserValidSitesProfileAlias_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.enableAmbienceListeningMonitoring_ = enableAmbienceListeningMonitoring_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.enableAmbienceListeningInitiation_ = enableAmbienceListeningInitiation_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8785,24 +8899,21 @@ public final class MotoCorba {
         if (other.hasFullDuplexEnabled()) {
           setFullDuplexEnabled(other.getFullDuplexEnabled());
         }
+        if (other.hasRadioUserValidSitesProfileAlias()) {
+          setRadioUserValidSitesProfileAlias(other.getRadioUserValidSitesProfileAlias());
+        }
+        if (other.hasEnableAmbienceListeningMonitoring()) {
+          setEnableAmbienceListeningMonitoring(other.getEnableAmbienceListeningMonitoring());
+        }
+        if (other.hasEnableAmbienceListeningInitiation()) {
+          setEnableAmbienceListeningInitiation(other.getEnableAmbienceListeningInitiation());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
       
       public final boolean isInitialized() {
-        if (!hasRadioID()) {
-          
-          return false;
-        }
         if (!hasRadioUserAlias()) {
-          
-          return false;
-        }
-        if (!hasSecurityGroup()) {
-          
-          return false;
-        }
-        if (!hasRadioUserCapabilityProfileAlias()) {
           
           return false;
         }
@@ -8877,13 +8988,28 @@ public final class MotoCorba {
               fullDuplexEnabled_ = input.readBytes();
               break;
             }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              radioUserValidSitesProfileAlias_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              enableAmbienceListeningMonitoring_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              enableAmbienceListeningInitiation_ = input.readBytes();
+              break;
+            }
           }
         }
       }
       
       private int bitField0_;
       
-      // required string RadioID = 1;
+      // optional string RadioID = 1;
       private java.lang.Object radioID_ = "";
       public boolean hasRadioID() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
@@ -8955,7 +9081,7 @@ public final class MotoCorba {
         onChanged();
       }
       
-      // required string SecurityGroup = 3;
+      // optional string SecurityGroup = 3;
       private java.lang.Object securityGroup_ = "";
       public boolean hasSecurityGroup() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -8991,7 +9117,7 @@ public final class MotoCorba {
         onChanged();
       }
       
-      // required string RadioUserCapabilityProfileAlias = 4;
+      // optional string RadioUserCapabilityProfileAlias = 4;
       private java.lang.Object radioUserCapabilityProfileAlias_ = "";
       public boolean hasRadioUserCapabilityProfileAlias() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
@@ -9207,6 +9333,114 @@ public final class MotoCorba {
         onChanged();
       }
       
+      // optional string RadioUserValidSitesProfileAlias = 10;
+      private java.lang.Object radioUserValidSitesProfileAlias_ = "";
+      public boolean hasRadioUserValidSitesProfileAlias() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      public String getRadioUserValidSitesProfileAlias() {
+        java.lang.Object ref = radioUserValidSitesProfileAlias_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          radioUserValidSitesProfileAlias_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setRadioUserValidSitesProfileAlias(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRadioUserValidSitesProfileAlias() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        radioUserValidSitesProfileAlias_ = getDefaultInstance().getRadioUserValidSitesProfileAlias();
+        onChanged();
+        return this;
+      }
+      void setRadioUserValidSitesProfileAlias(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningMonitoring = 11;
+      private java.lang.Object enableAmbienceListeningMonitoring_ = "";
+      public boolean hasEnableAmbienceListeningMonitoring() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      public String getEnableAmbienceListeningMonitoring() {
+        java.lang.Object ref = enableAmbienceListeningMonitoring_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningMonitoring_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningMonitoring(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningMonitoring() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningMonitoring_ = getDefaultInstance().getEnableAmbienceListeningMonitoring();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningMonitoring(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningInitiation = 12;
+      private java.lang.Object enableAmbienceListeningInitiation_ = "";
+      public boolean hasEnableAmbienceListeningInitiation() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      public String getEnableAmbienceListeningInitiation() {
+        java.lang.Object ref = enableAmbienceListeningInitiation_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningInitiation_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningInitiation(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningInitiation() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        enableAmbienceListeningInitiation_ = getDefaultInstance().getEnableAmbienceListeningInitiation();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningInitiation(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
+        onChanged();
+      }
+      
       // @@protoc_insertion_point(builder_scope:xh.protobuf.RadioUserGetReq)
     }
     
@@ -9256,6 +9490,18 @@ public final class MotoCorba {
     // optional string FullDuplexEnabled = 9;
     boolean hasFullDuplexEnabled();
     String getFullDuplexEnabled();
+    
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    boolean hasRadioUserValidSitesProfileAlias();
+    String getRadioUserValidSitesProfileAlias();
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    boolean hasEnableAmbienceListeningMonitoring();
+    String getEnableAmbienceListeningMonitoring();
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    boolean hasEnableAmbienceListeningInitiation();
+    String getEnableAmbienceListeningInitiation();
   }
   public static final class RadioUserGetRsp extends
       com.google.protobuf.GeneratedMessage
@@ -9574,6 +9820,102 @@ public final class MotoCorba {
       }
     }
     
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    public static final int RADIOUSERVALIDSITESPROFILEALIAS_FIELD_NUMBER = 10;
+    private java.lang.Object radioUserValidSitesProfileAlias_;
+    public boolean hasRadioUserValidSitesProfileAlias() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    public String getRadioUserValidSitesProfileAlias() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          radioUserValidSitesProfileAlias_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getRadioUserValidSitesProfileAliasBytes() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        radioUserValidSitesProfileAlias_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    public static final int ENABLEAMBIENCELISTENINGMONITORING_FIELD_NUMBER = 11;
+    private java.lang.Object enableAmbienceListeningMonitoring_;
+    public boolean hasEnableAmbienceListeningMonitoring() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    public String getEnableAmbienceListeningMonitoring() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningMonitoring_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningMonitoringBytes() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningMonitoring_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    public static final int ENABLEAMBIENCELISTENINGINITIATION_FIELD_NUMBER = 12;
+    private java.lang.Object enableAmbienceListeningInitiation_;
+    public boolean hasEnableAmbienceListeningInitiation() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    public String getEnableAmbienceListeningInitiation() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningInitiation_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningInitiationBytes() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningInitiation_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       radioID_ = "";
       radioUserAlias_ = "";
@@ -9584,6 +9926,9 @@ public final class MotoCorba {
       packetDataEnabled_ = "";
       shortDataEnabled_ = "";
       fullDuplexEnabled_ = "";
+      radioUserValidSitesProfileAlias_ = "";
+      enableAmbienceListeningMonitoring_ = "";
+      enableAmbienceListeningInitiation_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9640,6 +9985,15 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBytes(9, getFullDuplexEnabledBytes());
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getEnableAmbienceListeningInitiationBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -9684,6 +10038,18 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(9, getFullDuplexEnabledBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getEnableAmbienceListeningInitiationBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9827,6 +10193,12 @@ public final class MotoCorba {
         bitField0_ = (bitField0_ & ~0x00000080);
         fullDuplexEnabled_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        radioUserValidSitesProfileAlias_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        enableAmbienceListeningMonitoring_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningInitiation_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
       
@@ -9901,6 +10273,18 @@ public final class MotoCorba {
           to_bitField0_ |= 0x00000100;
         }
         result.fullDuplexEnabled_ = fullDuplexEnabled_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.radioUserValidSitesProfileAlias_ = radioUserValidSitesProfileAlias_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.enableAmbienceListeningMonitoring_ = enableAmbienceListeningMonitoring_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.enableAmbienceListeningInitiation_ = enableAmbienceListeningInitiation_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9943,6 +10327,15 @@ public final class MotoCorba {
         }
         if (other.hasFullDuplexEnabled()) {
           setFullDuplexEnabled(other.getFullDuplexEnabled());
+        }
+        if (other.hasRadioUserValidSitesProfileAlias()) {
+          setRadioUserValidSitesProfileAlias(other.getRadioUserValidSitesProfileAlias());
+        }
+        if (other.hasEnableAmbienceListeningMonitoring()) {
+          setEnableAmbienceListeningMonitoring(other.getEnableAmbienceListeningMonitoring());
+        }
+        if (other.hasEnableAmbienceListeningInitiation()) {
+          setEnableAmbienceListeningInitiation(other.getEnableAmbienceListeningInitiation());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10034,6 +10427,21 @@ public final class MotoCorba {
             case 74: {
               bitField0_ |= 0x00000100;
               fullDuplexEnabled_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              radioUserValidSitesProfileAlias_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              enableAmbienceListeningMonitoring_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              enableAmbienceListeningInitiation_ = input.readBytes();
               break;
             }
           }
@@ -10366,6 +10774,114 @@ public final class MotoCorba {
         onChanged();
       }
       
+      // optional string RadioUserValidSitesProfileAlias = 10;
+      private java.lang.Object radioUserValidSitesProfileAlias_ = "";
+      public boolean hasRadioUserValidSitesProfileAlias() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      public String getRadioUserValidSitesProfileAlias() {
+        java.lang.Object ref = radioUserValidSitesProfileAlias_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          radioUserValidSitesProfileAlias_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setRadioUserValidSitesProfileAlias(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRadioUserValidSitesProfileAlias() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        radioUserValidSitesProfileAlias_ = getDefaultInstance().getRadioUserValidSitesProfileAlias();
+        onChanged();
+        return this;
+      }
+      void setRadioUserValidSitesProfileAlias(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningMonitoring = 11;
+      private java.lang.Object enableAmbienceListeningMonitoring_ = "";
+      public boolean hasEnableAmbienceListeningMonitoring() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      public String getEnableAmbienceListeningMonitoring() {
+        java.lang.Object ref = enableAmbienceListeningMonitoring_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningMonitoring_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningMonitoring(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningMonitoring() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningMonitoring_ = getDefaultInstance().getEnableAmbienceListeningMonitoring();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningMonitoring(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningInitiation = 12;
+      private java.lang.Object enableAmbienceListeningInitiation_ = "";
+      public boolean hasEnableAmbienceListeningInitiation() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      public String getEnableAmbienceListeningInitiation() {
+        java.lang.Object ref = enableAmbienceListeningInitiation_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningInitiation_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningInitiation(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningInitiation() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        enableAmbienceListeningInitiation_ = getDefaultInstance().getEnableAmbienceListeningInitiation();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningInitiation(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
+        onChanged();
+      }
+      
       // @@protoc_insertion_point(builder_scope:xh.protobuf.RadioUserGetRsp)
     }
     
@@ -10415,6 +10931,10 @@ public final class MotoCorba {
     // optional string FullDuplexEnabled = 9;
     boolean hasFullDuplexEnabled();
     String getFullDuplexEnabled();
+    
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    boolean hasRadioUserValidSitesProfileAlias();
+    String getRadioUserValidSitesProfileAlias();
   }
   public static final class RadioUserAddReq extends
       com.google.protobuf.GeneratedMessage
@@ -10733,6 +11253,38 @@ public final class MotoCorba {
       }
     }
     
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    public static final int RADIOUSERVALIDSITESPROFILEALIAS_FIELD_NUMBER = 10;
+    private java.lang.Object radioUserValidSitesProfileAlias_;
+    public boolean hasRadioUserValidSitesProfileAlias() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    public String getRadioUserValidSitesProfileAlias() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          radioUserValidSitesProfileAlias_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getRadioUserValidSitesProfileAliasBytes() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        radioUserValidSitesProfileAlias_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       radioID_ = "";
       radioUserAlias_ = "";
@@ -10743,6 +11295,7 @@ public final class MotoCorba {
       packetDataEnabled_ = "";
       shortDataEnabled_ = "";
       fullDuplexEnabled_ = "";
+      radioUserValidSitesProfileAlias_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10799,6 +11352,9 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBytes(9, getFullDuplexEnabledBytes());
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getRadioUserValidSitesProfileAliasBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -10843,6 +11399,10 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(9, getFullDuplexEnabledBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getRadioUserValidSitesProfileAliasBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10986,6 +11546,8 @@ public final class MotoCorba {
         bitField0_ = (bitField0_ & ~0x00000080);
         fullDuplexEnabled_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        radioUserValidSitesProfileAlias_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
       
@@ -11060,6 +11622,10 @@ public final class MotoCorba {
           to_bitField0_ |= 0x00000100;
         }
         result.fullDuplexEnabled_ = fullDuplexEnabled_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.radioUserValidSitesProfileAlias_ = radioUserValidSitesProfileAlias_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11102,6 +11668,9 @@ public final class MotoCorba {
         }
         if (other.hasFullDuplexEnabled()) {
           setFullDuplexEnabled(other.getFullDuplexEnabled());
+        }
+        if (other.hasRadioUserValidSitesProfileAlias()) {
+          setRadioUserValidSitesProfileAlias(other.getRadioUserValidSitesProfileAlias());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11193,6 +11762,11 @@ public final class MotoCorba {
             case 74: {
               bitField0_ |= 0x00000100;
               fullDuplexEnabled_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              radioUserValidSitesProfileAlias_ = input.readBytes();
               break;
             }
           }
@@ -11522,6 +12096,42 @@ public final class MotoCorba {
       void setFullDuplexEnabled(com.google.protobuf.ByteString value) {
         bitField0_ |= 0x00000100;
         fullDuplexEnabled_ = value;
+        onChanged();
+      }
+      
+      // optional string RadioUserValidSitesProfileAlias = 10;
+      private java.lang.Object radioUserValidSitesProfileAlias_ = "";
+      public boolean hasRadioUserValidSitesProfileAlias() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      public String getRadioUserValidSitesProfileAlias() {
+        java.lang.Object ref = radioUserValidSitesProfileAlias_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          radioUserValidSitesProfileAlias_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setRadioUserValidSitesProfileAlias(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRadioUserValidSitesProfileAlias() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        radioUserValidSitesProfileAlias_ = getDefaultInstance().getRadioUserValidSitesProfileAlias();
+        onChanged();
+        return this;
+      }
+      void setRadioUserValidSitesProfileAlias(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
         onChanged();
       }
       
@@ -13703,6 +14313,18 @@ public final class MotoCorba {
     // optional string FullDuplexEnabled = 9;
     boolean hasFullDuplexEnabled();
     String getFullDuplexEnabled();
+    
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    boolean hasRadioUserValidSitesProfileAlias();
+    String getRadioUserValidSitesProfileAlias();
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    boolean hasEnableAmbienceListeningMonitoring();
+    String getEnableAmbienceListeningMonitoring();
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    boolean hasEnableAmbienceListeningInitiation();
+    String getEnableAmbienceListeningInitiation();
   }
   public static final class RadioUserUpdateReq extends
       com.google.protobuf.GeneratedMessage
@@ -14021,6 +14643,102 @@ public final class MotoCorba {
       }
     }
     
+    // optional string RadioUserValidSitesProfileAlias = 10;
+    public static final int RADIOUSERVALIDSITESPROFILEALIAS_FIELD_NUMBER = 10;
+    private java.lang.Object radioUserValidSitesProfileAlias_;
+    public boolean hasRadioUserValidSitesProfileAlias() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    public String getRadioUserValidSitesProfileAlias() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          radioUserValidSitesProfileAlias_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getRadioUserValidSitesProfileAliasBytes() {
+      java.lang.Object ref = radioUserValidSitesProfileAlias_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        radioUserValidSitesProfileAlias_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningMonitoring = 11;
+    public static final int ENABLEAMBIENCELISTENINGMONITORING_FIELD_NUMBER = 11;
+    private java.lang.Object enableAmbienceListeningMonitoring_;
+    public boolean hasEnableAmbienceListeningMonitoring() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    public String getEnableAmbienceListeningMonitoring() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningMonitoring_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningMonitoringBytes() {
+      java.lang.Object ref = enableAmbienceListeningMonitoring_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningMonitoring_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string EnableAmbienceListeningInitiation = 12;
+    public static final int ENABLEAMBIENCELISTENINGINITIATION_FIELD_NUMBER = 12;
+    private java.lang.Object enableAmbienceListeningInitiation_;
+    public boolean hasEnableAmbienceListeningInitiation() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    public String getEnableAmbienceListeningInitiation() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          enableAmbienceListeningInitiation_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEnableAmbienceListeningInitiationBytes() {
+      java.lang.Object ref = enableAmbienceListeningInitiation_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        enableAmbienceListeningInitiation_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       radioID_ = "";
       radioUserAlias_ = "";
@@ -14031,6 +14749,9 @@ public final class MotoCorba {
       packetDataEnabled_ = "";
       shortDataEnabled_ = "";
       fullDuplexEnabled_ = "";
+      radioUserValidSitesProfileAlias_ = "";
+      enableAmbienceListeningMonitoring_ = "";
+      enableAmbienceListeningInitiation_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -14087,6 +14808,15 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBytes(9, getFullDuplexEnabledBytes());
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getEnableAmbienceListeningInitiationBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -14131,6 +14861,18 @@ public final class MotoCorba {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(9, getFullDuplexEnabledBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getRadioUserValidSitesProfileAliasBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getEnableAmbienceListeningMonitoringBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getEnableAmbienceListeningInitiationBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -14274,6 +15016,12 @@ public final class MotoCorba {
         bitField0_ = (bitField0_ & ~0x00000080);
         fullDuplexEnabled_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        radioUserValidSitesProfileAlias_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        enableAmbienceListeningMonitoring_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningInitiation_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
       
@@ -14348,6 +15096,18 @@ public final class MotoCorba {
           to_bitField0_ |= 0x00000100;
         }
         result.fullDuplexEnabled_ = fullDuplexEnabled_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.radioUserValidSitesProfileAlias_ = radioUserValidSitesProfileAlias_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.enableAmbienceListeningMonitoring_ = enableAmbienceListeningMonitoring_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.enableAmbienceListeningInitiation_ = enableAmbienceListeningInitiation_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -14390,6 +15150,15 @@ public final class MotoCorba {
         }
         if (other.hasFullDuplexEnabled()) {
           setFullDuplexEnabled(other.getFullDuplexEnabled());
+        }
+        if (other.hasRadioUserValidSitesProfileAlias()) {
+          setRadioUserValidSitesProfileAlias(other.getRadioUserValidSitesProfileAlias());
+        }
+        if (other.hasEnableAmbienceListeningMonitoring()) {
+          setEnableAmbienceListeningMonitoring(other.getEnableAmbienceListeningMonitoring());
+        }
+        if (other.hasEnableAmbienceListeningInitiation()) {
+          setEnableAmbienceListeningInitiation(other.getEnableAmbienceListeningInitiation());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -14481,6 +15250,21 @@ public final class MotoCorba {
             case 74: {
               bitField0_ |= 0x00000100;
               fullDuplexEnabled_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              radioUserValidSitesProfileAlias_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              enableAmbienceListeningMonitoring_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              enableAmbienceListeningInitiation_ = input.readBytes();
               break;
             }
           }
@@ -14810,6 +15594,114 @@ public final class MotoCorba {
       void setFullDuplexEnabled(com.google.protobuf.ByteString value) {
         bitField0_ |= 0x00000100;
         fullDuplexEnabled_ = value;
+        onChanged();
+      }
+      
+      // optional string RadioUserValidSitesProfileAlias = 10;
+      private java.lang.Object radioUserValidSitesProfileAlias_ = "";
+      public boolean hasRadioUserValidSitesProfileAlias() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      public String getRadioUserValidSitesProfileAlias() {
+        java.lang.Object ref = radioUserValidSitesProfileAlias_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          radioUserValidSitesProfileAlias_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setRadioUserValidSitesProfileAlias(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRadioUserValidSitesProfileAlias() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        radioUserValidSitesProfileAlias_ = getDefaultInstance().getRadioUserValidSitesProfileAlias();
+        onChanged();
+        return this;
+      }
+      void setRadioUserValidSitesProfileAlias(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000200;
+        radioUserValidSitesProfileAlias_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningMonitoring = 11;
+      private java.lang.Object enableAmbienceListeningMonitoring_ = "";
+      public boolean hasEnableAmbienceListeningMonitoring() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      public String getEnableAmbienceListeningMonitoring() {
+        java.lang.Object ref = enableAmbienceListeningMonitoring_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningMonitoring_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningMonitoring(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningMonitoring() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        enableAmbienceListeningMonitoring_ = getDefaultInstance().getEnableAmbienceListeningMonitoring();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningMonitoring(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000400;
+        enableAmbienceListeningMonitoring_ = value;
+        onChanged();
+      }
+      
+      // optional string EnableAmbienceListeningInitiation = 12;
+      private java.lang.Object enableAmbienceListeningInitiation_ = "";
+      public boolean hasEnableAmbienceListeningInitiation() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      public String getEnableAmbienceListeningInitiation() {
+        java.lang.Object ref = enableAmbienceListeningInitiation_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          enableAmbienceListeningInitiation_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEnableAmbienceListeningInitiation(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEnableAmbienceListeningInitiation() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        enableAmbienceListeningInitiation_ = getDefaultInstance().getEnableAmbienceListeningInitiation();
+        onChanged();
+        return this;
+      }
+      void setEnableAmbienceListeningInitiation(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000800;
+        enableAmbienceListeningInitiation_ = value;
         onChanged();
       }
       
@@ -15821,8 +16713,8 @@ public final class MotoCorba {
       "Enabled\030\007 \001(\t\022\030\n\020ShortDataEnabled\030\010 \001(\t\022" +
       "\031\n\021FullDuplexEnabled\030\t \001(\t\"j\n\013RadioGetRe" +
       "q\022\017\n\007RadioID\030\001 \002(\t\022\030\n\020RadioReferenceID\030\002" +
-      " \002(\t\022\031\n\021RadioSerialNumber\030\003 \002(\t\022\025\n\rSecur" +
-      "ityGroup\030\004 \002(\t\"j\n\013RadioGetRsp\022\017\n\007RadioID" +
+      " \001(\t\022\031\n\021RadioSerialNumber\030\003 \001(\t\022\025\n\rSecur" +
+      "ityGroup\030\004 \001(\t\"j\n\013RadioGetRsp\022\017\n\007RadioID" +
       "\030\001 \002(\t\022\030\n\020RadioReferenceID\030\002 \002(\t\022\031\n\021Radi" +
       "oSerialNumber\030\003 \002(\t\022\025\n\rSecurityGroup\030\004 \002" +
       "(\t\"j\n\013RadioAddReq\022\017\n\007RadioID\030\001 \002(\t\022\030\n\020Ra",
@@ -15836,44 +16728,54 @@ public final class MotoCorba {
       "oUpdateReq\022\017\n\007RadioID\030\001 \002(\t\022\030\n\020RadioRefe" +
       "renceID\030\002 \002(\t\022\031\n\021RadioSerialNumber\030\003 \002(\t" +
       "\022\025\n\rSecurityGroup\030\004 \002(\t\"0\n\016RadioUpdateRs",
-      "p\022\016\n\006result\030\001 \002(\t\022\016\n\006detail\030\002 \002(\t\"\374\001\n\017Ra" +
-      "dioUserGetReq\022\017\n\007RadioID\030\001 \002(\t\022\026\n\016RadioU" +
-      "serAlias\030\002 \002(\t\022\025\n\rSecurityGroup\030\003 \002(\t\022\'\n" +
-      "\037RadioUserCapabilityProfileAlias\030\004 \002(\t\022\023" +
+      "p\022\016\n\006result\030\001 \002(\t\022\016\n\006detail\030\002 \002(\t\"\373\002\n\017Ra" +
+      "dioUserGetReq\022\017\n\007RadioID\030\001 \001(\t\022\026\n\016RadioU" +
+      "serAlias\030\002 \002(\t\022\025\n\rSecurityGroup\030\003 \001(\t\022\'\n" +
+      "\037RadioUserCapabilityProfileAlias\030\004 \001(\t\022\023" +
       "\n\013UserEnabled\030\005 \001(\t\022\033\n\023InterconnectEnabl" +
       "ed\030\006 \001(\t\022\031\n\021PacketDataEnabled\030\007 \001(\t\022\030\n\020S" +
       "hortDataEnabled\030\010 \001(\t\022\031\n\021FullDuplexEnabl" +
-      "ed\030\t \001(\t\"\374\001\n\017RadioUserGetRsp\022\017\n\007RadioID\030" +
-      "\001 \002(\t\022\026\n\016RadioUserAlias\030\002 \002(\t\022\025\n\rSecurit" +
-      "yGroup\030\003 \002(\t\022\'\n\037RadioUserCapabilityProfi",
-      "leAlias\030\004 \002(\t\022\023\n\013UserEnabled\030\005 \001(\t\022\033\n\023In" +
-      "terconnectEnabled\030\006 \001(\t\022\031\n\021PacketDataEna" +
-      "bled\030\007 \001(\t\022\030\n\020ShortDataEnabled\030\010 \001(\t\022\031\n\021" +
-      "FullDuplexEnabled\030\t \001(\t\"\374\001\n\017RadioUserAdd" +
-      "Req\022\017\n\007RadioID\030\001 \002(\t\022\026\n\016RadioUserAlias\030\002" +
-      " \002(\t\022\025\n\rSecurityGroup\030\003 \002(\t\022\'\n\037RadioUser" +
-      "CapabilityProfileAlias\030\004 \002(\t\022\023\n\013UserEnab" +
-      "led\030\005 \001(\t\022\033\n\023InterconnectEnabled\030\006 \001(\t\022\031" +
-      "\n\021PacketDataEnabled\030\007 \001(\t\022\030\n\020ShortDataEn" +
-      "abled\030\010 \001(\t\022\031\n\021FullDuplexEnabled\030\t \001(\t\"1",
-      "\n\017RadioUserAddRsp\022\016\n\006result\030\001 \002(\t\022\016\n\006det" +
-      "ail\030\002 \002(\t\"\374\001\n\017RadioUserDelReq\022\017\n\007RadioID" +
-      "\030\001 \002(\t\022\026\n\016RadioUserAlias\030\002 \002(\t\022\025\n\rSecuri" +
-      "tyGroup\030\003 \002(\t\022\'\n\037RadioUserCapabilityProf" +
-      "ileAlias\030\004 \002(\t\022\023\n\013UserEnabled\030\005 \001(\t\022\033\n\023I" +
-      "nterconnectEnabled\030\006 \001(\t\022\031\n\021PacketDataEn" +
-      "abled\030\007 \001(\t\022\030\n\020ShortDataEnabled\030\010 \001(\t\022\031\n" +
-      "\021FullDuplexEnabled\030\t \001(\t\"1\n\017RadioUserDel" +
-      "Rsp\022\016\n\006result\030\001 \002(\t\022\016\n\006detail\030\002 \002(\t\"\377\001\n\022" +
-      "RadioUserUpdateReq\022\017\n\007RadioID\030\001 \002(\t\022\026\n\016R",
-      "adioUserAlias\030\002 \002(\t\022\025\n\rSecurityGroup\030\003 \002" +
-      "(\t\022\'\n\037RadioUserCapabilityProfileAlias\030\004 " +
-      "\002(\t\022\023\n\013UserEnabled\030\005 \001(\t\022\033\n\023Interconnect" +
-      "Enabled\030\006 \001(\t\022\031\n\021PacketDataEnabled\030\007 \001(\t" +
-      "\022\030\n\020ShortDataEnabled\030\010 \001(\t\022\031\n\021FullDuplex" +
-      "Enabled\030\t \001(\t\"4\n\022RadioUserUpdateRsp\022\016\n\006r" +
-      "esult\030\001 \002(\t\022\016\n\006detail\030\002 \002(\t\"\022\n\003Ack\022\013\n\003ac" +
-      "k\030\001 \002(\t"
+      "ed\030\t \001(\t\022\'\n\037RadioUserValidSitesProfileAl" +
+      "ias\030\n \001(\t\022)\n!EnableAmbienceListeningMoni" +
+      "toring\030\013 \001(\t\022)\n!EnableAmbienceListeningI",
+      "nitiation\030\014 \001(\t\"\373\002\n\017RadioUserGetRsp\022\017\n\007R" +
+      "adioID\030\001 \002(\t\022\026\n\016RadioUserAlias\030\002 \002(\t\022\025\n\r" +
+      "SecurityGroup\030\003 \002(\t\022\'\n\037RadioUserCapabili" +
+      "tyProfileAlias\030\004 \002(\t\022\023\n\013UserEnabled\030\005 \001(" +
+      "\t\022\033\n\023InterconnectEnabled\030\006 \001(\t\022\031\n\021Packet" +
+      "DataEnabled\030\007 \001(\t\022\030\n\020ShortDataEnabled\030\010 " +
+      "\001(\t\022\031\n\021FullDuplexEnabled\030\t \001(\t\022\'\n\037RadioU" +
+      "serValidSitesProfileAlias\030\n \001(\t\022)\n!Enabl" +
+      "eAmbienceListeningMonitoring\030\013 \001(\t\022)\n!En" +
+      "ableAmbienceListeningInitiation\030\014 \001(\t\"\245\002",
+      "\n\017RadioUserAddReq\022\017\n\007RadioID\030\001 \002(\t\022\026\n\016Ra" +
+      "dioUserAlias\030\002 \002(\t\022\025\n\rSecurityGroup\030\003 \002(" +
+      "\t\022\'\n\037RadioUserCapabilityProfileAlias\030\004 \002" +
+      "(\t\022\023\n\013UserEnabled\030\005 \001(\t\022\033\n\023InterconnectE" +
+      "nabled\030\006 \001(\t\022\031\n\021PacketDataEnabled\030\007 \001(\t\022" +
+      "\030\n\020ShortDataEnabled\030\010 \001(\t\022\031\n\021FullDuplexE" +
+      "nabled\030\t \001(\t\022\'\n\037RadioUserValidSitesProfi" +
+      "leAlias\030\n \001(\t\"1\n\017RadioUserAddRsp\022\016\n\006resu" +
+      "lt\030\001 \002(\t\022\016\n\006detail\030\002 \002(\t\"\374\001\n\017RadioUserDe" +
+      "lReq\022\017\n\007RadioID\030\001 \002(\t\022\026\n\016RadioUserAlias\030",
+      "\002 \002(\t\022\025\n\rSecurityGroup\030\003 \002(\t\022\'\n\037RadioUse" +
+      "rCapabilityProfileAlias\030\004 \002(\t\022\023\n\013UserEna" +
+      "bled\030\005 \001(\t\022\033\n\023InterconnectEnabled\030\006 \001(\t\022" +
+      "\031\n\021PacketDataEnabled\030\007 \001(\t\022\030\n\020ShortDataE" +
+      "nabled\030\010 \001(\t\022\031\n\021FullDuplexEnabled\030\t \001(\t\"" +
+      "1\n\017RadioUserDelRsp\022\016\n\006result\030\001 \002(\t\022\016\n\006de" +
+      "tail\030\002 \002(\t\"\376\002\n\022RadioUserUpdateReq\022\017\n\007Rad" +
+      "ioID\030\001 \002(\t\022\026\n\016RadioUserAlias\030\002 \002(\t\022\025\n\rSe" +
+      "curityGroup\030\003 \002(\t\022\'\n\037RadioUserCapability" +
+      "ProfileAlias\030\004 \002(\t\022\023\n\013UserEnabled\030\005 \001(\t\022",
+      "\033\n\023InterconnectEnabled\030\006 \001(\t\022\031\n\021PacketDa" +
+      "taEnabled\030\007 \001(\t\022\030\n\020ShortDataEnabled\030\010 \001(" +
+      "\t\022\031\n\021FullDuplexEnabled\030\t \001(\t\022\'\n\037RadioUse" +
+      "rValidSitesProfileAlias\030\n \001(\t\022)\n!EnableA" +
+      "mbienceListeningMonitoring\030\013 \001(\t\022)\n!Enab" +
+      "leAmbienceListeningInitiation\030\014 \001(\t\"4\n\022R" +
+      "adioUserUpdateRsp\022\016\n\006result\030\001 \002(\t\022\016\n\006det" +
+      "ail\030\002 \002(\t\"\022\n\003Ack\022\013\n\003ack\030\001 \002(\t"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15981,7 +16883,7 @@ public final class MotoCorba {
           internal_static_xh_protobuf_RadioUserGetReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_xh_protobuf_RadioUserGetReq_descriptor,
-              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", },
+              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", "RadioUserValidSitesProfileAlias", "EnableAmbienceListeningMonitoring", "EnableAmbienceListeningInitiation", },
               xh.protobuf.MotoCorba.RadioUserGetReq.class,
               xh.protobuf.MotoCorba.RadioUserGetReq.Builder.class);
           internal_static_xh_protobuf_RadioUserGetRsp_descriptor =
@@ -15989,7 +16891,7 @@ public final class MotoCorba {
           internal_static_xh_protobuf_RadioUserGetRsp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_xh_protobuf_RadioUserGetRsp_descriptor,
-              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", },
+              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", "RadioUserValidSitesProfileAlias", "EnableAmbienceListeningMonitoring", "EnableAmbienceListeningInitiation", },
               xh.protobuf.MotoCorba.RadioUserGetRsp.class,
               xh.protobuf.MotoCorba.RadioUserGetRsp.Builder.class);
           internal_static_xh_protobuf_RadioUserAddReq_descriptor =
@@ -15997,7 +16899,7 @@ public final class MotoCorba {
           internal_static_xh_protobuf_RadioUserAddReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_xh_protobuf_RadioUserAddReq_descriptor,
-              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", },
+              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", "RadioUserValidSitesProfileAlias", },
               xh.protobuf.MotoCorba.RadioUserAddReq.class,
               xh.protobuf.MotoCorba.RadioUserAddReq.Builder.class);
           internal_static_xh_protobuf_RadioUserAddRsp_descriptor =
@@ -16029,7 +16931,7 @@ public final class MotoCorba {
           internal_static_xh_protobuf_RadioUserUpdateReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_xh_protobuf_RadioUserUpdateReq_descriptor,
-              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", },
+              new java.lang.String[] { "RadioID", "RadioUserAlias", "SecurityGroup", "RadioUserCapabilityProfileAlias", "UserEnabled", "InterconnectEnabled", "PacketDataEnabled", "ShortDataEnabled", "FullDuplexEnabled", "RadioUserValidSitesProfileAlias", "EnableAmbienceListeningMonitoring", "EnableAmbienceListeningInitiation", },
               xh.protobuf.MotoCorba.RadioUserUpdateReq.class,
               xh.protobuf.MotoCorba.RadioUserUpdateReq.Builder.class);
           internal_static_xh_protobuf_RadioUserUpdateRsp_descriptor =

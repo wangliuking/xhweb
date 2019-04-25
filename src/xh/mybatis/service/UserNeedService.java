@@ -232,7 +232,7 @@ public class UserNeedService {
 		UserNeedMapper mapper=sqlSession.getMapper(UserNeedMapper.class);
 		int count=0;
 		try {
-			count = mapper.del_communication(list);
+			count = mapper.del_emergency(list);
 			sqlSession.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

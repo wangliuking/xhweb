@@ -145,7 +145,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
@@ -170,8 +170,6 @@
 								<div class="page-info">
 									每页显示 <select id="page-limit" ng-change="refresh()"
 										ng-model="count">
-										<option value="20">10</option>
-										<option value="20">15</option>
 										<option value="20">20</option>
 										<option value="30">30</option>
 										<option value="40">40</option>

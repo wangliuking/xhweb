@@ -1,11 +1,14 @@
 package xh.mybatis.bean;
 
+import xh.func.plugin.FunUtil;
+
 public class RadioBean {
 	private Integer id;
 	private String RadioID;
 	private String RadioSerialNumber;
 	private String RadioReferenceID;
 	private String SecurityGroup;
+	private String callId;
 	public Integer getId() {
 		return id;
 	}
@@ -36,12 +39,19 @@ public class RadioBean {
 	public void setSecurityGroup(String securityGroup) {
 		SecurityGroup = securityGroup;
 	}
+	
+	public String getCallId() {
+		return callId;
+	}
+	public void setCallId(String callId) {
+		this.callId = callId;
+	}
 	@Override
 	public String toString() {
 		return "RadioBean [id=" + id + ", RadioID=" + RadioID
 				+ ", RadioSerialNumber=" + RadioSerialNumber
 				+ ", RadioReferenceID=" + RadioReferenceID + ", SecurityGroup="
-				+ SecurityGroup + "]";
+				+ SecurityGroup + ", callId=" + callId + "]";
 	}
 	
 	

@@ -148,7 +148,7 @@ public class RadioUserService {
 
 	public static List<HashMap> allRadioUser(String code) {
 		SqlSession sqlSession = MoreDbTools
-				.getSession(MoreDbTools.DataSourceEnvironment.emh);
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		RadioUserMapper mapper = sqlSession.getMapper(RadioUserMapper.class);
 		List<HashMap> list = new ArrayList<HashMap>();
 		try {

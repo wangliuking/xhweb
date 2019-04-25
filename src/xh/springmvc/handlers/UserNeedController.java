@@ -70,12 +70,14 @@ public class UserNeedController {
 	public HashMap data_all(HttpServletRequest request, HttpServletResponse response) {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		String time=request.getParameter("time");
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("time", time);
+		map.put("starttime", starttime);
+		map.put("endtime", endtime);
 		HashMap result = new HashMap();
 		result.put("items",UserNeedService.data_all(map));
 		result.put("totals", UserNeedService.data_all_count(map));		
@@ -144,12 +146,14 @@ public class UserNeedController {
 	public HashMap communication_list(HttpServletRequest request, HttpServletResponse response) {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		String time=request.getParameter("time");
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("time", time);
+		map.put("starttime", starttime);
+		map.put("endtime", endtime);
 		HashMap result = new HashMap();
 		result.put("items",UserNeedService.communication_list(map));
 		result.put("totals", UserNeedService.communication_list_count(map));		
@@ -236,12 +240,14 @@ public class UserNeedController {
 	public HashMap emergency_list(HttpServletRequest request, HttpServletResponse response) {
 		int start=funUtil.StringToInt(request.getParameter("start"));
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
-		String time=request.getParameter("time");
+		String starttime=request.getParameter("starttime");
+		String endtime=request.getParameter("endtime");
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("time", time);
+		map.put("starttime", starttime);
+		map.put("endtime", endtime);
 		HashMap result = new HashMap();
 		result.put("items",UserNeedService.emergency_list(map));
 		result.put("totals", UserNeedService.emergency_list_count(map));		

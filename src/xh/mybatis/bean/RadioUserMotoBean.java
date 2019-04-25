@@ -4,9 +4,11 @@ public class RadioUserMotoBean {
 	private int C_ID=0;
 	private int C_IDS=0;
 	private int C_IDE=0;
+	private String callId;
 	  private String RadioUserAlias;
 	  private String SecurityGroup;
 	  private String RadioID;
+	  private String RadioSerialNumber;
 	  private String EmergencyAlarmComments;
 	  private String InterconnectEnabled;
 	  private String PacketDataEnabled;
@@ -238,6 +240,19 @@ public class RadioUserMotoBean {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	
+	public String getRadioSerialNumber() {
+		return RadioSerialNumber;
+	}
+	public void setRadioSerialNumber(String radioSerialNumber) {
+		RadioSerialNumber = radioSerialNumber;
+	}
+	public String getCallId() {
+		return callId;
+	}
+	public void setCallId(String callId) {
+		this.callId = callId;
 	}
 	@Override
 	public String toString() {

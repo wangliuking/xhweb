@@ -1,0 +1,331 @@
+<!-- row -->
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt text-center">
+				<div class="btn-group">
+					<button type="button" class="btn btn-success btn-sm"
+						onclick="xh.print_score3()">
+						<i class="fa fa-print"></i>&nbsp;打印
+					</button>
+				</div>
+
+			</div>
+			<div class="panel-body" id="print_score3">
+				<style type="text/css">
+                  .table-view {
+	                     border-collapse: collapse;
+                    }
+
+                  .table-view td,th {
+	                     border: 1px solid #000;
+	                     border-collapse: collapse;
+	                       text-align: center;
+                     }
+                  .table-view td {
+                         font-size: 13px;
+                     }
+                </style>
+
+				<table style="width:100%;border-collapse: collapse;"
+					class="table-view">
+
+					<thead>
+						<tr>
+							<th colspan="4" style="text-align: center;height:50px;">成都市应急指挥调度无线通信网<span
+								style="color:red">三期</span>工程服务项目
+							</th>
+						</tr>
+						<tr>
+							<th colspan="4" style="text-align: center;">{{time}}月考核表</th>
+						</tr>
+						<tr>
+							<th width="250px">考核项</th>
+							<th width="200px">分项</th>
+							<th width="100px">考核得分</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>机房及配套设施要求（20分）</td>
+							<td></td>
+							<td>{{score_data3.s_a1}}</td>
+							<td>{{score_data3.n_a1}}</td>
+						</tr>
+						<tr>
+							<td rowspan="4">运维团队及设施配置（15分）</td>
+							<td>运维团队（3）</td>
+							<td>{{score_data3.s_b1}}</td>
+							<td>{{score_data3.n_b1}}</td>
+						</tr>
+						<tr>
+							<td>管理制度保障（1）</td>
+							<td>{{score_data3.s_b2}}</td>
+							<td>{{score_data3.n_b2}}</td>
+						</tr>
+						<tr>
+							<td>运维响应机制（9）</td>
+							<td>{{score_data3.s_b3}}</td>
+							<td>{{score_data3.n_b3}}</td>
+						</tr>
+						<tr>
+							<td>办公场所及运维设施（2）</td>
+							<td>{{score_data3.s_b4}}</td>
+							<td>{{score_data3.n_b4}}</td>
+						</tr>
+
+						<tr>
+							<td rowspan="2">日常维护管理（包括运维资料、用户响应）（20分）</td>
+							<td>运维资料（10）</td>
+							<td>{{score_data3.s_c1}}</td>
+							<td>{{score_data3.n_c1}}</td>
+						</tr>
+
+						<tr>
+							<td>用户响应（10）</td>
+							<td>{{score_data3.s_c2}}</td>
+							<td>{{score_data3.n_c2}}</td>
+						</tr>
+
+
+						<tr>
+							<td rowspan="2">故障管理（30分）</td>
+							<td>故障控制及故障处理历时（25）</td>
+							<td>{{score_data3.s_d1}}</td>
+							<td>{{score_data3.n_d1}}</td>
+						</tr>
+
+						<tr>
+							<td>备品备件（5）</td>
+							<td>{{score_data3.s_d2}}</td>
+							<td>{{score_data3.n_d2}}</td>
+						</tr>
+
+						<tr>
+							<td>网络优化（5分）</td>
+							<td></td>
+							<td>{{score_data3.s_e1}}</td>
+							<td>{{score_data3.n_e1}}</td>
+						</tr>
+
+
+						<tr>
+							<td rowspan="2">应急通信保障和演练（5分）</td>
+							<td>应急通信保障（3）</td>
+							<td>{{score_data3.s_f1}}</td>
+							<td>{{score_data3.n_f1}}</td>
+						</tr>
+
+						<tr>
+							<td>应急演练（2）</td>
+							<td>{{score_data3.s_f2}}</td>
+							<td>{{score_data3.n_f2}}</td>
+						</tr>
+
+						<tr>
+							<td>培训及技术支持服务（5分）</td>
+							<td></td>
+							<td>{{score_data3.s_g1}}</td>
+							<td>{{score_data3.n_g1}}</td>
+						</tr>
+						<tr>
+							<td>加分材料确认</td>
+							<td></td>
+							<td>{{score_data3.s_h1}}</td>
+							<td>{{score_data3.n_h1}}</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">考核得分合计</td>
+							<td colspan="2"><span id="score3-sum">{{score_sum3}}</span></td>
+						</tr>
+						<tr>
+							<td colspan="4">&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4" style="text-align: left;height:50px"><span>成都市软件产业发展中心：</span>
+								<span style="margin-left:30%;">成都亚光电子股份有限公司：</span></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+
+
+
+			</div>
+			<!-- panel-body--end -->
+			<!-- hpanel --end-->
+		</div>
+		<!-- col-md-12--end -->
+	</div>
+	<!-- row/ -->
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt text-center">
+			<div class="btn-group">
+                    <button type="button" class="btn btn-success btn-sm"
+                        onclick="xh.print_score4()">
+                        <i class="fa fa-print"></i>&nbsp;打印
+                    </button>
+                </div>
+			</div>
+			<div class="panel-body" id="print_score4">
+               <style type="text/css">
+                  .table-view {
+                         border-collapse: collapse;
+                    }
+
+                  .table-view td,th {
+                         border: 1px solid #000;
+                         border-collapse: collapse;
+                           text-align: center;
+                     }
+                   .table-view td {
+                         font-size: 13px;
+                     }
+                </style>
+					<table style="width:100%;border-collapse: collapse;" class="table-view">
+						<thead>
+						<tr>
+                            <th colspan="4" style="text-align: center;height:50px;">成都市应急指挥调度无线通信网<span
+                                style="color:red">四期</span>工程服务项目
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" style="text-align: center;">{{time}}月考核表</th>
+                        </tr>
+							<tr>
+								<th width="250px">考核项</th>
+								<th width="200px">分项</th>
+								<th width="100px">考核得分</th>
+								<th>备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>机房及配套设施要求（20分）</td>
+								<td></td>
+								<td>{{score_data4.s_a1}}</td>
+								<td>{{score_data4.n_a1}}</td>
+							</tr>
+							<tr>
+								<td rowspan="4">运维团队及设施配置（15分）</td>
+								<td>运维团队（3）</td>
+								<td>{{score_data4.s_b1}}</td>
+								<td>{{score_data4.n_b1}}</td>
+							</tr>
+							<tr>
+								<td>管理制度保障（1）</td>
+								<td>{{score_data4.s_b2}}</td>
+								<td>{{score_data4.n_b2}}</td>
+							</tr>
+							<tr>
+								<td>运维响应机制（9）</td>
+								<td>{{score_data4.s_b3}}</td>
+								<td>{{score_data4.n_b3}}</td>
+							</tr>
+							<tr>
+								<td>办公场所及运维设施（2）</td>
+								<td>{{score_data4.s_b4}}</td>
+								<td>{{score_data4.n_b4}}</td>
+							</tr>
+
+							<tr>
+								<td rowspan="2">日常维护管理（包括运维资料、用户响应）（20分）</td>
+								<td>运维资料（10）</td>
+								<td>{{score_data4.s_c1}}</td>
+								<td>{{score_data4.n_c1}}</td>
+							</tr>
+
+							<tr>
+								<td>用户响应（10）</td>
+								<td>{{score_data4.s_c2}}</td>
+								<td>{{score_data4.n_c2}}</td>
+							</tr>
+
+
+							<tr>
+								<td rowspan="2">故障管理（30分）</td>
+								<td>故障控制及故障处理历时（25）</td>
+								<td>{{score_data4.s_d1}}</td>
+								<td>{{score_data4.n_d1}}</td>
+							</tr>
+
+							<tr>
+								<td>备品备件（5）</td>
+								<td>{{score_data4.s_d2}}</td>
+								<td>{{score_data4.n_d2}}</td>
+							</tr>
+
+							<tr>
+								<td>网络优化（5分）</td>
+								<td></td>
+								<td>{{score_data4.s_e1}}</td>
+								<td>{{score_data4.n_e1}}</td>
+							</tr>
+
+
+							<tr>
+								<td rowspan="2">应急通信保障和演练（5分）</td>
+								<td>应急通信保障（3）</td>
+								<td>{{score_data4.s_f1}}</td>
+								<td>{{score_data4.n_f1}}</td>
+							</tr>
+
+							<tr>
+								<td>应急演练（2）</td>
+								<td>{{score_data4.s_f2}}</td>
+								<td>{{score_data4.n_f2}}</td>
+							</tr>
+
+							<tr>
+								<td>培训及技术支持服务（5分）</td>
+								<td></td>
+								<td>{{score_data4.s_g1}}</td>
+								<td>{{score_data4.n_g1}}</td>
+							</tr>
+							<tr>
+								<td>加分材料确认</td>
+								<td></td>
+								<td>{{score_data4.s_h1}}</td>
+								<td>{{score_data4.n_h1}}</td>
+							</tr>
+
+							<tr>
+								<td colspan="2">考核得分合计</td>
+								<td colspan="2"><span id="score3-sum">{{score_sum4}}</span></td>
+							</tr>
+							<tr>
+								<td colspan="4">&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="4" style="text-align: left;height:50px"><span>成都市软件产业发展中心：</span>
+									<span style="margin-left:30%;">成都亚光电子股份有限公司：</span></td>
+							</tr>
+
+
+						</tbody>
+					</table>
+
+				</form>
+
+
+				<!-- row -->
+
+
+
+			</div>
+			<!-- panel-body--end -->
+			<!-- hpanel --end-->
+		</div>
+		<!-- col-md-12--end -->
+	</div>
+	<!-- row/ -->
+</div>
+
+<script>
+	
+</script>

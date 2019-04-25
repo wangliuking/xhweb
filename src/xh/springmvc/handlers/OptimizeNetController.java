@@ -84,6 +84,37 @@ public class OptimizeNetController {
             e.printStackTrace();
         }
     }
+    @RequestMapping(value = "/selectAll2", method = RequestMethod.GET)
+    public void selectAll2(HttpServletRequest request,
+                          HttpServletResponse response) {
+        this.success = true;
+        int start = funUtil.StringToInt(request.getParameter("start"));
+        int limit = funUtil.StringToInt(request.getParameter("limit"));
+        String user=funUtil.loginUser(request);
+        //unit = WebUserServices.selectUnitByUser(user);
+        WebUserBean userbean=WebUserServices.selectUserByUser(user);
+        int roleId=userbean.getRoleId();
+        start=(start-1)*limit;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("start", start);
+        map.put("limit", limit);
+        map.put("user", user);
+        map.put("roleId", roleId);
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", OptimizeNetService.selectAll(map));
+        result.put("totals", OptimizeNetService.dataCount(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 

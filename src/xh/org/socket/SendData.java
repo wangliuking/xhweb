@@ -14,58 +14,56 @@ import java.net.UnknownHostException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-
-
 import xh.func.plugin.FunUtil;
+import xh.mybatis.bean.RadioBean;
 import xh.mybatis.bean.smsBean;
 import xh.protobuf.MotoCorba;
-import xh.protobuf.RadioAddReqBean;
 import xh.protobuf.MotoMessageStruct;
+import xh.protobuf.RadioUserBean;
 
 public class SendData {
 	private String message = "";
 	private Socket socket = null;
 	protected static final Log log = LogFactory.getLog(SendData.class);
-	
-	private static MotoMessageStruct header=new MotoMessageStruct();
+
+	private static MotoMessageStruct header = new MotoMessageStruct();
 
 	public void connection() {
 		try {
 			socket = new Socket(FunUtil.readXml("gps", "ip"),
 					Integer.parseInt(FunUtil.readXml("gps", "port")));
-			log.info("---------------------------------");
-			log.info("GPS设置客户端已建立链接:");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已建立链接:");
+			log.debug("---------------------------------");
 		} catch (UnknownHostException e) {
 			message = "没有找到主机，请检查端口号或者主机IP地址是否正确";
-			log.info("---------------------------------");
-			log.info("GPS-》" + message);
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
 		} catch (IOException e) {
 			message = "网络无响应";
 			System.out.println(message);
-			log.info("---------------------------------");
-			log.info("GPS-》" + message);
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS-》" + message);
+			log.debug("---------------------------------");
 			// e.printStackTrace();
 		}
 		try {
 			socket.setSoTimeout(10000);
 		} catch (SocketException e1) {
 			message = "对方没有应答";
-			log.info("---------------------------------");
-			log.info("GPS设置客户端已经关闭连接");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS设置客户端已经关闭连接");
+			log.debug("---------------------------------");
 			e1.printStackTrace();
 		}
 		try {
 			socket.setKeepAlive(true);
 		} catch (SocketException e) {
 			message = "网络已经断开";
-			log.info("---------------------------------");
-			log.info("GPS网络已经断开");
-			log.info("---------------------------------");
+			log.debug("---------------------------------");
+			log.debug("GPS网络已经断开");
+			log.debug("---------------------------------");
 			// e.printStackTrace();
 		}// 开启保持活动状态的套接字
 			// socket.setSoTimeout(10000);
@@ -106,10 +104,10 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("ImmGps-length:" + info.length);
-		log.info("ImmGps:" + getData.toString());
+		log.debug("ImmGps-length:" + info.length);
+		log.debug("ImmGps:" + getData.toString());
 		socket.close();
-		log.info("socket连接自动关闭");
+		log.debug("socket连接自动关闭");
 		return "success";
 
 	}
@@ -147,10 +145,10 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("GpsEn-length:" + info.length);
-		log.info("GpsEn:" + getData.toString());
+		log.debug("GpsEn-length:" + info.length);
+		log.debug("GpsEn:" + getData.toString());
 		socket.close();
-		log.info("socket连接自动关闭");
+		log.debug("socket连接自动关闭");
 		return "success";
 
 	}
@@ -190,8 +188,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("GpsTrigger-length:" + info.length);
-		log.info("GpsTrigger:" + getData.toString());
+		log.debug("GpsTrigger-length:" + info.length);
+		log.debug("GpsTrigger:" + getData.toString());
 		// 获得服务器发过来的数据，先获得输入流
 
 		InputStream in = socket.getInputStream();
@@ -213,8 +211,8 @@ public class SendData {
 				}
 				System.out.print("\n");
 				System.out.println(status);
-				log.info(str);
-				log.info(status);
+				log.debug(str);
+				log.debug(status);
 				if (status == 0 || status == 24) {
 					message = "success";
 				} else {
@@ -226,10 +224,10 @@ public class SendData {
 			} while (comm != 54);
 			// 注意：read会产生阻塞
 			socket.close();
-			log.info("socket连接自动关闭");
+			log.debug("socket连接自动关闭");
 		} catch (SocketTimeoutException e) {
 			message = "对方回复超时";
-			log.info(message);
+			log.debug(message);
 			// TODO: handle exception
 		}
 
@@ -275,8 +273,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("DGNAData-length:" + info.length);
-		log.info("DGNAData:" + bean.toString());
+		log.debug("DGNAData-length:" + info.length);
+		log.debug("DGNAData:" + bean.toString());
 
 	}
 
@@ -311,8 +309,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("KillData-length:" + info.length);
-		log.info("KillData:" + getData.toString());
+		log.debug("KillData-length:" + info.length);
+		log.debug("KillData:" + getData.toString());
 
 	}
 
@@ -353,8 +351,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendRadioUserSavalidSiteData-length:" + info.length);
-		log.info("sendRadioUserSavalidSiteData:" + getData.toString());
+		log.debug("sendRadioUserSavalidSiteData-length:" + info.length);
+		log.debug("sendRadioUserSavalidSiteData:" + getData.toString());
 
 	}
 
@@ -396,15 +394,15 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendTalkGroupSavalidSiteData:" + info.length);
-		log.info("sendTalkGroupSavalidSiteData:" + getData.toString());
+		log.debug("sendTalkGroupSavalidSiteData:" + info.length);
+		log.debug("sendTalkGroupSavalidSiteData:" + getData.toString());
 
 	}
 
 	// 发送短信
 	public int sendSms(MessageStruct getHeader, smsBean getData) {
 		// 创建客户端的Socket服务，指定目的主机和端口。
-		int status=-1;
+		int status = -1;
 		try {
 			NetDataTypeTransform dd = new NetDataTypeTransform();
 			connection();
@@ -437,8 +435,8 @@ public class SendData {
 
 			byte[] info = bos.toByteArray();
 			out.write(info);
-			log.info("sendSms:" + info.length);
-			log.info("sendSms:" + getData.toString());
+			log.debug("sendSms:" + info.length);
+			log.debug("sendSms:" + getData.toString());
 
 			// 获得服务器发过来的数据，先获得输入流
 
@@ -446,17 +444,18 @@ public class SendData {
 			DataInputStream din = new DataInputStream(in);
 			byte[] buf = new byte[1024];
 
-			// 注意：read会产生阻塞 
-			int len = din.read(buf); 
-			int header =dd.BigByteArrayToShort(buf, 0);
-			String str="";
+			// 注意：read会产生阻塞
+			int len = din.read(buf);
+			int header = dd.BigByteArrayToShort(buf, 0);
+			String str = "";
 			status = dd.SmallByteArrayToInt(buf, 26);
 			int status2 = dd.SmallByteArrayToInt(buf, 7);
-			/*for (int i = 0; i < len; i++) {
-				System.out.print(buf[i] + " ");
-				str += buf[i] + " ";
-
-			}*/
+			/*
+			 * for (int i = 0; i < len; i++) { System.out.print(buf[i] + " ");
+			 * str += buf[i] + " ";
+			 * 
+			 * }
+			 */
 			if (status == 0) {
 				message = "短信发送成功";
 			} else if (status == 1) {
@@ -473,8 +472,8 @@ public class SendData {
 			if (header != 0xc4d7) {
 				message = "接收的数据包头不正确";
 			}
-			log.info("发送状态:" + status+";message:"+message);
-			
+			log.debug("发送状态:" + status + ";message:" + message);
+
 			socket.close();
 			return status;
 
@@ -483,7 +482,7 @@ public class SendData {
 			e.printStackTrace();
 			return status;
 		}
-		
+
 	}
 
 	// 发送终端用户数据包
@@ -544,8 +543,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("RadioUserData-length:" + info.length);
-		log.info("RadioUserData:" + getData.toString());
+		log.debug("RadioUserData-length:" + info.length);
+		log.debug("RadioUserData:" + getData.toString());
 
 	}
 
@@ -592,8 +591,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("TalkGroupData-length:" + info.length);
-		log.info("TalkGroupData:" + getData.toString());
+		log.debug("TalkGroupData-length:" + info.length);
+		log.debug("TalkGroupData:" + getData.toString());
 
 	}
 
@@ -645,9 +644,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("MultiGroupData-length:" + info.length);
-		log.info("MultiGroupData:" + getData.toString());
-		/* log.info("MultiGroupData-info:" + FunUtil.BytesToHexS(info)) */;
+		log.debug("MultiGroupData-length:" + info.length);
+		log.debug("MultiGroupData:" + getData.toString());
+		/* log.debug("MultiGroupData-info:" + FunUtil.BytesToHexS(info)) */;
 
 	}
 
@@ -702,9 +701,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("DispatchUserData-length:" + info.length);
-		log.info("DispatchUserData:" + getData.toString());
-		/* log.info("DispatchUserData-info:" + FunUtil.BytesToHexS(info)); */
+		log.debug("DispatchUserData-length:" + info.length);
+		log.debug("DispatchUserData:" + getData.toString());
+		/* log.debug("DispatchUserData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 
@@ -743,8 +742,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendStatusSetData-length:" + info.length);
-		log.info("sendStatusSetData:" + getData.toString());
+		log.debug("sendStatusSetData-length:" + info.length);
+		log.debug("sendStatusSetData:" + getData.toString());
 
 	}
 
@@ -779,8 +778,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendStatusSetUnitData-length:" + info.length);
-		log.info("sendStatusSetUnitData:" + getData.toString());
+		log.debug("sendStatusSetUnitData-length:" + info.length);
+		log.debug("sendStatusSetUnitData:" + getData.toString());
 
 	}
 
@@ -832,8 +831,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("RadioUserAttrData-length:" + info.length);
-		log.info("RadioUserAttrData:" + getData.toString());
+		log.debug("RadioUserAttrData-length:" + info.length);
+		log.debug("RadioUserAttrData:" + getData.toString());
 
 	}
 
@@ -889,9 +888,9 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("TalkGroupAttrData-length:" + info.length);
-		log.info("TalkGroupAttrData:" + getData.toString());
-		/* log.info("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info)); */
+		log.debug("TalkGroupAttrData-length:" + info.length);
+		log.debug("TalkGroupAttrData:" + getData.toString());
+		/* log.debug("TalkGroupAttrData-info:" + FunUtil.BytesToHexS(info)); */
 
 	}
 
@@ -944,8 +943,8 @@ public class SendData {
 		byte[] info = bos.toByteArray();
 
 		out.write(info);
-		log.info("sendDispatchUserIAData-length:" + info.length);
-		log.info("sendDispatchUserIAData:" + getData.toString());
+		log.debug("sendDispatchUserIAData-length:" + info.length);
+		log.debug("sendDispatchUserIAData:" + getData.toString());
 
 	}
 
@@ -985,8 +984,8 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendRadioUserSavalidRegionData-length:" + info.length);
-		log.info("sendRadioUserSavalidRegionData:" + getData.toString());
+		log.debug("sendRadioUserSavalidRegionData-length:" + info.length);
+		log.debug("sendRadioUserSavalidRegionData:" + getData.toString());
 
 	}
 
@@ -1026,56 +1025,361 @@ public class SendData {
 
 		byte[] info = bos.toByteArray();
 		out.write(info);
-		log.info("sendTalkGroupSavalidRegionData-length:" + info.length);
-		log.info("sendTalkGroupSavalidRegionData:" + getData.toString());
+		log.debug("sendTalkGroupSavalidRegionData-length:" + info.length);
+		log.debug("sendTalkGroupSavalidRegionData:" + getData.toString());
 
 	}
-	//moto
-	public static String RadioAddReq(RadioAddReqBean bean)
-			throws IOException {
+
+	// moto
+	public static String RadioAddReq(RadioBean bean) throws IOException {
 		// 创建客户端的Socket服务，指定目的主机和端口。
 		NetDataTypeTransform dd = new NetDataTypeTransform();
-		MotoCorba.RadioGetReq.Builder builder=MotoCorba.RadioGetReq.newBuilder();
-		
-		/*message RadioGetReq{  
-			required string RadioID	= 1;       
-			required string RadioReferenceID	= 2;  
-			required string RadioSerialNumber	= 3; 
-			required string SecurityGroup	= 4; 
-			｝*/
+		MotoCorba.RadioGetReq.Builder builder = MotoCorba.RadioGetReq
+				.newBuilder();
+
+		/*
+		 * message RadioGetReq{ required string RadioID = 1; required string
+		 * RadioReferenceID = 2; required string RadioSerialNumber = 3; required
+		 * string SecurityGroup = 4; ｝
+		 */
 		builder.setRadioID(bean.getRadioID());
 		builder.setRadioReferenceID(bean.getRadioReferenceID());
 		builder.setRadioSerialNumber(bean.getRadioSerialNumber());
 		builder.setSecurityGroup(bean.getSecurityGroup());
-		
-		MotoCorba.RadioGetReq req=builder.build();		
+
+		MotoCorba.RadioGetReq req = builder.build();
 		byte[] buffer = req.toByteArray();
 		// 发送数据，应该获取Socket流中的输出流。
-		OutputStream out=MotoTcpKeepAliveClient.getSocket().getOutputStream();
+		OutputStream out = MotoTcpClient.getSocket().getOutputStream();
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(bos);
 
 		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
 		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeInt(header.getTargetId());
+		;
 		dos.writeShort((short) 4);// commandId 2 命令ID
-		dos.write(dd.LongData(header.getCallID(), 8));// businessSN 8 业务流水号
-		dos.writeShort(header.getSeqNum());
-		;// segNum 2 分片总数
-		dos.write(dd.LongData(header.getReserved(), 8));
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
 		/**************** content ***********************/
 		dos.write(buffer);
 		/**************** content ***********************/
 		dos.writeShort(header.getCheckSum());
 
 		byte[] info = bos.toByteArray();
-		if (MotoTcpKeepAliveClient.getSocket().isConnected()) {
-			log.info("DS->MOTO:"+bean.toString());
+		if (MotoTcpClient.getSocket().isConnected()) {
+			log.debug("DS->MOTO[RadioAddReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioAddReq]:" + FunUtil.BytesToHexS(info));
 			out.write(info);
 		} else {
 			return "NO";
 		}
 		return "OK";
 	}
+
+	// 删除终端
+	public static String RadioDelReq(RadioBean bean) throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		MotoCorba.RadioDelReq.Builder builder = MotoCorba.RadioDelReq
+				.newBuilder();
+
+		/*
+		 * message RadioGetReq{ required string RadioID = 1; required string
+		 * RadioReferenceID = 2; required string RadioSerialNumber = 3; required
+		 * string SecurityGroup = 4; ｝
+		 */
+		builder.setRadioID(bean.getRadioID());
+		builder.setRadioReferenceID(bean.getRadioReferenceID());
+		builder.setRadioSerialNumber(bean.getRadioSerialNumber());
+		builder.setSecurityGroup(bean.getSecurityGroup());
+
+		MotoCorba.RadioDelReq req = builder.build();
+		byte[] buffer = req.toByteArray();
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeInt(header.getTargetId());
+		;
+		dos.writeShort((short) 6);// commandId 2 命令ID
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+		/**************** content ***********************/
+		dos.write(buffer);
+		/**************** content ***********************/
+		dos.writeShort(header.getCheckSum());
+
+		byte[] info = bos.toByteArray();
+		if (MotoTcpClient.getSocket().isConnected()) {
+			log.debug("DS->MOTO[RadioDelReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioDelReq]:" + FunUtil.BytesToHexS(info));
+			out.write(info);
+		} else {
+			return "NO";
+		}
+		return "OK";
+	}
+
+	public static String RadioUpdateReq(RadioBean bean) throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		MotoCorba.RadioUpdateReq.Builder builder = MotoCorba.RadioUpdateReq
+				.newBuilder();
+
+		/*
+		 * message RadioGetReq{ required string RadioID = 1; required string
+		 * RadioReferenceID = 2; required string RadioSerialNumber = 3; required
+		 * string SecurityGroup = 4; ｝
+		 */
+		builder.setRadioID(bean.getRadioID());
+		builder.setRadioReferenceID(bean.getRadioReferenceID());
+		builder.setRadioSerialNumber(bean.getRadioSerialNumber());
+		builder.setSecurityGroup(bean.getSecurityGroup());
+
+		MotoCorba.RadioUpdateReq req = builder.build();
+		byte[] buffer = req.toByteArray();
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeInt(header.getTargetId());
+		;
+		dos.writeShort((short) 8);// commandId 2 命令ID
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+		/**************** content ***********************/
+		dos.write(buffer);
+		/**************** content ***********************/
+		dos.writeShort(header.getCheckSum());
+
+		byte[] info = bos.toByteArray();
+		if (MotoTcpClient.getSocket().isConnected()) {
+			log.debug("DS->MOTO[RadioUpdateReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUpdateReq]:" + FunUtil.BytesToHexS(info));
+			out.write(info);
+		} else {
+			return "NO";
+		}
+		return "OK";
+	}
+
+	// 新增终端用户
+	public static String RadioUserAddReq(RadioUserBean bean)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		MotoCorba.RadioUserAddReq.Builder builder = MotoCorba.RadioUserAddReq
+				.newBuilder();
+		builder.setRadioID(bean.getRadioID());
+		builder.setRadioUserAlias(bean.getRadioUserAlias());
+		builder.setSecurityGroup(bean.getSecurityGroup());
+		builder.setRadioUserCapabilityProfileAlias(bean
+				.getRadioUserCapabilityProfileAlias());
+		builder.setUserEnabled(bean.getUserEnabled());
+		builder.setInterconnectEnabled(bean.getInterconnectEnabled());
+		builder.setPacketDataEnabled(bean.getPacketDataEnabled());
+		builder.setShortDataEnabled(bean.getShortDataEnabled());
+		builder.setFullDuplexEnabled(bean.getFullDuplexEnabled());
+
+		MotoCorba.RadioUserAddReq req = builder.build();
+		byte[] buffer = req.toByteArray();
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeInt(header.getTargetId());
+		;
+		dos.writeShort((short) 12);// commandId 2 命令ID
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+		/**************** content ***********************/
+		dos.write(buffer);
+		/**************** content ***********************/
+		dos.writeShort(header.getCheckSum());
+
+		byte[] info = bos.toByteArray();
+		if (MotoTcpClient.getSocket().isConnected()) {
+			log.debug("DS->MOTO[RadioUserAddReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUserAddReq]:" + FunUtil.BytesToHexS(info));
+			out.write(info);
+		} else {
+			return "NO";
+		}
+		return "OK";
+	}
+
+	// 删除终端
+	public static String RadioUserDelReq(RadioUserBean bean)
+			throws IOException {
+		// 创建客户端的Socket服务，指定目的主机和端口。
+		NetDataTypeTransform dd = new NetDataTypeTransform();
+		MotoCorba.RadioUserDelReq.Builder builder = MotoCorba.RadioUserDelReq
+				.newBuilder();
+		builder.setRadioID(bean.getRadioID());
+		builder.setRadioUserAlias(bean.getRadioUserAlias());
+		builder.setSecurityGroup(bean.getSecurityGroup());
+		builder.setRadioUserCapabilityProfileAlias(bean
+				.getRadioUserCapabilityProfileAlias());
+		builder.setUserEnabled(bean.getUserEnabled());
+		builder.setInterconnectEnabled(bean.getInterconnectEnabled());
+		builder.setPacketDataEnabled(bean.getPacketDataEnabled());
+		builder.setShortDataEnabled(bean.getShortDataEnabled());
+		builder.setFullDuplexEnabled(bean.getFullDuplexEnabled());
+
+		MotoCorba.RadioUserDelReq req = builder.build();
+		byte[] buffer = req.toByteArray();
+		// 发送数据，应该获取Socket流中的输出流。
+		OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(bos);
+
+		dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+		dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+		dos.writeInt(header.getTargetId());
+		;
+		dos.writeShort((short) 14);// commandId 2 命令ID
+		dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+		/**************** content ***********************/
+		dos.write(buffer);
+		/**************** content ***********************/
+		dos.writeShort(header.getCheckSum());
+
+		byte[] info = bos.toByteArray();
+		if (MotoTcpClient.getSocket().isConnected()) {
+			log.debug("DS->MOTO[RadioUserDelReq]:" + bean.toString());
+			log.debug("DS->MOTO[RadioUserDelReq]:" + FunUtil.BytesToHexS(info));
+			out.write(info);
+		} else {
+			return "NO";
+		}
+		return "OK";
+	}
+	// 更新终端
+		public static String RadioUserUpdateReq(RadioUserBean bean)
+				throws IOException {
+			// 创建客户端的Socket服务，指定目的主机和端口。
+			NetDataTypeTransform dd = new NetDataTypeTransform();
+			MotoCorba.RadioUserUpdateReq.Builder builder = MotoCorba.RadioUserUpdateReq
+					.newBuilder();
+			builder.setRadioID(bean.getRadioID());
+			builder.setRadioUserAlias(bean.getRadioUserAlias());
+			builder.setSecurityGroup(bean.getSecurityGroup());
+			builder.setRadioUserCapabilityProfileAlias(bean
+					.getRadioUserCapabilityProfileAlias());
+			builder.setUserEnabled(bean.getUserEnabled());
+			builder.setInterconnectEnabled(bean.getInterconnectEnabled());
+			builder.setPacketDataEnabled(bean.getPacketDataEnabled());
+			builder.setShortDataEnabled(bean.getShortDataEnabled());
+			builder.setFullDuplexEnabled(bean.getFullDuplexEnabled());
+
+			MotoCorba.RadioUserUpdateReq req = builder.build();
+			byte[] buffer = req.toByteArray();
+			// 发送数据，应该获取Socket流中的输出流。
+			OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(bos);
+
+			dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+			dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+			dos.writeInt(header.getTargetId());
+			;
+			dos.writeShort((short) 16);// commandId 2 命令ID
+			dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+			/**************** content ***********************/
+			dos.write(buffer);
+			/**************** content ***********************/
+			dos.writeShort(header.getCheckSum());
+
+			byte[] info = bos.toByteArray();
+			if (MotoTcpClient.getSocket().isConnected()) {
+				log.debug("DS->MOTO[RadioUserUpdateReq]:" + bean.toString());
+				log.debug("DS->MOTO[RadioUserUpdateReq]:" + FunUtil.BytesToHexS(info));
+				out.write(info);
+			} else {
+				return "NO";
+			}
+			return "OK";
+		}
+		// 获取终端
+		public static String RadioGetReq(RadioBean bean)
+				throws IOException {
+			// 创建客户端的Socket服务，指定目的主机和端口。
+			NetDataTypeTransform dd = new NetDataTypeTransform();
+			MotoCorba.RadioGetReq.Builder builder = MotoCorba.RadioGetReq
+					.newBuilder();
+			builder.setRadioID(bean.getRadioID());
+
+			MotoCorba.RadioGetReq req = builder.build();
+			byte[] buffer = req.toByteArray();
+			// 发送数据，应该获取Socket流中的输出流。
+			OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			DataOutputStream dos = new DataOutputStream(bos);
+
+			dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+			dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+			dos.writeInt(header.getTargetId());
+			;
+			dos.writeShort((short) 2);// commandId 2 命令ID
+			dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+			/**************** content ***********************/
+			dos.write(buffer);
+			/**************** content ***********************/
+			dos.writeShort(header.getCheckSum());
+
+			byte[] info = bos.toByteArray();
+			if (MotoTcpClient.getSocket().isConnected()) {
+				log.debug("DS->MOTO[RadioGetReq]:" + bean.toString());
+				log.debug("DS->MOTO[RadioGetReq]:" + FunUtil.BytesToHexS(info));
+				out.write(info);
+			} else {
+				return "NO";
+			}
+			return "OK";
+		}
+		// 获取终端用户
+				public static String RadioUserGetReq(RadioUserBean bean)
+						throws IOException {
+					// 创建客户端的Socket服务，指定目的主机和端口。
+					NetDataTypeTransform dd = new NetDataTypeTransform();
+					MotoCorba.RadioUserGetReq.Builder builder = MotoCorba.RadioUserGetReq
+							.newBuilder();
+					builder.setRadioUserAlias(bean.getRadioUserAlias());
+
+					MotoCorba.RadioUserGetReq req = builder.build();
+					byte[] buffer = req.toByteArray();
+					// 发送数据，应该获取Socket流中的输出流。
+					OutputStream out = MotoTcpClient.getSocket().getOutputStream();
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					DataOutputStream dos = new DataOutputStream(bos);
+
+					dos.writeShort(header.getCMDHeader()); // commandHeader 2 命令开始字段
+					dos.writeShort(header.getLength() + buffer.length);// length 2 后接数据长度
+					dos.writeInt(header.getTargetId());
+					;
+					dos.writeShort((short) 10);// commandId 2 命令ID
+					dos.write(dd.LongData(bean.getCallId(), 8));// businessSN 8 业务流水号
+					/**************** content ***********************/
+					dos.write(buffer);
+					/**************** content ***********************/
+					dos.writeShort(header.getCheckSum());
+
+					byte[] info = bos.toByteArray();
+					if (MotoTcpClient.getSocket().isConnected()) {
+						log.debug("DS->MOTO[RadioUserGetReq]:" + bean.toString());
+						log.debug("DS->MOTO[RadioUserGetReq]:" + FunUtil.BytesToHexS(info));
+						out.write(info);
+					} else {
+						return "NO";
+					}
+					return "OK";
+				}
 
 	public String getMessage() {
 		return message;

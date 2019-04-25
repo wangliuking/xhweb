@@ -1,0 +1,106 @@
+<div class="bui-page">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">事件报告详情</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+     <!--    <h3 class="section-title">基本信息</h3> -->
+        <ul class="bui-list">
+        <li class="bui-btn bui-box ">
+                <label class="bui-label">提交时间:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.createtime"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">报告类型:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.fileType"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系人:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.contact"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系方式:</label>
+                <div class="span1">
+                    <div class="bui-input">
+                        <div class="bui-value" b-text="page.list.tel"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+          <h3 class="section-title">服务提供方备注信息</h3>
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1">
+                     <div class="bui-value" b-text="page.list.note"></div>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">管理方审核备注信息</h3>
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1">
+                     <div class="bui-value" b-text="page.list.note1"></div>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">文件</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <a href="#" style="color:blue;" b-click="page.download" b-text="page.list.fileName"></a>
+                    </div>
+
+                </div>
+            </div> 
+           <div class="container-y" b-class="page.activeClass">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <div class="bui-btn primary" id="check">审核</div>
+                    </div>
+
+                </div>
+            </div>
+    </main>
+</div>
+<!-- select 静态弹出自定义框 放在body层-->
+<div id="check-dg" class="bui-dialog" style="display:none;">
+   <!--  <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div> -->
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">审核信息</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="checkBtn(1)">同意</div>
+                    </div>
+                    <div class="span1">
+                        <div class="bui-btn danger" onclick="checkBtn(-1)">拒绝</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>

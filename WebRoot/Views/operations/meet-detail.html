@@ -1,0 +1,101 @@
+
+<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<button type="button" class="btn btn-success btn-sm"
+                        onclick="xh.print()">
+                        <i class="fa fa-print"></i>&nbsp;打印
+                    </button>
+			</div>
+			<div class="modal-body pad-0" id="print">
+				<style type="text/css">
+.table-view {
+	border-collapse: collapse;
+}
+
+.table-view td,th {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	min-height:35px;
+}
+
+.table-view td {
+	font-size: 13px;
+}
+</style>
+
+				<div class="row">
+					<div class="col-md-12">
+
+						<table style="width:100%;border-collapse: collapse;"
+							class="table-view">
+							<thead>
+								<tr>
+									<th colspan="5" style="text-align: center;height:50px;">
+										<h3>
+											成都市应急指挥调度无线通信网四期工程服务项目
+										</h3>
+									</th>
+								</tr>
+								<tr>
+									<th colspan="5" style="text-align: center;">{{detailData.name}}</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr>
+									<td width="150px">会议时间</td>
+									<td>{{detailData |timeFormat}}</td>
+								</tr>
+								<tr>
+									<td>会议地址</td>
+									<td>{{detailData.address}}</td>
+								</tr>
+								<tr>
+									<td>会议人员</td>
+									<td id="df2">{{detailData.person}}</td>
+								</tr>
+								<tr>
+									<td>会议类容</td>
+									<td>{{detailData.content}}</td>
+								</tr>
+								<tr>
+									<td>月度运维考核情况</td>
+									<td>{{detailData.check_info}}</td>
+								</tr>
+								<tr>
+									<td>响应及用户需求受理</td>
+									<td>{{detailData.user_need}}</td>
+								</tr>
+								<tr>
+									<td>应急通信保障和演练</td>
+									<td>{{detailData.emergency_info}}</td>
+								</tr>
+								<tr>
+									<td>其他</td>
+									<td>{{detailData.other_info}}</td>
+								</tr>
+								<tr>
+									<td>签字栏</td>
+									<td colspan="4" style="text-align: left;height:50px"><span>成都市软件产业发展中心：</span>
+                                <span style="margin-left:30%;">成都亚光电子股份有限公司：</span></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+>

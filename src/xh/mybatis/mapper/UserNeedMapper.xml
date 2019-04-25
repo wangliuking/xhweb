@@ -4,19 +4,23 @@
 	<select id="data_all" parameterType="map"
 		resultType="xh.mybatis.bean.UserNeedBean" useCache="true">
 		select * from xhgmnet_operations_userneed where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(time,"%Y-%m")=#{time}
+		<if test="starttime!=null and starttime!=''">
+			and time>=#{starttime}
 		</if>
-		<if test="start!=null and start!=''">
-			limit #{start},#{limit}
-		</if>
+		<if test="endtime!=null and endtime!=''">
+            and time &lt;=#{endtime}
+        </if>
+		limit #{start},#{limit}
 	</select>
 	<select id="data_all_count" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_userneed where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(time,"%Y-%m")=#{time}
-		</if>
+		<if test="starttime!=null and starttime!=''">
+            and time>=#{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and time &lt;=#{endtime}
+        </if>
 	</select>
 	<insert id="add" parameterType="xh.mybatis.bean.UserNeedBean"
 		useGeneratedKeys="true" keyProperty="id">
@@ -43,18 +47,23 @@
 	<select id="communication_list" parameterType="map"
         resultType="xh.mybatis.bean.RecordCommunicationBean" useCache="true">
         select * from record_communication where 1=1
-        <if test="time!=null and time!=''">
-            and date_format(start_time,"%Y-%m")=#{time}
+  
+        <if test="starttime!=null and starttime!=''">
+            and end_time>=#{starttime}
         </if>
-        <if test="start!=null and start!=''">
-            limit #{start},#{limit}
+        <if test="endtime!=null and endtime!=''">
+            and end_time &lt;=#{endtime}
         </if>
+         limit #{start},#{limit}
     </select>
     <select id="communication_list_count" parameterType="map" resultType="int"
         useCache="true">
         select count(*) from record_communication where 1=1
-        <if test="time!=null and time!=''">
-            and date_format(start_time,"%Y-%m")=#{time}
+         <if test="starttime!=null and starttime!=''">
+            and end_time>=#{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and end_time &lt;=#{endtime}
         </if>
     </select>
     <insert id="add_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean"
@@ -79,7 +88,7 @@
     
     <delete id="del_communication" parameterType="java.util.List">
         delete from
-        record_communication where id=(
+        record_communication where id in(
         <foreach collection="list" item="id" separator=",">
             #{id}
         </foreach>
@@ -89,18 +98,23 @@
 <select id="emergency_list" parameterType="map"
         resultType="xh.mybatis.bean.RecordEmergencyBean" useCache="true">
         select * from record_emergency where 1=1
-        <if test="time!=null and time!=''">
-            and date_format(create_time,"%Y-%m")=#{time}
+        
+        <if test="starttime!=null and starttime!=''">
+            and create_time>=#{starttime}
         </if>
-        <if test="start!=null and start!=''">
-            limit #{start},#{limit}
+        <if test="endtime!=null and endtime!=''">
+            and create_time &lt;=#{endtime}
         </if>
+         limit #{start},#{limit}
     </select>
     <select id="emergency_list_count" parameterType="map" resultType="int"
         useCache="true">
         select count(*) from record_emergency where 1=1
-        <if test="time!=null and time!=''">
-            and date_format(create_time,"%Y-%m")=#{time}
+        <if test="starttime!=null and starttime!=''">
+            and create_time>=#{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and create_time &lt;=#{endtime}
         </if>
     </select>
     <insert id="add_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean"
@@ -124,7 +138,7 @@
     
     <delete id="del_emergency" parameterType="java.util.List">
         delete from
-        record_emergency where id=(
+        record_emergency where id in (
         <foreach collection="list" item="id" separator=",">
             #{id}
         </foreach>

@@ -97,6 +97,39 @@ public class QualityCheckController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping(value = "/selectAll2", method = RequestMethod.GET)
+	public void selectAll2(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.success = true;
+		int start = funUtil.StringToInt(request.getParameter("start"));
+		int limit = funUtil.StringToInt(request.getParameter("limit"));
+		start=(start-1)*limit;
+		String user = funUtil.loginUser(request);
+		WebUserBean userbean = WebUserServices.selectUserByUser(user);
+		int roleId = userbean.getRoleId();
+		Map<String,Object> power = SingLoginListener.getLoginUserPowerMap().get(request.getSession().getId());
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("user", user);
+		 map.put("power", power.get("o_check_service"));
+		    map.put("roleId", roleId);
+			log.info("查询条件=>"+map);
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("items", QualityCheckService.selectAll(map));
+		result.put("totals", QualityCheckService.dataCount(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@RequestMapping(value = "/applyProgress", method = RequestMethod.GET)
 	public void applyProgress(HttpServletRequest request,

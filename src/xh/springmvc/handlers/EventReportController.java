@@ -78,6 +78,46 @@ public class EventReportController {
 		
 	}
 	/**
+	 * 获取事件上报
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/list2")
+	@ResponseBody
+	public Map<String,Object> worklist2(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String time=request.getParameter("time");
+		String fileType = request.getParameter("fileType");
+		int status=funUtil.StringToInt(request.getParameter("status"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		
+		start=(start-1)*limit;
+		
+		String power=SingLoginListener.
+				getLoginUserPowerMap().
+				get(request.getSession().getId()).get("o_check_report").toString();
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("loginuser", funUtil.loginUser(request));
+		map.put("roleType", FunUtil.loginUserInfo(request).get("roleType"));
+		map.put("power", power);
+		map.put("time", time);
+		map.put("status", status);
+		map.put("fileType", fileType);
+		map.put("start", start);
+		map.put("limit", limit);
+		
+		System.out.println("report->"+map);
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",EventReportServices.count(map));
+		result.put("items",EventReportServices.eventReportlist(map));
+		return result;
+		
+	}
+	/**
 	 * 新增事件上报
 	 * @param request
 	 * @param response

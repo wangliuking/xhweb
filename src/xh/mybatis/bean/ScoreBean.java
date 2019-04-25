@@ -2,6 +2,8 @@ package xh.mybatis.bean;
 
 public class ScoreBean {
 	private String time;
+	private int period;
+	
 	private String s_a1;
 	private String n_a1;
 	
@@ -34,6 +36,9 @@ public class ScoreBean {
 	
 	private String s_g1;
 	private String n_g1;
+	
+	private String s_h1;
+	private String n_h1;
 	
 	private String s_sum;
 	private String n_sum;
@@ -211,17 +216,38 @@ public class ScoreBean {
 	public void setN_sum(String n_sum) {
 		this.n_sum = n_sum;
 	}
+	
+	
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
+	}
+	public String getS_h1() {
+		return s_h1;
+	}
+	public void setS_h1(String s_h1) {
+		this.s_h1 = s_h1;
+	}
+	public String getN_h1() {
+		return n_h1;
+	}
+	public void setN_h1(String n_h1) {
+		this.n_h1 = n_h1;
+	}
 	@Override
 	public String toString() {
-		return "ScoreBean [time=" + time + ", s_a1=" + s_a1 + ", n_a1=" + n_a1
-				+ ", s_b1=" + s_b1 + ", n_b1=" + n_b1 + ", s_b2=" + s_b2
-				+ ", n_b2=" + n_b2 + ", s_b3=" + s_b3 + ", n_b3=" + n_b3
-				+ ", s_b4=" + s_b4 + ", n_b4=" + n_b4 + ", s_c1=" + s_c1
-				+ ", n_c1=" + n_c1 + ", s_c2=" + s_c2 + ", n_c2=" + n_c2
-				+ ", s_d1=" + s_d1 + ", n_d1=" + n_d1 + ", s_d2=" + s_d2
-				+ ", n_d2=" + n_d2 + ", s_e1=" + s_e1 + ", n_e1=" + n_e1
-				+ ", s_f1=" + s_f1 + ", n_f1=" + n_f1 + ", s_f2=" + s_f2
-				+ ", n_f2=" + n_f2 + ", s_g1=" + s_g1 + ", n_g1=" + n_g1
+		return "ScoreBean [time=" + time + ", period=" + period + ", s_a1="
+				+ s_a1 + ", n_a1=" + n_a1 + ", s_b1=" + s_b1 + ", n_b1=" + n_b1
+				+ ", s_b2=" + s_b2 + ", n_b2=" + n_b2 + ", s_b3=" + s_b3
+				+ ", n_b3=" + n_b3 + ", s_b4=" + s_b4 + ", n_b4=" + n_b4
+				+ ", s_c1=" + s_c1 + ", n_c1=" + n_c1 + ", s_c2=" + s_c2
+				+ ", n_c2=" + n_c2 + ", s_d1=" + s_d1 + ", n_d1=" + n_d1
+				+ ", s_d2=" + s_d2 + ", n_d2=" + n_d2 + ", s_e1=" + s_e1
+				+ ", n_e1=" + n_e1 + ", s_f1=" + s_f1 + ", n_f1=" + n_f1
+				+ ", s_f2=" + s_f2 + ", n_f2=" + n_f2 + ", s_g1=" + s_g1
+				+ ", n_g1=" + n_g1 + ", s_h1=" + s_h1 + ", n_h1=" + n_h1
 				+ ", s_sum=" + s_sum + ", n_sum=" + n_sum + "]";
 	}
 	

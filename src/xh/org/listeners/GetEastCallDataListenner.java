@@ -13,14 +13,25 @@ import java.util.TimerTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import xh.constant.ConstantMap;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EmhThreeBean;
+import xh.mybatis.bean.RadioBean;
+import xh.mybatis.bean.RadioUserMotoBean;
 import xh.mybatis.service.EastComService;
+import xh.mybatis.service.RadioService;
+import xh.mybatis.service.RadioUserMotoService;
+import xh.mybatis.service.RadioUserService;
 import xh.mybatis.service.SqlServerService;
+import xh.org.socket.MotoTcpClient;
+import xh.org.socket.SendData;
+import xh.protobuf.RadioUserBean;
 
 public class GetEastCallDataListenner implements ServletContextListener {
 	
@@ -47,6 +58,7 @@ public class GetEastCallDataListenner implements ServletContextListener {
 			try {
 				Date d1 = fTime.parse(time);
 				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
+				timer.scheduleAtFixedRate(new GetMotoData(), d1, 1000*60*60*24);
 				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
 				timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);
 			} catch (ParseException e) {
@@ -189,4 +201,110 @@ class CollectionData extends TimerTask{
 		
 	}
 	
+}
+class GetMotoData extends TimerTask{
+	protected final Log log4j = LogFactory.getLog(GetData.class);
+	private RadioService radio_s=new RadioService();
+	@Override
+	public void run() {
+		log4j.info("=========================================");
+		log4j.info("获取MoTo数据线程启动");
+		log4j.info("=========================================");
+		long starttime1=System.currentTimeMillis();
+		GetAllRadio();
+		GetAllRadioUser();
+		long endtime1=System.currentTimeMillis();
+		float seconds1 = (endtime1 - starttime1);
+		log4j.info("=========================================");
+		log4j.info("获取MoTo数据结束,历时="+seconds1+" ms");
+		log4j.info("=========================================");
+		
+	}
+	public void GetAllRadio(){
+		List<HashMap> list=new ArrayList<HashMap>();
+		list=RadioUserService.allRadioUser("0");
+		for (HashMap map : list) {
+			try {
+				radioGet(map.get("C_ID").toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public void GetAllRadioUser(){
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		list=RadioUserMotoService.radioList();
+		for (Map<String,Object> map : list) {
+			try {
+				radioUserMotoGet(map.get("RadioID").toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public String radioGet(String radioId) throws Exception{
+		RadioBean bean=new RadioBean();
+		if(MotoTcpClient.getSocket().isConnected()){			
+			bean.setRadioID(radioId);
+			bean.setCallId(FunUtil.RandomAlphanumeric(8));
+			bean.setRadioReferenceID("0");
+			bean.setRadioSerialNumber("0");
+			bean.setSecurityGroup("0");
+			SendData.RadioGetReq(bean);
+			long nowtime=System.currentTimeMillis();
+			tag:for(;;){			
+				long tt=System.currentTimeMillis();
+				if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+					if(ConstantMap.getMotoResultMap().get(bean.getCallId()).equals("0")){
+						
+					}else{
+						bean=(RadioBean) ConstantMap.getMotoResultMap().get(bean.getCallId()+"map");
+						radio_s.vAdd(bean);
+						
+					}	
+					ConstantMap.getMotoResultMap().remove(bean.getCallId());
+					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"map");
+					break tag;
+				}else{
+					if(tt-nowtime>10000){
+						break tag;
+					}
+				}
+			}			
+		}
+		return "SUCCESS";
+	}
+	public String radioUserMotoGet(String radioUserAlias) throws Exception{
+		RadioUserMotoBean bean2=new RadioUserMotoBean();
+		if(MotoTcpClient.getSocket().isConnected()){
+			RadioUserBean bean=new RadioUserBean();
+			bean.setRadioUserAlias(radioUserAlias);
+			bean.setCallId(FunUtil.RandomAlphanumeric(8));
+			SendData.RadioUserGetReq(bean);
+			long nowtime=System.currentTimeMillis();
+			tag:for(;;){			
+				long tt=System.currentTimeMillis();
+				if(ConstantMap.getMotoResultMap().containsKey(bean.getCallId())){
+					if(ConstantMap.getMotoResultMap().get(bean.getCallId()).equals("0")){
+					}else{
+						bean2=(RadioUserMotoBean) ConstantMap.getMotoResultMap().get(bean.getCallId()+"map");
+						RadioUserMotoService.vAdd(bean2);
+					}	
+					ConstantMap.getMotoResultMap().remove(bean.getCallId());
+					ConstantMap.getMotoResultMap().remove(bean.getCallId()+"map");
+					break tag;
+				}else{
+					if(tt-nowtime>10000){
+						break tag;
+					}
+				}
+			}			
+		}else{
+		}
+		
+		return "SUCCESS";
+	}
+
 }

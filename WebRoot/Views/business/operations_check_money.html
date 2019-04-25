@@ -1,0 +1,349 @@
+<!-- row -->
+<div class="row">
+
+	<div class="col-md-12">
+		<div class="hpanel">
+			<div class="panel-heading hbuilt text-center">
+			<button type="button" class="btn btn-success btn-sm"
+                        onclick="xh.print_money3()">
+                        <i class="fa fa-print"></i>&nbsp;打印
+                    </button>
+            </div>
+			<div class="panel-body" id="print_money3">
+				    <style type="text/css">
+                  .table-view {
+                         border-collapse: collapse;
+                    }
+
+                  .table-view td,th {
+                         border: 1px solid #000;
+                         border-collapse: collapse;
+                         text-align: center;
+                     }
+                  .table-view td {
+                         font-size: 13px;
+                     }
+                </style>
+					<table style="width:100%;border-collapse: collapse;"
+                    class="table-view">
+						<thead>
+						<tr>
+                            <th colspan="5" style="text-align: center;height:50px;">成都市应急指挥调度无线通信网<span
+                                style="color:red">三期</span>工程服务项目
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">{{time}}服务扣款表</th>
+                        </tr>
+							<tr>
+								 <th width="100px">考核项</th>
+                                <th width="200px">分项</th>
+								<th width="200px">标准</th>
+								<th width="100px">服务费扣款</th>
+								<th >备注</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td rowspan="5">服务可用率</td>
+								<td>交换中心可用率</td>
+
+								<td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除10000元</td>
+								<td>{{money_data3.m_a1}}</td>
+								<td>{{money_data3.n_a1}}</td>
+							</tr>
+							 <tr>
+                                <td>桥接站或地铁互联设备可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除300元</td>
+                                <td>{{money_data3.m_l1}}</td>
+                                <td>{{money_data3.n_l1}}</td>
+                            </tr>
+							<tr>
+								<td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
+								<td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除300元</td>
+								<td>{{money_data3.m_a2}}</td>
+                                <td>{{money_data3.n_a2}}</td>
+							</tr>
+							<tr>
+								<td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除300元</td>
+								<td>{{money_data3.m_a3}}</td>
+                                <td>{{money_data3.n_a3}}</td>
+							</tr>
+							<tr>
+								<td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除300元</td>
+								<td>{{money_data3.m_a4}}</td>
+                                <td>{{money_data3.n_a4}}</td>
+							</tr>
+							<tr>
+								<td rowspan="2">故障控制</td>
+								<td>重大故障</td>
+								<td>每发生1次扣除10000元</td>
+								<td>{{money_data3.m_b1}}</td>
+                                <td>{{money_data3.n_b1}}</td>
+							</tr>
+							<tr>
+								<td>特别重大故障</td>
+								<td>每发生1次扣除20000元</td>
+								<td>{{money_data3.m_b2}}</td>
+                                <td>{{money_data3.n_b2}}</td>
+							</tr>
+							
+							<tr>
+								<td>用户服务响应</td>
+								<td></td>
+								<td>超出要求时间扣除500元</td>
+								<td>{{money_data3.m_d1}}</td>
+                                <td>{{money_data3.n_d1}}</td>
+							</tr>							
+							<tr>
+								<td>应急通信保障</td>
+								<td></td>
+								<td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
+								<td>{{money_data3.m_f1}}</td>
+                                <td>{{money_data3.n_f1}}</td>
+							</tr>
+							<tr>
+								<td>应急通信保障演练</td>
+								<td></td>
+								<td>每季度完成1次，每缺1次扣10000元</td>
+								<td>{{money_data3.m_g1}}</td>
+                                <td>{{money_data3.n_g1}}</td>
+							</tr>
+							
+							<tr>
+								<td>合计扣款</td>
+								<td colspan="4">{{money_sum3}}</td>
+							</tr>
+							<tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="text-align: left;height:50px">
+                                <span>成都市软件产业发展中心：</span> 
+                                <span style="margin-left:30%;">成都亚光电子股份有限公司：</span></td>
+                            </tr>
+
+
+
+						</tbody>
+					</table>
+
+				</form>
+
+
+				<!-- row -->
+
+				
+
+			</div>
+			<!-- panel-body--end -->
+			<!-- hpanel --end-->
+		</div>
+		<!-- col-md-12--end -->
+	</div>
+	<!-- row/ -->
+	<div class="col-md-12">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt text-center">
+             <div class="btn-group">
+                    <button type="button" class="btn btn-success btn-sm"
+                        onclick="xh.print_money4()">
+                        <i class="fa fa-print"></i>&nbsp;打印
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body" id="print_money4">
+                <style type="text/css">
+                  .table-view {
+                         border-collapse: collapse;
+                    }
+
+                  .table-view td,th {
+                         border: 1px solid #000;
+                         border-collapse: collapse;
+                           text-align: center;
+                     }
+                  .table-view td {
+                         font-size: 13px;
+                     }
+                </style>
+                    <table style="width:100%;border-collapse: collapse;"
+                    class="table-view">
+                        <thead>
+                        <tr>
+                            <th colspan="5" style="text-align: center;height:50px;">成都市应急指挥调度无线通信网<span
+                                style="color:red">四期</span>工程服务项目
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" style="text-align: center;">{{time}}服务扣款表</th>
+                        </tr>
+                            <tr>
+                                <th width="100px">考核项</th>
+                                <th width="200px">分项</th>
+                                <th width="200px">标准</th>
+                                <th width="100px">服务费扣款</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="6">服务可用率</td>
+                                <td>交换中心可用率</td>
+
+                                <td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除50000元</td>
+                                <td>{{money_data4.m_a1}}</td>
+                                <td>{{money_data4.n_a1}}</td>
+                            </tr>
+                            <tr>
+                                <td>Moto交换中心可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除10000元</td>
+                                <td>{{money_data4.m_m1}}</td>
+                                <td>{{money_data4.n_m1}}</td>
+                            </tr>
+                            <tr>
+                                <td>公网集群可用率</td>
+
+                                <td>可用率全年99.99%，全年不超过1小时，超过每小时扣除10000元</td>
+                                <td>{{money_data4.m_n1}}</td>
+                                <td>{{money_data4.n_n1}}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
+                                <td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除1000元</td>
+                                <td>{{money_data4.m_a2}}</td>
+                                <td>{{money_data4.n_a2}}</td>
+                            </tr>
+                            <tr>
+                                <td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除1000元</td>
+                               <td>{{money_data4.m_a3}}</td>
+                                <td>{{money_data4.n_a3}}</td>
+                            </tr>
+                            <tr>
+                                <td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除1000元</td>
+                                <td>{{money_data4.m_a4}}</td>
+                                <td>{{money_data4.n_a4}}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">故障控制</td>
+                                <td>重大故障</td>
+                                <td>每发生1次扣除10000元</td>
+                                <td>{{money_data4.m_b1}}</td>
+                                <td>{{money_data4.n_b1}}</td>
+                            </tr>
+                            <tr>
+                                <td>特别重大故障</td>
+                                <td>每发生1次扣除20000元</td>
+                               <td>{{money_data4.m_b2}}</td>
+                                <td>{{money_data4.n_b2}}</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">故障通报时间</td>
+                                <td>特别重大故障</td>
+                                <td>每超出5分钟扣除500元</td>
+                                <td>{{money_data4.m_c1}}</td>
+                                <td>{{money_data4.n_c1}}</td>
+                            </tr>
+                            <tr>
+                                <td>重大故障</td>
+                                <td>每超出5分钟扣除200元</td>
+                               <td>{{money_data4.m_c2}}</td>
+                                <td>{{money_data4.n_c2}}</td>
+                            </tr>
+                            <tr>
+                                <td>一般故障</td>
+                                <td>每超出5分钟扣除100元</td>
+                                <td>{{money_data4.m_c3}}</td>
+                                <td>{{money_data4.n_c3}}</td>
+                            </tr>
+                            <tr>
+                                <td>用户服务响应</td>
+                                <td></td>
+                                <td>超出要求时间扣除1000元</td>
+                                 <td>{{money_data4.m_d1}}</td>
+                                <td>{{money_data4.n_d1}}</td>
+                            </tr>
+                            <tr>
+                                <td>用户培训服务</td>
+                                <td></td>
+                                <td>全年培训少于2次，每次扣50000元</td>
+                                <td>{{money_data4.m_e1}}</td>
+                                <td>{{money_data4.n_e1}}</td>
+                            </tr>
+                            <tr>
+                                <td>应急通信保障</td>
+                                <td></td>
+                                <td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
+                                <td>{{money_data4.m_f1}}</td>
+                                <td>{{money_data4.n_f1}}</td>
+                            </tr>
+                            <tr>
+                                <td>应急通信保障演练</td>
+                                <td></td>
+                                <td>每季度完成1次，每缺1次扣10000元</td>
+                                <td>{{money_data4.m_g1}}</td>
+                                <td>{{money_data4.n_g1}}</td>
+                            </tr>
+                            <tr>
+                                <td>系统应急处置演练</td>
+                                <td></td>
+                                <td>每季度完成1次，每缺1次扣10000元</td>
+                                <td>{{money_data4.m_h1}}</td>
+                                <td>{{money_data4.n_h1}}</td>
+                            </tr>
+                            <tr>
+                                <td>运维资料</td>
+                                <td></td>
+                                <td>每缺1项扣500元</td>
+                                 <td>{{money_data4.m_i1}}</td>
+                                <td>{{money_data4.n_i1}}</td>
+                            </tr>
+                            <tr>
+                                <td>安全保密</td>
+                                <td></td>
+                                <td>每发生1次泄密事件扣50000元</td>
+                                 <td>{{money_data4.m_j1}}</td>
+                                <td>{{money_data4.n_j1}}</td>
+                            </tr>
+                            <tr>
+                                <td>其他要求</td>
+                                <td></td>
+                                <td>基站搬迁及卫星链路开通</td>
+                                <td>{{money_data4.m_k1}}</td>
+                                <td>{{money_data4.n_k1}}</td>
+                            </tr>
+                            <tr>
+                                <td>合计扣款</td>
+                                <td colspan="4">{{money_sum4}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" style="text-align: left;height:50px">
+                                <span>成都市软件产业发展中心：</span> 
+                                <span style="margin-left:30%;">成都亚光电子股份有限公司：</span></td>
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+
+                </form>
+
+
+                <!-- row -->
+
+                
+
+            </div>
+            <!-- panel-body--end -->
+            <!-- hpanel --end-->
+        </div>
+        <!-- col-md-12--end -->
+    </div>
+    <!-- row/ -->
+</div>

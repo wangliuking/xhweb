@@ -1,5 +1,6 @@
 package xh.func.plugin;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -182,6 +183,58 @@ public class ChartUtil {
 		plot.setRenderer(xyitem);
         File pieChart = new File("D:/chart.png");
         ChartUtilities.saveChartAsPNG(pieChart, chart, 500, 400);
+    }
+	public static void LineImg(String name,TimeSeries timeSeries1) throws Exception {
+		//timeSeries.add(new Month(1,2013), 100);
+		ChartFactory.setChartTheme(getFont());
+		// 定义时间序列的集合
+		TimeSeriesCollection lineDataset=new TimeSeriesCollection();
+		lineDataset.addSeries(timeSeries1);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(name, "", "", lineDataset, true, true, true);
+		// 设置主标题
+		chart.setTitle(new TextTitle(name, new Font("隶书", Font.ITALIC, 13)));
+		/*// 设置子标题
+		TextTitle subtitle = new TextTitle("2", new Font("黑体", Font.BOLD, 12));
+		chart.addSubtitle(subtitle);*/
+		chart.setAntiAlias(true);
+ 
+		// 设置时间轴的范围。
+		XYPlot plot = (XYPlot) chart.getPlot();
+		DateAxis dateaxis = (DateAxis) plot.getDomainAxis();
+		dateaxis.setDateFormatOverride(new java.text.SimpleDateFormat("M月"));
+		dateaxis.setTickUnit(new DateTickUnit(DateTickUnit.MONTH, 1));
+		
+		// 背景色 透明度
+		//plot.setBackgroundAlpha(0.5f);
+		// 前景色 透明度
+		//plot.setForegroundAlpha(0.5f);
+		 plot.setBackgroundPaint(Color.WHITE);
+		 plot.setRangeGridlinePaint(Color.black);//背景底部横虚线
+		 plot.setRangeZeroBaselinePaint(Color.GREEN);
+		
+		
+ 
+		// 设置曲线是否显示数据点
+		XYLineAndShapeRenderer xylinerenderer = (XYLineAndShapeRenderer) plot.getRenderer();
+		xylinerenderer.setBaseShapesVisible(true);
+		xylinerenderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
+				ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_LEFT));
+		xylinerenderer.setItemLabelFont(new Font("宋体", Font.PLAIN, 12));// 设置数字的字体大小
+		//xylinerenderer.setItemLabelAnchorOffset(2D);
+		// // 设置颜色-----------------------------------------------------------
+		xylinerenderer.setSeriesStroke(0, new BasicStroke(1.0F));//设置折线大小
+		xylinerenderer.setSeriesPaint(0, Color.blue);//绿色
+		plot.setRenderer(xylinerenderer);// 使用我们设计的效果F
+		// 设置曲线显示各数据点的值
+		XYItemRenderer xyitem = plot.getRenderer();
+		xyitem.setBaseItemLabelsVisible(true);
+		xyitem.setBasePositiveItemLabelPosition(
+				new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.BASELINE_CENTER));
+		xyitem.setBaseItemLabelGenerator(new StandardXYItemLabelGenerator());
+		xyitem.setBaseItemLabelFont(new Font("Dialog", 1, 10));
+		plot.setRenderer(xyitem);
+        File pieChart = new File("D:/chart.png");
+        ChartUtilities.saveChartAsPNG(pieChart, chart, 500, 350);
     }
 	public static void LineImg(String name,DefaultCategoryDataset dcd) throws Exception {
 		//timeSeries.add(new Month(1,2013), 100);

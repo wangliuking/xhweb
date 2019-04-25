@@ -29,6 +29,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "20";//每页数据显示默认值
 		$scope.page=1;
+		$scope.READ_EMAIL="";
 		/*获取邮件信息*/
 		$http.get("../../center/email/list?start=0&limit="+pageSize).
 		success(function(response){
@@ -37,6 +38,16 @@ xh.load = function() {
 			$scope.totals = response.totals;
 			xh.pagging(1, parseInt($scope.totals),$scope);
 		});
+		$scope.hasRead = function(tag) {
+			$scope.READ_EMAIL=tag;
+			$http.get("../../center/email/list?status="+tag+"&start=0&limit="+pageSize).
+			success(function(response){
+				xh.maskHide();
+				$scope.data = response.items;
+				$scope.totals = response.totals;
+				xh.pagging(1, parseInt($scope.totals),$scope);
+			});
+		};
 		/* 刷新数据 */
 		$scope.refresh = function() {
 			$scope.search($scope.page);
@@ -89,6 +100,7 @@ xh.load = function() {
 		};
 		/* 查询数据 */
 		$scope.search = function(page) {
+			
 			var $scope = angular.element(appElement).scope();
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
@@ -125,7 +137,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../center/email/list?start="+start+"&limit="+pageSize).
+			$http.get("../../center/email/list?status="+$scope.READ_EMAIL+"&start="+start+"&limit="+pageSize).
 			success(function(response){
 				xh.maskHide();
 				

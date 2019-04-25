@@ -47,6 +47,9 @@ public class LoginFilter extends HttpServlet implements Filter {
 			}else if (path.indexOf("/Views/business/sign") > -1) {
 				chain.doFilter(servletRequest, servletResponse);
 				return;
+			}else if (path.indexOf("/Views/app") > -1) {
+				chain.doFilter(servletRequest, servletResponse);
+				return;
 			}
 			else {
 			}

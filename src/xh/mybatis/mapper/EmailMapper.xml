@@ -11,11 +11,17 @@
      select a.*,b.userName from xhgmnet_notify as a
      left join xhgmnet_web_user as b on a.sendUser=b.user
      where a.recvUser=#{loginUser}
-     order by a.time desc limit #{start},#{limit}
+     <if test="status!=null and status!=''">
+      and a.`status`=#{status}
+     </if>
+     order by a.time desc,a.status asc limit #{start},#{limit}
     </select>  
     <!--邮件总数-->
     <select id="emailCount" parameterType="map"  resultType="int" useCache="true">
      select count(*) from xhgmnet_notify where recvUser=#{loginUser}
+     <if test="status!=null and status!=''">
+     and `status`=#{status}
+     </if>
     </select>
     <!--未读邮件总数-->
     <select id="noReadEmailCount" parameterType="map" resultType="int" useCache="true">

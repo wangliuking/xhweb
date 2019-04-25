@@ -200,7 +200,7 @@ input[type="text"] {
 																	ng-if="x.hometype=='租赁'">租赁机房</span></td>
 																<td>{{x.remainwork}}</td>
 																<td>{{x.checkman}}</td>
-																<td>{{x.commitdate}}</td>
+																<td>{{x.commitdate |timeFormat}}</td>
 																<td>{{x.address}}</td>
 																<td>{{x |py}}</td>
 																<td><a href="#" ng-click="showSbsWin($index)"
@@ -305,7 +305,7 @@ input[type="text"] {
 
 																<td>{{x.managerplace}}</td>
 																<td>{{x.checkman}}</td>
-																<td>{{x.commitdate}}</td>
+																<td>{{x.commitdate |timeFormat}}</td>
 																<td>{{x.address}}</td>
 																<td><a href="#" ng-click="showNetWin($index)"
 																	class="text-danger"> <i
@@ -406,7 +406,7 @@ input[type="text"] {
 
 																<td>{{x.dispatchplace}}</td>
 																<td>{{x.checkman}}</td>
-																<td>{{x.commitdate}}</td>
+																<td>{{x.commitdate |timeFormat}}</td>
 																<td>{{x.address}}</td>
 																<td><a href="#" ng-click="showDispatchWin($index)"
 																	class="text-danger"> <i

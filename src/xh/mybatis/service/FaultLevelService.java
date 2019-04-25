@@ -201,7 +201,7 @@ public class FaultLevelService {
 		FaultLevelMapper mapper=sqlSession.getMapper(FaultLevelMapper.class);
 		int count=0;
 		try {
-			count=mapper.one_del(list);
+			count=mapper.four_del(list);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {
