@@ -83,7 +83,7 @@ loader.define(function(require,exports,module){
         	checkDialog4.open();
         });
         $("#progress").click(function() {
-        	router.load({ url: "progress.html", 
+        	router.load({ url: "pages/emerhandle/progress.html", 
         		param:params});
         });
      // 自定义确定按钮事件
@@ -123,7 +123,7 @@ function sureBtn(){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/emerhandle/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -209,7 +209,7 @@ function checkedOne(data){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/emerhandle/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -242,7 +242,7 @@ function checkedTwo(tag){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/emerhandle/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -280,7 +280,7 @@ function checkedThree(data){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/emerhandle/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -305,7 +305,8 @@ function checkedFour(){
 		data : {
 			id:params.id,
 			user1:params.user1,
-			note4: $("#check-dg4").find("textarea[name='note4']").val()
+			note4: $("#check-dg4").find("textarea[name='note4']").val(),
+			level: $("#check-dg4").find("input[name='level']:checked").val()
 		},
 		success : function(data) {
 
@@ -313,41 +314,7 @@ function checkedFour(){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
-							res.refresh();
-							res.init();
-	                    })
-					}
-				});
-				
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.success("系统错误", '提示');
-		}
-	});
-}
-function checkedFive(data){
-	$.ajax({
-		url : xh.getUrl()+'optimizenet/checkedFive',
-		type : 'POST',
-		dataType : "json",
-		async : true,
-		data : {
-			id:params.id,
-			user2:params.user2,
-			note4: $("#check-dg5").find("textarea[name='note4']").val(),
-			checked:data
-		},
-		success : function(data) {
-
-			if (data.success) {
-				toastr.success(data.message, '提示');
-				bui.back({
-					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/emerhandle/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })

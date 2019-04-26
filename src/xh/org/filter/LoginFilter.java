@@ -47,7 +47,10 @@ public class LoginFilter extends HttpServlet implements Filter {
 			}else if (path.indexOf("/Views/business/sign") > -1) {
 				chain.doFilter(servletRequest, servletResponse);
 				return;
-			}else if (path.indexOf("/Views/app") > -1) {
+			}else if (path.indexOf("/webapp/pages/login") > -1) {
+				chain.doFilter(servletRequest, servletResponse);
+				return;
+			}else if (path.indexOf("/webapp/index") > -1) {
 				chain.doFilter(servletRequest, servletResponse);
 				return;
 			}
@@ -69,9 +72,13 @@ public class LoginFilter extends HttpServlet implements Filter {
 				//log.info("已经登录系统，可以正常使用");
 				chain.doFilter(request, response);
 			}else {
+				if(path.indexOf("/webapp/") > -1){
+					servletResponse.sendRedirect(servletRequest.getContextPath()+ "/webapp/pages/login/index.html");
+				}else{
+					servletResponse.sendRedirect(servletRequest.getContextPath()+ "/Views/login.html");
+				}
 				log.info("未登录系统，跳转至登录页面");
-				servletResponse.sendRedirect(servletRequest.getContextPath()
-						+ "/Views/login.html");
+				
 			}
 			
 		} catch (Exception e) {

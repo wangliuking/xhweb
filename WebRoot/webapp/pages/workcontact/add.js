@@ -21,47 +21,7 @@ loader.define(function(require,exports,module) {
     };
     // 事件绑定
     pageview.bind = function() {
-    	/*$("input[name='pathName").on("change",function(e){
-    		var ss = e.currentTarget.files;
-    		$("#filelist").append("343434");
-    		alert($("#filelist").html());
-    		e.currentTarget.files[0].name
-    		console.log("文件->"+ss.length)
-    		for (var m = 0; m < ss.length; m++) {
-    			var efileName = ss[m].name;
-    			if (ss[m].size > 1024 * 1024) {
-    				sfileSize = (Math.round(ss[m].size / (1024 * 1024))).toString()
-    						+ 'MB';
-    			} else {
-    				sfileSize = (Math.round(ss[m].size / 1024)).toString() + 'KB';
-    			}
-    			$("#filelist").append('<li>'+efileName+'</li>')
-    			
-    		}
-        });*/
     	
-       /* $("#file").on("click",function(e){
-            alert(1)
-        });*/
-       /* $("#add").click(function(){
-        	alert(111)
-        	bui.alert("提醒对话框");
-        	bui.ajax({
-                url: "../../../WorkContact/add",
-                method : 'POST',
-        		dataType : "json",
-        		async : true,
-                data: {
-                	formData : xh.serializeJson($("#addForm").serializeArray())
-                }
-            }).then(function(res){
-              alert(res.success)
-                
-            },function(res,status){
-                console.log(status);
-                // status = "timeout" || "error" || "abort", "parsererror"
-            })
-        })*/
     }
     // 初始化
     pageview.init();
@@ -91,7 +51,7 @@ function add(){
             	 $('.file').append('<input  class="form-control" type="file" id="pathName" name="pathName" />');
             	bui.back({
             		callback:function(){
-            			loader.require(['table'],function(res){
+            			loader.require(['pages/workcontact/table'],function(res){
             				res.refresh();
             				res.init({
             					page:1
@@ -116,8 +76,13 @@ function upload() {
         }
       
         $("input[name='result']").val(2);
-        $("#uploadfile").attr("disabled", true);
-        xh.maskShow("正在上传文件，请耐心等待");
+        var uiLoading = bui.loading({
+            text:'文件中传中，请耐心等待'
+        });
+        
+
+        uiLoading.show();
+        uiMask.show();
         $.ajaxFileUpload({
             url : xh.getUrl()+'uploadFile/upload', //用于文件上传的服务器端请求地址
             secureuri : false, //是否需要安全协议，一般设置为false
@@ -126,8 +91,8 @@ function upload() {
             type : 'POST',
             success : function(data, status) //服务器成功响应处理函数
             {
-                $("#uploadfile").attr("disabled", false);
-                xh.maskHide();
+            	uiLoading.hide();
+                uiMask.hide();
                 if (data.success) {
                     $("input[name='result']").val(1);
                     $("input[name='fileName']").val(data.fileName);
@@ -143,9 +108,8 @@ function upload() {
             },
             error : function(data, status, e)//服务器响应失败处理函数
             {
-                alert(e);
-                $("#uploadfile").attr("disabled", false);
-                xh.maskHide();
+            	uiLoading.hide();
+                uiMask.hide();
             }
         });
     }

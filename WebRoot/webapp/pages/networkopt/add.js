@@ -72,7 +72,7 @@ function add(){
 				$("#addForm").find("input[name='pathName']").val('');
             	bui.back({
             		callback:function(){
-            			loader.require(['table'],function(res){
+            			loader.require(['pages/networkopt/table'],function(res){
             				res.refresh();
             				res.init({
             					page:1

@@ -1,4 +1,3 @@
-var params="";
 toastr.options = {
 		"debug" : false,
 		"newestOnTop" : false,
@@ -18,29 +17,18 @@ toastr.options = {
 loader.define(function(require,exports,module){
 	var pageview = {}, uiList="",bs="";
 	pageview.init = function () {
-		    params = router.getPageParams();
-		    /*if(params.userName!=undefined){
-		    	login(params);
-		    }; */
-		    var className="show";
-	        
-	        if(gl_para.userL.roleType==2 || gl_para.userL.roleType==0){
-	        	className="show";
-	        }else{
-	        	className="hide";
-	        }
-	      bs=bui.store({
+		 var params = router.getPageParams();
+		 bs=bui.store({
 	            scope:'page',
 	            data:{
-	                activeClass:className
+	                isadd:(gl_para.userL.roleType==2 && gl_para.up.o_check_work!='on')|| gl_para.userL.roleType==0
 	            }
-	      });
+		 })
 		 uiList=bui.list({
 		        id: "#listStore",
-		        url: xh.getUrl()+"qualitycheck/selectAll2",
+		        url: xh.getUrl()+"center/email/list2",
 		        page: 1,
 		        pageSize: 10,
-		        
 		        method:'GET',
 		        timeout:5000,
 		        refresh:true,
@@ -55,8 +43,7 @@ loader.define(function(require,exports,module){
 		            size: "limit",
 		            data: "items"
 		        },
-		        data:{
-		        	
+		        data: {
 		        },
 		        //refresh:true,
 		        template: function(data) {
@@ -86,9 +73,38 @@ loader.define(function(require,exports,module){
 		 pageview.init();
 	 }
 	 
-	 
+	 pageview.bind=function(){
+		 $(".bui-list").on('click','li',function(){
+			 var url="";
+				switch($(this).attr("htmtext")){				
+				case "工作记录":
+					url="pages/workrecord/table.html";
+				    break;
+				case "应急处置演练":
+					url="pages/emerhandle/table.html";
+				    break;
+				case "网络优化":
+					url="pages/networkopt/table.html";
+				    break;
+				case "服务抽检":
+					url="pages/service/table.html";
+				    break;
+				case "工作联系单":
+					url="pages/workcontact/table.html";
+				    break;
+				case "提交报告":
+					url="pages/report/table.html";
+				    break;
+				default:
+					url="pages/email/table.html";
+					
+				};
+				router.load({ url: url,param:{}});
+		 })
+	 }
 	// 初始化
 	pageview.init();
+	pageview.bind();
 	 // 输出模块
     return pageview;
 });
@@ -97,36 +113,17 @@ function template(data) {
 	var html = "";
     if (data && data.length) {
         data.forEach(function(el, index) {
-        	var status=el.status;
-        	var str="",textClass="",subClass="",subText="";
-        	switch (el.checked) {
-            case 0:
-            	if(gl_para.userL.roleType==3){
-            		str= '请确认是否可以抽检';
-            	}else{
-            		str= '等待服务提供方确认是否可以抽检';
-            	}
-                
-                textClass='text-primary';
-                subClass = 'bui-sub primary';
-                subText="待确认";
-                break;
-            case 1:
-            	if(gl_para.userL.roleType==3){
-            		str= '等待管理方上传抽检记录';
-            	}else{
-            		str='请管理方上传抽检记录';
-            	}
-                
-                textClass='text-warning';
-                subClass = 'bui-sub warning';
-                subText="处理中";
-                break;
-             case 2:
-                 str = '结束';
+        	var str="",textClass="",subClass="";
+        	switch (el.status) {
+             case 1:
+                 str = '已读';
                  textClass='text-success';
                  subClass = 'bui-sub success';
-                 subText="结束";
+                 break;
+             case 0:
+                 str= '未读';
+                 textClass='text-danger';
+                 subClass = 'bui-sub danger';
                  break;
              default:
                  sub = '';
@@ -135,12 +132,12 @@ function template(data) {
              }
         	
         	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/service/detail.html" param='${json}'>
+        	html +=`<li data-sub="${str}"  class="bui-btn bui-box ${subClass}" href="" htmtext="${el.title}" param='${json}'>
             <div class="span4">
-            <p class="item-text">申请时间：${el.requestTime}</p>
-            <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
-            
-            <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
+            <p class="item-text">时间：${el.time}</p>
+            <p class="item-text">标题：<span>${el.title}</span></p>
+            <p class="item-text">发件人：<span>${el.userName}</span></p>
+            <p class="item-text">内容：<span>${el.content}</span></p>
             <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
             </div>
             <i class="icon-listright" style="color:#000;"></i>
@@ -149,27 +146,6 @@ function template(data) {
     }
     return html; 
 };
-function login(params){
-	bui.ajax({
-        url: xh.getUrl()+"web/login",
-        method:'post',
-        dataType : "json",
-        data: {
-        	username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-        },
-        async : false
-    }).then(function(data){
-    	if (data.success) {
-			//toastr.success("success", '提示');
-		} else {
-			toastr.error(data.message, '提示');
-		}
-    },function(res,status){
-        console.log(status);
-        toastr.error("登录超时", '提示');
-     // status = "timeout" || "error" || "abort", "parsererror"
-    })
+function toD(){
 }
+

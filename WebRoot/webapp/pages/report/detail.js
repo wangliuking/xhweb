@@ -122,7 +122,7 @@ function checkBtn(tag){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/report/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })

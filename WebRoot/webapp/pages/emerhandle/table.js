@@ -1,13 +1,24 @@
 var params="";
+toastr.options = {
+		"debug" : false,
+		"newestOnTop" : false,
+		"positionClass" : "toast-top-center",
+		"closeButton" : true,
+		/* 动态效果 */
+		"toastClass" : "animated fadeInRight",
+		"showDuration" : "300",
+		"hideDuration" : "1000",
+		/* 消失时间 */
+		"timeOut" : "1000",
+		"extendedTimeOut" : "1000",
+		"showMethod" : "fadeIn",
+		"hideMethod" : "fadeOut",
+		"progressBar" : true,
+	};
 loader.define(function(require,exports,module){
 	var pageview = {}, uiList="",bs="";
 	pageview.init = function () {
 		    params = router.getPageParams();
-		   
-		    if(params.userName!=undefined){
-		    	 console.log(JSON.stringify(params))
-		    	login(params);
-		    }; 
 		    var className="show";
 	        
 	        if(gl_para.userL.roleType==2 || gl_para.userL.roleType==0){
@@ -143,7 +154,7 @@ function template(data) {
              }
         	
         	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="detail.html" param='${json}'>
+        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/emerhandle/detail.html" param='${json}'>
             <div class="span4">
             <p class="item-text">申请时间：${el.requestTime}</p>
             <p class="item-text"><span class="bui-label">联系单位：</span><span class="bui-value">${el.unit1}</span></p>

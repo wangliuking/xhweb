@@ -23,33 +23,14 @@ function bind() {
     bui.btn({id:"#bui-router",handle:".bui-btn"}).load();
 
     // 统一绑定页面所有的后退按钮
-    $("#bui-router").on("click",".btn-back",function (e) {
-        // 支持后退多层,支持回调
-    	console.log("后退：d")
-        bui.back({
-        	name:'table'
-        });
+     $("#bui-router").on("click",".btn-back",function (e) {
+        bui.back();
     })
-}
-function getUserPower(){
-	bui.ajax({
-        url: xh.getUrl()+"web/loginUserPower",
-        data: {}
-    }).then(function(res){
-    	gl_para.up = res;
-    },function(res,status){
-        console.log(status);
-     // status = "timeout" || "error" || "abort", "parsererror"
+    $("#bui-router").on("click",".btn-back-home",function (e) {
+    	bui.back();
+        //router.load({ url: "index",param:{}});
+    	/*loader.require(["pages/main/main"],function(res){
+			console.log("d->"+JSON.stringify(res))
+        })*/
     })
-}
-function getUserInfo(){
-	  bui.ajax({
-	        url: xh.getUrl()+"web/loginUserInfo",
-	        data: {}
-	    }).then(function(res){
-	    	gl_para.userL=res
-	    },function(res,status){
-	        console.log(status);
-	     // status = "timeout" || "error" || "abort", "parsererror"
-	    })
 }

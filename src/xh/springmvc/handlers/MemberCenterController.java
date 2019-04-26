@@ -65,6 +65,33 @@ public class MemberCenterController {
 		}
 		
 	}
+	@RequestMapping(value="/email/list2",method = RequestMethod.GET)
+	@ResponseBody
+	public void emailInfo2(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		start=(start-1)*limit;
+		String status=request.getParameter("status");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("limit", limit);
+		map.put("status", status);
+		map.put("loginUser", funUtil.loginUser(request));
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",EmailService.emailCount(map));
+		result.put("items", EmailService.emailInfo(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@RequestMapping(value="/email/noReadEmailCount",method = RequestMethod.GET)
 	@ResponseBody
 	public void noReadEmailCount(HttpServletRequest request, HttpServletResponse response){

@@ -1,14 +1,26 @@
+toastr.options = {
+		"debug" : false,
+		"newestOnTop" : false,
+		"positionClass" : "toast-top-center",
+		"closeButton" : true,
+		/* 动态效果 */
+		"toastClass" : "animated fadeInRight",
+		"showDuration" : "300",
+		"hideDuration" : "1000",
+		/* 消失时间 */
+		"timeOut" : "1000",
+		"extendedTimeOut" : "1000",
+		"showMethod" : "fadeIn",
+		"hideMethod" : "fadeOut",
+		"progressBar" : true,
+	};
 loader.define(function(require,exports,module){
 	var pageview = {}, uiList="";
 	pageview.init = function () {
 		 var params = router.getPageParams();
-		 
-		    if(params.userName!=undefined){
-		    	login(params);
-		    }; 
 		 uiList=bui.list({
 		        id: "#listStore",
-		        url: "../../../WorkContact/list2",
+		        url: xh.getUrl()+"WorkContact/list2",
 		        page: 1,
 		        pageSize: 10,
 		        method:'GET',
@@ -87,7 +99,7 @@ function template(data) {
              }
         	
         	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${str}"  class="bui-btn bui-box ${subClass}" href="detail.html" param='${json}'>
+        	html +=`<li data-sub="${str}"  class="bui-btn bui-box ${subClass}" href="pages/workcontact/detail.html" param='${json}'>
             <div class="span4">
             <p class="item-text">发文时间：${el.time}</p>
             <p class="item-text"><span class="bui-label">发文人：</span><span class="bui-value">${el.userName}</span></p>
@@ -101,29 +113,4 @@ function template(data) {
     }
     return html; 
 };
-function login(params){
-	$.ajax({
-		url : '../../../web/login',
-		type : 'POST',
-		dataType : "json",
-		data : {
-			username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-		},
-		/* data : $("#loginForm").serializeArray(), */
-		async : false,
-		success : function(data) {
-			if (data.success) {
-				//toastr.success("success", '提示');
-			} else {
-				toastr.error(data.message, '提示');
-			}
-		},
-		error : function() {
-			toastr.error("登录超时", '提示');
 
-		}
-	});
-}

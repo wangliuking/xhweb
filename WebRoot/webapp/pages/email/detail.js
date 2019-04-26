@@ -21,18 +21,19 @@ loader.define(function(require,exports,module){
             scope:'page',
             data:{
                 list:params,
-                activeClass:className
+                activeClass:className,
+                show:gl_para.userL.roleType==2 && gl_para.up.o_check_work=='on' && params.status==0
             },
             methods:{
             	sure:function(e){
             		$.ajax({
-        				url : xh.getUrl()+'WorkContact/sign',
+        				url : xh.getUrl()+'work/signwork',
         				type : 'POST',
         				dataType : "json",
         				async : true,
         				data : {
-        					taskId : params.taskId,
-        					addUser : params.addUser
+        					id : params.id,
+        					recvUser : params.uploadUser
         				},
         				success : function(data) {
 
@@ -40,7 +41,7 @@ loader.define(function(require,exports,module){
         						toastr.success(data.message, '提示');
         						bui.back({
         							callback:function(){
-        								loader.require(["pages/workcontact/table"],function(res){
+        								loader.require(["pages/workrecord/table"],function(res){
         									res.refresh();
         									res.init();
         			                    })

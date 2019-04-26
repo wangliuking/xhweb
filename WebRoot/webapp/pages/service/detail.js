@@ -51,7 +51,7 @@ loader.define(function(require,exports,module){
             		if(fileName!=null && fileName!=""){
             			var index=filepath.lastIndexOf("/");
             			var name=filepath.substring(index+1,filepath.length);	
-            			var downUrl = h.getUrl()+"uploadFile/downfile?filePath="+filepath+"&fileName=" + name;
+            			var downUrl = xh.getUrl()+"uploadFile/downfile?filePath="+filepath+"&fileName=" + name;
             			if(xh.isfileapp(filepath)){
             				window.open(downUrl, '_self',
             				'width=1,height=1,toolbar=no,menubar=no,location=no');
@@ -83,8 +83,7 @@ loader.define(function(require,exports,module){
         	checkDialog2.open();
         });
         $("#progress").click(function() {
-        	router.load({ url: "pages/service/progress.html", 
-        		param:params});
+        	router.load({ url: "pages/service/progress.html",param:params});
         });
      // 自定义确定按钮事件
         $("#makeSure").click(function() {
@@ -108,7 +107,7 @@ loader.define(function(require,exports,module){
 });
 function sureBtn(){
 	$.ajax({
-		url : h.getUrl()+'qualitycheck/checkedOne',
+		url : xh.getUrl()+'qualitycheck/checkedOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -123,7 +122,7 @@ function sureBtn(){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/service/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -149,7 +148,7 @@ function uploadFile() {
 	  $("#check-dg2").find("input[name='result']").val(2);
       xh.maskShow("正在上传文件，请耐心等待");
       $.ajaxFileUpload({
-          url : h.getUrl()+'qualitycheck/upload', // 用于文件上传的服务器端请求地址
+          url : xh.getUrl()+'qualitycheck/upload', // 用于文件上传的服务器端请求地址
           secureuri : false, // 是否需要安全协议，一般设置为false
           fileElementId : 'filePath2', // 文件上传域的ID
           dataType : 'json', // 返回值类型 一般设置为json
@@ -176,7 +175,7 @@ function uploadFile() {
   }
 function uploadRecoreBtn(){
 	$.ajax({
-		url : h.getUrl()+'qualitycheck/checkedTwo',
+		url : xh.getUrl()+'qualitycheck/checkedTwo',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -192,7 +191,7 @@ function uploadRecoreBtn(){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/service/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })

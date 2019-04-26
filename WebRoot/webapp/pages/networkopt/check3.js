@@ -114,7 +114,7 @@ function check(){
 				bui.alert(data.message)
             	bui.back({
             		callback:function(){
-            			loader.require(['table'],function(res){
+            			loader.require(['pages/networkopt/table'],function(res){
             				res.refresh();
             				res.init({
             					page:1

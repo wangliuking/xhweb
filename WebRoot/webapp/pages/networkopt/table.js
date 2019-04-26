@@ -1,11 +1,24 @@
 var params="";
+toastr.options = {
+		"debug" : false,
+		"newestOnTop" : false,
+		"positionClass" : "toast-top-center",
+		"closeButton" : true,
+		/* 动态效果 */
+		"toastClass" : "animated fadeInRight",
+		"showDuration" : "300",
+		"hideDuration" : "1000",
+		/* 消失时间 */
+		"timeOut" : "1000",
+		"extendedTimeOut" : "1000",
+		"showMethod" : "fadeIn",
+		"hideMethod" : "fadeOut",
+		"progressBar" : true,
+	};
 loader.define(function(require,exports,module){
 	var pageview = {}, uiList="",bs="";
 	pageview.init = function () {
 		    params = router.getPageParams();
-		    if(params.userName!=undefined){
-		    	login(params);
-		    }; 
 		    var className="show";
 	        
 	        if(gl_para.userL.roleType==2 || gl_para.userL.roleType==0){
@@ -180,7 +193,7 @@ function template(data) {
              }
         	
         	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="detail.html" param='${json}'>
+        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/networkopt/detail.html" param='${json}'>
             <div class="span4">
             <p class="item-text">申请时间：${el.requestTime}</p>
             <p class="item-text"><span class="bui-label">联系单位：</span><span class="bui-value">${el.unit1}</span></p>
@@ -195,27 +208,3 @@ function template(data) {
     }
     return html; 
 };
-function login(params){
-	bui.ajax({
-        url: xh.getUrl()+"web/login",
-        method:'post',
-        dataType : "json",
-        data: {
-        	username : params.userName,
-			password : params.password,
-			ToSign :"",
-			Signature :""
-        },
-        async : false
-    }).then(function(data){
-    	if (data.success) {
-			//toastr.success("success", '提示');
-		} else {
-			toastr.error(data.message, '提示');
-		}
-    },function(res,status){
-        console.log(status);
-        toastr.error("登录超时", '提示');
-     // status = "timeout" || "error" || "abort", "parsererror"
-    })
-}

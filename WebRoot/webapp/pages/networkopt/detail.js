@@ -82,7 +82,7 @@ loader.define(function(require,exports,module){
         	checkDialog2.open();
         });
         $("#check3").click(function() {
-        	router.load({ url: "check3.html", 
+        	router.load({ url: "pages/networkopt/check3.html", 
         		param:params});
         });
         $("#check4").click(function() {
@@ -92,7 +92,7 @@ loader.define(function(require,exports,module){
         	checkDialog5.open();
         });
         $("#progress").click(function() {
-        	router.load({ url: "progress.html", 
+        	router.load({ url: "pages/networkopt/progress.html", 
         		param:params});
         });
      // 自定义确定按钮事件
@@ -132,7 +132,7 @@ function sureBtn(){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/networkopt/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -219,7 +219,7 @@ function checkedTwo(data){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/networkopt/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -256,7 +256,7 @@ function checkedFour(data){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/networkopt/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })
@@ -290,7 +290,7 @@ function checkedFive(data){
 				toastr.success(data.message, '提示');
 				bui.back({
 					callback:function(){
-						loader.require(["table"],function(res){
+						loader.require(["pages/networkopt/table"],function(res){
 							res.refresh();
 							res.init();
 	                    })

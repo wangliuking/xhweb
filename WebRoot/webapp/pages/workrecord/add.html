@@ -1,0 +1,71 @@
+<div class="bui-page page-form">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">发起工作联系单</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+        <form action="#" id="addForm" onSubmit="return false">
+        <!-- <h3 class="section-title">基本信息</h3> -->
+        <ul class="bui-list">
+                
+                <li class="bui-btn bui-box clearactive"><label
+                    class="bui-label">联系人:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                            <input name="contact" b-model="page.applicant" type="text"
+                                required="required" placeholder="请输入联系人">
+                        </div>
+                    </div>
+                </li>
+                <li class="bui-btn bui-box clearactive"><label
+                    class="bui-label">联系方式:</label>
+                    <div class="span1">
+                        <div class="bui-input">
+                            <input name="tel" b-model="page.tel" type="text"
+                                required="required" placeholder="请输入联系方式">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        <h3 class="section-title">备注内容</h3>
+        <ul class="bui-list">
+            <li class="bui-btn clearactive">
+                <div class="bui-input">
+                    <textarea class="bui-input" name="note" cols="30" rows="10" placeholder="请输入内容"></textarea>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">附件</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <input name="pathName" id="pathName" type="file" >
+                    </div>
+                    <div class="span1">
+                        <div id="uploadfile" class="bui-btn large success" b-click="page.upload">点击上传</div>
+                    </div>
+                    <div>
+                     <input type="hidden" name="fileName" value="" /> 
+                        <input type="hidden" name="filePath" value="" /> 
+                        <input type="hidden" name="result" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1" id="filelist" style="color:#000">
+                    </div>
+                </div>
+            </div>
+
+        <div class="container-y">
+            <div class="bui-box-space">
+                <div class="span1">
+                    <div class="bui-btn round primary" b-click="page.add">提交信息</div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </main>
+</div>

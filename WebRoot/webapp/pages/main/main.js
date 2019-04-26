@@ -16,9 +16,10 @@ toastr.options = {
 	};
 var gl_para={};
 var str="";
+var uiMask = bui.mask();
 loader.define(function(require,exports,module) {
 
-    var pageview = {};
+    var pageview = {},uiNavtab,store;
     var params = router.getPageParams();
     if(params.userName!=undefined){
     	login(params);
@@ -28,6 +29,51 @@ loader.define(function(require,exports,module) {
     pageview.init = function () {
     	userPower();
     	userInfo();
+    	store=bui.store({
+            scope:'page',
+            data:{
+                email:notReadEmail()
+            }
+    })
+    	pageview.navTab();
+    	 pageview.bind();
+    	
+    }
+    // 底部导航
+    pageview.navTab= function() {
+
+        //按钮在tab外层,需要传id
+        uiNavtab = bui.tab({
+        	id:"#tabFoot",
+            menu:"#tabFootNav",
+            scroll: false,
+            swipe: false,
+            animate: true,
+            // 1: 声明是动态加载的tab
+            autoload: true,
+        })
+
+        // 2: 监听加载后的事件, load 只加载一次
+        uiNavtab.on("to",function (index) {
+            var index = index || 0;
+            switch(index){
+                case 0:
+                loader.require(["pages/main/menu"])
+                break;
+                case 1:
+                loader.require(["pages/email/table"])
+                break;
+                case 2:
+                loader.require(["pages/me/table"])
+                break;
+            }
+        }).to(0)
+    }
+    pageview.bind=function(){
+    	setInterval(function(){
+    		var a=notReadEmail();
+    		store.set("email",a);
+    	}, 10000)
     }
     // 初始化
     pageview.init();
@@ -93,3 +139,20 @@ function userInfo(){
         console.log(status);
     })
 }
+function notReadEmail(){
+	var count=0;
+	bui.ajax({
+        url: xh.getUrl()+"center/email/noReadEmailCount",
+        method:'GET',
+        dataType : "json",
+        data: {},
+        async : false
+    }).then(function(res){
+    	count=res.totals		
+    },function(res,status){
+        console.log(status);
+    })
+    return count;
+}
+
+
