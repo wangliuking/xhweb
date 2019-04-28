@@ -66,6 +66,44 @@ loader.define(function(require,exports,module){
 		          }
 		    });
 	 };
+	//生成模板
+	 function template(data) {
+	 	var html = "";
+	     if (data && data.length) {
+	         data.forEach(function(el, index) {
+	         	var str="",textClass="",subClass="";
+	         	switch (el.status) {
+	              case 1:
+	                  str = '已签收';
+	                  textClass='text-success';
+	                  subClass = 'bui-sub success';
+	                  break;
+	              case 0:
+	                  str= '待签收';
+	                  textClass='text-danger';
+	                  subClass = 'bui-sub danger';
+	                  break;
+	              default:
+	                  sub = '';
+	                  subClass = '';
+	                  break;
+	              }
+	         	
+	         	var json=JSON.stringify(el);
+	         	html +=`<li data-sub="${str}"  class="bui-btn bui-box ${subClass}" href="pages/workrecord/detail.html" param='${json}'>
+	             <div class="span4">
+	             <p class="item-text">提交时间：${el.createtime}</p>
+	             <p class="item-text"><span class="bui-label">提交者：</span><span class="bui-value">${el.contact}</span></p>
+	             
+	             <p class="item-text">文件：<span class="${textClass}">${el.fileName}</span></p>
+	             <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
+	             </div>
+	             <i class="icon-listright" style="color:#000;"></i>
+	             </li>`
+	         })
+	     }
+	     return html; 
+	 };
 	 pageview.refresh=function(){
 		 uiList.empty();
 	 }
@@ -80,42 +118,5 @@ loader.define(function(require,exports,module){
 	 // 输出模块
     return pageview;
 });
-//生成模板
-function template(data) {
-	var html = "";
-    if (data && data.length) {
-        data.forEach(function(el, index) {
-        	var str="",textClass="",subClass="";
-        	switch (el.status) {
-             case 1:
-                 str = '已签收';
-                 textClass='text-success';
-                 subClass = 'bui-sub success';
-                 break;
-             case 0:
-                 str= '待签收';
-                 textClass='text-danger';
-                 subClass = 'bui-sub danger';
-                 break;
-             default:
-                 sub = '';
-                 subClass = '';
-                 break;
-             }
-        	
-        	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${str}"  class="bui-btn bui-box ${subClass}" href="pages/workrecord/detail.html" param='${json}'>
-            <div class="span4">
-            <p class="item-text">提交时间：${el.createtime}</p>
-            <p class="item-text"><span class="bui-label">提交者：</span><span class="bui-value">${el.contact}</span></p>
-            
-            <p class="item-text">文件：<span class="${textClass}">${el.fileName}</span></p>
-            <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
-            </div>
-            <i class="icon-listright" style="color:#000;"></i>
-            </li>`
-        })
-    }
-    return html; 
-};
+
 

@@ -27,8 +27,11 @@ function bind() {
         bui.back();
     })
     $("#bui-router").on("click",".btn-back-home",function (e) {
-    	bui.back();
-        //router.load({ url: "index",param:{}});
+    	bui.back({
+    		callback:function(){
+    		}
+    	});
+        //router.load({ url: xh.getUrl()+"webapp/index.html",param:{}});
     	/*loader.require(["pages/main/main"],function(res){
 			console.log("d->"+JSON.stringify(res))
         })*/

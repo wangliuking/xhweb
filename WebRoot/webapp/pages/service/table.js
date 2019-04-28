@@ -18,21 +18,11 @@ toastr.options = {
 loader.define(function(require,exports,module){
 	var pageview = {}, uiList="",bs="";
 	pageview.init = function () {
-		    params = router.getPageParams();
-		    /*if(params.userName!=undefined){
-		    	login(params);
-		    }; */
-		    var className="show";
-	        
-	        if(gl_para.userL.roleType==2 || gl_para.userL.roleType==0){
-	        	className="show";
-	        }else{
-	        	className="hide";
-	        }
+		  params = router.getPageParams();
 	      bs=bui.store({
 	            scope:'page',
 	            data:{
-	                activeClass:className
+	                activeClass:gl_para.userL.roleType==2 || gl_para.userL.roleType==0?"show":"hide"
 	            }
 	      });
 		 uiList=bui.list({
@@ -78,6 +68,63 @@ loader.define(function(require,exports,module){
 		          }
 		    });
 	 };
+	//生成模板
+	 function template(data) {
+	 	var html = "";
+	     if (data && data.length) {
+	         data.forEach(function(el, index) {
+	         	var status=el.status;
+	         	var str="",textClass="",subClass="",subText="";
+	         	switch (el.checked) {
+	             case 0:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '请确认是否可以抽检';
+	             	}else{
+	             		str= '等待服务提供方确认是否可以抽检';
+	             	}
+	                 
+	                 textClass='text-primary';
+	                 subClass = 'bui-sub primary';
+	                 subText="待确认";
+	                 break;
+	             case 1:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '等待管理方上传抽检记录';
+	             	}else{
+	             		str='请管理方上传抽检记录';
+	             	}
+	                 
+	                 textClass='text-warning';
+	                 subClass = 'bui-sub warning';
+	                 subText="处理中";
+	                 break;
+	              case 2:
+	                  str = '结束';
+	                  textClass='text-success';
+	                  subClass = 'bui-sub success';
+	                  subText="结束";
+	                  break;
+	              default:
+	                  sub = '';
+	                  subClass = '';
+	                  break;
+	              }
+	         	
+	         	var json=JSON.stringify(el);
+	         	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/service/detail.html" param='${json}'>
+	             <div class="span4">
+	             <p class="item-text">申请时间：${el.requestTime}</p>
+	             <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
+	             
+	             <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
+	             <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
+	             </div>
+	             <i class="icon-listright" style="color:#000;"></i>
+	             </li>`
+	         })
+	     }
+	     return html; 
+	 };
 	 pageview.refresh=function(){
 		 uiList.empty();
 	 }
@@ -92,63 +139,7 @@ loader.define(function(require,exports,module){
 	 // 输出模块
     return pageview;
 });
-//生成模板
-function template(data) {
-	var html = "";
-    if (data && data.length) {
-        data.forEach(function(el, index) {
-        	var status=el.status;
-        	var str="",textClass="",subClass="",subText="";
-        	switch (el.checked) {
-            case 0:
-            	if(gl_para.userL.roleType==3){
-            		str= '请确认是否可以抽检';
-            	}else{
-            		str= '等待服务提供方确认是否可以抽检';
-            	}
-                
-                textClass='text-primary';
-                subClass = 'bui-sub primary';
-                subText="待确认";
-                break;
-            case 1:
-            	if(gl_para.userL.roleType==3){
-            		str= '等待管理方上传抽检记录';
-            	}else{
-            		str='请管理方上传抽检记录';
-            	}
-                
-                textClass='text-warning';
-                subClass = 'bui-sub warning';
-                subText="处理中";
-                break;
-             case 2:
-                 str = '结束';
-                 textClass='text-success';
-                 subClass = 'bui-sub success';
-                 subText="结束";
-                 break;
-             default:
-                 sub = '';
-                 subClass = '';
-                 break;
-             }
-        	
-        	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/service/detail.html" param='${json}'>
-            <div class="span4">
-            <p class="item-text">申请时间：${el.requestTime}</p>
-            <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
-            
-            <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
-            <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
-            </div>
-            <i class="icon-listright" style="color:#000;"></i>
-            </li>`
-        })
-    }
-    return html; 
-};
+
 function login(params){
 	bui.ajax({
         url: xh.getUrl()+"web/login",

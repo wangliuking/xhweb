@@ -75,6 +75,86 @@ loader.define(function(require,exports,module){
 		          }
 		    });
 	 };
+	//生成模板
+	 function template(data) {
+	 	var html = "";
+	     if (data && data.length) {
+	         data.forEach(function(el, index) {
+	         	var status=el.status;
+	         	var str="",textClass="",subClass="",subText="";
+	         	switch (el.checked) {
+	             case 0:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '请上传演练计划';
+	             	}else{
+	             		str= '等待服务提供方上传演练计划';
+	             	}
+	                 
+	                 textClass='text-primary';
+	                 subClass = 'bui-sub primary';
+	                 subText="待上传";
+	                 break;
+	             case 1:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '等待管理方审核演练计划';
+	             	}else{
+	             		str='请审核审核演练计划';
+	             	}
+	                 
+	                 textClass='text-primary';
+	                 subClass = 'bui-sub primary';
+	                 subText="待审核";
+	                 break;
+	             case 2:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '请上传应急处置演练报告';
+	             	}else{
+	             		str='等待服务提供方上传应急处置演练报告';
+	             	}
+	                 
+	                 textClass='text-warning';
+	                 subClass = 'bui-sub warning';
+	                 subText="待上传";
+	                 break;
+	             case 3:
+	             	if(gl_para.userL.roleType==3){
+	             		str= '等待管理方确认应急处置演练报告';
+	             	}else{
+	             		str='请确认确认应急处置演练报告';
+	             	}
+	                 
+	                 textClass='text-warning';
+	                 subClass = 'bui-sub warning';
+	                 subText="待确认";
+	                 break;
+	              case 4:
+	                  str = '结束； 评价：'+getLevel(el.level);
+	                  textClass='text-success';
+	                  subClass = 'bui-sub success';
+	                  subText="结束";
+	                  break;
+	              default:
+	                  sub = '';
+	                  subClass = '';
+	                  break;
+	              }
+	         	
+	         	var json=JSON.stringify(el);
+	         	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/emerhandle/detail.html" param='${json}'>
+	             <div class="span4">
+	             <p class="item-text">申请时间：${el.requestTime}</p>
+	             <p class="item-text"><span class="bui-label">联系单位：</span><span class="bui-value">${el.unit1}</span></p>
+	             <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
+	             
+	             <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
+	             <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
+	             </div>
+	             <i class="icon-listright" style="color:#000;"></i>
+	             </li>`
+	         })
+	     }
+	     return html; 
+	 };
 	 pageview.refresh=function(){
 		 uiList.empty();
 	 }
@@ -89,86 +169,7 @@ loader.define(function(require,exports,module){
 	 // 输出模块
     return pageview;
 });
-//生成模板
-function template(data) {
-	var html = "";
-    if (data && data.length) {
-        data.forEach(function(el, index) {
-        	var status=el.status;
-        	var str="",textClass="",subClass="",subText="";
-        	switch (el.checked) {
-            case 0:
-            	if(gl_para.userL.roleType==3){
-            		str= '请上传演练计划';
-            	}else{
-            		str= '等待服务提供方上传演练计划';
-            	}
-                
-                textClass='text-primary';
-                subClass = 'bui-sub primary';
-                subText="待上传";
-                break;
-            case 1:
-            	if(gl_para.userL.roleType==3){
-            		str= '等待管理方审核演练计划';
-            	}else{
-            		str='请审核审核演练计划';
-            	}
-                
-                textClass='text-primary';
-                subClass = 'bui-sub primary';
-                subText="待审核";
-                break;
-            case 2:
-            	if(gl_para.userL.roleType==3){
-            		str= '请上传应急处置演练报告';
-            	}else{
-            		str='等待服务提供方上传应急处置演练报告';
-            	}
-                
-                textClass='text-warning';
-                subClass = 'bui-sub warning';
-                subText="待上传";
-                break;
-            case 3:
-            	if(gl_para.userL.roleType==3){
-            		str= '等待管理方确认应急处置演练报告';
-            	}else{
-            		str='请确认确认应急处置演练报告';
-            	}
-                
-                textClass='text-warning';
-                subClass = 'bui-sub warning';
-                subText="待确认";
-                break;
-             case 4:
-                 str = '结束； 评价：'+getLevel(el.level);
-                 textClass='text-success';
-                 subClass = 'bui-sub success';
-                 subText="结束";
-                 break;
-             default:
-                 sub = '';
-                 subClass = '';
-                 break;
-             }
-        	
-        	var json=JSON.stringify(el);
-        	html +=`<li data-sub="${subText}"  class="bui-btn bui-box ${subClass}" href="pages/emerhandle/detail.html" param='${json}'>
-            <div class="span4">
-            <p class="item-text">申请时间：${el.requestTime}</p>
-            <p class="item-text"><span class="bui-label">联系单位：</span><span class="bui-value">${el.unit1}</span></p>
-            <p class="item-text"><span class="bui-label">联系人：</span><span class="bui-value">${el.applicant}</span></p>
-            
-            <p class="item-text"><span class="bui-label">联系电话：</span><span class="bui-value">${el.tel}</span></p>
-            <p class="item-text">状态：<span class="${textClass}">${str}</span></p>
-            </div>
-            <i class="icon-listright" style="color:#000;"></i>
-            </li>`
-        })
-    }
-    return html; 
-};
+
 function getLevel(level){
 	if(level==null || level==''){
 		return "没有收到任何评价";
