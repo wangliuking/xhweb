@@ -83,6 +83,36 @@ public class EmergencyController {
             e.printStackTrace();
         }
     }
+    @RequestMapping(value = "/selectAll2", method = RequestMethod.GET)
+    public void selectAll2(HttpServletRequest request,
+                          HttpServletResponse response) {
+        this.success = true;
+        int start = funUtil.StringToInt(request.getParameter("start"));
+        int limit = funUtil.StringToInt(request.getParameter("limit"));
+        String user=funUtil.loginUser(request);
+        WebUserBean userbean=WebUserServices.selectUserByUser(user);
+        int roleId=userbean.getRoleId();
+        start=(start-1)*limit;
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("start", start);
+        map.put("limit", limit);
+        map.put("user", user);
+        map.put("roleId", roleId);
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", EmergencyService.selectAll(map));
+        result.put("totals", EmergencyService.dataCount(map));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -342,10 +372,12 @@ public class EmergencyController {
         String user = request.getParameter("user1");
         int checked = funUtil.StringToInt(request.getParameter("checked"));
         int level = funUtil.StringToInt(request.getParameter("level"));
+        String note4 = request.getParameter("note4");
         EmergencyBean bean = new EmergencyBean();
         bean.setId(id);
         bean.setChecked(4);
         bean.setUser3(funUtil.loginUser(request));
+        bean.setNote4(note4);
         bean.setTime4(funUtil.nowDate());
         bean.setLevel(level);
         int rst = EmergencyService.checkedFour(bean);

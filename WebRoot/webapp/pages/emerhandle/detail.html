@@ -1,0 +1,382 @@
+<div class="bui-page">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">应急处置演练详情</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+     <!--    <h3 class="section-title">基本信息</h3> -->
+        <ul class="bui-list">
+        <li class="bui-btn bui-box ">
+                <label class="bui-label">申请时间:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.requestTime"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系人:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.applicant"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系方式:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.tel"></div>
+                </div>
+            </li>
+            
+        </ul>
+         <h3 class="section-title">备注</h3>
+         <ul class="bui-list">
+        <li class="bui-btn bui-box ">
+                <div class="span1" b-text="page.list.note1">
+                    
+                </div>
+            </li>
+            
+        </ul>
+     
+        <h3 class="section-title">演练计划文件</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <a href="#" style="color:blue;" b-click="page.download(1)" b-text="page.list.fileName1"></a>
+                    </div>
+
+                </div>
+            </div> 
+         <h3 class="section-title">演练报告</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <a href="#" style="color:blue;" b-click="page.download(2)" b-text="page.list.fileName2"></a>
+                    </div>
+
+                </div>
+            </div> 
+          
+           <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1" b-show="page.show1">
+                        <div class="bui-btn primary" id="check">上传演练计划</div>
+                    </div>
+                    <div class="span1" b-show="page.show2">
+                        <div class="bui-btn primary" id="check2">审核演练计划</div>
+                    </div>
+                    <div class="span1" b-show="page.show3">
+                        <div class="bui-btn primary" id="check3">上传应急处置演练报告</div>
+                    </div>
+                     <div class="span1" b-show="page.show4">
+                        <div class="bui-btn primary" id="check4">确认应急处置演练报告</div>
+                    </div>
+                   
+                    <div class="span1">
+                        <div class="bui-btn success" id="progress">查看进度</div>
+                    </div>
+
+                </div>
+            </div>
+    </main>
+</div>
+<!-- 上传演练计划 -->
+<div id="check-dg" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">上传演练计划</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main page">
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <input name="filePath" id="filePath1" type="file">
+                    </div>
+                    <div>
+                        <input type="hidden" name="result" class="form-control"/> 
+                                <input type="hidden" name="fileName" /> 
+                                <input type="hidden" name="path"/> 
+                    </div>
+                </div>
+            </div>
+        <h3 class="section-title">备注信息</h3>   
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note2" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>    
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="uploadFile(1)">上传</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+<!-- 审核演练计划文件 -->
+<div id="check-dg2" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">审核演练计划文件</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="checkedTwo(2)">通过</div>
+                    </div>
+                     <div class="span1">
+                        <div class="bui-btn danger" onclick="checkedTwo(-1)">拒绝</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+<!-- 上传演练报告 -->
+<div id="check-dg3" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">上传应急处置演练报告</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <input name="filePath" id="filePath2" type="file">
+                    </div>
+                    <div>
+                        <input type="hidden" name="result" class="form-control"/> 
+                                <input type="hidden" name="fileName" /> 
+                                <input type="hidden" name="path"/> 
+                    </div>
+                </div>
+            </div>
+        <h3 class="section-title">备注信息</h3>   
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note3" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>    
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="uploadFile(2)">上传</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+<!-- 审核报告 -->
+<div id="check-dg4" class="bui-dialog" style="display:none;">
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">确认报告</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+    <div class="section-title">评价本次演练</div>
+    
+        <ul class="bui-list">
+            <li class="bui-btn bui-box"><input id="level1" type="radio"
+                class="bui-radio" name="level" value="1" checked="checked">
+                <div class="span1">
+                    <label for="level1">优</label>
+                </div>
+            </li>
+            <li class="bui-btn bui-box"><input id="level2" type="radio"
+                class="bui-radio" name="level" value="2">
+                <div class="span1">
+                    <label for="level2">良</label>
+                </div>
+            </li>
+            <li class="bui-btn bui-box"><input id="level3" type="radio"
+                class="bui-radio" name="level" value="3">
+                <div class="span1">
+                    <label for="level3">中</label>
+                </div>
+            </li>
+           <li class="bui-btn bui-box"><input id="level4" type="radio"
+                class="bui-radio" name="level" value="4">
+                <div class="span1">
+                    <label for="level4">差</label>
+                </div>
+            </li>
+        </ul>
+      <h3 class="section-title">备注信息</h3>   
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note4" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>  
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="checkedFour()">提交</div>
+                    </div>
+
+                </div>
+       </div>
+    </div>
+</div>
+<!-- select 静态弹出自定义框 放在body层-->
+<!-- <div id="check-dg" class="bui-dialog" style="display:none;">
+    <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div>
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">确认</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note2" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="sureBtn()">确认通知</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+select 静态弹出自定义框 放在body层
+<div id="check-dg2" class="bui-dialog" style="display:none;">
+    <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div>
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">上传优化方案</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <input name="filePath" id="filePath2" type="file">
+                    </div>
+                    <div>
+                        <input type="hidden" name="result" class="form-control"/> 
+                                <input type="hidden" name="fileName" /> 
+                                <input type="hidden" name="path"/> 
+                    </div>
+                </div>
+            </div>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="uploadFile(2)">上传</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+
+<div id="check-dg4" class="bui-dialog" style="display:none;">
+    <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div>
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">上传总结报告</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <input name="filePath" id="filePath3" type="file">
+                    </div>
+                    <div>
+                        <input type="hidden" name="result" class="form-control"/> 
+                                <input type="hidden" name="fileName" /> 
+                                <input type="hidden" name="path"/> 
+                    </div>
+                </div>
+            </div>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="uploadFile(3)">上传</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div>
+审核总结报告
+<div id="check-dg5" class="bui-dialog" style="display:none;">
+    <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div>
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">审核总结报告</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note4" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="checkedFive(5)">通过</div>
+                    </div>
+                    <div class="span1">
+                        <div class="bui-btn danger" onclick="checkedFive(3)">拒绝</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+</div> -->

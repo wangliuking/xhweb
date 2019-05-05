@@ -53,7 +53,7 @@ loader.define(function(require,exports,module) {
 })
 function add(){
 	$.ajax({
-		url : '../../../eventReport/addEventReport',
+		url : xh.getUrl()+'eventReport/addEventReport',
 		type : 'POST',
 		dataType : "json",
 		async : false,
@@ -73,7 +73,7 @@ function add(){
             	 $('.file').append('<input  class="form-control" type="file" id="pathName" name="pathName" />');
             	bui.back({
             		callback:function(){
-            			loader.require(['table'],function(res){
+            			loader.require(['pages/report/table'],function(res){
             				res.refresh();
             				res.init({
             					page:1
@@ -98,18 +98,23 @@ function upload() {
         }
       
         $("input[name='result']").val(2);
-        $("#uploadfile").attr("disabled", true);
-        xh.maskShow("正在上传文件，请耐心等待");
+        var uiLoading = bui.loading({
+            text:'文件中传中，请耐心等待'
+        });
+        
+
+        uiLoading.show();
+        uiMask.show();
         $.ajaxFileUpload({
-            url : '../../../uploadFile/upload', // 用于文件上传的服务器端请求地址
+            url : xh.getUrl()+'uploadFile/upload', // 用于文件上传的服务器端请求地址
             secureuri : false, // 是否需要安全协议，一般设置为false
             fileElementId : 'pathName', // 文件上传域的ID
             dataType : 'json', // 返回值类型 一般设置为json
             type : 'POST',
             success : function(data, status) // 服务器成功响应处理函数
             {
-                $("#uploadfile").attr("disabled", false);
-                xh.maskHide();
+            	 uiLoading.hide();
+                 uiMask.hide();
                 if (data.success) {
                     $("input[name='result']").val(1);
                     $("input[name='fileName']").val(data.fileName);
@@ -125,39 +130,9 @@ function upload() {
             },
             error : function(data, status, e)// 服务器响应失败处理函数
             {
-                alert(e);
-                $("#uploadfile").attr("disabled", false);
-                xh.maskHide();
+            	 uiLoading.hide();
+                 uiMask.hide();
             }
         });
     }
-function No() {
-	var today = new Date();
-	var y = today.getFullYear();
-	var m = today.getMonth() + 1;
-	var d = today.getDate();
-	var h=today.getHours();
-	var m2=today.getMinutes();
-	var s=today.getSeconds();
-	var str='CDYJW-';
-	m = m < 10 ? "0" + m : m; // 这里判断月份是否<10,如果是在月份前面加'0'
-	d = d < 10 ? "0" + d : d; // 这里判断日期是否<10,如果是在日期前面加'0'
-	h = h < 10 ? "0" + h : h; // 这里判断日期是否<10,如果是在日期前面加'0'
-	m2 = m2 < 10 ? "0" + m2 : m2; // 这里判断日期是否<10,如果是在日期前面加'0'
-	s = s < 10 ? "0" + s : s; // 这里判断日期是否<10,如果是在日期前面加'0'
 
-	return str+y+m+d+h+m2+s;
-}
-function sss(){
-	$.get("../../../web/loginUserInfo").success(function(res) {
-		if(parseInt(res.roleType)==2){
-        	str="成都市软件产业发展中心";
-        
-        }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
-        	str="成都亚光电子股份有限公司";
-        	console.log(str)
-		}
-		return str;
-		
-	});
-}

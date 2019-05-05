@@ -526,7 +526,7 @@ xh.isfile=function(filePath){
 xh.isfileapp=function(filePath){
 	
 	$.ajax({
-		url : '../../../uploadFile/fileExists',
+		url : xh.getUrl()+'uploadFile/fileExists',
 		type : 'post',
 		dataType : "json",
 		data : {filePath:filePath},
@@ -711,4 +711,43 @@ xh.dateNowFormat=function(tag){
 }
 xh.validatorTime=function(obj,time) {
 	$("#"+obj).data("bootstrapValidator").updateStatus(time,"NOT_VALIDATED", null).validateField(time);
+}
+xh.getUrl=function(){
+	 var scripts = document.getElementsByTagName('script'),
+	   
+	    path, i, ln, scriptSrc, match;
+
+	for (i = 0, ln = scripts.length; i < ln; i++) {
+	    scriptSrc = scripts[i].src;
+
+	    match = scriptSrc.match(/xh\.js$/);
+
+	    if (match) {
+	        path = scriptSrc.substring(0, scriptSrc.length - match[0].length-13);
+	        break;
+	    }
+	}
+ return path;
+}
+function getUserPower(){
+	bui.ajax({
+        url: xh.getUrl()+"web/loginUserPower",
+        data: {}
+    }).then(function(res){
+    	gl_para.up = res;
+    },function(res,status){
+        console.log(status);
+     // status = "timeout" || "error" || "abort", "parsererror"
+    })
+}
+function getUserInfo(){
+	  bui.ajax({
+	        url: xh.getUrl()+"web/loginUserInfo",
+	        data: {}
+	    }).then(function(res){
+	    	gl_para.userL=res
+	    },function(res,status){
+	        console.log(status);
+	     // status = "timeout" || "error" || "abort", "parsererror"
+	    })
 }

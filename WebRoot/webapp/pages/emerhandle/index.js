@@ -17,6 +17,7 @@ toastr.options = {
 	};
 var gl_para={};
 var str="";
+var uiMask = bui.mask();
 bui.ready(function(){
 	
 	/*var params = router.getPageParams();
@@ -55,7 +56,7 @@ function bind() {
 }
 function getUserPower(){
 	bui.ajax({
-        url: "../../../web/loginUserPower",
+        url: xh.getUrl()+"web/loginUserPower",
         data: {}
     }).then(function(res){
     	gl_para.up = res;
@@ -66,7 +67,7 @@ function getUserPower(){
 }
 function getUserInfo(){
 	  bui.ajax({
-	        url: "../../../web/loginUserInfo",
+	        url: xh.getUrl()+"web/loginUserInfo",
 	        data: {}
 	    }).then(function(res){
 	    	gl_para.userL=res

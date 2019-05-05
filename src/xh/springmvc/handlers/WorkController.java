@@ -77,6 +77,42 @@ public class WorkController {
 		}
 		
 	}
+	@RequestMapping("/worklist2")
+	public void worklist2(HttpServletRequest request, HttpServletResponse response){
+		this.success=true;
+		String fileName=request.getParameter("filename");
+		String contact=request.getParameter("contact");
+		String power=SingLoginListener.
+				getLoginUserPowerMap().
+				get(request.getSession().getId()).get("o_check_work").toString();
+		int status=funUtil.StringToInt(request.getParameter("status"));
+		int start=funUtil.StringToInt(request.getParameter("start"));
+		int limit=funUtil.StringToInt(request.getParameter("limit"));
+		start=(start-1)*limit;
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("fileName", fileName);
+		map.put("contact", contact);
+		map.put("status", status);
+		map.put("power", power);
+		map.put("loginuser", funUtil.loginUser(request));
+		map.put("start", start);
+		map.put("limit", limit);
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("totals",WorkServices.count(map));
+		result.put("items", WorkServices.worklist(map));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 新增工作记录
 	 * @param request

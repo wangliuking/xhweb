@@ -3632,7 +3632,7 @@ input.bui-check:checked:before {
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
     overflow-y: auto;
-    text-align: center;
+    /* text-align: center; */
     font-size: .3rem
 }
 
@@ -8092,6 +8092,17 @@ html.pixel-ratio-3 .picker-center-highlight:after {
     margin: 0;
     padding: .15rem .2rem .15rem .2rem;
     color: gray
+}
+.bui-dialog .section-title {
+    margin: 0;
+    padding: .15rem .2rem .15rem .2rem;
+    color: gray;
+    background:#f3f5f8;
+    
+}
+.bui-dialog .page {
+    background:#f3f5f8;
+    
 }
 
 .item-title {

@@ -49,11 +49,11 @@ public class WriteBsFaultListenner implements ServletContextListener {
 		if (timer == null) {
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
-			timer.scheduleAtFixedRate(new EmhEpsWater(), 25000, 1000*60*1);
-			timer.scheduleAtFixedRate(new VoiceAlarm(), 15000, 1000*15);
-			timer.scheduleAtFixedRate(new PullThreeEmh(), 20000, 1000 * 60 * 2);
-			timer.scheduleAtFixedRate(new VoiceNotCkeck(), 10000,1*60*60*1000);
-			timer.scheduleAtFixedRate(new VoiceNotOrder(), 10000, 5*60*1000);
+			timer.scheduleAtFixedRate(new EmhEpsWater(), 5000, 1000*60*1);
+			timer.scheduleAtFixedRate(new VoiceAlarm(), 5000, 1000*15);
+			timer.scheduleAtFixedRate(new PullThreeEmh(), 6000, 1000 * 60 * 2);
+			timer.scheduleAtFixedRate(new VoiceNotCkeck(),7000,1*60*60*1000);
+			timer.scheduleAtFixedRate(new VoiceNotOrder(), 8000, 5*60*1000);
 		}
 
 	}
@@ -135,11 +135,11 @@ class VoiceAlarm extends TimerTask {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		/*
-		 * log4j.info("=========================================");
-		 * log4j.info("获取告警数量");
-		 * log4j.info("=========================================");
-		 */
+		
+		 /* log4j.info("=========================================");
+		  log4j.info("获取告警数量");
+		 log4j.info("=========================================");*/
+		 
 		int count = 0;
 		try {
 			count = BsStatusService.alarmVoiceCount();

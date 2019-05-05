@@ -1,0 +1,57 @@
+<div class="bui-page">
+    <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">工作记录详情</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    <main>
+     <!--    <h3 class="section-title">基本信息</h3> -->
+        <ul class="bui-list">
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系人:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.contact"></div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box ">
+                <label class="bui-label">联系方式:</label>
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.tel"></div>
+                </div>
+            </li>
+            
+        </ul>
+        <h3 class="section-title">备注</h3>
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1">
+                    <div class="bui-value" b-text="page.list.note"></div>
+                </div>
+            </li>
+        </ul>
+        <h3 class="section-title">附件</h3>
+            <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <a href="#" style="color:blue;" b-click="page.download" b-text="page.list.fileName"></a>
+                    </div>
+
+                </div>
+            </div> 
+           <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span3">
+                        <div class="bui-btn primary" b-show="page.show" b-click="page.sure">确认</div>
+                    </div>
+
+                </div>
+            </div>
+       <!-- <ul class="bui-list">
+            <li class="bui-btn ">
+                <div  class="bui-input">
+                    <input name="pathName" type="file" value="" placeholder="请选择文件">
+                </div>
+            </li>
+        </ul>-->
+    </main>
+</div>

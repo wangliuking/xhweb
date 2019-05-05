@@ -27,19 +27,7 @@ bui.ready(function(){
     router.init({
         id: "#bui-router"
     });
-    $.get("../../../web/loginUserInfo").success(function(res) {
-    	gl_para.userL=res;
-		if(parseInt(res.roleType)==2){
-        	str="成都市软件产业发展中心";
-        	gl_para.sendUnit=str;
-        	
-        
-        }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
-        	str="成都亚光电子股份有限公司";
-        	gl_para.sendUnit=str;
-		}
-		
-	});
+  
     /* 获取用户权限 */
 	$.get("../../../web/loginUserPower").success(function(response) {
 		gl_para.up = response;
@@ -70,29 +58,23 @@ function bind() {
     })
  
 }
-
-
-/*
-bui.ready(function() {
-    // 初始化路由
-    router.init({
-        id: "#bui-router",
-        progress: true,
-        hash: true,
+function sss(){
+	bui.ajax({
+        url: xh.getUrl()+"web/loginUserInfo",
+        method:'GET',
+        dataType : "json",
+        data: {},
+        async : false
+    }).then(function(res){
+    	gl_para.userL=res;
+		if(parseInt(res.roleType)==2){
+        	str="成都市软件产业发展中心";
+        	gl_para.sendUnit=str;
+        }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
+        	str="成都亚光电子股份有限公司";
+        	gl_para.sendUnit=str;
+		}
+    },function(res,status){
+        console.log(status);
     })
-
-    // 绑定事件
-    bind();
-
-    // 事件类定义
-    function bind() {
-        // 绑定页面的所有按钮有href跳转
-        bui.btn({ id: "#bui-router", handle: ".bui-btn" }).load();
-
-        // 统一绑定页面所有的后退按钮
-        $("#bui-router").on("click", ".btn-back", function(e) {
-            // 支持后退多层,支持回调
-            bui.back();
-        })
-    }
-})*/
+}

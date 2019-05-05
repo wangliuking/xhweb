@@ -26,7 +26,7 @@ loader.define(function(require,exports,module){
             methods:{
             	sure:function(e){
             		$.ajax({
-        				url : '../../../WorkContact/sign',
+        				url : xh.getUrl()+'WorkContact/sign',
         				type : 'POST',
         				dataType : "json",
         				async : true,
@@ -40,7 +40,7 @@ loader.define(function(require,exports,module){
         						toastr.success(data.message, '提示');
         						bui.back({
         							callback:function(){
-        								loader.require(["table"],function(res){
+        								loader.require(["pages/workcontact/table"],function(res){
         									res.refresh();
         									res.init();
         			                    })
@@ -61,7 +61,7 @@ loader.define(function(require,exports,module){
             		if(path!=null && path!=""){
             			var index=path.lastIndexOf("/");
             			var name=path.substring(index+1,path.length);	
-            			var downUrl = "../../../uploadFile/downfile?filePath="+path+"&fileName=" + name;
+            			var downUrl = xh.getUrl()+"uploadFile/downfile?filePath="+path+"&fileName=" + name;
             			if(xh.isfileapp(path)){
             				window.open(downUrl, '_self',
             				'width=1,height=1,toolbar=no,menubar=no,location=no');
@@ -84,23 +84,6 @@ loader.define(function(require,exports,module){
 
     // 事件绑定
     pageview.bind = function() {
-        $("#file").on("click",function(e){
-            alert($(this.prop("value")))
-        });
-        $("#backToMain").on("click",function (e) {
-            // 后退到首页并刷新
-            bui.back({
-                index: -4,  // -4 已经超出历史记录最大值,所以会退到第一页
-                callback: function () {
-                    // 获取main模块
-                    loader.require(["main"],function(main){
-                        // 刷新首页
-                        main.init();
-                        bui.hint("刷新成功");
-                    })
-                }
-            })
-        })
 
     }
 
