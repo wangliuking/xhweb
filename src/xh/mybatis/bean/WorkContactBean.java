@@ -1,5 +1,8 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class WorkContactBean {
 	private int id;
 	private String taskId;
@@ -21,7 +24,15 @@ public class WorkContactBean {
 	private String fileName;
 	private int status;
 	
+	private List<Map<String,Object>> files;
 	
+	
+	public List<Map<String, Object>> getFiles() {
+		return files;
+	}
+	public void setFiles(List<Map<String, Object>> files) {
+		this.files = files;
+	}
 	public int getId() {
 		return id;
 	}
@@ -141,12 +152,15 @@ public class WorkContactBean {
 	}
 	@Override
 	public String toString() {
-		return "WorkContactBean [taskId=" + taskId + ", reason=" + reason
-				+ ", type=" + type + ", sendUnit=" + sendUnit + ", recvUnit="
-				+ recvUnit + ", copyUnit=" + copyUnit + ", time=" + time
-				+ ", code=" + code + ", content=" + content + ", addUser="
-				+ addUser + ", checkUser=" + checkUser + ", checkTime="
-				+ checkTime + ", status=" + status + "]";
+		return "WorkContactBean [id=" + id + ", taskId=" + taskId + ", reason="
+				+ reason + ", type=" + type + ", sendUnit=" + sendUnit
+				+ ", recvUnit=" + recvUnit + ", copyUnit=" + copyUnit
+				+ ", time=" + time + ", code=" + code + ", content=" + content
+				+ ", addUser=" + addUser + ", user_type=" + user_type
+				+ ", checkUser=" + checkUser + ", checkTime=" + checkTime
+				+ ", userName=" + userName + ", checkUserName=" + checkUserName
+				+ ", filePath=" + filePath + ", fileName=" + fileName
+				+ ", status=" + status + ", files=" + files + "]";
 	}
 	
 	

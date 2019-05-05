@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 import xh.constant.ConstantLog;
 import xh.func.plugin.FlexJSON;
@@ -87,6 +92,7 @@ public class WorkContactController {
 	@RequestMapping("/add")
 	public void add(HttpServletRequest request, HttpServletResponse response){
 		String data=request.getParameter("formData");
+		String files=request.getParameter("files");
 		WorkContactBean bean=GsonUtil.json2Object(data, WorkContactBean.class);
 		bean.setAddUser(funUtil.loginUser(request));
 		bean.setTaskId(FunUtil.RandomAlphanumeric(20));
@@ -95,6 +101,19 @@ public class WorkContactController {
 		bean.setContent(bean.getContent().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
 		bean.setContent(bean.getContent().replaceAll(" ", "&nbsp;"));
 		System.out.println("type->"+bean.getContent());
+		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
+		
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+		filelist=GsonUtil.json2Object(files, type);
+		if(filelist.size()>0){
+			for(int i=0;i<filelist.size();i++){
+				Map<String,Object> map=filelist.get(i);
+				map.put("taskId", bean.getTaskId());
+				filelist.set(i, map);
+			}
+			WorkContactService.addFile(filelist);
+		}
+		
 		
 		int rst=WorkContactService.add(bean);
 		if(rst>0){

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,15 +51,25 @@ public class GetEastCallDataListenner implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
+		Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Date date=calendar.getTime(); //第一次执行定时任务的时间
+        //如果第一次执行定时任务的时间 小于当前的时间
+        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
+		
+		
+		
 		if(timer==null){
 			timer=new Timer();
 			SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat fTime2 = new SimpleDateFormat("yyyy-MM-dd 01:00:00");
+			SimpleDateFormat fTime2 = new SimpleDateFormat("yyyy-MM-dd 01:20:00");
 			String time=fTime2.format(new Date());
 			try {
 				Date d1 = fTime.parse(time);
-				timer.scheduleAtFixedRate(new GetData(), d1, 1000*60*60*24);
-				timer.scheduleAtFixedRate(new GetMotoData(), d1, 1000*60*60*24);
+				timer.schedule(new GetData(), date, 1000*60*60*24);
+				timer.schedule(new GetMotoData(), d1, 1000*60*60*24);
 				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
 				timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);
 			} catch (ParseException e) {

@@ -9,6 +9,15 @@ loader.define(function(require,exports,module){
     pageview.init = function() {
         // 这里写main模块的业务
         var params = router.getPageParams();
+        var html="";
+        for(var i=0;i<params.files.length;i++){
+        	html+='<p><a href="#" style="color:blue;" b-click="page.download('+i+')" >'+params.files[i].fileName+'</a></p>'
+        	//$("#file-div").append(html)
+        }
+        $("#file-div").html(html)
+        
+        
+        
         var className="show";
         
         if(gl_para.userL.roleType!=params.user_type && gl_para.up.o_task=='on' && params.status==0){
@@ -56,8 +65,8 @@ loader.define(function(require,exports,module){
         				}
         			});
             	},
-            	download:function(){
-            		var path=params.filePath;
+            	download:function(path1){
+            		var path=params.files[path1].filePath;
             		if(path!=null && path!=""){
             			var index=path.lastIndexOf("/");
             			var name=path.substring(index+1,path.length);	

@@ -190,8 +190,17 @@ input[type="text"] {
 															</tr>
 															<tr ng-repeat="x in sbsData">
 																<td><input type="checkbox" name="tb-check" id="bs-check"
-																	value="{{x.id}}" index="{{$index}}" /></td>
-																<td>{{x.bsid}}-{{x.bsname}}</td>
+																	value="{{x.id}}" index="{{$index}}" />
+												
+																	</td>
+																<td>
+																<span ng-if="x.c1!='' || x.c2!='' || x.c3!='' || x.c4!='' || x.c5!='' 
+																|| x.c6!='' || x.c7!='' || x.c8!='' || x.c9!='' || x.c10!='' || x.c11!='' || x.c12!='' || x.c13!='' 
+																|| x.c14!='' || x.c15!='' || x.c16!='' || x.c17!='' || x.c18!='' || x.c19!='' || x.c20!='' 
+																|| x.c21!='' || x.c22!='' || x.c23!='' || x.c24!='' || x.c25!='' || x.c26!='' || x.c27!='' 
+																|| x.c28!=''"><img src='../../Resources/images/icon/16/1.png'></span>
+																
+																{{x.bsid}}-{{x.bsname}}</td>
 
 																<td>{{x.level}}</td>
 																<td><span
@@ -226,12 +235,13 @@ input[type="text"] {
 													<div class="page" style="margin-top:0;height:40px;">
 														<div class="page-info">
 															每页显示 <select id="page-limit-sbs"
-																ng-change="mbs_refresh()" ng-model="count">
+																ng-change="sbs_refresh()" ng-model="count">
 																<option value="15">15</option>
 																<option value="20">20</option>
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span ng-model="index">显示{{sbs_start}}-</span> <span>{{sbs_lastIndex}}条,</span>
 															<span>总计{{sbsTotals}}条</span>
 														</div>
@@ -335,6 +345,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{net_start}}-</span> <span>{{net_lastIndex}}条,</span>
 															<span>总计{{netTotals}}条</span>
 														</div>
@@ -436,6 +447,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{dispatch_start}}-</span> <span>{{dispatch_lastIndex}}条,</span>
 															<span>总计{{dispatchTotals}}条</span>
 														</div>
@@ -536,6 +548,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{msc_start}}-</span> <span>{{msc_lastIndex}}条,</span>
 															<span>总计{{mscTotals}}条</span>
 														</div>
@@ -641,6 +654,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{vertical_start}}-</span> <span>{{vertical_lastIndex}}条,</span>
 															<span>总计{{verticalTotals}}条</span>
 														</div>
@@ -746,6 +760,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{room_start}}-</span> <span>{{room_lastIndex}}条,</span>
 															<span>总计{{roomTotals}}条</span>
 														</div>
@@ -854,6 +869,7 @@ input[type="text"] {
 																<option value="30">30</option>
 																<option value="40">40</option>
 																<option value="50">50</option>
+																<option value="500">500</option>
 															</select> 条, <span>显示{{star_start}}-</span> <span>{{star_lastIndex}}条,</span>
 															<span>总计{{starTotals}}条</span>
 														</div>

@@ -85,23 +85,30 @@
 									</td>
 								</tr>
 								<tr>
-                                    <td width="130px">附件 </td>
-                                    <td colspan="2" class="file">
-                                    <input  class="form-control" type="file" id="pathName" name="pathName" />
+                                    <td width="130px"><a href="#" ng-click="showFileWin()">添加附件</a> </td>
+                                     
+                                   <td colspan="3" class="file">
+                                    
+                                    <input  class="form-control" type="file" id="pathName" name="pathName" onchange="upFile()" style="display: none;"/>
+                                    <div id="fileArea">
+                                     <ul>
+                                     
+                                     </ul>
+                                    </div>
                                     </td>
-                                    <td>
+                                   <!--  <td>
                                     <button type="button" 
                                     class="btn btn-info btn-sm" style="margin-top:3px;"
                                     id="uploadfile">
                                     <i class="fa fa-plus-circle"></i>点击上传
                                 </button>
-                                    </td>
+                                    </td> -->
                                 </tr>
-                                <tr>
+                               <!--  <tr>
                                 <input type="hidden" name="fileName" value="" /> 
                         <input type="hidden" name="filePath" value="" /> 
                         <input type="hidden" name="result" value="" />
-                                </tr>
+                                </tr> -->
 
 							</table>
 
@@ -129,10 +136,14 @@
 
 
 <script type="text/javascript">
+    var fileNum=1;
 	$("#add_btn").click(function() {
 		$('#addForm').submit();
 
 	});
+	$(document).on("click",".del-file",function(){
+		$(this).parent().remove();
+	})
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
@@ -186,9 +197,69 @@
             error : function(data, status, e)//服务器响应失败处理函数
             {
                 alert(e);
-                $("#uploadfile").attr("disabled", false);
                 xh.maskHide();
             }
         });
     });
+	function upFile(){
+		
+		var name=$("input[name=pathName]").val();
+		var mm=$("input[name=pathName]").get(0).files;
+		var size=0;
+        if (mm[0].size > 1024 * 1024) {
+            size = (Math.round(mm[0].size / (1024 * 1024))).toString()
+                    + 'MB';
+        } else {
+            size = (Math.round(mm[0].size / 1024)).toString() + 'KB';
+        }
+        
+		var str="";
+		str+="<li>";
+		str+="<span>"+mm[0].name+"</span>";
+		str+="<span class='path' style='display:none;' id='filepath"+fileNum+"'></span>";
+		str+="<span>("+size+")</span>"
+		str+="<span style='color:red;margin-left:20px' id='upresult"+fileNum+"'></span>"
+		str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+		str+="</li>"
+	    $("#fileArea ul").append(str);
+		upload("upresult"+fileNum,"filepath"+fileNum);
+		fileNum++;
+	}
+	function upload(r,p){
+		if ($('#pathName').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        $("input[name='result']").val(2);
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'pathName', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    $("#"+r).html("文件上传成功");
+                    $("#"+p).html(data.filePath);
+                    
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+	}
+	function delfile(){
+		alert(1)
+	}
 </script>

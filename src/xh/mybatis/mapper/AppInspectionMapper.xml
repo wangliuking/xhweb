@@ -133,7 +133,7 @@
 			</foreach>
 			)
 		</if>
-		order by commitdate desc limit #{start},#{limit}
+		order by a.bsid asc limit #{start},#{limit}
 	</select>
 	<!--自建基站巡检表总数 -->
 	<select id="sbsinfoCount" parameterType="map" resultType="int"

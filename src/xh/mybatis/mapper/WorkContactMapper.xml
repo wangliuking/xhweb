@@ -30,6 +30,15 @@
 	content,addUser,user_type,filePath,fileName)values(#{taskId},#{reason},#{type},#{sendUnit},#{recvUnit},#{copyUnit},#{time},
 	#{code},#{content},#{addUser},#{user_type},#{filePath},#{fileName})
 	</insert>
+	<insert id="addFile" parameterType="java.util.List">
+	insert into xhgmnet_operations_workcontact_file(taskId,filePath,fileName)values
+	<foreach collection="list" item="x" separator=",">
+	(#{x.taskId},#{x.filePath},#{x.fileName})
+	</foreach>
+	</insert>
+	<select id="searchFile" parameterType="String" resultType="map">
+	select * from xhgmnet_operations_workcontact_file where taskId=#{taskId}
+	</select>
 	<update id="sign" parameterType="xh.mybatis.bean.WorkContactBean">
 	update xhgmnet_operations_workcontact set status=1,checkTime=#{checkTime},checkUser=#{checkUser}
 	where taskId=#{taskId}

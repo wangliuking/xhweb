@@ -102,6 +102,12 @@ xh.load = function() {
 			}
 			
 		};
+		$scope.showFileWin=function(){
+			$("input[name='pathName']").click();
+		}
+		$("input[name='pathName']").change(function(){
+			console.log($(this).val());
+		})
 
 		/* 签收 */
 		$scope.sign = function(index) {
@@ -234,6 +240,7 @@ xh.load = function() {
 		};
 	});
 };
+
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
@@ -243,18 +250,28 @@ xh.refresh = function() {
 /* 添加 */
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
-	if($("input[name='pathName']").val()!='' && $("input[name='filePath']").val()=='' ){
-		alert("你选择了附件，还没上传");
-		$("#add_btn").button('reset');
-		return;
-	}
+	var files=[];
+	
+	$("#fileArea ul li").each(function(){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }
+	   
+	});
 	$.ajax({
 		url : '../../WorkContact/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data : {
-			formData : xh.serializeJson($("#addForm").serializeArray())
+			formData : xh.serializeJson($("#addForm").serializeArray()),
+			files: JSON.stringify(files)
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
@@ -263,13 +280,6 @@ xh.add = function() {
 				$('#add').modal('hide');
 				xh.refresh();
 				toastr.success(data.message, '提示');
-				$("input[name='result']").val("");
-            	$("input[name='fileName']").val("");
-            	$("input[name='filePath']").val("");
-            	$("input[name='pathName']").val('');
-            	$file =$("input[name='pathName");
-            	$file.remove();
-            	 $('.file').append('<input  class="form-control" type="file" id="pathName" name="pathName" />');
 			} else {
 				toastr.error(data.message, '提示');
 			}

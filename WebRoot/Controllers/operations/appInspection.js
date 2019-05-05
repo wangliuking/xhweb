@@ -30,6 +30,13 @@ xh.load = function() {
 	$.get("../../web/loginUserInfo").success(function(response) {
 		userL = response;
 	});
+	app.filter('bsIdFormat',function(){
+		return function(x) {
+			var a=parseInt(x);
+			
+			return a>2000?"JY"+a.toString().substring(2):x
+		}
+	})
 	app.filter('py', function() { // 可以注入依赖
 		return function(x) {
 			var lat1=0.00000899;
@@ -41,19 +48,26 @@ xh.load = function() {
 			var plng=lng2/lng1;
 			
 			
-			if(plat<plng){
-				if(plat>500){
-					return "偏移约："+plat.toFixed(0)+"米"
-				}else{
-					return "正常"
-				}
+			if(x.lat_value==null || x.lng_value==null){
+				return "";
 			}else{
-				if(plng>500){
-					return "偏移约："+plng.toFixed(0)+"米"
+				if(plat<plng){
+					if(plat>500){
+						return "偏移约："+plat.toFixed(0)+"米"
+					}else{
+						return "正常"
+					}
 				}else{
-					return "正常"
+					if(plng>500){
+						return "偏移约："+plng.toFixed(0)+"米"
+					}else{
+						return "正常"
+					}
 				}
 			}
+			
+			
+			
 			
 			
 			
@@ -87,6 +101,13 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		/*xh.maskShow();*/
 		$scope.count = "15";//每页数据显示默认值
+		$scope.page_bs=1;
+		$scope.page_vertical=1;
+		$scope.page_room=1;
+		$scope.page_star=1;
+		$scope.page_net=1;
+		$scope.page_dispatch=1;
+		$scope.page_msc=1;
 		$scope.time=xh.getNowMonth();
 		$scope.year=xh.getNowYear();
 		
@@ -339,25 +360,25 @@ xh.load = function() {
 			$scope.mbs_search(1);
 		};
 		$scope.sbs_refresh = function() {
-			$scope.sbs_search(1);
+			$scope.sbs_search($scope.page_bs);
 		};
 		$scope.net_refresh = function() {
-			$scope.net_search(1);
+			$scope.net_search($scope.page_net);
 		};
 		$scope.dispatch_refresh = function() {
-			$scope.dispatch_search(1);
+			$scope.dispatch_search($scope.page_dispatch);
 		};
 		$scope.msc_refresh = function() {
-			$scope.msc_search(1);
+			$scope.msc_search($scope.page_msc);
 		};
 		$scope.vertical_refresh = function() {
-			$scope.vertical_search(1);
+			$scope.vertical_search($scope.page_vertical);
 		};
 		$scope.room_refresh = function() {
-			$scope.room_search(1);
+			$scope.room_search($scope.page_room);
 		};
 		$scope.star_refresh = function() {
-			$scope.star_search(1);
+			$scope.star_search($scope.page_star);
 		};
 		/* 显示mbsWin */
 		$scope.showMbsEditWin = function(id) {
@@ -995,6 +1016,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
+				$scope.page_bs=page;
 				xh.sbs_pagging(page, parseInt($scope.sbsTotals),$scope,pageSize);
 			});
 		};
@@ -1014,6 +1036,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.netData = response.items;
 				$scope.netTotals = response.totals;
+				$scope.page_net=page;
 				xh.net_pagging(page, parseInt($scope.netTotals),$scope,pageSize);
 			});
 		};
@@ -1033,6 +1056,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.verticalData = response.items;
 				$scope.verticalTotals = response.totals;
+				$scope.page_vertical=page;
 				xh.vertical_pagging(page, parseInt($scope.verticalTotals),$scope,pageSize);
 			});
 		};
@@ -1052,6 +1076,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.roomData = response.items;
 				$scope.roomTotals = response.totals;
+				$scope.page_room=page;
 				xh.room_pagging(page, parseInt($scope.roomTotals),$scope,pageSize);
 			});
 		};
@@ -1071,6 +1096,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.starData = response.items;
 				$scope.starTotals = response.totals;
+				$scope.page_star=page;
 				xh.star_pagging(page, parseInt($scope.starTotals),$scope,pageSize);
 			});
 		};
@@ -1090,6 +1116,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.dispatchData = response.items;
 				$scope.dispatchTotals = response.totals;
+				$scope.page_dispatch=page;
 				xh.dispatch_pagging(page, parseInt($scope.dispatchTotals),$scope,pageSize);
 			});
 		};
@@ -1109,6 +1136,7 @@ xh.load = function() {
 				xh.maskHide();
 				$scope.mscData = response.items;
 				$scope.mscTotals = response.totals;
+				$scope.page_msc=page;
 				xh.msc_pagging(page, parseInt($scope.mscTotals),$scope,pageSize);
 			});
 		};
@@ -1160,6 +1188,7 @@ xh.load = function() {
 						$scope.sbs_lastIndex = 0;
 					}
 				}
+				$scope.page_bs=page;
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
 			});
@@ -1186,6 +1215,7 @@ xh.load = function() {
 						$scope.net_lastIndex = 0;
 					}
 				}
+				$scope.page_net=page;
 				$scope.netData = response.items;
 				$scope.netTotals = response.totals;
 			});
@@ -1212,6 +1242,7 @@ xh.load = function() {
 						$scope.vertical_lastIndex = 0;
 					}
 				}
+				$scope.page_vertical=page;
 				$scope.verticalData = response.items;
 				$scope.verticalTotals = response.totals;
 			});
@@ -1238,6 +1269,7 @@ xh.load = function() {
 						$scope.room_lastIndex = 0;
 					}
 				}
+				$scope.page_room=page;
 				$scope.roomData = response.items;
 				$scope.roomTotals = response.totals;
 			});
@@ -1264,6 +1296,7 @@ xh.load = function() {
 						$scope.star_lastIndex = 0;
 					}
 				}
+				$scope.page_star=page;
 				$scope.starData = response.items;
 				$scope.starTotals = response.totals;
 			});
@@ -1290,6 +1323,7 @@ xh.load = function() {
 						$scope.dispatch_lastIndex = 0;
 					}
 				}
+				$scope.page_dispatch=page;
 				$scope.dispatchData = response.items;
 				$scope.dispatchTotals = response.totals;
 			});
@@ -1316,6 +1350,7 @@ xh.load = function() {
 						$scope.msc_lastIndex = 0;
 					}
 				}
+				$scope.page_msc=page;
 				$scope.mscData = response.items;
 				$scope.mscTotals = response.totals;
 			});
@@ -1475,7 +1510,8 @@ xh.load = function() {
 				type : 'post',
 				dataType : "json",
 				data : {
-					excelData:JSON.stringify($scope.starOneData)
+					excelData:JSON.stringify($scope.starOneData),
+					time:$("#month_star").val()
 				},
 				
 				async : false,
@@ -2584,8 +2620,9 @@ xh.print_msc=function() {
 xh.print_sbs=function() {
 	var LODOP = getLodop();
 	LODOP.PRINT_INIT("自建基站巡检");
-	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
-	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print_sbs").innerHTML);
+	LODOP.SET_PRINT_PAGESIZE(2, 0, 0, "A4");
+	LODOP.ADD_PRINT_HTM("1%", "2%", "96%", "96%", document.getElementById("print_sbs").innerHTML);
+	LODOP.SET_SHOW_MODE("LANDSCAPE_DEFROTATED",1);//横向时的正向显示
 	 LODOP.PREVIEW();  	
 };
 xh.print_net=function() {

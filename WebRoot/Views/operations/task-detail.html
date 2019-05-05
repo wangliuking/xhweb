@@ -51,7 +51,9 @@
 								</tr>
 								<td width="130px">附件 </td>
                                     <td colspan="3">
-                                    <a href="#" ng-click="download(detailData.filePath)">{{detailData.fileName}}</a>
+                                    <p ng-repeat="x in detailData.files"><a href="#" ng-click="download(x.filePath)">{{x.fileName}}</a></p>
+                                   
+                                    <!-- <a href="#" ng-click="download(detailData.filePath)">{{detailData.fileName}}</a> -->
                                     </td>
 
 							</table>
