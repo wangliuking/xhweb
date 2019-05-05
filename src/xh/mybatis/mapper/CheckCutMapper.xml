@@ -145,7 +145,8 @@
     <select id="exportWordByTime" parameterType="map" resultType="map">
         select a.*,b.unit as unit1,b.unitType as initType1,b.userType as userType1,c.period as bsPeriod,TIMESTAMPDIFF(MINUTE,(DATE_FORMAT(breakTime,'%Y-%m-%d %H:%i')),(DATE_FORMAT(restoreTime, '%Y-%m-%d %H:%i'))) calcData
         from xhgmnet_bs_checkcut as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user LEFT JOIN xhgmnet_bs_station as c on a.bsId=c.bsId where 1=1
-        <!--<if test="bsId != null  and bsId != ''">
+
+        <if test="bsId != null  and bsId != ''">
             and a.bsId=#{bsId}
         </if>
         <if test="name != null  and name != ''">
@@ -159,7 +160,7 @@
         </if>
         <if test="bsRules != null  and bsRules != ''">
             and a.rules like concat('%',#{bsRules},'%')
-        </if>-->
+        </if>
         <if test="startTime != null  and startTime != ''">
             and breakTime BETWEEN #{startTime} and #{endTime}
         </if>

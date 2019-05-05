@@ -1,5 +1,6 @@
 package xh.springmvc.handlers;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,27 @@ public class ADataController {
 			TestFFmpegForWeb.test1(cameraMap);
 			//timer.schedule(new timerTaskForStop(), 3*60*1000);
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 查询环控状态
+	 */
+	@RequestMapping("/getEMHStatus")
+	public void getEMHStatus(HttpServletRequest request, HttpServletResponse response){
+		String bsId = request.getParameter("bsId");
+		this.success=true;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("bsId",bsId);
+		List<Map<String,Object>> list = GosuncnService.getEMHStatus(param);
+
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(list);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

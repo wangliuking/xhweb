@@ -123,13 +123,21 @@ xh.load = function() {
 		};
 
 		$scope.exportWord = function () {
+            var bsId = $("#bsId").val();
+            var bsName = $("#bsName").val();
+            var status = $('#status option:selected') .val();
+            if(status == 100){
+                status = "";
+            }
+            var bsPeriod = $('#bsPeriod option:selected') .val();
+            var bsRules = $('#bsRules option:selected') .val();
 			var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
             if(startTime == "" || endTime == ""){
             	alert("请选择需要导出的时间!");
             	return false;
 			}
-            window.location.href="../../checkCut/downLoadZipFile?startTime="+startTime+"&endTime="+endTime;
+            window.location.href="../../checkCut/downLoadZipFile?bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules;
         };
 
         $scope.sign = function () {
@@ -480,9 +488,9 @@ xh.sheetChange = function() {
         data : {"bean" : JSON.stringify(bean)},
         success : function(data) {
             $("#checkCut-btn").button('reset');
-            $('#sheet').modal('hide');
-            var page = $(".page.active").find("a").text();
-            xh.refresh(page);
+            //$('#sheet').modal('hide');
+            //var page = $(".page.active").find("a").text();
+            //xh.refresh(page);
             toastr.success(data.message, '提示');
         },
         error : function() {
