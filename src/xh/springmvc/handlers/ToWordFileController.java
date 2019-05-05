@@ -1573,7 +1573,7 @@ public class ToWordFileController {
 				 Map<String,Object> m=new HashMap<String, Object>();		 
 				 m.put("time", time.split("-")[0]+"-"+(i<10?"0"+i:i));
 				 Map<String,Object> m2=ToWorkFileServices.fault_num(m);
-				 dcd.addValue(Math.round(Double.valueOf(m2.get("total")==null?
+				 dcd.addValue((Number)Math.round(Double.valueOf(m2.get("total")==null?
 						 String.valueOf(0):m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
 				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2.get("total")==null?
 						 String.valueOf(0):m2.get("total").toString()));
@@ -1793,7 +1793,7 @@ public class ToWordFileController {
 						m2=map;
 					}
 				}
-				 dcd.addValue(Math.round(Double.valueOf(m2==null?"0":m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
+				 dcd.addValue((Number) Math.round(Double.valueOf(m2==null?"0":m2.get("total").toString())), time.split("-")[0],(i<10?"0"+i:i));
 				 timeSeries.add(new Month(i,Integer.parseInt(time.split("-")[0])),Double.valueOf(m2==null?"0":m2.get("total").toString()));
 			 }
 		        try {

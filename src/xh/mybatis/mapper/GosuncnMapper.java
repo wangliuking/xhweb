@@ -193,5 +193,10 @@ public interface GosuncnMapper {
 	 * @throws Exception
 	 */
 	public List<HistoryList> emhHistoryForExcel(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 查询环控状态
+	 */
+	public List<Map<String,Object>> getEMHStatus(Map<String,Object> map)throws Exception;
 	
 }

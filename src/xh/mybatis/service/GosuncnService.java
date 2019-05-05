@@ -575,5 +575,22 @@ public class GosuncnService {
 		}
 		return list;
 	}
+
+	/**
+	 * 查询环控状态
+	 */
+	public static List<Map<String,Object>> getEMHStatus(Map<String,Object> map){
+		SqlSession sqlSession =MoreDbTools.getSession(DataSourceEnvironment.slave);
+		GosuncnMapper mapper = sqlSession.getMapper(GosuncnMapper.class);
+		List<Map<String,Object>> list = null;
+		try {
+			list = mapper.getEMHStatus(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 }

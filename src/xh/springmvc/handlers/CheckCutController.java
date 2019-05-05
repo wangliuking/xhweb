@@ -430,6 +430,7 @@ public class CheckCutController {
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
+            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }
         String tempPeriod = res.get("period")+"";
         String period = "";
@@ -526,6 +527,7 @@ public class CheckCutController {
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
+            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }
         String tempPeriod = res.get("period")+"";
         String period = "";
@@ -913,13 +915,24 @@ public class CheckCutController {
      */
     @RequestMapping(value = "/downLoadZipFile")
     public void downLoadZipFile(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("bsName");
+        String status = request.getParameter("checked");
+        String bsPeriod = request.getParameter("bsPeriod");
+        String bsRules = request.getParameter("bsRules");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         Map<String,Object> param = new HashMap<String,Object>();
+        param.put("bsId", bsId);
+        param.put("name", name);
+        param.put("status", status);
+        param.put("bsPeriod", bsPeriod);
+        param.put("bsRules", bsRules);
         param.put("startTime",startTime);
         param.put("endTime",endTime);
         List<Map<String,Object>> list = CheckCutService.exportWordByTime(param);
-
+        System.out.println(param);
+        System.out.println(list);
         String zipName = "checkcut.zip";
         WordTest wordTest = new WordTest();
         List<String> fileList = wordTest.run(list);//查询数据库中记录

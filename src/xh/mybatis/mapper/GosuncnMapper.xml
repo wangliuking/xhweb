@@ -471,4 +471,9 @@
 		order by createTime
 	</select>
 
+	<!-- 查询所有通道信息 -->
+	<select id="getEMHStatus" resultType="map" parameterType="map" useCache="true">
+		select * from xhgmnet_emh_sensor_status order by updateTime desc limit 1
+	</select>
+
 </mapper>
