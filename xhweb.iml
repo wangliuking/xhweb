@@ -39,5 +39,6 @@
     <orderEntry type="library" name="jodconverter-2.2.2-javadoc" level="project" />
     <orderEntry type="library" name="jodconverter-2.2.2-javadoc (2)" level="project" />
     <orderEntry type="library" name="netty-4.0.0.Alpha1" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
