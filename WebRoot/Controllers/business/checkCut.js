@@ -552,6 +552,8 @@ xh.checkneg2 = function() {
 };
 
 xh.check1 = function() {
+	//复核前执行保存操作
+    xh.sheetChange();
     $.ajax({
         url : '../../checkCut/checkedOne',
         type : 'POST',
@@ -577,6 +579,8 @@ xh.check1 = function() {
 };
 
 xh.check2 = function() {
+    //审核前执行保存操作
+    xh.sheetChange();
 	$.ajax({
 		url : '../../checkCut/checkedTwo',
 		type : 'POST',
