@@ -58,12 +58,15 @@ loader.define(function(require,exports,module) {
             var index = index || 0;
             switch(index){
                 case 0:
-                loader.require(["pages/main/menu"])
+                loader.require(["pages/frist/index"])
                 break;
                 case 1:
-                loader.require(["pages/email/table"])
+                loader.require(["pages/main/menu"])
                 break;
                 case 2:
+                loader.require(["pages/email/table"])
+                break;
+                case 3:
                 loader.require(["pages/me/table"])
                 break;
             }

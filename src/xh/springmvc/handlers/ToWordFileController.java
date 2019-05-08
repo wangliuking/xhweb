@@ -1785,11 +1785,11 @@ public class ToWordFileController {
 	       DefaultCategoryDataset dcd=new DefaultCategoryDataset();
 		   TimeSeries timeSeries=new TimeSeries(Integer.parseInt(time.split("-")[0])+"系统故障趋势图");
 		    
-			 for(int i=1;i<=12;i++){
+			/* for(int i=1;i<=12;i++){
 				 Map<String,Object> m=new HashMap<String, Object>();
 				 Map<String,Object> m2=new HashMap<String, Object>();
 				 for (Map<String, Object> map : list) {
-					if(Integer.parseInt(map.get("month").toString())==i){
+					if(map.get("month")!=null && Integer.parseInt(map.get("month").toString())==i){
 						m2=map;
 					}
 				}
@@ -1803,7 +1803,7 @@ public class ToWordFileController {
 					e.printStackTrace();
 				}
 		        img=Image.getInstance("D:/chart.png");
-			    document.add(img);
+			    document.add(img);*/
 	       
 	}
 	

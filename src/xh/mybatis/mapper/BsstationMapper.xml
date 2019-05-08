@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.BsstationMapper">
-	<!-- 自定义返回结果集 -->
-	<!-- <resultMap id="bsInfoMap" type="xh.mybatis.bean.BsstationBean"> <result 
-		property="bsId" column="bsId" javaType="java.lang.Integer"></result> <result 
-		property="name" column="name" javaType="java.lang.String"></result> <result 
-		property="type" column="level" javaType="java.lang.Integer"></result> <result 
-		property="level" column="level" javaType="java.lang.Integer"></result> <result 
-		property="status" column="status" javaType="java.lang.Integer"></result> 
-		<result property="lat" column="lat" javaType="java.lang.String"></result> 
-		<result property="lng" column="lng" javaType="java.lang.String"></result> 
-		<result property="height" column="height" javaType="java.lang.Float"></result> 
-		<result property="createTime" column="createTime" javaType="java.lang.String"></result> 
-		</resultMap> -->
+
+	
 	<!-- 基站列表 -->
 	<select id="bsstatusInfo" parameterType="map" resultType="java.util.HashMap"
 		useCache="true">
@@ -231,18 +221,21 @@
 		select
 		a.bsId,a.name,a.status,a.type,a.level,a.period,a.zone,b.link,c.userSum,e.groupSum,d.deviceAlarmSum,
 		FORMAT(f.avgControlChanUpRate/100,2) as avgControlChanUpRate,
-        FORMAT(f.avgControlChanDownRate/100,2) as avgControlChanDownRate,
-        g.loadInfo
+		FORMAT(f.avgControlChanDownRate/100,2) as avgControlChanDownRate,
+		g.loadInfo
 		from xhgmnet_bs_station as a
-		left join xhgmnet_gps_voice.pef_newbstotal_now as f on a.bsId=f.bsid
-		
+		left join
+		xhgmnet_gps_voice.pef_newbstotal_now as f on a.bsId=f.bsid
+
 		left join xhgmnet_moto_site_channel_info as g on a.bsId=(g.siteId+2000)
-		
-		
+
+
 		left join view_bsstatus as b on
 		a.bsId=b.bsId
-		left join (select count(distinct userId) as userSum ,bsId
-		from xhgmnet_operations_userstatus where regStatus in(1,2,3)
+		left join (select
+		count(distinct userId) as userSum ,bsId
+		from
+		xhgmnet_operations_userstatus where regStatus in(1,2,3)
 		<if test="vpnId!=null and vpnId!=''">
 			and userId in (select C_ID from xhgmnet.xhgmnet_radiouser
 			where
@@ -557,18 +550,20 @@
 	<select id="excel_bs_info" parameterType="int"
 		resultType="xh.mybatis.bean.ExcelBsInfoBean" useCache="true">
 		SELECT
-		a.*, b.*, c.*,
+		a.*, b.*,
+		c.*,
 		d.is_open AS is_open,
-        d.operator AS operator,
-        d.equipment_model AS equipment_model1,
-        d.bs_net AS bs_net,
-        d.bs_net_port AS bs_net_port,
-        d.msc_net AS msc_net,
-        d.msc_net_port AS msc_net_port,
-        d.regulation_number AS regulation_number, 
+		d.operator AS operator,
+		d.equipment_model AS equipment_model1,
+		d.bs_net AS bs_net,
+		d.bs_net_port AS bs_net_port,
+		d.msc_net AS msc_net,
+		d.msc_net_port AS msc_net_port,
+		d.regulation_number AS regulation_number,
 		e.is_open AS is_open1,
 		e.operator AS operator1,
-		e.equipment_model AS equipment_model2,
+		e.equipment_model AS
+		equipment_model2,
 		e.bs_net AS bs_net1,
 		e.bs_net_port AS bs_net_port1,
 		e.msc_net AS msc_net1,
@@ -578,26 +573,35 @@
 		f.freqTwo AS freg2,
 		g.freqOne AS freg3,
 		g.freqTwo AS freg4,
-		h.freqOne AS freg5,
+		h.freqOne AS
+		freg5,
 		h.freqTwo AS freg6,
 		i.freqOne AS freg7,
 		i.freqTwo AS freg8
 		FROM
 		xhgmnet_bs_station AS a
-		LEFT JOIN xhgmnet_bs_machine_room AS b ON a.bsId = b.bsId
-		LEFT JOIN xhgmnet_bs_supply_electricity AS c ON a.bsId = c.bsId
+		LEFT JOIN xhgmnet_bs_machine_room AS b ON
+		a.bsId = b.bsId
+		LEFT JOIN xhgmnet_bs_supply_electricity AS c ON a.bsId
+		= c.bsId
 		LEFT JOIN xhgmnet_bs_link_config AS d ON a.bsId = d.bsId
-		AND d.tag = 1
+		AND
+		d.tag = 1
 		LEFT JOIN xhgmnet_bs_link_config AS e ON a.bsId = e.bsId
-		AND e.tag = 2
+		AND
+		e.tag = 2
 		LEFT JOIN xhgmnet_bs_bsr_config AS f ON a.bsId = f.bsId
-		AND f.bsrId = 1
+		AND
+		f.bsrId = 1
 		LEFT JOIN xhgmnet_bs_bsr_config AS g ON a.bsId = g.bsId
-		AND g.bsrId = 2
+		AND
+		g.bsrId = 2
 		LEFT JOIN xhgmnet_bs_bsr_config AS h ON a.bsId = h.bsId
-		AND h.bsrId = 3
+		AND
+		h.bsrId = 3
 		LEFT JOIN xhgmnet_bs_bsr_config AS i ON a.bsId = i.bsId
-		AND i.bsrId = 4
+		AND
+		i.bsrId = 4
 		where a.type!=2
 		ORDER BY
 		a.bsId ASC
@@ -833,10 +837,10 @@
 		select * from xhgmnet_bs_station where bsId=#{bsId}
 
 	</select>
-	   <select id="select_bs_by_type" parameterType="int" resultType="int"
-        useCache="true">
-        select count(*) from xhgmnet_bs_station where type=#{type}
+	<select id="select_bs_by_type" parameterType="int" resultType="int"
+		useCache="true">
+		select count(*) from xhgmnet_bs_station where type=#{type}
 
-    </select>
+	</select>
 
 </mapper>

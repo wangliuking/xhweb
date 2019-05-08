@@ -1521,8 +1521,8 @@ public class AppInspectionExcelController {
 			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
 			sheet.getSettings().setLeftMargin(0.50);
 			sheet.getSettings().setRightMargin(0.50);
-			sheet.getSettings().setTopMargin(0.5);
-			sheet.getSettings().setBottomMargin(0.5);
+			sheet.getSettings().setTopMargin(0.1);
+			sheet.getSettings().setBottomMargin(0.1);
 
 			// 第2行
 
@@ -1797,56 +1797,56 @@ public class AppInspectionExcelController {
 			return "";
 		} else {
 			if (str.equals("有")) {
-				return "☑  有  口 无";
+				return "☑有  口无";
 			} else if (str.equals("无")) {
-				return "口 有   ☑ 无";
+				return "口有   ☑ 无";
 			}
 
 			else if (str.equals("是")) {
-				return "☑ 是  口 否";
+				return "☑是  口否";
 			} else if (str.equals("否")) {
-				return "口  是   ☑ 否";
+				return "口是   ☑否";
 			}
 
 			else if (str.equals("正常")) {
-				return "☑ 正常  口 异常";
+				return "☑正常  口异常";
 			} else if (str.equals("异常")) {
-				return "口  正常   ☑ 异常";
+				return "口正常   ☑异常";
 			}
 
 			else if (str.equals("安全")) {
-				return "☑ 安全  口 有隐患";
+				return "☑安全  口有隐患";
 			} else if (str.equals("有隐患")) {
-				return "口  安全   ☑ 有隐患";
+				return "口安全   ☑有隐患";
 			} else if (str.equals("执行")) {
-				return "☑ 执行  口 未执行";
+				return "☑ 执行  口未执行";
 			} else if (str.equals("未执行")) {
-				return "口  执行   ☑ 未执行";
+				return "口执行   ☑未执行";
 			}
 
 			else if (str.equals("已备份")) {
-				return "☑ 已备份  口 未备份";
+				return "☑已备份  口未备份";
 			} else if (str.equals("未备份")) {
-				return "口  已备份   ☑ 未备份";
+				return "口已备份   ☑未备份";
 			}
 
 			else if (str.equals("移动") || str.equals("电信") || str.equals("铁塔")) {
 				// return "☑已备份  口未备份";
-				return " 租凭机房口       运营商机房☑          自建机房□";
+				return "租凭机房口       运营商机房☑          自建机房□";
 			} else if (str.equals("自建")) {
-				return " 租凭机房口       运营商机房口        自建机房☑";
+				return "租凭机房口       运营商机房口        自建机房☑";
 			} else if (str.equals("租赁")) {
 				return " 租凭机房☑        运营商机房口        自建机房口 ";
 			}
 
 			else if (str.equals("已执行")) {
-				return "☑ 已执行  口  未执行";
+				return "☑已执行  口未执行";
 			} else if (str.equals("未执行")) {
-				return "口  已执行   ☑ 未执行";
+				return "口已执行   ☑未执行";
 			} else if (str.equals("车载")) {
-				return "☑ 车载   口 便携";
+				return "☑车载   口便携";
 			} else if (str.equals("便携")) {
-				return "口 车载   ☑ 便携";
+				return "口车载   ☑ 便携";
 			} else {
 				return "";
 			}
