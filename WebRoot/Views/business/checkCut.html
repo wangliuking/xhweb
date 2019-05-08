@@ -121,7 +121,8 @@
 											</select>
 										</div>
 									</div>
-									<div class="form-group">
+
+									<div class="form-group" ng-if="roleId != 10002">
 										<label for="starttime">起始时间</label>
 										<div>
 											<input type="text" class="form-control" id="startTime" name="startTime"
@@ -129,7 +130,7 @@
 												   placeholder="起始时间">
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group" ng-if="roleId != 10002">
 										<label for="starttime">结束时间</label>
 										<div>
 											<input type="text" class="form-control" id="endTime" name="endTime"
@@ -137,6 +138,24 @@
 												   placeholder="结束时间">
 										</div>
 									</div>
+
+									<div class="form-group" ng-if="roleId == 10002">
+										<label for="starttime">起始时间</label>
+										<div>
+											<input type="text" class="form-control" id="startTime" name="startTime"
+												   onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+												   placeholder="起始时间">
+										</div>
+									</div>
+									<div class="form-group" ng-if="roleId == 10002">
+										<label for="starttime">结束时间</label>
+										<div>
+											<input type="text" class="form-control" id="endTime" name="endTime"
+												   onfocus="WdatePicker({dateFmt:'yyyy-MM'})"
+												   placeholder="结束时间">
+										</div>
+									</div>
+
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
 											<button type="submit" class="btn btn-sm btn-success"

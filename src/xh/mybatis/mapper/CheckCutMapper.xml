@@ -94,13 +94,13 @@
     <!--运维负责人审核核减申请 -->
     <update id="checkedOne" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked} where id=#{id}
+        user2=#{user2},time2=#{time2},note2=#{note2},checked=#{checked},persion2=#{persion2} where id=#{id}
     </update>
 
     <!--管理方审核核减申请 -->
     <update id="checkedTwo" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked} where id=#{id}
+        user3=#{user3},time3=#{time3},note3=#{note3},checked=#{checked},persion3=#{persion3} where id=#{id}
     </update>
 
     <!--运维人员提交相关资料-->

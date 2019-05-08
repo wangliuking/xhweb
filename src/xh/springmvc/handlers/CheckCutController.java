@@ -640,6 +640,7 @@ public class CheckCutController {
         bean.setUser2(funUtil.loginUser(request));
         bean.setTime2(FunUtil.nowDate());
         bean.setNote2(note2);
+        bean.setPersion2("sign/"+funUtil.loginUser(request)+".png");
         int rst = CheckCutService.checkedOne(bean);
         if (checked == 1)
             this.message = "审核通过";
@@ -688,6 +689,7 @@ public class CheckCutController {
         bean.setUser3(funUtil.loginUser(request));
         bean.setTime3(FunUtil.nowDate());
         bean.setNote3(note3);
+        bean.setPersion3("sign/"+funUtil.loginUser(request)+".png");
         int rst = CheckCutService.checkedTwo(bean);
         if (checked == 2)
             this.message = "审核通过";
