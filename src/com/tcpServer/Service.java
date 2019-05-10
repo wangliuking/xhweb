@@ -48,6 +48,8 @@ public class Service {
 	public static LoginAck appLogin(UserLogin userLogin){
 		Map<String,Object> map=new HashMap<String, Object>();
 		map = WebUserServices.selectUserByRootAndPass(userLogin.getUserid(), funUtil.MD5(userLogin.getPasswd()));
+		Map<String,Object> roleMap = WebUserServices.userInfoByName(userLogin.getUserid());
+		loginAck.setRoleid(roleMap.get("roleId")+"");
 		loginAck.setUserid(userLogin.getUserid());
 		loginAck.setPasswd(userLogin.getPasswd());
 		loginAck.setSerialnumber(userLogin.getSerialnumber());

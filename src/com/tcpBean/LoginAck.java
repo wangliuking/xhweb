@@ -18,6 +18,7 @@ public class LoginAck {
 	private String passwd;
 	private String serialnumber;
 	private String ack;
+	private String roleid;
 	public String getCmdtype() {
 		return cmdtype;
 	}
@@ -48,11 +49,23 @@ public class LoginAck {
 	public void setAck(String ack) {
 		this.ack = ack;
 	}
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
 	@Override
 	public String toString() {
-		return "LoginAck [cmdtype=" + cmdtype + ", userid=" + userid
-				+ ", passwd=" + passwd + ", serialnumber=" + serialnumber
-				+ ", ack=" + ack + "]";
+		return "LoginAck{" +
+				"cmdtype='" + cmdtype + '\'' +
+				", userid='" + userid + '\'' +
+				", passwd='" + passwd + '\'' +
+				", serialnumber='" + serialnumber + '\'' +
+				", ack='" + ack + '\'' +
+				", roleid='" + roleid + '\'' +
+				'}';
 	}
-	
 }
