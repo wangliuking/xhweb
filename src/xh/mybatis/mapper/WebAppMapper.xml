@@ -12,7 +12,7 @@
 	</select>
 	<select id="app_room" resultType="map" useCache="true">
 		select count(*)
-		as num ,TRUNCATE(sum(coverage)/1000,0) as coverage from
+		as num ,TRUNCATE(sum(coverage)/10000,0) as coverage from
 		xhgmnet_bs_station_coverage
 	</select>
 	

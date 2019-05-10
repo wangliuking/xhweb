@@ -54,6 +54,10 @@ public class LoginFilter extends HttpServlet implements Filter {
 				chain.doFilter(servletRequest, servletResponse);
 				return;
 			}
+			else if (path.indexOf("/Views/jsp") > -1) {
+				chain.doFilter(servletRequest, servletResponse);
+				return;
+			}
 			else {
 			}
 		} catch (IOException e) {

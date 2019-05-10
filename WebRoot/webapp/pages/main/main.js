@@ -57,16 +57,16 @@ loader.define(function(require,exports,module) {
         uiNavtab.on("to",function (index) {
             var index = index || 0;
             switch(index){
-                case 0:
+               /* case 0:
                 loader.require(["pages/frist/index"])
-                break;
-                case 1:
+                break;*/
+                case 0:
                 loader.require(["pages/main/menu"])
                 break;
-                case 2:
+                case 1:
                 loader.require(["pages/email/table"])
                 break;
-                case 3:
+                case 2:
                 loader.require(["pages/me/table"])
                 break;
             }

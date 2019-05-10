@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
      <div style="text-align:center;">
     <b>在线编辑保存Office文档</b><br>
-    <a href="javascript:POBrowser.openWindowModeless('office/openword' , 'width=1200px;height=800px;');">在线编辑保存Word文档</a><br>
+    <a href="javascript:POBrowser.openWindowModeless('word.jsp' , 'width=1200px;height=800px;');">在线编辑保存Word文档</a><br>
    </div>
   </body>
 </html>

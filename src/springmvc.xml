@@ -22,7 +22,7 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/"></property>
-		<property name="suffix" value=".html"></property>
+		<property name="suffix" value=".jsp"></property>
 	</bean>
 	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
 	<!-- <bean id="multipartResolver" class="xh.func.plugin.CustomMultipartResolver"> 

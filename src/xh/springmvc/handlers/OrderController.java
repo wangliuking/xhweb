@@ -28,10 +28,16 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpServer.ServerDemo;
+import com.zhuozhengsoft.pageoffice.FileSaver;
+import com.zhuozhengsoft.pageoffice.wordreader.DataRegion;
+import com.zhuozhengsoft.pageoffice.wordreader.WordDocument;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -96,6 +102,29 @@ public class OrderController {
 		}
 
 	}
+	@RequestMapping("/save_data")
+	public String savedata(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		WordDocument doc = new WordDocument(request, response);
+		//获取提交的数值
+		DataRegion dataUserName = doc.openDataRegion("PO_time");
+		DataRegion dataDeptName = doc.openDataRegion("PO_person");
+		System.out.println("offics->"+dataUserName.getValue());
+		
+		return "dd";
+	}
+	@RequestMapping("/save_page")
+	public String savepage(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		FileSaver fs = new FileSaver(request, response);
+		fs.saveToFile(request.getSession().getServletContext().getRealPath("doc/") + "/" + fs.getFileName());
+		fs.close();
+		System.out.println("file->"+fs.getFileName());
+		
+		return "dd";
+	}
 	//用户列表
 	@RequestMapping(value="/userlist", method = RequestMethod.GET)
 	public void userlist(HttpServletRequest request, HttpServletResponse response) {
@@ -110,6 +139,17 @@ public class OrderController {
 			e.printStackTrace();
 		}
 
+	}
+	@RequestMapping(value="/orderhtml", method = RequestMethod.POST)
+	public ModelAndView orderhtml(HttpServletRequest request, @RequestParam("data") Map<String,Object> map) {
+		ModelAndView mv = new ModelAndView("jsp/order");
+		//String data=request.getParameter("data");
+		//Map<String,Object> map=new HashMap<String,Object>();
+		//map=GsonUtil.json2Object(data, Map.class);
+		mv.addObject("nowDate",FunUtil.nowDate());
+		mv.addObject("userlist", OrderService.userList());
+		mv.addAllObjects(map);
+		return mv;
 	}
 	//派单处理未完成数量
 	@RequestMapping(value="/orderNoComCount", method = RequestMethod.GET)
