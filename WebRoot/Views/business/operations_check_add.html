@@ -43,8 +43,8 @@
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
 							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
-							<li><a href="operations_check.html" target="_self"><span>月度年度考核</span></a></li>
-							<li class="active"><span>发起考核申请</span></li>
+							<li><a href="operations_check.html" target="_self"><span>月度考核</span></a></li>
+							<li class="active"><span>提交文件</span></li>
 						</ol>
 					</div>
 				</div>
@@ -58,18 +58,24 @@
 
 				<div class="col-md-12">
 					<div class="hpanel">
-						<div class="panel-heading hbuilt">发起考核申请</div>
+						<div class="panel-heading hbuilt">提交文件</div>
 						<div class="panel-body">
 							<div class="row">
 								<div class="form-group col-md-12">
-									<label>考核月份</label> <input type="text" class="form-control"
-										ng-model="time" name="month"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
-										onblur="xh.searchScore(this.value)">
+									<label>考核期数</label> 
+										<select name="type" class="form-control">
+										<option value="3" selected="selected">三期</option>
+										<option value="4">四期</option>
+										</select>
 
 								</div>
+								<div class="form-group col-md-12">
+                                    <label>考核月份</label> <input type="text" class="form-control"
+                                        ng-model="time" name="month"
+                                        onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
+                                        onblur="xh.searchScore(this.value)">
 
-
+                                </div>
 							</div>
 							<!--  row -->
 							<!-- row -->
@@ -80,16 +86,19 @@
 										<div class="col-md-12">
 											<div class="form-group col-md-9" style="padding-right:0px;">
 
-												<label>考核文件（注:压缩打包上传所有文件）</label> <input type="file"
-													name="filePath" id="filePath" class="form-control" />
+												<label>考核文件（注:不要使用压缩包，请批量上传所有考核文件）<a href="#" ng-click="showFileWin()">添加文件</a></label> 
+												<!-- <input type="file"
+													name="filePath" id="filePath" class="form-control" /> -->
+													<input  class="form-control" type="file" id="pathName" name="pathName" onchange="upFile()" style="display: none;"/>
 
 											</div>
-											<div class="form-group btn-group col-md-3">
-												<button type="button" class="btn btn-info btn-sm"
-													style="margin-top:23px;" id="uploadfile">
-													<i class="fa fa-plus-circle"></i>点击上传
-												</button>
+											
+										</div>
+										<div class="col-md-12">
+										<div id="fileArea">
+												<ul>
 
+												</ul>
 											</div>
 										</div>
 
@@ -114,37 +123,8 @@
 								</div>
 							</div>
 							<!--     row -->
-							<div class="row">
-
-								<div class="form-group col-md-12">
-									<label>备注</label>
-									<textarea class="form-control" rows="5" cols="" name="comment"></textarea>
-
-								</div>
-
-							</div>
-							<!--  row -->
-							<div class="row">
-								<div class="col-md-12">
-									<ul id="xh-tabs" class="nav nav-tabs">
-										<li class="active"><a href="#score" data-toggle="tab">本月扣分明细</a></li>
-										<li><a href="#money" data-toggle="tab"> 本月扣款明细</a></li>
-									</ul>
-                                    
-									<div class="tab-content" style="padding:20px">
-									
-										<div class="tab-pane fade in active" id="score">
-											<div ng-include="'operations_check_add_score.html'"></div>
-										</div>
-										<div class="tab-pane" id="money">
-											<div ng-include="'operations_check_add_money.html'"></div>
-										</div>
-									</div>
-									
-
-								</div>
-							</div>
-							<!--  row -->
+							
+							
 						</div>
 						<!-- panel-body--end -->
 						<div class="panel-footer">
@@ -152,7 +132,7 @@
 							<div class="row" style="margin-top:20px;">
 								<div class="btn-group col-md-12">
 									<button type="button" class="btn btn-success btn-block"
-										onclick="xh.add()" id="add-apply-btn">提交考核申请</button>
+										onclick="xh.add()" id="add-apply-btn"><i class="fa fa-plus"></i>&nbsp;提交考核文件</button>
 
 								</div>
 								<!-- <div class="btn-group col-md-6">
@@ -187,45 +167,76 @@
 	<script type="text/javascript"
 		src="../../Controllers/business/operations_check_add.js"></script>
 	<script type="text/javascript">
+	$(document).on("click",".del-file",function(){
+        $(this).parent().remove();
+    })
 		xh.load();
-		$("#addbtn").click(function() {
-			xh.add();
-		});
+		
 	</script>
 	<script>
-		$("#uploadfile").click(function() {
-			if ($('#filePath').val() == "") {
-				alert("请选择需要上传的文件！");
-				return false;
-			}
-			$("input[name='result']").val(2);
-			$.ajaxFileUpload({
-				url : '../../check/upload/file', //用于文件上传的服务器端请求地址
-				secureuri : false, //是否需要安全协议，一般设置为false
-				fileElementId : 'filePath', //文件上传域的ID
-				dataType : 'json', // 返回值类型 一般设置为json
-				type : 'POST',
-				success : function(data, status) //服务器成功响应处理函数
-				{
-					if (data.success) {
-						$("input[name='result']").val(1);
-						$("input[name='fileName']").val(data.fileName);
-						$("input[name='path']").val(data.filePath);
-						$("#uploadResult").html("文件上传成功");
-						toastr.success("文件上传成功", '提示');
-					} else {
-						$("input[name='result']").val(0);
-						toastr.error("文件上传失败", '提示');
-						$("#uploadResult").html("文件上传失败");
-					}
+	var fileNum=0;
+function upFile(){
+	var type=$("select[name='type']").val();
+        var name=$("input[name=pathName]").val();
+        var mm=$("input[name=pathName]").get(0).files;
+        var size=0;
+        if (mm[0].size > 1024 * 1024) {
+            size = (Math.round(mm[0].size / (1024 * 1024))).toString()
+                    + 'MB';
+        } else {
+            size = (Math.round(mm[0].size / 1024)).toString() + 'KB';
+        }
+        
+        var str="";
+        str+="<li style='border-bottom:1px solid #000; width:50%;margin-top:10px;'>";
+        str+="<span>"+mm[0].name+"</span>";
+        str+="<span class='path' style='display:none;' id='filepath"+fileNum+"'></span>";
+        str+="<span>("+size+")</span>"
+        str+="<span style='color:red;margin-left:20px' id='upresult"+fileNum+"'></span>"
+        str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+        str+="</li>"
+        $("#fileArea ul").append(str);
+        upload("upresult"+fileNum,"filepath"+fileNum,type);
+        fileNum++;
+    }
+    function upload(r,p,type){
+        if ($('#pathName').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        $("input[name='result']").val(2);
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../check/upload/file', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'pathName', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            data:{
+            	type:type
+            },
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    $("#"+r).html("文件上传成功");
+                    $("#"+p).html(data.filePath);
+                    
+                    toastr.success("文件上传成功", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
 
-				},
-				error : function(data, status, e)//服务器响应失败处理函数
-				{
-					alert(e);
-				}
-			});
-		});
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+       }
+		
 	</script>
 </body>
 </html>

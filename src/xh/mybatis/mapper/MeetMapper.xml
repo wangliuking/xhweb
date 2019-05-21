@@ -8,6 +8,12 @@
 		<if test="time !=null and time !=''">
 			and date_format(start_time,'%Y-%m')=#{time}
 		</if>
+		<if test="roleType==2">
+        and ((type!=2 and state>0) or(type=2))
+        </if>
+        <if test="roleType==3">
+        and ((type!=3 and state>0) or(type=3))
+        </if>
 		order by id desc limit #{start},#{limit}
 	</select>
 
@@ -17,23 +23,39 @@
 		<if test="time !=null and time !=''">
 			and date_format(start_time,'%Y-%m')=#{time}
 		</if>
+		<if test="roleType==2">
+        and ((type!=2 and state>0) or(type=2))
+        </if>
+        <if test="roleType==3">
+        and ((type!=3 and state>0) or(type=3))
+        </if>
 	</select>
 	<insert id="add" useGeneratedKeys="true" keyProperty="id"
 		parameterType="xh.mybatis.bean.MeetBean">
 		insert into
-		xhgmnet_operations_meet(start_time,end_time,address,person,content,
-		check_info,user_need,emergency_info,other_info,sign,name,type)
-		values(#{start_time},#{end_time},#{address},#{person},#{content},#{check_info},
-		#{user_need},#{emergency_info},#{other_info},#{sign},#{name},#{type})
+		xhgmnet_operations_meet(start_time,address,person,content,
+		check_info,user_need,emergency_info,other_info,sign,name,type,meet_time,file_name,file_path,send_user)
+		values(#{start_time},#{address},#{person},#{content},#{check_info},
+		#{user_need},#{emergency_info},#{other_info},#{sign},#{name},#{type},#{meet_time},#{file_name},#{file_path},#{send_user})
 	</insert>
-	<update id="update" parameterType="xh.mybatis.bean.WorkBean">
+	<update id="update" parameterType="xh.mybatis.bean.MeetBean">
 		update xhgmnet_operations_meet set
-		start_time=#{start_time},end_time=#{end_time},
-		address=#{address},person=#{person},content=#{content},check_info=#{check_info},
-		user_need=#{user_need},emergency_info=#{emergency_info},other_info=#{other_info},
-		sign=#{sign},name=#{name},type=#{type}
+		meet_time=#{meet_time},
+		address=#{address},person=#{person},content=#{content},name=#{name}
 		where id=#{id}
 	</update>
+	<update id="check" parameterType="xh.mybatis.bean.MeetBean">
+        update xhgmnet_operations_meet set
+        check_time=#{check_time},note=#{note},check_user1=#{check_user1},
+        state=#{state}
+        where id=#{id}
+    </update>
+        <update id="check2" parameterType="xh.mybatis.bean.MeetBean">
+        update xhgmnet_operations_meet set
+        check_time2=#{check_time2},check_user2=#{check_user2},
+        state=#{state}
+        where id=#{id}
+    </update>
 	<delete id="del" parameterType="java.util.List">
 		delete from xhgmnet_operations_meet where id in(
 		<foreach collection="list" item="id" separator=",">

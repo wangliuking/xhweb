@@ -68,6 +68,34 @@ public class MeetServices {
 		}
 		return  result;
 	}
+	public static int check(MeetBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MeetMapper mapper=sqlSession.getMapper(MeetMapper.class);
+		int result=0;
+		try {
+			result=mapper.check(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
+	public static int check2(MeetBean bean){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		MeetMapper mapper=sqlSession.getMapper(MeetMapper.class);
+		int result=0;
+		try {
+			result=mapper.check2(bean);
+			sqlSession.commit();
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return  result;
+	}
 	public static int  del(List<String> list){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		MeetMapper mapper=sqlSession.getMapper(MeetMapper.class);

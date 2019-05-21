@@ -5,6 +5,7 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 var frist = 0;
+var userName="";
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
 toastr.options = {
 		"debug" : false,
@@ -22,14 +23,25 @@ toastr.options = {
 		"hideMethod" : "fadeOut",
 		"progressBar" : true,
 	};
+$.get("web/loginUserInfo").success(function(response) {
+
+	userName=response.userName;
+	$("input[name='dispatchman']").val(userName);
+	if(response.roleType==null || response.roleType!=3){
+		window.location.href="jsp/no.html"
+	}
+	console.log(response.userName)
+	
+});
 /*xh.open=function(){
 	window.open("jsp/order.jsp",'_blank', 'dd','width=900,height=600,top=100px,left=300px','menubar=false')
 }*/
 xh.order=function(){
-	
+
     var userid=$("input[name='userid']").val();
     var errtype=$("span[name='errtype']").text();
     var errlevel=$("span[name='errlevel']").text();
+    
     if(userid==""){
         toastr.error("接单人不能为空", '提示');
         return;
@@ -73,7 +85,8 @@ xh.order=function(){
             var data = response;
             if(data.success){
                 toastr.success("派单成功", '提示');
-                xh.closeWindow();
+                //xh.closeWindow();
+                xh.closeHtml();
             }else{
                 toastr.error("派单失败", '提示');
             }
@@ -239,6 +252,10 @@ xh.upload = function(index) {
         }
     });
 };
+xh.closeHtml=function(){  
+	var a={success:true}
+	window.parent.postMessage(a,'http://183.221.117.37:7800/analystrunner/project/f439e8be-6cde-497c-88c6-3663b5b7a71e/#/ee16452e-8915-4227-941c-f40e67efca70');
+  }  
 
 /*修改核减申请表*/
 xh.sheetChange = function() {
@@ -306,3 +323,8 @@ function calTime(date1,date2){
     //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
     return Math.round(date3/(1000*60));
 }
+/*window.addEventListener('message',function(e){
+    //if(e.source!=window.parent) return;
+    
+   console.log(e.origin,e.data)
+},false);*/

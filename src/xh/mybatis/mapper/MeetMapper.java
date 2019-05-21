@@ -17,6 +17,10 @@ public interface MeetMapper {
 
 	public int update(MeetBean bean)throws Exception;
 	
+	public int check(MeetBean bean)throws Exception;
+	
+	public int check2(MeetBean bean)throws Exception;
+	
 	public int del(List<String> list)throws Exception;
 
 }

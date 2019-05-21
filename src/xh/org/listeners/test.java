@@ -33,8 +33,8 @@ public class test {
         SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
    
      
-     int ab=2003;
-     System.out.print(fTime.format(date));
+    String a="/jdfjdfjd/djfnjdnf.doc";
+     System.out.print(a.substring(a.lastIndexOf(".")+1));
     
 	}
 

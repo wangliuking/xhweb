@@ -57,6 +57,17 @@ public class MoneyBean {
 	
 	private String m_n1="";
 	private String n_n1="";
+	
+	private String fileName;
+	private String filePath;
+	
+	private int money_total;
+	public int getMoney_total() {
+		return money_total;
+	}
+	public void setMoney_total(int money_total) {
+		this.money_total = money_total;
+	}
 	public String getTime() {
 		return time;
 	}
@@ -308,6 +319,18 @@ public class MoneyBean {
 	}
 	public void setN_n1(String n_n1) {
 		this.n_n1 = n_n1;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 	@Override
 	public String toString() {

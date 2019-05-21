@@ -1,6 +1,7 @@
 package xh.func.plugin;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -9,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -210,16 +212,19 @@ public class FunUtil {
 
 	/** 向指定用户发送邮件 */
 	public static void sendMsgToOneUser(String recvUser, String title,
-			String content, HttpServletRequest request) {
-		// ----发送通知邮件
-		EmailBean emailBean = new EmailBean();
-		emailBean.setTitle(title);
-		emailBean.setRecvUser(recvUser);
-		emailBean.setSendUser(loginUser(request));
-		emailBean.setContent(content);
-		emailBean.setTime(nowDate());
-		EmailService.insertEmail(emailBean);
-		// ----END
+			String content, HttpServletRequest request) {		
+		if(recvUser!=null && recvUser!=""){
+			// ----发送通知邮件
+			EmailBean emailBean = new EmailBean();
+			emailBean.setTitle(title);
+			emailBean.setRecvUser(recvUser);
+			emailBean.setSendUser(loginUser(request));
+			emailBean.setContent(content);
+			emailBean.setTime(nowDate());
+			EmailService.insertEmail(emailBean);
+			// ----END
+		}
+		
 	}
 
 	/** 根据用户组权限向用户发送邮件 */
@@ -755,6 +760,18 @@ public class FunUtil {
 			lDate.add(calBegin.getTime());
 		}
 		return lDate;
+	}
+	public static void copyFile(File source, File dest) throws IOException {   
+	    FileChannel inputChannel = null;   
+	    FileChannel outputChannel = null;   
+	  try { 
+	    inputChannel = new FileInputStream(source).getChannel(); 
+	    outputChannel = new FileOutputStream(dest).getChannel(); 
+	    outputChannel.transferFrom(inputChannel, 0, inputChannel.size()); 
+	  } finally { 
+	    inputChannel.close(); 
+	    outputChannel.close(); 
+	  } 
 	}
 
 }

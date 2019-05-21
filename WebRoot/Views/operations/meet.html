@@ -108,16 +108,11 @@
 						<div class="panel-heading hbuilt">会议纪要列表</div>
 						<div class="panel-body">
 							<div class="btn-group pull-left" style="padding-bottom:5px;">
-
+<!-- ng-if="userL.roleType==0 || (up.o_add=='on' && userL.roleType==3)" -->
 								<button class="btn btn-success btn-sm" data-toggle="modal"
-									data-target="#add" ng-if="userL.roleType==0 || (up.o_add=='on' && userL.roleType==3)">
+									data-target="#add" >
 									<!-- <i class="fa fa-plus-circle"></i> -->&nbsp;添加会议纪要
 								</button>
-								<a class="btn btn-success btn-sm" href="javascript:POBrowser.
-								openWindowModeless('../../office/meet','width=1200px;height=800px;');">打开文件 </a>
-								<a class="btn btn-success btn-sm" href="javascript:POBrowser.
-                                openWindowModeless('../../office/meet/edit','width=1200px;height=800px;');">编辑文件 </a>
-                               
 							</div>
 							<div class="form-group"></div>
 							<!-- row -->
@@ -129,20 +124,36 @@
 										<th >会议名称</th>
 										<th>会议地址</th>
 										<th>会议时间</th>
+										<th>状态</th>
 										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="4" class="text-center">没有记录！</td>
+										<td colspan="5" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.name}}</td>
 										<td>{{x.address}}</td>
-										<td>{{x | timeFormat}}</td>
+										<td>{{x.meet_time}}</td>
+										<td ng-class="{ 'td-danger': x.state==-1, 'td-success': x.state==2,'td-primary': x.state!=-1 && x.state!=2}">
+										<span ng-if="x.state==0">等待领导审核，并签章</span>
+										<span ng-if="x.state==-1">会议纪要被拒绝({{x.note}})</span>
+										<span ng-if="x.state==1">
+										<span ng-if="x.type==2">等待服务提供方方签章</span>
+										<span ng-if="x.type==3">等待管理方签章</span>
+										</span>
+										<span ng-if="x.state==2">双方已签章</span>
+										</td>
 										<td style="text-align:center">
-										<a href="#" ng-click="detailModel($index)"> &nbsp;详情</a>
-										<a href="#" ng-click="editModel($index)" ng-if="userL.roleType==0 || userL.roleType==3"> |&nbsp;修改</a>
+										<!-- <a href="#" ng-click="detailModel($index)"> &nbsp;详情</a> -->
+										<a href="#" ng-click="openWord(1,$index)"><img src="../../Resources/images/icon/eye.png">查看会议纪要 </a>
+										<a href="#" ng-click="openWord(2,$index)" ng-if="userL.roleType==0 || 
+										(up.o_check_report=='on' && x.state==0)">|&nbsp;<img src="../../Resources/images/icon/check.png">审核</a>
+										<a href="#" ng-click="openWord(3,$index)" ng-if="userL.roleType==0 || 
+										(up.o_check_report=='on' && (userL.roleType!=x.type && x.state==1))">
+										|&nbsp;<img src="../../Resources/images/icon/sign.png">签章</a>
+										<!-- <a href="#" ng-click="editModel($index)" ng-if="userL.roleType==0 || (x.type==userL.roleType && (x.state==-1))"> |&nbsp;<img src="../../Resources/images/icon/edit.png">修改</a> -->
 										</td>
 										
 										
@@ -172,10 +183,47 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
+	<div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header ">
+                            备注信息
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body pad-0">
+                <div class="row">
+
+                        
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>备注信息</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="6" class="form-control" cols="" name="note"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-success btn-sm" ng-click="check(-1)">
+                    <i class="fa fa-plus"></i>&nbsp;确定
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'meet-detail.html'"></div>
+	<!-- <div ng-include="'meet-detail.html'"></div> -->
 	<div ng-include="'meet-add.html'"></div>
 	<div ng-include="'meet-update.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">

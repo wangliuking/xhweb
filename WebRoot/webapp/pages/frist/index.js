@@ -6,7 +6,7 @@ require.config({
 bui.ready(function() {
 
     var pageview = {},
-        uiTab,wc,store;
+        uiTab,wc,store,store2;
     
     pageview.data=function(){
    	
@@ -14,7 +14,7 @@ bui.ready(function() {
  	        url: xh.getUrl()+"webapp/data",
  	        data: {}
  	      }).then(function(res){
- 	    	console.log(JSON.stringify(res))
+ 	    	
  	    	store=bui.store({
  	            scope:'page',
  	            data:{
@@ -31,6 +31,27 @@ bui.ready(function() {
  	            	subway:res.subway
  	            }
  	    	})
+ 	    },function(res,status){
+ 	        console.log(status);
+ 	    });
+ 	    bui.ajax({
+ 	        url: xh.getUrl()+"call/chart_call_hour_now",
+ 	       method:'POST',
+ 	        data: {}
+ 	      }).then(function(res){
+ 	    	  var num=0;
+ 	    	 var data=res.num;
+ 	    	
+ 	    	for(var i=0;i<data.length;i++){
+				num+=data[i].num;
+			}
+ 	    	store2=bui.store({
+ 	            scope:'page2',
+ 	            data:{
+ 	            	callnum:num
+ 	            }
+ 	    	});
+ 	    	callbar(res);
  	    },function(res,status){
  	        console.log(status);
  	    })
@@ -53,8 +74,6 @@ bui.ready(function() {
         // 绑定事件
         this.tab();
         this.data();
-        
-        callbar();
     }
 
     // 初始化
@@ -63,7 +82,7 @@ bui.ready(function() {
     // 输出模块
     return pageview;
 });
-function callbar(){
+function callbar(response){
 	// 设置容器宽高
 	var height=document.documentElement.clientHeight;
 	/* var width=document.documentElement.clientWidth; */
@@ -154,38 +173,19 @@ function callbar(){
 			    ]
 			};
 		
-		$.ajax({
-			url : xh.getUrl()+'call/chart_call_hour_now',
-			type : 'POST',
-			dataType : "json",
-			async : false,
-			timeout:2000,
-			data:{
-				bsId:0,
-				time:xh.getOneDay(),
-				type:'hour'
-			},
-			success : function(response) {
-				var data = response.time;
-				var num = response.num;
-				var xData=[],yData=[],yData2=[];
-				
-				for(var i=0;i<data.length;i++){
-					xData.push(data[i].label);
-					yData.push(data[i].time);
-					yData2.push(num[i].num);
-				}
-				option.series[0].data = yData;
-				option.series[1].data = yData2;
-				option.xAxis[0].data = xData;
-				chart.setOption(option);
-				xh.maskHide();
-
-			},
-			failure : function(response) {
-				xh.maskHide();
-			}
-		});
+		var data = response.time;
+		var num = response.num;
+		var xData=[],yData=[],yData2=[];
+		
+		for(var i=0;i<data.length;i++){
+			xData.push(data[i].label);
+			yData.push(data[i].time);
+			yData2.push(num[i].num);
+		}
+		option.series[0].data = yData;
+		option.series[1].data = yData2;
+		option.xAxis[0].data = xData;
+		chart.setOption(option);
 		
 		
 

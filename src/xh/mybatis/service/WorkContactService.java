@@ -52,12 +52,41 @@ public class WorkContactService {
 		}
 		return count;
 	}
+	public static int codeNum(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.codeNum(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static int add(WorkContactBean bean) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
 		int count=0;
 		try {
 			count=mapper.add(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int update(WorkContactBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.update(bean);
 			sqlSession.commit();
 			sqlSession.close();
 
@@ -88,6 +117,21 @@ public class WorkContactService {
 		int count=0;
 		try {
 			count=mapper.sign(bean);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int check(WorkContactBean bean) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.check(bean);
 			sqlSession.commit();
 			sqlSession.close();
 

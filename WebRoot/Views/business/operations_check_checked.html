@@ -1,0 +1,76 @@
+  <div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header ">
+                           审核窗口
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body pad-0">
+                <div class="row">
+
+                        
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>备注信息</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="6" class="form-control" cols="" name="note"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-success btn-sm" ng-click="check(1)">
+                                          通过
+                </button>
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-danger btn-sm" ng-click="check(-1)">
+                    &nbsp;拒绝
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="sureFileWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header ">
+                          通知会议安排
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body pad-0">
+                <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <textarea rows="6" class="form-control" cols="" name="note"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-success btn-sm" ng-click="sureFile()">
+                                          确认
+                </button>
+                
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

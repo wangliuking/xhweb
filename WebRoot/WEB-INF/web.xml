@@ -77,7 +77,28 @@
         <param-value>111111</param-value>
     </context-param>
     <!-- PageOffice End -->
-    
+   <!-- link to MySql begin-->
+
+     <context-param>
+            <param-name>adminseal-charset</param-name>
+            <param-value>UTF-8</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-driver</param-name>
+            <param-value>com.mysql.jdbc.Driver</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-url</param-name>                             
+            <param-value>jdbc:mysql://localhost:3306/seal?useUnicode=true&amp;characterEncoding=UTF-8</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-username</param-name>
+            <param-value>root</param-value> </context-param> <context-param>
+            <param-name>posealdb-password</param-name>
+            <param-value>xinhong12345</param-value>
+     </context-param>
+
+     <!-- link to MySql end--> 
     
     
     <filter>
@@ -241,5 +262,13 @@ xh.org.listeners.TcpServerListenner
 <auth-method>CLIENT-CERT</auth-method> 
 <realm-name>Client Cert Users-only Area</realm-name> 
 </login-config> -->
+    <filter>
+        <filter-name>cros</filter-name>
+        <filter-class>xh.org.filter.SimpleCORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cros</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
 </web-app>

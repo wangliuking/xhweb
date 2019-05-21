@@ -177,5 +177,7 @@ public interface WebUserMapper {
 	 * @throws Exception
 	 */
 	public int updateUserPower(UserPowerBean bean)throws Exception;
+	
+	public String sealName(Map<String,Object> map)throws Exception;
 
 }

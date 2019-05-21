@@ -1,0 +1,85 @@
+
+<div class="modal fade" id="signWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">文件列表</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+
+				<div class="row">
+					<div class="col-md-12">
+						<table>
+							<tr ng-repeat="x in detailData.files">
+								<td>{{x.fileName}}</td>
+								<td><span ng-if="x.isSeal==1" class="text-danger">已签</span>
+									<span ng-if="x.isSeal==0">未签</span></td>
+								<td><a href="#" ng-click="sealDoc(x.id,x.filePath)">签章</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+
+
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="ScoreMoneySignWin" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">文件列表</small>
+			</div>
+			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
+
+				<div class="row">
+					<div class="col-md-12">
+						<table>
+							<tr>
+								<td>{{fileName_score}}</td>
+								<td><a href="#" ng-click="sealScoreMoneyDoc(1)">签章</a></td>
+							</tr>
+							<tr>
+								<td>{{fileName_money}}</td>
+								<td><a href="#" ng-click="sealScoreMoneyDoc(2)">签章</a></td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+
+
+
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-danger btn-sm"
+                    ng-click="sealScoreMoneyComplete()" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==3 && x.status==6)">
+                    完成签章
+                </button>
+			<button type="button" class="btn btn-success btn-sm"
+                     ng-click="sealScoreMoneyComplete()" ng-if="userL.roleType==0 ||
+                                        (up.o_check_operations_check=='on' && userL.roleType==2 && x.status==7)">
+                    完成签章
+                </button>
+                
+				
+			</div>
+		</div>
+	</div>
+</div>

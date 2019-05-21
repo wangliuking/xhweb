@@ -36,6 +36,21 @@ public interface OperationsCheckMapper {
 	int check2(OperationsCheckBean bean)throws Exception;
 	int check3(OperationsCheckBean bean)throws Exception;
 	int check4(OperationsCheckBean bean)throws Exception;
+	int check5(OperationsCheckBean bean)throws Exception;
+	
+	int sealScoreMoneyComplete(OperationsCheckBean bean)throws Exception;
+	
+	int signMeet(OperationsCheckBean bean)throws Exception;
+	
+	int sealFile(int id)throws Exception;
+	
+	
+	int update_file_info(Map<String, Object> map)throws Exception;
+	int up_score_money(OperationsCheckBean bean)throws Exception;
+	int sure_score_money(OperationsCheckBean bean)throws Exception;
+	
+	int addFile(List<Map<String,Object>> list)throws Exception;
+	List<Map<String,Object>> searchFile(String applyId) throws Exception;
 	
 	
 	

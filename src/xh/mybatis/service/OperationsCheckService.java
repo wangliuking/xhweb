@@ -14,7 +14,9 @@ import xh.mybatis.bean.OperationsCheckBean;
 import xh.mybatis.bean.OperationsCheckDetailBean;
 import xh.mybatis.bean.OperationsCheckScoreBean;
 import xh.mybatis.bean.ScoreBean;
+import xh.mybatis.bean.WorkContactBean;
 import xh.mybatis.mapper.OperationsCheckMapper;
+import xh.mybatis.mapper.WorkContactMapper;
 import xh.mybatis.tools.MoreDbTools;
 
 public class OperationsCheckService {
@@ -27,6 +29,17 @@ public class OperationsCheckService {
 		List<OperationsCheckBean> list = new ArrayList<OperationsCheckBean>();
 		try {
 			list = mapper.dataList(map);
+			if(list.size()>0){
+				for(int i=0;i<list.size();i++){
+					OperationsCheckBean bean=new OperationsCheckBean();
+					bean=list.get(i);
+					List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+					l=searchFile(bean.getApplyId());
+					bean.setFiles(l);
+					list.set(i, bean);
+					
+				}
+			}
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -64,6 +77,39 @@ public class OperationsCheckService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public static int  addFile(List<Map<String,Object>> list) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count = mapper.addFile(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public static int  sealFile(int id) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count = mapper.sealFile(id);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public static int count(Map<String, Object> map) {
@@ -631,30 +677,18 @@ public class OperationsCheckService {
 		return count;
 	}
 
-	public static int check3(OperationsCheckBean checkBean,
-			OperationsCheckDetailBean detailBean) {
+	public static int check3(OperationsCheckBean checkBean) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);
 		OperationsCheckMapper mapper = session
 				.getMapper(OperationsCheckMapper.class);
-		detailBean.setApplyId(checkBean.getApplyId());
+		//detailBean.setApplyId(checkBean.getApplyId());
 		int count = 0;
 		int r = 0;
 		try {
 			count = mapper.check3(checkBean);
 			session.commit();
-			/*if (count >= 1) {
-				if (detailExists(detailBean.getTime()) > 0) {
-					r = updateDetail(detailBean);
-				} else {
-					r = addDetail(detailBean);
-				}
-				if (r == 0) {
-					session.rollback();
-				}
-			} else {
-				session.rollback();
-			}*/
+		
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -671,6 +705,22 @@ public class OperationsCheckService {
 		int count = 0;
 		try {
 			count = mapper.check4(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int check5(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.check5(checkBean);
 			session.commit();
 			session.close();
 		} catch (Exception e) {
@@ -865,6 +915,101 @@ public class OperationsCheckService {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public static List<Map<String,Object>> searchFile(String applyId) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = sqlSession.getMapper(OperationsCheckMapper.class);
+		List<Map<String,Object>> list= new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.searchFile(applyId);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public static int update_file_info(Map<String,Object> map) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.update_file_info(map);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int up_score_money(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.up_score_money(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int sure_score_money(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.sure_score_money(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public static int sealScoreMoneyComplete(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.sealScoreMoneyComplete(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int signMeet(OperationsCheckBean checkBean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count = 0;
+		try {
+			count = mapper.signMeet(checkBean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	
