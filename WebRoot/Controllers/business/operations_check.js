@@ -32,6 +32,7 @@ xh.load = function() {
 		$scope.count = "15";//每页数据显示默认值
 		$scope.time=xh.getNowMonth();
 		$scope.id=0;
+		$scope.page=1;
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -73,7 +74,7 @@ xh.load = function() {
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 			$("#table-checkbox").prop("checked", false);
 		};
 		/*$scope.refreshFiles = function() {
@@ -238,6 +239,7 @@ xh.load = function() {
 				$scope.fileName_score=data.score4_fileName;
 				$scope.fileName_money=data.money4_fileName;
 			}
+			console.log("00-->"+$scope.up.o_check_operations_check)
 			$("#ScoreMoneySignWin").modal('show');
 	    };
 	    
@@ -315,7 +317,7 @@ xh.load = function() {
 			console.log(path);
 			var doc=path.substring(path.lastIndexOf(".")+1);
 			if(path.toLowerCase().indexOf("pdf")==-1){
-				console.log("doc")
+				console.log(doc)
 				POBrowser.openWindowModeless(xh.getUrl()+'/office/seal?fileId='+id+'&doc='+doc+'&type=1&path='+
 						path,'width=1200px;height=800px;');
 			}else{
@@ -407,7 +409,7 @@ xh.load = function() {
 			/*
 			 * closeOnConfirm : false, closeOnCancel : false
 			 */
-			}, function(isConfirm) {	
+			}, function(isConfirm) {
 				if(isConfirm){
 					$.ajax({
 						url : '../../check/sealScoreMoneyComplete',
@@ -468,6 +470,36 @@ xh.load = function() {
 					user:$scope.checkData.user,
 					checkUser:$scope.checkData.checkUser,
 					note:$("#sureFileWin").find("textarea[name='note']").val()
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+						$("#sureFileWin").modal('hide')
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.signMeetVertical=function(){
+			var data=$scope.checkData;
+			$.ajax({
+				url : '../../check/signMeet',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : data.id,
+					user:data.user,
+					status:9,
+					checkUser:data.checkUser,
+					checkUser2:data.checkUser2
 				},
 				async : false,
 				success : function(data) {
@@ -698,13 +730,14 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				$scope.detailData=$scope.data[$scope.id];
+				$scope.page=page;
 				xh.pagging(1, parseInt($scope.totals), $scope);
 			});
 			/*$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
@@ -726,10 +759,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
 				if (page == totalPages) {
@@ -740,11 +773,15 @@ xh.load = function() {
 						$scope.lastIndex = 0;
 					}
 				}
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
 			
 		};
+		setInterval(function(){
+			xh.refresh();
+		}, 5000)
 	});
 	
 };
@@ -812,6 +849,10 @@ xh.sealDoc= function(id) {
 		}
 	});
 };
+xh.signMeetVertical=function(){
+	var $scope = angular.element(appElement).scope();
+	$scope.signMeetVertical();
+}
 
 
 /*上传文件*/

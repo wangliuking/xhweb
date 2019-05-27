@@ -255,6 +255,71 @@ public class ToWorkFileServices {
 		}
 		return list;
 	}
+	public static  Map<String,Object> xj_dispatch(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		 Map<String,Object> rs=new HashMap<String, Object>();
+		try {
+			rs=mapper.xj_dispatch(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static  Map<String,Object> xj_net(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		 Map<String,Object> rs=new HashMap<String, Object>();
+		try {
+			rs=mapper.xj_net(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static  Map<String,Object> xj_room(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		 Map<String,Object> rs=new HashMap<String, Object>();
+		try {
+			rs=mapper.xj_room(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static  Map<String,Object> xj_vertical(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		 Map<String,Object> rs=new HashMap<String, Object>();
+		try {
+			rs=mapper.xj_vertical(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static  Map<String,Object> xj_bs(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		 Map<String,Object> rs=new HashMap<String, Object>();
+		try {
+			rs=mapper.xj_bs(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 
 }

@@ -69,12 +69,12 @@
 			<div class="modal-footer">
 			<button type="button" class="btn btn-danger btn-sm"
                     ng-click="sealScoreMoneyComplete()" ng-if="userL.roleType==0 ||
-                                        (up.o_check_operations_check=='on' && userL.roleType==3 && x.status==6)">
+                                        (up.o_check_operations_check=='on' && userL.roleType==3 && checkData.status==6)">
                     完成签章
                 </button>
 			<button type="button" class="btn btn-success btn-sm"
                      ng-click="sealScoreMoneyComplete()" ng-if="userL.roleType==0 ||
-                                        (up.o_check_operations_check=='on' && userL.roleType==2 && x.status==7)">
+                                        (up.o_check_operations_check=='on' && userL.roleType==2 && checkData.status==7)">
                     完成签章
                 </button>
                 

@@ -22,7 +22,22 @@
 	var type="${type}";
 		function Save() {
 			document.getElementById("PageOfficeCtrl1").WebSave();
-			//cc();
+		
+            if(type==1){
+                if(!getSeal()){                 
+                    alert("提示：你还没有签章，或者签字");
+                    return;
+                }else{
+                    window.external.CallParentFunc("xh.check(1)");
+                }
+            }else{
+                if(!getSeal()){                 
+                    alert("提示：你还没有签章，或者签字");
+                    return;
+                }else{
+                    window.external.CallParentFunc("xh.check2(2)");
+                }
+            }
 		}
 		function Seal1(tag) {  
 			var searNameStr=searName1;
@@ -107,8 +122,21 @@
 		}
 		function BeforeBrowserClosed() {
 			
-			var iCount = document.getElementById("PageOfficeCtrl1").ZoomSeal.Count;
-			if(iCount<2 && type==1){
+			if (confirm("提示：文档如果被修改过，需要保存才能生效，确认已经保存过，并关闭文档？")) {
+                window.external.close();
+                return true;
+
+            } else {
+
+                return false;
+            }
+			
+			
+			
+			
+			
+			
+			/* if(iCount<2 && type==1){
 				if (confirm("提示：你还没有签章，或者签字，确认要关闭吗")) {
 	                return true;
 
@@ -129,8 +157,25 @@
 	                window.external.CallParentFunc("xh.check2(2)");
 	            }
 	            Save();
-			}		
+			}		 */
 	    }
+		function getSeal() {
+            var iCount = document.getElementById("PageOfficeCtrl1").ZoomSeal.Count;//获取加盖的印章数量
+            var strTempSealName = "";
+            if (iCount > 0) {
+                for (var i = 0; i < iCount; i++) {
+                    strTempSealName = document
+                            .getElementById("PageOfficeCtrl1").ZoomSeal.Item(i).SealName;//获取加盖的印章名称
+                    if (strTempSealName == searName1) {
+                        return true;
+                        break;
+                    }
+                }
+            } else {
+                
+            }
+            return false;
+        }
 	</script>
 	<div style="height:700px;width:1200px;">${pageoffice }</div>
 

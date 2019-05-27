@@ -5,11 +5,14 @@
 	<select id="dataList" parameterType="map"
 		resultType="xh.mybatis.bean.OperationsCheckBean">
 		select * from xhgmnet_operations_check where 1=1
-		<!-- <if test="roleType!=0 and roleType!=2 and roleType!=3"> and user=#{user} 
-			</if> -->
+		<if test="roleType==2">
+		and status>1
+		</if> 
+		
 		<if test="time!=null and time!=''">
 			and checkMonth=#{time}
 		</if>
+		
 		order by id desc limit #{start},#{limit}
 	</select>
 	<insert id="addFile" parameterType="java.util.List">
@@ -28,8 +31,9 @@
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(*) from xhgmnet_operations_check where 1=1
-		<!-- <if test="roleType!=0 and roleType!=2 and roleType!=3"> and user=#{user} 
-			</if> -->
+		<if test="roleType==2">
+        and status>1
+        </if>  
 		<if test="time!=null and time!=''">
 			and checkMonth=#{time}
 		</if>

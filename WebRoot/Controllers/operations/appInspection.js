@@ -110,6 +110,7 @@ xh.load = function() {
 		$scope.page_msc=1;
 		$scope.time=xh.getNowMonth();
 		$scope.year=xh.getNowYear();
+		$scope.nowDay=xh.getNowDay();
 		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
@@ -154,7 +155,7 @@ xh.load = function() {
 		/*获取自建基站巡检表信息*/
 		$scope.sbs=function(){	
 			var pageSize = $("#page-limit-sbs").val();
-			$http.get("../../app/sbsinfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			$http.get("../../app/sbsinfo?starttime="+$scope.nowDay+"&start=0&limit="+pageSize).
 			success(function(response){
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
@@ -787,6 +788,8 @@ xh.load = function() {
 		/* 查询数据 */
 		$scope.mbs_search = function(page) {
 			var pageSize = $("#page-limit").val();
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -796,7 +799,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/mbsinfo?starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.mbsData = response.items;
@@ -1003,6 +1006,8 @@ xh.load = function() {
 		$scope.sbs_search = function(page) {
 			var pageSize = $("#page-limit-sbs").val();
 			var start = 1, limit = pageSize;
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			frist = 0;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -1011,7 +1016,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/sbsinfo?starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.sbsData = response.items;
@@ -1144,13 +1149,15 @@ xh.load = function() {
 		$scope.mbs_pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit").val();
 			var start = 1, limit = pageSize;
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			page = parseInt(page);
 			if (page <= 1) {
 				start = 0;
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/mbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/mbsinfo?starttime="+starttime+"endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.mbs_start = (page - 1) * pageSize + 1;
 				$scope.mbs_lastIndex = page * pageSize;
@@ -1170,13 +1177,15 @@ xh.load = function() {
 		$scope.sbs_pageClick = function(page,totals, totalPages) {
 			var pageSize = $("#page-limit-sbs").val();
 			var start = 1, limit = pageSize;
+			var starttime=$("#start_time").val();
+			var endtime=$("#end_time").val();
 			page = parseInt(page);
 			if (page <= 1) {
 				start = 0;
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?time="+$("#month").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/sbsinfo?starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.sbs_start = (page - 1) * pageSize + 1;
 				$scope.sbs_lastIndex = page * pageSize;
@@ -1358,7 +1367,8 @@ xh.load = function() {
 		};
 		$scope.bs_month_inspection_excel = function(index) {
 			xh.maskShow();
-			var time=$("#month").val();
+			var starttime=$("#start_time").val();
+			var time=starttime.split("-")[0]+"-"+starttime.split("-")[1];
 			$scope.sbsOneData = $scope.sbsData[index];
 			
 			$.ajax({
@@ -1564,7 +1574,8 @@ xh.load = function() {
 			var checkVal =[];
 			var time="";
 			if(index==1){
-				time=$("#month").val();
+				time=$("#start_time").val();
+				time=time.split("-")[0]+"-"+time.split("-")[1];
 				$("[id='bs-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
 						checkVal.push($scope.sbsData[$(this).attr("index")]);
@@ -2671,6 +2682,30 @@ xh.getNowMonth=function()
         strMonth="0"+strMonth;   
     } 
     var strYesterday=strYear+"-"+strMonth;   
+    return  strYesterday;
+}
+xh.getNowDay=function()   
+{   
+    var   today=new Date();      
+    var   yesterday_milliseconds=today.getTime();    //-1000*60*60*24
+
+    var   yesterday=new   Date();      
+    yesterday.setTime(yesterday_milliseconds);      
+        
+    var strYear=yesterday.getFullYear(); 
+
+    var strDay=yesterday.getDate();   
+    var strMonth=yesterday.getMonth()+1; 
+
+    if(strMonth<10)   
+    {   
+        strMonth="0"+strMonth;   
+    }
+    if(strDay<10)   
+    {   
+    	strDay="0"+strDay;   
+    }
+    var strYesterday=strYear+"-"+strMonth+"-01";   
     return  strYesterday;
 }
 xh.getNowYear=function()   

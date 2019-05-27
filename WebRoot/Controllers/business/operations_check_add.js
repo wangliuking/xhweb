@@ -171,6 +171,37 @@ xh.add = function() {
 		}
 	});
 };
+xh.isAdded = function(name) {
+	var success=0;
+    var files=[];	
+    var addfileNames=new Array();
+    var com=new Array();
+    name=name.split(".")[0];
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    	addfileNames[index]=name.substring(0,name.indexOf("."));
+	    }
+	   
+	});
+	var a=addfileNames.toString();
+	var b=fileNames.toString();
+	//console.log(b)
+	if(b.indexOf(name)==-1){
+		success=2;//文件名称非必须提交的文件名称
+	}
+	if(a.indexOf(name)>-1){
+		success=1;//数据存在
+	}
+	return success;
+	
+};
 
 
 

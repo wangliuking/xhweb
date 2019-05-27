@@ -128,6 +128,8 @@ public class MeetController {
 		MeetBean bean=GsonUtil.json2Object(formData, MeetBean.class);
 		MeetBean bean2=GsonUtil.json2Object(formData, MeetBean.class);
 		
+		int type=Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString());
+		
 		bean.setStart_time(FunUtil.nowDate());
 		bean.setType(Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString()));
 		bean.setPerson(bean.getPerson().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
@@ -151,7 +153,11 @@ public class MeetController {
 			this.success=true;
 			FunUtil.WriteLog(request, ConstantLog.ADD, "添加会议纪要："+bean.getStart_time());
 			createFile(bean2,request);
-			FunUtil.sendMsgToUserByPower("o_meet", 3, "会议纪要", "你有新的会议纪要需要处理", request);
+			if(type==2){
+				FunUtil.sendMsgToUserByPower("o_check_report", 3, "会议纪要", "你有新的会议纪要需要处理", request);
+			}else{
+				FunUtil.sendMsgToUserByPower("o_check_report", 2, "会议纪要", "你有新的会议纪要需要处理", request);
+			}
 			
 		}else{
 			this.message="添加失败";
@@ -206,9 +212,9 @@ public class MeetController {
 			}else{
 				String roleType=FunUtil.loginUserInfo(request).get("roleType").toString();
 				if(roleType.equals("2")){
-					FunUtil.sendMsgToUserByPower("o_meet", 2, "会议纪要", "你有新的会议纪要，请签章", request);
+					FunUtil.sendMsgToUserByPower("o_check_report", 2, "会议纪要", "你有新的会议纪要，请签章", request);
 				}else{
-					FunUtil.sendMsgToUserByPower("o_meet", 3, "会议纪要", "你有新的会议纪要，请签章", request);
+					FunUtil.sendMsgToUserByPower("o_check_report", 3, "会议纪要", "你有新的会议纪要，请签章", request);
 				}
 				
 			}
@@ -308,8 +314,8 @@ public class MeetController {
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
 		poCtrl.addCustomToolButton("签字", "Seal1()", 2);
 		poCtrl.addCustomToolButton("签章", "Seal2()", 2);
-		poCtrl.addCustomToolButton("删除签字", "DeleteSeal1()", 21);
-		poCtrl.addCustomToolButton("删除签章", "DeleteSeal2()", 21);
+		/*poCtrl.addCustomToolButton("删除签字", "DeleteSeal1()", 21);
+		poCtrl.addCustomToolButton("删除签章", "DeleteSeal2()", 21);*/
 		
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);

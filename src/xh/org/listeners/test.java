@@ -31,10 +31,17 @@ public class test {
         Date date=calendar.getTime(); //第一次执行定时任务的时间
         
         SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        int[] dd={4600,14500,6000,16500,55000,27500,3000,41900,
+        		6000,6000,2000,6000,3000,27000,22000,8000};
+        int bb=0;
+        for(int i=0;i<dd.length;i++){
+        	bb+=dd[i];
+        }
    
      
     String a="/jdfjdfjd/djfnjdnf.doc";
-     System.out.print(a.substring(a.lastIndexOf(".")+1));
+     System.out.print(System.getProperty("user.dir"));
     
 	}
 

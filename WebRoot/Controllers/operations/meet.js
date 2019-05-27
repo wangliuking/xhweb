@@ -191,11 +191,11 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
-			xh.maskShow();
+			/*console.log("limit=" + limit);
+			xh.maskShow();*/
 			$http.get(
 					"../../meet/meetlist?time="+time+"&start=0&limit=" + pageSize).success(function(response) {
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				$scope.page=page;
@@ -213,10 +213,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get(
 					"../../meet/meetlist?time="+time+"&start="+start+"&limit=" + pageSize).success(function(response) {
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
 				if (page == totalPages) {
@@ -233,6 +233,9 @@ xh.load = function() {
 			});
 
 		};
+		setInterval(function(){
+			$scope.refresh();
+		}, 5000);
 	});
 };
 //刷新数据
@@ -367,4 +370,7 @@ xh.print=function() {
 };
 function cc(){
 	alert(1);
+}
+xh.addSuccess=function(){
+	swal("提示","操作成功","info");
 }

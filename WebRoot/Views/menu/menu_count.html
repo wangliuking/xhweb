@@ -13,6 +13,8 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="-1">
+    <script type="text/javascript" src="../../jquery.min.js"></script>  
+<script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
@@ -159,9 +161,8 @@
                                     <p>运维月报</p>
                                 </a>
                             </div>
-                            <div class="menu-box text-center" style="cursor: pointer;"
-                                data-toggle="modal">
-                                <a href="#" target="_self"> <!-- <i
+                            <div class="menu-box text-center" style="cursor: pointer;">
+                                <a href="#" target="_self" ng-click="openword()"> <!-- <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i> -->
                                     <img alt="" src="../../Resources/images/icon/64/43.png">
                                     <p>月报</p>

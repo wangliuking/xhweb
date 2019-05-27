@@ -312,11 +312,13 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
-		String time = request.getParameter("time");
+		String starttime = request.getParameter("starttime");
+		String endtime = request.getParameter("endtime");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("time", time);
+		map.put("starttime", starttime);
+		map.put("endtime", endtime);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.sbsinfoCount(map));

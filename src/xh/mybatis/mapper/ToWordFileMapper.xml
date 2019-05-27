@@ -5,9 +5,6 @@
 	<select id="system_call" parameterType="map" resultType="map">
 		select (
 		select count(bsId) FROM xhgmnet.xhgmnet_bs_station WHERE 1=1
-		<if test="period==3 or period==4">
-			and period=#{period}
-		</if>
 		AND
 		`status`=1) as bsTotals,
 		TotalCalls,TotalActiveCall,round(TotalActiveCallDuration/60,0) as
@@ -434,6 +431,55 @@
 		) as x
 
 	</select>
+	<select id="xj_dispatch" parameterType="map" resultType="map">
+		select
+		(select count(*) FROM xhgmnet_dispatch WHERE setupStatus=1) as
+		count1,
+		count(*) as count2 from xhgmnet_operations_inspection_dispatch WHERE
+		DATE_FORMAT(commitdate,"%Y-%m")=#{time}
+
+	</select>
+	<select id="xj_net" parameterType="map" resultType="map">
+		select 2 as
+		count1, count(*) as count2 from
+		xhgmnet_operations_inspection_net
+		WHERE
+		DATE_FORMAT(commitdate,"%Y-%m")=#{time}
+
+	</select>
+	<select id="xj_room" parameterType="map" resultType="map">
+		select
+		(select count(*) from xhgmnet_bs_station_coverage WHERE
+		period=#{period}) as count1,
+		count(*) as count2 from
+		xhgmnet_operations_inspection_room WHERE
+		DATE_FORMAT(commitdate,"%Y-%m")=#{time}
+		AND `name` in(select `name`
+		from xhgmnet_bs_station_coverage WHERE
+		period=#{period})
+
+	</select>
+	<select id="xj_vertical" parameterType="map" resultType="map">
+		select
+		(select count(*) from xhgmnet_bs_station_repeater WHERE
+		period=#{period}) as
+		count1,
+		count(*) as count2 from
+		xhgmnet_operations_inspection_vertical WHERE
+		DATE_FORMAT(commitdate,"%Y-%m")=#{time}
+		AND `name` in(select bsName
+		from xhgmnet_bs_station_repeater WHERE
+		period=#{period})
+
+	</select>
+	<select id="xj_bs" parameterType="map" resultType="map">
+		select (select count(1) from xhgmnet_bs_station WHERE period=#{period} AND
+		type=0) as count1,
+		count(*) as count2 from xhgmnet_operations_inspection_selfbs WHERE
+		DATE_FORMAT(commitdate,"%Y-%m")=#{time}
+		AND bsId in(select bsId from xhgmnet_bs_station WHERE period=#{period}
+		AND type=0)
+	</select>
 	<select id="fault_num" parameterType="map" resultType="map">
 		select
 		SUM(one+two+three+four) as total,SUM(one) as one,SUM(two) as
@@ -453,7 +499,7 @@
 		as two,count(*) as three,0 as four,count(checkTag=1 or NULL) as
 		checked from
 		xhgmnet_operations_bsfault_three WHERE
-		DATE_FORMAT(time,"%Y-%m")=#{time} UNION ALL
+		DATE_FORMAT(time,"%Y-%m")=#{time} AND bsId in(select bsId from xhgmnet_bs_station WHERE period=#{period}) UNION ALL
 
 		select 0 as one,0 as two,0
 		as three,count(*) as four,0 as checked from
@@ -476,9 +522,12 @@
 	<select id="fault_level_pie" parameterType="map" resultType="map">
 		select count(*) as total,`level`,DATE_FORMAT(time,'%m') as month,
 		period from
-		(select a.*,b.`level` ,b.period from xhgmnet_operations_bsfault_three as a
-		LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId) as x
-		WHERE DATE_FORMAT(time,"%Y")=#{time} AND LEVEL=#{level} AND period=#{period}
+		(select a.*,b.`level` ,b.period from
+		xhgmnet_operations_bsfault_three as a
+		LEFT JOIN xhgmnet_bs_station as b
+		on a.bsId=b.bsId) as x
+		WHERE DATE_FORMAT(time,"%Y")=#{time} AND
+		LEVEL=#{level} AND period=#{period}
 	</select>
 
 </mapper>

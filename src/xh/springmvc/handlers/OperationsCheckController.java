@@ -50,7 +50,7 @@ import xh.mybatis.service.WorkContactService;
 public class OperationsCheckController {
 	private boolean success;
 	private String message;
-	protected final Log log = LogFactory.getLog(LendController.class);
+	protected final Log log = LogFactory.getLog(OperationsCheckController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 	
@@ -888,7 +888,7 @@ public class OperationsCheckController {
 		checkBean.setCheckTime4(FunUtil.nowDateNoTime());
 		checkBean.setCheckUser3(FunUtil.loginUser(request));
 		checkBean.setStatus(4);
-		int rst=OperationsCheckService.check4(checkBean);
+		int rst=OperationsCheckService.check5(checkBean);
 		if(rst>=1){
 			this.success=true;
 			this.message="成功";			
@@ -1025,6 +1025,62 @@ public class OperationsCheckController {
 		result.put("message", message);
 		result.put("fileName", fileName);
 		result.put("filePath", savePath + "/" + fileName);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@RequestMapping(value = "/upload/batch/file", method = RequestMethod.POST)
+	public void batch_upload(@RequestParam("pathName") MultipartFile[] file,@RequestParam("type") int type,
+			HttpServletRequest request, HttpServletResponse response) {
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		String date=sdf.format(d);
+		String savePath="/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+		String path = request.getSession().getServletContext().getRealPath("")
+				+ "/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+		List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
+		if(!(file.length==0)){
+			
+			for(int i=0;i<file.length;i++){
+				String fileName = file[i].getOriginalFilename();
+				System.out.println("文件名："+fileName);
+				File targetFile = new File(path, fileName);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+
+				}
+				// 保存
+				try {
+					file[i].transferTo(targetFile);
+					this.success = true;
+					this.message = "文件上传成功";
+					Map<String,Object> map=new HashMap<String, Object>();
+					map.put("fileName", fileName);
+					map.put("filePath", savePath + "/" + fileName);
+					map.put("index", i+1);
+					map.put("size", file[i].getSize());
+					rs.add(map);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.message = "文件上传失败";
+				}
+			}
+			
+			
+		}
+		
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("rs", rs);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);

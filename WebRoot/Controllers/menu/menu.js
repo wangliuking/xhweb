@@ -19,6 +19,9 @@ xh.load = function() {
 			$scope.menu=response.items;
 		
 		});
+		$scope.openword=function(){
+			POBrowser.openWindowModeless(xh.getUrl()+'/word/meet','width=1200px;height=800px;');
+		}
 
 	});
 };

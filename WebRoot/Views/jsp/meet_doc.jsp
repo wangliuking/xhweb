@@ -40,6 +40,7 @@ MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
         function OnProgressComplete() {
            // window.parent.hideGif();// Òþ²ØDefaultÒ³ÖÐµÄloadingÍ¼Æ¬
              window.external.close(); 
+             window.external.CallParentFunc("xh.addSuccess()");
         }
     </script>
 

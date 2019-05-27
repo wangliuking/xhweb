@@ -165,9 +165,9 @@ public class WorkContactController {
 			WebLogService.writeLog(webLogBean);
 			//createFile(bean2,request);			
 			if(bean.getUser_type()==3  || bean.getUser_type()==0){
-				FunUtil.sendMsgToUserByPower("o_work_contact", 3, "工作联系单", "你有新的工作联系单需要处理", request);
+				FunUtil.sendMsgToUserByPower("o_task", 3, "工作联系单", "你有新的工作联系单需要处理", request);
 			}else if(bean.getUser_type()==2){
-				FunUtil.sendMsgToUserByPower("o_work_contact", 2, "工作联系单", "你有新的工作联系单需要处理", request);
+				FunUtil.sendMsgToUserByPower("o_task", 2, "工作联系单", "你有新的工作联系单需要处理", request);
 			}
 			
 			/*if(bean.getUser_type()==3  || bean.getUser_type()==0){
