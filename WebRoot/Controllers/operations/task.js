@@ -48,9 +48,11 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
 		$scope.count = "20";// 每页数据显示默认值;
-		$scope.NO=xh.No();
+		$scope.NO="";
 		$scope.sendUnit="";
 		$scope.page=1;
+		
+		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(function(response) {
 			$scope.up = response;
@@ -79,7 +81,13 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
-
+		/*获取编号*/
+		$scope.CodeNum = function() {
+			$http.get("../../WorkContact/codeNum").success(function(response) {
+				$scope.NO = response.code;
+				
+			});
+		}
 		/* 显示详细信息 */
 		$scope.detail = function(id) {
 			$("#detail").modal('show');
@@ -89,6 +97,18 @@ xh.load = function() {
 			str=str.replace(/<br>/g,"<br />");
 			str=str.replace(/" "/g,"&nbsp;")
 			$("#df").html(str)
+		};
+		$scope.showEdit= function(id) {
+			$("#edit").modal('show');
+			$scope.editData = $scope.data[id];
+			var str=$scope.editData.content;
+			str=str.replace(/<br>/g,"\r\n");
+			str=str.replace(/" "/g," ")
+			$("#content").html(str)
+		};
+		$scope.showCheck = function(id) {
+			$("#checkWin").modal('show');
+			$scope.detailData = $scope.data[id];
 		};
 		$scope.download = function(path) {
 			var index=path.lastIndexOf("/");
@@ -101,6 +121,71 @@ xh.load = function() {
 				toastr.error("文件不存在", '提示');
 			}
 			
+		};
+		$scope.showFileWin=function(){
+			$("input[name='pathName']").click();
+		}
+		$("input[name='pathName']").change(function(){
+			console.log($(this).val());
+		});
+		$scope.openWord = function(tag,id) {
+			$scope.detailData = $scope.data[id];
+			if(tag==1){
+				POBrowser.openWindowModeless('../../office/openWord?path='+$scope.detailData.file_path,'width=1200px;height=800px;');
+			}
+			
+		};
+		$scope.previewDoc=function(path){
+			console.log(path)
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
+		/*审核*/
+		$scope.check = function(tag) {
+			$.ajax({
+				url : '../../WorkContact/check',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data : {
+					note:$("#checkWin").find("textarea[name='note']").val(),
+					state:tag,
+					data : JSON.stringify($scope.detailData)
+				},
+				success : function(data) {
+
+					if (data.success) {
+						xh.refresh();
+						$("#checkWin").modal('hide');
+						toastr.success(data.message, '提示');
+						/*if(data.bean.status==1){
+							//POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/workcontact_doc_update.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
+							POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/workcontact_doc_update.jsp?bean='+JSON.stringify(data.bean),'width=400px;height=300px;');
+						}*/
+						
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.success("系统错误", '提示');
+				}
+			});
+
 		};
 
 		/* 签收 */
@@ -232,29 +317,42 @@ xh.load = function() {
 			});
 
 		};
+		$scope.CodeNum();
 	});
 };
+
 // 刷新数据
 xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
+	$scope.CodeNum();
 };
 /* 添加 */
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
-	if($("input[name='pathName']").val()!='' && $("input[name='filePath']").val()=='' ){
-		alert("你选择了附件，还没上传");
-		$("#add_btn").button('reset');
-		return;
-	}
+	var files=[];
+	
+	$("#fileArea ul li").each(function(){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }
+	   
+	});
 	$.ajax({
 		url : '../../WorkContact/add',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data : {
-			formData : xh.serializeJson($("#addForm").serializeArray())
+			formData : xh.serializeJson($("#addForm").serializeArray()),
+			files: JSON.stringify(files)
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
@@ -262,14 +360,8 @@ xh.add = function() {
 			if (data.success) {
 				$('#add').modal('hide');
 				xh.refresh();
-				toastr.success(data.message, '提示');
-				$("input[name='result']").val("");
-            	$("input[name='fileName']").val("");
-            	$("input[name='filePath']").val("");
-            	$("input[name='pathName']").val('');
-            	$file =$("input[name='pathName");
-            	$file.remove();
-            	 $('.file').append('<input  class="form-control" type="file" id="pathName" name="pathName" />');
+				//toastr.success(data.message, '提示');
+				//POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/workcontact_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -277,6 +369,34 @@ xh.add = function() {
 		error : function() {
 			toastr.error("参数错误", '提示');
 			$("#add_btn").button('reset');
+		}
+	});
+};
+xh.edit = function() {
+	var $scope = angular.element(appElement).scope();
+	var files=[];
+	$.ajax({
+		url : '../../WorkContact/update',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data : {
+			formData : xh.serializeJson($("#editForm").serializeArray())
+		// 将表单序列化为JSON对象
+		},
+		success : function(data) {
+			$("#edit_btn").button('reset');
+			if (data.success) {
+				$('#edit').modal('hide');
+				xh.refresh();
+				toastr.success(data.message, '提示');
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.error("参数错误", '提示');
+			$("#edit_btn").button('reset');
 		}
 	});
 };

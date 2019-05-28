@@ -23,6 +23,84 @@
     
     
     
+    <!-- PageOffice Begin -->
+    <servlet>
+        <servlet-name>poserver</servlet-name>
+        <servlet-class>com.zhuozhengsoft.pageoffice.poserver.Server</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/poserver.zz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/sealsetup.exe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/posetup.exe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/pageoffice.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/jquery.min.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>poserver</servlet-name>
+        <url-pattern>/pobstyle.css</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>adminseal</servlet-name>
+        <servlet-class>com.zhuozhengsoft.pageoffice.poserver.AdminSeal</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminseal</servlet-name>
+        <url-pattern>/adminseal.zz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminseal</servlet-name>
+        <url-pattern>/loginseal.zz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminseal</servlet-name>
+        <url-pattern>/sealimage.zz</url-pattern>
+    </servlet-mapping>
+    <mime-mapping>
+        <extension>mht</extension>
+        <mime-type>message/rfc822</mime-type>
+    </mime-mapping>
+    <context-param>
+        <param-name>adminseal-password</param-name>
+        <param-value>111111</param-value>
+    </context-param>
+    <!-- PageOffice End -->
+   <!-- link to MySql begin-->
+
+     <context-param>
+            <param-name>adminseal-charset</param-name>
+            <param-value>UTF-8</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-driver</param-name>
+            <param-value>com.mysql.jdbc.Driver</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-url</param-name>                             
+            <param-value>jdbc:mysql://localhost:3306/seal?useUnicode=true&amp;characterEncoding=UTF-8</param-value>
+     </context-param>
+     <context-param>
+            <param-name>posealdb-username</param-name>
+            <param-value>root</param-value> </context-param> <context-param>
+            <param-name>posealdb-password</param-name>
+            <param-value>xinhong12345</param-value>
+     </context-param>
+
+     <!-- link to MySql end--> 
+    
+    
     <filter>
              <filter-name>encodingFilter</filter-name>
              <filter-class>
@@ -184,5 +262,13 @@ xh.org.listeners.TcpServerListenner
 <auth-method>CLIENT-CERT</auth-method> 
 <realm-name>Client Cert Users-only Area</realm-name> 
 </login-config> -->
+    <filter>
+        <filter-name>cros</filter-name>
+        <filter-class>xh.org.filter.SimpleCORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cros</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
 </web-app>

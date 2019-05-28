@@ -23,6 +23,12 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+var fileNames=['运维服务团队通讯录','运维资源配置表',
+		'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',
+		'基站信息表','运维故障统计','故障核减申请书','通信保障报告','备品备件表',
+		'定期维护报告-交换中心月维护','定期维护报告-基站月维护','系统日常维护表',
+		'巡检记录汇总表','基站月度巡检表（含调度台及直放站）']
+console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
 	
@@ -31,6 +37,7 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.time="";
+		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
@@ -43,79 +50,11 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
-		$scope.change3Input=function(){
-			var a=0;
-			a+=parseFloat($("#score3Form").find("input[name='s_a1']").val()==""?0:$("#score3Form").find("input[name='s_a1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_b1']").val()==""?0:$("#score3Form").find("input[name='s_b1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_b2']").val()==""?0:$("#score3Form").find("input[name='s_b2']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_b3']").val()==""?0:$("#score3Form").find("input[name='s_b3']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_b4']").val()==""?0:$("#score3Form").find("input[name='s_b4']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_c1']").val()==""?0:$("#score3Form").find("input[name='s_c1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_c2']").val()==""?0:$("#score3Form").find("input[name='s_c2']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_d1']").val()==""?0:$("#score3Form").find("input[name='s_d1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_d2']").val()==""?0:$("#score3Form").find("input[name='s_d2']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_e1']").val()==""?0:$("#score3Form").find("input[name='s_e1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_f1']").val()==""?0:$("#score3Form").find("input[name='s_f1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_f2']").val()==""?0:$("#score3Form").find("input[name='s_f2']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_g1']").val()==""?0:$("#score3Form").find("input[name='s_g1']").val());
-			a+=parseFloat($("#score3Form").find("input[name='s_h1']").val()==""?0:$("#score3Form").find("input[name='s_h1']").val());
-			$scope.score_sum3=a;
+		$scope.showFileWin=function(){
+			$("input[name='pathName']").click();
 		}
-		$scope.change4Input=function(){
-			var a=0;
-			a+=parseFloat($("#score4Form").find("input[name='s_a1']").val()==""?0:$("#score4Form").find("input[name='s_a1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_b1']").val()==""?0:$("#score4Form").find("input[name='s_b1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_b2']").val()==""?0:$("#score4Form").find("input[name='s_b2']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_b3']").val()==""?0:$("#score4Form").find("input[name='s_b3']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_b4']").val()==""?0:$("#score4Form").find("input[name='s_b4']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_c1']").val()==""?0:$("#score4Form").find("input[name='s_c1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_c2']").val()==""?0:$("#score4Form").find("input[name='s_c2']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_d1']").val()==""?0:$("#score4Form").find("input[name='s_d1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_d2']").val()==""?0:$("#score4Form").find("input[name='s_d2']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_e1']").val()==""?0:$("#score4Form").find("input[name='s_e1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_f1']").val()==""?0:$("#score4Form").find("input[name='s_f1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_f2']").val()==""?0:$("#score4Form").find("input[name='s_f2']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_g1']").val()==""?0:$("#score4Form").find("input[name='s_g1']").val());
-			a+=parseFloat($("#score4Form").find("input[name='s_h1']").val()==""?0:$("#score4Form").find("input[name='s_h1']").val());
-			$scope.score_sum4=a;
-		}
-		$scope.sum_money3=function(){
-			var a=0;
-			a+=parseFloat($("#money3Form").find("input[name='m_a1']").val()==""?0:$("#money3Form").find("input[name='m_a1']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_a2']").val()==""?0:$("#money3Form").find("input[name='m_a2']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_a3']").val()==""?0:$("#money3Form").find("input[name='m_a3']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_a4']").val()==""?0:$("#money3Form").find("input[name='m_a4']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_b1']").val()==""?0:$("#money3Form").find("input[name='m_b1']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_b2']").val()==""?0:$("#money3Form").find("input[name='m_b2']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_d1']").val()==""?0:$("#money3Form").find("input[name='m_d1']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_f1']").val()==""?0:$("#money3Form").find("input[name='m_f1']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_g1']").val()==""?0:$("#money3Form").find("input[name='m_g1']").val());
-			a+=parseFloat($("#money3Form").find("input[name='m_l1']").val()==""?0:$("#money3Form").find("input[name='m_l1']").val());
-			$scope.money_sum3=a;
-		}
-		$scope.sum_money4=function(){
-			var a=0;
-			a+=parseFloat($("#money4Form").find("input[name='m_a1']").val()==""?0:$("#money4Form").find("input[name='m_a1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_a2']").val()==""?0:$("#money4Form").find("input[name='m_a2']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_a3']").val()==""?0:$("#money4Form").find("input[name='m_a3']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_a4']").val()==""?0:$("#money4Form").find("input[name='m_a4']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_b1']").val()==""?0:$("#money4Form").find("input[name='m_b1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_b2']").val()==""?0:$("#money4Form").find("input[name='m_b2']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_c1']").val()==""?0:$("#money4Form").find("input[name='m_c1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_c2']").val()==""?0:$("#money4Form").find("input[name='m_c2']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_c3']").val()==""?0:$("#money4Form").find("input[name='m_c3']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_d1']").val()==""?0:$("#money4Form").find("input[name='m_d1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_e1']").val()==""?0:$("#money4Form").find("input[name='m_e1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_f1']").val()==""?0:$("#money4Form").find("input[name='m_f1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_g1']").val()==""?0:$("#money4Form").find("input[name='m_g1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_h1']").val()==""?0:$("#money4Form").find("input[name='m_h1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_i1']").val()==""?0:$("#money4Form").find("input[name='m_i1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_j1']").val()==""?0:$("#money4Form").find("input[name='m_j1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_k1']").val()==""?0:$("#money4Form").find("input[name='m_k1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_m1']").val()==""?0:$("#money4Form").find("input[name='m_m1']").val());
-			a+=parseFloat($("#money4Form").find("input[name='m_n1']").val()==""?0:$("#money4Form").find("input[name='m_n1']").val());
-			$scope.money_sum4=a;
-		}
+		
+		
 		
 		$scope.searchMoney=function(){
 			var time=$("input[name='month']").val();
@@ -137,9 +76,7 @@ xh.load = function() {
 			success(function(response){
 				xh.maskHide();
 				$scope.score_data= response.items;
-				$scope.score_sum=response.sum;
-				
-				
+				$scope.score_sum=response.sum;					
 			});
 		}
 	  
@@ -156,9 +93,37 @@ xh.searchScore=function(time){
 	$scope.searchMoney();
 }
 xh.add = function() {
-	var fileName=$("#addWin").find("input[name='fileName']").val();
+    var files=[];	
+    var addfileNames=new Array();
+    var com=new Array();
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    	addfileNames[index]=name.substring(0,name.indexOf("."));
+	    }
+	   
+	});
+	var a=addfileNames.toString();
+	var index=0;
+	for(var i=0;i<fileNames.length;i++){
+		if(a.indexOf(fileNames[i])==-1){
+			com[index]=fileNames[i];
+			index++;
+		}
+	}
+	if(com.length>0){
+		swal("提示","你还有文件没有上传完，禁止提交，待传文件:\r\n"+com.join("\r\n"),"info");
+		return;
+	}
 	var month=$("input[name='month']").val();
-	if(fileName==""){
+	var type=$("select[name='type']").val();
+	if(files.length<1){
 		toastr.error("还没有上传文件", '提示');
 		return ;
 	}
@@ -173,14 +138,9 @@ xh.add = function() {
 		dataType : "json",
 		async : true,
 		data:{
-			score3Data:xh.serializeJson($("#score3Form").serializeArray()),
-			score4Data:xh.serializeJson($("#score4Form").serializeArray()),
-			money3Data:xh.serializeJson($("#money3Form").serializeArray()),
-			money4Data:xh.serializeJson($("#money4Form").serializeArray()),
 			time:month,
-			comment:$("textarea[name='comment']").val(),
-			fileName:$("input[name='fileName']").val(),
-			filePath:$("input[name='path']").val()
+			type:type,
+			files: JSON.stringify(files)
 		},
 		success : function(data) {
 			if (data.success) {
@@ -190,7 +150,7 @@ xh.add = function() {
 					type : "success",
 					showCancelButton : true,
 					confirmButtonColor : "#DD6B55",
-					confirmButtonText : "提交申请成功，返回申请列表",
+					confirmButtonText : "提交申请成功，返回列表页面",
 					cancelButtonText : "取消",
 				    closeOnCancel : true
 				/*
@@ -210,6 +170,37 @@ xh.add = function() {
 			toastr.error("系统错误", '提示');
 		}
 	});
+};
+xh.isAdded = function(name) {
+	var success=0;
+    var files=[];	
+    var addfileNames=new Array();
+    var com=new Array();
+    name=name.split(".")[0];
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    	addfileNames[index]=name.substring(0,name.indexOf("."));
+	    }
+	   
+	});
+	var a=addfileNames.toString();
+	var b=fileNames.toString();
+	//console.log(b)
+	if(b.indexOf(name)==-1){
+		success=2;//文件名称非必须提交的文件名称
+	}
+	if(a.indexOf(name)>-1){
+		success=1;//数据存在
+	}
+	return success;
+	
 };
 
 

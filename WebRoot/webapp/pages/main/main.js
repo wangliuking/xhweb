@@ -57,6 +57,9 @@ loader.define(function(require,exports,module) {
         uiNavtab.on("to",function (index) {
             var index = index || 0;
             switch(index){
+               /* case 0:
+                loader.require(["pages/frist/index"])
+                break;*/
                 case 0:
                 loader.require(["pages/main/menu"])
                 break;

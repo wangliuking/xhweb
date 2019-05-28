@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.WebAppMapper">
+	<!-- 固定基站数量 -->
+	<select id="app_bs_gd_count" resultType="int" useCache="true">
+		select
+		count(*) from xhgmnet_bs_station where type=0 OR type=1
+	</select>
+	<!-- 直放站数量 -->
+	<select id="app_verticalbs_count" resultType="int" useCache="true">
+		select count(*) from xhgmnet_bs_station_repeater
+	</select>
+	<select id="app_room" resultType="map" useCache="true">
+		select count(*)
+		as num ,TRUNCATE(sum(coverage)/10000,0) as coverage from
+		xhgmnet_bs_station_coverage
+	</select>
+	
+	<select id="app_portable" resultType="map" useCache="true">
+		select
+		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2 from
+		xhgmnet_bs_station_portable
+	</select>
+	<select id="app_movebus" resultType="map" useCache="true">
+		select
+		count(state=0 OR NULL) as num1, count(state=1 OR NULL) as num2 from
+		xhgmnet_operations_move_bus
+	</select>
+	<select id="app_subway" resultType="map" useCache="true">
+		select
+		count(*) as num,line from xhgmnet_bs_station_subway GROUP BY line
+	</select>
+	<select id="app_dispatch_count" resultType="int" useCache="true">
+		select count(*) as num from xhgmnet_dispatch
+	</select>
+	<select id="app_access_count" resultType="int" useCache="true">
+		select
+		count(*) as num from xhgmnet_user_access_list
+	</select>
+	<select id="app_vpn_count" resultType="int" useCache="true">
+		select count(*) as num from xhgmnet_vpn WHERE vpnId>1
+	</select>
+</mapper>	
+	

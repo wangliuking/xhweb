@@ -31,11 +31,14 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.time=xh.getNowMonth();
+		$scope.id=0;
+		$scope.page=1;
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response.user;
+			$scope.userL = response;
 			$scope.loginUserRoleId = response.roleId;
 			$scope.loginUserRoleType = response.roleType;
 		});
@@ -60,30 +63,7 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		$scope.searchMoney=function(time){
-			$http.get("../../check/searchDetail?time="+time).
-			success(function(response){
-				xh.maskHide();
-				$scope.money_data3 = response.items3;
-				$scope.money_sum3=response.sum3;
-				$scope.money_data4 = response.items4;
-				$scope.money_sum4=response.sum4;
-				
-				
-			});
-		}
-		$scope.searchScore=function(time){
-			$http.get("../../check/searchScore?time="+time).
-			success(function(response){
-				xh.maskHide();
-				$scope.score_data3= response.items3;
-				$scope.score_sum3=response.sum3;
-				$scope.score_data4= response.items4;
-				$scope.score_sum4=response.sum4;
-				
-				
-			});
-		}
+		
 	    
 	    $scope.toCheck2 = function (index) {
 	    $scope.check_data=$scope.data[index];
@@ -94,9 +74,13 @@ xh.load = function() {
 		
 		/* 刷新数据 */
 		$scope.refresh = function() {
-			$scope.search(1);
+			$scope.search($scope.page);
 			$("#table-checkbox").prop("checked", false);
 		};
+		/*$scope.refreshFiles = function() {
+			
+			$scope.detailData = $scope.data[$scope.id];
+		};*/
 		/*跳转到处理页面*/
 		$scope.toDeal = function (id) {
 			$scope.editData = $scope.data[id];
@@ -104,63 +88,548 @@ xh.load = function() {
 					"&id="+$scope.editData.id+"" +
 					"&checkMonth="+$scope.editData.checkMonth+"&applyId="+$scope.editData.applyId;
 	    };
+	    //提交扣分扣款
+	    
+	    $scope.upScoreAndMoney=function(id){
+	    	$scope.checkData = $scope.data[id];
+	    	swal({
+				title : "提示",
+				text : "确认已经填写了扣分扣款记录吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/up_score_money',
+						type : 'post',
+						dataType : "json",
+						data : {
+							applyId : $scope.checkData.applyId
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+			});
+	    }
+	    //确认扣分扣款
+	    $scope.sureScoreAndMoney=function(id){
+	    	$scope.checkData = $scope.data[id];
+	    	swal({
+				title : "提示",
+				text : "确认扣分扣款信息正确吗",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/sure_score_money',
+						type : 'post',
+						dataType : "json",
+						data : {
+							applyId : $scope.checkData.applyId,
+							applyId : $scope.checkData.applyId,
+							checkUser : $scope.checkData.checkUser
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+			});
+	    }
 		/*跳转到申请进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.progressData = $scope.data[id];
 			//$scope.searchDetail($scope.progressData.checkMonth)
 			//$scope.asset_apply_list(id);
-			 $scope.searchMoney($scope.progressData.checkMonth);
-			 $scope.searchScore($scope.progressData.checkMonth);
+			/* $scope.searchMoney($scope.progressData.checkMonth);
+			 $scope.searchScore($scope.progressData.checkMonth);*/
 			 $scope.time=$scope.progressData.checkMonth;
 			$("#progress").modal('show');
 	    };
+	    $scope.recordScore = function (id) {
+			var data = $scope.data[id];
+			var url="";
+			if(data.type==4){
+				url+="operations_check_write4_score.html?applyId="+data.applyId;
+				url+="&checkMonth="+data.checkMonth;
+				url+="&files="+JSON.stringify(data.files);
+			}else if(data.type==3){
+				url+="operations_check_write3_score.html?applyId="+data.applyId;
+				url+="&checkMonth="+data.checkMonth;
+				url+="&files="+JSON.stringify(data.files);
+			}
+			window.location.href=url;
+	    };
+	    $scope.recordMoney = function (id) {
+			var data = $scope.data[id];
+			var url="";
+			if(data.type==4){
+				url+="operations_check_write4_money.html?applyId="+data.applyId;
+				url+="&checkMonth="+data.checkMonth;
+				url+="&files="+JSON.stringify(data.files);
+			}else if(data.type==3){
+				url+="operations_check_write3_money.html?applyId="+data.applyId;
+				url+="&checkMonth="+data.checkMonth;
+				url+="&files="+JSON.stringify(data.files);
+			}
+			window.location.href=url;
+	    };
+		$scope.showFileWin = function (id) {
+			$scope.detailData = $scope.data[id];
+			$("#filesWin").modal('show');
+	    };
+	    $scope.showSignWin = function (id) {
+			$scope.detailData = $scope.data[id];
+			$scope.id=id;
+			$("#signWin").modal('show');
+	    };
+	    $scope.showCheckWin = function (id) {
+	    	$scope.checkData=$scope.data[id];	
+			$("#checkWin").modal('show');
+	    };
+	    $scope.showSureFileWin = function (id) {
+	    	$scope.checkData=$scope.data[id];	
+			$("#sureFileWin").modal('show');
+	    };
+	    $scope.showScoreMoneySignWin = function (id) {
+			var data = $scope.data[id];
+			$scope.checkData=$scope.data[id];
+			
+			$scope.fileName_score="";
+			$scope.fileName_money="";
+			if(data.type==3){
+				$scope.fileName_score=data.score3_fileName;
+				$scope.fileName_money=data.money3_fileName;
+			}else if(data.type==4){
+				$scope.fileName_score=data.score4_fileName;
+				$scope.fileName_money=data.money4_fileName;
+			}
+			console.log("00-->"+$scope.up.o_check_operations_check)
+			$("#ScoreMoneySignWin").modal('show');
+	    };
 	    
-	    
+
 		/*下载工作记录*/
-		$scope.download = function(name) {
-			/*var index=path.lastIndexOf("/");
-			var name=path.substring(index+1,path.length);	*/
+		$scope.download = function(path) {
+			var index=path.lastIndexOf("/");
+			var name=path.substring(index+1,path.length);
 			var filename=name
-			var filepath = "/Resources/upload/business/" + filename;
-			var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + filepath;
-			if(xh.isfile(filepath)){
+			var downUrl = "../../uploadFile/download?fileName=" + filename + "&filePath=" + path;
+			if(xh.isfile(path)){
 				window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
 			}else{
 				toastr.error("文件不存在", '提示');
 			}
 		};
-		$scope.preview = function(filename) {
-			xh.maskShow();
-			var path="../../Resources/upload/asset/"
+		$scope.previewDoc=function(path){
+			console.log(path)
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
 			
-			var filepath = "/Resources/upload/asset/" + filename;
+		}
+		$scope.showFile=function(index,tag){
+			var data=$scope.data[index];
+			var path="";
+			if(data.type==3){
+				if(tag==1){
+					path=data.score3_filePath
+				}else if(tag==2){
+					path=data.money3_filePath
+				}
+				else if(tag==3){
+					path=data.filePath
+				}
+			}else if(data.type==4){
+				if(tag==1){
+					path=data.score4_filePath
+				}else if(tag==2){
+					path=data.money4_filePath
+				}else if(tag==3){
+					path=data.filePath
+				}
+			}
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
 			
-			var url="../web/doc-preview.html?fileName="+filename+"&filePath="+path;
-			$.ajax({
-	    		url : '../../web/preview',
-	    		type : 'POST',
-	    		dataType : "json",
-	    		async : false,
-	    		data:{
-	    			filePath:filepath
-	    		},
-	    		success : function(data) {
-	    			xh.maskHide();
-	    			if (data.success) {
-	    				window.open(url);
+		}
+		$scope.sealDoc=function(id,path){
+			console.log(path);
+			var doc=path.substring(path.lastIndexOf(".")+1);
+			if(path.toLowerCase().indexOf("pdf")==-1){
+				console.log(doc)
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/seal?fileId='+id+'&doc='+doc+'&type=1&path='+
+						path,'width=1200px;height=800px;');
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
+		$scope.sealScoreMoneyDoc=function(tag){
+			var data=$scope.checkData;
+			var path="";
+			if(data.type==3){
+				if(tag==1){
+					path=data.score3_filePath
+				}else if(tag==2){
+					path=data.money3_filePath
+				}
+			}else if(data.type==4){
+				if(tag==1){
+					path=data.score4_filePath
+				}else if(tag==2){
+					path=data.money4_filePath
+				}
+			}
+			var doc=path.substring(path.lastIndexOf(".")+1);
+			if(path.toLowerCase().indexOf("pdf")==-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/signAndSeal?doc='+doc+'&type=1&path='+
+						path,'width=1200px;height=800px;');
+			}else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
+		$scope.sealComplete=function(index){
+			$scope.checkData=$scope.data[index];
+			
+			swal({
+				title : "提示",
+				text : "确认已完成所有文件的签章？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/sealComplete',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : $scope.checkData.id,
+							user:$scope.checkData.user
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
 
-	    			} else {
-	    				toastr.error("文档转换失败，只能预览office，txt文档", '提示');
-	    			}
-	    		},
-	    		error : function() {
-	    			toastr.error("系统错误", '提示');
-	    			xh.maskHide();
-	    			
-	    		}
-	    	});
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+			});
 			
-		};
+		}
+		
+		$scope.sealScoreMoneyComplete=function(){
+			//$scope.checkData=$scope.data[index];
+			
+			swal({
+				title : "提示",
+				text : "确认扣分文件与扣款文件都已经签章了吗？",
+				type : "warning",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				closeOnConfirm: false
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if(isConfirm){
+					$.ajax({
+						url : '../../check/sealScoreMoneyComplete',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : $scope.checkData.id,
+							user:$scope.checkData.user,
+							checkUser:$scope.checkData.checkUser,
+							checkUser2:$scope.checkData.checkUser2
+								
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								$("#ScoreMoneySignWin").modal('hide');
+								if($scope.userL.roleType==2){
+									
+									swal("提示", "请填写会议纪要", "success");
+									
+								}else{
+									swal("提示", data.message, "success");
+								}
+								$scope.refresh();
+
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+					
+			});
+			
+		}
+		$scope.write_meet=function(index,type){
+			var path=$scope.data[index].filePath;
+			$scope.checkData=$scope.data[index];
+			POBrowser.openWindowModeless(xh.getUrl()+'/check/editMeetWord?type='+type+'&path='+
+					path,'width=1200px;height=800px;');
+			
+		}
+		$scope.sureFile=function(){
+			var data=$scope.checkData;
+			if($("#sureFileWin").find("textarea[name='note']").val()==""){
+				toastr.error("会议安排处必须填写内容", '提示');
+				return;
+			}
+			$.ajax({
+				url : '../../check/sureFile',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : $scope.checkData.id,
+					user:$scope.checkData.user,
+					checkUser:$scope.checkData.checkUser,
+					note:$("#sureFileWin").find("textarea[name='note']").val()
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+						$("#sureFileWin").modal('hide')
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.signMeetVertical=function(){
+			var data=$scope.checkData;
+			$.ajax({
+				url : '../../check/signMeet',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : data.id,
+					user:data.user,
+					status:9,
+					checkUser:data.checkUser,
+					checkUser2:data.checkUser2
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+						$("#sureFileWin").modal('hide')
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.signMeet=function(index,tag){
+			var data=$scope.data[index];
+			var tag=9;
+			var msg="";
+			if(data.status==8){
+				msg="确认，已经填写了会议纪要，并签字盖章了吗？";
+				tag=9
+			}else if(data.status==9){
+				msg="确认已经签字了";
+				tag=10;
+			}
+			
+			swal({
+				title : "提示",
+				text :msg,
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消"
+			/*
+			 * closeOnConfirm : false, closeOnCancel : false
+			 */
+			}, function(isConfirm) {
+				if (isConfirm) {
+					$.ajax({
+						url : '../../check/signMeet',
+						type : 'post',
+						dataType : "json",
+						data : {
+							id : data.id,
+							user:data.user,
+							status:tag,
+							checkUser:data.checkUser,
+							checkUser2:data.checkUser2
+						},
+						async : false,
+						success : function(data) {
+							if (data.success) {
+								toastr.success(data.message, '提示');
+								$scope.refresh();
+								$("#sureFileWin").modal('hide')
+
+							} else {
+								toastr.error(data.message, '提示');
+							}
+						},
+						error : function() {
+							toastr.error("系统错误", '提示');
+						}
+					});
+				}
+			});
+			
+		}
+		$scope.signMeet2=function(){
+			var data=$scope.checkData
+			$.ajax({
+				url : '../../check/signMeet',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : data.id,
+					user:data.user,
+					status:10,
+					checkUser:data.checkUser,
+					checkUser2:data.checkUser2
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+						$("#sureFileWin").modal('hide')
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
+		$scope.sureMeet=function(index){
+			var data=$scope.data[index];
+			$.ajax({
+				url : '../../check/sureMeet',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id : data.id,
+					checkUser2:data.checkUser2
+				},
+				async : false,
+				success : function(data) {
+					if (data.success) {
+						toastr.success(data.message, '提示');
+						$scope.refresh();
+						$("#sureFileWin").modal('hide')
+
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function() {
+					toastr.error("系统错误", '提示');
+				}
+			});
+			
+		}
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData=$scope.data[id];			
@@ -173,12 +642,12 @@ xh.load = function() {
 			 $scope.time=$scope.checkData.checkMonth;
 			$("#checkWin2").modal('show');	
 	    };
-	    $scope.check2 =function(tag){
+	    $scope.check =function(tag){
 	    	var title="";
 			if(tag==-1){
-				title="确定要拒绝该申请吗？";
+				title="确定要拒绝考核文件吗？";
 			}else{
-				title="确认同意该申请吗？";
+				title="确认同意该考核文件吗？";
 			}
 			swal({
 				title : "提示",
@@ -194,21 +663,21 @@ xh.load = function() {
 			}, function(isConfirm) {
 				if (isConfirm) {
 					$.ajax({
-						url : '../../check/check2',
+						url : '../../check/check',
 						type : 'post',
 						dataType : "json",
 						data : {
 							id : $scope.checkData.id,
 							check:tag,
 							user:$scope.checkData.user,
-							comment:$("textarea[name='workNote']").val()
+							note1:$("textarea[name='note']").val()
 						},
 						async : false,
 						success : function(data) {
 							if (data.success) {
 								toastr.success(data.message, '提示');
 								$scope.refresh();
-								$("#checkWin2").modal('hide')
+								$("#checkWin").modal('hide')
 
 							} else {
 								toastr.error(data.message, '提示');
@@ -261,12 +730,14 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
+				$scope.detailData=$scope.data[$scope.id];
+				$scope.page=page;
 				xh.pagging(1, parseInt($scope.totals), $scope);
 			});
 			/*$http.get("../../business/lend/list?start="+start+"&limit=" + pageSize).
@@ -288,10 +759,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get("../../check/data?time="+time+"&start="+start+"&limit=" + pageSize).
 			success(function(response){
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
 				if (page == totalPages) {
@@ -302,11 +773,15 @@ xh.load = function() {
 						$scope.lastIndex = 0;
 					}
 				}
+				$scope.page=page;
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 			});
 			
 		};
+		setInterval(function(){
+			xh.refresh();
+		}, 5000)
 	});
 	
 };
@@ -349,6 +824,35 @@ xh.add = function() {
 		}
 	});
 };
+xh.sealDoc= function(id) {	
+	var $scope = angular.element(appElement).scope();
+	$.ajax({
+		url : '../../check/sealFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			id:id
+		},
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				xh.refresh();
+				
+				
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.signMeetVertical=function(){
+	var $scope = angular.element(appElement).scope();
+	$scope.signMeetVertical();
+}
 
 
 /*上传文件*/
@@ -401,8 +905,13 @@ xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
+	
 
 };
+xh.signMeet2=function(){
+	var $scope = angular.element(appElement).scope();
+	$scope.signMeet2();
+}
 /* 数据分页 */
 xh.pagging = function(currentPage, totals, $scope) {
 	var pageSize = $("#page-limit").val();

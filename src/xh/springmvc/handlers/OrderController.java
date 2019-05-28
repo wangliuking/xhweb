@@ -26,12 +26,20 @@ import jxl.write.WritableWorkbook;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tcpBean.ErrCheckAck;
 import com.tcpBean.ErrProTable;
 import com.tcpServer.ServerDemo;
+import com.zhuozhengsoft.pageoffice.FileSaver;
+import com.zhuozhengsoft.pageoffice.wordreader.DataRegion;
+import com.zhuozhengsoft.pageoffice.wordreader.WordDocument;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -48,7 +56,9 @@ import xh.org.listeners.SingLoginListener;
 
 @Controller
 @RequestMapping("/order")
+@CrossOrigin
 public class OrderController {
+	private static final long serialVersionUID = -758686623642845302L;
 	private boolean success;
 	private String message;
 	private FunUtil funUtil = new FunUtil();
@@ -110,6 +120,24 @@ public class OrderController {
 			e.printStackTrace();
 		}
 
+	}
+	@RequestMapping(value="/orderhtml", method = RequestMethod.GET)
+	public ModelAndView orderhtml(HttpServletRequest request) {
+		String bsId=request.getParameter("bsId");
+		String name=request.getParameter("name");
+		String errInfo=request.getParameter("errInfo");
+		String errfoundtime=request.getParameter("errfoundtime");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("name", name);
+		map.put("errInfo", errInfo);
+		map.put("errfoundtime", errfoundtime);
+		System.out.println(map);
+		ModelAndView mv = new ModelAndView("jsp/order");
+		mv.addObject("nowDate",FunUtil.nowDate());
+		mv.addObject("userlist", OrderService.userList());
+		mv.addAllObjects(map);
+		return mv;
 	}
 	//派单处理未完成数量
 	@RequestMapping(value="/orderNoComCount", method = RequestMethod.GET)

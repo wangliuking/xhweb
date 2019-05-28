@@ -81,7 +81,6 @@ loader.define(function(require,exports,module){
 	 function template(data) {
 	 	var html = "";
 	 	console.log("template2");
-	 	console.log("data->"+JSON.stringify(data))
 	     if (data && data.length) {
 	         data.forEach(function(el, index) {
 	         	var status=el.status;

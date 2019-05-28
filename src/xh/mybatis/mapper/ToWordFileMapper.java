@@ -37,6 +37,20 @@ public interface ToWordFileMapper {
 	
 	public Map<String,Object> xj_bs_num(Map<String,Object> map) throws Exception;
 	
+	
+	public Map<String,Object> xj_dispatch(Map<String,Object> map) throws Exception;
+	public Map<String,Object> xj_net(Map<String,Object> map) throws Exception;
+	public Map<String,Object> xj_room(Map<String,Object> map) throws Exception;
+	public Map<String,Object> xj_vertical(Map<String,Object> map) throws Exception;
+	public Map<String,Object> xj_bs(Map<String,Object> map) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
 	public Map<String,Object> fault_num(Map<String,Object> map) throws Exception;
 	
 	

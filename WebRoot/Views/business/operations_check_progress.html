@@ -1,7 +1,7 @@
 
 <div class="modal fade" id="progress" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-llg">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="color-line"></div>
 			<div class="modal-header ">
@@ -10,67 +10,27 @@
 				<small class="font-bold"></small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				<ul id="xh-tabs" class="nav nav-tabs">
-					<li class="active"><a href="#info" data-toggle="tab">申请人信息</a></li>
-					<li><a href="#p-timeline" data-toggle="tab">申请进度</a></li>
-					<li><a href="#score" data-toggle="tab">本月扣分明细</a></li>
-					<li><a href="#money" data-toggle="tab"> 本月扣款明细</a></li>
-
-				</ul>
+				
 				<div class="tab-content" style="padding: 20px">
-					<div class="tab-pane fade in active" id="info">
-						<div class="row">
-
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>联系人</label><input type="text" value=""
-										class="form-control" name="person" required="required"
-										ng-model="progressData.userName">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group col-md-12">
-									<label>联系方式</label> <input type="text" value=""
-										class="form-control" name="tel" required="required"
-										ng-model="progressData.tel">
-								</div>
-							</div>
-						</div>
-						<!-- row-------end -->
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group col-md-12">
-									<label>考核月份</label> <input class="form-control"
-										ng-model="progressData.checkMonth" />
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group col-md-12">
-									<label>备注</label>
-									<textarea class="form-control" name="note" cols="50" ,rows="10"
-										ng-model="progressData.comment">
-									</textarea>
-								</div>
-							</div>
-
-
-						</div>
-					</div>
+					
 					<!-- tab-pane--end -->
-					<div class="tab-pane fade text-danger" id="p-timeline"
+					<div class="tab-pane fade in active" id="p-timeline"
 						style="background: #e9f0f5; margin: 0;">
 
-						<div id="cd-timeline" class="cd-container">
+						<div id="cd-timeline" class="cd-container" class="col-md-12">
 							<div class="cd-timeline-block">
 								<div class="cd-timeline-img-first cd-green">开始</div>
 								<div class="cd-timeline-content">
-									<h2>提交考核申请</h2>
-									<h2>
-										<a href="#" ng-click="download(progressData.fileName)">{{progressData.fileName}}</a>
-									</h2>
+									<h2>提交考核申请</h2>									
 									<p>
-										<span>备注：</span><span>{{progressData.comment}}</span>
+										<span>联系人:</span><span>{{progressData.userName}}</span>
 									</p>
+									<p>
+                                        <span>联系方式:</span><span>{{progressData.tel}}</span>
+                                    </p>
+                                    <p>
+                                        <span>考核月份:</span><span>{{progressData.checkMonth}}</span>
+                                    </p>
 									<span class="cd-date text-success font-bold text-x"> </br>时间：{{progressData.createTime}}
 									</span>
 								</div>
@@ -79,64 +39,130 @@
 
 							<!-- cd-timeline-block end-->
 							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.status<1"></div>
-								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.status>=1"></div>
+								<div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+								[progressData.status<=0]"></div>
 								<div class="cd-timeline-content">
-									<h2>管理部门领导审核</h2>
+									<h2>服务提供方领导审核</h2>
+									<p>
+                                        <span>时间：</span><span>{{progressData.checkTime}}</span>
+                                    </p>
 									<p>
 										<span>备注：</span><span>{{progressData.note1}}</span>
 									</p>
-									<span ng-if="progressData.status<1 && progressData.status==-1"
-										class="cd-date text-danger">申请拒绝</span> <span
-										ng-if="progressData.status<1 && progressData.status>-1"
-										class="cd-date text-danger">等待处理！</span> <span
-										ng-if="progressData.status>=1"
-										class="cd-date text-success font-bold">审核 </br>时间：{{progressData.checkTime}}
-									</span>
+									
 								</div>
 							</div>
 							<!-- cd-timeline-block end-->
-							<!-- <div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.status<2"></div>
-								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.status>=2"></div>
-								<div class="cd-timeline-content">
-									<h2>管理部门填写考核记录</h2>
-
-									<span ng-if="progressData.status<2" class="cd-date text-danger">等待确认</span>
-									<span ng-if="progressData.status>=2"
-										class="cd-date text-success font-bold">考核记录已经填写完成; </br>时间：{{progressData.checkTime2}}
-									</span>
-								</div>
-							</div> -->
-
-							<div class="cd-timeline-block">
-								<div class="cd-timeline-img cd-gray"
-									ng-if="progressData.status<2"></div>
-								<div class="cd-timeline-img cd-green"
-									ng-if="progressData.status>=2"></div>
-								<div class="cd-timeline-content">
-									<h2>服务提供方确认结果</h2>
-									<span ng-if="progressData.status<2 && progressData.status!=-3"
-										class="cd-date text-danger">等待确认</span> <span
-										ng-if="progressData.status>=2"
-										class="cd-date text-success font-bold">确认完成; </br>时间：{{progressData.checkTime2}}
-									</span>
-
-								</div>
-							</div>
-
-
-							<!-- cd-timeline-block end-->
-							<div class="cd-timeline-block">
-								<div class="cd-timeline-img-first cd-gray"
-									ng-if="progressData.status<3">结束</div>
-								<div class="cd-timeline-img-first cd-green"
-									ng-if="progressData.status>=3">结束</div>
-							</div>
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=1]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方领导签章</h2>
+                                    <p>
+                                        <span>时间：</span><span>{{progressData.checkTime2}}</span>
+                                    </p>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=2]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>管理方通知会议时间</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime3}}</span>
+                                    </p>
+                                    <p>
+                                       <span>{{progressData.comment}}</span>
+                                    </p>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=3]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方确认会议通知</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime4}}</span>
+                                    </p>
+                                    
+                                    
+                                </div>
+                            </div>
+                             <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=4]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方提交扣分扣款</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime5}}</span>
+                                    </p>                           
+                                </div>
+                            </div>
+                            <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=5]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>管理方确认扣分扣款</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime6}}</span>
+                                    </p>                           
+                                </div>
+                            </div>
+                            <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=6]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方对扣分扣款文件签章</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime7}}</span>
+                                    </p>                           
+                                </div>
+                            </div>
+                            <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=7]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>管理方对扣分扣款文件签章</h2>
+                                    <p>
+                                       <span>时间：</span><span>{{progressData.checkTime8}}</span>
+                                    </p>                           
+                                </div>
+                            </div>
+                             <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=8]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>管理方填写会议纪要</h2>                          
+                                </div>
+                            </div>
+                               <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img cd-gray',false:'cd-timeline-img cd-green'}
+                                [progressData.status<=9]"></div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方对会议纪要文件签章</h2>                          
+                                </div>
+                            </div>
+                                <!-- cd-timeline-block end-->
+                            <div class="cd-timeline-block">
+                                <div ng-class="{true:'cd-timeline-img-first cd-gray',false:'cd-timeline-img-first cd-green'}
+                                [progressData.status<10]">结束</div>
+                                <div class="cd-timeline-content">
+                                    <h2>服务提供方对会议纪要文件签章</h2>                          
+                                </div>
+                            </div>
+					
 						</div>
 					</div>
 

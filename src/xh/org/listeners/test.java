@@ -24,17 +24,24 @@ import xh.org.socket.TcpKeepAliveClient;
 public class test {
 
 	public static void main(String[] args) {
-     int[] a={86,85,88,92,83,86,84,84,72,79,87,87,72,89,81,92,76,85,81,73,66,75,84,77,89,81,82,78,87,80,85,89,99,78,88,78,75,88,75,84,82,
-    		  87,66,75,78,82,80,80,74,85,86,94,78,74,80,90,83,77,60,76,72,73,68,85,74,73,71,72,83,76,78,72,73,81,79,82,82,82,77,80,77,67};
+		Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Date date=calendar.getTime(); //第一次执行定时任务的时间
+        
+        SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        int[] dd={4600,14500,6000,16500,55000,27500,3000,41900,
+        		6000,6000,2000,6000,3000,27000,22000,8000};
+        int bb=0;
+        for(int i=0;i<dd.length;i++){
+        	bb+=dd[i];
+        }
+   
      
-     int x=0;
-     float y=0;
-     for (int i : a) {
-		x+=i;
-	}
-     
-     y=(float)x/a.length;
-     System.out.print(a.length);
+    String a="/jdfjdfjd/djfnjdnf.doc";
+     System.out.print(System.getProperty("user.dir"));
     
 	}
 

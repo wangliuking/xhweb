@@ -1,5 +1,8 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class WorkContactBean {
 	private int id;
 	private String taskId;
@@ -17,11 +20,29 @@ public class WorkContactBean {
 	private String checkTime;
 	private String userName;
 	private String checkUserName;
+	private String signUserName;
 	private String filePath;
 	private String fileName;
 	private int status;
 	
+	private String file_name;
+	private String file_path;
+	private String check_person;
+	private String check_time;
+	private String note;
 	
+	
+	
+	
+	private List<Map<String,Object>> files;
+	
+	
+	public List<Map<String, Object>> getFiles() {
+		return files;
+	}
+	public void setFiles(List<Map<String, Object>> files) {
+		this.files = files;
+	}
 	public int getId() {
 		return id;
 	}
@@ -139,14 +160,56 @@ public class WorkContactBean {
 	public void setCheckUserName(String checkUserName) {
 		this.checkUserName = checkUserName;
 	}
+	public String getFile_name() {
+		return file_name;
+	}
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+	public String getFile_path() {
+		return file_path;
+	}
+	public void setFile_path(String file_path) {
+		this.file_path = file_path;
+	}
+	public String getCheck_person() {
+		return check_person;
+	}
+	public void setCheck_person(String check_person) {
+		this.check_person = check_person;
+	}
+	public String getCheck_time() {
+		return check_time;
+	}
+	public void setCheck_time(String check_time) {
+		this.check_time = check_time;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+	public String getSignUserName() {
+		return signUserName;
+	}
+	public void setSignUserName(String signUserName) {
+		this.signUserName = signUserName;
+	}
 	@Override
 	public String toString() {
-		return "WorkContactBean [taskId=" + taskId + ", reason=" + reason
-				+ ", type=" + type + ", sendUnit=" + sendUnit + ", recvUnit="
-				+ recvUnit + ", copyUnit=" + copyUnit + ", time=" + time
-				+ ", code=" + code + ", content=" + content + ", addUser="
-				+ addUser + ", checkUser=" + checkUser + ", checkTime="
-				+ checkTime + ", status=" + status + "]";
+		return "WorkContactBean [id=" + id + ", taskId=" + taskId + ", reason="
+				+ reason + ", type=" + type + ", sendUnit=" + sendUnit
+				+ ", recvUnit=" + recvUnit + ", copyUnit=" + copyUnit
+				+ ", time=" + time + ", code=" + code + ", content=" + content
+				+ ", addUser=" + addUser + ", user_type=" + user_type
+				+ ", checkUser=" + checkUser + ", checkTime=" + checkTime
+				+ ", userName=" + userName + ", checkUserName=" + checkUserName
+				+ ", filePath=" + filePath + ", fileName=" + fileName
+				+ ", status=" + status + ", file_name=" + file_name
+				+ ", file_path=" + file_path + ", check_person=" + check_person
+				+ ", check_time=" + check_time + ", note=" + note + ", files="
+				+ files + "]";
 	}
 	
 	

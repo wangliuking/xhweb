@@ -24,7 +24,7 @@ xh.load = function() {
 	var status = $("#status").val();
 	var pageSize = $("#page-limit").val();
 	
-	app.filter('timeFormat', function() { // 可以注入依赖
+	/*app.filter('timeFormat', function() { // 可以注入依赖
 		return function(text) {
 			if(text==null){
 				return "";
@@ -36,7 +36,7 @@ xh.load = function() {
 				return tt;
 			}
 		};
-	});
+	});*/
 	app.filter('singleTimeFormat', function() { // 可以注入依赖
 		return function(text) {
 			if(text==null){
@@ -47,6 +47,7 @@ xh.load = function() {
 			}
 		};
 	});
+	
 
 	app.controller("xhcontroller", function($scope, $http) {
 		xh.maskShow();
@@ -85,7 +86,11 @@ xh.load = function() {
 			var str=$scope.data[id].person;
 			str=str.replace(/<br>/g,"\r\n");
 			str=str.replace(/&nbsp;/g," ");
-			$("#editForm").find("textarea[name='person']").val(str)
+			var content=$scope.data[id].content;
+			content=content.replace(/<br>/g,"\r\n");
+			content=content.replace(/&nbsp;/g," ");
+			$("#editForm").find("textarea[name='person']").val(content)
+			$("#editForm").find("textarea[name='content']").val(content)
 			/*
 			var str=$scope.detailData.person;
 			$("#df1").html(str.replace(/<br>/g,"<br />"))*/
@@ -97,6 +102,80 @@ xh.load = function() {
 			str=str.replace(/<br>/g,"<br />");
 			str=str.replace(/" "/g,"&nbsp;")
 			$("#df2").html(str)
+		};
+		$scope.checkModel = function() {
+			$("#checkWin").modal('show');
+		};
+		$scope.openWord = function(tag,id) {
+			$scope.detailData = $scope.data[id];
+			var path=$scope.detailData.file_path;
+			if(tag==1){
+				POBrowser.openWindowModeless('../../office/previewWord?path='+$scope.detailData.file_path,'width=1200px;height=800px;');
+			}else if(tag==2){
+				POBrowser.openWindowModeless('../../meet/seal?type=1&path='+$scope.detailData.file_path,'width=1200px;height=800px;');
+			}else if(tag==3){
+				POBrowser.openWindowModeless('../../meet/seal?type=2&path='+$scope.detailData.file_path,'width=1200px;height=800px;');
+			}else if(tag==4){
+				POBrowser.openWindowModeless('../../doc/createfile.jsp','width=1200px;height=800px;');
+			}
+			
+		};
+		$scope.check = function(tag) {
+			var data={
+					state:tag,
+					id:$scope.detailData.id,
+					send_user:$scope.detailData.send_user,
+					note:$("#checkWin").find("textarea[name='note']").val()
+			}
+			$.ajax({
+				url : '../../meet/check',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					formData:JSON.stringify(data)
+				},
+				success : function(data) {
+					if (data.success) {
+						$('#checkWin').modal('hide');
+						xh.refresh();
+						toastr.success(data.message, '提示');
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function(e) {
+					toastr.error(e, '提示');
+				}
+			});
+		};
+		$scope.check2 = function(tag) {
+			var data={
+					state:tag,
+					send_user:$scope.detailData.send_user,
+					check_user1:$scope.detailData.check_user1,
+					id:$scope.detailData.id
+			}
+			$.ajax({
+				url : '../../meet/check2',
+				type : 'POST',
+				dataType : "json",
+				async : true,
+				data:{
+					formData:JSON.stringify(data)
+				},
+				success : function(data) {
+					if (data.success) {
+						xh.refresh();
+						toastr.success(data.message, '提示');
+					} else {
+						toastr.error(data.message, '提示');
+					}
+				},
+				error : function(e) {
+					toastr.error(e, '提示');
+				}
+			});
 		};
 
 		/* 查询数据 */
@@ -112,11 +191,11 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			console.log("limit=" + limit);
-			xh.maskShow();
+			/*console.log("limit=" + limit);
+			xh.maskShow();*/
 			$http.get(
 					"../../meet/meetlist?time="+time+"&start=0&limit=" + pageSize).success(function(response) {
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.data = response.items;
 				$scope.totals = response.totals;
 				$scope.page=page;
@@ -134,10 +213,10 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			xh.maskShow();
+			//xh.maskShow();
 			$http.get(
 					"../../meet/meetlist?time="+time+"&start="+start+"&limit=" + pageSize).success(function(response) {
-				xh.maskHide();
+				//xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
 				$scope.lastIndex = page * pageSize;
 				if (page == totalPages) {
@@ -154,6 +233,9 @@ xh.load = function() {
 			});
 
 		};
+		setInterval(function(){
+			$scope.refresh();
+		}, 5000);
 	});
 };
 //刷新数据
@@ -161,6 +243,18 @@ xh.refresh = function() {
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.refresh();
+};
+xh.checkModel = function() {
+	var $scope = angular.element(appElement).scope();
+	$scope.checkModel();
+};
+xh.check= function(tag) {
+	var $scope = angular.element(appElement).scope();
+	$scope.check(tag);
+};
+xh.check2= function(tag) {
+	var $scope = angular.element(appElement).scope();
+	$scope.check2(tag);
 };
 /* 添加 */
 xh.add = function() {
@@ -178,7 +272,8 @@ xh.add = function() {
 				xh.refresh();
 				$("#addForm")[0].reset();
 				$("#addForm").data('bootstrapValidator').resetForm();
-				toastr.success(data.message, '提示');
+				//toastr.success(data.message, '提示');
+				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/meet_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -189,20 +284,28 @@ xh.add = function() {
 	});
 };
 xh.update= function() {
+	var $scope = angular.element(appElement).scope();
+	var data=$scope.editData;
+	var afterData=xh.serializeJson($("#editForm").serializeArray())
+	data.name=JSON.parse(afterData).name;
+	data.meet_time=JSON.parse(afterData).meet_time;
+	data.address=JSON.parse(afterData).address;
+	data.person=JSON.parse(afterData).person;
+	data.content=JSON.parse(afterData).content;
 	$.ajax({
 		url : '../../meet/update',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data:{
-			formData:xh.serializeJson($("#editForm").serializeArray()) //将表单序列化为JSON对象
+			formData:JSON.stringify(data)
 		},
 		success : function(data) {
 			if (data.success) {
 				$('#edit').modal('hide');
 				xh.refresh();
 				$("#editForm").data('bootstrapValidator').resetForm();
-				toastr.success(data.message, '提示');
+				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/meet_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
 			} else {
 				toastr.error(data.message, '提示');
 			}
@@ -265,3 +368,9 @@ xh.print=function() {
 	LODOP.ADD_PRINT_TABLE("10%", "3%", "95%", "100%", document.getElementById("print").innerHTML);
 	 LODOP.PREVIEW();  	
 };
+function cc(){
+	alert(1);
+}
+xh.addSuccess=function(){
+	swal("提示","操作成功","info");
+}

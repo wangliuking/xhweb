@@ -463,6 +463,23 @@ public class WebUserServices {
 		}
 		return result;
 	}
+	public static String sealName(String user,String type){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		String result="";
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("user", user);
+		map.put("sealType", Integer.parseInt(type));
+		try {
+			result=mapper.sealName(map);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 
 }

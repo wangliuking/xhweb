@@ -120,9 +120,12 @@
 		xhgmnet_operations_inspection_selfbs AS a
 		LEFT JOIN xhgmnet_bs_station AS b ON a.bsid = b.bsId
 		WHERE 1 = 1
-		<if test="time!=null and time!=''">
-			and date_format(commitdate,'%Y-%m')=#{time}
+		<if test="starttime!=null and starttime!=''">
+			and date_format(commitdate,'%Y-%m-%d')>=#{starttime}
 		</if>
+		<if test="endtime!=null and endtime!=''">
+            and date_format(commitdate,'%Y-%m-%d')&lt;=#{endtime}
+        </if>
 		<if test="id!=null and id!=''">
 			and a.id=#{id}
 		</if>
@@ -133,15 +136,18 @@
 			</foreach>
 			)
 		</if>
-		order by commitdate desc limit #{start},#{limit}
+		order by a.bsid asc limit #{start},#{limit}
 	</select>
 	<!--自建基站巡检表总数 -->
 	<select id="sbsinfoCount" parameterType="map" resultType="int"
 		useCache="true">
 		select count(*) from xhgmnet_operations_inspection_selfbs where 1=1
-		<if test="time!=null and time!=''">
-			and date_format(commitdate,'%Y-%m')=#{time}
-		</if>
+		<if test="starttime!=null and starttime!=''">
+            and date_format(commitdate,'%Y-%m-%d')>=#{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and date_format(commitdate,'%Y-%m-%d')&lt;=#{endtime}
+        </if>
 		<if test="id!=null and id!=''">
 			and id=#{id}
 		</if>

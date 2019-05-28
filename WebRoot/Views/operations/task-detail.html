@@ -49,10 +49,25 @@
 								<tr style="height:140px; text-align: left;">
 									<td colspan="4" style="word-wrap:break-word;word-break:break-all;" id="df"></td>
 								</tr>
+								<tr>
 								<td width="130px">附件 </td>
                                     <td colspan="3">
-                                    <a href="#" ng-click="download(detailData.filePath)">{{detailData.fileName}}</a>
+                                    <p ng-repeat="x in detailData.files">
+                                    <a href="#" ng-click="download(x.filePath)">{{x.fileName}}</a>
+                                    &nbsp;&nbsp;
+                                    <a href="#" ng-click="download(x.filePath)">| 下载</a> 
+                                    &nbsp;&nbsp;<a href="#" ng-click="previewDoc(x.filePath)"> | 预览</a>
+                                    </p>
+                                   
+                                    <!-- <a href="#" ng-click="download(detailData.filePath)">{{detailData.fileName}}</a> -->
                                     </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                    <td>拟制</td><td>{{detailData.userName}}</td>
+                                    <td>审核</td><td>{{detailData.checkUserName}}</td>
+                                    </tr>
+                                   
 
 							</table>
 

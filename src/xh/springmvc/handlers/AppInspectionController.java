@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.print.attribute.standard.PageRanges;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,6 +30,8 @@ import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
 import jxl.format.Orientation;
+import jxl.format.PageOrientation;
+import jxl.format.PaperSize;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Label;
@@ -309,11 +312,13 @@ public class AppInspectionController {
 		this.success = true;
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
-		String time = request.getParameter("time");
+		String starttime = request.getParameter("starttime");
+		String endtime = request.getParameter("endtime");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
-		map.put("time", time);
+		map.put("starttime", starttime);
+		map.put("endtime", endtime);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.sbsinfoCount(map));
@@ -1310,7 +1315,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -1320,7 +1325,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -1346,11 +1351,9 @@ public class AppInspectionController {
 			wcf_title.setBackground(Colour.WHITE);// 背景色
 			wcf_title.setWrap(false);// 不自动换行
 
-			/*
-			 * fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			 * fontFormat_Content
-			 * .setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			 */fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
@@ -1365,29 +1368,34 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 0, 7, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+			sheet.getSettings().setLeftMargin(0.50);
+			sheet.getSettings().setRightMargin(0.50);
+			sheet.getSettings().setTopMargin(0.5);
+			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
-			Label label_1_0 = new Label(0, 1, "网管名称", fontFormat_Content);// 创建单元格
+			Label label_1_0 = new Label(0, 1, "网管名称", fontFormat_h);// 创建单元格
 			Label label_1_1 = new Label(1, 1, bean.getManagername(),
 					fontFormat_Content);// 创建单元格
-			Label label_1_2 = new Label(2, 1, "地点", fontFormat_Content);// 创建单元格
+			Label label_1_2 = new Label(2, 1, "地点", fontFormat_h);// 创建单元格
 			Label label_1_3 = new Label(3, 1, bean.getManagerplace(),
 					fontFormat_Content);// 创建单元格
-			Label label_1_4 = new Label(4, 1, "巡检时间", fontFormat_Content);// 创建单元格
-			Label label_1_5 = new Label(5, 1, bean.getCommitdate(),
+			Label label_1_4 = new Label(4, 1, "巡检时间", fontFormat_h);// 创建单元格
+			Label label_1_5 = new Label(5, 1, bean.getCommitdate().split(" ")[0],
 					fontFormat_Content);// 创建单元格
-			Label label_1_6 = new Label(6, 1, "巡检人", fontFormat_Content);// 创建单元格
+			Label label_1_6 = new Label(6, 1, "巡检人", fontFormat_h);// 创建单元格
 			Label label_1_7 = new Label(7, 1, bean.getCheckman(),
 					fontFormat_Content);// 创建单元格
 
 			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 30);
+			sheet.setColumnView(1, 25);
 			sheet.setColumnView(2, 10);
 			sheet.setColumnView(3, 20);
 			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 40);
-			sheet.setColumnView(6, 20);
-			sheet.setColumnView(7, 30);
+			sheet.setColumnView(5, 20);
+			sheet.setColumnView(6, 10);
+			sheet.setColumnView(7, 20);
 
 			sheet.addCell(label_1_0);
 			sheet.addCell(label_1_1);
@@ -1651,7 +1659,7 @@ public class AppInspectionController {
 			File file = new File(pathname);
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
@@ -1663,7 +1671,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES,11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -1673,7 +1681,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -1699,19 +1707,22 @@ public class AppInspectionController {
 			wcf_title.setBackground(Colour.WHITE);// 背景色
 			wcf_title.setWrap(false);// 不自动换行
 
-			/*
-			 * fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			 * fontFormat_Content
-			 * .setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			 */fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
 			// 设置数字格式
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
-			WritableSheet sheet = book.createSheet("网管巡检表", 0);
+			WritableSheet sheet = book.createSheet("直放站巡检表", 0);
 			CellView cellView = new CellView();
 			cellView.setAutosize(true); // 设置自动大小
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+			/*sheet.getSettings().setLeftMargin(0.50);
+			sheet.getSettings().setRightMargin(0.50);
+			sheet.getSettings().setTopMargin(0.5);
+			sheet.getSettings().setBottomMargin(0.5);*/
 
 			// 第1行
 			Label title = new Label(0, 0, "直放站巡检表", fontFormat);
@@ -1723,9 +1734,10 @@ public class AppInspectionController {
 
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 25);
-			sheet.setColumnView(2, 50);
-			sheet.setColumnView(3, 30);
+			sheet.setColumnView(2, 40);
+			sheet.setColumnView(3, 25);
 			sheet.setColumnView(4, 30);
+			
 
 			sheet.addCell(new Label(0, 1, "基站名称", fontFormat_Content));
 			sheet.addCell(new Label(1, 1, bean.getName(), fontFormat_Content));
@@ -1735,7 +1747,7 @@ public class AppInspectionController {
 			sheet.mergeCells(3, 1, 4, 1);
 
 			sheet.addCell(new Label(0, 2, "巡检时间", fontFormat_Content));
-			sheet.addCell(new Label(1, 2, bean.getCommitdate(),
+			sheet.addCell(new Label(1, 2, bean.getCommitdate().split(" ")[0],
 					fontFormat_Content));
 			sheet.addCell(new Label(2, 2, "电表", fontFormat_Content));
 			sheet.addCell(new Label(3, 2, bean.getAmmeternumber(),
@@ -1745,11 +1757,11 @@ public class AppInspectionController {
 			// 第3行
 			// sheet.mergeCells(6, 2, 7, 2);
 
-			sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_Content));
-			sheet.addCell(new Label(1, 3, "具体项目", fontFormat_Content));
-			sheet.addCell(new Label(2, 3, "具体操作", fontFormat_Content));
-			sheet.addCell(new Label(3, 3, "执行情况", fontFormat_Content));
-			sheet.addCell(new Label(4, 3, "备注", fontFormat_Content));
+			sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_h));
+			sheet.addCell(new Label(1, 3, "具体项目", fontFormat_h));
+			sheet.addCell(new Label(2, 3, "具体操作", fontFormat_h));
+			sheet.addCell(new Label(3, 3, "执行情况", fontFormat_h));
+			sheet.addCell(new Label(4, 3, "备注", fontFormat_h));
 
 			// 第4行
 			sheet.addCell(new Label(0, 4, "基站清洁", fontFormat_Content));
@@ -1888,6 +1900,7 @@ public class AppInspectionController {
 			sheet.addCell(new Label(1, 20, bean.getQuestion(),
 					fontFormat_Content));
 			sheet.mergeCells(1, 20, 4, 20);
+			sheet.setRowView(20, 600);
 			book.write();
 			book.close();
 			// DownExcelFile(response, pathname);
@@ -1921,7 +1934,7 @@ public class AppInspectionController {
 			File file = new File(pathname);
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
@@ -1933,7 +1946,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -1943,7 +1956,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -1969,11 +1982,9 @@ public class AppInspectionController {
 			wcf_title.setBackground(Colour.WHITE);// 背景色
 			wcf_title.setWrap(false);// 不自动换行
 
-			/*
-			 * fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			 * fontFormat_Content
-			 * .setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			 */fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
@@ -1988,13 +1999,14 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 0, 4, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
 
 			// 第2行
 
 			sheet.setColumnView(0, 10);
 			sheet.setColumnView(1, 25);
-			sheet.setColumnView(2, 50);
-			sheet.setColumnView(3, 30);
+			sheet.setColumnView(2, 40);
+			sheet.setColumnView(3, 25);
 			sheet.setColumnView(4, 30);
 
 			sheet.addCell(new Label(0, 1, "基站名称", fontFormat_Content));
@@ -2005,7 +2017,7 @@ public class AppInspectionController {
 			sheet.mergeCells(3, 1, 4, 1);
 
 			sheet.addCell(new Label(0, 2, "巡检时间", fontFormat_Content));
-			sheet.addCell(new Label(1, 2, bean.getCommitdate(),
+			sheet.addCell(new Label(1, 2, bean.getCommitdate().split(" ")[0],
 					fontFormat_Content));
 			sheet.addCell(new Label(2, 2, "电表", fontFormat_Content));
 			sheet.addCell(new Label(3, 2, bean.getAmmeternumber(),
@@ -2015,11 +2027,11 @@ public class AppInspectionController {
 			// 第3行
 			// sheet.mergeCells(6, 2, 7, 2);
 
-			sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_Content));
-			sheet.addCell(new Label(1, 3, "具体项目", fontFormat_Content));
-			sheet.addCell(new Label(2, 3, "具体操作", fontFormat_Content));
-			sheet.addCell(new Label(3, 3, "执行情况", fontFormat_Content));
-			sheet.addCell(new Label(4, 3, "备注", fontFormat_Content));
+			sheet.addCell(new Label(0, 3, "巡检项目", fontFormat_h));
+			sheet.addCell(new Label(1, 3, "具体项目", fontFormat_h));
+			sheet.addCell(new Label(2, 3, "具体操作", fontFormat_h));
+			sheet.addCell(new Label(3, 3, "执行情况", fontFormat_h));
+			sheet.addCell(new Label(4, 3, "备注", fontFormat_h));
 
 			// 第4行
 			sheet.addCell(new Label(0, 4, "基站清洁", fontFormat_Content));
@@ -2158,6 +2170,7 @@ public class AppInspectionController {
 			sheet.addCell(new Label(1, 20, bean.getQuestion(),
 					fontFormat_Content));
 			sheet.mergeCells(1, 20, 4, 20);
+			sheet.setRowView(20, 600);
 			book.write();
 			book.close();
 			// DownExcelFile(response, pathname);
@@ -2193,7 +2206,7 @@ public class AppInspectionController {
 			File file = new File(pathname);
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
@@ -2205,7 +2218,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -2215,7 +2228,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -2241,11 +2254,9 @@ public class AppInspectionController {
 			wcf_title.setBackground(Colour.WHITE);// 背景色
 			wcf_title.setWrap(false);// 不自动换行
 
-			/*
-			 * fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			 * fontFormat_Content
-			 * .setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			 */fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
@@ -2260,16 +2271,21 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 0, 6, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+			sheet.getSettings().setLeftMargin(0.50);
+			sheet.getSettings().setRightMargin(0.50);
+			sheet.getSettings().setTopMargin(0.5);
+			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
 
 			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 35);
-			sheet.setColumnView(2, 30);
-			sheet.setColumnView(3, 20);
-			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 20);
-			sheet.setColumnView(6, 20);
+			sheet.setColumnView(1, 30);
+			sheet.setColumnView(2, 25);
+			sheet.setColumnView(3, 15);
+			sheet.setColumnView(4, 15);
+			sheet.setColumnView(5, 15);
+			sheet.setColumnView(6, 15);
 
 			sheet.addCell(new Label(0, 1, "系統名称：成都市应急指挥调度无线通信网",
 					fontFormat_Content));
@@ -2284,10 +2300,10 @@ public class AppInspectionController {
 			// 第3行
 			// sheet.mergeCells(6, 2, 7, 2);
 
-			sheet.addCell(new Label(0, 2, "序号", fontFormat_Content));
-			sheet.addCell(new Label(1, 2, "检查类容", fontFormat_Content));
-			sheet.addCell(new Label(2, 2, "检查情况", fontFormat_Content));
-			sheet.addCell(new Label(3, 2, "问题描述", fontFormat_Content));
+			sheet.addCell(new Label(0, 2, "序号", fontFormat_h));
+			sheet.addCell(new Label(1, 2, "检查类容", fontFormat_h));
+			sheet.addCell(new Label(2, 2, "检查情况", fontFormat_h));
+			sheet.addCell(new Label(3, 2, "问题描述", fontFormat_h));
 			sheet.mergeCells(3, 2, 4, 2);
 			sheet.addCell(new Label(5, 2, "处理情况及遗留问题", fontFormat_Content));
 			sheet.mergeCells(5, 2, 6, 2);
@@ -2360,91 +2376,91 @@ public class AppInspectionController {
 			sheet.addCell(new Label(1, 10, "发电机是否正常（包括汽油发电机、柴油发电机）", fontFormat_Content));
 			sheet.addCell(new Label(2, 10, checkbox(bean.getA8()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 11, bean.getB8(), fontFormat_Content));
+			sheet.addCell(new Label(3, 10, bean.getB8(), fontFormat_Content));
+			sheet.mergeCells(3, 10, 4, 10);
+			sheet.addCell(new Label(5, 10, bean.getC8(), fontFormat_Content));
+			sheet.mergeCells(5, 10, 6, 10);
+			// 第5行
+			sheet.addCell(new Label(0, 11, "9", fontFormat_Content));
+			sheet.addCell(new Label(1, 11, "空调是否正常工作、滤网是否清洁", fontFormat_Content));
+			sheet.addCell(new Label(2, 11, checkbox(bean.getA9()),
+					fontFormat_Content));
+			sheet.addCell(new Label(3, 11, bean.getB9(), fontFormat_Content));
 			sheet.mergeCells(3, 11, 4, 11);
-			sheet.addCell(new Label(5, 11, bean.getC8(), fontFormat_Content));
+			sheet.addCell(new Label(5, 11, bean.getC9(), fontFormat_Content));
 			sheet.mergeCells(5, 11, 6, 11);
 			// 第5行
-			sheet.addCell(new Label(0, 12, "9", fontFormat_Content));
-			sheet.addCell(new Label(1, 12, "空调是否正常工作、滤网是否清洁", fontFormat_Content));
-			sheet.addCell(new Label(2, 12, checkbox(bean.getA9()),
+			sheet.addCell(new Label(0, 12, "10", fontFormat_Content));
+			sheet.addCell(new Label(1, 12, "环境监控系统是否正常", fontFormat_Content));
+			sheet.addCell(new Label(2, 12, checkbox(bean.getA10()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 12, bean.getB9(), fontFormat_Content));
+			sheet.addCell(new Label(3, 12, bean.getB10(), fontFormat_Content));
 			sheet.mergeCells(3, 12, 4, 12);
-			sheet.addCell(new Label(5, 12, bean.getC9(), fontFormat_Content));
+			sheet.addCell(new Label(5, 12, bean.getC10(), fontFormat_Content));
 			sheet.mergeCells(5, 12, 6, 12);
 			// 第5行
-			sheet.addCell(new Label(0, 13, "10", fontFormat_Content));
-			sheet.addCell(new Label(1, 13, "环境监控系统是否正常", fontFormat_Content));
-			sheet.addCell(new Label(2, 13, checkbox(bean.getA10()),
+			sheet.addCell(new Label(0, 13, "11", fontFormat_Content));
+			sheet.addCell(new Label(1, 13, "电源线是否老化", fontFormat_Content));
+			sheet.addCell(new Label(2, 13, checkbox(bean.getA11()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 13, bean.getB10(), fontFormat_Content));
+			sheet.addCell(new Label(3, 13, bean.getB11(), fontFormat_Content));
 			sheet.mergeCells(3, 13, 4, 13);
-			sheet.addCell(new Label(5, 13, bean.getC10(), fontFormat_Content));
+			sheet.addCell(new Label(5, 13, bean.getC11(), fontFormat_Content));
 			sheet.mergeCells(5, 13, 6, 13);
 			// 第5行
-			sheet.addCell(new Label(0, 14, "11", fontFormat_Content));
-			sheet.addCell(new Label(1, 14, "电源线是否老化", fontFormat_Content));
-			sheet.addCell(new Label(2, 14, checkbox(bean.getA11()),
+			sheet.addCell(new Label(0, 14, "12", fontFormat_Content));
+			sheet.addCell(new Label(1, 14, "设备标签是否规范完、完整、走线是否正常", fontFormat_Content));
+			sheet.addCell(new Label(2, 14, checkbox(bean.getA12()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 14, bean.getB11(), fontFormat_Content));
+			sheet.addCell(new Label(3, 14, bean.getB12(), fontFormat_Content));
 			sheet.mergeCells(3, 14, 4, 14);
-			sheet.addCell(new Label(5, 14, bean.getC11(), fontFormat_Content));
+			sheet.addCell(new Label(5, 14, bean.getC12(), fontFormat_Content));
 			sheet.mergeCells(5, 14, 6, 14);
 			// 第5行
-			sheet.addCell(new Label(0, 15, "12", fontFormat_Content));
-			sheet.addCell(new Label(1, 15, "设备标签是否规范完、完整、走线是否正常", fontFormat_Content));
-			sheet.addCell(new Label(2, 15, checkbox(bean.getA12()),
+			sheet.addCell(new Label(0, 15, "13", fontFormat_Content));
+			sheet.addCell(new Label(1, 15, "服务器是否运行正常", fontFormat_Content));
+			sheet.addCell(new Label(2, 15, checkbox(bean.getA13()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 15, bean.getB12(), fontFormat_Content));
+			sheet.addCell(new Label(3, 15, bean.getB13(), fontFormat_Content));
 			sheet.mergeCells(3, 15, 4, 15);
-			sheet.addCell(new Label(5, 15, bean.getC12(), fontFormat_Content));
+			sheet.addCell(new Label(5, 15, bean.getC13(), fontFormat_Content));
 			sheet.mergeCells(5, 15, 6, 15);
 			// 第5行
-			sheet.addCell(new Label(0, 16, "13", fontFormat_Content));
-			sheet.addCell(new Label(1, 16, "服务器是否运行正常", fontFormat_Content));
-			sheet.addCell(new Label(2, 16, checkbox(bean.getA13()),
+			sheet.addCell(new Label(0, 16, "14", fontFormat_Content));
+			sheet.addCell(new Label(1, 16, "设备接地是否正常", fontFormat_Content));
+			sheet.addCell(new Label(2, 16, checkbox(bean.getA14()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 16, bean.getB13(), fontFormat_Content));
+			sheet.addCell(new Label(3, 16, bean.getB14(), fontFormat_Content));
 			sheet.mergeCells(3, 16, 4, 16);
-			sheet.addCell(new Label(5, 16, bean.getC13(), fontFormat_Content));
+			sheet.addCell(new Label(5, 16, bean.getC14(), fontFormat_Content));
 			sheet.mergeCells(5, 16, 6, 16);
 			// 第5行
-			sheet.addCell(new Label(0, 17, "14", fontFormat_Content));
-			sheet.addCell(new Label(1, 17, "设备接地是否正常", fontFormat_Content));
-			sheet.addCell(new Label(2, 17, checkbox(bean.getA14()),
+			sheet.addCell(new Label(0, 17, "15", fontFormat_Content));
+			sheet.addCell(new Label(1,17, "服务器、单板、模块安装是否牢固可靠", fontFormat_Content));
+			sheet.addCell(new Label(2, 17, checkbox(bean.getA15()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 17, bean.getB14(), fontFormat_Content));
+			sheet.addCell(new Label(3, 17, bean.getB15(), fontFormat_Content));
 			sheet.mergeCells(3, 17, 4, 17);
-			sheet.addCell(new Label(5, 17, bean.getC14(), fontFormat_Content));
+			sheet.addCell(new Label(5, 17, bean.getC15(), fontFormat_Content));
 			sheet.mergeCells(5, 17, 6, 17);
 			// 第5行
-			sheet.addCell(new Label(0, 18, "15", fontFormat_Content));
-			sheet.addCell(new Label(1,18, "服务器、单板、模块安装是否牢固可靠", fontFormat_Content));
-			sheet.addCell(new Label(2, 18, checkbox(bean.getA15()),
+			sheet.addCell(new Label(0, 18, "16", fontFormat_Content));
+			sheet.addCell(new Label(1, 18, "楼顶吸盘天线是否加固，接头是否正常", fontFormat_Content));
+			sheet.addCell(new Label(2, 18, checkbox(bean.getA16()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 18, bean.getB15(), fontFormat_Content));
+			sheet.addCell(new Label(3, 18, bean.getB16(), fontFormat_Content));
 			sheet.mergeCells(3, 18, 4, 18);
-			sheet.addCell(new Label(5, 18, bean.getC15(), fontFormat_Content));
+			sheet.addCell(new Label(5, 18, bean.getC16(), fontFormat_Content));
 			sheet.mergeCells(5, 18, 6, 18);
 			// 第5行
-			sheet.addCell(new Label(0, 19, "16", fontFormat_Content));
-			sheet.addCell(new Label(1, 19, "楼顶吸盘天线是否加固，接头是否正常", fontFormat_Content));
-			sheet.addCell(new Label(2, 19, checkbox(bean.getA16()),
+			sheet.addCell(new Label(0, 19, "17", fontFormat_Content));
+			sheet.addCell(new Label(1, 19, "服务器数据及配置是否备份", fontFormat_Content));
+			sheet.addCell(new Label(2, 19, checkbox(bean.getA17()),
 					fontFormat_Content));
-			sheet.addCell(new Label(3, 19, bean.getB16(), fontFormat_Content));
+			sheet.addCell(new Label(3, 19, bean.getB17(), fontFormat_Content));
 			sheet.mergeCells(3, 19, 4, 19);
-			sheet.addCell(new Label(5, 19, bean.getC16(), fontFormat_Content));
+			sheet.addCell(new Label(5, 19, bean.getC17(), fontFormat_Content));
 			sheet.mergeCells(5, 19, 6, 19);
-			// 第5行
-			sheet.addCell(new Label(0, 20, "17", fontFormat_Content));
-			sheet.addCell(new Label(1, 20, "服务器数据及配置是否备份", fontFormat_Content));
-			sheet.addCell(new Label(2, 20, checkbox(bean.getA17()),
-					fontFormat_Content));
-			sheet.addCell(new Label(3, 20, bean.getB17(), fontFormat_Content));
-			sheet.mergeCells(3, 20, 4, 20);
-			sheet.addCell(new Label(5, 20, bean.getC17(), fontFormat_Content));
-			sheet.mergeCells(5, 20, 6, 20);
 
 			book.write();
 			book.close();
@@ -2495,7 +2511,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -2505,7 +2521,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -2531,11 +2547,9 @@ public class AppInspectionController {
 			wcf_title.setBackground(Colour.WHITE);// 背景色
 			wcf_title.setWrap(false);// 不自动换行
 
-			/*
-			 * fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
-			 * fontFormat_Content
-			 * .setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			 */fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			 fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
 
@@ -2550,6 +2564,11 @@ public class AppInspectionController {
 			sheet.mergeCells(0, 0, 7, 0);
 			sheet.addCell(title);
 			sheet.setRowView(0, 600, false); // 设置行高
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+			sheet.getSettings().setLeftMargin(0.50);
+			sheet.getSettings().setRightMargin(0.50);
+			sheet.getSettings().setTopMargin(0.5);
+			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
 			Label label_1_0 = new Label(0, 1, "调度台名称", fontFormat_Content);// 创建单元格
@@ -2559,20 +2578,20 @@ public class AppInspectionController {
 			Label label_1_3 = new Label(3, 1, bean.getDispatchplace(),
 					fontFormat_Content);// 创建单元格
 			Label label_1_4 = new Label(4, 1, "巡检时间", fontFormat_Content);// 创建单元格
-			Label label_1_5 = new Label(5, 1, bean.getCommitdate(),
+			Label label_1_5 = new Label(5, 1, bean.getCommitdate().split(" ")[0],
 					fontFormat_Content);// 创建单元格
 			Label label_1_6 = new Label(6, 1, "巡检人", fontFormat_Content);// 创建单元格
 			Label label_1_7 = new Label(7, 1, bean.getCheckman(),
 					fontFormat_Content);// 创建单元格
 
-			sheet.setColumnView(0, 15);
-			sheet.setColumnView(1, 30);
+			sheet.setColumnView(0, 13);
+			sheet.setColumnView(1, 28);
 			sheet.setColumnView(2, 10);
-			sheet.setColumnView(3, 20);
+			sheet.setColumnView(3, 14);
 			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 40);
+			sheet.setColumnView(5, 30);
 			sheet.setColumnView(6, 10);
-			sheet.setColumnView(7, 30);
+			sheet.setColumnView(7, 10);
 
 			sheet.addCell(label_1_0);
 			sheet.addCell(label_1_1);
@@ -2584,13 +2603,13 @@ public class AppInspectionController {
 			sheet.addCell(label_1_7);
 
 			// 第3行
-			Label label_2_0 = new Label(0, 2, "序号", fontFormat_Content);// 创建单元格
-			Label label_2_1 = new Label(1, 2, "检查类容", fontFormat_Content);// 创建单元格
-			Label label_2_2 = new Label(2, 2, "备注", fontFormat_Content);// 创建单元格
+			Label label_2_0 = new Label(0, 2, "序号", fontFormat_h);// 创建单元格
+			Label label_2_1 = new Label(1, 2, "检查类容", fontFormat_h);// 创建单元格
+			Label label_2_2 = new Label(2, 2, "备注", fontFormat_h);// 创建单元格
 			sheet.mergeCells(2, 2, 3, 2);
-			Label label_2_3 = new Label(4, 2, "检查情况", fontFormat_Content);// 创建单元格
-			Label label_2_4 = new Label(5, 2, "问题描述", fontFormat_Content);// 创建单元格
-			Label label_2_5 = new Label(6, 2, "处理情况及遗留问题", fontFormat_Content);// 创建单元格
+			Label label_2_3 = new Label(4, 2, "检查情况", fontFormat_h);// 创建单元格
+			Label label_2_4 = new Label(5, 2, "问题描述", fontFormat_h);// 创建单元格
+			Label label_2_5 = new Label(6, 2, "处理情况及遗留问题", fontFormat_h);// 创建单元格
 			sheet.mergeCells(6, 2, 7, 2);
 			sheet.addCell(label_2_0);
 			sheet.addCell(label_2_1);
@@ -2767,23 +2786,27 @@ public class AppInspectionController {
 		Label title = new Label(0, 0, "800M基站巡检作业表", fontFormat);
 		sheet.mergeCells(0, 0, 7, 0);
 		sheet.addCell(title);
-		sheet.setRowView(0, 600, false); // 设置行高
+		sheet.setRowView(0, 600); // 设置行高
+		
+		
 
 		// 第2行
 		sheet.setColumnView(0, 10);
-		sheet.setColumnView(1, 10);
+		sheet.setColumnView(1, 15);
 		sheet.setColumnView(2, 10);
-		sheet.setColumnView(3, 20);
-		sheet.setColumnView(4, 10);
-		sheet.setColumnView(5, 40);
-		sheet.setColumnView(6, 20);
+		sheet.setColumnView(3, 10);
+		sheet.setColumnView(4, 15);
+		sheet.setColumnView(5, 25);
+		sheet.setColumnView(6, 22);
 		sheet.setColumnView(7, 30);
+		
+		
 
 		StringBuilder str = new StringBuilder();
 		str.append("基站名称: ");
 		str.append(bean.getBsname());
 		str.append("   基站ID: ");
-		str.append(bean.getBsid());
+		str.append(bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid());
 		str.append("   基站级别: ");
 		str.append(bean.getLevel());
 		str.append("   巡检人： ");
@@ -2836,12 +2859,12 @@ public class AppInspectionController {
 		 * sheet.addCell(label_2_5);
 		 */
 		// 第4行
-		Label label_3_0 = new Label(0, 3, "巡检项目", fontFormat_Content);// 创建单元格
-		Label label_3_1 = new Label(1, 3, "具体项目", fontFormat_Content);// 创建单元格
-		Label label_3_2 = new Label(2, 3, "具体操作", fontFormat_Content);// 创建单元格
+		Label label_3_0 = new Label(0, 3, "巡检项目", fontFormat_h);// 创建单元格
+		Label label_3_1 = new Label(1, 3, "具体项目", fontFormat_h);// 创建单元格
+		Label label_3_2 = new Label(2, 3, "具体操作", fontFormat_h);// 创建单元格
 		sheet.mergeCells(2, 3, 5, 3);
-		Label label_3_3 = new Label(6, 3, "执行情况", fontFormat_Content);// 创建单元格
-		Label label_3_4 = new Label(7, 3, "备注", fontFormat_Content);// 创建单元格
+		Label label_3_3 = new Label(6, 3, "执行情况", fontFormat_h);// 创建单元格
+		Label label_3_4 = new Label(7, 3, "备注", fontFormat_h);// 创建单元格
 		sheet.addCell(label_3_0);
 		sheet.addCell(label_3_1);
 		sheet.addCell(label_3_2);
@@ -2948,21 +2971,20 @@ public class AppInspectionController {
 		sheet.addCell(new Label(7, 12, bean.getC9(), fontFormat_Content));
 		// 第13行
 		Label label_13_0 = new Label(0, 13, "电源配套", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(0, 13, 0, 18);
+		sheet.mergeCells(0, 13, 0, 19);
 		Label label_13_1 = new Label(1, 13, "油机", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(1, 13, 1, 14);
 		Label label_13_2 = new Label(2, 13, "油机是否能正常运行、油机及油机线缆有无安全隐患",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 13, 5, 14);
+		sheet.mergeCells(2, 13, 5, 13);
 
 		sheet.addCell(label_13_0);
 		sheet.addCell(label_13_1);
 		sheet.addCell(label_13_2);
 		sheet.addCell(new Label(6, 13, checkbox(bean.getD10()),
 				fontFormat_Content));
-		sheet.mergeCells(6, 13, 6, 14);
+		sheet.mergeCells(6, 13, 6, 13);
 		sheet.addCell(new Label(7, 13, bean.getC10(), fontFormat_Content));
-		sheet.mergeCells(7, 13, 7, 14);
+		sheet.mergeCells(7, 13, 7, 13);
 		// 第14行
 		/*
 		 * Label label_14_2 = new Label(2, 14, "", fontFormat_Content);// 创建单元格
@@ -2973,220 +2995,225 @@ public class AppInspectionController {
 		 * sheet.addCell(new Label(7, 14, ""));
 		 */
 		// 第15行
-		Label label_15_1 = new Label(1, 15, "后备电源", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(1, 15, 1, 17);
-		Label label_15_2 = new Label(2, 15, "电源线连接是否正常，有无松动、老化、发热等情况",
+		Label label_15_1 = new Label(1, 14, "后备电源", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(1, 14, 1, 16);
+		Label label_15_2 = new Label(2, 14, "电源线连接是否正常，有无松动、老化、发热等情况",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 15, 5, 15);
+		sheet.mergeCells(2, 14, 5, 14);
 
 		sheet.addCell(label_15_1);
 		sheet.addCell(label_15_2);
-		sheet.addCell(new Label(6, 15, checkbox(bean.getD11()),
+		sheet.addCell(new Label(6, 14, checkbox(bean.getD11()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 15, bean.getC11(), fontFormat_Content));
+		sheet.addCell(new Label(7, 14, bean.getC11(), fontFormat_Content));
 		// 第16行
 
-		Label label_16_2 = new Label(2, 16, "电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾酸液逸出",
+		Label label_16_2 = new Label(2, 15, "电池壳体有无渗漏和变形，极柱、安全阀周围是否有酸雾酸液逸出",
+				fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 15, 5, 15);
+
+		sheet.addCell(label_16_2);
+		sheet.addCell(new Label(6, 15, checkbox(bean.getD12()),
+				fontFormat_Content));
+		sheet.addCell(new Label(7, 15, bean.getC12(), fontFormat_Content));
+		// 第17行
+		Label label_17_2 = new Label(2, 16, "查看EPS/UPS/逆变器是否正常工作",
 				fontFormat_Content);// 创建单元格
 		sheet.mergeCells(2, 16, 5, 16);
 
-		sheet.addCell(label_16_2);
-		sheet.addCell(new Label(6, 16, checkbox(bean.getD12()),
+		sheet.addCell(label_17_2);
+		sheet.addCell(new Label(6, 16, checkbox(bean.getD13()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 16, bean.getC12(), fontFormat_Content));
-		// 第17行
-		Label label_17_2 = new Label(2, 17, "查看EPS/UPS/逆变器是否正常工作",
+		sheet.addCell(new Label(7, 16, bean.getC13(), fontFormat_Content));
+
+		// 第18行
+		Label label_18_1 = new Label(1, 17, "配电箱", fontFormat_Content);// 创建单元格
+		Label label_18_2 = new Label(2, 17, "交流配电柜电压是否符合供电需求，空开有无跳闸隐患",
 				fontFormat_Content);// 创建单元格
 		sheet.mergeCells(2, 17, 5, 17);
 
-		sheet.addCell(label_17_2);
-		sheet.addCell(new Label(6, 17, checkbox(bean.getD13()),
-				fontFormat_Content));
-		sheet.addCell(new Label(7, 17, bean.getC13(), fontFormat_Content));
-
-		// 第18行
-		Label label_18_1 = new Label(1, 18, "配电箱", fontFormat_Content);// 创建单元格
-		Label label_18_2 = new Label(2, 18, "交流配电柜电压是否符合供电需求，空开有无跳闸隐患",
-				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 18, 5, 18);
-
 		sheet.addCell(label_18_1);
 		sheet.addCell(label_18_2);
-		sheet.addCell(new Label(6, 18, checkbox(bean.getD14()),
+		sheet.addCell(new Label(6, 17, checkbox(bean.getD14()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 18, bean.getC14(), fontFormat_Content));
+		sheet.addCell(new Label(7, 17, bean.getC14(), fontFormat_Content));
 		// 第19行
-		Label label_19_1 = new Label(1, 19, "照明", fontFormat_Content);// 创建单元格
+		Label label_19_1 = new Label(1, 18, "照明", fontFormat_Content);// 创建单元格
 		/* sheet.mergeCells(1,19,1,9); */
-		Label label_19_2 = new Label(2, 19, "机房照明设施是否完好", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 19, 5, 19);
+		Label label_19_2 = new Label(2, 18, "机房照明设施是否完好", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 18, 5, 18);
 
 		sheet.addCell(label_19_1);
 		sheet.addCell(label_19_2);
-		sheet.addCell(new Label(6, 19, checkbox(bean.getD15()),
+		sheet.addCell(new Label(6, 18, checkbox(bean.getD15()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 19, bean.getC15(), fontFormat_Content));
+		sheet.addCell(new Label(7, 18, bean.getC15(), fontFormat_Content));
 		// 第20行
-		Label label_20_1 = new Label(1, 20, "插座", fontFormat_Content);// 创建单元格
-		Label label_20_2 = new Label(2, 20, "机房插座是否有电", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 20, 5, 20);
+		Label label_20_1 = new Label(1, 19, "插座", fontFormat_Content);// 创建单元格
+		Label label_20_2 = new Label(2, 19, "机房插座是否有电", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 19, 5, 19);
 
 		sheet.addCell(label_20_1);
 		sheet.addCell(label_20_2);
-		sheet.addCell(new Label(6, 20, checkbox(bean.getD16()),
+		sheet.addCell(new Label(6, 19, checkbox(bean.getD16()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 20, bean.getC16(), fontFormat_Content));
+		sheet.addCell(new Label(7, 19, bean.getC16(), fontFormat_Content));
 		// 第21行
-		Label label_21_0 = new Label(0, 21, "主体设备", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(0, 21, 0, 25);
-		Label label_21_1 = new Label(1, 21, "单板状态", fontFormat_Content);// 创建单元格
-		Label label_21_2 = new Label(2, 21, "检查各单板运行状态、供电情况是否正常，设备是否有明显告警",
+		Label label_21_0 = new Label(0, 20, "主体设备", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(0, 20, 0, 24);
+		Label label_21_1 = new Label(1, 20, "单板状态", fontFormat_Content);// 创建单元格
+		Label label_21_2 = new Label(2, 20, "检查各单板运行状态、供电情况是否正常，设备是否有明显告警",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 21, 5, 21);
+		sheet.mergeCells(2, 20, 5, 20);
 
 		sheet.addCell(label_21_0);
 		sheet.addCell(label_21_1);
 		sheet.addCell(label_21_2);
-		sheet.addCell(new Label(6, 21, checkbox(bean.getD17()),
+		sheet.addCell(new Label(6, 20, checkbox(bean.getD17()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 21, bean.getC17(), fontFormat_Content));
+		sheet.addCell(new Label(7, 20, bean.getC17(), fontFormat_Content));
 		// 第22行
-		Label label_22_1 = new Label(1, 22, "告警确认", fontFormat_Content);// 创建单元格
-		Label label_22_2 = new Label(2, 22, "通过与监控后台联系确认设备有无告警",
+		Label label_22_1 = new Label(1, 21, "告警确认", fontFormat_Content);// 创建单元格
+		Label label_22_2 = new Label(2, 21, "通过与监控后台联系确认设备有无告警",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 22, 5, 22);
+		sheet.mergeCells(2, 21, 5, 21);
 
 		sheet.addCell(label_22_1);
 		sheet.addCell(label_22_2);
-		sheet.addCell(new Label(6, 22, checkbox(bean.getD18()),
+		sheet.addCell(new Label(6, 21, checkbox(bean.getD18()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 22, bean.getC18(), fontFormat_Content));
+		sheet.addCell(new Label(7, 21, bean.getC18(), fontFormat_Content));
 		// 第23行
-		Label label_23_1 = new Label(1, 23, "连线状态", fontFormat_Content);// 创建单元格
-		Label label_23_2 = new Label(2, 23,
+		Label label_23_1 = new Label(1, 22, "连线状态", fontFormat_Content);// 创建单元格
+		Label label_23_2 = new Label(2, 22,
 				"电源/信号/射频/地线/网线是否分开，机架内各连线是否接触良好并正确无误", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 23, 5, 23);
+		sheet.mergeCells(2, 22, 5, 22);
 
 		sheet.addCell(label_23_1);
 		sheet.addCell(label_23_2);
-		sheet.addCell(new Label(6, 23, checkbox(bean.getD19()),
+		sheet.addCell(new Label(6, 22, checkbox(bean.getD19()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 23, bean.getC19(), fontFormat_Content));
+		sheet.addCell(new Label(7, 22, bean.getC19(), fontFormat_Content));
 		// 第24行
 		/*
 		 * Label label_24_0 = new Label(0, 24, "动环监控", fontFormat_Content);//
 		 * 创建单元格 sheet.mergeCells(0,24,0,26);
 		 */
-		Label label_24_1 = new Label(1, 24, "设备加固", fontFormat_Content);// 创建单元格
-		Label label_24_2 = new Label(2, 24, "设备安装是否牢固", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 24, 5, 24);
+		Label label_24_1 = new Label(1, 23, "设备加固", fontFormat_Content);// 创建单元格
+		Label label_24_2 = new Label(2, 23, "设备安装是否牢固", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 23, 5, 23);
 
 		sheet.addCell(label_24_1);
 		sheet.addCell(label_24_2);
-		sheet.addCell(new Label(6, 24, checkbox(bean.getD20()),
+		sheet.addCell(new Label(6, 23, checkbox(bean.getD20()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 24, bean.getC20(), fontFormat_Content));
+		sheet.addCell(new Label(7, 23, bean.getC20(), fontFormat_Content));
 		// 第25行
-		Label label_25_1 = new Label(1, 25, "设备温度", fontFormat_Content);// 创建单元格
-		Label label_25_2 = new Label(2, 25, "设备是否有高温、异味", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 25, 5, 25);
+		Label label_25_1 = new Label(1, 24, "设备温度", fontFormat_Content);// 创建单元格
+		Label label_25_2 = new Label(2, 24, "设备是否有高温、异味", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 24, 5, 24);
 
 		sheet.addCell(label_25_1);
 		sheet.addCell(label_25_2);
-		sheet.addCell(new Label(6, 25, checkbox(bean.getD21()),
+		sheet.addCell(new Label(6, 24, checkbox(bean.getD21()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 25, bean.getC21(), fontFormat_Content));
+		sheet.addCell(new Label(7, 24, bean.getC21(), fontFormat_Content));
 		// 第26行
-		Label label_26_0 = new Label(0, 26, "动环监控", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(0, 26, 0, 29);
-		Label label_26_1 = new Label(1, 26, "环境监测", fontFormat_Content);// 创建单元格
-		Label label_26_2 = new Label(2, 26, "查看温湿度、漏水是否正常(需值班人员配合完成)",
+		Label label_26_0 = new Label(0, 25, "动环监控", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(0, 25, 0, 28);
+		Label label_26_1 = new Label(1, 25, "环境监测", fontFormat_Content);// 创建单元格
+		Label label_26_2 = new Label(2, 25, "查看温湿度、漏水是否正常(需值班人员配合完成)",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 26, 5, 26);
+		sheet.mergeCells(2, 25, 5, 25);
 
 		sheet.addCell(label_26_0);
 		sheet.addCell(label_26_1);
 		sheet.addCell(label_26_2);
-		sheet.addCell(new Label(6, 26, checkbox(bean.getD22()),
+		sheet.addCell(new Label(6, 25, checkbox(bean.getD22()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 26, bean.getC22(), fontFormat_Content));
+		sheet.addCell(new Label(7, 25, bean.getC22(), fontFormat_Content));
 		// 第27行
-		Label label_27_1 = new Label(1, 27, "安全监测", fontFormat_Content);// 创建单元格
-		Label label_27_2 = new Label(2, 27, "查看门磁、红外传感器、烟感、摄像头是否正常(需值班人员配合完成)",
+		Label label_27_1 = new Label(1, 26, "安全监测", fontFormat_Content);// 创建单元格
+		Label label_27_2 = new Label(2, 26, "门磁、红外传感器、烟感、摄像头是否正常(需值班人员配合完成)",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 27, 5, 27);
+		sheet.mergeCells(2, 26, 5, 26);
 
 		sheet.addCell(label_27_1);
 		sheet.addCell(label_27_2);
-		sheet.addCell(new Label(6, 27, checkbox(bean.getD23()),
+		sheet.addCell(new Label(6, 26, checkbox(bean.getD23()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 27, bean.getC23(), fontFormat_Content));
+		sheet.addCell(new Label(7, 26, bean.getC23(), fontFormat_Content));
 		// 第28行
-		Label label_28_1 = new Label(1, 28, "交直流电流电压", fontFormat_Content);// 创建单元格
-		Label label_28_2 = new Label(2, 28, "查看交直流是否正常(需值班人员配合完成)",
+		Label label_28_1 = new Label(1, 27, "交直流电流电压", fontFormat_Content);// 创建单元格
+		Label label_28_2 = new Label(2, 27, "查看交直流是否正常(需值班人员配合完成)",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 28, 5, 28);
+		sheet.mergeCells(2, 27, 5, 27);
 
 		sheet.addCell(label_28_1);
 		sheet.addCell(label_28_2);
-		sheet.addCell(new Label(6, 28, checkbox(bean.getD24()),
+		sheet.addCell(new Label(6, 27, checkbox(bean.getD24()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 28, bean.getC24(), fontFormat_Content));
+		sheet.addCell(new Label(7, 27, bean.getC24(), fontFormat_Content));
 		// 第29行
-		Label label_29_1 = new Label(1, 29, "EPS/UPS", fontFormat_Content);// 创建单元格
-		Label label_29_2 = new Label(2, 29, "查看EPS/UPS输入、输出及电池组状态(需值班人员配合完成)",
+		Label label_29_1 = new Label(1, 28, "EPS/UPS", fontFormat_Content);// 创建单元格
+		Label label_29_2 = new Label(2, 28, "查看EPS/UPS输入、输出及电池组状态(需值班人员配合完成)",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 29, 5, 29);
+		sheet.mergeCells(2, 28, 5, 28);
 
 		sheet.addCell(label_29_1);
 		sheet.addCell(label_29_2);
-		sheet.addCell(new Label(6, 29, checkbox(bean.getD25()),
+		sheet.addCell(new Label(6, 28, checkbox(bean.getD25()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 29, bean.getC25(), fontFormat_Content));
+		sheet.addCell(new Label(7, 28, bean.getC25(), fontFormat_Content));
 		// 第30行
-		Label label_30_0 = new Label(0, 30, "清洁", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(0, 30, 0, 31);
-		Label label_30_1 = new Label(1, 30, "机房清洁", fontFormat_Content);// 创建单元格
-		Label label_30_2 = new Label(2, 30, "清洁机房内门窗、地面、墙面卫生",
+		Label label_30_0 = new Label(0, 29, "清洁", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(0, 29, 0, 30);
+		Label label_30_1 = new Label(1, 29, "机房清洁", fontFormat_Content);// 创建单元格
+		Label label_30_2 = new Label(2, 29, "清洁机房内门窗、地面、墙面卫生",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 30, 5, 30);
+		sheet.mergeCells(2, 29, 5, 29);
 
 		sheet.addCell(label_30_0);
 		sheet.addCell(label_30_1);
 		sheet.addCell(label_30_2);
-		sheet.addCell(new Label(6, 30, checkbox(bean.getD26()),
+		sheet.addCell(new Label(6, 29, checkbox(bean.getD26()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 30, bean.getC26(), fontFormat_Content));
+		sheet.addCell(new Label(7, 29, bean.getC26(), fontFormat_Content));
 		// 第31行
-		Label label_31_1 = new Label(1, 31, "设备除尘", fontFormat_Content);// 创建单元格
-		Label label_31_2 = new Label(2, 31, "清洁设备表面、内部、主体设备滤网",
+		Label label_31_1 = new Label(1, 30, "设备除尘", fontFormat_Content);// 创建单元格
+		Label label_31_2 = new Label(2, 30, "清洁设备表面、内部、主体设备滤网",
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 31, 5, 31);
+		sheet.mergeCells(2, 30, 5, 30);
 
 		sheet.addCell(label_31_1);
 		sheet.addCell(label_31_2);
-		sheet.addCell(new Label(6, 31, checkbox(bean.getD27()),
+		sheet.addCell(new Label(6, 30, checkbox(bean.getD27()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 31, bean.getC27(), fontFormat_Content));
+		sheet.addCell(new Label(7, 30, bean.getC27(), fontFormat_Content));
 		// 第32行
-		Label label_32_0 = new Label(0, 32, "功能", fontFormat_Content);// 创建单元格
-		Label label_32_1 = new Label(1, 32, "呼叫功能", fontFormat_Content);// 创建单元格
-		Label label_32_2 = new Label(2, 32, "沿途呼叫测试", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(2, 32, 5, 32);
+		Label label_32_0 = new Label(0, 31, "功能", fontFormat_Content);// 创建单元格
+		Label label_32_1 = new Label(1, 31, "呼叫功能", fontFormat_Content);// 创建单元格
+		Label label_32_2 = new Label(2, 31, "沿途呼叫测试", fontFormat_Content);// 创建单元格
+		sheet.mergeCells(2, 31, 5, 31);
 
 		sheet.addCell(label_32_0);
 		sheet.addCell(label_32_1);
 		sheet.addCell(label_32_2);
-		sheet.addCell(new Label(6, 32, checkbox(bean.getD28()),
+		sheet.addCell(new Label(6, 31, checkbox(bean.getD28()),
 				fontFormat_Content));
-		sheet.addCell(new Label(7, 32, bean.getC28(), fontFormat_Content));
+		sheet.addCell(new Label(7, 31, bean.getC28(), fontFormat_Content));
 		// 第33行
-		Label label_33_0 = new Label(0, 33, "遗留问题", fontFormat_Content);// 创建单元格
-		Label label_33_1 = new Label(1, 33, bean.getRemainwork(),
+		Label label_33_0 = new Label(0, 32, "遗留问题", fontFormat_Content);// 创建单元格
+		Label label_33_1 = new Label(1, 32, bean.getRemainwork(),
 				fontFormat_Content);// 创建单元格
-		sheet.mergeCells(1, 33, 7, 33);
+		sheet.mergeCells(1, 32, 7, 33);
+		sheet.mergeCells(0, 32, 0, 33);
 		sheet.addCell(label_33_0);
 		sheet.addCell(label_33_1);
+	
+		sheet.setRowView(5, 514);
+		sheet.setRowView(22, 514);
+	
 
 	}
 
@@ -3267,6 +3294,7 @@ public class AppInspectionController {
 						}
 						File file = new File(pathname);
 						//app.excel_net(file, bean);
+						app.excel_star(file, bean);
 					}
 					rs.put("success", true);
 					rs.put("fileName",sb.deleteCharAt(sb.length() - 1).toString());
@@ -3351,9 +3379,10 @@ public class AppInspectionController {
 		try {
 
 			for (InspectionSbsBean bean : sbsList) {
-
-				String fileName = time + "-基站-[" + bean.getBsname() + "("
-						+ bean.getBsid() + ")]巡检表.xls";
+				String fileName=(bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid())+"-";
+				fileName+=bean.getBsname() +"-"+time+"-基站巡检表.xls";
+				/*String fileName = time + "-基站-[" + bean.getBsname() + "("
+						+ (bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid()) + ")]巡检表.xls";*/
 				sb.append(fileName);
 				sb.append(",");
 				fileNames.add(fileName);
@@ -3366,7 +3395,7 @@ public class AppInspectionController {
 				File file = new File(pathname);
 				WritableWorkbook book = Workbook.createWorkbook(file);
 				WritableFont font = new WritableFont(
-						WritableFont.createFont("微软雅黑"), 16,
+						WritableFont.createFont("微软雅黑"), 15,
 						WritableFont.NO_BOLD, false,
 						UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 				WritableCellFormat fontFormat = new WritableCellFormat(font);
@@ -3380,7 +3409,7 @@ public class AppInspectionController {
 
 				// 设置头部字体格式
 				WritableFont font_header = new WritableFont(WritableFont.TIMES,
-						9, WritableFont.NO_BOLD, false,
+						11, WritableFont.NO_BOLD, false,
 						UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 				// 应用字体
 				WritableCellFormat fontFormat_h = new WritableCellFormat(
@@ -3389,7 +3418,7 @@ public class AppInspectionController {
 				fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 				fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 				fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-				fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+				//fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
 				fontFormat_h.setWrap(false);// 不自动换行
 
 				// 设置主题内容字体格式
@@ -3428,7 +3457,11 @@ public class AppInspectionController {
 				fontFormat_Content.setWrap(true);// 自动换行
 
 				WritableSheet sheet = book.createSheet("基站巡检表", 0);
-
+				sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+				sheet.getSettings().setLeftMargin(0.50);
+				sheet.getSettings().setRightMargin(0.50);
+				sheet.getSettings().setTopMargin(0.1);
+				sheet.getSettings().setBottomMargin(0.1);
 				excel_sbs(bean, sheet, fontFormat, fontFormat_h,
 						fontFormat_Content);
 
@@ -3475,8 +3508,10 @@ public class AppInspectionController {
 		InspectionSbsBean bean = sbsList.get(0);
 
 		try {
-			String fileName = time + "-基站-[" + bean.getBsname() + "("
-					+ bean.getBsid() + ")]巡检表.xls";
+			String fileName=(bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid())+"-";
+			fileName+=bean.getBsname() +"-"+time+"-基站巡检表.xls";
+			/*String fileName = time + "-基站-[" + bean.getBsname() + "("
+					+ (bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid()) + ")]巡检表.xls";*/
 			sb.append(fileName);
 			sb.append(",");
 			fileNames.add(fileName);
@@ -3488,7 +3523,7 @@ public class AppInspectionController {
 			File file = new File(pathname);
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
 					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
@@ -3500,7 +3535,7 @@ public class AppInspectionController {
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 9,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 11,
 					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
@@ -3510,7 +3545,7 @@ public class AppInspectionController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -3519,35 +3554,70 @@ public class AppInspectionController {
 					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
 			// 应用字体
 
-			WritableFont wf_title = new WritableFont(WritableFont.ARIAL, 11,
-					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
-					jxl.format.Colour.BLACK); // 定义格式 字体 下划线 斜体 粗体 颜色
-
-			WritableCellFormat wcf_title = new WritableCellFormat(wf_title); // 单元格定义
-
 			WritableCellFormat fontFormat_Content = new WritableCellFormat(
 					font_Content);
 
-			// 设置其他样式
-
-			wcf_title.setAlignment(Alignment.CENTRE);// 水平对齐
-			wcf_title.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			wcf_title.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			wcf_title.setBackground(Colour.WHITE);// 背景色
-			wcf_title.setWrap(false);// 不自动换行
-
-			fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
+		    fontFormat_Content.setAlignment(Alignment.LEFT);// 水平对齐
 			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
+			
 
 			WritableSheet sheet = book.createSheet("基站巡检表", 0);
+			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE, PaperSize.A4, 0.5d, 0.5d);
+			sheet.getSettings().setLeftMargin(0.50);
+			sheet.getSettings().setRightMargin(0.50);
+			sheet.getSettings().setTopMargin(0.1);
+			sheet.getSettings().setBottomMargin(0.1);
+			/*sheet.getSettings().setBottomMargin(0.5);*/
+			/*sheet.getSettings().setLeftMargin(0.1);*/
 
 			excel_sbs(bean, sheet, fontFormat, fontFormat_h, fontFormat_Content);
 			book.write();
 			book.close();
 			log.info("基站巡检表");
+			this.success = true;
+			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("success", success);
+			result.put("fileName", sb.deleteCharAt(sb.length() - 1).toString());
+			result.put("pathName", pathname);
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			response.getWriter().write(jsonstr);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	}
+	@RequestMapping(value = "/excel_star", method = RequestMethod.POST)
+	public void app_star(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String excelData = request.getParameter("excelData");
+		String time = request.getParameter("time");
+		InspectionStarBean bean=GsonUtil.json2Object(excelData, InspectionStarBean.class);
+		String saveDir = request.getSession().getServletContext()
+				.getRealPath("/app");
+		String pathname = "";
+		ArrayList<String> fileNames = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			String fileName = time + "-卫星通信车载便携站-[" + bean.getName()+"]巡检表.xls";
+			/*String fileName = time + "-基站-[" + bean.getBsname() + "("
+					+ (bean.getBsid()>2000?"JY"+String.valueOf(bean.getBsid()).substring(2):bean.getBsid()) + ")]巡检表.xls";*/
+			sb.append(fileName);
+			sb.append(",");
+			fileNames.add(fileName);
+			pathname = saveDir + "/" + fileName;
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);
+			AppInspectionExcelController app=new AppInspectionExcelController();
+			app.excel_star(file, bean);
+			log.info("卫星通信车载便携站");
 			this.success = true;
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("success", success);
@@ -3580,7 +3650,7 @@ public class AppInspectionController {
 		sheet.setColumnView(4, 10);
 		sheet.setColumnView(5, 40);
 		sheet.setColumnView(6, 20);
-		sheet.setColumnView(7, 30);
+		sheet.setColumnView(7, 40);
 
 		sheet.addCell(new Label(0, 1, "基站名称", fontFormat_Content));
 		sheet.mergeCells(1, 1, 3, 1);
@@ -3851,7 +3921,8 @@ public class AppInspectionController {
 		sheet.addCell(new Label(7, 29, bean.getC26(), fontFormat_Content));
 		// 第30行
 		Label label_30_0 = new Label(0, 30, "遗留问题", fontFormat_Content);// 创建单元格
-		sheet.mergeCells(1, 30, 7, 30);
+		sheet.mergeCells(0, 30, 0, 31);
+		sheet.mergeCells(1, 30, 7, 31);
 		sheet.addCell(label_30_0);
 		sheet.addCell(new Label(1, 30, bean.getRemainwork(), fontFormat_Content));
 
@@ -3949,37 +4020,37 @@ public class AppInspectionController {
 			return "";
 		} else {
 			if (str.equals("有")) {
-				return "☑  有  口 无";
+				return "☑有  口无";
 			} else if (str.equals("无")) {
-				return "口 有   ☑ 无";
+				return "口有   ☑无";
 			}
 
 			else if (str.equals("是")) {
-				return "☑ 是  口 否";
+				return "☑是  口否";
 			} else if (str.equals("否")) {
-				return "口  是   ☑ 否";
+				return "口是   ☑ 否";
 			}
 
 			else if (str.equals("正常")) {
-				return "☑ 正常  口 异常";
+				return "☑正常  口异常";
 			} else if (str.equals("异常")) {
-				return "口  正常   ☑ 异常";
+				return "口正常   ☑异常";
 			}
 
 			else if (str.equals("安全")) {
-				return "☑ 安全  口 有隐患";
+				return "☑安全  口有隐患";
 			} else if (str.equals("有隐患")) {
-				return "口  安全   ☑ 有隐患";
+				return "口安全   ☑ 有隐患";
 			} else if (str.equals("执行")) {
-				return "☑ 执行  口 未执行";
+				return "☑ 执行  口未执行";
 			} else if (str.equals("未执行")) {
-				return "口  执行   ☑ 未执行";
+				return "口执行   ☑未执行";
 			}
 
 			else if (str.equals("已备份")) {
-				return "☑ 已备份  口 未备份";
+				return "☑ 已备份  口未备份";
 			} else if (str.equals("未备份")) {
-				return "口  已备份   ☑ 未备份";
+				return "口已备份   ☑未备份";
 			}
 
 			else if (str.equals("移动") || str.equals("电信") || str.equals("铁塔")) {
@@ -3992,9 +4063,9 @@ public class AppInspectionController {
 			}
 
 			else if (str.equals("已执行")) {
-				return "☑ 已执行  口  未执行";
+				return "☑已执行  口未执行";
 			} else if (str.equals("未执行")) {
-				return "口  已执行   ☑ 未执行";
+				return "口已执行   ☑未执行";
 			} else {
 				return "";
 			}

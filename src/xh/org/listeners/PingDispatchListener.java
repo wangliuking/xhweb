@@ -29,6 +29,7 @@ public class PingDispatchListener implements ServletContextListener{
 			timer.schedule(new pingTask(), 10*1000, 60*1000);
 		}*/
 		timer.schedule(new pingTask(), 5*1000, 3*60*1000);
+		timer.scheduleAtFixedRate(new VoiceAlarm(), 5000, 1000*15);
 	}
 
 }

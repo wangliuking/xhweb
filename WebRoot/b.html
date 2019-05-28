@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>b.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    This is my HTML page. b<br>
+    <button onclick="exec_main()">执行a</button>
+    <script type="text/javascript">
+    function b(){
+    	parent.a();
+    }
+    function exec_main(){  
+        if(typeof(exec_obj)=='undefined'){  
+            exec_obj = document.createElement('iframe');  
+            exec_obj.name = 'tmp_frame';  
+            exec_obj.src = 'http://localhost:8080/xhweb/execA.html';  
+            exec_obj.style.display = 'none';  
+            document.body.appendChild(exec_obj);  
+        }else{  
+            exec_obj.src = 'http://localhost:8080/xhweb/execA.html?' + Math.random();  
+        }  
+      }  
+    </script>
+  </body>
+</html>

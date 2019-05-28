@@ -278,7 +278,7 @@ public class BsAlarmService {
 				Map<String,Object> compare=bs_ji_four_compare(bean.getFsuId());
 				
 				eps=bs_emh_eps(bean);
-				System.out.println("总数：="+list.size()+";当前：="+i+";当前bsid：="+bean.getBsId()+";eps="+eps);
+				//System.out.println("总数：="+list.size()+";当前：="+i+";当前bsid：="+bean.getBsId()+";eps="+eps);
 				//e4=e4(bean.getFsuId());
 				boolean x=string_to_double(compare.get("ups1"))>
 		         string_to_double(compare.get("ups2")) && 

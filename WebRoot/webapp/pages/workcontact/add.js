@@ -12,8 +12,12 @@ loader.define(function(require,exports,module) {
             methods:{
             	add:add,
             	upload:function(){
-                	upload();
-                }
+                	//upload();
+            	},
+            	showFileWin:function(){
+            		$("input[name='pathName']").click();
+            	}
+                
             }
             
         });
@@ -30,13 +34,38 @@ loader.define(function(require,exports,module) {
     return pageview;
 })
 function add(){
+	var files=[];
+	/*var name = $("input[name='fileName']").val();
+	var path = $("input[name='filePath']").val();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }*/
+		$("#fileArea ul li").each(function(){
+		    var name = $(this).children().first().text();
+		    var path = $(this).children(".path").text();
+		    if(name!="" && path!=""){
+		    	var a={
+		    			fileName:name,
+		    			filePath:path
+		    	}
+		    	console.log("aa->"+JSON.stringify(a))
+		    	files.push(a);
+		    }
+		   
+		});	
+	   
 	$.ajax({
 		url : xh.getUrl()+'WorkContact/add',
 		type : 'POST',
 		dataType : "json",
 		async : false,
 		data : {
-			formData : xh.serializeJson($("#addForm").serializeArray())
+			formData : xh.serializeJson($("#addForm").serializeArray()),
+			files: JSON.stringify(files)
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
@@ -68,7 +97,7 @@ function add(){
 		}
 	});
 }
-function upload() {
+/*function upload() {
 	  console.log("->"+$("#addForm").find('input[name="pathName"]').val())
        if ($('#pathName').val() =="") {
         	 toastr.error("请选择需要上传的文件！","提示");
@@ -82,7 +111,6 @@ function upload() {
         
 
         uiLoading.show();
-        uiMask.show();
         $.ajaxFileUpload({
             url : xh.getUrl()+'uploadFile/upload', //用于文件上传的服务器端请求地址
             secureuri : false, //是否需要安全协议，一般设置为false
@@ -92,7 +120,6 @@ function upload() {
             success : function(data, status) //服务器成功响应处理函数
             {
             	uiLoading.hide();
-                uiMask.hide();
                 if (data.success) {
                     $("input[name='result']").val(1);
                     $("input[name='fileName']").val(data.fileName);
@@ -109,10 +136,9 @@ function upload() {
             error : function(data, status, e)//服务器响应失败处理函数
             {
             	uiLoading.hide();
-                uiMask.hide();
             }
         });
-    }
+    }*/
 function No() {
 	var today = new Date();
 	var y = today.getFullYear();

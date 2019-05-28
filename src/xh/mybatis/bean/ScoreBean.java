@@ -42,6 +42,11 @@ public class ScoreBean {
 	
 	private String s_sum;
 	private String n_sum;
+	
+	private String fileName;
+	private String filePath;
+	
+	private int score_total;
 	public String getTime() {
 		return time;
 	}
@@ -235,6 +240,25 @@ public class ScoreBean {
 	}
 	public void setN_h1(String n_h1) {
 		this.n_h1 = n_h1;
+	}
+	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+	public int getScore_total() {
+		return score_total;
+	}
+	public void setScore_total(int score_total) {
+		this.score_total = score_total;
 	}
 	@Override
 	public String toString() {

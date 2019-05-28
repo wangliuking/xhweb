@@ -26,17 +26,10 @@
 						</div>
 
 						<div class="col-md-12">
-							<div class="form-group col-md-6">
-								<label>会议开始时间</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" class="form-control" name="start_time"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',onpicked:xh.validatorTime('addForm','start_time')})" 
-									required="required" ng-model="editData.start_time">
-							</div>
-							<div class="form-group col-md-6">
-								<label>会议结束时间</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="text" class="form-control" name="end_time"
-									onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',onpicked:xh.validatorTime('addForm','end_time')})" 
-									required="required" ng-model="editData.end_time">
+							<div class="form-group col-md-12">
+								<label>会议时间</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="text" class="form-control" name="meet_time" 
+									required="required" ng-model="editData.meet_time">
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -55,40 +48,12 @@
 						</div>
 						<div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>会议类容</label>&nbsp;<span class="text-danger">[*]</span>
+                                <label>会议内容</label>&nbsp;<span class="text-danger">[*]</span>
                                 <textarea rows="2" class="form-control" cols="" name="content" 
-                                required="required" ng-model="editData.content"></textarea>
+                                required="required"></textarea>
                             </div>
                         </div>
-						<div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>月度运维考核情况</label>&nbsp;<span class="text-danger">[*]</span>
-                                <textarea rows="2" class="form-control" cols="" name="check_info" 
-                                required="required" ng-model="editData.check_info"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>响应及用户需求受理</label>&nbsp;<span class="text-danger">[*]</span>
-                                <textarea rows="2" class="form-control" cols="" name="user_need" 
-                                required="required" ng-model="editData.user_need"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>应急通信保障和演练</label>&nbsp;<span class="text-danger">[*]</span>
-                                <textarea rows="2" class="form-control" cols="" name="emergency_info" 
-                                required="required" ng-model="editData.emergency_info"></textarea>
-                            </div>
-                        </div>
-                      
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>其他</label>
-                                <textarea rows="2" class="form-control" cols="" name="other_info" 
-                                ng-model="editData.other_info"></textarea>
-                            </div>
-                        </div>
+						
                          <div class="col-md-12" ng-show=false>
                             <div class="form-group col-md-12">
                                 <label>签字栏</label>

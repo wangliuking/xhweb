@@ -13,6 +13,8 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+<script type="text/javascript" src="../../jquery.min.js"></script>  
+<script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 <style type="text/css">
 .form-table {
 	margin-top: 10px;
@@ -177,7 +179,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="8" class="text-center">没有记录！</td>
+										<td colspan="9" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<td>{{x.time}}</td>
@@ -189,12 +191,22 @@
 										<td>{{x.checkUserName}}</td>
 										<td>{{x.checkTime}}</td>
 
-										<td><span ng-if="x.status==0">未确认</span> <span
-											ng-if="x.status==1" style="color:green">已确认</span></td>
-										<td><a href="#" ng-click="sign($index)"
-											ng-if="loginUser.roleType!=x.user_type && up.o_task=='on' && x.status==0">确认</a>
+										<td>
+										<span ng-if="x.status==0">等待审核</span> 
+										<span ng-if="x.status==-1" style="color:red">工联单被拒绝({{x.note}})</span>
+										<span ng-if="x.status==1" style="color:blue">等待签收</span>
+										<span ng-if="x.status==2" style="color:green">已签收</span>
+										</td>
+										<td>
+										<a href="#" ng-click="detail($index)"><img src="../../Resources/images/icon/eye.png">查看工作联系单</a>
+										<a href="#" ng-click="showEdit($index)" ng-if="up.o_update=='on' 
+										&& (x.status==0 || x.status==-1)">|&nbsp;<img src="../../Resources/images/icon/edit.png">修改</a>
+										<a href="#" ng-click="showCheck($index)" ng-if="loginUser.roleType==x.user_type 
+										&& up.o_task=='on' && x.status==0 && loginUser.user!=x.addUser">|&nbsp;<img src="../../Resources/images/icon/sign.png">审核</a>
+										<a href="#" ng-click="sign($index)" ng-if="loginUser.roleType!=x.user_type 
+										&& up.o_task=='on' && x.status==1">|&nbsp;<img src="../../Resources/images/icon/record.png">签收</a>
 											<a href="#" ng-click="del($index)"
-                                            ng-if="up.o_delete=='on'">删除</a>
+                                            ng-if="up.o_delete=='on'">|&nbsp;<img src="../../Resources/images/icon/del.png">删除</a>
 										</td>
 
 									</tr>
@@ -224,10 +236,52 @@
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
+	   <div class="modal fade" id="checkWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header ">
+                           审核窗口
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body pad-0">
+                <div class="row">
+
+                        
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>备注信息</label>&nbsp;<span class="text-danger">[*]</span>
+                                <textarea rows="6" class="form-control" cols="" name="note"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-success btn-sm" ng-click="check(1)">
+                                          通过
+                </button>
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-danger btn-sm" ng-click="check(-1)">
+                    &nbsp;拒绝
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
 	<div ng-include="'task-detail.html'"></div>
+	<div ng-include="'task-edit.html'"></div>
 	<div ng-include="'task-add.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
