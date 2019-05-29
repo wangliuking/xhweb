@@ -1,5 +1,6 @@
 package xh.org.listeners;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import org.apache.commons.lang.ArrayUtils;
 
 import xh.func.plugin.DocConverter;
 import xh.func.plugin.FunUtil;
+import xh.mybatis.service.EastComService;
 import xh.org.socket.MotoTcpClient;
 import xh.org.socket.TcpKeepAliveClient;
 
@@ -25,25 +27,39 @@ public class test {
 
 	public static void main(String[] args) {
 		Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Date date=calendar.getTime(); //第一次执行定时任务的时间
+		
+		String str="2018-05-24 09:00:00";
+		
+		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		Date date = null;
+		try {
+			date = dd.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(int i=1;i<=10;i++){
+			Date d=addDay(date,i);
+			String time=dd.format(d);
+			int rs=EastComService.del_data(time);
+			System.out.println("日期："+time+";index:"+i+";data:"+rs);
+			
+		}
+		
+		
         
-        SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-        int[] dd={4600,14500,6000,16500,55000,27500,3000,41900,
-        		6000,6000,2000,6000,3000,27000,22000,8000};
-        int bb=0;
-        for(int i=0;i<dd.length;i++){
-        	bb+=dd[i];
-        }
-   
-     
-    String a="/jdfjdfjd/djfnjdnf.doc";
-     System.out.print(System.getProperty("user.dir"));
+        
     
 	}
+	public static Date addDay(Date date, int num) {
+		   Calendar startDT = Calendar.getInstance();
+		   startDT.setTime(date);
+		   startDT.add(Calendar.HOUR_OF_DAY, num);
+		   return startDT.getTime();
+		}
 
 	public synchronized static void handleList(List<String> data, int threadNum) {
 		int length = data.size();

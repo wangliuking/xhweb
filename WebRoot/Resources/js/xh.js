@@ -727,6 +727,7 @@ xh.getUrl=function(){
 	        break;
 	    }
 	}
+	console.log("url->"+path)
  return path;
 }
 function getUserPower(){

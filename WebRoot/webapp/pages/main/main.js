@@ -116,6 +116,7 @@ function userPower(){
         data: {}
     }).then(function(res){
     	gl_para.up = res;
+    	
     },function(res,status){
         console.log(status);
      // status = "timeout" || "error" || "abort", "parsererror"
@@ -131,6 +132,8 @@ function userInfo(){
         async : false
     }).then(function(res){
     	gl_para.userL=res;
+    	localStorage.user=JSON.stringify(res);
+    	sessionStorage.user=JSON.stringify(res);
 		if(parseInt(res.roleType)==2){
         	str="成都市软件产业发展中心";
         	gl_para.sendUnit=str;

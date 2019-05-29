@@ -1203,10 +1203,13 @@ public class OperationsCheckController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.docNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_meet_word");
 		mv.addObject("sealName1",WebUserServices.sealName(FunUtil.loginUser(request),"1"));

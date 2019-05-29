@@ -310,6 +310,9 @@ public class MeetController {
 		if(request.getParameter("type")!=null){
 			type=Integer.parseInt(request.getParameter("type"));
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
 		poCtrl.addCustomToolButton("签字", "Seal1()", 2);
@@ -329,7 +332,7 @@ public class MeetController {
 			e.printStackTrace();
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.docNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/meet");
 		mv.addObject("sealName1",WebUserServices.sealName(FunUtil.loginUser(request),"2"));

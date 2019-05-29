@@ -48,10 +48,20 @@ public class PageOfficeController {
 		}
 		System.out.println("保存文件->解码后："+path);
 		
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
+		
 		
 
 		FileSaver fs = new FileSaver(request, response);
-		fs.saveToFile(request.getSession().getServletContext().getRealPath(path));
+		String p=path.substring(0, path.lastIndexOf("/")+1);
+		String n=path.substring(path.lastIndexOf("/")+1);
+		System.out.println("保存文件->解码后：p:"+p);
+		System.out.println("保存文件->解码后：n:"+n);
+		System.out.println("保存文件->解码后：n:"+request.getSession().getServletContext().getRealPath("/")+"/"+path);
+		System.out.println("保存文件->解码后：pathh:"+request.getSession().getServletContext().getRealPath("/")+"/"+path);
+		fs.saveToFile(request.getSession().getServletContext().getRealPath("/")+"/"+path);
 		fs.close();
 	}
 
@@ -275,6 +285,9 @@ public class PageOfficeController {
 			poCtrl.addCustomToolButton("签字", "Seal()", 2);
 			//poCtrl.addCustomToolButton("删除签字", "DeleteSeal()", 21);
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
@@ -294,9 +307,9 @@ public class PageOfficeController {
 		//设置页面的显示标题
 		poCtrl.setCaption("");
 		if(doc.contains("doc")){
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.docNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.xlsNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		}
 		
 		poCtrl.setTagId("PageOfficeCtrl1");
@@ -334,13 +347,16 @@ public class PageOfficeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
 		if(doc.contains("doc")){
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.docNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
-			poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.xlsNormalEdit, "");
+			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		}
 		
 		poCtrl.setTagId("PageOfficeCtrl1");
@@ -378,10 +394,13 @@ public class PageOfficeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.docNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_word");
 		mv.addObject("poCtrl", poCtrl);
@@ -415,10 +434,13 @@ public class PageOfficeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.xlsNormalEdit, "");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_excel");
 		mv.addObject("poCtrl", poCtrl);

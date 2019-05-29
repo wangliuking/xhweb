@@ -35,17 +35,11 @@ loader.define(function(require,exports,module) {
 /* 获取编号 */
 function code(){
 	var codestr="";
-	bui.ajax({
-        url: xh.getUrl()+"WorkContact/codeNum",
-        async:false,
-        data: {}
-    }).then(function(res){
-    	codestr = res.code;
-    },function(res,status){
-        console.log(status);
-    });
+	$.get(xh.getUrl()+"WorkContact/codeNum").success(function(response) {
+		codestr = response.code;	
+	});
 	return codestr;
-}
+	}
 function add(){
 	var files=[];
 	/*

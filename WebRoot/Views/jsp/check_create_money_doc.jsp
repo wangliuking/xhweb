@@ -77,7 +77,7 @@ MoneyBean bean=GsonUtil.json2Object(str, MoneyBean.class);
         fmCtrl.setWriter(doc);
         fmCtrl.setJsFunction_OnProgressComplete("OnProgressComplete()");
         fmCtrl.setSaveFilePage(basePath+"office/save_page?path="+name);
-        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("doc/template/¿Û¿î.doc"), DocumentOpenType.Word, bean.getFileName());
+        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("/")+"/doc/template/¿Û¿î.doc", DocumentOpenType.Word, bean.getFileName());
       
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

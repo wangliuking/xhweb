@@ -70,14 +70,21 @@
 
                 </div>
             </div> 
-           <div class="container-y" b-class="page.activeClass">
+           <div class="container-y">
                 <div class="bui-box-space">
-                    <div class="span3">
+                    <div class="span1" b-show="page.showUpdateBtn">
+                        <div class="bui-btn primary" id="update" b-click="page.update">修改</div>
+                    </div>
+                    <div class="span1" b-show="page.showCheckBtn">
+                        <div class="bui-btn primary" id="check">审核</div>
+                    </div>
+                    <div class="span1" b-show="page.showSignBtn">
                         <div class="bui-btn primary" id="sure" b-click="page.sure">确认</div>
                     </div>
 
                 </div>
             </div>
+           
        <!-- <ul class="bui-list">
             <li class="bui-btn ">
                 <div  class="bui-input">
@@ -86,4 +93,38 @@
             </li>
         </ul>-->
     </main>
+</div>
+<div id="check-dg" class="bui-dialog" style="display:none;">
+   <!--  <div class="bui-dialog-head bui-box-align-middle">
+        <div class="span1">审核文件</div>
+        <div id="makeSure" class="bui-btn primary round">确定</div>
+    </div> -->
+    <div class="bui-bar">
+         <header class="bui-bar">
+        <div class="bui-bar-left"> <a class="bui-btn btn-back"><i class="icon-back"></i></a> </div>
+        <div class="bui-bar-main">审核总结报告</div>
+        <div class="bui-bar-right"> </div>
+    </header>
+    </div>
+    <div class="bui-dialog-main">
+        <ul class="bui-list">
+            <li class="bui-btn ">
+                <div class="span1 bui-input">
+                     <textarea class="bui-input" name="note" cols="30" rows="10"
+                            placeholder="请输入备注信息"></textarea>
+                </div>
+            </li>
+        </ul>
+        <div class="container-y">
+                <div class="bui-box-space">
+                    <div class="span1">
+                        <div class="bui-btn success" onclick="check(1)">通过</div>
+                    </div>
+                    <div class="span1">
+                        <div class="bui-btn danger" onclick="check(-1)">拒绝</div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
 </div>

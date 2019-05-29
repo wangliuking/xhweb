@@ -484,13 +484,14 @@ public class FunUtil {
 		 //获取三十天前日期
 		Calendar theCa = Calendar.getInstance();
 		theCa.setTime(new Date());
-		theCa.add(theCa.DATE, 0);//最后一个数字30可改，30天的意思
+		theCa.add(theCa.DATE, -9);//最后一个数字30可改，30天的意思-9
 		Date start = theCa.getTime();
 		String startDate = dd.format(new Date());//三十天之前日期
 		
 		
 		
-		String date = dd.format(new Date());
+		String date = dd.format(start);
+		System.out.println("日期hhhhhhhhhhhhhhh->"+date);
 		return startDate;
 	}	
 	public static String nowDateNotTime() {

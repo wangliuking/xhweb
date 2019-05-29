@@ -8,9 +8,10 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
+System.out.println("basePath->"+basePath);
 String str=request.getParameter("bean");
 MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
+System.out.println("basePath->"+bean.toString());
 %>
 <%
     
@@ -29,7 +30,8 @@ MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
         fmCtrl.setWriter(doc);
         fmCtrl.setJsFunction_OnProgressComplete("OnProgressComplete()");
         fmCtrl.setSaveFilePage(basePath+"office/save_page?path="+bean.getFile_path());
-        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("doc/template/meet.doc"), DocumentOpenType.Word, bean.getFile_name());
+        fmCtrl.setTagId("FileMakerCtrl1");
+        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("/")+"/doc/template/meet.doc", DocumentOpenType.Word, bean.getFile_name());
       
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -46,7 +48,7 @@ MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
 
 </head>
 <body>
-<p>正在生成文件。请耐心等待</p>
+<p>正在生成文件。请耐心等待.</p>
     <div>
         <%=fmCtrl.getHtmlCode("FileMakerCtrl1")%>
     </div>

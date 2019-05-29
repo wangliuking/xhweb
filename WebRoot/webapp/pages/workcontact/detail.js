@@ -1,5 +1,6 @@
 // 默认已经定义了main模块
 
+var params="";
 loader.define(function(require,exports,module){
 
 
@@ -8,7 +9,7 @@ loader.define(function(require,exports,module){
     // 主要业务初始化
     pageview.init = function() {
         // 这里写main模块的业务
-        var params = router.getPageParams();
+        params = router.getPageParams();
         var html="";
         for(var i=0;i<params.files.length;i++){
         	html+='<p><a href="#" style="color:blue;" b-click="page.download('+i+')" >'+params.files[i].fileName+'</a></p>'
@@ -18,22 +19,28 @@ loader.define(function(require,exports,module){
         
         
         
-        var className="show";
-        
-        if(gl_para.userL.roleType!=params.user_type && gl_para.up.o_task=='on' && params.status==0){
-        	className="show";
-        }else{
-        	className="hide";
-        }
-
+        var checkDialog = bui.dialog({
+            id: "#check-dg",
+            fullscreen: true,
+            mask: false,
+            effect: "fadeInRight"
+        });
+        var user1=localStorage.user;
+        var user2=sessionStorage.user;
+        console.log("roleType1:"+gl_para.userL.roleType);
+        console.log("roleType2:"+params.user_type);
+        console.log("roleType3:"+((gl_para.userL.roleType!=params.user_type && params.status==1)?true:false));
         var bs=bui.store({
             scope:'page',
             data:{
                 list:params,
-                activeClass:className
+                showCheckBtn:((gl_para.userL.roleType=params.user_type && gl_para.up.o_task=='on' && params.status==0)?true:false),
+                showSignBtn:((gl_para.userL.roleType!=params.user_type && params.status==1)?true:false),
+                showUpdateBtn:((gl_para.userL.roleType=params.user_type && params.status==-1)?true:false),
             },
             methods:{
             	sure:function(e){
+            		console.log(JSON.stringify(gl_para.userL))
             		$.ajax({
         				url : xh.getUrl()+'WorkContact/sign',
         				type : 'POST',
@@ -79,11 +86,22 @@ loader.define(function(require,exports,module){
             			}
             		}
             	}
+            	
             }
         });
         var content=params.content.replace(/<br>/g,"<br />");
         content=content.replace(/" "/g,"&nbsp;")
         $("#content").html(content);
+        
+        var checkDialog = bui.dialog({
+            id: "#check-dg",
+            fullscreen: true,
+            mask: false,
+            effect: "fadeInRight"
+        });
+        $("#check").click(function() {
+        	checkDialog.open();
+        });
 
         // 接收页面参数
         var getParams = bui.getPageParams();
@@ -103,3 +121,28 @@ loader.define(function(require,exports,module){
 
     return pageview;
 })
+function check(tag){
+	//router.load({ url: "pages/workcontact/check.html", param: {} });
+	 bui.ajax({
+	        url: xh.getUrl()+"WorkContact/check",
+	        method:'POST',
+	        dataType:'JSON',
+	        data: {
+	        	note:$("#check-dg").find("textarea[name='note']").val(),
+				state:tag,
+				data : JSON.stringify(params)
+	        }
+	    }).then(function(res){
+	    	toastr.success(res.message, '提示');
+	    	bui.back({
+				callback:function(){
+					loader.require(["pages/workcontact/table"],function(res){
+						res.refresh();
+						res.init();
+                    })
+				}
+			});
+	    },function(res,status){
+	        console.log(status);
+	    })
+}
