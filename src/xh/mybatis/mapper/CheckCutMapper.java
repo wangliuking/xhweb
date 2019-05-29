@@ -89,6 +89,11 @@ public interface CheckCutMapper {
      */
     public List<Map<String,Object>> selectBsInformationById(Map<String,Object> map)throws Exception;
 
+    /**
+     * 根据调度台d查询详细信息，用于填充核减表
+     */
+    public List<Map<String,Object>> selectDispathInformationById(Map<String,Object> map)throws Exception;
+
     public int updatePrintStatusById(int id)throws  Exception;
 
     /**

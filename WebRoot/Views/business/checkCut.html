@@ -68,17 +68,27 @@
 							<div id="search-div">
 								<form class="form-inline" role="form" id="searchForm">
 									<div class="form-group">
-										<label>基站ID</label>
+										<label>ID</label>
 										<div>
 											<input type="text" class="form-control" id="bsId" name="bsId"
 												   placeholder="基站ID" width="20px">
 										</div>
 									</div>
 									<div class="form-group">
-										<label>基站名称</label>
+										<label>名称</label>
 										<div>
 											<input type="text" class="form-control" id="bsName" name="bsName"
 												   placeholder="基站名称(支持模糊查询)">
+										</div>
+									</div>
+									<div class="form-group">
+										<label>类型</label>
+										<div>
+											<select class="form-control" id="checkCutType" name="checkCutType" style="width:158px;">
+												<option value="0">全部(基站和调度台)</option>
+												<option value="1">基站</option>
+												<option value="2">调度台</option>
+											</select>
 										</div>
 									</div>
 									<div class="form-group">
@@ -213,8 +223,9 @@
 								<thead>
 									<tr class="tr-gray">
 										<th>发起人</th>
-										<th>基站id</th>
-										<th>基站名称</th>
+										<th>类型</th>
+										<th>ID</th>
+										<th>名称</th>
 										<th>建设周期</th>
 										<th>核减依据</th>
 										<th>故障时间</th>
@@ -226,11 +237,13 @@
 								</thead>
 								<tbody ng-model="loginUserRoleId">
 									<tr ng-if="totals==0">
-										<td colspan="10" class="text-center">没有记录！</td>
+										<td colspan="11" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
                                         <td ng-if="x.userUnit == '' "></td>
                                         <td ng-if="x.userUnit != '' ">{{x.userUnit}}</td>
+										<td ng-if="x.checkCutType == 1">基站</td>
+										<td ng-if="x.checkCutType == 2">调度台</td>
 										<td>{{x.bsId}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.bsPeriod}}期</td>

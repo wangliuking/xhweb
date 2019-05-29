@@ -51,11 +51,17 @@ public class WordTest {
     }
 
     public void createWord(Map<String,Object> dataMap){
-
+        String ftlName = "";
+        String checkCutType = dataMap.get("checkCutType")+"";
+        if("1".equals(checkCutType)){
+            ftlName = "checkcut.ftl";
+        }else if("2".equals(checkCutType)){
+            ftlName = "checkcutDispatch.ftl";
+        }
         Template t=null;
         try {
             configuration.setDirectoryForTemplateLoading(new File(globalPath));
-            t = configuration.getTemplate("checkcut.ftl");
+            t = configuration.getTemplate(ftlName);
         } catch (IOException e) {
             e.printStackTrace();
         }

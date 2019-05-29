@@ -19,6 +19,9 @@
         <if test="status != null  and status != ''">
             and a.checked=#{status}
         </if>
+        <if test="checkCutType != null  and checkCutType != ''">
+            and a.checkCutType=#{checkCutType}
+        </if>
         <if test="bsPeriod != null  and bsPeriod != ''">
             and c.period=#{bsPeriod}
         </if>
@@ -44,6 +47,9 @@
         </if>
         <if test="status != null  and status != ''">
             and a.checked=#{status}
+        </if>
+        <if test="checkCutType != null  and checkCutType != ''">
+            and a.checkCutType=#{checkCutType}
         </if>
         <if test="bsPeriod != null  and bsPeriod != ''">
             and c.period=#{bsPeriod}
@@ -74,8 +80,8 @@
     <insert id="createCheckCut" useGeneratedKeys="true" keyProperty="id"
             parameterType="xh.mybatis.bean.CheckCutBean">
         insert into
-        xhgmnet_bs_checkcut(id,fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,period,applyTime,`desc`,situation,checked)
-        values(#{id},#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{period},#{applyTime},#{desc},#{situation},#{checked})
+        xhgmnet_bs_checkcut(id,fileName4,filePath4,note7,bsId,name,breakTime,restoreTime,hometype,transfer,transferCompare,transferOne,transferTwo,powerOne,powerTimeOne,powerTwo,powerTimeTwo,maintainTime,isPower,isPowerTime,period,applyTime,`desc`,situation,checked,checkCutType)
+        values(#{id},#{fileName4},#{filePath4},#{note7},#{bsId},#{name},#{breakTime},#{restoreTime},#{hometype},#{transfer},#{transferCompare},#{transferOne},#{transferTwo},#{powerOne},#{powerTimeOne},#{powerTwo},#{powerTimeTwo},#{maintainTime},#{isPower},#{isPowerTime},#{period},#{applyTime},#{desc},#{situation},#{checked},#{checkCutType})
     </insert>
 
     <!--运维人员发起核减申请 -->
@@ -134,6 +140,11 @@
     <!-- 根据基站id查询详细信息，用于填充核减表 -->
     <select id="selectBsInformationById" parameterType="map" resultType="map">
         select a.hometype,a.period,b.*,c.tag,c.is_open,c.operator from xhgmnet_bs_station a left join xhgmnet_bs_supply_electricity b on a.bsId=b.bsId left join xhgmnet_bs_link_config c on a.bsId=c.bsId where a.bsId=#{bsId} order by c.tag
+    </select>
+
+    <!-- 根据调度台id查询详细信息，用于填充核减表 -->
+    <select id="selectDispathInformationById" parameterType="map" resultType="map">
+        select * from xhgmnet_dispatch where dstId=#{bsId}
     </select>
 
     <!-- 根据id更新核减打印状态 -->

@@ -101,7 +101,7 @@ public interface TcpMapper {
 	/**
 	 * 查询最近五分钟手台gps信息
 	 */
-	public List<Map<String,String>> selectForGpsDst(Map<String,Object> map)throws Exception;
+	public List<Map<String,Object>> selectForGpsDst(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 查询所有需要显示的srcId

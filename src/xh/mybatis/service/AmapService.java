@@ -307,10 +307,10 @@ public class AmapService {
 	/**
 	 * 获取dst数据
 	 */
-	public static List<Map<String,String>> dstData(Map<String,Object> map){
+	public static List<Map<String,Object>> dstData(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
-		List<Map<String,String>> list = null;
+		List<Map<String,Object>> list = null;
 		try{
 			list = mapper.selectForGpsDst(map);
 			sqlSession.close();

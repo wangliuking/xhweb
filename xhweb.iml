@@ -40,5 +40,6 @@
     <orderEntry type="library" name="jodconverter-2.2.2-javadoc (2)" level="project" />
     <orderEntry type="library" name="netty-4.0.0.Alpha1" level="project" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="pageoffice4.4.0.4" level="project" />
   </component>
 </module>

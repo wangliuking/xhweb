@@ -298,7 +298,7 @@ public class AmapController {
 			AmapService amapService = new AmapService();
 			List<String> srcIdVisableList = amapService.srcVisable();
 			tempMap.put("list", srcIdVisableList);
-			List<Map<String, String>> listMap = amapService.dstData(tempMap);
+			List<Map<String, Object>> listMap = amapService.dstData(tempMap);
 			map.put("items", listMap);
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");

@@ -124,7 +124,7 @@
 	
 	<!-- 查询最近一分钟手台gps信息 -->
 	<select id="selectForGpsDst" resultType="map" parameterType="map">
-		select srcId,longitude,latitude,MAX(infoTime) from ${currentMonth} where infoTime > DATE_SUB(NOW(),INTERVAL 10 MINUTE)
+		select srcId,longitude,latitude,MAX(infoTime) gpsTime from ${currentMonth} where infoTime > DATE_SUB(NOW(),INTERVAL 10 MINUTE)
 		and srcId in (
 		<foreach collection="list" item="item" index="index"
 				 separator=",">

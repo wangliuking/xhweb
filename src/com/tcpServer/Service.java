@@ -8,10 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.mapper.EventMapper;
 import xh.mybatis.mapper.TcpMapper;
-import xh.mybatis.service.BsStatusService;
-import xh.mybatis.service.SqlServerService;
-import xh.mybatis.service.WebLogService;
-import xh.mybatis.service.WebUserServices;
+import xh.mybatis.service.*;
 import xh.mybatis.tools.MoreDbTools;
 import xh.org.listeners.SingLoginListener;
 
@@ -730,9 +727,41 @@ public class Service {
 			Map<String,Object> tempMap = new HashMap<String, Object>();
 			currentMonth="xhgmnet_gpsinfo"+currentMonth;
 			tempMap.put("currentMonth", currentMonth);
+
+			List<String> srcIdVisableList = AmapService.srcVisable();
+			tempMap.put("list", srcIdVisableList);
 			
-			List<Map<String,String>> list = mapper.selectForGpsDst(tempMap);
-			getForGpsDstAck.setInfolist(list);
+			List<Map<String,Object>> list = mapper.selectForGpsDst(tempMap);
+			/*List<Map<String,String>> finalList = new LinkedList<Map<String,String>>();
+			Map<String,String> tMap1 = new HashMap<String,String>();
+			Map<String,String> tMap2 = new HashMap<String,String>();
+			tMap1.put("srcid","2017015");
+			tMap1.put("longitude","104.02739525");
+			tMap1.put("latitude","30.69995284");
+			tMap1.put("gpstime","2019-05-29 17:09:46");
+			tMap2.put("srcid","2017037");
+			tMap2.put("longitude","104.05739525");
+			tMap2.put("latitude","30.78995284");
+			tMap2.put("gpstime","2019-05-29 17:09:49");
+			finalList.add(tMap1);
+			finalList.add(tMap2);*/
+			List<Map<String,String>> finalList = new LinkedList<Map<String,String>>();
+			if(list.size()>0){
+				for(int i=0;i<list.size();i++){
+					Map<String,Object> tMap = list.get(i);
+					String srcid = tMap.get("srcId")+"";
+					String longitude = tMap.get("longitude")+"";
+					String latitude = tMap.get("latitude")+"";
+					String gpstime = tMap.get("gpsTime")+"";
+					Map<String,String> finalMap = new HashMap<String,String>();
+					finalMap.put("srcid",srcid);
+					finalMap.put("longitude",longitude);
+					finalMap.put("latitude",latitude);
+					finalMap.put("gpstime",gpstime);
+					finalList.add(finalMap);
+				}
+			}
+			getForGpsDstAck.setInfolist(finalList);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
