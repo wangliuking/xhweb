@@ -227,6 +227,7 @@ xh.load = function() {
             var temp = $scope.data[id];
             $scope.nowIndex = id;
             $scope.nowChecked = temp.checked;
+            $scope.checkCutType = temp.checkCutType;
             var sheetId = temp.id;
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
                 $scope.sheetData = response.items;
@@ -380,8 +381,12 @@ xh.load = function() {
             var status = $('#status option:selected') .val();
             var bsPeriod = $('#bsPeriod option:selected') .val();
             var bsRules = $('#bsRules option:selected') .val();
+            var checkCutType = $('#checkCutType option:selected') .val();
             if(status == 100){
             	status = "";
+			}
+			if(checkCutType == 0){
+                checkCutType = "";
 			}
             var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
@@ -396,7 +401,7 @@ xh.load = function() {
 			console.log("================");
             console.log(start+"~~~"+page);
             console.log("================");
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType).
 			success(function(response){
 				xh.maskHide();
 				$scope.data = response.items;
@@ -414,8 +419,12 @@ xh.load = function() {
             var status = $('#status option:selected') .val();
             var bsPeriod = $('#bsPeriod option:selected') .val();
             var bsRules = $('#bsRules option:selected') .val();
+            var checkCutType = $('#checkCutType option:selected') .val();
             if(status == 100){
                 status = "";
+            }
+            if(checkCutType == 0){
+                checkCutType = "";
             }
             var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
@@ -429,7 +438,7 @@ xh.load = function() {
 				start = (page - 1) * pageSize;
 			}
 			xh.maskShow();
-			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules).
+			$http.get("../../checkCut/selectAll?start="+start+"&limit=" + limit+"&bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+checkCutType).
 			success(function(response){
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

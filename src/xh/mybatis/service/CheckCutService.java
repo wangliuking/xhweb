@@ -294,6 +294,25 @@ public class CheckCutService {
         return result;
     }
 
+    /**
+     * 根据调度台id查询详细信息，用于填充核减表
+     * @param
+     * @return
+     */
+    public static List<Map<String,Object>> selectDispathInformationById(Map<String, Object> map) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        List<Map<String,Object>> result = null;
+        try {
+            result = mapper.selectDispathInformationById(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
     public static int updatePrintStatusById(int id){
         SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
         CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);

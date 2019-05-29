@@ -91,37 +91,73 @@ xh.load = function() {
 		};
         /* 显示核减model */
         $scope.checkCutModel = function(id) {
+        	console.log($scope.data[id]);
             $scope.faultDataById = $scope.data[id];
 			var serialId = $scope.data[id].id;
 			var bsId = $scope.data[id].bsId;
             var name = $scope.data[id].name;
             var breakTime = $scope.data[id].time;
             var restoreTime = $scope.data[id].faultRecoveryTime;
-            $.ajax({
-                url : '../../checkCut/createCheckSheet?id='+serialId+"&bsId="+bsId+"&name="+name+"&breakTime="+breakTime+"&restoreTime="+restoreTime,
-                type : 'GET',
-                dataType : "json",
-                async : false,
-                success : function(response) {
-                    $scope.sheetData = response.items;
-                    var data= response.items;  //开始时间
-                    var date1 = data.breakTime;
-                    var date2 = data.restoreTime;    //结束时间
-					var temp = date2+"";
-					//console.log("temp : "+temp);
+            var subModId = $scope.data[id].subModId;
+            var location = $scope.data[id].location;
+            var neType = $scope.data[id].neType;
+            $scope.neType = neType;
+            if(neType != 102){
+            	//基站核减
+                $.ajax({
+                    url : '../../checkCut/createCheckSheet?id='+serialId+"&bsId="+bsId+"&name="+name+"&breakTime="+breakTime+"&restoreTime="+restoreTime,
+                    type : 'GET',
+                    dataType : "json",
+                    async : false,
+                    success : function(response) {
+                        $scope.sheetData = response.items;
+                        var data= response.items;  //开始时间
+                        var date1 = data.breakTime;
+                        var date2 = data.restoreTime;    //结束时间
+                        var temp = date2+"";
+                        //console.log("temp : "+temp);
 
-                    if (temp == "undefined") {
-                    	console.log("undefined")
-                        $scope.sheetData.restoreTime = "";
-                    }else{
-                        $scope.calcData = calTime(date1,date2);
-					}
+                        if (temp == "undefined") {
+                            console.log("undefined")
+                            $scope.sheetData.restoreTime = "";
+                        }else{
+                            $scope.calcData = calTime(date1,date2);
+                        }
 
-                    $("#add").modal('show');
-                },
-                error : function() {
-                }
-            });
+                        $("#add").modal('show');
+                    },
+                    error : function() {
+                    }
+                });
+			}else if(neType == 102){
+            	//调度台核减
+                $.ajax({
+                    url : '../../checkCut/createCheckSheetDispatch?id='+serialId+"&bsId="+subModId+"&name="+location+"&breakTime="+breakTime+"&restoreTime="+restoreTime,
+                    type : 'GET',
+                    dataType : "json",
+                    async : false,
+                    success : function(response) {
+                        $scope.sheetData = response.items;
+                        var data= response.items;  //开始时间
+                        var date1 = data.breakTime;
+                        var date2 = data.restoreTime;    //结束时间
+                        var temp = date2+"";
+                        //console.log("temp : "+temp);
+
+                        if (temp == "undefined") {
+                            console.log("undefined")
+                            $scope.sheetData.restoreTime = "";
+                        }else{
+                            $scope.calcData = calTime(date1,date2);
+                        }
+
+                        $("#add").modal('show');
+                    },
+                    error : function() {
+                    }
+                });
+			}
+
         };
 
         /* 显示警告详情 */
@@ -770,6 +806,7 @@ xh.getOneDay=function()
 
 /*运维组发起请求审核*/
 xh.add = function() {
+    var $scope = angular.element(appElement).scope();
     $.ajax({
         url : '../../checkCut/updateCheckTag',
         type : 'POST',
@@ -777,8 +814,15 @@ xh.add = function() {
         async : false,
         data : $("#addForm").serializeArray(),
         success : function(data) {
+        	var url = "";
+            if($scope.neType != 102){
+                //基站核减
+				url = '../../checkCut/createCheckCut';
+            }else{
+            	url = '../../checkCut/createCheckCutDispatch';
+			}
             $.ajax({
-                url : '../../checkCut/createCheckCut',
+                url : url,
                 type : 'POST',
                 dataType : "json",
                 async : true,

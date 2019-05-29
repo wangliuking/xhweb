@@ -56,6 +56,7 @@ public class CheckCutController {
         String bsRules = request.getParameter("bsRules");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
+        String checkCutType = request.getParameter("checkCutType");
         String user=funUtil.loginUser(request);
         //unit = WebUserServices.selectUnitByUser(user);
         WebUserBean userbean=WebUserServices.selectUserByUser(user);
@@ -73,6 +74,7 @@ public class CheckCutController {
         map.put("status", status);
         map.put("bsPeriod", bsPeriod);
         map.put("bsRules", bsRules);
+        map.put("checkCutType", checkCutType);
 
         if(startTime == null || "".equals(startTime)){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -373,7 +375,7 @@ public class CheckCutController {
     }
 
     /**
-     *  发起核减的位置自动填充表格
+     *  发起核减的位置自动填充表格(基站)
      *
      * @param request
      * @param response
@@ -443,6 +445,7 @@ public class CheckCutController {
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
+        bean.setCheckCutType("1");
         //填充申请表部分数据end
 
         HashMap result = new HashMap();
@@ -459,7 +462,89 @@ public class CheckCutController {
     }
 
     /**
-     *  故障核减自动填充
+     *  发起核减的位置自动填充表格(调度台)
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/createCheckSheetDispatch", method = RequestMethod.GET)
+    public void createCheckSheetDispatch(HttpServletRequest request,
+                                 HttpServletResponse response) {
+        this.success = true;
+        String bsId = request.getParameter("bsId");
+        int id=FunUtil.StringToInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String breakTime = request.getParameter("breakTime");
+        String restoreTime = request.getParameter("restoreTime");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setBsId(bsId);
+        bean.setId(id);
+        bean.setName(name);
+        bean.setBreakTime(breakTime);
+        bean.setRestoreTime(restoreTime);
+
+        //填充申请表部分数据start
+        Calendar cal = Calendar.getInstance();
+        Map<String,Object> selectMap = new HashMap<String,Object>();
+        selectMap.put("bsId",Integer.parseInt(bsId));
+        List<Map<String,Object>> list = CheckCutService.selectDispathInformationById(selectMap);
+        Map<String,Object> res = list.get(0);
+        //判断传输类型
+        String transferType = res.get("transfer")+"";
+        if("1".equals(transferType)){
+            bean.setTransfer("单传输");
+        }else if("2".equals(transferType)){
+            bean.setTransfer("双传输");
+        }
+        //判断是否同一运营商
+        String transferOne = res.get("transferOne")+"";
+        String transferTwo = res.get("transferTwo")+"";
+        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("相同运营商");
+        }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("不同运营商");
+        }
+
+        if(transferOne != null && !"".equals(transferOne) && !"null".equals(transferOne)){
+            bean.setTransferOne("第一传输运营商"+transferOne);
+        }else{
+            bean.setTransferOne("");
+        }
+        if(transferTwo != null && !"".equals(transferTwo) && !"null".equals(transferTwo)){
+            bean.setTransferTwo("第二传输运营商"+transferTwo);
+        }else {
+            bean.setTransferTwo("");
+        }
+
+        String tempPeriod = res.get("period")+"";
+        String period = "";
+        if("3".equals(tempPeriod)){
+            period = "三";
+        }else if("4".equals(tempPeriod)){
+            period = "四";
+        }
+        bean.setPeriod("成都市应急指挥调度无线通信网"+period+"期项目部");
+
+        bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
+        //System.out.println(" bean : "+bean);
+        bean.setCheckCutType("2");
+        //填充申请表部分数据end
+
+        HashMap result = new HashMap();
+        result.put("items", bean);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  故障核减自动填充(基站)
      *
      * @param request
      * @param response
@@ -541,19 +626,114 @@ public class CheckCutController {
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
+        bean.setCheckCutType("1");
         //填充申请表部分数据end
 
         log.info("data==>" + bean.toString());
         int rst = CheckCutService.createCheckCut(bean);
         this.message = "核减信息已生成，请进入核减流程发起申请";
-        /*if (rst == 1) {
-            this.message = "核减信息已生成，请进入核减流程发起申请";
-            //----给运维负责人发送通知邮件
-            FunUtil.sendMsgToUserByGroupPower("r_cut",3,"核减流程","有核减申请，请查阅！",request);
-            //----END
-        } else {
-            this.message = "核减申请生成失败";
-        }*/
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", message);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *  故障核减自动填充(调度台)
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/createCheckCutDispatch", method = RequestMethod.POST)
+    public void createCheckCutDispatch(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        String note7 = request.getParameter("note7");
+        String fileName4 = request.getParameter("fileName");
+        String filePath4 = request.getParameter("path");
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("name");
+        String breakTime = request.getParameter("breakTime");
+        String restoreTime = request.getParameter("restoreTime");
+        String desc = request.getParameter("desc");
+        String situation = request.getParameter("situation");
+        CheckCutBean bean = new CheckCutBean();
+        int id=FunUtil.StringToInt(request.getParameter("id"));
+        bean.setFileName4(fileName4);
+        bean.setFilePath4(filePath4);
+        bean.setNote7(note7);
+        bean.setChecked(7);
+
+        bean.setBsId(bsId);
+        bean.setName(name);
+        bean.setBreakTime(breakTime);
+        bean.setRestoreTime(restoreTime);
+        bean.setDesc(desc);
+        bean.setSituation(situation);
+        bean.setId(id);
+        System.out.println(" bean : "+bean);
+
+        //填充申请表部分数据start
+        Calendar cal = Calendar.getInstance();
+        Map<String,Object> selectMap = new HashMap<String,Object>();
+        selectMap.put("bsId",Integer.parseInt(bsId));
+        List<Map<String,Object>> list = CheckCutService.selectDispathInformationById(selectMap);
+        Map<String,Object> res = list.get(0);
+        //判断传输类型
+        String transferType = res.get("transfer")+"";
+        if("1".equals(transferType)){
+            bean.setTransfer("单传输");
+        }else if("2".equals(transferType)){
+            bean.setTransfer("双传输");
+        }
+        //判断是否同一运营商
+        String transferOne = res.get("transferOne")+"";
+        String transferTwo = res.get("transferTwo")+"";
+        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("相同运营商");
+        }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+            bean.setTransferCompare("不同运营商");
+        }
+
+        if(transferOne != null && !"".equals(transferOne) && !"null".equals(transferOne)){
+            bean.setTransferOne("第一传输运营商"+transferOne);
+        }else{
+            bean.setTransferOne("");
+        }
+        if(transferTwo != null && !"".equals(transferTwo) && !"null".equals(transferTwo)){
+            bean.setTransferTwo("第二传输运营商"+transferTwo);
+        }else {
+            bean.setTransferTwo("");
+        }
+
+        String tempPeriod = res.get("period")+"";
+        String period = "";
+        if("3".equals(tempPeriod)){
+            period = "三";
+        }else if("4".equals(tempPeriod)){
+            period = "四";
+        }
+        bean.setPeriod("成都市应急指挥调度无线通信网"+period+"期项目部");
+
+        bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
+        //System.out.println(" bean : "+bean);
+        bean.setCheckCutType("2");
+        //填充申请表部分数据end
+
+        log.info("data==>" + bean.toString());
+        int rst = CheckCutService.createCheckCut(bean);
+        this.message = "核减信息已生成，请进入核减流程发起申请";
+
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("result", rst);

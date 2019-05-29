@@ -72,6 +72,8 @@ public class CheckCutBean {
     private String userType1;
     private String bsPeriod;
 
+    private String checkCutType;
+
     public int getId() {
         return id;
     }
@@ -624,6 +626,14 @@ public class CheckCutBean {
         this.bsPeriod = bsPeriod;
     }
 
+    public String getCheckCutType() {
+        return checkCutType;
+    }
+
+    public void setCheckCutType(String checkCutType) {
+        this.checkCutType = checkCutType;
+    }
+
     @Override
     public String toString() {
         return "CheckCutBean{" +
@@ -696,6 +706,7 @@ public class CheckCutBean {
                 ", initType1='" + initType1 + '\'' +
                 ", userType1='" + userType1 + '\'' +
                 ", bsPeriod='" + bsPeriod + '\'' +
+                ", checkCutType='" + checkCutType + '\'' +
                 '}';
     }
 }
