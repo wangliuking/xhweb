@@ -274,6 +274,9 @@ xh.load = function() {
             if($scope.checkData.checked==-2){
                 $("#checkWin-2").modal('show');
             }
+            if($scope.checkData.checked==-1){
+                $("#checkWin-2").modal('show');
+            }
             if($scope.checkData.checked==0){
                 $("#checkWin1").modal('show');
             }

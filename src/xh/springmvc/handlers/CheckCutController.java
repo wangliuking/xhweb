@@ -426,13 +426,13 @@ public class CheckCutController {
         bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
         bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
-        bean.setMaintainTime(res.get("generation_to_bs_date")+"分钟");
+        bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站允许发电");
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
-            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
+            bean.setIsPowerTime("发电时间:无");
         }
         String tempPeriod = res.get("period")+"";
         String period = "";
@@ -606,13 +606,13 @@ public class CheckCutController {
         bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
         bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
-        bean.setMaintainTime(res.get("generation_to_bs_date")+"分钟");
+        bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站允许发电");
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
             bean.setIsPower("基站不允许发电");
-            bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
+            bean.setIsPowerTime("发电时间:无");
         }
         String tempPeriod = res.get("period")+"";
         String period = "";
