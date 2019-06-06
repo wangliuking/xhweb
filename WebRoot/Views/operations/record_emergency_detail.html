@@ -10,42 +10,53 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="order">
-					<style type="text/css" id="style1">
+					<style type="text/css">
 .table-view {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .table-view td {
-	border: 1px solid #ccc;
-	border-collapse: collapse;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+table {
+    border-top: 2px solid red;
 }
 </style>
-					<table id="order-table"
-						style="width:100%;border-collapse: collapse;" class="table-view">
-						<tbody>
+                            <table style="width:100%;margin-top:10px;"
+                                class="table-view">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" style="text-align: center">{{editData.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="200px">时间：{{editData.create_time}}</td>
+                                        <td>类型：{{editData.type}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">地点：{{editData.address}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">参与人员:{{editData.personnel}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练内容</td>
+                                        <td>{{editData.content}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练过程</td>
+                                        <td>{{editData.process}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>演练总结</td>
+                                        <td>{{editData.summary}}</td>
+                                    </tr>
 
-							<tr>
-								<td style="text-align: center;">保障名称</td>
-								<td colspan="2">{{editData.name}}</td>
-							</tr>
-							<tr>
-								<td style="text-align: center;">保障时间</td>
-								<td colspan="2">{{editData.start_time}} 至
-									{{editData.end_time}}</td>
-							</tr>
-							<tr>
-								<td style="text-align: center;">保障区域</td>
-								<td colspan="2">{{editData.zone}}</td>
-							</tr>
-							<tr>
-								<td style="text-align: center;">保障级别</td>
-								<td colspan="2">{{editData.level}}</td>
-							</tr>
 
 
-
-						</tbody>
-					</table>
+                                </tbody>
+                            </table>
 				</div>
 
 

@@ -46,7 +46,7 @@ public class ScoreBean {
 	private String fileName;
 	private String filePath;
 	
-	private int score_total;
+	private Float score_total;
 	public String getTime() {
 		return time;
 	}
@@ -254,10 +254,11 @@ public class ScoreBean {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-	public int getScore_total() {
+	
+	public Float getScore_total() {
 		return score_total;
 	}
-	public void setScore_total(int score_total) {
+	public void setScore_total(Float score_total) {
 		this.score_total = score_total;
 	}
 	@Override

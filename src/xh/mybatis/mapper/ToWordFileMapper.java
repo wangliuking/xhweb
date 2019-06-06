@@ -5,6 +5,8 @@ import java.util.Map;
 
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastVpnCallBean;
+import xh.mybatis.bean.RecordCommunicationBean;
+import xh.mybatis.bean.UserNeedBean;
 
 public interface ToWordFileMapper {
 	public Map<String,Object> system_call(Map<String,Object> map) throws Exception;
@@ -43,6 +45,10 @@ public interface ToWordFileMapper {
 	public Map<String,Object> xj_room(Map<String,Object> map) throws Exception;
 	public Map<String,Object> xj_vertical(Map<String,Object> map) throws Exception;
 	public Map<String,Object> xj_bs(Map<String,Object> map) throws Exception;
+	
+	
+	public List<UserNeedBean> user_need(String time) throws Exception;
+	public List<RecordCommunicationBean> RecordCommunication(String time) throws Exception;
 	
 	
 	

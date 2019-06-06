@@ -349,12 +349,15 @@ public class FunUtil {
 	}
 
 	// 设置session
-	public void addSession(HttpServletRequest request, String name, String value) {
+	public static void addSession(HttpServletRequest request, String name, String value) {
+		request.getSession().setAttribute(name, value);
+	}
+	public static void CreateSession(HttpServletRequest request, String name, Object value) {
 		request.getSession().setAttribute(name, value);
 	}
 
 	// 获取session
-	public String getSession(HttpServletRequest request, String name) {
+	public static String getSession(HttpServletRequest request, String name) {
 		return request.getSession().getAttribute(name).toString();
 	}
 
@@ -484,7 +487,7 @@ public class FunUtil {
 		 //获取三十天前日期
 		Calendar theCa = Calendar.getInstance();
 		theCa.setTime(new Date());
-		theCa.add(theCa.DATE, -9);//最后一个数字30可改，30天的意思-9
+		theCa.add(theCa.DATE, -16);//最后一个数字30可改，30天的意思-9
 		Date start = theCa.getTime();
 		String startDate = dd.format(new Date());//三十天之前日期
 		

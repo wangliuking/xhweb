@@ -30,7 +30,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http) {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
-		$scope.time=xh.getNowMonth();
+		$scope.time=xh.getLastMonth();
 		$scope.id=0;
 		$scope.page=1;
 		
@@ -257,7 +257,8 @@ xh.load = function() {
 			}
 		};
 		$scope.previewDoc=function(path){
-			console.log(path)
+			console.log(path);
+			
 			if(path.toLowerCase().indexOf("doc")!=-1){
 				console.log("doc")
 				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
@@ -270,6 +271,15 @@ xh.load = function() {
 				console.log("pdf")
 				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
 						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
 			}else{
 				alert("该文件类型不支持在线预览")
 			}
@@ -948,6 +958,32 @@ xh.pagging = function(currentPage, totals, $scope) {
 	}
 
 };
+xh.getLastMonth = function() {
+	var today = new Date();
+	var yesterday_milliseconds = today.getTime(); // -1000*60*60*24
+
+	var yesterday = new Date();
+	yesterday.setTime(yesterday_milliseconds);
+
+	var strYear = yesterday.getFullYear();
+
+	var strDay = yesterday.getDate();
+	var strMonth = yesterday.getMonth()+1;
+
+	if((strMonth-1)==0){
+		strYear-=1;
+	}
+	strMonth=strMonth-1;
+	if (strMonth < 10) {
+		strMonth = "0" + strMonth;
+	}
+	if (strDay < 10) {
+		strDay = "0" + strDay;
+	}
+	
+	var strYesterday = strYear + "-" + strMonth ;
+	return strYesterday;
+}
 var WebPrinter; //声明为全局变量 
 xh.printExists=function() {
 	

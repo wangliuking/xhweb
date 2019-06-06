@@ -1,6 +1,8 @@
 // 默认已经定义了main模块
 
 var params="";
+var userL=JSON.parse(getSessionData("user"));
+var up=JSON.parse(getSessionData("up"));
 loader.define(function(require,exports,module){
 
 
@@ -25,18 +27,14 @@ loader.define(function(require,exports,module){
             mask: false,
             effect: "fadeInRight"
         });
-        var user1=localStorage.user;
-        var user2=sessionStorage.user;
-        console.log("roleType1:"+gl_para.userL.roleType);
-        console.log("roleType2:"+params.user_type);
-        console.log("roleType3:"+((gl_para.userL.roleType!=params.user_type && params.status==1)?true:false));
+        console.log("dd->"+(userL.roleType!=params.user_type && params.status==1))
         var bs=bui.store({
             scope:'page',
             data:{
                 list:params,
-                showCheckBtn:((gl_para.userL.roleType=params.user_type && gl_para.up.o_task=='on' && params.status==0)?true:false),
-                showSignBtn:((gl_para.userL.roleType!=params.user_type && params.status==1)?true:false),
-                showUpdateBtn:((gl_para.userL.roleType=params.user_type && params.status==-1)?true:false),
+                showCheckBtn:(userL.roleType=params.user_type && up.o_task=='on' && params.status==0)?true:false,
+                showSignBtn:(userL.roleType!=params.user_type && params.status==1)?true:false,
+                showUpdateBtn:(roleType=params.user_type && params.status==-1)?true:false,
             },
             methods:{
             	sure:function(e){

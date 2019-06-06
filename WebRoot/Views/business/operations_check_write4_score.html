@@ -12,6 +12,7 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
+<link rel="stylesheet" href="../../lib/layer-master/src/theme/layer.css">
 	<script type="text/javascript" src="../../jquery.min.js"></script>  
 <script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 <!--[if lte IE 9]>
@@ -126,7 +127,7 @@
                             </tr>
 
                             <tr>
-                                <td>用户响应（10）<a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td>用户响应（10）<a href="#" ng-click="showInfoWin('用户响应')">资料</a></td>
                                 <td><input class="form-control" name="s_c2"
                                     ng-model="score_data4.s_c2" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_c2"
@@ -153,7 +154,7 @@
 
                             <tr>
                                 <td>网络优化（5分）</td>
-                                <td><a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td><a href="#" ng-click="showInfoWin('网络优化')">资料</a></td>
                                 <td><input class="form-control" name="s_e1"
                                     ng-model="score_data4.s_e1" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_e1"
@@ -163,7 +164,7 @@
 
                             <tr>
                                 <td rowspan="2">应急通信保障和演练（5分）</td>
-                                <td>应急通信保障（3）<a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td>应急通信保障（3）<a href="#" ng-click="showInfoWin('应急通信保障')">资料</a></td>
                                 <td><input class="form-control" name="s_f1"
                                     ng-model="score_data4.s_f1" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_f1"
@@ -171,7 +172,7 @@
                             </tr>
 
                             <tr>
-                                <td>应急演练（2）<a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td>应急演练（2）<a href="#" ng-click="showInfoWin('应急演练')">资料</a></td>
                                 <td><input class="form-control" name="s_f2"
                                     ng-model="score_data4.s_f2" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_f2"
@@ -180,7 +181,7 @@
 
                             <tr>
                                 <td>培训及技术支持服务（5分）</td>
-                                <td><a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td><a href="#" ng-click="showInfoWin('培训及技术支持服务')">资料</a></td>
                                 <td><input class="form-control" name="s_g1"
                                     ng-model="score_data4.s_g1" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_g1"
@@ -249,6 +250,7 @@
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript" src="../../lib/layer-master/dist/layer.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/operations_check_write4_score.js"></script>
 		

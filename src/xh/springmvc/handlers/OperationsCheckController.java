@@ -303,12 +303,12 @@ public class OperationsCheckController {
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
 		String checkUser=request.getParameter("checkUser");
-		int score_total=0,money_total=0;
+        Float score_total=(float) 0,money_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
-			score_total=Integer.parseInt(request.getParameter("score_total"));
+			score_total=Float.parseFloat(request.getParameter("score_total"));
 		}
 		if(request.getParameter("money_total")!=null){
-			money_total=Integer.parseInt(request.getParameter("money_total"));
+			money_total=Float.parseFloat(request.getParameter("money_total"));
 		}
 		
 		
@@ -369,9 +369,9 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		int score_total=0;
+		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
-			score_total=Integer.parseInt(request.getParameter("score_total"));
+			score_total=Float.parseFloat(request.getParameter("score_total"));
 		}
 		
 		String score4Data = request.getParameter("score4Data");
@@ -406,6 +406,7 @@ public class OperationsCheckController {
 		result.put("success", success);
 		result.put("message",message);
 		result.put("score",score4);
+		FunUtil.CreateSession(request, request.getSession().getId()+"score4", score4);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -426,9 +427,9 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		int score_total=0;
+		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
-			score_total=Integer.parseInt(request.getParameter("score_total"));
+			score_total=Float.parseFloat(request.getParameter("score_total"));
 		}
 		
 		String score3Data = request.getParameter("score3Data");
@@ -464,6 +465,7 @@ public class OperationsCheckController {
 		result.put("success", success);
 		result.put("message",message);
 		result.put("score",score3);
+		FunUtil.CreateSession(request, request.getSession().getId()+"score3", score3);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -484,9 +486,9 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		int money_total=0;
+		Float money_total=(float) 0;
 		if(request.getParameter("money_total")!=null){
-			money_total=Integer.parseInt(request.getParameter("money_total"));
+			money_total=Float.parseFloat(request.getParameter("money_total"));
 		}
 		
 		
@@ -522,6 +524,7 @@ public class OperationsCheckController {
 		result.put("success", success);
 		result.put("message",message);
 		result.put("money",money3);
+		FunUtil.CreateSession(request, request.getSession().getId()+"money3", money3);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {
@@ -542,9 +545,9 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		int money_total=0;
+		Float money_total=(float) 0;
 		if(request.getParameter("money_total")!=null){
-			money_total=Integer.parseInt(request.getParameter("money_total"));
+			money_total=Float.parseFloat(request.getParameter("money_total"));
 		}
 		
 		
@@ -580,6 +583,7 @@ public class OperationsCheckController {
 		result.put("success", success);
 		result.put("message",message);
 		result.put("money",money4);
+		FunUtil.CreateSession(request, request.getSession().getId()+"money4", money4);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		try {

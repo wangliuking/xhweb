@@ -61,11 +61,13 @@ public class MoneyBean {
 	private String fileName;
 	private String filePath;
 	
-	private int money_total;
-	public int getMoney_total() {
+	private Float money_total;
+	
+	
+	public Float getMoney_total() {
 		return money_total;
 	}
-	public void setMoney_total(int money_total) {
+	public void setMoney_total(Float money_total) {
 		this.money_total = money_total;
 	}
 	public String getTime() {

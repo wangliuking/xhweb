@@ -12,6 +12,13 @@ public class DispatchBean {
 	private String updateTime;
 	private String dbox_ip;
 	
+	private String address;
+	private String type;
+	private int transfer;
+	private String transferOne;
+	private String transferTwo;
+	private int period;
+	
 	public int getDstId() {
 		return dstId;
 	}
@@ -80,8 +87,49 @@ public class DispatchBean {
 				+ ", dstAlias=" + dstAlias + ", IP=" + IP + ", d_vpnId="
 				+ d_vpnId + ", setupStatus=" + setupStatus + ", flag=" + flag
 				+ ", alarmFlag=" + alarmFlag + ", updateTime=" + updateTime
-				+ "]";
+				+ ", dbox_ip=" + dbox_ip + ", address=" + address + ", type="
+				+ type + ", transfer=" + transfer + ", transferOne="
+				+ transferOne + ", transferTwo=" + transferTwo + ", period="
+				+ period + "]";
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public int getTransfer() {
+		return transfer;
+	}
+	public void setTransfer(int transfer) {
+		this.transfer = transfer;
+	}
+	public String getTransferOne() {
+		return transferOne;
+	}
+	public void setTransferOne(String transferOne) {
+		this.transferOne = transferOne;
+	}
+	public String getTransferTwo() {
+		return transferTwo;
+	}
+	public void setTransferTwo(String transferTwo) {
+		this.transferTwo = transferTwo;
+	}
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
+	}
+	
 	
 	
 	

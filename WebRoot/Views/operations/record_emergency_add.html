@@ -1,12 +1,12 @@
 
 <div class="modal fade" id="addWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">通信保障记录</small>
+				<small class="font-bold">应急演练记录</small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" onsubmit="return false" id="addForm">
@@ -16,19 +16,44 @@
 							<input type="text" class="form-control" name="name"
 								required="required">
 						</div>
-						<div class="form-group col-md-12">
+						<div class="form-group col-md-6">
 						<label>演练时间</label>
 							<input type="text" class="form-control" name="create_time"
 								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','create_time')})"
 								required="required">
 						</div>
 						
-                        <div class="form-group col-md-12">
-                        <label>保障类型</label>
+                        <div class="form-group col-md-6">
+                        <label>演练类型</label>
                                 <select name="type"  class="form-control">
                                 <option value="应急通信演练" selected="selected">应急通信演练</option>
                                 <option value="突发事件处理">突发事件处理</option>
                                 </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>地点</label>
+                            <input type="text" class="form-control" name="address"
+                                required="required">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>参与人员</label>
+                            <input type="text" class="form-control" name="personnel"
+                                required="required">
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>演练内容</label>
+                            <textarea rows="3" class="form-control" name="content"
+                                required="required"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>演练过程</label>
+                            <textarea rows="4" class="form-control" name="process"
+                                required="required"></textarea>
+                        </div>
+                        <div class="form-group col-md-12">
+                        <label>演练总结</label>
+                            <textarea rows="4" class="form-control" name="summary"
+                                required="required"></textarea>
                         </div>
 					</div>
 					

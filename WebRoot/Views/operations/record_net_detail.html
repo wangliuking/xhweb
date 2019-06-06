@@ -1,0 +1,52 @@
+
+<div class="modal fade" id="detailWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">网络优化与整改记录</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<div class="row">
+				<div class="col-md-12">
+				<table id="order-table"
+                            style="width:100%;border-collapse: collapse;" class="table-view">
+                            <tbody>
+                                
+                                <tr>
+                                    <td style="text-align: center; width:200px">涉及点位</td>
+                                    <td colspan="3">{{editData.address}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">时间</td>
+                                    <td>{{editData.create_time}}</td>
+                                    <td style="text-align: center;">操作人</td>
+                                    <td>{{editData.person}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">类型</td>
+                                    <td>{{editData.type}}</td>
+                                    <td style="text-align: center;">数量</td>
+                                    <td>{{editData.total}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">内容</td>
+                                    <td colspan="3">{{editData.content}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">遗留问题</td>
+                                    <td colspan="3">{{editData.remark}}</td>
+                                </tr>
+                                
+
+                            </tbody>
+                        </table>
+				</div></div>
+			</div>
+			<div class="modal-footer"></div>
+
+		</div>
+	</div>
+</div>

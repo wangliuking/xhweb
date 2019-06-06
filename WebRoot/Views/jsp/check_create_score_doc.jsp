@@ -11,8 +11,15 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 int type=Integer.parseInt(request.getParameter("type"));
 
-String str=request.getParameter("bean");
-ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class);
+/* String str=request.getParameter("bean"); */
+ScoreBean bean=new ScoreBean();
+if(type==3){
+	bean=(ScoreBean)request.getSession().getAttribute(request.getSession().getId()+"score3");
+}else{
+	bean=(ScoreBean)request.getSession().getAttribute(request.getSession().getId()+"score4");
+}
+System.out.println("time->"+bean.toString());
+/* ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class); */
 %>
 <%
     

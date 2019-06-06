@@ -12,7 +12,8 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-	<script type="text/javascript" src="../../jquery.min.js"></script>  
+	<script type="text/javascript" src="../../jquery.min.js"></script> 
+<link rel="stylesheet" href="../../lib/layer-master/src/theme/layer.css"> 
 <script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
@@ -85,7 +86,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td rowspan="5">服务可用率</td>
+                                <td rowspan="5">服务可用率 <a href="#" ng-click="searchFile('运维故障统计')">资料</a></td>
                                 <td>交换中心可用率</td>
 
                                 <td>可用率全年99.999%，全年不超过5分钟，超过每分钟扣除10000元</td>
@@ -126,7 +127,7 @@
                                     ng-model="money_data3.n_a4" /></td>
                             </tr>
                             <tr>
-                                <td rowspan="2">故障控制</td>
+                                <td rowspan="2">故障控制 <a href="#" ng-click="searchFile('运维故障统计')">资料</a></td>
                                 <td>重大故障</td>
                                 <td>每发生1次扣除10000元</td>
                                 <td><input class="form-control" name="m_b1"
@@ -145,7 +146,7 @@
                             
                             <tr>
                                 <td>用户服务响应</td>
-                                <td></td>
+                                <td><a href="#" ng-click="showInfoWin('用户响应')">资料</a></td>
                                 <td>超出要求时间扣除500元</td>
                                 <td><input class="form-control" name="m_d1"
                                     ng-model="money_data3.m_d1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
@@ -154,7 +155,7 @@
                             </tr>                           
                             <tr>
                                 <td>应急通信保障</td>
-                                <td></td>
+                                <td><a href="#" ng-click="showInfoWin('应急通信保障')">资料</a></td>
                                 <td>开通时间每超1小时扣5000元，每发生1次事故扣10000元</td>
                                 <td><input class="form-control" name="m_f1"
                                     ng-model="money_data3.m_f1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
@@ -163,7 +164,7 @@
                             </tr>
                             <tr>
                                 <td>应急通信保障演练</td>
-                                <td></td>
+                                <td><a href="#" ng-click="showInfoWin('应急演练')">资料</a></td>
                                 <td>每季度完成1次，每缺1次扣10000元</td>
                                 <td><input class="form-control" name="m_g1"
                                     ng-model="money_data3.m_g1" ng-change="sum_money3()" type="number" min="0"  max="10000000"/></td>
@@ -226,6 +227,7 @@
 
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
+	   <script type="text/javascript" src="../../lib/layer-master/dist/layer.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/business/operations_check_write3_money.js"></script>
 		

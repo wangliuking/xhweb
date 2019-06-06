@@ -13,14 +13,14 @@
 				<form action="#" id="addForm" onSubmit="return false">
 					<div class="row">
 
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>调度台ID</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" class="form-control" name="dstId"
 									required="required">
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>调度台名称</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" class="form-control" name="dstName"
@@ -32,16 +32,53 @@
 					<div class="row">
 
 
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group col-md-12">
 								<label>IP地址</label>&nbsp;<span class="text-danger">[*]</span> <input
 									type="text" class="form-control" name="IP" required="required">
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
                             <div class="form-group col-md-12">
                                 <label>DBOX IP</label> <input
                                     type="text" class="form-control" name="dbox_ip">
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>期数</label> <select
+                                    class="form-control" name="period">
+                                    <option value="3" selected="selected">三期</option>
+                                    <option value="4">四期</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>传输类型</label> <select
+                                   class="form-control" name="transfer">
+                                    <option value="1">单传输</option>
+                                    <option value="2" selected="selected">双传输</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>第一传输运营商</label> <input
+                                    type="text" class="form-control" name="transferOne">
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>第二传输运营商</label> <input
+                                    type="text" class="form-control" name="transferTwo">
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>安装位置</label> <input
+                                    type="text" class="form-control" name="address">
                             </div>
                         </div>
 

@@ -54,6 +54,7 @@
         <if test="endtime!=null and endtime!=''">
             and end_time &lt;=#{endtime}
         </if>
+         order by id desc
          limit #{start},#{limit}
     </select>
     <select id="communication_list_count" parameterType="map" resultType="int"
@@ -69,14 +70,17 @@
     <insert id="add_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean"
         useGeneratedKeys="true" keyProperty="id">
         insert into
-        record_communication(name,start_time,end_time,zone,level)values
-        (#{name},#{start_time},#{end_time},#{zone},#{level})
+        record_communication(name,start_time,end_time,zone,level,satellite_time,
+        bus_num,person_num)values
+        (#{name},#{start_time},#{end_time},#{zone},#{level},#{satellite_time},
+        #{bus_num},#{person_num})
     </insert>
     <update id="update_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
         update
         record_communication set
         name=#{name},start_time=#{start_time},end_time=#{end_time},
-        zone=#{zone},level=#{level} 
+        zone=#{zone},level=#{level},satellite_time=#{satellite_time},bus_num=#{bus_num},
+        person_num=#{person_num}
         where id=#{id}
     </update>
     <update id="upload_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean">
@@ -120,13 +124,15 @@
     <insert id="add_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean"
         useGeneratedKeys="true" keyProperty="id">
         insert into
-        record_emergency(name,create_time,type)values
-        (#{name},#{create_time},#{type})
+        record_emergency(name,create_time,type,address,personnel,content,process,summary)values
+        (#{name},#{create_time},#{type},#{address},#{personnel},#{content},#{process},
+        #{summary})
     </insert>
     <update id="update_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">
         update
         record_emergency set
-        name=#{name},create_time=#{create_time},type=#{type}
+        name=#{name},create_time=#{create_time},type=#{type},address=#{address},
+        personnel=#{personnel},content=#{content},summary=#{summary}
         where id=#{id}
     </update>
     <update id="upload_emergency" parameterType="xh.mybatis.bean.RecordEmergencyBean">

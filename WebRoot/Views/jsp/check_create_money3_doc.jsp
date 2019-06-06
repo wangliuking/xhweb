@@ -10,8 +10,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-String str=request.getParameter("bean");
-MoneyBean bean=GsonUtil.json2Object(str, MoneyBean.class);
+MoneyBean bean=(MoneyBean)request.getSession().getAttribute(request.getSession().getId()+"money3");
 %>
 <%
     

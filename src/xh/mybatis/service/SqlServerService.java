@@ -52,36 +52,36 @@ public class SqlServerService {
 			for (Map<String, Object> map : list) {
 				/*System.out.print("huankong->"+map.toString());*/
 				if(map.get("DevNode").toString().trim().equals("0021")&&map.get("NodeID").toString().equals("1001")){
-					result.put("temp", Float.parseFloat(map.get("value").toString()));
+					result.put("temp", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0021")&&map.get("NodeID").toString().equals("1002")){
-					result.put("damp", Float.parseFloat(map.get("value").toString()));
+					result.put("damp", map.get("value").toString());
 				}
 				
 				if(map.get("DevNode").toString().trim().equals("0011")&&map.get("NodeID").toString().equals("1001")){
-					result.put("smoke", Float.parseFloat(map.get("value").toString()));
+					result.put("smoke", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0011")&&map.get("NodeID").toString().equals("1002")){
 					result.put("door", Float.parseFloat(map.get("value").toString())==1?0:1);
 				}
 				if(map.get("DevNode").toString().trim().equals("0011")&&map.get("NodeID").toString().equals("1003")){
-					result.put("water", Float.parseFloat(map.get("value").toString()));
+					result.put("water", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0011")&&map.get("NodeID").toString().equals("1004")){
-					result.put("red", Float.parseFloat(map.get("value").toString()));
+					result.put("red", map.get("value").toString());
 				}
 				
 				if(map.get("DevNode").toString().trim().equals("0051")&&map.get("NodeID").toString().equals("1001")){
-					result.put("lv", Float.parseFloat(map.get("value").toString()));
+					result.put("lv", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0051")&&map.get("NodeID").toString().equals("1002")){
-					result.put("li", Float.parseFloat(map.get("value").toString()));
+					result.put("li", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0051")&&map.get("NodeID").toString().equals("1003")){
-					result.put("jv", Float.parseFloat(map.get("value").toString()));
+					result.put("jv", map.get("value").toString());
 				}
 				if(map.get("DevNode").toString().trim().equals("0051")&&map.get("NodeID").toString().equals("1004")){
-					result.put("ji", Float.parseFloat(map.get("value").toString()));
+					result.put("ji", map.get("value").toString());
 				}
 			}
 			

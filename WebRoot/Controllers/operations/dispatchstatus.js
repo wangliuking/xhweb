@@ -69,6 +69,14 @@ xh.load = function() {
 			$scope.type = $scope.editData.type.toString();
 			$scope.level = $scope.editData.level.toString();*/
 		};
+		$scope.showDetail = function(index) {
+
+			$("#detail").modal('show');
+			$scope.detailData = $scope.data[index];
+			/*$scope.editData = $scope.data[parseInt(checkVal[0])];
+			$scope.type = $scope.editData.type.toString();
+			$scope.level = $scope.editData.level.toString();*/
+		};
 		$scope.delMore = function() {
 			var checkVal = [];
 			$("[name='tb-check']:checkbox").each(function() {

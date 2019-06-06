@@ -54,23 +54,24 @@ public class GetEastCallDataListenner implements ServletContextListener {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         Date date=calendar.getTime(); 
-         if (date.before(new Date())) {
+        if (date.before(new Date())) {
         	date = this.addDay(date, 1);
-        	}		
+        	}	
         Timer timer=new Timer();		
-		timer.schedule(new GetData(), date, PERIOD_DAY);
+		//timer.schedule(new GetData(), date, PERIOD_DAY);
 		timer.schedule(new GetMotoData(), date, PERIOD_DAY);
 		timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
 		timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);	
 		
 	}
 	// 增加或减少天数
-	public Date addDay(Date date, int num) {
-	   Calendar startDT = Calendar.getInstance();
-	   startDT.setTime(date);
-	   startDT.add(Calendar.DAY_OF_MONTH, num);
-	   return startDT.getTime();
-	}
+		public  Date addDay(Date date, int num) {
+			Calendar startDT = Calendar.getInstance();
+			startDT.setTime(date);
+			startDT.add(Calendar.DAY_OF_MONTH, num);
+			return startDT.getTime();
+		}
+	
 
 
 }

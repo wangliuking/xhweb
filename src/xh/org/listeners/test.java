@@ -20,33 +20,13 @@ import org.apache.commons.lang.ArrayUtils;
 import xh.func.plugin.DocConverter;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.service.EastComService;
+import xh.mybatis.service.SqlServerService;
 import xh.org.socket.MotoTcpClient;
 import xh.org.socket.TcpKeepAliveClient;
 
 public class test {
 
 	public static void main(String[] args) {
-		Calendar calendar = Calendar.getInstance();
-		
-		String str="2018-05-24 09:00:00";
-		
-		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-		Date date = null;
-		try {
-			date = dd.parse(str);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for(int i=1;i<=10;i++){
-			Date d=addDay(date,i);
-			String time=dd.format(d);
-			int rs=EastComService.del_data(time);
-			System.out.println("日期："+time+";index:"+i+";data:"+rs);
-			
-		}
 		
 		
         
@@ -54,12 +34,13 @@ public class test {
         
     
 	}
+
 	public static Date addDay(Date date, int num) {
-		   Calendar startDT = Calendar.getInstance();
-		   startDT.setTime(date);
-		   startDT.add(Calendar.HOUR_OF_DAY, num);
-		   return startDT.getTime();
-		}
+		Calendar startDT = Calendar.getInstance();
+		startDT.setTime(date);
+		startDT.add(Calendar.HOUR_OF_DAY, num);
+		return startDT.getTime();
+	}
 
 	public synchronized static void handleList(List<String> data, int threadNum) {
 		int length = data.size();

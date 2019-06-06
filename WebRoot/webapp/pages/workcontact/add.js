@@ -153,7 +153,7 @@ function sss(){
         async : false
     }).then(function(data){
     	if(parseInt(res.roleType)==2){
-        	str="成都市软件产业发展中心";
+        	str="成都信息化技术应用发展中心";
         
         }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
         	str="成都亚光电子股份有限公司";

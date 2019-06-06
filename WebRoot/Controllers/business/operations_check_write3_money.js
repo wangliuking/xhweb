@@ -89,6 +89,63 @@ xh.load = function() {
 			}
 			
 		}
+		$scope.showInfoWin=function(str){
+			if(str=="用户响应"){
+				layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  maxmin:true,
+					  title:'用户需要求处理列表',
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/business/user_need.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					}); 
+			}
+		  if(str=="应急通信保障"){
+			layer.open({
+				  type: 2, 
+				  shade: 0.4,
+				  anim: 1,
+				  maxmin:true,
+				  title:"通讯保障记录",
+				  area: ['900px', '500px'],
+				  content: xh.getUrl()+'/Views/business/record_ensure.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+				}); 
+		}
+		  if(str=="应急演练"){
+				layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'应急演练列表',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/business/record_emergency.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					}); 
+			}
+		  if(str=="网络优化"){
+				layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'网络优化列表',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/business/record_net.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					});
+			}
+		  if(str=="培训及技术支持服务"){
+				layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'培训及技术支持服务列表',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					});
+			}
+		}
 		$scope.searchMoney($scope.time);
 	   
 	});
@@ -111,7 +168,7 @@ xh.add = function() {
 		success : function(data) {
 			if (data.success) {
 				money=JSON.stringify(data.money)
-				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/check_create_money3_doc.jsp?bean='+money,'width=300px;height=200px;');
+				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/check_create_money3_doc.jsp','width=300px;height=200px;');
 			} else {
 				toastr.error(data.message, '提示');
 			}

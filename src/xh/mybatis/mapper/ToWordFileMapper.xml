@@ -529,5 +529,14 @@
 		WHERE DATE_FORMAT(time,"%Y")=#{time} AND
 		LEVEL=#{level} AND period=#{period}
 	</select>
+	
+    <select id="user_need" parameterType="String" resultType="xh.mybatis.bean.UserNeedBean">
+        select * from xhgmnet_operations_userneed WHERE DATE_FORMAT(time,"%Y-%m")=#{time}
+    </select>
+	
+	<select id="RecordCommunication" parameterType="String" resultType="xh.mybatis.bean.RecordCommunicationBean">
+        select * from record_communication WHERE DATE_FORMAT(end_time,"%Y-%m")=#{time}
+    </select>
+	
 
 </mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.RecordNetMapper">
+
+	<select id="data_all" parameterType="map"
+		resultType="xh.mybatis.bean.RecordNetBean" useCache="true">
+		select * from record_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(create_time,"%Y-%m")=#{time}
+		</if>
+		limit #{start},#{limit}
+	</select>
+	<select id="data_all_count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from record_net where 1=1
+		<if test="time!=null and time!=''">
+			and date_format(create_time,"%Y-%m")=#{time}
+		</if>
+	</select>
+	<insert id="add" parameterType="xh.mybatis.bean.RecordNetBean"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		record_net(create_time,
+		person,type,address,content,total,remark)values
+		(#{create_time},#{person},#{type},
+		#{address},#{content},#{total},#{remark})
+	</insert>
+	<update id="update" parameterType="xh.mybatis.bean.RecordNetBean">
+		update
+		record_net set
+		create_time=#{create_time},person=#{person},type=#{type},
+		address=#{address},content=#{content},total=#{total},remark=#{remark}
+		where id=#{id}
+	</update>
+	<delete id="del" parameterType="java.util.List">
+		delete from
+		record_net where id=(
+		<foreach collection="list" item="id" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+
+
+</mapper>
