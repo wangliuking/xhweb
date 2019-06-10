@@ -51,18 +51,21 @@
 	/* border-color: rgba(82, 168, 236, 0.8); */
 	/* box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6); */
 }
-.input-div{
- outline: none;
- border:none;
- width:100%;
+
+.input-div {
+	outline: none;
+	border: none;
+	width: 100%;
 }
-.input-div:FOCUS{
- border:1px solid blue;
+
+.input-div:FOCUS {
+	border: 1px solid blue;
 }
-.form-select{
- outline: none;
- border:none;
- width:100%;
+
+.form-select {
+	outline: none;
+	border: none;
+	width: 100%;
 }
 /* CSS部分 */
 #type-ul {
@@ -182,7 +185,7 @@ to {
 	margin-top: 9px;
 	position: absolute;
 	z-index: 100;
-	max-height:400px;
+	max-height: 400px;
 	overflow: auto;
 }
 
@@ -230,7 +233,7 @@ to {
 						<ol class="hbreadcrumb breadcrumb">
 							<li><span>当前位置：</span></li>
 							<li><span>运维管理</span></li>
-								<li><span><a href="../menu/menu_monitor.html"
+							<li><span><a href="../menu/menu_monitor.html"
 									target="_self">系统监控</a></span></li>
 							<li class="active"><span>系统告警</span></li>
 						</ol>
@@ -239,258 +242,34 @@ to {
 			</div>
 		</div>
 		<div class="content animate-panel">
-
-			<div class="row" id="search-panel" ng-show="true">
-				 <div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-heading hbuilt">
-							<i class="fa fa-search"></i> 查询数据
-						</div>
-						<div class="panel-body">
-							<!-- row -->
-							<div id="search-div">
-								<form class="form-inline" role="form">
-									<div class="form-group">
-										<label for="caller">基站ID</label>
-										<div>
-											<input type="text" class="form-control" id="bsId"
-												placeholder="基站ID" width="20px">
-										</div>
-									</div>
-									<!-- <div class="form-group">
-										<label for="called">日志类型</label>
-										<div>
-											<select id="type" class="form-control">
-												<option value="0" selected="selected">=不限制操作=</option>
-												<option value="1">添加数据操作</option>
-												<option value="2">修改数据操作</option>
-												<option value="3">删除数据操作</option>
-												<option value="5">审核信息</option>
-												<option value="4">其他操作</option>
-											</select>
-										</div>
-									</div> -->
-									<div class="form-group">
-										<label for="starttime">起始时间</label>
-										<div>
-											<input type="text" class="form-control" id="starttime"
-												placeholder="起始时间" ng-model="starttime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="endtime">结束时间</label>
-										<div>
-											<input type="text" class="form-control" id="endtime"
-												placeholder="结束时间" ng-model="endtime"
-												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2" style="padding-top:22px">
-											<button type="submit" class="btn btn-sm btn-success"
-												ng-click="search(1)">
-												<i class="fa fa-search"></i>&nbsp;&nbsp;查询
-											</button>
-										</div>
-									</div>
-								</form>
-							</div>
-							<!-- row -->
-						</div>
-					</div>
-				</div>
-			 <!--   col-md-12 -->
-			</div>
 			<!-- row -->
+			<div ng-include="'bsFault-list-2.html'" ng-if="roleType==2"></div>
+			<div ng-include="'bsFault-list-3.html'" ng-if="roleType!=2"></div>
 			<div class="row">
-			   
 				<div class="col-md-12">
-					<div class="hpanel">
-						<div class="panel-heading hbuilt">
-							<!-- <div class="panel-tools">
-								<a class="search-hide"> <i
-											class="fa fa-hourglass-end text-danger"></i>&nbsp;<span
-											class="text-black">筛选查询</span>
-										</a>
-							</div> -->
-							<i class="fa fa-indent text-danger"></i>&nbsp;系统告警列表
+					<div class="page">
+						<div class="page-info">
+							每页显示 <select id="page-limit" ng-change="refresh()"
+								ng-model="count">
+								<option value="15">15</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="40">40</option>
+								<option value="50">50</option>
+							</select> 条, <span ng-model="index">显示{{start}}-</span><span
+								ng-model="lastIndex">{{lastIndex}}条,</span> <span
+								ng-model="totals">总计{{totals}}条</span>
 						</div>
-
-						<div class="panel-body">
-							<div class="top-search btn-group">
-
-								<button ng-if="roleType==0 || roleType==3" class="btn  btn-danger btn-sm" ng-click="stop_check()">
-									<i class="fa fa-file-excel-o"></i>&nbsp;禁止核减
-								</button>
-								<button class="btn  btn-success btn-sm" ng-click="showOrderWin(-1)" ng-if="roleType==0 || roleType==3">
-									<i class="fa fa-hand-stop-o"></i>&nbsp;手动派单
-								</button>
-								<button class="btn btn-success btn-sm" ng-click="sureOk()" ng-if="roleType==0 || roleType==3">
-									<i class="fa fa-hand-stop-o"></i>&nbsp;确认告警
-								</button>
-								<button class="btn btn-primary btn-sm" data-toggle="modal" 
-								data-target="#search">
-									<i class="fa fa-hand-stop-o"></i>&nbsp;告警筛选
-								</button>
-							</div>
-
-							<table id="tb-info" class="xh-table table-hover">
-								<thead>
-									<tr class="tr-gray">
-										<th width="30px"><input type="checkbox"
-											id="table-checkbox" class="table-check" /></th>
-										
-										<th width="80px">网元类型</th>
-										<th width="180px">网元名称</th>
-										<th width="80px">告警级别</th>
-										<!-- <th width="70px">告警类型</th> -->
-										
-										<th width="180px">故障原因</th>
-										
-										<th width="160px">故障发生时间</th>
-										<th width="80px">告警状态</th>
-										<th width="80px">派单状态</th>
-										<!-- <th width="150px">派单编号</th> -->
-										<th width="80px">确认状态</th>
-										
-										<th width="250px" ng-if="roleType==0 || roleType==3">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-if="totals==0">
-										<td colspan="12" class="text-center">没有记录！</td>
-									</tr>
-									<tr ng-repeat="x in data">
-										<td><input type="checkbox" name="tb-check"
-											value="{{x.id}}" index="{{$index}}" /></td>
-										<td>
-										<img ng-if="(x.neType==4 || x.neType==102 || x.neType==101 || x.neType==100) && x.voiceTag==0" 
-										src="../../Resources/images/icon/new.png" width="20px" height="20px">
-										<span ng-if="x.neType==1">基站</span> <span
-													ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
-													<span ng-if="x.neType==4">网管</span> <span
-													ng-if="x.neType==5">分组中心</span> <span ng-if="x.neType==6">综合业务网关</span>
-													<span ng-if="x.neType==7">INIGW</span> <span
-													ng-if="x.neType==8">短信中心</span> <span ng-if="x.neType==9">PDT</span>
-													<span ng-if="x.neType==10">鉴权中心</span> <span
-													ng-if="x.neType==11">录音</span> <span ng-if="x.neType==12">模拟网关</span>
-													<span ng-if="x.neType==13">MPT基站</span> <span
-													ng-if="x.neType==14">NTP服务器</span> <span
-													ng-if="x.neType==15">路由器</span> <span ng-if="x.neType==16">数字交叉连接设备</span>
-													<span ng-if="x.neType==17">同播服务器</span> <span
-													ng-if="x.neType==18">DSGW</span> <span ng-if="x.neType==19">以太网交换机</span>
-													<span ng-if="x.neType==20">WEB调度服务器</span> <span
-													ng-if="x.neType==21">短信业务网关</span> <span
-													ng-if="x.neType==22">室外基站</span> <span ng-if="x.neType==23">PDT室外基站</span>
-													<span ng-if="x.neType==24">桥接基站</span> <span
-													ng-if="x.neType==29">以太网E1网桥</span> <span
-													ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
-													<span ng-if="x.neType==100">基站环控</span>
-													<span ng-if="x.neType==101">交换中心</span>
-													<span ng-if="x.neType==102">调度台</span>
-												</td>
-										
-										<td>
-										<span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==1 && x.neType==2">交换中心({{x.mscId}})->{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==1 && x.neType==4">{{x.name}}（{{x.bsId}}）</span>
-										<span ng-if="x.sysType==1 && x.neType==22">{{x.location}}</span>
-										<span ng-if="x.sysType==1 && x.neType==24">{{x.location}}</span>
-										<span ng-if="x.sysType==1 && x.neType==30">{{x.location}}</span>
-										<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
-										<span ng-if="x.sysType==4 && x.neType==101">{{x.location}}({{x.subModId}})</span>
-										<span ng-if="x.sysType==3 && x.neType==102">{{x.location}}({{x.subModId}})</span>
-										</td>
-										<td ng-if="x.alarmLevel==1" style="background-color:#DC143C;color:#000;">严重告警</td>
-												<td ng-if="x.alarmLevel==2"style="background:#FFD700 !important;color:#000;">主要告警</td>
-												<td ng-if="x.alarmLevel==3" style="background:#F0E68C !important;color:#000;">次要告警</td>
-												<td ng-if="x.alarmLevel==4" style="background:#87CEFA !important;color:#000;">一般告警</td>
-										<!-- <td>
-												<span ng-if="x.category==1">通信</span>
-												<span ng-if="x.category==2">软件</span>
-												<span ng-if="x.category==3">环境</span>
-												<span ng-if="x.category==4">Qos</span>
-												<span ng-if="x.category==5">设备</span>
-												<span ng-if="x.category==6">网管</span>
-										</td> -->
-										
-										<td><a href="#" ng-click="showDetails($index)">{{x.reason}}</a></td>
-										
-										<td>{{x.time}}</td>
-										<td ng-if="x.alarmTag==0" style="background-color:#DC143C;color:#000;">未恢复</td>
-										<td ng-if="x.alarmTag==1" style="background-color:green;color:#fff;">已恢复</td>
-										<td>
-										<span ng-if="x.status==0">未派单</span>
-										<span ng-if="x.status==1" style="color:red">派单中</span>
-										</td>
-										<!-- <td>{{x.orderId}}</td> background-color:#DC143C;-->
-										
-										<td ng-if="x.sureOk==0" style="color:#000;">未确认</td>
-										<td ng-if="x.sureOk==1" style="color:#DC143C;">已确认</td>
-										
-										<td style="width:20px;text-align:center" ng-if="roleType==0 || roleType==3">
-										<a href="#" ng-click="sureOneOk($index)"
-											ng-if="x.sureOk==0 && (roleType==3 || roleType==0)"> <i
-												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|确认
-										</a>
-										<a href="#"
-											ng-click="editModel($index)"> <i
-												class="fa fa-edit text-danger"></i>&nbsp;编辑
-										</a> 
-										<a href="#" ng-if="x.checkTag == 0"
-											ng-click="checkCutModel($index)"> <i
-												class="fa fa-edit text-danger"></i>&nbsp;核减
-										</a> 
-										<a href="#" ng-click="showOrderWin($index)"
-											ng-if="x.status==0 && (up.o_order=='on' || roleType==0) && (x.neType!=101 && x.neType!=103)"> <i
-												class="fa fa-hand-stop-o text-danger"></i>&nbsp;|派单
-										</a>
-										<a href="#" ng-click="showGorderWin($index)"
-                                            ng-if="x.iselec==0 
-                                            && (roleType==0 || roleType==3)
-                                            && x.sysType==2
-                                            && x.modType==3000
-                                            && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))"> <i
-                                                class="fa fa-comments-o text-danger"></i>&nbsp;|通知发电
-                                        </a>
-                                        <span style="color:red"
-                                            ng-if="x.iselec==1
-                                            && (roleType==0 || roleType==3)
-                                            && x.sysType==2
-                                            && x.modType==3000
-                                            && (x.subModType==80200000000001 || (x.subModType==51 && x.subModId==1003))">&nbsp;|已通知发电!
-                                        </span>
-										
-										<!-- <span ng-if="x.status==1" style="color:red">已经派单!!</span> -->
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="page">
-								<div class="page-info">
-									每页显示 <select id="page-limit" ng-change="refresh()"
-										ng-model="count">
-										<option value="15">15</option>
-										<option value="20">20</option>
-										<option value="30">30</option>
-										<option value="40">40</option>
-										<option value="50">50</option>
-									</select> 条, <span ng-model="index">显示{{start}}-</span><span
-										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
-								</div>
-								<div class="page-paging"></div>
-							</div>
-						</div>
+						<div class="page-paging"></div>
 					</div>
 				</div>
 			</div>
+			<!-- end;;;; -->
 		</div>
 		<!-- row/ -->
 	</div>
 	<!-- 中间内容体 /-->
-    <div ng-include="'bsAlarm-show.html'"></div>
+	<div ng-include="'bsAlarm-show.html'"></div>
 
 	<div class="modal fade" id="faultRecord" tabindex="-1" role="dialog"
 		aria-hidden="true">

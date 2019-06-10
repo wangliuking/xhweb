@@ -16,7 +16,7 @@ MoneyBean bean=(MoneyBean)request.getSession().getAttribute(request.getSession()
     
         WordDocument doc = new WordDocument();
         doc.setEnableAllDataRegionsEditing(true); // 此属性可以设置在提交模式（docSubmitForm）下，所有的数据区域可以编辑
-
+        doc.openDataRegion("PO_Name").setValue(bean.getDoc_name());
         doc.openDataRegion("PO_m_a1").setValue(bean.getM_a1());
         doc.openDataRegion("PO_m_l1").setValue(bean.getM_l1());
         doc.openDataRegion("PO_m_a2").setValue(bean.getM_a2());

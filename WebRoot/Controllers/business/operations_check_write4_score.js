@@ -32,6 +32,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http, $location) {
 		$scope.applyId = $location.search().applyId;
 		$scope.time = $location.search().checkMonth;
+		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n"+$scope.time+"项目服务扣分表";
 		var files=$location.search().files;
 		
 		$scope.change4Input=function(){
@@ -66,8 +67,14 @@ xh.load = function() {
 			var filesStr=JSON.parse(files);
 			var path="";
 			if(files.indexOf(fileName)==-1){
-				alert("参考资料不存在");
-				return;
+				if(fileName=="成都市应急通信网应急通信保障预案"){
+					path="/doc/成都市应急通信网应急通信保障预案.docx"
+				}else if(fileName=="成都市应急通信网运维管理制度"){
+					path="/doc/成都市应急通信网运维管理制度.doc"
+				}else{
+					alert("参考资料不存在");
+					return;
+				}
 			}
 			for(var i=0;i<filesStr.length;i++){
 				if(filesStr[i].fileName.indexOf(fileName)!=-1){
@@ -165,7 +172,8 @@ xh.add = function() {
 			score4Data:xh.serializeJson($("#score4Form").serializeArray()),
 			time: $scope.time,
 			applyId: $scope.applyId,
-			score_total:$scope.score_sum4
+			score_total:$scope.score_sum4,
+			doc_name:$("textarea[name='doc_name']").val()
 		},
 		success : function(data) {
 			if (data.success) {

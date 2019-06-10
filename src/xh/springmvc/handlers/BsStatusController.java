@@ -193,6 +193,7 @@ public class BsStatusController {
 		int limit=FunUtil.StringToInt(request.getParameter("limit"));
 		int sysType=FunUtil.StringToInt(request.getParameter("sysType"));
 		int alarmType=FunUtil.StringToInt(request.getParameter("alarmType_value"));
+		int period=FunUtil.StringToInt(request.getParameter("period"));
 		String bsId=request.getParameter("bsId");
 		String starttime=request.getParameter("starttime");
 		String endtime=request.getParameter("endtime");
@@ -241,6 +242,7 @@ public class BsStatusController {
 		map.put("alarmType",alarmType);
 		map.put("alarmTag_value",c);
 		map.put("starttime", starttime);
+		map.put("period", period);
 		map.put("endtime",endtime);	
 		
 		HashMap result = new HashMap();

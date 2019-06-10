@@ -46,6 +46,9 @@ public class LoginController {
 		this.password = request.getParameter("password");
 		String codeVar="a5fg";
 		String codeSession="a5fg";
+		
+		System.out.println("用户:"+username);
+		System.out.println("密码:"+password);
 		/*try{
 		codeSession=funUtil.getSession(request, "code");
 		}catch(NullPointerException e){

@@ -30,12 +30,13 @@ System.out.println("time->"+bean.toString());
         //String str=month.split("-")[0]+"年"+month.split("-")[0]+"月";
         doc.setEnableAllDataRegionsEditing(true); // 此属性可以设置在提交模式（docSubmitForm）下，所有的数据区域可以编辑
 
-        if(type==3){
+        /* if(type==3){
         	doc.openDataRegion("PO_Name").setValue("成都市应急指挥调度无线通信网三期工程服务项目\r\n"+bean.getTime()+"项目服务扣分表");
         	
         }else{
         	doc.openDataRegion("PO_Name").setValue("成都市应急指挥调度无线通信网四期工程服务项目\r\n"+bean.getTime()+"项目服务扣分表");
-        }
+        } */
+        doc.openDataRegion("PO_Name").setValue(bean.getDoc_name());
         doc.openDataRegion("PO_s_a1").setValue(bean.getS_a1());
         
         doc.openDataRegion("PO_s_b1").setValue(bean.getS_b1());

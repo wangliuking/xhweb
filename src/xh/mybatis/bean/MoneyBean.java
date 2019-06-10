@@ -1,6 +1,9 @@
 package xh.mybatis.bean;
 
-public class MoneyBean {
+import java.io.Serializable;
+
+public class MoneyBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String time;
 	private int period;
 	
@@ -63,7 +66,15 @@ public class MoneyBean {
 	
 	private Float money_total;
 	
+	private String doc_name;
 	
+	
+	public String getDoc_name() {
+		return doc_name;
+	}
+	public void setDoc_name(String doc_name) {
+		this.doc_name = doc_name;
+	}
 	public Float getMoney_total() {
 		return money_total;
 	}
@@ -336,18 +347,23 @@ public class MoneyBean {
 	}
 	@Override
 	public String toString() {
-		return "MoneyBean [time=" + time + ", m_a1=" + m_a1 + ", n_a1=" + n_a1
-				+ ", m_a2=" + m_a2 + ", n_a2=" + n_a2 + ", m_a3=" + m_a3
-				+ ", n_a3=" + n_a3 + ", m_a4=" + m_a4 + ", n_a4=" + n_a4
-				+ ", m_b1=" + m_b1 + ", n_b1=" + n_b1 + ", m_b2=" + m_b2
-				+ ", n_b2=" + n_b2 + ", m_c1=" + m_c1 + ", n_c1=" + n_c1
-				+ ", m_c2=" + m_c2 + ", n_c2=" + n_c2 + ", m_c3=" + m_c3
-				+ ", n_c3=" + n_c3 + ", m_d1=" + m_d1 + ", n_d1=" + n_d1
-				+ ", m_e1=" + m_e1 + ", n_e1=" + n_e1 + ", m_f1=" + m_f1
-				+ ", n_f1=" + n_f1 + ", m_g1=" + m_g1 + ", n_g1=" + n_g1
-				+ ", m_h1=" + m_h1 + ", n_h1=" + n_h1 + ", m_i1=" + m_i1
-				+ ", n_i1=" + n_i1 + ", m_j1=" + m_j1 + ", n_j1=" + n_j1
-				+ ", m_k1=" + m_k1 + ", n_k1=" + n_k1 + "]";
+		return "MoneyBean [time=" + time + ", period=" + period + ", m_a1="
+				+ m_a1 + ", n_a1=" + n_a1 + ", m_a2=" + m_a2 + ", n_a2=" + n_a2
+				+ ", m_a3=" + m_a3 + ", n_a3=" + n_a3 + ", m_a4=" + m_a4
+				+ ", n_a4=" + n_a4 + ", m_b1=" + m_b1 + ", n_b1=" + n_b1
+				+ ", m_b2=" + m_b2 + ", n_b2=" + n_b2 + ", m_c1=" + m_c1
+				+ ", n_c1=" + n_c1 + ", m_c2=" + m_c2 + ", n_c2=" + n_c2
+				+ ", m_c3=" + m_c3 + ", n_c3=" + n_c3 + ", m_d1=" + m_d1
+				+ ", n_d1=" + n_d1 + ", m_e1=" + m_e1 + ", n_e1=" + n_e1
+				+ ", m_f1=" + m_f1 + ", n_f1=" + n_f1 + ", m_g1=" + m_g1
+				+ ", n_g1=" + n_g1 + ", m_h1=" + m_h1 + ", n_h1=" + n_h1
+				+ ", m_i1=" + m_i1 + ", n_i1=" + n_i1 + ", m_j1=" + m_j1
+				+ ", n_j1=" + n_j1 + ", m_k1=" + m_k1 + ", n_k1=" + n_k1
+				+ ", m_l1=" + m_l1 + ", n_l1=" + n_l1 + ", m_m1=" + m_m1
+				+ ", n_m1=" + n_m1 + ", m_n1=" + m_n1 + ", n_n1=" + n_n1
+				+ ", fileName=" + fileName + ", filePath=" + filePath
+				+ ", money_total=" + money_total + ", doc_name=" + doc_name
+				+ "]";
 	}
 	
 	

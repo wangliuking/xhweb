@@ -369,6 +369,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
+		String doc_name=request.getParameter("doc_name");
 		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
 			score_total=Float.parseFloat(request.getParameter("score_total"));
@@ -379,9 +380,10 @@ public class OperationsCheckController {
 		score4.setTime(month);
 		score4.setPeriod(4);
 		score4.setScore_total(score_total);
+		score4.setDoc_name(doc_name);
 
 		int a=OperationsCheckService.addScore(score4);
-		String savePath="doc/check/"+FunUtil.nowDateNotTime().split("-")[0];	
+		String savePath="doc/check/"+month.split("-")[0];	
 		String fileName="扣分(四期)-"+month+".doc";
 		String filePath=savePath+"/"+fileName;
 		score4.setFileName(fileName);
@@ -427,6 +429,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
+		String doc_name=request.getParameter("doc_name");
 		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
 			score_total=Float.parseFloat(request.getParameter("score_total"));
@@ -437,9 +440,10 @@ public class OperationsCheckController {
 		score3.setTime(month);
 		score3.setPeriod(3);
 		score3.setScore_total(score_total);
+		score3.setDoc_name(doc_name);
 
 		int a=OperationsCheckService.addScore(score3);
-		String savePath="doc/check/"+FunUtil.nowDateNotTime().split("-")[0];	
+		String savePath="doc/check/"+month.split("-")[0];	
 		String fileName="扣分(三期)-"+month+".doc";
 		String filePath=savePath+"/"+fileName;
 		score3.setFileName(fileName);
@@ -486,6 +490,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
+		String doc_name=request.getParameter("doc_name");
 		Float money_total=(float) 0;
 		if(request.getParameter("money_total")!=null){
 			money_total=Float.parseFloat(request.getParameter("money_total"));
@@ -497,9 +502,10 @@ public class OperationsCheckController {
 		money3.setTime(month);
 		money3.setPeriod(3);
 		money3.setMoney_total(money_total);
+		money3.setDoc_name(doc_name);
 
 		int b=OperationsCheckService.addDetail(money3);
-		String savePath="doc/check/"+FunUtil.nowDateNotTime().split("-")[0];
+		String savePath="doc/check/"+month.split("-")[0];
 		String fileName="扣款(三期)-"+month+".doc";
 		String filePath=savePath+"/"+fileName;
 		money3.setFileName(fileName);
@@ -545,6 +551,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
+		String doc_name=request.getParameter("doc_name");
 		Float money_total=(float) 0;
 		if(request.getParameter("money_total")!=null){
 			money_total=Float.parseFloat(request.getParameter("money_total"));
@@ -556,9 +563,10 @@ public class OperationsCheckController {
 		money4.setTime(month);
 		money4.setPeriod(4);
 		money4.setMoney_total(money_total);
+		money4.setDoc_name(doc_name);
 
 		int b=OperationsCheckService.addDetail(money4);
-		String savePath="doc/check/"+FunUtil.nowDateNotTime().split("-")[0];
+		String savePath="doc/check/"+month.split("-")[0];
 		String fileName="扣款(四期)-"+month+".doc";
 		String filePath=savePath+"/"+fileName;
 		money4.setFileName(fileName);
@@ -1040,12 +1048,17 @@ public class OperationsCheckController {
 		}
 	}
 	@RequestMapping(value = "/upload/batch/file", method = RequestMethod.POST)
-	public void batch_upload(@RequestParam("pathName") MultipartFile[] file,@RequestParam("type") int type,
+	public void batch_upload(
+			@RequestParam("pathName") MultipartFile[] file,
+			@RequestParam("type") int type,
+			@RequestParam("month") String month,
 			HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println("month:"+month);
 		// 获取当前时间
-		Date d = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-		String date=sdf.format(d);
+		/*Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");*/
+		String date=month;
 		String savePath="/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		String path = request.getSession().getServletContext().getRealPath("")
 				+ "/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;

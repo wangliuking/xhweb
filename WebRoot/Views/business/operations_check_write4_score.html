@@ -63,7 +63,12 @@
 					<div class="hpanel">
 						<!-- <div class="panel-heading hbuilt">扣分</div> -->
 						<div class="panel-body">
-						
+						<div class="row">
+                                <div class="col-md-12">
+                                    <label>表名称（<span style="color:red;">描述:多行名称，请换行填写，生成的文件中的头部名称默认居中显示。</span>）</label>
+                                    <textarea name="doc_name" class="form-control" rows="4" ng-model="doc_name"></textarea>
+                                </div>
+                            </div>
 							
 							<!--  row -->
 							<div class="row">
@@ -103,7 +108,7 @@
                                     ng-model="score_data4.n_b2" /></td>
                             </tr>
                             <tr>
-                                <td>运维响应机制（9）<a href="#" ng-click="searchFile('成都市应急通信网运维管理制度')">资料</a></td>
+                                <td>运维响应机制（9）<a href="#" ng-click="searchFile('成都市应急通信网应急通信保障预案')">资料</a></td>
                                 <td><input class="form-control" name="s_b3"
                                     ng-model="score_data4.s_b3" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><input class="form-control" name="n_b3"
@@ -133,11 +138,9 @@
                                 <td><input class="form-control" name="n_c2"
                                     ng-model="score_data4.n_c2" /></td>
                             </tr>
-
-
                             <tr>
                                 <td rowspan="2">故障管理（30分）</td>
-                                <td>故障控制及故障处理历时（25）<a href="#" ng-click="searchFile('月报')">资料</a></td>
+                                <td>故障控制及故障处理历时（25）<a href="#" ng-click="searchFile('运维故障统计')">资料</a></td>
                                 <td><input class="form-control" name="s_d1"
                                     ng-model="score_data4.s_d1" ng-change="change4Input()" type="number" min="0"/></td>
                                 <td><textarea class="form-control" name="n_d1"

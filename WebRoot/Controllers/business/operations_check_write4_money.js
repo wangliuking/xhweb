@@ -32,6 +32,7 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http, $location) {
 		$scope.applyId = $location.search().applyId;
 		$scope.time = $location.search().checkMonth;
+		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n服务扣款表";
 		var files=$location.search().files;
 		$scope.sum_money4=function(){
 			var a=0;
@@ -172,7 +173,8 @@ xh.add = function() {
 			money4Data:xh.serializeJson($("#money4Form").serializeArray()),
 			time: $scope.time,
 			applyId: $scope.applyId,
-			money_total:$scope.money_sum4
+			money_total:$scope.money_sum4,
+			doc_name:$("textarea[name='doc_name']").val()
 		},
 		success : function(data) {
 			if (data.success) {

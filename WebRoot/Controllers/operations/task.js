@@ -66,7 +66,7 @@ xh.load = function() {
 			/*$scope.loginUser=JSON.parse(getLocalData("user"));
 			$scope.up=JSON.parse(getLocalData("up"));*/
 			if($scope.loginUser.roleType==2){
-				$scope.sendUnit="成都信息化技术应用发展中心"
+				$scope.sendUnit="成都市软件产业发展中心（成都信息化技术应用发展中心）"
 			}else if($scope.loginUser.roleType==3 || $scope.loginUser.roleType==0){
 				$scope.sendUnit="成都亚光电子股份有限公司"
 			}

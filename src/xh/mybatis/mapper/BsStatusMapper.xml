@@ -639,6 +639,9 @@
 		<if test="bsId!=null and bsId!=''">
 			and a.bsId=#{bsId}
 		</if>
+		<if test="period!=0">
+            and b.period=#{period}
+        </if>
 		<if test="bsName!=null and bsName!=''">
             and a.location like concat(concat('%',#{bsName}),'%')
         </if>
@@ -704,9 +707,14 @@
 	<select id="bsFaultListCount" resultType="int" useCache="true"
 		parameterType="map">
 		select count(*) from xhgmnet_operations_bsfault where level&lt;5
+		
 		<if test="bsId!=null and bsId!=''">
 			and bsId=#{bsId}
 		</if>
+		<if test="period!=0">
+            and bsId in(select bsId from xhgmnet_bs_station where period=#{period})
+        </if>
+		
 		<if test="bsName!=null and bsName!=''">
             and location like concat(concat('%',#{bsName}),'%')
         </if>

@@ -45,6 +45,7 @@ xh.load = function() {
 			$scope.roleId = response.roleId ;
 			$scope.roleType = response.roleType ;
 			$scope.userName=response.userName;
+			$scope.getInfo();
 			
 		});
 		/*获取故障信息*/
@@ -52,7 +53,8 @@ xh.load = function() {
 		$scope.getInfo=function(){
 			var starttime=$("input[name='startTime']").val();
 			var endtime=$("input[name='endTime']").val();
-			var alarmType=0;
+			var period=0;
+			var alarmType=($scope.roleType==2?4:0);
 			var sysType=0;
 			var level_value =[],alarmTag_value=[]; 
 			//告警级别
@@ -65,7 +67,7 @@ xh.load = function() {
 				alarmTag_value.push($(this).val()); 
 			});*/
 			
-			$http.get("../../bsstatus/bsFaultList?bsId=&" +
+			$http.get("../../bsstatus/bsFaultList?period=0&bsId=&" +
 					"level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start=0&limit=30").
 			success(function(response){
@@ -373,6 +375,7 @@ xh.load = function() {
 			var endtime=$("input[name='endTime']").val();
 			var alarmType=$("input[name='alarmType']:checked").val();
 			var sysType=$("input[name='sysType']:checked").val();
+			var period=$("input[name='period']:checked").val();
 			var level_value =[],alarmTag_value=[]; 
 			//告警级别
 			$('input[name="level"]:checked').each(function(){ 
@@ -391,7 +394,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+			$http.get("../../bsstatus/bsFaultList?period="+period+"&bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.data = response.items;
@@ -409,6 +412,7 @@ xh.load = function() {
 			var endtime=$("input[name='endTime']").val();
 			var alarmType=$("input[name='alarmType']:checked").val();
 			var sysType=$("input[name='sysType']:checked").val();
+			var period=$("input[name='period']:checked").val();
 			var level_value =[],alarmTag_value=[]; 
 			//告警级别
 			$('input[name="level"]:checked').each(function(){ 
@@ -425,7 +429,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../bsstatus/bsFaultList?bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
+			$http.get("../../bsstatus/bsFaultList?period="+period+"&bsId="+bsId+"&bsName="+bsName+"&level="+level_value.join(",")+"&sysType="+sysType+"&alarmType_value="+alarmType+"&" +
 					"alarmTag_value="+alarmTag_value.join(",")+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.pageValue=page;
@@ -446,7 +450,7 @@ xh.load = function() {
 			});
 			
 		};
-		$scope.getInfo();
+		
 		setInterval(function(){
 			$scope.search($scope.pageValue);
 		}, 30000);
