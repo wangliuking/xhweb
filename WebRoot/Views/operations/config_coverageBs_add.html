@@ -1,32 +1,30 @@
 
-<div class="modal fade" id="editWin" tabindex="-1" role="dialog"
+<div class="modal fade" id="addWin" tabindex="-1" role="dialog"
 	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-				<form action="#" onsubmit="return false" id="editForm">
+				<form action="#" onsubmit="return false" id="addForm">
 					<div class="row">
-                          <div class="col-md-12" ng-show="false">
-                            <input type="text" name="bsId" required="required" ng-model="editData.bsId">
-                        </div>
-                         <div class="col-md-12">
+						
+						 <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>直放站名称</label> <input type="text" class="form-control"
-                                    name="bsName" required="required" ng-model="editData.bsName">
+                                <label>室内覆盖基站名称</label> <input type="text" class="form-control"
+                                    name="name" required="required">
                             </div>
                         </div>
-                        <div class="col-md-12">
+						<div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>所在区域</label> <input type="text" class="form-control"
-                                    name="zone" required="required" ng-model="editData.zone">
+                                    name="zone" required="required">
                             </div>
                         </div>
                        
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>建设期</label>
-                                <select class="form-control" name="period" ng-select="editData.period">
+                                <select class="form-control" name="period">
                                 <option value="3" select>三期</option>
                                 <option value="4">四期</option>
                                 </select>
@@ -34,14 +32,17 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>数量</label>
-                                <input type="text" min="1" class="form-control"
-                                    name="num" required="required" ng-model="editData.num">
+                                <label>覆盖范围(平方米)</label>
+                                <input type="text"  class="form-control"
+                                    name="coverage" required="required">
                             </div>
                         </div>
                         
-                        
-                    </div>
+						
+					</div>
+
+
+
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -50,8 +51,8 @@
 						data-dismiss="modal">
 						<i class="fa fa-remove"></i>&nbsp;关闭
 					</button>
-					<button type="button" class="btn btn-success btn-sm" id="edit_btn">
-						<i class="fa fa-edit"></i>&nbsp;更新
+					<button type="button" class="btn btn-success btn-sm" id="add_btn">
+						<i class="fa fa-plus"></i>&nbsp;新增
 					</button>
 				</div>
 			</div>
@@ -60,15 +61,15 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$("#edit_btn").click(function() {
-		$('#editForm').submit();
+	$("#add_btn").click(function() {
+		$('#addForm').submit();
 	});
 	var faIcon = {
 		valid : 'fa fa-check-circle fa-lg text-success',
 		invalid : 'fa fa-times-circle fa-lg',
 		validating : 'fa fa-refresh'
 	};
-	$('#editForm').bootstrapValidator({
+	$('#addForm').bootstrapValidator({
 		excluded : [ ':disabled' ],
 		feedbackIcons : faIcon,
 		fields : {
@@ -76,6 +77,6 @@
 		}
 	}).on('success.form.bv', function(e, data) {
 		e.preventDefault();
-		xh.edit();
+		xh.add();
 	});
 </script>

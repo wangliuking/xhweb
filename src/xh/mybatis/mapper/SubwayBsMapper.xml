@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xh.mybatis.mapper.SubwayBsMapper">
+	<select id="list" parameterType="map" resultType="xh.mybatis.bean.SubwayBean"
+		useCache="true">
+		select * from
+		xhgmnet_bs_station_subway where 1=1
+		<if test="line>0">
+		and line=#{line}
+		</if>
+		order by bsId asc 
+		limit
+		#{start},#{limit}
+		
+	</select>
+	<select id="count" parameterType="map" resultType="int"
+		useCache="true">
+		select count(*) from
+		xhgmnet_bs_station_subway where 1=1
+		<if test="line>0">
+        and line=#{line}
+        </if>
+	</select>
+	<select id="exists" parameterType="String" resultType="int"
+        useCache="true">
+        select count(*) from
+        xhgmnet_bs_station_subway where bsName=#{name}
+    </select>
+	<insert id="add" parameterType="xh.mybatis.bean.SubwayBean"
+		useGeneratedKeys="true" keyProperty="bsId">
+		insert into
+		xhgmnet_bs_station_subway(bsName,line)values
+		(#{bsName},#{line})
+	</insert>
+	<update id="update" parameterType="xh.mybatis.bean.SubwayBean">
+		update xhgmnet_bs_station_subway set
+		bsName=#{bsName},line=#{line} where bsId=#{bsId}
+	</update>
+
+	<delete id="del" parameterType="String">
+		delete from xhgmnet_bs_station_subway where bsId=#{bsId}
+	</delete>
+</mapper>

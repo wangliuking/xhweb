@@ -3,40 +3,40 @@
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			
+		
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" onsubmit="return false" id="editForm">
 					<div class="row">
                           <div class="col-md-12" ng-show="false">
-                            <input type="text" name="bsId" required="required" ng-model="editData.bsId">
+                            <input type="text" name="id" required="required" ng-model="editData.id">
                         </div>
-                         <div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>直放站名称</label> <input type="text" class="form-control"
-                                    name="bsName" required="required" ng-model="editData.bsName">
+                                <label>室内覆盖基站名称</label> <input type="text" class="form-control"
+                                    name="name" required="required" ng-model="editData.name">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>所在区域</label> <input type="text" class="form-control"
-                                    name="zone" required="required" ng-model="editData.zone">
+                                    name="zone" required="required"  ng-model="editData.zone">
                             </div>
                         </div>
                        
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>建设期</label>
-                                <select class="form-control" name="period" ng-select="editData.period">
-                                <option value="3" select>三期</option>
+                                <select class="form-control" name="period"  ng-select="editData.period">
+                                <option value="3">三期</option>
                                 <option value="4">四期</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>数量</label>
-                                <input type="text" min="1" class="form-control"
-                                    name="num" required="required" ng-model="editData.num">
+                                <label>覆盖范围(平方米)</label>
+                                <input type="text"  class="form-control"
+                                    name="coverage" required="required"  ng-model="editData.coverage">
                             </div>
                         </div>
                         
