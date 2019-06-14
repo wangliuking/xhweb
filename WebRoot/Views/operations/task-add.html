@@ -29,7 +29,8 @@
 									<td width="130px">类型 &nbsp;<span style="color:red">(必填)</span></td>
 									<td colspan="3">
 									<select name="type" class="form-select">
-									<option value="通信保障">通信保障</option>
+									 <option ng-repeat="x in select_data" value="{{x.name}}">{{x.name}}</option>
+									<!-- <option value="通信保障">通信保障</option>
 									<option value="应急处置演练">应急处置演练</option>
 									<option value="服务抽检">服务抽检</option>
 									<option value="网络优化与整改">网络优化与整改</option>
@@ -37,7 +38,7 @@
 									<option value="频率干扰排查">频率干扰排查</option>
 									<option value="信号覆盖测试">信号覆盖测试</option>
 									<option value="支持与配合工作">支持与配合工作</option>
-									<option value="其他事项" selected="selected">其他事项</option>
+									<option value="其他事项" selected="selected">其他事项</option> -->
 									</select>
 									</td>
 								</tr>

@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,11 @@ import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.regex.Pattern;
+
+
+
+
+
 
 
 
@@ -62,6 +68,7 @@ import org.apache.commons.httpclient.cookie.CookiePolicy;
 
 
 
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -76,6 +83,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.BasicHttpContext;
@@ -92,6 +100,7 @@ import xh.org.socket.MotoTcpClient;
 import xh.org.socket.TcpKeepAliveClient;
 
 public class test {
+	private static BasicCookieStore cookieStore=new BasicCookieStore();
 
 	public static void main(String[] args) {
 		
@@ -99,6 +108,9 @@ public class test {
 			//http://xsj2800.com/Home/login/verify.html
 			//doPostTestTwo();
 			Login();
+			jndw28();
+			GameData();
+			//bj16();
 			//Code();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -176,7 +188,7 @@ public class test {
 		}
 		
 	public static void Login() throws UnsupportedEncodingException {
-		BasicCookieStore cookieStore  = new BasicCookieStore();
+		//BasicCookieStore cookieStore  = new BasicCookieStore();
 		//获取http客户端
 		//CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		CloseableHttpClient httpClient = HttpClients.custom()
@@ -186,7 +198,8 @@ public class test {
 		        .setConnectTimeout(5000).setConnectionRequestTimeout(1000)  
 		        .setSocketTimeout(5000).build(); 
 		//获取验证码
-		HttpGet codeGet=new HttpGet("http://xsj2800.com/Home/login/verify.html");		
+		HttpGet codeGet=new HttpGet("http://xsj2800.com/Home/login/verify.html");
+		codeGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
 		try {
 			codeGet.setConfig(requestConfig);
 		   HttpResponse response = httpClient.execute(codeGet, new BasicHttpContext());
@@ -223,7 +236,7 @@ public class test {
 		System.out.println("请输入验证码：");
 		String code="";
 		Scanner in = new Scanner(System.in);
-		code = in.nextLine();
+		code = in.next();
 		in.close();
 	
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -288,7 +301,7 @@ public class test {
 		        str = convertStreamToString(instreams);
 			}
 			System.out.println("字符：-》"+str);
-			//GameData(httpClient);
+			
 			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -307,11 +320,15 @@ public class test {
 				e.printStackTrace();
 			}
 		}
+		//GameData();
+		
 	}
 	//http://xsj2800.com/home/game/indexInfo
 	//获取数据
-	public static void GameData(CloseableHttpClient httpClient) throws UnsupportedEncodingException {
+	public static void GameData() throws UnsupportedEncodingException {
 		// 创建Post请求http://183.221.117.37:5555/web/login
+		CloseableHttpClient httpClient = HttpClients.custom()
+	             .setDefaultCookieStore(cookieStore).build();
 		HttpPost httpPost = new HttpPost("http://xsj2800.com/home/game/indexInfo");
 
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -326,14 +343,15 @@ public class test {
         
      // 创建form表单对象
         UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(params, "utf-8");
-        formEntity.setContentType("Content-Type:application/json");
+        formEntity.setContentType("Content-Type:application/x-www-form-urlencoded");
+        
+        httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        httpPost.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
  
 	
 		// post请求是将参数放在请求体里面传过去的;这里将entity放入post请求体中
 		httpPost.setEntity(formEntity);
  
-		httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
-		httpPost.setHeader("Accept","application/json, text/javascript, */*; q=0.01");
 		httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
 	   // httpPost.setHeader("Referer", "http://xsj2800.com/home/Index/games/mapid/83");
 		 //httpPost.setHeader("Cookie", "PHPSESSID=aqhncabto8h4j067g60fjd2hr4; p_mapid=83; auth=bc5148b94911e460554a1d40a269f851%3Aa3e90179967d2440e7db039c58822a3a");
@@ -353,11 +371,23 @@ public class test {
 			String str="";
 			System.out.println("响应状态为:" + response.getStatusLine());
 			if (responseEntity != null) {
-				System.out.println("响应内容长度为:" + responseEntity.getContentLength());
 				InputStream instreams = responseEntity.getContent();
 		        str = convertStreamToString(instreams);
 			}
+			
+			Map<String,Object> map=GsonUtil.json2Object(str, Map.class);
 			System.out.println("字符：-》"+str);
+			
+			
+			Map<String,Object> data=(Map<String, Object>) map.get("data");
+			Map<String,Object> dayCount=(Map<String, Object>) data.get("dayCount");
+			Map<String,Object> prevTimes=(Map<String, Object>) data.get("prevTimes");
+			Map<String,Object> thisTimes=(Map<String, Object>) data.get("thisTimes");
+			System.out.println("code：-》"+map.get("code"));
+			System.out.println("dayCount：-》"+dayCount.get("win_num"));
+			System.out.println("prevTimes：-》"+prevTimes.get("number"));
+			System.out.println("thisTimes：-》"+thisTimes.get("number"));
+			
 			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -377,28 +407,51 @@ public class test {
 			}
 		}
 	}
-	public static void doPostTestTwo() throws UnsupportedEncodingException {
+	public static void bj16() throws UnsupportedEncodingException {
 		 
 		// 获得Http客户端(可以理解为:你得先有一个浏览器;注意:实际上HttpClient与浏览器是不一样的)
-		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
- 
+		//CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClients.custom()
+	             .setDefaultCookieStore(cookieStore).build();
+		BasicClientCookie cookie = new BasicClientCookie("p_mapid", "10"); 
+        cookie.setVersion(0);  
+        cookie.setDomain("xsj2800.com");   //设置范围
+        cookie.setPath("/"); 
+        cookieStore.addCookie(cookie);
 		// 创建Post请求http://183.221.117.37:5555/web/login
+        //http://xsj2800.com/home/Game/bettingSubmit
 		HttpPost httpPost = new HttpPost("http://xsj2800.com/home/Game/bettingSubmit");
 		//HttpPost httpPost = new HttpPost("http://127.0.0.1:8080/xhweb/web/login");
 		
 		// 我这里利用阿里的fastjson，将Object转换为json字符串;
 		// (需要导入com.alibaba.fastjson.JSON包)
-		Map<String, Object> a= new HashMap<String, Object>();
-		a.put("f1", 500);
-		a.put("f7", 500);
+		
+		
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("mapid", 83);
-        paramMap.put("orderid", 2436184);
-        paramMap.put("betting", a);
+        paramMap.put("mapid", 10);
+        paramMap.put("orderid", 956833);
+        paramMap.put("betting[f3]", 5);
+        paramMap.put("betting[f4]", 15);
+        paramMap.put("betting[f5]", 30);
+        paramMap.put("betting[f6]", 50);
+        paramMap.put("betting[f7]", 75);
+        paramMap.put("betting[f8]", 105);
+        paramMap.put("betting[f9]", 125);
+        paramMap.put("betting[f10]", 135);
+        paramMap.put("betting[f11]", 135);
+        paramMap.put("betting[f12]", 125);
+        paramMap.put("betting[f13]", 105);
+        paramMap.put("betting[f14]", 75);
+        paramMap.put("betting[f15]", 50);
+        paramMap.put("betting[f16]", 30);
+        paramMap.put("betting[f17]", 15);
+        paramMap.put("betting[f18]", 5);
         /*paramMap.put("username", "muwei");
         paramMap.put("password", "123");*/
 		String jsonString = GsonUtil.object2Json(paramMap);
 		System.out.println(jsonString);
+		
+	
 		
 		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -409,19 +462,20 @@ public class test {
         
      // 创建form表单对象
         UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(params, "utf-8");
-        formEntity.setContentType("Content-Type:application/json");
- 
-		StringEntity entity = new StringEntity(jsonString, "UTF-8");
+        formEntity.setContentType("Content-Type:application/x-www-form-urlencoded");
+        
+        httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        httpPost.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
 	
 		// post请求是将参数放在请求体里面传过去的;这里将entity放入post请求体中
+        //httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
 		httpPost.setEntity(formEntity);
- 
-		httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-		httpPost.setHeader("Accept","application/json, text/javascript, */*; q=0.01");
+         // httpPost.setEntity(new StringEntity(jsonString, Charset.forName("UTF-8")));
+		//httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 		httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
-	   // httpPost.setHeader("Referer", "http://xsj2800.com/home/Index/games/mapid/83");
-		 httpPost.setHeader("Cookie", "PHPSESSID=aqhncabto8h4j067g60fjd2hr4; p_mapid=83; auth=bc5148b94911e460554a1d40a269f851%3Aa3e90179967d2440e7db039c58822a3a");
-		    httpPost.setHeader("Connection", "keep-alive");
+	    //httpPost.setHeader("Referer", "http://xsj2800.com/home/Index/games/mapid/10");
+		 //httpPost.setHeader("Cookie", "PHPSESSID=aqhncabto8h4j067g60fjd2hr4; p_mapid=83; auth=bc5148b94911e460554a1d40a269f851%3Aa3e90179967d2440e7db039c58822a3a");
+		httpPost.setHeader("Connection", "keep-alive");
 	    httpPost.setHeader("Cache-Control", "no-cache");
 	    httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
 
@@ -461,6 +515,122 @@ public class test {
 			}
 		}
 	}
+	public static void jndw28() throws UnsupportedEncodingException {
+		 
+		// 获得Http客户端(可以理解为:你得先有一个浏览器;注意:实际上HttpClient与浏览器是不一样的)
+		//CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClients.custom()
+	             .setDefaultCookieStore(cookieStore).build();
+		BasicClientCookie cookie = new BasicClientCookie("p_mapid", "83"); 
+        cookie.setVersion(0);  
+        cookie.setDomain("xsj2800.com");   //设置范围
+        cookie.setPath("/"); 
+        cookieStore.addCookie(cookie);
+		// 创建Post请求http://183.221.117.37:5555/web/login
+        //http://xsj2800.com/home/Game/bettingSubmit
+		HttpPost httpPost = new HttpPost("http://xsj2800.com/home/Game/bettingSubmit");
+		//HttpPost httpPost = new HttpPost("http://127.0.0.1:8080/xhweb/web/login");
+		
+		// 我这里利用阿里的fastjson，将Object转换为json字符串;
+		// (需要导入com.alibaba.fastjson.JSON包)
+		
+		
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("mapid", 83);
+        paramMap.put("orderid", 2436572);
+        paramMap.put("betting[f1]", 500);
+        paramMap.put("betting[f7]", 500);
+        /*paramMap.put("username", "muwei");
+        paramMap.put("password", "123");*/
+		String jsonString = GsonUtil.object2Json(paramMap);
+		System.out.println(jsonString);
+		
+	
+		
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		// 遍历map，设置参数到list中
+        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+            params.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+        }
+        
+     // 创建form表单对象
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(params, "utf-8");
+        formEntity.setContentType("Content-Type:application/x-www-form-urlencoded");
+        
+        httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        httpPost.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
+	
+		// post请求是将参数放在请求体里面传过去的;这里将entity放入post请求体中
+        //httpPost.addHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+		httpPost.setEntity(formEntity);
+         // httpPost.setEntity(new StringEntity(jsonString, Charset.forName("UTF-8")));
+		//httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
+	    //httpPost.setHeader("Referer", "http://xsj2800.com/home/Index/games/mapid/10");
+		 //httpPost.setHeader("Cookie", "PHPSESSID=aqhncabto8h4j067g60fjd2hr4; p_mapid=83; auth=bc5148b94911e460554a1d40a269f851%3Aa3e90179967d2440e7db039c58822a3a");
+		httpPost.setHeader("Connection", "keep-alive");
+	    httpPost.setHeader("Cache-Control", "no-cache");
+	    httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
+
+ 
+		// 响应模型
+		CloseableHttpResponse response = null;
+		try {
+			// 由客户端执行(发送)Post请求
+			response = httpClient.execute(httpPost);
+			// 从响应模型中获取响应实体
+			HttpEntity responseEntity = response.getEntity();
+ 
+			String str="";
+			System.out.println("响应状态为:" + response.getStatusLine());
+			if (responseEntity != null) {
+				System.out.println("响应内容长度为:" + responseEntity.getContentLength());
+				InputStream instreams = responseEntity.getContent();
+		        str = convertStreamToString(instreams);
+			}
+			System.out.println("字符：-》"+str);
+			
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// 释放资源
+				if (httpClient != null) {
+					httpClient.close();
+				}
+				if (response != null) {
+					response.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void fun5() throws ClientProtocolException, IOException{
+		//1、创建HttpClient
+		org.apache.commons.httpclient.HttpClient httpClient = new org.apache.commons.httpclient.HttpClient();
+		//2、创建get或post请求方法
+		PostMethod method = new PostMethod("http://localhost:8080/itcast297/loginAction_login");
+		//3、设置编码
+		httpClient.getParams().setContentCharset("UTF-8");
+		//4、设置请求消息头，为表单方式提交
+		method.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		
+		//5、设置参数
+		method.setParameter("username", "cgx");
+		method.setParameter("password", "123456");
+		
+//		6、执行提交
+		httpClient.executeMethod(method);
+		System.out.println(method.getStatusLine());
+		System.out.println(method.getResponseBodyAsString());
+		
+		
+	}
+	
 	public static String convertStreamToString(InputStream is)
 	        throws IOException {
 

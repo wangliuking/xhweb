@@ -90,6 +90,13 @@ xh.load = function() {
 				
 			});
 		}
+		
+		$scope.select=function(){
+			$http.get("../../select/workcontact").success(function(response) {
+				$scope.select_data = response.items;
+				
+			});
+		}
 		/* 显示详细信息 */
 		$scope.detail = function(id) {
 			$("#detail").modal('show');
@@ -320,6 +327,7 @@ xh.load = function() {
 
 		};
 		$scope.CodeNum();
+		$scope.select();
 	});
 };
 
