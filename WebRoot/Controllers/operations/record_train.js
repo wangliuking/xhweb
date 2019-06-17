@@ -63,12 +63,14 @@ xh.load = function() {
 		$scope.refresh = function() {
 			$scope.search($scope.page);
 		};
-		$scope.showFileWin=function(){
-			$("input[name='pathName']").click();
-		}
+	
 		$scope.showPicWin=function(index){
 			$("#picWin").modal('show');
 			$scope.oneData = $scope.data[index];
+		}
+		
+		$scope.showFileWin=function(){
+			$("input[name='pathName']").click();
 		}
 	
 		$scope.del=function(id){
@@ -137,6 +139,10 @@ xh.load = function() {
 			LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print").innerHTML);
 			 LODOP.PREVIEW();  	
 		};
+		$scope.showBigPicWin=function(path){
+			$scope.pic_path="../.."+path;
+			$("#BigPicWin").modal('show');
+		}
 		
 
 		$scope.excel = function(index) {
@@ -329,4 +335,78 @@ xh.print=function() {
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print").innerHTML);
 	 LODOP.PREVIEW();  	
+};
+xh.uploadPic= function() {
+    var files=[];	
+    var com=new Array();
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }
+	   
+	});
+	var id=$("#picWin").find("input[name='id']").val();
+	if(files.length<1){
+		toastr.error("还没有上传文件", '提示');
+		return ;
+	}
+	$.ajax({
+		url : '../../recordtrain/addfile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			id:id,
+			files: JSON.stringify(files)
+		},
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$("#picWin").modal("hide");
+				xh.refresh();
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.error("系统错误", '提示');
+		}
+	});
+};
+xh.isAdded = function(name) {
+	var success=0;
+    var files=[];	
+    var addfileNames=new Array();
+    var com=new Array();
+    name=name.split(".")[0];
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    	addfileNames[index]=name.substring(0,name.indexOf("."));
+	    }
+	   
+	});
+	var a=addfileNames.toString();
+	var b=fileNames.toString();
+	//console.log(b)
+	if(b.indexOf(name)==-1){
+		success=2;//文件名称非必须提交的文件名称
+	}
+	if(a.indexOf(name)>-1){
+		success=1;//数据存在
+	}
+	return success;
+	
 };

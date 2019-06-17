@@ -16,7 +16,8 @@ public interface RecordTrainMapper {
 	int update(RecordTrainBean bean) throws Exception;
 	
 	int del(List<String> list) throws Exception;
-	
+	int addFile(List<Map<String,Object>> list)throws Exception;
+	List<Map<String, Object>> searchFile(int id) throws Exception;
 	
 	
 }

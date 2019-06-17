@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.RecordCommunicationBean;
 import xh.mybatis.bean.RecordEmergencyBean;
+import xh.mybatis.bean.RecordTrainBean;
 import xh.mybatis.bean.UserNeedBean;
+import xh.mybatis.mapper.RecordTrainMapper;
 import xh.mybatis.mapper.UserNeedMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -169,6 +171,14 @@ public class UserNeedService {
 		List<RecordEmergencyBean> list=new ArrayList<RecordEmergencyBean>();
 		try{
 			list=mapper.emergency_list(map);
+			int i=0;
+			for (RecordEmergencyBean recordEmergencyBean : list) {
+				List<Map<String, Object>> m=mapper.searchFile(recordEmergencyBean.getId());
+				recordEmergencyBean.setFiles(m);
+				list.set(i, recordEmergencyBean);
+				i++;
+				
+			}
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -240,5 +250,20 @@ public class UserNeedService {
 		}
 		return count;
 	}
-	
+	public static int addFile(List<Map<String,Object>> list) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		UserNeedMapper mapper = session
+				.getMapper(UserNeedMapper.class);
+		int count=0;
+		try {
+			count = mapper.addFile(list);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 }

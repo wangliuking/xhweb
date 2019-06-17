@@ -150,5 +150,15 @@
         </foreach>
         )
     </delete>
+     <insert id="addFile" parameterType="java.util.List">
+        insert into
+        record_emergency_pic(id,pic_path,pic_name)values
+        <foreach collection="list" item="x" separator=",">
+            (#{x.id},#{x.filePath},#{x.fileName})
+        </foreach>
+    </insert>
+    <select id="searchFile" parameterType="int" resultType="map">
+    select * from record_emergency_pic where id=#{id}
+    </select>
 
 </mapper>

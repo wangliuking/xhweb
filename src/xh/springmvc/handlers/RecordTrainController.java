@@ -2,6 +2,7 @@ package xh.springmvc.handlers;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,10 +25,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.reflect.TypeToken;
+
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
+import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.RecordTrainBean;
 import xh.mybatis.bean.WebLogBean;
+import xh.mybatis.service.OperationsCheckService;
 import xh.mybatis.service.RecordTrainService;
 
 
@@ -114,8 +119,37 @@ public class RecordTrainController {
 		result.put("message", message);		
 		return result;
 	}
+	@RequestMapping(value="/addfile", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap addfile(HttpServletRequest request, HttpServletResponse response) {
+		int id=Integer.parseInt(request.getParameter("id"));
+		String files=request.getParameter("files");
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
+		filelist=GsonUtil.json2Object(files, type);
+		int rs=0;
+		if(filelist.size()>0){
+			for(int i=0;i<filelist.size();i++){
+				Map<String,Object> map=filelist.get(i);
+				map.put("id", id);
+				filelist.set(i, map);
+			}
+			rs=RecordTrainService.addFile(filelist);
+		}
+		if(rs>0){
+			this.message="成功";
+			this.success=true;
+		}else{
+			this.message="失败";
+			this.success=false;
+		}
+		HashMap result = new HashMap();
+		result.put("success",success);
+		result.put("message", message);		
+		return result;
+	}
 	@RequestMapping(value = "/uploadPic", method = RequestMethod.POST)
-	public void batch_upload(@RequestParam("pathName") MultipartFile[] file,@RequestParam("type") int type,
+	public void batch_upload(@RequestParam("pathName") MultipartFile[] file,
 			HttpServletRequest request, HttpServletResponse response) {
 		// 获取当前时间
 		Date d = new Date();
@@ -138,11 +172,14 @@ public class RecordTrainController {
 				// 保存
 				try {
 					file[i].transferTo(targetFile);
+					long time=new Date().getTime();
+					String newName=time+fileName.substring(fileName.lastIndexOf("."));
+					FunUtil.renameFile(path, fileName, newName);
 					this.success = true;
 					this.message = "文件上传成功";
 					Map<String,Object> map=new HashMap<String, Object>();
 					map.put("fileName", fileName);
-					map.put("filePath", savePath + "/" + fileName);
+					map.put("filePath", savePath + "/" + newName);
 					map.put("index", i+1);
 					map.put("size", file[i].getSize());
 					rs.add(map);

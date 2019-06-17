@@ -6,7 +6,7 @@
 			<div class="modal-header ">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<small class="font-bold">培训图片</small>
+				<small class="font-bold">应急演练图片</small>
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 			<div class="row" ng-show=false>
@@ -22,7 +22,7 @@
                                                 <label>（注:可以批量上传图片，格式为png,jpg,jpeg）<a href="#" ng-click="showFileWin()">添加文件</a></label> 
                                                 <!-- <input type="file"
                                                     name="filePath" id="filePath" class="form-control" /> -->
-                                                    <input  class="form-control" type="file" multiple="multiple" id="pathName" name="pathName" onchange="upload()" style="display: none;"/>
+                                                    <input  class="form-control" type="file" multiple="multiple" id="path_name" name="path_name" onchange="upload()" style="display: none;"/>
 
                                             </div>
                                             
@@ -47,7 +47,7 @@
 						data-dismiss="modal">
 						<i class="fa fa-remove"></i>&nbsp;关闭
 					</button>
-					<butrecord_train.htmlton type="button" class="btn btn-success btn-sm" id="pic_btn">
+					<button type="button" class="btn btn-success btn-sm" id="pic_btn">
 						<i class="fa fa-upload"></i>&nbsp;上传
 					</button>
 				</div>
@@ -68,11 +68,11 @@ $(document).on("click",".del-file",function(){
 <script>
     var fileNum=0;
     function upload(){
-        if ($('#pathName').val() == "") {
+        if ($("#picWin").find('#path_name').val() == "") {
             alert("请选择需要上传的文件！");
             return false;
         }
-        var myfile = document.getElementById('pathName');
+        var myfile = document.getElementById('path_name');
         for(var i=0;i<myfile.files.length;i++){
         	var name=myfile.files[i].name;
         	var hz=name.substring(name.lastIndexOf(".")+1);
@@ -83,9 +83,9 @@ $(document).on("click",".del-file",function(){
         }
         xh.maskShow("正在上传文件，请耐心等待");
         $.ajaxFileUpload({
-            url : '../../recordtrain/uploadPic', //用于文件上传的服务器端请求地址
+            url : '../../userneed/uploadPic', //用于文件上传的服务器端请求地址
             secureuri : false, //是否需要安全协议，一般设置为false
-            fileElementId : 'pathName', //文件上传域的ID
+            fileElementId : 'path_name', //文件上传域的ID
             dataType : 'json', // 返回值类型 一般设置为json
             type : 'POST',
             data:{

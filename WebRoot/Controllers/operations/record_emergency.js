@@ -124,6 +124,22 @@ xh.load = function() {
 			$("#editWin").modal('show');
 			
 		};
+		$scope.show_upload_pic = function(id) {
+			$scope.editData = $scope.data[id];
+			$("#uploadPic").modal('show');
+			
+		};
+		$scope.showPicWin=function(index){
+			$("#picWin").modal('show');
+			$scope.oneData = $scope.data[index];
+		}
+		$scope.showFileWin=function(){
+			$("#picWin").find("input[name='path_name']").click();
+		}
+		$scope.showBigPicWin=function(path){
+			$scope.pic_path="../.."+path;
+			$("#BigPicWin").modal('show');
+		}
 		$scope.print=function(index) {
 			$scope.editData = $scope.data[index];
 			var LODOP = getLodop();
@@ -374,4 +390,47 @@ xh.print=function() {
 	LODOP.SET_PRINT_PAGESIZE(1, 0, 0, "A4");
 	LODOP.ADD_PRINT_TABLE("1%", "2%", "96%", "96%", document.getElementById("print").innerHTML);
 	 LODOP.PREVIEW();  	
+};
+xh.uploadPic= function() {
+    var files=[];	
+    var com=new Array();
+	$("#fileArea ul li").each(function(index){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }
+	   
+	});
+	var id=$("#picWin").find("input[name='id']").val();
+	if(files.length<1){
+		toastr.error("还没有上传文件", '提示');
+		return ;
+	}
+	$.ajax({
+		url : '../../userneed/addfile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			id:id,
+			files: JSON.stringify(files)
+		},
+		success : function(data) {
+			if (data.success) {
+				toastr.success(data.message, '提示');
+				$("#picWin").modal("hide");
+				xh.refresh();
+			} else {
+				toastr.error(data.message, '提示');
+			}
+		},
+		error : function() {
+			toastr.error("系统错误", '提示');
+		}
+	});
 };

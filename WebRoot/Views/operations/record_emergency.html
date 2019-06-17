@@ -19,15 +19,15 @@
 <script src="../../Resources/js/html5shiv.js"></script>
 <![endif]-->
 <style type="text/css">
-.hpanel panel-body{
- background:#000;
+.hpanel panel-body {
+	background: #000;
 }
 /*不可用的确定按钮*/
-.disabled-button{
-    border-color: #D4D4D4;
-    background-color: #D4D4D4;
-    color: #fff;
-    cursor:auto;
+.disabled-button {
+	border-color: #D4D4D4;
+	background-color: #D4D4D4;
+	color: #fff;
+	cursor: auto;
 }
 </style>
 <script language="javascript" src="../../Resources/js/LodopFuncs.js"></script>
@@ -78,32 +78,32 @@
 						<div class="panel-body">
 							<div id="search-div">
 								<form class="form-inline" role="form">
-								
+
 									<div class="form-group">
-                                        <label for="contact">起始时间</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="start_time"
-                                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact">结束时间</label>
-                                        <div>
-                                            <input type="text" class="form-control" id="end_time"
-                                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
-                                        </div>
-                                    </div>
-									
+										<label for="contact">起始时间</label>
+										<div>
+											<input type="text" class="form-control" id="start_time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="contact">结束时间</label>
+										<div>
+											<input type="text" class="form-control" id="end_time"
+												onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+										</div>
+									</div>
+
 
 									<div class="btn-group" style="margin-top:20px">
 										<button type="submit" class="btn btn-sm btn-primary"
-                                                ng-click="search(1)">
-                                                <i class="fa fa-search"></i>&nbsp;查询
-                                            </button>
-                                        <button type="submit" class="btn btn-sm btn-success"
-                                                ng-click="show_add_win()" ng-disabled="up.o_add=='off'">
-                                                <i class="fa fa-search"></i>&nbsp;新增记录
-                                         </button>
+											ng-click="search(1)">
+											<i class="fa fa-search"></i>&nbsp;查询
+										</button>
+										<button type="submit" class="btn btn-sm btn-success"
+											ng-click="show_add_win()" ng-disabled="up.o_add=='off'">
+											<i class="fa fa-search"></i>&nbsp;新增记录
+										</button>
 									</div>
 									<!-- <div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">
@@ -125,24 +125,24 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="hpanel">
-					<div class="panel-heading hbuilt">
+						<div class="panel-heading hbuilt">
 							<div class="panel-tools">
 								<a class="showhide"><i class="fa fa-chevron-up"></i></a>
 							</div>
 							<i class="fa fa-list"></i> 应急演练列表
 						</div>
 						<div class="panel-body" style="padding:0;margin:0">
-						<table id="tb-info" class="xh-table table-hover"
+							<table id="tb-info" class="xh-table table-hover"
 								style="table-layout:fixed">
 								<thead>
 									<tr class="tr-gray">
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
 										<th width="80px">序号</th>
-										<th >演练时间</th>
-										<th >演练名称</th>
-										<th >演练类型</th>
-										<th width="200px">操作</th>
+										<th>演练时间</th>
+										<th>演练名称</th>
+										<th>演练类型</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -156,13 +156,17 @@
 										<td>{{x.create_time}}</td>
 										<td>{{x.name}}</td>
 										<td>{{x.type}}</td>
-										<td>
-										<a href="#" ng-click="show_detail($index)">详情</a>
-										<a href="#" ng-if="up.o_add=='on' && (x.file_name==null || x.file_name=='')" ng-click="showUploadW($index)">|<span class="text-danger">上传文件</span></a>
-										<a href="#" ng-if="x.file_name!=null && x.file_name!=''" ng-click="download($index)">|<span class="text-success">下载文件</span></a>
-										<a ng-if="up.o_delete=='on'" href="#" ng-click="del($index)">|删除</a>
-										<a ng-if="up.o_update=='on'" href="#" ng-click="show_edit($index)">|更新</a>
-										</td>
+										<td><a href="#" ng-click="show_detail($index)">详情</a> <a
+											href="#"
+											ng-if="up.o_add=='on' && (x.file_name==null || x.file_name=='')"
+											ng-click="showUploadW($index)">|<span class="text-danger">上传文件</span></a>
+											<a href="#" ng-if="up.o_add=='on'"
+											ng-click="showPicWin($index)">|<span class="text-danger">上传图片</span></a>
+											<a href="#" ng-if="x.file_name!=null && x.file_name!=''"
+											ng-click="download($index)">|<span class="text-success">下载文件</span></a>
+											<a ng-if="up.o_delete=='on'" href="#" ng-click="del($index)">|删除</a>
+											<a ng-if="up.o_update=='on'" href="#"
+											ng-click="show_edit($index)">|更新</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -178,10 +182,11 @@
 										<option value="50">50</option>
 									</select> 条, <span ng-model="index">显示{{start}}-</span><span
 										ng-model="lastIndex">{{lastIndex}}条,</span> <span
-										ng-model="totals">总计{{totals}}条</span>
-										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
+										ng-model="totals">总计{{totals}}条</span> <i
+										class="fa fa-refresh page-refresh" title="刷新数据"
+										ng-click="refresh()"></i>
 								</div>
-								
+
 								<div class="page-paging"></div>
 							</div>
 						</div>
@@ -196,61 +201,62 @@
 	</div>
 	<!-- 中间内容体 /-->
 	<div class="modal fade" id="upload" tabindex="-1" role="dialog"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="color-line"></div>
-            <div class="modal-header ">
-                <button type="button" class="close" data-dismiss="modal"
-                    aria-hidden="true">&times;</button>
-                <small class="font-bold">上传应急演练文件</small>
-            </div>
-            <div class="modal-body pad-0">              
-                <form action="#" id="uploadForm" onSubmit="return false"
-                    enctype="multipart/form-data" method="POST">
-                    <div class="row" ng-show=false>
-                    <input type="text" name="id" ng-model="editData.id" /> 
-                    <input type="text" name="file_name" value="" /> 
-                    <input type="text" name="file_path" value="" /> 
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group col-md-10" style="padding-right:0px;">
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="color-line"></div>
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<small class="font-bold">上传应急演练文件</small>
+				</div>
+				<div class="modal-body pad-0">
+					<form action="#" id="uploadForm" onSubmit="return false"
+						enctype="multipart/form-data" method="POST">
+						<div class="row" ng-show=false>
+							<input type="text" name="id" ng-model="editData.id" /> <input
+								type="text" name="file_name" value="" /> <input type="text"
+								name="file_path" value="" />
+						</div>
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group col-md-10" style="padding-right:0px;">
 
-                                <input
-                                    class="form-control" type="file" id="pathName" name="pathName" />
-                            </div>
-                            <div class="form-group col-md-2" style="padding-left:0px;">
-                                <button type="button" 
-                                    class="btn btn-info btn-sm"
-                                    id="uploadfile">
-                                    <i class="fa fa-plus-circle"></i>点击上传
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <span style="color:red" id="uploadResult"></span>
-                        </div>
+									<input class="form-control" type="file" id="pathName"
+										name="pathName" />
+								</div>
+								<div class="form-group col-md-2" style="padding-left:0px;">
+									<button type="button" class="btn btn-info btn-sm"
+										id="uploadfile">
+										<i class="fa fa-plus-circle"></i>点击上传
+									</button>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<span style="color:red" id="uploadResult"></span>
+							</div>
 
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            
-                <button type="button" class="btn btn-danger btn-sm"
-                    data-dismiss="modal">
-                    <i class="fa fa-remove"></i>&nbsp;关闭
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
-	<div ng-include="'record_emergency_detail.html'"></div> 
+	<div ng-include="'record_emergency_detail.html'"></div>
 	<div ng-include="'record_emergency_add.html'"></div>
 	<div ng-include="'record_emergency_edit.html'"></div>
+	<div ng-include="'record_emergency_pic.html'"></div>
 	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
 		<i class="fa fa-chevron-circle-up fa-3x"></i>
 	</div>
@@ -258,50 +264,51 @@
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
 		src="../../Controllers/operations/record_emergency.js"></script>
-    <script type="text/javascript"
-        src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		xh.load();
-		$("#uploadfile").click(function() {
-	        if ($('#pathName').val() == "") {
-	            alert("请选择需要上传的文件！");
-	            return false;
-	        }
-	        $("input[name='result']").val(2);
-	        $("#uploadfile").attr("disabled", true);
-	        xh.maskShow("正在上传文件，请耐心等待");
-	        $.ajaxFileUpload({
-	            url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
-	            secureuri : false, //是否需要安全协议，一般设置为false
-	            fileElementId : 'pathName', //文件上传域的ID
-	            dataType : 'json', // 返回值类型 一般设置为json
-	            type : 'POST',
-	            success : function(data, status) //服务器成功响应处理函数
-	            {
-	                $("#uploadfile").attr("disabled", false);
-	                xh.maskHide();
-	                if (data.success) {
-	                    $("input[name='result']").val(1);
-	                    $("input[name='file_name']").val(data.fileName);
-	                    $("input[name='file_path']").val(data.filePath);
-	                    $("#uploadResult").html("文件上传成功");
-	                   
-	                    xh.upload();
-	                } else {
-	                    $("input[name='result']").val(0);
-	                    toastr.error("文件上传失败", '提示');
-	                    $("#uploadResult").html("文件上传失败");
-	                }
+	 $("#uploadfile").click(function() {
+			if ($("#upload").find('#pathName').val() == "") {
+				alert("请选择需要上传的文件！");
+				return false;
+			}
+			$("#upload").find("input[name='result']").val(2);
+			$("#upload").find("#uploadfile").attr("disabled", true);
+			xh.maskShow("正在上传文件，请耐心等待");
+			$.ajaxFileUpload({
+				url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+				secureuri : false, //是否需要安全协议，一般设置为false
+				fileElementId : 'pathName', //文件上传域的ID
+				dataType : 'json', // 返回值类型 一般设置为json
+				type : 'POST',
+				success : function(data, status) //服务器成功响应处理函数
+				{
+					$("#upload").find("#uploadfile").attr("disabled", false);
+					xh.maskHide();
+					if (data.success) {
+						$("#upload").find("input[name='result']").val(1);
+						$("#upload").find("input[name='file_name']").val(data.fileName);
+						$("#upload").find("input[name='file_path']").val(data.filePath);
+						$("#upload").find("#uploadResult").html("文件上传成功");
 
-	            },
-	            error : function(data, status, e)//服务器响应失败处理函数
-	            {
-	                alert(e);
-	                $("#uploadfile").attr("disabled", false);
-	                xh.maskHide();
-	            }
-	        });
-	    });
+						xh.upload();
+					} else {
+						$("#upload").find("input[name='result']").val(0);
+						toastr.error("文件上传失败", '提示');
+						$("#upload").find("#uploadResult").html("文件上传失败");
+					}
+
+				},
+				error : function(data, status, e)//服务器响应失败处理函数
+				{
+					alert(e);
+					$("#upload").find("#uploadfile").attr("disabled", false);
+					xh.maskHide();
+				}
+			});
+		}); 
 	</script>
+	
 </body>
 </html>

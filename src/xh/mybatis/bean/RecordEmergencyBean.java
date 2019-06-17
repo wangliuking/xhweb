@@ -1,5 +1,8 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class RecordEmergencyBean {
 	private int id;
 	private String create_time;
@@ -13,6 +16,7 @@ public class RecordEmergencyBean {
 	
 	private String file_name;
 	private String file_path;
+	private List<Map<String,Object>> files;
 	public int getId() {
 		return id;
 	}
@@ -78,6 +82,13 @@ public class RecordEmergencyBean {
 	}
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	
+	public List<Map<String, Object>> getFiles() {
+		return files;
+	}
+	public void setFiles(List<Map<String, Object>> files) {
+		this.files = files;
 	}
 	@Override
 	public String toString() {

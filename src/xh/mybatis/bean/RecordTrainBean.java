@@ -1,5 +1,8 @@
 package xh.mybatis.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class RecordTrainBean {
 private int id;
 private String create_time;
@@ -9,6 +12,13 @@ private String personnel;
 private String name;
 private String content;
 private String note;
+private List<Map<String, Object>> files;
+public List<Map<String, Object>> getFiles() {
+	return files;
+}
+public void setFiles(List<Map<String, Object>> files) {
+	this.files = files;
+}
 public int getId() {
 	return id;
 }

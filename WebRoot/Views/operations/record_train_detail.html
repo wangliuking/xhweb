@@ -10,41 +10,66 @@
 			</div>
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<div class="row">
-				<div class="col-md-12">
-				<table id="order-table"
-                            style="width:100%;border-collapse: collapse;" class="table-view">
-                           <tbody>
-                                <tr>
-                                    <td style="text-align: center;">时间</td>
-                                    <td>{{editData.create_time}}</td>
-                                    <td style="text-align: center;">地点</td>
-                                    <td>{{editData.address}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center; width:200px">培训名称</td>
-                                    <td colspan="3">{{editData.name}}</td>
-                                </tr>
-                               
-                                <tr>
-                                    <td style="text-align: center;">参与人员</td>
-                                    <td colspan="3">{{editData.personnel}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center;">培训内容</td>
-                                    <td colspan="3">{{editData.content}}</td>
-                                </tr>
-                                 <tr>
-                                    <td style="text-align: center;">备注</td>
-                                    <td colspan="3">{{editData.note}}</td>
-                                </tr>
-                                
+					<div class="col-md-12">
+						<table id="order-table"
+							style="width:100%;border-collapse: collapse;" class="table-view">
+							<tbody>
+								<tr>
+									<td style="text-align: center;">时间</td>
+									<td>{{editData.create_time}}</td>
+									<td style="text-align: center;">地点</td>
+									<td>{{editData.address}}</td>
+								</tr>
+								<tr>
+									<td style="text-align: center; width:200px">培训名称</td>
+									<td colspan="3">{{editData.name}}</td>
+								</tr>
 
-                            </tbody>
-                        </table>
-				</div></div>
+								<tr>
+									<td style="text-align: center;">参与人员</td>
+									<td colspan="3">{{editData.personnel}}</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">培训内容</td>
+									<td colspan="3">{{editData.content}}</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">备注</td>
+									<td colspan="3">{{editData.note}}</td>
+								</tr>
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3" ng-repeat=" x in editData.files">
+					<img alt="" src="../..{{x.pic_path}}" ng-click="showBigPicWin(x.pic_path)" 
+					style="height:100px;width:200px;cursor: pointer;">
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer"></div>
 
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" id="BigPicWin" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog " style="max-height:600px;max-width:1000px;">
+        <div class="modal-content">
+          
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+       
+                <div class="row">
+                    <div class="col-md-12">
+                    <img alt="" ng-src="{{pic_path}}" style="max-height:600px;max-width:1000px;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

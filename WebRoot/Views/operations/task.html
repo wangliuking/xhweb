@@ -205,7 +205,7 @@
 										&& x.status==-1">|&nbsp;<img src="../../Resources/images/icon/edit.png">修改</a>
 										<a href="#" ng-click="showCheck($index)" ng-if="up.o_task=='on' && x.status==0">|&nbsp;<img src="../../Resources/images/icon/sign.png">审核</a>
 										<a href="#" ng-click="sign($index)" ng-if="loginUser.roleType!=x.user_type 
-										&& up.o_task=='on' && x.status==1">|&nbsp;<img src="../../Resources/images/icon/record.png">签收</a>
+										&&  x.status==1">|&nbsp;<img src="../../Resources/images/icon/record.png">签收</a>
 											<a href="#" ng-click="del($index)"
                                             ng-if="up.o_delete=='on' && (loginUser.roleType==0 || loginUser.roleType==3)">|&nbsp;<img src="../../Resources/images/icon/del.png">删除</a>
 										</td>
