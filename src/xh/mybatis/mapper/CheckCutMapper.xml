@@ -91,6 +91,11 @@
         requestTime=#{requestTime},userName=#{userName} where id=#{id}
     </update>
 
+    <!--修改核减依据 -->
+    <update id="updateCheckContent" parameterType="xh.mybatis.bean.CheckCutBean">
+        update xhgmnet_bs_checkcut set fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1} where id=#{id}
+    </update>
+
     <!--运维人员重新发起核减申请 -->
     <update id="checkedNegTwo" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set

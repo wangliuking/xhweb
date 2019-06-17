@@ -31,13 +31,13 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
-								<label>提交核减申请</label>&nbsp;<span class="text-danger">[*]</span>
+								<label>提交核减依据</label>&nbsp;<span class="text-danger">[*]</span>
 								<input type="file" name="filePath" id="filePath1" class="form-control"/> 
 							</div>	
 							<div class="form-group col-md-4"style="margin-top:30px;" >
 							    <input type="hidden" name="result" class="form-control"/> 
-							    <input type="hidden" name="fileName"/> 
-							    <input type="hidden" name="path"/> 
+							    <input type="hidden" name="fileName"/>
+							    <input type="hidden" name="path"/>
 								<a href="#" onclick="xh.upload(1)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
 								<span id="uploadResult1" style="color:red"></span>
 							</div>	
@@ -67,7 +67,77 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="showContent" tabindex="-1" role="dialog"
+	 aria-hidden="true">
+	<div class="modal-dialog modal-md ">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header ">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold"></small> -->
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+				<form action="#" id="showContentForm" onSubmit="return false">
+					<input type="hidden" ng-value="contentData.id" name="id"/>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>核减依据</label>
+								<img ng-src="/Resources/upload/CheckCut/{{contentData.fileName1}}" width="100%" height="auto">
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-if="roleId!=10002">
+						<div class="col-md-12">
+							<div class="form-group col-md-8">
+								<label>提交核减依据</label>&nbsp;<span class="text-danger">[*]</span>
+								<input type="file" name="filePath" id="filePath0" class="form-control"/>
+							</div>
+							<div class="form-group col-md-4"style="margin-top:30px;" >
+								<input type="hidden" name="result" class="form-control"/>
+								<input type="hidden" name="fileName"/>
+								<input type="hidden" name="path"/>
+								<a href="#" onclick="xh.upload(0)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+								<span id="uploadResult0" style="color:red"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group col-md-12">
+								<label>备注</label>
+								<textarea name="note1" rows="4" cols="10" class="form-control" ng-if="roleId!=10002">{{contentData.note1}}</textarea>
+								<textarea name="note1" rows="4" cols="10" class="form-control" ng-if="roleId==10002" readonly="readonly">{{contentData.note1}}</textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+
+				<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+					<i class="fa fa-remove"></i>&nbsp;关闭
+				</button>
+				<button ng-show="roleId!=10002" type="button" ng-disabled="form.$invalid"
+						class="btn btn-success btn-sm" id="showContent_btn">
+					<i class="fa fa-plus"></i>&nbsp;保存
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
+	$("#showContent").on('hidden.bs.modal',function(){
+	    $("#sheet").css({'overflow-y':'scroll'})
+	})
+    $("#checkWin1").on('hidden.bs.modal',function(){
+        $("#sheet").css({'overflow-y':'scroll'})
+    })
+    $("#checkWin2").on('hidden.bs.modal',function(){
+        $("#sheet").css({'overflow-y':'scroll'})
+    })
 	$("#add_btn").click(function() {
 		/*if ($("input[name='result']").val() != 1) {
 			alert("请先上传核减申请！");
@@ -89,6 +159,9 @@
 		$("#add_btn").button('loading');
 		xh.add();
 	});
+    $("#showContent_btn").click(function() {
+        xh.showContent();
+    });
 </script>
 <script>
 	$(function() {

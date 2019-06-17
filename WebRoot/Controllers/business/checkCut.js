@@ -259,6 +259,15 @@ xh.load = function() {
             $("#sheet").modal('show');
         }
 
+        /*显示依据*/
+        $scope.showContent = function (id) {
+            $scope.contentData = $scope.data[id];
+            $("input[name='result']").val(1);
+            $("input[name='fileName']").val($scope.data[id].fileName1);
+            $("input[name='path']").val($scope.data[id].filePath1);
+            $("#showContent").modal('show');
+        }
+
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];
@@ -511,6 +520,29 @@ xh.sheetChange = function() {
     });
 };
 
+/*更新核减依据*/
+xh.showContent = function() {
+    $.ajax({
+        url : '../../checkCut/updateCheckContent',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data : $("#showContentForm").serializeArray(),
+        success : function(data) {
+            $("#showContent_btn").button('reset');
+            if (data.result ==1) {
+                $('#showContent').modal('hide');
+                toastr.success(data.message, '提示');
+            } else {
+                toastr.error(data.message, '提示');
+            }
+        },
+        error : function() {
+            $("#add_btn").button('reset');
+        }
+    });
+};
+
 /*运维组发起请求审核*/
 xh.add = function() {
     var data = $("#addForm").serializeArray();
@@ -667,11 +699,16 @@ xh.check4 = function() {
 
 /* 上传文件 */
 xh.upload = function(index) {
-    if (index == -2) {
-        path = 'filePath-1';
-        note = 'uploadResult-1';
+    var $scope = angular.element(appElement).scope();
+    if (index == 0) {
+        path = 'filePath0';
+        note = 'uploadResult0';
     }
-	if (index == 2) {
+    if (index == -2) {
+        path = 'filePath-2';
+        note = 'uploadResult-2';
+    }
+	if (index == 1) {
 		path = 'filePath1';
 		note = 'uploadResult1';
 	}
@@ -708,6 +745,10 @@ xh.upload = function(index) {
 				$("input[name='result']").val(1);
 				$("input[name='fileName']").val(data.fileName);
 				$("input[name='path']").val(data.filePath);
+				if(index == 0){
+                    $scope.contentData.fileName1 = data.fileName;
+                    $scope.$apply();
+                }
 			} else {
 				$("#"+note).html(data.message);
 			}
@@ -734,7 +775,7 @@ xh.download=function(){
 			fileName = $scope.checkData.fileName3;
 		}
 	}
-	var filepath = "/Resources/upload/checkCut/" + fileName;
+	var filepath = "/Resources/upload/CheckCut/" + fileName;
 	var downUrl = "../../uploadFile/download?fileName=" + fileName + "&filePath=" + filepath;
 	if(xh.isfile(filepath)){
 		window.open(downUrl, '_self','width=1,height=1,toolbar=no,menubar=no,location=no');
