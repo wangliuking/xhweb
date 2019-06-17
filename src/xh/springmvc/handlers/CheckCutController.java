@@ -1230,4 +1230,42 @@ public class CheckCutController {
 
     }
 
+    /**
+     * 修改核减依据
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/updateCheckContent", method = RequestMethod.POST)
+    public void updateCheckContent(HttpServletRequest request,
+                               HttpServletResponse response) {
+        this.success = true;
+        String id = request.getParameter("id");
+        String fileName = request.getParameter("fileName");
+        String filePath = request.getParameter("path");
+        String note1 = request.getParameter("note1");
+        CheckCutBean bean = new CheckCutBean();
+        bean.setId(Integer.parseInt(id));
+        bean.setFileName1(fileName);
+        bean.setFilePath1(filePath);
+        bean.setNote1(note1);
+
+        log.info("data==>" + bean.toString());
+        int rst = CheckCutService.updateCheckContent(bean);
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", "修改成功");
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }

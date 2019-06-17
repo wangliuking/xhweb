@@ -41,6 +41,13 @@ public interface CheckCutMapper {
      */
     public int checkedNegTwo(CheckCutBean bean)throws Exception;
     /**
+     * 修改核减依据
+     * @param bean
+     * @return
+     * @throws Exception
+     */
+    public int updateCheckContent(CheckCutBean bean)throws Exception;
+    /**
      * 申请
      * @param bean
      * @return

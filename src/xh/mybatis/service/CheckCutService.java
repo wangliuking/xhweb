@@ -133,6 +133,28 @@ public class CheckCutService {
     }
 
     /**
+     * 修改核减依据
+     * @param bean
+     * @return
+     */
+    public static int updateCheckContent(CheckCutBean bean){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.updateCheckContent(bean);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
      * 申请
      * @param bean
      * @return
