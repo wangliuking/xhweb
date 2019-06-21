@@ -363,7 +363,7 @@
                 <button type="button" class="btn btn-success btn-sm" ng-click="showContent(nowIndex)">
                     <i class="fa fa-check-square"></i>&nbsp;依据
                 </button>
-                <button type="button" class="btn btn-success btn-sm" ng-click="signNow()">
+                <button ng-if="sheetIsUpdate" type="button" class="btn btn-success btn-sm" ng-click="signNow()">
                     <i class="fa fa-check-square"></i>&nbsp;签名
                 </button>
                 <button ng-if="roleId==10003 && nowChecked==0" type="button" class="btn btn-success btn-sm" ng-click="checkWin(nowIndex)">
@@ -375,7 +375,13 @@
                 <!--<button type="button" class="btn btn-success btn-sm" ng-click="print_order(sheetData.persion1,sheetData.persion2,sheetData.persion3)">
                     <i class="fa fa-print"></i>&nbsp;打印
                 </button>-->
-                <button type="button" class="btn btn-success btn-sm" id="checkCut-btn">
+                <button ng-show="sheetIsUpdate && nowChecked==7" type="button" class="btn btn-success btn-sm" id="checkCut-btn">
+                    <i class="fa fa-remove"></i>&nbsp;保存
+                </button>
+                <button ng-show="sheetIsUpdate && nowChecked<2" type="button" class="btn btn-success btn-sm" id="checkCut-btn2">
+                    <i class="fa fa-remove"></i>&nbsp;保存
+                </button>
+                <button ng-show="sheetIsUpdate && nowChecked>1 && checkedMan==loginUser" type="button" class="btn btn-success btn-sm" id="checkCut-btn1">
                     <i class="fa fa-remove"></i>&nbsp;保存
                 </button>
             </div>
@@ -384,6 +390,14 @@
 </div>
 <script type="text/javascript">
     $("#checkCut-btn").click(function () {
+        //$('#checkCut-form').submit();
+        xh.sheetChange();
+    });
+    $("#checkCut-btn1").click(function () {
+        //$('#checkCut-form').submit();
+        xh.sheetChange();
+    });
+    $("#checkCut-btn2").click(function () {
         //$('#checkCut-form').submit();
         xh.sheetChange();
     });

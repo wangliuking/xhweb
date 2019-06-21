@@ -133,6 +133,29 @@ public class CheckCutService {
     }
 
     /**
+     *删除核减时重置故障表的核减状态
+     * @param
+     * @return
+     */
+    public static int updateFaultWhenDel(int id){
+        SqlSession sqlSession =MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result=0;
+        try {
+            result=mapper.updateFaultWhenDel(id);
+            sqlSession.commit();
+            result=1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+
+    /**
      * 修改核减依据
      * @param bean
      * @return

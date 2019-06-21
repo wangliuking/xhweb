@@ -131,13 +131,17 @@ xh.load = function() {
             }
             var bsPeriod = $('#bsPeriod option:selected') .val();
             var bsRules = $('#bsRules option:selected') .val();
+            var tempCheckCutType = $("#checkCutType").val();
+            if(tempCheckCutType == 0){
+                tempCheckCutType = "";
+            }
 			var startTime = $("#startTime").val();
             var endTime = $("#endTime").val();
             if(startTime == "" || endTime == ""){
             	alert("请选择需要导出的时间!");
             	return false;
 			}
-            window.location.href="../../checkCut/downLoadZipFile?bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules;
+            window.location.href="../../checkCut/downLoadZipFile?bsId="+bsId+"&bsName="+bsName+"&checked="+status+"&startTime="+startTime+"&endTime="+endTime+"&bsPeriod="+bsPeriod+"&bsRules="+bsRules+"&checkCutType="+tempCheckCutType;
         };
 
         $scope.sign = function () {
@@ -227,6 +231,15 @@ xh.load = function() {
             var temp = $scope.data[id];
             $scope.nowIndex = id;
             $scope.nowChecked = temp.checked;
+            if(temp.checked>1 && temp.checked!=7){
+                //该核减已经审核
+                var tempPersion3 = temp.persion3;
+                var arr1 = tempPersion3.split("/");
+                var arr2 = arr1[1].split(".");
+                $scope.checkedMan = arr2[0];
+            }else{
+                $scope.checkedMan = "";
+            }
             $scope.checkCutType = temp.checkCutType;
             var sheetId = temp.id;
             $http.get("../../checkCut/sheetShow?id="+sheetId).success(function (response) {
@@ -236,6 +249,16 @@ xh.load = function() {
 				var date1 = data.breakTime;
                 var date2 = data.restoreTime;    //结束时间
                 var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
+                var nowMonth = new Date().getMonth()+1;
+                var sheetMonth = new Date(date1).getMonth()+1;
+                console.log("nowMonth : "+nowMonth);
+                console.log("sheetMonth : "+sheetMonth);
+                if(sheetMonth<nowMonth){
+                    //表单创建时间不在当月
+                    $scope.sheetIsUpdate = false;
+                }else{
+                    $scope.sheetIsUpdate = true;
+                }
                 //------------------------------
                 //计算出相差天数
                 var days=Math.floor(date3/(24*3600*1000))
@@ -262,9 +285,28 @@ xh.load = function() {
         /*显示依据*/
         $scope.showContent = function (id) {
             $scope.contentData = $scope.data[id];
+            console.log($scope.contentData);
             $("input[name='result']").val(1);
-            $("input[name='fileName']").val($scope.data[id].fileName1);
+            $("input[name='fileName']").val($scope.data[id].fileName1+$scope.data[id].fileName2+$scope.data[id].fileName3);
             $("input[name='path']").val($scope.data[id].filePath1);
+
+            var fileName1Arr = "";
+            var fileName2Arr = "";
+            var fileName3Arr = "";
+            if($scope.data[id].fileName1 != null){
+                var tempArr = $scope.data[id].fileName1.split(";");
+                fileName1Arr = tempArr.splice(0,tempArr.length-1);
+            }
+            if($scope.data[id].fileName2 != null){
+                var tempArr = $scope.data[id].fileName2.split(";");
+                fileName2Arr = tempArr.splice(0,tempArr.length-1);
+            }
+            if($scope.data[id].fileName3 != null){
+                var tempArr = $scope.data[id].fileName3.split(";");
+                fileName3Arr = tempArr.splice(0,tempArr.length-1);
+            }
+            $scope.imgListData = fileName1Arr.concat(fileName2Arr).concat(fileName3Arr);
+            console.log($scope.imgListData)
             $("#showContent").modal('show');
         }
 
@@ -532,6 +574,8 @@ xh.showContent = function() {
             $("#showContent_btn").button('reset');
             if (data.result ==1) {
                 $('#showContent').modal('hide');
+                var page = $(".page.active").find("a").text();
+                xh.refresh(page);
                 toastr.success(data.message, '提示');
             } else {
                 toastr.error(data.message, '提示');
@@ -596,22 +640,25 @@ xh.checkneg2 = function() {
 };
 
 xh.check1 = function() {
-	//复核前执行保存操作
-    xh.sheetChange();
+    var $scope = angular.element(appElement).scope();
+    //复核前自动签名
+    $scope.signNow();
+    $scope.$apply();
     $.ajax({
         url : '../../checkCut/checkedOne',
         type : 'POST',
         dataType : "json",
-        async : true,
+        async : false,
         data:$("#checkForm1").serializeArray(),
         success : function(data) {
 
             if (data.result ==1) {
+                //执行保存操作
+                xh.sheetChange();
                 $('#checkWin1').modal('hide');
-                $('#sheet').modal('hide');
+                //$('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
-                toastr.success(data.message, '提示');
 
             } else {
                 toastr.error("创建失败", '提示');
@@ -623,23 +670,25 @@ xh.check1 = function() {
 };
 
 xh.check2 = function() {
-    //审核前执行保存操作
-    xh.sheetChange();
+    var $scope = angular.element(appElement).scope();
+    //审核前自动签名
+    $scope.signNow();
+    $scope.$apply();
 	$.ajax({
 		url : '../../checkCut/checkedTwo',
 		type : 'POST',
 		dataType : "json",
-		async : true,
+		async : false,
 		data:$("#checkForm2").serializeArray(),
 		success : function(data) {
 
 			if (data.result ==1) {
+                //执行保存操作
+                xh.sheetChange();
 				$('#checkWin2').modal('hide');
-                $('#sheet').modal('hide');
+                //$('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
-				toastr.success(data.message, '提示');
-
 			} else {
 				toastr.error("创建失败", '提示');
 			}
@@ -738,7 +787,7 @@ xh.upload = function(index) {
 		success : function(data, status) // 服务器成功响应处理函数
 		{
 			// var result=jQuery.parseJSON(data);
-			console.log(data.filePath)
+			console.log(data.fileName)
 			xh.maskHide();
 			if (data.success) {
 				$("#"+note).html(data.message);
@@ -746,7 +795,9 @@ xh.upload = function(index) {
 				$("input[name='fileName']").val(data.fileName);
 				$("input[name='path']").val(data.filePath);
 				if(index == 0){
-                    $scope.contentData.fileName1 = data.fileName;
+                    var tempArr = data.fileName.split(";");
+                    $scope.imgListData = tempArr.splice(0,tempArr.length-1);
+                    console.log($scope.imgListData)
                     $scope.$apply();
                 }
 			} else {
