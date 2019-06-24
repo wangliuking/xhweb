@@ -245,6 +245,7 @@ public class CheckCutController {
         this.success = true;
         int id = Integer.parseInt(request.getParameter("id"));
         int res = CheckCutService.deleteCheckCutById(id);
+        CheckCutService.updateFaultWhenDel(id);
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("message", res);
@@ -823,7 +824,7 @@ public class CheckCutController {
         bean.setPersion2("sign/"+funUtil.loginUser(request)+".png");
         int rst = CheckCutService.checkedOne(bean);
         if (checked == 1)
-            this.message = "审核通过";
+            this.message = "审核通过，已自动保存";
         else
             this.message = "审核不通过";
         if (checked == 1) {
@@ -872,7 +873,7 @@ public class CheckCutController {
         bean.setPersion3("sign/"+funUtil.loginUser(request)+".png");
         int rst = CheckCutService.checkedTwo(bean);
         if (checked == 2)
-            this.message = "审核通过";
+            this.message = "审核通过，已自动保存";
         else
             this.message = "审核不通过";
         if (rst == 1) {
@@ -984,37 +985,40 @@ public class CheckCutController {
 
     /**
      * 上传文件
-     * @param file
+     * @param files
      * @param request
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public void upload(@RequestParam("filePath") MultipartFile file,
+    public void upload(@RequestParam("filePath") MultipartFile[] files,
                        HttpServletRequest request,HttpServletResponse response) {
-
-
-        // 获取当前时间
-        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
-        String data = funUtil.MD5(sdf.format(d));
-        String path = request.getSession().getServletContext()
-                .getRealPath("")+"/Resources/upload/CheckCut";
-        String fileName = file.getOriginalFilename();
-        //String fileName = new Date().getTime()+".jpg";
-        log.info("path==>"+path);
-        log.info("fileName==>"+fileName);;
-        File targetFile = new File(path, fileName);
-        if (!targetFile.exists()) {
-            targetFile.mkdirs();
-        }
-        // 保存
+        String fileNames = "";
+        String filePaths = "";
         try {
-            file.transferTo(targetFile);
-            this.success=true;
-            this.message="文件上传成功";
-            fileName=data+"-"+fileName;
-            File rename = new File(path,fileName);
-            targetFile.renameTo(rename);
-
+            for(MultipartFile file:files){
+                // 获取当前时间
+                Date d = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
+                String data = funUtil.MD5(sdf.format(d));
+                String path = request.getSession().getServletContext()
+                        .getRealPath("")+"/Resources/upload/CheckCut";
+                String fileName = file.getOriginalFilename();
+                //String fileName = new Date().getTime()+".jpg";
+                log.info("path==>"+path);
+                log.info("fileName==>"+fileName);;
+                File targetFile = new File(path, fileName);
+                if (!targetFile.exists()) {
+                    targetFile.mkdirs();
+                }
+                // 保存
+                file.transferTo(targetFile);
+                this.success=true;
+                this.message="文件上传成功";
+                fileName=data+"-"+fileName;
+                fileNames+=fileName+";";
+                filePaths+="/Resources/upload/CheckCut/"+fileName+";";
+                File rename = new File(path,fileName);
+                targetFile.renameTo(rename);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             this.message="文件上传失败";
@@ -1023,8 +1027,8 @@ public class CheckCutController {
         HashMap result = new HashMap();
         result.put("success", success);
         result.put("message", message);
-        result.put("fileName", fileName);
-        result.put("filePath", "/Resources/upload/CheckCut/"+fileName);
+        result.put("fileName", fileNames);
+        result.put("filePath", filePaths);
         response.setContentType("application/json;charset=utf-8");
         String jsonstr = json.Encode(result);
         log.debug(jsonstr);
@@ -1102,6 +1106,7 @@ public class CheckCutController {
         String status = request.getParameter("checked");
         String bsPeriod = request.getParameter("bsPeriod");
         String bsRules = request.getParameter("bsRules");
+        String checkCutType = request.getParameter("checkCutType");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         Map<String,Object> param = new HashMap<String,Object>();
@@ -1110,6 +1115,7 @@ public class CheckCutController {
         param.put("status", status);
         param.put("bsPeriod", bsPeriod);
         param.put("bsRules", bsRules);
+        param.put("checkCutType", checkCutType);
         param.put("startTime",startTime);
         param.put("endTime",endTime);
         List<Map<String,Object>> list = CheckCutService.exportWordByTime(param);
@@ -1242,12 +1248,32 @@ public class CheckCutController {
         this.success = true;
         String id = request.getParameter("id");
         String fileName = request.getParameter("fileName");
-        String filePath = request.getParameter("path");
+
+        String fileName1 = "";
+        String fileName2 = "";
+        String fileName3 = "";
+        String[] fileArr = fileName.split(";");
+        if(fileArr.length<5){
+            fileName1 = fileName;
+        }else if (fileArr.length>4 && fileArr.length<9){
+            fileName1 = fileArr[0]+";"+fileArr[1]+";"+fileArr[2]+";"+fileArr[3]+";";
+            for(int i=4;i<fileArr.length;i++){
+                fileName2 += fileArr[i]+";";
+            }
+        }else if (fileArr.length>8 && fileArr.length<13){
+            fileName1 = fileArr[0]+";"+fileArr[1]+";"+fileArr[2]+";"+fileArr[3]+";";
+            fileName2 = fileArr[4]+";"+fileArr[5]+";"+fileArr[6]+";"+fileArr[7]+";";
+            for(int i=8;i<fileArr.length;i++){
+                fileName3 += fileArr[i]+";";
+            }
+        }
+
         String note1 = request.getParameter("note1");
         CheckCutBean bean = new CheckCutBean();
         bean.setId(Integer.parseInt(id));
-        bean.setFileName1(fileName);
-        bean.setFilePath1(filePath);
+        bean.setFileName1(fileName1);
+        bean.setFileName2(fileName2);
+        bean.setFileName3(fileName3);
         bean.setNote1(note1);
 
         log.info("data==>" + bean.toString());

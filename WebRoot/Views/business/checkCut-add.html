@@ -28,7 +28,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!--<div class="row">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>提交核减依据</label>&nbsp;<span class="text-danger">[*]</span>
@@ -50,7 +50,7 @@
 								<textarea name="note1" rows="4" cols="10" class="form-control"></textarea>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -84,15 +84,20 @@
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>核减依据</label>
-								<img ng-src="/Resources/upload/CheckCut/{{contentData.fileName1}}" width="100%" height="auto">
+                                    <div ng-repeat="x in imgListData">
+                                        <a href="/Resources/upload/CheckCut/{{x}}" target="_blank">
+                                            <img ng-src="/Resources/upload/CheckCut/{{x}}" width="100%" height="auto">
+                                        </a>
+                                        <hr>
+                                    </div>
 							</div>
 						</div>
 					</div>
-					<div class="row" ng-if="roleId!=10002">
+					<div class="row" ng-if="roleId!=10002 && sheetIsUpdate">
 						<div class="col-md-12">
 							<div class="form-group col-md-8">
 								<label>提交核减依据</label>&nbsp;<span class="text-danger">[*]</span>
-								<input type="file" name="filePath" id="filePath0" class="form-control"/>
+								<input type="file" name="filePath" id="filePath0" class="form-control" multiple/>
 							</div>
 							<div class="form-group col-md-4"style="margin-top:30px;" >
 								<input type="hidden" name="result" class="form-control"/>
@@ -120,7 +125,7 @@
 						data-dismiss="modal">
 					<i class="fa fa-remove"></i>&nbsp;关闭
 				</button>
-				<button ng-show="roleId!=10002" type="button" ng-disabled="form.$invalid"
+				<button ng-show="roleId!=10002 && sheetIsUpdate" type="button" ng-disabled="form.$invalid"
 						class="btn btn-success btn-sm" id="showContent_btn">
 					<i class="fa fa-plus"></i>&nbsp;保存
 				</button>
@@ -130,6 +135,8 @@
 </div>
 <script type="text/javascript">
 	$("#showContent").on('hidden.bs.modal',function(){
+        $("#filePath0").val("");
+        $("#uploadResult0").html("");
 	    $("#sheet").css({'overflow-y':'scroll'})
 	})
     $("#checkWin1").on('hidden.bs.modal',function(){

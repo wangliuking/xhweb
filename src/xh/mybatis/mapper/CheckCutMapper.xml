@@ -70,6 +70,11 @@
          delete from xhgmnet_bs_checkcut where id=#{id}
     </delete>
 
+    <!--删除核减时重置故障表的核减状态-->
+    <update id="updateFaultWhenDel" parameterType="int" >
+        update xhgmnet_operations_bsfault set checkTag=0 where id=#{id}
+    </update>
+
     <!--查询申请进度 -->
     <select id="applyProgress" parameterType="int" resultType="map"
             useCache="true">
@@ -87,19 +92,19 @@
     <!--运维人员发起核减申请 -->
     <update id="insertCheckCut" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        userUnit=#{userUnit},tel=#{tel},fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1},checked=#{checked},
+        userUnit=#{userUnit},tel=#{tel},checked=#{checked},
         requestTime=#{requestTime},userName=#{userName} where id=#{id}
     </update>
 
     <!--修改核减依据 -->
     <update id="updateCheckContent" parameterType="xh.mybatis.bean.CheckCutBean">
-        update xhgmnet_bs_checkcut set fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1} where id=#{id}
+        update xhgmnet_bs_checkcut set fileName1=#{fileName1},fileName2=#{fileName2},fileName3=#{fileName3},note1=#{note1} where id=#{id}
     </update>
 
     <!--运维人员重新发起核减申请 -->
     <update id="checkedNegTwo" parameterType="xh.mybatis.bean.CheckCutBean">
         update xhgmnet_bs_checkcut set
-        fileName1=#{fileName1},filePath1=#{filePath1},note1=#{note1},time1=#{time1},user1=#{user1},checked=#{checked} where id=#{id}
+        time1=#{time1},user1=#{user1},checked=#{checked} where id=#{id}
     </update>
 
     <!--运维负责人审核核减申请 -->
@@ -170,6 +175,9 @@
         </if>
         <if test="status != null  and status != ''">
             and a.checked=#{status}
+        </if>
+        <if test="checkCutType != null  and checkCutType != ''">
+            and a.checkCutType=#{checkCutType}
         </if>
         <if test="bsPeriod != null  and bsPeriod != ''">
             and c.period=#{bsPeriod}

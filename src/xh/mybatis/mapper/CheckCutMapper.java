@@ -34,6 +34,13 @@ public interface CheckCutMapper {
      */
     public int deleteCheckCutById(int id)throws Exception;
     /**
+     * 删除核减时重置故障表的核减状态
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public int updateFaultWhenDel(int id)throws Exception;
+    /**
      * 申请
      * @param bean
      * @return

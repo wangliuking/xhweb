@@ -54,9 +54,83 @@ public class WordTest {
         String ftlName = "";
         String checkCutType = dataMap.get("checkCutType")+"";
         if("1".equals(checkCutType)){
-            ftlName = "checkcut.ftl";
+            String fileName1 = dataMap.get("fileName1")+"";
+            String fileName2 = dataMap.get("fileName2")+"";
+            String fileName3 = dataMap.get("fileName3")+"";
+            if(fileName1 == null || "".equals(fileName1)){
+                //无附件
+                ftlName = "checkcut.ftl";
+            }else{
+                String fileNames = fileName1 + fileName2 +fileName3;
+                String[] fileArr = fileNames.split(";");
+                dataMap.put("img1","");
+                dataMap.put("img2","");
+                dataMap.put("img3","");
+                dataMap.put("img4","");
+                dataMap.put("img5","");
+                dataMap.put("img6","");
+                dataMap.put("img7","");
+                dataMap.put("img8","");
+                dataMap.put("img9","");
+                dataMap.put("img10","");
+                dataMap.put("img11","");
+                dataMap.put("img12","");
+                for(int i=0;i<fileArr.length;i++){
+                    int tempEnd = i+1;
+                    String key = "img"+tempEnd;
+                    String val = getImgsStr(fileArr[i]);
+                    dataMap.put(key,val);
+                }
+                if(fileArr.length>0 && fileArr.length<4){
+                    ftlName = "checkcutimg1.ftl";
+                }else if(fileArr.length>3 && fileArr.length<7){
+                    ftlName = "checkcutimg2.ftl";
+                }else if(fileArr.length>6 && fileArr.length<10){
+                    ftlName = "checkcutimg3.ftl";
+                }else if(fileArr.length>9 && fileArr.length<13){
+                    ftlName = "checkcutimg4.ftl";
+                }
+            }
+
         }else if("2".equals(checkCutType)){
-            ftlName = "checkcutDispatch.ftl";
+            String fileName1 = dataMap.get("fileName1")+"";
+            String fileName2 = dataMap.get("fileName2")+"";
+            String fileName3 = dataMap.get("fileName3")+"";
+            if(fileName1 == null || "".equals(fileName1)){
+                //无附件
+                ftlName = "checkcutDispatch.ftl";
+            }else{
+                String fileNames = fileName1 + fileName2 +fileName3;
+                String[] fileArr = fileNames.split(";");
+                dataMap.put("img1","");
+                dataMap.put("img2","");
+                dataMap.put("img3","");
+                dataMap.put("img4","");
+                dataMap.put("img5","");
+                dataMap.put("img6","");
+                dataMap.put("img7","");
+                dataMap.put("img8","");
+                dataMap.put("img9","");
+                dataMap.put("img10","");
+                dataMap.put("img11","");
+                dataMap.put("img12","");
+                for(int i=0;i<fileArr.length;i++){
+                    int tempEnd = i+1;
+                    String key = "img"+tempEnd;
+                    String val = getImgsStr(fileArr[i]);
+                    dataMap.put(key,val);
+                }
+                if(fileArr.length>0 && fileArr.length<4){
+                    ftlName = "checkcutDispatchimg1.ftl";
+                }else if(fileArr.length>3 && fileArr.length<7){
+                    ftlName = "checkcutDispatchimg2.ftl";
+                }else if(fileArr.length>6 && fileArr.length<10){
+                    ftlName = "checkcutDispatchimg3.ftl";
+                }else if(fileArr.length>9 && fileArr.length<13){
+                    ftlName = "checkcutDispatchimg4.ftl";
+                }
+            }
+
         }
         Template t=null;
         try {
@@ -154,6 +228,32 @@ public class WordTest {
             System.out.println(files[i].getName()+"==="+files[i].getPath());
         }
         return list;
+    }
+
+    public String getImgsStr(String person){
+        if(person == null || "".equals(person)){
+            return "";
+        }
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        System.out.println(temp[0]);
+
+        String imgFile = temp[0]+"Resources/upload/CheckCut/"+person;
+        InputStream in = null;
+        byte[] data = null;
+
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return Base64Encoder.encode(data);
     }
 
     public String getImgStr(String person){
