@@ -26,7 +26,7 @@ xh.load = function() {
 			if(text=="0"){
 				return "备用"
 			}else{
-				return "再用"
+				return "在用"
 			}
 		};
 	});

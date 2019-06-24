@@ -49,22 +49,22 @@
         select * from record_communication where 1=1
   
         <if test="starttime!=null and starttime!=''">
-            and end_time>=#{starttime}
+            and start_time>=#{starttime}
         </if>
         <if test="endtime!=null and endtime!=''">
-            and end_time &lt;=#{endtime}
+            and start_time &lt;=#{endtime}
         </if>
-         order by id desc
+         order by start_time desc
          limit #{start},#{limit}
     </select>
     <select id="communication_list_count" parameterType="map" resultType="int"
         useCache="true">
         select count(*) from record_communication where 1=1
          <if test="starttime!=null and starttime!=''">
-            and end_time>=#{starttime}
+            and start_time>=#{starttime}
         </if>
         <if test="endtime!=null and endtime!=''">
-            and end_time &lt;=#{endtime}
+            and start_time &lt;=#{endtime}
         </if>
     </select>
     <insert id="add_communication" parameterType="xh.mybatis.bean.RecordCommunicationBean"

@@ -25,18 +25,18 @@
 		useGeneratedKeys="false">
 		<if test="frequency==''">
 		insert into
-        xhgmnet_bs_station_portable(Id,bsName,location,type)values
-        (#{Id},#{bsName},#{location},#{type})
+        xhgmnet_bs_station_portable(Id,bsName,location,type,state)values
+        (#{Id},#{bsName},#{location},#{type},#{state})
 		</if>
 		<if test="frequency!=''">
         insert into
-        xhgmnet_bs_station_portable(Id,bsName,location,frequency,type)values
-        (#{Id},#{bsName},#{location},#{frequency},#{type})
+        xhgmnet_bs_station_portable(Id,bsName,location,frequency,type,state)values
+        (#{Id},#{bsName},#{location},#{frequency},#{type},state)
         </if>
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.ProtableBean">
 		update xhgmnet_bs_station_portable set
-		bsName=#{bsName},location=#{location},
+		bsName=#{bsName},location=#{location},state=${state},
 		<if test="frequency!=''">
 		frequency=#{frequency},
 		</if>
