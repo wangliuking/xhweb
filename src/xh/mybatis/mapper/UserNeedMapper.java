@@ -44,4 +44,6 @@ public interface UserNeedMapper {
 	int upload_emergency(RecordEmergencyBean bean) throws Exception;
 	
 	int del_emergency(List<String> list) throws Exception;
+	int addFile(List<Map<String,Object>> list)throws Exception;
+	List<Map<String, Object>> searchFile(int id) throws Exception;
 }

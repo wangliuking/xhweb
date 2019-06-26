@@ -56,6 +56,10 @@ xh.login = function() {
 			  $("button[type='button']").button('reset')
 			if (data.success) {
 				var url=data.url;
+				xh.getUserPower();
+				xh.getUserInfo();
+				
+				console.log("ddd:"+getSessionData("user"))
 				window.location.href = url;
 			} else {
 				toastr.error(data.message, '提示');
@@ -110,4 +114,37 @@ xh.changeUrl=function() {
 	url = url.substr(0, url.lastIndexOf('/') + 1);
 	url = url + Math.random().toFixed(4);
 	$("#codevalidate").prop('src', url);
+}
+xh.getUserPower=function(){
+
+    $.ajax({
+		url: xh.getUrl()+"web/loginUserPower",
+		type : 'GET',
+		dataType : "json",
+		data : {
+		},
+		async : false,
+		success : function(res) {
+	    	setSessionData("up",JSON.stringify(res));
+	    	setLocalData("up",JSON.stringify(res));
+		},
+		error : function() {
+		}
+	});
+}
+xh.getUserInfo=function(){
+	$.ajax({
+		url: xh.getUrl()+"web/loginUserInfo",
+		type : 'GET',
+		dataType : "json",
+		data : {
+		},
+		async : false,
+		success : function(res) {
+	    	setSessionData("user",JSON.stringify(res));
+	    	setLocalData("user",JSON.stringify(res));
+		},
+		error : function() {
+		}
+	});
 }

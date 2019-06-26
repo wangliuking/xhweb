@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>通讯保障记录</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript"
+	src="../../Resources/js/xhbootstrap-css.js"></script>
+<!-- <script type="text/javascript" src="../../Resources/js/jquery-1.7.2.js"></script> -->
+<!--[if lte IE 9]>
+<script src="../../Resources/js/respond.min.js"></script>
+<script src="../../Resources/js/html5shiv.js"></script>
+<![endif]-->
+<style type="text/css">
+.hpanel panel-body {
+	background: #000;
+}
+/*不可用的确定按钮*/
+.disabled-button {
+	border-color: #D4D4D4;
+	background-color: #D4D4D4;
+	color: #fff;
+	cursor: auto;
+}
+</style>
+</head>
+<body ng-app="app" ng-controller="xhcontroller" class="fixed-iframe">
+	<!-- splash screen-->
+	<div class="splash">
+		<div class="splash-title">
+			<h1>系统正在努力加载中，请耐心等待</h1>
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 中间内容体 -->
+	<div id="wrapper">
+
+		<div class="content animate-panel" style="margin-top:0px;">
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hpanel">
+
+						<div class="panel-body" style="padding:0;margin:0">
+							<style type="text/css">
+.table-view {
+	border-collapse: collapse;
+}
+
+.table-view td {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+table{
+ border-top:2px solid red;
+}
+</style>
+							<table ng-repeat="x in data" style="width:100%;margin-top:10px;"
+								class="table-view">
+								<tbody>
+
+									<tr style="border-top:2px solid red">
+										<td style="text-align: center;width:200px;">保障名称</td>
+										<td colspan="2">{{x.name}}</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">保障时间</td>
+										<td colspan="2">{{x.start_time}} 至 {{x.end_time}}</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">保障区域</td>
+										<td colspan="2">{{x.zone}}</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">保障级别</td>
+										<td colspan="2">{{x.level}}</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">投入人力</td>
+										<td colspan="2">{{x.person_num}}</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">移动卫星车使用时长</td>
+										<td colspan="2">{{x.satellite_time}}分钟</td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">移动通讯车使用台次</td>
+										<td colspan="2">{{x.bus_num}}</td>
+									</tr>
+
+
+
+								</tbody>
+							</table>
+							<!-- <div class="page">
+								<div class="page-info">
+									每页显示 <select id="page-limit" ng-change="refresh()"
+										ng-model="count">
+										<option value="10">10</option>
+										<option value="15">15</option>
+										<option value="20">20</option>
+										<option value="30">30</option>
+										<option value="40">40</option>
+										<option value="50">50</option>
+									</select> 条, <span ng-model="index">显示{{start}}-</span><span
+										ng-model="lastIndex">{{lastIndex}}条,</span> <span
+										ng-model="totals">总计{{totals}}条</span>
+										<i class="fa fa-refresh page-refresh" title="刷新数据" ng-click="refresh()"></i>
+								</div>
+								
+								<div class="page-paging"></div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- row/ -->
+		</div>
+	</div>
+	<!-- 中间内容体 /-->
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+
+	<div class="scroll-top text-info animated fadeIn scroll-top-hide">
+		<i class="fa fa-chevron-circle-up fa-3x"></i>
+	</div>
+	<script type="text/javascript"
+		src="../../Resources/js/xhbootstrap-js.js"></script>
+	<script type="text/javascript"
+		src="../../Controllers/business/record_ensure.js"></script>
+	<script type="text/javascript"
+		src="../../Resources/js/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+		xh.load();
+	</script>
+</body>
+</html>

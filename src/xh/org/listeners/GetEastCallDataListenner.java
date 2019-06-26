@@ -35,17 +35,15 @@ import xh.org.socket.SendData;
 import xh.protobuf.RadioUserBean;
 
 public class GetEastCallDataListenner implements ServletContextListener {
-	
-	private Timer timer=null;
+
 	protected final Log log4j = LogFactory.getLog(GetEastCallDataListenner.class);
 	private static List<String> tableListMap=new ArrayList<String>();
+	//时间间隔
+	private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		if(timer!=null){
-			timer.cancel();
-		}
 	}
 
 	@Override
@@ -55,30 +53,26 @@ public class GetEastCallDataListenner implements ServletContextListener {
         calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        Date date=calendar.getTime(); //第一次执行定时任务的时间
-        //如果第一次执行定时任务的时间 小于当前的时间
-        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
-		
-		
-		
-		if(timer==null){
-			timer=new Timer();
-			SimpleDateFormat fTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat fTime2 = new SimpleDateFormat("yyyy-MM-dd 01:20:00");
-			String time=fTime2.format(new Date());
-			try {
-				Date d1 = fTime.parse(time);
-				timer.schedule(new GetData(), date, 1000*60*60*24);
-				timer.schedule(new GetMotoData(), d1, 1000*60*60*24);
-				timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
-				timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-		}
+        Date date=calendar.getTime(); 
+        if (date.before(new Date())) {
+        	date = this.addDay(date, 1);
+        	}	
+        Timer timer=new Timer();		
+		//timer.schedule(new GetData(), date, PERIOD_DAY);
+		timer.schedule(new GetMotoData(), date, PERIOD_DAY);
+		timer.scheduleAtFixedRate(new GetChData(),5000,5*60*1000);
+		timer.scheduleAtFixedRate(new CollectionData(),5000,1*60*1000);	
 		
 	}
+	// 增加或减少天数
+		public  Date addDay(Date date, int num) {
+			Calendar startDT = Calendar.getInstance();
+			startDT.setTime(date);
+			startDT.add(Calendar.DAY_OF_MONTH, num);
+			return startDT.getTime();
+		}
+	
+
 
 }
 class GetData extends TimerTask{
@@ -90,9 +84,6 @@ class GetData extends TimerTask{
 		log4j.info("=========================================");
 		log4j.info("获取东信数据库数据执行时间"+d1);
 		log4j.info("=========================================");
-		
-	
-		
 		log4j.info("=========================================");
 		log4j.info("获取东信VPN话务统计数据线程启动");
 		log4j.info("=========================================");

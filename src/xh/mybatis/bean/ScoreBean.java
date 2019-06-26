@@ -1,6 +1,10 @@
 package xh.mybatis.bean;
 
-public class ScoreBean {
+import java.io.Serializable;
+
+public class ScoreBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String time;
 	private int period;
 	
@@ -46,7 +50,20 @@ public class ScoreBean {
 	private String fileName;
 	private String filePath;
 	
-	private int score_total;
+	private String doc_name;
+	
+	
+	
+	private Float score_total;
+	
+	
+	
+	public String getDoc_name() {
+		return doc_name;
+	}
+	public void setDoc_name(String doc_name) {
+		this.doc_name = doc_name;
+	}
 	public String getTime() {
 		return time;
 	}
@@ -254,10 +271,11 @@ public class ScoreBean {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-	public int getScore_total() {
+	
+	public Float getScore_total() {
 		return score_total;
 	}
-	public void setScore_total(int score_total) {
+	public void setScore_total(Float score_total) {
 		this.score_total = score_total;
 	}
 	@Override

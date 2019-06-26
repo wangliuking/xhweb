@@ -63,8 +63,10 @@ xh.load = function() {
 		$http.get("../../web/loginUserInfo").success(function(response) {
 			xh.maskHide();
 			$scope.loginUser = response;
+			/*$scope.loginUser=JSON.parse(getLocalData("user"));
+			$scope.up=JSON.parse(getLocalData("up"));*/
 			if($scope.loginUser.roleType==2){
-				$scope.sendUnit="成都市软件产业发展中心"
+				$scope.sendUnit="成都市软件产业发展中心（成都信息化技术应用发展中心）"
 			}else if($scope.loginUser.roleType==3 || $scope.loginUser.roleType==0){
 				$scope.sendUnit="成都亚光电子股份有限公司"
 			}
@@ -85,6 +87,13 @@ xh.load = function() {
 		$scope.CodeNum = function() {
 			$http.get("../../WorkContact/codeNum").success(function(response) {
 				$scope.NO = response.code;
+				
+			});
+		}
+		
+		$scope.select=function(){
+			$http.get("../../select/workcontact").success(function(response) {
+				$scope.select_data = response.items;
 				
 			});
 		}
@@ -318,6 +327,7 @@ xh.load = function() {
 
 		};
 		$scope.CodeNum();
+		$scope.select();
 	});
 };
 

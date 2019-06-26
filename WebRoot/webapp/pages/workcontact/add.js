@@ -6,13 +6,13 @@ loader.define(function(require,exports,module) {
         var bs=bui.store({
             scope:'page',
             data:{
-            	No:No(),
+            	No:code(),
             	sendUnit:gl_para.sendUnit
             },
             methods:{
             	add:add,
             	upload:function(){
-                	//upload();
+                	// upload();
             	},
             	showFileWin:function(){
             		$("input[name='pathName']").click();
@@ -21,7 +21,6 @@ loader.define(function(require,exports,module) {
             }
             
         });
-
     };
     // 事件绑定
     pageview.bind = function() {
@@ -33,17 +32,27 @@ loader.define(function(require,exports,module) {
     pageview.bind();
     return pageview;
 })
+/* 获取编号 */
+function code(){
+	var codestr="";
+	bui.ajax({
+        url: xh.getUrl()+"WorkContact/codeNum",
+        async:false,
+        data: {}
+    }).then(function(res){
+    	codestr = res.code;
+    },function(res,status){
+        console.log(status);
+    });
+	return codestr;
+}
 function add(){
 	var files=[];
-	/*var name = $("input[name='fileName']").val();
-	var path = $("input[name='filePath']").val();
-	    if(name!="" && path!=""){
-	    	var a={
-	    			fileName:name,
-	    			filePath:path
-	    	}
-	    	files.push(a);
-	    }*/
+	/*
+	 * var name = $("input[name='fileName']").val(); var path =
+	 * $("input[name='filePath']").val(); if(name!="" && path!=""){ var a={
+	 * fileName:name, filePath:path } files.push(a); }
+	 */
 		$("#fileArea ul li").each(function(){
 		    var name = $(this).children().first().text();
 		    var path = $(this).children(".path").text();
@@ -97,49 +106,28 @@ function add(){
 		}
 	});
 }
-/*function upload() {
-	  console.log("->"+$("#addForm").find('input[name="pathName"]').val())
-       if ($('#pathName').val() =="") {
-        	 toastr.error("请选择需要上传的文件！","提示");
-            return false;
-        }
-      
-        $("input[name='result']").val(2);
-        var uiLoading = bui.loading({
-            text:'文件中传中，请耐心等待'
-        });
-        
-
-        uiLoading.show();
-        $.ajaxFileUpload({
-            url : xh.getUrl()+'uploadFile/upload', //用于文件上传的服务器端请求地址
-            secureuri : false, //是否需要安全协议，一般设置为false
-            fileElementId : 'pathName', //文件上传域的ID
-            dataType : 'json', // 返回值类型 一般设置为json
-            type : 'POST',
-            success : function(data, status) //服务器成功响应处理函数
-            {
-            	uiLoading.hide();
-                if (data.success) {
-                    $("input[name='result']").val(1);
-                    $("input[name='fileName']").val(data.fileName);
-                    $("input[name='filePath']").val(data.filePath);
-                    $("#uploadResult").html("文件上传成功");
-                    toastr.success("文件上传成功", '提示');
-                } else {
-                    $("input[name='result']").val(0);
-                    toastr.error("文件上传失败", '提示');
-                    $("#uploadResult").html("文件上传失败");
-                }
-
-            },
-            error : function(data, status, e)//服务器响应失败处理函数
-            {
-            	uiLoading.hide();
-            }
-        });
-    }*/
-function No() {
+/*
+ * function upload() {
+ * console.log("->"+$("#addForm").find('input[name="pathName"]').val()) if
+ * ($('#pathName').val() =="") { toastr.error("请选择需要上传的文件！","提示"); return false; }
+ * 
+ * $("input[name='result']").val(2); var uiLoading = bui.loading({
+ * text:'文件中传中，请耐心等待' });
+ * 
+ * 
+ * uiLoading.show(); $.ajaxFileUpload({ url : xh.getUrl()+'uploadFile/upload',
+ * //用于文件上传的服务器端请求地址 secureuri : false, //是否需要安全协议，一般设置为false fileElementId :
+ * 'pathName', //文件上传域的ID dataType : 'json', // 返回值类型 一般设置为json type : 'POST',
+ * success : function(data, status) //服务器成功响应处理函数 { uiLoading.hide(); if
+ * (data.success) { $("input[name='result']").val(1);
+ * $("input[name='fileName']").val(data.fileName);
+ * $("input[name='filePath']").val(data.filePath);
+ * $("#uploadResult").html("文件上传成功"); toastr.success("文件上传成功", '提示'); } else {
+ * $("input[name='result']").val(0); toastr.error("文件上传失败", '提示');
+ * $("#uploadResult").html("文件上传失败"); }
+ *  }, error : function(data, status, e)//服务器响应失败处理函数 { uiLoading.hide(); } }); }
+ */
+/*function No() {
 	var today = new Date();
 	var y = today.getFullYear();
 	var m = today.getMonth() + 1;
@@ -155,7 +143,7 @@ function No() {
 	s = s < 10 ? "0" + s : s; // 这里判断日期是否<10,如果是在日期前面加'0'
 
 	return str+y+m+d+h+m2+s;
-}
+}*/
 function sss(){
 	bui.ajax({
         url: xh.getUrl()+"web/loginUserInfo",
@@ -165,7 +153,7 @@ function sss(){
         async : false
     }).then(function(data){
     	if(parseInt(res.roleType)==2){
-        	str="成都市软件产业发展中心";
+        	str="成都市软件产业发展中心（成都信息化技术应用发展中心）";
         
         }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
         	str="成都亚光电子股份有限公司";

@@ -22,12 +22,13 @@
 								<tr>
 									<td style="width:10%;">基站名称</td>
 									<td>
-									<div class="col-lg-4">
+									<div class="col-lg-12">
 									 <select ng-model="rd"
-                                                class="selectpicker show-tick select-style"
-                                                data-live-search="true" ng-init="rd = portableListData[0]"
+                                                class="form-control"
+                                                ng-init="rd = portableListData[0]"
                                                 ng-options="x.bsName for x in portableListData">
-                                            </select> <input name="name" ng-model="rd.bsName" ng-show="false">
+                                            </select> 
+                                            <input name="name" ng-model="rd.bsName" ng-show="false">
                                         </div>
 									</td>
 									<td>基站号</td>

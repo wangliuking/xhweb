@@ -10,14 +10,13 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-String str=request.getParameter("bean");
-MoneyBean bean=GsonUtil.json2Object(str, MoneyBean.class);
+MoneyBean bean=(MoneyBean)request.getSession().getAttribute(request.getSession().getId()+"money3");
 %>
 <%
     
         WordDocument doc = new WordDocument();
         doc.setEnableAllDataRegionsEditing(true); // 此属性可以设置在提交模式（docSubmitForm）下，所有的数据区域可以编辑
-
+        doc.openDataRegion("PO_Name").setValue(bean.getDoc_name());
         doc.openDataRegion("PO_m_a1").setValue(bean.getM_a1());
         doc.openDataRegion("PO_m_l1").setValue(bean.getM_l1());
         doc.openDataRegion("PO_m_a2").setValue(bean.getM_a2());
@@ -60,7 +59,7 @@ MoneyBean bean=GsonUtil.json2Object(str, MoneyBean.class);
         fmCtrl.setWriter(doc);
         fmCtrl.setJsFunction_OnProgressComplete("OnProgressComplete()");
         fmCtrl.setSaveFilePage(basePath+"office/save_page?path="+name);
-        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("doc/template/扣款3.doc"), DocumentOpenType.Word, bean.getFileName());
+        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("/")+"/doc/template/扣款3.doc", DocumentOpenType.Word, bean.getFileName());
       
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

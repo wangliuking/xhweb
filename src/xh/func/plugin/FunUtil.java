@@ -56,37 +56,40 @@ public class FunUtil {
 		}
 		return str;
 	}
-	
-	public static boolean is_numberic(String str){
-		if(str==null){
+
+	public static boolean is_numberic(String str) {
+		if (str == null) {
 			return false;
-		}else{
-			Pattern p=Pattern.compile("[0-9]*");
-			Matcher m=p.matcher(str);
-			if(!m.matches()){
+		} else {
+			Pattern p = Pattern.compile("[0-9]*");
+			Matcher m = p.matcher(str);
+			if (!m.matches()) {
 				return false;
-			}else{
+			} else {
 				return true;
 			}
 		}
 	}
-	public static HttpServletRequest getHttpServletRequest(){
-		HttpServletRequest request=((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+
+	public static HttpServletRequest getHttpServletRequest() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
 		return request;
 	}
-	//检测登陆密码是否包含大小写字母，数字，或则特殊字符
-	public static boolean userpass_check(String userpass){
-		boolean tag=false;
-		if(userpass==null){
-			tag=false;
-		}else{
-			if(userpass.length()<6){
-				tag=false;
-			}else{
-				String regex="^(?![0-9a-z]+$)(?![0-9A-Z]+$)(?![0-9\\W]+$)(?![a-z\\W]+$)(?![a-zA-Z]+$)(?![A-Z\\W]+$)[a-zA-Z0-9\\W_]+$";
-				Pattern p=Pattern.compile(regex);
-				Matcher m=p.matcher(userpass);
-				tag=m.matches();
+
+	// 检测登陆密码是否包含大小写字母，数字，或则特殊字符
+	public static boolean userpass_check(String userpass) {
+		boolean tag = false;
+		if (userpass == null) {
+			tag = false;
+		} else {
+			if (userpass.length() < 6) {
+				tag = false;
+			} else {
+				String regex = "^(?![0-9a-z]+$)(?![0-9A-Z]+$)(?![0-9\\W]+$)(?![a-z\\W]+$)(?![a-zA-Z]+$)(?![A-Z\\W]+$)[a-zA-Z0-9\\W_]+$";
+				Pattern p = Pattern.compile(regex);
+				Matcher m = p.matcher(userpass);
+				tag = m.matches();
 			}
 		}
 		return tag;
@@ -101,15 +104,16 @@ public class FunUtil {
 					.get(request.getSession().getId()).toString();
 		} catch (NullPointerException e) {
 			// TODO: handle exception
-			//log.info("获取的登录用户失败");
+			// log.info("获取的登录用户失败");
 
 		}
 		return user;
 
 	}
-	
-	public static void  WriteLog(HttpServletRequest request,ConstantLog log,String content){
-		WebLogBean webLogBean=new WebLogBean();
+
+	public static void WriteLog(HttpServletRequest request, ConstantLog log,
+			String content) {
+		WebLogBean webLogBean = new WebLogBean();
 		webLogBean.setOperator(loginUser(request));
 		webLogBean.setOperatorIp(getIpAddr(request));
 		webLogBean.setStyle(Integer.parseInt(log.toString()));
@@ -181,18 +185,19 @@ public class FunUtil {
 	}
 
 	/** 根据用户权限向用户发送邮件（过滤指定用户） */
-	public static void sendMsgToUserByPowerFilter(String powerstr, int roleType,
-											String title, String content, HttpServletRequest request,String userId) {
+	public static void sendMsgToUserByPowerFilter(String powerstr,
+			int roleType, String title, String content,
+			HttpServletRequest request, String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("powerstr", powerstr);
 		map.put("roleType", roleType);
 		List<Map<String, Object>> temp = WebUserServices
 				.emailRecvUsersByPower(map);
-		List<Map<String,Object>> items = new LinkedList<Map<String,Object>>();
-		for(int i=0;i<temp.size();i++){
-			Map<String,Object> tempMap = temp.get(i);
-			String tempUser = tempMap.get("user")+"";
-			if(!userId.equals(tempUser)){
+		List<Map<String, Object>> items = new LinkedList<Map<String, Object>>();
+		for (int i = 0; i < temp.size(); i++) {
+			Map<String, Object> tempMap = temp.get(i);
+			String tempUser = tempMap.get("user") + "";
+			if (!userId.equals(tempUser)) {
 				items.add(tempMap);
 			}
 		}
@@ -212,8 +217,8 @@ public class FunUtil {
 
 	/** 向指定用户发送邮件 */
 	public static void sendMsgToOneUser(String recvUser, String title,
-			String content, HttpServletRequest request) {		
-		if(recvUser!=null && recvUser!=""){
+			String content, HttpServletRequest request) {
+		if (recvUser != null && recvUser != "") {
 			// ----发送通知邮件
 			EmailBean emailBean = new EmailBean();
 			emailBean.setTitle(title);
@@ -224,7 +229,7 @@ public class FunUtil {
 			EmailService.insertEmail(emailBean);
 			// ----END
 		}
-		
+
 	}
 
 	/** 根据用户组权限向用户发送邮件 */
@@ -248,6 +253,7 @@ public class FunUtil {
 			// ----END
 		}
 	}
+
 	/** app向网管组发送通知邮件 */
 	public static void sendMsgToUserByGroupPowerWithoutReq(String powerstr,
 			int roleType, String title, String content, String userid) {
@@ -349,12 +355,18 @@ public class FunUtil {
 	}
 
 	// 设置session
-	public void addSession(HttpServletRequest request, String name, String value) {
+	public static void addSession(HttpServletRequest request, String name,
+			String value) {
+		request.getSession().setAttribute(name, value);
+	}
+
+	public static void CreateSession(HttpServletRequest request, String name,
+			Object value) {
 		request.getSession().setAttribute(name, value);
 	}
 
 	// 获取session
-	public String getSession(HttpServletRequest request, String name) {
+	public static String getSession(HttpServletRequest request, String name) {
 		return request.getSession().getAttribute(name).toString();
 	}
 
@@ -458,13 +470,14 @@ public class FunUtil {
 		String date = dd.format(new Date());
 		return date;
 	}
-	public static String date_format(String str){
+
+	public static String date_format(String str) {
 		SimpleDateFormat dd = new SimpleDateFormat(str);
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-		Calendar c=Calendar.getInstance();
+		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.add(c.MONTH,-0);
-		Date m=c.getTime();
+		c.add(c.MONTH, -0);
+		Date m = c.getTime();
 		String date = dd.format(m);
 		return date;
 	}
@@ -480,25 +493,26 @@ public class FunUtil {
 	public static String nowDateNoTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-		
-		 //获取三十天前日期
+
+		// 获取三十天前日期
 		Calendar theCa = Calendar.getInstance();
 		theCa.setTime(new Date());
-		theCa.add(theCa.DATE, 0);//最后一个数字30可改，30天的意思
+		theCa.add(theCa.DATE, -16);// 最后一个数字30可改，30天的意思-9
 		Date start = theCa.getTime();
-		String startDate = dd.format(new Date());//三十天之前日期
-		
-		
-		
-		String date = dd.format(new Date());
+		String startDate = dd.format(new Date());// 三十天之前日期
+
+		String date = dd.format(start);
+		System.out.println("日期hhhhhhhhhhhhhhh->" + date);
 		return startDate;
-	}	
+	}
+
 	public static String nowDateNotTime() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		String date = dd.format(new Date());
 		return date;
 	}
+
 	public static long nowTimeMill(String dString) {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dd.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
@@ -600,10 +614,11 @@ public class FunUtil {
 		}
 		return value;
 	}
-	public static long StringToLong(String str){
-		long value=-1;
+
+	public static long StringToLong(String str) {
+		long value = -1;
 		try {
-			value =Long.parseLong(str.trim());
+			value = Long.parseLong(str.trim());
 		} catch (NumberFormatException e) {
 			// TODO: handle exception
 			log.info("数字字符串解析失败");
@@ -740,7 +755,6 @@ public class FunUtil {
 		String time_interval = now_week_interval(sdf.parse(time));
 		String start = time_interval.split(",")[0];
 		String end = time_interval.split(",")[1];
-		
 
 		Date dBegin = sdf.parse(start);
 		Date dEnd = sdf.parse(end);
@@ -761,17 +775,46 @@ public class FunUtil {
 		}
 		return lDate;
 	}
-	public static void copyFile(File source, File dest) throws IOException {   
-	    FileChannel inputChannel = null;   
-	    FileChannel outputChannel = null;   
-	  try { 
-	    inputChannel = new FileInputStream(source).getChannel(); 
-	    outputChannel = new FileOutputStream(dest).getChannel(); 
-	    outputChannel.transferFrom(inputChannel, 0, inputChannel.size()); 
-	  } finally { 
-	    inputChannel.close(); 
-	    outputChannel.close(); 
-	  } 
+
+	public static void copyFile(File source, File dest) throws IOException {
+		FileChannel inputChannel = null;
+		FileChannel outputChannel = null;
+		try {
+			inputChannel = new FileInputStream(source).getChannel();
+			outputChannel = new FileOutputStream(dest).getChannel();
+			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+		} finally {
+			inputChannel.close();
+			outputChannel.close();
+		}
+	}
+
+	/** */
+	/**
+	 * 文件重命名
+	 * 
+	 * @param path
+	 *            文件目录
+	 * @param oldname
+	 *            原来的文件名
+	 * @param newname
+	 *            新文件名
+	 */
+	public static void renameFile(String path, String oldname, String newname) {
+		if (!oldname.equals(newname)) {// 新的文件名和以前文件名不同时,才有必要进行重命名
+			File oldfile = new File(path + "/" + oldname);
+			File newfile = new File(path + "/" + newname);
+			if (!oldfile.exists()) {
+				return;// 重命名文件不存在
+			}
+			if (newfile.exists())// 若在该目录下已经有一个文件和新文件名相同，则不允许重命名
+				System.out.println(newname + "已经存在！");
+			else {
+				oldfile.renameTo(newfile);
+			}
+		} else {
+			System.out.println("新文件名和旧文件名相同...");
+		}
 	}
 
 }

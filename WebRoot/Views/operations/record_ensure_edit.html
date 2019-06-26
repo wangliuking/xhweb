@@ -20,29 +20,44 @@
                                 required="required" ng-model="editData.name">
                            
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                         <label>保障开始时间</label>
                             <input type="text" class="form-control" name="start_time"
                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','start_time')})"
                                 required="required" ng-model="editData.start_time">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                         <label>保障结束时间</label>
                             <input type="text" class="form-control" name="end_time"
                                 onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:xh.validatorTime('addForm','end_time')})"
-                                required="required" ng-model="editData.end_time">
+                                 ng-model="editData.end_time">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                         <label>保障区域</label>
                             <input type="text" class="form-control" name="zone"
                                 required="required" ng-model="editData.zone">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                         <label>保障级别</label>
                                 <select name="level"  class="form-control" ng-model="editData.level">
                                 <option value="一般通信保障">一般通信保障</option>
                                 <option value="重大通信保障">重大通信保障</option>
                                 </select>
+                        </div>
+                         <div class="form-group col-md-4">
+                        <label>投入人力</label>
+                               <input type="number" class="form-control" name="person_num"
+                                required="required" ng-model="editData.person_num">
+                        </div>
+                        <div class="form-group col-md-4">
+                        <label>移动卫星车使用时长（小时）</label>
+                                <input type="number" class="form-control" name="satellite_time"
+                                required="required" ng-model="editData.satellite_time">
+                        </div>
+                        <div class="form-group col-md-4">
+                        <label>移动通讯车使用台次</label>
+                                <input type="number" class="form-control" name="bus_num"
+                                required="required" ng-model="editData.bus_num">
                         </div>
                     </div>
 				</form>

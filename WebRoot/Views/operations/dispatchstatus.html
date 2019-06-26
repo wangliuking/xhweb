@@ -102,11 +102,12 @@
 										<th>是否安装</th>
 										<th>运行状态</th>
 										<th>更新时间</th>
+										<th>操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="7" class="text-center">没有记录！</td>
+										<td colspan="8" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 									<td><input type="checkbox" name="tb-check"
@@ -124,6 +125,7 @@
 										<td ng-if="x.flag==0"><span
 											class="label arrowed label-sm label-danger">异常</span></td>					
 										<td>{{x.updateTime}}</td>
+										<td><a href="#" ng-click="showDetail($index)">详情</a></td>
 								
 									</tr>
 								</tbody>
@@ -144,6 +146,7 @@
 	</div>
 	<div ng-include="'dispatchstatus-add.html'"></div>
 	<div ng-include="'dispatchstatus-edit.html'"></div>
+	<div ng-include="'dispatchstatus-detail.html'"></div>
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"

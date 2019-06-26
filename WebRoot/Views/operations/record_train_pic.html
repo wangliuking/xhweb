@@ -1,0 +1,136 @@
+
+<div class="modal fade" id="picWin" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<small class="font-bold">培训图片</small>
+			</div>
+			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+			<div class="row" ng-show=false>
+                        <input type="text" name="id" ng-model="oneData.id" />
+                    </div>
+				<div class="row">
+                                <form action="#" id="fileForm" onSubmit="return false"
+                                    enctype="multipart/form-data" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group col-md-12" style="padding-right:0px;">
+
+                                                <label>（注:可以批量上传图片，格式为png,jpg,jpeg）<a href="#" ng-click="showFileWin()">添加文件</a></label> 
+                                                <!-- <input type="file"
+                                                    name="filePath" id="filePath" class="form-control" /> -->
+                                                    <input  class="form-control" type="file" multiple="multiple" id="pathName" name="pathName" onchange="upload()" style="display: none;"/>
+
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-12">
+                                        <div id="fileArea">
+                                                <ul>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                   
+                                </form>
+                            </div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button type="button" class="btn btn-danger btn-sm"
+						data-dismiss="modal">
+						<i class="fa fa-remove"></i>&nbsp;关闭
+					</button>
+					<butrecord_train.htmlton type="button" class="btn btn-success btn-sm" id="pic_btn">
+						<i class="fa fa-upload"></i>&nbsp;上传
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).on("click",".del-file",function(){
+    $(this).parent().remove();
+})
+	$("#pic_btn").click(function() {
+		xh.uploadPic();
+	});
+	
+</script>
+<script>
+    var fileNum=0;
+    function upload(){
+        if ($('#pathName').val() == "") {
+            alert("请选择需要上传的文件！");
+            return false;
+        }
+        var myfile = document.getElementById('pathName');
+        for(var i=0;i<myfile.files.length;i++){
+        	var name=myfile.files[i].name;
+        	var hz=name.substring(name.lastIndexOf(".")+1);
+        	if(hz!="png" && hz!="jpg" && hz!="jpeg" ){
+        		alert("图片类型不正确");
+        		return;
+        	}
+        }
+        xh.maskShow("正在上传文件，请耐心等待");
+        $.ajaxFileUpload({
+            url : '../../recordtrain/uploadPic', //用于文件上传的服务器端请求地址
+            secureuri : false, //是否需要安全协议，一般设置为false
+            fileElementId : 'pathName', //文件上传域的ID
+            dataType : 'json', // 返回值类型 一般设置为json
+            type : 'POST',
+            data:{
+            },
+            success : function(data, status) //服务器成功响应处理函数
+            {
+                xh.maskHide();
+                if (data.success) {
+                    var allFile=data.rs;
+                    for(var i=0;i<allFile.length;i++){
+                        var size=0;
+                       if (allFile[i].size > 1024 * 1024) {
+                           size = (Math.round(allFile[i].size / (1024 * 1024))).toString()
+                                   + 'MB';
+                       } else {
+                           size = (Math.round(allFile[i].size / 1024)).toString() + 'KB';
+                       }
+                       
+                       var str="";
+                       str+="<li style='border-bottom:1px solid #000; width:90%;margin-top:10px;'>";
+                       str+="<span>"+allFile[i].fileName+"</span>";
+                       str+="<span class='path' style='display:none;' id='filepath"+allFile[i].index+"'>"+allFile[i].filePath+"</span>";
+                       str+="<span>("+size+")</span>"
+                       str+="<span style='color:red;margin-left:20px' id='upresult"+allFile[i].index+"'>文件上传成功</span>"
+                       str+="<span style='color:blue;margin-left:20px;cursor:pointer' class='del-file' >删除</span>"
+                       str+="</li>";
+                      // console.log(allFile[i].fileName+":="+xh.isAdded(allFile[i].fileName))
+                       $("#fileArea ul").append(str);
+                       
+                      
+                   } 
+
+                    toastr.success("文件上传结束", '提示');
+                } else {
+                    toastr.error("文件上传失败", '提示');
+                    $("#"+r).html("文件上传失败");
+                }
+
+            },
+            error : function(data, status, e)//服务器响应失败处理函数
+            {
+                alert(e);
+                xh.maskHide();
+            }
+        });
+       }
+        
+    </script>

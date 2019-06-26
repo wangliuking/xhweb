@@ -23,13 +23,19 @@ xh.load = function() {
 	var app = angular.module("app", [])
 	
 
-	app.filter('qualitystatus', function() { // 可以注入依赖
+	app.filter('dd', function() { // 可以注入依赖
 		return function(text) {
-			if (text == 0) {
-				return "未签收";
-			} else if (text == 1) {
-				return "签收";
+			var str="";
+			if(text.person_num!=null && text.person_num!=""){
+				str+=text.person_num
 			}
+			if(text.satellite_time!=null && text.satellite_time!=""){
+				str+="<span style='color:green'>"+text.person_num+"(分钟)</span>"
+			}
+			if(text.bus_num!=null && text.bus_num!=""){
+				str+="<span style='color:red'>"+text.bus_num+"</span>"
+			}
+			return str;
 		};
 	});
 

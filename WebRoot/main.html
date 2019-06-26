@@ -19,7 +19,7 @@
 <style type="text/css">
 marquee {
 	float: left;
-	width: 350px;
+	width: 250px;
 	height: 33px;
 	color: red;
 	/* margin-left: 5px; */
@@ -157,6 +157,10 @@ marquee {
                                 target="mainframe">通信保障记录</a></li>
                             <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_emergency.html"
                                 target="mainframe">应急演练记录</a></li>
+                                <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_train.html"
+                                target="mainframe">用户培训记录</a></li>
+                                <li ng-if="roleType==3 || roleType==0"><a href="Views/operations/record_net.html"
+                                target="mainframe">网络优化记录</a></li>
                             <li ng-if="roleType==3 || roleType==0"><a href="Views/web/system-config.html"
                                 target="mainframe">告警提示配置</a></li>
 

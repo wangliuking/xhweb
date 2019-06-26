@@ -138,17 +138,18 @@
 									<tr class="tr-gray">
 										<!-- <th width="30px"><input type="checkbox"
 											id="table-checkbox" class="table-check" /></th> -->
-										<th width="80px">序号</th>
+										<th width="50px">序号</th>
 										<th >保障名称</th>
 										<th >保障时间</th>
 										<th >保障区域</th>
-										<th>保障等级</th>
-										<th width="200px">操作</th>
+										<th width="100px">保障等级</th>
+										<th width="200px">投入情况</th>
+										<th width="180px">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="6" class="text-center">没有记录！</td>
+										<td colspan="7" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
@@ -158,6 +159,12 @@
 										<td>{{x.start_time}} 至 {{x.end_time}}</td>
 										<td>{{x.zone}}</td>
 										<td>{{x.level}}</td>
+										<td>
+										<span ng-if="x.person_num!=null && x.person_num!=''">{{x.person_num}}人次</span>
+										<span ng-if="x.satellite_time!=null && x.satellite_time!=''" style="color:green">,卫星{{x.satellite_time}}小时</span>
+										<span ng-if="x.bus_num!=null && x.bus_num!=''" style="color:red">,车辆{{x.bus_num}}台次</span>
+										</td>
+										
 										<td>
 										<a href="#" ng-click="show_detail($index)">详情</a>
 										<a href="#" ng-if="up.o_add=='on' && x.file_name==null" ng-click="showUploadW($index)">|<span class="text-danger">上传文件</span></a>

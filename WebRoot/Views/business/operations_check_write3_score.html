@@ -12,7 +12,8 @@
 <meta http-equiv="Expires" content="-1">
 <script type="text/javascript"
 	src="../../Resources/js/xhbootstrap-css.js"></script>
-	<script type="text/javascript" src="../../jquery.min.js"></script>  
+<link rel="stylesheet" href="../../lib/layer-master/src/theme/layer.css">
+<script type="text/javascript" src="../../jquery.min.js"></script>
 <script type="text/javascript" src="../../pageoffice.js" id="po_js_main"></script>
 <!--[if lte IE 9]>
 <script src="../../Resources/js/jquery-1.8.3.min.js"></script>
@@ -62,144 +63,172 @@
 					<div class="hpanel">
 						<!-- <div class="panel-heading hbuilt">扣分</div> -->
 						<div class="panel-body">
-						
-							
+							<div class="row">
+								<div class="col-md-12">
+									<label>表名称（<span style="color:red;">描述:多行名称，请换行填写，生成的文件中的头部名称默认居中显示。</span>）</label>
+									<textarea name="doc_name" class="form-control" rows="4" ng-model="doc_name"></textarea>
+								</div>
+							</div>
+
+
+
 							<!--  row -->
 							<div class="row">
 								<div class="col-md-12">
 									<form action="#" id="score3Form" onsubmit="return false">
-                    <table id="tb-info" class="xh-table-primary table-hover">
-                        <thead>
-                            <tr class="tr-gray">
-                                <th width="200px">考核项</th>
-                                <th width="200px">分项</th>
-                                <th width="100px">考核得分</th>
-                                <th>备注</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>机房及配套设施要求（20分）</td>
-                                <td><a href="#" ng-click="searchFile('基站信息表')">资料</a></td>
-                                <td><input class="form-control" name="s_a1"
-                                    ng-model="score_data3.s_a1" ng-change="change3Input()" type="number" min="0"  /></td>
-                                <td><input class="form-control" name="n_a1"
-                                    ng-model="score_data3.n_a1" /></td>
-                            </tr>
-                            <tr>
-                                <td rowspan="4">运维团队及设施配置（15分）</td>
-                                <td>运维团队（3）<a href="#" ng-click="searchFile('运维服务团队通讯录')">资料</a></td>
-                                <td><input class="form-control" name="s_b1"
-                                    ng-model="score_data3.s_b1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_b1"
-                                    ng-model="score_data3.n_b1" /></td>
-                            </tr>
-                            <tr>
-                                <td>管理制度保障（1）<a href="#" ng-click="searchFile('成都市应急通信网运维管理制度')">资料</a></td>
-                                <td><input class="form-control" name="s_b2"
-                                    ng-model="score_data3.s_b2" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_b2"
-                                    ng-model="score_data3.n_b2" /></td>
-                            </tr>
-                            <tr>
-                                <td>运维响应机制（9）<a href="#" ng-click="searchFile('成都市应急通信网运维管理制度')">资料</a></td>
-                                <td><input class="form-control" name="s_b3"
-                                    ng-model="score_data3.s_b3" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_b3"
-                                    ng-model="score_data3.n_b3" /></td>
-                            </tr>
-                            <tr>
-                                <td>办公场所及运维设施（2）<a href="#" ng-click="searchFile('运维资源配置表')">资料</a></td>
-                                <td><input class="form-control" name="s_b4"
-                                    ng-model="score_data3.s_b4" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_b4"
-                                    ng-model="score_data3.n_b4" /></td>
-                            </tr>
 
-                            <tr>
-                                <td rowspan="2">日常维护管理（包括运维资料、用户响应）（20分）</td>
-                                <td>运维资料（10)</td>
-                                <td><input class="form-control" name="s_c1"
-                                    ng-model="score_data3.s_c1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_c1"
-                                    ng-model="score_data3.n_c1" /></td>
-                            </tr>
+										<table id="tb-info" class="xh-table-primary table-hover">
+											<thead>
+												<tr class="tr-gray">
+													<th width="200px">考核项</th>
+													<th width="200px">分项</th>
+													<th width="100px">考核得分</th>
+													<th>备注</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>机房及配套设施要求（20分）</td>
+													<td><a href="#" ng-click="searchFile('基站信息表')">资料</a></td>
+													<td><input class="form-control" name="s_a1"
+														ng-model="score_data3.s_a1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_a1"
+														ng-model="score_data3.n_a1" /></td>
+												</tr>
+												<tr>
+													<td rowspan="4">运维团队及设施配置（15分）</td>
+													<td>运维团队（3）<a href="#"
+														ng-click="searchFile('运维服务团队通讯录')">资料</a></td>
+													<td><input class="form-control" name="s_b1"
+														ng-model="score_data3.s_b1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_b1"
+														ng-model="score_data3.n_b1" /></td>
+												</tr>
+												<tr>
+													<td>管理制度保障（1）<a href="#"
+														ng-click="searchFile('成都市应急通信网运维管理制度')">资料</a></td>
+													<td><input class="form-control" name="s_b2"
+														ng-model="score_data3.s_b2" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_b2"
+														ng-model="score_data3.n_b2" /></td>
+												</tr>
+												<tr>
+													<td>运维响应机制（9）<a href="#"
+														ng-click="searchFile('成都市应急通信网应急通信保障预案')">资料</a></td>
+													<td><input class="form-control" name="s_b3"
+														ng-model="score_data3.s_b3" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_b3"
+														ng-model="score_data3.n_b3" /></td>
+												</tr>
+												<tr>
+													<td>办公场所及运维设施（2）<a href="#"
+														ng-click="searchFile('运维资源配置表')">资料</a></td>
+													<td><input class="form-control" name="s_b4"
+														ng-model="score_data3.s_b4" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_b4"
+														ng-model="score_data3.n_b4" /></td>
+												</tr>
 
-                            <tr>
-                                <td>用户响应（10）<a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_c2"
-                                    ng-model="score_data3.s_c2" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_c2"
-                                    ng-model="score_data3.n_c2" /></td>
-                            </tr>
+												<tr>
+													<td rowspan="2">日常维护管理（包括运维资料、用户响应）（20分）</td>
+													<td>运维资料（10)</td>
+													<td><input class="form-control" name="s_c1"
+														ng-model="score_data3.s_c1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_c1"
+														ng-model="score_data3.n_c1" /></td>
+												</tr>
 
-
-                            <tr>
-                                <td rowspan="2">故障管理（30分）</td>
-                                <td>故障控制及故障处理历时（25）<a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_d1"
-                                    ng-model="score_data3.s_d1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><textarea class="form-control" name="n_d1"
-                                        ng-model="score_data3.n_d1" rows="3"></textarea></td>
-                            </tr>
-
-                            <tr>
-                                <td>备品备件（5）<a href="#" ng-click="searchFile('备品备件表')">资料</a></td>
-                                <td><input class="form-control" name="s_d2"
-                                    ng-model="score_data3.s_d2" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_d2"
-                                    ng-model="score_data3.n_d2" /></td>
-                            </tr>
-
-                            <tr>
-                                <td>网络优化（5分</td>
-                                <td><a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_e1"
-                                    ng-model="score_data3.s_e1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_e1"
-                                    ng-model="score_data3.n_e1" /></td>
-                            </tr>
+												<tr>
+													<td>用户响应（10）<a href="#" ng-click="showInfoWin('用户响应')">资料</a></td>
+													<td><input class="form-control" name="s_c2"
+														ng-model="score_data3.s_c2" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_c2"
+														ng-model="score_data3.n_c2" /></td>
+												</tr>
 
 
-                            <tr>
-                                <td rowspan="2">应急通信保障和演练（5分）</td>
-                                <td>应急通信保障（3）<a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_f1"
-                                    ng-model="score_data3.s_f1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_f1"
-                                    ng-model="score_data3.n_f1" /></td>
-                            </tr>
+												<tr>
+													<td rowspan="2">故障管理（30分）</td>
+													<td>故障控制及故障处理历时（25）<a href="#"
+														ng-click="searchFile('运维故障统计')">资料</a></td>
+													<td><input class="form-control" name="s_d1"
+														ng-model="score_data3.s_d1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><textarea class="form-control" name="n_d1"
+															ng-model="score_data3.n_d1" rows="3"></textarea></td>
+												</tr>
 
-                            <tr>
-                                <td>应急演练（2）<a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_f2"
-                                    ng-model="score_data3.s_f2" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_f2"
-                                    ng-model="score_data3.n_f2" /></td>
-                            </tr>
+												<tr>
+													<td>备品备件（5）<a href="#" ng-click="searchFile('备品备件表')">资料</a></td>
+													<td><input class="form-control" name="s_d2"
+														ng-model="score_data3.s_d2" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_d2"
+														ng-model="score_data3.n_d2" /></td>
+												</tr>
 
-                            <tr>
-                                <td>培训及技术支持服务（5分）</td>
-                                <td><a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_g1"
-                                    ng-model="score_data3.s_g1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_g1"
-                                    ng-model="score_data3.n_g1" /></td>
-                            </tr>
-                            <tr>
-                                <td>加分材料确认</td>
-                                <td><a href="#" ng-click="searchFile('月报')">资料</a></td>
-                                <td><input class="form-control" name="s_h1"
-                                    ng-model="score_data3.s_h1" ng-change="change3Input()" type="number" min="0"/></td>
-                                <td><input class="form-control" name="n_h1"
-                                    ng-model="score_data3.n_h1" /></td>
-                            </tr>
+												<tr>
+													<td>网络优化（5分</td>
+													<td><a href="#" ng-click="showInfoWin('网络优化')">资料</a></td>
+													<td><input class="form-control" name="s_e1"
+														ng-model="score_data3.s_e1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_e1"
+														ng-model="score_data3.n_e1" /></td>
+												</tr>
 
-                            <tr>
-                                <td colspan="2">考核得分合计</td>
-                                <td colspan="2"><span id="score3-sum">{{score_sum3}}</span></td>
-                            </tr>
-                            <!-- <tr>
+
+												<tr>
+													<td rowspan="2">应急通信保障和演练（5分）</td>
+													<td>应急通信保障（3）<a href="#"
+														ng-click="showInfoWin('应急通信保障')">资料</a></td>
+													<td><input class="form-control" name="s_f1"
+														ng-model="score_data3.s_f1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_f1"
+														ng-model="score_data3.n_f1" /></td>
+												</tr>
+
+												<tr>
+													<td>应急演练（2）<a href="#" ng-click="showInfoWin('应急演练')">资料</a></td>
+													<td><input class="form-control" name="s_f2"
+														ng-model="score_data3.s_f2" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_f2"
+														ng-model="score_data3.n_f2" /></td>
+												</tr>
+
+												<tr>
+													<td>培训及技术支持服务（5分）</td>
+													<td><a href="#" ng-click="showInfoWin('培训及技术支持服务')">资料</a></td>
+													<td><input class="form-control" name="s_g1"
+														ng-model="score_data3.s_g1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_g1"
+														ng-model="score_data3.n_g1" /></td>
+												</tr>
+												<tr>
+													<td>加分材料确认</td>
+													<td><a href="#" ng-click="searchFile('月报')">资料</a></td>
+													<td><input class="form-control" name="s_h1"
+														ng-model="score_data3.s_h1" ng-change="change3Input()"
+														type="number" min="0" /></td>
+													<td><input class="form-control" name="n_h1"
+														ng-model="score_data3.n_h1" /></td>
+												</tr>
+
+												<tr>
+													<td colspan="2">考核得分合计</td>
+													<td colspan="2"><span id="score3-sum">{{score_sum3}}</span></td>
+												</tr>
+												<!-- <tr>
                                 <td colspan="4">&nbsp;</td>
                             </tr>
                             <tr>
@@ -209,10 +238,10 @@
                             </tr> -->
 
 
-                        </tbody>
-                    </table>
+											</tbody>
+										</table>
 
-                </form>
+									</form>
 								</div>
 							</div>
 							<!--  row -->
@@ -250,12 +279,14 @@
 	<script type="text/javascript"
 		src="../../Resources/js/xhbootstrap-js.js"></script>
 	<script type="text/javascript"
+		src="../../lib/layer-master/dist/layer.js"></script>
+	<script type="text/javascript"
 		src="../../Controllers/business/operations_check_write3_score.js"></script>
-		
-    <script type="text/javascript">
-    xh.load();
-    </script>
 
-	
+	<script type="text/javascript">
+		xh.load();
+	</script>
+
+
 </body>
 </html>

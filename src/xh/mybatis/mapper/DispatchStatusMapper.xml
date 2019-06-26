@@ -20,12 +20,17 @@
     </update> 
     <!-- 新增调度台 -->
     <insert id="addDispatch" keyProperty="dstId" useGeneratedKeys="false" parameterType="xh.mybatis.bean.DispatchBean">
-    INSERT INTO `xhgmnet_dispatch` (`dstId`, `dstName`, `IP`,`setupStatus`,dbox_ip) VALUES
-    (#{dstId}, #{dstName},#{IP},#{setupStatus},#{dbox_ip})
+    INSERT INTO `xhgmnet_dispatch` (`dstId`, `dstName`, `IP`,`setupStatus`,dbox_ip,
+    address,type,transfer,transferOne,transferTwo,period) VALUES
+    (#{dstId}, #{dstName},#{IP},#{setupStatus},#{dbox_ip},#{address},
+    #{type},#{transfer},#{transferOne},#{transferTwo},#{period})
     </insert>
     <!-- 更新调度台参数 --> 
     <update id="updateDispatch" parameterType="xh.mybatis.bean.DispatchBean">
-    update xhgmnet_dispatch set dstName=#{dstName},IP=#{IP},dbox_ip=#{dbox_ip},setupStatus=#{setupStatus} where dstId=#{dstId}
+    update xhgmnet_dispatch set dstName=#{dstName},IP=#{IP},dbox_ip=#{dbox_ip},setupStatus=#{setupStatus} ,
+    address=#{address},transfer=#{transfer},transferOne=#{transferOne},transferTwo=#{transferTwo},
+    period=#{period}
+    where dstId=#{dstId}
     </update>
     <!-- 删除调度台 -->
     <delete id="deleteDispatch" parameterType="List">

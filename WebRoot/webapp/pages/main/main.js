@@ -116,6 +116,7 @@ function userPower(){
         data: {}
     }).then(function(res){
     	gl_para.up = res;
+    	
     },function(res,status){
         console.log(status);
      // status = "timeout" || "error" || "abort", "parsererror"
@@ -132,7 +133,7 @@ function userInfo(){
     }).then(function(res){
     	gl_para.userL=res;
 		if(parseInt(res.roleType)==2){
-        	str="成都市软件产业发展中心";
+        	str="成都市软件产业发展中心（成都信息化技术应用发展中心）";
         	gl_para.sendUnit=str;
         }else if(parseInt(res.roleType)==3 || parseInt(res.roleType)==0){
         	str="成都亚光电子股份有限公司";

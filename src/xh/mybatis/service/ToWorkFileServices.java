@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.EastBsCallDataBean;
 import xh.mybatis.bean.EastVpnCallBean;
+import xh.mybatis.bean.RecordCommunicationBean;
+import xh.mybatis.bean.UserNeedBean;
 import xh.mybatis.mapper.ToWordFileMapper;
 import xh.mybatis.tools.MoreDbTools;
 
@@ -313,6 +315,32 @@ public class ToWorkFileServices {
 		 Map<String,Object> rs=new HashMap<String, Object>();
 		try {
 			rs=mapper.xj_bs(map);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static List<UserNeedBean> user_need(String time){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		List<UserNeedBean> rs=new ArrayList<UserNeedBean>();
+		try {
+			rs=mapper.user_need(time);
+			sqlSession.close();					
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	public static List<RecordCommunicationBean> RecordCommunication(String time){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		ToWordFileMapper mapper=sqlSession.getMapper(ToWordFileMapper.class);
+		List<RecordCommunicationBean> rs=new ArrayList<RecordCommunicationBean>();
+		try {
+			rs=mapper.RecordCommunication(time);
 			sqlSession.close();					
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

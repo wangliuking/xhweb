@@ -9,6 +9,9 @@ public class RecordCommunicationBean {
 	private String level;
 	private String file_name;
 	private String file_path;
+	private String satellite_time;
+	private String bus_num;
+	private String person_num;
 	public int getId() {
 		return id;
 	}
@@ -56,6 +59,33 @@ public class RecordCommunicationBean {
 	}
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
+	}
+	public String getSatellite_time() {
+		return satellite_time;
+	}
+	public void setSatellite_time(String satellite_time) {
+		this.satellite_time = satellite_time;
+	}
+	public String getBus_num() {
+		return bus_num;
+	}
+	public void setBus_num(String bus_num) {
+		this.bus_num = bus_num;
+	}
+	public String getPerson_num() {
+		return person_num;
+	}
+	public void setPerson_num(String person_num) {
+		this.person_num = person_num;
+	}
+	@Override
+	public String toString() {
+		return "RecordCommunicationBean [id=" + id + ", name=" + name
+				+ ", start_time=" + start_time + ", end_time=" + end_time
+				+ ", zone=" + zone + ", level=" + level + ", file_name="
+				+ file_name + ", file_path=" + file_path + ", satellite_time="
+				+ satellite_time + ", bus_num=" + bus_num + ", person_num="
+				+ person_num + "]";
 	}
 	
 	

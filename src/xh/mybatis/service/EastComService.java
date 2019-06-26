@@ -480,6 +480,21 @@ public class EastComService {
 		}
 		return list;
 	}
+	public static int del_data(String time){
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		EastComMapper mapper=session.getMapper(EastComMapper.class);
+		int rs=0;
+		try {
+
+			rs=mapper.del_data(time);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	
 	
 }

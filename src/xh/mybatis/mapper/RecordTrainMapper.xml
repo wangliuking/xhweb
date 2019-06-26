@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xh.mybatis.mapper.RecordTrainMapper">
+
+<select id="data_all" parameterType="map"
+        resultType="xh.mybatis.bean.RecordTrainBean" useCache="true">
+        select * from record_train where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(create_time,"%Y-%m")=#{time}
+        </if>
+        limit #{start},#{limit}
+    </select>
+    <select id="data_all_count" parameterType="map" resultType="int"
+        useCache="true">
+        select count(*) from record_train where 1=1
+        <if test="time!=null and time!=''">
+            and date_format(create_time,"%Y-%m")=#{time}
+        </if>
+    </select>
+    <insert id="add" parameterType="xh.mybatis.bean.RecordTrainBean"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into
+        record_train(create_time,
+        talk_person,personnel,address,name,content,note)values
+        (#{create_time},#{talk_person},#{personnel},
+        #{address},#{name},#{content},#{note})
+    </insert>
+    <update id="update" parameterType="xh.mybatis.bean.RecordTrainBean">
+        update
+        record_train set
+        create_time=#{create_time},talk_person=#{talk_person},personnel=#{personnel},
+        address=#{address},name=#{name},content=#{content},note=#{note}
+        where id=#{id}
+    </update>
+    <delete id="del" parameterType="java.util.List">
+        delete from
+        record_train where id=(
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <insert id="addFile" parameterType="java.util.List">
+        insert into
+        record_train_pic(id,pic_path,pic_name)values
+        <foreach collection="list" item="x" separator=",">
+            (#{x.id},#{x.filePath},#{x.fileName})
+        </foreach>
+    </insert>
+    <select id="searchFile" parameterType="int" resultType="map">
+    select * from record_train_pic where id=#{id}
+    </select>
+
+
+</mapper>

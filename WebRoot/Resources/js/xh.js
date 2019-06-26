@@ -727,6 +727,7 @@ xh.getUrl=function(){
 	        break;
 	    }
 	}
+	console.log("url->"+path)
  return path;
 }
 function getUserPower(){
@@ -735,6 +736,8 @@ function getUserPower(){
         data: {}
     }).then(function(res){
     	gl_para.up = res;
+    	setSessionData("up",JSON.stringify(res));
+    	
     },function(res,status){
         console.log(status);
      // status = "timeout" || "error" || "abort", "parsererror"
@@ -746,8 +749,21 @@ function getUserInfo(){
 	        data: {}
 	    }).then(function(res){
 	    	gl_para.userL=res
+	    	setSessionData("user",JSON.stringify(res));
 	    },function(res,status){
 	        console.log(status);
 	     // status = "timeout" || "error" || "abort", "parsererror"
 	    })
+}
+function setLocalData(key,value){
+	window.localStorage.setItem(key,value);	
+}
+function getLocalData(key,value){
+	return window.localStorage.getItem(key,value);	
+}
+function setSessionData(key,value){
+	window.sessionStorage.setItem(key,value);	
+}
+function getSessionData(key,value){
+	return window.sessionStorage.getItem(key,value);	
 }

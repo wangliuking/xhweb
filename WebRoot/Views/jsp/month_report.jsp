@@ -24,6 +24,8 @@
 		function IsFullScreen() {
 			document.getElementById("PageOfficeCtrl1").FullScreen = !document
 					.getElementById("PageOfficeCtrl1").FullScreen;
+			
+			Save();
 
 		}
 		function CloseFile() {

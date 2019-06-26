@@ -112,9 +112,9 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<div class="row">
 
-					<div class="col-md-12">
+					<div class="col-md-12" ng-show="roleType!=2">
 						<div class="form-group col-md-12 search" style="margin-top:10px;">
-							<label>信息来源</label> &nbsp;&nbsp;&nbsp;&nbsp;
+							<label>告警来源</label> &nbsp;&nbsp;&nbsp;&nbsp;
 							<div class="radio radio-info radio-inline">
 								<input type="radio" id="sysType1" value="0" name="sysType"
 									checked="checked"> <label for="sysType1">全部告警</label>
@@ -129,9 +129,26 @@
 							</div>
 						</div>
 					</div>
-
-
 					<div class="col-md-12">
+                        <div class="form-group col-md-12 search" style="margin-top:10px;">
+                            <label>基站建设期</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="radio radio-info radio-inline">
+                                <input type="radio" id="period1" value="0" name="period"
+                                    checked="checked"> <label for="period1">全部</label>
+                            </div>
+                            <div class="radio radio-info  radio-inline">
+                                <input type="radio" id="period2" value="3" name="period">
+                                <label for="period2">三期</label>
+                            </div>
+                            <div class="radio radio-info  radio-inline">
+                                <input type="radio" id="period3" value="4" name="period">
+                                <label for="period3">四期</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+					<div class="col-md-12" ng-show="roleType!=2">
 						<div class="form-group col-md-12 search" style="margin-top:10px;">
 							<label>告警级别</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="level1"
 								class="magic-checkbox" type="checkbox" name="level" value="1"
@@ -150,27 +167,6 @@
 					</div>
 
 
-					<!-- col-md -->
-					<!-- 	<div class="col-md-12">
-							<div class="form-group col-md-12 search" style="margin-top:5px;">
-								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="category1"
-									class="magic-checkbox" type="checkbox" name="category" value="1"
-									checked> <label for="category1"><span>通信</span></label> <input
-									id="category2" class="magic-checkbox" type="checkbox" name="category"
-									value="2" checked> <label for="category2"><span>软件</span></label>
-
-								<input id="category3" class="magic-checkbox" type="checkbox"
-									name="category" value="3" checked> <label for="category3"><span>环境</span></label>
-
-								<input id="category4" class="magic-checkbox" type="checkbox"
-									name="category" value="4" checked> <label for="category4"><span>QoS</span></label>
-								<input id="category5" class="magic-checkbox" type="checkbox"
-									name="category" value="5" checked> <label for="category5"><span>设备</span></label>
-								<input id="category6" class="magic-checkbox" type="checkbox"
-									name="category" value="6" checked> <label for="category6"><span>网管</span></label>
-							</div>
-
-						</div> -->
 					<div class="col-md-12">
 						<div class="form-group col-md-12 search" style="margin-top:5px;">
 							<label>告警状态</label> &nbsp;&nbsp;&nbsp;&nbsp; <input id="status1"
@@ -182,74 +178,46 @@
 
 					</div>
 					
-					<!-- 	<div class="col-md-12">
-							<div class="form-group col-md-12 search" style="margin-top:10px;">
-								<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
-									id="alarmType1" class="magic-checkbox" type="checkbox" name="alarmType"
-									value="1"> <label for="alarmType1"><span>断站</span></label>
-
-								<input id="alarmType2" class="magic-checkbox" type="checkbox"
-									name="alarmType" value="2"> <label for="alarmType2"><span>水浸</span></label>
-
-								<input id="alarmType3" class="magic-checkbox" type="checkbox"
-									name="alarmType" value="3"> <label for="alarmType3"><span>停电</span></label>
-								
-								<input id="alarmType4" class="magic-checkbox" type="checkbox"
-									name="alarmType" value="4"> <label for="alarmType4"><span>bsr故障</span></label>
-							</div>
-
-						</div> -->
 					<div class="col-md-12">
 						<div class="form-group col-md-12 search" style="margin-top:10px;">
-							<label>重点告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp;
-							<div class="radio radio-info radio-inline">
+							<label>告警类型</label> &nbsp;&nbsp;&nbsp;&nbsp;
+							<div class="radio radio-info radio-inline" ng-show="roleType!=2">
 								<input type="radio" id="alarmType1" value="0" name="alarmType"
-									checked="checked"> <label for="alarmType1">全部告警</label>
+									ng-checked="roleType!=2"> <label for="alarmType1">全部告警</label>
 							</div>
 							<div class="radio radio-info  radio-inline">
-								<input type="radio" id="alarmType5" value="4" name="alarmType">
+								<input type="radio" id="alarmType5" value="4" name="alarmType"
+								ng-checked="roleType==2">
 								<label for="alarmType5">断站</label>
 							</div>
-							<div class="radio radio-info  radio-inline">
+							<div class="radio radio-info  radio-inline" ng-show="roleType!=2">
 								<input type="radio" id="alarmType2" value="1" name="alarmType">
 								<label for="alarmType2">水浸</label>
 							</div>
-							<div class="radio radio-info  radio-inline">
+							<div class="radio radio-info  radio-inline" ng-show="roleType!=2">
 								<input type="radio" id="alarmType3" value="2" name="alarmType">
 								<label for="alarmType3">停电</label>
 							</div>
-							<div class="radio radio-info  radio-inline">
+							<div class="radio radio-info  radio-inline" ng-show="roleType!=2">
                                 <input type="radio" id="alarmType4" value="3" name="alarmType">
                                 <label for="alarmType4">bsr故障</label>
                             </div>
 							
-							<div class="radio radio-info  radio-inline">
+							<div class="radio radio-info  radio-inline" ng-show="roleType!=2">
                                 <input type="radio" id="alarmType5" value="6" name="alarmType">
                                 <label for="alarmType5">调度台连接告警</label>
                             </div>
-                            <div class="radio radio-info  radio-inline">
+                            <div class="radio radio-info  radio-inline" ng-show="roleType!=2">
                                 <input type="radio" id="alarmType6" value="5" name="alarmType">
                                 <label for="alarmType6">交换中心主设备链路告警</label>
                             </div>
-                            <div class="radio radio-info  radio-inline">
+                            <div class="radio radio-info  radio-inline" ng-show="roleType!=2">
                                 <input type="radio" id="alarmType7" value="7" name="alarmType">
                                 <label for="alarmType7">高温</label>
                             </div>
 						</div>
 					</div>
-					<!-- <div class="col-md-12">
-						<div class="form-group col-md-12 search" style="margin-top:10px;">
-							<label>特别关注</label> &nbsp;&nbsp;&nbsp;&nbsp;
-							<div class="radio radio-info radio-inline">
-								<input type="radio" id="important1" value="0" name="important"
-									checked="checked"> <label for="sysType1">全部告警</label>
-							</div>
-							<div class="radio radio-info  radio-inline">
-								<input type="radio" id="important2" value="1" name="important">
-								<label for="sysType2">断站，调度台，交流电，水浸</label>
-							</div>
-						</div>
-					</div> -->
+					
 					<!-- col-md -->
 					<div class="col-md-3">
 						<div class="form-group col-md-12">

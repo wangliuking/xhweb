@@ -21,6 +21,9 @@
 		</foreach>
 		)
 	</select>
+	<delete id="del_data" parameterType="String">
+	delete FROM pef_newbstotal WHERE starttime &lt;#{time};
+	</delete>
 
 	<!-- 定时获取东信基站呼叫统计数据 -->
 	<select id="get_bs_now_call_data" parameterType="String"

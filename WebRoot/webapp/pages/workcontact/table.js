@@ -68,13 +68,23 @@ loader.define(function(require,exports,module){
 	         	var status=el.status;
 	         	var str="",textClass="",subClass="";
 	         	switch (el.status) {
-	              case 1:
+	              case 2:
 	                  str = '已签收';
 	                  textClass='text-success';
 	                  subClass = 'bui-sub success';
 	                  break;
+	              case 1:
+	                  str = '待签收';
+	                  textClass='text-primary';
+	                  subClass = 'bui-sub primary';
+	                  break;
 	              case 0:
-	                  str= '待确认';
+	                  str= '待审核';
+	                  textClass='text-primary';
+	                  subClass = 'bui-sub primary';
+	                  break;
+	              case -1:
+	                  str= '被拒绝';
 	                  textClass='text-danger';
 	                  subClass = 'bui-sub danger';
 	                  break;

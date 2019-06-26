@@ -177,16 +177,17 @@
 	var fileNum=0;
 function upFile(){
 	var type=$("select[name='type']").val();
+	var month=$("input[name='month']").val();
         var name=$("input[name=pathName]").val();
         var mm=$("input[name=pathName]").get(0).files;
         var allFile=$("input[name=pathName]").get(0).files;
-        upload(type);
+        upload(type,month);
         
          
         
         
     }
-    function upload(type){
+    function upload(type,month){
         if ($('#pathName').val() == "") {
             alert("请选择需要上传的文件！");
             return false;
@@ -200,7 +201,8 @@ function upFile(){
             dataType : 'json', // 返回值类型 一般设置为json
             type : 'POST',
             data:{
-            	type:type
+            	type:type,
+            	month:month
             },
             success : function(data, status) //服务器成功响应处理函数
             {

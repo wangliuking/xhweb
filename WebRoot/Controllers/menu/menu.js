@@ -19,13 +19,13 @@ xh.load = function() {
 			$scope.menu=response.items;
 		
 		});
-		$scope.openword=function(){
-			POBrowser.openWindowModeless(xh.getUrl()+'/word/meet','width=1200px;height=800px;');
-		}
+		
 
 	});
 };
-
+xh.month_report=function(time){
+	POBrowser.openWindowModeless(xh.getUrl()+'/word/showReport?time='+time,'width=1200px;height=800px;');
+}
 //基站运行记录
 xh.excelToBsRun = function() {
 	xh.maskShow();

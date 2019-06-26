@@ -1,0 +1,44 @@
+<div class="modal fade" id="workcontact-add" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-body pad-0">
+                <form action="#" id="workcontactForm" onSubmit="return false">
+                   
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-disabled="form.$invalid"
+                    class="btn btn-success btn-sm" id="btn-one">
+                    <i class="fa fa-plus"></i>&nbsp;添加
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$("#btn-one").click(function() {
+    if ($("#workcontactForm").find("input[name='name']").val()=="") {
+        alert("不能为空");
+        return false;
+    }
+    xh.workcontact_add($("#workcontactForm").find("input[name='name']").val());
+
+});
+</script>

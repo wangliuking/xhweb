@@ -88,6 +88,7 @@ public class DispatchStatusController {
 		String formData=request.getParameter("formData");
 		
 		DispatchBean bean=GsonUtil.json2Object(formData, DispatchBean.class);
+		bean.setType(bean.getDstName());
 		
 		log.info("调度台="+bean.toString());
 		int rsl=0;

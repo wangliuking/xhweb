@@ -11,8 +11,15 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 int type=Integer.parseInt(request.getParameter("type"));
 
-String str=request.getParameter("bean");
-ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class);
+/* String str=request.getParameter("bean"); */
+ScoreBean bean=new ScoreBean();
+if(type==3){
+	bean=(ScoreBean)request.getSession().getAttribute(request.getSession().getId()+"score3");
+}else{
+	bean=(ScoreBean)request.getSession().getAttribute(request.getSession().getId()+"score4");
+}
+System.out.println("time->"+bean.toString());
+/* ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class); */
 %>
 <%
     
@@ -23,12 +30,13 @@ ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class);
         //String str=month.split("-")[0]+"年"+month.split("-")[0]+"月";
         doc.setEnableAllDataRegionsEditing(true); // 此属性可以设置在提交模式（docSubmitForm）下，所有的数据区域可以编辑
 
-        if(type==3){
+        /* if(type==3){
         	doc.openDataRegion("PO_Name").setValue("成都市应急指挥调度无线通信网三期工程服务项目\r\n"+bean.getTime()+"项目服务扣分表");
         	
         }else{
         	doc.openDataRegion("PO_Name").setValue("成都市应急指挥调度无线通信网四期工程服务项目\r\n"+bean.getTime()+"项目服务扣分表");
-        }
+        } */
+        doc.openDataRegion("PO_Name").setValue(bean.getDoc_name());
         doc.openDataRegion("PO_s_a1").setValue(bean.getS_a1());
         
         doc.openDataRegion("PO_s_b1").setValue(bean.getS_b1());
@@ -84,7 +92,7 @@ ScoreBean bean=GsonUtil.json2Object(str, ScoreBean.class);
         fmCtrl.setWriter(doc);
         fmCtrl.setJsFunction_OnProgressComplete("OnProgressComplete()");
         fmCtrl.setSaveFilePage(basePath+"office/save_page?path="+name);
-        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("doc/template/扣分.doc"), DocumentOpenType.Word, bean.getFileName());
+        fmCtrl.fillDocumentAs(request.getSession().getServletContext().getRealPath("/")+"/doc/template/扣分.doc", DocumentOpenType.Word, bean.getFileName());
       
  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
