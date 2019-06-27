@@ -49,7 +49,7 @@ public class WriteBsFaultListenner implements ServletContextListener {
 		if (timer == null) {
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new SfAlarm(), 10000, 4*60*60*1000+20*60*1000);
-			timer.scheduleAtFixedRate(new EmhEpsWater(), 5000, 1000*60*2);
+			timer.scheduleAtFixedRate(new EmhEpsWater(), 5000, 1000*30*1);
 			timer.scheduleAtFixedRate(new VoiceAlarm(), 5000, 1000*15);
 			timer.scheduleAtFixedRate(new PullThreeEmh(), 6000, 1000 * 60 * 2);
 			timer.scheduleAtFixedRate(new VoiceNotCkeck(),7000,1*60*60*1000);
@@ -97,7 +97,7 @@ class EmhEpsWater extends TimerTask {
 				+ (System.currentTimeMillis() - start));
 		System.out.println("=========================================");
 		Long start2 = System.currentTimeMillis();
-		BsAlarmService.bs_water_four();
+		//BsAlarmService.bs_water_four();
 		log4j.info("=========================================");
 		log4j.info("EmhEpsWater：end:" + (System.currentTimeMillis() - start2));
 		log4j.info("=========================================");
