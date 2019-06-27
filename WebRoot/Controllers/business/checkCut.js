@@ -656,7 +656,7 @@ xh.check1 = function() {
                 //执行保存操作
                 xh.sheetChange();
                 $('#checkWin1').modal('hide');
-                //$('#sheet').modal('hide');
+                $('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
 
@@ -686,7 +686,7 @@ xh.check2 = function() {
                 //执行保存操作
                 xh.sheetChange();
 				$('#checkWin2').modal('hide');
-                //$('#sheet').modal('hide');
+                $('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
 			} else {

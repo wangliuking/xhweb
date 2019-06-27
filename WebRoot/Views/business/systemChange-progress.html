@@ -58,6 +58,8 @@
 									<h2>项目负责人拟制升级方案</h2>
 									<a href="#" title="点击下载文件"
 											onclick="xh.download(1)" style="color: red">{{progressData.fileName1}}</a>
+									<a ng-if="progressData.fileName1 != null && progressData.fileName1 !='' " href="#" ng-click="openWord(1,progressData.fileName1)">预览</a>
+									<a ng-if="progressData.fileName1 != null && progressData.fileName1 !='' " href="#" ng-click="openWord(3,progressData.fileName1)">修改</a>
 									<p>
 										<span>发起人：</span><span>{{progressData.userName}}</span>
 									</p>

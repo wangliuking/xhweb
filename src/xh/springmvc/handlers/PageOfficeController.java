@@ -196,7 +196,8 @@ public class PageOfficeController {
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(request.getContextPath() +"/"+path);
+		System.out.println(request.getContextPath() +"/"+path);
 		poCtrl.webOpen(request.getContextPath() +"/"+path, OpenModeType.docReadOnly, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_word");
