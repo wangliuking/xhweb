@@ -1,5 +1,7 @@
 package xh.springmvc.handlers;
 
+import com.zhuozhengsoft.pageoffice.OpenModeType;
+import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import xh.func.plugin.DownLoadUtils;
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -21,6 +24,7 @@ import xh.mybatis.service.WebUserServices;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -539,4 +543,45 @@ public class EmergencyChangeController {
 			// ----END
 		}
 	}
+
+    @RequestMapping("/seal")
+    public ModelAndView seal(HttpServletRequest request,
+                             HttpServletResponse response) {
+        PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
+        String path=request.getParameter("path");
+        int type=-1;
+        if(request.getParameter("type")!=null){
+            type=Integer.parseInt(request.getParameter("type"));
+        }
+        if(path.indexOf("/")==0){
+            path=path.substring(1);
+        }
+        poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
+        poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+        poCtrl.addCustomToolButton("签字", "Seal1()", 2);
+        poCtrl.addCustomToolButton("签章", "Seal2()", 2);
+		/*poCtrl.addCustomToolButton("删除签字", "DeleteSeal1()", 21);
+		poCtrl.addCustomToolButton("删除签章", "DeleteSeal2()", 21);*/
+
+        poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
+        poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
+        poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+        poCtrl.setTitlebar(false); //隐藏标题栏
+        String name="";
+        try {
+            name= URLEncoder.encode(path,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
+        poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+        poCtrl.setTagId("PageOfficeCtrl1");
+        ModelAndView mv = new ModelAndView("Views/jsp/emergencyChange");
+        mv.addObject("sealName1",WebUserServices.sealName(FunUtil.loginUser(request),"2"));
+        mv.addObject("sealName2",WebUserServices.sealName(FunUtil.loginUser(request),"1"));
+        mv.addObject("type",type);
+        mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
+        return mv;
+    }
 }

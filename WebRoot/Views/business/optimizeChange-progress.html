@@ -58,6 +58,8 @@
 									<h2>运维组提交优化整改信息</h2>
 									<a href="#" title="点击下载文件"
 											onclick="xh.download(1)" style="color: red">{{progressData.fileName1}}</a>
+									<a ng-if="progressData.fileName1 != null && progressData.fileName1 !='' " href="#" ng-click="openWord(1,progressData.fileName1)">预览</a>
+									<a ng-if="progressData.fileName1 != null && progressData.fileName1 !='' " href="#" ng-click="openWord(3,progressData.fileName1)">修改</a>
 									<p>
 										<span>发起人：</span><span>{{progressData.userName}}</span>
 									</p>
@@ -102,6 +104,8 @@
 									<h2>运维负责人提交整改申请</h2>
 									<a ng-if="progressData.checked>1" href="#" title="点击下载文件"
 									   onclick="xh.download(2)" style="color: red">{{progressData.fileName2}}</a>
+									<a ng-if="progressData.fileName2 != null && progressData.fileName2 !='' " href="#" ng-click="openWord(1,progressData.fileName2)">预览</a>
+									<a ng-if="progressData.fileName2 != null && progressData.fileName2 !='' " href="#" ng-click="openWord(3,progressData.fileName2)">修改</a>
 									</p>
 									<p>
 										<span>提交人：</span><span>{{progressData.user3}}</span>
@@ -148,6 +152,8 @@
 									<h2>运维负责人通知抢修组进行整改</h2>
 									<a ng-if="progressData.checked>3" href="#" title="点击下载文件"
 									   onclick="xh.download(3)" style="color: red">{{progressData.fileName3}}</a>
+									<a ng-if="progressData.fileName3 != null && progressData.fileName3 !='' " href="#" ng-click="openWord(1,progressData.fileName3)">预览</a>
+									<a ng-if="progressData.fileName3 != null && progressData.fileName3 !='' " href="#" ng-click="openWord(3,progressData.fileName3)">修改</a>
 									<p>
 										<span>通知人：</span><span>{{progressData.user5}}</span>
 									</p>
@@ -196,6 +202,8 @@
 									<h2>抢修组填写优化整改记录</h2>
 									<a ng-if="progressData.checked>5" href="#" title="点击下载文件"
 									   onclick="xh.download(4)" style="color: red">{{progressData.fileName4}}</a>
+									<a ng-if="progressData.fileName4 != null && progressData.fileName4 !='' " href="#" ng-click="openWord(1,progressData.fileName4)">预览</a>
+									<a ng-if="progressData.fileName4 != null && progressData.fileName4 !='' " href="#" ng-click="openWord(3,progressData.fileName4)">修改</a>
 									<p>
 										<span>确认人：</span><span>{{progressData.user7}}</span>
 									</p>

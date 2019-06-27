@@ -114,6 +114,20 @@ xh.load = function() {
             $("#sheet").modal('show');
         }
 
+        $scope.openWord = function(tag,fileName) {
+            var filepath = "/Resources/upload/optimizeChange/" + fileName;
+            if(tag==1){
+                POBrowser.openWindowModeless('../../office/previewWord?path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==2){
+                POBrowser.openWindowModeless('../../optimizeChange/seal?type=1&path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==3){
+                POBrowser.openWindowModeless('../../optimizeChange/seal?type=2&path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==4){
+                POBrowser.openWindowModeless('../../doc/createfile.jsp','width=1200px;height=800px;');
+            }
+
+        };
+
 		/*显示审核窗口*/
 		$scope.checkWin = function (id) {
 			$scope.checkData = $scope.data[id];

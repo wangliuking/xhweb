@@ -284,7 +284,7 @@ xh.load = function() {
 
         /*显示依据*/
         $scope.showContent = function (id) {
-            $scope.contentData = $scope.data[id];
+            $scope.contentData =$scope.sheetData;
             console.log($scope.contentData);
             $("input[name='result']").val(1);
             $("input[name='fileName']").val($scope.data[id].fileName1+$scope.data[id].fileName2+$scope.data[id].fileName3);
@@ -300,12 +300,14 @@ xh.load = function() {
             if($scope.data[id].fileName2 != null){
                 var tempArr = $scope.data[id].fileName2.split(";");
                 fileName2Arr = tempArr.splice(0,tempArr.length-1);
+                fileName1Arr = fileName1Arr.concat(fileName2Arr);
             }
             if($scope.data[id].fileName3 != null){
                 var tempArr = $scope.data[id].fileName3.split(";");
                 fileName3Arr = tempArr.splice(0,tempArr.length-1);
+                fileName1Arr = fileName1Arr.concat(fileName3Arr);
             }
-            $scope.imgListData = fileName1Arr.concat(fileName2Arr).concat(fileName3Arr);
+            $scope.imgListData = fileName1Arr;
             console.log($scope.imgListData)
             $("#showContent").modal('show');
         }
@@ -656,7 +658,7 @@ xh.check1 = function() {
                 //执行保存操作
                 xh.sheetChange();
                 $('#checkWin1').modal('hide');
-                //$('#sheet').modal('hide');
+                $('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
 
@@ -686,7 +688,7 @@ xh.check2 = function() {
                 //执行保存操作
                 xh.sheetChange();
 				$('#checkWin2').modal('hide');
-                //$('#sheet').modal('hide');
+                $('#sheet').modal('hide');
                 var page = $(".page.active").find("a").text();
                 xh.refresh(page);
 			} else {

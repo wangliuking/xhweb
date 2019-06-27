@@ -86,6 +86,20 @@ xh.load = function() {
 			$("#table-checkbox").prop("checked", false);
 		};
 
+        $scope.openWord = function(tag,fileName) {
+            var filepath = "/Resources/upload/emergencyChange/" + fileName;
+            if(tag==1){
+                POBrowser.openWindowModeless('../../office/previewWord?path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==2){
+                POBrowser.openWindowModeless('../../emergencyChange/seal?type=1&path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==3){
+                POBrowser.openWindowModeless('../../emergencyChange/seal?type=2&path='+filepath,'width=1200px;height=800px;');
+            }else if(tag==4){
+                POBrowser.openWindowModeless('../../doc/createfile.jsp','width=1200px;height=800px;');
+            }
+
+        };
+
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];

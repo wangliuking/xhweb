@@ -23,7 +23,19 @@ public class WordTest {
     }
 
     public static void main(String[] args) {
-        test();
+        //test();
+        Map<String,Object> dataMap = new HashMap<>();
+        String fileName1 = dataMap.get("fileName1")==null?"":dataMap.get("fileName1")+"";
+        String fileName2 = dataMap.get("fileName2")==null?"":dataMap.get("fileName2")+"";
+        String fileName3 = dataMap.get("fileName3")==null?"":dataMap.get("fileName3")+"";
+        String fileNames = fileName1 + fileName2 +fileName3;
+        String[] fileArr = fileNames.split(";");
+        System.out.println(fileName1);
+        System.out.println(fileName2);
+        System.out.println(fileName3);
+        System.out.println(fileNames);
+        System.out.println(fileArr[0]);
+
     }
 
     public static void test() {
@@ -54,10 +66,10 @@ public class WordTest {
         String ftlName = "";
         String checkCutType = dataMap.get("checkCutType")+"";
         if("1".equals(checkCutType)){
-            String fileName1 = dataMap.get("fileName1")+"";
-            String fileName2 = dataMap.get("fileName2")+"";
-            String fileName3 = dataMap.get("fileName3")+"";
-            if(fileName1 == null || "".equals(fileName1)){
+            String fileName1 = dataMap.get("fileName1")==null?"":dataMap.get("fileName1")+"";
+            String fileName2 = dataMap.get("fileName2")==null?"":dataMap.get("fileName2")+"";
+            String fileName3 = dataMap.get("fileName3")==null?"":dataMap.get("fileName3")+"";
+            if("".equals(fileName1)){
                 //无附件
                 ftlName = "checkcut.ftl";
             }else{
@@ -78,7 +90,7 @@ public class WordTest {
                 for(int i=0;i<fileArr.length;i++){
                     int tempEnd = i+1;
                     String key = "img"+tempEnd;
-                    String val = getImgsStr(fileArr[i]);
+                    String val = getImgsStr(fileArr[i],dataMap);
                     dataMap.put(key,val);
                 }
                 if(fileArr.length>0 && fileArr.length<4){
@@ -93,10 +105,10 @@ public class WordTest {
             }
 
         }else if("2".equals(checkCutType)){
-            String fileName1 = dataMap.get("fileName1")+"";
-            String fileName2 = dataMap.get("fileName2")+"";
-            String fileName3 = dataMap.get("fileName3")+"";
-            if(fileName1 == null || "".equals(fileName1)){
+            String fileName1 = dataMap.get("fileName1")==null?"":dataMap.get("fileName1")+"";
+            String fileName2 = dataMap.get("fileName2")==null?"":dataMap.get("fileName2")+"";
+            String fileName3 = dataMap.get("fileName3")==null?"":dataMap.get("fileName3")+"";
+            if("".equals(fileName1)){
                 //无附件
                 ftlName = "checkcutDispatch.ftl";
             }else{
@@ -117,7 +129,7 @@ public class WordTest {
                 for(int i=0;i<fileArr.length;i++){
                     int tempEnd = i+1;
                     String key = "img"+tempEnd;
-                    String val = getImgsStr(fileArr[i]);
+                    String val = getImgsStr(fileArr[i],dataMap);
                     dataMap.put(key,val);
                 }
                 if(fileArr.length>0 && fileArr.length<4){
@@ -230,13 +242,16 @@ public class WordTest {
         return list;
     }
 
-    public String getImgsStr(String person){
+    public String getImgsStr(String person,Map<String,Object> dataMap){
         if(person == null || "".equals(person)){
             return "";
         }
         String path = this.getClass().getResource("/").getPath();
         String[] temp = path.split("WEB-INF");
-        System.out.println(temp[0]);
+        System.out.println("===================");
+        System.out.println("dataMap ->: "+dataMap);
+        System.out.println("person ->: "+person);
+        System.out.println("===================");
 
         String imgFile = temp[0]+"Resources/upload/CheckCut/"+person;
         InputStream in = null;
@@ -262,7 +277,6 @@ public class WordTest {
         }
         String path = this.getClass().getResource("/").getPath();
         String[] temp = path.split("WEB-INF");
-        System.out.println(temp[0]);
 
         String imgFile = temp[0]+"Views/business/"+person;
         InputStream in = null;
@@ -277,8 +291,8 @@ public class WordTest {
             e.printStackTrace();
         }
 
-        
-       
+
+
         return Base64Encoder.encode(data);
     }
 
