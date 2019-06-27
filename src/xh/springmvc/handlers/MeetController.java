@@ -315,6 +315,10 @@ public class MeetController {
 		}
 		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+		if(type==1){
+			poCtrl.addCustomToolButton("拒绝会议纪要", "check()", 1); // 添加自定义按钮
+		}
+		
 		poCtrl.addCustomToolButton("签字", "Seal1()", 2);
 		poCtrl.addCustomToolButton("签章", "Seal2()", 2);
 		/*poCtrl.addCustomToolButton("删除签字", "DeleteSeal1()", 21);

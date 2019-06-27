@@ -20,6 +20,7 @@
 	var searName1="${sealName1}";
 	var searName2="${sealName2}";
 	var type="${type}";
+	var isCheck=0;
 		function Save() {
 			document.getElementById("PageOfficeCtrl1").WebSave();
 		
@@ -117,10 +118,12 @@
             }
         }
 		function check(){
+			isCheck=1;
 			window.external.close();
 			window.external.CallParentFunc("xh.checkModel()");
 		}
 		function BeforeBrowserClosed() {
+			if(isCheck==1) return;
 			
 			if (confirm("提示：文档如果被修改过，需要保存才能生效，确认已经保存过，并关闭文档？")) {
                 window.external.close();

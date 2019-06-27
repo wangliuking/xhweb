@@ -328,6 +328,9 @@ xh.load = function() {
 		};
 		$scope.CodeNum();
 		$scope.select();
+		setInterval(function(){
+			$scope.CodeNum();
+		}, 1000)
 	});
 };
 

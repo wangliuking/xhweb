@@ -106,6 +106,12 @@ public class WorkContactController {
 		HashMap result = new HashMap();
 		int num=WorkContactService.codeNum(map)+1;
 		String code="【"+year+"】 "+num+"号";
+		if(roleType.equals("2")){
+			code="软中 "+code;
+		}else{
+			code="亚光 "+code;
+		}
+		
 		result.put("code",code);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

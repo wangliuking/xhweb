@@ -18,13 +18,13 @@
 	<insert id="add" parameterType="xh.mybatis.bean.RepeaterBsBean"
 		useGeneratedKeys="true" keyProperty="bsId">
 		insert into
-		xhgmnet_bs_station_repeater(bsName,zone,period,type,num)values
-		(#{bsName},#{zone},#{period},#{type},#{num})
+		xhgmnet_bs_station_repeater(bsName,zone,period,type,num,address)values
+		(#{bsName},#{zone},#{period},#{type},#{num},#{address})
 	</insert>
 	<update id="update" parameterType="xh.mybatis.bean.RepeaterBsBean">
 		update xhgmnet_bs_station_repeater set
 		bsName=#{bsName},zone=#{zone},period=#{period},
-		type=#{type},num=#{num} where bsId=#{bsId}
+		type=#{type},num=#{num},address=#{address} where bsId=#{bsId}
 	</update>
 
 	<delete id="del" parameterType="String">

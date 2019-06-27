@@ -66,7 +66,8 @@
     where deviceId = "170300000000001" and singleId = "017001"
     </select>
     <select id="bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean"  resultType="int" >
-    select count(*) from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId} and alarmTag=0
+    select count(*) from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId} 
+    and alarmTag=0 and description=#{description}
     </select>
 	<insert id="write_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
 		replace into xhgmnet_emh_eps_status(bsId,name,
@@ -82,7 +83,8 @@
 	
 	<delete id="del_bs_emh_eps" parameterType="xh.mybatis.bean.BsJiFourBean">
 		<!-- delete from  xhgmnet_emh_eps_status where fsuId=#{fsuId} and deviceId=#{deviceId} -->
-		update xhgmnet_emh_eps_status set alarmTag=1 where fsuId=#{fsuId} and deviceId=#{deviceId}
+		update xhgmnet_emh_eps_status set alarmTag=1 where 
+		fsuId=#{fsuId} and deviceId=#{deviceId} and description=#{description}
 		
 	</delete>
 	
