@@ -24,7 +24,7 @@ public class WordTest {
 
     public static void main(String[] args) {
         //test();
-        Map<String,Object> dataMap = new HashMap<>();
+        Map<String,Object> dataMap = new HashMap<String,Object>();
         String fileName1 = dataMap.get("fileName1")==null?"":dataMap.get("fileName1")+"";
         String fileName2 = dataMap.get("fileName2")==null?"":dataMap.get("fileName2")+"";
         String fileName3 = dataMap.get("fileName3")==null?"":dataMap.get("fileName3")+"";
