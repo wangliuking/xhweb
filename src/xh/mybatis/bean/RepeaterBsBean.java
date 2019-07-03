@@ -4,6 +4,7 @@ public class RepeaterBsBean {
 	private int bsId;
 	private String bsName;
 	private String zone;
+	private String address;
 	private int period;
 	private String type;
 	private int state;
@@ -49,6 +50,12 @@ public class RepeaterBsBean {
 	}
 	public void setNum(String num) {
 		this.num = num;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	

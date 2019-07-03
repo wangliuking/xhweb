@@ -326,12 +326,15 @@ xh.load = function() {
 		$scope.sealDoc=function(id,path){
 			console.log(path);
 			var doc=path.substring(path.lastIndexOf(".")+1);
-			if(path.toLowerCase().indexOf("pdf")==-1){
+			if(path.toLowerCase().indexOf("doc")>0 
+					||path.toLowerCase().indexOf("docx")>0
+					||path.toLowerCase().indexOf("xls")>0
+					||path.toLowerCase().indexOf("xlsx")>0){
 				console.log(doc)
 				POBrowser.openWindowModeless(xh.getUrl()+'/office/seal?fileId='+id+'&doc='+doc+'&type=1&path='+
 						path,'width=1200px;height=800px;');
 			}else{
-				alert("该文件类型不支持在线预览")
+				alert("该文件类型不支持在线签章")
 			}
 			
 		}

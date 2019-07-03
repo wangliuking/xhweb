@@ -21,6 +21,10 @@ loader.define(function(require,exports,module) {
             }
             
         });
+        
+        setInterval(function(){
+        	bs.No=code();
+        }, 1000)
     };
     // 事件绑定
     pageview.bind = function() {
@@ -48,6 +52,20 @@ function code(){
 }
 function add(){
 	var files=[];
+	var reason=$("input[name='reason']").val();
+	var time=$("input[name='time']").val();
+	var code=$("input[name='code']").val();
+	
+	if(reason==""){
+		bui.alert("事由不能为空");return;
+	}
+	if(time==""){
+		bui.alert("时间不能为空");return;
+	}
+	if(code==""){
+		bui.alert("编号不能为空");return;
+	}
+	
 	/*
 	 * var name = $("input[name='fileName']").val(); var path =
 	 * $("input[name='filePath']").val(); if(name!="" && path!=""){ var a={

@@ -95,6 +95,7 @@
 										<th width="80px">序号</th>
 										<th width="150px">名称</th>
 										<th>区域</th>
+										<th>具体地址</th>
 										<th>建设期</th>
 										<th>直放站数量</th>
 										<th width="180px">操作</th>
@@ -102,7 +103,7 @@
 								</thead>
 								<tbody>
 									<tr ng-if="totals==0">
-										<td colspan="5" class="text-center">没有记录！</td>
+										<td colspan="6" class="text-center">没有记录！</td>
 									</tr>
 									<tr ng-repeat="x in data">
 										<!-- <td><input type="checkbox" name="tb-check"
@@ -110,6 +111,7 @@
 										<td>{{$index+1}}</td>
 										<td>{{x.bsName}}</td>
 										<td>{{x.zone}}</td>
+										<td>{{x.address}}</td>
 										<td>{{x.period}}</td>
 
 										<td>{{x.num}}</td>
