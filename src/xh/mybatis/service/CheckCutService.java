@@ -390,5 +390,24 @@ public class CheckCutService {
         }
         return list;
     }
+
+    /**
+     * 查询考核发起时间，用于决定哪些核减无法修改
+     * @param
+     * @return
+     */
+    public static String selectCheckTimeForStatus() {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        String result = "";
+        try {
+            result = mapper.selectCheckTimeForStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
     
 }

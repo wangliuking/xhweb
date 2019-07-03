@@ -7,6 +7,7 @@ if (!("xh" in window)) {
 
 var frist = 0;
 var appElement = document.querySelector('[ng-controller=xhcontroller]');
+var checkCreateTime;
 toastr.options = {
 	"debug" : false,
 	"newestOnTop" : false,
@@ -116,6 +117,12 @@ xh.load = function() {
 				$scope.user_M=$scope.userData_MainManager[0].user;
 			}
 		});
+
+        /*获取最近考核时间*/
+        $http.get("../../checkCut/selectCheckTimeForStatus").
+        success(function(response){
+            checkCreateTime = response.result;
+        });
 		
 		/* 刷新数据 */
 		$scope.refresh = function(page) {
@@ -249,12 +256,13 @@ xh.load = function() {
 				var date1 = data.breakTime;
                 var date2 = data.restoreTime;    //结束时间
                 var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
-                var nowMonth = new Date().getMonth()+1;
-                var sheetMonth = new Date(date1).getMonth()+1;
-                console.log("nowMonth : "+nowMonth);
-                console.log("sheetMonth : "+sheetMonth);
-                if(sheetMonth<nowMonth){
-                    //表单创建时间不在当月
+                var checkDate = new Date(checkCreateTime+" 00:00:00");
+                var sheetDate = new Date(date1);
+                console.log("checkCreateTime : "+checkCreateTime);
+                console.log("checkDate : "+checkDate);
+                console.log("sheetDate : "+sheetDate);
+                if(sheetDate<checkDate){
+                    //表单时间小于最近考核时间
                     $scope.sheetIsUpdate = false;
                 }else{
                     $scope.sheetIsUpdate = true;
@@ -676,6 +684,13 @@ xh.check2 = function() {
     //审核前自动签名
     $scope.signNow();
     $scope.$apply();
+    var checkedRes = $("#checkForm2 select[name='checked']").val();
+    console.log("checkedRes : "+checkedRes);
+    var text = $("#checkCut-form div[name='suggest']").text();
+    if(checkedRes == 2 && text == ""){
+        //审核通过，若意见为空则自动填充意见
+        $("#checkCut-form div[name='suggest']").text("同意核减。");
+    }
 	$.ajax({
 		url : '../../checkCut/checkedTwo',
 		type : 'POST',

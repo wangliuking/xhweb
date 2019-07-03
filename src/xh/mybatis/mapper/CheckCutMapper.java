@@ -117,4 +117,9 @@ public interface CheckCutMapper {
      */
     public List<Map<String,Object>> exportWordByTime(Map<String, Object> map)throws Exception;
 
+    /**
+     * 查询考核发起时间，用于决定哪些核减无法修改
+     */
+    public String selectCheckTimeForStatus()throws Exception;
+
 }

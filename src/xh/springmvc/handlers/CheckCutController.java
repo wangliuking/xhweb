@@ -1294,4 +1294,29 @@ public class CheckCutController {
         }
     }
 
+    /**
+     * 运维人员提交相关资料
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/selectCheckTimeForStatus", method = RequestMethod.GET)
+    public void selectCheckTimeForStatus(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        String checkCreateTime = CheckCutService.selectCheckTimeForStatus();
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", checkCreateTime);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }
