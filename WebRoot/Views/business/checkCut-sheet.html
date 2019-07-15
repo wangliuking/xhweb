@@ -9,7 +9,6 @@
                 <small class="font-bold">故障核减申请书</small>
             </div>
             <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
-
                 <div ng-if="checkCutType == 1" class="order">
                     <form action="" onsubmit="false" id="checkCut-form">
                         <table class="table-view"
@@ -26,59 +25,53 @@
                                 <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
                                     <br/>
                                     <div class="form-inline">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">基础信息：</span>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
                                         <input type="hidden" ng-value="sheetData.name" name="name"/>
                                         {{sheetData.bsId}}-{{sheetData.name}}基站，
                                         <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
-                                        <input style="border: 0px;outline:none;width: 70px" type="hidden" ng-value="sheetData.transferCompare" name="transferCompare"/>{{sheetData.transferCompare}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，续航时间
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.powerOne" name="powerOne"/>{{sheetData.powerOne}}，后备电池续航时间
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，
-                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，续航时间
-                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，维护上站时间
-                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}，
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}。
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}
-                                        <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 160px" type="text" ng-model="sheetData.firstDesc" name="firstDesc"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 160px" type="text" ng-model="sheetData.firstDesc" name="firstDesc" readonly="readonly"/>
+                                        <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，后备电池续航时间
+                                        <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}，
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}，维护上站时间
+                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}。
                                         <br/>
                                         <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
-                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 30px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
-                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 30px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                         <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">故障原因、历时、核减依据：</span>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" readonly="readonly"/>断站，至
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" readonly="readonly"/>恢复，
-                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，申请核减时间：
+                                        断站历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
+                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该故障断站为不可抗力因素导致，根据运维服务质量验收标准{{sheetData.rules}}，故向市软件中心申请故障核减
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.alarmTime" name="alarmTime"/>
                                         <br/>
-                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
-                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <select name="rules" style="border: none;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.1 自然灾害）'" >根据考核细则（3.2.1 自然灾害）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.2 市政施工）'" >根据考核细则（3.2.2 市政施工）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.3 突发事件）'" >根据考核细则（3.2.3 突发事件）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.4 已预先告知维护/整改作业）'" >根据考核细则（3.2.4 已预先告知维护/整改作业）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.5 业主原因）'" >根据考核细则（3.2.5 业主原因）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.6 夜间停电或天气原因）'" >根据考核细则（3.2.6 夜间停电或天气原因）</option>
+                                        <select ng-if="roleId==301" name="rules" style="border: none;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
+                                            <option ng-selected="sheetData.rules == '3.2.1 自然灾害'" >3.2.1 自然灾害</option>
+                                            <option ng-selected="sheetData.rules == '3.2.2 市政施工'" >3.2.2 市政施工</option>
+                                            <option ng-selected="sheetData.rules == '3.2.3 突发事件'" >3.2.3 突发事件</option>
+                                            <option ng-selected="sheetData.rules == '3.2.4 已预先告知维护/整改作业'" >3.2.4 已预先告知维护/整改作业</option>
+                                            <option ng-selected="sheetData.rules == '3.2.5 业主原因'" >3.2.5 业主原因</option>
+                                            <option ng-selected="sheetData.rules == '3.2.6 夜间停电或天气原因'" >3.2.6 夜间停电或天气原因</option>
                                         </select>
-
-                                        <!--<input style="border: 0px;outline:none;width: 190px" type="hidden" ng-model="sheetData.rules" name="rules"/>-->
-                                        <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
+                                        <input ng-if="roleId!=301" type="hidden" name="rules" ng-value="sheetData.rules">
                                     </div>
                                     <div style="height: 150px;width:870px;" readonly="readonly"></div>
                                 </td>
@@ -159,45 +152,45 @@
                                 <td style="height:150px;width:100%;border-bottom: none;" colspan="6">
                                     <br/>
                                     <div class="form-inline">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;调度台情况：
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">基础信息：</span>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
                                         <input type="hidden" ng-value="sheetData.name" name="name"/>
-                                         {{sheetData.name}}；
+                                        {{sheetData.name}}；
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}
-                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}；
-
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
+                                        <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferTwo" name="transferTwo"/>{{sheetData.transferTwo}}。
                                         <br/>
-                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 27px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
-                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 27px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
                                         <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">故障原因、历时、核减依据：</span>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        该调度台于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" readonly="readonly"/>断站，至
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" readonly="readonly"/>恢复，
-                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，申请核减时间：
+                                        历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
+                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该故障断站为不可抗力因素导致，根据运维服务质量验收标准{{sheetData.rules}}，故向市软件中心申请故障核减
                                         <input ng-if="roleId==301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime"/>
                                         <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 30px" type="text" ng-model="sheetData.checkCutTime" name="checkCutTime" readonly="readonly"/>分钟。
-                                        <input style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.alarmTime" name="alarmTime"/>
                                         <br/>
-                                        <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
-                                        <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;" class="textarea-div" name="situation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <select name="rules" style="border: none;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.1 自然灾害）'" >根据考核细则（3.2.1 自然灾害）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.2 市政施工）'" >根据考核细则（3.2.2 市政施工）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.3 突发事件）'" >根据考核细则（3.2.3 突发事件）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.4 已预先告知维护/整改作业）'" >根据考核细则（3.2.4 已预先告知维护/整改作业）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.5 业主原因）'" >根据考核细则（3.2.5 业主原因）</option>
-                                            <option ng-selected="sheetData.rules == '根据考核细则（3.2.6 夜间停电或天气原因）'" >根据考核细则（3.2.6 夜间停电或天气原因）</option>
+                                        <select ng-if="roleId==301" name="rules" style="border: none;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
+                                            <option ng-selected="sheetData.rules == '3.2.1 自然灾害'" >3.2.1 自然灾害</option>
+                                            <option ng-selected="sheetData.rules == '3.2.2 市政施工'" >3.2.2 市政施工</option>
+                                            <option ng-selected="sheetData.rules == '3.2.3 突发事件'" >3.2.3 突发事件</option>
+                                            <option ng-selected="sheetData.rules == '3.2.4 已预先告知维护/整改作业'" >3.2.4 已预先告知维护/整改作业</option>
+                                            <option ng-selected="sheetData.rules == '3.2.5 业主原因'" >3.2.5 业主原因</option>
+                                            <option ng-selected="sheetData.rules == '3.2.6 夜间停电或天气原因'" >3.2.6 夜间停电或天气原因</option>
                                         </select>
-
-                                        <!--<input style="border: 0px;outline:none;width: 190px" type="hidden" ng-model="sheetData.rules" name="rules"/>-->
-                                        <br/>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
+                                        <input ng-if="roleId!=301" type="hidden" name="rules" ng-value="sheetData.rules">
                                     </div>
                                     <div style="height: 150px;width:870px;" readonly="readonly"></div>
                                 </td>
@@ -262,104 +255,11 @@
                         </table>
                     </form>
                 </div>
-                <!--<div id="print_checkcut" ng-show="false">
-                    <style type="text/css" id="style1">
-                        .table-view{border-collapse:collapse;}
-                        .table-view td{border:1px solid #ccc;border-collapse:collapse;}
-                    </style>
-                    <table class="table-view"
-                           style="border-collapse: collapse;">
-                        <tbody>
-                        <tr>
-                            <td colspan="6" style="text-align: center;font-size: 18px;">
-                                故障核减申请书
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="height:150px;width:auto;border-bottom: none;" colspan="6">
-                                <br/>
-                                <div>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基站情况：
-                                    {{sheetData.bsId}}-{{sheetData.name}}基站， {{sheetData.hometype}}； {{sheetData.transfer}}，{{sheetData.transferCompare}}， {{sheetData.transferOne}}， {{sheetData.transferTwo}}； {{sheetData.powerOne}}，续航时间 {{sheetData.powerTimeOne}}， {{sheetData.powerTwo}}，续航时间 {{sheetData.powerTimeTwo}}，维护上站时间 {{sheetData.maintainTime}}，{{sheetData.isPower}}。 {{sheetData.isPowerTime}}
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详见
-                                    {{sheetData.firstDesc}}
-                                    <br/>
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.bsId}}-{{sheetData.name}}基站，
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.desc}}
-                                    <br/>
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;详细情况如下：
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {{sheetData.breakTime}}断站，至
-                                    {{sheetData.restoreTime}}恢复，
-                                    历时{{calcData}}分钟，申请核减时间：
-                                    {{sheetData.checkCutTime}} 分钟。
-                                    <br/>
-                                    <div class="textarea-div">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{sheetData.situation}}</div>
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {{sheetData.rules}}
-                                    <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故提出该申请。请软件中心考虑给与核减。
-                                </div>
-                                <div style="height: 150px;width:auto;" readonly="readonly"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="height:30px;width:auto;border-top: none;border-bottom: none;"
-                                colspan="6">
-                                <div  style="height: 30px;width:300px;float: right;">{{sheetData.period | changePeriod}}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="height:30px;width:auto;border-top: none;border-bottom: none;" colspan="6">
-                                <div style="height: 30px;width:auto;float: right;">{{sheetData.applyTime}}</div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="height:230px;width:auto;border-top: none;border-bottom: none;" colspan="6">
-
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="height:50px;width:80px;">拟制：</td>
-                            <td style="height:50px;width:320px;">
-                                <img ng-if="sheetData.persion1 != null && sheetData.persion1 != ''" ng-src="{{sheetData.persion1}}" width="243" height="50"/>
-                            </td>
-                            <td style="height:50px;width:80px;border-right:none;">审核：</td>
-                            <td style="height:50px;width:320px;">
-                                <img ng-if="sheetData.persion2 != null && sheetData.persion2 != ''" ng-src="{{sheetData.persion2}}" width="243" height="50"/>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="height:80px;width:auto;border-top: none;border-bottom: none;" colspan="6">
-                                <p>成都市软件产业发展中心 （意见）</p>
-                                <div contenteditable="true" style="height: 80px;width:auto;" class="textarea-div ">{{sheetData.suggest}}</div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="height:30px;width:auto;border-top: none;padding-right: 30px;" colspan="6">
-                                <div style="height: 50px;width:auto;float: right;">
-                                    <span>签字: </span>
-                                    <img ng-if="sheetData.persion3 != null && sheetData.persion3 != ''" ng-src="{{sheetData.persion3}}" width="243" height="50"/>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>-->
-
-
             </div>
             <div class="modal-footer">
+                <button ng-show="elecBtnShow" type="button" class="btn btn-success btn-sm" ng-click="showElecShow()">
+                    <i class="fa fa-check-square"></i>&nbsp;发电说明
+                </button>
                 <button type="button" class="btn btn-success btn-sm" ng-click="showContent(nowIndex)">
                     <i class="fa fa-check-square"></i>&nbsp;依据
                 </button>

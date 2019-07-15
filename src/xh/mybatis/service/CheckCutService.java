@@ -2,6 +2,7 @@ package xh.mybatis.service;
 
 import org.apache.ibatis.session.SqlSession;
 import xh.mybatis.bean.CheckCutBean;
+import xh.mybatis.bean.CheckCutElecBean;
 import xh.mybatis.mapper.CheckCutMapper;
 import xh.mybatis.tools.MoreDbTools;
 import java.util.ArrayList;
@@ -402,6 +403,63 @@ public class CheckCutService {
         String result = "";
         try {
             result = mapper.selectCheckTimeForStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     * 根据基站id查询发电说明
+     * @param
+     * @return
+     */
+    public static Map<String,Object> selectCheckCutElecById(int bsId) {
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        Map<String,Object> result = null;
+        try {
+            result = mapper.selectCheckCutElecById(bsId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     *更新发电说明
+     * @return
+     */
+    public static int replaceCheckContent(CheckCutElecBean bean){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result = 0;
+        try {
+            result = mapper.replaceCheckContent(bean);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    /**
+     *根据基站id删除发电记录
+     * @return
+     */
+    public static int delElec(String bsId){
+        SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+        CheckCutMapper mapper = sqlSession.getMapper(CheckCutMapper.class);
+        int result = 0;
+        try {
+            result = mapper.delElec(bsId);
+            sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -216,6 +216,15 @@ xh.load = function() {
             $scope.calcData = Math.round(date3/(1000*60));
         }
 
+        /*跳转到停电说明*/
+        $scope.showelec = function () {
+            $("#elec-form input").val("");
+            $("#elec-form div[name='suggest']").text("");
+            $scope.imgListShowData = [];
+            //$scope.$apply();
+            $("#elec").modal('show');
+        };
+
 		/*跳转到进度页面*/
 		$scope.toProgress = function (id) {
 			$scope.editData = $scope.data[id];
@@ -285,9 +294,12 @@ xh.load = function() {
 				}else{
                     $scope.calcData = Math.round(date3/(1000*60));
 				}
+                //查询是否有发电说明
+                $scope.selectElecData($scope.sheetData.bsId);
 
             });
             $("#sheet").modal('show');
+
         }
 
         /*显示依据*/
@@ -355,6 +367,80 @@ xh.load = function() {
             }
 
 	    };
+
+        $scope.showElec = function(){
+            var bsId = $("#elecBsId").val();
+            if(bsId == null || bsId == ""){
+                return false;
+            }
+            $http.get("../../checkCut/selectCheckCutElecById?bsId="+bsId).success(function (response) {
+                $scope.elecData = response.items;
+                if(response.items.bsName){
+                    $("#elec-form input[name='name']").val(response.items.bsName)
+                }else{
+                    $("#elec-form input[name='name']").val("")
+                }
+                if(response.items.to_bs_time){
+                    $("#elec-form input[name='to_bs_time']").val(response.items.to_bs_time)
+                }else{
+                    $("#elec-form input[name='to_bs_time']").val("")
+                }
+                if(response.items.to_bs_level){
+                    $("#elec-form input[name='to_bs_level']").val(response.items.to_bs_level)
+                }else{
+                    $("#elec-form input[name='to_bs_level']").val("")
+                }
+                if(response.items.isPower){
+                    $("#elec-form input[name='isPower']").val(response.items.isPower)
+                }else{
+                    $("#elec-form input[name='isPower']").val("")
+                }
+                if(response.items.power_time){
+                    $("#elec-form input[name='power_time']").val(response.items.power_time)
+                }else{
+                    $("#elec-form input[name='power_time']").val("")
+                }
+                if(response.items.suggest){
+                    $("#elec-form div[name='suggest']").text(response.items.suggest)
+                }else{
+                    $("#elec-form div[name='suggest']").text("")
+                }
+
+                if(response.items.reason){
+                    $("input[name='result']").val(1);
+                    $("input[name='fileName']").val(response.items.reason);
+                    var tempArr = response.items.reason.split(";");
+                    $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
+                }else{
+                    $scope.imgListShowData = [];
+                }
+
+            });
+        }
+
+        $scope.selectElecData = function (bsId) {
+            $http.get("../../checkCut/selectCheckCutElecById?bsId="+bsId).success(function (response) {
+                $scope.elecshowData = response.items;
+                if(response.items.bsId){
+                    $scope.elecBtnShow = true;
+                }else {
+                    $scope.elecBtnShow = false;
+                }
+                if(response.items.reason){
+                    $("input[name='result']").val(1);
+                    $("input[name='fileName']").val(response.items.reason);
+                    var tempArr = response.items.reason.split(";");
+                    $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
+                }else{
+                    $scope.imgListShowData = [];
+                }
+            });
+        }
+
+        $scope.showElecShow = function(){
+            $("#elecshow").modal('show');
+        }
+
 		/* 显示修改model */
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
@@ -436,6 +522,39 @@ xh.load = function() {
 				}
 			});
 		};
+        /* 删除发电说明 */
+        $scope.delElec = function(id) {
+            $("#elec").modal('hide');
+            swal({
+                title : "提示",
+                text : "确定要删除该发电说明吗？",
+                type : "info",
+                showCancelButton : true,
+                confirmButtonColor : "#DD6B55",
+                confirmButtonText : "确定",
+                cancelButtonText : "取消"
+            }, function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url : '../../checkCut/delElec?bsId='+id,
+                        type : 'get',
+                        dataType : "json",
+                        async : false,
+                        success : function(data) {
+                            if (data.success) {
+                                toastr.success('删除成功', '提示');
+                                $("elec-form input").val("");
+                                $("elec-form div[name='suggest']").val("");
+                                $scope.imgListShowData = [];
+                                //$scope.$apply();
+                            } else {
+                                toastr.error('删除失败', '提示');
+                            }
+                        }
+                    });
+                }
+            });
+        };
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -524,6 +643,14 @@ xh.load = function() {
 
 /*修改核减申请表*/
 xh.sheetChange = function() {
+    var $scope = angular.element(appElement).scope();
+    var rules = "";
+    if($scope.roleId==301){
+        rules = $("select[name='rules'] option:selected").text();
+    }else{
+        rules = $("input[name='rules']").val();
+    }
+
     var bean={
         id:$("input[name='sheetId']").val(),
         bsId:$("input[name='bsIdTemp']").val(),
@@ -546,7 +673,7 @@ xh.sheetChange = function() {
         checkCutTime:$("input[name='checkCutTime']").val(),
         alarmTime:$("input[name='alarmTime']").val(),
         situation:$("div[name='situation']").text(),
-        rules:$("select[name='rules'] option:selected").text(),
+        rules:rules,
         period:$("div[name='period']").text(),
         applyTime:$("div[name='applyTime']").text(),
         suggest:$("div[name='suggest']").text(),
@@ -562,8 +689,8 @@ xh.sheetChange = function() {
         success : function(data) {
             $("#checkCut-btn").button('reset');
             //$('#sheet').modal('hide');
-            //var page = $(".page.active").find("a").text();
-            //xh.refresh(page);
+            var page = $(".page.active").find("a").text();
+            xh.refresh(page);
             toastr.success(data.message, '提示');
         },
         error : function() {
@@ -595,6 +722,51 @@ xh.showContent = function() {
             $("#add_btn").button('reset');
         }
     });
+};
+
+/*更新发电说明*/
+xh.replaceElec = function() {
+    var $scope = angular.element(appElement).scope();
+    var bsId = $("#elecBsId").val();
+    if(bsId == null || bsId == ""){
+        alert("基站id号为空，请重新确认");
+        return false;
+    }
+    var sug = $("#elec-form div[name='suggest']").text();
+    if(sug != null && sug != ""){
+        $("#elec-form input[name='suggest']").val(sug);
+    }
+    $.ajax({
+        url : '../../checkCut/replaceCheckContent',
+        type : 'POST',
+        dataType : "json",
+        async : true,
+        data : $("#elec-form").serializeArray(),
+        success : function(data) {
+            $("#elec-btn").button('reset');
+            $('#elec').modal('hide');
+            $("#elecBsId").val("");
+            $scope.elecData = "";
+            $scope.imgListShowData = [];
+            $scope.$apply();
+            toastr.success(data.message, '提示');
+            $("#elec-form input[name='suggest']").val("");
+        },
+        error : function() {
+            $("#elec-btn").button('reset');
+        }
+    });
+};
+
+/*删除发电说明*/
+xh.delElec = function() {
+    var $scope = angular.element(appElement).scope();
+    var bsId = $("#elecBsId").val();
+    if(bsId == null || bsId == ""){
+        alert("基站id号为空，请重新确认");
+        return false;
+    }
+    $scope.delElec(bsId);
 };
 
 /*运维组发起请求审核*/
@@ -689,7 +861,9 @@ xh.check2 = function() {
     var text = $("#checkCut-form div[name='suggest']").text();
     if(checkedRes == 2 && text == ""){
         //审核通过，若意见为空则自动填充意见
-        $("#checkCut-form div[name='suggest']").text("同意核减。");
+        $scope.sheetData.suggest = "同意核减。";
+        $scope.$apply();
+        //$("#checkCut-form div[name='suggest']").text("同意核减。");
     }
 	$.ajax({
 		url : '../../checkCut/checkedTwo',
@@ -766,6 +940,10 @@ xh.check4 = function() {
 /* 上传文件 */
 xh.upload = function(index) {
     var $scope = angular.element(appElement).scope();
+    if (index == 9) {
+        path = 'filePath9';
+        note = 'uploadResult9';
+    }
     if (index == 0) {
         path = 'filePath0';
         note = 'uploadResult0';
@@ -815,6 +993,12 @@ xh.upload = function(index) {
                     var tempArr = data.fileName.split(";");
                     $scope.imgListData = tempArr.splice(0,tempArr.length-1);
                     console.log($scope.imgListData)
+                    $scope.$apply();
+                }
+                if(index == 9){
+                    var tempArr = data.fileName.split(";");
+                    $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
+                    console.log($scope.imgListShowData)
                     $scope.$apply();
                 }
 			} else {

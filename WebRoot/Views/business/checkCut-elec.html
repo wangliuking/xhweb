@@ -1,0 +1,123 @@
+<div class="modal fade" id="elec" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+                <small class="font-bold">800M基站发电情况说明</small>
+            </div>
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+                <div class="order">
+                    <form action="" onsubmit="false" id="elec-form">
+                        <table class="table-view"
+                               style="border-collapse: collapse;">
+                            <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center;font-size: 18px;">
+                                    800M基站发电情况说明
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">基站ID</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;" id="elecBsId"  type="number" name="bsId" value="" ng-blur="showElec()"/>
+                                    <!--<img ng-if="sheetData.persion1 != null && sheetData.persion1 != ''" ng-src="{{sheetData.persion1}}" width="243" height="50"/>-->
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">基站名称</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;"  type="text" name="name" ng-value="elecData.bsName"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">上站耗时(自接单起)</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;"  type="text" name="to_bs_time" ng-value="elecData.to_bs_time"/>
+                                    <!--<img ng-if="sheetData.persion1 != null && sheetData.persion1 != ''" ng-src="{{sheetData.persion1}}" width="243" height="50"/>-->
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">上站困难度</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;"  type="text" name="to_bs_level" ng-value="elecData.to_bs_level"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">是否发电</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;"  type="text" name="isPower" ng-value="elecData.isPower"/>
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">发电时段</td>
+                                <td style="height:50px;width:243px;">
+                                    <input style="border: none;"  type="text" name="power_time" ng-value="elecData.power_time"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:80px;width:100%;border-top: none;" colspan="6">
+                                    <p>原因说明：</p>
+                                    <div ng-repeat="x in imgListShowData">
+                                    <a href="/Resources/upload/CheckCut/{{x}}" target="_blank">
+                                    <img ng-src="/Resources/upload/CheckCut/{{x}}" width="100%" height="auto">
+                                    </a>
+                                        <hr>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="col-md-12">
+                                            <div class="form-group col-md-8">
+                                                <label>提交说明图片</label>&nbsp;<span class="text-danger">[*]</span>
+                                                <input type="file" name="filePath" id="filePath9" class="form-control"/>
+                                            </div>
+                                            <div class="form-group col-md-4"style="margin-top:30px;" >
+                                                <input type="hidden" name="result" class="form-control"/>
+                                                <input type="hidden" name="fileName"/>
+                                                <input type="hidden" name="path"/>
+                                                <a href="#" onclick="xh.upload(9)" class="btn btn-minier btn-danger">上传</a>&nbsp;&nbsp;
+                                                <span id="uploadResult9" style="color:red"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:80px;width:100%;border-top: none;" colspan="6">
+                                    <p>成都市软件产业发展中心 （意见）</p>
+                                    <div ng-if="roleId==10002" contenteditable="true" style="height: 80px;width:870px;"
+                                         class="textarea-div " name="suggest">{{elecData.suggest}}</div>
+                                    <div ng-if="roleId!=10002" contenteditable="false" style="height: 80px;width:870px;"
+                                         class="textarea-div " name="suggest">{{elecData.suggest}}</div>
+                                </td>
+                                <input type="hidden" name="suggest"/>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+                <button type="button" class="btn btn-warning btn-sm" id="elec-del">
+                    <i class="fa fa-remove"></i>&nbsp;删除
+                </button>
+                <button type="button" class="btn btn-success btn-sm" id="elec-btn">
+                    <i class="fa fa-remove"></i>&nbsp;保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#elec-btn").click(function () {
+        //$('#checkCut-form').submit();
+        xh.replaceElec();
+    });
+    $("#elec-del").click(function () {
+        //$('#checkCut-form').submit();
+        xh.delElec();
+    });
+</script>
