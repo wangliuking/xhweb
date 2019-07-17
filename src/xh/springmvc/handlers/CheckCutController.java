@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -322,11 +323,14 @@ public class CheckCutController {
         list.add("C:\\down\\郫县犀浦镇2019-07-111729100.doc");
         String zipPath = "E:\\xh\\xhweb\\out\\artifacts\\xhweb_Web_exploded\\Resources\\upload\\check\\2019\\07\\4\\故障核减申请书.zip";
         zipFiles(list,zipPath);*/
-        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2019-07-12 15:15:15");
+        /*Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2019-07-12 15:15:15");
         Calendar ca = Calendar.getInstance();
         ca.setTime(date);
         System.out.println(ca.get(Calendar.YEAR));
-        System.out.println(ca.get(Calendar.MONTH)+1);
+        System.out.println(ca.get(Calendar.MONTH)+1);*/
+        File file = new File("/E:/xh/xhweb/out/artifacts/xhweb_Web_exploded/Resources/upload/CheckCut/b885af3cccd46b96d22aa60e0d8af34a-test2.jpg");
+        String fileName = "b885af3cccd46b96d22aa60e0d8af34a-test2copy.jpg";
+        rename(file,fileName);
     }
 
     /**
@@ -1130,6 +1134,7 @@ public class CheckCutController {
         //String zipPath = "E:\\xh\\xhweb\\out\\artifacts\\xhweb_Web_exploded\\Resources\\upload\\check\\2019\\07\\4\\故障核减申请书.zip";
         for(int i=3;i<5;i++){
             List<String> filePeriodList = WordTest.searchPeriodFile(i+"");
+            List<String> fileNamePeriodList = WordTest.searchPeriodFileName(i+"");
             if(filePeriodList.size()>0){
                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startTime);
                 Calendar ca = Calendar.getInstance();
@@ -1146,6 +1151,8 @@ public class CheckCutController {
                 String[] temp = zipPath.split("WEB-INF");
                 String finalPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书.zip";
                 zipFiles(filePeriodList,finalPath);
+                String dstPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书/";
+                filesCopy(fileNamePeriodList,dstPath);
             }
         }
         //自动生成end
@@ -1163,6 +1170,26 @@ public class CheckCutController {
             e.printStackTrace();
         }finally{
             out.close();
+        }
+    }
+
+    public static void filesCopy(List<String> fileNamePeriodList,String dstPath) throws Exception{
+        for(int i=0;i<fileNamePeriodList.size();i++){
+            File source = new File(WordTest.globalPath+"down/"+fileNamePeriodList.get(i));
+            File dest = new File(dstPath+fileNamePeriodList.get(i));
+            File parentFile = dest.getParentFile();
+            if(!parentFile.exists()){
+                parentFile.mkdirs();
+            }else{
+                //判断文件夹是否存在文件，有则删除
+                File[] files = parentFile.listFiles();
+                if(files.length>0){
+                    for(File existFile :files){
+                        existFile.delete();
+                    }
+                }
+            }
+            Files.copy(source.toPath(), dest.toPath());
         }
     }
 
@@ -1497,6 +1524,58 @@ public class CheckCutController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 图片签章
+     */
+    @RequestMapping(value = "/sealImg",method = RequestMethod.GET)
+    public void sealImg(HttpServletRequest req,HttpServletResponse resp) throws Exception{
+        HashMap result = new HashMap();
+        int x = Integer.parseInt(req.getParameter("x"));
+        int y = Integer.parseInt(req.getParameter("y"));
+        String fileN = req.getParameter("fileName");
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        String filename = temp[0]+"Resources/upload/CheckCut/"+fileN;
+        System.out.println(filename);
+        File file = new File(filename);
+        String fileNewName = fileN.substring(0,fileN.length()-4)+"copy"+fileN.substring(fileN.length()-4);
+        rename(file,fileNewName);
+        PhotoWatermark.addImageLogo(temp[0]+"Resources/upload/CheckCut/"+fileNewName,temp[0]+"Resources/upload/CheckCut/seal.png",filename,x,y);
+
+        File tempFile = new File(temp[0]+"Resources/upload/CheckCut/"+fileNewName);
+        tempFile.delete();
+
+        result.put("success", true);
+        result.put("message", "签章完成！");
+
+        resp.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            resp.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Rename the file.
+     */
+    public static boolean rename(final File file, final String newName) {
+        // file is null then return false
+        if (file == null) return false;
+        // file doesn't exist then return false
+        if (!file.exists()) return false;
+        // the new name equals old name then return true
+        if (newName.equals(file.getName())) return true;
+        File newFile = new File(file.getParent() + File.separator + newName);
+        // the new name of file exists then return false
+        return !newFile.exists()
+                && file.renameTo(newFile);
     }
 
 }

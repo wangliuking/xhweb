@@ -16,7 +16,7 @@ import com.oreilly.servlet.Base64Encoder;
 public class WordTest {
 
     private Configuration configuration = null;
-    private static String globalPath = "C:\\";
+    public static String globalPath = "C:\\";
 
     public WordTest(){
         configuration = new Configuration();
@@ -256,6 +256,21 @@ public class WordTest {
             if(period.equals(param)){
                 list.add(files[i].getPath());
                 System.out.println(files[i].getName()+"==="+files[i].getPath());
+            }
+        }
+        return list;
+    }
+
+    public static List<String> searchPeriodFileName(String param){
+        File file = new File(globalPath+"down");
+        File[] files = file.listFiles();
+        List<String> list = new LinkedList<String>();
+        for(int i=0;i<files.length;i++){
+            String fileName = files[i].getName();
+            String period = fileName.substring(0,1);
+            if(period.equals(param)){
+                list.add(files[i].getName());
+                //System.out.println(files[i].getName()+"==="+files[i].getPath());
             }
         }
         return list;
