@@ -1,6 +1,8 @@
 package xh.mybatis.mapper;
 
 import xh.mybatis.bean.CheckCutBean;
+import xh.mybatis.bean.CheckCutElecBean;
+
 import java.util.List;
 import java.util.Map;
 
@@ -116,5 +118,27 @@ public interface CheckCutMapper {
      * @throws Exception
      */
     public List<Map<String,Object>> exportWordByTime(Map<String, Object> map)throws Exception;
+
+    /**
+     * 查询考核发起时间，用于决定哪些核减无法修改
+     */
+    public String selectCheckTimeForStatus()throws Exception;
+
+    /**
+     * 根据基站id查询发电说明
+     */
+    public Map<String,Object> selectCheckCutElecById(int bsId)throws Exception;
+
+    /**
+     * 更新发电说明
+     * @return
+     * @throws Exception
+     */
+    public int replaceCheckContent(CheckCutElecBean bean)throws  Exception;
+
+    /**
+     * 根据基站id删除发电记录
+     */
+    public int delElec(String bsId)throws Exception;
 
 }

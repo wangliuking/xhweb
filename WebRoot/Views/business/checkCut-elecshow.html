@@ -1,0 +1,85 @@
+<div class="modal fade" id="elecshow" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;
+                </button>
+            </div>
+            <div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
+
+                <div class="order">
+                        <table class="table-view"
+                               style="border-collapse: collapse;">
+                            <tbody>
+                            <tr>
+                                <td colspan="6" style="text-align: center;font-size: 18px;">
+                                    800M基站发电情况说明
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">基站ID</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.bsId}}
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">基站名称</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.name}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">上站耗时(自接单起)</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.to_bs_time}}
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">上站困难度</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.to_bs_level}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:50px;width:200px;">是否发电</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.isPower}}
+                                </td>
+                                <td style="height:50px;width:200px;border-right:none;">发电时段</td>
+                                <td style="height:50px;width:243px;">
+                                    {{elecshowData.power_time}}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:80px;width:100%;border-top: none;" colspan="6">
+                                    <p>原因说明：</p>
+                                    <div ng-repeat="x in imgListShowData">
+                                    <a href="/Resources/upload/CheckCut/{{x}}" target="_blank">
+                                    <img ng-src="/Resources/upload/CheckCut/{{x}}" width="100%" height="auto">
+                                    </a>
+                                        <hr>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="height:80px;width:100%;border-top: none;" colspan="6">
+                                    <p>成都市软件产业发展中心 （意见）</p>
+                                    <div contenteditable="false" style="height: 80px;width:870px;"
+                                         class="textarea-div " name="suggest">{{elecshowData.suggest}}</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                    <i class="fa fa-remove"></i>&nbsp;关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

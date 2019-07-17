@@ -164,8 +164,8 @@
 
     <!--查询核减所有记录 -->
     <select id="exportWordByTime" parameterType="map" resultType="map">
-        select a.*,b.unit as unit1,b.unitType as initType1,b.userType as userType1,c.period as bsPeriod,TIMESTAMPDIFF(MINUTE,(DATE_FORMAT(breakTime,'%Y-%m-%d %H:%i')),(DATE_FORMAT(restoreTime, '%Y-%m-%d %H:%i'))) calcData
-        from xhgmnet_bs_checkcut as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user LEFT JOIN xhgmnet_bs_station as c on a.bsId=c.bsId where 1=1
+        select a.*,b.unit as unit1,b.unitType as initType1,b.userType as userType1,c.period as bsPeriod,TIMESTAMPDIFF(MINUTE,(DATE_FORMAT(breakTime,'%Y-%m-%d %H:%i')),(DATE_FORMAT(restoreTime, '%Y-%m-%d %H:%i'))) calcData,d.bsId bsIdElec,d.to_bs_time,d.to_bs_level,d.isPower isPowerElec,d.power_time,d.reason,d.suggest suggestElec
+        from xhgmnet_bs_checkcut as a LEFT JOIN xhgmnet_web_user as b on a.userName=b.user LEFT JOIN xhgmnet_bs_station as c on a.bsId=c.bsId LEFT JOIN xhgmnet_bs_checkcutelec as d on a.bsId=d.bsId where 1=1
 
         <if test="bsId != null  and bsId != ''">
             and a.bsId=#{bsId}
@@ -190,5 +190,25 @@
         </if>
         order by breakTime
     </select>
+
+    <!-- 查询考核发起时间，用于决定哪些核减无法修改 -->
+    <select id="selectCheckTimeForStatus" resultType="String">
+        select createTime from xhgmnet_operations_check order by createTime desc limit 1
+    </select>
+
+    <!--修改发电说明 -->
+    <insert id="replaceCheckContent" parameterType="xh.mybatis.bean.CheckCutElecBean">
+        replace into xhgmnet_bs_checkcutelec(bsId,name,to_bs_time,to_bs_level,isPower,power_time,reason,suggest) values (#{bsId},#{name},#{to_bs_time},#{to_bs_level},#{isPower},#{power_time},#{reason},#{suggest})
+    </insert>
+
+    <!-- 根据基站id查询发电说明 -->
+    <select id="selectCheckCutElecById" resultType="map" parameterType="int">
+        select a.name bsName,b.* from xhgmnet_bs_station a LEFT JOIN xhgmnet_bs_checkcutelec b on a.bsId=b.bsId where a.bsId=#{bsId}
+    </select>
+
+    <!--根据ID删除核减记录-->
+    <delete id="delElec" parameterType="String" >
+        delete from xhgmnet_bs_checkcutelec where bsId=#{bsId}
+    </delete>
 
 </mapper>

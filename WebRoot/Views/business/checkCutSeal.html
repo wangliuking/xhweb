@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>核减流程</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+</head>
+<body ng-app="app" ng-controller="xhcontroller">
+<div id="rec">
+	<input type="button" value="签章" onclick="clickSeal()"/>
+<img width="auto" height="auto" ng-src="../../Resources/upload/CheckCut/{{fileName}}"/>
+
+</div>
+<script type="text/javascript" src="../../Resources/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../../Resources/js/angular.min.js"></script>
+<script type="text/javascript" src="../../Resources/js/angular-ui-router.js"></script>
+<script type="text/javascript" src="../../Controllers/business/checkCutSeal.js"></script>
+	<script type="text/javascript">
+        xh.load();
+        var status=0;
+        $('img').click(function(e){
+            //获取鼠标在图片上的坐标
+            if(status==1){
+                alert("确认在此签章么，签章后无法撤销");
+                status=0;
+                xh.sealImg(e.offsetX,e.offsetY);
+            }
+
+            //获取元素相对于页面的坐标
+            //alert('X：'+$(this).offset().left+'\n Y:'+$(this).offset().top)
+        });
+        function clickSeal() {
+            status=1;
+        }
+	</script>
+</body>
+</html>

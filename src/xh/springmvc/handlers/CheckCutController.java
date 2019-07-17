@@ -14,6 +14,7 @@ import com.oreilly.servlet.Base64Decoder;
 
 import xh.func.plugin.*;
 import xh.mybatis.bean.CheckCutBean;
+import xh.mybatis.bean.CheckCutElecBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.service.BsAlarmService;
 import xh.mybatis.service.CheckCutService;
@@ -23,8 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Controller
@@ -314,40 +317,20 @@ public class CheckCutController {
         }
     }
 
-    public static void main(String[] args) {
-        /*SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        //获取当前月第一天：
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.MONTH, 0);
-        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
-        String first = format.format(c.getTime());
-        System.out.println("===============first:"+first);
-
-        //获取当前月最后一天
+    public static void main(String[] args) throws Exception {
+        /*List<String> list = new LinkedList<String>();
+        list.add("C:\\down\\郫县犀浦镇2019-07-111729100test.doc");
+        list.add("C:\\down\\郫县犀浦镇2019-07-111729100.doc");
+        String zipPath = "E:\\xh\\xhweb\\out\\artifacts\\xhweb_Web_exploded\\Resources\\upload\\check\\2019\\07\\4\\故障核减申请书.zip";
+        zipFiles(list,zipPath);*/
+        /*Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2019-07-12 15:15:15");
         Calendar ca = Calendar.getInstance();
-        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String last = format.format(ca.getTime());
-        System.out.println("===============last:"+last);*/
-        CheckCutController checkCutController = new CheckCutController();
-        String path = checkCutController.getClass().getResource("/").getPath();
-        String[] temp = path.split("WEB-INF");
-        System.out.println(temp[0]);
-
-        String imgFile = temp[0]+"Views/business/sign/admin.png";
-        InputStream in = null;
-        byte[] data = null;
-
-        try {
-            in = new FileInputStream(imgFile);
-            data = new byte[in.available()];
-            in.read(data);
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-      /*  Base64.Encoder encoder = Base64.getEncoder();
-        System.out.println(encoder.encode(data));*/
+        ca.setTime(date);
+        System.out.println(ca.get(Calendar.YEAR));
+        System.out.println(ca.get(Calendar.MONTH)+1);*/
+        File file = new File("/E:/xh/xhweb/out/artifacts/xhweb_Web_exploded/Resources/upload/CheckCut/b885af3cccd46b96d22aa60e0d8af34a-test2.jpg");
+        String fileName = "b885af3cccd46b96d22aa60e0d8af34a-test2copy.jpg";
+        rename(file,fileName);
     }
 
     /**
@@ -403,29 +386,40 @@ public class CheckCutController {
         selectMap.put("bsId",Integer.parseInt(bsId));
         List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
         Map<String,Object> res = list.get(0);
-        bean.setHometype("基站所在机房归属"+res.get("hometype"));//机房类型
+        bean.setHometype("该基站建设于"+res.get("hometype")+"机房");//机房类型
         //判断传输类型
         if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("双传输");
+            bean.setTransfer("双传输链路");
         }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("单传输");
+            bean.setTransfer("单传输链路");
         }else{
-            bean.setTransfer("无传输");
+            bean.setTransfer("无传输链路");
         }
         //判断是否同一运营商
         String transferOne = list.get(0).get("operator")+"";
         String transferTwo = list.get(1).get("operator")+"";
-        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+        /*if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("相同运营商");
         }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("不同运营商");
+        }*/
+        if(transferOne != null && !"".equals(transferOne)){
+            bean.setTransferOne("第一条传输链路运营商为"+transferOne);
+        }else{
+            bean.setTransferOne("无第一条传输链路");
+        }
+        if(transferTwo != null && !"".equals(transferTwo)){
+            bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
+        }else{
+            bean.setTransferTwo("无第二条传输链路");
         }
 
-        bean.setTransferOne("第一传输运营商"+transferOne);
-        bean.setTransferTwo("第二传输运营商"+transferTwo);
-        bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+
+        //bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+        bean.setPowerOne("基站主设备为"+res.get("bs_supply_electricity_type")+"供电");
         bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
-        bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        //bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        bean.setPowerTwo("传输、环控等网络设备为"+res.get("transfer_supply_electricity_type")+"供电");
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
         bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
@@ -579,33 +573,45 @@ public class CheckCutController {
         bean.setId(id);
         System.out.println(" bean : "+bean);
         //填充申请表部分数据start
+        Calendar cal = Calendar.getInstance();
         Map<String,Object> selectMap = new HashMap<String,Object>();
         selectMap.put("bsId",Integer.parseInt(bsId));
         List<Map<String,Object>> list = CheckCutService.selectBsInformationById(selectMap);
         Map<String,Object> res = list.get(0);
-        bean.setHometype("基站所在机房归属"+res.get("hometype"));//机房类型
+        bean.setHometype("该基站建设于"+res.get("hometype")+"机房");//机房类型
         //判断传输类型
         if("已开通".equals(list.get(0).get("is_open")) && "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("双传输");
+            bean.setTransfer("双传输链路");
         }else if("已开通".equals(list.get(0).get("is_open")) || "已开通".equals(list.get(1).get("is_open"))){
-            bean.setTransfer("单传输");
+            bean.setTransfer("单传输链路");
         }else{
-            bean.setTransfer("无传输");
+            bean.setTransfer("无传输链路");
         }
         //判断是否同一运营商
         String transferOne = list.get(0).get("operator")+"";
         String transferTwo = list.get(1).get("operator")+"";
-        if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
+        /*if(transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("相同运营商");
         }else if(!transferOne.equals(transferTwo) && !"".equals(transferOne) && transferOne != null){
             bean.setTransferCompare("不同运营商");
+        }*/
+        if(transferOne != null && !"".equals(transferOne)){
+            bean.setTransferOne("第一条传输链路运营商为"+transferOne);
+        }else{
+            bean.setTransferOne("无第一条传输链路");
+        }
+        if(transferTwo != null && !"".equals(transferTwo)){
+            bean.setTransferTwo("第二条传输链路运营商为"+transferTwo);
+        }else{
+            bean.setTransferTwo("无第二条传输链路");
         }
 
-        bean.setTransferOne("第一传输运营商"+transferOne);
-        bean.setTransferTwo("第二传输运营商"+transferTwo);
-        bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+
+        //bean.setPowerOne("基站主设备供电类型为"+res.get("bs_supply_electricity_type")+"，基站主设备由"+res.get("bs_power_down_type")+"供电");
+        bean.setPowerOne("基站主设备为"+res.get("bs_supply_electricity_type")+"供电");
         bean.setPowerTimeOne(res.get("bs_xh_fact_time")+"小时");
-        bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        //bean.setPowerTwo("网络柜供电类型为"+res.get("transfer_supply_electricity_type")+"，传输设备由"+res.get("transfer_power_down_type")+"供电");
+        bean.setPowerTwo("传输、环控等网络设备为"+res.get("transfer_supply_electricity_type")+"供电");
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
         bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
@@ -623,7 +629,6 @@ public class CheckCutController {
             period = "四";
         }
         bean.setPeriod("成都市应急指挥调度无线通信网"+period+"期项目部");
-        Calendar cal = Calendar.getInstance();
         bean.setFirstDesc("《基站信息表-"+cal.get(cal.YEAR)+"年"+(cal.get(cal.MONTH)+1)+"月》");
         bean.setApplyTime(cal.get(cal.YEAR)+"年 "+(cal.get(cal.MONTH)+1)+"月 "+cal.get(cal.DATE)+"日 "+dayForWeek(new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime())));
         //System.out.println(" bean : "+bean);
@@ -1100,7 +1105,7 @@ public class CheckCutController {
      * 测试word压缩导出
      */
     @RequestMapping(value = "/downLoadZipFile")
-    public void downLoadZipFile(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void downLoadZipFile(HttpServletRequest request,HttpServletResponse response) throws Exception {
         String bsId = request.getParameter("bsId");
         String name = request.getParameter("bsName");
         String status = request.getParameter("checked");
@@ -1124,6 +1129,34 @@ public class CheckCutController {
         String zipName = "checkcut.zip";
         WordTest wordTest = new WordTest();
         List<String> fileList = wordTest.run(list);//查询数据库中记录
+
+        //自动生成start
+        //String zipPath = "E:\\xh\\xhweb\\out\\artifacts\\xhweb_Web_exploded\\Resources\\upload\\check\\2019\\07\\4\\故障核减申请书.zip";
+        for(int i=3;i<5;i++){
+            List<String> filePeriodList = WordTest.searchPeriodFile(i+"");
+            List<String> fileNamePeriodList = WordTest.searchPeriodFileName(i+"");
+            if(filePeriodList.size()>0){
+                Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(startTime);
+                Calendar ca = Calendar.getInstance();
+                ca.setTime(date);
+                int year = ca.get(Calendar.YEAR);
+                int tempMonth = ca.get(Calendar.MONTH)+1;
+                String month = "";
+                if(tempMonth<10){
+                    month = "0"+ tempMonth;
+                }else {
+                    month = "" + tempMonth;
+                }
+                String zipPath = this.getClass().getResource("/").getPath();
+                String[] temp = zipPath.split("WEB-INF");
+                String finalPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书.zip";
+                zipFiles(filePeriodList,finalPath);
+                String dstPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书/";
+                filesCopy(fileNamePeriodList,dstPath);
+            }
+        }
+        //自动生成end
+
         response.setContentType("APPLICATION/OCTET-STREAM");
         response.setHeader("Content-Disposition","attachment; filename="+zipName);
         ZipOutputStream out = new ZipOutputStream(response.getOutputStream());
@@ -1138,6 +1171,84 @@ public class CheckCutController {
         }finally{
             out.close();
         }
+    }
+
+    public static void filesCopy(List<String> fileNamePeriodList,String dstPath) throws Exception{
+        for(int i=0;i<fileNamePeriodList.size();i++){
+            File source = new File(WordTest.globalPath+"down/"+fileNamePeriodList.get(i));
+            File dest = new File(dstPath+fileNamePeriodList.get(i));
+            File parentFile = dest.getParentFile();
+            if(!parentFile.exists()){
+                parentFile.mkdirs();
+            }else{
+                //判断文件夹是否存在文件，有则删除
+                File[] files = parentFile.listFiles();
+                if(files.length>0){
+                    for(File existFile :files){
+                        existFile.delete();
+                    }
+                }
+            }
+            Files.copy(source.toPath(), dest.toPath());
+        }
+    }
+
+    public static void zipFiles(List<String> fileList, String zipPath) {
+        List<File> srcFiles = new LinkedList<File>();
+        for(int i=0;i<fileList.size();i++){
+            File file = new File(fileList.get(i));
+            srcFiles.add(file);
+        }
+        File zipFile = new File(zipPath);
+        File parentFile = zipFile.getParentFile();
+        if(!parentFile.exists()){
+            parentFile.mkdirs();
+        }
+        // 判断压缩后的文件存在不，不存在则创建
+        if (!zipFile.exists()) {
+            try {
+                zipFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        // 创建 FileOutputStream 对象
+        FileOutputStream fileOutputStream = null;
+        // 创建 ZipOutputStream
+        ZipOutputStream zipOutputStream = null;
+        // 创建 FileInputStream 对象
+        FileInputStream fileInputStream = null;
+
+        try {
+            // 实例化 FileOutputStream 对象
+            fileOutputStream = new FileOutputStream(zipFile);
+            // 实例化 ZipOutputStream 对象
+            zipOutputStream = new ZipOutputStream(fileOutputStream);
+            // 创建 ZipEntry 对象
+            ZipEntry zipEntry = null;
+            // 遍历源文件数组
+            for (int i = 0; i < srcFiles.size(); i++) {
+                // 将源文件数组中的当前文件读入 FileInputStream 流中
+                fileInputStream = new FileInputStream(srcFiles.get(i));
+                // 实例化 ZipEntry 对象，源文件数组中的当前文件
+                zipEntry = new ZipEntry(srcFiles.get(i).getName());
+                zipOutputStream.putNextEntry(zipEntry);
+                // 该变量记录每次真正读的字节个数
+                int len;
+                // 定义每次读取的字节数组
+                byte[] buffer = new byte[1024];
+                while ((len = fileInputStream.read(buffer)) > 0) {
+                    zipOutputStream.write(buffer, 0, len);
+                }
+                zipOutputStream.closeEntry();
+                fileInputStream.close();
+            }
+            zipOutputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -1292,6 +1403,179 @@ public class CheckCutController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/selectCheckTimeForStatus", method = RequestMethod.GET)
+    public void selectCheckTimeForStatus(HttpServletRequest request,
+                             HttpServletResponse response) {
+        this.success = true;
+        String checkCreateTime = CheckCutService.selectCheckTimeForStatus();
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", checkCreateTime);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新发电说明
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/replaceCheckContent", method = RequestMethod.POST)
+    public void replaceCheckContent(HttpServletRequest request,
+                                   HttpServletResponse response) {
+        this.success = true;
+        String bsId = request.getParameter("bsId");
+        String name = request.getParameter("name");
+        String to_bs_time = request.getParameter("to_bs_time");
+        String to_bs_level = request.getParameter("to_bs_level");
+        String isPower = request.getParameter("isPower");
+        String power_time = request.getParameter("power_time");
+        String fileName = request.getParameter("fileName");
+        String suggest = request.getParameter("suggest");
+
+        CheckCutElecBean bean = new CheckCutElecBean();
+        bean.setBsId(Integer.parseInt(bsId));
+        bean.setName(name);
+        bean.setTo_bs_time(to_bs_time);
+        bean.setTo_bs_level(to_bs_level);
+        bean.setIsPower(isPower);
+        bean.setPower_time(power_time);
+        bean.setReason(fileName);
+        bean.setSuggest(suggest);
+
+        log.info("bean : "+bean);
+        int rst = CheckCutService.replaceCheckContent(bean);
+
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("result", rst);
+        result.put("message", "保存成功");
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 删除发电记录
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/delElec", method = RequestMethod.GET)
+    public void delElec(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        this.success = true;
+        String bsId = request.getParameter("bsId");
+        int rst = CheckCutService.delElec(bsId);
+        HashMap result = new HashMap();
+        result.put("success", success);
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据id查询发电记录
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/selectCheckCutElecById", method = RequestMethod.GET)
+    public void selectCheckCutElecById(HttpServletRequest request,
+                          HttpServletResponse response) {
+        this.success = true;
+        String bsId = request.getParameter("bsId");
+        HashMap result = new HashMap();
+        result.put("success", success);
+        result.put("items", CheckCutService.selectCheckCutElecById(Integer.parseInt(bsId)));
+        response.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        try {
+            response.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 图片签章
+     */
+    @RequestMapping(value = "/sealImg",method = RequestMethod.GET)
+    public void sealImg(HttpServletRequest req,HttpServletResponse resp) throws Exception{
+        HashMap result = new HashMap();
+        int x = Integer.parseInt(req.getParameter("x"));
+        int y = Integer.parseInt(req.getParameter("y"));
+        String fileN = req.getParameter("fileName");
+        String path = this.getClass().getResource("/").getPath();
+        String[] temp = path.split("WEB-INF");
+        String filename = temp[0]+"Resources/upload/CheckCut/"+fileN;
+        System.out.println(filename);
+        File file = new File(filename);
+        String fileNewName = fileN.substring(0,fileN.length()-4)+"copy"+fileN.substring(fileN.length()-4);
+        rename(file,fileNewName);
+        PhotoWatermark.addImageLogo(temp[0]+"Resources/upload/CheckCut/"+fileNewName,temp[0]+"Resources/upload/CheckCut/seal.png",filename,x,y);
+
+        File tempFile = new File(temp[0]+"Resources/upload/CheckCut/"+fileNewName);
+        tempFile.delete();
+
+        result.put("success", true);
+        result.put("message", "签章完成！");
+
+        resp.setContentType("application/json;charset=utf-8");
+        String jsonstr = json.Encode(result);
+        log.debug(jsonstr);
+        try {
+            resp.getWriter().write(jsonstr);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Rename the file.
+     */
+    public static boolean rename(final File file, final String newName) {
+        // file is null then return false
+        if (file == null) return false;
+        // file doesn't exist then return false
+        if (!file.exists()) return false;
+        // the new name equals old name then return true
+        if (newName.equals(file.getName())) return true;
+        File newFile = new File(file.getParent() + File.separator + newName);
+        // the new name of file exists then return false
+        return !newFile.exists()
+                && file.renameTo(newFile);
     }
 
 }

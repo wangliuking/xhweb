@@ -72,8 +72,7 @@
 	</update>
 	<!-- 更新四方伟业派单记录 -->
 	<update id="updateSfOrder" parameterType="com.tcpBean.ErrProTable">
-		update xhgmnet_sf_bs_alarm set status=#{status} where zbdldm=#{zbdldm} and
-		bsId=#{bsid}
+		update xhgmnet_sf_bs_out set is_order=1 where type=#{zbdldm} and bsid=#{bsid}
 	</update>
 	<!-- 更新基站故障状态记录 -->
 	<update id="updateBsFault" parameterType="map">
