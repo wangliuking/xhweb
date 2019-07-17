@@ -73,7 +73,7 @@
 	</select>
 	<!--导出现网基站的运行记录 -->
 	<select id="excelToBsStatus" resultType="xh.mybatis.bean.BsStatusBean"
-		useCache="true">
+		useCache="true" parameterType="map">
 		SELECT
 		a.period,
 		a.bsId,
@@ -140,7 +140,10 @@
 		c.`master`=2
 		LEFT JOIN xhgmnet_bs_main_info as d ON
 		a.bsId=d.bsId
-		where a.bsId&lt;1000 or a.bsId>2000
+		where a.bsId&lt;1000 and a.type!=2
+		<if test="period!=null and period !=''">
+		 and a.period=#{period}
+		</if>
 		ORDER BY
 		a.bsId ASC;
 	</select>
@@ -875,6 +878,16 @@
 		select * from xhgmnet_esight_link_monitor
 		GROUP BY tag
 	</select>
+	<select id="sfalarm_detail" resultType="map" useCache="true"
+        parameterType="map">
+        select * from xhgmnet_sf_bs_alarm WHERE bsId=#{bsId}
+        <if test="type==1">
+        and  RIGHT(zbdldm,2)="GZ"
+        </if>
+         <if test="type==2">
+        and  RIGHT(zbdldm,2)="FX"
+        </if>
+    </select>
 
 
 </mapper>

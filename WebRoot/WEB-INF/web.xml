@@ -89,7 +89,7 @@
      </context-param>
      <context-param>
             <param-name>posealdb-url</param-name>                             
-            <param-value>jdbc:mysql://192.168.120.161:3309/seal?useUnicode=true&amp;characterEncoding=UTF-8</param-value>
+            <param-value>jdbc:mysql://localhost:3306/seal?useUnicode=true&amp;characterEncoding=UTF-8</param-value>
      </context-param>
      <context-param>
             <param-name>posealdb-username</param-name>
@@ -148,7 +148,7 @@ xh.org.listeners.SingLoginListener
   <listener-class>xh.org.listeners.checkListener</listener-class>
  </listener>-->
 <!-- 基站故障自动写入 -->
-<!-- <listener>
+<!--  <listener>
 <listener-class>   
 xh.org.listeners.WriteBsFaultListenner   
 </listener-class>   

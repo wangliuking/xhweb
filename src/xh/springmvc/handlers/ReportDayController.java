@@ -1004,7 +1004,7 @@ public class ReportDayController {
 			sheet.setColumnView(11, 50);
 
 			
-			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
+			List<BsStatusBean> list = BsStatusService.excelToBsStatus(null);
 			for (int i = 0; i < list.size(); i++) {
 				BsStatusBean bean = (BsStatusBean) list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));

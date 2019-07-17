@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,6 +74,27 @@ public class OperationsCheckController {
 		result.put("totals",OperationsCheckService.count(map));
 		result.put("items", OperationsCheckService.dataList(map));
 		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/search_checkcut_count", method = RequestMethod.GET)
+	public void search_checkcut_count(
+			@RequestParam("month") String month,
+			@RequestParam("period") int period,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		this.success = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("month", month);
+		map.put("period", period);
+		HashMap result = new HashMap();
+		result.put("count", OperationsCheckService.search_checkcut_count(map));
 		String jsonstr = json.Encode(result);
 		try {
 			response.getWriter().write(jsonstr);
@@ -247,7 +270,29 @@ public class OperationsCheckController {
 			for(int i=0;i<filelist.size();i++){
 				Map<String,Object> map=filelist.get(i);
 				map.put("applyId", checkBean.getApplyId());
-				filelist.set(i, map);
+				filelist.set(i, map);				
+				String srcDir=request.getSession().getServletContext().getRealPath("/upload/checksource");
+				srcDir=srcDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				File src=new File(srcDir+"/"+map.get("fileName"));
+				File file1 = new File(destDir1+"/"+map.get("fileName"));
+				try {
+					if(!file1.exists()){
+						FunUtil.copyFile(src, file1);
+					}else{
+						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+					}
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			OperationsCheckService.addFile(filelist);
 		}
@@ -669,6 +714,130 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/allcheckfile", method = RequestMethod.GET)
+	public void allcheckfile(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+		String hz="/upload/checksource/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		for (File file2 : files) {
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("fileName", file2.getName());
+			map.put("filePath", hz+"/"+file2.getName());
+			map.put("doc", file2.getName().substring(file2.getName().indexOf(".")+1));
+			list.add(map);
+			
+		}
+		
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bscheckfile", method = RequestMethod.GET)
+	public void bscheckfile(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/故障核减申请书";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/故障核减申请书";
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/bs_ensure_file", method = RequestMethod.GET)
+	public void bs_ensure_file(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/通信保障报告";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/通信保障报告";
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	
 	@RequestMapping(value = "/check2", method = RequestMethod.POST)
 	public void check2(HttpServletRequest request, HttpServletResponse response) {
@@ -1052,9 +1221,11 @@ public class OperationsCheckController {
 			@RequestParam("pathName") MultipartFile[] file,
 			@RequestParam("type") int type,
 			@RequestParam("month") String month,
+			@RequestParam("files") String files,
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("month:"+month);
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
 		// 获取当前时间
 		/*Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");*/
@@ -1063,32 +1234,67 @@ public class OperationsCheckController {
 		String path = request.getSession().getServletContext().getRealPath("")
 				+ "/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
+		String mastUploadFiles="'运维服务团队通讯录','运维资源配置表',"
+				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
+				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表'";
 		if(!(file.length==0)){
 			
 			for(int i=0;i<file.length;i++){
+				boolean x=false;
 				String fileName = file[i].getOriginalFilename();
-				System.out.println("文件名："+fileName);
-				File targetFile = new File(path, fileName);
-				if (!targetFile.exists()) {
-					targetFile.mkdirs();
-
+				String[] srcFiles=files.split(",");
+				if(srcFiles.length>0){
+					for (String string : srcFiles) {
+						if(string.equals(fileName)){
+							x=true;
+							log.info("文件存在不上传");
+						}
+					}
+					System.out.println(fileName);
+					if(!mastUploadFiles.contains(fileName.split("\\.")[0])){
+						x=true;
+						log.info("该文件不在必传列表中");
+					}
 				}
-				// 保存
-				try {
-					file[i].transferTo(targetFile);
-					this.success = true;
-					this.message = "文件上传成功";
-					Map<String,Object> map=new HashMap<String, Object>();
-					map.put("fileName", fileName);
-					map.put("filePath", savePath + "/" + fileName);
-					map.put("index", i+1);
-					map.put("size", file[i].getSize());
-					rs.add(map);
+				
+				if(!x){
+					File targetFile = new File(path, fileName);
+					if (!targetFile.exists()) {
+						targetFile.mkdirs();
 
-				} catch (Exception e) {
-					e.printStackTrace();
-					this.message = "文件上传失败";
+					}
+					// 保存
+					try {
+						file[i].transferTo(targetFile);
+						this.success = true;
+						this.message = "文件上传成功";
+						Map<String,Object> map=new HashMap<String, Object>();
+						map.put("fileName", fileName);
+						map.put("filePath", savePath + "/" + fileName);
+						map.put("index", i+1);
+						map.put("size", file[i].getSize());
+						rs.add(map);
+						
+						String destDir1=request.getSession().getServletContext()
+								.getRealPath("/upload/checksource");
+						destDir1=destDir1+"/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+						File Path1 = new File(destDir1);
+						if (!Path1.exists()) {
+							Path1.mkdirs();
+						}
+						
+						
+						File file1 = new File(destDir1+"/"+fileName);
+						FunUtil.copyFile(targetFile, file1);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+						this.message = "文件上传失败";
+					}
 				}
+
+				
 			}
 			
 			
@@ -1167,18 +1373,39 @@ public class OperationsCheckController {
 		String user=request.getParameter("user");
 		String checkUser=request.getParameter("checkUser");
 		String checkUser2=request.getParameter("checkUser2");
+		String checkUser3=request.getParameter("checkUser3");
 		OperationsCheckBean bean=new OperationsCheckBean();
+		int roleType=Integer.parseInt(FunUtil.loginUserInfo(request).get("roleType").toString());
 		bean.setId(id);
 		bean.setStatus(status);
+		bean.setWriteMeetRoleType(roleType);
+		bean.setWriteMeetUser(FunUtil.loginUser(request));
+		if(status==9){
+			bean.setIsMeetDocSign(1);
+		}else{
+			bean.setIsMeetDocSign(2);
+		}
+		
 		int rs=OperationsCheckService.signMeet(bean);
 		if(rs>0){
 			this.message="会议纪要提交成功";
 			this.success=true;
 			if(status==9){
-				FunUtil.sendMsgToOneUser(user, "运维考核", "管理方提交了考核会议纪要", request);
-				FunUtil.sendMsgToOneUser(checkUser, "运维考核", "管理方提交了考核会议纪要，请签字", request);
+				
+				
+				if(roleType==2){
+					FunUtil.sendMsgToOneUser(user, "运维考核", "管理方提交了考核会议纪要", request);
+					FunUtil.sendMsgToOneUser(checkUser, "运维考核", "管理方提交了考核会议纪要，请签字", request);
+				}else{
+					FunUtil.sendMsgToOneUser(checkUser2, "运维考核", "服务提供方提交了考核会议纪要，请签字", request);
+				}
+				
 			}else if(status==10){
-				FunUtil.sendMsgToOneUser(user, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				if(roleType==2){				
+					FunUtil.sendMsgToOneUser(user, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				}else{
+					FunUtil.sendMsgToOneUser(checkUser3, "运维考核", "服务提供方已经对会议纪要签字了，本次考核结束", request);
+				}			
 			}
 			
 		}else{
@@ -1226,12 +1453,16 @@ public class OperationsCheckController {
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
 		poCtrl.setCaption("");
-		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		//设置并发控制时间
+		//poCtrl.setTimeSlice(0);
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit,"");
 		poCtrl.setTagId("PageOfficeCtrl1");
+		
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_meet_word");
 		mv.addObject("sealName1",WebUserServices.sealName(FunUtil.loginUser(request),"1"));
 		mv.addObject("sealName2",WebUserServices.sealName(FunUtil.loginUser(request),"2"));
 		mv.addObject("type",type);
+		mv.addObject("userName",FunUtil.loginUser(request));
 		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
 		return mv;
 	}

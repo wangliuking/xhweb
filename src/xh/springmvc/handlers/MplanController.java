@@ -1,6 +1,7 @@
 package xh.springmvc.handlers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -181,12 +183,48 @@ public class MplanController {
 	public void excelOne(HttpServletRequest req, HttpServletResponse rep)
 			throws Exception {
 		String time = req.getParameter("time");
+		excel_one_3(time,req);
+		excel_one_4(time,req);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("time", time);
-		String saveDir = req.getSession().getServletContext()
-				.getRealPath("/upload/mplan");
-		String pathname = saveDir + "/上月度维护作业完成情况(成都应急网"+time+"计划维护作业完成情况).xls";
+		String saveDir = req.getSession().getServletContext().getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"下月计划维护作业(三期).xls";
+		File srcFile3 = new File(saveDir + "/"+time+"本月计划维护作业完成情况(三期).xls");
+		File srcFile4 = new File(saveDir + "/"+time+"本月计划维护作业完成情况(四期).xls");
+		
+		
+		String destDir3=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir3=destDir3+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+		File Path1 = new File(destDir3);
+		if (!Path1.exists()) {
+			Path1.mkdirs();
+		}
+		
+		String destDir4=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir4=destDir4+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+		File Path2 = new File(destDir4);
+		if (!Path2.exists()) {
+			Path2.mkdirs();
+		}
+		File file3 = new File(destDir3+"/本月计划维护作业完成情况.xls");
+		File file4 = new File(destDir4+"/本月计划维护作业完成情况.xls");
+		FunUtil.copyFile(srcFile3, file3);
+		FunUtil.copyFile(srcFile4, file4);
+		Map<String, Object> rmap = new HashMap<String, Object>();
+		rmap.put("success", true);
+		rmap.put("pathName", pathname);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(rmap);
+		rep.getWriter().write(jsonstr);
+
+	}
+	
+	public void excel_one_3(String time,HttpServletRequest req) throws WriteException, IOException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", time);
+		String saveDir = req.getSession().getServletContext().getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"本月计划维护作业完成情况(三期).xls";
 		File Path = new File(saveDir);
 		if (!Path.exists()) {
 			Path.mkdirs();
@@ -202,7 +240,7 @@ public class MplanController {
 		fontFormat.setWrap(true); // 自动换行
 		fontFormat.setBackground(Colour.WHITE);// 背景颜色
 		fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-				Colour.DARK_GREEN);
+				Colour.BLACK);
 		fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 		// 设置头部字体格式
@@ -215,7 +253,7 @@ public class MplanController {
 		fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 		fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 		fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-		fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+		fontFormat_h.setBackground(Colour.WHITE);// 背景色
 		fontFormat_h.setWrap(true);// 不自动换行
 
 		// 设置主题内容字体格式
@@ -234,25 +272,76 @@ public class MplanController {
 
 		WritableSheet sheet0 = book.createSheet("维护作业完成情况", 0);
 
-		excel_one(map, sheet0, fontFormat, fontFormat_h, fontFormat_Content);
+		excel_one(map,"3", sheet0, fontFormat, fontFormat_h, fontFormat_Content);
 
 		book.write();
 		book.close();
-		Map<String, Object> rmap = new HashMap<String, Object>();
-		rmap.put("success", true);
-		rmap.put("pathName", pathname);
-		rep.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(rmap);
-		rep.getWriter().write(jsonstr);
+	}
+	public void excel_one_4(String time,HttpServletRequest req) throws WriteException, IOException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", time);
+		String saveDir = req.getSession().getServletContext()
+				.getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"本月计划维护作业完成情况(四期).xls";
+		File Path = new File(saveDir);
+		if (!Path.exists()) {
+			Path.mkdirs();
+		}
+		File file = new File(pathname);
+		WritableWorkbook book = Workbook.createWorkbook(file);
+		WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"),
+				15, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.BLACK);
+		WritableCellFormat fontFormat = new WritableCellFormat(font);
+		fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+		fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+		fontFormat.setWrap(true); // 自动换行
+		fontFormat.setBackground(Colour.WHITE);// 背景颜色
+		fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+				Colour.BLACK);
+		fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
+		// 设置头部字体格式
+		WritableFont font_header = new WritableFont(WritableFont.TIMES, 13,
+				WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.BLACK);
+		// 应用字体
+		WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+		// 设置其他样式
+		fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+		fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+		fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+		fontFormat_h.setBackground(Colour.WHITE);// 背景色
+		fontFormat_h.setWrap(true);// 不自动换行
+
+		// 设置主题内容字体格式
+		WritableFont font_Content = new WritableFont(WritableFont.TIMES, 12,
+				WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.GRAY_80);
+		// 应用字体
+		WritableCellFormat fontFormat_Content = new WritableCellFormat(
+				font_Content);
+		// 设置其他样式
+		fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+		fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+		fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+		fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+		fontFormat_Content.setWrap(true);// 自动换行
+
+		WritableSheet sheet0 = book.createSheet("维护作业完成情况", 0);
+
+		excel_one(map,"4", sheet0, fontFormat, fontFormat_h, fontFormat_Content);
+
+		book.write();
+		book.close();
 	}
 
-	public void excel_one(Map<String, Object> map, WritableSheet sheet,
+	public void excel_one(Map<String, Object> map,String period, WritableSheet sheet,
 			WritableCellFormat fontFormat, WritableCellFormat fontFormat_h,
 			WritableCellFormat fontFormat_Content) {
 		String time = map.get("time").toString();
 		try {
-			sheet.setRowView(0, 300);
+			sheet.setRowView(0, 400);
 			sheet.setColumnView(0, 10); 
 			sheet.setColumnView(1, 20);
 			sheet.setColumnView(2, 40); 
@@ -262,8 +351,8 @@ public class MplanController {
 			sheet.setColumnView(6, 30); 
 			sheet.setColumnView(7, 30);
 			
-			sheet.addCell(new Label(0, 1, " 成都应急网"+time+"计划维护作业完成情况", fontFormat_h));
-			sheet.mergeCells(0, 1, 7, 1);
+			sheet.addCell(new Label(0, 0, " 成都应急网"+time+"计划维护作业完成情况", fontFormat_h));
+			sheet.mergeCells(0, 0, 7, 1);
 			sheet.addCell(new Label(0, 2, " 序号", fontFormat_h));
 			sheet.addCell(new Label(1, 2, "维护作业类型", fontFormat_h));
 			sheet.addCell(new Label(2, 2, "主要工作内容", fontFormat_h));
@@ -273,7 +362,7 @@ public class MplanController {
 			sheet.addCell(new Label(6, 2, "未完成（滞后）原因", fontFormat_h));
 			sheet.addCell(new Label(7, 2, "备注", fontFormat_h));
 
-			List<MplanBean> list=MplanService.mplanList_month_one(time);
+			List<MplanBean> list=MplanService.mplanList_month_one(time,period);
 			for (int i = 0; i < list.size(); i++) {
 				MplanBean bean = list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i + 3, (i+1), fontFormat_Content));
@@ -297,12 +386,63 @@ public class MplanController {
 	public void excelTwo(HttpServletRequest req, HttpServletResponse rep)
 			throws Exception {
 		String time = req.getParameter("time");
+		
+		excel_two_3(time,req);
+		excel_two_4(time,req);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("time", time);
+		String saveDir = req.getSession().getServletContext().getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"下月计划维护作业(三期).xls";
+		File srcFile3 = new File(saveDir + "/"+time+"下月计划维护作业(三期).xls");
+		File srcFile4 = new File(saveDir + "/"+time+"下月计划维护作业(四期).xls");
+		int y=Integer.parseInt(time.split("-")[0]);
+		int m=Integer.parseInt(time.split("-")[1]);		
+		if(m>1){
+			m-=1;
+		}else{
+			y-=1;
+			m=12;
+		}
+		String year=String.valueOf(y);
+		String month="";
+		if(m<10){
+			month="0"+m;
+		}else{
+			month=String.valueOf(m);
+		}
+		
+		
+		String destDir3=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir3=destDir3+"/"+year+"/"+month+"/3";
+		String destDir4=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir4=destDir4+"/"+year+"/"+month+"/4";
+		File Path3 = new File(destDir3);
+		if (!Path3.exists()) {
+			Path3.mkdirs();
+		}
+		File Path4 = new File(destDir4);
+		if (!Path4.exists()) {
+			Path4.mkdirs();
+		}
+		File file3 = new File(destDir3+"/下月计划维护作业.xls");
+		File file4 = new File(destDir4+"/下月计划维护作业.xls");
+		FunUtil.copyFile(srcFile3, file3);
+		FunUtil.copyFile(srcFile4, file4);
+		Map<String, Object> rmap = new HashMap<String, Object>();
+		rmap.put("success", true);
+		rmap.put("pathName", pathname);
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(rmap);
+		rep.getWriter().write(jsonstr);
+
+	}
+	public void excel_two_3(String time,HttpServletRequest req) throws WriteException, IOException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", time);
 		String saveDir = req.getSession().getServletContext()
-				.getRealPath("/upload/mplan");
-		String pathname = saveDir + "/本月度维护作业计划(成都应急网"+time+"计划维护作业).xls";
+				.getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"下月计划维护作业(三期).xls";
 		File Path = new File(saveDir);
 		if (!Path.exists()) {
 			Path.mkdirs();
@@ -318,7 +458,7 @@ public class MplanController {
 		fontFormat.setWrap(true); // 自动换行
 		fontFormat.setBackground(Colour.WHITE);// 背景颜色
 		fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-				Colour.DARK_GREEN);
+				Colour.BLACK);
 		fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 		// 设置头部字体格式
@@ -331,7 +471,7 @@ public class MplanController {
 		fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 		fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 		fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-		fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+		fontFormat_h.setBackground(Colour.WHITE);// 背景色
 		fontFormat_h.setWrap(true);// 不自动换行
 
 		// 设置主题内容字体格式
@@ -350,40 +490,91 @@ public class MplanController {
 
 		WritableSheet sheet0 = book.createSheet("维护作业计划", 0);
 
-		excel_two(map, sheet0, fontFormat, fontFormat_h, fontFormat_Content);
+		excel_two(map,"3", sheet0, fontFormat, fontFormat_h, fontFormat_Content);
 
 		book.write();
 		book.close();
-		Map<String, Object> rmap = new HashMap<String, Object>();
-		rmap.put("success", true);
-		rmap.put("pathName", pathname);
-		rep.setContentType("application/json;charset=utf-8");
-		String jsonstr = json.Encode(rmap);
-		rep.getWriter().write(jsonstr);
+	}
+	public void excel_two_4(String time,HttpServletRequest req) throws WriteException, IOException{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", time);
+		String saveDir = req.getSession().getServletContext()
+				.getRealPath("/upload/checksource");
+		String pathname = saveDir + "/"+time+"下月计划维护作业(四期).xls";
+		File Path = new File(saveDir);
+		if (!Path.exists()) {
+			Path.mkdirs();
+		}
+		File file = new File(pathname);
+		WritableWorkbook book = Workbook.createWorkbook(file);
+		WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"),
+				15, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.BLACK);
+		WritableCellFormat fontFormat = new WritableCellFormat(font);
+		fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+		fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+		fontFormat.setWrap(true); // 自动换行
+		fontFormat.setBackground(Colour.WHITE);// 背景颜色
+		fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+				Colour.BLACK);
+		fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
+		// 设置头部字体格式
+		WritableFont font_header = new WritableFont(WritableFont.TIMES, 13,
+				WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.BLACK);
+		// 应用字体
+		WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+		// 设置其他样式
+		fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+		fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+		fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+		fontFormat_h.setBackground(Colour.WHITE);// 背景色
+		fontFormat_h.setWrap(true);// 不自动换行
+
+		// 设置主题内容字体格式
+		WritableFont font_Content = new WritableFont(WritableFont.TIMES, 12,
+				WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+				Colour.GRAY_80);
+		// 应用字体
+		WritableCellFormat fontFormat_Content = new WritableCellFormat(
+				font_Content);
+		// 设置其他样式
+		fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+		fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+		fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+		fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+		fontFormat_Content.setWrap(true);// 自动换行
+
+		WritableSheet sheet0 = book.createSheet("维护作业计划", 0);
+
+		excel_two(map,"4", sheet0, fontFormat, fontFormat_h, fontFormat_Content);
+
+		book.write();
+		book.close();
 	}
 
-	public void excel_two(Map<String, Object> map, WritableSheet sheet,
+	public void excel_two(Map<String, Object> map,String period, WritableSheet sheet,
 			WritableCellFormat fontFormat, WritableCellFormat fontFormat_h,
 			WritableCellFormat fontFormat_Content) {
 		String time = map.get("time").toString();
 		try {
-			sheet.setRowView(0, 300);
+			sheet.setRowView(0, 400);
 			sheet.setColumnView(0, 10); 
 			sheet.setColumnView(1, 20);
 			sheet.setColumnView(2, 40); 
 			sheet.setColumnView(3, 25); 
 			sheet.setColumnView(4, 30);
 			
-			sheet.addCell(new Label(0, 1, " 成都应急网"+time+"计划维护作业", fontFormat_h));
-			sheet.mergeCells(0, 1, 4, 1);
+			sheet.addCell(new Label(0, 0, " 成都应急网"+time+"计划维护作业", fontFormat_h));
+			sheet.mergeCells(0, 0, 4, 1);
 			sheet.addCell(new Label(0, 2, " 序号", fontFormat_h));
 			sheet.addCell(new Label(1, 2, "维护作业类型", fontFormat_h));
 			sheet.addCell(new Label(2, 2, "主要工作内容", fontFormat_h));
 			sheet.addCell(new Label(3, 2, "计划完成时间", fontFormat_h));
 			sheet.addCell(new Label(4, 2, "备注", fontFormat_h));
 
-			List<MplanBean> list=MplanService.mplanList_month_two(time);
+			List<MplanBean> list=MplanService.mplanList_month_two(time,period);
 			for (int i = 0; i < list.size(); i++) {
 				MplanBean bean = list.get(i);
 				sheet.addCell(new jxl.write.Number(0, i + 3, (i+1), fontFormat_Content));

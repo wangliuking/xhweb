@@ -94,7 +94,7 @@ xh.load = function() {
 	    	$scope.checkData = $scope.data[id];
 	    	swal({
 				title : "提示",
-				text : "确认已经填写了扣分扣款记录吗？",
+				text : "确认已经填写了扣分，扣款记录吗？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",
@@ -211,6 +211,8 @@ xh.load = function() {
 	    };
 		$scope.showFileWin = function (id) {
 			$scope.detailData = $scope.data[id];
+			$scope.getEnsureFileList($scope.detailData);
+			$scope.getBsCheckFileList($scope.detailData);
 			$("#filesWin").modal('show');
 	    };
 	    $scope.showSignWin = function (id) {
@@ -337,6 +339,51 @@ xh.load = function() {
 				alert("该文件类型不支持在线签章")
 			}
 			
+		}
+		$scope.getFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.files = response.files;
+						$scope.fileTotal = response.totals;
+                        var a=JSON.stringify(response.files);
+						
+						var com=new Array();
+						var index=0;
+						for(var i=0;i<fileNames.length;i++){
+							if(a.indexOf(fileNames[i])==-1){
+								com[index]=fileNames[i];
+								index++;
+							}
+						}
+						$scope.com=com.join(",");
+						$scope.com_size=com.length;
+						
+			});
+		}
+	
+		$scope.getBsCheckFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.bscheck_files = response.files;
+						$scope.bscheck_fileTotal = response.totals;
+						
+						
+						
+						
+			});
+		}
+		$scope.getEnsureFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.ensure_files = response.files;
+						$scope.ensure_fileTotal = response.totals;
+			});
 		}
 		$scope.sealScoreMoneyDoc=function(tag){
 			var data=$scope.checkData;
@@ -510,9 +557,11 @@ xh.load = function() {
 				data : {
 					id : data.id,
 					user:data.user,
+					checkUser3:data.checkUser3,
 					status:9,
 					checkUser:data.checkUser,
-					checkUser2:data.checkUser2
+					checkUser2:data.checkUser2,
+					writeMeetUser:data.writeMeetUser
 				},
 				async : false,
 				success : function(data) {
@@ -563,9 +612,11 @@ xh.load = function() {
 						data : {
 							id : data.id,
 							user:data.user,
+							checkUser3:data.checkUser3,
 							status:tag,
 							checkUser:data.checkUser,
-							checkUser2:data.checkUser2
+							checkUser2:data.checkUser2,
+							writeMeetUser:data.writeMeetUser
 						},
 						async : false,
 						success : function(data) {

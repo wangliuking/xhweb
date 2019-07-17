@@ -349,9 +349,6 @@ public class BsAlarmService {
 
 					if (compare.get("ups5") == null
 							&& compare.get("ups6") == null) {// 未整改
-						System.out.println("未整改：bsId-" + bean.getBsId()
-								+ ";;;;map->" + compare +";;;no_d_on="+no_d_on+";;");/*
-						System.out.println("未整改：bean->" + bean.toString());*/
 						if (no_a_off) {
 
 							bean.setDescription("市电中断");
@@ -421,8 +418,6 @@ public class BsAlarmService {
 						}
 
 					} else {// 已整改
-						System.out.println("已整改：bsId-" + bean.getBsId()
-								+ ";;;;map->" + compare);
 						if (yes_a_off) {
 							bean.setDescription("市电中断");
 							eps = bs_emh_eps(bean);

@@ -76,6 +76,14 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
 		};
+		$scope.showExel = function(id) {
+			if(id==1){
+				$scope.title="生成月备品备件文件"
+			}else{
+				$scope.title="导出月备品备件"
+			}
+			$("#excel-one").modal("show");
+		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
 			var checkVal = [];
@@ -350,7 +358,7 @@ xh.excelTwo = function() {
 	$("#excel-two-btn").button('loading');
 	xh.maskShow("数据导出中");
 	$.ajax({
-		url : '../../attachment/excelTwo',
+		url : '../../attachment/excelOne',
 		type : 'POST',
 		dataType : "json",
 		async : true,
@@ -361,9 +369,13 @@ xh.excelTwo = function() {
 			xh.maskHide();
 			$("#excel-two-btn").button('reset');
 			if (data.success) {
-				$('#edit-two').modal('hide');
-				window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
-				
+				$('#excel-two').modal('hide');
+				//window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
 
 			} else {
 				swal({

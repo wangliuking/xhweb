@@ -1,5 +1,6 @@
 package xh.mybatis.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,17 +58,23 @@ public class MplanService {
 		session.close();
 		return list;
 	}
-	public static List<MplanBean> mplanList_month_one(String time) throws Exception {
+	public static List<MplanBean> mplanList_month_one(String time,String period) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		MplanMapper mapper=session.getMapper(MplanMapper.class);
-		List<MplanBean> list=mapper.mplanList_month_one(time);
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		List<MplanBean> list=mapper.mplanList_month_one(map);
 		session.close();
 		return list;
 	}
-	public static List<MplanBean> mplanList_month_two(String time) throws Exception {
+	public static List<MplanBean> mplanList_month_two(String time,String period) throws Exception {
 		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		MplanMapper mapper=session.getMapper(MplanMapper.class);
-		List<MplanBean> list=mapper.mplanList_month_two(time);
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		List<MplanBean> list=mapper.mplanList_month_two(map);
 		session.close();
 		return list;
 	}

@@ -600,7 +600,7 @@ public class CallController {
 		 this.success=true;
 		 HashMap<String, Object> result = new HashMap<String, Object>();
 		try {
-			String saveDir = request.getSession().getServletContext().getRealPath("/upload/call");
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
 			String pathname = saveDir + "/话务统计["+time.replace(":", "")+"].xls";
 			if(!endtime.equals("")){
 				pathname=saveDir + "/话务统计-["+time.replace(":", "")+"-"+endtime.replace(":", "")+"].xls";
@@ -631,7 +631,7 @@ public class CallController {
 			fontFormat.setWrap(true); // 自动换行
 			fontFormat.setBackground(Colour.WHITE);// 背景颜色
 			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-					Colour.DARK_GREEN);
+					Colour.BLACK);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			
@@ -641,7 +641,7 @@ public class CallController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(true);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -709,7 +709,27 @@ public class CallController {
 
 			book.write();
 			book.close();
-			log.info(time+"-基站话务统计");
+			if(type==3){
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/checksource");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				
+				String destDir2=request.getSession().getServletContext()
+						.getRealPath("/upload/checksource");
+				destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+				File Path2 = new File(destDir2);
+				if (!Path2.exists()) {
+					Path2.mkdirs();
+				}
+				File file1 = new File(destDir1+"/话务统计["+time+"].xls");
+				File file2 = new File(destDir2+"/话务统计["+time+"].xls");
+				FunUtil.copyFile(file, file1);
+				FunUtil.copyFile(file, file2);
+			}
 			/*DownExcelFile(response, pathname);*/
 			 result.put("success", success);
 			 result.put("pathName", pathname);

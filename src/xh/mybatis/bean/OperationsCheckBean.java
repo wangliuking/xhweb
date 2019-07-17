@@ -33,6 +33,11 @@ public class OperationsCheckBean {
 	private String checkTime7;
 	private String checkTime8;
 	
+	private int isMeetDocSign;
+	private String writeMeetUser;
+	private int writeMeetRoleType;
+	
+	
 	private String note1;
 	private int status;
 	
@@ -251,8 +256,26 @@ public class OperationsCheckBean {
 		this.checkTime5 = checkTime5;
 	}
 	
+	public int getIsMeetDocSign() {
+		return isMeetDocSign;
+	}
+	public void setIsMeetDocSign(int isMeetDocSign) {
+		this.isMeetDocSign = isMeetDocSign;
+	}
 	public String getCheckUser5() {
 		return checkUser5;
+	}
+	public String getWriteMeetUser() {
+		return writeMeetUser;
+	}
+	public void setWriteMeetUser(String writeMeetUser) {
+		this.writeMeetUser = writeMeetUser;
+	}
+	public int getWriteMeetRoleType() {
+		return writeMeetRoleType;
+	}
+	public void setWriteMeetRoleType(int writeMeetRoleType) {
+		this.writeMeetRoleType = writeMeetRoleType;
 	}
 	public void setCheckUser5(String checkUser5) {
 		this.checkUser5 = checkUser5;

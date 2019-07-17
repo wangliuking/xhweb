@@ -23,11 +23,15 @@ toastr.options = {
 	"hideMethod" : "fadeOut",
 	"progressBar" : true,
 };
+
+/**
+ * ,'基站月度巡检表（含调度台及直放站）'
+ */
 var fileNames=['运维服务团队通讯录','运维资源配置表',
 		'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',
-		'基站信息表','运维故障统计','故障核减申请书','通信保障报告','备品备件表',
+		'基站信息表','运维故障统计','备品备件表',
 		'定期维护报告-交换中心月维护','定期维护报告-基站月维护','系统日常维护表',
-		'巡检记录汇总表','基站月度巡检表（含调度台及直放站）']
+		'巡检记录汇总表']
 console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
@@ -50,12 +54,123 @@ xh.load = function() {
 				function(response) {
 					$scope.up = response;
 		});
+		
 		$scope.showFileWin=function(){
 			$("input[name='pathName']").click();
 		}
-		
-		
-		
+		$scope.checkcut=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$scope.getFileList();
+			$scope.getBsCheckFileList();
+			$scope.getEnsureFileList();
+			$http.get("../../check/search_checkcut_count?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.checkcut_total = response.count;
+			});
+		}
+		$scope.getFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.files = response.files;
+						$scope.fileTotal = response.totals;
+                        var a=JSON.stringify(response.files);
+						
+						var com=new Array();
+						var index=0;
+						for(var i=0;i<fileNames.length;i++){
+							if(a.indexOf(fileNames[i])==-1){
+								com[index]=fileNames[i];
+								index++;
+							}
+						}
+						$scope.com=com.join(",");
+						$scope.com_size=com.length;
+						
+			});
+		}
+		$scope.getBsCheckFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.bscheck_files = response.files;
+						$scope.bscheck_fileTotal = response.totals;
+						
+						
+						
+						
+			});
+		}
+		$scope.getEnsureFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.ensure_files = response.files;
+						$scope.ensure_fileTotal = response.totals;
+			});
+		}
+		$scope.previewDoc=function(path){
+			console.log(path);
+			
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}/*else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}*/else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
+		$scope.editDoc=function(path){
+			console.log(path);
+			
+			if(path.toLowerCase().indexOf("doc")!=-1){
+				console.log("doc")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/editWord?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("xls")!=-1){
+				console.log("xls")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/editExcel?path='+
+						path,'width=1200px;height=800px;');
+			}else if(path.toLowerCase().indexOf("pdf")!=-1){
+				console.log("pdf")
+				POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+						path,'width=1200px;height=800px;');
+			}/*else if(path.toLowerCase().indexOf("jpeg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("jpg")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}else if(path.toLowerCase().indexOf("png")!=-1){
+				$("#showPicWin").modal('show');
+				$scope.img_src=xh.getUrl()+"/"+path;
+			}*/else{
+				alert("该文件类型不支持在线预览")
+			}
+			
+		}
 		$scope.searchMoney=function(){
 			var time=$("input[name='month']").val();
 			$scope.time=time;
@@ -81,7 +196,7 @@ xh.load = function() {
 		}
 	  
 		
-	   
+		$scope.checkcut();
 		
 	});
 	
@@ -91,6 +206,11 @@ xh.searchScore=function(time){
 	// 调用$scope中的方法
 	$scope.searchScore();
 	$scope.searchMoney();
+}
+xh.refreshFile=function(){
+	var $scope = angular.element(appElement).scope();
+	// 调用$scope中的方法
+	$scope.getFileList();
 }
 xh.add = function() {
     var files=[];	
@@ -131,6 +251,12 @@ xh.add = function() {
 		toastr.error("考核月份不能为空", '提示');
 		return ;
 	}
+	/*var path="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+type+"/故障核减申请书.zip";
+	var xx={
+			fileName:"故障核减申请书.zip",
+			filePath:path
+	}*/
+	//files.push(xx);
 	
 	$.ajax({
 		url : '../../check/add',

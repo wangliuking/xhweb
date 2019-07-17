@@ -297,7 +297,7 @@ xh.upload = function() {
 				$("#uploadForm")[0].reset();
 				$("#uploadForm").data('bootstrapValidator').resetForm();
 				$("#uploadResult").html("");
-				 toastr.success("文件上传成功", '提示');
+				toastr.success("文件上传成功", '提示');
 			} else {
 				swal({
 					title : "提示",

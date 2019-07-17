@@ -33,7 +33,7 @@
 							<th width="30px"><input type="checkbox" id="table-checkbox"
 								class="table-check" /></th>
 
-							<th width="80px">网元类型</th>
+							<th width="90px">网元类型</th>
 							<th width="180px">网元名称</th>
 							<th width="80px">告警级别</th>
 							<!-- <th width="70px">告警类型</th> -->
@@ -57,7 +57,7 @@
 							<td><input type="checkbox" name="tb-check" value="{{x.id}}"
 								index="{{$index}}" /></td>
 							<td><img
-								ng-if="(x.neType==4 || x.neType==102 || x.neType==101 || x.neType==100) && x.voiceTag==0"
+								ng-if="(x.neType==4 || x.neType==102 || x.neType==101 || x.neType==100 || x.neType==200) && x.voiceTag==0"
 								src="../../Resources/images/icon/new.png" width="20px"
 								height="20px"> <span ng-if="x.neType==1">基站</span> <span
 								ng-if="x.neType==2">交换中心</span> <span ng-if="x.neType==3">调度台</span>
@@ -78,6 +78,7 @@
 								ng-if="x.neType==30">桥接中心</span> <span ng-if="x.neType==32">媒体服务器</span>
 								<span ng-if="x.neType==100">基站环控</span> <span
 								ng-if="x.neType==101">交换中心</span> <span ng-if="x.neType==102">调度台</span>
+								<span ng-if="x.neType==200">大数据分析</span>
 							</td>
 
 							<td><span ng-if="x.sysType==1 && x.neType==1">{{x.name}}({{x.bsId}})</span>
@@ -89,6 +90,7 @@
 								<span ng-if="x.sysType==2 && x.neType==100">{{x.name}}({{x.bsId}})</span>
 								<span ng-if="x.sysType==4 && x.neType==101">{{x.location}}({{x.subModId}})</span>
 								<span ng-if="x.sysType==3 && x.neType==102">{{x.location}}({{x.subModId}})</span>
+								<span ng-if="x.sysType==10 && x.neType==200">{{x.location}}({{x.bsId}})</span>
 							</td>
 							<td ng-if="x.alarmLevel==1"
 								style="background-color:#DC143C;color:#000;">严重告警</td>

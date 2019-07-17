@@ -46,7 +46,7 @@
             try {            
             	var bRet=document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSealByName(searNameStr,null,null);
                    if(bRet){
-                         alert("成功！");
+                         //alert("成功！");
                        }else{
                          alert("失败！");
                        }
@@ -59,7 +59,7 @@
            try {            
                var bRet=document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSealByName(searNameStr,null,null);
                   if(bRet){
-                        alert("成功！");
+                       // alert("成功！");
                       }else{
                         alert("失败！");
                       }

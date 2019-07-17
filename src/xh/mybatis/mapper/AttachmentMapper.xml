@@ -97,6 +97,6 @@
 		xhgmnet_operations_attachment where
 		attachment_model=a.attachment_model) as avai
 		from xhgmnet_operations_attachment_config as a
-		where 1=1 and date_format(a.time,'%Y-%m')=#{time} 
+		<!-- where 1=1 and date_format(a.time,'%Y-%m')=#{time}  -->
 	</select>
 </mapper>

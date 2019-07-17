@@ -168,12 +168,29 @@ xh.load = function() {
             var date2 = $("#restoreTime").val();
             $scope.calcData = calTime(date1,date2);
         };
-
+     /*   $scope.sfalarm_detail = function(bsId,type){
+			$http.get("../../bsstatus/sfalarm_detail?bsId="+bsId+"&type="+type).success(
+					function(response) {
+						$scope.sfalarm_detail = response.data;
+			});
+		};*/
 		/* 显示警告详情 */
 		$scope.showDetails = function(id){
 			$("#bsAlarmDetails").modal('show');
 			$scope.bsAlarmData=$scope.data[id];
+			var type=$scope.bsAlarmData.modType;
+			if($scope.bsAlarmData.neType==200 && (type==1 || type==2)){
+				var bsId=$scope.bsAlarmData.bsId;
+				var type=$scope.bsAlarmData.modType;
+				$http.get("../../bsstatus/sfalarm_detail?bsId="+bsId+"&type="+type).success(
+						function(response) {
+							$scope.sfalarm_detail = response.data;
+				});
+			}
+			
 		};
+
+		
 		/* 获取用户权限 */
 		$http.get("../../web/loginUserPower").success(
 				function(response) {
@@ -582,10 +599,11 @@ xh.order=function(){
 		toastr.error("派单人不能为空", '提示');
 		return;
 	}
+	console.log()
 	var formData={
 		id:$("#order").find("input[name='id']").val()==""?0:$("#order").find("input[name='id']").val(),
-		from:$("#order").find("span[name='from']").text(),
-		zbdldm:$("#order").find("span[name='zbdldm']").text(),
+		from:$("#order").find("input[name='from']").val(),
+		zbdldm:$("#order").find("input[name='zbdldm']").val(),
 		bsid:$("#order").find("input[name='bsId']").val(),
 		bsname:$("#order").find("input[name='name']").val(),
 		userid:userid,

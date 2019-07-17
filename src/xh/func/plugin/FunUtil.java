@@ -816,5 +816,29 @@ public class FunUtil {
 			System.out.println("新文件名和旧文件名相同...");
 		}
 	}
-
+	public static List<Map<String,Object>> readFileTree(String path){
+		File dir = new File(path);
+		File[] files=dir.listFiles();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for(int i=0;i<files.length;i++){
+				Map<String,Object> map=new HashMap<String, Object>();
+				if(files[i].isDirectory()){
+					map.put("isDir", true);
+					map.put("file", files[i].getName());				
+					map.put("children", readFileTree(files[i].getPath()));
+				}else{
+					map.put("isDir", false);
+					map.put("file", files[i].getName());
+					map.put("path", files[i].getPath());
+					System.out.println(files[i].getName());
+				}
+				list.add(map);
+			}
+		}else{
+			System.out.println("当前目录为空");
+		}
+		return list;
+		
+	}
 }

@@ -155,7 +155,8 @@ xh.load = function() {
 		/*获取自建基站巡检表信息*/
 		$scope.sbs=function(){	
 			var pageSize = $("#page-limit-sbs").val();
-			$http.get("../../app/sbsinfo?starttime="+$scope.nowDay+"&start=0&limit="+pageSize).
+			var period=$("select[name='period1']").val();
+			$http.get("../../app/sbsinfo?period="+period+"&starttime="+$scope.nowDay+"&start=0&limit="+pageSize).
 			success(function(response){
 				$scope.sbsData = response.items;
 				$scope.sbsTotals = response.totals;
@@ -165,7 +166,8 @@ xh.load = function() {
 		}
 		$scope.vertical=function(){	
 			var pageSize = $("#page-limit-vertical").val();
-			$http.get("../../app/verticalinfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			var period=$("select[name='period2']").val();
+			$http.get("../../app/verticalinfo?period="+period+"&time="+$scope.time+"&start=0&limit="+pageSize).
 			success(function(response){
 				$scope.verticalData = response.items;
 				$scope.verticalTotals = response.totals;
@@ -174,7 +176,8 @@ xh.load = function() {
 		}
 		$scope.room=function(){	
 			var pageSize = $("#page-limit-room").val();
-			$http.get("../../app/roominfo?time="+$scope.time+"&start=0&limit="+pageSize).
+			var period=$("select[name='period3']").val();
+			$http.get("../../app/roominfo?period="+period+"&time="+$scope.time+"&start=0&limit="+pageSize).
 			success(function(response){
 				$scope.roomData = response.items;
 				$scope.roomTotals = response.totals;
@@ -1008,6 +1011,7 @@ xh.load = function() {
 			var start = 1, limit = pageSize;
 			var starttime=$("#start_time").val();
 			var endtime=$("#end_time").val();
+			var period=$("select[name='period1']").val();
 			frist = 0;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -1016,7 +1020,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
+			$http.get("../../app/sbsinfo?period="+period+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.sbsData = response.items;
@@ -1047,6 +1051,7 @@ xh.load = function() {
 		};
 		$scope.vertical_search = function(page) {
 			var pageSize = $("#page-limit-vertical").val();
+			var period=$("select[name='period2']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -1056,7 +1061,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/verticalinfo?time="+$("#month_vertical").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/verticalinfo?period="+period+"&time="+$("#month_vertical").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.verticalData = response.items;
@@ -1067,6 +1072,7 @@ xh.load = function() {
 		};
 		$scope.room_search = function(page) {
 			var pageSize = $("#page-limit-room").val();
+			var period=$("select[name='period3']").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -1076,7 +1082,7 @@ xh.load = function() {
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/roominfo?time="+$("#month_room").val()+"&start="+start+"&limit="+limit).
+			$http.get("../../app/roominfo?period="+period+"&time="+$("#month_room").val()+"&start="+start+"&limit="+limit).
 			success(function(response){
 				xh.maskHide();
 				$scope.roomData = response.items;
@@ -1541,7 +1547,7 @@ xh.load = function() {
 				}
 			});
 		};
-		$scope.excelToMsc=function(index){
+		$scope.excelToMsc=function(index,tag){
 			$scope.mscOneData = $scope.mscData[index];
 			xh.maskShow();
 			//$("#btn-mbs").button('loading')
@@ -1558,8 +1564,17 @@ xh.load = function() {
 					xh.maskHide();
 					//$("#btn-mbs").button('reset');
 					if (data.success) {
+						if(tag==0){
+							window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+						}else{
+							swal({
+								title : "提示",
+								text : "文件生成成功",
+								type : "info"
+							});
+						}
 						
-						window.location.href="../../bsstatus/downExcel?filePath="+data.pathName;
+						
 					} else {
 						toastr.error("导出失败", '提示');
 					}
@@ -1573,8 +1588,11 @@ xh.load = function() {
 		$scope.excel_batch=function(index){
 			var checkVal =[];
 			var time="";
+			var period=0;
 			if(index==1){
 				time=$("#start_time").val();
+				period=$("select[name='period1']").val();
+				
 				time=time.split("-")[0]+"-"+time.split("-")[1];
 				$("[id='bs-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
@@ -1583,6 +1601,7 @@ xh.load = function() {
 				});
 			}else if(index==2){
 				time=$("#month_vertical").val();
+				period=$("select[name='period2']").val();
 				$("[id='v-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
 						checkVal.push($scope.verticalData[$(this).attr("index")]);
@@ -1590,6 +1609,7 @@ xh.load = function() {
 				});
 			}else if(index==3){
 				time=$("#month_room").val();
+				period=$("select[name='period3']").val();
 				$("[id='r-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
 						checkVal.push($scope.roomData[$(this).attr("index")]);
@@ -1644,7 +1664,7 @@ xh.load = function() {
 				dataType : "json",
 				data : {
 					time:time,
-					type:index,
+					type:index,					
 					data:JSON.stringify(checkVal)
 				},
 				async : true,
@@ -1706,8 +1726,9 @@ xh.load = function() {
 				}
 			});
 		}
-		$scope.inspection_month_excel = function() {
+		$scope.inspection_month_excel = function(tag) {
 			 var time = $("#excel-month-inspection").find("input[name='time']").val();
+			 var period = $("#excel-month-inspection").find("select[name='period']").val();
              if (time == "") {
                  alert("时间不能为空");
                  return;
@@ -1720,16 +1741,27 @@ xh.load = function() {
 				type : 'get',
 				dataType : "json",
 				data : {
-					time:time
+					time:time,
+					period:period
 				},
 				async : true,
 				success : function(data) {
 
 					//$("#excel-month-inspection-btn").button('reset');
+					$("#excel-month-inspection").modal('hide');
 					xh.maskHide();
 					if (data.success) {
-						window.location.href = "../../bsstatus/downExcel?filePath="
+						if(tag==0){
+							window.location.href = "../../bsstatus/downExcel?filePath="
 								+ data.pathName;
+						}else{
+							swal({
+								title : "提示",
+								text : "文件生成成功",
+								type : "info"
+							});
+						}
+						
 
 					} else {
 						toastr.error("导出失败", '提示');
@@ -1737,6 +1769,7 @@ xh.load = function() {
 				},
 				error : function() {
 					/*$("#excel-month-inspection-btn").button('reset');*/
+					$("#excel-month-inspection").modal('hide');
 					toastr.error("导出失败", '提示');
 					xh.maskHide();
 				}

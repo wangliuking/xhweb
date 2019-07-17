@@ -24,7 +24,7 @@ public interface BsStatusMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BsStatusBean> excelToBsStatus() throws Exception;
+	public List<BsStatusBean> excelToBsStatus(Map<String,Object> map) throws Exception;
 	
 	public int bsOfflineCount() throws Exception;
 	
@@ -203,5 +203,7 @@ public interface BsStatusMapper {
 	public int editBsFault(BsAlarmExcelBean bean) throws Exception;
 	
 	public List<Map<String,Object>> linkStatus() throws Exception;
+	
+	public List<Map<String,Object>> sfalarm_detail(Map<String,Object> map) throws Exception;
 
 }

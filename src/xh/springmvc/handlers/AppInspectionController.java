@@ -314,11 +314,13 @@ public class AppInspectionController {
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
 		String starttime = request.getParameter("starttime");
 		String endtime = request.getParameter("endtime");
+		int period=Integer.parseInt(request.getParameter("period"));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("starttime", starttime);
 		map.put("endtime", endtime);
+		map.put("period", period);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.sbsinfoCount(map));
@@ -368,10 +370,12 @@ public class AppInspectionController {
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
 		String time = request.getParameter("time");
+		int period=Integer.parseInt(request.getParameter("period"));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("time", time);
+		map.put("period", period);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.verticalinfoCount(map));
@@ -394,10 +398,12 @@ public class AppInspectionController {
 		int start = FunUtil.StringToInt(request.getParameter("start"));
 		int limit = FunUtil.StringToInt(request.getParameter("limit"));
 		String time = request.getParameter("time");
+		int period=Integer.parseInt(request.getParameter("period"));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("limit", limit);
 		map.put("time", time);
+		map.put("period", period);
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		result.put("success", success);
 		result.put("totals", AppInspectionServer.roominfoCount(map));
@@ -2192,13 +2198,12 @@ public class AppInspectionController {
 			HttpServletResponse response) {
 		String excelData = request.getParameter("excelData");
 
-		InspectionMscBean bean = GsonUtil.json2Object(excelData,
-				InspectionMscBean.class);
+		InspectionMscBean bean = GsonUtil.json2Object(excelData,InspectionMscBean.class);
+		String time=bean.getCheckDate();
 
 		try {
-			String saveDir = request.getSession().getServletContext()
-					.getRealPath("/app");
-			String pathname = saveDir + "/交换中心巡检表.xls";
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+			String pathname = saveDir + "/定期维护报告-交换中心月维护.xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -2465,6 +2470,27 @@ public class AppInspectionController {
 			book.write();
 			book.close();
 			// DownExcelFile(response, pathname);
+			String destDir1=request.getSession().getServletContext().getRealPath("/upload/checksource");
+			destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+			File Path1 = new File(destDir1);
+			if (!Path1.exists()) {
+				Path1.mkdirs();
+			}
+			
+			String destDir2=request.getSession().getServletContext()
+					.getRealPath("/upload/checksource");
+			destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+			File Path2 = new File(destDir2);
+			if (!Path2.exists()) {
+				Path2.mkdirs();
+			}
+			File file1 = new File(destDir1+"/定期维护报告-交换中心月维护.xls");
+			File file2 = new File(destDir2+"/定期维护报告-交换中心月维护.xls");
+			FunUtil.copyFile(file, file1);
+			FunUtil.copyFile(file, file2);
+			
+			//file.delete();
+			
 			this.success = true;
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("success", success);

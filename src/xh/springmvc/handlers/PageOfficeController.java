@@ -265,7 +265,74 @@ public class PageOfficeController {
 		mv.addObject("pageoffice", pdfCtrl1.getHtmlCode("PDFCtrl1"));
 		return mv;
 	}
-	
+	@RequestMapping("/editWord")
+	public ModelAndView editWord(HttpServletRequest request,
+			HttpServletResponse response) {
+		PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
+		String path=request.getParameter("path");	
+		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
+		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
+		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
+		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setMenubar(true); //隐藏菜单栏
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
+		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		String name="";
+		try {
+			name=URLEncoder.encode(path,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
+		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
+		//设置页面的显示标题
+		poCtrl.setCaption("");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
+		poCtrl.setTagId("PageOfficeCtrl1");
+		ModelAndView mv = new ModelAndView("Views/jsp/edit_word");
+		mv.addObject("poCtrl", poCtrl);
+		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
+		return mv;
+	}
+	@RequestMapping("/editExcel")
+	public ModelAndView editExcel(HttpServletRequest request,
+			HttpServletResponse response) {
+		PageOfficeCtrl poCtrl = new PageOfficeCtrl(request);
+		String path=request.getParameter("path");	
+		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
+		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
+		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
+		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
+		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setMenubar(true); //隐藏菜单栏
+		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
+		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		String name="";
+		try {
+			name=URLEncoder.encode(path,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(path.indexOf("/")==0){
+			path=path.substring(1);
+		}
+		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
+		//设置页面的显示标题
+		poCtrl.setCaption("");
+		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
+		poCtrl.setTagId("PageOfficeCtrl1");
+		ModelAndView mv = new ModelAndView("Views/jsp/edit_excel");
+		mv.addObject("poCtrl", poCtrl);
+		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
+		return mv;
+	}
 	@RequestMapping("/seal")
 	public ModelAndView seal(HttpServletRequest request,
 			HttpServletResponse response) {

@@ -136,6 +136,9 @@
 			</foreach>
 			)
 		</if>
+		<if test="period!=0">
+		and a.bsid in(select bsId from xhgmnet_bs_station where period=#{period})
+		</if>
 		order by a.bsid asc limit #{start},#{limit}
 	</select>
 	<!--自建基站巡检表总数 -->
@@ -151,6 +154,9 @@
 		<if test="id!=null and id!=''">
 			and id=#{id}
 		</if>
+		<if test="period!=0">
+        and bsid in(select bsId from xhgmnet_bs_station where period=#{period})
+        </if>
 	</select>
 
 	<!--网管巡检表 -->
@@ -178,6 +184,10 @@
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
+		<if test="period!=0">
+        and name in(select bsName from xhgmnet_bs_station_repeater where period=#{period})
+        </if>
+		
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--直放站巡检表总数 -->
@@ -187,6 +197,9 @@
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
+		<if test="period!=0">
+        and name in(select bsName from xhgmnet_bs_station_repeater where period=#{period})
+        </if>
 	</select>
 
 
@@ -198,6 +211,9 @@
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
+		<if test="period!=0">
+        and name in(select name from xhgmnet_bs_station_coverage where period=#{period})
+        </if>
 		order by commitdate desc limit #{start},#{limit}
 	</select>
 	<!--室内覆盖巡检表总数 -->
@@ -207,6 +223,9 @@
 		<if test="time!=null and time!=''">
 			and date_format(commitdate,'%Y-%m')=#{time}
 		</if>
+		<if test="period!=0">
+        and name in(select name from xhgmnet_bs_station_coverage where period=#{period})
+        </if>
 	</select>
 
 	<!--卫星通信车载便携站巡检表 -->

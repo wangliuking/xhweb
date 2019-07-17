@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jxl.Workbook;
 import jxl.format.Alignment;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.google.gson.reflect.TypeToken;
 import com.tcpBean.ErrCheckAck;
@@ -543,5 +545,89 @@ public class UserNeedController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@RequestMapping("/upload")
+	@ResponseBody
+	public void fileUpload(
+			@RequestParam("pathName") CommonsMultipartFile file,
+			@RequestParam("time") String time,
+			HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		
+
+		String path = request.getSession().getServletContext().getRealPath("")+ "/upload/checksource/";
+		
+		String name = file.getOriginalFilename();
+		// 获取当前时间
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		/*String[] data = sdf.format(d).split(" ")[0].split("-");*/
+		String[] data=time.split("-");
+		path += data[0] + "/" + data[1] ;
+		String savePath = "/upload/check/" + data[0] + "/" + data[1];
+
+	
+		if(uploadFile(request,file,path)){
+			this.success = true;
+			this.message = "文件上传成功";
+			File srcFile = new File(path+"/"+name);
+			String destDir1=request.getSession().getServletContext()
+					.getRealPath("/upload/check");
+			destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3/通信保障报告";
+			File Path1 = new File(destDir1);
+			if (!Path1.exists()) {
+				Path1.mkdirs();
+			}
+			
+			String destDir2=request.getSession().getServletContext()
+					.getRealPath("/upload/check");
+			destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4/通信保障报告";
+			File Path2 = new File(destDir2);
+			if (!Path2.exists()) {
+				Path2.mkdirs();
+			}
+			File file1 = new File(destDir1+"/"+name);
+			File file2 = new File(destDir2+"/"+name);
+			FunUtil.copyFile(srcFile, file1);
+			FunUtil.copyFile(srcFile, file2);
+			
+			
+			
+		}else{
+			this.success = false;
+			this.message = "文件上传失败";
+		}
+
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message", message);
+		result.put("fileName", name);
+		result.put("filePath", savePath + "/" + name);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		log.debug(jsonstr);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public Boolean uploadFile(HttpServletRequest request, MultipartFile file,String filePath) {
+		String fileName = file.getOriginalFilename();
+		File targetFile = new File(filePath, fileName);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		// 保存
+		try {
+			file.transferTo(targetFile);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 }

@@ -30,6 +30,7 @@ public class WorkContactBean {
 	private String check_person;
 	private String check_time;
 	private String note;
+	private String reply;
 	
 	
 	
@@ -154,6 +155,12 @@ public class WorkContactBean {
 		this.fileName = fileName;
 	}
 	
+	public String getReply() {
+		return reply;
+	}
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
 	public String getCheckUserName() {
 		return checkUserName;
 	}

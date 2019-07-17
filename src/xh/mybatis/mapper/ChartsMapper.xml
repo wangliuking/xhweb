@@ -70,18 +70,26 @@
 		DATE_FORMAT(commitdate,'%Y-%m')=#{time}) as b
 		on a.bsid=b.bsId WHERE
 		a.type=0
+		<if test="period!=0">
+		and a.period=#{period}
+		</if>
 		UNION ALL
 
-		select 3 as period,"调度台" as bsid,dispatchname as
-		name,1 as
-		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as
-		time,checkman,2 as
-		type from
-		xhgmnet_operations_inspection_dispatch
-		where DATE_FORMAT(commitdate,'%Y-%m')=#{time}
+		select b.period,"调度台" as bsid,a.dispatchname as
+        name,1 as
+        checkTimes,DATE_FORMAT(a.commitdate,'%Y-%m-%d') as
+        time,a.checkman,2 as
+        type from
+        xhgmnet_operations_inspection_dispatch as a
 
+        LEFT JOIN xhgmnet_dispatch as b ON a.dispatchname=b.dstName
+        where DATE_FORMAT(commitdate,'%Y-%m')="2019-06" 
+		<if test="period!=0">
+        and b.period=#{period}
+        </if>
+        
+        <if test="period!=4">
 		UNION ALL
-
 		select 3 as
 		period,"网管" as bsid,managername as name,1 as
 		checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') as time,checkman,3 as
@@ -89,6 +97,8 @@
 		xhgmnet_operations_inspection_net
 		where
 		DATE_FORMAT(commitdate,'%Y-%m')=#{time}
+		</if>
+		
 		UNION ALL
 
 		select b.period,"直放站"
@@ -101,7 +111,9 @@
 		LEFT JOIN xhgmnet_bs_station_repeater as b on a.`name`=b.bsName
 		where
 		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
-
+       <if test="period!=0">
+        and b.period=#{period}
+        </if>
 		UNION ALL
 
 		select
@@ -113,6 +125,10 @@
 		xhgmnet_bs_station_coverage as b on a.`name`=b.name
 		where
 		DATE_FORMAT(a.commitdate,'%Y-%m')=#{time}
+		<if test="period!=0">
+        and b.period=#{period}
+        </if>
+        <if test="period!=3">
 
 		UNION ALL
 		select 4 as
@@ -122,7 +138,7 @@
 		xhgmnet_operations_inspection_statellite
 		where
 		DATE_FORMAT(commitdate,'%Y-%m')=#{time}
-
+        </if>
 
 	</select>
 

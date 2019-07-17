@@ -88,14 +88,7 @@
 								</a>
 							</div>
 
-							<div class="menu-box text-center" style="cursor: pointer;"
-								data-toggle="modal" data-target="#excel-month-bs">
-								<a href="" target="_self"> <!--  <i
-                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/10.png">
-									<p>基站月维护表</p>
-								</a>
-							</div>
+							
 							<!--  <div class="menu-box text-center" style="cursor: pointer;" 
                             data-toggle="modal" data-target="#excel-month-bs-inspection">
                                 <a href="" target="_self">
@@ -105,14 +98,14 @@
                                     <p>基站月巡检</p>
                                 </a>
                             </div> -->
-							<div class="menu-box text-center" style="cursor: pointer;"
+							<!-- <div class="menu-box text-center" style="cursor: pointer;"
 								data-toggle="modal" data-target="#excel-month-inspection">
-								<a href="" target="_self"> <!--  <i
-                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+								<a href="" target="_self">  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i>
 									<img alt="" src="../../Resources/images/icon/64/10.png">
 									<p>巡检汇总表</p>
 								</a>
-							</div>
+							</div> -->
 							<div class="menu-box text-center" style="cursor: pointer;"
 								data-toggle="modal" data-target="#excel-server">
 								<a href="" target="_self"> <!--  <i
@@ -121,30 +114,23 @@
 									<p>系统维护表</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;"
+							<!-- <div class="menu-box text-center" style="cursor: pointer;"
 								data-toggle="modal" data-target="#excel-month-msc-inspection">
 								<a href="#"> <img alt=""
 									src="../../Resources/images/icon/64/10.png">
 									<p>交换中心巡检</p>
 								</a>
-							</div>
+							</div> -->
 
-							<div class="menu-box text-center" style="cursor: pointer;"
+							<!-- <div class="menu-box text-center" style="cursor: pointer;"
 								onclick="xh.address_excel()">
-								<a href="#" target="_self"> <!-- <i
-									class="fa fa-file-excel-o fa-4x text-success"></i> --> <img
+								<a href="#" target="_self"> <i
+									class="fa fa-file-excel-o fa-4x text-success"></i> <img
 									alt="" src="../../Resources/images/icon/64/10.png">
 									<p>运维通讯录</p>
 								</a>
-							</div>
-							<div class="menu-box text-center" style="cursor: pointer;"
-								onclick="xh.config_excel()">
-								<a href="#" target="_self"> <!-- <i
-                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
-									<img alt="" src="../../Resources/images/icon/64/10.png">
-									<p>运维资源配置</p>
-								</a>
-							</div>
+							</div> -->
+							
 							<div class="menu-box text-center" style="cursor: pointer;"
 								data-toggle="modal" data-target="#excel-month-bs-info">
 								<a href="#" target="_self"> <!-- <i
@@ -153,14 +139,14 @@
 									<p>基站信息表</p>
 								</a>
 							</div>
-							<div class="menu-box text-center" style="cursor: pointer;"
+							<!-- <div class="menu-box text-center" style="cursor: pointer;"
                                 data-toggle="modal" data-target="#excel-month-report-info">
-                                <a href="#" target="_self"> <!-- <i
-                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                <a href="#" target="_self"> <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i>
                                     <img alt="" src="../../Resources/images/icon/64/43.png">
                                     <p>三期月报</p>
                                 </a>
-                            </div>
+                            </div> -->
                             <!-- <div class="menu-box text-center" style="cursor: pointer;">
                                 <a href="#" target="_self" ng-click="openword()"> <i
                                     class="fa fa-file-excel-o fa-4x text-success"></i>
@@ -183,6 +169,47 @@
 					</div>
 				</div>
 			</div>
+			<!-- row -->
+            <div class="row" ng-show="menu.m_131">
+                <div class="col-md-12">
+                    <div class="hpanel">
+                        <div class="panel-heading hbuilt">
+                            <i class="fa fa-list"></i> 生成报表文件
+                        </div>
+                        <div class="panel-body">
+                        <!-- onclick="xh.config_excel()" -->
+                            <div class="menu-box text-center" style="cursor: pointer;"
+                                 data-toggle="modal" 
+                                data-target="#excel-month-config">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>运维资源配置</p>
+                                </a>
+                            </div>
+                            <div class="menu-box text-center" style="cursor: pointer;"
+                                data-toggle="modal" data-target="#excel-month-bs">
+                                <a href="" target="_self"> <!--  <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>基站月维护</p>
+                                </a>
+                            </div>
+                            <div class="menu-box text-center" style="cursor: pointer;"
+                                data-toggle="modal" data-target="#excel-month-bs-info">
+                                <a href="#" target="_self"> <!-- <i
+                                    class="fa fa-file-excel-o fa-4x text-success"></i> -->
+                                    <img alt="" src="../../Resources/images/icon/64/10.png">
+                                    <p>基站信息表</p>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!--  row -->
 			<!-- row -->
 			<div class="row">
 				<div class="col-md-12" ng-show="roleType==3 || roleType==0 || roleType==2">
@@ -426,6 +453,16 @@
 									onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
 							</div>
 						</div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>期数</label>
+                                <select name="period" class="form-control">
+                                <option value="0" selected="selected">全部</option>
+                                <option value="3">三期</option>
+                                <option value="4">四期</option>
+                                </select>
+                            </div>
+                        </div>
 
 
 					</div>
@@ -501,6 +538,16 @@
 									onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
 							</div>
 						</div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>期数</label>
+                                <select name="period" class="form-control">
+                                <option value="0" selected="selected">全部</option>
+                                <option value="3">三期</option>
+                                <option value="4">四期</option>
+                                </select>
+                            </div>
+                        </div>
 
 
 					</div>
@@ -519,6 +566,42 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="excel-month-config" tabindex="-1"
+        role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="color-line"></div>
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body pad-0" style="margin:2px;padding:2px;">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>时间</label>&nbsp; <input name="time" class="form-control"
+                                    onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-config-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;生成文件
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        data-dismiss="modal">
+                        <i class="fa fa-remove"></i>&nbsp;关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<div class="modal fade" id="excel-month-bs-info" tabindex="-1"
 		role="dialog" aria-hidden="true">
@@ -539,16 +622,29 @@
 									onfocus="WdatePicker({dateFmt:'yyyy-MM'})" required="required" />
 							</div>
 						</div>
-
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>期数</label>
+                                <select name="period" class="form-control">
+                                <option value="0" selected="selected">全部</option>
+                                <option value="3">三期</option>
+                                <option value="4">四期</option>
+                                </select>
+                            </div>
+                        </div>
 
 					</div>
 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success btn-sm"
-						id="excel-month-bs-info-btn" data-loading-text="数据导出中..">
-						<i class="fa "></i>&nbsp;导出
+						id="excel-month-bs-info-btn2" data-loading-text="数据导出中..">
+						<i class="fa "></i>&nbsp;生成文件
 					</button>
+					<button type="button" class="btn btn-success btn-sm"
+                        id="excel-month-bs-info-btn" data-loading-text="数据导出中..">
+                        <i class="fa "></i>&nbsp;导出
+                    </button>
 					<button type="button" class="btn btn-danger btn-sm"
 						data-dismiss="modal">
 						<i class="fa fa-remove"></i>&nbsp;关闭
@@ -639,8 +735,7 @@
 				});
 		$("#excel-month-inspection-msc-btn").click(
 				function() {
-					var time = $("#excel-month-msc-inspection").find(
-							"input[name='time']").val();
+					var time = $("#excel-month-msc-inspection").find("input[name='time']").val();
 					if (time == "") {
 						alert("时间不能为空");
 						return;
@@ -655,8 +750,18 @@
 						alert("时间不能为空");
 						return;
 					}
-					xh.bs_excel(time);
+					xh.bs_excel(time,0);
 				});
+		  $("#excel-month-bs-info-btn2").click(
+	                function() {
+	                    var time = $("#excel-month-bs-info").find(
+	                            "input[name='time']").val();
+	                    if (time == "") {
+	                        alert("时间不能为空");
+	                        return;
+	                    }
+	                    xh.bs_excel(time,1);
+	                });
 	    $("#excel-month-report-info-btn").click(
 	            function() {
 	                var time = $("#excel-month-report-info").find(
@@ -667,6 +772,16 @@
 	                }
 	                xh.month_report(time);
 	            });
+	    $("#excel-month-config-btn").click(
+                function() {
+                    var time = $("#excel-month-config").find(
+                            "input[name='time']").val();
+                    if (time == "") {
+                        alert("时间不能为空");
+                        return;
+                    }
+                    xh.config_excel(time);
+                });
 	</script>
 </body>
 </html>

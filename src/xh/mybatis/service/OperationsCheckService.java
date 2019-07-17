@@ -749,6 +749,8 @@ public class OperationsCheckService {
 		return list;
 	}
 	
+	
+	
 	/*<!-- 考核运维人员是否达到20人 -->*/
 	public static int check_phone_book() {
 		SqlSession session = MoreDbTools
@@ -1156,6 +1158,21 @@ public class OperationsCheckService {
 		int count=0;
 		try {
 			count=mapper.search_money_detail_count(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int search_checkcut_count(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.search_checkcut_count(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

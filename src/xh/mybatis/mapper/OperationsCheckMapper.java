@@ -105,6 +105,8 @@ public interface OperationsCheckMapper {
 	
 	/*	查询考核扣款明细数量*/
 	int search_money_detail_count(Map<String,Object> map) throws Exception;
+	/*查询核减数量*/
+	int search_checkcut_count(Map<String,Object> map) throws Exception;
 	
 
 	
