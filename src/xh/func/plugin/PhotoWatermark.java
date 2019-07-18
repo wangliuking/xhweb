@@ -4,19 +4,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.zhuozhengsoft.pageoffice.DocumentOpenType;
-import com.zhuozhengsoft.pageoffice.FileMakerCtrl;
-import com.zhuozhengsoft.pageoffice.FileSaver;
-import com.zhuozhengsoft.pageoffice.PageOfficeCtrl;
-import com.zhuozhengsoft.pageoffice.wordwriter.WordDocument;
+import com.spire.doc.*;
+import com.spire.doc.documents.ImageType;
+import com.spire.pdf.PdfDocument;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -30,11 +25,12 @@ public class PhotoWatermark{
     public static void main(String[] args) throws Exception{
         PhotoWatermark pw=new PhotoWatermark();
         //添加logo  原图片路径  logo路径 生成合成图片路径 x,y
-        PhotoWatermark.addImageLogo("d:/测试2.jpg","d:/seal.png","d:/x.jpg",20,20);
+        //PhotoWatermark.addImageLogo("d:/测试2.jpg","d:/seal.png","d:/x.jpg",20,20);
 
         //源文件路径 水印文字信息 生成后的路径
         /*pw.addTextLogo("d:/1.png","www.baidu.com","d:/logo.png",
                 new Font("Arial Black",Font.PLAIN,48),20,40);*/
+        word2Image();
     }
 
     /**
@@ -61,10 +57,12 @@ public class PhotoWatermark{
         g.drawImage(logo,x,y,lwidth,lheight,null);
 
         g.dispose();
-        FileOutputStream os=new FileOutputStream(savepath);
+        /*FileOutputStream os=new FileOutputStream(savepath);
         JPEGImageEncoder encoder=JPEGCodec.createJPEGEncoder(os);
         encoder.encode(buffimage);
-        os.close();
+        os.close();*/
+        ImageIO.write(buffimage, "jpeg" , new File(savepath));
+        image.flush();
     }
 
     /**
@@ -90,9 +88,51 @@ public class PhotoWatermark{
         g.drawString(logotext,x,y);
 
         g.dispose();
-        FileOutputStream os=new FileOutputStream(savepath);
-        JPEGImageEncoder encoder=JPEGCodec.createJPEGEncoder(os);
+        /*FileOutputStream os=new FileOutputStream(savepath);
+        JPEGImageEncoder encoder= JPEGCodec.createJPEGEncoder(os);
         encoder.encode(buffimage);
-        os.close();
+        os.close();*/
+        ImageIO.write(buffimage, "jpeg" , new File(savepath));
+        image.flush();
     }
+
+    /***
+     * PDF文件转图片
+     */
+    public static void pdf2Image() throws Exception {
+        //加载PDF文件
+        PdfDocument doc = new PdfDocument();
+        doc.loadFromFile("d:/安装说明.pdf");
+
+        //保存PDF的每一页到图片
+        BufferedImage image;
+        for (int i = 0; i < doc.getPages().getCount(); i++) {
+            image = doc.saveAsImage(i);
+            File file = new File("d:/test"+i+".png");
+            ImageIO.write(image, "PNG", file);
+        }
+
+        doc.close();
+    }
+
+    /***
+     * word文件转图片
+     */
+    public static void word2Image() throws Exception {
+
+        Document doc = new Document("d:/综合应用平台巡检APP交互协议.docx");
+        //doc.loadFromFile("d:/综合应用平台巡检APP交互协议.docx");
+
+        //保存PDF的每一页到图片
+        BufferedImage image;
+        for (int i = 0; i < doc.getPageCount(); i++) {
+            image = doc.saveToImages(i, ImageType.Metafile);
+            File file = new File("d:/test"+i+".png");
+            ImageIO.write(image, "PNG", file);
+        }
+
+        doc.close();
+
+    }
+
 }

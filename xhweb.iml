@@ -31,5 +31,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="activation-1.1" level="project" />
+    <orderEntry type="library" name="fontbox-2.0.16" level="project" />
+    <orderEntry type="library" name="pdfbox-2.0.16" level="project" />
+    <orderEntry type="library" name="Spire.Pdf" level="project" />
+    <orderEntry type="library" name="Spire.Doc" level="project" />
+    <orderEntry type="library" name="jacob-1.10" level="project" />
   </component>
 </module>
