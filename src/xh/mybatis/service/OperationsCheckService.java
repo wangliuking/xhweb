@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.CheckMoneyBean;
+import xh.mybatis.bean.CheckMonthBsBreakBean;
 import xh.mybatis.bean.CheckRoomEquBean;
 import xh.mybatis.bean.MoneyBean;
 import xh.mybatis.bean.OperationsCheckBean;
@@ -63,14 +64,15 @@ public class OperationsCheckService {
 		}
 		return list;
 	}
-	public static List<OperationsCheckScoreBean> show_score_detail(String time) {
-		SqlSession session = MoreDbTools
-				.getSession(MoreDbTools.DataSourceEnvironment.slave);
-		OperationsCheckMapper mapper = session
-				.getMapper(OperationsCheckMapper.class);
+	public static List<OperationsCheckScoreBean> show_score_detail(String time,int period) {
+		SqlSession session = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session.getMapper(OperationsCheckMapper.class);
 		List<OperationsCheckScoreBean> list = new ArrayList<OperationsCheckScoreBean>();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
 		try {
-			list = mapper.show_score_detail(time);
+			list = mapper.show_score_detail(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -352,14 +354,17 @@ public class OperationsCheckService {
 		return list;
 	}
 	
-	public static List<CheckMoneyBean> show_money_detail(String time) {
+	public static List<CheckMoneyBean> show_money_detail(String time,int period) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OperationsCheckMapper mapper = session
 				.getMapper(OperationsCheckMapper.class);
 		List<CheckMoneyBean> list= new ArrayList<CheckMoneyBean>();
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
 		try {
-			list = mapper.show_money_detail(time);
+			list = mapper.show_money_detail(map);
 			session.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1015,6 +1020,26 @@ public class OperationsCheckService {
 	}
 	
 	
+	/*	<!-- (特别)重大故障 -->*/
+	public static List<Map<String,Object>> tb_zd_fault(String time,int period)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		try {
+			list=mapper.tb_zd_fault(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	
 	
 	/*<!-- 考核一级基站 -->*/
@@ -1179,6 +1204,55 @@ public class OperationsCheckService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+	/*写入每月基站断站时长*/
+	public static int insert_check_month_bs_break(CheckMonthBsBreakBean bean) {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.master);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		int count=0;
+		try {
+			count=mapper.insert_check_month_bs_break(bean);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public static List<Map<String,Object>> search_year_bs_break(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_year_bs_break(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static List<Map<String,Object>> search_month_bs_break(Map<String,Object> map)  {
+		SqlSession session = MoreDbTools
+				.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		OperationsCheckMapper mapper = session
+				.getMapper(OperationsCheckMapper.class);
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
+		try {
+			list=mapper.search_month_bs_break(map);
+			session.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 

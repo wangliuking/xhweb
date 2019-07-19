@@ -61,10 +61,22 @@ xh.load = function() {
 				$scope.score_sum3=response.sum3;
 				$scope.score_data4= response.items4;
 				$scope.score_sum4=response.sum4;
+				if($scope.score_sum3==0){
+					$scope.autoScore(time);
+				}
+				
+			});
+		}
+		$scope.autoScore=function(time){
+			$http.get("../../check/show_score_detail?period=3&time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.score_data3= response.items;
+				$scope.score_sum3=response.sum;
 			});
 		}
 		$scope.searchFile=function(fileName){
-			var filesStr=JSON.parse(files);
+			var filesStr=files.split(",");
 			var path="";
 			if(files.indexOf(fileName)==-1){
 				if(fileName=="成都市应急通信网应急通信保障预案"){
@@ -77,8 +89,9 @@ xh.load = function() {
 				}
 			}
 			for(var i=0;i<filesStr.length;i++){
-				if(filesStr[i].fileName.indexOf(fileName)!=-1){
-					path=filesStr[i].filePath;
+				if(filesStr[i].indexOf(fileName)!=-1){
+					path="/upload/check/"+$scope.time.split("-")[0]
+					+"/"+$scope.time.split("-")[1]+"/3/"+filesStr[i];
 				}
 			}
 			if(path.toLowerCase().indexOf("doc")!=-1){

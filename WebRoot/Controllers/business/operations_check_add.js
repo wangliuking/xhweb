@@ -35,6 +35,13 @@ var fileNames=['运维服务团队通讯录','运维资源配置表',
 console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
+	//replaceFilePath
+	app.filter('replaceFilePath', function() { // 可以注入依赖
+		return function(text) {
+			var x=text.replace(/checksource/g,"check");
+			return x;
+		};
+	});
 	
 	var pageSize = $("#page-limit").val();
 	app.controller("xhcontroller", function($scope,$http) {

@@ -63,8 +63,7 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		
-	    
+		    
 	    $scope.toCheck2 = function (index) {
 	    $scope.check_data=$scope.data[index];
 	   
@@ -184,28 +183,37 @@ xh.load = function() {
 	    $scope.recordScore = function (id) {
 			var data = $scope.data[id];
 			var url="";
+			var a=[];
+			for(var i=0;i<data.files.length;i++){
+				a.push(data.files[i].fileName);
+			}
+			
 			if(data.type==4){
 				url+="operations_check_write4_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
 			}else if(data.type==3){
 				url+="operations_check_write3_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
 			}
 			window.location.href=url;
 	    };
 	    $scope.recordMoney = function (id) {
 			var data = $scope.data[id];
 			var url="";
+			var a=[];
+			for(var i=0;i<data.files.length;i++){
+				a.push(data.files[i].fileName);
+			}
 			if(data.type==4){
 				url+="operations_check_write4_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
 			}else if(data.type==3){
 				url+="operations_check_write3_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
 			}
 			window.location.href=url;
 	    };

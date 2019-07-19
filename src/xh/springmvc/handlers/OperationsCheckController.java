@@ -10,8 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -149,10 +151,10 @@ public class OperationsCheckController {
 
 	}
 	@RequestMapping(value = "/show_money_detail", method = RequestMethod.GET)
-	public void show_money_detail(HttpServletRequest request, HttpServletResponse response) {
+	public void show_money_detail(@RequestParam("period") int period,HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<CheckMoneyBean> list=OperationsCheckService.show_money_detail(time);
+		List<CheckMoneyBean> list=OperationsCheckService.show_money_detail(time,period);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
 		for(int i=0;i<list.size();i++){
@@ -162,6 +164,108 @@ public class OperationsCheckController {
 			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
 			sum+=bean.getMoney();
 		}
+		
+		Map<String, Object> map_year = new HashMap<String, Object>();
+		Map<String, Object> map_month = new HashMap<String, Object>();
+		String start_time="",end_time="";
+		String now=FunUtil.nowDateNotTime();
+		if(period==3){
+			int month=FunUtil.StringToInt(now.split("-")[1])-1;
+			if(month<=7){
+				start_time=(FunUtil.StringToInt(now.split("-")[0])-1)+"-08";
+				end_time=now.split("-")[0]+"-07";
+			}else{
+				start_time=now.split("-")[0]+"-08";
+				end_time=(FunUtil.StringToInt(now.split("-")[0])+1)+"-07";
+				
+			}
+		}
+		map_month.put("start_time", start_time);
+		map_month.put("end_time", end_time);
+		map_month.put("time", time);
+		map_month.put("period", period);
+		List<Map<String,Object>> search_month_bs_break=OperationsCheckService.search_month_bs_break(map_month);
+		int a2=0,a3=0,a4=0;
+		for (Map<String, Object> map2 : search_month_bs_break) {
+			if(map2.get("level").toString().equals("1")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60)/60:(((total1-total2)%60+total2-60)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a2+=a*300;
+					}else{
+						a2+=a*1000;
+					}
+					
+					
+				}
+			}
+			if(map2.get("level").toString().equals("2")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60*5)/60:(((total1-total2)%60+total2-60*5)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a3+=a*300;
+					}else{
+						a3+=a*1000;
+					}
+					
+				}
+			}
+			
+			if(map2.get("level").toString().equals("3")){
+				int x1=FunUtil.StringToInt(map2.get("break_time_total"));
+				int x2=FunUtil.StringToInt(map2.get("break_time"));
+				int y1=FunUtil.StringToInt(map2.get("checkcut_time_total"));
+				int y2=FunUtil.StringToInt(map2.get("checkcut_time"));
+				
+				int total1=x1-y1;
+				int total2=x2-y2;
+				
+				int a=((total1-total2)%60+total2)%60==0?((total1-total2)%60+total2-60*9)/60:(((total1-total2)%60+total2-60*9)/60+1);
+				if((total1-total2)%60>0){
+					a-=1;
+				}
+				if(a>0){
+					if(map2.get("period").toString().equals(3)){
+						a4+=a*300;
+					}else{
+						a4+=a*1000;
+					}
+					
+					
+				}
+			}	
+		}
+		rs.put("m_a2", a2);
+		rs.put("m_a3", a3);
+		rs.put("m_a4", a4);
+		sum+=(a2+a3+a4);
+		
+		
+		
 		
 		HashMap result = new HashMap();
 		result.put("items",rs);
@@ -219,20 +323,40 @@ public class OperationsCheckController {
 
 	}
 	@RequestMapping(value = "/show_score_detail", method = RequestMethod.GET)
-	public void show_score_detail(HttpServletRequest request, HttpServletResponse response) {
+	public void show_score_detail(@RequestParam("period") int period,HttpServletRequest request, HttpServletResponse response) {
 		String time=request.getParameter("time");
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<OperationsCheckScoreBean> list=OperationsCheckService.show_score_detail(time);
+		List<OperationsCheckScoreBean> list=OperationsCheckService.show_score_detail(time,period);
 		log.info("list:"+list);
 		float sum=0;
 		HashMap<String,Object> rs=new HashMap<String, Object>();
+		rs.put("s_a1", 20);
+		rs.put("s_b1", 3);
+		rs.put("s_b2", 1);
+		rs.put("s_b3", 9);
+		rs.put("s_b4", 2);
+		rs.put("s_c1", 10);
+		rs.put("s_c2", 10);
+		rs.put("s_d1", 25);
+		rs.put("s_d2", 5);
+		rs.put("s_e1", 5);
+		rs.put("s_f1", 3);
+		rs.put("s_f2", 2);
+		rs.put("s_g1", 5);
 		for(int i=0;i<list.size();i++){
 			OperationsCheckScoreBean bean=list.get(i);
 			log.info("bean:"+bean);
-			rs.put("s_"+bean.getCheck_tag(), bean.getScore());
-			rs.put("n_"+bean.getCheck_tag(), bean.getCheck_note());
-			sum+=bean.getScore();
+			rs.put("s_"+bean.getCheck_tag(),Float.parseFloat(rs.get("s_"+bean.getCheck_tag()).toString())-bean.getScore());
+			
 		}
+		Iterator it=rs.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Object> entry=(Entry<String, Object>) it.next();
+			Object ket=entry.getKey();
+			Object value=entry.getValue();
+			sum+=Float.parseFloat(value.toString());
+		}
+		
 		HashMap result = new HashMap();
 		result.put("items",rs);
 		result.put("sum",sum);

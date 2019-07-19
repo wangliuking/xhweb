@@ -111,7 +111,8 @@ public class test {
 
 	public static void main(String[] args) {
 		String fileName="dovvv.doc";
-		System.out.println(fileName.split("\\.")[0]);
+		System.out.println(0%20);
+		
 
 	}
 	public static List<Map<String,Object>> readFileTree(String path){

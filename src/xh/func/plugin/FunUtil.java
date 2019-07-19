@@ -481,6 +481,18 @@ public class FunUtil {
 		String date = dd.format(m);
 		return date;
 	}
+	
+	public static int StringToInt(Object str){
+		if(str==null){
+			return 0;
+		}else{
+			if(str.toString().indexOf(".")>-1){
+				return Integer.parseInt(str.toString().split("\\.")[0]);
+			}else{
+				return Integer.parseInt(str.toString());
+			}
+		}
+	}
 
 	public static String nowDateOnly() {
 		SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
@@ -600,19 +612,15 @@ public class FunUtil {
 	}
 
 	public static int StringToInt(String str) {
-		int value = -1;
-		try {
-			value = Integer.parseInt(str.trim());
-		} catch (NumberFormatException e) {
-			// TODO: handle exception
-			log.info("数字字符串解析失败");
-			log.error(e.getMessage(), e);
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-			log.info("数字字符串为空");
-			log.error(e.getMessage(), e);
+		if(str==null){
+			return 0;
+		}else{
+			if(str.toString().indexOf(".")>-1){
+				return Integer.parseInt(str.toString().split("\\.")[0]);
+			}else{
+				return Integer.parseInt(str.toString());
+			}
 		}
-		return value;
 	}
 
 	public static long StringToLong(String str) {
