@@ -1,22 +1,16 @@
 package xh.func.plugin;
 
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import javax.imageio.ImageIO;
-
-import com.spire.doc.*;
-import com.spire.doc.documents.ImageType;
+import com.aspose.words.License;
+import com.aspose.words.SaveFormat;
+import com.spire.pdf.FileFormat;
 import com.spire.pdf.PdfDocument;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.IOException;
-import java.io.FileNotFoundException;
 
 @Controller
 @RequestMapping(value = "/officetest")
@@ -30,7 +24,42 @@ public class PhotoWatermark{
         //源文件路径 水印文字信息 生成后的路径
         /*pw.addTextLogo("d:/1.png","www.baidu.com","d:/logo.png",
                 new Font("Arial Black",Font.PLAIN,48),20,40);*/
-        word2Image();
+        /*String fileName = "2019.9.0.docx";
+        String nameNoSuffix = fileName.substring(0,fileName.lastIndexOf("."));
+        System.out.println(nameNoSuffix);*/
+        pw.pdf2Image("/D:/www.pdf","www");
+    }
+
+    public String parseSuffix(String fileName) throws Exception {
+        PhotoWatermark pw = new PhotoWatermark();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        String nameNoSuffix = fileName.substring(0, fileName.lastIndexOf("."));
+        if ("jpg".equals(suffix) || "png".equals(suffix)) {
+            //图片类型
+            return fileName;
+        }
+        if ("doc".equals(suffix) || "docx".equals(suffix)) {
+            //文档类型
+            String classPath = this.getClass().getResource("/").getPath();
+            String[] temp = classPath.split("WEB-INF");
+            String docPath = temp[0] + "Resources/upload/CheckCut/" + fileName;
+            String pdfPath = temp[0] + "Resources/upload/CheckCut/" + nameNoSuffix + ".pdf";
+            //word转pdf
+            pw.word2Pdf(docPath, pdfPath);
+            //pdf转图片
+            String s = pw.pdf2Image(pdfPath,nameNoSuffix);
+            return s.substring(0,s.length()-1);
+        }
+        if("pdf".equals(suffix)){
+            //pdf类型
+            String classPath = this.getClass().getResource("/").getPath();
+            String[] temp = classPath.split("WEB-INF");
+            String pdfPath = temp[0] + "Resources/upload/CheckCut/" + nameNoSuffix + ".pdf";
+            //pdf转图片
+            String s = pw.pdf2Image(pdfPath,nameNoSuffix);
+            return s.substring(0,s.length()-1);
+        }
+        return "";
     }
 
     /**
@@ -97,41 +126,61 @@ public class PhotoWatermark{
     }
 
     /***
-     * PDF文件转图片
+     * PDF文件转图片(删除原pdf)
      */
-    public static void pdf2Image() throws Exception {
+    public String pdf2Image(String pdfPath,String nameNoSuffix) throws Exception {
+        String pathNoSuffix = pdfPath.substring(0,pdfPath.lastIndexOf("."));
+        String fileNames = "";
         //加载PDF文件
         PdfDocument doc = new PdfDocument();
-        doc.loadFromFile("d:/安装说明.pdf");
+        System.out.println("===========================");
+        System.out.println(pdfPath);
+        System.out.println("===========================");
+        System.out.println(nameNoSuffix);
+        System.out.println("===========================");
+        doc.loadFromFile(pdfPath.substring(1,pdfPath.length()), FileFormat.PDF);
+
+        /*File f = new File(pdfPath.substring(1,pdfPath.length()));
+        InputStream in = new FileInputStream(f);
+        InputStreamReader input = new InputStreamReader(in, "UTF-8");
+        input
+        doc.loadFromStream(input);*/
 
         //保存PDF的每一页到图片
         BufferedImage image;
         for (int i = 0; i < doc.getPages().getCount(); i++) {
             image = doc.saveAsImage(i);
-            File file = new File("d:/test"+i+".png");
+            File file = new File(pathNoSuffix+i+".png");
             ImageIO.write(image, "PNG", file);
+            fileNames +=nameNoSuffix+i+".png;";
         }
-
         doc.close();
+        //删除原word
+        File delFile = new File(pdfPath.substring(1,pdfPath.length()));
+        delFile.delete();
+        //end
+        return fileNames;
     }
 
     /***
-     * word文件转图片
+     * word文件转Pdf(删除原word)
      */
-    public static void word2Image() throws Exception {
-
-        Document doc = new Document("d:/综合应用平台巡检APP交互协议.docx");
-        //doc.loadFromFile("d:/综合应用平台巡检APP交互协议.docx");
-
-        //保存PDF的每一页到图片
-        BufferedImage image;
-        for (int i = 0; i < doc.getPageCount(); i++) {
-            image = doc.saveToImages(i, ImageType.Metafile);
-            File file = new File("d:/test"+i+".png");
-            ImageIO.write(image, "PNG", file);
+    public  void word2Pdf(String docPath,String pdfPath) throws Exception {
+        try {
+            String s = "<License><Data><Products><Product>Aspose.Total for Java</Product><Product>Aspose.Words for Java</Product></Products><EditionType>Enterprise</EditionType><SubscriptionExpiry>20991231</SubscriptionExpiry><LicenseExpiry>20991231</LicenseExpiry><SerialNumber>8bfe198c-7f0c-4ef8-8ff0-acc3237bf0d7</SerialNumber></Data><Signature>sNLLKGMUdF0r8O1kKilWAGdgfs2BvJb/2Xp8p5iuDVfZXmhppo+d0Ran1P9TKdjV4ABwAgKXxJ3jcQTqE/2IRfqwnPf8itN8aFZlV3TJPYeD3yWE7IT55Gz6EijUpC7aKeoohTb4w2fpox58wWoF3SNp6sK6jDfiAUGEHYJ9pjU=</Signature></License>";
+            ByteArrayInputStream is = new ByteArrayInputStream(s.getBytes());
+            License license = new License();
+            license.setLicense(is);
+            com.aspose.words.Document document = new com.aspose.words.Document(docPath);
+            document.save(new FileOutputStream(new File(pdfPath)), SaveFormat.PDF);
+            //删除原word
+            File delFile = new File(docPath);
+            delFile.delete();
+            //end
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
-        doc.close();
 
     }
 

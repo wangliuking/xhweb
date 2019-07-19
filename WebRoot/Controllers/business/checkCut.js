@@ -212,8 +212,10 @@ xh.load = function() {
 		$scope.calAgain = function () {
             var date1 = $("input[name='breakTime']").val();
             var date2 = $("input[name='restoreTime']").val();    //结束时间
-            var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
-            $scope.calcData = Math.round(date3/(1000*60));
+            var a = new Date(date2).getTime();
+            var b = new Date(date1).getTime();
+            var date3 = Math.floor(a/(1000*60)) - Math.floor(b/(1000*60));
+            $scope.calcData = Math.round(date3);
         }
 
         /*跳转到停电说明*/
@@ -265,6 +267,8 @@ xh.load = function() {
 				var date1 = data.breakTime;
                 var date2 = data.restoreTime;    //结束时间
                 var date3 = new Date(date2).getTime() - new Date(date1).getTime();   //时间差的毫秒数
+                $scope.dt1 = formatDate(date1);
+                $scope.dt2 = formatDate(date2);
                 var checkDate = new Date(checkCreateTime+" 00:00:00");
                 var sheetDate = new Date(date1);
                 console.log("checkCreateTime : "+checkCreateTime);
@@ -278,7 +282,7 @@ xh.load = function() {
                 }
                 //------------------------------
                 //计算出相差天数
-                var days=Math.floor(date3/(24*3600*1000))
+                /*var days=Math.floor(date3/(24*3600*1000))
                 //计算出小时数
                 var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
                 var hours=Math.floor(leave1/(3600*1000))
@@ -287,12 +291,17 @@ xh.load = function() {
                 var minutes=Math.floor(leave2/(60*1000))
                 //计算相差秒数
                 var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-                var seconds=Math.round(leave3/1000)
+                var seconds=Math.round(leave3/1000)*/
                 //alert(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
+                   //时间差的毫秒数
+
                 if(date2 == null || date2 == "0000-00-00 00:00:00"){
                     $scope.calcData = 0;
 				}else{
-                    $scope.calcData = Math.round(date3/(1000*60));
+                    var a = new Date(date2).getTime();
+                    var b = new Date(date1).getTime();
+                    var date3 = Math.floor(a/(1000*60)) - Math.floor(b/(1000*60));
+                    $scope.calcData = Math.round(date3);
 				}
                 //查询是否有发电说明
                 $scope.selectElecData($scope.sheetData.bsId);
@@ -1078,5 +1087,25 @@ xh.pagging = function(currentPage, totals, $scope) {
 		});
 	}
 };
+
+function formatDate(param) {
+    var d=new Date(param);
+    var year=d.getFullYear();
+    var month=d.getMonth()+1;
+    var day=d.getDate();
+    var hour=d.getHours();
+    var minute=change(d.getMinutes());
+    var second=change(d.getSeconds());
+    var time=year+'年'+month+'月'+day+'日 '+hour+':'+minute;
+    return time;
+}
+
+function change(t){
+    if(t<10){
+        return "0"+t;
+    }else{
+        return t;
+    }
+}
 
 

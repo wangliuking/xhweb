@@ -30,7 +30,7 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <input type="hidden" ng-value="sheetData.bsId" name="bsIdTemp"/>
                                         <input type="hidden" ng-value="sheetData.name" name="name"/>
-                                        {{sheetData.bsId}}-{{sheetData.name}}基站，
+                                        {{sheetData.bsId}}-{{sheetData.name}}，
                                         <input style="border: 0px;outline:none;width: 130px" type="hidden" ng-value="sheetData.hometype" name="hometype"/>{{sheetData.hometype}}；
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.transfer" name="transfer"/>{{sheetData.transfer}}，
                                         <input style="border: 0px;outline:none;width: 120px" type="hidden" ng-value="sheetData.transferOne" name="transferOne"/>{{sheetData.transferOne}}，
@@ -39,20 +39,24 @@
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeOne" name="powerTimeOne"/>{{sheetData.powerTimeOne}}，
                                         <input style="border: 0px;outline:none;width: 80px" type="hidden" ng-value="sheetData.powerTwo" name="powerTwo"/>{{sheetData.powerTwo}}，后备电池续航时间
                                         <input style="border: 0px;outline:none;width: 40px" type="hidden" ng-value="sheetData.powerTimeTwo" name="powerTimeTwo"/>{{sheetData.powerTimeTwo}}，
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>{{sheetData.isPower}}，
-                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>{{sheetData.isPowerTime}}，维护上站时间
-                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>{{sheetData.maintainTime}}。
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPower" name="isPower"/>
+                                        <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>
+                                        <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>
+
+                                        <span ng-if="sheetData.isPower == '基站不允许发电'">{{sheetData.isPower}}。</span>
+                                        <span ng-if="sheetData.isPower != '基站不允许发电'">{{sheetData.isPower}}，{{sheetData.isPowerTime}}，维护上站时间{{sheetData.maintainTime}}。</span>
+
                                         <br/>
                                         <br/>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">故障原因、历时、核减依据：</span>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.breakTime" name="breakTime" readonly="readonly"/>断站，至
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" ng-blur="calAgain()"/>
-                                        <input ng-if="roleId!=301" style="border: 0px;outline:none;width: 130px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" readonly="readonly"/>恢复，
-                                        断站历时<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
+                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+                                        <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.breakTime" name="breakTime"/>{{dt1}} —
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" ng-blur="calAgain()"/>
+                                        <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.restoreTime" name="restoreTime"/>{{dt2}}
+                                        业务中断<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
                                         <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
