@@ -52,11 +52,11 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">故障原因、历时、核减依据：</span>
                                         <br/>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-model="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
-                                        <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.breakTime" name="breakTime"/>{{dt1}} —
-                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-model="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" ng-blur="calAgain()"/>
-                                        <input ng-if="roleId!=301" type="hidden" ng-model="sheetData.restoreTime" name="restoreTime"/>{{dt2}}
-                                        业务中断<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-model="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
+                                        该基站于<input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-value="sheetData.breakTime" name="breakTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+                                        <input ng-if="roleId!=301" type="hidden" ng-value="sheetData.breakTime" name="breakTime"/><span ng-if="roleId!=301">{{dt1}}</span> —
+                                        <input ng-if="roleId==301" style="border: 0px;outline:none;width: 110px" type="text" ng-value="sheetData.restoreTime" name="restoreTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" ng-blur="calAgain()"/>
+                                        <input ng-if="roleId!=301" type="hidden" ng-value="sheetData.restoreTime" name="restoreTime"/><span ng-if="roleId!=301">{{dt2}}</span>
+                                        业务中断<input style="border: 0px;outline:none;width: 25px" type="hidden" ng-value="calcData" name="calcData"/>{{calcData}}分钟，故障原因为：
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                         <div ng-if="roleId==301" contenteditable="true" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
                                         <div ng-if="roleId!=301" contenteditable="false" style="height: 50px;width:870px;padding-left: 24px;" class="textarea-div" name="desc">{{sheetData.desc}}</div>
@@ -84,7 +84,7 @@
                                 <td style="height:30px;width:100%;border-top: none;border-bottom: none;padding-right: 20px;"
                                     colspan="6">
                                     <div ng-if="roleId==301" contenteditable="true" style="height: 30px;width:300px;float: right;"
-                                          name="period">{{sheetData.period | changePeriod}}</div>
+                                         name="period">{{sheetData.period | changePeriod}}</div>
                                     <div ng-if="roleId!=301" contenteditable="false" style="height: 30px;width:300px;float: right;"
                                          name="period">{{sheetData.period | changePeriod}}</div>
                                 </td>
@@ -92,7 +92,7 @@
                             <tr>
                                 <td style="height:30px;width:100%;border-top: none;padding-right: 20px;" colspan="6">
                                     <div ng-if="roleId==301" contenteditable="true" style="height: 30px;width:230px;float: right;"
-                                          name="applyTime">{{sheetData.applyTime}}</div>
+                                         name="applyTime">{{sheetData.applyTime}}</div>
                                     <div ng-if="roleId!=301" contenteditable="false" style="height: 30px;width:230px;float: right;"
                                          name="applyTime">{{sheetData.applyTime}}</div>
                                 </td>
@@ -108,8 +108,8 @@
                                 </td>
                                 <td style="height:50px;width:100px;border-right:none;">审核：</td>
                                 <td style="height:50px;width:343px;">
-                                   <!-- <input  ng-if="roleId==10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2"/>
-                                    <input  ng-if="roleId!=10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2" readonly="readonly"/>-->
+                                    <!-- <input  ng-if="roleId==10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2"/>
+                                     <input  ng-if="roleId!=10003" type="text" style="height: 30px;width:230px;border: none;" name="persion2" ng-model="sheetData.persion2" readonly="readonly"/>-->
                                     <input  type="hidden" name="persion2" ng-value="sheetData.persion2"/>
                                     <img ng-if="sheetData.persion2 != null && sheetData.persion2 != ''" ng-src="{{sheetData.persion2}}" width="243" height="50"/>
                                 </td>

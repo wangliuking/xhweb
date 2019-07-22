@@ -9,6 +9,8 @@ import com.aspose.words.License;
 import com.aspose.words.SaveFormat;
 import com.spire.pdf.FileFormat;
 import com.spire.pdf.PdfDocument;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,7 +29,8 @@ public class PhotoWatermark{
         /*String fileName = "2019.9.0.docx";
         String nameNoSuffix = fileName.substring(0,fileName.lastIndexOf("."));
         System.out.println(nameNoSuffix);*/
-        pw.pdf2Image("/D:/www.pdf","www");
+        //pw.pdf2Image("/D:/www.pdf","www");
+        pw.pdfToImage("/D:/www.pdf","www");
     }
 
     public String parseSuffix(String fileName) throws Exception {
@@ -47,7 +50,7 @@ public class PhotoWatermark{
             //word转pdf
             pw.word2Pdf(docPath, pdfPath);
             //pdf转图片
-            String s = pw.pdf2Image(pdfPath,nameNoSuffix);
+            String s = pw.pdfToImage(pdfPath,nameNoSuffix);
             return s.substring(0,s.length()-1);
         }
         if("pdf".equals(suffix)){
@@ -56,7 +59,7 @@ public class PhotoWatermark{
             String[] temp = classPath.split("WEB-INF");
             String pdfPath = temp[0] + "Resources/upload/CheckCut/" + nameNoSuffix + ".pdf";
             //pdf转图片
-            String s = pw.pdf2Image(pdfPath,nameNoSuffix);
+            String s = pw.pdfToImage(pdfPath,nameNoSuffix);
             return s.substring(0,s.length()-1);
         }
         return "";
@@ -128,6 +131,32 @@ public class PhotoWatermark{
     /***
      * PDF文件转图片(删除原pdf)
      */
+    public String pdfToImage(String pdfPath, String nameNoSuffix) {
+        String pathNoSuffix = pdfPath.substring(0,pdfPath.lastIndexOf("."));
+        String fileNames = "";
+        File file = new File(pdfPath.substring(1,pdfPath.length()));
+        try {
+            PDDocument doc = PDDocument.load(file);
+            PDFRenderer renderer = new PDFRenderer(doc);
+            int pageCount = doc.getNumberOfPages();
+            for (int i = 0; i < pageCount; i++) {
+                BufferedImage image = renderer.renderImageWithDPI(i, 296);
+                //BufferedImage image = renderer.renderImage(i, 2.5f);
+                ImageIO.write(image, "PNG", new File(pathNoSuffix+i+".png"));
+                fileNames +=nameNoSuffix+i+".png;";
+            }
+            doc.close();
+            Thread.sleep(200);
+            //删除原pdf
+            File delFile = new File(pdfPath.substring(1,pdfPath.length()));
+            delFile.delete();
+            return fileNames;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public String pdf2Image(String pdfPath,String nameNoSuffix) throws Exception {
         String pathNoSuffix = pdfPath.substring(0,pdfPath.lastIndexOf("."));
         String fileNames = "";
@@ -155,7 +184,7 @@ public class PhotoWatermark{
             fileNames +=nameNoSuffix+i+".png;";
         }
         doc.close();
-        //删除原word
+        //删除原pdf
         File delFile = new File(pdfPath.substring(1,pdfPath.length()));
         delFile.delete();
         //end
@@ -166,15 +195,18 @@ public class PhotoWatermark{
      * word文件转Pdf(删除原word)
      */
     public  void word2Pdf(String docPath,String pdfPath) throws Exception {
+        System.out.println("+++++++++++++++++++++++++++");
+        System.out.println(docPath);
+        System.out.println(pdfPath);
         try {
             String s = "<License><Data><Products><Product>Aspose.Total for Java</Product><Product>Aspose.Words for Java</Product></Products><EditionType>Enterprise</EditionType><SubscriptionExpiry>20991231</SubscriptionExpiry><LicenseExpiry>20991231</LicenseExpiry><SerialNumber>8bfe198c-7f0c-4ef8-8ff0-acc3237bf0d7</SerialNumber></Data><Signature>sNLLKGMUdF0r8O1kKilWAGdgfs2BvJb/2Xp8p5iuDVfZXmhppo+d0Ran1P9TKdjV4ABwAgKXxJ3jcQTqE/2IRfqwnPf8itN8aFZlV3TJPYeD3yWE7IT55Gz6EijUpC7aKeoohTb4w2fpox58wWoF3SNp6sK6jDfiAUGEHYJ9pjU=</Signature></License>";
             ByteArrayInputStream is = new ByteArrayInputStream(s.getBytes());
             License license = new License();
             license.setLicense(is);
-            com.aspose.words.Document document = new com.aspose.words.Document(docPath);
-            document.save(new FileOutputStream(new File(pdfPath)), SaveFormat.PDF);
+            com.aspose.words.Document document = new com.aspose.words.Document(docPath.substring(1,docPath.length()));
+            document.save(new FileOutputStream(new File(pdfPath.substring(1,pdfPath.length()))), SaveFormat.PDF);
             //删除原word
-            File delFile = new File(docPath);
+            File delFile = new File(docPath.substring(1,docPath.length()));
             delFile.delete();
             //end
         } catch (Exception e) {
