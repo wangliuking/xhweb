@@ -1007,22 +1007,26 @@ public class CheckCutController {
                 String path = request.getSession().getServletContext()
                         .getRealPath("")+"/Resources/upload/CheckCut";
                 String fileName = file.getOriginalFilename();
-                //String fileName = new Date().getTime()+".jpg";
-                log.info("path==>"+path);
-                log.info("fileName==>"+fileName);;
+
                 File targetFile = new File(path, fileName);
                 if (!targetFile.exists()) {
                     targetFile.mkdirs();
                 }
                 // 保存
                 file.transferTo(targetFile);
+
+
                 this.success=true;
                 this.message="文件上传成功";
                 fileName=data+"-"+fileName;
-                fileNames+=fileName+";";
-                filePaths+="/Resources/upload/CheckCut/"+fileName+";";
+                //end
                 File rename = new File(path,fileName);
                 targetFile.renameTo(rename);
+                //根据后缀判断是否进行转换操作start
+                PhotoWatermark pw = new PhotoWatermark();
+                fileName = pw.parseSuffix(fileName);
+                fileNames+=fileName+";";
+                filePaths+="/Resources/upload/CheckCut/"+fileName+";";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1180,8 +1184,9 @@ public class CheckCutController {
             File parentFile = dest.getParentFile();
             if(!parentFile.exists()){
                 parentFile.mkdirs();
-            }else{
-                //判断文件夹是否存在文件，有则删除
+            }
+            if(i == 0){
+                //第一次判断文件夹是否存在文件，有则删除
                 File[] files = parentFile.listFiles();
                 if(files.length>0){
                     for(File existFile :files){

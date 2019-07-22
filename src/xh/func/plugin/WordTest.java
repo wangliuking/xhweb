@@ -7,6 +7,7 @@ import xh.mybatis.service.CheckCutService;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +24,7 @@ public class WordTest {
         configuration.setDefaultEncoding("UTF-8");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //test();
         /*Map<String,Object> dataMap = new HashMap<String,Object>();
         String fileName1 = dataMap.get("fileName1")==null?"":dataMap.get("fileName1")+"";
@@ -36,9 +37,10 @@ public class WordTest {
         System.out.println(fileName3);
         System.out.println(fileNames);
         System.out.println(fileArr[0]);*/
-        WordTest wordTest = new WordTest();
-        List<Integer> list = wordTest.getImgWidth("bfc25dce54fb13756183cad4adad8c78-test1.jpg");
+        //WordTest wordTest = new WordTest();
+        //List<Integer> list = wordTest.getImgWidth("bfc25dce54fb13756183cad4adad8c78-test1.jpg");
         //System.out.println(list);
+        System.out.println(dateFormat("2019-07-19 16:04:55"));
     }
 
     public static void test() {
@@ -99,9 +101,15 @@ public class WordTest {
                 int h = list.get(1);
                 if(w>410){
                     h = h/(w/410);
+                    if(h>670){
+                        h=670;
+                    }
                     dataMap.put(a,410);
                     dataMap.put(b,h);
                 }else{
+                    if(h>670){
+                        h=670;
+                    }
                     dataMap.put(a,w);
                     dataMap.put(b,h);
                 }
@@ -166,6 +174,15 @@ public class WordTest {
         dataMap.put("power_time",power_time);
         dataMap.put("suggestElec",suggestElec);
 
+        //判断是否发电
+        String isPower = dataMap.get("isPower")+"";
+        String isPowerTime = dataMap.get("isPowerTime")+"";
+        String maintainTime = dataMap.get("maintainTime")+"";
+        if("基站允许发电".equals(isPower)){
+            isPower = isPower+"，"+isPowerTime+"，维护上站时间"+maintainTime;
+            dataMap.put("isPower",isPower);
+        }
+
         String tempBreakTime = dataMap.get("breakTime")+"";
         //去除时间中的特殊符号
         //可以在中括号内加上任何想要替换的字符
@@ -175,6 +192,12 @@ public class WordTest {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(tempBreakTime);//这里把想要替换的字符串传进来
         String breakTime = m.replaceAll(aa).trim();
+
+        //处理时间
+        String date1 = dataMap.get("breakTime")+"";
+        String date2 = dataMap.get("restoreTime")+"";
+        dataMap.put("breakTime",dateFormat(date1));
+        dataMap.put("restoreTime",dateFormat(date2));
 
         File outFile = new File(globalPath+"down\\"+dataMap.get("bsPeriod")+dataMap.get("name")+breakTime+".doc"); //导出文件
         Writer out = null;
@@ -360,6 +383,30 @@ public class WordTest {
         list.add(width);
         list.add(height);
         return list;
+    }
+
+    /**
+     * 时间格式化
+     * @return
+     */
+    public static String dateFormat(String time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(time);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);					//获取年份
+        int month = calendar.get(Calendar.MONTH)+1;					//获取月份
+        int day = calendar.get(Calendar.DATE);					//获取日
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);				//时（24小时制）
+        int minute = calendar.get(Calendar.MINUTE);					//分
+        int second = calendar.get(Calendar.SECOND);					//秒
+        String min = minute<10?"0"+minute:""+minute;
+        return year+"年"+month+"月"+day+"日 "+hour+":"+min;
     }
 
 }

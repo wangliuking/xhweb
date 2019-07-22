@@ -36,5 +36,6 @@
     <orderEntry type="library" name="Spire.Pdf" level="project" />
     <orderEntry type="library" name="Spire.Doc" level="project" />
     <orderEntry type="library" name="jacob-1.10" level="project" />
+    <orderEntry type="library" name="aspose-words-14.9.0-jdk16" level="project" />
   </component>
 </module>
