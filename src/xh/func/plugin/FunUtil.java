@@ -364,7 +364,10 @@ public class FunUtil {
 			Object value) {
 		request.getSession().setAttribute(name, value);
 	}
-
+	// 获取session
+		public static Object getObjectSession(HttpServletRequest request, String name) {
+			return request.getSession().getAttribute(name);
+		}
 	// 获取session
 	public static String getSession(HttpServletRequest request, String name) {
 		return request.getSession().getAttribute(name).toString();

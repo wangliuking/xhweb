@@ -313,9 +313,9 @@ class Score extends TimerTask{
 						-FunUtil.StringToInt(map.get("checkCutTime").toString());
 				if(timeout-120>1){
 					if((timeout-120)%60==0){
-						sc=(float) (((timeout-120)/60)*0.5);
+						sc=(float) ((int)((timeout-120)/60)*0.5);
 					}else{
-						sc=(float) (((timeout-120)/60+1)*0.5);
+						sc=(float) ((int)((timeout-120)/60+1)*0.5);
 					}
 				}
 				/**二级基站*/
@@ -324,9 +324,9 @@ class Score extends TimerTask{
 						-FunUtil.StringToInt(map.get("checkCutTime").toString());
 				if(timeout-180>1){
 					if((timeout-120)%60==0){
-						sc=(float) (((timeout-120)/60)*0.3);
+						sc=(float) ((int)((timeout-120)/60)*0.3);
 					}else{
-						sc=(float) (((timeout-120)/60+1)*0.3);
+						sc=(float) ((int)((timeout-120)/60+1)*0.3);
 					}
 				}
 				/**三级基站*/
@@ -335,9 +335,9 @@ class Score extends TimerTask{
 						-FunUtil.StringToInt(map.get("checkCutTime").toString());
 				if(timeout-300>1){
 					if((timeout-120)%60==0){
-						sc=(float) (((timeout-120)/60)*0.1);
+						sc=(float) ((int)((timeout-120)/60)*0.1);
 					}else{
-						sc=(float) (((timeout-120)/60+1)*0.1);
+						sc=(float) ((int)((timeout-120)/60+1)*0.1);
 					}
 				}
 			}
@@ -404,7 +404,7 @@ class Money extends TimerTask{
 		OperationsCheckService.del_money(FunUtil.date_format("yyyy-MM"));
 		log.info("清除考核扣款记录");
 		/*<!-- 考核一级基站 -->*/
-		check_level(FunUtil.date_format("yyyy-MM"));
+		//check_level(FunUtil.date_format("yyyy-MM"));
 		/*	<!-- 考核故障 -->*/
 		check_fault(FunUtil.date_format("yyyy-MM"));
 		/*	<!-- 考核故障 超时-->*/

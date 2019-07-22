@@ -346,13 +346,14 @@ public class PageOfficeController {
 		System.out.println("签章文件->"+path);	
 		poCtrl.setServerPage(request.getContextPath() +"/poserver.zz");// 设置授权程序servlet
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
-		if(type.equals("1")){
+		/*if(type.equals("1")){
 			poCtrl.addCustomToolButton("加盖印章", "Seal()", 2);
 			//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		}else{
 			poCtrl.addCustomToolButton("签字", "Seal()", 2);
 			//poCtrl.addCustomToolButton("删除签字", "DeleteSeal()", 21);
-		}
+		}*/
+		poCtrl.addCustomToolButton("签章", "Seal()", 2);
 		if(path.indexOf("/")==0){
 			path=path.substring(1);
 		}
@@ -385,6 +386,7 @@ public class PageOfficeController {
 		mv.addObject("type", type);
 		mv.addObject("fileId", Integer.parseInt(fileId));
 		mv.addObject("sealName",WebUserServices.sealName(FunUtil.loginUser(request),type));
+		mv.addObject("userName",FunUtil.loginUserInfo(request).get("userName"));
 		mv.addObject("pageoffice", poCtrl.getHtmlCode("PageOfficeCtrl1"));
 		return mv;
 	}

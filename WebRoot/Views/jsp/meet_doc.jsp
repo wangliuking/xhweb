@@ -9,8 +9,10 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 System.out.println("basePath->"+basePath);
-String str=request.getParameter("bean");
-MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
+//String str=request.getParameter("bean");
+
+//MeetBean bean=GsonUtil.json2Object(str, MeetBean.class);
+MeetBean bean=(MeetBean)FunUtil.getObjectSession(request, "addMeet");
 System.out.println("basePath->"+bean.toString());
 %>
 <%

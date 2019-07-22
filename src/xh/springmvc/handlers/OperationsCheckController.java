@@ -168,15 +168,26 @@ public class OperationsCheckController {
 		Map<String, Object> map_year = new HashMap<String, Object>();
 		Map<String, Object> map_month = new HashMap<String, Object>();
 		String start_time="",end_time="";
-		String now=FunUtil.nowDateNotTime();
 		if(period==3){
-			int month=FunUtil.StringToInt(now.split("-")[1])-1;
+			int month=FunUtil.StringToInt(time.split("-")[1]);
 			if(month<=7){
-				start_time=(FunUtil.StringToInt(now.split("-")[0])-1)+"-08";
-				end_time=now.split("-")[0]+"-07";
+				start_time=(FunUtil.StringToInt(time.split("-")[0])-1)+"-08";
+				end_time=time.split("-")[0]+"-07";
 			}else{
-				start_time=now.split("-")[0]+"-08";
-				end_time=(FunUtil.StringToInt(now.split("-")[0])+1)+"-07";
+				start_time=time.split("-")[0]+"-08";
+				end_time=(FunUtil.StringToInt(time.split("-")[0])+1)+"-07";
+				
+			}
+		}
+		//5-4
+		if(period==4){
+			int month=FunUtil.StringToInt(time.split("-")[1]);
+			if(month<=5){
+				start_time=(FunUtil.StringToInt(time.split("-")[0])-1)+"-05";
+				end_time=time.split("-")[0]+"-04";
+			}else{
+				start_time=time.split("-")[0]+"-05";
+				end_time=(FunUtil.StringToInt(time.split("-")[0])+1)+"-04";
 				
 			}
 		}
@@ -346,7 +357,10 @@ public class OperationsCheckController {
 		for(int i=0;i<list.size();i++){
 			OperationsCheckScoreBean bean=list.get(i);
 			log.info("bean:"+bean);
-			rs.put("s_"+bean.getCheck_tag(),Float.parseFloat(rs.get("s_"+bean.getCheck_tag()).toString())-bean.getScore());
+			//(rs.get("s_"+bean.getCheck_tag()).toString())-bean.getScore())
+			int ss=FunUtil.StringToInt(rs.get("s_"+bean.getCheck_tag()));
+			String sx=String.format("%.1f",(ss-bean.getScore()));
+			rs.put("s_"+bean.getCheck_tag(),Float.parseFloat(String.format("%.1f",(ss-bean.getScore()))));
 			
 		}
 		Iterator it=rs.entrySet().iterator();

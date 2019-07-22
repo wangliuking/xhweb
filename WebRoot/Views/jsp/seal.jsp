@@ -13,11 +13,18 @@
 
 	<script type="text/javascript">
 	    var strSealName = "${sealName}";
+	    var userName="${userName}";
 	    var type = "${type}";
 	    var fileId="${fileId}";
 	    fileId=parseInt(fileId);
 		function Save() {
 			document.getElementById("PageOfficeCtrl1").WebSave();
+			if(getSeal()){
+				if(fileId>0){
+                    
+                    window.external.CallParentFunc("xh.sealDoc("+fileId+")");
+                }
+			}
 			//cc();
 
 		}
@@ -48,7 +55,18 @@
 		}
 		function Seal() {
 			try {
-				var bRet = document.getElementById("PageOfficeCtrl1").ZoomSeal
+				var bRet=document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSeal(userName);
+				if (bRet) {
+                    if(fileId>0){
+                        
+                        window.external.CallParentFunc("xh.sealDoc("+fileId+")");
+                    }
+                    alert(msg+"成功！");
+                } else {
+                    alert(msg+"失败！");
+                }
+				
+				/* var bRet = document.getElementById("PageOfficeCtrl1").ZoomSeal
 						.AddSealByName(strSealName, null, null);
 				var msg="盖章";
 				if(type=="1"){
@@ -64,7 +82,7 @@
 					alert(msg+"成功！");
 				} else {
 					alert(msg+"失败！");
-				}
+				} */
 			} catch (e) {
 			}
 		}
@@ -87,6 +105,23 @@
 				alert("请先在文档中加盖印章后，再执行当前操作。");
 			}
 		}
+		function getSeal() {
+            var iCount = document.getElementById("PageOfficeCtrl1").ZoomSeal.Count;//获取加盖的印章数量
+            var strTempSealName = "";
+            if (iCount > 0) {
+                /* for (var i = 0; i < iCount; i++) {
+                    strTempSealName = document.getElementById("PageOfficeCtrl1").ZoomSeal.Item(i).SealName;//获取加盖的印章名称
+                    if (strTempSealName == searName2) {
+                        return true;
+                        break;
+                    }
+                } */
+                return true;
+            } else {
+                
+            }
+            return false;
+        }
 	</script>
 	<div style="height:700px;width:1200px;">${pageoffice }</div>
 

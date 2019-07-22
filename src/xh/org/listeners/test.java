@@ -110,8 +110,10 @@ public class test {
     
 
 	public static void main(String[] args) {
-		String fileName="dovvv.doc";
-		System.out.println(0%20);
+		int a=25;
+		float b=(float) 22.2;
+		
+		System.out.println(String.format("%.1f", (a-b)));
 		
 
 	}

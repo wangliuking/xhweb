@@ -136,10 +136,10 @@
 										<th >故障恢复时间</th>
 										<th >历时(分钟)</th>
 										<th>故障原因</th>
-										<th>故障类型</th>
-										<th>影响范围</th>
-										<th>备注</th>
-										<th>记录人</th>
+										<th width="100px">故障类型</th>
+										<th width="100px">建设期</th>
+										<!-- <th>备注</th> -->
+										<th width="100px">记录人</th>
 										<th width="150px">操作</th>
 									</tr>
 								</thead>
@@ -155,8 +155,11 @@
 										<td>{{x.total_time}}</td>
 										<td>{{x.reason}}</td>
 										<td>{{x.fault_type}}</td>
-										<td>{{x.area}}</td>
-										<td>{{x.note}}</td>
+										<td>
+                                        <span ng-if="x.period==3">三期</span>
+                                        <span ng-if="x.period==4">四期</span>
+                                        </td>
+										<!-- <td>{{x.note}}</td> -->
 										<td>{{x.record_person}}</td>
 										<td>
 										<a href="#" ng-click="show_detail($index)">详情</a>
