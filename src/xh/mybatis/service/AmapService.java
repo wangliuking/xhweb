@@ -291,6 +291,18 @@ public class AmapService {
 	        session.close();
 	        return count;   
 	}
+
+	/**
+	 * 批量删除终端
+	 */
+	public int deleteRadioId(Map<String,Object> map) throws Exception{
+		SqlSession session=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=session.getMapper(TcpMapper.class);
+		int count = mapper.deleteRadioId(map);
+		session.commit();
+		session.close();
+		return count;
+	}
 	
 	/**
 	 * 更新用户初始化信息
@@ -331,6 +343,23 @@ public class AmapService {
 		try{
 			res = mapper.addRadioId(param);
 			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	/**
+	 * 查询终端号
+	 */
+	public static int selectRadioId(String radioId){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
+		int res = 0;
+		try{
+			res = mapper.selectRadioId(radioId);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

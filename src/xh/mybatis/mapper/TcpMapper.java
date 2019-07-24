@@ -117,6 +117,11 @@ public interface TcpMapper {
 	 * 更新终端显示情况
 	 */
 	public int saveForAllVisable(Map<String,Object> map)throws Exception;
+
+	/**
+	 * 批量删除终端
+	 */
+	public int deleteRadioId(Map<String,Object> map)throws Exception;
 	
 	/**
 	 * 更新用户初始化信息
@@ -177,5 +182,10 @@ public interface TcpMapper {
 	 * 新增终端号
 	 */
 	public int addRadioId(Map<String,Object> param)throws Exception;
+
+	/**
+	 * 查询终端号
+	 */
+	public int selectRadioId(String radioId)throws  Exception;
 
 }

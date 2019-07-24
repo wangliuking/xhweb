@@ -438,6 +438,32 @@ public class AmapController {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 批量删除
+	 * @author wlk
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/map/deleteRadioId",method=RequestMethod.POST)
+	@ResponseBody
+	public void deleteRadioId(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody List<Map<String,Object>> listMap){
+		try {
+			AmapService amapService = new AmapService();
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			tempMap.put("listMap", listMap);
+			amapService.deleteRadioId(tempMap);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("success", "success");
+			String dataMap = FlexJSON.Encode(map);
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write(dataMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 更新GIS上终端显示情况
@@ -480,14 +506,21 @@ public class AmapController {
 	 */
 	@RequestMapping(value="/map/addRadioId",method=RequestMethod.GET)
 	public void addRadioId(HttpServletRequest request, HttpServletResponse response){	
-		try {		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
 			String radioIdAdd = request.getParameter("radioIdAdd");
 			Map<String,Object> param = new HashMap<String,Object>();
 			param.put("radioIdAdd", radioIdAdd);
-			AmapService amapService = new AmapService();
-			amapService.addRadioId(param);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("success", "success");
+			//根据id查找是否添加
+			int res = AmapService.selectRadioId(radioIdAdd);
+			if(res == 0){
+				AmapService amapService = new AmapService();
+				amapService.addRadioId(param);
+				map.put("success", true);
+			}else{
+				map.put("success",false);
+			}
+
 			String dataMap = FlexJSON.Encode(map);
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();

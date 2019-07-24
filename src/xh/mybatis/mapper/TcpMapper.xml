@@ -132,6 +132,11 @@
 		</foreach>
 		)  GROUP BY srcId
 	</select>
+
+	<!-- 查询终端号 -->
+	<select id="selectRadioId" parameterType="String" resultType="int">
+		select count(*) from xhgmnet_radio_gis_visable where radioId=#{radioId}
+	</select>
 	
 	<!-- 新增终端号 -->
 	<insert id="addRadioId" parameterType="map">
@@ -147,6 +152,15 @@
 	<select id="selectForAllVisableStatus" resultType="map">
 		select * from xhgmnet_radio_gis_visable
 	</select>
+
+	<!-- 批量删除终端号 -->
+	<delete id="deleteRadioId" parameterType="map">
+		delete from xhgmnet_radio_gis_visable
+		where radioId in
+		<foreach collection="listMap" index="index" item="item" separator="," open="(" close=")">
+			#{item.radioId}
+		</foreach>
+	</delete>
 	
 	<!-- 更新GIS终端显示情况 -->
 	<update id="saveForAllVisable" parameterType="map">
