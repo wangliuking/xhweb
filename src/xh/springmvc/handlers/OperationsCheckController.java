@@ -1024,7 +1024,7 @@ public class OperationsCheckController {
 		int id=FunUtil.StringToInt(request.getParameter("id"));
 		int check=FunUtil.StringToInt(request.getParameter("check"));
 		String user=request.getParameter("user");
-		String note1=request.getParameter("comment");
+		String note1=request.getParameter("note1");
 		OperationsCheckBean checkBean=new OperationsCheckBean();
 		checkBean.setId(id);
 		checkBean.setCheckTime(FunUtil.nowDateNoTime());

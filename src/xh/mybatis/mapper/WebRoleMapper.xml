@@ -48,7 +48,7 @@
     <!--更新角色-->
     <update id="updateByroleId" parameterType="xh.mybatis.bean.WebRoleBean">
       update xhgmnet_web_role set role=#{role},roleType=#{roleType} 
-      where roleId=#{roleId} and roleType=#{roleType} and parentId=#{parentId} 
+      where roleId=#{roleId} and parentId=#{parentId} 
     </update>          
    <!--根据角色ID删除角色-->
     <delete id="deleteByRoleId" parameterType="java.util.List">
