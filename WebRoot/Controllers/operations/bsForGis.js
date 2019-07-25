@@ -90,14 +90,19 @@ xh.load = function() {
 				dataType : "json",
 				contentType: "application/json",
 				success : function(data) {
-                    $http.get("../../amap/map/selectForAllVisableStatus").success(
-                        function(response) {
-                            $scope.selectForAllVisableStatus=response.items;
-                            $scope.mapInitStr=response.mapInitStr;
-                            console.log("selectForAllVisableStatus : "+$scope.selectForAllVisableStatus);
-                            console.log("mapInitStr : "+$scope.mapInitStr);
-                        });
-					toastr.success("新增成功", '提示');					
+					if(data.success == true){
+                        $http.get("../../amap/map/selectForAllVisableStatus").success(
+                            function(response) {
+                                $scope.selectForAllVisableStatus=response.items;
+                                $scope.mapInitStr=response.mapInitStr;
+                                console.log("selectForAllVisableStatus : "+$scope.selectForAllVisableStatus);
+                                console.log("mapInitStr : "+$scope.mapInitStr);
+                            });
+                        toastr.success("新增成功", '提示');
+					}else{
+                        toastr.error("该终端号已存在", '提示');
+					}
+
 				},
 				error : function() {
 					toastr.error("新增失败", '提示');
@@ -135,6 +140,37 @@ xh.load = function() {
 				}
 			});
 		}
+
+        $scope.deleteRadioId=function(){
+            var radioIdAdd=$("#radioIdAdd").val();
+            if(radioIdAdd == '' || radioIdAdd == null){
+                alert("请输入终端id号!");
+                return false;
+            }
+            var listMap=[];
+            var tempMap = {"radioId":radioIdAdd};
+            listMap.push(tempMap);
+            $.ajax({
+                url : '../../amap/map/deleteRadioId',
+                type : 'post',
+                dataType : "json",
+                contentType: "application/json",
+                data : JSON.stringify(listMap),
+                success : function(data) {
+                    toastr.success("删除成功", '提示');
+                    $http.get("../../amap/map/selectForAllVisableStatus").success(
+                        function(response) {
+                            $scope.selectForAllVisableStatus=response.items;
+                            $scope.mapInitStr=response.mapInitStr;
+                            console.log("selectForAllVisableStatus : "+$scope.selectForAllVisableStatus);
+                            console.log("mapInitStr : "+$scope.mapInitStr);
+                        });
+                },
+                error : function() {
+                    toastr.error("删除失败", '提示');
+                }
+            });
+        }
 		
 	});
 	

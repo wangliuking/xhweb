@@ -216,6 +216,8 @@ xh.load = function() {
             var b = new Date(date1).getTime();
             var date3 = Math.floor(a/(1000*60)) - Math.floor(b/(1000*60));
             $scope.calcData = Math.round(date3);
+            $scope.sheetData.breakTime = date1;
+            $scope.sheetData.restoreTime = date2;
         }
 
         /*跳转到停电说明*/
@@ -653,6 +655,10 @@ xh.load = function() {
 /*修改核减申请表*/
 xh.sheetChange = function() {
     var $scope = angular.element(appElement).scope();
+    console.log("~~~~~~~~~~~~")
+    console.log($scope.sheetData.breakTime)
+    console.log($scope.sheetData.restoreTime)
+    console.log("~~~~~~~~~~~~")
     var rules = "";
     if($scope.roleId==301){
         rules = $("select[name='rules'] option:selected").text();
@@ -677,8 +683,8 @@ xh.sheetChange = function() {
         isPower:$("input[name='isPower']").val(),
         firstDesc:$("input[name='firstDesc']").val(),
         desc:$("div[name='desc']").text(),
-        breakTime:$("input[name='breakTime']").val(),
-        restoreTime:$("input[name='restoreTime']").val(),
+        breakTime:$scope.sheetData.breakTime,
+        restoreTime:$scope.sheetData.restoreTime,
         checkCutTime:$("input[name='checkCutTime']").val(),
         alarmTime:$("input[name='alarmTime']").val(),
         situation:$("div[name='situation']").text(),
