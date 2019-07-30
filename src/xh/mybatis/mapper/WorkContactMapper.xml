@@ -14,6 +14,9 @@
 		 <if test="type!=null and type!=''">
          and a.type=#{type}
          </if>
+         <if test="status!=null and status!=''">
+         and a.status=#{status}
+         </if>
          <if test="roleType==3">
          and((a.user_type=2 and a.status>=1) or a.user_type=3 or a.user_type=0)
          </if>
@@ -36,6 +39,9 @@
          </if>
           <if test="roleType==2">
          and(((user_type=3 or user_type=0) and status>=1) or user_type=2)
+         </if>
+          <if test="status!=null and status!=''">
+         and status=#{status}
          </if>
 	</select>
 	<select id="codeNum" resultType="int" parameterType="map">

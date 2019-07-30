@@ -349,6 +349,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var time = $("#time").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -361,7 +362,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -375,6 +376,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var time = $("#time").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -384,7 +386,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;

@@ -64,9 +64,8 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="form-group col-md-12">
-									<label>考核期数</label> <select name="type" 
-									class="form-control" ng-model="type" ng-change="checkcut()">
-										<option value="3">三期</option>
+									<label>考核期数</label> <select name="type" class="form-control">
+										<option value="3" selected="selected" ng-blur="checkcut()">三期</option>
 										<option value="4">四期</option>
 									</select>
 
@@ -81,8 +80,8 @@
 								<div class="form-group col-md-12">
 									<label>考核月份</label> <input type="text" class="form-control"
 										ng-model="time" name="month"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM',onpicked:xh.checkcut(this.value)})" placeholder="请选择时间"
-										 >
+										onfocus="WdatePicker({dateFmt:'yyyy-MM'})" placeholder="请选择时间"
+										ng-blur="checkcut()">
 
 								</div>
 							</div>
@@ -96,18 +95,21 @@
 											<div class="form-group col-md-9" style="padding-right:0px;">
 
 												<label style="color:red">考核文件（注:选择月份后会显示相应月份的文件，考核文件数量不足时上传新的考核文件，支持批量上传）
-													<a class="btn btn-sm btn-danger" href="#"
-													ng-click="showFileWin()">添加文件</a>
-												</label>
-
+												<a class="btn btn-sm btn-danger"href="#" ng-click="showFileWin()">添加文件</a></label>
+											
 												<p style="color:blue">
-													提示： 考核申请需要提交以下文件： <span style="color:green">【运维服务团队通讯录】,【运维资源配置表】,
-														【本月计划维护作业完成情况】,【下月计划维护作业】,【系统运行维护服务月报】,
-														【基站信息表】,【运维故障统计】,【备品备件表】,【定期维护报告-交换中心月维护】, 【定期维护报告-基站月维护】,
-														【系统日常维护表,巡检记录汇总表】，【故障核减申请书】，【通信保障报告】</span></br> 以上考核文件中有3个文件不能由平台生成，
-													需要相关人员手动上传这3个文件：【系统运行维护服务月报】，【运维故障统计】，【系统日常维护表】；
-													其他相关文件请到相关页面点击生成文件。
-
+												提示：
+												考核申请需要提交以下文件：
+												<span style="color:green">【运维服务团队通讯录】,【运维资源配置表】,
+												【本月计划维护作业完成情况】,【下月计划维护作业】,【系统运行维护服务月报】,
+												【基站信息表】,【运维故障统计】,【备品备件表】,【定期维护报告-交换中心月维护】,
+												【定期维护报告-基站月维护】,
+												【系统日常维护表,巡检记录汇总表】，【故障核减申请书】，【通信保障报告】</span></br>
+												
+												以上考核文件中有3个文件不能由平台生成，
+												需要相关人员手动上传这3个文件：【系统运行维护服务月报】，【运维故障统计】，【系统日常维护表】；
+												其他相关文件请到相关页面点击生成文件。
+												
 												</p>
 
 
@@ -118,29 +120,73 @@
 													style="display: none;" />
 
 											</div>
-											<div class="col-md-12">
+											<div class="col-md-4">
 												<div class="hpanel">
-													<div class="panel-heading hbuild">
-													<span id="file_title">考核文件</span>
-													<span ng-click="showAllFile()" style="color:blue; cursor: pointer; display: none;" id="show_up_floder">>>返回上一级</span>
-													</div>
+													<div class="panel-heading head-blue">
+														当前系统中存在核减文件数{{bscheck_fileTotal}}</div>
 													<div class="panel-body">
 
-														<div class="col-md-6">
-														<ul id="check_files">
-                                                        </ul></div>
-                                                        <div class="col-md-6">
-                                                        <ul id="check_files2">
-                                                        </ul>
-                                                        </div>
+														<ul>
+															<li ng-repeat="x in bscheck_files"
+																style="margin-top:10px;"><span
+																style="margin-right:10px;"
+																ng-click="previewDoc(x.filePath)"><a href="#"
+																	style="color:red">预览</a></span> <img
+																src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span>在线预览</span> -->
+															</li>
+														</ul>
 													</div>
 												</div>
 											</div>
-											
-											
-											
+											<div class="col-md-4">
+												<div class="hpanel">
+													<div class="panel-heading head-blue">
+														当前系统中存在通信保障报告文件数{{ensure_fileTotal}}</div>
+													<div class="panel-body">
+														<ul>
+															<li ng-repeat="x in ensure_files"
+																style="margin-top:10px;"><span
+																style="margin-right:10px;"
+																ng-click="previewDoc(x.filePath)"><a href="#"
+																	style="color:red">预览</a></span> <img
+																src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span>在线预览</span> -->
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="hpanel">
+													<div class="panel-heading head-blue">
+														其他考核文件数{{fileTotal}}</div>
+													<div class="panel-body">
+														<div class="col-md-12">
+															<div ng-if="com_size>0" class="alert alert-danger alert-dismissable">
+																<button type="button" class="close" data-dismiss="alert"
+																	aria-hidden="true">&times;</button>
+																系统中缺少{{com_size}}个考核文件：{{com}},请点击添加文件并上传
+															</div>
+															<ul>
+																<li ng-repeat="x in files" style="margin-top:10px;">
+																	<span style="margin-right:10px;"
+																	ng-click="editDoc(x.filePath)"><a href="#"
+																		style="color:red">预览</a></span> <img
+																	ng-if="x.doc=='doc' || x.doc=='docx'"
+																	src="../../Resources/images/icon/16/doc.png"> <img
+																	ng-if="x.doc=='xls' || x.doc=='xlsx'"
+																	src="../../Resources/images/icon/16/xls.png"> <img
+																	ng-if="x.doc=='pdf'"
+																	src="../../Resources/images/icon/16/pdf.png"> <img
+																	ng-if="x.doc=='jpeg'"
+																	src="../../Resources/images/icon/16/jpeg.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span>在线预览</span> -->
+																</li>
+															</ul>
+														</div>
 
-										
+													</div>
+												</div>
+											</div>
+
 										</div>
 
 										<div class="col-md-12" ng-show="false">
@@ -149,9 +195,8 @@
 													<li ng-repeat="x in files"
 														style='border-bottom:1px solid #000; width:50%;margin-top:10px;'>
 														<span>{{x.fileName}}</span> <span class='path'
-														style='display:none;' id='filepath55{$index}'>{{x.filePath
-															|replaceFilePath}}</span> <span
-														style='color:blue;margin-left:20px;cursor:pointer'
+														style='display:none;' id='filepath55{$index}'>{{x.filePath |replaceFilePath}}</span>
+														<span style='color:blue;margin-left:20px;cursor:pointer'
 														class='down-file'>下载</span> <span
 														style='color:blue;margin-left:10px;cursor:pointer'
 														class='look-file'>预览</span>
@@ -255,20 +300,19 @@
 				return false;
 			}
 			var files = [];
-			var filestr = "";
+			var filestr="";
 			$("#fileArea ul li").each(function(index) {
 				var name = $(this).children().first().text();
 				var path = $(this).children(".path").text();
 				if (name != "" && path != "") {
-
+					
 					files.push(name);
 				}
 
 			});
 			$("input[name='result']").val(2);
 			xh.maskShow("正在上传文件，请耐心等待");
-			$
-					.ajaxFileUpload({
+			$.ajaxFileUpload({
 						url : '../../check/upload/batch/file', //用于文件上传的服务器端请求地址
 						secureuri : false, //是否需要安全协议，一般设置为false
 						fileElementId : 'pathName', //文件上传域的ID

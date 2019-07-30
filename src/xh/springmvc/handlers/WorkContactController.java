@@ -52,12 +52,14 @@ public class WorkContactController {
 		int limit=funUtil.StringToInt(request.getParameter("limit"));
 		String time=request.getParameter("time");
 		String type=request.getParameter("type");
+		String status=request.getParameter("status");
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("start", start);
 		map.put("limit",limit);
 		map.put("time",time);
 		map.put("type",type);
+		map.put("status",status);
 		map.put("roleType",FunUtil.loginUserInfo(request).get("roleType"));
 		HashMap result = new HashMap();
 		result.put("totals",WorkContactService.list_count(map));

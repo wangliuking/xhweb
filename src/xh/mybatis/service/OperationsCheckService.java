@@ -1,5 +1,6 @@
 package xh.mybatis.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,7 +97,30 @@ public class OperationsCheckService {
 		}
 		return count;
 	}
-
+	public static List<Map<String,Object>> readFileTree(String path){
+		File dir = new File(path);
+		File[] files=dir.listFiles();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for(int i=0;i<files.length;i++){
+				Map<String,Object> map=new HashMap<String, Object>();
+				if(files[i].isDirectory()){
+					map.put("isDir", true);
+					map.put("file", files[i].getName());				
+					map.put("children", readFileTree(files[i].getPath()));
+				}else{
+					map.put("isDir", false);
+					map.put("file", files[i].getName());
+					map.put("path", files[i].getPath());
+				}
+				list.add(map);
+			}
+		}else{
+			System.out.println("当前目录为空");
+		}
+		return list;
+		
+	}
 	public static int  sealFile(int id) {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.master);

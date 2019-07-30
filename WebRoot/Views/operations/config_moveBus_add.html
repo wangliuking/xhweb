@@ -7,50 +7,42 @@
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" onsubmit="return false" id="addForm">
 					<div class="row">
-						 <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>ID</label> <input type="text" class="form-control"
-                                    name="Id" required="required">
-                            </div>
-                        </div>
-						 <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>名称</label> <input type="text" class="form-control"
-                                    name="bsName" required="required">
-                            </div>
-                        </div>
 						
-                        <div class="col-md-12">
+						 <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>类型</label>
-                                <select class="form-control" name="type">
-                                <option value="1" select>车载</option>
-                                <option value="2" >便携</option>
-                                </select>
+                                <label>车牌号</label> <input type="text" class="form-control"
+                                    name="carNumber" required="required">
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>型号</label> <input type="text" class="form-control"
+                                    name="model" required="required">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>位置</label> <input type="text" class="form-control"
-                                    name="location">
+                                <label>停放位置</label> <input type="text" class="form-control"
+                                    name="location" required="required">
                             </div>
                         </div>
-                         <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>载波数</label> <input type="number" class="form-control"
-                                    name="frequency">
-                            </div>
-                        </div>
+                       
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>状态</label>
                                 <select class="form-control" name="state">
-                                <option value="0" select>备用</option>
-                                <option value="1" >在用</option>
+                                <option value="0" selected="selected">备用</option>
+                                <option value="1">在用</option>
                                 </select>
                             </div>
                         </div>
-                       
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>载波数量</label>
+                                <input type="number" min="1" class="form-control"
+                                    name="frequency" required="required" value="2">
+                            </div>
+                        </div>
                         
 						
 					</div>

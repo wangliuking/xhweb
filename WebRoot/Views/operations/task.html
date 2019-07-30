@@ -112,7 +112,7 @@
 									</div>
 
 									<div class="form-group">
-										<label for="status">类型 </label>
+										<label for="type">类型 </label>
 										<div>
 											<select id="type" class="form-control" style="width:159px;">
 												<option value="" selected="selected">==全部==</option>
@@ -128,6 +128,19 @@
 											</select>
 										</div>
 									</div>
+									<div class="form-group">
+                                        <label for="status">状态 </label>
+                                        <div>
+                                            <select id="status" class="form-control" style="width:159px;">
+                                                <option value="" selected="selected">==全部==</option>
+                                                 <option value="-2">已撤销</option>
+                                                  <option value="-1">已拒绝</option>
+                                                <option value="0">审核中</option>
+                                                <option value="1">等待回复</option>
+                                                <option value="2">已回复</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
 									<div class="form-group">
 										<div class="col-sm-offset-2" style="padding-top:22px">

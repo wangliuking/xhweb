@@ -861,6 +861,7 @@ public class OperationsCheckController {
 		String hz="/upload/checksource/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
 		File file=new File(rootDir);
+		System.out.println(rootDir);
 		File[] files=file.listFiles(new FileFilter() {
 			
 			@Override
@@ -976,6 +977,31 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/checkFiles", method = RequestMethod.GET)
+	public void checkFiles(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period;
+
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		list=OperationsCheckService.readFileTree(rootDir);
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 	@RequestMapping(value = "/check2", method = RequestMethod.POST)
 	public void check2(HttpServletRequest request, HttpServletResponse response) {
@@ -1384,7 +1410,7 @@ public class OperationsCheckController {
 				String[] srcFiles=files.split(",");
 				if(srcFiles.length>0){
 					for (String string : srcFiles) {
-						if(string.equals(fileName)){
+						if(string.split("\\.")[0].equals(fileName.split("\\.")[0])){
 							x=true;
 							log.info("文件存在不上传");
 						}

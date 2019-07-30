@@ -6,51 +6,49 @@
 			
 			<div class="modal-body pad-0" style="margin: 2px; padding: 2px;">
 				<form action="#" onsubmit="return false" id="editForm">
-					<div class="row">
-                         <div class="col-md-12">
+					
+                     <div class="row">
+                        <div class="col-md-12" ng-show="false">
                             <div class="form-group col-md-12">
-                                <label>ID</label> <input type="text" class="form-control"
-                                    name="Id" required="required" ng-model="editData.id" readonly="readonly">
+                                <label>id</label> <input type="text" class="form-control"
+                                    name="id" required="required" ng-model="editData.id">
                             </div>
                         </div>
                          <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>名称</label> <input type="text" class="form-control"
-                                    name="bsName" required="required" ng-model="editData.bsName">
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-12">
-                            <div class="form-group col-md-12">
-                                <label>类型</label>
-                                <select class="form-control" name="type" ng-select="editData.type">
-                                <option value="1" select>车载</option>
-                                <option value="2" >便携</option>
-                                </select>
+                                <label>车牌号</label> <input type="text" class="form-control"
+                                    name="carNumber" required="required" ng-model="editData.carNumber">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>位置</label> <input type="text" class="form-control"
-                                    name="location" ng-model="editData.location">
+                                <label>型号</label> <input type="text" class="form-control"
+                                    name="model" required="required" ng-model="editData.model">
                             </div>
                         </div>
-                         <div class="col-md-12">
+                        <div class="col-md-12">
                             <div class="form-group col-md-12">
-                                <label>载波数</label> <input type="text" class="form-control"
-                                    name="frequency" ng-model="editData.frequency">
+                                <label>停放位置</label> <input type="text" class="form-control"
+                                    name="location" required="required"  ng-model="editData.location">
                             </div>
                         </div>
+                       
                         <div class="col-md-12">
                             <div class="form-group col-md-12">
                                 <label>状态</label>
                                 <select class="form-control" name="state" ng-select="editData.state">
-                                <option value="0">备用</option>
-                                <option value="1" >在用</option>
+                                <option value="0" >备用</option>
+                                <option value="1">在用</option>
                                 </select>
                             </div>
                         </div>
-                       
+                        <div class="col-md-12">
+                            <div class="form-group col-md-12">
+                                <label>载波数量</label>
+                                <input type="number" min="1" class="form-control"
+                                    name="frequency" required="required" value="0">
+                            </div>
+                        </div>
                         
                         
                     </div>

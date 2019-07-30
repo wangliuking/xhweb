@@ -110,10 +110,7 @@ public class test {
     
 
 	public static void main(String[] args) {
-		int a=25;
-		float b=(float) 22.2;
-		
-		System.out.println(String.format("%.1f", (a-b)));
+		readFileTree("D:/考核文件");
 		
 
 	}
@@ -132,7 +129,6 @@ public class test {
 					map.put("isDir", false);
 					map.put("file", files[i].getName());
 					map.put("path", files[i].getPath());
-					System.out.println(files[i].getName());
 				}
 				list.add(map);
 			}

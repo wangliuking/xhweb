@@ -190,14 +190,14 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("打印","PrintFile()",6);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
 		//设置页面的显示标题
-		poCtrl.setCaption(request.getContextPath() +"/"+path);
-		System.out.println(request.getContextPath() +"/"+path);
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getContextPath() +"/"+path, OpenModeType.docReadOnly, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_word");
@@ -218,14 +218,14 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("打印","PrintFile()",6);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
 		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
-		poCtrl.setJsFunction_AfterDocumentOpened("IsFullScreen()");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath(path), OpenModeType.xlsReadOnly, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_excel");
@@ -258,7 +258,8 @@ public class PageOfficeController {
 		pdfCtrl1.addCustomToolButton("-", "", 0);
 		pdfCtrl1.addCustomToolButton("向左旋转90度", "SetRotateLeft()", 12);
 		pdfCtrl1.addCustomToolButton("向右旋转90度", "SetRotateRight()", 13);
-		pdfCtrl1.setTitlebar(false); //隐藏标题栏
+		pdfCtrl1.setTitlebar(true); //隐藏标题栏
+		pdfCtrl1.setCaption(path.substring(path.lastIndexOf("/")+1));
 		pdfCtrl1.setTagId("PDFCtrl1");
 		pdfCtrl1.webOpen(request.getContextPath() +"/"+path, PDFOpenModeType.pdfViewOnly);
 		ModelAndView mv = new ModelAndView("Views/jsp/preview_pdf");
@@ -274,7 +275,7 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -291,7 +292,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_word");
@@ -308,7 +309,7 @@ public class PageOfficeController {
 		poCtrl.addCustomToolButton("保存", "Save()", 1); // 添加自定义按钮
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(true);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -325,7 +326,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/edit_excel");
@@ -360,7 +361,7 @@ public class PageOfficeController {
 		
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -374,7 +375,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		if(doc.contains("doc")){
 			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
@@ -405,7 +406,7 @@ public class PageOfficeController {
 	
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -422,7 +423,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		if(doc.contains("doc")){
 			poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		}else{
@@ -452,7 +453,7 @@ public class PageOfficeController {
 		//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -469,7 +470,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.docNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_word");
@@ -492,7 +493,7 @@ public class PageOfficeController {
 		//poCtrl.addCustomToolButton("删除印章", "DeleteSeal()", 21);
 		poCtrl.addCustomToolButton("全屏/还原", "IsFullScreen()", 4);
 		poCtrl.addCustomToolButton("关闭", "CloseFile()", 21);
-		poCtrl.setTitlebar(false); //隐藏标题栏
+		poCtrl.setTitlebar(true); //隐藏标题栏
 		poCtrl.setMenubar(true); //隐藏菜单栏
 		poCtrl.setOfficeToolbars(false);//隐藏Office工具条
 		poCtrl.setCustomToolbar(true);//隐藏自定义工具栏
@@ -509,7 +510,7 @@ public class PageOfficeController {
 		}
 		poCtrl.setSaveFilePage(request.getContextPath() +"/office/save_page?path="+name);
 		//设置页面的显示标题
-		poCtrl.setCaption("");
+		poCtrl.setCaption(path.substring(path.lastIndexOf("/")+1));
 		poCtrl.webOpen(request.getSession().getServletContext().getRealPath("/")+"/"+path, OpenModeType.xlsNormalEdit, "");
 		poCtrl.setTagId("PageOfficeCtrl1");
 		ModelAndView mv = new ModelAndView("Views/jsp/seal_excel");

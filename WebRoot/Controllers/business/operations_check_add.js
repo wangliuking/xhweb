@@ -35,6 +35,7 @@ var fileNames=['运维服务团队通讯录','运维资源配置表',
 console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
+	
 	//replaceFilePath
 	app.filter('replaceFilePath', function() { // 可以注入依赖
 		return function(text) {
@@ -48,6 +49,8 @@ xh.load = function() {
 		xh.maskShow();
 		$scope.count = "15";//每页数据显示默认值
 		$scope.time="";
+		$scope.type=3;
+	
 		
 		// 获取登录用户
 		$http.get("../../web/loginUserInfo").success(function(response) {
@@ -67,17 +70,25 @@ xh.load = function() {
 		}
 		$scope.checkcut=function(){
 			var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$scope.getFileList();
+			var type=$scope.type;
+			/*$scope.getFileList();
 			$scope.getBsCheckFileList();
-			$scope.getEnsureFileList();
-			$http.get("../../check/search_checkcut_count?period="+type+"&month="+month).success(
+			$scope.getEnsureFileList();*/
+			console.log("m->"+month);
+			console.log("y->"+type)
+			if(month==null || month==''){
+				
+			}else{
+				$scope.showAllFile(month);
+			}
+			
+			/*$http.get("../../check/search_checkcut_count?period="+type+"&month="+month).success(
 					function(response) {
 						$scope.checkcut_total = response.count;
-			});
+			});*/
 		}
-		$scope.getFileList=function(){
-			var month=$("input[name='month']").val();
+		$scope.getFileList=function(tt){
+			var month=tt
 			var type=$("select[name='type']").val();
 			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
 					function(response) {
@@ -95,6 +106,24 @@ xh.load = function() {
 						}
 						$scope.com=com.join(",");
 						$scope.com_size=com.length;
+						
+						for(var i=0;i<$scope.fileTotal;i++){
+							var x=$scope.files[i];
+							var str='<li style="margin-top:10px;">';
+							if(x.doc=='doc' || x.doc=='docx'){
+								str+='<img src="../../Resources/images/icon/16/doc.png">';
+							}else if(x.doc=='xls' || x.doc=='xlsx'){
+								str+='<img src="../../Resources/images/icon/16/xls.png">';
+							}else if(x.doc=='pdf'){
+								str+='<img src="../../Resources/images/icon/16/pdf.png">';
+							}else if(x.doc=='jpeg'){
+								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
+							}
+							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+							str+='</li>';
+							$("#check_files").append(str);
+							
+						}	
 						
 			});
 		}
@@ -119,6 +148,30 @@ xh.load = function() {
 						$scope.ensure_files = response.files;
 						$scope.ensure_fileTotal = response.totals;
 			});
+		}
+		$scope.look_check=function(){
+			/*var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$scope.getFileList();*/
+			//$scope.getBsCheckFileList();
+			//$scope.getEnsureFileList();
+			alert(1)
+			
+			
+		}
+		$scope.showAllFile=function(tt){
+			console.log(tt)
+			$("#file_title").text("考核文件");
+			$("#check_files").find('li').remove();
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
+			if(tt==null || tt==''){
+				console.log("null")
+			}else{
+				$scope.getFileList(tt);
+			}
+			
+			//$("#show_up_floder").hide();
 		}
 		$scope.previewDoc=function(path){
 			console.log(path);
@@ -203,7 +256,7 @@ xh.load = function() {
 		}
 	  
 		
-		$scope.checkcut();
+		//$scope.checkcut();
 		
 	});
 	
@@ -218,6 +271,92 @@ xh.refreshFile=function(){
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
 	$scope.getFileList();
+}
+xh.checkcut=function(tt){
+	
+	var $scope = angular.element(appElement).scope();
+	$scope.showAllFile(tt);
+}
+xh.look_check=function(){
+	$("#check_files2").find('li').remove();
+	var month=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	//$("#show_up_floder").toggle();
+	//$("#file_title").text("考核文件>>故障核减申请书");
+	$.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+			function(response) {
+				if(response.totals<1){
+					$("#check_files2").append("<li>没有文件!</li>");
+					return;
+				}
+				for(var i=0;i<response.totals;i++){
+					var x=response.files[i];
+					var str='<li style="margin-top:10px;">';
+					str+='<img src="../../Resources/images/icon/16/doc.png">';
+					str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+					str+='</li>';
+					$("#check_files2").append(str);
+					
+				}	
+				
+				
+	});
+	
+}
+xh.look_ensure=function(){
+	$("#check_files2").find('li').remove();
+	var month=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	//$("#show_up_floder").toggle();
+	//$("#file_title").text("考核文件>>通信保障报告");
+	$.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+			function(response) {
+				if(response.totals<1){
+					$("#check_files2").append("<li>没有文件</li>");
+					return;
+				}
+				for(var i=0;i<response.totals;i++){
+					var x=response.files[i];
+					var str='<li style="margin-top:10px;">';
+					str+='<img src="../../Resources/images/icon/16/doc.png">';
+					str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+					str+='</li>';
+					$("#check_files2").append(str);
+					
+				}	
+				
+				
+	});
+	
+}
+xh.editDoc=function(path){
+	console.log(path);
+	
+	if(path.toLowerCase().indexOf("doc")!=-1){
+		console.log("doc")
+		POBrowser.openWindowModeless(xh.getUrl()+'/office/editWord?path='+
+				path,'width=1200px;height=800px;');
+	}else if(path.toLowerCase().indexOf("xls")!=-1){
+		console.log("xls")
+		POBrowser.openWindowModeless(xh.getUrl()+'/office/editExcel?path='+
+				path,'width=1200px;height=800px;');
+	}else if(path.toLowerCase().indexOf("pdf")!=-1){
+		console.log("pdf")
+		POBrowser.openWindowModeless(xh.getUrl()+'/office/previewPDF?path='+
+				path,'width=1200px;height=800px;');
+	}/*else if(path.toLowerCase().indexOf("jpeg")!=-1){
+		$("#showPicWin").modal('show');
+		$scope.img_src=xh.getUrl()+"/"+path;
+	}else if(path.toLowerCase().indexOf("jpg")!=-1){
+		$("#showPicWin").modal('show');
+		$scope.img_src=xh.getUrl()+"/"+path;
+	}else if(path.toLowerCase().indexOf("png")!=-1){
+		$("#showPicWin").modal('show');
+		$scope.img_src=xh.getUrl()+"/"+path;
+	}*/else{
+		alert("该文件类型不支持在线预览")
+	}
+	
 }
 xh.add = function() {
     var files=[];	
