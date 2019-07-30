@@ -110,6 +110,17 @@ public interface AmapMapper {
 	 * @throws Exception
 	 */
 	public int updateBatch(Map<String,Object> map)throws Exception;
-	
-	
+
+	/**
+	 * 分析后备时长
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>> selectBsOffByTime(Map<String,Object> map)throws Exception;
+
+	public List<Map<String,Object>> selectPowerOffByTime(Map<String,Object> map)throws Exception;
+
+	public Map<String,Object> selectBatteryVolByTime(Map<String,Object> map)throws Exception;
+
+	public int isBsUpdate(Map<String,Object> map)throws Exception;
 }

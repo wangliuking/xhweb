@@ -423,10 +423,10 @@ public class CheckCutController {
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
         bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
-            bean.setIsPower("基站允许发电");
+            bean.setIsPower("基站具备发电条件");
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
-            bean.setIsPower("基站不允许发电");
+            bean.setIsPower("基站不具备发电条件");
             bean.setIsPowerTime("发电时间:无");
         }
         String tempPeriod = res.get("period")+"";
@@ -615,10 +615,10 @@ public class CheckCutController {
         bean.setPowerTimeTwo(res.get("transfer_fact_time")+"小时");
         bean.setMaintainTime(res.get("to_bs_date")+"分钟");
         if("是".equals(res.get("is_allow_generation"))){
-            bean.setIsPower("基站允许发电");
+            bean.setIsPower("基站具备发电条件");
             bean.setIsPowerTime("发电时间:"+res.get("generation_date"));
         }else if("否".equals(res.get("is_allow_generation"))){
-            bean.setIsPower("基站不允许发电");
+            bean.setIsPower("基站不具备发电条件");
             bean.setIsPowerTime("发电时间:无");
         }
         String tempPeriod = res.get("period")+"";

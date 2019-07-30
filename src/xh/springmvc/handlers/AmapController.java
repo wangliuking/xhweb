@@ -2,11 +2,9 @@ package xh.springmvc.handlers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import xh.func.plugin.FlexJSON;
-import xh.func.plugin.FunUtil;
-import xh.func.plugin.PropertiesUtil;
-import xh.func.plugin.RedisUtil;
+import xh.func.plugin.*;
+import xh.mybatis.bean.AlarmList;
+import xh.mybatis.bean.PowerOffRes;
 import xh.mybatis.bean.WebLogBean;
 import xh.mybatis.service.AmapService;
 import xh.mybatis.service.BsstationService;
+import xh.mybatis.service.GosuncnService;
 import xh.mybatis.service.RadioStatusService;
 import xh.org.listeners.SingLoginListener;
 
@@ -569,11 +567,181 @@ public class AmapController {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 导出四期告警到excel文件
+	 */
+	@RequestMapping("/analysisPowerOff")
+	public void analysisPowerOff(HttpServletRequest request, HttpServletResponse response) {
+		List<PowerOffRes> finalList = new LinkedList<PowerOffRes>();
+		Map<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("startTime",request.getParameter("startTime"));
+		parameter.put("endTime",request.getParameter("endTime"));
+		List<Map<String,Object>> list = AmapService.selectBsOffByTime(parameter);
+		for(int i=0;i<list.size();i++){
+			Map<String,Object> map = list.get(i);
+			String bsId = map.get("bsId")+"";
+			String name = map.get("name")+"";
+			String bsOffTime = map.get("time")+"";
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("bsId",bsId);
+			param.put("bsOffTime",bsOffTime);
+			List<Map<String,Object>> res = AmapService.selectPowerOffByTime(param);
+			if(res.size()>0){
+				String powerOffTime = res.get(0).get("time")+"";
+				for(int j=0;j<res.size();j++){
+					Map jMap = res.get(j);
+					String powerOnTime = jMap.get("faultRecoveryTime")+"";
+					if(compareTime(powerOnTime,bsOffTime)){
+						//停电恢复时间位于断站时间之后，故为停电导致断站
+						PowerOffRes powerOffRes = new PowerOffRes();
+						powerOffRes.setBsId(bsId);
+						powerOffRes.setName(name);
+						powerOffRes.setPowerOffTime(powerOffTime);
+						powerOffRes.setBsOffTime(bsOffTime);
+
+						if(!"".equals(powerOffTime)){
+							String currentMonth="xhgmnet_emh_sensor_history"+powerOffTime.substring(5, 7);
+							Map<String,Object> tempParam = new HashMap<String,Object>();
+							tempParam.put("currentMonth",currentMonth);
+							tempParam.put("bsId",bsId);
+							tempParam.put("searchTime",powerOffTime);
+							Map<String,Object> batMap = AmapService.selectBatteryVolByTime(tempParam);
+							powerOffRes.setPowerOffBatTime(batMap.get("createTime")+"");
+							powerOffRes.setPowerOffBatVol(batMap.get("ups4")+"");
+						}
+						if(!"".equals(bsOffTime)){
+							String currentMonth="xhgmnet_emh_sensor_history"+bsOffTime.substring(5, 7);
+							Map<String,Object> tempParam = new HashMap<String,Object>();
+							tempParam.put("currentMonth",currentMonth);
+							tempParam.put("bsId",bsId);
+							tempParam.put("searchTime",bsOffTime);
+							Map<String,Object> batMap = AmapService.selectBatteryVolByTime(tempParam);
+							if(batMap != null){
+								powerOffRes.setBsOffBatTime(batMap.get("createTime")+"");
+								powerOffRes.setBsOffBatVol(batMap.get("ups4")+"");
+							}
+						}
+						powerOffRes.setCalcTime(calcTime(powerOffTime,bsOffTime));
+						//查询该站是否整改
+						int count = AmapService.isBsUpdate(param);
+						powerOffRes.setIsBsUpdate(count==0?"未整改":"已整改");
+						System.out.println(powerOffRes);
+						finalList.add(powerOffRes);
+						break;
+					}
+				}
+			}
+		}
+
+		ExportExcel<PowerOffRes> ee= new ExportExcel<PowerOffRes>();
+		String[] headers = {"基站ID","名称","停电时间","断站时间","续航时间","停电最近一刻采集时间","停电最近一刻电池电压","断站最近一刻采集时间","断站最近一刻电池电压","是否整改"};
+		String fileName = "停电分析表";
+		ee.exportExcel(headers,finalList,fileName,response);
+	}
 	
-	public static void main(String[] args) {
-		AmapService amapService = new AmapService();
-		String s = amapService.selectForMapInitByUser("admin");
-		System.out.println("aaa");
+	public static void main(String[] args) throws Exception {
+		List<PowerOffRes> finalList = new LinkedList<PowerOffRes>();
+		Map<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("startTime","2019-07-01 00:00:00");
+		parameter.put("endTime","2019-07-31 00:00:00");
+		List<Map<String,Object>> list = AmapService.selectBsOffByTime(parameter);
+		for(int i=0;i<list.size();i++){
+			Map<String,Object> map = list.get(i);
+			String bsId = map.get("bsId")+"";
+			String name = map.get("name")+"";
+			String bsOffTime = map.get("time")+"";
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("bsId",bsId);
+			param.put("bsOffTime",bsOffTime);
+			List<Map<String,Object>> res = AmapService.selectPowerOffByTime(param);
+			if(res.size()>0){
+				String powerOffTime = res.get(0).get("time")+"";
+				for(int j=0;j<res.size();j++){
+					Map jMap = res.get(j);
+					String powerOnTime = jMap.get("faultRecoveryTime")+"";
+					if(compareTime(powerOnTime,bsOffTime)){
+						//停电恢复时间位于断站时间之后，故为停电导致断站
+						PowerOffRes powerOffRes = new PowerOffRes();
+						powerOffRes.setBsId(bsId);
+						powerOffRes.setName(name);
+						powerOffRes.setPowerOffTime(powerOffTime);
+						powerOffRes.setBsOffTime(bsOffTime);
+
+						if(!"".equals(powerOffTime)){
+							String currentMonth="xhgmnet_emh_sensor_history"+powerOffTime.substring(5, 7);
+							Map<String,Object> tempParam = new HashMap<String,Object>();
+							tempParam.put("currentMonth",currentMonth);
+							tempParam.put("bsId",bsId);
+							tempParam.put("searchTime",powerOffTime);
+							Map<String,Object> batMap = AmapService.selectBatteryVolByTime(tempParam);
+							powerOffRes.setPowerOffBatTime(batMap.get("createTime")+"");
+							powerOffRes.setPowerOffBatVol(batMap.get("ups4")+"");
+						}
+						if(!"".equals(bsOffTime)){
+							String currentMonth="xhgmnet_emh_sensor_history"+bsOffTime.substring(5, 7);
+							Map<String,Object> tempParam = new HashMap<String,Object>();
+							tempParam.put("currentMonth",currentMonth);
+							tempParam.put("bsId",bsId);
+							tempParam.put("searchTime",bsOffTime);
+							Map<String,Object> batMap = AmapService.selectBatteryVolByTime(tempParam);
+							if(batMap != null){
+								powerOffRes.setBsOffBatTime(batMap.get("createTime")+"");
+								powerOffRes.setBsOffBatVol(batMap.get("ups4")+"");
+							}
+						}
+						powerOffRes.setCalcTime(calcTime(powerOffTime,bsOffTime));
+						//查询该站是否整改
+						int count = AmapService.isBsUpdate(param);
+						powerOffRes.setIsBsUpdate(count==0?"未整改":"已整改");
+						System.out.println(powerOffRes);
+						finalList.add(powerOffRes);
+						break;
+					}
+				}
+			}
+		}
+		//System.out.println(finalList);
+
+	}
+
+	public static boolean compareTime(String time1,String time2) {
+		if(time1 == null || "".equals(time1)){
+			return false;
+		}
+		try {
+			long l1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time1).getTime();
+			long l2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time2).getTime();
+			if(l1>l2){
+				return true;
+			}else{
+				return false;
+			}
+		}catch (Exception e){
+			System.out.println(time1+"============="+time2);
+		}
+		return false;
+	}
+
+	public static String calcTime(String time1,String time2) {
+		long nd = 1000 *24 * 60 * 60;
+		long nh = 1000 * 60 * 60;
+		long nm = 1000 * 60;
+		if(time1 == null || "".equals(time1)){
+			return "";
+		}
+		try {
+			long l1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time1).getTime();
+			long l2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time2).getTime();
+			long diff = l2 - l1;
+			long day = diff / nd;
+			long hour = diff % nd / nh;
+			long min = diff % nd % nh / nm;
+			return hour + "小时" + min + "分钟";
+		}catch (Exception e){
+			System.out.println(time1+"============="+time2);
+		}
+		return "";
 	}
 	
 	

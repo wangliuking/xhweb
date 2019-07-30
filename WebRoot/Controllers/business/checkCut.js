@@ -273,10 +273,24 @@ xh.load = function() {
                 $scope.dt2 = formatDate(date2);
                 var checkDate = new Date(checkCreateTime+" 00:00:00");
                 var sheetDate = new Date(date1);
-                console.log("checkCreateTime : "+checkCreateTime);
+                /*console.log("checkCreateTime : "+checkCreateTime);
                 console.log("checkDate : "+checkDate);
-                console.log("sheetDate : "+sheetDate);
-                if(sheetDate<checkDate){
+                console.log("sheetDate : "+sheetDate);*/
+
+                var year=checkDate.getFullYear();
+                var tempMonth=checkDate.getMonth()+1;
+                var month;
+                if(tempMonth<10){
+                    month = "0"+tempMonth;
+                }else{
+                    month = ""+tempMonth;
+                }
+                var tempDate = year+"-"+month+"-01 00:00:00";
+                var caluDate = new Date(tempDate);
+                console.log("checkDate : "+date1);
+                console.log("sheetDate : "+tempDate);
+
+                if(sheetDate<caluDate){
                     //表单时间小于最近考核时间
                     $scope.sheetIsUpdate = false;
                 }else{

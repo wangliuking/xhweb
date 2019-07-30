@@ -43,8 +43,8 @@
                                         <input style="border: 0px;outline:none;width: 95px" type="hidden" ng-value="sheetData.isPowerTime" name="isPowerTime"/>
                                         <input style="border: 0px;outline:none;width: 50px" type="hidden" ng-value="sheetData.maintainTime" name="maintainTime"/>
 
-                                        <span ng-if="sheetData.isPower == '基站不允许发电'">{{sheetData.isPower}}。</span>
-                                        <span ng-if="sheetData.isPower != '基站不允许发电'">{{sheetData.isPower}}，{{sheetData.isPowerTime}}，维护上站时间{{sheetData.maintainTime}}。</span>
+                                        <span ng-if="sheetData.isPower == '基站不具备发电条件'">{{sheetData.isPower}}。</span>
+                                        <span ng-if="sheetData.isPower != '基站不具备发电条件'">{{sheetData.isPower}}，{{sheetData.isPowerTime}}，维护上站时间{{sheetData.maintainTime}}。</span>
 
                                         <br/>
                                         <br/>

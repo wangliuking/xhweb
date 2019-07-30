@@ -53,7 +53,18 @@ xh.load = function() {
 	});
 
 	app.controller("emhHistory", function($scope, $http) {
-		// xh.maskShow();
+        //获取登录用户
+        $http.get("../../web/loginUserInfo").
+        success(function(response){
+            xh.maskHide();
+            $scope.userNameAdd = response.userName;
+            $scope.telAdd = response.tel;
+            $scope.loginUser = response.user;
+            $scope.loginUserRoleType = response.roleType;
+            $scope.roleId = response.roleId;
+            //console.log(response);
+        });
+
 		$scope.count = "15";//每页数据显示默认值
 		$scope.systemMenu=true; //菜单变色
         $scope.bsPeriod = 4;
@@ -108,6 +119,21 @@ xh.load = function() {
             window.location="../../gonsuncn/export4History?bsId="+bsId+"&startTime="+startTime+"&endTime="+endTime+
                 "&startUps1="+startUps1+"&endUps1="+endUps1+"&startUps4="+startUps4+"&endUps4="+endUps4+"&startE1="+startE1+"&endE1="+endE1;
 		};
+
+        /* 停电分析 */
+        $scope.analysisPowerOff = function(id) {
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            if(startTime == null || startTime == ""){
+                alert("请输入开始时间")
+                return false;
+            }
+            if(endTime == null || endTime == ""){
+                alert("请输入结束时间")
+                return false;
+            }
+            window.location="../../amap/analysisPowerOff?startTime="+startTime+"&endTime="+endTime;
+        };
 		
 		/* 查询数据 */
 		$scope.search = function(page) {

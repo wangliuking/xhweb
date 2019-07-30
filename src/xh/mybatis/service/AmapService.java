@@ -46,8 +46,7 @@ public class AmapService {
 	
 	/**
 	 * 不规则圈选基站查询
-	 * 
-	 * @param root
+	 *
 	 * @return
 	 */
 	public static List<HashMap<String,String>> polyline(Map<String, Object> map) {
@@ -417,6 +416,65 @@ public class AmapService {
 			e.printStackTrace();
 		}
 		return str;
+	}
+
+	/**
+	 * 分析后备时长
+	 */
+	public static List<Map<String,Object>> selectBsOffByTime(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		List<Map<String,Object>> list = null;
+		try{
+			list = mapper.selectBsOffByTime(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static List<Map<String,Object>> selectPowerOffByTime(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		List<Map<String,Object>> list = null;
+		try{
+			list = mapper.selectPowerOffByTime(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static Map<String,Object> selectBatteryVolByTime(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		Map<String,Object> list = null;
+		try{
+			list = mapper.selectBatteryVolByTime(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static int isBsUpdate(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
+		int res = 0;
+		try{
+			res = mapper.isBsUpdate(map);
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }
