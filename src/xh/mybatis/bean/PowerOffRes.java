@@ -3,14 +3,14 @@ package xh.mybatis.bean;
 public class PowerOffRes {
     private String bsId;
     private String name;
-    private String powerOffTime;
     private String bsOffTime;
+    private String bsOnTime;
+    private String powerOffTime;
+    private String powerOnTime;
+    private String powerOffVol;
+    private String powerOnVol;
     private String calcTime;
-    private String powerOffBatTime;
-    private String powerOffBatVol;
-    private String bsOffBatTime;
-    private String bsOffBatVol;
-    private String isBsUpdate;
+    private String finalTime;
 
     public String getBsId() {
         return bsId;
@@ -28,6 +28,22 @@ public class PowerOffRes {
         this.name = name;
     }
 
+    public String getBsOffTime() {
+        return bsOffTime;
+    }
+
+    public void setBsOffTime(String bsOffTime) {
+        this.bsOffTime = bsOffTime;
+    }
+
+    public String getBsOnTime() {
+        return bsOnTime;
+    }
+
+    public void setBsOnTime(String bsOnTime) {
+        this.bsOnTime = bsOnTime;
+    }
+
     public String getPowerOffTime() {
         return powerOffTime;
     }
@@ -36,12 +52,28 @@ public class PowerOffRes {
         this.powerOffTime = powerOffTime;
     }
 
-    public String getBsOffTime() {
-        return bsOffTime;
+    public String getPowerOnTime() {
+        return powerOnTime;
     }
 
-    public void setBsOffTime(String bsOffTime) {
-        this.bsOffTime = bsOffTime;
+    public void setPowerOnTime(String powerOnTime) {
+        this.powerOnTime = powerOnTime;
+    }
+
+    public String getPowerOffVol() {
+        return powerOffVol;
+    }
+
+    public void setPowerOffVol(String powerOffVol) {
+        this.powerOffVol = powerOffVol;
+    }
+
+    public String getPowerOnVol() {
+        return powerOnVol;
+    }
+
+    public void setPowerOnVol(String powerOnVol) {
+        this.powerOnVol = powerOnVol;
     }
 
     public String getCalcTime() {
@@ -52,44 +84,12 @@ public class PowerOffRes {
         this.calcTime = calcTime;
     }
 
-    public String getPowerOffBatTime() {
-        return powerOffBatTime;
+    public String getFinalTime() {
+        return finalTime;
     }
 
-    public void setPowerOffBatTime(String powerOffBatTime) {
-        this.powerOffBatTime = powerOffBatTime;
-    }
-
-    public String getPowerOffBatVol() {
-        return powerOffBatVol;
-    }
-
-    public void setPowerOffBatVol(String powerOffBatVol) {
-        this.powerOffBatVol = powerOffBatVol;
-    }
-
-    public String getBsOffBatTime() {
-        return bsOffBatTime;
-    }
-
-    public void setBsOffBatTime(String bsOffBatTime) {
-        this.bsOffBatTime = bsOffBatTime;
-    }
-
-    public String getBsOffBatVol() {
-        return bsOffBatVol;
-    }
-
-    public void setBsOffBatVol(String bsOffBatVol) {
-        this.bsOffBatVol = bsOffBatVol;
-    }
-
-    public String getIsBsUpdate() {
-        return isBsUpdate;
-    }
-
-    public void setIsBsUpdate(String isBsUpdate) {
-        this.isBsUpdate = isBsUpdate;
+    public void setFinalTime(String finalTime) {
+        this.finalTime = finalTime;
     }
 
     @Override
@@ -97,14 +97,14 @@ public class PowerOffRes {
         return "PowerOffRes{" +
                 "bsId='" + bsId + '\'' +
                 ", name='" + name + '\'' +
-                ", powerOffTime='" + powerOffTime + '\'' +
                 ", bsOffTime='" + bsOffTime + '\'' +
+                ", bsOnTime='" + bsOnTime + '\'' +
+                ", powerOffTime='" + powerOffTime + '\'' +
+                ", powerOnTime='" + powerOnTime + '\'' +
+                ", powerOffVol='" + powerOffVol + '\'' +
+                ", powerOnVol='" + powerOnVol + '\'' +
                 ", calcTime='" + calcTime + '\'' +
-                ", powerOffBatTime='" + powerOffBatTime + '\'' +
-                ", powerOffBatVol='" + powerOffBatVol + '\'' +
-                ", bsOffBatTime='" + bsOffBatTime + '\'' +
-                ", bsOffBatVol='" + bsOffBatVol + '\'' +
-                ", isBsUpdate='" + isBsUpdate + '\'' +
+                ", finalTime='" + finalTime + '\'' +
                 '}';
     }
 }

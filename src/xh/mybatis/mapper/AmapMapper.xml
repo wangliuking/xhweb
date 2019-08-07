@@ -161,19 +161,22 @@
 		select a.*,b.name from xhgmnet_operations_bsfault a LEFT JOIN xhgmnet_bs_station b on a.bsId=b.bsId where reason="断站告警" and time BETWEEN #{startTime} and #{endTime}
 	</select>
 
-	<select id="selectPowerOffByTime" parameterType="map" resultType="map">
-		select * from xhgmnet_operations_bsfault where reason="市电中断" and bsId=#{bsId}
-		and time BETWEEN DATE_SUB(#{bsOffTime},INTERVAL 12 HOUR) and #{bsOffTime} ORDER BY time
+	<!-- 查询断站时最近一刻电池电压 -->
+	<select id="selectVolWhenPowerOff" parameterType="map" resultType="map">
+		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
+		and createTime BETWEEN DATE_SUB(#{bsOffTime},INTERVAL 1 HOUR) and DATE_ADD(#{bsOffTime},INTERVAL 1 HOUR) ORDER BY createTime desc limit 1
 	</select>
 
-	<select id="selectBatteryVolByTime" parameterType="map" resultType="map">
-		select bsId,ups4,createTime from ${currentMonth} where bsId=#{bsId} and
-		createTime BETWEEN DATE_SUB(#{searchTime},INTERVAL 60 MINUTE) and #{searchTime} ORDER BY createTime desc limit 1
+	<!-- 查询断站前12小时到最后一刻历史数据 -->
+	<select id="selectDataByTime" parameterType="map" resultType="map">
+		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
+		and createTime BETWEEN DATE_SUB(#{bsOffTime},INTERVAL 13 HOUR) and #{emhLastTime} ORDER BY createTime
 	</select>
 
-	<select id="isBsUpdate" parameterType="map" resultType="int">
-		select count(*) from xhgmnet_emh_fsuid4bsid a LEFT JOIN xhgmnet_emh_sensor_status b on a.fsuId=b.fsuId
-		where a.siteId=#{bsId} and (b.singleId="017021" or b.singleId="017031")
+	<!-- 查询一段时间内的电压变化数据 -->
+	<select id="selectVolUpdate" parameterType="map" resultType="map">
+		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
+		and createTime BETWEEN #{startTime} and #{endTime} ORDER BY createTime
 	</select>
 
 	
