@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import xh.mybatis.bean.UserPowerBean;
+import xh.mybatis.bean.UserZoneBean;
 import xh.mybatis.bean.WebUserBean;
 
 public interface WebUserMapper {
@@ -179,5 +180,11 @@ public interface WebUserMapper {
 	public int updateUserPower(UserPowerBean bean)throws Exception;
 	
 	public String sealName(Map<String,Object> map)throws Exception;
+	
+	public int addUserZone(List<UserZoneBean> list)throws Exception;
+	
+	public int delUserZone(String user)throws Exception;
+	
+	public List<UserZoneBean> searchUserZone(String user)throws Exception;
 
 }

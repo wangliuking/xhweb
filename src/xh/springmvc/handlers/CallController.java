@@ -727,8 +727,8 @@ public class CallController {
 				}
 				File file1 = new File(destDir1+"/话务统计["+time+"].xls");
 				File file2 = new File(destDir2+"/话务统计["+time+"].xls");
-				FunUtil.copyFile(file, file1);
-				FunUtil.copyFile(file, file2);
+				/*FunUtil.copyFile(file, file1);
+				FunUtil.copyFile(file, file2);*/
 			}
 			/*DownExcelFile(response, pathname);*/
 			 result.put("success", success);

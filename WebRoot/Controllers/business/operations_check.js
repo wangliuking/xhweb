@@ -87,6 +87,11 @@ xh.load = function() {
 					"&id="+$scope.editData.id+"" +
 					"&checkMonth="+$scope.editData.checkMonth+"&applyId="+$scope.editData.applyId;
 	    };
+	    $scope.addFile=function(id){
+	    	var x = $scope.data[id];
+	    	window.location.href="operations_check_add_file.html?" +
+	    			"period="+x.type+"&month="+x.checkMonth+"&applyId="+x.applyId
+	    }
 	    //提交扣分扣款
 	    
 	    $scope.upScoreAndMoney=function(id){
@@ -220,6 +225,7 @@ xh.load = function() {
 		$scope.showFileWin = function (id) {
 			$scope.detailData = $scope.data[id];
 			$scope.getEnsureFileList($scope.detailData);
+			$scope.getAppFileList($scope.detailData);
 			$scope.getBsCheckFileList($scope.detailData);
 			$("#filesWin").modal('show');
 	    };
@@ -391,6 +397,16 @@ xh.load = function() {
 					function(response) {
 						$scope.ensure_files = response.files;
 						$scope.ensure_fileTotal = response.totals;
+			});
+		}
+		//获取月巡检文件
+		$scope.getAppFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bs_app_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.app_files = response.files;
+						$scope.app_fileTotal = response.totals;
 			});
 		}
 		$scope.sealScoreMoneyDoc=function(tag){

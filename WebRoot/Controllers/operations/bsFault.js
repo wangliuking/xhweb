@@ -198,7 +198,7 @@ xh.load = function() {
 		});
 		/*用户列表*/
 		$scope.userList=function(){
-			$http.get("../../order/userlist").success(
+			$http.get("../../order/jxuserlist").success(
 					function(response) {
 						$scope.userData = response.items;
 					});

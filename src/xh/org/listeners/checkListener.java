@@ -42,7 +42,6 @@ public class checkListener implements ServletContextListener{
 			timer.cancel();
 		}
 	}
-
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -52,7 +51,7 @@ public class checkListener implements ServletContextListener{
 		String date=date_time.split(" ")[0];
 		String runtime=date+" "+"02:00:00";
 		Date rundate=null;
-		try {
+		try {  
 			rundate=df.parse(runtime);
 			if(timer==null){
 				timer=new Timer();

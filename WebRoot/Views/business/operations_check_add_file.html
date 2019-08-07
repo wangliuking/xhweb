@@ -46,7 +46,7 @@
 							<li><span>运维管理</span></li>
 							<li><a href="../menu/menu_operations.html" target="_self"><span>服务监管</span></a></li>
 							<li><a href="operations_check.html" target="_self"><span>月度考核</span></a></li>
-							<li class="active"><span>提交文件</span></li>
+							<li class="active"><span>新增考核文件</span></li>
 						</ol>
 					</div>
 				</div>
@@ -65,7 +65,7 @@
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label>考核期数</label> <select name="type" class="form-control"
-										ng-model="type" ng-change="checkcut()">
+										disabled="disabled">
 										<option value="3">三期</option>
 										<option value="4">四期</option>
 									</select>
@@ -80,9 +80,7 @@
                                 </div> -->
 								<div class="form-group col-md-12">
 									<label>考核月份</label> <input type="text" class="form-control"
-										ng-model="time" name="month"
-										onfocus="WdatePicker({dateFmt:'yyyy-MM',onpicked:xh.checkcut(this.value)})"
-										placeholder="请选择时间">
+										name="month" readonly="readonly">
 
 								</div>
 							</div>
@@ -95,18 +93,18 @@
 										<div class="col-md-12">
 											<div class="form-group col-md-9" style="padding-right:0px;">
 
-												<label style="color:red">考核文件（注:选择月份后会显示相应月份的文件，考核文件数量不足时上传新的考核文件，支持批量上传）
-													<a class="btn btn-sm btn-danger" href="#"
+												<label style="color:red">考核文件（注:支持批量上传） <a
+													class="btn btn-sm btn-danger" href="#"
 													ng-click="showFileWin()">添加文件</a>
 												</label>
 
 												<p style="color:blue">
 													提示： 考核申请需要提交以下文件： <span style="color:green">【本月计划维护作业完成情况】，【下月计划维护作业】，
-														【系统运行维护服务月报】，【基站信息表】，【运维资源配置表】，【运维人员通讯录】，【运维故障统计】，【故障处理报告】，
-														【备品备件表】，【定期维护报告-交换中心月维护】，【定期维护报告-基站月维护】，【巡检汇总表】，【基站月度巡检表】</span></br>
-													以上考核文件中有3个文件不能由平台生成，
-													需要相关人员手动上传这3个文件：【系统运行维护服务月报】，【运维故障统计】，【系统日常维护表】；
-													其他相关文件请到相关页面点击生成文件。
+                                                        【系统运行维护服务月报】，【基站信息表】，【运维资源配置表】，【运维人员通讯录】，【运维故障统计】，【故障处理报告】，
+                                                        【备品备件表】，【定期维护报告-交换中心月维护】，【定期维护报告-基站月维护】，【巡检汇总表】，【基站月度巡检表】</span></br>
+                                                    以上考核文件中有3个文件不能由平台生成，
+                                                    需要相关人员手动上传这3个文件：【系统运行维护服务月报】，【运维故障统计】，【系统日常维护表】；
+                                                    其他相关文件请到相关页面点击生成文件。
 
 												</p>
 
@@ -118,65 +116,94 @@
 													style="display: none;" />
 
 											</div>
-											<div class="col-md-12">
+											<div class="col-md-6">
 												<div class="hpanel">
 													<div class="panel-heading hbuild">
-														<span id="file_title">考核文件</span> <span
+														<span id="file_title">已提交的文件</span> <span
+															ng-click="showAllFile()"
+															style="color:blue; cursor: pointer; display: none;"
+															id="show_up_floder">>>返回上一级</span>
+													</div>
+													<div class="panel-body">
+														<div class="col-md-12">
+															<!-- <ul id="has_files">
+                                                        </ul> -->
+															<table>
+																<thead>
+																	<tr>
+																		<th>序号</th>
+																		<th>名称</th>
+																		<th>已提交</th>
+																		<th></th>
+																	</tr>
+																</thead>
+																<tr ng-repeat="x in has_files">
+																	<td>{{$index+1}}</td>
+																	<td>{{x.fileName}}</td>
+																	<td><span style="color:red" ng-if="x.ishas==true">是</span>
+																	</td>
+																	<td><a ng-if="x.ishas==true" href="#"
+																		ng-click="previewDoc(x.filePath)"> 预览</a></td>
+																</tr>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="hpanel">
+													<div class="panel-heading hbuild">
+														<span id="file_title">待提交文件</span> <span
 															ng-click="showAllFile()"
 															style="color:blue; cursor: pointer; display: none;"
 															id="show_up_floder">>>返回上一级</span>
 													</div>
 													<div class="panel-body">
 
-														<div class="col-md-6">
+														<div class="col-md-12">
 															<ul id="check_files">
-															</ul>
-														</div>
-														<div class="col-md-6">
-															<ul id="check_files2">
 															</ul>
 														</div>
 													</div>
 												</div>
 											</div>
-
-
-
-
-
 										</div>
 
-										<div class="col-md-12" ng-show="false">
-											<div id="fileArea">
-												<ul>
-													<li ng-repeat="x in files"
-														style='border-bottom:1px solid #000; width:50%;margin-top:10px;'>
-														<span>{{x.fileName}}</span> <span class='path'
-														style='display:none;' id='filepath55{$index}'>{{x.filePath
-															|replaceFilePath}}</span> <span
-														style='color:blue;margin-left:20px;cursor:pointer'
-														class='down-file'>下载</span> <span
-														style='color:blue;margin-left:10px;cursor:pointer'
-														class='look-file'>预览</span>
-													</li>
 
 
-												</ul>
-											</div>
-										</div>
 
 
 									</div>
-									<div class="row">
-										<div class="col-md-12" style="padding-left:30px;">
-											<span style="color:red;" id="uploadResult"></span>
+
+									<div class="col-md-12" ng-show="false">
+										<div id="fileArea">
+											<ul>
+												<li ng-repeat="x in addfiles"
+													style='border-bottom:1px solid #000; width:50%;margin-top:10px;'>
+													<span>{{x.fileName}}</span> <span class='path'
+													style='display:none;' id='filepath55{$index}'>{{x.filePath
+														|replaceFilePath}}</span> <span
+													style='color:blue;margin-left:20px;cursor:pointer'
+													class='down-file'>下载</span> <span
+													style='color:blue;margin-left:10px;cursor:pointer'
+													class='look-file'>预览</span>
+												</li>
+
+
+											</ul>
 										</div>
 									</div>
-								</form>
 							</div>
-							<!-- row -->
+							<div class="row">
+								<div class="col-md-12" style="padding-left:30px;">
+									<span style="color:red;" id="uploadResult"></span>
+								</div>
+							</div>
+							</form>
+						</div>
+						<!-- row -->
 
-							<!-- <div class="row" ng-show="false">
+						<!-- <div class="row" ng-show="false">
 								<div class="col-md-12">
 									<div class="form-group col-md-12">
 										<input type="hidden" name="fileName" value="" /> <input
@@ -185,35 +212,35 @@
 									</div>
 								</div>
 							</div> -->
-							<!--     row -->
+						<!--     row -->
 
 
-						</div>
-						<!-- panel-body--end -->
-						<div class="panel-footer">
-							<!-- row -->
-							<div class="row" style="margin-top:20px;">
-								<div class="btn-group col-md-12">
-									<button type="button" class="btn btn-success btn-block"
-										onclick="xh.add()" id="add-apply-btn">
-										<i class="fa fa-plus"></i>&nbsp;提交考核文件
-									</button>
+					</div>
+					<!-- panel-body--end -->
+					<div class="panel-footer">
+						<!-- row -->
+						<div class="row" style="margin-top:20px;">
+							<div class="btn-group col-md-12">
+								<button type="button" class="btn btn-success btn-block"
+									onclick="xh.add()" id="add-apply-btn">
+									<i class="fa fa-plus"></i>&nbsp;提交考核文件
+								</button>
 
-								</div>
-								<!-- <div class="btn-group col-md-6">
+							</div>
+							<!-- <div class="btn-group col-md-6">
 									<button type="button" class="btn btn-danger btn-block"
 										ng-click="toback()">返回</button>
 
 								</div> -->
-							</div>
 						</div>
-						<!-- hpanel --end-->
 					</div>
-					<!-- col-md-12--end -->
+					<!-- hpanel --end-->
 				</div>
-				<!-- row/ -->
+				<!-- col-md-12--end -->
 			</div>
+			<!-- row/ -->
 		</div>
+	</div>
 	</div>
 	<!-- 中间内容体 /-->
 
@@ -230,7 +257,7 @@
 	<script type="text/javascript"
 		src="../../Resources/js/ajaxfileupload.js"></script>
 	<script type="text/javascript"
-		src="../../Controllers/business/operations_check_add.js"></script>
+		src="../../Controllers/business/operations_check_add_file.js"></script>
 	<script type="text/javascript">
 		$(document).on("click", ".del-file", function() {
 			$(this).parent().remove();

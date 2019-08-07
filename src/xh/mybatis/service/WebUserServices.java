@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import xh.mybatis.bean.UserPowerBean;
+import xh.mybatis.bean.UserZoneBean;
 import xh.mybatis.bean.WebUserBean;
 import xh.mybatis.mapper.WebUserMapper;
 import xh.mybatis.tools.DbTools;
@@ -324,6 +325,16 @@ public class WebUserServices {
 		List<WebUserBean> list=new ArrayList<WebUserBean>();
 		try {
 			list=mapper.userList(map);
+			if(list.size()>0){
+				for(int i=0;i<list.size();i++){
+					WebUserBean b=list.get(i);
+					List<UserZoneBean> ul=mapper.searchUserZone(b.getUser());
+					if(ul.size()>0){
+						b.setUserZone(ul);
+						list.set(i, b);
+					}
+				}
+			}
 			//sqlSession.commit();
 			sqlSession.close();
 			
@@ -455,6 +466,34 @@ public class WebUserServices {
 		int result=-1;
 		try {
 			result=mapper.updateUserPower(bean);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static int addUserZone(List<UserZoneBean> list){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.addUserZone(list);
+			sqlSession.commit();
+			sqlSession.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static int delUserZone(String user){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WebUserMapper mapper=sqlSession.getMapper(WebUserMapper.class);
+		int result=-1;
+		try {
+			result=mapper.delUserZone(user);
 			sqlSession.commit();
 			sqlSession.close();
 		} catch (Exception e) {

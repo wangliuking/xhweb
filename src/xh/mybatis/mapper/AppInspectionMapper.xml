@@ -136,7 +136,7 @@
 			</foreach>
 			)
 		</if>
-		<if test="period!=0">
+		<if test="period!=null and period!=0">
 		and a.bsid in(select bsId from xhgmnet_bs_station where period=#{period})
 		</if>
 		order by a.bsid asc limit #{start},#{limit}

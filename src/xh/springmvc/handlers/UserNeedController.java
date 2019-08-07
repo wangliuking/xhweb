@@ -566,6 +566,7 @@ public class UserNeedController {
 		String[] data=time.split("-");
 		path += data[0] + "/" + data[1] ;
 		String savePath = "/upload/check/" + data[0] + "/" + data[1];
+		String addPath = "/upload/checksource/" + data[0] + "/" + data[1];
 
 	
 		if(uploadFile(request,file,path)){
@@ -603,7 +604,7 @@ public class UserNeedController {
 		result.put("success", success);
 		result.put("message", message);
 		result.put("fileName", name);
-		result.put("filePath", savePath + "/" + name);
+		result.put("filePath", addPath + "/" + name);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);
 		log.debug(jsonstr);

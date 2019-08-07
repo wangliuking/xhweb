@@ -49,6 +49,35 @@
 		between #{starttime} and #{endtime} group by date order by
 		date asc
 	</select>
+	<select id="excel_month_inspection_bs" parameterType="String"
+        resultType="Map" useCache="true">
+        <!-- select a.*,b.period from (select bsid,bsname,1 as checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') 
+            as time,checkman,remainwork,'是' as complate from xhgmnet_operations_inspection_movebs 
+            UNION all select bsid,bsname,1 as checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') 
+            as time,checkman,remainwork,'是' as complate from xhgmnet_operations_inspection_selfbs) 
+            as a LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId where DATE_FORMAT(a.time,'%Y-%m')=#{time} -->
+
+        select x.period,CASE
+        WHEN x.bsid>2000 and x.bsid&lt;3000 THEN CONCAT("JY",RIGHT(x.bsid,2))
+        ELSE x.bsid END as bsid,x.name, x.checkTimes,x.time,x.checkman,
+        x.type from (SELECT a.period,a.bsid,a.name, 1 as checkTimes,b.time,b.checkman,1 as
+        type from
+        (select * from xhgmnet_bs_station order by bsid asc) as a
+        left JOIN (select
+        bsId,DATE_FORMAT(commitdate,'%Y-%m-%d') as
+        time,checkman,remainwork
+        from xhgmnet_operations_inspection_selfbs
+        where
+        DATE_FORMAT(commitdate,'%Y-%m')=#{time}) as b
+        on a.bsid=b.bsId WHERE
+        a.type=0 or a.type=1
+        <if test="period!=0">
+        and a.period=#{period}
+        </if>
+        order by bsid asc
+        ) as x
+        
+    </select>
 	<select id="excel_month_inspection" parameterType="String"
 		resultType="Map" useCache="true">
 		<!-- select a.*,b.period from (select bsid,bsname,1 as checkTimes,DATE_FORMAT(commitdate,'%Y-%m-%d') 
@@ -57,23 +86,26 @@
 			as time,checkman,remainwork,'是' as complate from xhgmnet_operations_inspection_selfbs) 
 			as a LEFT JOIN xhgmnet_bs_station as b on a.bsid=b.bsId where DATE_FORMAT(a.time,'%Y-%m')=#{time} -->
 
-		SELECT a.period,CASE
-		WHEN a.bsid>2000 and a.bsid&lt;3000 THEN CONCAT("JY",RIGHT(a.bsid,2))
-		ELSE a.bsid END as bsid,a.name, 1 as checkTimes,b.time,b.checkman,1 as
-		type from
-		xhgmnet_bs_station as a
-		left JOIN (select
-		bsId,DATE_FORMAT(commitdate,'%Y-%m-%d') as
-		time,checkman,remainwork
-		from xhgmnet_operations_inspection_selfbs
-		where
-		DATE_FORMAT(commitdate,'%Y-%m')=#{time}) as b
-		on a.bsid=b.bsId WHERE
-		a.type=0
-		<if test="period!=0">
-		and a.period=#{period}
-		</if>
-		UNION ALL
+		<!-- select x.period,CASE
+        WHEN x.bsid>2000 and x.bsid&lt;3000 THEN CONCAT("JY",RIGHT(x.bsid,2))
+        ELSE x.bsid END as bsid,x.name, x.checkTimes,x.time,x.checkman,
+        x.type from (SELECT a.period,a.bsid,a.name, 1 as checkTimes,b.time,b.checkman,1 as
+        type from
+        (select * from xhgmnet_bs_station order by bsid asc) as a
+        left JOIN (select
+        bsId,DATE_FORMAT(commitdate,'%Y-%m-%d') as
+        time,checkman,remainwork
+        from xhgmnet_operations_inspection_selfbs
+        where
+        DATE_FORMAT(commitdate,'%Y-%m')=#{time}) as b
+        on a.bsid=b.bsId WHERE
+        a.type=0
+        <if test="period!=0">
+        and a.period=#{period}
+        </if>
+        order by bsid asc
+        ) as x
+		 UNION ALL -->
 
 		select b.period,"调度台" as bsid,a.dispatchname as
         name,1 as
@@ -83,7 +115,7 @@
         xhgmnet_operations_inspection_dispatch as a
 
         LEFT JOIN xhgmnet_dispatch as b ON a.dispatchname=b.dstName
-        where DATE_FORMAT(commitdate,'%Y-%m')="2019-06" 
+        where DATE_FORMAT(commitdate,'%Y-%m')=#{time} 
 		<if test="period!=0">
         and b.period=#{period}
         </if>
@@ -138,7 +170,7 @@
 		xhgmnet_operations_inspection_statellite
 		where
 		DATE_FORMAT(commitdate,'%Y-%m')=#{time}
-        </if>
+        </if> 
 
 	</select>
 

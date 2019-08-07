@@ -1185,13 +1185,14 @@ xh.load = function() {
 			var start = 1, limit = pageSize;
 			var starttime=$("#start_time").val();
 			var endtime=$("#end_time").val();
+			var period=$("select[name='period1']").val();
 			page = parseInt(page);
 			if (page <= 1) {
 				start = 0;
 			} else {
 				start = (page - 1) * pageSize;
 			}
-			$http.get("../../app/sbsinfo?starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
+			$http.get("../../app/sbsinfo?period="+period+"&starttime="+starttime+"&endtime="+endtime+"&start="+start+"&limit="+limit).
 			success(function(response){
 				$scope.sbs_start = (page - 1) * pageSize + 1;
 				$scope.sbs_lastIndex = page * pageSize;
@@ -1599,9 +1600,33 @@ xh.load = function() {
 						checkVal.push($scope.sbsData[$(this).attr("index")]);
 					}
 				});
+			}else if(index==10){
+				time=$("#start_time").val();
+				period=$("select[name='period1']").val();
+				if(period==0){
+					alert("请选择建设期数");return;
+				}
+				time=time.split("-")[0]+"-"+time.split("-")[1];
+				$("[id='bs-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.sbsData[$(this).attr("index")]);
+					}
+				});
+				
 			}else if(index==2){
 				time=$("#month_vertical").val();
 				period=$("select[name='period2']").val();
+				$("[id='v-check']:checkbox").each(function() {
+					if ($(this).is(':checked')) {
+						checkVal.push($scope.verticalData[$(this).attr("index")]);
+					}
+				});
+			}else if(index==20){
+				time=$("#month_vertical").val();
+				period=$("select[name='period2']").val();
+				if(period==0){
+					alert("请选择建设期数");return;
+				}
 				$("[id='v-check']:checkbox").each(function() {
 					if ($(this).is(':checked')) {
 						checkVal.push($scope.verticalData[$(this).attr("index")]);
@@ -1664,17 +1689,27 @@ xh.load = function() {
 				dataType : "json",
 				data : {
 					time:time,
-					type:index,					
+					type:index,	
+					period:period,
 					data:JSON.stringify(checkVal)
 				},
 				async : true,
 				success : function(data) {
 					xh.maskHide();
-					if (data.success) {
-						 $.download('../../app/download', 'post', data.zipName, data.fileName); // 下载文件
-					} else {
-						toastr.error("导出失败", '提示');
+					if(index==10|| index==20){
+						if(data.success){
+							toastr.success("成文件成功", '提示');
+						}else{
+							toastr.error("生成文件失败", '提示');
+						}
+					}else{
+						if (data.success) {
+							 $.download('../../app/download', 'post', data.zipName, data.fileName); // 下载文件
+						} else {
+							toastr.error("导出失败", '提示');
+						}
 					}
+					
 				},
 				error : function() {
 					toastr.error("导出失败", '提示');

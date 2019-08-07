@@ -13,7 +13,7 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<table>
+						<!-- <table>
 							<tr ng-repeat="x in detailData.files">
 								<td>{{x.fileName}}</td>
 								<td><span ng-if="x.isSeal==1" class="text-danger">已签</span>
@@ -21,7 +21,30 @@
 								<td><a href="#" ng-click="sealDoc(x.id,x.filePath)">签章</a>
 								</td>
 							</tr>
-						</table>
+						</table> -->
+						
+						
+						<table>
+                                <thead>
+                                <tr><th>序号</th><th>文件名称</th><th>是否存在</th><th>状态</th><th>签章</th></tr>
+                                </thead>
+                                    <tr ng-repeat="x in detailData.files">
+                                    <td>{{$index+1}}</td>
+                                        <td>{{x.fileName}}</td>
+                                        <td>
+                                        <span style="color:red" ng-if="x.ishas==true">是</span>
+                                        </td>
+                                        <td>
+                                        <span ng-if="x.isSeal==1" class="text-danger">已签</span>
+                                    <span ng-if="x.isSeal==0">未签</span>
+                                        </td>
+                                        <td>
+                                        
+                                        <a ng-if="x.ishas==true" href="#" ng-click="sealDoc(x.id,x.filePath)">签章</a> 
+                                        </td>
+                                    </tr>
+                                </table>
+						
 					</div>
 
 				</div>

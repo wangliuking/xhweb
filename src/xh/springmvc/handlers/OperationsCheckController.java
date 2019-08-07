@@ -80,7 +80,22 @@ public class OperationsCheckController {
 		try {
 			response.getWriter().write(jsonstr);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch blocksearchFile
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/searchFile", method = RequestMethod.GET)
+	public void searchFile(@RequestParam("applyId") String applyId,
+			HttpServletRequest request, HttpServletResponse response) {
+		HashMap result = new HashMap();
+		result.put("items", OperationsCheckService.searchFile(applyId));
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch blocksearchFile
 			e.printStackTrace();
 		}
 
@@ -461,6 +476,72 @@ public class OperationsCheckController {
 		}else{
 			this.success=false;
 			this.message="提交文件失败";
+		}
+		HashMap result = new HashMap();
+		result.put("success", success);
+		result.put("message",message);
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	@RequestMapping(value = "/addFile", method = RequestMethod.POST)
+	public void addFile(@RequestParam("applyId") String applyId,HttpServletRequest request, HttpServletResponse response) {
+		OperationsCheckBean checkBean=new OperationsCheckBean();
+		checkBean.setApplyId(applyId);
+		
+		String month=request.getParameter("time");
+		int typestr=Integer.parseInt(request.getParameter("type"));
+		String files=request.getParameter("files");
+		List<Map<String,Object>> filelist=new ArrayList<Map<String,Object>>();
+		Type type = new TypeToken<ArrayList<Map<String,Object>>>() {}.getType(); 
+		filelist=GsonUtil.json2Object(files, type);
+		if(filelist.size()>0){
+			for(int i=0;i<filelist.size();i++){
+				Map<String,Object> map=filelist.get(i);
+				map.put("applyId", checkBean.getApplyId());
+				filelist.set(i, map);				
+				String srcDir=request.getSession().getServletContext().getRealPath("/upload/checksource");
+				srcDir=srcDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/check");
+				destDir1=destDir1+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+typestr;
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				File src=new File(srcDir+"/"+map.get("fileName"));
+				File file1 = new File(destDir1+"/"+map.get("fileName"));
+				try {
+					if(!file1.exists()){
+						FunUtil.copyFile(src, file1);
+					}else{
+						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+					}
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(OperationsCheckService.addFile(filelist)>0){
+				this.success=true;
+				this.message="提交文件成功";
+				webLogBean.setOperator(FunUtil.loginUser(request));
+				webLogBean.setOperatorIp(FunUtil.getIpAddr(request));
+				webLogBean.setStyle(1);
+				webLogBean.setContent("运维考核，data=" + checkBean.getApplyId());
+				WebLogService.writeLog(webLogBean);
+				FunUtil.sendMsgToUserByPower("o_check_operations_check", 3, "运维考核", "考核月份("+month+")新增了考核文件", request);	
+			}else{
+				this.success=false;
+				this.message="没有新增文件";
+			}
 		}
 		HashMap result = new HashMap();
 		result.put("success", success);
@@ -977,6 +1058,47 @@ public class OperationsCheckController {
 		}
 
 	}
+	@RequestMapping(value = "/bs_app_file", method = RequestMethod.GET)
+	public void bs_app_file(@RequestParam("month") String month,
+			@RequestParam("period") String period,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/check");
+		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
+		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
+		File file=new File(rootDir);
+		File[] files=file.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				if(pathname.isFile()){
+					return true;
+				}
+				return false;
+			}
+		});
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for (File file2 : files) {
+				Map<String,Object> map=new HashMap<String, Object>();
+				map.put("fileName", file2.getName());
+				map.put("filePath", hz+"/"+file2.getName());
+				list.add(map);				
+			}
+		}
+		HashMap result = new HashMap();
+		result.put("files", list);
+		result.put("totals", list.size());
+		response.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(result);
+		try {
+			response.getWriter().write(jsonstr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	@RequestMapping(value = "/checkFiles", method = RequestMethod.GET)
 	public void checkFiles(@RequestParam("month") String month,
 			@RequestParam("period") String period,
@@ -1394,14 +1516,14 @@ public class OperationsCheckController {
 		/*Date d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");*/
 		String date=month;
-		String savePath="/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+		String savePath="/upload/checksource/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		String path = request.getSession().getServletContext().getRealPath("")
-				+ "/upload/check/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
+				+ "/upload/checksource/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
 		String mastUploadFiles="'运维服务团队通讯录','运维资源配置表',"
 				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
 				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
-				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表'";
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表','话务统计'";
 		if(!(file.length==0)){
 			
 			for(int i=0;i<file.length;i++){
@@ -1409,12 +1531,12 @@ public class OperationsCheckController {
 				String fileName = file[i].getOriginalFilename();
 				String[] srcFiles=files.split(",");
 				if(srcFiles.length>0){
-					for (String string : srcFiles) {
+					/*for (String string : srcFiles) {
 						if(string.split("\\.")[0].equals(fileName.split("\\.")[0])){
 							x=true;
 							log.info("文件存在不上传");
 						}
-					}
+					}*/
 					System.out.println(fileName);
 					if(!mastUploadFiles.contains(fileName.split("\\.")[0])){
 						x=true;
@@ -1440,7 +1562,7 @@ public class OperationsCheckController {
 						map.put("size", file[i].getSize());
 						rs.add(map);
 						
-						String destDir1=request.getSession().getServletContext()
+						/*String destDir1=request.getSession().getServletContext()
 								.getRealPath("/upload/checksource");
 						destDir1=destDir1+"/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 						File Path1 = new File(destDir1);
@@ -1450,7 +1572,7 @@ public class OperationsCheckController {
 						
 						
 						File file1 = new File(destDir1+"/"+fileName);
-						FunUtil.copyFile(targetFile, file1);
+						FunUtil.copyFile(targetFile, file1);*/
 
 					} catch (Exception e) {
 						e.printStackTrace();

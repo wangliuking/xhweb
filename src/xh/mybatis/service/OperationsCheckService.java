@@ -951,15 +951,58 @@ public class OperationsCheckService {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		OperationsCheckMapper mapper = sqlSession.getMapper(OperationsCheckMapper.class);
 		List<Map<String,Object>> list= new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list2= new ArrayList<Map<String,Object>>();
+		String[] files={
+				"本月计划维护作业完成情况",
+				"下月计划维护作业",
+				"系统运行维护服务月报",
+				"基站信息表",
+				"运维资源配置表",
+				"运维人员通讯录",
+				"运维故障统计",
+				/*"故障核减申请书",*/
+				/*"应急通信保障报告",*/
+				"故障处理报告",
+				"备品备件表",
+				"定期维护报告-交换中心月维护",
+				"定期维护报告-基站月维护",
+				"巡检汇总表",
+				/*"基站月度巡检表",*/
+				"年度健康检查报告"};
+		
+				
+				
+				
+				/*"'运维服务团队通讯录','运维资源配置表',"
+				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
+				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表','话务统计'";*/
 		try {
 			list=mapper.searchFile(applyId);
+			for (String string : files) {
+				Map<String,Object> xx=new HashMap<String, Object>();
+				xx.put("fileName", string);
+				xx.put("ishas", false);
+				boolean is=false;
+				for (Map<String,Object> map : list) {
+					if(map.get("fileName").toString().contains(string)){
+						is=true;
+						map.put("ishas", true);
+						xx=map;
+					}
+				}
+				list2.add(xx);
+			}
+			
+			
+			
 			sqlSession.close();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		return list2;
 	}
 	public static int update_file_info(Map<String,Object> map) {
 		SqlSession session = MoreDbTools

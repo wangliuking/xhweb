@@ -27,19 +27,11 @@ toastr.options = {
 /**
  * ,'基站月度巡检表（含调度台及直放站）'
  */
-var fileNames=["本月计划维护作业完成情况",
-				"下月计划维护作业",
-				"系统运行维护服务月报",
-				"基站信息表",
-				"运维资源配置表",
-				"运维人员通讯录",
-				"运维故障统计",
-				"故障处理报告",
-				"备品备件表",
-				"定期维护报告-交换中心月维护",
-				"定期维护报告-基站月维护",
-				"巡检汇总表",
-				"基站月度巡检表"]
+var fileNames=['运维服务团队通讯录','运维资源配置表',
+		'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',
+		'基站信息表','运维故障统计','备品备件表',
+		'定期维护报告-交换中心月维护','定期维护报告-基站月维护','系统日常维护表',
+		'巡检记录汇总表']
 console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
@@ -51,56 +43,36 @@ xh.load = function() {
 			return x;
 		};
 	});
+	app.config([ '$locationProvider', function($locationProvider) {
+		$locationProvider.html5Mode({
+			enabled : true,
+			requireBase : false
+		});
+	} ]);
 	
 	var pageSize = $("#page-limit").val();
-	app.controller("xhcontroller", function($scope,$http) {
-		xh.maskShow();
-		$scope.count = "15";//每页数据显示默认值
-		$scope.time="";
-		$scope.type=3;
+	app.controller("xhcontroller", function($scope,$http,$location) {
+		//xh.maskShow();
+		$scope.time=$location.search().month;
+		$scope.type=$location.search().period;
+		$scope.applyId=$location.search().applyId;
+		$("select[name='type']").val($scope.type);
+		$("input[name='month']").val($scope.time);
 	
 		
-		// 获取登录用户
-		$http.get("../../web/loginUserInfo").success(function(response) {
-			xh.maskHide();
-			$scope.loginUser = response.user;
-			$scope.loginUserRoleId = response.roleId;
-			$scope.loginUserRoleType = response.roleType;
-		});
-		/* 获取用户权限 */
-		$http.get("../../web/loginUserPower").success(
-				function(response) {
-					$scope.up = response;
-		});
 		
 		$scope.showFileWin=function(){
 			$("input[name='pathName']").click();
 		}
-		$scope.checkcut=function(){
-			var month=$("input[name='month']").val();
-			var type=$scope.type;
-			/*$scope.getFileList();
-			$scope.getBsCheckFileList();
-			$scope.getEnsureFileList();*/
-			console.log("m->"+month);
-			console.log("y->"+type)
-			if(month==null || month==''){
-				
-			}else{
-				$scope.showAllFile(month);
-			}
-			
-			/*$http.get("../../check/search_checkcut_count?period="+type+"&month="+month).success(
-					function(response) {
-						$scope.checkcut_total = response.count;
-			});*/
-		}
 		$scope.getFileList=function(tt){
 			var month=tt
 			var type=$("select[name='type']").val();
+			//$scope.getfile();
+			$("#check_files").find('li').remove();
 			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
 					function(response) {
 						$scope.files = response.files;
+						
 						$scope.fileTotal = response.totals;
                         var a=JSON.stringify(response.files);
 						
@@ -128,58 +100,104 @@ xh.load = function() {
 								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
 							}
 							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
-							str+='</li>';
-							$("#check_files").append(str);
+							
+							var has=false;
+							for(var j=0;j<$scope.has_files.length;j++){
+								if(x.fileName==$scope.has_files[j].fileName){
+									has=true;
+								}
+							}
+							if(!has){
+								//$scope.addfiles.push(x);
+								str+='</li>';
+								$("#check_files").append(str);
+							}
+							
+							
+						}	
+						console.log("ffff->"+JSON.stringify($scope.addfiles))
+						
+			});
+		}
+		$scope.showFileList=function(tt){
+			var month=tt
+			var type=$("select[name='type']").val();
+			//$scope.getfile();
+			$("#check_files").find('li').remove();
+			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.files = response.files;
+						$scope.addfiles =[];
+						$scope.fileTotal = response.totals;
+                        var a=JSON.stringify(response.files);
+						
+						var com=new Array();
+						var index=0;
+						for(var i=0;i<fileNames.length;i++){
+							if(a.indexOf(fileNames[i])==-1){
+								com[index]=fileNames[i];
+								index++;
+							}
+						}
+						$scope.com=com.join(",");
+						$scope.com_size=com.length;
+						
+						for(var i=0;i<$scope.fileTotal;i++){
+							var x=$scope.files[i];
+							var str='<li style="margin-top:10px;">';
+							if(x.doc=='doc' || x.doc=='docx'){
+								str+='<img src="../../Resources/images/icon/16/doc.png">';
+							}else if(x.doc=='xls' || x.doc=='xlsx'){
+								str+='<img src="../../Resources/images/icon/16/xls.png">';
+							}else if(x.doc=='pdf'){
+								str+='<img src="../../Resources/images/icon/16/pdf.png">';
+							}else if(x.doc=='jpeg'){
+								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
+							}
+							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+							
+							var has=false;
+							for(var j=0;j<$scope.has_files.length;j++){
+								if(x.fileName==$scope.has_files[j].fileName){
+									has=true;
+								}
+							}
+							if(!has){
+								$scope.addfiles.push(x);
+								str+='</li>';
+								$("#check_files").append(str);
+							}
+							
 							
 						}	
 						
 			});
 		}
-		$scope.getBsCheckFileList=function(){
-			var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+		$scope.getfile=function(){
+			
+			$http.get("../../check/searchFile?applyId="+$scope.applyId).success(
 					function(response) {
-						$scope.bscheck_files = response.files;
-						$scope.bscheck_fileTotal = response.totals;
-						
-						
-						
-						
+						$scope.has_files = response.items;						
+						/*for(var i=0;i<$scope.has_files.length;i++){
+							var x=$scope.has_files[i];
+							var str='<li style="margin-top:10px;">';
+							var doc=x.fileName;
+							doc=doc.substring(doc.indexOf(".")+1);
+							if(doc=='doc' || doc=='docx'){
+								str+='<img src="../../Resources/images/icon/16/doc.png">';
+							}else if(doc=='xls' || doc=='xlsx'){
+								str+='<img src="../../Resources/images/icon/16/xls.png">';
+							}else if(doc=='pdf'){
+								str+='<img src="../../Resources/images/icon/16/pdf.png">';
+							}else if(doc=='jpeg'){
+								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
+							}
+							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+							str+='</li>';
+							$("#has_files").append(str);
+							
+						}	*/
 			});
-		}
-		$scope.getEnsureFileList=function(){
-			var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
-					function(response) {
-						$scope.ensure_files = response.files;
-						$scope.ensure_fileTotal = response.totals;
-			});
-		}
-		$scope.look_check=function(){
-			/*var month=$("input[name='month']").val();
-			var type=$("select[name='type']").val();
-			$scope.getFileList();*/
-			//$scope.getBsCheckFileList();
-			//$scope.getEnsureFileList();
-			alert(1)
-			
-			
-		}
-		$scope.showAllFile=function(tt){
-			console.log(tt)
-			$("#file_title").text("考核文件");
-			$("#check_files").find('li').remove();
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
-			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
-			if(tt==null || tt==''){
-				console.log("null")
-			}else{
-				$scope.getFileList(tt);
-			}
-			
-			//$("#show_up_floder").hide();
 		}
 		$scope.previewDoc=function(path){
 			console.log(path);
@@ -239,52 +257,23 @@ xh.load = function() {
 			}
 			
 		}
-		$scope.searchMoney=function(){
-			var time=$("input[name='month']").val();
-			$scope.time=time;
-			console.log($scope.time);
-			$http.get("../../check/show_money_detail?time="+time).
-			success(function(response){
-				xh.maskHide();
-				$scope.money_data = response.items;
-				$scope.money_sum=response.sum;
-				
-				
-			});
-		}
-		$scope.searchScore=function(){
-			var time=$("input[name='month']").val();
-			console.log($scope.time);
-			$http.get("../../check/show_score_detail?time="+time).
-			success(function(response){
-				xh.maskHide();
-				$scope.score_data= response.items;
-				$scope.score_sum=response.sum;					
-			});
-		}
-	  
 		
-		//$scope.checkcut();
+	  
+		$scope.getfile();
+		$scope.showFileList($scope.time);
+		
 		
 	});
 	
 };
-xh.searchScore=function(time){
-	var $scope = angular.element(appElement).scope();
-	// 调用$scope中的方法
-	$scope.searchScore();
-	$scope.searchMoney();
-}
+
 xh.refreshFile=function(){
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
-	$scope.getFileList();
+	//$scope.getfile();
+	$scope.getFileList($scope.time)
 }
-xh.checkcut=function(tt){
-	
-	var $scope = angular.element(appElement).scope();
-	$scope.showAllFile(tt);
-}
+
 xh.look_check=function(){
 	$("#check_files2").find('li').remove();
 	var month=$("input[name='month']").val();
@@ -367,6 +356,7 @@ xh.editDoc=function(path){
 	
 }
 xh.add = function() {
+	var $scope = angular.element(appElement).scope();
     var files=[];	
     var addfileNames=new Array();
     var com=new Array();
@@ -391,6 +381,10 @@ xh.add = function() {
 			index++;
 		}
 	}
+	/*if(com.length>0){
+		swal("提示","你还有文件没有上传完，禁止提交，待传文件:\r\n"+com.join("\r\n"),"info");
+		return;
+	}*/
 	var month=$("input[name='month']").val();
 	var type=$("select[name='type']").val();
 	if(files.length<1){
@@ -401,112 +395,52 @@ xh.add = function() {
 		toastr.error("考核月份不能为空", '提示');
 		return ;
 	}
-	if(com.length>0){
-		//swal("提示","你还有文件没有上传完，禁止提交，待传文件:\r\n"+com.join("\r\n"),"info");
-		swal({
-			title : "提示",
-			text : "你还有文件没有上传完，待传文件:\r\n"+com.join("\r\n"),
-			type : "info",
-			showCancelButton : true,
-			confirmButtonColor: '#3085d6',
-			  cancelButtonColor: '#d33',
-			confirmButtonText : "继续提交",
-			cancelButtonText : "取消",
-			confirmButtonClass: 'btn btn-success',
-			  cancelButtonClass: 'btn btn-danger',
-		      closeOnConfirm : false, 
-		      closeOnCancel : true
-		 
-		}, function(isConfirm1) {
-			if (isConfirm1===true) {
-				$.ajax({
-					url : '../../check/add',
-					type : 'POST',
-					dataType : "json",
-					async : true,
-					data:{
-						time:month,
-						type:type,
-						files: JSON.stringify(files)
-					},
-					success : function(data) {
-						
-						
-						if (data.success) {
-							
-							//swal("提示","你还有文件没有上传完，禁止提交，待传文件:\r\n"+com.join("\r\n"),"info");
-							swal({
-								title : "提示",
-								text : "提交申请成功",
-								type : "success",
-								showCancelButton : true,
-								confirmButtonColor : "#DD6B55",
-								confirmButtonText : "提交申请成功，返回列表页面",
-								cancelButtonText : "取消",
-								 closeOnConfirm : false, 
-							     closeOnCancel : true
-							/*
-							 * closeOnConfirm : false, closeOnCancel : false
-							 */
-							}, function(isConfirm) {
-								if (isConfirm===true) {
-									window.location.href="operations_check.html"
-								}
-							});
-							
-						} else {
-							toastr.error(data.message, '提示');
-						}
-					},
-					error : function() {
-						toastr.error("系统错误", '提示');
+	/*var path="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+type+"/故障核减申请书.zip";
+	var xx={
+			fileName:"故障核减申请书.zip",
+			filePath:path
+	}*/
+	//files.push(xx);
+	
+	$.ajax({
+		url : '../../check/addFile',
+		type : 'POST',
+		dataType : "json",
+		async : true,
+		data:{
+			time:month,
+			type:type,
+			applyId:$scope.applyId,
+			files: JSON.stringify(files)
+		},
+		success : function(data) {
+			if (data.success) {
+				swal({
+					title : "提示",
+					text : "提交申请成功",
+					type : "success",
+					showCancelButton : true,
+					confirmButtonColor : "#DD6B55",
+					confirmButtonText : "提交文件成功，返回列表页面",
+					cancelButtonText : "取消",
+				    closeOnCancel : true
+				/*
+				 * closeOnConfirm : false, closeOnCancel : false
+				 */
+				}, function(isConfirm) {
+					if (isConfirm) {
+						window.location.href="operations_check.html"
 					}
 				});
+				
+			} else {
+				toastr.error(data.message, '提示');
 			}
-		});
-	}else{
-		
-		$.ajax({
-			url : '../../check/add',
-			type : 'POST',
-			dataType : "json",
-			async : true,
-			data:{
-				time:month,
-				type:type,
-				files: JSON.stringify(files)
-			},
-			success : function(data) {
-				if (data.success) {
-					swal({
-						title : "提示",
-						text : "提交申请成功",
-						type : "success",
-						showCancelButton : true,
-						confirmButtonColor : "#DD6B55",
-						confirmButtonText : "提交申请成功，返回列表页面",
-						cancelButtonText : "取消",
-					    closeOnCancel : true,
-					    closeOnConfirm : false
-					/*
-					 * closeOnConfirm : false, closeOnCancel : false
-					 */
-					}, function(isConfirm) {
-						if (isConfirm) {
-							window.location.href="operations_check.html"
-						}
-					});
-					
-				} else {
-					toastr.error(data.message, '提示');
-				}
-			},
-			error : function() {
-				toastr.error("系统错误", '提示');
-			}
-		});
-	}
-	
+		},
+		error : function() {
+			toastr.error("系统错误", '提示');
+		}
+	});
 };
 xh.isAdded = function(name) {
 	var success=0;

@@ -12,7 +12,8 @@
 			<div class="modal-body pad-0" style="margin:2px;padding:2px;">
 				<ul id="xh-tabs" class="nav nav-tabs">
 					<li class="active"><a href="#checkfile" data-toggle="tab">考核文件</a></li>
-					<li><a href="#bsfile" data-toggle="tab">核减文件</a></li>
+					<li><a href="#bsfile" data-toggle="tab">故障核减申请书</a></li>
+					<li><a href="#appfile" data-toggle="tab">基站月巡检表</a></li>
 					<li><a href="#ensurefile" data-toggle="tab">通信保障报告</a></li>
 				</ul>
 				<div class="tab-content" style="padding: 20px">
@@ -20,10 +21,20 @@
 						<div class="row">
 							<div class="col-md-12">
 								<table>
+								<thead>
+								<tr><th>序号</th><th>文件名称</th><th>是否存在</th><th></th></tr>
+								</thead>
 									<tr ng-repeat="x in detailData.files">
+									<td>{{$index+1}}</td>
 										<td>{{x.fileName}}</td>
-										<td><a href="#" ng-click="download(x.filePath)">下载</a> |
-											<a href="#" ng-click="previewDoc(x.filePath)">预览</a></td>
+										<td>
+										<span style="color:red" ng-if="x.ishas==true">是</span>
+										</td>
+										<td>
+										
+										<a ng-if="x.ishas==true" href="#" ng-click="download(x.filePath)">下载</a> 
+										<a ng-if="x.ishas==true" href="#" ng-click="previewDoc(x.filePath)"> | 在线预览</a>
+										</td>
 									</tr>
 								</table>
 							</div>
@@ -31,23 +42,85 @@
 						</div>
 					</div>
 					<div class="tab-pane fade " id="bsfile">
-						<ul>
+					<!-- 	<ul>
 							<li ng-repeat="x in bscheck_files" style="margin-top:10px;"><span
 								style="margin-right:10px;" ng-click="previewDoc(x.filePath)"><a
 									href="#" style="color:red">预览</a></span> <img
-								src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span>在线预览</span> -->
+								src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>在线预览</span>
 							</li>
-						</ul>
+						</ul> -->
+						
+						<div class="row">
+                            <div class="col-md-12">
+                                <table>
+                                <thead>
+                                <tr><th>序号</th><th>文件名称</th><th></th></tr>
+                                </thead>
+                                    <tr ng-repeat="x in bscheck_files">
+                                    <td>{{$index+1}}</td>
+                                        <td><img
+                                       src="../../Resources/images/icon/16/doc.png">{{x.fileName}}</td>
+                                        
+                                        <td>
+                                        <a href="#" ng-click="previewDoc(x.filePath)">  在线预览</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+						
+						
 					</div>
+					<div class="tab-pane fade " id="appfile">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table>
+                                <thead>
+                                <tr><th>序号</th><th>文件名称</th><th></th></tr>
+                                </thead>
+                                    <tr ng-repeat="x in app_files">
+                                    <td>{{$index+1}}</td>
+                                        <td><img
+                                       src="../../Resources/images/icon/16/xls.png">{{x.fileName}}</td>
+                                        
+                                        <td>
+                                        <a href="#" ng-click="previewDoc(x.filePath)">  在线预览</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
 					<div class="tab-pane fade " id="ensurefile">
-						<ul>
+						<!-- <ul>
 							<li ng-repeat="x in ensure_files" style="margin-top:10px;"><span
 								style="margin-right:10px;" ng-click="previewDoc(x.filePath)"><a
 									href="#" style="color:red">预览</a></span> <img
-								src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<!-- <span>在线预览</span> -->
+								src="../../Resources/images/icon/16/doc.png"> <span>{{x.fileName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>在线预览</span>
 							</li>
-						</ul>
+						</ul> -->
+						<div class="row">
+                            <div class="col-md-12">
+                                <table>
+                                <thead>
+                                <tr><th>序号</th><th>文件名称</th><th></th></tr>
+                                </thead>
+                                    <tr ng-repeat="x in ensure_files">
+                                    <td>{{$index+1}}</td>
+                                        <td>{{x.fileName}}</td>
+                                        
+                                        <td>
+                                        <a href="#" ng-click="previewDoc(x.filePath)">  在线预览</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
 					</div>
+				   <!--  pp -->
 				</div>
 
 

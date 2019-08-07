@@ -92,7 +92,7 @@ public class FunUtil {
 				tag = m.matches();
 			}
 		}
-		return tag;
+		return true;
 	}
 
 	// 获取登录用户

@@ -45,5 +45,6 @@ public interface ChartsMapper {
 	public List<HashMap> hourCallTime(Map<String,Object> map)throws Exception;
 	
 	public List<Map<String,Object>> excel_month_inspection(Map<String,Object> map)throws Exception;
+	public List<Map<String,Object>> excel_month_inspection_bs(Map<String,Object> map)throws Exception;
 
 }
