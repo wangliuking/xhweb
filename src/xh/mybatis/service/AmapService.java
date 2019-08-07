@@ -1,9 +1,6 @@
 package xh.mybatis.service;
  
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -14,6 +11,7 @@ import xh.mybatis.mapper.AmapMapper;
 import xh.mybatis.mapper.BsstationMapper;
 import xh.mybatis.mapper.TcpMapper;
 import xh.mybatis.tools.MoreDbTools;
+import xh.springmvc.handlers.AmapController;
 
 public class AmapService {
 	/**
@@ -435,12 +433,12 @@ public class AmapService {
 		return list;
 	}
 
-	public static List<Map<String,Object>> selectPowerOffByTime(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+	public static List<Map<String,Object>> selectVolWhenPowerOff(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
 		List<Map<String,Object>> list = null;
 		try{
-			list = mapper.selectPowerOffByTime(map);
+			list = mapper.selectVolWhenPowerOff(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -449,12 +447,12 @@ public class AmapService {
 		return list;
 	}
 
-	public static Map<String,Object> selectBatteryVolByTime(Map<String,Object> map){
+	public static List<Map<String,Object>> selectDataByTime(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
-		Map<String,Object> list = null;
+		List<Map<String,Object>> list = null;
 		try{
-			list = mapper.selectBatteryVolByTime(map);
+			list = mapper.selectDataByTime(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -463,18 +461,28 @@ public class AmapService {
 		return list;
 	}
 
-	public static int isBsUpdate(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+	public static List<Map<String,Object>> selectVolUpdate(Map<String,Object> map){
+		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
-		int res = 0;
+		List<Map<String,Object>> res = null;
 		try{
-			res = mapper.isBsUpdate(map);
+			res = mapper.selectVolUpdate(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public static void main(String[] args) {
+		List<String> timeList = new LinkedList<String>();
+		timeList.add("0小时5分钟");
+		timeList.add("1小时25分钟");
+		timeList.add("2小时35分钟");
+		timeList.add("3小时46分钟");
+		String str = AmapController.sumTime(timeList);
+		System.out.println(str);
 	}
 
 }

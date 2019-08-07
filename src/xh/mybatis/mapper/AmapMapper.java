@@ -118,9 +118,9 @@ public interface AmapMapper {
 	 */
 	public List<Map<String,Object>> selectBsOffByTime(Map<String,Object> map)throws Exception;
 
-	public List<Map<String,Object>> selectPowerOffByTime(Map<String,Object> map)throws Exception;
+	public List<Map<String,Object>> selectVolWhenPowerOff(Map<String,Object> map)throws Exception;
 
-	public Map<String,Object> selectBatteryVolByTime(Map<String,Object> map)throws Exception;
+	public List<Map<String,Object>> selectDataByTime(Map<String,Object> map)throws Exception;
 
-	public int isBsUpdate(Map<String,Object> map)throws Exception;
+	public List<Map<String,Object>> selectVolUpdate(Map<String,Object> map)throws Exception;
 }

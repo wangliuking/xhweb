@@ -1153,9 +1153,9 @@ public class CheckCutController {
                 }
                 String zipPath = this.getClass().getResource("/").getPath();
                 String[] temp = zipPath.split("WEB-INF");
-                String finalPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书.zip";
+                String finalPath = temp[0]+"upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书.zip";
                 zipFiles(filePeriodList,finalPath);
-                String dstPath = temp[0]+"Resources/upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书/";
+                String dstPath = temp[0]+"upload/check/"+year+"/"+month+"/"+i+"/"+"故障核减申请书/";
                 filesCopy(fileNamePeriodList,dstPath);
             }
         }
