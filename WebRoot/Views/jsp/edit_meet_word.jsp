@@ -36,15 +36,15 @@
 			var iCount = document.getElementById("PageOfficeCtrl1").ZoomSeal.Count;//获取加盖的印章数量
             if(type==2){
                 if(!getSeal()){               	
-                	alert("你还没有签字");
+                	//alert("你还没有签字");
                 }else{
-                	window.external.CallParentFunc("xh.signMeet2()");
+                	//window.external.CallParentFunc("xh.signMeet2()");
                 }
             }else{
             	if(!getSeal()){                
-                    alert("你还没有签字");
+                    //alert("你还没有签字");
                 }else{
-                	window.external.CallParentFunc("xh.signMeetVertical()");
+                	//window.external.CallParentFunc("xh.signMeetVertical()");
                 }
             }
 		}

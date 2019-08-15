@@ -53,6 +53,9 @@ public class OperationsCheckBean {
 	private String money4_fileName;
 	private String money4_filePath;
 	
+	private String score_header;
+	private String money_header;
+	
 	
 	
 	private List<Map<String,Object>> files;
@@ -316,6 +319,18 @@ public class OperationsCheckBean {
 				+ ", score4_filePath=" + score4_filePath + ", money4_fileName="
 				+ money4_fileName + ", money4_filePath=" + money4_filePath
 				+ ", files=" + files + "]";
+	}
+	public String getScore_header() {
+		return score_header;
+	}
+	public String getMoney_header() {
+		return money_header;
+	}
+	public void setScore_header(String score_header) {
+		this.score_header = score_header;
+	}
+	public void setMoney_header(String money_header) {
+		this.money_header = money_header;
 	}
 	
 	

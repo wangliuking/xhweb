@@ -157,9 +157,18 @@ xh.load = function() {
 							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
 							
 							var has=false;
+							console.log("1->"+x.fileName.split(".")[0]);
+							
 							for(var j=0;j<$scope.has_files.length;j++){
-								if(x.fileName==$scope.has_files[j].fileName){
-									has=true;
+								var ishas=$scope.has_files[j].ishas;					
+								if(ishas){
+									
+									var a=x.fileName.split(".")[0];
+									var b=$scope.has_files[j].fileName.split(".")[0];
+									console.log("2->"+a+";"+b);
+									if(a==b){
+										has=true;
+									}
 								}
 							}
 							if(!has){

@@ -55,15 +55,15 @@
 		}
 		function Seal() {
 			try {
-				var bRet=document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSeal(userName);
+				var bRet=document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSealByName(userName, null);;
 				if (bRet) {
                     if(fileId>0){
                         
                         window.external.CallParentFunc("xh.sealDoc("+fileId+")");
                     }
-                    alert(msg+"成功！");
+                    //alert(msg+"成功！");
                 } else {
-                    alert(msg+"失败！");
+                    //alert(msg+"失败！");
                 }
 				
 				/* var bRet = document.getElementById("PageOfficeCtrl1").ZoomSeal

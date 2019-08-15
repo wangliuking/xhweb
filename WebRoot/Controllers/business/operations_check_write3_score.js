@@ -34,6 +34,11 @@ xh.load = function() {
 		$scope.time = $location.search().checkMonth;
 		$scope.doc_name="成都市应急指挥调度无线通信网三期工程服务项目\r\n"+$scope.time+"项目服务扣分表";
 		var files=$location.search().files;
+		var docName=$location.search().docName;
+		if(docName!=null && docName!=""){
+			$scope.doc_name=docName;
+		}
+		
 		
 		$scope.change3Input=function(){
 			var a=0;
@@ -166,6 +171,18 @@ xh.load = function() {
 					  area: ['900px', '500px'],
 					  content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
+			}
+		  if(str=="运维响应机制"){
+				var index=layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'运维响应机制',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					});
+				layer.full(index);
 			}
 		}
 		$scope.searchScore($scope.time);

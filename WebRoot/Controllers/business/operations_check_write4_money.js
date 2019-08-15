@@ -34,6 +34,11 @@ xh.load = function() {
 		$scope.time = $location.search().checkMonth;
 		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n服务扣款表";
 		var files=$location.search().files;
+		var docName=$location.search().docName;
+		if(docName!=null && docName!=""){
+			$scope.doc_name=docName;
+		}
+		
 		$scope.sum_money4=function(){
 			var a=0;
 			a+=parseFloat($("#money4Form").find("input[name='m_a1']").val()==""?0:$("#money4Form").find("input[name='m_a1']").val());

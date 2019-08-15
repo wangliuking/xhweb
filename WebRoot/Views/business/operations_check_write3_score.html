@@ -63,6 +63,7 @@
 					<div class="hpanel">
 						<!-- <div class="panel-heading hbuilt">扣分</div> -->
 						<div class="panel-body">
+						<form action="#" id="score3Form" onsubmit="return false">
 							<div class="row">
 								<div class="col-md-12">
 									<label>表名称（<span style="color:red;">描述:多行名称，请换行填写，生成的文件中的头部名称默认居中显示。</span>）</label>
@@ -75,7 +76,7 @@
 							<!--  row -->
 							<div class="row">
 								<div class="col-md-12">
-									<form action="#" id="score3Form" onsubmit="return false">
+									
 
 										<table id="tb-info" class="xh-table-primary table-hover">
 											<thead>
@@ -117,7 +118,7 @@
 												</tr>
 												<tr>
 													<td>运维响应机制（9）<a href="#"
-														ng-click="searchFile('成都市应急通信网应急通信保障预案')">资料</a></td>
+                                                        ng-click="showInfoWin('运维响应机制')">资料</a></td>
 													<td><input class="form-control" name="s_b3"
 														ng-model="score_data3.s_b3" ng-change="change3Input()"
 														type="number" min="0" /></td>
@@ -241,10 +242,11 @@
 											</tbody>
 										</table>
 
-									</form>
+									
 								</div>
 							</div>
 							<!--  row -->
+							</form>
 						</div>
 						<!-- panel-body--end -->
 						<div class="panel-footer">

@@ -52,12 +52,10 @@ import xh.mybatis.service.WebUserServices;
 import xh.mybatis.service.WorkContactService;
 
 
-@Controller
-@RequestMapping("/check")
-public class OperationsCheckController {
+public class CopyOfOperationsCheckController {
 	private boolean success;
 	private String message;
-	protected final Log log = LogFactory.getLog(OperationsCheckController.class);
+	protected final Log log = LogFactory.getLog(CopyOfOperationsCheckController.class);
 	private FlexJSON json = new FlexJSON();
 	private WebLogBean webLogBean = new WebLogBean();
 	
@@ -442,9 +440,7 @@ public class OperationsCheckController {
 					if(!file1.exists()){
 						FunUtil.copyFile(src, file1);
 					}else{
-						file1.delete();
-						FunUtil.copyFile(src, file1);
-						//log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
+						log.info("文件："+map.get("fileName")+"已经存在考核目录中，禁止覆盖");
 					}
 					
 				} catch (IOException e) {
@@ -638,7 +634,7 @@ public class OperationsCheckController {
 		
 		String month=request.getParameter("time");
 		String applyId=request.getParameter("applyId");
-		
+		String doc_name=request.getParameter("doc_name");
 		Float score_total=(float) 0;
 		if(request.getParameter("score_total")!=null){
 			score_total=Float.parseFloat(request.getParameter("score_total"));
@@ -649,8 +645,7 @@ public class OperationsCheckController {
 		score4.setTime(month);
 		score4.setPeriod(4);
 		score4.setScore_total(score_total);
-		//score4.setDoc_name(doc_name);
-		//score4.setDoc_name(score4.getDoc_name().replaceAll("(\r\n|\r|\n|\n\r)", "<br>"));
+		score4.setDoc_name(doc_name);
 
 		int a=OperationsCheckService.addScore(score4);
 		String savePath="doc/check/"+month.split("-")[0];	
@@ -666,8 +661,6 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "score4_fileName");
 			map.put("filePathstr", "score4_filePath");
-			map.put("docNamestr", "score_header");
-			map.put("docName", score4.getDoc_name());
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -729,8 +722,6 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "score3_fileName");
 			map.put("filePathstr", "score3_filePath");
-			map.put("docNamestr", "score_header");
-			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -792,8 +783,6 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "money3_fileName");
 			map.put("filePathstr", "money3_filePath");
-			map.put("docNamestr", "money_header");
-			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -855,8 +844,6 @@ public class OperationsCheckController {
 			map.put("applyId", applyId);
 			map.put("fileNamestr", "money4_fileName");
 			map.put("filePathstr", "money4_filePath");
-			map.put("docNamestr", "money_header");
-			map.put("docName", doc_name);
 			map.put("fileName", fileName);
 			map.put("filePath", filePath);
 			OperationsCheckService.update_file_info(map);
@@ -894,7 +881,7 @@ public class OperationsCheckController {
 		if(b>=1){
 			this.success=true;
 			this.message="成功";	
-			//FunUtil.sendMsgToUserByPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了考核扣分扣款信息，请确认", request);	
+			FunUtil.sendMsgToUserByPower("o_check_operations_check", 2, "运维考核", "服务提供方提交了考核扣分扣款信息，请确认", request);	
 		}else{
 			this.success=false;
 			this.message="失败";
@@ -1547,7 +1534,7 @@ public class OperationsCheckController {
 		String path = request.getSession().getServletContext().getRealPath("")
 				+ "/upload/checksource/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
 		List<Map<String,Object>> rs=new ArrayList<Map<String,Object>>();
-		String mastUploadFiles="'运维人员通讯录','运维资源配置表',"
+		String mastUploadFiles="'运维服务团队通讯录','运维资源配置表',"
 				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
 				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
 				+ "'定期维护报告-基站月维护','系统日常维护表','巡检汇总表','故障处理报告','年度健康检查报告'";
@@ -1578,21 +1565,13 @@ public class OperationsCheckController {
 				File isExists2=new File(path+"/"+fileName.split("\\.")[0]+".xlsx");
 				if(isExists1.exists() || isExists2.exists()){
 					
-					if(isExists1.exists()){
-						isExists1.delete();
-					}
-					if(isExists2.exists()){
-						isExists2.delete();
-					}
-					
-					/*if(!new File(path+"/"+fileName).exists()){
+					if(!new File(path+"/"+fileName).exists()){
 						x=true;
 						error2+=fileName+";";
-						
 						log.info("包含相同文件名,且文件格式不一致的文件存在");
 					}else{
 						log.info("包含相同文件名,且文件格式一致的文件存在");
-					}	*/									
+					}										
 				}				
 				if(!x){
 					File targetFile = new File(path, fileName);

@@ -98,7 +98,8 @@ xh.load = function() {
 	    	$scope.checkData = $scope.data[id];
 	    	swal({
 				title : "提示",
-				text : "确认已经填写了扣分，扣款记录吗？",
+				//text : "确认已经填写了扣分，扣款记录吗？",
+				text:"确认整个考核工作都结束了，并关闭流程？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",
@@ -197,11 +198,14 @@ xh.load = function() {
 				url+="operations_check_write4_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header
 			}else if(data.type==3){
 				url+="operations_check_write3_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}
+			//console.log(data.score_header.replace(/\r\n/g,"|"));
 			window.location.href=url;
 	    };
 	    $scope.recordMoney = function (id) {
@@ -215,10 +219,12 @@ xh.load = function() {
 				url+="operations_check_write4_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}else if(data.type==3){
 				url+="operations_check_write3_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
 				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}
 			window.location.href=url;
 	    };
@@ -440,7 +446,7 @@ xh.load = function() {
 			
 			swal({
 				title : "提示",
-				text : "确认已完成所有文件的签章？",
+				text : "确认通知管理方查看相关文件？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",

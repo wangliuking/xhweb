@@ -52,7 +52,7 @@
 	<update id="update_file_info" parameterType="map">
 		update
 		xhgmnet_operations_check set
-		${fileNamestr}=#{fileName},${filePathstr}=#{filePath}
+		${fileNamestr}=#{fileName},${filePathstr}=#{filePath},${docNamestr}=#{docName}
 		where
 		applyId=#{applyId}
 	</update>
