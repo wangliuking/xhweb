@@ -286,6 +286,7 @@
 						success : function(data, status) //服务器成功响应处理函数
 						{
 							xh.maskHide();
+							$('#pathName').val("")
 							if (data.success) {
 								var allFile = data.rs;
 								for (var i = 0; i < allFile.length; i++) {
@@ -313,18 +314,52 @@
 									str += "</li>";
 									// console.log(allFile[i].fileName+":="+xh.isAdded(allFile[i].fileName))
 									if (xh.isAdded(allFile[i].fileName) == 0) {
-										$("#fileArea ul").append(str);
+										//$("#fileArea ul").append(str);
 									} else {
 										//$("#fileArea ul").append(str);
 									}
 
 								}
 
-								toastr.success("文件上传结束", '提示');
-								xh.refreshFile();
+								//toastr.success("文件上传结束", '提示');
+								var error1=data.error1;
+								var error2=data.error2;
+								var msg="";
+								if(error1=="" && error2==""){
+									msg="文件上传成功"
+								}else{
+									if(error1!=""){
+										msg+=error1+"文件名不是所需上传文件，禁止上传\n";
+									}
+									if(error2!=""){
+                                        msg+=error2+"文件名已经存在，禁止上传";
+                                    }
+								}
+								swal({
+			                        title : "提示",
+			                        text : msg,
+			                        type : "info"})
+								xh.refreshFile(month);
 							} else {
-								toastr.error("文件上传失败", '提示');
-								$("#" + r).html("文件上传失败");
+								//toastr.error("文件上传失败", '提示');
+								//$("#" + r).html("文件上传失败");
+								var error1=data.error1;
+                                var error2=data.error2;
+                                var msg="";
+                                if(error1=="" && error2==""){
+                                    msg="文件上传成功"
+                                }else{
+                                    if(error1!=""){
+                                        msg+=error1+"文件名不是所需上传文件，禁止上传\n";
+                                    }
+                                    if(error2!=""){
+                                        msg+=error2+"文件名已经存在，禁止上传";
+                                    }
+                                }
+                                swal({
+                                    title : "提示",
+                                    text : msg,
+                                    type : "info"})
 							}
 
 						},

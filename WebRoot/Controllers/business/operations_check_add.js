@@ -40,7 +40,6 @@ var fileNames=["本月计划维护作业完成情况",
 				"定期维护报告-基站月维护",
 				"巡检汇总表",
 				"基站月度巡检表"]
-console.log(fileNames[0])
 xh.load = function() {
 	var app = angular.module("app", []);
 	
@@ -96,7 +95,11 @@ xh.load = function() {
 			});*/
 		}
 		$scope.getFileList=function(tt){
-			var month=tt
+			var month=tt;
+			$("#check_files").find("li").remove();
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_app()"><img src="../../Resources/images/icon/16/floder.png">基站月巡检表</li>');
 			var type=$("select[name='type']").val();
 			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
 					function(response) {
@@ -173,6 +176,7 @@ xh.load = function() {
 			$("#check_files").find('li').remove();
 			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_check()"><img src="../../Resources/images/icon/16/floder.png">故障核减申请书</li>');
 			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_ensure()"><img src="../../Resources/images/icon/16/floder.png">通信保障报告</li>');
+			$("#check_files").append('<li style="cursor: pointer;" title="点击查看文件" onclick="xh.look_app()"><img src="../../Resources/images/icon/16/floder.png">基站月巡检表</li>');
 			if(tt==null || tt==''){
 				console.log("null")
 			}else{
@@ -275,10 +279,10 @@ xh.searchScore=function(time){
 	$scope.searchScore();
 	$scope.searchMoney();
 }
-xh.refreshFile=function(){
+xh.refreshFile=function(month){
 	var $scope = angular.element(appElement).scope();
 	// 调用$scope中的方法
-	$scope.getFileList();
+	$scope.getFileList(month);
 }
 xh.checkcut=function(tt){
 	
@@ -318,6 +322,32 @@ xh.look_ensure=function(){
 	//$("#show_up_floder").toggle();
 	//$("#file_title").text("考核文件>>通信保障报告");
 	$.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+			function(response) {
+				if(response.totals<1){
+					$("#check_files2").append("<li>没有文件</li>");
+					return;
+				}
+				for(var i=0;i<response.totals;i++){
+					var x=response.files[i];
+					var str='<li style="margin-top:10px;">';
+					str+='<img src="../../Resources/images/icon/16/doc.png">';
+					str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
+					str+='</li>';
+					$("#check_files2").append(str);
+					
+				}	
+				
+				
+	});
+	
+}
+xh.look_app=function(){
+	$("#check_files2").find('li').remove();
+	var month=$("input[name='month']").val();
+	var type=$("select[name='type']").val();
+	//$("#show_up_floder").toggle();
+	//$("#file_title").text("考核文件>>通信保障报告");
+	$.get("../../check/bs_app_file?period="+type+"&month="+month).success(
 			function(response) {
 				if(response.totals<1){
 					$("#check_files2").append("<li>没有文件</li>");
@@ -529,7 +559,7 @@ xh.isAdded = function(name) {
 	});
 	var a=addfileNames.toString();
 	var b=fileNames.toString();
-	//console.log(b)
+	
 	if(b.indexOf(name)==-1){
 		success=2;//文件名称非必须提交的文件名称
 	}

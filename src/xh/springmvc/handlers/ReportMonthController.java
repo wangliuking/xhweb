@@ -342,7 +342,7 @@ public class ReportMonthController {
 		excel_month_inspection_period(time,3,request);
 		excel_month_inspection_period(time,4,request);
 		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
-		String sourceFilePath=rootDir + "/巡检记录汇总表["+time+"].xls";
+		String sourceFilePath=rootDir + "/巡检汇总表["+time+"].xls";
 		
 		String destDir3=request.getSession().getServletContext().getRealPath("/upload/checksource");
 		destDir3=destDir3+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
@@ -356,10 +356,10 @@ public class ReportMonthController {
 		if (!Path4.exists()) {
 			Path4.mkdirs();
 		}
-		File file3 = new File(destDir3+"/巡检记录汇总表.xls");
-		File file4 = new File(destDir4+"/巡检记录汇总表.xls");
-		File srcFile3 = new File(rootDir + "/巡检记录汇总表["+time+"](三期).xls");
-		File srcFile4 = new File(rootDir + "/巡检记录汇总表["+time+"](四期).xls");
+		File file3 = new File(destDir3+"/巡检汇总表.xls");
+		File file4 = new File(destDir4+"/巡检汇总表.xls");
+		File srcFile3 = new File(rootDir + "/巡检汇总表["+time+"](三期).xls");
+		File srcFile4 = new File(rootDir + "/巡检汇总表["+time+"](四期).xls");
 		FunUtil.copyFile(srcFile3, file3);
 		FunUtil.copyFile(srcFile4, file4);
 
@@ -368,9 +368,9 @@ public class ReportMonthController {
 		 if(period==0){
 			 result.put("pathName", sourceFilePath);
 		 }else if(period==3){
-			 result.put("pathName", rootDir + "/巡检记录汇总表["+time+"](三期).xls");
+			 result.put("pathName", rootDir + "/巡检汇总表["+time+"](三期).xls");
 		 }else{
-			 result.put("pathName", rootDir + "/巡检记录汇总表["+time+"](四期).xls");
+			 result.put("pathName", rootDir + "/巡检汇总表["+time+"](四期).xls");
 		 }
 		 
 		 response.setContentType("application/json;charset=utf-8"); 
@@ -385,9 +385,9 @@ public class ReportMonthController {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");			
 			String pathname = "";
 			if(period==0){
-				pathname = saveDir + "/巡检记录汇总表["+time+"].xls";
+				pathname = saveDir + "/巡检汇总表["+time+"].xls";
 			}else{
-				pathname = saveDir + "/巡检记录汇总表["+time+"]("+(period==3?'三':'四')+"期).xls";
+				pathname = saveDir + "/巡检汇总表["+time+"]("+(period==3?'三':'四')+"期).xls";
 			}
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
@@ -450,7 +450,7 @@ public class ReportMonthController {
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
 			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
 
-			WritableSheet sheet0 = book.createSheet("巡检记录汇总表", 0);
+			WritableSheet sheet0 = book.createSheet("巡检汇总表", 0);
 			
 			excel_inspection(time,period,sheet0,fontFormat,fontFormat_h,fontFormat_Content);
 			
@@ -465,7 +465,7 @@ public class ReportMonthController {
 	}
 	public  void excel_inspection(String time,int period,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检记录汇总表", fontFormat_h));
+			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检汇总表", fontFormat_h));
 			sheet.mergeCells(0, 0, 8, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));

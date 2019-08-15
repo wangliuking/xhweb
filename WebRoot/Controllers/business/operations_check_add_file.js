@@ -122,7 +122,7 @@ xh.load = function() {
 		$scope.showFileList=function(tt){
 			var month=tt
 			var type=$("select[name='type']").val();
-			//$scope.getfile();
+			$scope.getfile();
 			$("#check_files").find('li').remove();
 			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
 					function(response) {
@@ -177,26 +177,8 @@ xh.load = function() {
 			
 			$http.get("../../check/searchFile?applyId="+$scope.applyId).success(
 					function(response) {
-						$scope.has_files = response.items;						
-						/*for(var i=0;i<$scope.has_files.length;i++){
-							var x=$scope.has_files[i];
-							var str='<li style="margin-top:10px;">';
-							var doc=x.fileName;
-							doc=doc.substring(doc.indexOf(".")+1);
-							if(doc=='doc' || doc=='docx'){
-								str+='<img src="../../Resources/images/icon/16/doc.png">';
-							}else if(doc=='xls' || doc=='xlsx'){
-								str+='<img src="../../Resources/images/icon/16/xls.png">';
-							}else if(doc=='pdf'){
-								str+='<img src="../../Resources/images/icon/16/pdf.png">';
-							}else if(doc=='jpeg'){
-								str+='<img src="../../Resources/images/icon/16/jpeg.png">';
-							}
-							str+='<span style="cursor: pointer;" title="点击预览"  onclick="xh.editDoc(\''+x.filePath+'\')">'+x.fileName+'</span>';
-							str+='</li>';
-							$("#has_files").append(str);
-							
-						}	*/
+						$scope.has_files = response.items;
+						console.log("文件:"+JSON.stringify(response.items))
 			});
 		}
 		$scope.previewDoc=function(path){
@@ -259,7 +241,6 @@ xh.load = function() {
 		}
 		
 	  
-		$scope.getfile();
 		$scope.showFileList($scope.time);
 		
 		

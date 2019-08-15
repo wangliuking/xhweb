@@ -56,6 +56,7 @@
                                 <thead>
                                 <tr><th>序号</th><th>文件名称</th><th></th></tr>
                                 </thead>
+                                <tr ng-if="bscheck_fileTotal==0"><td colspan="3">还没有文件</td></tr>
                                     <tr ng-repeat="x in bscheck_files">
                                     <td>{{$index+1}}</td>
                                         <td><img
@@ -79,6 +80,7 @@
                                 <thead>
                                 <tr><th>序号</th><th>文件名称</th><th></th></tr>
                                 </thead>
+                                <tr ng-if="app_fileTotal==0"><td colspan="3">还没有文件</td></tr>
                                     <tr ng-repeat="x in app_files">
                                     <td>{{$index+1}}</td>
                                         <td><img
@@ -107,6 +109,7 @@
                                 <thead>
                                 <tr><th>序号</th><th>文件名称</th><th></th></tr>
                                 </thead>
+                                 <tr ng-if="ensure_fileTotal==0"><td colspan="3">还没有文件</td></tr>
                                     <tr ng-repeat="x in ensure_files">
                                     <td>{{$index+1}}</td>
                                         <td>{{x.fileName}}</td>

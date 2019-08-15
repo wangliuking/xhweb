@@ -8,6 +8,9 @@ import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1067,22 +1070,35 @@ public class OperationsCheckController {
 		String hz="/upload/check/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
 		rootDir=rootDir+"/"+month.split("-")[0]+"/"+month.split("-")[1]+"/"+period+"/基站月度巡检表";
 		File file=new File(rootDir);
-		File[] files=file.listFiles(new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				if(pathname.isFile()){
-					return true;
-				}
-				return false;
-			}
+		File[] files=file.listFiles();
+		/*Collections.sort(files, new Comparator<File>() {
+		    @Override
+		    public int compare(File o1, File o2) {
+		        if (o1.isDirectory() && o2.isFile())
+		            return -1;
+		        if (o1.isFile() && o2.isDirectory())
+		            return 1;
+		        return o2.getName().compareTo(o1.getName());
+		    }
 		});
+
+		Arrays.sort(files, new Comparator<File>() {
+			 
+			@Override
+			public int compare(File f1, File f2) {
+				return f1.compareTo(f2);
+			}
+ 
+		});*/
 		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 		if(files!=null){
 			for (File file2 : files) {
 				Map<String,Object> map=new HashMap<String, Object>();
 				map.put("fileName", file2.getName());
 				map.put("filePath", hz+"/"+file2.getName());
+				
+				//System.out.println("文件-》"+file2.getName());
+				
 				list.add(map);				
 			}
 		}
@@ -1523,8 +1539,11 @@ public class OperationsCheckController {
 		String mastUploadFiles="'运维服务团队通讯录','运维资源配置表',"
 				+ "'本月计划维护作业完成情况','下月计划维护作业','系统运行维护服务月报',"
 				+ "'基站信息表','运维故障统计','通信保障报告','备品备件表','定期维护报告-交换中心月维护',"
-				+ "'定期维护报告-基站月维护','系统日常维护表','巡检记录汇总表','话务统计'";
+				+ "'定期维护报告-基站月维护','系统日常维护表','巡检汇总表','故障处理报告','年度健康检查报告'";
+		String error1="";
+		String error2="";
 		if(!(file.length==0)){
+			
 			
 			for(int i=0;i<file.length;i++){
 				boolean x=false;
@@ -1540,10 +1559,22 @@ public class OperationsCheckController {
 					System.out.println(fileName);
 					if(!mastUploadFiles.contains(fileName.split("\\.")[0])){
 						x=true;
+						error1+=fileName+";";
 						log.info("该文件不在必传列表中");
 					}
 				}
-				
+				File isExists1=new File(path+"/"+fileName.split("\\.")[0]+".xls");
+				File isExists2=new File(path+"/"+fileName.split("\\.")[0]+".xlsx");
+				if(isExists1.exists() || isExists2.exists()){
+					
+					if(!new File(path+"/"+fileName).exists()){
+						x=true;
+						error2+=fileName+";";
+						log.info("包含相同文件名,且文件格式不一致的文件存在");
+					}else{
+						log.info("包含相同文件名,且文件格式一致的文件存在");
+					}										
+				}				
 				if(!x){
 					File targetFile = new File(path, fileName);
 					if (!targetFile.exists()) {
@@ -1561,18 +1592,6 @@ public class OperationsCheckController {
 						map.put("index", i+1);
 						map.put("size", file[i].getSize());
 						rs.add(map);
-						
-						/*String destDir1=request.getSession().getServletContext()
-								.getRealPath("/upload/checksource");
-						destDir1=destDir1+"/"+date.split("-")[0]+"/"+date.split("-")[1]+"/"+type;
-						File Path1 = new File(destDir1);
-						if (!Path1.exists()) {
-							Path1.mkdirs();
-						}
-						
-						
-						File file1 = new File(destDir1+"/"+fileName);
-						FunUtil.copyFile(targetFile, file1);*/
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -1589,6 +1608,8 @@ public class OperationsCheckController {
 		HashMap result = new HashMap();
 		result.put("success", success);
 		result.put("message", message);
+		result.put("error1", error1);
+		result.put("error2", error2);
 		result.put("rs", rs);
 		response.setContentType("application/json;charset=utf-8");
 		String jsonstr = json.Encode(result);

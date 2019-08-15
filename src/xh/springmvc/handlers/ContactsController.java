@@ -176,7 +176,7 @@ public class ContactsController {
 
 		try {
 			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
-			String pathname = saveDir + "/运维服务团队通讯录["+time+"].xls";
+			String pathname = saveDir + "/运维人员通讯录["+time+"].xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -280,8 +280,8 @@ public class ContactsController {
 			if (!Path2.exists()) {
 				Path2.mkdirs();
 			}
-			File file1 = new File(destDir1+"/运维服务团队通讯录.xls");
-			File file2 = new File(destDir2+"/运维服务团队通讯录.xls");
+			File file1 = new File(destDir1+"/运维人员通讯录.xls");
+			File file2 = new File(destDir2+"/运维人员通讯录.xls");
 			FunUtil.copyFile(file, file1);
 			FunUtil.copyFile(file, file2);
 			
