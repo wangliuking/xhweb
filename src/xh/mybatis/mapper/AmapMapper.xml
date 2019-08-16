@@ -158,25 +158,39 @@
 
 	<!-- 分析后备时长 -->
 	<select id="selectBsOffByTime" parameterType="map" resultType="map">
-		select a.*,b.name from xhgmnet_operations_bsfault a LEFT JOIN xhgmnet_bs_station b on a.bsId=b.bsId where reason="断站告警" and time BETWEEN #{startTime} and #{endTime}
+		select a.*,b.name from xhgmnet_operations_bsfault a LEFT JOIN xhgmnet_bs_station b on a.bsId=b.bsId where reason="断站告警" and time BETWEEN #{startTime} and #{endTime} order by time
 	</select>
 
 	<!-- 查询断站时最近一刻电池电压 -->
 	<select id="selectVolWhenPowerOff" parameterType="map" resultType="map">
-		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
-		and createTime BETWEEN DATE_SUB(#{bsOffTime},INTERVAL 1 HOUR) and DATE_ADD(#{bsOffTime},INTERVAL 1 HOUR) ORDER BY createTime desc limit 1
+		<if test="preMonth==currentMonth">
+			select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
+			and createTime BETWEEN #{startTime} and #{endTime} ORDER BY createTime desc limit 1
+		</if>
+		<if test="preMonth!=currentMonth">
+			(select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${preMonth}
+			where bsId=#{bsId} and createTime BETWEEN #{startTime} and #{endTime})
+			union
+			(select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth}
+			where bsId=#{bsId} and createTime BETWEEN #{startTime} and #{endTime})
+			ORDER BY createTime desc limit 1
+		</if>
 	</select>
 
-	<!-- 查询断站前12小时到最后一刻历史数据 -->
-	<select id="selectDataByTime" parameterType="map" resultType="map">
-		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
-		and createTime BETWEEN DATE_SUB(#{bsOffTime},INTERVAL 13 HOUR) and #{emhLastTime} ORDER BY createTime
-	</select>
-
-	<!-- 查询一段时间内的电压变化数据 -->
-	<select id="selectVolUpdate" parameterType="map" resultType="map">
-		select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
-		and createTime BETWEEN #{startTime} and #{endTime} ORDER BY createTime
+	<!-- 查询一段时间内的历史数据 -->
+	<select id="selectHistoryByTime" parameterType="map" resultType="map">
+		<if test="preMonth==currentMonth">
+			select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth} where bsId=#{bsId}
+			and createTime BETWEEN #{startTime} and #{endTime} ORDER BY createTime
+		</if>
+		<if test="preMonth!=currentMonth">
+		(select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${preMonth}
+		where bsId=#{bsId} and createTime BETWEEN #{startTime} and #{endTime})
+		union
+		(select bsId,name,ups1,ups2,ups4,e1,e4,createTime from ${currentMonth}
+		where bsId=#{bsId} and createTime BETWEEN #{startTime} and #{endTime})
+		ORDER BY createTime
+		</if>
 	</select>
 
 	

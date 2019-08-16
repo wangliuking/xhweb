@@ -172,24 +172,13 @@ public class ServerDemo {
 						String returnMessage = tempMap.get("returnMessage");
 						if(!"".equals(returnMessage) && returnMessage!=null){
 							if("for".equals(returnMessage)){
-								System.out.println("返回的消息为："+tempMap.get("returnMessage0"));							
-								writer.write(tempMap.get("returnMessage0")+"\n");
-								writer.flush();
-								System.out.println("返回的消息为："+tempMap.get("returnMessage1"));							
-								writer.write(tempMap.get("returnMessage1")+"\n");
-								writer.flush();
-								System.out.println("返回的消息为："+tempMap.get("returnMessage2"));							
-								writer.write(tempMap.get("returnMessage2")+"\n");
-								writer.flush();
-								System.out.println("返回的消息为："+tempMap.get("returnMessage3"));							
-								writer.write(tempMap.get("returnMessage3")+"\n");
-								writer.flush();
-								System.out.println("返回的消息为："+tempMap.get("returnMessage4"));							
-								writer.write(tempMap.get("returnMessage4")+"\n");
-								writer.flush();
-								System.out.println("返回的消息为："+tempMap.get("returnMessage5"));							
-								writer.write(tempMap.get("returnMessage5")+"\n");
-								writer.flush();
+								for(String key:tempMap.keySet()){
+									if(!"returnMessage".equals(key)){
+										System.out.println("返回的消息为："+tempMap.get(key));
+										writer.write(tempMap.get(key)+"\n");
+										writer.flush();
+									}
+								}
 							}else{
 								System.out.println("返回的消息为："+returnMessage);							
 								writer.write(returnMessage+"\n");

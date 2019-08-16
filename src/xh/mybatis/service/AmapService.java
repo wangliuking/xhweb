@@ -1,5 +1,6 @@
 package xh.mybatis.service;
  
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.ibatis.session.SqlSession;
@@ -447,26 +448,12 @@ public class AmapService {
 		return list;
 	}
 
-	public static List<Map<String,Object>> selectDataByTime(Map<String,Object> map){
-		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
-		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
-		List<Map<String,Object>> list = null;
-		try{
-			list = mapper.selectDataByTime(map);
-			sqlSession.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	public static List<Map<String,Object>> selectVolUpdate(Map<String,Object> map){
+	public static List<Map<String,Object>> selectHistoryByTime(Map<String,Object> map){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.gps_voice_slave);
 		AmapMapper mapper=sqlSession.getMapper(AmapMapper.class);
 		List<Map<String,Object>> res = null;
 		try{
-			res = mapper.selectVolUpdate(map);
+			res = mapper.selectHistoryByTime(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -475,13 +462,19 @@ public class AmapService {
 		return res;
 	}
 
-	public static void main(String[] args) {
-		List<String> timeList = new LinkedList<String>();
-		timeList.add("0小时5分钟");
-		timeList.add("1小时25分钟");
-		timeList.add("2小时35分钟");
-		timeList.add("3小时46分钟");
-		String str = AmapController.sumTime(timeList);
+	public static void main(String[] args) throws Exception {
+		/*Map<String,Object> param = new HashMap<>();
+		param.put("preMonth","xhgmnet_emh_sensor_history07");
+		param.put("currentMonth","xhgmnet_emh_sensor_history07");
+		param.put("bsId","155");
+		param.put("startTime","2019-06-30 23:00:00");
+		param.put("endTime","2019-07-01 00:59:59");
+		List<Map<String,Object>> list = AmapService.selectVolUpdate(param);
+		System.out.println(list.size());*/
+		String time = "2019-07-05 00:50:55.0";
+		long l1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time).getTime();
+		long l = l1+1000*60*60*1;
+		String str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(l));
 		System.out.println(str);
 	}
 

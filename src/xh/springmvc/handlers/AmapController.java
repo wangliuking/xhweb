@@ -569,14 +569,24 @@ public class AmapController {
 	}
 
 	/**
-	 * 导出四期告警到excel文件
+	 *
 	 */
 	@RequestMapping("/analysisPowerOff")
-	public void analysisPowerOff(HttpServletRequest request, HttpServletResponse response) {
+	public void analysisPowerOff(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String start = request.getParameter("startTime");
+		String end = request.getParameter("endTime");
+		List<PowerOffRes> finalList = analysisModel(start,end);
+		ExportExcel<PowerOffRes> ee= new ExportExcel<PowerOffRes>();
+		String[] headers = {"基站ID","名称","断站时间","恢复时间","停电时间","来电或最后一次时间","停电时电池电压","来电或最后一次电池电压","持续时间","综合分析"};
+		String fileName = "停电分析表";
+		ee.exportExcel(headers,finalList,fileName,response);
+	}
+
+	public static List<PowerOffRes> analysisModel(String start,String end) throws Exception{
 		List<PowerOffRes> finalList = new LinkedList<PowerOffRes>();
 		Map<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("startTime","2019-07-09 07:25:00");
-		parameter.put("endTime","2019-07-29 07:33:00");
+		parameter.put("startTime",start);
+		parameter.put("endTime",end);
 		List<Map<String,Object>> list = AmapService.selectBsOffByTime(parameter);
 		for(int i=0;i<list.size();i++){
 			Map<String,Object> map = list.get(i);
@@ -584,25 +594,46 @@ public class AmapController {
 			String name = map.get("name")+"";
 			String bsOffTime = map.get("time")+"";
 			String bsOnTime = map.get("faultRecoveryTime")+"";
-			String currentMonth="xhgmnet_emh_sensor_history"+bsOffTime.substring(5, 7);
 			Map<String,Object> param = new HashMap<String,Object>();
 			param.put("bsId",bsId);
 			param.put("bsOffTime",bsOffTime);
-			param.put("currentMonth",currentMonth);
+			//获取断站前后一小时的时间
+			long l = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bsOffTime).getTime();
+			long l1 = l-1000*60*60*1;
+			long l2 = l+1000*60*60*1;
+			String startTime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(l1));
+			String endTime1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(l2));
+			param.put("startTime",startTime1);
+			param.put("endTime",endTime1);
+			param.put("preMonth","xhgmnet_emh_sensor_history"+startTime1.substring(5, 7));
+			param.put("currentMonth","xhgmnet_emh_sensor_history"+endTime1.substring(5, 7));
+
 			List<Map<String,Object>> res = AmapService.selectVolWhenPowerOff(param);
 			//断站最近一刻蓄电池电压低于45V，为停电造成
 			if(res.size()>0 && !"".equals(res.get(0).get("ups4")==null?"":res.get(0).get("ups4")+"") && Double.parseDouble(res.get(0).get("ups4")+"")<46.00){
-				param.put("emhLastTime",res.get(0).get("createTime"));
+				Map<String,Object> params = new HashMap<String,Object>();
+				params.put("bsId",bsId);
+				params.put("bsOffTime",bsOffTime);
+				//获取断站前13小时的时间
+				long ll1 = l-1000*60*60*13;
+				String startTime2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(ll1));
+				String endTime2 = res.get(0).get("createTime")+"";
+				params.put("startTime",startTime2);
+				params.put("endTime",endTime2);
+				params.put("preMonth","xhgmnet_emh_sensor_history"+startTime2.substring(5, 7));
+				params.put("currentMonth","xhgmnet_emh_sensor_history"+endTime2.substring(5, 7));
 				//处理为空或无效数据
-				List<Map<String,Object>> dataList = checkData(AmapService.selectDataByTime(param));
+				List<Map<String,Object>> dataList = checkData(AmapService.selectHistoryByTime(params));
 				List<Map<String,Object>> analysisList = new LinkedList<Map<String,Object>>();
 				int powerOffIndex = 0;
 				int powerOnIndex = 0;
-				for(int j=3;j<dataList.size();j++){
-					Map<String,Object> temp1 = dataList.get(j-3);
-					Map<String,Object> temp2 = dataList.get(j-2);
-					Map<String,Object> temp3 = dataList.get(j-1);
-					Map<String,Object> temp4 = dataList.get(j);
+				for(int j=5;j<dataList.size();j++){
+					Map<String,Object> temp1 = dataList.get(j-5);
+					Map<String,Object> temp2 = dataList.get(j-4);
+					Map<String,Object> temp3 = dataList.get(j-3);
+					Map<String,Object> temp4 = dataList.get(j-2);
+					Map<String,Object> temp5 = dataList.get(j-1);
+					Map<String,Object> temp6 = dataList.get(j);
 
 					//处理为空或无效数据
 					String ups1Pre = temp1.get("ups1")==null?"":temp1.get("ups1")+"";
@@ -612,21 +643,30 @@ public class AmapController {
 					String e4Next = temp2.get("e4")==null?"":temp2.get("e4")+"";
 					String e4Third = temp3.get("e4")==null?"":temp3.get("e4")+"";
 					String e4Four = temp4.get("e4")==null?"":temp4.get("e4")+"";
+					String e4Five = temp5.get("e4")==null?"":temp5.get("e4")+"";
+					String e4Six = temp6.get("e4")==null?"":temp6.get("e4")+"";
 
+					//来电特殊情况，电表一直无数据，后出现数据
+					if(powerOffIndex != powerOnIndex && "".equals(e4Pre) && "".equals(e4Next) && "".equals(e4Third) && "".equals(e4Four) && "".equals(e4Five) && !"".equals(e4Six)){
+						//来电
+						powerOnIndex++;
+						temp6.put("powerOnIndex",powerOnIndex);
+						analysisList.add(temp6);
+					}
 					//判断停电时间
-					if(!"".equals(e4Pre) && !"".equals(e4Next) && !"".equals(e4Third) && !"".equals(e4Four)){
+					if(!"".equals(e4Pre) && !"".equals(e4Next) && !"".equals(e4Third) && !"".equals(e4Four) && !"".equals(e4Five) && !"".equals(e4Six)){
 						//电表有读数，直接判断电表
-						if(powerOffIndex == powerOnIndex && !e4Pre.equals(e4Next) && e4Next.equals(e4Third) && e4Third.equals(e4Four)){
+						if(powerOffIndex == powerOnIndex && !e4Pre.equals(e4Next) && e4Next.equals(e4Third) && e4Third.equals(e4Four) && e4Four.equals(e4Five) && e4Five.equals(e4Six)){
 							//停电
 							powerOffIndex++;
 							temp1.put("powerOffIndex",powerOffIndex);
 							analysisList.add(temp1);
 						}
-						if(powerOffIndex != powerOnIndex && e4Pre.equals(e4Next) && e4Next.equals(e4Third) && !e4Third.equals(e4Four)){
+						if(powerOffIndex != powerOnIndex && e4Pre.equals(e4Next) && e4Next.equals(e4Third) && e4Third.equals(e4Four) && e4Four.equals(e4Five) && !e4Five.equals(e4Six)){
 							//来电
 							powerOnIndex++;
-							temp1.put("powerOnIndex",powerOnIndex);
-							analysisList.add(temp3);
+							temp6.put("powerOnIndex",powerOnIndex);
+							analysisList.add(temp6);
 						}
 					}else{
 						//电表无读数，判断eps
@@ -682,10 +722,9 @@ public class AmapController {
 							searchParam.put("bsId",bsId);
 							searchParam.put("startTime",powerOffTime);
 							searchParam.put("endTime",powerOnTime);
-							searchParam.put("currentMonth","xhgmnet_emh_sensor_history"+powerOffTime.substring(5, 7));
-						/*System.out.println("startTime"+powerOffTime);
-						System.out.println("endTime"+powerOnTime);*/
-							List<Map<String,Object>> volList = AmapService.selectVolUpdate(searchParam);
+							searchParam.put("preMonth","xhgmnet_emh_sensor_history"+powerOffTime.substring(5, 7));
+							searchParam.put("currentMonth","xhgmnet_emh_sensor_history"+powerOnTime.substring(5, 7));
+							List<Map<String,Object>> volList = AmapService.selectHistoryByTime(searchParam);
 							for(int z=0;z<volList.size();z++){
 								String searchVolVal = volList.get(z).get("ups4")==null?"":volList.get(z).get("ups4")+"";
 								if(!"".equals(searchVolVal) && Double.parseDouble(searchVolVal) <= centerVol){
@@ -716,165 +755,12 @@ public class AmapController {
 					finalList.add(po);
 				}
 			}
-
 		}
-
-		ExportExcel<PowerOffRes> ee= new ExportExcel<PowerOffRes>();
-		String[] headers = {"基站ID","名称","断站时间","恢复时间","停电时间","来电或最后一次时间","停电时电池电压","来电或最后一次电池电压","持续时间","综合分析"};
-		String fileName = "停电分析表";
-		ee.exportExcel(headers,finalList,fileName,response);
+		return finalList;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		List<PowerOffRes> finalList = new LinkedList<PowerOffRes>();
-		Map<String,Object> parameter = new HashMap<String,Object>();
-		parameter.put("startTime","2019-07-09 07:25:00");
-		parameter.put("endTime","2019-07-29 07:33:00");
-		List<Map<String,Object>> list = AmapService.selectBsOffByTime(parameter);
-		for(int i=0;i<list.size();i++){
-			Map<String,Object> map = list.get(i);
-			String bsId = map.get("bsId")+"";
-			String name = map.get("name")+"";
-			String bsOffTime = map.get("time")+"";
-			String bsOnTime = map.get("faultRecoveryTime")+"";
-			String currentMonth="xhgmnet_emh_sensor_history"+bsOffTime.substring(5, 7);
-			Map<String,Object> param = new HashMap<String,Object>();
-			param.put("bsId",bsId);
-			param.put("bsOffTime",bsOffTime);
-			param.put("currentMonth",currentMonth);
-			List<Map<String,Object>> res = AmapService.selectVolWhenPowerOff(param);
-			//断站最近一刻蓄电池电压低于45V，为停电造成
-			if(res.size()>0 && !"".equals(res.get(0).get("ups4")==null?"":res.get(0).get("ups4")+"") && Double.parseDouble(res.get(0).get("ups4")+"")<46.00){
-				param.put("emhLastTime",res.get(0).get("createTime"));
-				//处理为空或无效数据
-				List<Map<String,Object>> dataList = checkData(AmapService.selectDataByTime(param));
-				List<Map<String,Object>> analysisList = new LinkedList<Map<String,Object>>();
-				int powerOffIndex = 0;
-				int powerOnIndex = 0;
-				for(int j=3;j<dataList.size();j++){
-					Map<String,Object> temp1 = dataList.get(j-3);
-					Map<String,Object> temp2 = dataList.get(j-2);
-					Map<String,Object> temp3 = dataList.get(j-1);
-					Map<String,Object> temp4 = dataList.get(j);
-
-					//处理为空或无效数据
-					String ups1Pre = temp1.get("ups1")==null?"":temp1.get("ups1")+"";
-					String ups1Next = temp2.get("ups1")==null?"":temp2.get("ups1")+"";
-
-					String e4Pre = temp1.get("e4")==null?"":temp1.get("e4")+"";
-					String e4Next = temp2.get("e4")==null?"":temp2.get("e4")+"";
-					String e4Third = temp3.get("e4")==null?"":temp3.get("e4")+"";
-					String e4Four = temp4.get("e4")==null?"":temp4.get("e4")+"";
-
-					//判断停电时间
-					if(!"".equals(e4Pre) && !"".equals(e4Next) && !"".equals(e4Third) && !"".equals(e4Four)){
-						//电表有读数，直接判断电表
-						if(powerOffIndex == powerOnIndex && !e4Pre.equals(e4Next) && e4Next.equals(e4Third) && e4Third.equals(e4Four)){
-							//停电
-							powerOffIndex++;
-							temp1.put("powerOffIndex",powerOffIndex);
-							analysisList.add(temp1);
-						}
-						if(powerOffIndex != powerOnIndex && e4Pre.equals(e4Next) && e4Next.equals(e4Third) && !e4Third.equals(e4Four)){
-							//来电
-							powerOnIndex++;
-							temp1.put("powerOnIndex",powerOnIndex);
-							analysisList.add(temp3);
-						}
-					}else{
-						//电表无读数，判断eps
-						if(powerOffIndex == powerOnIndex && Double.parseDouble(ups1Pre) > 100 && Double.parseDouble(ups1Next) < 20){
-							//停电
-							powerOffIndex++;
-							temp1.put("powerOffIndex",powerOffIndex);
-							analysisList.add(temp1);
-						}
-						if(powerOffIndex != powerOnIndex && Double.parseDouble(ups1Pre) < 20 && Double.parseDouble(ups1Next) > 100){
-							powerOnIndex++;
-							temp1.put("powerOnIndex",powerOnIndex);
-							analysisList.add(temp1);
-						}
-					}
-				}
-				analysisList.add(res.get(0));
-				System.out.println(analysisList);
-				List<PowerOffRes> calcList = new LinkedList<PowerOffRes>();
-				if(analysisList.size()%2 == 0){
-					for(int x=0;x<analysisList.size();x+=2){
-						PowerOffRes powerOffRes = new PowerOffRes();
-						Map<String,Object> tempMap1 = analysisList.get(x);
-						Map<String,Object> tempMap2 = analysisList.get(x+1);
-						powerOffRes.setBsId(bsId);
-						powerOffRes.setName(name);
-						powerOffRes.setBsOffTime(bsOffTime);
-						powerOffRes.setBsOnTime(bsOnTime);
-						powerOffRes.setPowerOffTime(tempMap1.get("createTime")+"");
-						powerOffRes.setPowerOffVol(tempMap1.get("ups4")+"");
-						powerOffRes.setPowerOnTime(tempMap2.get("createTime")+"");
-						powerOffRes.setPowerOnVol(tempMap2.get("ups4")+"");
-						powerOffRes.setCalcTime(calcTime(tempMap1.get("createTime")+"",tempMap2.get("createTime")+""));
-						calcList.add(powerOffRes);
-					}
-				}
-				//综合分析
-				double centerVol = 0.00;
-				List<String> timeList = new LinkedList<String>();
-				//System.out.println(calcList);
-				if(calcList.size()>0){
-					for(int y=calcList.size()-1;y>=0;y--){
-						PowerOffRes powerOffRes = calcList.get(y);
-						String powerOffVol = powerOffRes.getPowerOffVol()==null?"":powerOffRes.getPowerOffVol();
-						String powerOffTime = powerOffRes.getPowerOffTime()==null?"":powerOffRes.getPowerOffTime();
-						String powerOnTime = powerOffRes.getPowerOnTime()==null?"":powerOffRes.getPowerOnTime();
-						if(centerVol == 0){
-							String tempTime = calcTime(powerOffTime,powerOnTime);
-							timeList.add(tempTime);
-							centerVol = Double.parseDouble(powerOffVol);
-						}else if(Double.parseDouble(powerOffVol) > centerVol){
-							Map<String,Object> searchParam = new HashMap<String,Object>();
-							searchParam.put("bsId",bsId);
-							searchParam.put("startTime",powerOffTime);
-							searchParam.put("endTime",powerOnTime);
-							searchParam.put("currentMonth","xhgmnet_emh_sensor_history"+powerOffTime.substring(5, 7));
-						/*System.out.println("startTime"+powerOffTime);
-						System.out.println("endTime"+powerOnTime);*/
-							List<Map<String,Object>> volList = AmapService.selectVolUpdate(searchParam);
-							for(int z=0;z<volList.size();z++){
-								String searchVolVal = volList.get(z).get("ups4")==null?"":volList.get(z).get("ups4")+"";
-								if(!"".equals(searchVolVal) && Double.parseDouble(searchVolVal) <= centerVol){
-									//下降到该电压时计算时间
-									String searchTime = volList.get(z).get("createTime")==null?"":volList.get(z).get("createTime")+"";
-									String tempTime = calcTime(powerOffTime,searchTime);
-									timeList.add(tempTime);
-									break;
-								}
-							}
-							centerVol = Double.parseDouble(powerOffVol);
-						}
-					}
-
-					System.out.println(timeList);
-					PowerOffRes sumTimeMap = new PowerOffRes();
-					sumTimeMap.setBsId(bsId);
-					sumTimeMap.setName(name);
-					sumTimeMap.setFinalTime(sumTime(timeList));
-					calcList.add(sumTimeMap);
-					System.out.println(calcList);
-				}else{
-					PowerOffRes sumTimeMap = new PowerOffRes();
-					sumTimeMap.setBsId(bsId);
-					sumTimeMap.setName(name);
-					sumTimeMap.setFinalTime("该基站需手动分析");
-					calcList.add(sumTimeMap);
-					System.out.println(calcList);
-				}
-
-
-			}
-
-		}
-		//System.out.println(finalList);
-
+		analysisModel("2019-07-01 00:00:00","2019-07-29 07:33:00");
 	}
 
 	public static boolean compareTime(String time1,String time2) {
@@ -939,11 +825,14 @@ public class AmapController {
 		if(dataList.size()>0){
 			for(int i=0;i<dataList.size();i++){
 				Map<String,Object> temp = dataList.get(i);
+				String ups1 = temp.get("ups1")==null?"":temp.get("ups1")+"";
 				String ups2 = temp.get("ups2")==null?"":temp.get("ups2")+"";
+				String e4 = temp.get("e4")==null?"":temp.get("e4")+"";
 				if(!"".equals(ups2) && Double.parseDouble(ups2) != 0){
-					finalList.add(temp);
+					if(!"".equals(ups1) || !"".equals(e4)){
+						finalList.add(temp);
+					}
 				}
-
 			}
 		}
 		return finalList;

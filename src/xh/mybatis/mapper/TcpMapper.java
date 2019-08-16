@@ -10,17 +10,17 @@ public interface TcpMapper {
 	/**
 	 * 查询当月已巡基站
 	 */
-	public List<Map<String,Object>> selectInspectionBsList(int month)throws Exception;
+	public List<Map<String,Object>> selectInspectionBsList(Map<String,Object> param)throws Exception;
 
 	/**
 	 * 查询当月未巡基站
 	 */
-	public List<Map<String,Object>> selectNotInspectionBsList(int month)throws Exception;
+	public List<Map<String,Object>> selectNotInspectionBsList(Map<String,Object> param)throws Exception;
 
 	/**
 	 * 查询当前所有断站
 	 */
-	public List<Map<String,Object>> selectBreakBsInfo()throws Exception;
+	public List<Map<String,Object>> selectBreakBsInfo(List<String> list)throws Exception;
 	/**
 	 * 根据基站id查询移动基站最近五条巡检
 	 */
@@ -136,7 +136,7 @@ public interface TcpMapper {
 	/**
 	 * 查询所有基站信息
 	 */
-	public List<Map<String,String>> selectForAllBsList()throws Exception;
+	public List<Map<String,String>> selectForAllBsList(List<String> list)throws Exception;
 	
 	/**
 	 * 插入用户上传的位置信息
@@ -187,5 +187,10 @@ public interface TcpMapper {
 	 * 查询终端号
 	 */
 	public int selectRadioId(String radioId)throws  Exception;
+
+	/**
+	 * 查询用户所在区域
+	 */
+	public List<String> selectUserZone(String userId)throws  Exception;
 
 }

@@ -224,6 +224,7 @@ xh.load = function() {
         $scope.showelec = function () {
             $("#elec-form input").val("");
             $("#elec-form div[name='suggest']").text("");
+            $("#uploadResult9").html("");
             $scope.imgListShowData = [];
             //$scope.$apply();
             $("#elec").modal('show');
@@ -331,9 +332,9 @@ xh.load = function() {
         $scope.showContent = function (id) {
             $scope.contentData =$scope.sheetData;
             console.log($scope.contentData);
-            $("input[name='result']").val(1);
-            $("input[name='fileName']").val($scope.data[id].fileName1+$scope.data[id].fileName2+$scope.data[id].fileName3);
-            $("input[name='path']").val($scope.data[id].filePath1);
+            $("#showContent input[name='result']").val(1);
+            $("#showContent input[name='fileName']").val($scope.data[id].fileName1+$scope.data[id].fileName2+$scope.data[id].fileName3);
+            $("#showContent input[name='path']").val($scope.data[id].filePath1);
 
             var fileName1Arr = "";
             var fileName2Arr = "";
@@ -432,8 +433,8 @@ xh.load = function() {
                 }
 
                 if(response.items.reason){
-                    $("input[name='result']").val(1);
-                    $("input[name='fileName']").val(response.items.reason);
+                    $("#elec input[name='result']").val(1);
+                    $("#elec input[name='fileName']").val(response.items.reason);
                     var tempArr = response.items.reason.split(";");
                     $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
                 }else{
@@ -452,8 +453,8 @@ xh.load = function() {
                     $scope.elecBtnShow = false;
                 }
                 if(response.items.reason){
-                    $("input[name='result']").val(1);
-                    $("input[name='fileName']").val(response.items.reason);
+                    $("#elec input[name='result']").val(1);
+                    $("#elec input[name='fileName']").val(response.items.reason);
                     var tempArr = response.items.reason.split(";");
                     $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
                 }else{
@@ -580,6 +581,26 @@ xh.load = function() {
                 }
             });
         };
+        /* 删除核减图片 */
+        $scope.delCheckImg = function(x) {
+            var msg = "确认删除该图片么？";
+            if(confirm(msg) == true){
+                var tempList = $scope.imgListData;
+                var index = tempList.indexOf(x);
+                tempList.splice(index,1);
+                console.log(tempList)
+                $scope.imgListData = tempList;
+
+                var fileName = "";
+                if(tempList.length>0){
+                    for(var i=0;i<tempList.length;i++){
+                        fileName += tempList[i]+";"
+                    }
+                }
+                $("#showContent input[name='fileName']").val(fileName);
+            }
+        }
+
 		/* 查询数据 */
 		$scope.search = function(page) {
 			var pageSize = $("#page-limit").val();
@@ -1014,17 +1035,36 @@ xh.upload = function(index) {
 			console.log(data.fileName)
 			xh.maskHide();
 			if (data.success) {
-				$("#"+note).html(data.message);
-				$("input[name='result']").val(1);
-				$("input[name='fileName']").val(data.fileName);
-				$("input[name='path']").val(data.filePath);
 				if(index == 0){
+                    var listPre = $scope.imgListData;
+                    var pre = "";
+                    if(listPre.length>0){
+                        for(var i=0;i<listPre.length;i++){
+                            pre += listPre[i]+";";
+                        }
+                    }else{
+                        listPre = [];
+                    }
+
+                    $("#"+note).html(data.message);
+                    $("#showContent input[name='result']").val(1);
+                    $("#showContent input[name='fileName']").val(pre+data.fileName);
+                    $("#showContent input[name='path']").val(data.filePath);
+
                     var tempArr = data.fileName.split(";");
-                    $scope.imgListData = tempArr.splice(0,tempArr.length-1);
+                    var listNext = tempArr.splice(0,tempArr.length-1);
+                    //console.log(listPre);
+                    //console.log(listNext)
+                    $scope.imgListData = listPre.concat(listNext);
                     console.log($scope.imgListData)
                     $scope.$apply();
                 }
                 if(index == 9){
+                    $("#"+note).html(data.message);
+                    $("#elec input[name='result']").val(1);
+                    $("#elec input[name='fileName']").val(data.fileName);
+                    $("#elec input[name='path']").val(data.filePath);
+
                     var tempArr = data.fileName.split(";");
                     $scope.imgListShowData = tempArr.splice(0,tempArr.length-1);
                     console.log($scope.imgListShowData)

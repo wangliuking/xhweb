@@ -2,18 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xh.mybatis.mapper.TcpMapper">
 	<!-- 查询当月已巡基站信息 -->
-	<select id="selectInspectionBsList" parameterType="int" resultType="map">
-		select bsId  bsid,name bsname,lat latitude,lng longitude,address from xhgmnet_bs_station where bsId in (select bsid from xhgmnet_operations_inspection_selfbs where DATE_FORMAT(commitdate,'%c') =#{month} GROUP BY bsid)
+	<select id="selectInspectionBsList" parameterType="map" resultType="map">
+		select bsId bsid,name bsname,lat latitude,lng longitude,address from xhgmnet_bs_station where bsId in (select bsid from xhgmnet_operations_inspection_selfbs where DATE_FORMAT(commitdate,'%c') =#{month} GROUP BY bsid)
+		<if test="list.size()>0">
+			and zone in (
+			<foreach collection="list" item="item" index="index"
+					 separator=",">
+				#{item}
+			</foreach>
+			)
+		</if>
 	</select>
 
 	<!-- 查询当月未巡基站信息 -->
-	<select id="selectNotInspectionBsList" parameterType="int" resultType="map">
-		select bsId  bsid,name bsname,lat latitude,lng longitude,address from xhgmnet_bs_station where bsId  not in (select bsid from xhgmnet_operations_inspection_selfbs where DATE_FORMAT(commitdate,'%c') =#{month} GROUP BY bsid) and lat !=''
+	<select id="selectNotInspectionBsList" parameterType="map" resultType="map">
+		select bsId bsid,name bsname,lat latitude,lng longitude,address from xhgmnet_bs_station where bsId  not in (select bsid from xhgmnet_operations_inspection_selfbs where DATE_FORMAT(commitdate,'%c') =#{month} GROUP BY bsid) and lat !=''
+		<if test="list.size()>0">
+			and zone in (
+			<foreach collection="list" item="item" index="index"
+					 separator=",">
+				#{item}
+			</foreach>
+			)
+		</if>
 	</select>
 
 	<!-- 查询当前所有断站 -->
-	<select id="selectBreakBsInfo" parameterType="String"  resultType="map">
-		select b.bsId  bsid,b.name bsname,lat latitude,lng longitude,address from (select * from view_bsstatus where link!=0 and bsId in (select bsId from xhgmnet_bs_station where status=1)) as a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId
+	<select id="selectBreakBsInfo" parameterType="List"  resultType="map">
+		select b.bsId bsid,b.name bsname,lat latitude,lng longitude,address from
+		(select * from view_bsstatus where link!=0 and bsId in (select bsId from xhgmnet_bs_station where status=1
+		<if test="list.size()>0">
+			and zone in (
+			<foreach collection="list" item="item" index="index"
+					 separator=",">
+				#{item}
+			</foreach>
+			)
+		</if>)) as a LEFT JOIN xhgmnet_bs_station as b on a.bsId=b.bsId
 	</select>
 
 	<!-- 根据基站id查询移动基站最近十二条巡检 -->
@@ -191,8 +216,16 @@
 	</update>
 	
 	<!-- 查询所有基站信息 -->
-	<select id="selectForAllBsList" resultType="map">
+	<select id="selectForAllBsList" parameterType="List" resultType="map">
 		select bsid,name as bsname,lat as latitude,lng as longitude,address from xhgmnet_bs_station where lat!=0 and lng!=0 and lat is not null and lng is not null
+		<if test="list.size()>0">
+		and zone in (
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			#{item}
+		</foreach>
+		)
+		</if>
 	</select>
 	
 	<!-- 插入在线用户的位置信息 -->
@@ -240,5 +273,10 @@
 	<!-- 根据基站名称模糊查询基站列表 -->
 	<select id="selectBsListByName" parameterType="String" resultType="map">
 		select bsId as bsid,name as bsname from xhgmnet_bs_station where name like concat("%",#{name},"%");
+	</select>
+
+	<!-- 查询用户所在区域 -->
+	<select id="selectUserZone" parameterType="String" resultType="String">
+		select zone from xhgmnet_web_userzone where user=#{userId}
 	</select>
 </mapper>

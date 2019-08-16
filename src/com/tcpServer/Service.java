@@ -86,7 +86,9 @@ public class Service {
 		getErrBsInfoAck.setUserid(getErrBsInfo.getUserid());
 		getErrBsInfoAck.setSerialnumber(getErrBsInfo.getSerialnumber());
 		try {
-			getErrBsInfoAck.setBslist(mapper.selectBreakBsInfo());
+			String userId = getErrBsInfo.getUserid();
+			List<String> zoneList = mapper.selectUserZone(userId);
+			getErrBsInfoAck.setBslist(mapper.selectBreakBsInfo(zoneList));
 			getErrBsInfoAck.setStatus("1");
 		}catch (Exception e){
 			e.printStackTrace();
@@ -144,7 +146,12 @@ public class Service {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());
 			int month = cal.get(Calendar.MONTH);
-			List<Map<String,Object>> list = mapper.selectInspectionBsList(month+1);
+			String userId = getInspectBsList.getUserid();
+			List<String> zoneList = mapper.selectUserZone(userId);
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("month",month+1);
+			param.put("list",zoneList);
+			List<Map<String,Object>> list = mapper.selectInspectionBsList(param);
 			getInspectBsListAck.setBslist(list);
 			getInspectBsListAck.setStatus("1");
 			sqlSession.close();
@@ -167,7 +174,12 @@ public class Service {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());
 			int month = cal.get(Calendar.MONTH);
-			List<Map<String,Object>> list = mapper.selectNotInspectionBsList(month+1);
+			String userId = getUnInspectBsList.getUserid();
+			List<String> zoneList = mapper.selectUserZone(userId);
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("month",month+1);
+			param.put("list",zoneList);
+			List<Map<String,Object>> list = mapper.selectNotInspectionBsList(param);
 			getUnInspectBsListAck.setBslist(list);
 			getUnInspectBsListAck.setStatus("1");
 			sqlSession.close();
@@ -190,10 +202,15 @@ public class Service {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(new Date());
 			int month = cal.get(Calendar.MONTH);
-			getTotalInfoAck.setBsnum(mapper.selectForAllBsList().size()+"");
-			getTotalInfoAck.setErrbsnum(mapper.selectBreakBsInfo().size()+"");
-			getTotalInfoAck.setInspectbsnum(mapper.selectInspectionBsList(month+1).size()+"");
-			getTotalInfoAck.setUninspectbsnum(mapper.selectNotInspectionBsList(month+1).size()+"");
+			String userId = getTotalInfo.getUserid();
+			List<String> zoneList = mapper.selectUserZone(userId);
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("month",month+1);
+			param.put("list",zoneList);
+			getTotalInfoAck.setBsnum(mapper.selectForAllBsList(zoneList).size()+"");
+			getTotalInfoAck.setErrbsnum(mapper.selectBreakBsInfo(zoneList).size()+"");
+			getTotalInfoAck.setInspectbsnum(mapper.selectInspectionBsList(param).size()+"");
+			getTotalInfoAck.setUninspectbsnum(mapper.selectNotInspectionBsList(param).size()+"");
 			getTotalInfoAck.setAppnum(ServerDemo.mThreadList.size()+"");
 			sqlSession.close();
 		} catch (Exception e) {
@@ -777,8 +794,10 @@ public class Service {
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		TcpMapper mapper=sqlSession.getMapper(TcpMapper.class);
 		List<GetAllBsListAck> finalList = new LinkedList<GetAllBsListAck>();
-		try{						
-			List<Map<String,String>> list = mapper.selectForAllBsList();
+		try{
+			String userId = getAllBsList.getUserid();
+			List<String> zoneList = mapper.selectUserZone(userId);
+			List<Map<String,String>> list = mapper.selectForAllBsList(zoneList);
 			//System.out.println("list长度为 : "+list.size());
 			List<Map<String,String>> list1 = new LinkedList<Map<String,String>>();
 			List<Map<String,String>> list2 = new LinkedList<Map<String,String>>();
