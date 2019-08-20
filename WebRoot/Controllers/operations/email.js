@@ -237,6 +237,9 @@ xh.load = function() {
 			case "运维考核":
 				url="../business/operations_check.html";
 			    break;
+			case "会议纪要":
+				url="../operations/meet.html";
+			    break;
 			default:
 				url="email.html";
 				

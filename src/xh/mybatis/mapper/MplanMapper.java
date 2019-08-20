@@ -16,8 +16,8 @@ public interface MplanMapper {
 	
 	List<MplanBean> mplanList(Map<String,Object> map)throws Exception;
 	
-	List<MplanBean> mplanList_month_one(String time)throws Exception;
+	List<MplanBean> mplanList_month_one(Map<String,Object> map)throws Exception;
 	
-	List<MplanBean> mplanList_month_two(String time)throws Exception;
+	List<MplanBean> mplanList_month_two(Map<String,Object> map)throws Exception;
 
 }

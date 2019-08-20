@@ -3,12 +3,20 @@ package xh.mybatis.bean;
 public class MplanBean {
 	private int id;
 	private String mplan_type;
+	private String period;
 	private String mplan_content;
 	private String plan_time;
 	private String complete_time;
 	private String result;
 	private String reason;
 	private String note;
+	
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
+	}
 	public int getId() {
 		return id;
 	}

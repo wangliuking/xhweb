@@ -63,8 +63,7 @@ xh.load = function() {
 			xh.pagging(1, parseInt($scope.totals), $scope);
 		});
 		
-		
-	    
+		    
 	    $scope.toCheck2 = function (index) {
 	    $scope.check_data=$scope.data[index];
 	   
@@ -88,13 +87,19 @@ xh.load = function() {
 					"&id="+$scope.editData.id+"" +
 					"&checkMonth="+$scope.editData.checkMonth+"&applyId="+$scope.editData.applyId;
 	    };
+	    $scope.addFile=function(id){
+	    	var x = $scope.data[id];
+	    	window.location.href="operations_check_add_file.html?" +
+	    			"period="+x.type+"&month="+x.checkMonth+"&applyId="+x.applyId
+	    }
 	    //提交扣分扣款
 	    
 	    $scope.upScoreAndMoney=function(id){
 	    	$scope.checkData = $scope.data[id];
 	    	swal({
 				title : "提示",
-				text : "确认已经填写了扣分扣款记录吗？",
+				//text : "确认已经填写了扣分，扣款记录吗？",
+				text:"确认整个考核工作都结束了，并关闭流程？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",
@@ -184,33 +189,50 @@ xh.load = function() {
 	    $scope.recordScore = function (id) {
 			var data = $scope.data[id];
 			var url="";
+			var a=[];
+			for(var i=0;i<data.files.length;i++){
+				a.push(data.files[i].fileName);
+			}
+			
 			if(data.type==4){
 				url+="operations_check_write4_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header
 			}else if(data.type==3){
 				url+="operations_check_write3_score.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}
+			//console.log(data.score_header.replace(/\r\n/g,"|"));
 			window.location.href=url;
 	    };
 	    $scope.recordMoney = function (id) {
 			var data = $scope.data[id];
 			var url="";
+			var a=[];
+			for(var i=0;i<data.files.length;i++){
+				a.push(data.files[i].fileName);
+			}
 			if(data.type==4){
 				url+="operations_check_write4_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}else if(data.type==3){
 				url+="operations_check_write3_money.html?applyId="+data.applyId;
 				url+="&checkMonth="+data.checkMonth;
-				url+="&files="+JSON.stringify(data.files);
+				url+="&files="+a.join(",");
+				url+="&docName="+data.score_header;
 			}
 			window.location.href=url;
 	    };
 		$scope.showFileWin = function (id) {
 			$scope.detailData = $scope.data[id];
+			$scope.getEnsureFileList($scope.detailData);
+			$scope.getAppFileList($scope.detailData);
+			$scope.getBsCheckFileList($scope.detailData);
 			$("#filesWin").modal('show');
 	    };
 	    $scope.showSignWin = function (id) {
@@ -338,6 +360,61 @@ xh.load = function() {
 			}
 			
 		}
+		$scope.getFileList=function(){
+			var month=$("input[name='month']").val();
+			var type=$("select[name='type']").val();
+			$http.get("../../check/allcheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.files = response.files;
+						$scope.fileTotal = response.totals;
+                        var a=JSON.stringify(response.files);
+						
+						var com=new Array();
+						var index=0;
+						for(var i=0;i<fileNames.length;i++){
+							if(a.indexOf(fileNames[i])==-1){
+								com[index]=fileNames[i];
+								index++;
+							}
+						}
+						$scope.com=com.join(",");
+						$scope.com_size=com.length;
+						
+			});
+		}
+	
+		$scope.getBsCheckFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bscheckfile?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.bscheck_files = response.files;
+						$scope.bscheck_fileTotal = response.totals;
+						
+						
+						
+						
+			});
+		}
+		$scope.getEnsureFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bs_ensure_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.ensure_files = response.files;
+						$scope.ensure_fileTotal = response.totals;
+			});
+		}
+		//获取月巡检文件
+		$scope.getAppFileList=function(data){
+			var month=data.checkMonth;
+			var type=data.type;
+			$http.get("../../check/bs_app_file?period="+type+"&month="+month).success(
+					function(response) {
+						$scope.app_files = response.files;
+						$scope.app_fileTotal = response.totals;
+			});
+		}
 		$scope.sealScoreMoneyDoc=function(tag){
 			var data=$scope.checkData;
 			var path="";
@@ -369,7 +446,7 @@ xh.load = function() {
 			
 			swal({
 				title : "提示",
-				text : "确认已完成所有文件的签章？",
+				text : "确认通知管理方查看相关文件？",
 				type : "info",
 				showCancelButton : true,
 				confirmButtonColor : "#DD6B55",
@@ -510,9 +587,11 @@ xh.load = function() {
 				data : {
 					id : data.id,
 					user:data.user,
+					checkUser3:data.checkUser3,
 					status:9,
 					checkUser:data.checkUser,
-					checkUser2:data.checkUser2
+					checkUser2:data.checkUser2,
+					writeMeetUser:data.writeMeetUser
 				},
 				async : false,
 				success : function(data) {
@@ -563,9 +642,11 @@ xh.load = function() {
 						data : {
 							id : data.id,
 							user:data.user,
+							checkUser3:data.checkUser3,
 							status:tag,
 							checkUser:data.checkUser,
-							checkUser2:data.checkUser2
+							checkUser2:data.checkUser2,
+							writeMeetUser:data.writeMeetUser
 						},
 						async : false,
 						success : function(data) {

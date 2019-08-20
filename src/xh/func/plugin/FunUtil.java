@@ -92,7 +92,7 @@ public class FunUtil {
 				tag = m.matches();
 			}
 		}
-		return tag;
+		return true;
 	}
 
 	// 获取登录用户
@@ -364,7 +364,10 @@ public class FunUtil {
 			Object value) {
 		request.getSession().setAttribute(name, value);
 	}
-
+	// 获取session
+		public static Object getObjectSession(HttpServletRequest request, String name) {
+			return request.getSession().getAttribute(name);
+		}
 	// 获取session
 	public static String getSession(HttpServletRequest request, String name) {
 		return request.getSession().getAttribute(name).toString();
@@ -480,6 +483,18 @@ public class FunUtil {
 		Date m = c.getTime();
 		String date = dd.format(m);
 		return date;
+	}
+	
+	public static int StringToInt(Object str){
+		if(str==null){
+			return 0;
+		}else{
+			if(str.toString().indexOf(".")>-1){
+				return Integer.parseInt(str.toString().split("\\.")[0]);
+			}else{
+				return Integer.parseInt(str.toString());
+			}
+		}
 	}
 
 	public static String nowDateOnly() {
@@ -600,19 +615,15 @@ public class FunUtil {
 	}
 
 	public static int StringToInt(String str) {
-		int value = -1;
-		try {
-			value = Integer.parseInt(str.trim());
-		} catch (NumberFormatException e) {
-			// TODO: handle exception
-			log.info("数字字符串解析失败");
-			log.error(e.getMessage(), e);
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-			log.info("数字字符串为空");
-			log.error(e.getMessage(), e);
+		if(str==null){
+			return 0;
+		}else{
+			if(str.toString().indexOf(".")>-1){
+				return Integer.parseInt(str.toString().split("\\.")[0]);
+			}else{
+				return Integer.parseInt(str.toString());
+			}
 		}
-		return value;
 	}
 
 	public static long StringToLong(String str) {
@@ -816,5 +827,29 @@ public class FunUtil {
 			System.out.println("新文件名和旧文件名相同...");
 		}
 	}
-
+	public static List<Map<String,Object>> readFileTree(String path){
+		File dir = new File(path);
+		File[] files=dir.listFiles();
+		List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+		if(files!=null){
+			for(int i=0;i<files.length;i++){
+				Map<String,Object> map=new HashMap<String, Object>();
+				if(files[i].isDirectory()){
+					map.put("isDir", true);
+					map.put("file", files[i].getName());				
+					map.put("children", readFileTree(files[i].getPath()));
+				}else{
+					map.put("isDir", false);
+					map.put("file", files[i].getName());
+					map.put("path", files[i].getPath());
+					System.out.println(files[i].getName());
+				}
+				list.add(map);
+			}
+		}else{
+			System.out.println("当前目录为空");
+		}
+		return list;
+		
+	}
 }

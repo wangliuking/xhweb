@@ -230,7 +230,7 @@ xh.upload = function() {
 			if (data.success) {
 				$('#upload').modal('hide');
 				xh.refresh();
-				$("#uploadForm")[0].reset();
+				//$("#uploadForm")[0].reset();
 				$("#uploadForm").data('bootstrapValidator').resetForm();
 				$("#uploadResult").html("");
 				 toastr.success("文件上传成功", '提示');

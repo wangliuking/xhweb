@@ -134,6 +134,9 @@ xh.load = function() {
 		$scope.showFileWin=function(){
 			$("input[name='pathName']").click();
 		}
+		$scope.showUpdateFileWin=function(){
+			$("input[name='pathName2']").click();
+		}
 		$("input[name='pathName']").change(function(){
 			console.log($(this).val());
 		});
@@ -196,10 +199,81 @@ xh.load = function() {
 			});
 
 		};
+		/*撤销*/
+		$scope.cancelTask = function(index) {
+			var id = $scope.data[index].id;
+			swal({
+				title : "提示",
+				text : "确定要撤销工作联系单吗？",
+				type : "info",
+				showCancelButton : true,
+				confirmButtonColor : "#DD6B55",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			    closeOnConfirm : true, 
+			    closeOnCancel : true,
+			    }, function(isConfirm) {
+				    if (isConfirm) {
+				    	$.ajax({
+							url : '../../WorkContact/cancel',
+							type : 'post',
+							dataType : "json",
+							data : {
+								id:id
+							},				
+							async : false,
+							success : function(data) {
+								xh.maskHide();
+								if (data.success) {
+									toastr.success(data.message, '提示');
+									$scope.refresh();
+								} else {
+									toastr.error(data.message, '提示');
+								}
+							},
+							error : function() {
+								xh.maskHide();
+								toastr.error("系统错误", '提示');
+							}
+						});
+				    }
+			});
+
+		};
+
+		/*删除文件*/
+		$scope.delTaskFile= function(id) {
+			$.ajax({
+				url : '../../WorkContact/delFile',
+				type : 'post',
+				dataType : "json",
+				data : {
+					id:id
+				},				
+				async : false,
+				success : function(data) {
+					xh.maskHide();
+					if (data.success) {
+						toastr.success("成功", '提示');
+						$scope.refresh();
+					} else {
+						toastr.error("失败", '提示');
+					}
+				},
+				error : function() {
+					xh.maskHide();
+					toastr.error("系统错误", '提示');
+				}
+			});
+		};
 
 		/* 签收 */
-		$scope.sign = function(index) {
-			var id = $scope.data[index].taskId;
+		$scope.showReplyWin=function(index){
+			$scope.editData= $scope.data[index];
+			$("#replyWin").modal("show");
+		}
+		$scope.sign = function() {
+			var id =$scope.editData.taskId;
 			$.ajax({
 				url : '../../WorkContact/sign',
 				type : 'POST',
@@ -207,13 +281,16 @@ xh.load = function() {
 				async : true,
 				data : {
 					taskId : id,
-					addUser : $scope.data[index].addUser
+					addUser : $scope.editData.addUser,
+					check_person : $scope.editData.check_person,
+					reply:$("#replyWin").find("textarea[name='reply']").val()
 				},
 				success : function(data) {
 
 					if (data.success) {
 						xh.refresh();
 						toastr.success(data.message, '提示');
+						$("#replyWin").modal("hide");
 					} else {
 						toastr.error(data.message, '提示');
 					}
@@ -272,6 +349,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var time = $("#time").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			frist = 0;
 			page = parseInt(page);
@@ -284,7 +362,7 @@ xh.load = function() {
 			console.log("limit=" + limit);
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.data = response.items;
@@ -298,6 +376,7 @@ xh.load = function() {
 			var pageSize = $("#page-limit").val();
 			var time = $("#time").val();
 			var type = $("#type").val();
+			var status = $("#status").val();
 			var start = 1, limit = pageSize;
 			page = parseInt(page);
 			if (page <= 1) {
@@ -307,7 +386,7 @@ xh.load = function() {
 			}
 			xh.maskShow();
 			$http.get(
-					"../../WorkContact/list?time="+time+"&type="+type+"&start=" + start + "&limit="
+					"../../WorkContact/list?status="+status+"&time="+time+"&type="+type+"&start=" + start + "&limit="
 							+ pageSize).success(function(response) {
 				xh.maskHide();
 				$scope.start = (page - 1) * pageSize + 1;
@@ -373,6 +452,7 @@ xh.add = function() {
 			if (data.success) {
 				$('#add').modal('hide');
 				xh.refresh();
+				 $("#fileArea ul").children().remove();
 				//toastr.success(data.message, '提示');
 				//POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/workcontact_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
 			} else {
@@ -388,13 +468,26 @@ xh.add = function() {
 xh.edit = function() {
 	var $scope = angular.element(appElement).scope();
 	var files=[];
+	$(".file-div ul li").each(function(){
+	    var name = $(this).children().first().text();
+	    var path = $(this).children(".path").text();
+	    if(name!="" && path!=""){
+	    	var a={
+	    			fileName:name,
+	    			filePath:path
+	    	}
+	    	files.push(a);
+	    }
+	   
+	});
 	$.ajax({
 		url : '../../WorkContact/update',
 		type : 'POST',
 		dataType : "json",
 		async : true,
 		data : {
-			formData : xh.serializeJson($("#editForm").serializeArray())
+			formData : xh.serializeJson($("#editForm").serializeArray()),
+			files: JSON.stringify(files)
 		// 将表单序列化为JSON对象
 		},
 		success : function(data) {
@@ -402,6 +495,7 @@ xh.edit = function() {
 			if (data.success) {
 				$('#edit').modal('hide');
 				xh.refresh();
+				$(".file-div ul").children().remove();
 				toastr.success(data.message, '提示');
 			} else {
 				toastr.error(data.message, '提示');

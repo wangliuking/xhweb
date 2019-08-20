@@ -28,6 +28,7 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import xh.func.plugin.FunUtil;
 import xh.func.plugin.GsonUtil;
 import xh.mybatis.bean.InspectionDispatchBean;
 import xh.mybatis.bean.InspectionMscBean;
@@ -77,7 +78,8 @@ public class AppInspectionExcelController {
 
 	}
 
-	public void excel_vertical(File file, InspectionVerticalBean bean) {
+	public void excel_vertical(HttpServletRequest request,File file,String time, 
+			InspectionVerticalBean bean,int type,int period,String fileName) {
 		try {
 			WritableWorkbook book = Workbook.createWorkbook(file);
 			WritableFont font = new WritableFont(
@@ -321,6 +323,26 @@ public class AppInspectionExcelController {
 			sheet.setRowView(20, 600);
 			book.write();
 			book.close();
+			String destDir1="";
+			if(period==3){
+				destDir1=request.getSession().getServletContext().getRealPath("/upload/check");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3/基站月度巡检表";
+				
+			
+			}else if(period==4){
+				destDir1=request.getSession().getServletContext().getRealPath("/upload/check");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4/基站月度巡检表";
+				
+			}
+			if(type==20){
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+
+				File file1 = new File(destDir1+"/"+fileName);
+				FunUtil.copyFile(file, file1);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -941,6 +963,13 @@ public class AppInspectionExcelController {
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(false);// 不自动换行
+			WritableCellFormat fontFormat_desc = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_desc.setAlignment(Alignment.LEFT);// 水平对齐
+			fontFormat_desc.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_desc.setBorder(Border.NONE, BorderLineStyle.THIN);// 边框
+			fontFormat_desc.setBackground(Colour.WHITE);// 背景色
+			fontFormat_desc.setWrap(false);// 不自动换行
 
 			// 设置主题内容字体格式
 			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
@@ -981,7 +1010,7 @@ public class AppInspectionExcelController {
 			Label title = new Label(0, 0, "调度台巡检表", fontFormat);
 			sheet.mergeCells(0, 0, 7, 0);
 			sheet.addCell(title);
-			sheet.setRowView(0, 600, false); // 设置行高
+			sheet.setRowView(0, 800, false); // 设置行高
 			sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE,
 					PaperSize.A4, 0.5d, 0.5d);
 			sheet.getSettings().setLeftMargin(0.50);
@@ -990,38 +1019,26 @@ public class AppInspectionExcelController {
 			sheet.getSettings().setBottomMargin(0.5);
 
 			// 第2行
-			Label label_1_0 = new Label(0, 1, "调度台名称", fontFormat_h);// 创建单元格
-			Label label_1_1 = new Label(1, 1, bean.getDispatchname(),
-					fontFormat_Content);// 创建单元格
-			Label label_1_2 = new Label(2, 1, "地点", fontFormat_h);// 创建单元格
-			Label label_1_3 = new Label(3, 1, bean.getDispatchplace(),
-					fontFormat_Content);// 创建单元格
-			Label label_1_4 = new Label(4, 1, "巡检时间", fontFormat_h);// 创建单元格
-			Label label_1_5 = new Label(5, 1, bean.getCommitdate().split(" ")[0],
-					fontFormat_Content);// 创建单元格
-			Label label_1_6 = new Label(6, 1, "巡检人", fontFormat_h);// 创建单元格
-			Label label_1_7 = new Label(7, 1, bean.getCheckman(),
-					fontFormat_Content);// 创建单元格
+			sheet.setRowView(1, 700, false); // 设置行高
+			Label label_1_0 = new Label(0, 1, 
+					"调度台名称："+bean.getDispatchname()+"    地点："+bean.getDispatchplace()
+					+"   巡检时间："+bean.getCommitdate().split(" ")[0]+"    巡检人："+bean.getCheckman(), 
+					fontFormat_desc);// 创建单元格
+			sheet.mergeCells(0, 1, 7, 1);
 
-			sheet.setColumnView(0, 13);
+			sheet.setColumnView(0, 8);
 			sheet.setColumnView(1, 28);
-			sheet.setColumnView(2, 10);
-			sheet.setColumnView(3, 14);
+			sheet.setColumnView(2, 5);
+			sheet.setColumnView(3, 21);
 			sheet.setColumnView(4, 20);
 			sheet.setColumnView(5, 30);
 			sheet.setColumnView(6, 10);
 			sheet.setColumnView(7, 10);
 
 			sheet.addCell(label_1_0);
-			sheet.addCell(label_1_1);
-			sheet.addCell(label_1_2);
-			sheet.addCell(label_1_3);
-			sheet.addCell(label_1_4);
-			sheet.addCell(label_1_5);
-			sheet.addCell(label_1_6);
-			sheet.addCell(label_1_7);
 
 			// 第3行
+			sheet.setRowView(2, 600, false); // 设置行高
 			Label label_2_0 = new Label(0, 2, "序号", fontFormat_Content);// 创建单元格
 			Label label_2_1 = new Label(1, 2, "检查类容", fontFormat_Content);// 创建单元格
 			Label label_2_2 = new Label(2, 2, "备注", fontFormat_Content);// 创建单元格
@@ -1038,10 +1055,11 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_2_5);
 
 			// 第4行
+			sheet.setRowView(3, 600, false); // 设置行高
 			Label label_3_0 = new Label(0, 3, "1", fontFormat_Content);// 创建单元格
 			Label label_3_1 = new Label(1, 3, "调度台安装环境是否完成正常",
 					fontFormat_Content);// 创建单元格
-			Label label_3_2 = new Label(2, 3, bean.getComment1(),
+			Label label_3_2 = new Label(2, 3, "主要看设备是否齐全、安装是否有安全隐患",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 3, 3, 3);
 			Label label_3_3 = new Label(4, 3, checkbox(bean.getD1()),
@@ -1056,6 +1074,7 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_3_4);
 			sheet.addCell(label_3_5);
 			// 第5行
+			sheet.setRowView(4, 600, false); // 设置行高
 			Label label_4_0 = new Label(0, 4, "2", fontFormat_Content);// 创建单元格
 			Label label_4_1 = new Label(1, 4, "调度台电源是否正常开启", fontFormat_Content);// 创建单元格
 			Label label_4_2 = new Label(2, 4, bean.getComment2(),
@@ -1073,6 +1092,7 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_4_4);
 			sheet.addCell(label_4_5);
 			// 第6行
+			sheet.setRowView(5, 600, false); // 设置行高
 			Label label_5_0 = new Label(0, 5, "3", fontFormat_Content);// 创建单元格
 			Label label_5_1 = new Label(1, 5, "调度台是否正常登录", fontFormat_Content);// 创建单元格
 			Label label_5_2 = new Label(2, 5, bean.getComment3(),
@@ -1090,9 +1110,10 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_5_4);
 			sheet.addCell(label_5_5);
 			// 第7行
+			sheet.setRowView(6, 600, false); // 设置行高
 			Label label_6_0 = new Label(0, 6, "4", fontFormat_Content);// 创建单元格
 			Label label_6_1 = new Label(1, 6, "调度台配置是否正常", fontFormat_Content);// 创建单元格
-			Label label_6_2 = new Label(2, 6, bean.getComment4(),
+			Label label_6_2 = new Label(2, 6, "主要看配置文件以及音箱输出配置等",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 6, 3, 6);
 			Label label_6_3 = new Label(4, 6, checkbox(bean.getD4()),
@@ -1107,6 +1128,7 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_6_4);
 			sheet.addCell(label_6_5);
 			// 第8行
+			sheet.setRowView(7, 600, false); // 设置行高
 			Label label_7_0 = new Label(0, 7, "5", fontFormat_Content);// 创建单元格
 			Label label_7_1 = new Label(1, 7, "调度台录音是否正常", fontFormat_Content);// 创建单元格
 			Label label_7_2 = new Label(2, 7, bean.getComment5(),
@@ -1124,10 +1146,11 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_7_4);
 			sheet.addCell(label_7_5);
 			// 第9行
+			sheet.setRowView(8, 600, false); // 设置行高
 			Label label_8_0 = new Label(0, 8, "6", fontFormat_Content);// 创建单元格
 			Label label_8_1 = new Label(1, 8, "语音、短信业务测试是否正常",
 					fontFormat_Content);// 创建单元格
-			Label label_8_2 = new Label(2, 8, bean.getComment6(),
+			Label label_8_2 = new Label(2, 8, "组呼、单呼、短信",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 8, 3, 8);
 			Label label_8_3 = new Label(4, 8, checkbox(bean.getD6()),
@@ -1142,9 +1165,10 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_8_4);
 			sheet.addCell(label_8_5);
 			// 第10行
+			sheet.setRowView(9, 600, false); // 设置行高
 			Label label_9_0 = new Label(0, 9, "7", fontFormat_Content);// 创建单元格
 			Label label_9_1 = new Label(1, 9, "调度业务测试是否正常", fontFormat_Content);// 创建单元格
-			Label label_9_2 = new Label(2, 9, bean.getComment7(),
+			Label label_9_2 = new Label(2, 9, "派接、多选、监听等",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 9, 3, 9);
 			Label label_9_3 = new Label(4, 9, checkbox(bean.getD7()),
@@ -1159,10 +1183,11 @@ public class AppInspectionExcelController {
 			sheet.addCell(label_9_4);
 			sheet.addCell(label_9_5);
 			// 第11行
+			sheet.setRowView(10, 600, false); // 设置行高
 			Label label_10_0 = new Label(0, 10, "8", fontFormat_Content);// 创建单元格
 			Label label_10_1 = new Label(1, 10, "环境温度是否工作正常",
 					fontFormat_Content);// 创建单元格
-			Label label_10_2 = new Label(2, 10, bean.getComment8(),
+			Label label_10_2 = new Label(2, 10, "空调配置",
 					fontFormat_Content);// 创建单元格
 			sheet.mergeCells(2, 10, 3, 10);
 			Label label_10_3 = new Label(4, 10, checkbox(bean.getD8()),

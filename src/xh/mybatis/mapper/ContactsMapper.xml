@@ -13,10 +13,11 @@
       
     </select>  
     <update id="phone_update" parameterType="xh.mybatis.bean.ContactsBean">
-    update xhgmnet_phonebook set name=#{name},phoneNumber=#{phoneNumber} where id=#{id}
+    update xhgmnet_phonebook set name=#{name},phoneNumber=#{phoneNumber},
+    job=#{job} where id=#{id}
     </update>
 	<insert id="phone_write" parameterType="xh.mybatis.bean.ContactsBean">
-		insert into xhgmnet_phonebook(name,phoneNumber)values(#{name},#{phoneNumber})
+		insert into xhgmnet_phonebook(name,phoneNumber,job)values(#{name},#{phoneNumber},#{job})
 	</insert> 
 	<delete id="phone_del" parameterType="java.util.List">
 		delete from xhgmnet_phonebook where id in(

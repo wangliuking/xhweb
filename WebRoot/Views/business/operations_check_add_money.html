@@ -5,8 +5,15 @@
 	<div class="col-md-12">
         <div class="hpanel">          
             <div class="panel-body">
+             <form action="#" id="money4Form" onsubmit="return false">
+            <div class="row">
+                                <div class="col-md-12">
+                                    <label>表名称（<span style="color:red;">描述:多行名称，请换行填写，生成的文件中的头部名称默认居中显示。</span>）</label>
+                                    <textarea name="doc_name" class="form-control" rows="4" ng-model="doc_name"></textarea>
+                                </div>
+                            </div>
                 
-                <form action="#" id="money4Form" onsubmit="return false">
+               
                     <table id="tb-info" class="xh-table-primary table-hover">
                         <thead>
                             <tr class="tr-gray">
@@ -48,21 +55,21 @@
                             </tr>
                             <tr>
                                 <td rowspan="3">单基站可用率（桥接站或地铁互联设备按一级基站考核）</td>
-                                <td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td>一级基站可用率全年99.99%，全年不超过1小时，超过每小时扣除(1000元)</td>
                                 <td><input class="form-control" name="m_a2"
                                     ng-model="money_data4.m_a2" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a2"
                                     ng-model="money_data4.n_a2" /></td>
                             </tr>
                             <tr>
-                                <td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td>二级基站可用率全年99.95%，全年不超过5小时，超过每小时扣除(1000元)</td>
                                 <td><input class="form-control" name="m_a3"
                                     ng-model="money_data4.m_a3" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a3"
                                     ng-model="money_data4.n_a3" /></td>
                             </tr>
                             <tr>
-                                <td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除(三期：300元),(四期：1000元)</td>
+                                <td>三级基站可用率全年99.95%，全年不超过9小时，超过每小时扣除(1000元)</td>
                                 <td><input class="form-control" name="m_a4"
                                     ng-model="money_data4.m_a4" ng-change="sum_money4()" type="number" min="0"  max="10000000"/></td>
                                 <td><input class="form-control" name="n_a4"

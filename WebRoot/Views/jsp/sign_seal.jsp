@@ -57,7 +57,7 @@
                         window.external.CallParentFunc("xh.sealDoc("+fileId+")");
                     } */
                     //Save();
-                    alert("签字成功！");
+                   // alert("签字成功！");
                 } else {
                     alert("签字失败！");
                 }
@@ -75,7 +75,7 @@
 						window.external.CallParentFunc("xh.sealDoc("+fileId+")");
 					} */
 					//Save();
-					alert("盖章成功！");
+					//alert("盖章成功！");
 				} else {
 					alert("盖章失败！");
 				}

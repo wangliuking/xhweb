@@ -10,7 +10,15 @@ public class FaultOneBean {
 	 private String  type;
 	 private String  area;
 	 private String  note;
+	 private String period;
 	 private String  record_person;
+	 
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
+	}
 	public int getId() {
 		return id;
 	}

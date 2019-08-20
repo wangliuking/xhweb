@@ -547,7 +547,7 @@
 		left join
 		xhgmnet_bs_station as b on a.bsId=b.bsId where a.bsId=#{bsId}
 	</select>
-	<select id="excel_bs_info" parameterType="int"
+	<select id="excel_bs_info" parameterType="map"
 		resultType="xh.mybatis.bean.ExcelBsInfoBean" useCache="true">
 		SELECT
 		a.*, b.*,
@@ -603,6 +603,9 @@
 		AND
 		i.bsrId = 4
 		where a.type!=2
+		<if test="period!=0">
+		and a.period=#{period}
+		</if>
 		ORDER BY
 		a.bsId ASC
 	</select>

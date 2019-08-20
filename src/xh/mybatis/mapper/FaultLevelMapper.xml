@@ -35,8 +35,8 @@
 		useGeneratedKeys="true" keyProperty="id">
 		insert into
 		xhgmnet_operations_fault_one(produce_time,recovery_time,
-		reason,fault_type,type,area,note,record_person)values(
-		#{produce_time},#{recovery_time},#{reason},#{fault_type},#{type},#{area},#{note},#{record_person}
+		reason,fault_type,type,area,note,record_person,period)values(
+		#{produce_time},#{recovery_time},#{reason},#{fault_type},#{type},#{area},#{note},#{record_person},#{period}
 		)
 	</insert>
 	<insert id="four_add" parameterType="xh.mybatis.bean.FaultFourBean"
@@ -53,7 +53,7 @@
 		xhgmnet_operations_fault_one set
 		produce_time=#{produce_time},recovery_time=#{recovery_time},
 		reason=#{reason},fault_type=#{fault_type},type=#{type},area=#{area},note=#{note},
-		record_person=#{record_person} where id=#{id}
+		record_person=#{record_person},period=#{period} where id=#{id}
 	</update>
 	<update id="three_update" parameterType="xh.mybatis.bean.FaultThreeBean">
 		update

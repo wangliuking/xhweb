@@ -120,12 +120,21 @@ public class ChartService {
 		}
 		return  list;
 	}
-	public static List<Map<String,Object>>  excel_month_inspection(String time){
+	public static List<Map<String,Object>>  excel_month_inspection(String time,int period){
 		SqlSession sqlSession=MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		ChartsMapper mapper = sqlSession.getMapper(ChartsMapper.class);
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list2 = new ArrayList<Map<String,Object>>();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
 		try {
-			list=mapper.excel_month_inspection(time);
+			
+			list=mapper.excel_month_inspection_bs(map);
+			list2=mapper.excel_month_inspection(map);
+			list.addAll(list2);
+			
+			
 			sqlSession.close();
 			
 		} catch (Exception e) {

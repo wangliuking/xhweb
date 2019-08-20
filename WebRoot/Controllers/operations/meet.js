@@ -273,7 +273,7 @@ xh.add = function() {
 				$("#addForm")[0].reset();
 				$("#addForm").data('bootstrapValidator').resetForm();
 				//toastr.success(data.message, '提示');
-				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/meet_doc.jsp?bean='+JSON.stringify(data.bean),'width=300px;height=200px;');
+				POBrowser.openWindowModeless(xh.getUrl()+'/Views/jsp/meet_doc.jsp?','width=300px;height=200px;');
 			} else {
 				toastr.error(data.message, '提示');
 			}

@@ -103,8 +103,13 @@ xh.bs_month_excel = function(time) {
 			$("#excel-month-bs-btn").button('reset');
 			xh.maskHide();
 			if (data.success) {
-				window.location.href = "../../bsstatus/downExcel?filePath="
-						+ data.pathName;
+				/*window.location.href = "../../bsstatus/downExcel?filePath="
+						+ data.pathName;*/
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
 
 			} else {
 				toastr.error("导出失败", '提示');
@@ -295,9 +300,12 @@ xh.config_excel = function(time) {
 
 			xh.maskHide();
 			if (data.success) {
-				window.location.href = "../../bsstatus/downExcel?filePath="
-						+ data.pathName;
-
+				//window.location.href = "../../bsstatus/downExcel?filePath="+ data.pathName;
+				swal({
+					title : "提示",
+					text : "文件生成成功",
+					type : "info"
+				});
 			} else {
 				toastr.error("导出失败", '提示');
 			}
@@ -310,24 +318,43 @@ xh.config_excel = function(time) {
 
 };
 //导出基站信息
-xh.bs_excel = function(time) {
+xh.bs_excel = function(time,tag) {
 	xh.maskShow();
-	$("#excel-month-bs-info-btn").button('loading');
+	if(tag==0){
+		$("#excel-month-bs-info-btn").button('loading');
+	}else{
+		$("#excel-month-bs-info-btn2").button('loading');
+	}
+	
+	var period=$("#excel-month-msc-inspection").find("select[name='period']").val();
+	
 	$.ajax({
 		url : '../../bs/excel_bs_info',
 		type : 'GET',
 		dataType : "json",
 		data : {
-			time:time
+			time:time,
+			period:period
 		},
 		async : true,
 		success : function(data) {
 			$("#excel-month-bs-info-btn").button('reset');
+			$("#excel-month-bs-info-btn2").button('reset');
 
 			xh.maskHide();
 			if (data.success) {
-				window.location.href = "../../bsstatus/downExcel?filePath="
+				$("#excel-month-msc-inspection").modal("hide");
+				if(tag==0){
+					window.location.href = "../../bsstatus/downExcel?filePath="
 						+ data.pathName;
+				}else{
+					swal({
+						title : "提示",
+						text : "文件生成成功",
+						type : "info"
+					});
+				}
+				
 
 			} else {
 				toastr.error("导出失败", '提示');
@@ -336,6 +363,7 @@ xh.bs_excel = function(time) {
 		error : function() {
 			toastr.error("导出失败", '提示');
 			$("#excel-month-bs-info-btn").button('reset');
+			$("#excel-month-bs-info-btn2").button('reset');
 			xh.maskHide();
 		}
 	});

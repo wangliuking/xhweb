@@ -32,8 +32,14 @@ xh.load = function() {
 	app.controller("xhcontroller", function($scope,$http, $location) {
 		$scope.applyId = $location.search().applyId;
 		$scope.time = $location.search().checkMonth;
+		
 		$scope.doc_name="成都市应急指挥调度无线通信网四期工程服务项目\r\n"+$scope.time+"项目服务扣分表";
 		var files=$location.search().files;
+		var docName=$location.search().docName;
+		if(docName!=null && docName!=""){
+			$scope.doc_name=docName;
+		}
+		
 		
 		$scope.change4Input=function(){
 			var a=0;
@@ -61,10 +67,21 @@ xh.load = function() {
 				$scope.score_sum3=response.sum3;
 				$scope.score_data4= response.items4;
 				$scope.score_sum4=response.sum4;
+				if($scope.score_sum4==0){
+					$scope.autoScore(time);
+				}
+			});
+		}
+		$scope.autoScore=function(time){
+			$http.get("../../check/show_score_detail?period=4&time="+time).
+			success(function(response){
+				xh.maskHide();
+				$scope.score_data4= response.items;
+				$scope.score_sum4=response.sum;
 			});
 		}
 		$scope.searchFile=function(fileName){
-			var filesStr=JSON.parse(files);
+			var filesStr=files.split(",");
 			var path="";
 			if(files.indexOf(fileName)==-1){
 				if(fileName=="成都市应急通信网应急通信保障预案"){
@@ -77,8 +94,9 @@ xh.load = function() {
 				}
 			}
 			for(var i=0;i<filesStr.length;i++){
-				if(filesStr[i].fileName.indexOf(fileName)!=-1){
-					path=filesStr[i].filePath;
+				if(filesStr[i].indexOf(fileName)!=-1){
+					path="/upload/check/"+$scope.time.split("-")[0]
+					+"/"+$scope.time.split("-")[1]+"/4/"+filesStr[i];
 				}
 			}
 			if(path.toLowerCase().indexOf("doc")!=-1){
@@ -153,6 +171,18 @@ xh.load = function() {
 					  area: ['900px', '500px'],
 					  content: xh.getUrl()+'/Views/business/record_train.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
 					});
+			}
+		  if(str=="运维响应机制"){
+				var index=layer.open({
+					  type: 2, 
+					  shade: 0.4,
+					  anim: 1,
+					  title:'运维响应机制',
+					  maxmin:true,
+					  area: ['900px', '500px'],
+					  content: xh.getUrl()+'/Views/operations/task_check_record.html?month='+$scope.time //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+					});
+				layer.full(index);
 			}
 		}
 		$scope.searchScore($scope.time);

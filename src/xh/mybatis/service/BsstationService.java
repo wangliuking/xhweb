@@ -608,12 +608,14 @@ public class BsstationService {
 		}
 		return count;
 	}
-	public static List<ExcelBsInfoBean> excel_bs_info() {
+	public static List<ExcelBsInfoBean> excel_bs_info(int period) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsstationMapper mapper = sqlSession.getMapper(BsstationMapper.class);
 		List<ExcelBsInfoBean> list=new ArrayList<ExcelBsInfoBean>();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("period", period);
 		try {
-			list=mapper.excel_bs_info();
+			list=mapper.excel_bs_info(map);
 			sqlSession.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

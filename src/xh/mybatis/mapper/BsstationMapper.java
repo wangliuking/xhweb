@@ -353,7 +353,7 @@ public interface BsstationMapper {
 	
 	public Map<String,Object> select_bs_by_bsid(int bsId) throws Exception;
 	
-	public List<ExcelBsInfoBean> excel_bs_info()throws Exception;
+	public List<ExcelBsInfoBean> excel_bs_info(Map<String,Object> map)throws Exception;
 	
 	public int select_bs_by_type(int type) throws Exception;
 	

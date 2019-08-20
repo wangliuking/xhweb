@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import xh.func.plugin.FlexJSON;
 import xh.func.plugin.FunUtil;
@@ -51,13 +52,51 @@ public class ReportMonthController {
 	
 	
 	@RequestMapping(value = "/excel_month_bs", method = RequestMethod.GET)
-	public void excel_report(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String time=request.getParameter("time");
+	public void excel_month_bs(HttpServletRequest req,HttpServletResponse rep) throws Exception{
+      String time = req.getParameter("time");
+		
+      excel_month_bs_3(time,req);
+      excel_month_bs_4(time,req);
+		/*excel_two_4(time,req);*/
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("time", time);
+		String saveDir = req.getSession().getServletContext().getRealPath("/upload/checksource");
+		File srcFile3 = new File(saveDir + "/"+time+"定期维护报告-基站月维护(三期).xls");
+		File srcFile4 = new File(saveDir + "/"+time+"定期维护报告-基站月维护(四期).xls");
+		
+		String destDir3=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir3=destDir3+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+		String destDir4=req.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir4=destDir4+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+		File Path3 = new File(destDir3);
+		if (!Path3.exists()) {
+			Path3.mkdirs();
+		}
+		File Path4 = new File(destDir4);
+		if (!Path4.exists()) {
+			Path4.mkdirs();
+		}
+		File file3 = new File(destDir3+"/定期维护报告-基站月维护.xls");
+		File file4 = new File(destDir4+"/定期维护报告-基站月维护.xls");
+		FunUtil.copyFile(srcFile3, file3);
+		FunUtil.copyFile(srcFile4, file4);
+		Map<String, Object> rmap = new HashMap<String, Object>();
+		rmap.put("success", true);
+		rmap.put("pathName3", destDir3+"/定期维护报告-基站月维护.xls");
+		rmap.put("pathName4", destDir4+"/定期维护报告-基站月维护.xls");
+		rep.setContentType("application/json;charset=utf-8");
+		String jsonstr = json.Encode(rmap);
+		rep.getWriter().write(jsonstr);
+
+		
+	}
+	public void excel_month_bs_3(String time,HttpServletRequest request) throws Exception{
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("time", time);
 		try {
-			String saveDir = request.getSession().getServletContext().getRealPath("/upload/");
-			String pathname = saveDir + "/定期维护报告-基站月维护-"+time+".xls";
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+			String pathname = saveDir + "/"+time+"定期维护报告-基站月维护(三期).xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -73,7 +112,7 @@ public class ReportMonthController {
 			fontFormat.setWrap(true); // 自动换行
 			fontFormat.setBackground(Colour.WHITE);// 背景颜色
 			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-					Colour.DARK_GREEN);
+					Colour.BLACK);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
@@ -86,7 +125,7 @@ public class ReportMonthController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(true);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -121,18 +160,11 @@ public class ReportMonthController {
 
 			WritableSheet sheet0 = book.createSheet("日常维护-基站", 0);
 			
-			excel_bsStatus(map,sheet0,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bsStatus(map,"3",sheet0,fontFormat,fontFormat_h,fontFormat_Content);
 			
 			book.write();
 			book.close();
-			/*DownExcelFile(response, pathname);*/
-			 this.success=true;
-			 HashMap<String, Object> result = new HashMap<String, Object>();
-			 result.put("success", success);
-			 result.put("pathName", pathname);
-			 response.setContentType("application/json;charset=utf-8"); 
-			 String jsonstr = json.Encode(result); 
-			 response.getWriter().write(jsonstr);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,86 +172,12 @@ public class ReportMonthController {
 		}
 		
 	}
-	public  void excel_bsStatus(Map<String,Object> map,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
-		try {
-		
-			
-
-			// 设置数字格式
-			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
-			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(
-					nf); // 设置表单格式
-			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
-			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
-			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			wcfN.setBackground(Colour.WHITE);// 背景色
-			wcfN.setWrap(true);// 自动换行
-			sheet.addCell(new Label(0, 0, "基站期数", fontFormat_h));
-			sheet.addCell(new Label(1, 0, "基站ID", fontFormat_h));
-			sheet.addCell(new Label(2, 0, "设备", fontFormat_h));
-			sheet.addCell(new Label(3, 0, "ICP状态", fontFormat_h));
-			sheet.addCell(new Label(4, 0, "BSR状态", fontFormat_h));
-			sheet.addCell(new Label(5, 0, "基站时钟运行状态", fontFormat_h));
-			sheet.addCell(new Label(6, 0, "双工器回波损耗", fontFormat_h));
-			sheet.addCell(new Label(7, 0, "主控信道底噪查询", fontFormat_h));
-			sheet.addCell(new Label(8, 0, "备注", fontFormat_h));
-			sheet.setRowView(0, 300);
-			sheet.setColumnView(0, 10);
-			sheet.setColumnView(1, 10);
-			sheet.setColumnView(2, 20);
-			sheet.setColumnView(3, 10);
-			sheet.setColumnView(4, 20);
-			sheet.setColumnView(5, 20);
-			sheet.setColumnView(6, 50);
-			sheet.setColumnView(7, 50);
-			sheet.setColumnView(8, 20);
-
-			
-			List<BsStatusBean> list = BsStatusService.excelToBsStatus();
-			
-			for (int i = 0; i < list.size(); i++) {
-			
-				BsStatusBean bean = (BsStatusBean) list.get(i);
-				
-			/*	System.out.println("bsr1="+bean.getBsr_state1()+";bsr2="+bean.getBsr_state2()
-						+";bsr3="+bean.getBsr_state3()+";bsr4="+bean.getBsr_state4());*/
-				
-				String bsrstatus=bsr_status(bean.getBsr_state1(),bean.getBsr_state2(),bean.getBsr_state3(),bean.getBsr_state4());
-				sheet.addCell(new jxl.write.Number(0, i + 1,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));	
-				sheet.addCell(new jxl.write.Number(1, i + 1,Double.parseDouble(String.valueOf(bean.getBsId())),wcfN));				
-				sheet.addCell(new Label(2, i + 1, String.valueOf(bean.getName()), fontFormat_Content));
-				sheet.addCell(new Label(3, i + 1, bs_icp(bean.getIcp_status()), fontFormat_Content));
-				sheet.addCell(new Label(4, i + 1, bsrstatus, fontFormat_Content));
-				sheet.addCell(new Label(5, i + 1, String.valueOf(bean.getClock_status()), fontFormat_Content));
-				sheet.addCell(new Label(6, i + 1, dpx_format(bean.getDpx_retLoss1(),bean.getDpx_retLoss2(),
-						bean.getDpx_retLoss3(), bean.getDpx_retLoss4()), fontFormat_Content));
-				sheet.addCell(new Label(7, i + 1, master_ch(bean.getCarrierLowNoiseRXRssi1(),
-						bean.getCarrierLowNoiseRXRssi2(),bean.getCarrierLowNoiseRXRssi3(),
-						bean.getCarrierLowNoiseRXRssi4()), fontFormat_Content));
-				
-				sheet.addCell(new Label(8, i + 1, bsr_status(bean.getBsr_state1()), fontFormat_Content));
-				
-				
-			}
-
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-		
-		
-		
-		
-	}
-	@RequestMapping(value = "/excel_month_inspection", method = RequestMethod.GET)
-	public void excel_month_inspection(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String time=request.getParameter("time");
+	public void excel_month_bs_4(String time,HttpServletRequest request) throws Exception{
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("time", time);
 		try {
-			String saveDir = request.getSession().getServletContext().getRealPath("/upload/");
-			String pathname = saveDir + "/成都市应急指挥调度无线通信网巡检记录汇总表-"+time+".xls";
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+			String pathname = saveDir + "/"+time+"定期维护报告-基站月维护(四期).xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
@@ -235,7 +193,7 @@ public class ReportMonthController {
 			fontFormat.setWrap(true); // 自动换行
 			fontFormat.setBackground(Colour.WHITE);// 背景颜色
 			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-					Colour.DARK_GREEN);
+					Colour.BLACK);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
@@ -248,7 +206,7 @@ public class ReportMonthController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(true);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -281,20 +239,13 @@ public class ReportMonthController {
 			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
 			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
 
-			WritableSheet sheet0 = book.createSheet("巡检记录汇总表", 0);
+			WritableSheet sheet0 = book.createSheet("日常维护-基站", 0);
 			
-			excel_inspection(time,sheet0,fontFormat,fontFormat_h,fontFormat_Content);
+			excel_bsStatus(map,"4",sheet0,fontFormat,fontFormat_h,fontFormat_Content);
 			
 			book.write();
 			book.close();
-			/*DownExcelFile(response, pathname);*/
-			 this.success=true;
-			 HashMap<String, Object> result = new HashMap<String, Object>();
-			 result.put("success", success);
-			 result.put("pathName", pathname);
-			 response.setContentType("application/json;charset=utf-8"); 
-			 String jsonstr = json.Encode(result); 
-			 response.getWriter().write(jsonstr);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -302,9 +253,219 @@ public class ReportMonthController {
 		}
 		
 	}
-	public  void excel_inspection(String time,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+	public  void excel_bsStatus(Map<String,Object> map,String period,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
 		try {
-			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检记录汇总表", fontFormat_h));
+		
+			String time=map.get("time").toString();
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(
+					nf); // 设置表单格式
+			wcfN.setAlignment(Alignment.CENTRE);// 水平对齐
+			wcfN.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			wcfN.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			wcfN.setBackground(Colour.WHITE);// 背景色
+			wcfN.setWrap(true);// 自动换行
+			sheet.addCell(new Label(0, 0, "定期维护报告-基站月维护", fontFormat_h));
+			sheet.mergeCells(0, 0, 8, 0);
+			sheet.addCell(new Label(0, 1, time.split("-")[0]+"年"+time.split("-")[1]+"月", fontFormat_h));
+			sheet.mergeCells(0, 1, 8, 1);
+			sheet.addCell(new Label(0, 2, "期数", fontFormat_h));
+			sheet.addCell(new Label(1, 2, "基站ID", fontFormat_h));
+			sheet.addCell(new Label(2, 2, "设备", fontFormat_h));
+			sheet.addCell(new Label(3, 2, "ICP状态", fontFormat_h));
+			sheet.addCell(new Label(4, 2, "BSR状态", fontFormat_h));
+			sheet.addCell(new Label(5, 2, "基站时钟运行状态", fontFormat_h));
+			sheet.addCell(new Label(6, 2, "双工器回波损耗", fontFormat_h));
+			sheet.addCell(new Label(7, 2, "主控信道底噪查询", fontFormat_h));
+			sheet.addCell(new Label(8, 2, "备注", fontFormat_h));
+			sheet.setRowView(0, 400);
+			sheet.setRowView(1, 400);
+			sheet.setColumnView(0, 10);
+			sheet.setColumnView(1, 10);
+			sheet.setColumnView(2, 20);
+			sheet.setColumnView(3, 10);
+			sheet.setColumnView(4, 20);
+			sheet.setColumnView(5, 20);
+			sheet.setColumnView(6, 50);
+			sheet.setColumnView(7, 50);
+			sheet.setColumnView(8, 20);
+
+			
+			List<BsStatusBean> list = BsStatusService.excelToBsStatus(period);
+			
+			for (int i = 0; i < list.size(); i++) {
+			
+				BsStatusBean bean = (BsStatusBean) list.get(i);
+			
+				
+			/*	System.out.println("bsr1="+bean.getBsr_state1()+";bsr2="+bean.getBsr_state2()
+						+";bsr3="+bean.getBsr_state3()+";bsr4="+bean.getBsr_state4());*/
+				
+				String bsrstatus=bsr_status(bean.getBsr_state1(),bean.getBsr_state2(),bean.getBsr_state3(),bean.getBsr_state4());
+				sheet.addCell(new jxl.write.Number(0, i + 3,Double.parseDouble(String.valueOf(bean.getPeriod())),wcfN));	
+				sheet.addCell(new jxl.write.Number(1, i + 3,Double.parseDouble(String.valueOf(bean.getBsId())),wcfN));				
+				sheet.addCell(new Label(2, i + 3, String.valueOf(bean.getName()), fontFormat_Content));
+				sheet.addCell(new Label(3, i + 3, bs_icp(bean.getIcp_status()), fontFormat_Content));
+				sheet.addCell(new Label(4, i + 3, bsrstatus, fontFormat_Content));
+				sheet.addCell(new Label(5, i + 3, String.valueOf(bean.getClock_status()), fontFormat_Content));
+				sheet.addCell(new Label(6, i + 3, dpx_format(bean.getDpx_retLoss1(),bean.getDpx_retLoss2(),
+						bean.getDpx_retLoss3(), bean.getDpx_retLoss4()), fontFormat_Content));
+				sheet.addCell(new Label(7, i + 3, master_ch(bean.getCarrierLowNoiseRXRssi1(),
+						bean.getCarrierLowNoiseRXRssi2(),bean.getCarrierLowNoiseRXRssi3(),
+						bean.getCarrierLowNoiseRXRssi4()), fontFormat_Content));
+				
+				sheet.addCell(new Label(8, i + 3, bsr_status(bean.getBsr_state1()), fontFormat_Content));
+				
+				
+			}
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+		
+		
+		
+	}
+	@RequestMapping(value = "/excel_month_inspection", method = RequestMethod.GET)
+	public void excel_month_inspection(@RequestParam("period") int period,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String time=request.getParameter("time");
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		
+		excel_month_inspection_period(time,0,request);
+		excel_month_inspection_period(time,3,request);
+		excel_month_inspection_period(time,4,request);
+		String rootDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
+		String sourceFilePath=rootDir + "/巡检汇总表["+time+"].xls";
+		
+		String destDir3=request.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir3=destDir3+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+		String destDir4=request.getSession().getServletContext().getRealPath("/upload/checksource");
+		destDir4=destDir4+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+		File Path3 = new File(destDir3);
+		if (!Path3.exists()) {
+			Path3.mkdirs();
+		}
+		File Path4 = new File(destDir4);
+		if (!Path4.exists()) {
+			Path4.mkdirs();
+		}
+		File file3 = new File(destDir3+"/巡检汇总表.xls");
+		File file4 = new File(destDir4+"/巡检汇总表.xls");
+		File srcFile3 = new File(rootDir + "/巡检汇总表["+time+"](三期).xls");
+		File srcFile4 = new File(rootDir + "/巡检汇总表["+time+"](四期).xls");
+		FunUtil.copyFile(srcFile3, file3);
+		FunUtil.copyFile(srcFile4, file4);
+
+		 HashMap<String, Object> result = new HashMap<String, Object>();
+		 result.put("success", true);
+		 if(period==0){
+			 result.put("pathName", sourceFilePath);
+		 }else if(period==3){
+			 result.put("pathName", rootDir + "/巡检汇总表["+time+"](三期).xls");
+		 }else{
+			 result.put("pathName", rootDir + "/巡检汇总表["+time+"](四期).xls");
+		 }
+		 
+		 response.setContentType("application/json;charset=utf-8"); 
+		 String jsonstr = json.Encode(result); 
+		 response.getWriter().write(jsonstr);
+	}
+	public void excel_month_inspection_period(String time,int period,HttpServletRequest request) throws Exception{
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("time", time);
+		map.put("period", period);
+		try {
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");			
+			String pathname = "";
+			if(period==0){
+				pathname = saveDir + "/巡检汇总表["+time+"].xls";
+			}else{
+				pathname = saveDir + "/巡检汇总表["+time+"]("+(period==3?'三':'四')+"期).xls";
+			}
+			File Path = new File(saveDir);
+			if (!Path.exists()) {
+				Path.mkdirs();
+			}
+			File file = new File(pathname);			
+			WritableWorkbook book = Workbook.createWorkbook(file);
+			WritableFont font = new WritableFont(
+					WritableFont.createFont("微软雅黑"), 15, WritableFont.NO_BOLD,
+					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableCellFormat fontFormat = new WritableCellFormat(font);
+			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
+			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
+			fontFormat.setWrap(true); // 自动换行
+			fontFormat.setBackground(Colour.WHITE);// 背景颜色
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+					Colour.BLACK);
+			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
+
+			// 设置头部字体格式
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 13,
+					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
+			// 应用字体
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
+			// 设置其他样式
+			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
+			fontFormat_h.setWrap(true);// 不自动换行
+
+			// 设置主题内容字体格式
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
+					12, WritableFont.NO_BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			// 应用字体
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
+			fontFormat_Content.setWrap(true);// 自动换行
+		
+			
+			//总计内容字体格式
+			WritableFont total_font = new WritableFont(WritableFont.COURIER,
+					13, WritableFont.BOLD, false,
+					UnderlineStyle.NO_UNDERLINE, Colour.RED);
+			// 应用字体
+			WritableCellFormat total_fontFormat = new WritableCellFormat(total_font);
+			total_fontFormat.setAlignment(Alignment.CENTRE);// 水平对齐
+			total_fontFormat.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
+			total_fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
+			total_fontFormat.setBackground(Colour.WHITE);// 背景色
+			total_fontFormat.setWrap(true);// 自动换行
+
+			// 设置数字格式
+			jxl.write.NumberFormat nf = new jxl.write.NumberFormat("#.##"); // 设置数字格式
+			jxl.write.WritableCellFormat wcfN = new jxl.write.WritableCellFormat(nf); // 设置表单格式
+
+			WritableSheet sheet0 = book.createSheet("巡检汇总表", 0);
+			
+			excel_inspection(time,period,sheet0,fontFormat,fontFormat_h,fontFormat_Content);
+			
+			book.write();
+			book.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+	}
+	public  void excel_inspection(String time,int period,WritableSheet sheet,WritableCellFormat fontFormat,WritableCellFormat fontFormat_h,WritableCellFormat fontFormat_Content) {
+		try {
+			sheet.addCell(new Label(0, 0, "成都市应急指挥调度无线通信网巡检汇总表", fontFormat_h));
 			sheet.mergeCells(0, 0, 8, 0);
 			sheet.addCell(new Label(0, 1, "基站ID", fontFormat_h));
 			sheet.addCell(new Label(1, 1, "基站名称", fontFormat_h));
@@ -327,7 +488,7 @@ public class ReportMonthController {
 			sheet.setColumnView(8, 20);
 
 			
-			List<Map<String,Object>> list=ChartService.excel_month_inspection(time);
+			List<Map<String,Object>> list=ChartService.excel_month_inspection(time,period);
 			
 			for (int i = 0; i < list.size(); i++) {
 				Map<String,Object> map=list.get(i);
@@ -357,53 +518,53 @@ public class ReportMonthController {
 	}
 	
 	@RequestMapping(value = "/config_excel", method = RequestMethod.POST)
-	public void config_excel(HttpServletRequest request, HttpServletResponse response) {
+	public void config_excel(@RequestParam("time") String time,HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			String saveDir = request.getSession().getServletContext()
-					.getRealPath("/upload");
-			String pathname = saveDir + "/运维资源配置"+FunUtil.nowDateNotTime()+".xls";
+					.getRealPath("/upload/checksource");
+			String pathname = saveDir + "/运维资源配置["+time+"].xls";
 			File Path = new File(saveDir);
 			if (!Path.exists()) {
 				Path.mkdirs();
 			}
 			File file = new File(pathname);
 			WritableWorkbook book = Workbook.createWorkbook(file);
-			WritableFont font = new WritableFont(
-					WritableFont.createFont("微软雅黑"), 16, WritableFont.NO_BOLD,
-					false, UnderlineStyle.NO_UNDERLINE, Colour.BLACK);
+			WritableFont font = new WritableFont(WritableFont.createFont("微软雅黑"),
+					15, WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.BLACK);
 			WritableCellFormat fontFormat = new WritableCellFormat(font);
 			fontFormat.setAlignment(Alignment.CENTRE); // 水平居中
 			fontFormat.setVerticalAlignment(VerticalAlignment.JUSTIFY);// 垂直居中
 			fontFormat.setWrap(true); // 自动换行
 			fontFormat.setBackground(Colour.WHITE);// 背景颜色
-			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);
+			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
+					Colour.BLACK);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			// 设置头部字体格式
-			WritableFont font_header = new WritableFont(WritableFont.TIMES, 14,
+			WritableFont font_header = new WritableFont(WritableFont.TIMES, 13,
 					WritableFont.BOLD, false, UnderlineStyle.NO_UNDERLINE,
 					Colour.BLACK);
 			// 应用字体
-			WritableCellFormat fontFormat_h = new WritableCellFormat(
-					font_header);
+			WritableCellFormat fontFormat_h = new WritableCellFormat(font_header);
 			// 设置其他样式
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			//fontFormat_h.setBackground(Colour.BRIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(true);// 不自动换行
 
 			// 设置主题内容字体格式
-			WritableFont font_Content = new WritableFont(WritableFont.TIMES,
-					13, WritableFont.BOLD, false,
-					UnderlineStyle.NO_UNDERLINE, Colour.GRAY_80);
+			WritableFont font_Content = new WritableFont(WritableFont.TIMES, 12,
+					WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
+					Colour.GRAY_80);
 			// 应用字体
-
-
-
-			WritableCellFormat fontFormat_Content = new WritableCellFormat(font_Content);
-
+			WritableCellFormat fontFormat_Content = new WritableCellFormat(
+					font_Content);
+			// 设置其他样式
+			fontFormat_Content.setAlignment(Alignment.CENTRE);// 水平对齐
+			fontFormat_Content.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_Content.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
 			fontFormat_Content.setBackground(Colour.WHITE);// 背景色
 			fontFormat_Content.setWrap(true);// 自动换行
@@ -414,9 +575,9 @@ public class ReportMonthController {
 			
 			
 			sheet.addCell(new Label(0, 0, "运维资源配置表", fontFormat));
-			sheet.mergeCells(0, 0, 4, 0);
+			sheet.mergeCells(0, 0, 6, 0);
 			sheet.addCell(new Label(0, 1, "办公地点", fontFormat));
-			sheet.mergeCells(0, 1, 4, 1);
+			sheet.mergeCells(0, 1, 6, 1);
 			sheet.setRowView(0, 600, false); // 设置行高
 
 			sheet.setColumnView(0, 10);
@@ -424,6 +585,7 @@ public class ReportMonthController {
 			sheet.setColumnView(2, 50);
 			sheet.setColumnView(3, 40);
 			sheet.setColumnView(4, 40);
+			
 			
 		
 
@@ -433,6 +595,7 @@ public class ReportMonthController {
 			sheet.addCell(new Label(2, 2, "地址", fontFormat_h));
 			sheet.addCell(new Label(3, 2, "面积( m2 )", fontFormat_h));
 			sheet.addCell(new Label(4, 2, "备注", fontFormat_h));
+			sheet.mergeCells(4, 2, 6, 2);
 			List<OfficeAddressBean> list=OfficeAddressService.office_list();
 			for(int i=0;i<list.size();i++){
 				OfficeAddressBean bean=list.get(i);
@@ -442,22 +605,27 @@ public class ReportMonthController {
 				sheet.addCell(new jxl.write.Number(3, i+3, bean.getArea(), fontFormat_Content));
 				
 				sheet.addCell(new Label(4, i+3, bean.getRemark(), fontFormat_Content));
+				sheet.mergeCells(4, i+3, 6, i+3);
 			}
 			//车辆
 			int pos=list.size()+4;
 			sheet.addCell(new Label(0, pos, "运维车辆", fontFormat));
-			sheet.mergeCells(0, pos, 3, pos);
+			sheet.mergeCells(0, pos, 6, pos);
 			sheet.addCell(new Label(0, pos+1, "序号", fontFormat_h));
 			sheet.addCell(new Label(1, pos+1, "车型", fontFormat_h));
-			sheet.addCell(new Label(2, pos+1, "车牌号", fontFormat_h));
-			sheet.addCell(new Label(3, pos+1, "备注", fontFormat_h));
+			sheet.mergeCells(1, pos+1, 3, pos+1);
+			sheet.addCell(new Label(4, pos+1, "车牌号", fontFormat_h));
+			sheet.mergeCells(4, pos+1, 5, pos+1);
+			sheet.addCell(new Label(6, pos+1, "备注", fontFormat_h));
 			List<OperationsBusBean> list2=OfficeAddressService.bus_list();
 			for(int i=0;i<list2.size();i++){
 				OperationsBusBean bean=list2.get(i);
 				sheet.addCell(new jxl.write.Number(0, pos+i+2, (i+1), fontFormat_Content));
 				sheet.addCell(new Label(1, pos+i+2, bean.getType(), fontFormat_Content));
-				sheet.addCell(new Label(2, pos+i+2, bean.getNumber(), fontFormat_Content));				
-				sheet.addCell(new Label(3, pos+i+2, bean.getRemark(), fontFormat_Content));
+				sheet.mergeCells(1, pos+i+2, 3, pos+i+2);
+				sheet.addCell(new Label(4, pos+i+2, bean.getNumber(), fontFormat_Content));
+				sheet.mergeCells(4, pos+i+2, 5, pos+i+2);
+				sheet.addCell(new Label(6, pos+i+2, bean.getRemark(), fontFormat_Content));
 			}
 			
 			//仪器仪表
@@ -490,6 +658,25 @@ public class ReportMonthController {
 			book.write();
 			book.close();
 			// DownExcelFile(response, pathname);
+			String destDir1=request.getSession().getServletContext()
+					.getRealPath("/upload/checksource");
+			destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+			File Path1 = new File(destDir1);
+			if (!Path1.exists()) {
+				Path1.mkdirs();
+			}
+			
+			String destDir2=request.getSession().getServletContext()
+					.getRealPath("/upload/checksource");
+			destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+			File Path2 = new File(destDir2);
+			if (!Path2.exists()) {
+				Path2.mkdirs();
+			}
+			File file1 = new File(destDir1+"/运维资源配置表.xls");
+			File file2 = new File(destDir2+"/运维资源配置表.xls");
+			FunUtil.copyFile(file, file1);
+			FunUtil.copyFile(file, file2);
 			this.success = true;
 			HashMap<String, Object> result = new HashMap<String, Object>();
 			result.put("success", success);

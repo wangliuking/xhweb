@@ -74,11 +74,14 @@ public class BsStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<BsStatusBean> excelToBsStatus() throws Exception {
+	public static List<BsStatusBean> excelToBsStatus(Object period) throws Exception {
 		SqlSession session = MoreDbTools
 				.getSession(MoreDbTools.DataSourceEnvironment.slave);
 		BsStatusMapper mapper = session.getMapper(BsStatusMapper.class);
-		List<BsStatusBean> list = mapper.excelToBsStatus();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("period", period);
+		
+		List<BsStatusBean> list = mapper.excelToBsStatus(map);
 		session.close();
 		return list;
 	}
@@ -989,5 +992,24 @@ public class BsStatusService {
 		}
 		return rs;
 	}
+	public static List<Map<String,Object>> sfalarm_detail(int bsId,int type) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		BsStatusMapper mapper = sqlSession.getMapper(BsStatusMapper.class);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("bsId", bsId);
+		map.put("type", type);
+		try {
+			list = mapper.sfalarm_detail(map);
+			sqlSession.close();
 
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

@@ -219,10 +219,12 @@
                     enctype="multipart/form-data" method="POST">
                     <div class="row" ng-show=false>
                     <input type="text" name="id" ng-model="editData.id" /> 
+                    <input type="text" name="start_time" ng-model="editData.start_time" /> 
                     <input type="text" name="file_name" value="" /> 
                     <input type="text" name="file_path" value="" /> 
                     </div>
                     <div class="row">
+                    
                         <div class="col-md-8">
                             <div class="form-group col-md-10" style="padding-right:0px;">
 
@@ -280,11 +282,14 @@
 	        $("#uploadfile").attr("disabled", true);
 	        xh.maskShow("正在上传文件，请耐心等待");
 	        $.ajaxFileUpload({
-	            url : '../../uploadFile/upload', //用于文件上传的服务器端请求地址
+	            url : '../../userneed/upload', //用于文件上传的服务器端请求地址
 	            secureuri : false, //是否需要安全协议，一般设置为false
 	            fileElementId : 'pathName', //文件上传域的ID
 	            dataType : 'json', // 返回值类型 一般设置为json
 	            type : 'POST',
+	            data:{
+	            	time:$("#uploadForm").find("input[name='start_time']").val()
+	            },
 	            success : function(data, status) //服务器成功响应处理函数
 	            {
 	                $("#uploadfile").attr("disabled", false);

@@ -154,10 +154,11 @@ public class MeetController {
 			FunUtil.WriteLog(request, ConstantLog.ADD, "添加会议纪要："+bean.getStart_time());
 			createFile(bean2,request);
 			if(type==2){
-				FunUtil.sendMsgToUserByPower("o_check_report", 3, "会议纪要", "你有新的会议纪要需要处理", request);
-			}else{
 				FunUtil.sendMsgToUserByPower("o_check_report", 2, "会议纪要", "你有新的会议纪要需要处理", request);
+			}else{
+				FunUtil.sendMsgToUserByPower("o_check_report", 3, "会议纪要", "你有新的会议纪要需要处理", request);
 			}
+			FunUtil.CreateSession(request, "addMeet", bean2);
 			
 		}else{
 			this.message="添加失败";
@@ -166,7 +167,7 @@ public class MeetController {
 		HashMap result = new HashMap();
 		result.put("success",success);
 		result.put("message",message);
-		result.put("bean",bean2);
+		//result.put("bean",bean2);
 		return result;		
 	}
 	
@@ -212,9 +213,9 @@ public class MeetController {
 			}else{
 				String roleType=FunUtil.loginUserInfo(request).get("roleType").toString();
 				if(roleType.equals("2")){
-					FunUtil.sendMsgToUserByPower("o_check_report", 2, "会议纪要", "你有新的会议纪要，请签章", request);
-				}else{
 					FunUtil.sendMsgToUserByPower("o_check_report", 3, "会议纪要", "你有新的会议纪要，请签章", request);
+				}else{
+					FunUtil.sendMsgToUserByPower("o_check_report", 2, "会议纪要", "你有新的会议纪要，请签章", request);
 				}
 				
 			}

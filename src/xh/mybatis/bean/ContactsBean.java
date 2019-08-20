@@ -7,6 +7,7 @@ public class ContactsBean {
 	private int id;
 	private String name;
 	private String phoneNumber;
+	private String job;
 	private String groupName;
 	public String getName() {
 		return name;
@@ -37,6 +38,12 @@ public class ContactsBean {
 	}
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	public String getJob() {
+		return job;
+	}
+	public void setJob(String job) {
+		this.job = job;
 	}
 	
 	

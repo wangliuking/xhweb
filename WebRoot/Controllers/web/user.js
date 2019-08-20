@@ -5,6 +5,8 @@ if (!("xh" in window)) {
 	window.xh = {};
 };
 var frist = 0;
+var select_zone=[];
+var select_zoneu=[];
 var appElement = document.querySelector('[ng-controller=user]');
 toastr.options = {
 	"debug" : false,
@@ -57,6 +59,14 @@ xh.load = function() {
 		$http.get("../../web/role/allRoleList").success(function(response) {
 			$scope.role = response.items;
 		});
+		/**
+		 * 获取基站区域
+		 */
+		$scope.bszone=function(){
+			$http.get("../../bs/map/area").success(function(response) {
+				$scope.zoneData = response.items;
+			});
+		}
 		/* vpn菜单 */
 		$scope.showVpnMenu=function(){
 		
@@ -83,6 +93,17 @@ xh.load = function() {
 		$scope.editModel = function(id) {
 			$scope.editData = $scope.data[id];
 			$scope.editData.roleId = $scope.editData.roleId.toString();
+			var uu="";
+			if($scope.editData.userZone!=null){
+				for(var i=0;i<$scope.editData.userZone.length;i++){
+					uu+=$scope.editData.userZone[i].zone+",";
+					var x={
+							name:$scope.editData.userZone[i].zone
+					};
+					select_zoneu.push(x);
+				}
+				$scope.userZone=uu;
+			}
 		};
 		/* 显示按钮修改model */
 		$scope.showEditModel = function() {
@@ -256,8 +277,73 @@ xh.load = function() {
 			});
 
 		};
+		
+		$scope.bszone();
 	});
 };
+xh.oncc=function(ff){
+	if(ff==""){
+		$("#select-zone").val("");
+		select_zone.length=0;
+		return;
+	}
+	
+	if(JSON.stringify(select_zone).indexOf(ff)==-1){
+		var x={
+				name:ff
+		};
+		select_zone.push(x);
+	}else{
+		for(var i=0;i<select_zone.length;i++){
+			var record=select_zone[i];
+			if(record.name==ff){
+				select_zone.splice(i,1)
+		    }
+		}
+			
+		
+	}
+	//console.log(JSON.stringify(select_zone));
+	var html="";
+	for(var i=0;i<select_zone.length;i++){
+		var record=select_zone[i];
+		html+=record.name+",";
+		
+	}
+	$("#select-zone").val(html)
+	
+}
+xh.oncc2=function(ff){
+	if(ff==""){
+		$("#select-zoneu").val("");
+		select_zoneu.length=0;
+		return;
+	}
+	
+	if(JSON.stringify(select_zoneu).indexOf(ff)==-1){
+		var x={
+				name:ff
+		};
+		select_zoneu.push(x);
+	}else{
+		for(var i=0;i<select_zoneu.length;i++){
+			var record=select_zoneu[i];
+			if(record.name==ff){
+				select_zoneu.splice(i,1)
+		    }
+		}
+			
+		
+	}
+	//console.log(JSON.stringify(select_zoneu));
+	var html="";
+	for(var i=0;i<select_zoneu.length;i++){
+		var record=select_zoneu[i];
+		html+=record.name+",";
+	}
+	$("#select-zoneu").val(html)
+	
+}
 /* 添加用户 */
 xh.add = function() {
 	var $scope = angular.element(appElement).scope();
@@ -267,6 +353,7 @@ xh.add = function() {
 			return ;
 		}
 	}
+	
 	$.ajax({
 		url : '../../web/user/add',
 		type : 'POST',

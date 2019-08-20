@@ -600,7 +600,7 @@ public class CallController {
 		 this.success=true;
 		 HashMap<String, Object> result = new HashMap<String, Object>();
 		try {
-			String saveDir = request.getSession().getServletContext().getRealPath("/upload/call");
+			String saveDir = request.getSession().getServletContext().getRealPath("/upload/checksource");
 			String pathname = saveDir + "/话务统计["+time.replace(":", "")+"].xls";
 			if(!endtime.equals("")){
 				pathname=saveDir + "/话务统计-["+time.replace(":", "")+"-"+endtime.replace(":", "")+"].xls";
@@ -631,7 +631,7 @@ public class CallController {
 			fontFormat.setWrap(true); // 自动换行
 			fontFormat.setBackground(Colour.WHITE);// 背景颜色
 			fontFormat.setBorder(Border.ALL, BorderLineStyle.THIN,
-					Colour.DARK_GREEN);
+					Colour.BLACK);
 			fontFormat.setOrientation(Orientation.HORIZONTAL);// 文字方向
 
 			
@@ -641,7 +641,7 @@ public class CallController {
 			fontFormat_h.setAlignment(Alignment.CENTRE);// 水平对齐
 			fontFormat_h.setVerticalAlignment(VerticalAlignment.CENTRE);// 垂直对齐
 			fontFormat_h.setBorder(Border.ALL, BorderLineStyle.THIN);// 边框
-			fontFormat_h.setBackground(Colour.LIGHT_GREEN);// 背景色
+			fontFormat_h.setBackground(Colour.WHITE);// 背景色
 			fontFormat_h.setWrap(true);// 不自动换行
 
 			// 设置主题内容字体格式
@@ -709,7 +709,27 @@ public class CallController {
 
 			book.write();
 			book.close();
-			log.info(time+"-基站话务统计");
+			if(type==3){
+				String destDir1=request.getSession().getServletContext()
+						.getRealPath("/upload/checksource");
+				destDir1=destDir1+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/3";
+				File Path1 = new File(destDir1);
+				if (!Path1.exists()) {
+					Path1.mkdirs();
+				}
+				
+				String destDir2=request.getSession().getServletContext()
+						.getRealPath("/upload/checksource");
+				destDir2=destDir2+"/"+time.split("-")[0]+"/"+time.split("-")[1]+"/4";
+				File Path2 = new File(destDir2);
+				if (!Path2.exists()) {
+					Path2.mkdirs();
+				}
+				File file1 = new File(destDir1+"/话务统计["+time+"].xls");
+				File file2 = new File(destDir2+"/话务统计["+time+"].xls");
+				/*FunUtil.copyFile(file, file1);
+				FunUtil.copyFile(file, file2);*/
+			}
 			/*DownExcelFile(response, pathname);*/
 			 result.put("success", success);
 			 result.put("pathName", pathname);
@@ -1385,7 +1405,7 @@ public class CallController {
 		sheet.addCell(new Label(5, len, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(6, len,a, fontFormat_Content));
 		sheet.addCell(new Label(7, len, FunUtil.second_time(b), fontFormat_Content));
-		sheet.addCell(new Label(8, len, FunUtil.second_time(c), fontFormat_Content));
+		sheet.addCell(new Label(8, len, FunUtil.second_time(c/10), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(9, len, d, fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(10, len, e, fontFormat_Content));
 		sheet.addCell(new Label(11, len, FunUtil.second_time(f), fontFormat_Content));
@@ -1461,7 +1481,7 @@ public class CallController {
 		sheet.addCell(new Label(5, len2, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(6, len2, a2, fontFormat_Content));
 		sheet.addCell(new Label(7, len2, FunUtil.second_time(b2), fontFormat_Content));
-		sheet.addCell(new Label(8, len2, FunUtil.second_time(c2), fontFormat_Content));
+		sheet.addCell(new Label(8, len2, FunUtil.second_time(c2/10), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(9, len2, d2, fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(10, len2, e2, fontFormat_Content));
 		sheet.addCell(new Label(11, len2, FunUtil.second_time(f2), fontFormat_Content));
@@ -1488,7 +1508,7 @@ public class CallController {
 		sheet.addCell(new Label(11, start3+1, "排队持续时间",fontFormat_h));
 		sheet.addCell(new Label(12, start3+1, "最大用户注册数", fontFormat_h));
 		sheet.addCell(new Label(13, start3+1, "最大组注册数", fontFormat_h));
-		sheet.addCell(new Label(14, start3+1, "活动呼叫占百分比", fontFormat_h));
+		sheet.addCell(new Label(14, start3+1, "排队占百分比", fontFormat_h));
 		List<EastBsCallDataBean> list3=EastComService.chart_bs_queue_top10(map);
 		for (int i = 0; i < list3.size(); i++) {
 			EastBsCallDataBean bean = (EastBsCallDataBean) list3.get(i);
@@ -1538,7 +1558,7 @@ public class CallController {
 		sheet.addCell(new Label(5, len4, String.valueOf("--"), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(6, len4, a3, fontFormat_Content));
 		sheet.addCell(new Label(7, len4, FunUtil.second_time(b3), fontFormat_Content));
-		sheet.addCell(new Label(8, len4, FunUtil.second_time(c3), fontFormat_Content));
+		sheet.addCell(new Label(8, len4, FunUtil.second_time(c3/10), fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(9, len4, d3, fontFormat_Content));
 		sheet.addCell(new jxl.write.Number(10, len4, e3, fontFormat_Content));
 		sheet.addCell(new Label(11, len4, FunUtil.second_time(f3), fontFormat_Content));

@@ -121,6 +121,21 @@ public class OrderController {
 		}
 
 	}
+	//郊县维护组用户列表
+		@RequestMapping(value="/jxuserlist", method = RequestMethod.GET)
+		public void jxuserlist(HttpServletRequest request, HttpServletResponse response) {
+			HashMap result = new HashMap();
+			result.put("items",OrderService.jxuserList());
+			response.setContentType("application/json;charset=utf-8");
+			String jsonstr = json.Encode(result);
+			try {
+				response.getWriter().write(jsonstr);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 	@RequestMapping(value="/orderhtml", method = RequestMethod.GET)
 	public ModelAndView orderhtml(HttpServletRequest request) {
 		String bsId=request.getParameter("bsId");

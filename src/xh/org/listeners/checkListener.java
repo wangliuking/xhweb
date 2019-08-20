@@ -24,8 +24,10 @@ import org.apache.commons.logging.LogFactory;
 
 
 
+
 import xh.func.plugin.FunUtil;
 import xh.mybatis.bean.CheckMoneyBean;
+import xh.mybatis.bean.CheckMonthBsBreakBean;
 import xh.mybatis.bean.CheckRoomEquBean;
 import xh.mybatis.service.OperationsCheckService;
 
@@ -40,7 +42,6 @@ public class checkListener implements ServletContextListener{
 			timer.cancel();
 		}
 	}
-
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -50,7 +51,7 @@ public class checkListener implements ServletContextListener{
 		String date=date_time.split(" ")[0];
 		String runtime=date+" "+"02:00:00";
 		Date rundate=null;
-		try {
+		try {  
 			rundate=df.parse(runtime);
 			if(timer==null){
 				timer=new Timer();
@@ -209,36 +210,74 @@ class Score extends TimerTask{
 	}
 	/*	<!-- 考核故障程度 -->*/
 	public void check_fault(String time){
-		List<Map<String, Object>> list=OperationsCheckService.bs_error(time);
+		List<Map<String, Object>> list=OperationsCheckService.tb_zd_fault(time, 0);
+	
 	
 		for(int i=0;i<list.size();i++){
 			Map<String, Object> map=list.get(i);
-			if(map.get("severity").equals("特别重大故障")){
+			if(map.get("type").toString().equals("1")){
 				CheckRoomEquBean bean=new CheckRoomEquBean();
 				bean.setCheck_type("故障管理");
 				bean.setCheck_child("故障控制及故障处理历时");
-				bean.setBsId(map.get("bsId").toString());
+				bean.setBsId("0");
 				bean.setCheck_tag("d1");
 				bean.setDetail("特别重大故障");
-				if(map.get("period")!=null){
-					bean.setPeriod(map.get("period").toString());
-				}
-				
+				bean.setPeriod(map.get("period").toString());				
 				bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
-				bean.setScore(10);
+				if(map.get("period").toString().equals("3")){
+					int sc=5;
+					
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%60==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/60);
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/60)+1);
+						}
+					}
+					bean.setScore(sc);
+					
+				}else if(bean.getPeriod().toString().equals("4")){
+					int sc=10;
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%60==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/60);
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/60)+1);
+						}
+					}
+					bean.setScore(sc);
+				}
 				OperationsCheckService.insert_check_month_detail(bean);
-			}else if(map.get("severity").equals("重大故障")){
+			}else if(map.get("type").toString().equals("2")){
 				CheckRoomEquBean bean=new CheckRoomEquBean();
 				bean.setCheck_type("故障管理");
 				bean.setCheck_child("故障控制及故障处理历时");
-				bean.setBsId(map.get("bsId").toString());
+				bean.setBsId("0");
 				bean.setCheck_tag("d1");
-				if(map.get("period")!=null){
-					bean.setPeriod(map.get("period").toString());
-				}
+				bean.setPeriod(map.get("period").toString());
 				bean.setDetail("重大故障");
 				bean.setCheck_date(FunUtil.date_format("yyyy-MM"));
-				bean.setScore(2);
+                if(map.get("period").toString().equals("3")){
+					int sc=1;
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%60==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/60);
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/60)+1);
+						}
+					}
+					bean.setScore(sc);
+					
+				}else if(bean.getPeriod().toString().equals("4")){
+					int sc=2;
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%60==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/60);
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/60)+1);
+						}
+					}
+				}
 				OperationsCheckService.insert_check_month_detail(bean);
 			}
 			
@@ -252,40 +291,58 @@ class Score extends TimerTask{
 		
 		for(int i=0;i<list.size();i++){
 			Map<String, Object> map=list.get(i);
-			int m=0;
+			float sc=0;
 			int timeout=0;
-			
 			String message="";
-			if(map.get("level")!=null && map.get("severity")!=null){
-				String level=map.get("level").toString();
-				String severity=map.get("severity").toString();
-				timeout=FunUtil.StringToInt(map.get("timeout").toString());
-				if(severity.equals("特别重大故障") || severity.equals("重大故障")){
-					if(level.equals("1") && timeout>2*60){
-						m=(timeout-2*60)/60*1;
-						message=" 一级基站，"+severity+"(2)，历时："+timeout+"分钟";
-					}else if(level.equals("2") && timeout>3){
-						m=(timeout-3*60)/60*1;
-						message=" 二级基站，"+severity+"(3)，历时："+timeout+"分钟";
-					}else if(level.equals("1") && timeout>5){
-						m=(timeout-5*60)/60*1;
-						message=" 三级基站，"+severity+"(5)，历时："+timeout+"分钟";
+			
+			//写入每月基站断站时长
+			CheckMonthBsBreakBean checkMonthBsBreakBean=new CheckMonthBsBreakBean();
+			checkMonthBsBreakBean.setBsId(FunUtil.StringToInt(map.get("bsId")));
+			checkMonthBsBreakBean.setLevel(FunUtil.StringToInt(map.get("level")));
+			checkMonthBsBreakBean.setPeriod(FunUtil.StringToInt(map.get("period")));
+			checkMonthBsBreakBean.setBreak_time(FunUtil.StringToInt(map.get("faultTimeTotal")));
+			checkMonthBsBreakBean.setCheck_date(time+"-01");
+			checkMonthBsBreakBean.setCheckcut_time(FunUtil.StringToInt(map.get("checkCutTime")));
+			OperationsCheckService.insert_check_month_bs_break(checkMonthBsBreakBean);
+			///-----	//写入每月基站断站时长
+			
+			/**一级基站*/
+			if(map.get("level").toString().equals("1")){
+				timeout=FunUtil.StringToInt(map.get("faultTimeTotal").toString())
+						-FunUtil.StringToInt(map.get("checkCutTime").toString());
+				if(timeout-120>1){
+					if((timeout-120)%60==0){
+						sc=(float) ((int)((timeout-120)/60)*0.5);
+					}else{
+						sc=(float) ((int)((timeout-120)/60+1)*0.5);
 					}
-					
-				}else{
-					if(level.equals("1") && timeout>2*60){
-						m=(int) ((timeout-2*60)/60*0.5);
-						message=" 一级基站(2)，历时："+timeout+"分钟";
-					}else if(level.equals("2") && timeout>3){
-						m=(int) ((timeout-3*60)/60*0.3);
-						message=" 二级基站(3)，历时："+timeout+"分钟";
-					}else if(level.equals("1") && timeout>5){
-						m=(int) ((timeout-5*60)/60*0.1);
-						message=" 三级基站(5)，历时："+timeout+"分钟";
-					}	
+				}
+				/**二级基站*/
+			}else if(map.get("level").toString().equals("2")){
+				timeout=FunUtil.StringToInt(map.get("faultTimeTotal").toString())
+						-FunUtil.StringToInt(map.get("checkCutTime").toString());
+				if(timeout-180>1){
+					if((timeout-120)%60==0){
+						sc=(float) ((int)((timeout-120)/60)*0.3);
+					}else{
+						sc=(float) ((int)((timeout-120)/60+1)*0.3);
+					}
+				}
+				/**三级基站*/
+			}else if(map.get("level").toString().equals("3")){
+				timeout=FunUtil.StringToInt(map.get("faultTimeTotal").toString())
+						-FunUtil.StringToInt(map.get("checkCutTime").toString());
+				if(timeout-300>1){
+					if((timeout-120)%60==0){
+						sc=(float) ((int)((timeout-120)/60)*0.1);
+					}else{
+						sc=(float) ((int)((timeout-120)/60+1)*0.1);
+					}
 				}
 			}
-			if(m>0){
+			
+				
+			if(sc>0){
 				CheckRoomEquBean bean=new CheckRoomEquBean();
 				bean.setCheck_type("故障管理");
 				bean.setCheck_child("故障控制及故障处理历时");
@@ -295,7 +352,7 @@ class Score extends TimerTask{
 				bean.setPeriod(map.get("period").toString());
 				bean.setDetail(message);
 				bean.setCheck_date(time);
-				bean.setScore(m);
+				bean.setScore(sc);
 				OperationsCheckService.insert_check_month_detail(bean);
 			}
 			
@@ -346,10 +403,11 @@ class Money extends TimerTask{
 		OperationsCheckService.del_money(FunUtil.date_format("yyyy-MM"));
 		log.info("清除考核扣款记录");
 		/*<!-- 考核一级基站 -->*/
-		check_level(FunUtil.date_format("yyyy-MM"));
+		//check_level(FunUtil.date_format("yyyy-MM"));
 		/*	<!-- 考核故障 -->*/
 		check_fault(FunUtil.date_format("yyyy-MM"));
-		
+		/*	<!-- 考核故障 超时-->*/
+		check_fault_timeout(FunUtil.date_format("yyyy-MM"));
 		
 		
 	}
@@ -429,47 +487,109 @@ class Money extends TimerTask{
 
 	/*	<!-- 考核故障程度 -->*/
 	public void check_fault(String time){
-		List<Map<String, Object>> list=OperationsCheckService.bs_error(time);
+		List<Map<String, Object>> list=OperationsCheckService.tb_zd_fault(time, 0);
 	
+		int sc=0;
 		for(int i=0;i<list.size();i++){
 			Map<String, Object> map=list.get(i);
-			if(map.get("severity").equals("特别重大故障")){
+			if(map.get("type").toString().equals("1")){
 				CheckMoneyBean bean=new CheckMoneyBean();
 				bean.setCheck_type("故障控制");
 				bean.setCheck_child("特别重大故障");
-				bean.setBsId(map.get("bsId").toString());
-				if(map.get("period")!=null){
-					bean.setPeriod(map.get("period").toString());
-				}
-				if(map.get("level")!=null){
-					bean.setLevel(FunUtil.StringToInt(map.get("level").toString()));
-				}
+				bean.setBsId("0");
+				bean.setPeriod(map.get("period").toString());				
 				bean.setDetail("发生一次特别重大故障");
 				bean.setCheck_tag("b2");
 				bean.setCheck_date(time);
-				bean.setCheck_datetime(map.get("faultRecoveryTime").toString());
-				bean.setMoney(20000);
+				bean.setFault_time(FunUtil.StringToInt(map.get("usetime").toString()));
+				
+				sc=20000;
+		
+				
+				bean.setMoney(sc);
 				OperationsCheckService.insert_check_month_money_detail(bean);
-			}else if(map.get("severity").equals("重大故障")){
+			}else if(map.get("type").toString().equals("2")){
 				CheckMoneyBean bean=new CheckMoneyBean();
 				bean.setCheck_type("故障控制");
 				bean.setCheck_child("重大故障");
-				if(map.get("period")!=null){
-					bean.setPeriod(map.get("period").toString());
-				}
-				if(map.get("level")!=null){
-					bean.setLevel(FunUtil.StringToInt(map.get("level").toString()));
-				}
+				bean.setPeriod(map.get("period").toString());
 				bean.setDetail("发生一次重大故障");
 				bean.setCheck_tag("b1");
 				bean.setCheck_date(time);
-				bean.setCheck_datetime(map.get("faultRecoveryTime").toString());
-				bean.setMoney(10000);
+				bean.setFault_time(FunUtil.StringToInt(map.get("usetime").toString()));
+				sc=10000;
+		
+				
+				bean.setMoney(sc);
 				OperationsCheckService.insert_check_month_money_detail(bean);
 			}
 			
 		}
 		
 	}
+	/*	<!-- 考核故障超时 -->*/
+	public void check_fault_timeout(String time){
+		List<Map<String, Object>> list=OperationsCheckService.tb_zd_fault(time, 0);
 	
+		
+		for(int i=0;i<list.size();i++){
+			Map<String, Object> map=list.get(i);
+		
+			if(map.get("type").toString().equals("1")){
+				int sc=0;
+				CheckMoneyBean bean=new CheckMoneyBean();
+				bean.setCheck_type("故障控制");
+				bean.setCheck_child("特别重大故障");
+				bean.setBsId("0");
+				bean.setPeriod(map.get("period").toString());				
+				bean.setDetail("发生一次特别重大故障");
+				bean.setCheck_tag("c1");
+				bean.setCheck_date(time);
+				bean.setFault_time(FunUtil.StringToInt(map.get("usetime").toString()));
+				if(map.get("period").toString().equals("4")){
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%5==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/5)*500;
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/5)+1)*500;
+						}
+					}
+					
+					bean.setMoney(sc);
+				}
+				if(sc>0){
+					OperationsCheckService.insert_check_month_money_detail(bean);
+				}
+				
+				
+			}else if(map.get("type").toString().equals("2")){
+				int sc=0;
+				CheckMoneyBean bean=new CheckMoneyBean();
+				bean.setCheck_type("故障控制");
+				bean.setCheck_child("重大故障");
+				bean.setPeriod(map.get("period").toString());
+				bean.setDetail("发生一次重大故障");
+				bean.setCheck_tag("c2");
+				bean.setCheck_date(time);
+				bean.setFault_time(FunUtil.StringToInt(map.get("usetime").toString()));
+				if(map.get("period").toString().equals("4")){
+					if(FunUtil.StringToInt(map.get("usetime").toString())-60>1){
+						if(FunUtil.StringToInt(map.get("usetime").toString())%5==0){
+							sc+=(FunUtil.StringToInt(map.get("timeout").toString())/5)*200;
+						}else{
+							sc+=((FunUtil.StringToInt(map.get("timeout").toString())/5)+1)*200;
+						}
+					}
+					bean.setMoney(sc);
+				}
+				if(sc>0){
+					OperationsCheckService.insert_check_month_money_detail(bean);
+				}
+			}
+			
+		}
+		
+	}
+	/** 通信保障*/
 }
+

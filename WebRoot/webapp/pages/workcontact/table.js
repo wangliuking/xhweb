@@ -88,6 +88,11 @@ loader.define(function(require,exports,module){
 	                  textClass='text-danger';
 	                  subClass = 'bui-sub danger';
 	                  break;
+	              case -2:
+	                  str= '已撤销';
+	                  textClass='text-danger';
+	                  subClass = 'bui-sub danger';
+	                  break;
 	              default:
 	                  sub = '';
 	                  subClass = '';

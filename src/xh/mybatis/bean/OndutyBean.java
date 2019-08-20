@@ -22,6 +22,11 @@ public class OndutyBean {
 	public void setTwoPerson(String twoPerson) {
 		this.twoPerson = twoPerson;
 	}
+	@Override
+	public String toString() {
+		return "OndutyBean [dutyDate=" + dutyDate + ", onePerson=" + onePerson
+				+ ", twoPerson=" + twoPerson + "]";
+	}
 	
 	
 

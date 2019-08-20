@@ -112,6 +112,23 @@
 		xhgmnet_web_user(user,userPass,userName,sex,tel,createTime)
 		values(#{user},#{userPass},#{userName},#{sex},#{tel},#{createTime})
 	</insert>
+	<insert id="addUserZone" useGeneratedKeys="false"
+        parameterType="java.util.List">
+        insert into
+        xhgmnet_web_userzone(user,zone)
+        values
+        <foreach collection="list" item="x" separator=",">
+        (#{x.user},#{x.zone})
+        </foreach>
+    </insert>
+        <select id="searchUserZone" parameterType="String" resultType="xh.mybatis.bean.UserZoneBean"
+        useCache="true">
+        select * from xhgmnet_web_userzone where
+        user=#{user}
+    </select>
+    <delete id="delUserZone" parameterType="String">
+    delete from xhgmnet_web_userzone where user=#{user}
+    </delete>
 	<!--用户列表 -->
 	<select id="userList" parameterType="map" resultMap="webUserMap"
 		useCache="true">

@@ -141,6 +141,50 @@ public class WorkContactService {
 		}
 		return count;
 	}
+	public static int cancel(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.cancel(id);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int delFile(int id) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.delFile(id);
+			sqlSession.commit();
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int isFileExistis(Map<String,Object> map) {
+		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.slave);
+		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);
+		int count=0;
+		try {
+			count=mapper.isFileExistis(map);
+			sqlSession.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static int del(List<String> list) {
 		SqlSession sqlSession = MoreDbTools.getSession(MoreDbTools.DataSourceEnvironment.master);
 		WorkContactMapper mapper = sqlSession.getMapper(WorkContactMapper.class);

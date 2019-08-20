@@ -90,6 +90,29 @@
 					<!-- row -->
 					<div class="row">
 
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>区域[双击选中/取消区域]</label>
+                                <select class="form-control" multiple style="height:200px" ondblclick="xh.oncc(this.value)">
+                                    <option value="">=不限制=</option>
+                                    <option title="双击选中/取消区域" ng-repeat="x in zoneData" value="{{x.zone}}">{{x.zone}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12">
+                                <label>选中区域</label>
+                               <textarea name="zone" readonly="readonly" class="form-control" rows="10"  id="select-zone">
+                               
+                               </textarea>
+                                
+                            </div>
+                        </div>
+                      
+                    </div>
+                    <!-- row -->
+					<div class="row">
+
 						<div class="col-md-12">
 							<div class="form-group col-md-12">
 								<label>用户VPN虚拟专网名</label>&nbsp;
